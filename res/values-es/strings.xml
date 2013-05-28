@@ -412,10 +412,8 @@ Debido a limitaciones implementadas por google en Android 4.0 (Ice Cream Sandwic
 	<string name="top_actionbar">Barra de acción arriba</string>
 	<string name="top_actionbar_summary">Mueve la barra de acción arriba de la pantalla en el diseño nuevo</string>
     <string name="attach_more">Adjuntar más</string>
-    <string name="other">Otro</string>
     <string name="remove_attachment">Remover este archivo adjunto del mensaje?</string>
     <string name="show_original_timestamp">Mostrar marca de tiempo original</string>
-    <string name="people">Personas</string>
     <string name="things">Objetos</string>
     <string name="nature">Naturaleza</string>
     <string name="places">Lugares</string>

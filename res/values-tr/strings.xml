@@ -125,7 +125,6 @@
     <string name="menu_text_color_summary">Mesaj özeti için renk seçin</string>
     <string name="text_opacity">Mesaj Saydamlığı</string>
     <string name="text_opacity_summary">Mesajların saydamlığını ayarlayın.(Özel arkaplanın arkadan görünmesini sağlar.)</string>
-    <string name="conversation">Sohber</string>
     <string name="version">Sürüm</string>
     <string name="extension_title">Sliding Messaging</string>
     <string name="extension_description">Yeni mesajlarınızı kilit ekranında gösterir</string>
@@ -306,7 +305,6 @@
 	<string name="ct_emoji_button_color">Emoji Düğme Rengi</string>
 	<string name="ct_conversation_divider_color">Konuşma listesi ayraç rengi</string>
 	<string name="run_as">Görünümü Seçin</string>
-	<string name="people">Kişiler</string>
 	<string name="messages">Mesajlar</string>
 	<string name="message">Mesaj</string>
 	<string name="conversation_list">Konuşma Listesi</string>
@@ -393,7 +391,6 @@
     <string name="top_actionbar">Menü Çubuğu Üstte</string>
     <string name="top_actionbar_summary">Kart Görünümünde menü çubuğunu en üste taşır.</string>
     <string name="attach_more">Daha Fazla Ekle</string>
-    <string name="other">Diğer</string>
     <string name="remove_attachment">İçerik mesajdan kaldırılsın mı ?</string>
     <string name="show_original_timestamp">Orjinal SMS Zamanını Görüntüle</string>
     <string name="people">Kişiler</string>

@@ -126,7 +126,6 @@
     <string name="menu_text_color_summary">Choose a color to set as the message summary text color</string>
     <string name="text_opacity">Message Opacity</string>
     <string name="text_opacity_summary">Set the opacity of messages (allows for custom background to be viewed behind them)</string>
-    <string name="conversation">Conversation</string>
     <string name="version">Version</string>
     <string name="extension_title">Sliding Messaging</string>
     <string name="extension_description">Displays new messages to your lockscreen</string>

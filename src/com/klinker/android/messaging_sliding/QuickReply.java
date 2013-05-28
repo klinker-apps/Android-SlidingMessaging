@@ -68,7 +68,7 @@ public class QuickReply extends Activity {
 	public EditText messageEntry;
 	
 	@SuppressLint("SimpleDateFormat")
-	@Override
+    @Override
 	protected void onCreate(Bundle bundle)
 	{
 		super.onCreate(bundle);

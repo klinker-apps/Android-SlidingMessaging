@@ -127,7 +127,6 @@
     <string name="menu_text_color_summary">Choisir une couleur à appliquer au texte du résumé du message</string>
     <string name="text_opacity">Opacité des Messages</string>
     <string name="text_opacity_summary">Définit l\'opacité des messages (Permet aux fond personnalisés d\'être vus au travers)</string>
-    <string name="conversation">Conversation</string>
     <string name="version">Version</string>
     <string name="extension_title">Sliding Messaging</string>
     <string name="extension_description">Affiche les nouveaux messages sur l\'écran de verrouillage</string>
@@ -308,7 +307,6 @@
 	<string name="ct_emoji_button_color">Couleur du Bouton Emojis</string>
 	<string name="ct_conversation_divider_color">Couleur des Séparateurs de la Liste des Conversations</string>
 	<string name="run_as">Choisir l\'Interface</string>
-	<string name="people">Contacts</string>
 	<string name="messages">Messages</string>
 	<string name="message">Message</string>
 	<string name="conversation_list">Liste des Conversations</string>
@@ -392,7 +390,6 @@
 	<string name="top_actionbar">Action Bar en Haut</string>
 	<string name="top_actionbar_summary">Place l\'Action Bar en haut de l\'écran pour l\'interface Cards UI</string>
     <string name="attach_more">Joindre Plus</string>
-    <string name="other">Autre</string>
     <string name="remove_attachment">Retirer ce média du message?</string>
     <string name="show_original_timestamp">Afficher l\'Horodatage Original</string>
     <string name="people">Amis</string>

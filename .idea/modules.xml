@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../ColorPickerPreference/ColorPickerPreference.iml" filepath="$PROJECT_DIR$/../ColorPickerPreference/ColorPickerPreference.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Messaging Donate.iml" filepath="$PROJECT_DIR$/Messaging Donate.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../SlidingMenu/SlidingMenu.iml" filepath="$PROJECT_DIR$/../SlidingMenu/SlidingMenu.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../SwipeToDismissUndoList/SwipeToDismissUndoList.iml" filepath="$PROJECT_DIR$/../SwipeToDismissUndoList/SwipeToDismissUndoList.iml" />
+      <module fileurl="file://$USER_HOME$/workspace/ColorPickerPreference/ColorPickerPreference.iml" filepath="$USER_HOME$/workspace/ColorPickerPreference/ColorPickerPreference.iml" />
+      <module fileurl="file://$USER_HOME$/workspace/SlidingMenu/SlidingMenu.iml" filepath="$USER_HOME$/workspace/SlidingMenu/SlidingMenu.iml" />
+      <module fileurl="file://$PROJECT_DIR$/slidingmessaging.iml" filepath="$PROJECT_DIR$/slidingmessaging.iml" />
     </modules>
   </component>
 </project>

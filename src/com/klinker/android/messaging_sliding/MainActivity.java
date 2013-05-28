@@ -7,6 +7,7 @@ import android.support.v4.app.*;
 import android.support.v4.app.TaskStackBuilder;
 import android.view.*;
 import android.widget.*;
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.klinker.android.messaging_card.BatchDeleteActivity;
 import com.klinker.android.messaging_donate.DeliveredReceiver;
 import com.klinker.android.messaging_donate.DisconnectWifi;
@@ -44,9 +45,6 @@ import com.google.android.mms.pdu.PduBody;
 import com.google.android.mms.pdu.PduComposer;
 import com.google.android.mms.pdu.PduPart;
 import com.google.android.mms.pdu.SendReq;
-import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
-import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu.OnClosedListener;
-import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu.OnOpenedListener;
 
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
@@ -244,13 +242,13 @@ public class MainActivity extends FragmentActivity {
 			
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setTitle(getResources().getString(R.string.changelog_title));
-			builder.setMessage("Version " + version + ":\n\n" +
-                               "- Major rework of settings layout\n" +
-                               "- Added new 1x1 widget with unread counter\n" +
-                               "- More options for notification icons\n" +
-                               "- Layout optimizations\n" +
-                               "- Bug fixes\n\n" +
-							   getResources().getString(R.string.changelog_disclaimers));
+			builder.setMessage(
+                    "Version " + version + ":\n\n" +
+                            "- Major rework of settings layout\n" +
+                            "- Added new 1x1 widget with unread counter\n" +
+                            "- More options for notification icons\n" +
+                            "- Layout optimizations\n" +
+                            "- Bug fixes\n\n" + getResources().getString(R.string.changelog_disclaimers));
 			
 			builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 
@@ -3532,7 +3530,7 @@ public class MainActivity extends FragmentActivity {
             menu.setMenu(newMessageView);
         }
         
-        menu.setOnOpenedListener(new OnOpenedListener() {
+        menu.setOnOpenedListener(new SlidingMenu.OnOpenedListener() {
 
 			@Override
 			public void onOpened() {
@@ -3567,7 +3565,7 @@ public class MainActivity extends FragmentActivity {
         	
         });
         
-        menu.setOnClosedListener(new OnClosedListener() {
+        menu.setOnClosedListener(new SlidingMenu.OnClosedListener() {
 
 			@Override
 			public void onClosed() {

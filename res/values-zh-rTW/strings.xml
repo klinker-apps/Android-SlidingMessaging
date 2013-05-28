@@ -124,7 +124,6 @@
     <string name="menu_text_color_summary">設置菜單文本字體顔色</string>
     <string name="text_opacity">信息透明</string>
     <string name="text_opacity_summary">設置信息透明度（允許顯示自定義背景）</string>
-    <string name="conversation">會話</string>
     <string name="version">版本</string>
     <string name="extension_title">Sliding Messaging</string>
     <string name="extension_description">在您的鎖屏界面中顯示新信息</string>

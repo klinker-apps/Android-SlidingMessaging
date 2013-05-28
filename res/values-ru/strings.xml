@@ -168,7 +168,6 @@
   <string name="text_opacity">Прозрачность сообщений</string>
   <string name="text_opacity_summary">Выберите прозрачность сообщений, чтобы
   свой фон был виден</string>
-  <string name="conversation">Диалог</string>
   <string name="version">Версия</string>
   <string name="extension_title">Sliding Messaging (Сообщения)</string>
   <string name="extension_description">Отображает новые сообщения на экране
@@ -442,7 +441,6 @@
   диалогов</string>
   <string name="app_name_in_app">Сообщения</string>
   <string name="run_as">Стиль приложения</string>
-  <string name="people">Люди</string>
   <string name="messages">Сообщения</string>
   <string name="message">Сообщение</string>
   <string name="conversation_list">Список диалогов</string>
@@ -538,7 +536,6 @@
 
 
     <string name="attach_more">Добавить еще</string>
-    <string name="other">Другое</string>
     <string name="remove_attachment">Удалить это вложение?</string>
     <string name="show_original_timestamp">Показывать изначальную метку времени</string>
     <string name="people">Люди</string>

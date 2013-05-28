@@ -5,8 +5,6 @@ import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.util.Locale;
 
-import net.margaritov.preference.colorpicker.ColorPickerPreference;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -20,6 +18,7 @@ import android.preference.Preference.OnPreferenceClickListener;
 import android.widget.Toast;
 
 import com.klinker.android.messaging_donate.R;
+import net.margaritov.preference.colorpicker.ColorPickerPreference;
 
 public class CustomThemeActivity extends PreferenceActivity {
 	public SharedPreferences sharedPrefs;

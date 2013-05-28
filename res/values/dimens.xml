@@ -29,4 +29,9 @@
     <dimen name="contact_body_size">13dp</dimen>
     <dimen name="contact_width">120dp</dimen>
 
+    <!-- Wizard Pager -->
+    <dimen name="step_pager_tab_width">32dp</dimen>
+    <dimen name="step_pager_tab_height">3dp</dimen>
+    <dimen name="step_pager_tab_spacing">4dp</dimen>
+
 </resources>

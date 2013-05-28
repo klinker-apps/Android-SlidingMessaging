@@ -28,6 +28,8 @@ public class MainActivity extends FragmentActivity {
 		Intent fromIntent = getIntent();
 		
 		boolean flag = false;
+
+
 		
 		if (fromIntent.getStringExtra("com.klinker.android.OPEN") != null)
 		{
