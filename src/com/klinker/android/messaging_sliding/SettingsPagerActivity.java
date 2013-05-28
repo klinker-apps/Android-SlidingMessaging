@@ -195,9 +195,11 @@ public class SettingsPagerActivity extends FragmentActivity {
                     break;
                 case 4:
                     addPreferencesFromResource(R.xml.sliding_message_settings);
+                    setUpMessageSettings();
                     break;
                 case 5:
                     addPreferencesFromResource(R.xml.sliding_conversation_settings);
+                    setUpConversationSettings();
                     break;
                 case 6:
                     addPreferencesFromResource(R.xml.mms_settings);
@@ -469,6 +471,36 @@ public class SettingsPagerActivity extends FragmentActivity {
                     return true;
                 }
             });
+        }
+
+        public void setUpMessageSettings()
+        {
+            final SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+            if (sharedPrefs.getString("run_as", "sliding").equals("sliding") || sharedPrefs.getString("run_as", "sliding").equals("hangout"))
+            {
+
+            } else
+            {
+                getPreferenceScreen().removePreference(findPreference("text_alignment"));
+                getPreferenceScreen().removePreference(findPreference("contact_pictures"));
+            }
+        }
+
+        public void setUpConversationSettings()
+        {
+            final SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+            if (sharedPrefs.getString("run_as", "sliding").equals("sliding") || sharedPrefs.getString("run_as", "sliding").equals("hangout"))
+            {
+                getPreferenceScreen().removePreference(findPreference("hide_contact_number"));
+                getPreferenceScreen().removePreference(findPreference("open_to_first"));
+            } else
+            {
+                getPreferenceScreen().removePreference(findPreference("contact_pictures2"));
+                getPreferenceScreen().removePreference(findPreference("open_contact_menu"));
+                getPreferenceScreen().removePreference(findPreference("slide_messages"));
+            }
         }
 
         public void setUpMmsSettings()

@@ -35,4 +35,17 @@
         android:summary="@string/slide_messages_summary"
         android:defaultValue="false"
         />
+
+    <CheckBoxPreference
+        android:key="hide_contact_number"
+        android:title="@string/hide_contact_number"
+        android:summary="@string/hide_contact_number_summary"
+        android:defaultValue="false"
+        />
+
+    <CheckBoxPreference
+        android:key="open_to_first"
+        android:title="@string/open_to_first"
+        android:defaultValue="false"
+        />
 </PreferenceScreen>

@@ -245,7 +245,7 @@ public class MainActivity extends FragmentActivity {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setTitle(getResources().getString(R.string.changelog_title));
 			builder.setMessage("Version " + version + ":\n\n" +
-                               "- Major rework of settings layout for Classic and Hangout UI users\n" +
+                               "- Major rework of settings layout\n" +
                                "- Added new 1x1 widget with unread counter\n" +
                                "- More options for notification icons\n" +
                                "- Layout optimizations\n" +

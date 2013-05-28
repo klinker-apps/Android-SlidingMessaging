@@ -84,13 +84,20 @@
     </layouts>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1e4b5eb9-13da-4bef-bd83-6650ca630326" name="Default" comment="" />
+    <list default="true" id="1e4b5eb9-13da-4bef-bd83-6650ca630326" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/klinker/android/messaging_card/MainActivity.java" afterPath="$PROJECT_DIR$/src/com/klinker/android/messaging_card/MainActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MainActivity.java" afterPath="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MainActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/SettingsPagerActivity.java" afterPath="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/SettingsPagerActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/xml/sliding_conversation_settings.xml" afterPath="$PROJECT_DIR$/res/xml/sliding_conversation_settings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    </list>
     <ignored path="Messaging Donate.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/fragment.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1368789044486" ignored="false" />
     <file path="/a.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1368676941114" ignored="false" />
     <file path="/sample.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1368676949020" ignored="false" />
-    <file path="/Dummy.txt" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369578795953" ignored="false" />
+    <file path="/Dummy.txt" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369712599085" ignored="false" />
     <file path="/message_hangout_sent.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369012353566" ignored="false" />
     <file path="/a.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369170579646" ignored="false" />
     <file path="/message_hangout_received.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369012279483" ignored="false" />
@@ -136,7 +143,7 @@
     <file path="/ConversationFragment.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369447536886" ignored="false" />
     <file path="/MenuArrayAdapterFragment.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369420926239" ignored="false" />
     <file path="/sliding_settings.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369494670473" ignored="false" />
-    <file path="/SettingsPagerActivity.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369710522304" ignored="false" />
+    <file path="/SettingsPagerActivity.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369713367246" ignored="false" />
     <file path="/sliding_notification_settings.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369513625466" ignored="false" />
     <file path="/TextMessageReceiver.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369513436166" ignored="false" />
     <file path="$PROJECT_DIR$/../SlidingMenu/gen/com/jeremyfeinstein/slidingmenu/lib/BuildConfig.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369517475183" ignored="false" />
@@ -215,10 +222,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="MainActivity.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="MainActivity.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="151" column="45" selection-start="5721" selection-end="5721" vertical-scroll-proportion="0.0">
+            <state line="247" column="65" selection-start="8989" selection-end="8989" vertical-scroll-proportion="0.4473684">
               <folding />
             </state>
           </provider>
@@ -227,34 +234,7 @@
       <file leaf-file-name="MainActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_card/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="4155" column="64" selection-start="156266" selection-end="156266" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SettingsPagerActivity.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/SettingsPagerActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="378" column="19" selection-start="15402" selection-end="15402" vertical-scroll-proportion="0.5248322">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SettingsActivity.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_card/SettingsActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="144" column="16" selection-start="5440" selection-end="5589" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="sliding_theme_settings.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/xml/sliding_theme_settings.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="31" column="39" selection-start="964" selection-end="964" vertical-scroll-proportion="0.0">
+            <state line="269" column="65" selection-start="9220" selection-end="9220" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -272,10 +252,17 @@
     <option name="KEY_ALIAS" value="messaging" />
     <option name="REMEMBER_PASSWORDS" value="true" />
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitLogSettings">
+    <option name="myDateState">
+      <MyDateState />
+    </option>
+  </component>
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/res/values-ru/arrays.xml" />
         <option value="$PROJECT_DIR$/res/values-ru/strings.xml" />
         <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/QmMarkRead2.java" />
         <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/QuickReply.java" />
@@ -286,11 +273,12 @@
         <option value="$PROJECT_DIR$/res/layout/message_frame.xml" />
         <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_donate/WidgetProxyActivity.java" />
         <option value="$PROJECT_DIR$/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MainActivity.java" />
         <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_hangout/MessageArrayAdapter.java" />
         <option value="$PROJECT_DIR$/res/xml/sliding_theme_settings.xml" />
-        <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_card/MainActivity.java" />
+        <option value="$PROJECT_DIR$/res/xml/sliding_conversation_settings.xml" />
         <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/SettingsPagerActivity.java" />
+        <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_card/MainActivity.java" />
+        <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MainActivity.java" />
       </list>
     </option>
   </component>
@@ -300,7 +288,7 @@
     <option name="width" value="1936" />
     <option name="height" value="1066" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
     <OptionsSetting value="true" id="Remove" />
     <OptionsSetting value="true" id="Checkout" />
@@ -341,7 +329,39 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="SlidingMenu" />
+              <option name="myItemId" value="MessagingDonate" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Messaging Donate" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MessagingDonate" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="xml" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Messaging Donate" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MessagingDonate" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -358,7 +378,7 @@
     <property name="ExportedApkPath" value="C:\Users\Jacob\workspace\Messaging Donate\Messaging Donate.apk" />
     <property name="recentsLimit" value="5" />
     <property name="MemberChooser.sorted" value="false" />
-    <property name="options.lastSelected" value="preferences.sourceCode.XML" />
+    <property name="options.lastSelected" value="project.propVCSSupport.Mappings" />
     <property name="ExportedModule" value="Messaging Donate" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -518,6 +538,7 @@
     <option name="SHOW_MERGE_SOURCES_IN_ANNOTATE" value="true" />
     <option name="FORCE_UPDATE" value="false" />
     <option name="IGNORE_EXTERNALS" value="false" />
+    <configuration useDefault="true">C:\Users\Jacob\AppData\Roaming\Subversion</configuration>
     <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
   </component>
   <component name="TaskManager">
@@ -591,12 +612,12 @@
       <workItem from="1369690894659" duration="520000" />
       <workItem from="1369691797780" duration="140000" />
       <workItem from="1369708305499" duration="2425000" />
-      <workItem from="1369711339515" duration="486000" />
+      <workItem from="1369711339515" duration="2240000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="215902000" />
+    <option name="totallyTimeSpent" value="217656000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -620,23 +641,23 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32929516" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39977974" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32488987" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.13656388" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17899892" sideWeight="0.29705215" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17899892" sideWeight="0.29705215" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.18061674" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4526432" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35682818" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36453745" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2709251" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24972796" sideWeight="0.72902495" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17716116" sideWeight="0.8634361" order="1" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13656388" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17716116" sideWeight="0.67070484" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.13656388" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3242424" sideWeight="0.8624161" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3242424" sideWeight="0.8624161" order="0" side_tool="false" content_ui="tabs" />
@@ -735,26 +756,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/res/layout/message_frame.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="34" selection-start="1395" selection-end="1395" vertical-scroll-proportion="-15.68" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/menu/activity_main.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/xml/title_bar_settings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="41" selection-start="643" selection-end="643" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_donate/WidgetProxyActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="30" column="12" selection-start="1068" selection-end="1068" vertical-scroll-proportion="0.8258197" />
@@ -777,20 +778,6 @@
         <state line="890" column="137" selection-start="31336" selection-end="31336" vertical-scroll-proportion="0.26147428" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/xml/sliding_conversation_settings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/xml/card_conversation_settings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/res/xml/sliding_settings.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
@@ -807,21 +794,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/res/xml/sliding_theme_settings.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="39" selection-start="964" selection-end="964" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="151" column="45" selection-start="5721" selection-end="5721" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_card/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4155" column="64" selection-start="156266" selection-end="156266" vertical-scroll-proportion="0.0">
+        <state line="31" column="39" selection-start="964" selection-end="964" vertical-scroll-proportion="0.69525063">
           <folding />
         </state>
       </provider>
@@ -833,9 +806,152 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/res/xml/card_conversation_settings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="4" selection-start="570" selection-end="791" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/xml/card_advanced_settings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="8" selection-start="555" selection-end="716" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/xml/sliding_conversation_settings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="46" column="21" selection-start="1440" selection-end="1453" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/xml/card_text_settings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/xml/sliding_message_settings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/SettingsPagerActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="378" column="19" selection-start="15402" selection-end="15402" vertical-scroll-proportion="0.5248322">
+        <state line="184" column="23" selection-start="6226" selection-end="6226" vertical-scroll-proportion="0.20402685">
+          <folding>
+            <element signature="e#4602#4650#0" expanded="true" />
+            <element signature="e#4703#4752#0" expanded="true" />
+            <element signature="e#4805#4869#0" expanded="true" />
+            <element signature="e#4922#4971#0" expanded="true" />
+            <element signature="e#5024#5072#0" expanded="true" />
+            <element signature="e#5125#5181#0" expanded="true" />
+            <element signature="e#5234#5281#0" expanded="true" />
+            <element signature="e#5334#5386#0" expanded="true" />
+            <element signature="e#8103#8342#0" expanded="true" />
+            <element signature="e#8327#8328#0" expanded="true" />
+            <element signature="e#8508#8747#0" expanded="true" />
+            <element signature="e#8732#8733#0" expanded="true" />
+            <element signature="e#8892#9131#0" expanded="true" />
+            <element signature="e#9116#9117#0" expanded="true" />
+            <element signature="e#9282#9521#0" expanded="true" />
+            <element signature="e#9506#9507#0" expanded="true" />
+            <element signature="e#9687#9926#0" expanded="true" />
+            <element signature="e#9911#9912#0" expanded="true" />
+            <element signature="e#10065#10304#0" expanded="true" />
+            <element signature="e#10289#10290#0" expanded="true" />
+            <element signature="e#10458#10697#0" expanded="true" />
+            <element signature="e#10682#10683#0" expanded="true" />
+            <element signature="e#10895#11225#0" expanded="true" />
+            <element signature="e#11209#11210#0" expanded="true" />
+            <element signature="e#11358#13570#0" expanded="true" />
+            <element signature="e#11623#11676#0" expanded="true" />
+            <element signature="e#11726#11772#0" expanded="true" />
+            <element signature="e#11774#13095#0" expanded="true" />
+            <element signature="e#12179#12230#0" expanded="true" />
+            <element signature="e#12320#13036#0" expanded="true" />
+            <element signature="e#12695#12969#0" expanded="true" />
+            <element signature="e#12929#12930#0" expanded="true" />
+            <element signature="e#13004#13005#0" expanded="true" />
+            <element signature="e#13072#13073#0" expanded="true" />
+            <element signature="e#13145#13190#0" expanded="true" />
+            <element signature="e#13192#13403#0" expanded="true" />
+            <element signature="e#13380#13381#0" expanded="true" />
+            <element signature="e#13554#13555#0" expanded="true" />
+            <element signature="e#14649#14988#0" expanded="true" />
+            <element signature="e#14969#14970#0" expanded="true" />
+            <element signature="e#15157#15493#0" expanded="true" />
+            <element signature="e#15474#15475#0" expanded="true" />
+            <element signature="e#15655#16318#0" expanded="true" />
+            <element signature="e#16298#16299#0" expanded="true" />
+            <element signature="e#16483#17150#0" expanded="true" />
+            <element signature="e#17130#17131#0" expanded="true" />
+            <element signature="e#17786#18200#0" expanded="true" />
+            <element signature="e#18180#18181#0" expanded="true" />
+            <element signature="e#18481#18824#0" expanded="true" />
+            <element signature="e#18808#18809#0" expanded="true" />
+            <element signature="e#18981#19289#0" expanded="true" />
+            <element signature="e#19274#19275#0" expanded="true" />
+            <element signature="e#19430#19683#0" expanded="true" />
+            <element signature="e#19668#19669#0" expanded="true" />
+            <element signature="e#21493#22498#0" expanded="true" />
+            <element signature="e#21840#22258#0" expanded="true" />
+            <element signature="e#22223#22224#0" expanded="true" />
+            <element signature="e#22482#22483#0" expanded="true" />
+            <element signature="e#23019#23400#0" expanded="true" />
+            <element signature="e#23384#23385#0" expanded="true" />
+            <element signature="e#23531#23920#0" expanded="true" />
+            <element signature="e#23904#23905#0" expanded="true" />
+            <element signature="e#24047#25041#0" expanded="true" />
+            <element signature="e#25025#25026#0" expanded="true" />
+            <element signature="e#25403#26159#0" expanded="true" />
+            <element signature="e#26143#26144#0" expanded="true" />
+            <element signature="e#26282#26793#0" expanded="true" />
+            <element signature="e#26640#26697#0" expanded="true" />
+            <element signature="e#26777#26778#0" expanded="true" />
+            <element signature="e#26919#32367#0" expanded="true" />
+            <element signature="e#27279#27337#0" expanded="true" />
+            <element signature="e#27682#27732#0" expanded="true" />
+            <element signature="e#27814#32267#0" expanded="true" />
+            <element signature="e#31954#32208#0" expanded="true" />
+            <element signature="e#32172#32173#0" expanded="true" />
+            <element signature="e#32239#32240#0" expanded="true" />
+            <element signature="e#32351#32352#0" expanded="true" />
+            <element signature="e#32524#38400#0" expanded="true" />
+            <element signature="e#32977#33398#0" expanded="true" />
+            <element signature="e#33370#33371#0" expanded="true" />
+            <element signature="e#33717#33767#0" expanded="true" />
+            <element signature="e#33849#38302#0" expanded="true" />
+            <element signature="e#37989#38243#0" expanded="true" />
+            <element signature="e#38207#38208#0" expanded="true" />
+            <element signature="e#38274#38275#0" expanded="true" />
+            <element signature="e#38385#38386#0" expanded="true" />
+            <element signature="e#38534#39542#0" expanded="true" />
+            <element signature="e#38880#39298#0" expanded="true" />
+            <element signature="e#39263#39264#0" expanded="true" />
+            <element signature="e#39526#39527#0" expanded="true" />
+            <element signature="e#40846#46607#0" expanded="true" />
+            <element signature="e#46592#46593#0" expanded="true" />
+            <element signature="e#59133#59163#1" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_card/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="269" column="65" selection-start="9220" selection-end="9220" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="247" column="65" selection-start="8989" selection-end="8989" vertical-scroll-proportion="0.4473684">
           <folding />
         </state>
       </provider>
