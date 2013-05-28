@@ -123,23 +123,9 @@
             android:label="@string/image_viewer"
             android:theme="@style/AppTheme" >
         </activity>
-        
-        <activity
-            android:name="com.klinker.android.messaging_sliding.SettingsActivity"
-            android:label="@string/menu_settings"
-            android:theme="@style/SettingsTheme"
-            android:excludeFromRecents="true" >
-        </activity>
 
         <activity
             android:name="com.klinker.android.messaging_sliding.SettingsPagerActivity"
-            android:label="@string/menu_settings"
-            android:theme="@style/SettingsTheme"
-            android:excludeFromRecents="true" >
-        </activity>
-        
-        <activity
-            android:name="com.klinker.android.messaging_card.SettingsActivity"
             android:label="@string/menu_settings"
             android:theme="@style/SettingsTheme"
             android:excludeFromRecents="true" >
@@ -150,37 +136,7 @@
             android:label="@string/title_bar_settings"
             android:theme="@style/SettingsTheme" >
         </activity>
-        
-        <activity
-            android:name="com.klinker.android.messaging_sliding.NotificationSettingsActivity"
-            android:label="@string/advanced_notifications"
-            android:theme="@style/SettingsTheme" >
-        </activity>
-        
-        <activity
-            android:name="com.klinker.android.messaging_sliding.AdvancedSettingsActivity"
-            android:label="@string/advanced_settings"
-            android:theme="@style/SettingsTheme" >
-        </activity>
-        
-        <activity
-            android:name="com.klinker.android.messaging_card.AdvancedSettingsActivity"
-            android:label="@string/advanced_settings"
-            android:theme="@style/SettingsTheme" >
-        </activity>
-        
-        <activity
-            android:name="com.klinker.android.messaging_sliding.TextSettingsActivity"
-            android:label="@string/text_settings"
-            android:theme="@style/SettingsTheme" >
-        </activity>
-        
-        <activity
-            android:name="com.klinker.android.messaging_card.TextSettingsActivity"
-            android:label="@string/text_settings"
-            android:theme="@style/SettingsTheme" >
-        </activity>
-        
+
         <activity
             android:name="com.klinker.android.messaging_sliding.theme.CustomFontSettingsActivity"
             android:label="@string/ct_custom_font"
@@ -192,34 +148,10 @@
             android:label="@string/preset_apns"
             android:theme="@style/SettingsTheme" >
         </activity>
-        
-        <activity
-            android:name="com.klinker.android.messaging_sliding.ConversationSettingsActivity"
-            android:label="@string/conversation_settings"
-            android:theme="@style/SettingsTheme" >
-        </activity>
-        
-        <activity
-            android:name="com.klinker.android.messaging_card.ConversationSettingsActivity"
-            android:label="@string/conversation_settings"
-            android:theme="@style/SettingsTheme" >
-        </activity>
-        
-        <activity
-            android:name="com.klinker.android.messaging_card.GestureSettingsActivity"
-            android:label="@string/gesture_settings"
-            android:theme="@style/SettingsTheme" >
-        </activity>
-        
+
         <activity
             android:name="com.klinker.android.messaging_sliding.MmsSettingsActivity"
             android:label="@string/mms_settings"
-            android:theme="@style/SettingsTheme" >
-        </activity>
-        
-        <activity
-            android:name="com.klinker.android.messaging_sliding.PopupSettingsActivity"
-            android:label="@string/popup_settings"
             android:theme="@style/SettingsTheme" >
         </activity>
         
@@ -441,22 +373,6 @@
 		        <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
 		    </intent-filter>
 		</activity>
-        
-<!--         <receiver android:name=".MMSReceivedReceiver" -->
-<!--             	  android:exported="false" > -->
-<!--             <intent-filter> -->
-<!--                 <acion android:name="android.provider.Telephony.WAP_PUSH_RECEIVED" /> -->
-<!--                 <data android:mimeType="application/vnd.wap.mms-message" /> -->
-<!--             </intent-filter> -->
-<!--         </receiver> -->
-
-<!-- 		<receiver android:name=".transaction.PushReceiver" -->
-<!--             android:permission="android.permission.BROADCAST_WAP_PUSH"> -->
-<!--             <intent-filter> -->
-<!--                 <action android:name="android.provider.Telephony.WAP_PUSH_RECEIVED" /> -->
-<!--                 <data android:mimeType="application/vnd.wap.mms-message" /> -->
-<!--             </intent-filter> -->
-<!--         </receiver> -->
     </application>
 
 </manifest>
