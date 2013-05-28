@@ -155,4 +155,12 @@
         <item name="video">Video Seç</item>
         <item name="audio">Parçası Ses</item>
     </string-array>
+
+    <string-array name="notification_icon">
+        <item name="stock">Stock Icon</item>
+        <item name="bubble">Message Bubble</item>
+        <item name="exclamation">Exclamation Point</item>
+        <item name="airplane">Paper Airplane</item>
+        <item name="cloud">Cloud</item>
+    </string-array>
 </resources>
