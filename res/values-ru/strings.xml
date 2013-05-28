@@ -1,0 +1,564 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name">Сообщения</string>
+  <string name="menu_settings">Настройки</string>
+  <string name="send_button">Отправить</string>
+  <string name="type_message">Текст сообщения</string>
+  <string name="chars">1/160</string>
+  <string name="placeholder">Placeholder</string>
+  <string name="contact_entry">Кому</string>
+  <string name="about">Создано Jacob Klinker. Переведено на русский Славутским
+  Алексеем.</string>
+  <string name="menu_new_message">Новое сообщение</string>
+  <string name="quick_reply">Быстрый ответ</string>
+  <string name="dark_theme">Темная тема</string>
+  <string name="dark_theme_summary">Поставьте галочку, чтобы включить темную
+  тему</string>
+  <string name="text_size">Размер текста</string>
+  <string name="text_size_summary">Выберите размер шрифта</string>
+  <string name="notifications">Настройки уведомлений</string>
+  <string name="notifications_summary">Поставьте галочку, чтобы включить
+  уведомления</string>
+  <string name="ringtone">Мелодия</string>
+  <string name="ringtone_summary">Выберите мелодию</string>
+  <string name="page_or_menu">Режим боковых меню</string>
+  <string name="page_or_menu_summary">Выберите, когда будут отображаться
+  боковые меню</string>
+  <string name="theme">Настройки оформления</string>
+  <string name="dark_theme_quick_reply">Темное окно быстрого ответа</string>
+  <string name="dark_theme_quick_reply_summary">Нажмите, чтобы включить темную
+  тему для окна быстрого ответа (только для Jellybean 4.1+)</string>
+  <string name="menu_about">О приложении</string>
+  <string name="delete_message">Вы уверены, что хотите удалить это
+  сообщение?</string>
+  <string name="delete_messages">Вы уверены, что хотите удалить эти
+  сообщения?</string>
+  <string name="yes">Да</string>
+  <string name="no">Нет</string>
+  <string name="restart_1">Необходим перезапуск приложения после применения
+  темы.</string>
+  <string name="restart_2">Перезапуск Sliding Messaging</string>
+  <string name="title_color">Цвет панели вкладок</string>
+  <string name="title_color_summary">Цвет панели вкладок (также применяется,
+  если используется черная тема, при отключенной панели вкладок)</string>
+  <string name="delivery_reports">Отчеты о доставке</string>
+  <string name="popup_reply">Всплывающее окно</string>
+  <string name="popup_reply_summary">Окно быстрого ответа появляется
+  автоматически при получении нового сообщения</string>
+  <string name="text_saved">Текст скопирован в буфер обмена</string>
+  <string name="draft_saved">Черновик скопирован в буфер обмена</string>
+  <string name="hour_format">24-часовая отметка времени</string>
+  <string name="hide_title_bar">Показывать панель вкладок</string>
+  <string name="hide_title_bar_summary">Поставьте галочку, чтобы панель
+  вкладок отображалась</string>
+  <string name="strip_unicode">Адаптация Юникода</string>
+  <string name="strip_unicode_summary">Пытаться заменить несовместимые с
+  SMS-стандартом символы совместимыми.</string>
+  <string name="other">Прочие настройки</string>
+  <string name="ok">OK</string>
+  <string name="emoji">Включить Emoji</string>
+  <string name="donate">Pro-версия</string>
+  <string name="load_messages">Загружаемые сообщения</string>
+  <string name="load_messages_summary">Количество сообщений, которые будут
+  загружены изначально</string>
+  <string name="load_all">Загрузить все сообщения</string>
+  <string name="limit_messages">Ограничение количества сообщений</string>
+  <string name="limit_messages_summary">Ограничить количество сообщений,
+  которые будут загружены изначально</string>
+  <string name="pull_to_refresh">Потяните для загрузки всех сообщений</string>
+  <string name="vibrate">Вибрация при уведомлении</string>
+  <string name="override">Заменить стандартную SMS-систему</string>
+  <string name="override_summary">Сообщения будут приниматься самим
+  приложением, а другие SMS-приложения не будут получать сигнала о получении
+  сообщения. Поставьте галочку, если вы удалили стандартное
+  SMS-приложение.</string>
+  <string name="open_contact_menu">Список диалогов при запуске</string>
+  <string name="open_contact_menu_summary">Открывает левое боковое меню при
+  запуске</string>
+  <string name="limit_conversations">Ограничение количества диалогов</string>
+  <string name="limit_conversations_summary">Ограничить количество диалогов,
+  которые будут загружены изначально</string>
+  <string name="contact_pictures">Отображать фотографии контактов</string>
+  <string name="date_format">Формат даты</string>
+  <string name="date_format_summary">Выбор формата отображения даты</string>
+  <string name="secure_notification">Безопасные уведомления</string>
+  <string name="secure_notification_summary">Отправитель и содержание
+  сообщения не будут отображены в уведомлении</string>
+  <string name="enable_view_conversation">Кнопка отображения диалога</string>
+  <string name="enable_view_conversation_summary">Показывать кнопку
+  отображения диалога в окне быстрого ответа</string>
+  <string name="enable_mms">Включить MMS</string>
+  <string name="enable_mms_summary">На данный момент, функционал MMS
+  ограничен</string>
+  <string name="mobile_only">Только мобильные номера</string>
+  <string name="mobile_only_summary">Отображать только мобильные номера при
+  выборе контакта для написания нового сообщения</string>
+  <string name="led_color">Цвет светодиода</string>
+  <string name="led_color_summary">Выберите цвет светодиода при получении
+  нового сообщения</string>
+  <string name="vibrate_pattern">Свой режим вибрации</string>
+  <string name="vibrate_pattern_summary">Свой режим вибрации при получении
+  нового сообщения</string>
+  <string name="menu_call">Вызвать контакт</string>
+  <string name="keyboard_type">Смайлы на клавиатуре</string>
+  <string name="keyboard_type_summary">Отображать кнопку смайлов на
+  клавиатуре</string>
+  <string name="override_lang">Игнорировать язык системы</string>
+  <string name="override_lang_summary">Использовать английский язык
+  приложения</string>
+  <string name="save_image">Изображение сохранено</string>
+  <string name="wake_screen">Включать дисплей</string>
+  <string name="wake_screen_summary">Включает дисплей при поступлении нового
+  уведомления</string>
+  <string name="unlock_screen">Снимать блокировку</string>
+  <string name="unlock_screen_summary">Разблокирует устройство при поступлении
+  нового уведомления</string>
+  <string name="signature">Выбрать подпись</string>
+  <string name="smilies">Отображение смайлов</string>
+  <string name="smilies_summary">Выбрать, как будут отображаться
+  смайлы</string>
+  <string name="send_to">Отправка</string>
+  <string name="button_options">Кнопки уведомления</string>
+  <string name="button_options_summary">Выбрать кнопки, которые будут
+  отображаться в уведомлении (не более трёх)</string>
+  <string name="slide_messages">Полноэкранные боковые панели</string>
+  <string name="slide_messages_summary">Поставьте галочку, чтобы область
+  сообщений полностью скрывалась при открытии боковых панелей</string>
+  <string name="disable_sliding">Отключить боковые панели</string>
+  <string name="disable_sliding_summary">Отключает боковые панели, доступ к
+  ним можно будет получить, используя кнопки в панели заголовка</string>
+  <string name="show_keyboard">Показывать клавиатуру</string>
+  <string name="show_keyboard_summary">Показывает клавиатуру при запуске
+  приложения</string>
+  <string name="notification_icon">Цвет иконки уведомления</string>
+  <string name="new_message">Новое сообщение</string>
+  <string name="title_caps">Имена контактов печатными буквами</string>
+  <string name="title_caps_summary">Поставьте галочку, чтобы имена контактов в
+  панели заголовка полностью отображались печатными буквами</string>
+  <string name="advanced_theme">Дополнительные настройки оформления</string>
+  <string name="advanced_notifications">Дополнительные настройки
+  уведомлений</string>
+  <string name="advanced_other">Прочие дополнительные настройки</string>
+  <string name="advanced_settings">Дополнительные настройки</string>
+  <string name="title_bar_settings">Настройки строки заголовка</string>
+  <string name="title_contact_image">Фотографии контактов в строке
+  заголовка</string>
+  <string name="title_contact_image_summary">Отображает фотографию контакта
+  текущего диалога в строке заголовка</string>
+  <string name="pitch_black_theme">Черная тема</string>
+  <string name="custom_background">Фон боковых панелей</string>
+  <string name="custom_background_summary">Выбрать свое изображение в качестве
+  фона для боковых панелей</string>
+  <string name="custom_background2">Фон области сообщений</string>
+  <string name="custom_background2_summary">Выбрать свое изображение в
+  качестве фона для области сообщений</string>
+  <string name="menu_delete">Удалить все диалоги</string>
+  <string name="delete_all">Вы уверены, что хотите удалить все
+  диалоги?</string>
+  <string name="text_settings">Настройки текста</string>
+  <string name="sent_text_color">Цвет исходящих сообщений</string>
+  <string name="sent_text_color_summary">Выберите цвет текста для исходящих
+  сообщений</string>
+  <string name="received_text_color">Цвет входящих сообщений</string>
+  <string name="received_text_color_summary">Выберите цвет текста для входящих
+  сообщений</string>
+  <string name="menu_text_color">Цвет текста боковых панелей</string>
+  <string name="menu_text_color_summary">Выберите цвет текста для боковых
+  панелей</string>
+  <string name="text_opacity">Прозрачность сообщений</string>
+  <string name="text_opacity_summary">Выберите прозрачность сообщений, чтобы
+  свой фон был виден</string>
+  <string name="conversation">Диалог</string>
+  <string name="version">Версия</string>
+  <string name="extension_title">Sliding Messaging (Сообщения)</string>
+  <string name="extension_description">Отображает новые сообщения на экране
+  блокировки</string>
+  <string name="emoji_type">Emoji в стиле Android</string>
+  <string name="notification_settings">Настройки уведомлений</string>
+  <string name="about_expanded">Спасибо jfeinstein10 на GitHub за его
+  библиотеку SlidingMenu и всем переводчикам.</string>
+  <string name="download">Загрузить</string>
+  <string name="none"/>
+  <string name="message_delivered">Сообщение доставлено</string>
+  <string name="message_not_delivered">Сообщение не доставлено</string>
+  <string name="dismiss">ОК</string>
+  <string name="delivery_options">Настройки отчетов о доставке</string>
+  <string name="delivery_options_summary">Выберите как будут отображаться
+  отчеты о доставке</string>
+  <string name="image_viewer">Изображения в MMS</string>
+  <string name="multiple_attachments">Несколько вложений</string>
+  <string name="delete_conversation">Удалить диалог</string>
+  <string name="save_images">Изображения сохранены</string>
+  <string name="persistent">Всегда показывать</string>
+  <string name="persistent_summary">Показывать счетчик на экране блокировки
+  даже если новых сообщений нет</string>
+  <string name="screen_timeout">Длительность подсветки</string>
+  <string name="sending">Отправка…</string>
+  <string name="always_show_contact_info">Информация о контакте
+  сверху</string>
+  <string name="always_show_contact_info_summary">Показывать информацию о
+  контакте на панели вкладок, даже если панель заголовка включена</string>
+  <string name="deleting">Удаление…</string>
+  <string name="send_animation">Анимация исходящих</string>
+  <string name="send_animation_summary">Выберите анимацию, которая будет
+  показываться при отправке сообщения</string>
+  <string name="receive_animation">Анимация входящих</string>
+  <string name="receive_animation_summary">Выберите анимацию, которая будет
+  показываться при получении сообщения</string>
+  <string name="animation_speed">Скорость анимации (в милисекундах)</string>
+  <string name="new_messages">Новые сообщения</string>
+  <string name="hide_message_counter">Не показывать счетчик сообщений</string>
+  <string name="pref_messages_to_save">Сохраняемые сообщения</string>
+  <string name="delete_old">Удалять старые сообщения</string>
+  <string name="sms_limit">Лимит SMS</string>
+  <string name="sms_limit_summary">Количество сохраняемых
+  SMS-сообщений</string>
+  <string name="mms_limit">Лимит MMS</string>
+  <string name="mms_limit_summary">Количество сохраняемых
+  MMS-сообщений</string>
+  <string name="cancel">Отменить</string>
+  <string name="conversation_settings">Настройки панели диалогов</string>
+  <string name="name_text_color">Цвет имени контакта</string>
+  <string name="name_text_color_summary">Выберите цвет для имен контактов в
+  списке диалогов</string>
+  <string name="quick_text">Быстрое сообщение</string>
+  <string name="quick_text_summary">Создает уведомление для быстрого написания
+  нового сообщения из любого места</string>
+  <string name="quick_text_notification">Создать сообщение</string>
+  <string name="quick_text_notification_summary">Нажмите, чтобы написать новое
+  сообщение</string>
+  <string name="background_service">Фоновый сервис</string>
+  <string name="background_service_summary">Экспериментальная функция.
+  Позволяет ускорить запуск приложения, но может увеличить расход
+  батареи.</string>
+  <string name="background_service_dialog">Для корректной работы этой функции
+  необходимо активировать опцию \"Заменить стандартную SMS-систему\". Если
+  после этого приложение перестанет запускаться, переустановите его.</string>
+  <string name="title_text_color">Темный текст</string>
+  <string name="caching">Идет кэширование данных (может занять время, в
+  зависимости от количества сообщений).</string>
+  <string name="custom_theme_prefs">Настройки тем</string>
+  <string name="ct_title_bar_color">Цвет панели вкладок</string>
+  <string name="ct_title_bar_text_color">Цвет текста на панели
+  вкладок</string>
+  <string name="ct_message_list_background">Фон области сообщений</string>
+  <string name="ct_sendbar_background">Фон области составления
+  сообщения</string>
+  <string name="ct_sent_message_background">Фон исходящих сообщений</string>
+  <string name="ct_received_message_background">Фон входящих
+  сообщений</string>
+  <string name="ct_sent_message_text_color">Цвет текста исходящих
+  сообщений</string>
+  <string name="ct_received_message_text_color">Цвет текста входящих
+  сообщений</string>
+  <string name="ct_conversation_list_background">Фон списка диалогов</string>
+  <string name="ct_name_text_color">Цвет имени</string>
+  <string name="ct_summary_text_color">Цвет содержания сообщения</string>
+  <string name="ct_message_divider">Показывать разделитель между
+  сообщениями</string>
+  <string name="ct_message_divider_color">Цвет разделителя</string>
+  <string name="ct_send_button_color">Цвет кнопки отправки</string>
+  <string name="ct_contact_image_color">Темный стандартный аватар
+  контактов</string>
+  <string name="ct_counter_text_color">Цвет счетчика сообщений</string>
+  <string name="ct_custom_font">Свой шрифт</string>
+  <string name="ct_theme_name">Название темы</string>
+  <string name="ct_contact_name">Имя контакта</string>
+  <string name="ct_sent_message">Текст исходящего сообщения.</string>
+  <string name="ct_sent_date">Дата отправки</string>
+  <string name="ct_received_message">Текст входящего сообщения.</string>
+  <string name="ct_received_date">Дата получения</string>
+  <string name="menu_edit_theme">Редактировать тему</string>
+  <string name="menu_delete_theme">Удалить тему</string>
+  <string name="menu_get_more_themes">Получить больше тем</string>
+  <string name="menu_instructions">Справка</string>
+  <string name="menu_add_theme">Добавить тему</string>
+  <string name="theme_chooser_prefs">Выбрать тему</string>
+  <string name="select_theme">Выберите тему</string>
+  <string name="save_theme">Сохранить тему</string>
+  <string name="toast_theme_set">Тема применена</string>
+  <string name="toast_theme_saved">Тема сохранена</string>
+  <string name="cannot_delete">Невозможно удалить стандартные темы</string>
+  <string name="popup_help1">Загрузите редактор тем отсюда:</string>
+  <string name="popup_link">
+    <a href="market://details?id=com.klinker.android.messaging_theme">Play
+    Маркет</a>
+  </string>
+  <string name="popup_help2">- У вас есть два варианта</string>
+  <string name="popup_help3">1) Выберите одну из стандартных тем (вы можете ее
+  отредактировать, выбрав \"Редактировать тему\" в меню)</string>
+  <string name="popup_help4">2) Выберите \"Добавить тему\" в меню и создайте
+  новую тему</string>
+  <string name="popup_help5">- Выбрав пункт \"Удалить тему\", вы удалите
+  просматриваемую тему. Стандартные темы удалять нельзя.</string>
+  <string name="popup_help6">- Дополнительные темы можно скачать, выбрав
+  \"Получить больше тем\" в меню.</string>
+  <string name="popup_help7">- Чтобы установить сторонний шрифт, выберите
+  \"Свой шрифт\". Он будет применен ко всем темам.</string>
+  <string name="popup_help8">Если вы выберете какую-либо из стандартных тем
+  (кроме трех первых), то ваши настройки тем будут сброшены </string>
+  <string name="popup_help9">Пользователи Pro-версии могут устанавливать любые
+  скачанные темы, но чтобы создавать и редактировать их, нужно загрузить
+  Редактор тем.</string>
+  <string name="custom_font">Использовать свой шрифт</string>
+  <string name="custom_font_summary">Выберите шрифт, который будет
+  использоваться в приложении</string>
+  <string name="backup_settings">Настройки бэкапа</string>
+  <string name="backup">Сделать бэкап всех настроек</string>
+  <string name="restore">Восстановить все настройки из бэкапа</string>
+  <string name="backup_success">Бэкап создан успешно</string>
+  <string name="restore_success">Восстановление выполнено успешно</string>
+  <string name="default_font">Стандартный шрифт</string>
+  <string name="default_font_summary">Шрифт системы по умолчанию</string>
+  <string name="font_set">Шрифт сохранен</string>
+  <string name="find_fonts">Поиск шрифтов…</string>
+  <string name="theme_support_title">Редактор тем Sliding Messaging</string>
+  <string name="theme_support">Sliding Messaging теперь поддерживает полностью
+  редактируемые темы!\n\nВозможности:\n - 16 изменяемых элементов интерфейса\n
+  - Выбирайте любые цвета или используйте предустановки в Holo-стиле\n -
+  Редактируйте то, что раньше не могли\n - Загружайте новые темы и делитесь
+  своими в интеренете\n - Используйте любой шрифт из памяти телефона\n\nДля
+  более подробной информации загляните в Настройки - Настройки тем -
+  Меню - Справка</string>
+  <string name="get_it_now">Загрузить!</string>
+  <string name="remind_me_later">Напомнить позже</string>
+  <string name="dont_bother">Мне это не интересно</string>
+  <string name="changelog_title">Список изменений</string>
+  <string name="changelog_disclaimers">Помните, если вы недовольны скоростью
+  загрузки приложения, используйте функцию \"Фоновый сервис\" в
+  настройках.\n\nПомните, что Sliding Messaging все еще в стадии
+  бета-тестирования, но стабильность работы постоянно улучшается и добавляются
+  новые функции.</string>
+  <string name="led">Мигание светодиода</string>
+  <string name="default_theme_prefs">Настройки темы по умолчанию</string>
+  <string name="breath">Мигание иконки уведомления</string>
+  <string name="breath_summary">Работает только с белой иконкой</string>
+  <string name="go_sms_title">Установлено Go SMS</string>
+  <string name="go_sms_body">У вас установлено Go SMS. Учтите, что по
+  умолчанию оно блокирует все уведомления об SMS от сторонних приложений. Вы
+  можете отключить это в настройках Go SMS. (Settings - Advanced Settings
+  - Receive Settings - \"Disable other message
+  notification\")</string>
+  <string name="text_alignment">Выравнивание текста</string>
+  <string name="text_alignment_summary">Рекомендуется также отключить аватары
+  контактов, иначе могут возникнуть проблемы с интерфейсом (в Android 4.1 и
+  ниже)</string>
+  <string name="ct_draft_text_color">Цвет шрифта черновиков</string>
+  <string name="view">Показать</string>
+  <string name="replace">Заменить</string>
+  <string name="remove">Удалить</string>
+  <string name="menu_attach">Прикрепить</string>
+  <string name="select_picture">Выберите изображение для отправки</string>
+  <string name="group_message">Групповые сообщения</string>
+  <string name="group_message_summary">Автоматически преобразует SMS
+  нескольким получателям в групповые MMS. Лучше всего работает на Android 4.2
+  и выше.</string>
+  <string name="mms">MMS</string>
+  <string name="mms_settings">Настройки MMS</string>
+  <string name="send_as_mms">Длинные сообщения в MMS</string>
+  <string name="send_as_mms_summary">Автоматически преобразовывать сообщения
+  заданной длины в MMS</string>
+  <string name="mms_after">Кол-во сообщений для преобразования</string>
+  <string name="mms_after_summary">Количество SMS-сообщений, при достижении
+  которого произойдет преобразование в MMS</string>
+  <string name="error_state">Ошибка приложения</string>
+  <string name="error_state_text">The state of threads and recipients is
+  inconsistent.</string>
+  <string name="apn_settings">Настройки APN</string>
+  <string name="mmsc_url">MMSC Url</string>
+  <string name="mms_proxy">MMS Proxy</string>
+  <string name="mms_port">MMS Port</string>
+  <string name="apn_error_title">Ошибка APN</string>
+  <string name="apn_error_button">Перейти в настройки MMS</string>
+  <string name="apn_error_1">Either there is an error in your APN settings,
+  you haven\'t configured them yet, they are for some reason incompatible, or
+  you are connected to WiFi. \n\nDue to limitations implemented by Google in
+  Android 4.0 (Ice Cream Sandwich), </string>
+  <string name="apn_error_2">Google now restricts Sliding Messaging\'s access
+  to the system defined APNs for \"security reasons.\" Because of this, you
+  will need to set the values manually if you </string>
+  <string name="apn_error_3">wish to be able to send MMS messages through
+  Sliding Messaging. You can find APN settings for your carrier by going into
+  your System Settings - Wireless and Networks -</string>
+  <string name="apn_error_4">More… - Mobile Networks - Access Point
+  Names and selecting the APN from there that you wish to use, copying the
+  \"MMSC\", \"MMS Proxy\", and \"MMS Port\" values </string>
+  <string name="apn_error_5">into Sliding Messaging\'s MMS Settings which you
+  can access through the main settings menu or by selecting the button below.
+  You can also find them through a quick Google search of your carrier name
+  and apn information.\n\n</string>
+  <string name="apn_error_6">Until you have correctly set these values, you
+  will not be able to send MMS messages.</string>
+  <string name="secure_dashclock">Безопасные уведомления в Dashclock</string>
+  <string name="secure_dashclock_summary">Не показывать имя отправителя в
+  Dashclock</string>
+  <string name="custom_vibrate_pattern">Своя вибрация</string>
+  <string name="custom_vibrate_pattern_summary">Переписывет настройки
+  выше</string>
+  <string name="set_custom_vibrate_pattern">Выбрать вибрацию</string>
+  <string name="set_custom_vibrate_pattern_summary">После каждого числа нужно
+  поставить запятую и пробел. Например \"0, 400, 100, 400\". Эти числа
+  обозначают длительность последовательного выключения и влючения вибрации в
+  милисекундах.</string>
+  <string name="error">Ошибка</string>
+  <string name="pro_dialog">Pro-версия</string>
+  <string name="go_pro1">У Sliding Messaging также есть Pro-версия, в которой
+  есть много дополнительных возможностей, например:\n</string>
+  <string name="go_pro2">- Возможность получения и отправки MMS-сообщений\n-
+  Встраивание в меню \"Поделиться\"\n- 6 дополнительных тем\n</string>
+  <string name="go_pro3">- Возможность установки любого фона на список
+  диалогов и область сообщений\n- Возможность настройки цвета текста\n-
+  Настройки анимаций\n- И многое другое!\n\n</string>
+  <string name="go_pro4">Также, пользователи Pro-версии чаще получают
+  обновления и доступ ко всем новым функциям.</string>
+  <string name="mms_disclaimer">Внимание:</string>
+  <string name="mms_disclaimer_summary">Если у вас возникают проблемы с
+  отправкой MMS, то, скорее всего, это происходит из-за неверных настроек APN,
+  или же из-за того, что вы подключены к Wi-Fi, что, в некоторых случаях,
+  может вызывать сбои в работе этой функции.</string>
+  <string name="mms_report">Отправка APN</string>
+  <string name="mms_report_summary">Отправьте мне e-mail (на английском) с
+  проверенными вами APN на jklinker1@gmail.com, чтобы я добавил их в
+  приложение.</string>
+  <string name="apn_username_password">Логин и пароль</string>
+  <string name="apn_username_password_summary">Некоторые операторы требуют
+  ввода логина и пароля при настройке MMS. Если нужно, введите их.</string>
+  <string name="apn_username">Логин</string>
+  <string name="apn_username_summary">Возможно, его не нужно
+  изменять.</string>
+  <string name="apn_password">Пароль</string>
+  <string name="apn_password_summary">Возможно, его тоже не нужно
+  изменять.</string>
+  <string name="get_apn_help">Помощь с APN</string>
+  <string name="confirmed_apns">Точно работающие APN:</string>
+  <string name="experimental_apns">Экспериментальные APN:</string>
+  <string name="experimental_apns_summary">Возможно, понадобится
+  скорректировать их вручную.</string>
+  <string name="preset_apns">Предустановленные APN</string>
+  <string name="preset_apns_summary">Если ваш оператор есть в списке, то вам
+  повезло</string>
+  <string name="ct_emoji_button_color">Цвет кнопки Emoji</string>
+  <string name="ct_conversation_divider_color">Цвет разделителя в списке
+  диалогов</string>
+  <string name="app_name_in_app">Сообщения</string>
+  <string name="run_as">Стиль приложения</string>
+  <string name="people">Люди</string>
+  <string name="messages">Сообщения</string>
+  <string name="message">Сообщение</string>
+  <string name="conversation_list">Список диалогов</string>
+  <string name="conversations">Диалоги</string>
+  <string name="conversation">Диалог</string>
+  <string name="delete">Удалить</string>
+  <string name="all">Все</string>
+  <string name="new_conversation">Новый диалог</string>
+  <string name="new_conversations">Новые диалоги</string>
+  <string name="display_contact_cards">Карточки контактов</string>
+  <string name="display_contact_cards_summary">Отображать карточки контактов
+  вверху каждого диалога</string>
+  <string name="display_call_button">Кнопка вызова абонента</string>
+  <string name="display_call_button_summary">Отображать кнопку вызова напротив
+  абонентов в списке диалогов</string>
+  <string name="display_contact_names">Имя контакта в нижней панели</string>
+  <string name="unread">Непрочитанное</string>
+  <string name="open_to_first">Открывать первый диалог</string>
+  <string name="simple_cards">Простые карточки</string>
+  <string name="simple_cards_summary">Карточки не будут отбрасывать тень.
+  Может положительно повлиять на производительность.</string>
+  <string name="conversation_gesture">Жест списка диалогов</string>
+  <string name="conversation_gesture_summary">Проведите пальцем слева направо,
+  чтобы открыть список диалогов</string>
+  <string name="new_message_gesture">Жест нового сообщения</string>
+  <string name="new_message_gesture_summary">Проведите пальцем справа налево,
+  чтобы написать новое сообщение</string>
+  <string name="gesture_distance">Область распознавания жестов</string>
+  <string name="gesture_distance_summary">Расстояние от края экрана, на
+  котором жесты распознаются (в % от площади экрана)</string>
+  <string name="gesture_summary">Инструкции:</string>
+  <string name="gesture_summary_description">Жест от края экрана к центру
+  вызовет одну из боковых панелей. Жест от центра к краю экрана позволяет
+  перемещаться между диалогами.</string>
+  <string name="gesture_length">Длина жеста</string>
+  <string name="gesture_length_summary">Длина жеста, при котором он
+  распознается</string>
+  <string name="gesture_speed">Скорость жеста</string>
+  <string name="gesture_speed_summary">Скорость, при которой жест
+  распознется</string>
+  <string name="gesture_settings">Настройки жестов</string>
+  <string name="auto_download_mms">Загружать MMS автоматически</string>
+  <string name="led_on_time">Длительность свечения диода</string>
+  <string name="led_off_time">Длительность бездействия диода</string>
+  <string name="repeating_notification">Повтор уведомления</string>
+  <string name="repeating_notification_summary">Позволяет повторять уведомление о новом сообщении через определённый интервал</string>
+  <string name="wifi_mms_fix">WiFi-костыль</string>
+  <string name="wifi_mms_fix_summary">Временно отключать Wi-Fi при отправке MMS</string>
+  <string name="hide_contact_number">Не показывать номера телефонов</string>
+  <string name="hide_contact_number_summary">Не показывать номера телефонов в списке диалогов</string>
+  <string name="view_conversation">Открыть диалог</string>
+  <string name="popup_settings">Настройки окна быстрого ответа</string>
+  <string name="use_old_popup">Использовать старый стиль окна</string>
+  <string name="widget_settings">Настройки виджета</string>
+  <string name="widget_dark_theme">Тёмная тема</string>
+  <string name="widget_background">Фон виджета</string>
+  <string name="widget_background_summary">Отображать фон виджета</string>
+  <string name="show_keyboard_popup">Автоматически показывать клавиатуру</string>
+  <string name="show_keyboard_popup_summary">Автоматически отображать клавиатуру при появлении окна быстрого ответа</string>
+  <string name="batch">Групповое</string>
+  <string name="batch_delete">Групповое удаление</string>
+  <string name="add_new">Добавить шаблон</string>
+  <string name="quick_templates">Управление шаблонами</string>
+  <string name="delete_template">Удалить шаблон?</string>
+  <string name="insert_template">Вставить шаблон</string>
+  <string name="add_templates">Новые шаблоны можно добавить через пункт "Управление шаблонами" в настройках приложения</string>
+  <string name="send_with_return">Отправка по Enter</string>
+  <string name="send_with_return_summary">Кнопка Enter на клавиатуре будет отправлять сообщение, а не вставлять перенос строки</string>
+  <string name="halo_popup">Halo</string>
+  <string name="halo_popup_summary">Запускать приложение полностью в режиме многооконности (halo), вместо отображения окна быстрого ответа. Только для кастомных прошивок, поддерживающих эту функцию.</string>
+  <string name="individual_notification_settings">Индивидуальные уведомления</string>
+  <string name="add_new_individual">Добавить контакт</string>
+  <string name="find_contact">Выбрать контакт</string>
+  <string name="experimental">Экспериментально</string>
+  <string name="delete_contact_settings">Удалить настройки индивидуальных уведомлений?</string>
+  <string name="temp_led_color_summary">Выберите цвет мигания диода. Имейте в виду, что ваше устройство может не поддерживать некоторые цвета.</string>
+  <string name="tiny_date">Маленькая дата</string>
+  <string name="tiny_date_summary">Уменьшить шрифт даты</string>
+  <string name="contact_name_or_number">Номер или имя контакта</string>
+  <string name="save_blacklist">Добавить в черный список</string>
+  <string name="black_list_1">Не показывать уведомления, но продолжать получать сообщения от контакта</string>
+  <string name="black_list_2">Не получать сообщения от контакта</string>
+  <string name="delete_blacklist_contact">Убрать контакт из черного списка?</string>
+  <string name="blacklist_settings">Настройки черного списка</string>
+  <string name="blacklist_settings_summary"/>
+  <string name="save_to_external">Использовать карту памяти</string>
+  <string name="save_to_external_summary">Сохранять такие данные, как индивидуальные уведомления и настройки черного списка на карту памяти</string>
+  <string name="split_sms">Разбивать сообщения</string>
+  <string name="split_sms_summary">Отметьте, если у вас возникают проблемы при отправке длинных сообщений</string>
+  <string name="top_actionbar">Панель действий сверху</string>
+  <string name="top_actionbar_summary">Перенести панель действий в верхнюю часть экрана</string>
+
+
+
+    <string name="attach_more">Добавить еще</string>
+    <string name="other">Другое</string>
+    <string name="remove_attachment">Удалить это вложение?</string>
+    <string name="show_original_timestamp">Показывать изначальную метку времени</string>
+    <string name="people">Люди</string>
+    <string name="things">Предметы</string>
+    <string name="nature">Природа</string>
+    <string name="places">Места</string>
+    <string name="symbols">Символы</string>
+    <string name="limit_number_conversations">Загружать лишь 15 диалогов при запуске</string>
+    <string name="limit_number_conversations_summary">Позволяет уменьшить время загрузки</string>
+
+    <string name="limit_attachment_size">Сжимать изображения</string>
+    <string name="limit_attachment_size_summary">Экономит траффик Также необходимо, если ваш оператор не поддерживает передачу изображений больших размеров.</string>
+    <string name="send_with_stock">MMS-костыль №2</string>
+    <string name="send_with_stock_summary">Отправлять MMS через стандартное приложение. Отметьте, если у вас пробемы с их отправкой.</string>
+    <string name="ct_unread_conversation_color">Цвет непрочитанных диалогов</string>
+    <string name="copy_sender_address">Скопировать номер отправителя</string>
+    <string name="delete_conversation_message">Удалить этот диалог?</string>
+    <string name="sliding_notification_settings">Настройки уведомлений</string>
+    <string name="theme_settings">Настройки оформления</string>
+    <string name="notification_image">Иконка уведомления</string>
+    <string name="test_notification">Тестовое уведомление</string>
+    <string name="test_notification_summary">Отобразится после отключения дисплея</string>
+</resources>

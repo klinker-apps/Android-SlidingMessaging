@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <PreferenceCategory 
+        android:title="@string/advanced_notifications"
+        android:key="notifications_category" >
+        
+        <CheckBoxPreference 
+        	android:key="vibrate"
+        	android:title="@string/vibrate"
+        	android:defaultValue="true"
+        />
+        
+        <ListPreference 
+        	android:key="vibrate_pattern"
+        	android:title="@string/vibrate_pattern"
+        	android:summary="@string/vibrate_pattern_summary"
+        	android:defaultValue="2short"
+        	android:entries="@array/vibratePattern"
+        	android:entryValues="@array/vibratePatternSet"
+        	android:dependency="vibrate"
+        />
+        
+        <CheckBoxPreference
+        	android:key="custom_vibrate_pattern"
+        	android:title="@string/custom_vibrate_pattern"
+        	android:summary="@string/custom_vibrate_pattern_summary"
+        	android:defaultValue="false"
+        	android:dependency="vibrate"
+        />
+        
+        <EditTextPreference
+            android:key="set_custom_vibrate_pattern"
+            android:title="@string/set_custom_vibrate_pattern"
+            android:summary="@string/set_custom_vibrate_pattern_summary"
+            android:dialogTitle="@string/set_custom_vibrate_pattern"
+            android:defaultValue="0, 400, 100, 400"
+            android:dependency="custom_vibrate_pattern"
+        />
+        
+        <CheckBoxPreference 
+        	android:key="led"
+        	android:title="@string/led"
+        	android:defaultValue="true"
+        />
+        
+        <ListPreference 
+        	android:key="led_color"
+        	android:title="@string/led_color"
+        	android:summary="@string/led_color_summary"
+        	android:defaultValue="white"
+        	android:entries="@array/ledColors"
+        	android:entryValues="@array/ledColorsSet"
+        	android:dependency="led"
+        />
+        
+        <com.klinker.android.messaging_sliding.SeekBarPreference2
+	        android:key="led_off_time"
+	        android:title="@string/led_off_time"
+	        android:defaultValue="2000"
+	        android:max="5000"
+	    />
+        
+        <com.klinker.android.messaging_sliding.SeekBarPreference2
+	        android:key="led_on_time"
+	        android:title="@string/led_on_time"
+	        android:defaultValue="1000"
+	        android:max="5000"
+	    />
+        
+        <MultiSelectListPreference 
+        	android:key="button_options"
+        	android:title="@string/button_options"
+        	android:summary="@string/button_options_summary"
+        	android:defaultValue="@array/quickReplyOptionsInserted"
+        	android:entries="@array/quickReplyOptions"
+        	android:entryValues="@array/quickReplyOptionsInserted"
+        />
+        
+        <ListPreference
+            android:key="repeating_notification"
+            android:title="@string/repeating_notification"
+            android:summary="@string/repeating_notification_summary"
+            android:defaultValue="none"
+            android:entries="@array/repeatingNotification"
+            android:entryValues="@array/repeatingNotificationSet"
+        />
+        
+        <Preference
+            android:key="blacklist_settings"
+            android:title="@string/blacklist_settings"
+            android:summary="@string/blacklist_settings_summary"
+        />
+        
+        <CheckBoxPreference 
+        	android:key="delivery_reports"
+        	android:title="@string/delivery_reports"
+        	android:defaultValue="false"
+        />
+        
+        <ListPreference 
+        	android:key="delivery_options"
+        	android:title="@string/delivery_options"
+        	android:summary="@string/delivery_options_summary"
+        	android:defaultValue="2"
+        	android:entries="@array/deliveryOptions"
+        	android:entryValues="@array/deliveryOptionsInserted"
+        />
+        
+        <CheckBoxPreference 
+        	android:key="secure_notification"
+        	android:title="@string/secure_notification"
+        	android:summary="@string/secure_notification_summary"
+        	android:defaultValue="false"
+        />
+        
+        <CheckBoxPreference 
+        	android:key="wake_screen"
+        	android:title="@string/wake_screen"
+        	android:summary="@string/wake_screen_summary"
+        	android:defaultValue="false"
+        />
+        
+        <ListPreference
+            android:key="screen_timeout"
+            android:title="@string/screen_timeout"
+            android:defaultValue="5"
+            android:entries="@array/screenTimeout"
+            android:entryValues="@array/screenTimeoutInserted"
+            android:dependency="wake_screen"
+        />
+        
+        <CheckBoxPreference 
+        	android:key="unlock_screen"
+        	android:title="@string/unlock_screen"
+        	android:summary="@string/unlock_screen_summary"
+        	android:defaultValue="false"
+        	android:dependency="wake_screen"
+        />
+        
+    </PreferenceCategory>
+</PreferenceScreen>

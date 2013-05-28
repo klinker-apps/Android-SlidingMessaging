@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <string-array name="titleColors">
+        <item name="Blue">Niebieski</item>
+        <item name="Green">Zielony</item>
+        <item name="Orange">Pomarańczowy</item>
+        <item name="Red">Czerwony</item>
+        <item name="Purple">Fioletowy</item>
+        <item name="Grey">Szary</item>
+        <item name="Black">Czarny</item>
+    </string-array>
+    
+    <string-array name="messageOptions">
+        <item name="copy_text">Kopiuj Tekst</item>
+        <item name="forward">Prześlij dalej</item>
+        <item name="delete_message">Skasuj Wiadomość</item>
+    </string-array>
+    
+    <string-array name="messageOptions2">
+        <item name="copy_text">Kopiuj Tekst</item>
+        <item name="save_image">Zapisz Zdjęcie</item>
+        <item name="forward">Prześlij Dalej</item>
+        <item name="delete_message">Skasuj Wiadomość</item>
+    </string-array>
+    
+    <string-array name="ledColors">
+        <item name="White">Biały</item>
+        <item name="Blue">Niebieski</item>
+        <item name="Green">Zielony</item>
+        <item name="Orange">Pomarańczowy</item>
+        <item name="Red">Czerwony</item>
+        <item name="Purple">Fioletowy</item>
+    </string-array>
+    
+    <string-array name="vibratePattern">
+        <item name="short">1 Krótki</item>
+        <item name="long">1 Długi</item>
+        <item name="2short">2 Krótkie</item>
+        <item name="2long">2 Długie</item>
+        <item name="3short">3 Krótkie</item>
+        <item name="3long">3 Długie</item>
+    </string-array>
+    
+    <string-array name="smilies">
+        <item name="with">Z Noskiem :-)</item>
+        <item name="without">Bez Noska :)</item>
+        <item name="none">Brak</item>
+    </string-array>
+    
+    <string-array name="quickReplyOptions">
+        <item name="reply">Odpowiedz</item>
+        <item name="read">Przeczytane</item>
+        <item name="call">Zadzwoń</item>
+        <item name="delete">Delete</item>
+    </string-array>
+    
+    <string-array name="slideToMenu">
+        <item name="fullscreen">Pełnoekranowe Przesuwane Menu</item>
+        <item name="margins">Przesuwane Menu Tylko z Krawędzi Ekranu</item>
+        <item name="none">Brak Przesuwanego Menu (Należy Nawigować przez Pasek Akcji)</item>
+    </string-array>
+    
+    <string-array name="notificationIcon">
+        <item name="White">Biały</item>
+        <item name="Blue">Niebieski</item>
+        <item name="Green">Zielony</item>
+        <item name="Orange">Pomarańczowy</item>
+        <item name="Red">Czerwony</item>
+        <item name="Purple">Fioletowy</item>
+        <item name="Icon">Ikona Aplikacji</item>
+    </string-array>
+    
+    
+    
+    <string-array name="textColors">
+        <item name="Default">Default</item>
+        <item name="White">White</item>
+        <item name="Blue">Blue</item>
+        <item name="Green">Green</item>
+        <item name="Orange">Orange</item>
+        <item name="Red">Red</item>
+        <item name="Purple">Purple</item>
+        <item name="Grey">Grey</item>
+        <item name="Black">Black</item>
+    </string-array>
+    
+    <string-array name="deliveryOptions">
+        <item name="popup">Popup on Delivery</item>
+        <item name="toast">Toast on Delivery</item>
+    </string-array>
+    
+    <string-array name="screenTimeout">
+        <item name="1">1 Second</item>
+        <item name="5">5 Seconds</item>
+        <item name="15">15 Seconds</item>
+        <item name="30">30 Seconds</item>
+        <item name="60">1 Minute</item>
+        <item name="180">3 Minutes</item>
+        <item name="300">5 Minutes</item>
+    </string-array>
+    
+    <string-array name="sendAnimation">
+        <item name="left">Slide in from left</item>
+        <item name="right">Slide in from right</item>
+        <item name="up">Slide up from bottom</item>
+        <item name="none">No animation</item>
+    </string-array>
+</resources>

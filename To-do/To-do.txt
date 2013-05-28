@@ -1,0 +1,32 @@
+0) more individual notification options
+1) Draft system
+2) Scheduled SMS
+3) Security options for locking app
+4) Black widget option, no background widget option
+5) Tasker options
+6) Attach more options for MMS - create slideshow with videos and audio and pictures, attach plain text contact info
+7) Message locking
+8) vibrate when in phone call
+
+- remove messages that don't parseLong with number
+
+- popup as multiwindow app once pa halo source released
+- support for floating notifications
+
+
+- create app for github (MMS with system APNs or custom APNs)
+
+
+- igamer777@gmail.com, nikorezzano@gmail.com
+
+To switch to free version:
+- change folder names
+- change version code
+- change package declaration
+- disable sendto, share from gallery, mms (settings and menu), custom background, custom background2, custom text colors, text opacity, send animations, received animations, animation speed, quick text, widget, individual notifications, blacklist
+- change strings (title, mms, custom background, custom background2, custom text colors, send animations, received animations, quick text, individual settings, blacklist)
+- change packages in .java files
+- comment out custom background and custom background2 on click listener in SettingsActivity
+- change send/received animation defaults in messagearrayadapter and settings xml
+- attach button does nothing in card layout
+- uncomment pro link at top of settings and in settings activity

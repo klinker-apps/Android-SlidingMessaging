@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/recievedMessage"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/quickContactBadge1"
+        android:layout_toRightOf="@+id/quickContactBadge1"
+        android:background="@color/white" />
+
+    <View
+        android:id="@+id/sentBackground"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/date1"
+        android:layout_toLeftOf="@+id/quickContactBadge2"
+        android:layout_toRightOf="@+id/quickContactBadge1"
+        android:background="@color/white" />
+
+    <View
+        android:id="@+id/view3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/quickContactBadge2"
+        android:layout_toLeftOf="@+id/quickContactBadge2"
+        android:background="@color/white" />
+
+    <QuickContactBadge
+        android:id="@+id/quickContactBadge1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" />
+
+    <TextView
+        android:id="@+id/messageText1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/sentBackground"
+        android:layout_toLeftOf="@+id/quickContactBadge2"
+        android:layout_toRightOf="@+id/quickContactBadge1"
+        android:autoLink="all"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="5dp"
+        android:text="@string/placeholder" />
+
+    <TextView
+        android:id="@+id/date1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/sentBackground"
+        android:layout_below="@+id/messageText1"
+        android:layout_toRightOf="@+id/quickContactBadge1"
+        android:paddingBottom="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:text="@string/placeholder"
+        android:textColor="@color/light_grey"
+        android:textSize="@dimen/date_size" />
+
+    <QuickContactBadge
+        android:id="@+id/quickContactBadge2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true" />
+
+    <ImageView
+        android:id="@+id/messageImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/sentBackground"
+        android:layout_alignRight="@+id/sentBackground"
+        android:layout_below="@+id/date1"
+        android:background="@color/white"
+        android:contentDescription="@string/placeholder"
+        android:padding="15dp"
+        android:src="@drawable/emo_im_angel" />
+
+    <Button
+        android:id="@+id/downloadButton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/date1"
+        android:layout_alignBottom="@+id/date1"
+        android:layout_alignParentRight="true"
+        android:minHeight="30dp"
+        android:text="@string/download" />
+
+    <ImageView
+        android:id="@+id/contactBubble1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/quickContactBadge1"
+        android:contentDescription="@string/placeholder"
+        android:paddingTop="7dp"
+        android:src="@drawable/msg_bubble_left" />
+
+    <ImageView
+        android:id="@+id/contactBubble2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/quickContactBadge2"
+        android:layout_alignParentTop="true"
+        android:contentDescription="@string/placeholder"
+        android:paddingTop="7dp"
+        android:src="@drawable/msg_bubble_right" />
+
+</RelativeLayout>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:name="@+id/popupLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:alpha="200"
+    android:padding="5dp" >
+
+    <QuickContactBadge
+        android:id="@+id/popupBadge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" />
+
+    <TextView
+        android:id="@+id/popupName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/popupBadge"
+        android:contentDescription="@string/send_button"
+        android:paddingBottom="2dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="@string/placeholder"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/popupDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/popupName"
+        android:layout_alignRight="@+id/popupName"
+        android:layout_below="@+id/popupName"
+        android:paddingLeft="10dp"
+        android:text="@string/placeholder"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/popupBody"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/popupBadge"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="@string/placeholder" />
+
+    <EditText
+        android:id="@+id/popupEntry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/popupBody"
+        android:layout_toLeftOf="@+id/popupSend"
+        android:layout_toRightOf="@+id/display_emoji2"
+        android:ems="10"
+        android:hint="@string/type_message"
+        android:inputType="textCapSentences|textMultiLine|textShortMessage"
+        android:maxLines="5"
+        android:minLines="2"
+        android:singleLine="true"
+        android:textSize="@dimen/type_message" >
+
+        <requestFocus />
+    </EditText>
+
+    <ImageButton
+        android:id="@+id/popupSend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/popupChars"
+        android:layout_alignRight="@+id/popupBody"
+        android:layout_below="@+id/popupBody"
+        android:background="@null"
+        android:contentDescription="@string/send_button"
+        android:src="@drawable/ic_action_send_black" />
+
+    <TextView
+        android:id="@+id/popupChars"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/popupEntry"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@+id/popupEntry"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="@string/chars"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/light_grey"
+        android:textSize="@dimen/chars_remaining" />
+
+    <ImageButton
+        android:id="@+id/display_emoji2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/popupEntry"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@+id/popupEntry"
+        android:background="@null"
+        android:contentDescription="@string/emoji"
+        android:minHeight="0dp"
+        android:minWidth="0dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:src="@drawable/emo_im_smirk" />
+
+    <Button
+        android:id="@+id/viewConversation"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/popupEntry"
+        android:layout_toRightOf="@+id/deleteButton"
+        android:text="@string/placeholder" />
+
+    <ImageButton
+        android:id="@+id/readButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/popupName"
+        android:layout_alignParentRight="true"
+        android:background="@null"
+        android:contentDescription="@string/placeholder"
+        android:src="@drawable/ic_menu_done_holo_dark" />
+
+    <ImageButton
+        android:id="@+id/deleteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/viewConversation"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@+id/viewConversation"
+        android:background="@null"
+        android:contentDescription="@string/placeholder"
+        android:src="@drawable/ic_menu_delete" />
+
+</RelativeLayout>

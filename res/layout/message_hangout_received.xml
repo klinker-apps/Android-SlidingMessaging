@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <QuickContactBadge
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageContactPicture"
+        android:src="@drawable/default_avatar"
+        android:minHeight="48dp" android:minWidth="48dp"
+        android:scaleType="centerInside" android:adjustViewBounds="true"
+        android:maxWidth="48dp" android:maxHeight="48dp"
+        android:contentDescription="@string/placeholder"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/msgBubble"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/imageContactPicture"
+        android:src="@drawable/msg_bubble_left_hangout"
+        android:contentDescription="@string/placeholder"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/imageContactPicture"
+        android:id="@+id/messageBody"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/textBody"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:text="@string/placeholder"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/card_conversation_summary"
+            android:linksClickable="true"
+            android:autoLink="all"
+            />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/download"
+            android:id="@+id/downloadButton"
+            android:layout_gravity="center"
+            android:maxHeight="48dp"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/media"
+            android:layout_gravity="center"
+            android:src="@drawable/emo_im_smirk"
+            android:contentDescription="@string/placeholder"
+            android:padding="8dp"/>
+
+        <TextView
+            android:id="@+id/textDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:paddingBottom="6dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="4dp"
+            android:text="@string/placeholder"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/card_message_text_date_2"
+            />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/shadow"
+        android:layout_below="@+id/messageBody"
+        android:layout_alignLeft="@+id/messageBody"
+        android:src="@drawable/shadow_hangout"
+        android:layout_alignRight="@+id/messageBody"
+        android:scaleType="fitXY"
+        android:contentDescription="@string/placeholder"/>
+
+</RelativeLayout>

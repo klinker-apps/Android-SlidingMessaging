@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/pitch_black"
+    android:orientation="vertical"
+    android:paddingLeft="7dp"
+    android:paddingRight="7dp"
+    android:paddingTop="8dp" >
+
+    <View
+        android:id="@+id/messageDivider"
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:layout_below="@+id/receivedDivider"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@+id/sentDivider"
+        android:layout_toRightOf="@+id/receivedDivider"
+        android:alpha=".08"
+        android:background="@color/card_black_message_text_date" />
+
+    <TextView
+        android:id="@+id/textDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/messageDivider"
+        android:layout_toRightOf="@+id/receivedDivider"
+        android:gravity="right"
+        android:paddingBottom="6dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="4dp"
+        android:text="@string/placeholder"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/card_black_message_text_date_2" />
+
+    <ImageView
+        android:id="@+id/msgMedia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textBody"
+        android:layout_toLeftOf="@+id/sentPicture"
+        android:contentDescription="@string/placeholder"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:src="@drawable/emo_im_angel" />
+
+    <TextView
+        android:id="@+id/textBody"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/msgMedia"
+        android:layout_toLeftOf="@+id/sentPicture"
+        android:layout_toRightOf="@+id/receivedPicture"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:text="@string/placeholder"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/card_black_conversation_summary"
+        android:linksClickable="true"
+        android:autoLink="all" />
+
+    <Button
+        android:id="@+id/downloadButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textBody"
+        android:layout_alignRight="@+id/textBody"
+        android:layout_below="@+id/msgMedia"
+        android:text="@string/download"
+        android:textSize="@dimen/date_size" />
+
+    <ImageView
+        android:id="@+id/receivedPicture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textDate"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:adjustViewBounds="true"
+        android:baselineAlignBottom="true"
+        android:contentDescription="@string/placeholder"
+        android:maxHeight="60dp"
+        android:maxWidth="60dp"
+        android:minHeight="60dp"
+        android:minWidth="60dp"
+        android:padding="5dp"
+        android:src="@drawable/ic_contact_dark" />
+
+    <View
+        android:id="@+id/receivedDivider"
+        android:layout_width="2dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textBody"
+        android:layout_alignLeft="@+id/msgMedia"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/card_black_message_text_date"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:id="@+id/sentPicture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textDate"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:adjustViewBounds="true"
+        android:baselineAlignBottom="true"
+        android:contentDescription="@string/placeholder"
+        android:maxHeight="60dp"
+        android:maxWidth="60dp"
+        android:minHeight="60dp"
+        android:minWidth="60dp"
+        android:padding="5dp"
+        android:src="@drawable/ic_contact_dark" />
+
+    <View
+        android:id="@+id/sentDivider"
+        android:layout_width="2dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textBody"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_toLeftOf="@+id/sentPicture"
+        android:background="@color/card_black_message_text_date"
+        android:visibility="invisible" />
+
+</RelativeLayout>

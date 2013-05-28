@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:contentDescription="@string/placeholder"
+    android:orientation="vertical"
+    android:paddingBottom="8dp"
+    android:paddingLeft="17dp"
+    android:paddingRight="17dp"
+    android:paddingTop="10dp" >
+
+    <ListView
+        android:id="@+id/messageListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/doneButton"
+        android:layout_alignParentTop="true"
+        android:cacheColorHint="@color/card_message_list_back"
+        android:divider="@null"
+        android:fadingEdgeLength="0dp"
+        android:requiresFadingEdge="vertical" >
+
+    </ListView>
+
+    <Button
+        android:id="@+id/doneButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:text="@string/delete" />
+
+</RelativeLayout>

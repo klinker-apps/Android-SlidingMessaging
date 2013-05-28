@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:orientation="vertical"
+    android:paddingLeft="17dp"
+    android:paddingRight="17dp"
+    android:paddingTop="17dp" >
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="wrap_content"
+        android:layout_height="90dp"
+        android:background="@drawable/rounded_rectangle" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/view1"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/view1"
+        android:layout_alignTop="@+id/view1"
+        android:paddingLeft="15dp"
+        android:paddingTop="10dp"
+        android:text="@string/menu_new_message"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/card_conversation_name"
+        android:textSize="@dimen/contact_name_size" />
+
+</RelativeLayout>

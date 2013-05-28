@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <PreferenceCategory
+        android:title="@string/title_bar_settings"
+        android:key="title_bar_settings_category" >
+        
+        <CheckBoxPreference
+	        android:key="title_text_color"
+	        android:title="@string/title_text_color"
+	        android:defaultValue="false"
+	    />
+	    
+	    <ListPreference 
+	       	android:key="title_color"
+	       	android:title="@string/title_color"
+	       	android:summary="@string/title_color_summary"
+	       	android:defaultValue="blue"
+	       	android:entries="@array/titleColors"
+	       	android:entryValues="@array/titleColorsSet"
+	    />
+    </PreferenceCategory>
+    
+    <PreferenceCategory
+        android:title="@string/text_settings"
+        android:key="message_settings_category" >
+		
+        <ListPreference 
+	        android:key="sent_text_color"
+	        android:title="@string/sent_text_color"
+	        android:summary="@string/sent_text_color_summary"
+	        android:defaultValue="default"
+	        android:entries="@array/textColors"
+	    	android:entryValues="@array/textColorsInserted"
+	    />
+	    
+	    <ListPreference 
+	        android:key="received_text_color"
+	        android:title="@string/received_text_color"
+	        android:summary="@string/received_text_color_summary"
+	        android:defaultValue="default"
+	        android:entries="@array/textColors"
+	    	android:entryValues="@array/textColorsInserted"
+	    />
+	    
+	    <com.klinker.android.messaging_sliding.SeekBarPreference
+	        android:key="text_opacity"
+	        android:title="@string/text_opacity"
+	        android:summary="@string/text_opacity_summary"
+	        android:defaultValue="100"
+	        android:max="100"
+	    />
+    </PreferenceCategory>
+    
+    <PreferenceCategory
+        android:title="@string/conversation_settings"
+        android:key="conversation_settings_category" >
+	    
+        <ListPreference 
+	        android:key="name_text_color"
+	        android:title="@string/name_text_color"
+	        android:summary="@string/name_text_color_summary"
+	        android:defaultValue="default"
+	        android:entries="@array/textColors"
+	    	android:entryValues="@array/textColorsInserted"
+	    />
+	    
+	    <ListPreference 
+	        android:key="menu_text_color"
+	        android:title="@string/menu_text_color"
+	        android:summary="@string/menu_text_color_summary"
+	        android:defaultValue="default"
+	        android:entries="@array/textColors"
+	    	android:entryValues="@array/textColorsInserted"
+	    />
+    </PreferenceCategory>
+
+</PreferenceScreen>

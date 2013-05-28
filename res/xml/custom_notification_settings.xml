@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <RingtonePreference
+        android:key="temp_ringtone"
+        android:title="@string/ringtone"
+        android:summary="@string/ringtone_summary"
+        android:ringtoneType="notification"
+        android:defaultValue="content://settings/system/notification_sound"
+    />
+    
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+    	android:key="temp_led_color"
+    	android:title="@string/led_color"
+    	android:summary="@string/temp_led_color_summary"
+    	android:defaultValue="@color/white"
+	/>
+    
+    <EditTextPreference
+         android:key="temp_vibrate_pattern"
+         android:title="@string/set_custom_vibrate_pattern"
+         android:summary="@string/set_custom_vibrate_pattern_summary"
+         android:dialogTitle="@string/set_custom_vibrate_pattern"
+         android:defaultValue="0, 400, 100, 400"
+     />
+
+</PreferenceScreen>

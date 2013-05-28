@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:orientation="vertical"
+    android:paddingLeft="17dp"
+    android:paddingRight="17dp"
+    android:paddingTop="17dp" >
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="wrap_content"
+        android:layout_height="90dp"
+        android:background="@drawable/card_background" />
+
+    <QuickContactBadge
+        android:id="@+id/contactPicture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/view1"
+        android:layout_alignParentBottom="true"
+        android:layout_alignTop="@+id/view1"
+        android:adjustViewBounds="false"
+        android:contentDescription="@string/placeholder"
+        android:padding="7dp"
+        android:src="@drawable/ic_contact_picture" />
+
+    <TextView
+        android:id="@+id/contactName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/view1"
+        android:layout_toLeftOf="@+id/contactLine2"
+        android:layout_toRightOf="@+id/contactPicture"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="7dp"
+        android:text="@string/placeholder"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/card_conversation_name"
+        android:textSize="@dimen/contact_name_size"
+        android:maxLines="1" />
+
+    <TextView
+        android:id="@+id/contactNumberType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/contactNumber"
+        android:layout_toRightOf="@+id/contactPicture"
+        android:paddingBottom="7dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="-2dp"
+        android:text="@string/placeholder"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/card_conversation_summary"
+        android:textSize="@dimen/contact_body_size"
+        android:maxLines="1" />
+
+    <TextView
+        android:id="@+id/contactNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/contactNumberType"
+        android:layout_alignRight="@+id/contactName"
+        android:layout_marginBottom="-5dp"
+        android:layout_toRightOf="@+id/contactPicture"
+        android:paddingBottom="-2dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="@string/placeholder"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/card_conversation_summary"
+        android:textSize="@dimen/contact_body_size"
+        android:maxLines="1" />
+
+    <View
+        android:id="@+id/contactLine"
+        android:layout_width="2dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/view1"
+        android:layout_marginBottom="6dp"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@+id/contactPicture"
+        android:alpha=".5"
+        android:background="@color/card_conversation_divider" />
+
+    <ImageButton
+        android:id="@+id/callButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/view1"
+        android:layout_alignTop="@+id/view1"
+        android:alpha=".75"
+        android:background="@drawable/dark_send_button"
+        android:contentDescription="@string/placeholder"
+        android:padding="10dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/contact_call" />
+
+    <View
+        android:id="@+id/contactLine2"
+        android:layout_width="2dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/view1"
+        android:layout_marginBottom="6dp"
+        android:layout_marginTop="5dp"
+        android:layout_toLeftOf="@+id/callButton"
+        android:alpha=".5"
+        android:background="@color/card_conversation_divider" />
+
+    <TextView
+        android:id="@+id/allText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/callButton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/view1"
+        android:layout_marginBottom="2dp"
+        android:gravity="center"
+        android:text="@string/delete"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/card_conversation_summary"
+        android:textSize="@dimen/date_size" />
+
+    <TextView
+        android:id="@+id/deleteText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/allText"
+        android:layout_alignLeft="@+id/callButton"
+        android:layout_alignRight="@+id/view1"
+        android:layout_marginBottom="-5dp"
+        android:gravity="center"
+        android:text="@string/batch"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/card_conversation_summary"
+        android:textSize="@dimen/date_size" />
+
+</RelativeLayout>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/widget_background"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/widget_card"
+        android:padding="5dp" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/replyButton"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="7dp"
+            android:alpha=".75"
+            android:gravity="center"
+            android:text="@string/app_name_in_app"
+            android:textColor="@color/card_conversation_name"
+            android:textSize="17sp" />
+
+        <ImageButton
+            android:id="@+id/replyButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="3dp"
+            android:alpha=".5"
+            android:background="@drawable/dark_send_button"
+            android:paddingBottom="3dp"
+            android:src="@drawable/ic_reply_dark"
+            android:contentDescription="@string/placeholder" />
+
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/widgetList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@null"
+        android:dividerHeight="0dp" >
+
+    </ListView>
+
+</LinearLayout>

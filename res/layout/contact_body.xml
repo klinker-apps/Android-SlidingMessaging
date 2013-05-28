@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="right"
+    android:orientation="vertical" >
+
+    <QuickContactBadge
+        android:id="@+id/quickContactBadge3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_contact_picture"/>
+
+    <TextView
+        android:id="@+id/contactBody"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/contactName"
+        android:layout_below="@+id/contactName"
+        android:layout_toLeftOf="@+id/contactDate2"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="0dp"
+        android:textColor="@color/light_grey"
+        android:textSize="@dimen/contact_body_size" />
+
+    <TextView
+        android:id="@+id/contactName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="13dp"
+        android:layout_toLeftOf="@+id/conversationCount"
+        android:layout_toRightOf="@+id/quickContactBadge3"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:textSize="@dimen/contact_name_size" />
+
+    <TextView
+        android:id="@+id/contactDate2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/contactBody"
+        android:paddingLeft="5dp"
+        android:paddingRight="10dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/light_grey"
+        android:textSize="@dimen/contact_body_size" />
+
+    <TextView
+        android:id="@+id/contactDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/contactName"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/conversationCount"
+        android:paddingRight="10dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/light_grey"
+        android:textSize="@dimen/contact_body_size" />
+
+    <TextView
+        android:id="@+id/conversationCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/contactName"
+        android:layout_alignTop="@+id/contactName"
+        android:layout_toLeftOf="@+id/contactDate"
+        android:text="@string/none"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+</RelativeLayout>

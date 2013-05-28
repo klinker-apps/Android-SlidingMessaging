@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <string-array name="titleColors">
+        <item name="Blue">Blau</item>
+        <item name="Green">Grün</item>
+        <item name="Orange">Orange</item>
+        <item name="Red">Rot</item>
+        <item name="Purple">Lila</item>
+        <item name="Grey">Grau</item>
+        <item name="Black">Tiefes Schwarz</item>
+    </string-array>
+    
+    <string-array name="messageOptions">
+        <item name="copy_text">Text kopieren</item>
+        <item name="forward">Nachricht weiterleiten</item>
+        <item name="delete_message">Nachricht löschen</item>
+    </string-array>
+    
+    <string-array name="messageOptions2">
+        <item name="copy_text">Text kopieren</item>
+        <item name="save_image">Bild speichern</item>
+        <item name="forward">Nachricht weiterleiten</item>
+        <item name="delete_message">Nachricht löschen</item>
+    </string-array>
+    
+    <string-array name="ledColors">
+        <item name="White">Weiß</item>
+        <item name="Blue">Blau</item>
+        <item name="Green">Grün</item>
+        <item name="Orange">Orange</item>
+        <item name="Red">Rot</item>
+        <item name="Purple">Lila</item>
+    </string-array>
+    
+    <string-array name="vibratePattern">
+        <item name="short">1 Kurz</item>
+        <item name="long">1 Lang</item>
+        <item name="2short">2 Kurz</item>
+        <item name="2long">2 Lang</item>
+        <item name="3short">3 Kurz</item>
+        <item name="3long">3 Lang</item>
+    </string-array>
+    
+    <string-array name="smilies">
+        <item name="with">Mit Nase :-)</item>
+        <item name="without">Ohne Nase :)</item>
+        <item name="none">Keine</item>
+    </string-array>
+    
+    <string-array name="quickReplyOptions">
+        <item name="reply">Antworten</item>
+        <item name="read">Gelesen</item>
+        <item name="call">Anrufen</item>
+        <item name="delete">Delete</item>
+    </string-array>
+    
+    <string-array name="slideToMenu">
+        <item name="fullscreen">Vollbild Schnellumschaltung</item>
+        <item name="margins">Schnellumschaltung über die Ränder</item>
+        <item name="none">Keine Schnellumschaltung (Navigation über die ActionBar)</item>
+    </string-array>
+    
+    <string-array name="notificationIcon">
+        <item name="White">Weiß</item>
+        <item name="Blue">Blau</item>
+        <item name="Green">Grün</item>
+        <item name="Orange">Orange</item>
+        <item name="Red">Rot</item>
+        <item name="Purple">Lila</item>
+        <item name="Icon">App Icon</item>
+    </string-array>
+    
+    <string-array name="textColors">
+        <item name="Default">Default</item>
+        <item name="White">Weiß</item>
+        <item name="Blue">Blau</item>
+        <item name="Green">Grün</item>
+        <item name="Orange">Orange</item>
+        <item name="Red">Rot</item>
+        <item name="Purple">Lila</item>
+        <item name="Grey">Grey</item>
+        <item name="Black">Schwarz</item>
+    </string-array>
+</resources>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+	<CheckBoxPreference
+        android:key="popup_reply"
+        android:title="@string/popup_reply"
+        android:summary="@string/popup_reply_summary"
+        android:defaultValue="false"
+    />
+	
+	<CheckBoxPreference
+         android:key="dark_theme_quick_reply"
+         android:title="@string/dark_theme_quick_reply"
+         android:summary="@string/dark_theme_quick_reply_summary"
+         android:defaultValue="true"
+     />
+	
+	<CheckBoxPreference 
+    	android:key="enable_view_conversation"
+    	android:title="@string/enable_view_conversation"
+    	android:summary="@string/enable_view_conversation_summary"
+    	android:defaultValue="false"
+    />
+	
+	<CheckBoxPreference
+	    android:key="show_keyboard_popup"
+	    android:title="@string/show_keyboard_popup"
+	    android:summary="@string/show_keyboard_popup_summary"
+	    android:defaultValue="true"
+	/>
+	
+	<CheckBoxPreference
+	    android:key="use_old_popup"
+	    android:title="@string/use_old_popup"
+	    android:defaultValue="false"
+	/>
+	
+<!-- 	<PreferenceCategory -->
+<!--         android:title="@string/experimental" -->
+<!--         android:key="experimental_category" > -->
+
+<!-- 			<CheckBoxPreference  -->
+<!-- 			    android:key="halo_popup" -->
+<!-- 			    android:title="@string/halo_popup" -->
+<!-- 			    android:summary="@string/halo_popup_summary" -->
+<!-- 			    android:defaultValue="false" -->
+<!-- 			    android:dependency="popup_reply"  -->
+<!-- 			/> -->
+<!-- 	</PreferenceCategory> -->
+</PreferenceScreen>

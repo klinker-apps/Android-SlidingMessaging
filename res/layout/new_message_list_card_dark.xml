@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="17dp" >
+
+    <EditText
+        android:id="@+id/contactEntry"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/card_background_dark"
+        android:ems="10"
+        android:hint="@string/contact_entry"
+        android:padding="10dp"
+        android:textColor="@color/card_dark_conversation_summary"
+        android:textSize="@dimen/contact_body_size" >
+    </EditText>
+
+    <ListView
+        android:id="@+id/contactSearchList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@null"
+        android:dividerHeight="8dp"
+        android:paddingTop="8dp" >
+
+    </ListView>
+
+</LinearLayout>

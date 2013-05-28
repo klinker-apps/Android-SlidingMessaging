@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+	<CheckBoxPreference
+    	android:key="hide_title_bar"
+        android:title="@string/hide_title_bar"
+        android:summary="@string/hide_title_bar_summary"
+        android:defaultValue="true"
+   	/>
+       
+    <CheckBoxPreference
+        android:key="title_caps"
+        android:title="@string/title_caps"
+        android:summary="@string/title_caps_summary"
+        android:defaultValue="true"
+        android:dependency="hide_title_bar"
+    />
+    
+    <CheckBoxPreference
+        android:key="title_contact_image"
+        android:title="@string/title_contact_image"
+        android:summary="@string/title_contact_image_summary"
+        android:defaultValue="false"
+    />
+    
+    <CheckBoxPreference
+        android:key="always_show_contact_info"
+        android:title="@string/always_show_contact_info"
+        android:summary="@string/always_show_contact_info_summary"
+        android:defaultValue="false"
+    />
+    
+</PreferenceScreen>

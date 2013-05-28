@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <string-array name="titleColors">
+        <item name="Blue">Bleu</item>
+        <item name="Green">Vert</item>
+        <item name="Orange">Orange</item>
+        <item name="Red">Rouge</item>
+        <item name="Purple">Violet</item>
+        <item name="Grey">Gris</item>
+        <item name="DarkGrey">Gris Foncé</item>
+        <item name="Black">Noir</item>
+    </string-array>
+    
+    <string-array name="messageOptions">
+        <item name="copy_text">Copier le Texte</item>
+        <item name="forward">Transférer...</item>
+        <item name="delete_message">Supprimer le Message</item>
+    </string-array>
+    
+    <string-array name="messageOptions2">
+        <item name="copy_text">Copier le Texte</item>
+        <item name="save_image">Sauver Image</item>
+        <item name="forward">Transférer...</item>
+        <item name="delete_message">Supprimer le Message</item>
+    </string-array>
+    
+    <string-array name="messageOptions3">
+        <item name="resend">Renvoyer</item>
+        <item name="copy_text">Copier le Texte</item>
+        <item name="forward">Transférer...</item>
+        <item name="delete_message">Supprimer le Message</item>
+    </string-array>
+    
+    <string-array name="ledColors">
+        <item name="White">Blanche</item>
+        <item name="Blue">Bleu</item>
+        <item name="Green">Verte</item>
+        <item name="Orange">Orange</item>
+        <item name="Red">Rouge</item>
+        <item name="Purple">Violette</item>
+    </string-array>
+    
+    <string-array name="vibratePattern">
+        <item name="short">1 Court</item>
+        <item name="long">1 Long</item>
+        <item name="2short">2 Court</item>
+        <item name="2long">2 Long</item>
+        <item name="3short">3 Court</item>
+        <item name="3long">3 Long</item>
+    </string-array>
+    
+    <string-array name="smilies">
+        <item name="with">Avec Nez :-)</item>
+        <item name="without">Sans Nez :)</item>
+        <item name="none">Aucun</item>
+        <item name="both">Tous</item>
+    </string-array>
+    
+    <string-array name="quickReplyOptions">
+        <item name="reply">Répondre</item>
+        <item name="read">Lu</item>
+        <item name="call">Appeler</item>
+        <item name="delete">Supprimer</item>
+    </string-array>
+    
+    <string-array name="slideToMenu">
+        <item name="fullscreen">Glisser Plein Ecran pour Menus Latéraux</item>
+        <item name="margins">Glisser sur les Bords pour Menus Latéraux</item>
+        <item name="none">Pas de Glissements (Navigation via Action Bar)</item>
+    </string-array>
+    
+    <string-array name="notificationIcon">
+        <item name="White">Blanche</item>
+        <item name="Blue">Bleu</item>
+        <item name="Green">Verte</item>
+        <item name="Orange">Orange</item>
+        <item name="Red">Rouge</item>
+        <item name="Purple">Violette</item>
+        <item name="Icon">Icone de l\'Application</item>
+    </string-array>
+    
+    <string-array name="textColors">
+        <item name="Default">Défaut</item>
+        <item name="White">Blanc</item>
+        <item name="Blue">Bleu</item>
+        <item name="Green">Vert</item>
+        <item name="Orange">Orange</item>
+        <item name="Red">Rouge</item>
+        <item name="Purple">Violet</item>
+        <item name="Grey">Gris</item>
+        <item name="Black">Noir</item>
+    </string-array>
+    
+    <string-array name="deliveryOptions">
+        <item name="popup">Popup à la Remise</item>
+        <item name="toast">Toast à la Remise</item>
+    </string-array>
+    
+    <string-array name="screenTimeout">
+        <item name="1">1 Seconde</item>
+        <item name="5">5 Secondes</item>
+        <item name="15">15 Secondes</item>
+        <item name="30">30 Secondes</item>
+        <item name="60">1 Minute</item>
+        <item name="180">3 Minutes</item>
+        <item name="300">5 Minutes</item>
+    </string-array>
+    
+    <string-array name="sendAnimation">
+        <item name="left">Glissement entrant depuis la gauche</item>
+        <item name="right">Glissement entrant depuis la droite</item>
+        <item name="up">Glissement entrant depuis le bas</item>
+        <item name="none">Pas d\'animation</item>
+    </string-array>
+    
+    <string-array name="textAlignment">
+        <item name="split">Alignement Séparé</item>
+        <item name="right">Aligné à Droite</item>
+        <item name="left">Aligné à Gauche</item>
+    </string-array>
+    
+    <string-array name="selectImage">
+        <item name="select">Sélectionner Image</item>
+        <item name="camera">Prendre une Photo</item>
+        <item name="attach_more">Ajouter d\'autre...</item>
+    </string-array>
+    
+    <string-array name="runAs">
+        <item name="card">Card UI</item>
+        <item name="hangout">Hangouts UI</item>
+        <item name="sliding">Classic UI</item>
+    </string-array>
+    
+    <string-array name="cardTheme">
+        <item name="light">Clair</item>
+        <item name="dark">Sombre</item>
+        <item name="pitch_black">Noir</item>
+    </string-array>
+    
+    <string-array name="repeatingNotification">
+        <item name="none">Jamais</item>
+        <item name="15">15 Secondes</item>
+        <item name="30">30 Secondes</item>
+        <item name="60">1 Minute</item>
+        <item name="120">2 Minutes</item>
+        <item name="300">5 Minutes</item>
+        <item name="420">7 Minutes</item>
+        <item name="600">10 Minutes</item>
+        <item name="900">15 Minutes</item>
+    </string-array>
+
+    <string-array name="attach_more_options">
+        <item name="image">Sélectionner Image</item>
+        <item name="video">Sélectionner Video</item>
+        <item name="audio">Sélectionner Audio</item>
+    </string-array>
+</resources>

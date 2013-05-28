@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_card_background"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:orientation="vertical"
+    android:paddingBottom="-2dp"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    android:paddingTop="3dp" >
+
+    <ImageView
+        android:id="@+id/view1"
+        android:layout_width="wrap_content"
+        android:layout_height="93dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/widget_card"
+        android:contentDescription="@string/placeholder" />
+
+    <ImageView
+        android:id="@+id/contactPicture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/view1"
+        android:layout_alignParentBottom="true"
+        android:layout_alignTop="@+id/view1"
+        android:layout_marginBottom="2dp"
+        android:adjustViewBounds="false"
+        android:contentDescription="@string/placeholder"
+        android:maxHeight="80dp"
+        android:maxWidth="80dp"
+        android:minHeight="80dp"
+        android:minWidth="80dp"
+        android:padding="7dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_contact_picture" />
+    
+    <ImageView
+        android:id="@+id/contactLine"
+        android:layout_width="2dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/contactPicture"
+        android:layout_alignLeft="@+id/contactName"
+        android:layout_alignTop="@+id/view1"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:alpha=".5"
+        android:background="@color/card_conversation_divider"
+        android:contentDescription="@string/placeholder" />
+
+    <TextView
+        android:id="@+id/contactName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/view1"
+        android:layout_marginBottom="-5dp"
+        android:layout_toRightOf="@+id/contactPicture"
+        android:maxLines="1"
+        android:paddingLeft="10dp"
+        android:paddingRight="0dp"
+        android:paddingTop="7dp"
+        android:text="@string/placeholder"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/card_conversation_name"
+        android:textSize="@dimen/contact_name_size" />
+
+    <TextView
+        android:id="@+id/contactNumberType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/view1"
+        android:layout_toRightOf="@+id/contactPicture"
+        android:maxLines="1"
+        android:paddingBottom="9dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="-2dp"
+        android:text="@string/placeholder"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/card_conversation_name"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/msgCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/contactName"
+        android:layout_alignBottom="@+id/contactName"
+        android:layout_toRightOf="@+id/contactName"
+        android:paddingLeft="2dp"
+        android:text="@string/no"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/card_conversation_summary"
+        android:textSize="@dimen/date_size" />
+
+    <TextView
+        android:id="@+id/contactNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/contactName"
+        android:layout_alignRight="@+id/view1"
+        android:layout_below="@+id/contactName"
+        android:maxLines="1"
+        android:paddingBottom="-2dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="@string/placeholder"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/card_conversation_summary"
+        android:textSize="@dimen/contact_body_size" />
+
+    <TextView
+        android:id="@+id/unreadText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/msgCount"
+        android:layout_alignBottom="@+id/msgCount"
+        android:layout_alignRight="@+id/view1"
+        android:layout_toRightOf="@+id/msgCount"
+        android:paddingLeft="2dp"
+        android:text="@string/no"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/holo_blue"
+        android:textSize="@dimen/date_size" />
+
+</RelativeLayout>

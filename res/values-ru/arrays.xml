@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string-array name="titleColors">
+    <item name="Blue">Синий</item>
+    <item name="Green">Зеленый</item>
+    <item name="Orange">Оранжевый</item>
+    <item name="Red">Красный</item>
+    <item name="Purple">Фиолетовый</item>
+    <item name="Grey">Серый</item>
+    <item name="DarkGrey">Dark Grey</item>
+    <item name="Black">Черный</item>
+  </string-array>
+  <string-array name="messageOptions">
+    <item name="copy_text">Копировать текст</item>
+    <item name="forward">Переслать сообщение</item>
+    <item name="delete_message">Удалить сообщение</item>
+  </string-array>
+  <string-array name="messageOptions2">
+    <item name="copy_text">Копировать текст</item>
+    <item name="save_image">Сохранить изображение</item>
+    <item name="forward">Переслать сообщение</item>
+    <item name="delete_message">Удалить сообщение</item>
+  </string-array>
+  <string-array name="ledColors">
+    <item name="White">Белый</item>
+    <item name="Blue">Синий</item>
+    <item name="Green">Зеленый</item>
+    <item name="Orange">Оранжевый</item>
+    <item name="Red">Красный</item>
+    <item name="Purple">Фиолетовый</item>
+  </string-array>
+  <string-array name="vibratePattern">
+    <item name="short">1 короткая</item>
+    <item name="long">1 длинная</item>
+    <item name="2short">2 короткие</item>
+    <item name="2long">2 длинные</item>
+    <item name="3short">3 короткие</item>
+    <item name="3long">3 длинные</item>
+  </string-array>
+  <string-array name="smilies">
+    <item name="with">С носом :-)</item>
+    <item name="without">Без носа :)</item>
+    <item name="none">Не показывать</item>
+  </string-array>
+  <string-array name="slideToMenu">
+    <item name="fullscreen">При горизонтальном жесте в любом месте</item>
+    <item name="margins">При жесте с краю </item>
+    <item name="none">Только при использовании кнопок</item>
+  </string-array>
+  <string-array name="notificationIcon">
+    <item name="White">Белый</item>
+    <item name="Blue">Синий</item>
+    <item name="Green">Зеленый</item>
+    <item name="Orange">Оранжевый</item>
+    <item name="Red">Красный</item>
+    <item name="Purple">Фиолетовый</item>
+    <item name="Icon">Иконка приложения</item>
+  </string-array>
+  <string-array name="textColors">
+    <item name="Default">По умолчанию</item>
+    <item name="White">Белый</item>
+    <item name="Blue">Синий</item>
+    <item name="Green">Зеленый</item>
+    <item name="Orange">Оранжевый</item>
+    <item name="Red">Красный</item>
+    <item name="Purple">Фиолетовый</item>
+    <item name="Grey">Серый</item>
+    <item name="Black">Черный</item>
+  </string-array>
+  <string-array name="deliveryOptions">
+    <item name="popup">Всплывающее окно</item>
+    <item name="toast">Всплывающее уведомление снизу</item>
+  </string-array>
+  <string-array name="screenTimeout">
+    <item name="1">1 секунда</item>
+    <item name="5">5 секунд</item>
+    <item name="15">15 секунд</item>
+    <item name="30">30 секунд</item>
+    <item name="60">1 минута</item>
+    <item name="180">3 минуты</item>
+    <item name="300">5 минут</item>
+  </string-array>
+  <string-array name="sendAnimation">
+    <item name="left">Слева направо</item>
+    <item name="right">Справа налево</item>
+    <item name="up">Снизу вверх</item>
+    <item name="none">Без анимации</item>
+  </string-array>
+  <string-array name="quickReplyOptions">
+    <item name="reply">Ответить</item>
+    <item name="read">Прочитано</item>
+    <item name="call">Вызвать</item>
+    <item name="delete">Удалить</item>
+  </string-array>
+  <string-array name="textAlignment">
+    <item name="split">Выровнять по ширине</item>
+    <item name="right">Выровнять по правому краю</item>
+    <item name="left">Выровнять по левому краю</item>
+  </string-array>
+  <string-array name="selectImage">
+    <item name="select">Выбрать изображение</item>
+    <item name="camera">Сделать снимок</item>
+    <item name="attach_more">Attach More...</item>
+  </string-array>
+  <string-array name="runAs">
+    <item name="card">Карточный</item>
+      <item name="hangout">Стиль Hangouts</item>
+    <item name="sliding">Классический</item>
+  </string-array>
+  <string-array name="cardTheme">
+    <item name="light">Светлое оформление</item>
+    <item name="dark">Темное оформление</item>
+    <item name="pitch_black">Чёрное оформление</item>
+  </string-array>
+  <string-array name="repeatingNotification">
+    <item name="none">Не повторять</item>
+    <item name="15">Каждые 15 секунд</item>
+    <item name="30">Каждые 30 секунд</item>
+    <item name="60">Каждую минуту</item>
+    <item name="120">Каждые 2 минуты</item>
+    <item name="300">Каждые 5 минут</item>
+    <item name="420">Каждые 7 минут</item>
+    <item name="600">Каждые 10 минут</item>
+    <item name="900">Каждые 15 минут</item>
+  </string-array>
+
+    <string-array name="notification_icon">
+        <item name="stock">Стандартная иконка</item>
+        <item name="bubble">Выноска</item>
+        <item name="exclamation">Восклицательный знак</item>
+        <item name="airplane">Бумажный самолетик</item>
+        <item name="cloud">Облако</item>
+    </string-array>
+</resources>

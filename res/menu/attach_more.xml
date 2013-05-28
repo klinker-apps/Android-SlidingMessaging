@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:id="@+id/menu_attach" android:title="@string/menu_attach" android:orderInCategory="1" android:showAsAction="always" android:icon="@drawable/ic_attach"></item>
+    <item android:id="@+id/menu_done" android:title="@string/none" android:orderInCategory="2" android:showAsAction="always" android:icon="@drawable/ic_menu_done_holo_dark"></item>
+
+</menu>

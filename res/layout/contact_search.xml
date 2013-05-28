@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white" >
+
+    <TextView
+        android:id="@+id/conversationCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/receivedDate"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="5dp"
+        android:paddingTop="10dp"
+        android:text="@string/placeholder"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="@dimen/shadow_width" />
+
+    <TextView
+        android:id="@+id/receivedMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/conversationCount"
+        android:layout_alignBottom="@+id/conversationCount"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@+id/receivedDate"
+        android:gravity="right"
+        android:paddingRight="15dp"
+        android:text="@string/placeholder"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/light_grey"
+        android:textSize="@dimen/type_message" />
+
+    <TextView
+        android:id="@+id/receivedDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/conversationCount"
+        android:layout_alignBottom="@+id/conversationCount"
+        android:layout_centerHorizontal="true"
+        android:text="@string/placeholder"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+</RelativeLayout>

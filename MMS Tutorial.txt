@@ -1,0 +1,667 @@
+How to Send and Receive MMS in Android:
+
+This is a guide I am creating to help all of you out there making messaging apps like sliding messaging, hopefully it will help someone at least get started in the right direction! This guide will not be a guide on how to read MMS messages, which is actually very simple. Here is a tutorial on that which will get you started: [URL="http://stackoverflow.com/questions/3012287/how-to-read-mms-data-in-android"]How to read MMS data in Android[/URL] (The first answer is a lifesaver, it will get you where you need to go). Now onto sending and receiving!
+
+First off, I want to say that all of this may seem very daunting, especially to a first time, independent Android app developer like I was when this started out, trying to manange time between this and college studies! A messaging app can be extremely difficult to write since there is no supported API to it at all and you have to go through lines and lines trying to decipher stock source code. Stick to it and you can definitely get there eventually :)
+
+Here's the steps in the order that I went through:
+
+
+1) You need to import a lot of internal android classes, which can all be found here: [URL="http://grepcode.com/snapshot/repository.grepcode.com/java/ext/com.google.android/android/4.2.2_r1/"]GrepCode[/URL]
+
+Here are all of the files you will need to grab (there may be more, but I was able to in the end modify all of these files so that they don't depend on others such as taking out unnecessary lines of code, etc)
+
+[CODE]
+android.annotation.SdkConstant.java
+
+android.database.sqlite.SqliteWrapper.java
+
+android.net.ConnectivityManager.java
+android.net.DhcpInfoInternal.java
+android.net.IConnectivityManager.java
+android.net.INetworkPolicyListener.java
+android.net.InetworkPolicyManager.java
+android.net.LinkAddress.java
+android.net.LinkCapabilities.java
+android.net.LinkProperties.java
+android.net.NetworkIdentity.java
+android.net.NetworkPolicy.java
+android.net.NetworkPolicyManager.java
+android.net.NetowkrQuotaInfo.java
+android.net.NetowrkState.java
+android.net.NetworkTemplate.java
+android.net.NetworkUtils.java
+android.net.ProxyProperties.java
+android.net.RouteInfo.java
+
+android.provider.Downloads.java
+android.provider.Telephony.java
+
+com.android.internal.annotations.VisibleForTesting.java
+
+com.android.internal.net.LegacyVpnInfo.java
+com.android.internal.net.VpnConfig.java
+com.android.internal.net.VpnProfile.java
+
+com.android.internal.telephony.EncodeException.java
+com.android.internal.telephony.GsmAlphabet.java
+com.android.internal.telephony.IccUtils.java
+com.android.internal.telephony.SmsConstants.java
+com.android.internal.telephony.TelephonyProperties.java
+
+com.android.internal.util.ArrayUtils.java
+com.android.internal.util.Objects.java
+com.android.internal.util.Preconditions.java
+
+com.android.mms.MmsConfig.java
+
+com.android.mms.transaction.AbstractRetryScheme.java
+com.android.mms.transaction.DefaultRetryScheme.java
+com.android.mms.transaction.HttpUtils.java
+com.android.mms.transaction.MmsSystemEventReceiver.java
+com.android.mms.transaction.NotificationTransaction.java
+com.android.mms.transaction.Observable.java
+com.android.mms.transaction.Observer.java
+com.android.mms.transaction.ProgressCalbackEntity.java
+com.android.mms.transaction.PushReceiver.java
+com.android.mms.transaction.ReadRecTransaction.java
+com.android.mms.transaction.RetrieveTransaction.java
+com.android.mms.transaction.RetryScheduler.java
+com.android.mms.transaction.SendTransaction.java
+com.android.mms.transaction.Transaction.java
+com.android.mms.transaction.TransactionBundle.java
+com.android.mms.transaction.TransactionService.java
+com.android.mms.transaction.TransactionSettings.java
+com.android.mms.transaction.TransactionState.java
+
+com.android.mms.util.DownloadManager.java
+com.android.mms.util.RateController.java
+com.android.mms.util.SendingprogressTokenManager.java
+
+com.google.android.collect.Sets.java
+
+com.google.android.mms.ContentType.java
+com.google.android.mms.InvalidHeaderValueException.java
+com.google.android.mms.MmsException.java
+
+com.google.android.mms.pdu.AcknowledgeInd.java
+com.google.android.mms.pdu.Base64.java
+com.google.android.mms.pdu.CharacterSets.java
+com.google.android.mms.pdu.DeliveryInd.java
+com.google.android.mms.pdu.EncodedStringValue.java
+com.google.android.mms.pdu.GenericPdu.java
+com.google.android.mms.pdu.MultimediaMessagePdu.java
+com.google.android.mms.pdu.NotifictionInd.java
+com.google.android.mms.pdu.NotifyRespInd.java
+com.google.android.mms.pdu.PduBody.java
+com.google.android.mms.pdu.PduComposer.java
+com.google.android.mms.pdu.PduContentTypes.java
+com.google.android.mms.pdu.PduHeaders.java
+com.google.android.mms.pdu.PduParser.java
+com.google.android.mms.pdu.PduPart.java
+com.google.android.mms.pdu.PduPersister.java
+com.google.android.mms.pdu.QuotedPrintable.java
+com.google.android.mms.pdu.ReadOrigInd.java
+com.google.android.mms.pdu.RetrieveConfjava
+com.google.android.mms.pdu.SendConf.java
+com.google.android.mms.pdu.SendRequ.java
+
+com.google.android.mms.util.AbstractCache.java
+com.google.android.mms.util.DownloadDrmHelper.java
+com.google.android.mms.util.DrmConvertSession.jav
+com.google.android.mms.util.PduCache.java
+com.google.android.mms.util.PduCacheEntry.java
+com.google.android.mms.util.SqliteWrapper.java
+[/CODE]
+
+Whew, that was a ton of typing, hopefully its worth it! Haha. May be some typos in there too, but I'm sure you will be able to find the right one.
+
+I know that's a lot, but I found it to be the easiest way of doing things. I'm not actually sure that all of these are required, and I may have missed a couple or added a couple extras, but you get the picture at least and thats most of them. You'll probably only end up using about 10% of those files, but since they all have others imported, I chose to import them all instead of the possibility of messing something up that was necessary. Like I said, its a lot, but almost all of them are really small so they won't increase the size of your app by more then half a megabyte at max (not sure on an exact number) so that's not really something to worry about. If you can make it by this daunting task, you should be good to go for the rest of the tutorial.
+
+
+2) You need an MMS Part class that will be used to store MMS data you are going to be sending. Here is what mine looks like:
+
+[CODE]
+public class MMSPart {
+	public String Name = "";
+	public String MimeType = "";
+	public byte[] Data;
+}
+[/CODE]
+
+Just copy and paste this class.
+
+Very straightforward as to what this will do for you, it is the actual file that we will be sending through out http connection. MimeType is the type of object that the part is, for example image/png or text/plain are the 2 that I use.
+
+
+3) Next up, we need a class that will assist us in finding the system APNs. Here is mine:
+
+[CODE]
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
+import android.provider.Telephony;
+import android.text.TextUtils;
+import android.widget.Toast;
+
+public class APNHelper {
+	
+	public APNHelper(final Context context) {
+	    this.context = context;
+	}   
+	
+	@SuppressWarnings("unchecked")
+	public List<APN> getMMSApns() {     
+	    final Cursor apnCursor = this.context.getContentResolver().query(Uri.withAppendedPath(Telephony.Carriers.CONTENT_URI, "current"), null, null, null, null);
+	if ( apnCursor == null ) {
+	        return Collections.EMPTY_LIST;
+	    } else {
+	        final List<APN> results = new ArrayList<APN>(); 
+	            if ( apnCursor.moveToFirst() ) {
+	        do {
+	            final String type = apnCursor.getString(apnCursor.getColumnIndex(Telephony.Carriers.TYPE));
+	            if ( !TextUtils.isEmpty(type) && ( type.equalsIgnoreCase("*") || type.equalsIgnoreCase("mms") ) ) {
+	                final String mmsc = apnCursor.getString(apnCursor.getColumnIndex(Telephony.Carriers.MMSC));
+	                final String mmsProxy = apnCursor.getString(apnCursor.getColumnIndex(Telephony.Carriers.MMSPROXY));
+	                final String port = apnCursor.getString(apnCursor.getColumnIndex(Telephony.Carriers.MMSPORT));                  
+	                final APN apn = new APN();
+	                apn.MMSCenterUrl = mmsc;
+	                apn.MMSProxy = mmsProxy;
+	                apn.MMSPort = port;
+	                results.add(apn);
+	                
+	                Toast.makeText(context, mmsc + " " + mmsProxy + " " + port, Toast.LENGTH_LONG).show();
+	            }
+	        } while ( apnCursor.moveToNext() ); 
+	             }              
+	        apnCursor.close();
+	        return results;
+	    }
+	}
+	
+	private Context context;
+}
+[/CODE]
+
+Also, you will need an APN class, here is what that one looks like:
+
+[CODE]
+public class APN {
+    public String MMSCenterUrl = "";
+    public String MMSPort = "";
+    public String MMSProxy = ""; 
+    
+    public APN(String MMSCenterUrl, String MMSPort, String MMSProxy)
+    {
+    	this.MMSCenterUrl = MMSCenterUrl;
+    	this.MMSPort = MMSPort;
+    	this.MMSProxy = MMSProxy;
+    }
+    
+    public APN()
+    {
+    	
+    }
+}
+[/CODE]
+
+Just copy and paste these classes.
+
+The problem with this is that in Android 4.0 and up, Google blocks 3rd party access to APNs (though from trial and error I believe that you can access them on some touchwiz roms/phones, but not all). To get around this, in Sliding Messaging I had to have users input this information manually, so if you have users who will be on an API higher than 14 (ICS), you will need to have this option or it WILL ABSOLUTELY NOT work. At all. A little further down I'll show you how to implement so that you can try and find APNs, and if it fails then you can set them manually.
+
+
+4) You need to include these permissions in the app for things to work and not get FCs because of lack of permissions:
+
+[CODE]<uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+<uses-permission android:name="android.permission.INTERNET" />
+<uses-permission android:name="android.permission.RECEIVE_MMS" />
+<uses-permission android:name="android.permission.READ_SMS"/>
+<uses-permission android:name="android.permission.WRITE_SMS"/>
+
+<uses-permission android:name="android.permission.WRITE_APN_SETTINGS" />[/CODE]
+
+Just put them in the AndroidManifest with the rest. If you can't figure this step out maybe its time to start with something a little easier ;)
+
+As for the last one, write apn settings, I know for a fact you will not be able to compile your app through eclipse if you include it and you are working with Android 4.0+. It can only be applied to system apps only for API 14 and up and I don't know if you can include it without error if you are only targeting Gingerbread or not. More then likely you will have to take it out if you are not compiling your app as a system app by building it with the rest of the android source.
+
+Please Note: I'm not actually sure that the internet permission is necessary, but the stock google app has it so I decided to include it.
+
+
+5) Ok, now we have all of our classes we will use and it is time to send an MMS message. I will just copy the 2 functions that I use to do this directly below, and then explain them after that. Here they are:
+
+[CODE]
+public void sendMMS(final String recipient, final MMSPart[] parts)
+{
+	ConnectivityManager mConnMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+	final int result = mConnMgr.startUsingNetworkFeature(ConnectivityManager.TYPE_MOBILE, "enableMMS");
+	
+	if (result != 0)
+	{
+		IntentFilter filter = new IntentFilter();
+		filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+		BroadcastReceiver receiver = new BroadcastReceiver() {
+
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				String action = intent.getAction();
+				
+				if (!action.equals(ConnectivityManager.CONNECTIVITY_ACTION))
+				{
+					return;
+				}
+				
+				@SuppressWarnings("deprecation")
+				NetworkInfo mNetworkInfo = (NetworkInfo) intent.getParcelableExtra(ConnectivityManager.EXTRA_NETWORK_INFO);
+				
+				if ((mNetworkInfo == null) || (mNetworkInfo.getType() != ConnectivityManager.TYPE_MOBILE_MMS))
+				{
+					return;
+				}
+				
+				if (!mNetworkInfo.isConnected())
+				{
+					return;
+				} else
+				{
+					sendData(recipient, parts);
+					
+					unregisterReceiver(this);
+				}
+				
+			}
+			
+		};
+		
+		registerReceiver(receiver, filter);
+	} else
+	{
+		sendData(recipient, parts);
+	}
+}
+[/CODE]
+
+This function is fairly simple. All it does is tell the sytem that we are going to start using a mobile connection and it should connect using the term "enableMMS" so that we start the right type of connection. The variable result is set to the type of connection already active when we call this, and we are looking for it to be set to 0, meaning that our apns are already active. If this is the case, you can just skip right ahead to sending the MMS message. More than likely though, apns will not be active when you start the call, so you need to listen for a change in the connectivity through a broadcast receiver. That is what is going on inside the block of code where (result != 0). Once the receiver gets the correct type of connection, it calls the below function of sendData and unregisters itself so we don't leak receivers.
+
+When the message is ready to be sent:
+
+[CODE]
+public void sendData(final String recipient, final MMSPart[] parts)
+{
+	final Context context = this;
+	
+	new Thread(new Runnable() {
+
+		@Override
+		public void run() {
+			
+			final SendReq sendRequest = new SendReq();
+
+			final EncodedStringValue[] phoneNumber = EncodedStringValue.extract(recipient);
+				
+			if (phoneNumber != null && phoneNumber.length > 0)
+			{
+				sendRequest.addTo(phoneNumber);
+			}
+			
+			final PduBody pduBody = new PduBody();
+			
+			if (parts != null)
+			{
+				for (MMSPart part : parts)
+				{
+					if (part != null)
+					{
+						try
+						{
+							final PduPart partPdu = new PduPart();
+							partPdu.setName(part.Name.getBytes());
+							partPdu.setContentType(part.MimeType.getBytes());
+							partPdu.setData(part.Data);
+							pduBody.addPart(partPdu);
+						} catch (Exception e)
+						{
+							
+						}
+					}
+				}
+			}
+			
+			sendRequest.setBody(pduBody);
+			
+			final PduComposer composer = new PduComposer(context, sendRequest);
+			final byte[] bytesToSend = composer.make();
+			
+			List<APN> apns = new ArrayList<APN>();
+			
+			try
+			{
+				APNHelper helper = new APNHelper(context);
+				apns = helper.getMMSApns();
+			} catch (Exception e)
+			{
+				APN apn = new APN(sharedPrefs.getString("mmsc_url", ""), sharedPrefs.getString("mms_port", ""), sharedPrefs.getString("mms_proxy", ""));
+				apns.add(apn);
+			}
+			
+			try {
+				HttpUtils.httpConnection(context, 4444L, apns.get(0).MMSCenterUrl, bytesToSend, HttpUtils.HTTP_POST_METHOD, !TextUtils.isEmpty(apns.get(0).MMSProxy), apns.get(0).MMSProxy, Integer.parseInt(apns.get(0).MMSPort));
+			
+				ConnectivityManager mConnMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+				mConnMgr.startUsingNetworkFeature(ConnectivityManager.TYPE_MOBILE_MMS, "enableMMS");
+				
+				IntentFilter filter = new IntentFilter();
+				filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+				BroadcastReceiver receiver = new BroadcastReceiver() {
+		
+					@Override
+					public void onReceive(Context context, Intent intent) {
+						Cursor query = context.getContentResolver().query(Uri.parse("content://mms"), new String[] {"_id"}, null, null, "date desc");
+						query.moveToFirst();
+						String id = query.getString(query.getColumnIndex("_id"));
+						query.close();
+						
+						ContentValues values = new ContentValues();
+				        values.put("msg_box", 2);
+				        String where = "_id" + " = '" + id + "'";
+				        context.getContentResolver().update(Uri.parse("content://mms"), values, where, null);
+					    
+				        context.unregisterReceiver(this);
+					}
+					
+				};
+				
+				registerReceiver(receiver, filter);
+			} catch (Exception e) {
+				Cursor query = context.getContentResolver().query(Uri.parse("content://mms"), new String[] {"_id"}, null, null, "date desc");
+				query.moveToFirst();
+				String id = query.getString(query.getColumnIndex("_id"));
+				query.close();
+				
+				ContentValues values = new ContentValues();
+		        values.put("msg_box", 5);
+		        String where = "_id" + " = '" + id + "'";
+		        context.getContentResolver().update(Uri.parse("content://mms"), values, where, null);
+			    
+				((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+					
+					@Override
+					public void run() {
+						Toast.makeText(context, "MMS Error", Toast.LENGTH_SHORT).show();
+					}
+			    	
+			    });
+			}
+			
+		}
+		
+	}).start();
+		
+}
+[/CODE]
+
+This function is where all the magic happens. First, we need to create a new thread to run on because you can't access an HTTP connection on the UI thread (I ran into this error the first time around since I had never worked with data connections before). Once that thread is running, we create a new SendReq object which is what we will be sending through the http request. You will need to encode your recipient (this part of the code can also be used to support group messaging, but I have not included that code, you will need to write it yourself if you so choose. You can attach multiple addresses by calling sendRequest.addTo() multiple times) and attach it to the sendRequest. Next up, attach your MMSPart file using a for loop. Here is how to initialize that MMSPart to whatever you want to include in it:
+
+[CODE]
+Bitmap b = ________;   // Whatever your bitmap is that you want to send
+ByteArrayOutputStream stream = new ByteArrayOutputStream();
+b.compress(Bitmap.CompressFormat.PNG, 100, stream);
+byte[] byteArray = stream.toByteArray();
+
+MMSPart[] parts = new MMSPart[1];
+
+parts[0] = new MMSPart();
+parts[0].Name = "Image";
+parts[0].MimeType = "image/png";
+parts[0].Data = byteArray;
+[/CODE]
+
+Using this, you can also add text to the request with the mimetype "text/plain" and encode text as a byte array so that it can be attached in the same mannor. I won't post that code, you should be able to figure it out.
+
+Back to the original sendData function, we can now attach the pduBody which includes all of the byte arrays that we want to send, in this specific case, just an image and no text. After that, all that is left is to actually create the byte array to send, bytesToSend, which can be done very easily through internal classes.
+
+Now we are ready to make the actual send request, which must be done through the users APNs using an http_post method. But first, we need to retrieve APNs. As I said earlier, if a user is running an Android version less then 4.0, then the app should be able to get the system defined APNs through the APN helper class that I provided (still no promises on this though as it has been untested, I don't have an old phone anymore to test on). Surround the request to APNHelper with a try/catch block so that we can catch the error of insigificant permissions, and then apply your user defined custom APNs that will actually work. I have users enter these in settings, thats why you see them being set through sharedPreference strings. you can manually type in whatever strings you want to for your network during testing phases though and that should work fine, just remember different networks use different APNs.
+
+Ahh finally we are ready to make our Http request. This is fairly simple, as it is just one line of code which you should be able to directly take from my example if you initialize apns the same way I have:
+
+[CODE]
+HttpUtils.httpConnection(context, 4444L, apns.get(0).MMSCenterUrl, bytesToSend, HttpUtils.HTTP_POST_METHOD, !TextUtils.isEmpty(apns.get(0).MMSProxy), apns.get(0).MMSProxy, Integer.parseInt(apns.get(0).MMSPort));
+[/CODE]
+
+You can look at javadocs for this function if you want to know what all of this is, but just know that it will make a post request through your MMSC you have defined and then send the message through the proxy and port (if those are needed, some carriers do not require them). Also, remember to add a catch block around this in case the sending fails for whatever reason, and tell your users that the request has failed. In this example, when the message fails to send, it moves the message to msg_box = 5, which is where MMS with errors are stored. This is simply updating the database with a new location for our recently failed message.
+
+Last thing we have to do is listen for when the message has sent. This is where I've completely made up a function, and it functions correctly for ALMOST everyone (the only people not so far are Sprint users, and I haven't found a way around it yet). To do this, after our request, we register a new connectivity receiver just as we did when we were preparing to send a message, and this time around, when the state of the phones internet connection changes - usually dropping out of the APN request space I believe - we can move the message from the outbox to the sent message box and boom, message sent.
+
+Yay, you should have just been able to send your first MMS message! (Unless I forgot a step in there lol) That's exciting stuff! Notice now though, that although you sent the message (and you have coded in how to change which message box the message is in), the message didn't get saved to the database so you can't actually see it in the app. That doesn't do most of us any good, so next step is how to save it to the SMS database on your phone.
+
+
+6) Here we save the message, I'll just list out the functions again and then explain them after that:
+
+[CODE]
+public static Uri insert(Context context, String[] to, String subject, byte[] imageBytes)
+{
+    try
+    {           
+        Uri destUri = Uri.parse("content://mms");
+        // Get thread id
+        Set<String> recipients = new HashSet<String>();
+        recipients.addAll(Arrays.asList(to));
+        long thread_id = Telephony.Threads.getOrCreateThreadId(context, recipients);
+
+        // Create a dummy sms
+        ContentValues dummyValues = new ContentValues();
+        dummyValues.put("thread_id", thread_id);
+        dummyValues.put("body", "Dummy SMS body.");
+        Uri dummySms = context.getContentResolver().insert(Uri.parse("content://sms/sent"), dummyValues);
+        // Create a new message entry
+        long now = System.currentTimeMillis();
+        ContentValues mmsValues = new ContentValues();
+        mmsValues.put("thread_id", thread_id);
+        mmsValues.put("date", now/1000L);
+        mmsValues.put("msg_box", 4);
+        //mmsValues.put("m_id", System.currentTimeMillis());
+        mmsValues.put("read", 1);
+        mmsValues.put("sub", subject);
+        mmsValues.put("sub_cs", 106);
+        mmsValues.put("ct_t", "application/vnd.wap.multipart.related");
+	        
+        if (imageBytes != null)
+        {
+        	mmsValues.put("exp", imageBytes.length);
+        } else
+        {
+        	mmsValues.put("exp", 0);
+        }
+        
+        mmsValues.put("m_cls", "personal");
+        mmsValues.put("m_type", 128); // 132 (RETRIEVE CONF) 130 (NOTIF IND) 128 (SEND REQ)
+        mmsValues.put("v", 19);
+        mmsValues.put("pri", 129);
+        mmsValues.put("tr_id", "T"+ Long.toHexString(now));
+        mmsValues.put("resp_st", 128);
+        // Insert message
+        Uri res = context.getContentResolver().insert(destUri, mmsValues);
+        String messageId = res.getLastPathSegment().trim();
+	    // Create part
+        if (imageBytes != null)
+        {
+        	createPartImage(context, messageId, imageBytes);
+        }
+        // Create addresses
+        for (String addr : to)
+        {
+            createAddr(context, messageId, addr);
+        }
+        //res = Uri.parse(destUri + "/" + messageId);
+        // Delete dummy sms
+        context.getContentResolver().delete(dummySms, null, null);
+	        return res;
+    }
+    catch (Exception e)
+    {
+        e.printStackTrace();
+    }
+	    return null;
+}
+[/CODE]
+
+[CODE]
+private static Uri createPartImage(Context context, String id, byte[] imageBytes) throws Exception
+{
+    ContentValues mmsPartValue = new ContentValues();
+    mmsPartValue.put("mid", id);
+    mmsPartValue.put("ct", "image/png");
+    mmsPartValue.put("cid", "<" + System.currentTimeMillis() + ">");
+    Uri partUri = Uri.parse("content://mms/" + id + "/part");
+    Uri res = context.getContentResolver().insert(partUri, mmsPartValue);
+
+    // Add data to part
+    OutputStream os = context.getContentResolver().openOutputStream(res);
+    ByteArrayInputStream is = new ByteArrayInputStream(imageBytes);
+    byte[] buffer = new byte[256];
+    for (int len=0; (len=is.read(buffer)) != -1;)
+    {
+        os.write(buffer, 0, len);
+    }
+    os.close();
+    is.close();
+	    return res;
+}
+[/CODE]
+
+[CODE]
+private static Uri createAddr(Context context, String id, String addr) throws Exception
+{
+    ContentValues addrValues = new ContentValues();
+    addrValues.put("address", addr);
+    addrValues.put("charset", "106");
+    addrValues.put("type", 151); // TO
+    Uri addrUri = Uri.parse("content://mms/"+ id +"/addr");
+    Uri res = context.getContentResolver().insert(addrUri, addrValues);
+	    return res;
+}
+[/CODE]
+
+I didn't write these functions, credit to Vodemki on Stack Overflow. All you have to do is call the insert function and it will do all of the work for you. Send that fuction the activity context, a string array of the numbers who you sent the message to, a subject for the message, and the same byte array of the image you passed earlier to your MMS part file. You can look at the code for inserting the image and reproduce this to do the same for a string of text you are sending with the image.
+
+You will want to actually call these funtions right after you push the send button for example, to first save the message and then you can send it and update it later after it has sent or failed to send.
+
+Ok, now that will successfully allow you to put the MMS message in the database. For some reason, these messages just show up as blank messages in the stock app, not sure why, but Sliding Messaging is able to read them at least, so depending on your implementation, yours should be able to do so as well.
+
+Now all this function does is insert the image. I don't want to give away all of my secrets for Sliding Messaging so you will have to go through and find out how to insert text and group message addresses yourself, I think that's fair enough and if you've made it this far in your app, you shouldn't have to much of a problem with it :)
+
+Wow, we just sent and saved that message to our phone, that means we are halfway home! (Nice rhyme huh ;) )
+
+Onto receiving.
+
+
+7) First up, you'll have to know a little something about querying the mms-sms database, read up on that first if you haven't already (first link I have posted at the top). This is all out of my brain and what I was able to do from experience, and seems to work very well... you won't find a tutorial anywhere else on the internet of how to do this (at least I couldn't anywhere). I'm not going to just give you a simple function for this one though, you will have to adapt the code according to how you want it to be used. Once again, here is the code you will need to use:
+
+[CODE]
+id = ________; // this is the id of your MMS message that you are going to search for
+Cursor locationQuery = context.getContentResolver().query(Uri.parse("content://mms/"), new String[] {"m_size", "exp", "ct_l", "_id"}, "_id=?", new String[]{id}, null);
+locationQuery.moveToFirst();
+		  
+String exp = "1";
+String size = "1";
+		  
+try
+{
+	size = locationQuery.getString(locationQuery.getColumnIndex("m_size"));
+ 	exp = locationQuery.getString(locationQuery.getColumnIndex("exp"));
+} catch (Exception f)
+{
+   		
+}
+	  
+String location = locationQuery.getString(locationQuery.getColumnIndex("ct_l"));
+[/CODE]
+
+The above function is where you query the message you are interested in downloading, and get data from it such as expiration date, size, and location on a server. The date will be a date in milliseconds that you can format accordingly and display to the screen if you so choose, and the size will be in bytes, but you will probably want to convert to kb by dividing by 1000. As for the location, that is what we are going to use to download the message:
+
+[CODE]
+List<APN> apns = new ArrayList<APN>();
+							
+try
+{
+	APNHelper helper = new APNHelper(context);
+	apns = helper.getMMSApns();
+								
+} catch (Exception e)
+{
+	APN apn = new APN(sharedPrefs.getString("mmsc_url", ""), sharedPrefs.getString("mms_port", ""), sharedPrefs.getString("mms_proxy", ""));
+	apns.add(apn);
+}
+[/CODE]
+
+Get your APNs the same way as we did before when sending, I won't explain this again.
+
+[CODE]
+try {
+	byte[] resp = HttpUtils.httpConnection(
+	        context, SendingProgressTokenManager.NO_TOKEN,
+	        downloadLocation, null, HttpUtils.HTTP_GET_METHOD,
+	        !TextUtils.isEmpty(apns.get(0).MMSProxy),
+	        apns.get(0).MMSProxy,
+	        Integer.parseInt(apns.get(0).MMSPort));
+	
+	RetrieveConf retrieveConf = (RetrieveConf) new PduParser(resp).parse();
+	PduPersister persister = PduPersister.getPduPersister(context);
+	Uri msgUri = persister.persist(retrieveConf, Inbox.CONTENT_URI, true,
+            true, null);
+	
+	ContentValues values = new ContentValues(1);
+    	values.put(Mms.DATE, System.currentTimeMillis() / 1000L);
+   	SqliteWrapper.update(context, context.getContentResolver(),
+            msgUri, values, null, null);
+        SqliteWrapper.delete(context, context.getContentResolver(),
+    		Uri.parse("content://mms/"), "thread_id=? and _id=?", new String[] {threadIds, msgId});
+    
+    	((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+		
+		@Override
+		public void run() {
+			Toast.makeText(context, "Message Received", Toast.LENGTH_SHORT).show();
+		}
+	});
+} catch (Exception e) {
+	e.printStackTrace();
+	
+	((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+		
+		@Override
+		public void run() {
+			Toast.makeText(context, "Download Failed", Toast.LENGTH_SHORT).show();
+		}
+	});
+}
+[/CODE]
+
+This request is much the same as the previous we used when sending the message, except this time we use a get request instead of post, send the funtion a null where before it was out bytesToSend array, and receive a byte array from it. Once you have received this byte array, you can easily use internal classes to save the message to the database (these messages are saved 100% correctly and will show up in the stock app once downloaded, unlike before) and then delete the old message stored there that only had location data for the message to be downloaded. I won't go into much more detail then that, it should be easy enough to understand just from the code.
+
+I have this function tied to a button press, but in theory you should also be able to register a WAP_PUSH_RECEIVED broadcast receiver that saves the message automatically when your phone gets one (WAP is the type of broadcast you get when receiving MMS data). I'm not going to post anything here about that because I haven't done it, but if you want, all of the code is the same and you can easily base it happening off of a setting in your app and the network connectivity state when the message is received.
+
+Another Note: There is probably a way to use the above code with persisters etc to be able to save an MMS to the database in a much easier way, but I haven't looked into that at all, mostly because the code I posted in step 6 works just fine and I don't see a need for much else if you can handle just copying and pasting those functions.
+
+
+
+Now I think that may be it... we covered sending MMS, saving sent MMS and finally receiving MMS! Fun stuff!
+
+In conclusion, I just want to give something back to the community that has given my app, Sliding Messaging, so much love over the past couple of months. I hope this helps someone out there, because as far as I know and could find, this is the only full MMS tutorial there is for Android (and the only one at all for actually downloading MMS from the internet) and should get everything done that you need! Ask any questions you want and feel free to PM me if you need more assistance.
+
+Now no one out there should have any excuse for not including at least some MMS support in your messaging apps! Hopefully this will save you from days upon days of research to no avail on the subject and unjust criticism from people who know absolutely nothing about the topic like I did ;) (Had one person tell me to f-off and if I couldn't get it working, then his $0.99 entitled him to say that I needed to hire someone else who was actually competent at programming and spend all of my college savings so that person would do it for me ... to that person I say, HAHA, I did it. lol) Your users will be happy people if you get this implemented!
+
+Also guys, I wouldn't mind getting a little credit if anyone out there uses this tutorial to get things up and running, but its not necessary if you don't want! Instead you could just buy me a beer and donate to me ;) To the people who actually read through these last 3 paragraphs, I say thank you! Hopefully this tutorial can at least get you started, wish I had it reference when I was adding the support in!
+
+Sources: 
+1) [URL="http://stackoverflow.com/questions/3012287/how-to-read-mms-data-in-android"]How to Read MMS Data in Android[/URL]
+2) [URL="http://stackoverflow.com/questions/15114887/android-add-mms-to-database"]Android Add MMS to Database[/URL]
+3) [URL="http://maximbogatov.wordpress.com/2011/08/13/mms-in-android/"]MMS in Android: Part 1[/URL]
+4) [URL="http://grepcode.com/snapshot/repository.grepcode.com/java/ext/com.google.android/android/4.2.2_r1/"]GrepCode[/URL]
+5) My own experience ;)
+
+Cheers, and good luck to anyone trying this out :) this is my first tutorial so if you find anything missing or any typos, let me know!

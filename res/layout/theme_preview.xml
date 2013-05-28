@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/contactNamePreview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:background="@color/holo_blue"
+        android:gravity="center"
+        android:text="@string/ct_contact_name"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <ImageView
+	    android:id="@+id/newMessageGlow"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentBottom="true"
+	    android:layout_alignParentLeft="true"
+	    android:layout_alignParentTop="true"
+	    android:adjustViewBounds="true"
+	    android:contentDescription="@string/placeholder"
+	    android:src="@drawable/overscroll_glow"
+	    android:visibility="invisible" />
+	
+	<View
+	    android:id="@+id/view1"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignTop="@+id/messageEntry"
+	    android:background="@color/pitch_black"
+	    android:paddingTop="2dp" />
+    
+    <EditText
+        android:id="@+id/messageEntry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/sendButton"
+        android:layout_toRightOf="@+id/display_emoji"
+        android:ems="10"
+        android:hint="@string/type_message"
+        android:inputType="textCapSentences|textMultiLine|textShortMessage"
+        android:maxLines="5"
+        android:minHeight="50dp"
+        android:minLines="2"
+        android:singleLine="true"
+        android:textSize="@dimen/type_message"
+        android:textCursorDrawable="@null"
+        android:focusable="false" >
+    </EditText>
+
+    <ImageButton
+        android:id="@+id/sendButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/messageEntry"
+        android:background="@null"
+        android:contentDescription="@string/send_button"
+        android:cropToPadding="false"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:src="@drawable/ic_action_send_white" />
+
+    <ImageButton
+        android:id="@+id/display_emoji"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@+id/view1"
+        android:background="@drawable/dark_send_button"
+        android:contentDescription="@string/emoji"
+        android:minHeight="0dp"
+        android:minWidth="0dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:src="@drawable/emo_im_smirk"
+        android:clickable="false" />
+
+    <ImageView
+        android:id="@+id/sentContactPicture1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/view1"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="2dp"
+        android:contentDescription="@string/placeholder"
+        android:src="@drawable/ic_contact_picture" />
+    
+    <View
+        android:id="@+id/sentBackgroundBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/sentContactPicture1"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@+id/sentContactPicture1"
+        android:layout_toLeftOf="@+id/sentContactPicture1"
+        android:background="@color/pitch_black" />
+
+    <View
+        android:id="@+id/sentBackground"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/sentContactPicture1"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@+id/sentContactPicture1"
+        android:layout_toLeftOf="@+id/sentContactPicture1"
+        android:background="@color/pitch_black" />
+
+    <ImageView
+        android:id="@+id/receivedContactPicture1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/sentBackground"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="1dp"
+        android:contentDescription="@string/placeholder"
+        android:src="@drawable/ic_contact_picture" />
+    
+    <View
+        android:id="@+id/receiveBackgroundBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/receivedContactPicture1"
+        android:layout_alignTop="@+id/receivedContactPicture1"
+        android:layout_toRightOf="@+id/receivedContactPicture1"
+        android:background="@color/pitch_black" />
+
+    <View
+        android:id="@+id/receiveBackground"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/receivedContactPicture1"
+        android:layout_alignTop="@+id/receivedContactPicture1"
+        android:layout_toRightOf="@+id/receivedContactPicture1"
+        android:background="@color/pitch_black" />
+
+    <View
+        android:id="@+id/messageDivider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/sentContactPicture1"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/receiveBackground"
+        android:background="@color/dark_divider" />
+
+    <View
+        android:id="@+id/footerPadding"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/view1"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/sentBackground"
+        android:background="@color/dark_silver" />
+
+    <View
+        android:id="@+id/headerPadding"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/receivedContactPicture1"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/contactNamePreview"
+        android:background="@color/dark_silver" />
+
+    <TextView
+        android:id="@+id/receivedMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/receiveBackground"
+        android:layout_alignTop="@+id/receiveBackground"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="5dp"
+        android:text="@string/ct_received_message"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/receivedDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/receiveBackground"
+        android:layout_below="@+id/receivedMessage"
+        android:alpha=".5"
+        android:paddingBottom="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:text="@string/ct_received_date"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/white"
+        android:textSize="@dimen/date_size" />
+
+    <TextView
+        android:id="@+id/sentMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/sentBackground"
+        android:layout_alignTop="@+id/sentBackground"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="5dp"
+        android:text="@string/ct_sent_message"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/sentDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/sentBackground"
+        android:layout_below="@+id/sentMessage"
+        android:alpha=".5"
+        android:paddingBottom="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:text="@string/ct_sent_date"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/white"
+        android:textSize="@dimen/date_size" />
+
+</RelativeLayout>

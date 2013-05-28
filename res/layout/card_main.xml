@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/card_message_list_back"
+    android:orientation="vertical"
+    android:padding="0dp"
+    android:paddingTop="5dp" >
+
+    <LinearLayout
+        android:id="@+id/pagerLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/image_attachment_view"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical"
+        android:focusable="true"
+        android:focusableInTouchMode="true" >
+
+        <com.klinker.android.messaging_card.ContactViewPager
+            android:id="@+id/contactPager"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:background="@null"
+            android:clickable="false"
+            android:focusable="false" >
+        </com.klinker.android.messaging_card.ContactViewPager>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/messagePager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null" >
+
+        </android.support.v4.view.ViewPager>
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/menuButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:alpha=".5"
+        android:background="@drawable/dark_send_button"
+        android:contentDescription="@string/placeholder"
+        android:onClick="showMenuPopup"
+        android:padding="7dp"
+        android:src="@drawable/menu_button" />
+
+    <ImageButton
+        android:id="@+id/attachButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignTop="@+id/menuButton"
+        android:layout_marginRight="5dp"
+        android:layout_toLeftOf="@+id/actionBarMenuDivider"
+        android:background="@drawable/dark_send_button"
+        android:contentDescription="@string/placeholder"
+        android:padding="7dp"
+        android:paddingRight="5dp"
+        android:src="@drawable/ic_attach" />
+
+    <View
+        android:id="@+id/actionBarMenuDivider"
+        android:layout_width="1dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/menuButton"
+        android:layout_alignLeft="@+id/menuButton"
+        android:layout_alignParentBottom="false"
+        android:layout_alignTop="@+id/menuButton"
+        android:layout_marginBottom="7dp"
+        android:layout_marginTop="7dp"
+        android:background="@color/card_conversation_divider" />
+
+    <ImageButton
+        android:id="@+id/newMessageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignTop="@+id/attachButton"
+        android:layout_marginRight="5dp"
+        android:layout_toLeftOf="@+id/attachButton"
+        android:background="@drawable/dark_send_button"
+        android:contentDescription="@string/placeholder"
+        android:padding="7dp"
+        android:src="@drawable/ic_reply" />
+
+    <ImageButton
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@+id/newMessageButton"
+        android:background="@drawable/dark_send_button"
+        android:contentDescription="@string/placeholder"
+        android:paddingLeft="-7dp"
+        android:src="@drawable/ic_arrow" />
+
+    <View
+        android:id="@+id/actionBarDivider"
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:layout_above="@+id/menuButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="false"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:background="@color/card_conversation_divider" />
+
+    <ImageButton
+        android:id="@+id/callButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignTop="@+id/newMessageButton"
+        android:layout_marginRight="5dp"
+        android:layout_toLeftOf="@+id/newMessageButton"
+        android:background="@drawable/dark_send_button"
+        android:contentDescription="@string/placeholder"
+        android:padding="7dp"
+        android:src="@drawable/contact_call"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/newMessageGlow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/placeholder"
+        android:src="@drawable/overscroll_glow"
+        android:visibility="invisible" />
+
+    <View
+        android:id="@+id/sendBarBackground"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/menuButton"
+        android:layout_alignTop="@+id/emojiButton"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="17dp"
+        android:layout_marginRight="17dp"
+        android:layout_marginTop="-2dp"
+        android:background="@drawable/card_background" />
+
+    <ImageButton
+        android:id="@+id/emojiButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/actionBarDivider"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@+id/messageEntry"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="19dp"
+        android:layout_marginRight="2dp"
+        android:background="@drawable/dark_send_button"
+        android:contentDescription="@string/placeholder"
+        android:paddingBottom="10dp"
+        android:paddingLeft="2dp"
+        android:paddingTop="7dp"
+        android:src="@drawable/emo_im_smirk" />
+
+    <ImageButton
+        android:id="@+id/sendButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/actionBarDivider"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/messageEntry"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="19dp"
+        android:background="@drawable/dark_send_button"
+        android:contentDescription="@string/placeholder"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        android:src="@drawable/ic_action_send_black" />
+
+    <EditText
+        android:id="@+id/messageEntry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/actionBarDivider"
+        android:layout_marginBottom="10dp"
+        android:layout_toLeftOf="@+id/sendButton"
+        android:layout_toRightOf="@+id/emojiButton"
+        android:background="@null"
+        android:ems="10"
+        android:hint="@string/type_message"
+        android:maxLines="5"
+        android:minHeight="30dp"
+        android:padding="5dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="3dp"
+        android:textColor="@color/card_conversation_name"
+        android:textColorHint="@color/card_message_text_date"
+        android:textSize="@dimen/contact_name_size"
+        android:inputType="textCapSentences|textMultiLine|textShortMessage"
+        android:nextFocusUp="@id/messageEntry"
+        android:nextFocusLeft="@id/messageEntry" >
+
+    </EditText>
+
+    <com.android.mms.ui.ImageAttachmentView
+        android:id="@+id/image_attachment_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/sendButton"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="17dp"
+        android:layout_marginRight="17dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingRight="5dip"
+        android:visibility="visible" >
+
+        <ImageView
+            android:id="@+id/image_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:contentDescription="@string/placeholder"
+            android:maxHeight="300dip"
+            android:paddingBottom="3dp"
+            android:paddingTop="3dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/view_image_button"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="100dip"
+                android:layout_height="45dip"
+                android:text="@string/view"
+                android:textColor="@color/button_text" />
+
+            <Button
+                android:id="@+id/replace_image_button"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="100dip"
+                android:layout_height="45dip"
+                android:text="@string/replace"
+                android:textColor="@color/button_text" />
+
+            <Button
+                android:id="@+id/remove_image_button"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="100dip"
+                android:layout_height="45dip"
+                android:text="@string/remove"
+                android:textColor="@color/button_text" />
+        </LinearLayout>
+    </com.android.mms.ui.ImageAttachmentView>
+
+    <TextView
+        android:id="@+id/charsRemaining"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/sendBarBackground"
+        android:layout_alignLeft="@+id/sendButton"
+        android:layout_alignRight="@+id/sendBarBackground"
+        android:layout_marginBottom="2dp"
+        android:gravity="center"
+        android:text="@string/chars"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/card_message_text_date_2"
+        android:textSize="@dimen/chars_remaining" />
+
+    <TextView
+        android:id="@+id/contactText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignTop="@+id/backButton"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@+id/callButton"
+        android:layout_toRightOf="@+id/backButton"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:text="@string/none"
+        android:textColor="@color/card_conversation_name"
+        android:textSize="@dimen/contact_name_size" />
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/image_attachment_view"
+        android:layout_alignParentLeft="true" />
+
+    <View
+        android:id="@+id/gestureView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/sendBarBackground"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" />
+
+</RelativeLayout>

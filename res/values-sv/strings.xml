@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Meddelanden</string>
+    <string name="menu_settings">Inställningar</string>
+    <string name="send_button">Skicka</string>
+    <string name="type_message">Skriv meddelande</string>
+    <string name="chars">1/160</string>
+    <string name="placeholder">Platshållare</string>
+    <string name="contact_entry">Till</string>
+    <string name="about">Skapad av Jacob Klinker</string>
+    <string name="menu_new_message">Nytt meddelande</string>
+    <string name="quick_reply">Snabbsvar</string>
+    <string name="dark_theme">Mörkt tema</string>
+    <string name="dark_theme_summary">Bocka i för att aktivera mörkt tema</string>
+    <string name="text_size">Textstorlek</string>
+    <string name="text_size_summary">Välj textstorlek för meddelanden</string>
+    <string name="notifications">Aviseringar</string>
+    <string name="notifications_summary">Bocka i för att arkivera aviseringar</string>
+    <string name="ringtone">Ringsignal</string>
+    <string name="ringtone_summary">Välj ringsignal</string>
+    <string name="page_or_menu">Snabbsvep mellan konversationer</string>
+    <string name="page_or_menu_summary">Bocka i för att aktivera snabbsvep</string>
+    <string name="theme">Tema</string>
+    <string name="dark_theme_quick_reply">Mörkt tema för Snabbsvar</string>
+    <string name="dark_theme_quick_reply_summary">Bocka i för att aktivera mörkt tema för snabbsvar (endast Jellybean)</string>
+    <string name="menu_about">Om</string>
+    <string name="delete_message">Vill du radera meddelandet?</string>
+    <string name="delete_messages">Vill du radera meddelandena?</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nej</string>
+    <string name="restart_1">Efter byte av tema måste appen startas om.</string>
+    <string name="restart_2">Starta om Sliding Messaging</string>
+    <string name="title_color">Färg på rubrikfält</string>
+    <string name="title_color_summary">Välj färg på rubrikfältet</string>
+    <string name="delivery_reports">Leveransrapporter</string>
+    <string name="popup_reply">Popupsvar</string>
+    <string name="popup_reply_summary">För användare som inte har Jellybean poppar ett snabbsvarsfönster upp automatiskt när ett nytt meddelande mottagits.</string>
+    <string name="text_saved">Text sparad till urklipp.</string>
+    <string name="draft_saved">Utkast sparad till urklipp.</string>
+    <string name="hour_format">24-timmarstid</string>
+    <string name="hide_title_bar">Visa rubrikfält</string>
+    <string name="hide_title_bar_summary">Bocka i för att visa rubrikfält</string>
+    <string name="strip_unicode">Rensa bort Unicode</string>
+    <string name="strip_unicode_summary">Ersätt alla tecken som inte stöds i SMS med 160 tecken.</string>
+    <string name="other">Övriga inställningar</string>
+    <string name="ok">OK</string>
+    <string name="emoji">Aktivera emojis</string>
+    <string name="donate">Donera</string>
+    <string name="load_messages">Meddelanden att ladda</string>
+    <string name="load_messages_summary">Välj antalet meddelanden som laddas automatiskt</string>
+    <string name="load_all">Ladda alla meddelanden</string>
+    <string name="limit_messages">Begränsa meddelanden</string>
+    <string name="limit_messages_summary">Begränsar antalet meddelanden som laddas automatiskt</string>
+    <string name="pull_to_refresh">Dra för att ladda alla meddelanden</string>
+    <string name="vibrate">Vibrera vid avisering</string>
+    <string name="override">Åsidosätt den vanliga SMS-appen</string>
+    <string name="override_summary">Sparar meddelande i inkorgen och hindrar andra SMS-appar från att ta emot meddelanden för att stoppa aviseringar. Aktivera om du har avinstallerat originalappen.</string>
+	<string name="open_contact_menu">Öppna kontaktlistan vid start</string>
+	<string name="open_contact_menu_summary">Öppnar den vänstra sidomenyn vid start</string>
+	<string name="limit_conversations">Konversationer att ladda</string>
+	<string name="limit_conversations_summary">Välj antalet konversationer som laddas automatiskt</string>
+	<string name="contact_pictures">Visa kontaktbilder</string>
+	<string name="date_format">Datumformat</string>
+	<string name="date_format_summary">Välj hur datum ska visas</string>
+    
+</resources>

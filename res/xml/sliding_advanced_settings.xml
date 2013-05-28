@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <CheckBoxPreference
+        android:key="strip_unicode"
+        android:title="@string/strip_unicode"
+        android:summary="@string/strip_unicode_summary"
+        android:defaultValue="false"
+        />
+
+    <CheckBoxPreference
+        android:key="delete_old"
+        android:title="@string/delete_old"
+        android:defaultValue="false"
+        />
+
+    <Preference
+        android:key="sms_limit"
+        android:title="@string/sms_limit"
+        android:summary="@string/sms_limit_summary"
+        android:defaultValue="500"
+        android:dependency="delete_old"
+        />
+
+    <!--         <Preference  -->
+    <!--             android:key="mms_limit" -->
+    <!--             android:title="@string/mms_limit" -->
+    <!--             android:summary="@string/mms_limit_summary" -->
+    <!--             android:defaultValue="100" -->
+    <!--             android:dependency="delete_old" -->
+    <!--         />  -->
+
+    <CheckBoxPreference
+        android:key="mobile_only"
+        android:title="@string/mobile_only"
+        android:summary="@string/mobile_only_summary"
+        android:defaultValue="false"
+        />
+
+    <CheckBoxPreference
+        android:key="keyboard_type"
+        android:title="@string/keyboard_type"
+        android:summary="@string/keyboard_type_summary"
+        android:defaultValue="true"
+        />
+
+    <CheckBoxPreference
+        android:key="send_with_return"
+        android:title="@string/send_with_return"
+        android:summary="@string/send_with_return_summary"
+        android:defaultValue="false"
+        />
+
+    <CheckBoxPreference
+        android:key="hide_keyboard"
+        android:title="@string/show_keyboard"
+        android:summary="@string/show_keyboard_summary"
+        android:defaultValue="false"
+        />
+
+    <CheckBoxPreference
+        android:key="background_service"
+        android:title="@string/background_service"
+        android:summary="@string/background_service_summary"
+        android:defaultValue="false"
+        />
+
+    <CheckBoxPreference
+        android:key="override_lang"
+        android:title="@string/override_lang"
+        android:summary="@string/override_lang_summary"
+        android:defaultValue="false"
+        />
+
+    <CheckBoxPreference
+        android:key="override"
+        android:title="@string/override"
+        android:summary="@string/override_summary"
+        android:defaultValue="false"
+        />
+
+    <CheckBoxPreference
+        android:key="save_to_external"
+        android:title="@string/save_to_external"
+        android:summary="@string/save_to_external_summary"
+        android:defaultValue="true"
+        />
+
+    <CheckBoxPreference
+        android:key="split_sms"
+        android:title="@string/split_sms"
+        android:summary="@string/split_sms_summary"
+        android:defaultValue="false"
+        />
+
+    <PreferenceCategory android:key="backup_category"
+                        android:title="@string/backup_settings" >
+
+        <Preference
+            android:key="backup"
+            android:title="@string/backup"
+            />
+
+        <Preference
+            android:key="restore"
+            android:title="@string/restore"
+            />
+    </PreferenceCategory>
+</PreferenceScreen>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Nachrichten</string>
+    <string name="menu_settings">Einstellungen</string>
+    <string name="send_button">Senden</string>
+    <string name="type_message">Nachricht eingeben</string>
+    <string name="chars">1/160</string>
+    <string name="placeholder">Platzhalter</string>
+    <string name="contact_entry">An</string>
+    <string name="about">Erstellt von Jacob Klinker</string>
+    <string name="menu_new_message">Neue Nachricht</string>
+    <string name="quick_reply">Schnelle Antwort</string>
+    <string name="dark_theme">Dunkles Layout</string>
+    <string name="dark_theme_summary">Auswählen um Dunkles Layout zu aktivieren</string>
+    <string name="text_size">Textgröße</string>
+    <string name="text_size_summary">Nachrichten Textgröße auswählen</string>
+    <string name="notifications">Benachrichtigungen</string>
+    <string name="notifications_summary">Auswählen um Benachrichtigungen zu aktivieren</string> 
+    <string name="ringtone">Klingelton</string>
+    <string name="ringtone_summary">Klingelton auswählen</string>
+    <string name="page_or_menu">Seitenwechseln zwischen Unterhaltungen</string>
+    <string name="page_or_menu_summary">Auswählen um schnelles Seitenwechseln zu aktivieren</string>
+    <string name="theme">Theme</string>
+    <string name="dark_theme_quick_reply">Dunkles Schnelle Antwort Layout</string>
+    <string name="dark_theme_quick_reply_summary">Auswählen um Dunkles Layout bei Schnelle Antwort zu aktivieren (Nur Jellybean)</string>
+    <string name="menu_about">Über</string>
+    <string name="delete_message">Möchten Sie diese Nachricht löschen?</string>
+	<string name="yes">Ja</string>
+	<string name="no">Nein</string>
+	<string name="restart_1">After changing to dark theme, application must be restarted.</string>
+    <string name="restart_2">Restart Sliding Messaging</string>
+
+</resources>

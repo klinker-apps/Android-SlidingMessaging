@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <EditTextPreference
+        android:key="ct_theme_name"
+        android:title="@string/ct_theme_name"
+        android:dialogTitle="@string/ct_theme_name"
+        android:defaultValue="My Custom Theme"
+    />
+    
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+    	android:key="ct_titleBarColor"
+    	android:title="@string/ct_title_bar_color"
+    	android:defaultValue="@color/holo_blue"
+	/>
+    
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+    	android:key="ct_titleBarTextColor"
+    	android:title="@string/ct_title_bar_text_color"
+    	android:defaultValue="@color/white"
+	/>
+    
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+    	android:key="ct_messageListBackground"
+    	android:title="@string/ct_message_list_background"
+    	android:defaultValue="@color/light_silver"
+	/>
+    
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+    	android:key="ct_sendbarBackground"
+    	android:title="@string/ct_sendbar_background"
+    	android:defaultValue="@color/white"
+	/>
+    
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+    	android:key="ct_sentMessageBackground"
+    	android:title="@string/ct_sent_message_background"
+    	android:defaultValue="@color/white"
+	/>
+    
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+    	android:key="ct_receivedMessageBackground"
+    	android:title="@string/ct_received_message_background"
+    	android:defaultValue="@color/white"
+	/>
+    
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+    	android:key="ct_sentTextColor"
+    	android:title="@string/ct_sent_message_text_color"
+    	android:defaultValue="@color/black"
+	/>
+    
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+    	android:key="ct_receivedTextColor"
+    	android:title="@string/ct_received_message_text_color"
+    	android:defaultValue="@color/black"
+	/>
+    
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+    	android:key="ct_conversationListBackground"
+    	android:title="@string/ct_conversation_list_background"
+    	android:defaultValue="@color/light_silver"
+	/>
+
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+        android:key="ct_unreadConversationColor"
+        android:title="@string/ct_unread_conversation_color"
+        android:defaultValue="@color/white"
+    />
+    
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+    	android:key="ct_nameTextColor"
+    	android:title="@string/ct_name_text_color"
+    	android:defaultValue="@color/black"
+	/>
+    
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+    	android:key="ct_summaryTextColor"
+    	android:title="@string/ct_summary_text_color"
+    	android:defaultValue="@color/black"
+	/>
+    
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+    	android:key="ct_messageCounterColor"
+    	android:title="@string/ct_counter_text_color"
+    	android:defaultValue="@color/black"
+	/>
+    
+    <CheckBoxPreference 
+        android:key="ct_messageDividerVisibility"
+        android:title="@string/ct_message_divider"
+        android:defaultValue="true"
+    />
+    
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+    	android:key="ct_messageDividerColor"
+    	android:title="@string/ct_message_divider_color"
+    	android:defaultValue="@color/light_divider"
+    	android:dependency="ct_messageDividerVisibility"
+	/>
+    
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+    	android:key="ct_conversationDividerColor"
+    	android:title="@string/ct_conversation_divider_color"
+    	android:defaultValue="@color/grey"
+    	android:dependency="ct_messageDividerVisibility"
+	/>
+    
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+    	android:key="ct_sendButtonColor"
+    	android:title="@string/ct_send_button_color"
+    	android:defaultValue="@color/black"
+	/>
+    
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+    	android:key="ct_emojiButtonColor"
+    	android:title="@string/ct_emoji_button_color"
+    	android:defaultValue="@color/emoji_button"
+	/>
+    
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+    	android:key="ct_draftTextColor"
+    	android:title="@string/ct_draft_text_color"
+    	android:defaultValue="@color/black"
+	/>
+    
+    <CheckBoxPreference 
+        android:key="ct_darkContactImage"
+        android:title="@string/ct_contact_image_color"
+        android:defaultValue="false"
+    />
+    
+    <Preference
+        android:key="save_theme"
+        android:title="@string/save_theme"
+    />
+
+</PreferenceScreen>

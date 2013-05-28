@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <string-array name="textSize">
+        <item name="12">12</item>
+        <item name="13">13</item>
+        <item name="14">14</item>
+        <item name="15">15</item>
+        <item name="16">16</item>
+        <item name="17">17</item>
+        <item name="18">18</item>
+        <item name="19">19</item>
+        <item name="20">20</item>
+        <item name="21">21</item>
+        <item name="22">22</item>
+    </string-array>
+    
+    <string-array name="titleColorsSet">
+        <item name="Blue">blue</item>
+        <item name="Green">green</item>
+        <item name="Orange">orange</item>
+        <item name="Red">red</item>
+        <item name="Purple">purple</item>
+        <item name="Grey">grey</item>
+        <item name="DarkGrey">darkgrey</item>
+        <item name="Black">black</item>
+    </string-array>
+    
+    <string-array name="titleColors">
+        <item name="Blue">Blue</item>
+        <item name="Green">Green</item>
+        <item name="Orange">Orange</item>
+        <item name="Red">Red</item>
+        <item name="Purple">Purple</item>
+        <item name="Grey">Grey</item>
+        <item name="DarkGrey">Dark Grey</item>
+        <item name="Black">Pitch Black</item>
+    </string-array>
+    
+    <string-array name="messageOptions">
+        <item name="copy_text">Copy Text</item>
+        <item name="forward">Forward Message</item>
+        <item name="delete_message">Delete Message</item>
+    </string-array>
+    
+    <string-array name="messageOptions2">
+        <item name="copy_text">Copy Text</item>
+        <item name="save_image">Save Image</item>
+        <item name="forward">Forward Message</item>
+        <item name="delete_message">Delete Message</item>
+    </string-array>
+    
+    <string-array name="messageOptions3">
+        <item name="resend">Resend</item>
+        <item name="copy_text">Copy Text</item>
+        <item name="forward">Forward Message</item>
+        <item name="delete_message">Delete Message</item>
+    </string-array>
+    
+    <string-array name="loadMessages">
+        <item name="5">5</item>
+        <item name="10">10</item>
+        <item name="15">15</item>
+        <item name="20">20</item>
+        <item name="25">25</item>
+        <item name="30">30</item>
+        <item name="35">35</item>
+        <item name="35">40</item>
+        <item name="35">45</item>
+        <item name="35">50</item>
+    </string-array>
+    
+    <string-array name="loadConversations">
+        <item name="3">3</item>
+        <item name="4">4</item>
+        <item name="5">5</item>
+        <item name="6">6</item>
+        <item name="7">7</item>
+        <item name="8">8</item>
+        <item name="9">9</item>
+        <item name="10">10</item>
+        <item name="11">11</item>
+        <item name="12">12</item>
+        <item name="13">13</item>
+        <item name="14">14</item>
+        <item name="15">15</item>
+        <item name="16">16</item>
+        <item name="17">17</item>
+        <item name="18">18</item>
+        <item name="19">19</item>
+        <item name="20">20</item>
+    </string-array>
+    
+    <string-array name="dateFormat">
+        <item name="us">MM/dd/yyyy</item>
+        <item name="other">dd/MM/yyyy</item>
+        <item name="other2">yyyy/MM/dd</item>
+        <item name="other3">dd.MM.yyyy</item>
+        <item name="other4">yyyy-MM-dd</item>
+    </string-array>
+    
+    <string-array name="dateFormatInserted">
+        <item name="us">M/d/yyyy</item>
+        <item name="other">d/M/yyyy</item>
+        <item name="other2">yyyy/M/d</item>
+        <item name="other3">d.M.yyyy</item>
+        <item name="other4">yyyy-MM-dd</item>
+    </string-array>
+    
+    <string-array name="ledColorsSet">
+        <item name="White">white</item>
+        <item name="Blue">blue</item>
+        <item name="Green">green</item>
+        <item name="Orange">orange</item>
+        <item name="Red">red</item>
+        <item name="Purple">purple</item>
+    </string-array>
+    
+    <string-array name="ledColors">
+        <item name="White">White</item>
+        <item name="Blue">Blue</item>
+        <item name="Green">Green</item>
+        <item name="Orange">Orange</item>
+        <item name="Red">Red</item>
+        <item name="Purple">Purple</item>
+    </string-array>
+    
+    <string-array name="vibratePattern">
+        <item name="short">1 Short</item>
+        <item name="long">1 Long</item>
+        <item name="2short">2 Short</item>
+        <item name="2long">2 Long</item>
+        <item name="3short">3 Short</item>
+        <item name="3long">3 Long</item>
+    </string-array>
+    
+    <string-array name="vibratePatternSet">
+        <item name="short">short</item>
+        <item name="long">long</item>
+        <item name="2short">2short</item>
+        <item name="2long">2long</item>
+        <item name="3short">3short</item>
+        <item name="3long">3long</item>
+    </string-array>
+    
+    <string-array name="smilies">
+        <item name="with">With Nose :-)</item>
+        <item name="without">Without Nose :)</item>
+        <item name="none">None</item>
+        <item name="both">Both</item>
+    </string-array>
+    
+    <string-array name="smiliesInserted">
+        <item name="with">with</item>
+        <item name="without">without</item>
+        <item name="none">none</item>
+        <item name="both">both</item>
+    </string-array>
+    
+    <string-array name="quickReplyOptions">
+        <item name="reply">Reply</item>
+        <item name="read">Read</item>
+        <item name="call">Call</item>
+        <item name="delete">Delete</item>
+    </string-array>
+    
+    <string-array name="quickReplyOptionsInserted">
+        <item name="reply">1</item>
+        <item name="read">2</item>
+        <item name="call">3</item>
+        <item name="delete">4</item>
+    </string-array>
+    
+    <string-array name="slideToMenu">
+        <item name="fullscreen">Fullscreen Sliding Menu</item>
+        <item name="margins">Margins Only Sliding Menu</item>
+        <item name="none">No Sliding Menu (Must Navigate with ActionBar)</item>
+    </string-array>
+    
+    <string-array name="slideToMenuInserted">
+        <item name="fullscreen">1</item>
+        <item name="margins">2</item>
+        <item name="none">3</item>
+    </string-array>
+    
+    <string-array name="notificationIconInserted">
+        <item name="White">white</item>
+        <item name="Blue">blue</item>
+        <item name="Green">green</item>
+        <item name="Orange">orange</item>
+        <item name="Red">red</item>
+        <item name="Purple">purple</item>
+        <item name="Icon">icon</item>
+    </string-array>
+    
+    <string-array name="notificationIcon">
+        <item name="White">White</item>
+        <item name="Blue">Blue</item>
+        <item name="Green">Green</item>
+        <item name="Orange">Orange</item>
+        <item name="Red">Red</item>
+        <item name="Purple">Purple</item>
+        <item name="Icon">App Icon</item>
+    </string-array>
+    
+    <string-array name="textColorsInserted">
+        <item name="Default">default</item>
+        <item name="White">white</item>
+        <item name="Blue">blue</item>
+        <item name="Green">green</item>
+        <item name="Orange">orange</item>
+        <item name="Red">red</item>
+        <item name="Purple">purple</item>
+        <item name="Grey">grey</item>
+        <item name="Black">black</item>
+    </string-array>
+    
+    <string-array name="textColors">
+        <item name="Default">Default</item>
+        <item name="White">White</item>
+        <item name="Blue">Blue</item>
+        <item name="Green">Green</item>
+        <item name="Orange">Orange</item>
+        <item name="Red">Red</item>
+        <item name="Purple">Purple</item>
+        <item name="Grey">Grey</item>
+        <item name="Black">Black</item>
+    </string-array>
+    
+    <string-array name="deliveryOptions">
+        <item name="popup">Popup on Delivery</item>
+        <item name="toast">Toast on Delivery</item>
+    </string-array>
+    
+    <string-array name="deliveryOptionsInserted">
+        <item name="popup">1</item>
+        <item name="toast">2</item>
+    </string-array>
+    
+    <string-array name="screenTimeout">
+        <item name="1">1 Second</item>
+        <item name="5">5 Seconds</item>
+        <item name="15">15 Seconds</item>
+        <item name="30">30 Seconds</item>
+        <item name="60">1 Minute</item>
+        <item name="180">3 Minutes</item>
+        <item name="300">5 Minutes</item>
+    </string-array>
+    
+    <string-array name="screenTimeoutInserted">
+        <item name="1">1</item>
+        <item name="5">5</item>
+        <item name="15">15</item>
+        <item name="30">30</item>
+        <item name="60">60</item>
+        <item name="180">180</item>
+        <item name="300">300</item>
+    </string-array>
+    
+    <string-array name="sendAnimation">
+        <item name="left">Slide in from left</item>
+        <item name="right">Slide in from right</item>
+        <item name="up">Slide up from bottom</item>
+        <item name="none">No animation</item>
+    </string-array>
+    
+    <string-array name="sendAnimationInserted">
+        <item name="left">left</item>
+        <item name="right">right</item>
+        <item name="up">up</item>
+        <item name="none">none</item>
+    </string-array>
+    
+    <string-array name="textAlignment">
+        <item name="split">Split Alignment</item>
+        <item name="right">Right Alignment</item>
+        <item name="left">Left Alignment</item>
+    </string-array>
+    
+    <string-array name="textAlignmentInserted">
+        <item name="split">split</item>
+        <item name="right">right</item>
+        <item name="left">left</item>
+    </string-array>
+    
+    <string-array name="selectImage">
+        <item name="select">Select Image</item>
+        <item name="camera">Capture Image</item>
+        <item name="attach_more">Attach More...</item>
+    </string-array>
+    
+    <string-array name="runAs">
+        <item name="card">Card UI</item>
+        <item name="hangout">Hangouts UI</item>
+        <item name="sliding">Classic UI</item>
+    </string-array>
+    
+    <string-array name="runAsInserted">
+        <item name="card">card</item>
+        <item name="hangout">hangout</item>
+        <item name="sliding">sliding</item>
+    </string-array>
+    
+    <string-array name="cardTheme">
+        <item name="light">Light</item>
+        <item name="dark">Dark</item>
+        <item name="pitch_black">Pitch Black</item>
+    </string-array>
+    
+    <string-array name="cardThemeInserted">
+        <item name="light">Light</item>
+        <item name="dark">Dark</item>
+        <item name="pitch_black">Pitch Black</item>
+    </string-array>
+    
+    <string-array name="repeatingNotification">
+        <item name="none">Never</item>
+        <item name="15">15 Seconds</item>
+        <item name="30">30 Seconds</item>
+        <item name="60">1 Minute</item>
+        <item name="120">2 Minutes</item>
+        <item name="300">5 Minutes</item>
+        <item name="420">7 Minutes</item>
+        <item name="600">10 Minutes</item>
+        <item name="900">15 Minutes</item>
+    </string-array>
+    
+    <string-array name="repeatingNotificationSet">
+        <item name="none">none</item>
+        <item name="15">15000</item>
+        <item name="30">30000</item>
+        <item name="60">60000</item>
+        <item name="120">120000</item>
+        <item name="300">300000</item>
+        <item name="420">420000</item>
+        <item name="600">600000</item>
+        <item name="900">900000</item>
+    </string-array>
+    
+    <string-array name="attach_more_options">
+        <item name="image">Select Image</item>
+        <item name="video">Select Video</item>
+        <item name="audio">Select Audio</item>
+    </string-array>
+
+    <string-array name="notification_icon">
+        <item name="stock">Stock Icon</item>
+        <item name="bubble">Message Bubble</item>
+        <item name="exclamation">Exclamation Point</item>
+        <item name="airplane">Paper Airplane</item>
+        <item name="cloud">Cloud</item>
+    </string-array>
+
+    <string-array name="notification_icon_set">
+        <item name="stock">1</item>
+        <item name="bubble">2</item>
+        <item name="exclamation">3</item>
+        <item name="airplane">4</item>
+        <item name="cloud">5</item>
+    </string-array>
+</resources>

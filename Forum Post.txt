@@ -1,0 +1,16 @@
+Introducing Sliding Messaging, a stock text messaging alternative!
+
+[IMG]http://i50.tinypic.com/24bgl.jpg[/IMG]
+Easily manage text messages in a new and up to date format compliant with the Android design guidelines and visually based on the stock messaging app from Google, with added features.
+
+Features:
+- Easily switch between conversations by dragging out the sliding menu on the left side of the screen.
+- Start a new conversation by sliding out the menu on the right side of the screen
+- Manage old messages with a single click
+
+Please note: As of now, this is just a basic messaging app with a great layout and simple features. Currently, MMS is not supported, but it may be added in the future along with other feature requests, please sound off in the comments of what you would like to see in future versions!
+
+Screenshots:
+[IMG]http://i46.tinypic.com/34xia7d.jpg[/IMG] [IMG]http://i48.tinypic.com/20gie4g.jpg[/IMG] [IMG]http://i47.tinypic.com/mvqfdx.jpg[/IMG]
+
+Let me know what you guys think, this is a beta after all and will be evolving as android does :D

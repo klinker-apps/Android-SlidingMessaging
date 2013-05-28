@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--     <Preference  -->
+    <!--         android:key="donate" -->
+    <!--         android:title="@string/donate" -->
+    <!--         android:summary="@string/donate_summary" -->
+    <!--     /> -->
+
+    <Preference
+        android:key="theme_settings"
+        android:title="@string/theme_settings"
+    />
+
+    <Preference
+        android:key="notification_settings"
+        android:title="@string/sliding_notification_settings"
+    />
+
+    <Preference
+        android:key="popup_settings"
+        android:title="@string/popup_settings"
+    />
+
+    <Preference
+        android:key="message_settings"
+        android:title="@string/text_settings"
+    />
+
+    <Preference
+        android:key="conversation_settings"
+        android:title="@string/conversation_settings"
+    />
+
+    <Preference
+        android:key="mms_settings"
+        android:title="@string/mms_settings"
+    />
+
+    <Preference
+        android:key="quick_template_settings"
+        android:title="@string/quick_templates"
+    />
+
+    <Preference
+        android:key="advanced_settings"
+        android:title="@string/advanced_settings"
+    />
+
+    <Preference
+        android:key="delete_all"
+        android:title="@string/menu_delete"
+    />
+</PreferenceScreen>

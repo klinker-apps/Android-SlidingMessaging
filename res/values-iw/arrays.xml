@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+  <string-array name="titleColors">
+    <item name="Blue">כחול</item>
+    <item name="Green">ירוק</item>
+    <item name="Orange">כתום</item>
+    <item name="Red">אדום</item>
+    <item name="Purple">סגול</item>
+    <item name="Grey">אפור</item>
+    <item name="DarkGrey">אפור כהה</item>
+    <item name="Black">שחור זפת</item>
+  </string-array>
+  <string-array name="messageOptions">
+    <item name="copy_text">העתק טקסט</item>
+    <item name="forward">העבר הודעה</item>
+    <item name="delete_message">מחק הודעה</item>
+  </string-array>
+  <string-array name="messageOptions2">
+    <item name="copy_text">העתק טקסט</item>
+    <item name="save_image">שמור תמונה</item>
+    <item name="forward">העבר הודעה</item>
+    <item name="delete_message">מחק הודעה</item>
+  </string-array>
+  <string-array name="ledColors">
+    <item name="White">לבן</item>
+    <item name="Blue">כחול</item>
+    <item name="Green">ירוק</item>
+    <item name="Orange">כתום</item>
+    <item name="Red">אדום</item>
+    <item name="Purple">סגול</item>
+  </string-array>
+  <string-array name="vibratePattern">
+    <item name="short">1 קצר</item>
+    <item name="long">1 ארוך</item>
+    <item name="2short">2 קצרים</item>
+    <item name="2long">2 ארוכים</item>
+    <item name="3short">3 קצרים</item>
+    <item name="3long">3 ארוכים</item>
+  </string-array>
+  <string-array name="smilies">
+    <item name="with">עם אף :-)</item>
+    <item name="without">ללא אף :)</item>
+    <item name="none">ללא</item>
+    <item name="both">שניהם</item>
+  </string-array>
+  <string-array name="quickReplyOptions">
+    <item name="reply">השב</item>
+    <item name="read">קרא</item>
+    <item name="call">התקשר</item>
+  </string-array>
+  <string-array name="slideToMenu">
+    <item name="fullscreen">תפריט מחליק במסך מלא</item>
+    <item name="margins">תפריט מחליק עם שוליים</item>
+    <item name="none">ללא תפריט מחליק(ניווט עם תפריט הפעולות)</item>
+  </string-array>
+  <string-array name="notificationIcon">
+    <item name="White">לבן</item>
+    <item name="Blue">כחול</item>
+    <item name="Green">ירוק</item>
+    <item name="Orange">כתום</item>
+    <item name="Red">אדום</item>
+    <item name="Purple">סגול</item>
+    <item name="Icon">אייקון יישום</item>
+  </string-array>
+  <string-array name="textColors">
+    <item name="Default">ברירת מחדל</item>
+    <item name="White">לבן</item>
+    <item name="Blue">כחול</item>
+    <item name="Green">ירוק</item>
+    <item name="Orange">כתום</item>
+    <item name="Red">אדום</item>
+    <item name="Purple">סגול</item>
+    <item name="Grey">אפור</item>
+    <item name="Black">שחור</item>
+  </string-array>
+  <string-array name="deliveryOptions">
+    <item name="popup">קפוץ במשלוח</item>
+    <item name="toast">Toast on Delivery</item>
+  </string-array>
+  <string-array name="screenTimeout">
+    <item name="1">שניה</item>
+    <item name="5">5 שניות</item>
+    <item name="15">15 שניות</item>
+    <item name="30">30 שניות</item>
+    <item name="60">דקה</item>
+    <item name="180">3 דקות</item>
+    <item name="300">5 דקות</item>
+  </string-array>
+  <string-array name="sendAnimation">
+    <item name="left">החלקה משמאל</item>
+    <item name="right">החלקה מימין</item>
+    <item name="up">החלקה למעלה מלמטה</item>
+    <item name="none">ללא אנימציה</item>
+  </string-array>
+</resources>

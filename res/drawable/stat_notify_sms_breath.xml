@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list android:oneshot="false"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:duration="80" android:drawable="@drawable/stat_notify_sms_0" />
+    <item android:duration="80" android:drawable="@drawable/stat_notify_sms_1" />
+    <item android:duration="80" android:drawable="@drawable/stat_notify_sms_2" />
+    <item android:duration="80" android:drawable="@drawable/stat_notify_sms_3" />
+    <item android:duration="80" android:drawable="@drawable/stat_notify_sms_4" />
+    <item android:duration="80" android:drawable="@drawable/stat_notify_sms_5" />
+    <item android:duration="80" android:drawable="@drawable/stat_notify_sms_6" />
+    <item android:duration="80" android:drawable="@drawable/stat_notify_sms_7" />
+    <item android:duration="80" android:drawable="@drawable/stat_notify_sms_8" />
+    <item android:duration="80" android:drawable="@drawable/stat_notify_sms_9" />
+    <item android:duration="80" android:drawable="@drawable/stat_notify_sms_10" />
+    <item android:duration="80" android:drawable="@drawable/stat_notify_sms_11" />
+    <item android:duration="80" android:drawable="@drawable/stat_notify_sms_12" />
+    <item android:duration="80" android:drawable="@drawable/stat_notify_sms_13" />
+    <item android:duration="80" android:drawable="@drawable/stat_notify_sms_14" />
+    <item android:duration="80" android:drawable="@drawable/stat_notify_sms_15" />
+    <item android:duration="80" android:drawable="@drawable/stat_notify_sms_16" />
+    <item android:duration="80" android:drawable="@drawable/stat_notify_sms_17" />
+    <item android:duration="80" android:drawable="@drawable/stat_notify_sms_18" />
+    <item android:duration="80" android:drawable="@drawable/stat_notify_sms_19" />
+    <item android:duration="80" android:drawable="@drawable/stat_notify_sms_20" />
+    <item android:duration="80" android:drawable="@drawable/stat_notify_sms_19" />
+    <item android:duration="80" android:drawable="@drawable/stat_notify_sms_18" />
+    <item android:duration="80" android:drawable="@drawable/stat_notify_sms_17" />
+    <item android:duration="80" android:drawable="@drawable/stat_notify_sms_16" />
+    <item android:duration="80" android:drawable="@drawable/stat_notify_sms_15" />
+    <item android:duration="80" android:drawable="@drawable/stat_notify_sms_14" />
+    <item android:duration="80" android:drawable="@drawable/stat_notify_sms_13" />
+    <item android:duration="80" android:drawable="@drawable/stat_notify_sms_12" />
+    <item android:duration="80" android:drawable="@drawable/stat_notify_sms_10" />
+    <item android:duration="80" android:drawable="@drawable/stat_notify_sms_9" />
+    <item android:duration="80" android:drawable="@drawable/stat_notify_sms_8" />
+    <item android:duration="80" android:drawable="@drawable/stat_notify_sms_7" />
+    <item android:duration="80" android:drawable="@drawable/stat_notify_sms_6" />
+    <item android:duration="80" android:drawable="@drawable/stat_notify_sms_5" />
+    <item android:duration="80" android:drawable="@drawable/stat_notify_sms_4" />
+    <item android:duration="80" android:drawable="@drawable/stat_notify_sms_3" />
+    <item android:duration="80" android:drawable="@drawable/stat_notify_sms_2" />
+    <item android:duration="80" android:drawable="@drawable/stat_notify_sms_1" />
+    <item android:duration="1000" android:drawable="@drawable/stat_notify_sms_0" />
+</animation-list>

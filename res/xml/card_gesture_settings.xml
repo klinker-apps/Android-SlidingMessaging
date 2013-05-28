@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <CheckBoxPreference
+        android:key="conversation_gesture"
+        android:title="@string/conversation_gesture"
+        android:summary="@string/conversation_gesture_summary"
+        android:defaultValue="true"
+    />
+    
+    <CheckBoxPreference 
+        android:key="new_message_gesture"
+        android:title="@string/new_message_gesture"
+        android:summary="@string/new_message_gesture_summary"
+        android:defaultValue="false"
+    />
+    
+    <com.klinker.android.messaging_sliding.SeekBarPreference
+        android:key="gesture_distance"
+        android:title="@string/gesture_distance"
+        android:summary="@string/gesture_distance_summary"
+        android:defaultValue="15"
+        android:max="50"
+    />
+    
+    <com.klinker.android.messaging_sliding.SeekBarPreference
+        android:key="gesture_length"
+        android:title="@string/gesture_length"
+        android:summary="@string/gesture_length_summary"
+        android:defaultValue="50"
+        android:max="150"
+    />
+    
+    <com.klinker.android.messaging_sliding.SeekBarPreference
+        android:key="gesture_speed"
+        android:title="@string/gesture_speed"
+        android:summary="@string/gesture_speed_summary"
+        android:defaultValue="100"
+        android:max="250"
+    />
+    
+    <Preference
+        android:key="gesture_summary"
+        android:title="@string/gesture_summary"
+        android:summary="@string/gesture_summary_description"
+    />
+
+</PreferenceScreen>
