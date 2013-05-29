@@ -46,7 +46,7 @@ public class SandwichWizardModel extends AbstractWizardModel {
         // These are all the availible pages, or you can make a new one and add it, it is really easy how i have set it up.
         // To-do: Go in and make it so for different situations, different pages are created.
             // also have to actually call the intent to bring up this activity
-            // then make sure the activity closes to the right place, right now it is set up to just take you to the launcher
+            // Done. then make sure the activity closes to the right place, right now it is set up to just take you to the launcher
                 // change this in the mainactivity class
         return new PageList(
                 new SingleFixedChoicePage(this, mContext.getString(R.string.changelog_title))

@@ -26,6 +26,9 @@ public class MainActivity extends FragmentActivity {
 		mNotificationManager.cancel(1);
 		
 		Intent fromIntent = getIntent();
+
+        Intent wizardintent = new Intent(getApplicationContext(), wizardpager.MainActivity.class);
+        startActivity(wizardintent);
 		
 		boolean flag = false;
 
