@@ -6926,6 +6926,9 @@ public class MainActivity extends FragmentActivity {
             if (MainActivity.waitToLoad)
             {
                 spinner.setVisibility(View.VISIBLE);
+            } else
+            {
+                spinner.setVisibility(View.GONE);
             }
 
             if (MainActivity.threadedLoad)
