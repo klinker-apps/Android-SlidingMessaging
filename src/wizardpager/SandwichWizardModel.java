@@ -17,6 +17,7 @@
 package wizardpager;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import wizardpager.wizard.model.AbstractWizardModel;
 import wizardpager.wizard.model.PageList;
 import wizardpager.wizard.model.SingleFixedChoicePage;
@@ -28,9 +29,11 @@ public class SandwichWizardModel extends AbstractWizardModel {
 
     @Override
     protected PageList onNewRootPageList() {
+        String version = "";
+
         return new PageList(
                 new SingleFixedChoicePage(this, "Changes")
-                        .setMessage("Version "+":\n\n" +
+                        .setMessage("Version " + version + ":\n\n" +
                                 "- Major rework of settings layout\n" +
                                 "- Added new 1x1 widget with unread counter\n" +
                                 "- More options for notification icons\n" +

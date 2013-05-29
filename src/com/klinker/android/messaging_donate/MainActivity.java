@@ -29,8 +29,6 @@ public class MainActivity extends FragmentActivity {
 		
 		boolean flag = false;
 
-
-		
 		if (fromIntent.getStringExtra("com.klinker.android.OPEN") != null)
 		{
 			flag = true;
