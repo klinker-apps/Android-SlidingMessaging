@@ -26,8 +26,8 @@ import wizardpager.wizard.model.AbstractWizardModel;
 import wizardpager.wizard.model.PageList;
 import wizardpager.wizard.model.SingleFixedChoicePage;
 
-public class SandwichWizardModel extends AbstractWizardModel {
-    public SandwichWizardModel(Context context) {
+public class CatalogWizardModel extends AbstractWizardModel {
+    public CatalogWizardModel(Context context) {
         super(context);
     }
 
@@ -51,6 +51,7 @@ public class SandwichWizardModel extends AbstractWizardModel {
 
         String changeLog = "Version " + version + ":\n\n" +
                 "- Major rework of settings layout\n" +
+                "- Rework of change log and initial notes\n" +
                 "- Added new 1x1 widget with unread counter\n" +
                 "- More options for notification icons\n" +
                 "- Layout optimizations\n" +
@@ -94,10 +95,6 @@ public class SandwichWizardModel extends AbstractWizardModel {
             haveGoSMS = false;
             extraPageCount--;
         }
-
-        SharedPreferences.Editor prefEdit = sharedPrefs.edit();
-        prefEdit.putString("current_version", version);
-		prefEdit.commit();
 
         switch(extraPageCount)
         {

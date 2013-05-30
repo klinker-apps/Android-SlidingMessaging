@@ -16,8 +16,6 @@
 
 package wizardpager;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -68,7 +66,7 @@ public class MainActivity extends FragmentActivity implements
 
         setContentView(R.layout.wizard_main);
 
-        mWizardModel = new SandwichWizardModel(getBaseContext());
+        mWizardModel = new CatalogWizardModel(getBaseContext());
         fromIntent = getIntent();
         version = fromIntent.getStringExtra("version");
         mWizardModel.version = version;
