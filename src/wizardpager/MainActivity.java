@@ -18,8 +18,12 @@ package wizardpager;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.*;
 import android.support.v4.view.ViewPager;
 import android.util.TypedValue;
@@ -45,7 +49,7 @@ public class MainActivity extends FragmentActivity implements
 
     private boolean mEditingAfterReview;
 
-    private AbstractWizardModel mWizardModel = new SandwichWizardModel(this);
+    private AbstractWizardModel mWizardModel;
 
     private boolean mConsumePageSelectedEvent;
 
@@ -55,9 +59,19 @@ public class MainActivity extends FragmentActivity implements
     private List<Page> mCurrentPageSequence;
     private StepPagerStrip mStepPagerStrip;
 
+    private Intent fromIntent;
+
+    private String version;
+
     public void onCreate(Bundle savedInstanceState) {
               super.onCreate(savedInstanceState);
+
         setContentView(R.layout.wizard_main);
+
+        mWizardModel = new SandwichWizardModel(getBaseContext());
+        fromIntent = getIntent();
+        version = fromIntent.getStringExtra("version");
+        mWizardModel.version = version;
 
         if (savedInstanceState != null) {
             mWizardModel.load(savedInstanceState.getBundle("model"));
@@ -97,12 +111,78 @@ public class MainActivity extends FragmentActivity implements
             }
         });
 
+        final Context context = this;
+
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (mPager.getCurrentItem() == mCurrentPageSequence.size()) {
-                    Intent intent = new Intent(getApplicationContext(), com.klinker.android.messaging_sliding.MainActivity.class);
-                    startActivity(intent);
+                    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+                    String version = "";
+
+                    try {
+                        version = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
+                    } catch (PackageManager.NameNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
+                    SharedPreferences.Editor prefEdit = sharedPrefs.edit();
+                    prefEdit.putString("current_version", version);
+                    prefEdit.commit();
+
+                    boolean flag = false;
+
+                    if (fromIntent.getStringExtra("com.klinker.android.OPEN") != null)
+                    {
+                        flag = true;
+                    }
+
+                    if (sharedPrefs.getString("run_as", "sliding").equals("sliding") || sharedPrefs.getString("run_as", "sliding").equals("hangout"))
+                    {
+                        final Intent intent = new Intent(context, com.klinker.android.messaging_sliding.MainActivity.class);
+                        intent.setAction(fromIntent.getAction());
+                        intent.setData(fromIntent.getData());
+
+                        try
+                        {
+                            intent.putExtras(fromIntent.getExtras());
+                        } catch (Exception e)
+                        {
+
+                        }
+
+                        if (flag)
+                        {
+                            intent.putExtra("com.klinker.android.OPEN", intent.getStringExtra("com.klinker.android.OPEN"));
+                        }
+
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        startActivity(intent);
+                        finish();
+                    } else if (sharedPrefs.getString("run_as", "sliding").equals("card"))
+                    {
+                        final Intent intent = new Intent(context, com.klinker.android.messaging_card.MainActivity.class);
+                        intent.setAction(fromIntent.getAction());
+                        intent.setData(fromIntent.getData());
+
+                        try
+                        {
+                            intent.putExtras(fromIntent.getExtras());
+                        } catch (Exception e)
+                        {
+
+                        }
+
+                        if (flag)
+                        {
+                            intent.putExtra("com.klinker.android.OPEN", intent.getStringExtra("com.klinker.android.OPEN"));
+                        }
+
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        startActivity(intent);
+                        finish();
+                    }
 
                 } else {
                     if (mEditingAfterReview) {

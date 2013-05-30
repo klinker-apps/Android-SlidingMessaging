@@ -25,7 +25,7 @@
     </style>
 
     <!-- Wizard Pager -->
-    <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+    <style name="WizardTheme" parent="android:Theme.Holo.Light.DarkActionBar">
         <item name="textAppearanceFinish">@style/TextAppearanceFinish</item>
     </style>
 

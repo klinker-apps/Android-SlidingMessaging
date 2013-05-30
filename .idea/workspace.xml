@@ -83,9 +83,106 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1e4b5eb9-13da-4bef-bd83-6650ca630326" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/google/android/mms/util/AbstractCache.java" afterPath="$PROJECT_DIR$/src/com/google/android/mms/util/AbstractCache.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/android/mms/transaction/AbstractRetryScheme.java" afterPath="$PROJECT_DIR$/src/com/android/mms/transaction/AbstractRetryScheme.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/wizardpager/wizard/model/AbstractWizardModel.java" afterPath="$PROJECT_DIR$/src/wizardpager/wizard/model/AbstractWizardModel.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/google/android/mms/pdu/AcknowledgeInd.java" afterPath="$PROJECT_DIR$/src/com/google/android/mms/pdu/AcknowledgeInd.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/android/internal/util/ArrayUtils.java" afterPath="$PROJECT_DIR$/src/com/android/internal/util/ArrayUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/google/android/mms/pdu/Base64.java" afterPath="$PROJECT_DIR$/src/com/google/android/mms/pdu/Base64.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/google/android/mms/pdu/CharacterSets.java" afterPath="$PROJECT_DIR$/src/com/google/android/mms/pdu/CharacterSets.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/android/net/ConnectivityManager.java" afterPath="$PROJECT_DIR$/src/android/net/ConnectivityManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/google/android/mms/ContentType.java" afterPath="$PROJECT_DIR$/src/com/google/android/mms/ContentType.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/android/mms/transaction/DefaultRetryScheme.java" afterPath="$PROJECT_DIR$/src/com/android/mms/transaction/DefaultRetryScheme.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/google/android/mms/pdu/DeliveryInd.java" afterPath="$PROJECT_DIR$/src/com/google/android/mms/pdu/DeliveryInd.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/android/net/DhcpInfoInternal.java" afterPath="$PROJECT_DIR$/src/android/net/DhcpInfoInternal.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/google/android/mms/util/DownloadDrmHelper.java" afterPath="$PROJECT_DIR$/src/com/google/android/mms/util/DownloadDrmHelper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/android/mms/util/DownloadManager.java" afterPath="$PROJECT_DIR$/src/com/android/mms/util/DownloadManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/android/provider/Downloads.java" afterPath="$PROJECT_DIR$/src/android/provider/Downloads.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/google/android/mms/util/DrmConvertSession.java" afterPath="$PROJECT_DIR$/src/com/google/android/mms/util/DrmConvertSession.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/android/internal/telephony/EncodeException.java" afterPath="$PROJECT_DIR$/src/com/android/internal/telephony/EncodeException.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/google/android/mms/pdu/EncodedStringValue.java" afterPath="$PROJECT_DIR$/src/com/google/android/mms/pdu/EncodedStringValue.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/google/android/mms/pdu/GenericPdu.java" afterPath="$PROJECT_DIR$/src/com/google/android/mms/pdu/GenericPdu.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/android/internal/telephony/GsmAlphabet.java" afterPath="$PROJECT_DIR$/src/com/android/internal/telephony/GsmAlphabet.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/android/mms/transaction/HttpUtils.java" afterPath="$PROJECT_DIR$/src/com/android/mms/transaction/HttpUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/android/net/IConnectivityManager.java" afterPath="$PROJECT_DIR$/src/android/net/IConnectivityManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/android/net/INetworkPolicyListener.java" afterPath="$PROJECT_DIR$/src/android/net/INetworkPolicyListener.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/android/net/INetworkPolicyManager.java" afterPath="$PROJECT_DIR$/src/android/net/INetworkPolicyManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/android/internal/telephony/IccUtils.java" afterPath="$PROJECT_DIR$/src/com/android/internal/telephony/IccUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/android/mms/ui/ImageAttachmentView.java" afterPath="$PROJECT_DIR$/src/com/android/mms/ui/ImageAttachmentView.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/google/android/mms/InvalidHeaderValueException.java" afterPath="$PROJECT_DIR$/src/com/google/android/mms/InvalidHeaderValueException.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/android/internal/net/LegacyVpnInfo.java" afterPath="$PROJECT_DIR$/src/com/android/internal/net/LegacyVpnInfo.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/android/net/LinkAddress.java" afterPath="$PROJECT_DIR$/src/android/net/LinkAddress.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/android/net/LinkCapabilities.java" afterPath="$PROJECT_DIR$/src/android/net/LinkCapabilities.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/android/net/LinkProperties.java" afterPath="$PROJECT_DIR$/src/android/net/LinkProperties.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/klinker/android/messaging_card/MainActivity.java" afterPath="$PROJECT_DIR$/src/com/klinker/android/messaging_card/MainActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/klinker/android/messaging_donate/MainActivity.java" afterPath="$PROJECT_DIR$/src/com/klinker/android/messaging_donate/MainActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MainActivity.java" afterPath="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MainActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/wizardpager/MainActivity.java" afterPath="$PROJECT_DIR$/src/wizardpager/MainActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/android/mms/MmsConfig.java" afterPath="$PROJECT_DIR$/src/com/android/mms/MmsConfig.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/google/android/mms/MmsException.java" afterPath="$PROJECT_DIR$/src/com/google/android/mms/MmsException.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/android/mms/transaction/MmsSystemEventReceiver.java" afterPath="$PROJECT_DIR$/src/com/android/mms/transaction/MmsSystemEventReceiver.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/google/android/mms/pdu/MultimediaMessagePdu.java" afterPath="$PROJECT_DIR$/src/com/google/android/mms/pdu/MultimediaMessagePdu.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/android/net/NetworkIdentity.java" afterPath="$PROJECT_DIR$/src/android/net/NetworkIdentity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/android/net/NetworkPolicy.java" afterPath="$PROJECT_DIR$/src/android/net/NetworkPolicy.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/android/net/NetworkPolicyManager.java" afterPath="$PROJECT_DIR$/src/android/net/NetworkPolicyManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/android/net/NetworkQuotaInfo.java" afterPath="$PROJECT_DIR$/src/android/net/NetworkQuotaInfo.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/android/net/NetworkState.java" afterPath="$PROJECT_DIR$/src/android/net/NetworkState.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/android/net/NetworkTemplate.java" afterPath="$PROJECT_DIR$/src/android/net/NetworkTemplate.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/android/net/NetworkUtils.java" afterPath="$PROJECT_DIR$/src/android/net/NetworkUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/google/android/mms/pdu/NotificationInd.java" afterPath="$PROJECT_DIR$/src/com/google/android/mms/pdu/NotificationInd.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/android/mms/transaction/NotificationTransaction.java" afterPath="$PROJECT_DIR$/src/com/android/mms/transaction/NotificationTransaction.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/google/android/mms/pdu/NotifyRespInd.java" afterPath="$PROJECT_DIR$/src/com/google/android/mms/pdu/NotifyRespInd.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/android/internal/util/Objects.java" afterPath="$PROJECT_DIR$/src/com/android/internal/util/Objects.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/android/mms/transaction/Observable.java" afterPath="$PROJECT_DIR$/src/com/android/mms/transaction/Observable.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/android/mms/transaction/Observer.java" afterPath="$PROJECT_DIR$/src/com/android/mms/transaction/Observer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/google/android/mms/pdu/PduBody.java" afterPath="$PROJECT_DIR$/src/com/google/android/mms/pdu/PduBody.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/google/android/mms/util/PduCache.java" afterPath="$PROJECT_DIR$/src/com/google/android/mms/util/PduCache.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/google/android/mms/util/PduCacheEntry.java" afterPath="$PROJECT_DIR$/src/com/google/android/mms/util/PduCacheEntry.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/google/android/mms/pdu/PduComposer.java" afterPath="$PROJECT_DIR$/src/com/google/android/mms/pdu/PduComposer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/google/android/mms/pdu/PduContentTypes.java" afterPath="$PROJECT_DIR$/src/com/google/android/mms/pdu/PduContentTypes.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/google/android/mms/pdu/PduHeaders.java" afterPath="$PROJECT_DIR$/src/com/google/android/mms/pdu/PduHeaders.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/google/android/mms/pdu/PduParser.java" afterPath="$PROJECT_DIR$/src/com/google/android/mms/pdu/PduParser.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/google/android/mms/pdu/PduPart.java" afterPath="$PROJECT_DIR$/src/com/google/android/mms/pdu/PduPart.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/google/android/mms/pdu/PduPersister.java" afterPath="$PROJECT_DIR$/src/com/google/android/mms/pdu/PduPersister.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/android/internal/util/Preconditions.java" afterPath="$PROJECT_DIR$/src/com/android/internal/util/Preconditions.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/android/mms/transaction/ProgressCallbackEntity.java" afterPath="$PROJECT_DIR$/src/com/android/mms/transaction/ProgressCallbackEntity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/android/net/ProxyProperties.java" afterPath="$PROJECT_DIR$/src/android/net/ProxyProperties.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/android/mms/transaction/PushReceiver.java" afterPath="$PROJECT_DIR$/src/com/android/mms/transaction/PushReceiver.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/google/android/mms/pdu/QuotedPrintable.java" afterPath="$PROJECT_DIR$/src/com/google/android/mms/pdu/QuotedPrintable.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/android/mms/util/RateController.java" afterPath="$PROJECT_DIR$/src/com/android/mms/util/RateController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/google/android/mms/pdu/ReadOrigInd.java" afterPath="$PROJECT_DIR$/src/com/google/android/mms/pdu/ReadOrigInd.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/google/android/mms/pdu/ReadRecInd.java" afterPath="$PROJECT_DIR$/src/com/google/android/mms/pdu/ReadRecInd.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/android/mms/transaction/ReadRecTransaction.java" afterPath="$PROJECT_DIR$/src/com/android/mms/transaction/ReadRecTransaction.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/google/android/mms/pdu/RetrieveConf.java" afterPath="$PROJECT_DIR$/src/com/google/android/mms/pdu/RetrieveConf.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/android/mms/transaction/RetrieveTransaction.java" afterPath="$PROJECT_DIR$/src/com/android/mms/transaction/RetrieveTransaction.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/android/mms/transaction/RetryScheduler.java" afterPath="$PROJECT_DIR$/src/com/android/mms/transaction/RetryScheduler.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/android/net/RouteInfo.java" afterPath="$PROJECT_DIR$/src/android/net/RouteInfo.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/wizardpager/SandwichWizardModel.java" afterPath="$PROJECT_DIR$/src/wizardpager/SandwichWizardModel.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/android/annotation/SdkConstant.java" afterPath="$PROJECT_DIR$/src/android/annotation/SdkConstant.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/google/android/mms/pdu/SendConf.java" afterPath="$PROJECT_DIR$/src/com/google/android/mms/pdu/SendConf.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/google/android/mms/pdu/SendReq.java" afterPath="$PROJECT_DIR$/src/com/google/android/mms/pdu/SendReq.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/android/mms/transaction/SendTransaction.java" afterPath="$PROJECT_DIR$/src/com/android/mms/transaction/SendTransaction.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/android/mms/util/SendingProgressTokenManager.java" afterPath="$PROJECT_DIR$/src/com/android/mms/util/SendingProgressTokenManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/google/android/collect/Sets.java" afterPath="$PROJECT_DIR$/src/com/google/android/collect/Sets.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/android/mms/ui/SlideViewInterface.java" afterPath="$PROJECT_DIR$/src/com/android/mms/ui/SlideViewInterface.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/android/internal/telephony/SmsConstants.java" afterPath="$PROJECT_DIR$/src/com/android/internal/telephony/SmsConstants.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/android/database/sqlite/SqliteWrapper.java" afterPath="$PROJECT_DIR$/src/android/database/sqlite/SqliteWrapper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/google/android/mms/util/SqliteWrapper.java" afterPath="$PROJECT_DIR$/src/com/google/android/mms/util/SqliteWrapper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/android/provider/Telephony.java" afterPath="$PROJECT_DIR$/src/android/provider/Telephony.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/android/internal/telephony/TelephonyProperties.java" afterPath="$PROJECT_DIR$/src/com/android/internal/telephony/TelephonyProperties.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/android/mms/transaction/Transaction.java" afterPath="$PROJECT_DIR$/src/com/android/mms/transaction/Transaction.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/android/mms/transaction/TransactionBundle.java" afterPath="$PROJECT_DIR$/src/com/android/mms/transaction/TransactionBundle.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/android/mms/transaction/TransactionService.java" afterPath="$PROJECT_DIR$/src/com/android/mms/transaction/TransactionService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/android/mms/transaction/TransactionSettings.java" afterPath="$PROJECT_DIR$/src/com/android/mms/transaction/TransactionSettings.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/android/mms/transaction/TransactionState.java" afterPath="$PROJECT_DIR$/src/com/android/mms/transaction/TransactionState.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/android/mms/ui/ViewInterface.java" afterPath="$PROJECT_DIR$/src/com/android/mms/ui/ViewInterface.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/android/internal/annotations/VisibleForTesting.java" afterPath="$PROJECT_DIR$/src/com/android/internal/annotations/VisibleForTesting.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/android/internal/net/VpnConfig.java" afterPath="$PROJECT_DIR$/src/com/android/internal/net/VpnConfig.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/android/internal/net/VpnProfile.java" afterPath="$PROJECT_DIR$/src/com/android/internal/net/VpnProfile.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/fragment_page.xml" afterPath="$PROJECT_DIR$/res/layout/fragment_page.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/styles.xml" afterPath="$PROJECT_DIR$/res/values/styles.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/wizard_main.xml" afterPath="$PROJECT_DIR$/res/layout/wizard_main.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Messaging Donate.iws" />
@@ -93,7 +190,7 @@
     <file path="/fragment.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369787072367" ignored="false" />
     <file path="/a.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1368676941114" ignored="false" />
     <file path="/sample.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1368676949020" ignored="false" />
-    <file path="/Dummy.txt" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369799086480" ignored="false" />
+    <file path="/Dummy.txt" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369867037620" ignored="false" />
     <file path="/message_hangout_sent.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369012353566" ignored="false" />
     <file path="/a.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369757797561" ignored="false" />
     <file path="/message_hangout_received.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369012279483" ignored="false" />
@@ -103,10 +200,10 @@
     <file path="/SettingsActivity.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1368790404715" ignored="false" />
     <file path="/AttachMore.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369323106883" ignored="false" />
     <file path="/ImageViewer.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1368790296116" ignored="false" />
-    <file path="/MainActivity.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369801468934" ignored="false" />
+    <file path="/MainActivity.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369867320152" ignored="false" />
     <file path="/ThemeChooserActivity.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369328512623" ignored="false" />
     <file path="/CustomTheme.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369328184208" ignored="false" />
-    <file path="/styles.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369083410800" ignored="false" />
+    <file path="/styles.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369865941331" ignored="false" />
     <file path="/colors.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369778551882" ignored="false" />
     <file path="$PROJECT_DIR$/../SlidingMenu/gen/com/slidingmenu/lib/BuildConfig.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369233469647" ignored="false" />
     <file path="$PROJECT_DIR$/../ColorPickerPreference/gen/net/margaritov/preference/colorpicker/BuildConfig.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369517475183" ignored="false" />
@@ -151,16 +248,13 @@
     <file path="/WidgetProxyActivity.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369677296818" ignored="false" />
     <file path="/message_frame.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369676187646" ignored="false" />
     <file path="/a.groovy" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369757803286" ignored="false" />
-    <file path="$PROJECT_DIR$/src/com/google/android/mms/pdu/PduPart.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369757821128" ignored="false" />
-    <file path="$PROJECT_DIR$/src/com/google/android/mms/pdu/MultimediaMessagePdu.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369757821129" ignored="false" />
     <file path="$PROJECT_DIR$/src/com/google/android/mms/MMSPart.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369757821129" ignored="false" />
     <file path="$PROJECT_DIR$/src/com/google/android/mms/APN.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369757821129" ignored="false" />
     <file path="$PROJECT_DIR$/src/com/google/android/mms/APNHelper.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369757821129" ignored="false" />
-    <file path="$PROJECT_DIR$/src/com/android/mms/ui/ImageAttachmentView.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369757821129" ignored="false" />
     <file path="$PROJECT_DIR$/../SlidingMenu/src/com/jeremyfeinstein/slidingmenu/lib/SlidingMenu.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369757821416" ignored="false" />
     <file path="$PROJECT_DIR$/../romannurik-code/misc/wizardpager/src/com/example/android/wizardpager/MainActivity.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369778145428" ignored="false" />
     <file path="$PROJECT_DIR$/../romannurik-code/misc/wizardpager/src/com/example/android/wizardpager/SandwichWizardModel.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369777002613" ignored="false" />
-    <file path="/SandwichWizardModel.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369801376044" ignored="false" />
+    <file path="/SandwichWizardModel.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369877087327" ignored="false" />
     <file path="$PROJECT_DIR$/../romannurik-code/misc/wizardpager/res/values/strings.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369768866628" ignored="false" />
     <file path="/SingleChoiceFragment.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369777186042" ignored="false" />
     <file path="$PROJECT_DIR$/../romannurik-code/misc/wizardpager/src/com/example/android/wizardpager/wizard/ui/SingleChoiceFragment.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369777188639" ignored="false" />
@@ -173,8 +267,9 @@
     <file path="$PROJECT_DIR$/../romannurik-code/misc/wizardpager/src/com/example/android/wizardpager/wizard/ui/ReviewFragment.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369774932589" ignored="false" />
     <file path="/ReviewFragment.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369800212599" ignored="false" />
     <file path="$PROJECT_DIR$/../romannurik-code/misc/wizardpager/res/layout/fragment_page_button.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369795736289" ignored="false" />
-    <file path="/fragment_page_button.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369795736289" ignored="false" />
+    <file path="/fragment_page_button.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369866807749" ignored="false" />
     <file path="$PROJECT_DIR$/../romannurik-code/misc/wizardpager/.idea/workspace.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369780511664" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/android/lib/android.jar!/org/jetbrains/android/android.xsd" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369865984539" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -239,49 +334,7 @@
     <favorites_list name="Messaging Donate" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="MainActivity.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_donate/MainActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="39" column="70" selection-start="1330" selection-end="1330" vertical-scroll-proportion="0.84051037">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SandwichWizardModel.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/wizardpager/SandwichWizardModel.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="48" column="21" selection-start="1728" selection-end="1728" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1973#2017#0" expanded="true" />
-                <element signature="e#2523#2571#0" expanded="true" />
-                <element signature="e#2847#2889#0" expanded="true" />
-                <element signature="e#3085#3124#0" expanded="true" />
-                <element signature="e#3162#3198#0" expanded="true" />
-                <element signature="e#3237#3273#0" expanded="true" />
-                <element signature="e#3312#3348#0" expanded="true" />
-                <element signature="e#3387#3423#0" expanded="true" />
-                <element signature="e#3620#3661#0" expanded="true" />
-                <element signature="e#3699#3739#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MainActivity.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/wizardpager/MainActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="103" column="20" selection-start="3639" selection-end="3792" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#4907#4922#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -305,22 +358,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_hangout/MessageArrayAdapter.java" />
-        <option value="$PROJECT_DIR$/res/xml/sliding_theme_settings.xml" />
-        <option value="$PROJECT_DIR$/res/xml/sliding_conversation_settings.xml" />
-        <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/SettingsPagerActivity.java" />
         <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_card/MainActivity.java" />
         <option value="$PROJECT_DIR$/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/res/values-tr/arrays.xml" />
         <option value="$PROJECT_DIR$/res/values-tr/strings.xml" />
         <option value="$PROJECT_DIR$/../SlidingMenu/src/com/jeremyfeinstein/slidingmenu/lib/CustomViewAbove.java" />
-        <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MainActivity.java" />
-        <option value="$PROJECT_DIR$/res/layout/fragment_page_button.xml" />
         <option value="$PROJECT_DIR$/src/wizardpager/wizard/ui/ReviewFragment.java" />
         <option value="$PROJECT_DIR$/res/values/strings.xml" />
-        <option value="$PROJECT_DIR$/src/wizardpager/MainActivity.java" />
-        <option value="$PROJECT_DIR$/src/wizardpager/SandwichWizardModel.java" />
         <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_donate/MainActivity.java" />
+        <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MenuArrayAdapter.java" />
+        <option value="$PROJECT_DIR$/res/values/styles.xml" />
+        <option value="$PROJECT_DIR$/res/layout/wizard_main.xml" />
+        <option value="$PROJECT_DIR$/res/layout/fragment_page.xml" />
+        <option value="$PROJECT_DIR$/res/layout/fragment_page_button.xml" />
+        <option value="$PROJECT_DIR$/src/wizardpager/MainActivity.java" />
+        <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MainActivity.java" />
+        <option value="$PROJECT_DIR$/src/wizardpager/SandwichWizardModel.java" />
       </list>
     </option>
   </component>
@@ -418,6 +471,32 @@
               <option name="myItemId" value="android" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="messaging_sliding" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SlidingMessaging" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="slidingmessaging" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -476,6 +555,28 @@
               <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SlidingMessaging" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="slidingmessaging" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
@@ -495,11 +596,11 @@
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="restartRequiresConfirmation" value="true" />
-    <property name="MemberChooser.showClasses" value="true" />
     <property name="FullScreen" value="false" />
+    <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
@@ -764,12 +865,19 @@
       <workItem from="1369793581500" duration="755000" />
       <workItem from="1369794366349" duration="1806000" />
       <workItem from="1369797104007" duration="975000" />
-      <workItem from="1369798871195" duration="2617000" />
+      <workItem from="1369798871195" duration="2890000" />
+      <workItem from="1369801820706" duration="228000" />
+      <workItem from="1369835246135" duration="1400000" />
+      <workItem from="1369839349286" duration="708000" />
+      <workItem from="1369841129880" duration="572000" />
+      <workItem from="1369842201988" duration="2897000" />
+      <workItem from="1369865844788" duration="1133000" />
+      <workItem from="1369867030232" duration="3662000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="242348000" />
+    <option name="totallyTimeSpent" value="253221000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -793,27 +901,27 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33964366" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32924226" sideWeight="0.64365256" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39977974" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27282852" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35634744" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17899892" sideWeight="0.29705215" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17899892" sideWeight="0.29705215" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32962137" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35634744" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36222222" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2709251" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3596882" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24972796" sideWeight="0.72902495" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1755603" sideWeight="0.7271715" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27282852" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3242424" sideWeight="0.8624161" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3239061" sideWeight="0.6403118" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3239061" sideWeight="0.86414254" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3239061" sideWeight="0.6403118" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32962137" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -833,18 +941,18 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3997773" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13585746" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17899892" sideWeight="0.29705215" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17899892" sideWeight="0.29705215" order="4" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35746104" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36453745" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2709251" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24972796" sideWeight="0.72902495" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17716116" sideWeight="0.86414254" order="1" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13585746" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13585746" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -908,138 +1016,144 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/New Message.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
+    <entry file="file://$PROJECT_DIR$/src/wizardpager/wizard/model/PageList.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="13" selection-start="719" selection-end="719" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://C:/Program Files (x86)/Android/android-sdk/sources/android-17/android/content/res/Resources.java">
+    <entry file="file://$PROJECT_DIR$/src/wizardpager/wizard/model/ReviewItem.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="763" column="0" selection-start="32833" selection-end="32833" vertical-scroll-proportion="0.0194508">
+        <state line="23" column="13" selection-start="759" selection-end="759" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/wizardpager/wizard/model/SingleFixedChoicePage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="53" column="13" selection-start="1588" selection-end="1588" vertical-scroll-proportion="0.9459459" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MenuArrayAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="170" column="0" selection-start="7726" selection-end="7726" vertical-scroll-proportion="1.5005807">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://C:/Program Files (x86)/Android/android-sdk/sources/android-17/java/lang/reflect/Method.java">
+    <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/SettingsPagerActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="524" column="0" selection-start="18971" selection-end="18971" vertical-scroll-proportion="0.0194508" />
-      </provider>
-    </entry>
-    <entry file="file://C:/Program Files (x86)/Android/android-sdk/sources/android-17/android/os/Looper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="136" column="0" selection-start="4739" selection-end="4739" vertical-scroll-proportion="0.0194508" />
-      </provider>
-    </entry>
-    <entry file="file://C:/Program Files (x86)/Android/android-sdk/sources/android-17/android/os/Handler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="98" column="0" selection-start="4070" selection-end="4070" vertical-scroll-proportion="0.0194508" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/values/attrs.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/values/colors.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/values/dimens.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="74" column="44" selection-start="2564" selection-end="2564" vertical-scroll-proportion="0.31591174">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/values/styles.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="47" selection-start="1256" selection-end="1256" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="27" column="28" selection-start="882" selection-end="882" vertical-scroll-proportion="0.2567783" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
+    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="418" column="39" selection-start="33744" selection-end="33744" vertical-scroll-proportion="0.0">
+        <state line="249" column="48" selection-start="10989" selection-end="10989" vertical-scroll-proportion="0.37480065">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/fragment_page_button.xml">
+    <entry file="file://$PROJECT_DIR$/res/layout/fragment_page.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="49" selection-start="899" selection-end="899" vertical-scroll-proportion="-15.64">
+          <folding />
+        </state>
+      </provider>
       <provider editor-type-id="android-designer">
         <state />
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/fragment_page_button.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="40" selection-start="703" selection-end="703" vertical-scroll-proportion="0.34120426">
+        <state line="31" column="47" selection-start="1243" selection-end="1243" vertical-scroll-proportion="-21.08">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/wizard_main.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="42" column="31" selection-start="1627" selection-end="1627" vertical-scroll-proportion="-24.44">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/wizardpager/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="70" column="47" selection-start="2219" selection-end="2235" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Program Files (x86)/Android/android-sdk/sources/android-17/android/app/Activity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5155" column="0" selection-start="217294" selection-end="217294" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/wizardpager/wizard/model/AbstractWizardModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="39" column="0" selection-start="1327" selection-end="1327" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="388" column="49" selection-start="14216" selection-end="14248" vertical-scroll-proportion="4.8175898">
-          <folding>
-            <element signature="e#8670#8720#0" expanded="true" />
-            <element signature="e#9128#9184#0" expanded="true" />
-            <element signature="e#9233#9730#0" expanded="true" />
-            <element signature="e#9719#9720#0" expanded="true" />
-            <element signature="e#10171#10225#0" expanded="true" />
-            <element signature="e#10423#10471#0" expanded="true" />
-            <element signature="e#12168#12213#0" expanded="true" />
-            <element signature="e#12239#12281#0" expanded="true" />
-            <element signature="e#12301#12343#0" expanded="true" />
-            <element signature="e#12363#12405#0" expanded="true" />
-            <element signature="e#12425#12467#0" expanded="true" />
-            <element signature="e#14126#14173#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/wizardpager/wizard/ui/ReviewFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="60" column="48" selection-start="2008" selection-end="2008" vertical-scroll-proportion="0.7320574">
-          <folding>
-            <element signature="e#2299#2355#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/wizardpager/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="103" column="20" selection-start="3639" selection-end="3792" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#4907#4922#0" expanded="true" />
-          </folding>
+        <state line="189" column="11" selection-start="6764" selection-end="6781" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/wizardpager/SandwichWizardModel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="21" selection-start="1728" selection-end="1728" vertical-scroll-proportion="0.0">
+        <state line="99" column="26" selection-start="3560" selection-end="3560" vertical-scroll-proportion="2.6842105">
           <folding>
+            <element signature="e#0#10827#0" expanded="true" />
             <element signature="imports" expanded="true" />
-            <element signature="e#1973#2017#0" expanded="true" />
-            <element signature="e#2523#2571#0" expanded="true" />
-            <element signature="e#2847#2889#0" expanded="true" />
-            <element signature="e#3085#3124#0" expanded="true" />
-            <element signature="e#3162#3198#0" expanded="true" />
-            <element signature="e#3237#3273#0" expanded="true" />
-            <element signature="e#3312#3348#0" expanded="true" />
-            <element signature="e#3387#3423#0" expanded="true" />
-            <element signature="e#3620#3661#0" expanded="true" />
-            <element signature="e#3699#3739#0" expanded="true" />
+            <element signature="e#2252#2294#0" expanded="true" />
+            <element signature="e#2320#2356#0" expanded="true" />
+            <element signature="e#2382#2418#0" expanded="true" />
+            <element signature="e#2437#2473#0" expanded="true" />
+            <element signature="e#2492#2528#0" expanded="true" />
+            <element signature="e#2554#2594#0" expanded="true" />
+            <element signature="e#3771#3815#0" expanded="true" />
+            <element signature="e#3994#4033#0" expanded="true" />
+            <element signature="e#4418#4462#0" expanded="true" />
+            <element signature="e#4641#4689#0" expanded="true" />
+            <element signature="e#5064#5108#0" expanded="true" />
+            <element signature="e#5287#5328#0" expanded="true" />
+            <element signature="e#5642#5686#0" expanded="true" />
+            <element signature="e#5865#5913#0" expanded="true" />
+            <element signature="e#6206#6245#0" expanded="true" />
+            <element signature="e#6641#6685#0" expanded="true" />
+            <element signature="e#6864#6903#0" expanded="true" />
+            <element signature="e#7191#7232#0" expanded="true" />
+            <element signature="e#7489#7533#0" expanded="true" />
+            <element signature="e#7712#7760#0" expanded="true" />
+            <element signature="e#8053#8094#0" expanded="true" />
+            <element signature="e#8341#8385#0" expanded="true" />
+            <element signature="e#8552#8600#0" expanded="true" />
+            <element signature="e#8877#8916#0" expanded="true" />
+            <element signature="e#9188#9229#0" expanded="true" />
+            <element signature="e#9451#9495#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_donate/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="70" selection-start="1330" selection-end="1330" vertical-scroll-proportion="0.84051037">
+        <state line="31" column="13" selection-start="1064" selection-end="1064" vertical-scroll-proportion="0.031897925">
           <folding />
         </state>
       </provider>

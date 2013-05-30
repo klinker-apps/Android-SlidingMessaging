@@ -17,23 +17,30 @@
 package wizardpager;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import com.klinker.android.messaging_donate.R;
 import wizardpager.wizard.model.AbstractWizardModel;
 import wizardpager.wizard.model.PageList;
 import wizardpager.wizard.model.SingleFixedChoicePage;
 
 public class SandwichWizardModel extends AbstractWizardModel {
-    private Context mContext;
-
     public SandwichWizardModel(Context context) {
         super(context);
-        mContext = context;
-
     }
 
     @Override
     protected PageList onNewRootPageList() {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+
+        boolean needTheme = false;
+        boolean needPro = false;
+        boolean haveGoSMS = true;
+
+        int extraPageCount = 1;
+
         String version = "";
 
         try {
@@ -42,41 +49,190 @@ public class SandwichWizardModel extends AbstractWizardModel {
             e.printStackTrace();
         }
 
+        String changeLog = "Version " + version + ":\n\n" +
+                "- Major rework of settings layout\n" +
+                "- Added new 1x1 widget with unread counter\n" +
+                "- More options for notification icons\n" +
+                "- Layout optimizations\n" +
+                "- Bug fixes\n\n";
 
-        // These are all the availible pages, or you can make a new one and add it, it is really easy how i have set it up.
-        // To-do: Go in and make it so for different situations, different pages are created.
-            // also have to actually call the intent to bring up this activity
-            // Done. then make sure the activity closes to the right place, right now it is set up to just take you to the launcher
-                // change this in the mainactivity class
+        String themeEditor = "The theme editor now fully supports the Hangouts UI as well, " +
+                "better time then ever to get on board and start making Sliding Messaging look exactly how you want!\n\n" +
+                mContext.getString(R.string.theme_support);
+
+        String goPro = mContext.getString(R.string.go_pro1) + "\n" +
+                mContext.getString(R.string.go_pro2) +
+                mContext.getString(R.string.go_pro3) +
+                mContext.getString(R.string.go_pro4);
+
+        String goSMS = mContext.getString(R.string.go_sms_body);
+
+        try
+        {
+            PackageManager pm = mContext.getPackageManager();
+            pm.getPackageInfo("com.klinker.android.messaging_theme", PackageManager.GET_ACTIVITIES);
+        } catch (Exception e)
+        {
+            needTheme = true;
+            extraPageCount++;
+        }
+        try
+		{
+			PackageManager pm = mContext.getPackageManager();
+			pm.getPackageInfo("com.klinker.android.messaging_donate", PackageManager.GET_ACTIVITIES);
+		} catch (Exception e)
+		{
+            needPro = true;
+            extraPageCount++;
+        }
+        try
+        {
+            PackageManager pm = mContext.getPackageManager();
+     		 pm.getPackageInfo("com.jb.gosms", PackageManager.GET_ACTIVITIES);
+        } catch (Exception e)
+        {
+            haveGoSMS = false;
+            extraPageCount--;
+        }
+
+        SharedPreferences.Editor prefEdit = sharedPrefs.edit();
+        prefEdit.putString("current_version", version);
+		prefEdit.commit();
+
+        switch(extraPageCount)
+        {
+            case 1:
+                if (needPro)
+                {
+                    return new PageList(
+                            new SingleFixedChoicePage(this, mContext.getString(R.string.changelog_title))
+                                    .setMessage(changeLog)
+                                    .setRequired(false),
+
+                            new SingleFixedChoicePage(this, mContext.getString(R.string.pro_dialog))
+                                    .setMessage(goPro)
+                                    .setButton(true, "market://details?id=com.klinker.android.messaging_donate")
+                                    .setRequired(false));
+                } else if (needTheme)
+                {
+                    return new PageList(
+                            new SingleFixedChoicePage(this, mContext.getString(R.string.changelog_title))
+                                    .setMessage(changeLog)
+                                    .setRequired(false),
+
+                            new SingleFixedChoicePage(this, mContext.getString(R.string.theme_support_title))
+                                    .setMessage(themeEditor)
+                                    .setButton(true, "market://details?id=com.klinker.android.messaging_theme")
+                                    .setRequired(false));
+                } else
+                {
+                    return new PageList(
+                            new SingleFixedChoicePage(this, mContext.getString(R.string.changelog_title))
+                                    .setMessage(changeLog)
+                                    .setRequired(false),
+
+                            new SingleFixedChoicePage(this, mContext.getString(R.string.go_sms_title))
+                                    .setMessage(goSMS)
+                                    .setRequired(false));
+                }
+
+            case 2:
+                if(needPro && needTheme)
+                {
+                    return new PageList(
+                            new SingleFixedChoicePage(this, mContext.getString(R.string.changelog_title))
+                                    .setMessage(changeLog)
+                                    .setRequired(false),
+
+                            new SingleFixedChoicePage(this, mContext.getString(R.string.theme_support_title))
+                                    .setMessage(themeEditor)
+                                    .setButton(true, "market://details?id=com.klinker.android.messaging_theme")
+                                    .setRequired(false),
+
+                            new SingleFixedChoicePage(this, mContext.getString(R.string.pro_dialog))
+                                    .setMessage(goPro)
+                                    .setButton(true, "market://details?id=com.klinker.android.messaging_donate")
+                                    .setRequired(false));
+                } else if (needPro && haveGoSMS)
+                {
+                    return new PageList(
+                            new SingleFixedChoicePage(this, mContext.getString(R.string.changelog_title))
+                                    .setMessage(changeLog)
+                                    .setRequired(false),
+
+                            new SingleFixedChoicePage(this, mContext.getString(R.string.pro_dialog))
+                                    .setMessage(goPro)
+                                    .setButton(true, "market://details?id=com.klinker.android.messaging_donate")
+                                    .setRequired(false),
+
+                            new SingleFixedChoicePage(this, mContext.getString(R.string.go_sms_title))
+                                    .setMessage(goSMS)
+                                    .setRequired(false));
+                } else
+                {
+                    return new PageList(
+                            new SingleFixedChoicePage(this, mContext.getString(R.string.changelog_title))
+                                    .setMessage(changeLog)
+                                    .setRequired(false),
+
+                            new SingleFixedChoicePage(this, mContext.getString(R.string.theme_support_title))
+                                    .setMessage(themeEditor)
+                                    .setButton(true, "market://details?id=com.klinker.android.messaging_theme")
+                                    .setRequired(false),
+
+                            new SingleFixedChoicePage(this, mContext.getString(R.string.go_sms_title))
+                                    .setMessage(goSMS)
+                                    .setRequired(false));
+                }
+
+            case 3:
+                return new PageList(
+                        new SingleFixedChoicePage(this, mContext.getString(R.string.changelog_title))
+                                .setMessage(changeLog)
+                                .setRequired(false),
+
+                        new SingleFixedChoicePage(this, mContext.getString(R.string.theme_support_title))
+                                .setMessage(themeEditor)
+                                .setButton(true, "market://details?id=com.klinker.android.messaging_theme")
+                                .setRequired(false),
+
+                        new SingleFixedChoicePage(this, mContext.getString(R.string.pro_dialog))
+                                .setMessage(goPro)
+                                .setButton(true, "market://details?id=com.klinker.android.messaging_donate")
+                                .setRequired(false),
+
+                        new SingleFixedChoicePage(this, mContext.getString(R.string.go_sms_title))
+                                .setMessage(goSMS)
+                                .setRequired(false));
+
+            default:
+                return new PageList(
+                        new SingleFixedChoicePage(this, mContext.getString(R.string.changelog_title))
+                                .setMessage(changeLog)
+                                .setRequired(false));
+
+        }
+/*
         return new PageList(
                 new SingleFixedChoicePage(this, mContext.getString(R.string.changelog_title))
-                        .setMessage("Version " + version + ":\n\n" +
-                                "- Major rework of settings layout\n" +
-                                "- Added new 1x1 widget with unread counter\n" +
-                                "- More options for notification icons\n" +
-                                "- Layout optimizations\n" +
-                                "- Bug fixes\n\n")
+                        .setMessage(changeLog)
                         .setRequired(false),
 
                 new SingleFixedChoicePage(this, mContext.getString(R.string.theme_support_title))
-                        .setMessage("The theme editor now fully supports the Hangouts UI as well, " +
-                                "better time then ever to get on board and start making Sliding Messaging look exactly how you want!\n\n" +
-                                mContext.getString(R.string.theme_support))
+                        .setMessage(themeEditor)
                         .setButton(true, "market://details?id=com.klinker.android.messaging_theme")
                         .setRequired(false),
 
                 new SingleFixedChoicePage(this, mContext.getString(R.string.pro_dialog))
-                        .setMessage(mContext.getString(R.string.go_pro1) +
-                                    mContext.getString(R.string.go_pro2) +
-                                    mContext.getString(R.string.go_pro3) +
-                                    mContext.getString(R.string.go_pro4))
+                        .setMessage(goPro)
                         .setButton(true, "market://details?id=com.klinker.android.messaging_donate")
                         .setRequired(false),
 
                 new SingleFixedChoicePage(this, mContext.getString(R.string.go_sms_title))
-                        .setMessage(mContext.getString(R.string.go_sms_body))
+                        .setMessage(goSMS)
                         .setRequired(false));
-                // Note: The final page is the Notes page, this page can be edited in the ReviewFragment class
-                // It wasn't put here because it is automatically called in the main activity and is nessesary to finish the intent.
+*/
+        // Note: The final page is the Notes page, this page can be edited in the ReviewFragment class
+        // It wasn't put here because it is automatically called in the main activity and is nessesary to finish the intent.
     }
 }

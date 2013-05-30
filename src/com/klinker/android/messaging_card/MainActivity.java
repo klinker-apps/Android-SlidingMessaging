@@ -252,183 +252,183 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 		
 		getWindow().setBackgroundDrawable(null);
 		
-		String version = "";
-    	
-    	try {
-			version = this.getPackageManager().getPackageInfo(this.getPackageName(), 0).versionName;
-		} catch (NameNotFoundException e) {
-			e.printStackTrace();
-		}
-
-        if (!sharedPrefs.getString("current_version", "0").equals(version))
-        {
-            final Context context = this;
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(getResources().getString(R.string.changelog_title));
-            builder.setMessage("Version " + version + ":\n\n" +
-                               "- Major rework of settings layout\n" +
-                               "- Added new 1x1 widget with unread counter\n" +
-                               "- More options for notification icons\n" +
-                               "- Layout optimizations\n" +
-                               "- Bug fixes\n\n" +
-                               getResources().getString(R.string.changelog_disclaimers));
-
-            builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface arg0, int arg1) {
-                    String version = "";
-
-                    try {
-                        version = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
-                    } catch (NameNotFoundException e) {
-                        e.printStackTrace();
-                    }
-
-                    Editor prefEdit = sharedPrefs.edit();
-                    prefEdit.putString("current_version", version);
-                    prefEdit.commit();
-                }
-
-            });
-
-            builder.create().show();
-        }
-
-        try
-        {
-            PackageManager pm = this.getPackageManager();
-            pm.getPackageInfo("com.klinker.android.messaging_theme", PackageManager.GET_ACTIVITIES);
-        } catch (PackageManager.NameNotFoundException e)
-        {
-            if (sharedPrefs.getBoolean("show_theme_dialog", true))
-            {
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle(getResources().getString(R.string.theme_support_title));
-                builder.setMessage("The theme editor now fully supports the Google Hangouts Layout as well, better time then ever to get on board and start making Sliding Messaging look exactly how you want!\n\n" + getResources().getString(R.string.theme_support));
-
-                builder.setPositiveButton(R.string.get_it_now, new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        Editor prefEdit = sharedPrefs.edit();
-                        prefEdit.putBoolean("show_theme_dialog", false);
-                        prefEdit.commit();
-
-                        Intent intent = new Intent(Intent.ACTION_VIEW);
-                        intent.setData(Uri.parse("market://details?id=com.klinker.android.messaging_theme"));
-                        startActivity(intent);
-                    }
-
-                });
-
-                builder.setNeutralButton(R.string.remind_me_later, new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        Editor prefEdit = sharedPrefs.edit();
-                        prefEdit.putBoolean("show_theme_dialog", true);
-                        prefEdit.commit();
-                    }
-                });
-
-                builder.setNegativeButton(R.string.dont_bother, new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        Editor prefEdit = sharedPrefs.edit();
-                        prefEdit.putBoolean("show_theme_dialog", false);
-                        prefEdit.commit();
-                    }
-                });
-
-                builder.create().show();
-            }
-        }
-		
-		try
-		{
-			PackageManager pm = this.getPackageManager();
-			pm.getPackageInfo("com.klinker.android.messaging_donate", PackageManager.GET_ACTIVITIES);
-		} catch (Exception e)
-		{
-			if (sharedPrefs.getBoolean("show_pro_dialog", true))
-			{
-				AlertDialog.Builder builder = new AlertDialog.Builder(this);
-				builder.setTitle(getResources().getString(R.string.pro_dialog));
-				builder.setMessage(getResources().getString(R.string.go_pro1) +
-						           getResources().getString(R.string.go_pro2) +
-						           getResources().getString(R.string.go_pro3) +
-						           getResources().getString(R.string.go_pro4));
-				
-				builder.setPositiveButton(R.string.get_it_now, new DialogInterface.OnClickListener() {
-			    	
-    				@Override
-    				public void onClick(DialogInterface arg0, int arg1) {
-    					 Editor prefEdit = sharedPrefs.edit();
-    		       		 prefEdit.putBoolean("show_pro_dialog", false);
-    		       		 prefEdit.commit();
-    		       		 
-    					 Intent intent = new Intent(Intent.ACTION_VIEW);
-    		       		 intent.setData(Uri.parse("market://details?id=com.klinker.android.messaging_donate"));
-    		       		 startActivity(intent);
-    				}
-    				
-    			});
-    			
-    			builder.setNeutralButton(R.string.remind_me_later, new DialogInterface.OnClickListener() {
-    				
-    				@Override
-    				public void onClick(DialogInterface arg0, int arg1) {
-    					 Editor prefEdit = sharedPrefs.edit();
-    		       		 prefEdit.putBoolean("show_pro_dialog", true);
-    		       		 prefEdit.commit();
-    				}
-    			});
-    			
-    			builder.setNegativeButton(R.string.dont_bother, new DialogInterface.OnClickListener() {
-    				
-    				@Override
-    				public void onClick(DialogInterface arg0, int arg1) {
-    					 Editor prefEdit = sharedPrefs.edit();
-    		       		 prefEdit.putBoolean("show_pro_dialog", false);
-    		       		 prefEdit.commit();
-    				}
-    			});
-    			
-    			builder.create().show();
-			}
-		}
-		
-		try
-		{
-			 PackageManager pm = this.getPackageManager();
-     		 pm.getPackageInfo("com.jb.gosms", PackageManager.GET_ACTIVITIES);
-     		 
-     		if (sharedPrefs.getBoolean("show_go_sms_dialog", true))
-    		{
-    			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    			builder.setTitle(getResources().getString(R.string.go_sms_title));
-    			builder.setMessage(getResources().getString(R.string.go_sms_body));
-    			
-    			builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-    	
-    				@Override
-    				public void onClick(DialogInterface arg0, int arg1) {
-    					 Editor prefEdit = sharedPrefs.edit();
-    		       		 prefEdit.putBoolean("show_go_sms_dialog", false);
-    		       		 prefEdit.commit();
-    				}
-    				
-    			});
-    			
-    			builder.create().show();
-    		}
-		} catch (Exception e)
-		{
-			
-		}
+//		String version = "";
+//
+//    	try {
+//			version = this.getPackageManager().getPackageInfo(this.getPackageName(), 0).versionName;
+//		} catch (NameNotFoundException e) {
+//			e.printStackTrace();
+//		}
+//
+//        if (!sharedPrefs.getString("current_version", "0").equals(version))
+//        {
+//            final Context context = this;
+//
+//            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//            builder.setTitle(getResources().getString(R.string.changelog_title));
+//            builder.setMessage("Version " + version + ":\n\n" +
+//                               "- Major rework of settings layout\n" +
+//                               "- Added new 1x1 widget with unread counter\n" +
+//                               "- More options for notification icons\n" +
+//                               "- Layout optimizations\n" +
+//                               "- Bug fixes\n\n" +
+//                               getResources().getString(R.string.changelog_disclaimers));
+//
+//            builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+//
+//                @Override
+//                public void onClick(DialogInterface arg0, int arg1) {
+//                    String version = "";
+//
+//                    try {
+//                        version = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
+//                    } catch (NameNotFoundException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                    Editor prefEdit = sharedPrefs.edit();
+//                    prefEdit.putString("current_version", version);
+//                    prefEdit.commit();
+//                }
+//
+//            });
+//
+//            builder.create().show();
+//        }
+//
+//        try
+//        {
+//            PackageManager pm = this.getPackageManager();
+//            pm.getPackageInfo("com.klinker.android.messaging_theme", PackageManager.GET_ACTIVITIES);
+//        } catch (PackageManager.NameNotFoundException e)
+//        {
+//            if (sharedPrefs.getBoolean("show_theme_dialog", true))
+//            {
+//                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//                builder.setTitle(getResources().getString(R.string.theme_support_title));
+//                builder.setMessage("The theme editor now fully supports the Google Hangouts Layout as well, better time then ever to get on board and start making Sliding Messaging look exactly how you want!\n\n" + getResources().getString(R.string.theme_support));
+//
+//                builder.setPositiveButton(R.string.get_it_now, new DialogInterface.OnClickListener() {
+//
+//                    @Override
+//                    public void onClick(DialogInterface arg0, int arg1) {
+//                        Editor prefEdit = sharedPrefs.edit();
+//                        prefEdit.putBoolean("show_theme_dialog", false);
+//                        prefEdit.commit();
+//
+//                        Intent intent = new Intent(Intent.ACTION_VIEW);
+//                        intent.setData(Uri.parse("market://details?id=com.klinker.android.messaging_theme"));
+//                        startActivity(intent);
+//                    }
+//
+//                });
+//
+//                builder.setNeutralButton(R.string.remind_me_later, new DialogInterface.OnClickListener() {
+//
+//                    @Override
+//                    public void onClick(DialogInterface arg0, int arg1) {
+//                        Editor prefEdit = sharedPrefs.edit();
+//                        prefEdit.putBoolean("show_theme_dialog", true);
+//                        prefEdit.commit();
+//                    }
+//                });
+//
+//                builder.setNegativeButton(R.string.dont_bother, new DialogInterface.OnClickListener() {
+//
+//                    @Override
+//                    public void onClick(DialogInterface arg0, int arg1) {
+//                        Editor prefEdit = sharedPrefs.edit();
+//                        prefEdit.putBoolean("show_theme_dialog", false);
+//                        prefEdit.commit();
+//                    }
+//                });
+//
+//                builder.create().show();
+//            }
+//        }
+//
+//		try
+//		{
+//			PackageManager pm = this.getPackageManager();
+//			pm.getPackageInfo("com.klinker.android.messaging_donate", PackageManager.GET_ACTIVITIES);
+//		} catch (Exception e)
+//		{
+//			if (sharedPrefs.getBoolean("show_pro_dialog", true))
+//			{
+//				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//				builder.setTitle(getResources().getString(R.string.pro_dialog));
+//				builder.setMessage(getResources().getString(R.string.go_pro1) +
+//						           getResources().getString(R.string.go_pro2) +
+//						           getResources().getString(R.string.go_pro3) +
+//						           getResources().getString(R.string.go_pro4));
+//
+//				builder.setPositiveButton(R.string.get_it_now, new DialogInterface.OnClickListener() {
+//
+//    				@Override
+//    				public void onClick(DialogInterface arg0, int arg1) {
+//    					 Editor prefEdit = sharedPrefs.edit();
+//    		       		 prefEdit.putBoolean("show_pro_dialog", false);
+//    		       		 prefEdit.commit();
+//
+//    					 Intent intent = new Intent(Intent.ACTION_VIEW);
+//    		       		 intent.setData(Uri.parse("market://details?id=com.klinker.android.messaging_donate"));
+//    		       		 startActivity(intent);
+//    				}
+//
+//    			});
+//
+//    			builder.setNeutralButton(R.string.remind_me_later, new DialogInterface.OnClickListener() {
+//
+//    				@Override
+//    				public void onClick(DialogInterface arg0, int arg1) {
+//    					 Editor prefEdit = sharedPrefs.edit();
+//    		       		 prefEdit.putBoolean("show_pro_dialog", true);
+//    		       		 prefEdit.commit();
+//    				}
+//    			});
+//
+//    			builder.setNegativeButton(R.string.dont_bother, new DialogInterface.OnClickListener() {
+//
+//    				@Override
+//    				public void onClick(DialogInterface arg0, int arg1) {
+//    					 Editor prefEdit = sharedPrefs.edit();
+//    		       		 prefEdit.putBoolean("show_pro_dialog", false);
+//    		       		 prefEdit.commit();
+//    				}
+//    			});
+//
+//    			builder.create().show();
+//			}
+//		}
+//
+//		try
+//		{
+//			 PackageManager pm = this.getPackageManager();
+//     		 pm.getPackageInfo("com.jb.gosms", PackageManager.GET_ACTIVITIES);
+//
+//     		if (sharedPrefs.getBoolean("show_go_sms_dialog", true))
+//    		{
+//    			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//    			builder.setTitle(getResources().getString(R.string.go_sms_title));
+//    			builder.setMessage(getResources().getString(R.string.go_sms_body));
+//
+//    			builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+//
+//    				@Override
+//    				public void onClick(DialogInterface arg0, int arg1) {
+//    					 Editor prefEdit = sharedPrefs.edit();
+//    		       		 prefEdit.putBoolean("show_go_sms_dialog", false);
+//    		       		 prefEdit.commit();
+//    				}
+//
+//    			});
+//
+//    			builder.create().show();
+//    		}
+//		} catch (Exception e)
+//		{
+//
+//		}
 		
 		receiver = new BroadcastReceiver() {
 		    @Override
