@@ -209,7 +209,7 @@ public class MainActivity extends FragmentActivity {
 	
 	public Typeface font;
 	
-	public static final String GSM_CHARACTERS_REGEX = "^[A-Za-z0-9 \\r\\n@£$¥èéùìòÇØøÅå\u0394_\u03A6\u0393\u039B\u03A9\u03A0\u03A8\u03A3\u0398\u039EÆæßÉ!\"#$%&'()*+,\\-./:;<=>?¡ÄÖÑÜ§¿äöñüà^{}\\\\\\[~\\]|\u20AC]*$";
+	public static final String GSM_CHARACTERS_REGEX = "^[A-Za-z0-9 \\r\\n@ï¿½$ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\u0394_\u03A6\u0393\u039B\u03A9\u03A0\u03A8\u03A3\u0398\u039Eï¿½ï¿½ï¿½ï¿½!\"#$%&'()*+,\\-./:;<=>?ï¿½ï¿½ï¿½ï¿½Ü§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½^{}\\\\\\[~\\]|\u20AC]*$";
 	
 	@SuppressWarnings("deprecation")
 	@Override
@@ -4011,7 +4011,7 @@ public class MainActivity extends FragmentActivity {
 			}
 	    	
 			builder.setMessage(this.getResources().getString(R.string.version) + ": " + version +
-					           "\n\n" + this.getResources().getString(R.string.about_expanded) + "\n\n© 2013 Jacob Klinker");
+					           "\n\n" + this.getResources().getString(R.string.about_expanded) + "\n\nï¿½ 2013 Jacob Klinker");
 			
 			AlertDialog dialog = builder.create();
 			dialog.show();
@@ -7046,11 +7046,13 @@ public class MainActivity extends FragmentActivity {
                     MessageArrayAdapter adapter = new MessageArrayAdapter((Activity) context, myId, numbers.get(position), threadIds.get(position), messageQuery, myPhoneNumber, position);
                     listView.setAdapter(adapter);
                     listView.setStackFromBottom(true);
+					spinner.setVisibility (View.GONE);
                 } else
                 {
                     com.klinker.android.messaging_hangout.MessageArrayAdapter adapter = new com.klinker.android.messaging_hangout.MessageArrayAdapter((Activity) context, myId, numbers.get(position), threadIds.get(position), messageQuery, myPhoneNumber, position);
                     listView.setAdapter(adapter);
                     listView.setStackFromBottom(true);
+					spinner.setVisibility (View.GONE);
                 }
 
                 new Handler().postDelayed(new Runnable() {
