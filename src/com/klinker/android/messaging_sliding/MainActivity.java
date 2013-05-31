@@ -208,9 +208,9 @@ public class MainActivity extends FragmentActivity {
 	public boolean multipleAttachments = false;
 	
 	public Typeface font;
-	
-	public static final String GSM_CHARACTERS_REGEX = "^[A-Za-z0-9 \\r\\n@�$�����������\u0394_\u03A6\u0393\u039B\u03A9\u03A0\u03A8\u03A3\u0398\u039E����!\"#$%&'()*+,\\-./:;<=>?����ܧ������^{}\\\\\\[~\\]|\u20AC]*$";
-	
+
+    public static final String GSM_CHARACTERS_REGEX = "^[A-Za-z0-9 \\r\\n@Ł$ĽčéůěňÇŘřĹĺ\u0394_\u03A6\u0393\u039B\u03A9\u03A0\u03A8\u03A3\u0398\u039EĆćßÉ!\"#$%&'()*+,\\-./:;<=>?ĄÄÖŃÜ§żäöńüŕ^{}\\\\\\[~\\]|\u20AC]*$";
+
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -4011,7 +4011,7 @@ public class MainActivity extends FragmentActivity {
 			}
 	    	
 			builder.setMessage(this.getResources().getString(R.string.version) + ": " + version +
-					           "\n\n" + this.getResources().getString(R.string.about_expanded) + "\n\n� 2013 Jacob Klinker");
+                    "\n\n" + this.getResources().getString(R.string.about_expanded) + "\n\nŠ 2013 Jacob Klinker");
 			
 			AlertDialog dialog = builder.create();
 			dialog.show();
