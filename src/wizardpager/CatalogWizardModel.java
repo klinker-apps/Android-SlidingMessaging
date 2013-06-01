@@ -55,6 +55,7 @@ public class CatalogWizardModel extends AbstractWizardModel {
                 "- Added new 1x1 widget with unread counter\n" +
                 "- More options for notification icons\n" +
                 "- Layout optimizations\n" +
+                "- Fixed color picker force close in theme chooser\n" +
                 "- Bug fixes\n\n";
 
         String themeEditor = "The theme editor now fully supports the Hangouts UI as well, " +
