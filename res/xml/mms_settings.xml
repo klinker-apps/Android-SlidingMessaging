@@ -114,12 +114,12 @@
 <!-- 	       		android:dialogTitle="@string/apn_password" -->
 <!-- 	       		android:dependency="apn_username_password" -->
 <!-- 	        /> -->
-	        
-	        <Preference
-	        	android:key="mms_report"
-	        	android:title="@string/mms_report"
-	        	android:summary="@string/mms_report_summary"
-	        />
+
+	        <!--<Preference-->
+	        	<!--android:key="mms_report"-->
+	        	<!--android:title="@string/mms_report"-->
+	        	<!--android:summary="@string/mms_report_summary"-->
+	        <!--/>-->
 	        
 	        <Preference
 	            android:key="mms_disclaimer"

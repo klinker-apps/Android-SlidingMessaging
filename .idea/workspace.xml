@@ -86,7 +86,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1e4b5eb9-13da-4bef-bd83-6650ca630326" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MenuArrayAdapter.java" afterPath="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MenuArrayAdapter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/SettingsPagerActivity.java" afterPath="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/SettingsPagerActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/xml/mms_settings.xml" afterPath="$PROJECT_DIR$/res/xml/mms_settings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Messaging Donate.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -251,10 +253,32 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MenuArrayAdapter.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="MenuArrayAdapter.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MenuArrayAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="387" column="0" selection-start="16701" selection-end="16701" vertical-scroll-proportion="0.24810126">
+            <state line="392" column="35" selection-start="16928" selection-end="16928" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mms_settings.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/xml/mms_settings.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="121" column="21" selection-start="4538" selection-end="4538" vertical-scroll-proportion="0.0">
+              <folding>
+                <marker date="1370141735671" expanded="true" signature="4363:4534" placeholder="..." />
+                <marker date="1370141735671" expanded="true" signature="4434:4454" placeholder="&quot;Report APNs&quot;" />
+                <marker date="1370141735671" expanded="true" signature="4488:4516" placeholder="&quot;Please email me at jklinker1@gmail.com with your confir...&quot;" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SettingsPagerActivity.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/SettingsPagerActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="589" column="17" selection-start="25083" selection-end="25083" vertical-scroll-proportion="0.7723577">
               <folding />
             </state>
           </provider>
@@ -284,8 +308,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/../SlidingMenu/src/com/jeremyfeinstein/slidingmenu/lib/CustomViewAbove.java" />
-        <option value="$PROJECT_DIR$/src/wizardpager/wizard/ui/ReviewFragment.java" />
         <option value="$PROJECT_DIR$/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_donate/MainActivity.java" />
         <option value="$PROJECT_DIR$/res/values/styles.xml" />
@@ -300,6 +322,8 @@
         <option value="$PROJECT_DIR$/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/src/wizardpager/CatalogWizardModel.java" />
         <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MenuArrayAdapter.java" />
+        <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/SettingsPagerActivity.java" />
+        <option value="$PROJECT_DIR$/res/xml/mms_settings.xml" />
       </list>
     </option>
   </component>
@@ -434,6 +458,20 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SlidingMessaging" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MessagingDonate" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -750,12 +788,12 @@
       <workItem from="1370010246003" duration="17000" />
       <workItem from="1370010291155" duration="984000" />
       <workItem from="1370140726058" duration="30000" />
-      <workItem from="1370140805626" duration="766000" />
+      <workItem from="1370140805626" duration="1152000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="260161000" />
+    <option name="totallyTimeSpent" value="260547000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -894,16 +932,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../ColorPickerPreference/src/net/margaritov/preference/colorpicker/Test.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="13" selection-start="994" selection-end="994" vertical-scroll-proportion="0.41491395" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../ColorPickerPreference/src/net/margaritov/preference/colorpicker/ColorPickerView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="111" column="30" selection-start="3119" selection-end="3122" vertical-scroll-proportion="0.332696" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../ColorPickerPreference/src/net/margaritov/preference/colorpicker/ColorPickerPreference.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="10" column="12" selection-start="361" selection-end="364" vertical-scroll-proportion="0.3250478" />
@@ -994,7 +1022,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MenuArrayAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="387" column="0" selection-start="16701" selection-end="16701" vertical-scroll-proportion="0.24810126">
+        <state line="392" column="35" selection-start="16928" selection-end="16928" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/xml/mms_settings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="121" column="21" selection-start="4538" selection-end="4538" vertical-scroll-proportion="0.0">
+          <folding>
+            <marker date="1370141735671" expanded="true" signature="4363:4534" placeholder="..." />
+            <marker date="1370141735671" expanded="true" signature="4434:4454" placeholder="&quot;Report APNs&quot;" />
+            <marker date="1370141735671" expanded="true" signature="4488:4516" placeholder="&quot;Please email me at jklinker1@gmail.com with your confir...&quot;" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/SettingsPagerActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="589" column="17" selection-start="25083" selection-end="25083" vertical-scroll-proportion="0.7723577">
           <folding />
         </state>
       </provider>
