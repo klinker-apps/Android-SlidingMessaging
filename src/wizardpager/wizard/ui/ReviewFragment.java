@@ -63,7 +63,9 @@ public class ReviewFragment extends ListFragment implements ModelCallbacks {
         titleView.setTextColor(getResources().getColor(R.color.review_green));
 
         TextView message = (TextView) rootView.findViewById(android.R.id.message);
-        message.setText(getResources().getString(R.string.changelog_disclaimers));
+        message.setText(getResources().getString(R.string.changelog_disclaimers)
+                       + "\n\n" +
+                       getResources().getString(R.string.override_stock_disclaimer));
 
         ListView listView = (ListView) rootView.findViewById(android.R.id.list);
         setListAdapter(mReviewAdapter);
