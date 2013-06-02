@@ -11,6 +11,7 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import android.util.Log;
 import android.widget.*;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_sliding.*;
@@ -74,7 +75,7 @@ public class QuickReply extends FragmentActivity {
 	public SectionsPagerAdapter mSectionsPagerAdapter;
 	public ViewPager mViewPager;
 	
-	public ArrayList<String> threadIds, inboxBody, inboxDate, inboxNumber;
+	public ArrayList<String> ids, inboxBody, inboxDate, inboxNumber;
 	public static SharedPreferences sharedPrefs;
 	
 	public static Typeface font;
@@ -109,11 +110,6 @@ public class QuickReply extends FragmentActivity {
 			                address = sms.getOriginatingAddress();
 			                date = sms.getTimestampMillis() + "";
 			            }
-			        }
-			        
-			        if (address.length() == 11)
-			        {
-			        	address = address.substring(1,11);
 			        }
 			        
 			        Calendar cal = Calendar.getInstance();
@@ -285,17 +281,22 @@ public class QuickReply extends FragmentActivity {
 			        	inboxDate.add(0, date);
 			        	inboxBody.add(0, body);
 			        	
-			        	Cursor query = context.getContentResolver().query(Uri.parse("content://mms-sms/conversations/?simple=true"), new String[] {"_id", "date"}, null, null, "date desc limit 1");
+			        	Cursor query = context.getContentResolver().query(Uri.parse("content://sms/inbox/"), new String[] {"_id", "date"}, null, null, "date desc limit 1");
 			        	
 			        	if (query.moveToFirst())
 			        	{
-			        		String threadId = query.getString(query.getColumnIndex("_id"));
-			        		threadIds.add(0, threadId);
+			        		String id = query.getString(query.getColumnIndex("_id"));
+			        		ids.add(0, id);
 			        	}
 			        } else
 			        {
-			        	inboxDate.set(pos, date);
-			        	inboxBody.set(pos, body);
+			        	inboxBody.set(pos, inboxBody.get(pos) + "\n\n" + body);
+
+                        Cursor query = context.getContentResolver().query(Uri.parse("content://sms/inbox/"), new String[] {"_id", "date"}, null, null, "date desc limit 1");
+                        query.moveToFirst();
+                        String id = query.getString(query.getColumnIndex("_id"));
+
+                        ids.set(pos, ids.get(pos) + ", " + id);
 			        }
 			        
 			        mSectionsPagerAdapter = new SectionsPagerAdapter(
@@ -326,74 +327,58 @@ public class QuickReply extends FragmentActivity {
 		background.setAlpha(150);
 		getWindow().setBackgroundDrawable(background);
 		
-		threadIds = new ArrayList<String>();
+		ids = new ArrayList<String>();
 		inboxBody = new ArrayList<String>();
 		inboxDate = new ArrayList<String>();
 		inboxNumber = new ArrayList<String>();
 
-		String[] projection = new String[]{"_id", "date", "recipient_ids", "snippet", "read"};
-		Uri uri = Uri.parse("content://mms-sms/conversations/?simple=true");
-		Cursor query = getContentResolver().query(uri, projection, null, null, "date desc");
+        try
+        {
+            inboxBody.add(getIntent().getStringExtra("body"));
+            inboxDate.add(getIntent().getStringExtra("date"));
+            inboxNumber.add(getIntent().getStringExtra("address").replace("-", "").replace(")", "").replace("(", "").replace(" ", ""));
+            ids.add("0");
+        } catch (Exception e)
+        {
+
+        }
+
+		String[] projection = new String[]{"_id", "date", "address", "body", "read"};
+		Uri uri = Uri.parse("content://sms/inbox/");
+		Cursor query = getContentResolver().query(uri, projection, "read=?", new String[] {"0"}, "date desc");
 		
 		if (query.moveToFirst())
 		{
 			do
 			{
-				if (query.getString(query.getColumnIndex("read")).equals("0") || query.getPosition() == 0)
-				{
-					threadIds.add(query.getString(query.getColumnIndex("_id")));
-					
-					inboxBody.add(" ");
-					
-					try
-					{
-						inboxBody.set(inboxBody.size() - 1, query.getString(query.getColumnIndex("snippet")).replaceAll("\\\n", " "));
-					} catch (Exception e)
-					{
-					}
-					
-					inboxDate.add(query.getString(query.getColumnIndex("date")));
-					
-					String[] ids = query.getString(query.getColumnIndex("recipient_ids")).split(" ");
-					String numbers = "";
-					
-					for (int i = 0; i < ids.length; i++)
-					{
-						try
-						{
-							if (ids[i] != null && (!ids[i].equals("") || !ids[i].equals(" ")))
-							{
-								Cursor number = getContentResolver().query(Uri.parse("content://mms-sms/canonical-addresses"), null, "_id=" + ids[i], null, null);
-								
-								if (number.moveToFirst())
-								{
-									numbers += number.getString(number.getColumnIndex("address")).replace("-", "").replace(")", "").replace("(", "").replace(" ", "") + " ";
-								} else
-								{
-									numbers += "0 ";
-								}
-								
-								number.close();
-							} else
-							{
-								
-							}
-						} catch (Exception e)
-						{
-							numbers += "0 ";
-						}
-					}
-					
-					inboxNumber.add(numbers.trim());
-					
-					if (ids.length > 1 || inboxBody.get(inboxBody.size() - 1).equals(""))
-					{
-						threadIds.remove(threadIds.size() - 1);
-						inboxBody.remove(inboxBody.size() - 1);
-						inboxDate.remove(inboxDate.size() - 1);
-						inboxNumber.remove(inboxNumber.size() - 1);
-					}
-				}
+                boolean alreadyExists = false;
+                int alreadyExistsPos = 0;
+                String number = query.getString(query.getColumnIndex("address")).replace("-", "").replace(")", "").replace("(", "").replace(" ", "");
+
+                for (int i = 0; i < inboxNumber.size(); i++)
+                {
+                    if (number.equals(inboxNumber.get(i)))
+                    {
+                        alreadyExists = true;
+                        alreadyExistsPos = i;
+                        break;
+                    }
+                }
+
+                if (!alreadyExists)
+                {
+                    inboxBody.add(query.getString(query.getColumnIndex("body")));
+                    inboxDate.add(query.getString(query.getColumnIndex("date")));
+                    inboxNumber.add(number);
+                    ids.add(query.getString(query.getColumnIndex("_id")));
+                } else
+                {
+                    if (!query.getString(query.getColumnIndex("body")).equals(inboxBody.get(0)))
+                    {
+                        inboxBody.set(alreadyExistsPos, inboxBody.get(alreadyExistsPos) + "\n\n" + query.getString(query.getColumnIndex("body")));
+                        ids.set(alreadyExistsPos, ids.get(alreadyExistsPos) + ", " + query.getString(query.getColumnIndex("_id")));
+                    }
+                }
 			} while (query.moveToNext());
 		}
 		
@@ -625,34 +610,44 @@ public class QuickReply extends FragmentActivity {
 				}
 				
 			});
-			
+
+            // TODO solve problem of only one message getting read or deleted when multiple from one person
 			readButton.setOnClickListener(new OnClickListener() {
 
 				@Override
 				public void onClick(View arg0) {
-					final String threadId = threadIds.get(mViewPager.getCurrentItem());
-					
-					new Thread(new Runnable() {
+                    final String id = ids.get(mViewPager.getCurrentItem());
+                    final String date = inboxDate.get(mViewPager.getCurrentItem());
 
-						@Override
-						public void run() {
-							Cursor query = context.getContentResolver().query(Uri.parse("content://mms-sms/conversations/" + threadId + "/"), new String[] {"_id", "date"}, null, null, "date desc");
-							
-							if (query.moveToFirst())
-							{
-								do
-								{
-									String id = query.getString(query.getColumnIndex("_id"));
-									
-					                ContentValues values = new ContentValues();
-					                values.put("read", true);
-					                getContentResolver().update(Uri.parse("content://sms/inbox"), values, "_id=" + id, null);
-								} while (query.moveToNext());
-							}
-							
-						}
-						
-					}).start();
+                    new Thread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            String[] msgIds = id.split(", ");
+
+                            for (int i = 0; i < msgIds.length; i++)
+                            {
+                                try
+                                {
+                                    if (msgIds[i].equals("0"))
+                                    {
+                                        Cursor query = context.getContentResolver().query(Uri.parse("content://sms/inbox"), new String[] {"_id", "date"}, "date=?", new String[] {date}, null);
+                                        query.moveToFirst();
+                                        msgIds[i] = query.getString(query.getColumnIndex("_id"));
+                                    }
+
+                                    ContentValues values = new ContentValues();
+                                    values.put("read", true);
+                                    getContentResolver().update(Uri.parse("content://sms/" + msgIds[i].replace(",", "").replace(" ", "") + "/"), values, null, null);
+                                } catch (Exception e)
+                                {
+
+                                }
+                            }
+
+                        }
+
+                    }).start();
 					
 					removePage(mViewPager.getCurrentItem());
 				}
@@ -660,23 +655,49 @@ public class QuickReply extends FragmentActivity {
 			});
 			
 			deleteButton.setOnClickListener(new OnClickListener() {
-				
+
 				@Override
 				public void onClick(View v)
 				{
-					Cursor query = context.getContentResolver().query(Uri.parse("content://mms-sms/conversations/" + threadIds.get(mViewPager.getCurrentItem()) + "/"), new String[] {"_id", "date"}, null, null, "date desc limit 1");
-					
-					if (query.moveToFirst())
-					{
-						String id = query.getString(query.getColumnIndex("_id"));
-						context.getContentResolver().delete(Uri.parse("content://sms/" + id + "/"), null, null);
-					}
-					
+                    final String id = ids.get(mViewPager.getCurrentItem());
+                    final String date = inboxDate.get(mViewPager.getCurrentItem());
+
+                    new Thread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            String[] msgIds = id.split(", ");
+
+                            for (int i = 0; i < msgIds.length; i++)
+                            {
+                                try
+                                {
+                                    if (msgIds[i].equals("0"))
+                                    {
+                                        Cursor query = context.getContentResolver().query(Uri.parse("content://sms/inbox"), new String[] {"_id", "date"}, "date=?", new String[] {date}, null);
+                                        query.moveToFirst();
+                                        msgIds[i] = query.getString(query.getColumnIndex("_id"));
+                                    }
+
+                                    ContentValues values = new ContentValues();
+                                    values.put("read", true);
+                                    getContentResolver().update(Uri.parse("content://sms/" + msgIds[i].replace(",", "").replace(" ", "") + "/"), values, null, null);
+                                    context.getContentResolver().delete(Uri.parse("content://sms/" + msgIds[i].replace(",", "").replace(" ", "") + "/"), null, null);
+                                } catch (Exception e)
+                                {
+
+                                }
+                            }
+
+                        }
+
+                    }).start();
+
 					removePage(mViewPager.getCurrentItem());
 				}
 			});
 		}
-		
+
 		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && sharedPrefs.getBoolean("show_keyboard_popup", true))
 		{
 			messageEntry.postDelayed(new Runnable() {
@@ -788,7 +809,7 @@ public class QuickReply extends FragmentActivity {
 	
 	public void removePage(int page)
 	{
-		threadIds.remove(page);
+		ids.remove(page);
 		inboxNumber.remove(page);
 		inboxBody.remove(page);
 		inboxDate.remove(page);
@@ -798,7 +819,7 @@ public class QuickReply extends FragmentActivity {
 			refreshSavedMessages();
 		}
 		
-		if (threadIds.size() == 0)
+		if (ids.size() == 0)
 		{
 			finish();
 		} else
@@ -1497,7 +1518,7 @@ public class QuickReply extends FragmentActivity {
 			Fragment fragment = new PagerFragment();
 			Bundle args = new Bundle();
 			args.putInt("position", position);
-			args.putStringArrayList("threadIds", threadIds);
+			args.putStringArrayList("ids", ids);
 			args.putStringArrayList("inboxBody", inboxBody);
 			args.putStringArrayList("inboxDate", inboxDate);
 			args.putStringArrayList("inboxNumber", inboxNumber);
@@ -1507,7 +1528,7 @@ public class QuickReply extends FragmentActivity {
 
 		@Override
 		public int getCount() {
-			return threadIds.size();
+			return inboxNumber.size();
 		}
 
 		@Override
@@ -1519,7 +1540,7 @@ public class QuickReply extends FragmentActivity {
 	public static class PagerFragment extends Fragment {
 
 		public int position;
-		public ArrayList<String> threadIds, inboxBody, inboxDate, inboxNumber;
+		public ArrayList<String> ids, inboxBody, inboxDate, inboxNumber;
 		public Context context;
 		
 		public PagerFragment() {

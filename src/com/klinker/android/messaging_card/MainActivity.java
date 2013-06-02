@@ -453,11 +453,6 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 			            }
 			        }
 			        
-			        if (address.length() == 11)
-			        {
-			        	address = address.substring(1,11);
-			        }
-			        
 			        Calendar cal = Calendar.getInstance();
 			        ContentValues values = new ContentValues();
 			        values.put("address", address);
