@@ -50,7 +50,7 @@
     <string name="donate_summary">Birçok özellik ve sık güncellemeleri Pro Sürüm\'de bulabilirsiniz</string>
     <string name="load_messages">Messages to Load</string>
     <string name="load_messages_summary">Select the number of messages to be initially loaded</string>
-    <string name="load_all">Load all messages</string>
+    <string name="load_all">Tüm mesajları yükle</string>
     <string name="limit_messages">Mesajları Limitle</string>
     <string name="limit_messages_summary">Gösterilecek olan mesaj sayısını belirler</string>
     <string name="pull_to_refresh">Tüm mesajları görmek için çekin</string>
@@ -125,6 +125,7 @@
     <string name="menu_text_color_summary">Mesaj özeti için renk seçin</string>
     <string name="text_opacity">Mesaj Saydamlığı</string>
     <string name="text_opacity_summary">Mesajların saydamlığını ayarlayın.(Özel arkaplanın arkadan görünmesini sağlar.)</string>
+    <string name="conversation">Sohber</string>
     <string name="version">Sürüm</string>
     <string name="extension_title">Sliding Messaging</string>
     <string name="extension_description">Yeni mesajlarınızı kilit ekranında gösterir</string>
@@ -163,7 +164,7 @@
     <string name="mms_limit">MMS Limiti</string>
     <string name="mms_limit_summary">Saklanacak MMS sayısını belirler</string>
     <string name="cancel">İptal Et</string>
-    <string name="conversation_settings">Konuş Listesi Ayarları</string>
+    <string name="conversation_settings">Konşm Listesi Ayarları</string>
     <string name="name_text_color">Kişi İsim Rengi</string>
     <string name="name_text_color_summary">Kişi isminin rengini belirler</string>
     <string name="quick_text">Bildirimlerde Hızlı Mesaj</string>
@@ -305,6 +306,7 @@
 	<string name="ct_emoji_button_color">Emoji Düğme Rengi</string>
 	<string name="ct_conversation_divider_color">Konuşma listesi ayraç rengi</string>
 	<string name="run_as">Görünümü Seçin</string>
+	<string name="people">Kişiler</string>
 	<string name="messages">Mesajlar</string>
 	<string name="message">Mesaj</string>
 	<string name="conversation_list">Konuşma Listesi</string>
@@ -391,6 +393,7 @@
     <string name="top_actionbar">Menü Çubuğu Üstte</string>
     <string name="top_actionbar_summary">Kart Görünümünde menü çubuğunu en üste taşır.</string>
     <string name="attach_more">Daha Fazla Ekle</string>
+    <string name="other">Diğer</string>
     <string name="remove_attachment">İçerik mesajdan kaldırılsın mı ?</string>
     <string name="show_original_timestamp">Orjinal SMS Zamanını Görüntüle</string>
     <string name="people">Kişiler</string>
@@ -402,15 +405,15 @@
     <string name="limit_number_conversations_summary">Uygulama başlangıcında tüm mesajları yüklemek yerine açılışı hızlandırmak için ilk 15 mesajı yükler</string>
     <string name="limit_attachment_size">Eklenti Boyutunu Küçült</string>
     <string name="limit_attachment_size_summary">Resimleri mobil internet üzerinden daha kolay göndermeniz için sıkıştırma yapar</string>
-    <string name="send_with_stock">Send through Stock</string>
-    <string name="send_with_stock_summary">Sends MMS messages through the stock messaging app, useful if you have problems configuring Sliding Messaging to send</string>
-    <string name="ct_unread_conversation_color">Unread Conversation Color</string>
-    <string name="copy_sender_address">Copy Sender Address</string>
-    <string name="delete_conversation_message">Delete current conversation?</string>
-    <string name="sliding_notification_settings">Notification Settings</string>
-    <string name="theme_settings">Theme Settings</string>
-    <string name="notification_image">Notification Icon</string>
-    <string name="test_notification">Test Notification</string>
-    <string name="test_notification_summary">The test notification will be shown when you turn off the screen.</string>
+    <string name="send_with_stock">Stok mesaj ile Göndr</string>
+    <string name="send_with_stock_summary">MMS mesajlarını işletim sistemiyle gelen mesaj programıyla gönderir,Sliding Messaging uygulamasını ayarlarken problem yaşıyorsanız işe yarayabilir</string>
+    <string name="ct_unread_conversation_color">Okunmayan mesaj rengi</string>
+    <string name="copy_sender_address">Gönderen adresini kopyala</string>
+    <string name="delete_conversation_message">Konuşmayı silmek istiyor musunuz ?</string>
+    <string name="sliding_notification_settings">Bildirim Ayarları</string>
+    <string name="theme_settings">Tema Ayarları</string>
+    <string name="notification_image">Bildirim Simgesi</string>
+    <string name="test_notification">Bildirim Testi</string>
+    <string name="test_notification_summary">Bildirim testi ekranı kapattığınız zaman başlatılacaktır.</string>
 	
 </resources>

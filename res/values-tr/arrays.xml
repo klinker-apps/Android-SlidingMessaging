@@ -123,7 +123,7 @@
     <string-array name="selectImage">
         <item name="select">Resim Seç</item>
         <item name="camera">Kamera ile resim çek</item>
-        <item name="attach_more">Attach More...</item>
+        <item name="attach_more">Daha Fazla ekle...</item>
     </string-array>
     
     <string-array name="runAs">
@@ -157,10 +157,10 @@
     </string-array>
 
     <string-array name="notification_icon">
-        <item name="stock">Stock Icon</item>
-        <item name="bubble">Message Bubble</item>
-        <item name="exclamation">Exclamation Point</item>
-        <item name="airplane">Paper Airplane</item>
-        <item name="cloud">Cloud</item>
+        <item name="stock">Şimdiki Simge</item>
+        <item name="bubble">Mesaj Balonu</item>
+        <item name="exclamation">Ünlem İşareti</item>
+        <item name="airplane">Kağıt Uçak</item>
+        <item name="cloud">Bulut</item>
     </string-array>
 </resources>
