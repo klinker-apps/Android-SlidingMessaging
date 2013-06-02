@@ -100,17 +100,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1e4b5eb9-13da-4bef-bd83-6650ca630326" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/klinker/android/messaging_card/theme/CustomPopup.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/klinker/android/messaging_card/theme/CustomPopupActivity.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/klinker/android/messaging_card/theme/PopupChooserActivity.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/menu/activity_popup_theme.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/layout/popup_preview.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/klinker/android/messaging_card/QuickReply.java" afterPath="$PROJECT_DIR$/src/com/klinker/android/messaging_card/QuickReply.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/SettingsPagerActivity.java" afterPath="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/SettingsPagerActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/card_popup.xml" afterPath="$PROJECT_DIR$/res/layout/card_popup.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/xml/popup_settings.xml" afterPath="$PROJECT_DIR$/res/xml/popup_settings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/strings.xml" afterPath="$PROJECT_DIR$/res/values/strings.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Messaging Donate.iws" />
@@ -145,7 +136,7 @@
     <file path="/card_main_black.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1368984098404" ignored="false" />
     <file path="/card_main_abtop_dark.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1368984116467" ignored="false" />
     <file path="/card_main_abtop_black.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1368984125759" ignored="false" />
-    <file path="/AndroidManifest.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1370201968279" ignored="false" />
+    <file path="/AndroidManifest.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1370202859574" ignored="false" />
     <file path="/MenuArrayAdapter.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1370142882204" ignored="false" />
     <file path="/SendMessage.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369181630438" ignored="false" />
     <file path="/strings.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1370201732817" ignored="false" />
@@ -270,7 +261,7 @@
       <file leaf-file-name="QuickReply.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_card/QuickReply.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1505" column="17" selection-start="58949" selection-end="58949" vertical-scroll-proportion="-8.0">
+            <state line="1504" column="37" selection-start="58931" selection-end="58931" vertical-scroll-proportion="-8.307693">
               <folding>
                 <element signature="e#23916#25590#0" expanded="true" />
                 <element signature="e#25579#25580#0" expanded="true" />
@@ -279,6 +270,27 @@
                 <element signature="e#53739#53754#0" expanded="true" />
                 <element signature="e#56588#56596#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TextMessageReceiver.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/TextMessageReceiver.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="1125" column="67" selection-start="46046" selection-end="46046" vertical-scroll-proportion="-4.923077">
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#59581#59600#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="117" column="36" selection-start="5878" selection-end="5878" vertical-scroll-proportion="0.7479675">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -295,10 +307,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PopupChooserActivity.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="PopupChooserActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_card/theme/PopupChooserActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="200" column="61" selection-start="8248" selection-end="8248" vertical-scroll-proportion="0.3304721">
+            <state line="206" column="35" selection-start="8374" selection-end="8374" vertical-scroll-proportion="-6.8846154">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -389,9 +401,9 @@
         <option value="$PROJECT_DIR$/res/xml/popup_settings.xml" />
         <option value="$PROJECT_DIR$/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/SettingsPagerActivity.java" />
-        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_card/QuickReply.java" />
         <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_card/theme/PopupChooserActivity.java" />
+        <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_card/QuickReply.java" />
+        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
       </list>
     </option>
   </component>
@@ -460,6 +472,32 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SlidingMessaging" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MessagingDonate" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="messaging_sliding" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -558,24 +596,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SlidingMessaging" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MessagingDonate" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="menu" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -895,12 +915,12 @@
       <workItem from="1370140805626" duration="4110000" />
       <workItem from="1370178672694" duration="102000" />
       <workItem from="1370186974118" duration="8210000" />
-      <workItem from="1370199588696" duration="2670000" />
+      <workItem from="1370199588696" duration="2985000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="274487000" />
+    <option name="totallyTimeSpent" value="274802000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1049,16 +1069,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/TextMessageReceiver.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="371" column="79" selection-start="13484" selection-end="13508" vertical-scroll-proportion="-6.8076925">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#59581#59600#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/card_popup.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="104" column="46" selection-start="0" selection-end="6228" vertical-scroll-proportion="-0.68">
@@ -1127,39 +1137,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="165" column="47" selection-start="7750" selection-end="7750" vertical-scroll-proportion="0.6439791">
-          <folding>
-            <element signature="e#1988#2006#0" expanded="true" />
-            <element signature="e#4679#4697#0" expanded="true" />
-            <element signature="e#4917#4969#0" expanded="true" />
-            <element signature="e#5272#5293#0" expanded="true" />
-            <element signature="e#5381#5392#0" expanded="true" />
-            <element signature="e#5623#5644#0" expanded="true" />
-            <element signature="e#6048#6070#0" expanded="true" />
-            <element signature="e#6319#6341#0" expanded="true" />
-            <element signature="e#6462#6526#0" expanded="true" />
-            <element signature="e#6796#6820#0" expanded="true" />
-            <element signature="e#7034#7055#0" expanded="true" />
-            <element signature="e#7257#7279#0" expanded="true" />
-            <element signature="e#7495#7523#0" expanded="true" />
-            <element signature="e#7729#7750#0" expanded="true" />
-            <element signature="e#7967#7996#0" expanded="true" />
-            <element signature="e#8213#8242#0" expanded="true" />
-            <element signature="e#9143#9185#0" expanded="true" />
-            <element signature="e#9412#9434#0" expanded="true" />
-            <element signature="e#9858#9886#0" expanded="true" />
-            <element signature="e#10283#10304#0" expanded="true" />
-            <element signature="e#10582#10600#0" expanded="true" />
-            <element signature="e#11203#11221#0" expanded="true" />
-            <element signature="e#12497#12522#0" expanded="true" />
-            <element signature="e#12890#12921#0" expanded="true" />
-            <element signature="e#13137#13155#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/SettingsPagerActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="484" column="67" selection-start="20232" selection-end="20232" vertical-scroll-proportion="0.6708861">
@@ -1211,9 +1188,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_card/theme/PopupChooserActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="206" column="35" selection-start="8374" selection-end="8374" vertical-scroll-proportion="-6.8846154">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_card/QuickReply.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1505" column="17" selection-start="58949" selection-end="58949" vertical-scroll-proportion="-8.0">
+        <state line="1504" column="37" selection-start="58931" selection-end="58931" vertical-scroll-proportion="-8.307693">
           <folding>
             <element signature="e#23916#25590#0" expanded="true" />
             <element signature="e#25579#25580#0" expanded="true" />
@@ -1225,12 +1211,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_card/theme/PopupChooserActivity.java">
+    <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/TextMessageReceiver.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="200" column="61" selection-start="8248" selection-end="8248" vertical-scroll-proportion="0.3304721">
+        <state line="1125" column="67" selection-start="46046" selection-end="46046" vertical-scroll-proportion="-4.923077">
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#59581#59600#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="117" column="36" selection-start="5878" selection-end="5878" vertical-scroll-proportion="0.7479675">
+          <folding />
         </state>
       </provider>
     </entry>

@@ -1503,7 +1503,6 @@ public class QuickReply extends FragmentActivity {
 	{
 		super.onStop();
 		unregisterReceiver(receiver);
-        finish();
 	}
 
 	public class SectionsPagerAdapter extends FragmentPagerAdapter {
