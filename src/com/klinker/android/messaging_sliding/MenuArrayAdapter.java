@@ -388,7 +388,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 
 	  holder.text4.setText(DateFormat.getDateInstance(DateFormat.SHORT).format(date2));
 
-      if (MainActivity.deviceType.startsWith("phablet") || MainActivity.deviceType.equals("tablet"))
+      if (MainActivity.deviceType.equals("phablet") || MainActivity.deviceType.equals("tablet"))
       {
           holder.text3.setText("");
           holder.text4.setText("");
