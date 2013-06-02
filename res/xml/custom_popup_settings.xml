@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditTextPreference
+        android:key="cp_theme_name"
+        android:title="@string/cp_theme_name"
+        android:dialogTitle="@string/cp_theme_name"
+        android:defaultValue="My Custom Popup Theme"
+        />
+
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+        android:key="cp_messageBackground"
+        android:title="@string/cp_messageBackground"
+        android:defaultValue="@color/white"
+        />
+
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+        android:key="cp_sendBarBackground"
+        android:title="@string/cp_sendBarBackground"
+        android:defaultValue="@color/white"
+        />
+
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+        android:key="cp_dividerColor"
+        android:title="@string/cp_dividerColor"
+        android:defaultValue="@color/card_conversation_divider"
+        />
+
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+        android:key="cp_nameTextColor"
+        android:title="@string/cp_nameTextColor"
+        android:defaultValue="@color/card_conversation_name"
+        />
+
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+        android:key="cp_numberTextColor"
+        android:title="@string/cp_numberTextColor"
+        android:defaultValue="@color/card_conversation_summary"
+        />
+
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+        android:key="cp_dateTextColor"
+        android:title="@string/cp_dateTextColor"
+        android:defaultValue="@color/card_message_text_date_2"
+        />
+
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+        android:key="cp_messageTextColor"
+        android:title="@string/cp_messageTextColor"
+        android:defaultValue="@color/card_message_text_body"
+        />
+
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+        android:key="cp_draftTextColor"
+        android:title="@string/cp_draftTextColor"
+        android:defaultValue="@color/card_message_text_body"
+        />
+
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+        android:key="cp_buttonColor"
+        android:title="@string/cp_buttonColor"
+        android:defaultValue="@color/card_message_text_body"
+        />
+
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+        android:key="cp_emojiButtonColor"
+        android:title="@string/cp_emojiButtonColor"
+        android:defaultValue="@color/emoji_button"
+        />
+
+    <Preference
+        android:key="save_theme"
+        android:title="@string/save_theme"
+        />
+</PreferenceScreen>

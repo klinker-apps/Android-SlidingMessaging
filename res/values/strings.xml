@@ -419,4 +419,15 @@
     <string name="notes">Notes</string>
     <string name="override_stock_disclaimer">If you are having problems with messages not being saved, or you have disabled all other messaging apps on your device except Sliding Messaging, be sure to check the \"Override Stock Messaging\" option in Advanced Settings.</string>
     <string name="popup_theme">Custom Popup Settings</string>
+    <string name="cp_theme_name">Popup Theme Name</string>
+    <string name="cp_messageBackground">Message Background Color</string>
+    <string name="cp_sendBarBackground">Send Bar Background</string>
+    <string name="cp_dividerColor">Divider Color</string>
+    <string name="cp_nameTextColor">Name Text Color</string>
+    <string name="cp_numberTextColor">Number Text Color</string>
+    <string name="cp_dateTextColor">Date Text Color</string>
+    <string name="cp_messageTextColor">Message Text Color</string>
+    <string name="cp_draftTextColor">Draft Text Color</string>
+    <string name="cp_buttonColor">Button Color</string>
+    <string name="cp_emojiButtonColor">Emoji Button Color</string>
 </resources>

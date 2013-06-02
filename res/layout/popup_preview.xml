@@ -125,19 +125,6 @@
             android:src="@drawable/ic_action_send_black"
             android:clickable="false"/>
 
-        <TextView
-            android:id="@+id/charsRemaining"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/sendButton"
-            android:layout_alignLeft="@+id/sendButton"
-            android:layout_alignParentRight="true"
-            android:gravity="center"
-            android:text="@string/chars"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/card_message_text_date_2"
-            android:textSize="@dimen/chars_remaining" />
-
     </RelativeLayout>
 
     <LinearLayout

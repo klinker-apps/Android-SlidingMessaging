@@ -27,7 +27,7 @@ public class CustomPopupActivity extends PreferenceActivity {
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		addPreferencesFromResource(R.xml.custom_theme_settings);
+		addPreferencesFromResource(R.xml.custom_popup_settings);
 		
 		sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 		
@@ -55,33 +55,19 @@ public class CustomPopupActivity extends PreferenceActivity {
 		saveTheme.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 		             public boolean onPreferenceClick(Preference preference) {
 		            	 String data = "";
-		            	 data += sharedPrefs.getString("ct_theme_name", "Light Theme") + "\n";
-		            	 data += sharedPrefs.getInt("ct_titleBarColor", -1) + "\n";
-		            	 data += sharedPrefs.getInt("ct_titleBarTextColor", -1) + "\n";
-		            	 data += sharedPrefs.getInt("ct_messageListBackground", -1) + "\n";
-		            	 data += sharedPrefs.getInt("ct_sendbarBackground", -1) + "\n";
-		            	 data += sharedPrefs.getInt("ct_sentMessageBackground", -1) + "\n";
-		            	 data += sharedPrefs.getInt("ct_receivedMessageBackground", -1) + "\n";
-		            	 data += sharedPrefs.getInt("ct_sentTextColor", -1) + "\n";
-		            	 data += sharedPrefs.getInt("ct_receivedTextColor", -1) + "\n";
-		            	 data += sharedPrefs.getInt("ct_conversationListBackground", -1) + "\n";
-		            	 data += sharedPrefs.getInt("ct_nameTextColor", -1) + "\n";
-		            	 data += sharedPrefs.getInt("ct_summaryTextColor", -1) + "\n";
-		            	 data += sharedPrefs.getBoolean("ct_messageDividerVisibility", true) + "\n";
-		            	 data += sharedPrefs.getInt("ct_messageDividerColor", -1) + "\n";
-		            	 data += sharedPrefs.getInt("ct_sendButtonColor", -1) + "\n";
-		            	 data += sharedPrefs.getBoolean("ct_darkContactImage", false) + "\n";
-		            	 data += sharedPrefs.getInt("ct_messageCounterColor", -1) + "\n";
-		            	 data += sharedPrefs.getInt("ct_draftTextColor", -1) + "\n";
-		            	 data += sharedPrefs.getInt("ct_emojiButtonColor", -1) + "\n";
-		        	   	 data += sharedPrefs.getInt("ct_conversationDividerColor", -1) + "\n";
-                         data += sharedPrefs.getInt("ct_unreadConversationColor", -1);
+		            	 data += sharedPrefs.getString("cp_theme_name", "Light Theme") + "\n";
+		            	 data += sharedPrefs.getInt("cp_messageBackground", -1) + "\n";
+		            	 data += sharedPrefs.getInt("cp_sendBarBackground", -1) + "\n";
+		            	 data += sharedPrefs.getInt("cp_dividerColor", -1) + "\n";
+		            	 data += sharedPrefs.getInt("cp_nameTextColor", -1) + "\n";
+		            	 data += sharedPrefs.getInt("cp_numberTextColor", -1) + "\n";
+		            	 data += sharedPrefs.getInt("cp_dateTextColor", -1) + "\n";
+		            	 data += sharedPrefs.getInt("cp_messageTextColor", -1) + "\n";
+		            	 data += sharedPrefs.getInt("cp_draftTextColor", -1) + "\n";
+		            	 data += sharedPrefs.getInt("cp_buttonColor", -1) + "\n";
+		            	 data += sharedPrefs.getInt("cp_emojiButtonColor", -1);
 		            	 
-		            	 writeToFile(data, context, sharedPrefs.getString("ct_theme_name", "Light Theme").replace(" ", "") + ".theme");
-		            	 
-		            	 SharedPreferences.Editor editor = sharedPrefs.edit();
-		 				 editor.putBoolean("custom_theme", true);
-		 				 editor.commit();
+		            	 writeToFile(data, context, sharedPrefs.getString("cp_theme_name", "Light Theme").replace(" ", "") + ".theme2");
 		 				 
 		 				 Toast.makeText(getBaseContext(), getResources().getString(R.string.toast_theme_saved), Toast.LENGTH_LONG).show();
 		            	 finish();
@@ -89,47 +75,33 @@ public class CustomPopupActivity extends PreferenceActivity {
 		             }
 		         });
 		
-		ColorPickerPreference sentBack = (ColorPickerPreference) findPreference("ct_sentMessageBackground");
+		ColorPickerPreference sentBack = (ColorPickerPreference) findPreference("cp_messageBackground");
 		sentBack.setAlphaSliderEnabled(true);
 		
-		ColorPickerPreference receiveBack = (ColorPickerPreference) findPreference("ct_receivedMessageBackground");
+		ColorPickerPreference receiveBack = (ColorPickerPreference) findPreference("cp_sendBarBackground");
 		receiveBack.setAlphaSliderEnabled(true);
 	}
 	
 	@Override
 	public void onBackPressed() {
 		 String data = "";
-   	 	 data += sharedPrefs.getString("ct_theme_name", "Light Theme") + "\n";
-	   	 data += sharedPrefs.getInt("ct_titleBarColor", -1) + "\n";
-	   	 data += sharedPrefs.getInt("ct_titleBarTextColor", -1) + "\n";
-	   	 data += sharedPrefs.getInt("ct_messageListBackground", -1) + "\n";
-	   	 data += sharedPrefs.getInt("ct_sendbarBackground", -1) + "\n";
-	   	 data += sharedPrefs.getInt("ct_sentMessageBackground", -1) + "\n";
-	   	 data += sharedPrefs.getInt("ct_receivedMessageBackground", -1) + "\n";
-	   	 data += sharedPrefs.getInt("ct_sentTextColor", -1) + "\n";
-	   	 data += sharedPrefs.getInt("ct_receivedTextColor", -1) + "\n";
-	   	 data += sharedPrefs.getInt("ct_conversationListBackground", -1) + "\n";
-	   	 data += sharedPrefs.getInt("ct_nameTextColor", -1) + "\n";
-	   	 data += sharedPrefs.getInt("ct_summaryTextColor", -1) + "\n";
-	   	 data += sharedPrefs.getBoolean("ct_messageDividerVisibility", true) + "\n";
-	   	 data += sharedPrefs.getInt("ct_messageDividerColor", -1) + "\n";
-	   	 data += sharedPrefs.getInt("ct_sendButtonColor", -1) + "\n";
-	   	 data += sharedPrefs.getBoolean("ct_darkContactImage", false) + "\n";
-	   	 data += sharedPrefs.getInt("ct_messageCounterColor", -1) + "\n";
-	   	 data += sharedPrefs.getInt("ct_draftTextColor", -1) + "\n";
-	   	 data += sharedPrefs.getInt("ct_emojiButtonColor", -1) + "\n";
-	   	 data += sharedPrefs.getInt("ct_conversationDividerColor", -1) + "\n";
-         data += sharedPrefs.getInt("ct_unreadConversationColor", -1);
+         data += sharedPrefs.getString("cp_theme_name", "Light Theme") + "\n";
+         data += sharedPrefs.getInt("cp_messageBackground", -1) + "\n";
+         data += sharedPrefs.getInt("cp_sendBarBackground", -1) + "\n";
+         data += sharedPrefs.getInt("cp_dividerColor", -1) + "\n";
+         data += sharedPrefs.getInt("cp_nameTextColor", -1) + "\n";
+         data += sharedPrefs.getInt("cp_numberTextColor", -1) + "\n";
+         data += sharedPrefs.getInt("cp_dateTextColor", -1) + "\n";
+         data += sharedPrefs.getInt("cp_messageTextColor", -1) + "\n";
+         data += sharedPrefs.getInt("cp_draftTextColor", -1) + "\n";
+         data += sharedPrefs.getInt("cp_buttonColor", -1) + "\n";
+         data += sharedPrefs.getInt("cp_emojiButtonColor", -1);
 	   	 
-	   	 writeToFile(data, this, sharedPrefs.getString("ct_theme_name", "Light Theme").replace(" ", "") + ".theme");
-	   	 
-	   	 SharedPreferences.Editor editor = sharedPrefs.edit();
-		 editor.putBoolean("custom_theme", true);
-		 editor.commit();
+	   	 writeToFile(data, this, sharedPrefs.getString("cp_theme_name", "Light Theme").replace(" ", "") + ".theme2");
 		 
 		 Toast.makeText(getBaseContext(), "Theme Saved", Toast.LENGTH_LONG).show();
 		 
-		super.onBackPressed();
+		 super.onBackPressed();
 	}
 	
 	private void writeToFile(String data, Context context, String name) {

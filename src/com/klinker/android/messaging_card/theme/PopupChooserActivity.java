@@ -6,16 +6,16 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.graphics.Typeface;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
-import android.util.TypedValue;
+import android.util.Log;
 import android.view.*;
 import android.widget.*;
-import android.widget.RelativeLayout.LayoutParams;
 import com.klinker.android.messaging_donate.R;
 
 import java.io.*;
@@ -67,8 +67,8 @@ public class PopupChooserActivity extends Activity {
 		themes.add(new CustomPopup("Dark", this));
 
 		String root = Environment.getExternalStorageDirectory().getAbsolutePath();
-		File file = new File(root + "/SlidingMessaging/Popup");
-		file.mkdir();
+        File file = new File(root + "/SlidingMessaging");
+        file.mkdir();
 
 		File list[] = file.listFiles();
 		ArrayList<File> files = new ArrayList<File>();
@@ -77,7 +77,7 @@ public class PopupChooserActivity extends Activity {
 		{
 			for (int i = 0; i < list.length; i++)
 			{
-				if (list[i].toString().endsWith(".theme"))
+				if (list[i].toString().endsWith(".theme2"))
 				{
 					files.add(list[i]);
 				}
@@ -139,20 +139,6 @@ public class PopupChooserActivity extends Activity {
 			            	 startActivity(intent);
 		            	 }
 	            	 }
-				} else
-				{
-					try
-	            	 {
-	            		 PackageManager pm = context.getPackageManager();
-	            		 pm.getPackageInfo("com.klinker.android.messaging_theme", PackageManager.GET_ACTIVITIES);
-	            		 saveSettings(true);
-	            		 finish();
-	            	 } catch (PackageManager.NameNotFoundException e)
-	            	 {
-	            		 Intent intent = new Intent(Intent.ACTION_VIEW);
-	            		 intent.setData(Uri.parse("market://details?id=com.klinker.android.messaging_theme"));
-	            		 startActivity(intent);
-	            	 }
 				}
 			}
 		});
@@ -161,28 +147,17 @@ public class PopupChooserActivity extends Activity {
 	public void saveSettings(boolean toast)
 	{
 		SharedPreferences.Editor editor = sharedPrefs.edit();
-		editor.putBoolean("custom_theme", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).custom);
-		editor.putString("ct_theme_name", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).name);
-		editor.putInt("ct_titleBarColor", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).titleBarColor);
-		editor.putInt("ct_titleBarTextColor", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).titleBarTextColor);
-		editor.putInt("ct_messageListBackground", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).messageListBackground);
-		editor.putInt("ct_sendbarBackground", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).sendbarBackground);
-		editor.putInt("ct_sentMessageBackground", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).sentMessageBackground);
-		editor.putInt("ct_receivedMessageBackground", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).receivedMessageBackground);
-		editor.putInt("ct_sentTextColor", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).sentTextColor);
-		editor.putInt("ct_receivedTextColor", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).receivedTextColor);
-		editor.putInt("ct_conversationListBackground", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).conversationListBackground);
-		editor.putInt("ct_nameTextColor", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).nameTextColor);
-		editor.putInt("ct_summaryTextColor", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).summaryTextColor);
-		editor.putBoolean("ct_messageDividerVisibility", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).messageDividerVisibility);
-		editor.putInt("ct_messageDividerColor", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).messageDividerColor);
-		editor.putInt("ct_sendButtonColor", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).sendButtonColor);
-		editor.putBoolean("ct_darkContactImage", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).darkContactImage);
-		editor.putInt("ct_messageCounterColor", CustomPopup.convertToColorInt(PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).messageCounterColor));
-		editor.putInt("ct_draftTextColor", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).draftTextColor);
-		editor.putInt("ct_emojiButtonColor", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).emojiButtonColor);
-		editor.putInt("ct_conversationDividerColor", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).conversationDividerColor);
-        editor.putInt("ct_unreadConversationColor", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).unreadConversationColor);
+		editor.putString("cp_theme_name", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).name);
+		editor.putInt("cp_messageBackground", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).messageBackground);
+		editor.putInt("cp_sendBarBackground", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).sendbarBackground);
+		editor.putInt("cp_dividerColor", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).dividerColor);
+		editor.putInt("cp_nameTextColor", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).nameTextColor);
+		editor.putInt("cp_numberTextColor", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).numberTextColor);
+		editor.putInt("cp_dateTextColor", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).dateTextColor);
+		editor.putInt("cp_messageTextColor", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).messageTextColor);
+		editor.putInt("cp_draftTextColor", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).draftTextColor);
+		editor.putInt("cp_buttonColor", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).buttonColor);
+		editor.putInt("cp_emojiButtonColor", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).emojiButtonColor);
 		editor.commit();
 
 		if (toast)
@@ -257,7 +232,7 @@ public class PopupChooserActivity extends Activity {
 	    		Toast.makeText(this, getResources().getString(R.string.cannot_delete), Toast.LENGTH_SHORT).show();
 	    	} else
 	    	{
-	    		File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/SlidingMessaging/" + themes.get(mViewPager.getCurrentItem()).name.replace(" ", "") + ".theme");
+	    		File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/SlidingMessaging/" + themes.get(mViewPager.getCurrentItem()).name.replace(" ", "") + ".theme2");
 	    		file.delete();
 
 	    		int position = mViewPager.getCurrentItem();
@@ -273,11 +248,6 @@ public class PopupChooserActivity extends Activity {
 	    	}
 
 			return true;
-	    case R.id.menu_get_more_themes:
-	    	 Intent intent = new Intent(Intent.ACTION_VIEW);
-      		 intent.setData(Uri.parse("http://forum.xda-developers.com/showthread.php?p=39533859#post39533859"));
-      		 startActivity(intent);
-	    	return true;
 	    default:
 	        return super.onOptionsItemSelected(item);
 	    }
@@ -288,7 +258,7 @@ public class PopupChooserActivity extends Activity {
 	      String ret = "";
 
 	      try {
-	    	  File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/SlidingMessaging/Popup", fileName);
+	    	  File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/SlidingMessaging", fileName);
 	          @SuppressWarnings("resource")
 			BufferedReader reader = new BufferedReader(new FileReader(file));
 
@@ -313,7 +283,7 @@ public class PopupChooserActivity extends Activity {
 	private void writeToFile(String data, Context context, String name) {
 		String[] data2 = data.split("\n");
         try {
-            File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/SlidingMessaging/Popup", name);
+            File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/SlidingMessaging", name);
             FileOutputStream f = new FileOutputStream(file);
             PrintWriter pw = new PrintWriter(f);
 
@@ -393,7 +363,7 @@ public class PopupChooserActivity extends Activity {
 
 			this.position = args.getInt("position");
 
-			view = inflater.inflate(R.layout.theme_preview, container, false);
+			view = inflater.inflate(R.layout.popup_preview, container, false);
 			sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
 			return refreshTheme();
@@ -401,195 +371,57 @@ public class PopupChooserActivity extends Activity {
 
 		public View refreshTheme()
 		{
-			TextView receivedMessageText = (TextView) view.findViewById(R.id.receivedMessage);
-			TextView sentMessageText = (TextView) view.findViewById(R.id.sentMessage);
-			ImageButton emojiButton = (ImageButton) view.findViewById(R.id.display_emoji);
-			EditText messageEntry = (EditText) view.findViewById(R.id.messageEntry);
-			TextView titleBar = (TextView) view.findViewById(R.id.contactNamePreview);
-			View headerPadding = view.findViewById(R.id.headerPadding);
-			View footerPadding = view.findViewById(R.id.footerPadding);
-			View sendbar = view.findViewById(R.id.view1);
-			View sentBackground = view.findViewById(R.id.sentBackground);
-			View receivedBackground = view.findViewById(R.id.receiveBackground);
-			View sentBackgroundBack = view.findViewById(R.id.sentBackgroundBack);
-			View receivedBackgroundBack = view.findViewById(R.id.receiveBackgroundBack);
-			TextView sentDate = (TextView) view.findViewById(R.id.sentDate);
-			TextView receiveDate = (TextView) view.findViewById(R.id.receivedDate);
-			View messageDivider = view.findViewById(R.id.messageDivider);
-			ImageButton sendButton = (ImageButton) view.findViewById(R.id.sendButton);
-			ImageView sentContactPicture = (ImageView) view.findViewById(R.id.sentContactPicture1);
-			ImageView receiveContactPicture = (ImageView) view.findViewById(R.id.receivedContactPicture1);
+			View expandedOptions = view.findViewById(R.id.expandedOptions);
+            ImageButton deleteButton = (ImageButton) view.findViewById(R.id.deleteButton);
+            Button viewConversation = (Button) view.findViewById(R.id.viewConversationButton);
+            ImageButton readButton = (ImageButton) view.findViewById(R.id.readButton);
 
-			receivedMessageText.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,2)));
-			sentMessageText.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,2)));
+            View sendBar = view.findViewById(R.id.sendBar);
+            ImageButton emojiButton = (ImageButton) view.findViewById(R.id.emojiButton);
+            EditText messageEntry = (EditText) view.findViewById(R.id.messageEntry);
+            ImageButton sendButton = (ImageButton) view.findViewById(R.id.sendButton);
 
-			if (!sharedPrefs.getBoolean("emoji", false))
-			{
-				emojiButton.setVisibility(View.GONE);
-				LayoutParams params = (LayoutParams) messageEntry.getLayoutParams();
-				params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-				messageEntry.setLayoutParams(params);
-			}
-			
-			titleBar.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
-			titleBar.setBackgroundColor(PopupChooserActivity.themes.get(position).titleBarColor);
-			titleBar.setTextColor(PopupChooserActivity.themes.get(position).titleBarTextColor);
-			headerPadding.setBackgroundColor(PopupChooserActivity.themes.get(position).messageListBackground);
-			footerPadding.setBackgroundColor(PopupChooserActivity.themes.get(position).messageListBackground);
-			sendbar.setBackgroundColor(PopupChooserActivity.themes.get(position).sendbarBackground);
-			sentBackground.setBackgroundColor(PopupChooserActivity.themes.get(position).sentMessageBackground);
-			receivedBackground.setBackgroundColor(PopupChooserActivity.themes.get(position).receivedMessageBackground);
-			sentBackgroundBack.setBackgroundColor(PopupChooserActivity.themes.get(position).messageListBackground);
-			receivedBackgroundBack.setBackgroundColor(PopupChooserActivity.themes.get(position).messageListBackground);
-			sentMessageText.setTextColor(PopupChooserActivity.themes.get(position).sentTextColor);
-			sentDate.setTextColor(PopupChooserActivity.themes.get(position).sentTextColor);
-			receivedMessageText.setTextColor(PopupChooserActivity.themes.get(position).receivedTextColor);
-			receiveDate.setTextColor(PopupChooserActivity.themes.get(position).receivedTextColor);
-			sendButton.setColorFilter(PopupChooserActivity.themes.get(position).sendButtonColor);
-			emojiButton.setColorFilter(PopupChooserActivity.themes.get(position).emojiButtonColor);
-			
-			if (PopupChooserActivity.themes.get(position).messageDividerVisibility)
-			{
-				messageDivider.setBackgroundColor(PopupChooserActivity.themes.get(position).messageDividerColor);
-			} else
-			{
-				messageDivider.setBackgroundColor(PopupChooserActivity.themes.get(position).sentMessageBackground);
-			}
-			
-			if (PopupChooserActivity.themes.get(position).darkContactImage)
-			{
-				sentContactPicture.setImageResource(R.drawable.ic_contact_dark);
-				receiveContactPicture.setImageResource(R.drawable.ic_contact_dark);
-			}
-			
-			if (!PopupChooserActivity.themes.get(position).custom)
-			{
-				String titleColor = sharedPrefs.getString("title_color", "blue");
-				String color = sharedPrefs.getString("sent_text_color", "default");
-				
-				if (titleColor.equals("blue"))
-				{
-					titleBar.setBackgroundColor(getResources().getColor(R.color.holo_blue));
-				} else if (titleColor.equals("orange"))
-				{
-					titleBar.setBackgroundColor(getResources().getColor(R.color.holo_orange));
-				} else if (titleColor.equals("red"))
-				{
-					titleBar.setBackgroundColor(getResources().getColor(R.color.holo_red));
-				} else if (titleColor.equals("green"))
-				{
-					titleBar.setBackgroundColor(getResources().getColor(R.color.holo_green));
-				} else if (titleColor.equals("purple"))
-				{
-					titleBar.setBackgroundColor(getResources().getColor(R.color.holo_purple));
-				} else if (titleColor.equals("grey"))
-				{
-					titleBar.setBackgroundColor(getResources().getColor(R.color.grey));
-				} else if (titleColor.equals("black"))
-				{
-					titleBar.setBackgroundColor(getResources().getColor(R.color.pitch_black));
-				} else if (titleColor.equals("darkgrey"))
-				{
-					titleBar.setBackgroundColor(getResources().getColor(R.color.darkgrey));
-				}
-				  
-				  if (color.equals("blue"))
-				  {
-					  sentMessageText.setTextColor(getResources().getColor(R.color.holo_blue));
-					  sentDate.setTextColor(getResources().getColor(R.color.holo_blue));
-				  } else if (color.equals("white"))
-				  {
-					  sentMessageText.setTextColor(getResources().getColor(R.color.white));
-					  sentDate.setTextColor(getResources().getColor(R.color.white));
-				  } else if (color.equals("green"))
-				  {
-					  sentMessageText.setTextColor(getResources().getColor(R.color.holo_green));
-					  sentDate.setTextColor(getResources().getColor(R.color.holo_green));
-				  } else if (color.equals("orange"))
-				  {
-					  sentMessageText.setTextColor(getResources().getColor(R.color.holo_orange));
-					  sentDate.setTextColor(getResources().getColor(R.color.holo_orange));
-				  } else if (color.equals("red"))
-				  {
-					  sentMessageText.setTextColor(getResources().getColor(R.color.holo_red));
-					  sentDate.setTextColor(getResources().getColor(R.color.holo_red));
-				  } else if (color.equals("purple"))
-				  {
-					  sentMessageText.setTextColor(getResources().getColor(R.color.holo_purple));
-					  sentDate.setTextColor(getResources().getColor(R.color.holo_purple));
-				  } else if (color.equals("black"))
-				  {
-					  sentMessageText.setTextColor(getResources().getColor(R.color.pitch_black));
-					  sentDate.setTextColor(getResources().getColor(R.color.pitch_black));
-				  } else if (color.equals("grey"))
-				  {
-					  sentMessageText.setTextColor(getResources().getColor(R.color.grey));
-					  sentDate.setTextColor(getResources().getColor(R.color.grey));
-				  }
-				  
-				  color = sharedPrefs.getString("received_text_color", "default");
-				  
-				  if (color.equals("blue"))
-				  {
-					  receivedMessageText.setTextColor(getResources().getColor(R.color.holo_blue));
-					  receiveDate.setTextColor(getResources().getColor(R.color.holo_blue));
-				  } else if (color.equals("white"))
-				  {
-					  receivedMessageText.setTextColor(getResources().getColor(R.color.white));
-					  receiveDate.setTextColor(getResources().getColor(R.color.white));
-				  } else if (color.equals("green"))
-				  {
-					  receivedMessageText.setTextColor(getResources().getColor(R.color.holo_green));
-					  receiveDate.setTextColor(getResources().getColor(R.color.holo_green));
-				  } else if (color.equals("orange"))
-				  {
-					  receivedMessageText.setTextColor(getResources().getColor(R.color.holo_orange));
-					  receiveDate.setTextColor(getResources().getColor(R.color.holo_orange));
-				  } else if (color.equals("red"))
-				  {
-					  receivedMessageText.setTextColor(getResources().getColor(R.color.holo_red));
-					  receiveDate.setTextColor(getResources().getColor(R.color.holo_red));
-				  } else if (color.equals("purple"))
-				  {
-					  receivedMessageText.setTextColor(getResources().getColor(R.color.holo_purple));
-					  receiveDate.setTextColor(getResources().getColor(R.color.holo_purple));
-				  } else if (color.equals("black"))
-				  {
-					  receivedMessageText.setTextColor(getResources().getColor(R.color.pitch_black));
-					  receiveDate.setTextColor(getResources().getColor(R.color.pitch_black));
-				  } else if (color.equals("grey"))
-				  {
-					  receivedMessageText.setTextColor(getResources().getColor(R.color.grey));
-					  receiveDate.setTextColor(getResources().getColor(R.color.grey));
-				  }
-				  
-				  if (sharedPrefs.getBoolean("title_text_color", false))
-				  {
-						titleBar.setTextColor(getActivity().getResources().getColor(R.color.black));
-				  }
-			}
-			
-			if (!sharedPrefs.getBoolean("hide_title_bar", true))
-			{
-				titleBar.setVisibility(View.GONE);
-			}
-			
-			if (sharedPrefs.getBoolean("title_caps", true))
-			{
-				titleBar.setText(getActivity().getResources().getString(R.string.ct_contact_name).toUpperCase());
-				titleBar.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
-			}
-			
-			if (sharedPrefs.getBoolean("custom_font", false))
-			{
-				Typeface font = Typeface.createFromFile(sharedPrefs.getString("custom_font_path", ""));
-				
-				sentMessageText.setTypeface(font);
-				receivedMessageText.setTypeface(font);
-				sentDate.setTypeface(font);
-				receiveDate.setTypeface(font);
-				messageEntry.setTypeface(font);
-			}
+            View messageBackground = view.findViewById(R.id.view1);
+            TextView name = (TextView) view.findViewById(R.id.contactName);
+            View divider1 = view.findViewById(R.id.contactLine);
+            TextView number = (TextView) view.findViewById(R.id.contactNumber);
+            View divider2 = view.findViewById(R.id.messageDivider1);
+            TextView date = (TextView) view.findViewById(R.id.date);
+            View divider3 = view.findViewById(R.id.messageDivider2);
+            TextView body = (TextView) view.findViewById(R.id.body);
+            ImageButton close = (ImageButton) view.findViewById(R.id.closeButton);
+
+            Drawable sendBack = getActivity().getResources().getDrawable(R.drawable.card_background);
+            sendBack.setColorFilter(themes.get(position).sendbarBackground, PorterDuff.Mode.MULTIPLY);
+            Drawable msgBack = getActivity().getResources().getDrawable(R.drawable.card_background);
+            msgBack.setColorFilter(themes.get(position).messageBackground, PorterDuff.Mode.MULTIPLY);
+
+            expandedOptions.setBackgroundColor(themes.get(position).sendbarBackground);
+            sendBar.setBackgroundColor(themes.get(position).sendbarBackground);
+            messageBackground.setBackgroundColor(themes.get(position).messageBackground);
+
+            deleteButton.setColorFilter(themes.get(position).buttonColor);
+            readButton.setColorFilter(themes.get(position).buttonColor);
+            sendButton.setColorFilter(themes.get(position).buttonColor);
+            close.setColorFilter(themes.get(position).buttonColor);
+            viewConversation.setTextColor(themes.get(position).buttonColor);
+
+            emojiButton.setColorFilter(themes.get(position).emojiButtonColor);
+
+            messageEntry.setTextColor(themes.get(position).draftTextColor);
+            name.setTextColor(themes.get(position).nameTextColor);
+            number.setTextColor(themes.get(position).numberTextColor);
+            date.setTextColor(themes.get(position).dateTextColor);
+            body.setTextColor(themes.get(position).messageTextColor);
+
+            divider1.setBackgroundColor(themes.get(position).dividerColor);
+            divider2.setBackgroundColor(themes.get(position).dividerColor);
+            divider3.setBackgroundColor(themes.get(position).dividerColor);
+
+            name.setText("Contact Name");
+            number.setText("+1-555-4444");
+            body.setText("Message Body");
+            date.setText("8:00 AM");
 			
 			return view;
 		}

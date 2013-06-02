@@ -163,6 +163,13 @@
         </activity>
 
         <activity
+            android:name="com.klinker.android.messaging_card.theme.CustomPopupActivity"
+            android:label="@string/custom_theme_prefs"
+            android:theme="@style/SettingsTheme" >
+        </activity>
+
+
+        <activity
             android:name="com.klinker.android.messaging_card.theme.PopupChooserActivity"
             android:label="@string/popup_theme"
             android:theme="@style/SettingsTheme" >
