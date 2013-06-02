@@ -1,3 +1,11 @@
+For next update (6.20):
+    - message summary when you click on the message like stock app does
+    - popup support for multiple messages from same person (will have to rewrite a lot, including sending body, address, and date as extras through intent to quick reply to be sure latest is ALWAYS displayed)
+    - popup theme support for theme manager
+    - cursor loader in messaging_donate.MainActivity instead of in separate main activities
+        - allows for ability of a "loading screen" instead of just black, use progress bar
+        - cursor loader may load cursors faster then manually loading them in a single thread as android would handle everything internally and more efficiently hopefully
+
 0) more individual notification options
 1) Draft system
 2) Scheduled SMS
@@ -8,13 +16,13 @@
 7) Message locking
 8) vibrate when in phone call
 
-- remove messages that don't parseLong with number
-
 - popup as multiwindow app once pa halo source released
-- support for floating notifications
 
-
-- create app for github (MMS with system APNs or custom APNs)
+Side Project: Emoji Keyboard
+    - Look and feel just like hangouts emoji keyboard does with 5 catagories, recents and sliding between pages
+    - usable in any app to insert emojis (although not all emojis would show in every app unless support was specifically added in that app or android font)
+    - contact other devs (maybe falcon pro) and talk about supporting in their apps. Would gain visibility for app and also add support for features users have been asking for in falcon
+    - charged at $0.99 or $1.99 and advertise in Sliding Messaging for it
 
 
 - igamer777@gmail.com, nikorezzano@gmail.com
