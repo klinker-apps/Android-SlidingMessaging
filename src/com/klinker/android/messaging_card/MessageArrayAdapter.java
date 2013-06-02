@@ -1122,6 +1122,16 @@ public class MessageArrayAdapter extends ArrayAdapter<String> {
 	  {
 		  
 	  }
+
+      final View rowViewF = rowView;
+
+      holder.view4.setOnLongClickListener(new OnLongClickListener() {
+          @Override
+          public boolean onLongClick(View view) {
+              rowViewF.performLongClick();
+              return true;
+          }
+      });
 	  
 	  final int sizeT = size2;
 	  final boolean errorT = error;

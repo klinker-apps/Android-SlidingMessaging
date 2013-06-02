@@ -1365,6 +1365,16 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
 
 	  }
 
+      final View rowViewF = convertView;
+
+      holder.media.setOnLongClickListener(new OnLongClickListener() {
+          @Override
+          public boolean onLongClick(View view) {
+              rowViewF.performLongClick();
+              return true;
+          }
+      });
+
 	  final int sizeT = size2;
 	  final boolean errorT = error;
 

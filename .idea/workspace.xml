@@ -88,7 +88,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1e4b5eb9-13da-4bef-bd83-6650ca630326" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MenuArrayAdapter.java" afterPath="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MenuArrayAdapter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/klinker/android/messaging_card/MessageArrayAdapter.java" afterPath="$PROJECT_DIR$/src/com/klinker/android/messaging_card/MessageArrayAdapter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/klinker/android/messaging_hangout/MessageArrayAdapter.java" afterPath="$PROJECT_DIR$/src/com/klinker/android/messaging_hangout/MessageArrayAdapter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MessageArrayAdapter.java" afterPath="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MessageArrayAdapter.java" />
     </list>
     <ignored path="Messaging Donate.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -100,7 +102,7 @@
     <file path="/a.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369757797561" ignored="false" />
     <file path="/message_hangout_received.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369012279483" ignored="false" />
     <file path="/ecilpse.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1368788564711" ignored="false" />
-    <file path="/MessageArrayAdapter.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369709072887" ignored="false" />
+    <file path="/MessageArrayAdapter.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1370144092289" ignored="false" />
     <file path="/arrays.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369510698606" ignored="false" />
     <file path="/SettingsActivity.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1368790404715" ignored="false" />
     <file path="/AttachMore.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369323106883" ignored="false" />
@@ -241,10 +243,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="MenuArrayAdapter.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="MenuArrayAdapter.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MenuArrayAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="283" column="167" selection-start="14151" selection-end="14151" vertical-scroll-proportion="0.7443038">
+            <state line="283" column="167" selection-start="14151" selection-end="14151" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#10097#14577#0" expanded="true" />
                 <element signature="e#12268#14565#0" expanded="true" />
@@ -259,6 +261,84 @@
                 <element signature="e#21657#21708#0" expanded="true" />
                 <element signature="e#22508#22553#0" expanded="true" />
                 <element signature="e#22813#22814#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MessageArrayAdapter.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MessageArrayAdapter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="1439" column="6" selection-start="49503" selection-end="49766" vertical-scroll-proportion="-2.7692308">
+              <folding>
+                <element signature="e#49577#49764#0" expanded="true" />
+                <element signature="e#49755#49756#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MessageArrayAdapter.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_hangout/MessageArrayAdapter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="1374" column="11" selection-start="47042" selection-end="47042" vertical-scroll-proportion="-7.3461537">
+              <folding>
+                <element signature="e#20049#20081#1" expanded="true" />
+                <element signature="e#34152#34215#0" expanded="true" />
+                <element signature="e#34269#34332#0" expanded="true" />
+                <element signature="e#46863#47050#0" expanded="true" />
+                <element signature="e#48064#48071#0" expanded="true" />
+                <element signature="e#48611#48668#0" expanded="true" />
+                <element signature="e#48706#48752#0" expanded="true" />
+                <element signature="e#49451#49496#0" expanded="true" />
+                <element signature="e#50031#50063#0" expanded="true" />
+                <element signature="e#50545#50552#0" expanded="true" />
+                <element signature="e#53609#53666#0" expanded="true" />
+                <element signature="e#54280#54337#0" expanded="true" />
+                <element signature="e#54375#54421#0" expanded="true" />
+                <element signature="e#55120#55165#0" expanded="true" />
+                <element signature="e#67620#67627#0" expanded="true" />
+                <element signature="e#68583#68590#0" expanded="true" />
+                <element signature="e#80603#80610#0" expanded="true" />
+                <element signature="e#81141#81198#0" expanded="true" />
+                <element signature="e#81235#81281#0" expanded="true" />
+                <element signature="e#81967#82012#0" expanded="true" />
+                <element signature="e#87844#87876#0" expanded="true" />
+                <element signature="e#91707#91760#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MessageArrayAdapter.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_card/MessageArrayAdapter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="1133" column="9" selection-start="36944" selection-end="36944" vertical-scroll-proportion="0.56368566">
+              <folding>
+                <element signature="e#16443#16475#1" expanded="true" />
+                <element signature="e#26460#26510#0" expanded="true" />
+                <element signature="e#29116#29179#0" expanded="true" />
+                <element signature="e#29234#29297#0" expanded="true" />
+                <element signature="e#36755#36942#0" expanded="true" />
+                <element signature="e#36933#36934#0" expanded="true" />
+                <element signature="e#37989#37996#0" expanded="true" />
+                <element signature="e#38472#38529#0" expanded="true" />
+                <element signature="e#38567#38613#0" expanded="true" />
+                <element signature="e#39731#39776#0" expanded="true" />
+                <element signature="e#40828#40835#0" expanded="true" />
+                <element signature="e#43239#43296#0" expanded="true" />
+                <element signature="e#43757#43814#0" expanded="true" />
+                <element signature="e#43852#43898#0" expanded="true" />
+                <element signature="e#44629#44674#0" expanded="true" />
+                <element signature="e#58205#58212#0" expanded="true" />
+                <element signature="e#59328#59335#0" expanded="true" />
+                <element signature="e#72462#72469#0" expanded="true" />
+                <element signature="e#74164#74221#0" expanded="true" />
+                <element signature="e#74664#74721#0" expanded="true" />
+                <element signature="e#74758#74804#0" expanded="true" />
+                <element signature="e#75520#75565#0" expanded="true" />
+                <element signature="e#82483#82515#0" expanded="true" />
+                <element signature="e#86369#86422#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -288,9 +368,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/res/values/styles.xml" />
-        <option value="$PROJECT_DIR$/res/layout/wizard_main.xml" />
-        <option value="$PROJECT_DIR$/res/layout/fragment_page.xml" />
         <option value="$PROJECT_DIR$/res/layout/fragment_page_button.xml" />
         <option value="$PROJECT_DIR$/src/wizardpager/MainActivity.java" />
         <option value="$PROJECT_DIR$/src/wizardpager/SandwichWizardModel.java" />
@@ -304,6 +381,9 @@
         <option value="$PROJECT_DIR$/src/wizardpager/wizard/ui/ReviewFragment.java" />
         <option value="$PROJECT_DIR$/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MenuArrayAdapter.java" />
+        <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MessageArrayAdapter.java" />
+        <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_hangout/MessageArrayAdapter.java" />
+        <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_card/MessageArrayAdapter.java" />
       </list>
     </option>
   </component>
@@ -420,6 +500,58 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="messaging_hangout" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SlidingMessaging" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MessagingDonate" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SlidingMessaging" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MessagingDonate" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="messaging_card" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -804,12 +936,12 @@
       <workItem from="1370010246003" duration="17000" />
       <workItem from="1370010291155" duration="984000" />
       <workItem from="1370140726058" duration="30000" />
-      <workItem from="1370140805626" duration="2096000" />
+      <workItem from="1370140805626" duration="3338000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="261491000" />
+    <option name="totallyTimeSpent" value="262733000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -948,37 +1080,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../ColorPickerPreference/CHANGELOG.rst">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/values-tr/arrays.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-4.0821676">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="28" selection-start="234" selection-end="234" vertical-scroll-proportion="0.02972028">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../ColorPickerPreference/res/layout/dialog_color_picker.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="91" column="0" selection-start="2839" selection-end="2839" vertical-scroll-proportion="0.03107861">
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/wizardpager/wizard/model/AbstractWizardModel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="30" column="53" selection-start="1056" selection-end="1056" vertical-scroll-proportion="0.33333334">
@@ -1067,7 +1168,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MenuArrayAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="283" column="167" selection-start="14151" selection-end="14151" vertical-scroll-proportion="0.7443038">
+        <state line="283" column="167" selection-start="14151" selection-end="14151" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="e#10097#14577#0" expanded="true" />
             <element signature="e#12268#14565#0" expanded="true" />
@@ -1082,6 +1183,85 @@
             <element signature="e#21657#21708#0" expanded="true" />
             <element signature="e#22508#22553#0" expanded="true" />
             <element signature="e#22813#22814#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_card/MenuArrayAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="59" column="13" selection-start="2150" selection-end="2150" vertical-scroll-proportion="0.1721519">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_hangout/MessageArrayAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1374" column="11" selection-start="47042" selection-end="47042" vertical-scroll-proportion="-7.3461537">
+          <folding>
+            <element signature="e#20049#20081#1" expanded="true" />
+            <element signature="e#34152#34215#0" expanded="true" />
+            <element signature="e#34269#34332#0" expanded="true" />
+            <element signature="e#46863#47050#0" expanded="true" />
+            <element signature="e#48064#48071#0" expanded="true" />
+            <element signature="e#48611#48668#0" expanded="true" />
+            <element signature="e#48706#48752#0" expanded="true" />
+            <element signature="e#49451#49496#0" expanded="true" />
+            <element signature="e#50031#50063#0" expanded="true" />
+            <element signature="e#50545#50552#0" expanded="true" />
+            <element signature="e#53609#53666#0" expanded="true" />
+            <element signature="e#54280#54337#0" expanded="true" />
+            <element signature="e#54375#54421#0" expanded="true" />
+            <element signature="e#55120#55165#0" expanded="true" />
+            <element signature="e#67620#67627#0" expanded="true" />
+            <element signature="e#68583#68590#0" expanded="true" />
+            <element signature="e#80603#80610#0" expanded="true" />
+            <element signature="e#81141#81198#0" expanded="true" />
+            <element signature="e#81235#81281#0" expanded="true" />
+            <element signature="e#81967#82012#0" expanded="true" />
+            <element signature="e#87844#87876#0" expanded="true" />
+            <element signature="e#91707#91760#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MessageArrayAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1439" column="6" selection-start="49503" selection-end="49766" vertical-scroll-proportion="-2.7692308">
+          <folding>
+            <element signature="e#49577#49764#0" expanded="true" />
+            <element signature="e#49755#49756#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_card/MessageArrayAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1133" column="9" selection-start="36944" selection-end="36944" vertical-scroll-proportion="0.56368566">
+          <folding>
+            <element signature="e#16443#16475#1" expanded="true" />
+            <element signature="e#26460#26510#0" expanded="true" />
+            <element signature="e#29116#29179#0" expanded="true" />
+            <element signature="e#29234#29297#0" expanded="true" />
+            <element signature="e#36755#36942#0" expanded="true" />
+            <element signature="e#36933#36934#0" expanded="true" />
+            <element signature="e#37989#37996#0" expanded="true" />
+            <element signature="e#38472#38529#0" expanded="true" />
+            <element signature="e#38567#38613#0" expanded="true" />
+            <element signature="e#39731#39776#0" expanded="true" />
+            <element signature="e#40828#40835#0" expanded="true" />
+            <element signature="e#43239#43296#0" expanded="true" />
+            <element signature="e#43757#43814#0" expanded="true" />
+            <element signature="e#43852#43898#0" expanded="true" />
+            <element signature="e#44629#44674#0" expanded="true" />
+            <element signature="e#58205#58212#0" expanded="true" />
+            <element signature="e#59328#59335#0" expanded="true" />
+            <element signature="e#72462#72469#0" expanded="true" />
+            <element signature="e#74164#74221#0" expanded="true" />
+            <element signature="e#74664#74721#0" expanded="true" />
+            <element signature="e#74758#74804#0" expanded="true" />
+            <element signature="e#75520#75565#0" expanded="true" />
+            <element signature="e#82483#82515#0" expanded="true" />
+            <element signature="e#86369#86422#0" expanded="true" />
           </folding>
         </state>
       </provider>
