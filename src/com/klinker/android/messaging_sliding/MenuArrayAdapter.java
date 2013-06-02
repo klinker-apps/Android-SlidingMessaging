@@ -225,7 +225,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
                         text = Html.fromHtml("Group MMS");
                     }
 
-                    names = MainActivity.findContactName(numbers.get(position), context);
+                    names = MainActivity.loadGroupContacts(numbers.get(position), context);
                 } else
                 {
                     String contactName = MainActivity.findContactName(numbers.get(position), context);
@@ -243,7 +243,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
                 if (group.get(position).equals("yes"))
                 {
                     text = Html.fromHtml("Group MMS");
-                    names = MainActivity.findContactName(numbers.get(position), context);
+                    names = MainActivity.loadGroupContacts(numbers.get(position), context);
                 } else
                 {
                     text = Html.fromHtml(MainActivity.findContactName(numbers.get(position), context));
@@ -259,19 +259,31 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 				public void run() {
 					if (sharedPrefs.getBoolean("contact_pictures2", true))
 					{
-						try
-					  	  {
-					  		holder.image.setImageBitmap(Bitmap.createScaledBitmap(image, MainActivity.contactWidth, MainActivity.contactWidth, true));
-					  	  } catch (Exception e)
-					  	  {
-					  		if (sharedPrefs.getBoolean("ct_darkContactImage", false))
-					  		{
-					  			holder.image.setImageBitmap(Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(R.drawable.ic_contact_picture)), MainActivity.contactWidth, MainActivity.contactWidth, true));
-					  		} else
-					  		{
-					  			holder.image.setImageBitmap(Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(R.drawable.ic_contact_dark)), MainActivity.contactWidth, MainActivity.contactWidth, true));
-					  		}
-					  	  }
+                        if (group.get(position).equals("no"))
+                        {
+                            try
+                              {
+                                holder.image.setImageBitmap(Bitmap.createScaledBitmap(image, MainActivity.contactWidth, MainActivity.contactWidth, true));
+                              } catch (Exception e)
+                              {
+                                if (sharedPrefs.getBoolean("ct_darkContactImage", false))
+                                {
+                                    holder.image.setImageBitmap(Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(R.drawable.ic_contact_dark)), MainActivity.contactWidth, MainActivity.contactWidth, true));
+                                } else
+                                {
+                                    holder.image.setImageBitmap(Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(R.drawable.ic_contact_picture)), MainActivity.contactWidth, MainActivity.contactWidth, true));
+                                }
+                              }
+                        } else
+                        {
+                            if (sharedPrefs.getBoolean("ct_darkContactImage", false))
+                            {
+                                holder.image.setImageBitmap(Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(R.drawable.ic_contact_dark)), MainActivity.contactWidth, MainActivity.contactWidth, true));
+                            } else
+                            {
+                                holder.image.setImageBitmap(Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(R.drawable.ic_contact_picture)), MainActivity.contactWidth, MainActivity.contactWidth, true));
+                            }
+                        }
 					} else
 					{
 						holder.text2.setPadding(10, 0, 0, 15);
