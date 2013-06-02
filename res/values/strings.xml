@@ -418,4 +418,5 @@
     <string name="review">Review</string>
     <string name="notes">Notes</string>
     <string name="override_stock_disclaimer">If you are having problems with messages not being saved, or you have disabled all other messaging apps on your device except Sliding Messaging, be sure to check the \"Override Stock Messaging\" option in Advanced Settings.</string>
+    <string name="popup_theme">Custom Popup Settings</string>
 </resources>

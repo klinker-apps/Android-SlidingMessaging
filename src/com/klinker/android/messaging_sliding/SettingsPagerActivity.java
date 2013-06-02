@@ -21,6 +21,7 @@ import android.support.v4.view.ViewPager;
 import android.view.*;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.klinker.android.messaging_card.theme.PopupChooserActivity;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_sliding.blacklist.BlacklistActivity;
 import com.klinker.android.messaging_sliding.notifications.NotificationsSettingsActivity;
@@ -192,6 +193,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                     break;
                 case 3:
                     addPreferencesFromResource(R.xml.popup_settings);
+                    setUpPopupSettings();
                     break;
                 case 4:
                     addPreferencesFromResource(R.xml.sliding_message_settings);
@@ -468,6 +470,20 @@ public class SettingsPagerActivity extends FragmentActivity {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     giveTestNotification();
+                    return true;
+                }
+            });
+        }
+
+        public void setUpPopupSettings()
+        {
+            final Context context = getActivity();
+
+            Preference customPopup = (Preference) findPreference("popup_theme");
+            customPopup.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                public boolean onPreferenceClick(Preference preference) {
+                    Intent intent = new Intent(context, PopupChooserActivity.class);
+                    startActivity(intent);
                     return true;
                 }
             });

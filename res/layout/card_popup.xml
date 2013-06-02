@@ -101,7 +101,8 @@
             android:paddingRight="3dp"
             android:textColor="@color/card_conversation_name"
             android:textColorHint="@color/card_message_text_date"
-            android:textSize="@dimen/contact_name_size" />
+            android:textSize="@dimen/contact_name_size"
+            android:textCursorDrawable="@null"/>
 
         <ImageButton
             android:id="@+id/sendButton"
