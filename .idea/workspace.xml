@@ -89,13 +89,14 @@
   <component name="ChangeListManager">
     <list default="true" id="1e4b5eb9-13da-4bef-bd83-6650ca630326" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/To-do/To-do.txt" afterPath="$PROJECT_DIR$/To-do/To-do.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Messaging Donate.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/fragment.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369787072367" ignored="false" />
     <file path="/a.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1368676941114" ignored="false" />
     <file path="/sample.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1368676949020" ignored="false" />
-    <file path="/Dummy.txt" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1370140811495" ignored="false" />
+    <file path="/Dummy.txt" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1370186996378" ignored="false" />
     <file path="/message_hangout_sent.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369012353566" ignored="false" />
     <file path="/a.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369757797561" ignored="false" />
     <file path="/message_hangout_received.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369012279483" ignored="false" />
@@ -176,7 +177,7 @@
     <file path="$PROJECT_DIR$/../romannurik-code/misc/wizardpager/.idea/workspace.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369780511664" ignored="false" />
     <file path="$APPLICATION_HOME_DIR$/plugins/android/lib/android.jar!/org/jetbrains/android/android.xsd" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1370140919280" ignored="false" />
     <file path="/ColorPickerView.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369962110315" ignored="false" />
-    <file path="/To-do.txt" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1370144895656" ignored="false" />
+    <file path="/To-do.txt" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1370187060993" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -245,7 +246,7 @@
       <file leaf-file-name="To-do.txt" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/To-do/To-do.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="73" selection-start="1664" selection-end="1664" vertical-scroll-proportion="1.0329114">
+            <state line="25" column="110" selection-start="1775" selection-end="1775" vertical-scroll-proportion="0.7602862">
               <folding />
             </state>
           </provider>
@@ -675,12 +676,14 @@
       <workItem from="1370010246003" duration="17000" />
       <workItem from="1370010291155" duration="984000" />
       <workItem from="1370140726058" duration="30000" />
-      <workItem from="1370140805626" duration="3899000" />
+      <workItem from="1370140805626" duration="4110000" />
+      <workItem from="1370178672694" duration="102000" />
+      <workItem from="1370186974118" duration="111000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="263294000" />
+    <option name="totallyTimeSpent" value="263718000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -706,28 +709,28 @@
     <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32348484" sideWeight="0.7281879" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32348484" sideWeight="0.7281879" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33964366" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3287879" sideWeight="0.7281879" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39977974" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35634744" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17899892" sideWeight="0.29705215" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17899892" sideWeight="0.29705215" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32962137" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3557047" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.54530203" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24972796" sideWeight="0.72902495" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.175" sideWeight="0.7281879" order="1" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27181208" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27181208" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32348484" sideWeight="0.7281879" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32348484" sideWeight="0.7281879" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3287879" sideWeight="0.7281879" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32962137" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3557047" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
     </layout>
@@ -819,187 +822,84 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/wizardpager/wizard/model/PageList.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="13" selection-start="719" selection-end="719" vertical-scroll-proportion="0.33333334">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/xml/mms_settings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="121" column="21" selection-start="4538" selection-end="4538" vertical-scroll-proportion="0.0">
-          <folding>
-            <marker date="1370141735671" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1370141735671" expanded="true" signature="-1:-1" placeholder="&quot;Report APNs&quot;" />
-            <marker date="1370141735671" expanded="true" signature="-1:-1" placeholder="&quot;Please email me at jklinker1@gmail.com with your confir...&quot;" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/SettingsPagerActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="581" column="51" selection-start="24795" selection-end="24795" vertical-scroll-proportion="-5.730769">
-          <folding />
-        </state>
+        <state line="581" column="51" selection-start="24795" selection-end="24795" vertical-scroll-proportion="-5.730769" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/wizardpager/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="13" selection-start="1396" selection-end="1396" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="40" column="13" selection-start="1396" selection-end="1396" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/wizardpager/wizard/model/ReviewItem.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="13" selection-start="759" selection-end="759" vertical-scroll-proportion="0.375">
-          <folding />
-        </state>
+        <state line="23" column="13" selection-start="759" selection-end="759" vertical-scroll-proportion="0.375" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/fragment_page.xml">
-      <provider editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
       <provider selected="true" editor-type-id="android-designer">
         <state />
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5629" column="20" selection-start="212643" selection-end="212643" vertical-scroll-proportion="0.81449276">
-          <folding />
-        </state>
+        <state line="5629" column="20" selection-start="212643" selection-end="212643" vertical-scroll-proportion="0.81449276" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="419" column="268" selection-start="34013" selection-end="34013" vertical-scroll-proportion="1.2695652">
-          <folding />
-        </state>
+        <state line="419" column="268" selection-start="34013" selection-end="34013" vertical-scroll-proportion="1.2695652" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/wizardpager/wizard/ui/ReviewFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="56" column="74" selection-start="1833" selection-end="1833" vertical-scroll-proportion="0.18994413">
-          <folding />
-        </state>
+        <state line="56" column="74" selection-start="1833" selection-end="1833" vertical-scroll-proportion="0.18994413" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/wizardpager/CatalogWizardModel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="233" column="23" selection-start="10708" selection-end="10708" vertical-scroll-proportion="0.8433735">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
+        <state line="233" column="23" selection-start="10708" selection-end="10708" vertical-scroll-proportion="0.8433735" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_card/MenuArrayAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="59" column="13" selection-start="2150" selection-end="2150" vertical-scroll-proportion="0.1721519">
-          <folding />
-        </state>
+        <state line="59" column="13" selection-start="2150" selection-end="2150" vertical-scroll-proportion="0.1721519" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_card/MessageArrayAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1127" column="69" selection-start="36782" selection-end="36782" vertical-scroll-proportion="0.2872629">
-          <folding>
-            <element signature="e#16443#16475#1" expanded="true" />
-            <element signature="e#26460#26510#0" expanded="true" />
-            <element signature="e#29116#29179#0" expanded="true" />
-            <element signature="e#29234#29297#0" expanded="true" />
-            <element signature="e#36933#36934#0" expanded="true" />
-            <element signature="e#37989#37996#0" expanded="true" />
-            <element signature="e#38472#38529#0" expanded="true" />
-            <element signature="e#38567#38613#0" expanded="true" />
-            <element signature="e#39731#39776#0" expanded="true" />
-            <element signature="e#40828#40835#0" expanded="true" />
-            <element signature="e#43239#43296#0" expanded="true" />
-            <element signature="e#43757#43814#0" expanded="true" />
-            <element signature="e#43852#43898#0" expanded="true" />
-            <element signature="e#44629#44674#0" expanded="true" />
-            <element signature="e#58205#58212#0" expanded="true" />
-            <element signature="e#59328#59335#0" expanded="true" />
-            <element signature="e#72462#72469#0" expanded="true" />
-            <element signature="e#74164#74221#0" expanded="true" />
-            <element signature="e#74664#74721#0" expanded="true" />
-            <element signature="e#74758#74804#0" expanded="true" />
-            <element signature="e#75520#75565#0" expanded="true" />
-            <element signature="e#82483#82515#0" expanded="true" />
-            <element signature="e#86369#86422#0" expanded="true" />
-          </folding>
-        </state>
+        <state line="1127" column="69" selection-start="36782" selection-end="36782" vertical-scroll-proportion="0.2872629" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_hangout/MessageArrayAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1374" column="11" selection-start="47042" selection-end="47042" vertical-scroll-proportion="0.5176152">
-          <folding>
-            <element signature="e#20049#20081#1" expanded="true" />
-            <element signature="e#34152#34215#0" expanded="true" />
-            <element signature="e#34269#34332#0" expanded="true" />
-            <element signature="e#46863#47050#0" expanded="true" />
-            <element signature="e#48064#48071#0" expanded="true" />
-            <element signature="e#48611#48668#0" expanded="true" />
-            <element signature="e#48706#48752#0" expanded="true" />
-            <element signature="e#49451#49496#0" expanded="true" />
-            <element signature="e#50031#50063#0" expanded="true" />
-            <element signature="e#50545#50552#0" expanded="true" />
-            <element signature="e#53609#53666#0" expanded="true" />
-            <element signature="e#54280#54337#0" expanded="true" />
-            <element signature="e#54375#54421#0" expanded="true" />
-            <element signature="e#55120#55165#0" expanded="true" />
-            <element signature="e#67620#67627#0" expanded="true" />
-            <element signature="e#68583#68590#0" expanded="true" />
-            <element signature="e#80603#80610#0" expanded="true" />
-            <element signature="e#81141#81198#0" expanded="true" />
-            <element signature="e#81235#81281#0" expanded="true" />
-            <element signature="e#81967#82012#0" expanded="true" />
-            <element signature="e#87844#87876#0" expanded="true" />
-            <element signature="e#91707#91760#0" expanded="true" />
-          </folding>
-        </state>
+        <state line="1374" column="11" selection-start="47042" selection-end="47042" vertical-scroll-proportion="0.5176152" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MessageArrayAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1439" column="6" selection-start="49503" selection-end="49766" vertical-scroll-proportion="0.19512194">
-          <folding>
-            <element signature="e#49577#49764#0" expanded="true" />
-            <element signature="e#49755#49756#0" expanded="true" />
-          </folding>
-        </state>
+        <state line="1439" column="6" selection-start="49503" selection-end="49766" vertical-scroll-proportion="0.19512194" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MenuArrayAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="283" column="167" selection-start="14151" selection-end="14151" vertical-scroll-proportion="0.7443038">
-          <folding>
-            <element signature="e#10097#14577#0" expanded="true" />
-            <element signature="e#12268#14565#0" expanded="true" />
-            <element signature="e#14555#14556#0" expanded="true" />
-            <element signature="e#14570#14571#0" expanded="true" />
-            <element signature="e#19043#20745#0" expanded="true" />
-            <element signature="e#20740#20741#0" expanded="true" />
-            <element signature="e#20787#22819#0" expanded="true" />
-            <element signature="e#21084#21142#0" expanded="true" />
-            <element signature="e#21154#21209#0" expanded="true" />
-            <element signature="e#21312#21358#0" expanded="true" />
-            <element signature="e#21657#21708#0" expanded="true" />
-            <element signature="e#22508#22553#0" expanded="true" />
-            <element signature="e#22813#22814#0" expanded="true" />
-          </folding>
+        <state line="283" column="167" selection-start="14151" selection-end="14151" vertical-scroll-proportion="0.7443038" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/values-fr/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="376" column="39" selection-start="32519" selection-end="32519" vertical-scroll-proportion="11.434705">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/To-do/To-do.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="73" selection-start="1664" selection-end="1664" vertical-scroll-proportion="1.0329114">
+        <state line="25" column="110" selection-start="1775" selection-end="1775" vertical-scroll-proportion="0.7602862">
           <folding />
         </state>
       </provider>
