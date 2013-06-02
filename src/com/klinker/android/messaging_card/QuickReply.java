@@ -611,7 +611,6 @@ public class QuickReply extends FragmentActivity {
 				
 			});
 
-            // TODO solve problem of only one message getting read or deleted when multiple from one person
 			readButton.setOnClickListener(new OnClickListener() {
 
 				@Override

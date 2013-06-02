@@ -88,13 +88,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1e4b5eb9-13da-4bef-bd83-6650ca630326" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/klinker/android/messaging_card/MainActivity.java" afterPath="$PROJECT_DIR$/src/com/klinker/android/messaging_card/MainActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MainActivity.java" afterPath="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MainActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/klinker/android/messaging_card/QuickReply.java" afterPath="$PROJECT_DIR$/src/com/klinker/android/messaging_card/QuickReply.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/TextMessageReceiver.java" afterPath="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/TextMessageReceiver.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/To-do/To-do.txt" afterPath="$PROJECT_DIR$/To-do/To-do.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Messaging Donate.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -182,7 +177,7 @@
     <file path="$PROJECT_DIR$/../romannurik-code/misc/wizardpager/.idea/workspace.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369780511664" ignored="false" />
     <file path="$APPLICATION_HOME_DIR$/plugins/android/lib/android.jar!/org/jetbrains/android/android.xsd" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1370140919280" ignored="false" />
     <file path="/ColorPickerView.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369962110315" ignored="false" />
-    <file path="/To-do.txt" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1370192151482" ignored="false" />
+    <file path="/To-do.txt" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1370197712906" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -251,55 +246,37 @@
       <file leaf-file-name="QuickReply.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_card/QuickReply.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="640" column="165" selection-start="25417" selection-end="25417" vertical-scroll-proportion="0.9494048">
+            <state line="612" column="0" selection-start="23882" selection-end="23882" vertical-scroll-proportion="0.24107143">
               <folding>
-                <element signature="e#24024#25698#0" expanded="true" />
-                <element signature="e#24292#25620#0" expanded="true" />
-                <element signature="e#25596#25597#0" expanded="true" />
-                <element signature="e#25687#25688#0" expanded="true" />
-                <element signature="e#25740#27571#0" expanded="true" />
-                <element signature="e#26009#27503#0" expanded="true" />
-                <element signature="e#27479#27480#0" expanded="true" />
-                <element signature="e#27565#27566#0" expanded="true" />
-                <element signature="e#30222#30696#0" expanded="true" />
-                <element signature="e#30687#30688#0" expanded="true" />
-                <element signature="e#33189#40131#0" expanded="true" />
-                <element signature="e#40119#40120#0" expanded="true" />
-                <element signature="e#40236#45043#0" expanded="true" />
-                <element signature="e#40782#41045#0" expanded="true" />
-                <element signature="e#41009#41010#0" expanded="true" />
-                <element signature="e#42084#42347#0" expanded="true" />
-                <element signature="e#42311#42312#0" expanded="true" />
-                <element signature="e#43305#43312#0" expanded="true" />
-                <element signature="e#44150#44157#0" expanded="true" />
-                <element signature="e#45031#45032#0" expanded="true" />
-                <element signature="e#45138#45153#0" expanded="true" />
-                <element signature="e#45210#45225#0" expanded="true" />
-                <element signature="e#46815#53757#0" expanded="true" />
-                <element signature="e#53745#53746#0" expanded="true" />
-                <element signature="e#53847#53862#0" expanded="true" />
-                <element signature="e#56600#58664#0" expanded="true" />
-                <element signature="e#56696#56704#0" expanded="true" />
-                <element signature="e#58655#58656#0" expanded="true" />
+                <element signature="e#23916#25590#0" expanded="true" />
+                <element signature="e#24184#25512#0" expanded="true" />
+                <element signature="e#25488#25489#0" expanded="true" />
+                <element signature="e#25579#25580#0" expanded="true" />
+                <element signature="e#25632#27463#0" expanded="true" />
+                <element signature="e#25901#27395#0" expanded="true" />
+                <element signature="e#27371#27372#0" expanded="true" />
+                <element signature="e#27457#27458#0" expanded="true" />
+                <element signature="e#30114#30588#0" expanded="true" />
+                <element signature="e#30579#30580#0" expanded="true" />
+                <element signature="e#33081#40023#0" expanded="true" />
+                <element signature="e#40011#40012#0" expanded="true" />
+                <element signature="e#40128#44935#0" expanded="true" />
+                <element signature="e#40674#40937#0" expanded="true" />
+                <element signature="e#40901#40902#0" expanded="true" />
+                <element signature="e#41976#42239#0" expanded="true" />
+                <element signature="e#42203#42204#0" expanded="true" />
+                <element signature="e#43197#43204#0" expanded="true" />
+                <element signature="e#44042#44049#0" expanded="true" />
+                <element signature="e#44923#44924#0" expanded="true" />
+                <element signature="e#45030#45045#0" expanded="true" />
+                <element signature="e#45102#45117#0" expanded="true" />
+                <element signature="e#46707#53649#0" expanded="true" />
+                <element signature="e#53637#53638#0" expanded="true" />
+                <element signature="e#53739#53754#0" expanded="true" />
+                <element signature="e#56492#58556#0" expanded="true" />
+                <element signature="e#56588#56596#0" expanded="true" />
+                <element signature="e#58547#58548#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AndroidManifest.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="117" column="53" selection-start="5895" selection-end="5895" vertical-scroll-proportion="-8.384615">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="To-do.txt" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/To-do/To-do.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="4" selection-start="100" selection-end="100" vertical-scroll-proportion="0.0">
-              <folding />
             </state>
           </provider>
         </entry>
@@ -342,8 +319,8 @@
         <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MainActivity.java" />
         <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_card/MainActivity.java" />
         <option value="$PROJECT_DIR$/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_card/QuickReply.java" />
         <option value="$PROJECT_DIR$/To-do/To-do.txt" />
+        <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_card/QuickReply.java" />
       </list>
     </option>
   </component>
@@ -730,12 +707,12 @@
       <workItem from="1370140726058" duration="30000" />
       <workItem from="1370140805626" duration="4110000" />
       <workItem from="1370178672694" duration="102000" />
-      <workItem from="1370186974118" duration="7881000" />
+      <workItem from="1370186974118" duration="8210000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="271488000" />
+    <option name="totallyTimeSpent" value="271817000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -957,52 +934,52 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
+    <entry file="file://$PROJECT_DIR$/To-do/To-do.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="117" column="53" selection-start="5895" selection-end="5895" vertical-scroll-proportion="-8.384615">
+        <state line="12" column="128" selection-start="516" selection-end="516" vertical-scroll-proportion="0.5635359">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/To-do/To-do.txt">
+    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="4" selection-start="100" selection-end="100" vertical-scroll-proportion="0.0">
+        <state line="117" column="53" selection-start="5895" selection-end="5895" vertical-scroll-proportion="0.62464184">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_card/QuickReply.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="640" column="165" selection-start="25417" selection-end="25417" vertical-scroll-proportion="0.9494048">
+        <state line="612" column="0" selection-start="23882" selection-end="23882" vertical-scroll-proportion="0.24107143">
           <folding>
-            <element signature="e#24024#25698#0" expanded="true" />
-            <element signature="e#24292#25620#0" expanded="true" />
-            <element signature="e#25596#25597#0" expanded="true" />
-            <element signature="e#25687#25688#0" expanded="true" />
-            <element signature="e#25740#27571#0" expanded="true" />
-            <element signature="e#26009#27503#0" expanded="true" />
-            <element signature="e#27479#27480#0" expanded="true" />
-            <element signature="e#27565#27566#0" expanded="true" />
-            <element signature="e#30222#30696#0" expanded="true" />
-            <element signature="e#30687#30688#0" expanded="true" />
-            <element signature="e#33189#40131#0" expanded="true" />
-            <element signature="e#40119#40120#0" expanded="true" />
-            <element signature="e#40236#45043#0" expanded="true" />
-            <element signature="e#40782#41045#0" expanded="true" />
-            <element signature="e#41009#41010#0" expanded="true" />
-            <element signature="e#42084#42347#0" expanded="true" />
-            <element signature="e#42311#42312#0" expanded="true" />
-            <element signature="e#43305#43312#0" expanded="true" />
-            <element signature="e#44150#44157#0" expanded="true" />
-            <element signature="e#45031#45032#0" expanded="true" />
-            <element signature="e#45138#45153#0" expanded="true" />
-            <element signature="e#45210#45225#0" expanded="true" />
-            <element signature="e#46815#53757#0" expanded="true" />
-            <element signature="e#53745#53746#0" expanded="true" />
-            <element signature="e#53847#53862#0" expanded="true" />
-            <element signature="e#56600#58664#0" expanded="true" />
-            <element signature="e#56696#56704#0" expanded="true" />
-            <element signature="e#58655#58656#0" expanded="true" />
+            <element signature="e#23916#25590#0" expanded="true" />
+            <element signature="e#24184#25512#0" expanded="true" />
+            <element signature="e#25488#25489#0" expanded="true" />
+            <element signature="e#25579#25580#0" expanded="true" />
+            <element signature="e#25632#27463#0" expanded="true" />
+            <element signature="e#25901#27395#0" expanded="true" />
+            <element signature="e#27371#27372#0" expanded="true" />
+            <element signature="e#27457#27458#0" expanded="true" />
+            <element signature="e#30114#30588#0" expanded="true" />
+            <element signature="e#30579#30580#0" expanded="true" />
+            <element signature="e#33081#40023#0" expanded="true" />
+            <element signature="e#40011#40012#0" expanded="true" />
+            <element signature="e#40128#44935#0" expanded="true" />
+            <element signature="e#40674#40937#0" expanded="true" />
+            <element signature="e#40901#40902#0" expanded="true" />
+            <element signature="e#41976#42239#0" expanded="true" />
+            <element signature="e#42203#42204#0" expanded="true" />
+            <element signature="e#43197#43204#0" expanded="true" />
+            <element signature="e#44042#44049#0" expanded="true" />
+            <element signature="e#44923#44924#0" expanded="true" />
+            <element signature="e#45030#45045#0" expanded="true" />
+            <element signature="e#45102#45117#0" expanded="true" />
+            <element signature="e#46707#53649#0" expanded="true" />
+            <element signature="e#53637#53638#0" expanded="true" />
+            <element signature="e#53739#53754#0" expanded="true" />
+            <element signature="e#56492#58556#0" expanded="true" />
+            <element signature="e#56588#56596#0" expanded="true" />
+            <element signature="e#58547#58548#0" expanded="true" />
           </folding>
         </state>
       </provider>
