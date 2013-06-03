@@ -430,4 +430,5 @@
     <string name="cp_draftTextColor">Draft Text Color</string>
     <string name="cp_buttonColor">Button Color</string>
     <string name="cp_emojiButtonColor">Emoji Button Color</string>
+    <string name="loading_conversations">Loading Conversations...</string>
 </resources>
