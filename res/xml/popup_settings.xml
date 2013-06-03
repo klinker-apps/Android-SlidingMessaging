@@ -7,13 +7,11 @@
         android:summary="@string/popup_reply_summary"
         android:defaultValue="false"
     />
-	
-	<CheckBoxPreference
-         android:key="dark_theme_quick_reply"
-         android:title="@string/dark_theme_quick_reply"
-         android:summary="@string/dark_theme_quick_reply_summary"
-         android:defaultValue="true"
-     />
+
+    <Preference
+        android:key="popup_theme"
+        android:title="@string/popup_theme"
+    />
 	
 	<CheckBoxPreference 
     	android:key="enable_view_conversation"
@@ -34,6 +32,14 @@
 	    android:title="@string/use_old_popup"
 	    android:defaultValue="false"
 	/>
+
+    <CheckBoxPreference
+        android:key="dark_theme_quick_reply"
+        android:title="@string/dark_theme_quick_reply"
+        android:summary="@string/dark_theme_quick_reply_summary"
+        android:defaultValue="true"
+        android:dependency="use_old_popup"
+    />
 	
 <!-- 	<PreferenceCategory -->
 <!--         android:title="@string/experimental" -->

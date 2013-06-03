@@ -73,6 +73,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 	        String name = "";
 	        String id = "";
 	        String date = "";
+            String dateReceived = "";
 	         
 	        if ( extras != null )
 	        {
@@ -87,6 +88,13 @@ public class TextMessageReceiver extends BroadcastReceiver {
 	                date = sms.getTimestampMillis() + "";
 	            }
             }
+
+            Calendar cal = Calendar.getInstance();
+            dateReceived = cal.getTimeInMillis() + "";
+
+            final String origBody = body;
+            final String origDate = dateReceived;
+            final String origAddress = address;
 	        
 	        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 	        
@@ -108,11 +116,10 @@ public class TextMessageReceiver extends BroadcastReceiver {
 	        {
 		        if (sharedPrefs.getBoolean("override", false))
 		        {
-		        	Calendar cal = Calendar.getInstance();
 		        	ContentValues values = new ContentValues();
 			        values.put("address", address);
 			        values.put("body", body);
-			        values.put("date", cal.getTimeInMillis() + "");
+			        values.put("date", dateReceived);
 			        values.put("read", "0");
 			        values.put("date_sent", date);
 			        context.getContentResolver().insert(Uri.parse("content://sms/inbox"), values);
@@ -200,9 +207,6 @@ public class TextMessageReceiver extends BroadcastReceiver {
 			        bundle.putString("address", address);
 			        
 			        String origin = address.replaceAll("[^0-9\\+]", "");
-			        
-			        if (origin.length() == 11)
-			        	origin = origin.substring(1,11);
 					
 			        try
 			        {
@@ -264,6 +268,9 @@ public class TextMessageReceiver extends BroadcastReceiver {
 					Bitmap contactImage = Bitmap.createScaledBitmap(BitmapFactory.decodeStream(input), 120, 120, true);
 					
 					Intent intent2 = new Intent(context, com.klinker.android.messaging_card.QuickReply.class);
+                    intent2.putExtra("address", origAddress);
+                    intent2.putExtra("body", origBody);
+                    intent2.putExtra("date", origDate);
 					
 					if (sharedPrefs.getBoolean("use_old_popup", false))
 					{
@@ -1089,7 +1096,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 			            
 			            if (!sharedPrefs.getString("repeating_notification", "none").equals("none"))
 			            {
-			            	Calendar cal = Calendar.getInstance();
+			            	cal = Calendar.getInstance();
 			            	
 			            	Intent repeatingIntent = new Intent(context, NotificationRepeaterService.class);
 			            	PendingIntent pRepeatingIntent = PendingIntent.getService(context, 0, repeatingIntent, 0);
@@ -1114,6 +1121,9 @@ public class TextMessageReceiver extends BroadcastReceiver {
 							if (sharedPrefs.getBoolean("popup_reply", false) && !sharedPrefs.getBoolean("secure_notification", false))
 					        {
 					        	Intent intent3 = new Intent(context, com.klinker.android.messaging_card.QuickReply.class);
+                                intent3.putExtra("address", origAddress);
+                                intent3.putExtra("body", origBody);
+                                intent3.putExtra("date", origDate);
 					        	
 					        	if (sharedPrefs.getBoolean("use_old_popup", false))
 								{
@@ -1143,7 +1153,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 							
 						}
 		        		
-		        	}, 1000);
+		        	}, 200);
 		        }
 		        
 		        Intent intent3 = new Intent("com.productigeeky.NOTIFICATION");

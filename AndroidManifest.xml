@@ -114,7 +114,9 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:launchMode="singleTop"
             android:taskAffinity=""
-            android:excludeFromRecents="true" >
+            android:excludeFromRecents="true"
+            android:noHistory="true"
+            android:windowSoftInputMode="adjustResize">
         </activity>
         
         <activity
@@ -157,6 +159,19 @@
         <activity
             android:name="com.klinker.android.messaging_sliding.theme.CustomThemeActivity"
             android:label="@string/custom_theme_prefs"
+            android:theme="@style/SettingsTheme" >
+        </activity>
+
+        <activity
+            android:name="com.klinker.android.messaging_card.theme.CustomPopupActivity"
+            android:label="@string/custom_theme_prefs"
+            android:theme="@style/SettingsTheme" >
+        </activity>
+
+
+        <activity
+            android:name="com.klinker.android.messaging_card.theme.PopupChooserActivity"
+            android:label="@string/popup_theme"
             android:theme="@style/SettingsTheme" >
         </activity>
         
