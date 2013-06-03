@@ -208,12 +208,7 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
             } while (query.moveToNext());
         }
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                launchActivity();
-            }
-        }, 1000);
+        launchActivity();
     }
 
     @Override
