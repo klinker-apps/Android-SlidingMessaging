@@ -24,6 +24,8 @@ import java.util.Calendar;
 public class PasswordActivity extends FragmentActivity {
     private SharedPreferences sharedPrefs;
 
+    private Context context;
+
     private Intent fromIntent;
 
     private String password;
@@ -39,7 +41,7 @@ public class PasswordActivity extends FragmentActivity {
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         fromIntent = getIntent();
-        final Context context = this;
+        context = this;
 
         text = "";
         password = "";
@@ -80,6 +82,7 @@ public class PasswordActivity extends FragmentActivity {
 
                 if (password.equals(sharedPrefs.getString("password", "0")))
                 {
+<<<<<<< HEAD
                     String version = "";
 
                     try {
@@ -145,19 +148,12 @@ public class PasswordActivity extends FragmentActivity {
                         startActivity(intent);
                         finish();
                     }
+=======
+                    openActivity();
+>>>>>>> 4c76482db6819a4653f3f795f094cdf64bffade1
                 } else
                 {
-                    CharSequence text = "Incorrect password";
-                    int duration = Toast.LENGTH_SHORT;
-
-                    Toast toast = Toast.makeText(getApplicationContext(), text, duration);
-                    toast.show();
-
-                    text = "";
-                    password = "";
-                    numChar = 0;
-
-                    passwordBox.setText("");
+                    incorrectPassword();
                 }
             }
         });
@@ -274,5 +270,90 @@ public class PasswordActivity extends FragmentActivity {
         text = text + newNumber;
 
         passwordBox.setText(text);
+
+        if(password.length() == sharedPrefs.getString("password", "0").length() && sharedPrefs.getBoolean("auto_unlock", true))
+        {
+            if (password.equals(sharedPrefs.getString("password", "0")))
+                openActivity();
+            else
+            {
+                incorrectPassword();
+            }
+        }
+    }
+
+    public void openActivity()
+    {
+        SharedPreferences.Editor prefEdit = sharedPrefs.edit();
+        prefEdit.putLong("last_time", System.currentTimeMillis());
+        prefEdit.commit();
+
+        boolean flag = false;
+
+        if (fromIntent.getStringExtra("com.klinker.android.OPEN") != null)
+        {
+            flag = true;
+        }
+
+        if (sharedPrefs.getString("run_as", "sliding").equals("sliding") || sharedPrefs.getString("run_as", "sliding").equals("hangout"))
+        {
+            final Intent intent = new Intent(context, com.klinker.android.messaging_sliding.MainActivity.class);
+            intent.setAction(fromIntent.getAction());
+            intent.setData(fromIntent.getData());
+
+            try
+            {
+                intent.putExtras(fromIntent.getExtras());
+            } catch (Exception e)
+            {
+
+            }
+
+            if (flag)
+            {
+                intent.putExtra("com.klinker.android.OPEN", intent.getStringExtra("com.klinker.android.OPEN"));
+            }
+
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivity(intent);
+            finish();
+        } else if (sharedPrefs.getString("run_as", "sliding").equals("card"))
+        {
+            final Intent intent = new Intent(context, com.klinker.android.messaging_card.MainActivity.class);
+            intent.setAction(fromIntent.getAction());
+            intent.setData(fromIntent.getData());
+
+            try
+            {
+                intent.putExtras(fromIntent.getExtras());
+            } catch (Exception e)
+            {
+
+            }
+
+            if (flag)
+            {
+                intent.putExtra("com.klinker.android.OPEN", intent.getStringExtra("com.klinker.android.OPEN"));
+            }
+
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivity(intent);
+            finish();
+        }
+    }
+
+    public void incorrectPassword()
+    {
+        CharSequence text = "Incorrect password";
+        int duration = Toast.LENGTH_SHORT;
+
+        Toast toast = Toast.makeText(getApplicationContext(), text, duration);
+        toast.show();
+
+        text = "";
+        password = "";
+        numChar = 0;
+
+        passwordBox.setText("");
     }
 }
