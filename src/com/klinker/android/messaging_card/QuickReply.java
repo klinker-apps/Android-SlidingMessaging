@@ -399,52 +399,28 @@ public class QuickReply extends FragmentActivity {
 		final EditText messageEntry = (EditText) findViewById(R.id.messageEntry);
 		final TextView charsRemaining = (TextView) findViewById(R.id.charsRemaining);
 		
-		if (sharedPrefs.getBoolean("dark_theme_quick_reply", true))
-		{
-			setTheme(android.R.style.Theme_Holo_NoActionBar);
-			
-			if (sharedPrefs.getBoolean("simple_cards", true))
-			{
-				expandedOptions.setBackgroundColor(getResources().getColor(R.color.card_dark_card_background));
-				sendBar.setBackgroundColor(getResources().getColor(R.color.card_dark_card_background));
-			} else
-			{
-				expandedOptions.setBackgroundDrawable(getResources().getDrawable(R.drawable.card_background_dark));
-				sendBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.card_background_dark));
-			}
-			
-			viewConversation.setTextColor(getResources().getColor(R.color.card_dark_conversation_name));
-			messageEntry.setTextColor(getResources().getColor(R.color.card_dark_conversation_summary));
-			
-			deleteButton.setColorFilter(getResources().getColor(R.color.card_dark_action_button));
-			readButton.setColorFilter(getResources().getColor(R.color.card_dark_action_button));
-			sendButton.setColorFilter(getResources().getColor(R.color.card_dark_action_button));
-			
-			charsRemaining.setTextColor(getResources().getColor(R.color.card_dark_conversation_summary));
-			charsRemaining.setAlpha((float) .5);
-			readButton.setAlpha((float) .75);
-		} else
-		{
-			setTheme(android.R.style.Theme_Holo_Light_NoActionBar);
-			
-			if (sharedPrefs.getBoolean("simple_cards", true))
-			{
-				expandedOptions.setBackgroundColor(getResources().getColor(R.color.white));
-				sendBar.setBackgroundColor(getResources().getColor(R.color.white));
-			} else
-			{
-				expandedOptions.setBackgroundDrawable(getResources().getDrawable(R.drawable.card_background));
-				sendBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.card_background));
-			}
-			
-			deleteButton.setColorFilter(getResources().getColor(R.color.card_action_button));
-			readButton.setColorFilter(getResources().getColor(R.color.card_action_button));
-			sendButton.setColorFilter(getResources().getColor(R.color.card_action_button));
-			
-			charsRemaining.setAlpha((float) .5);
-			readButton.setAlpha((float) .75);
-		}
-		
+		if (sharedPrefs.getString("cp_theme_name", "Light Theme").equals("Light Theme"))
+        {
+            expandedOptions.setBackgroundResource(R.drawable.card_background);
+            sendBar.setBackgroundResource(R.drawable.card_background);
+        } else if (sharedPrefs.getString("cp_theme_name", "Light Theme").equals("Dark Theme"))
+        {
+            expandedOptions.setBackgroundResource(R.drawable.card_background_dark);
+            sendBar.setBackgroundResource(R.drawable.card_background_dark);
+        } else
+        {
+            expandedOptions.setBackgroundColor(sharedPrefs.getInt("cp_sendBarBackground", getResources().getColor(R.color.white)));
+            sendBar.setBackgroundColor(sharedPrefs.getInt("cp_sendBarBackground", getResources().getColor(R.color.white)));
+        }
+
+        viewConversation.setTextColor(sharedPrefs.getInt("cp_buttonColor", getResources().getColor(R.color.card_message_text_body)));
+        deleteButton.setColorFilter(sharedPrefs.getInt("cp_buttonColor", getResources().getColor(R.color.card_message_text_body)));
+        readButton.setColorFilter(sharedPrefs.getInt("cp_buttonColor", getResources().getColor(R.color.card_message_text_body)));
+        sendButton.setColorFilter(sharedPrefs.getInt("cp_buttonColor", getResources().getColor(R.color.card_message_text_body)));
+        charsRemaining.setTextColor(sharedPrefs.getInt("cp_buttonColor", getResources().getColor(R.color.card_message_text_body)));
+        emojiButton.setColorFilter(sharedPrefs.getInt("cp_emojiButtonColor", getResources().getColor(R.color.emoji_button)));
+        messageEntry.setTextColor(sharedPrefs.getInt("cp_draftTextColor", getResources().getColor(R.color.card_message_text_body)));
+
 		if (sharedPrefs.getBoolean("custom_font", false))
 	    {
 			viewConversation.setTypeface(font);
@@ -1585,37 +1561,28 @@ public class QuickReply extends FragmentActivity {
 			ImageButton close = (ImageButton) message.findViewById(R.id.closeButton);
 			
 			body.setMovementMethod(new ScrollingMovementMethod());
-			
-			if (sharedPrefs.getBoolean("dark_theme_quick_reply", true))
-			{
-				if (sharedPrefs.getBoolean("simple_cards", true))
-				{
-					background.setBackgroundColor(context.getResources().getColor(R.color.card_dark_card_background));
-				} else
-				{
-					background.setBackgroundResource(R.drawable.card_background_dark);
-				}
-				
-				divider1.setBackgroundColor(context.getResources().getColor(R.color.card_dark_conversation_divider));
-				divider2.setBackgroundColor(context.getResources().getColor(R.color.card_dark_conversation_divider));
-				divider3.setBackgroundColor(context.getResources().getColor(R.color.card_dark_conversation_divider));
-				
-				name.setTextColor(context.getResources().getColor(R.color.card_dark_conversation_name));
-				number.setTextColor(context.getResources().getColor(R.color.card_dark_conversation_summary));
-				body.setTextColor(context.getResources().getColor(R.color.card_dark_message_text_body));
-				date.setTextColor(context.getResources().getColor(R.color.card_dark_message_text_date));
-				
-				close.setColorFilter(context.getResources().getColor(R.color.white));
-			} else
-			{
-				if (sharedPrefs.getBoolean("simple_cards", true))
-				{
-					background.setBackgroundColor(context.getResources().getColor(R.color.white));
-				} else
-				{
-					background.setBackgroundResource(R.drawable.card_background);
-				}
-			}
+
+            if (sharedPrefs.getString("cp_theme_name", "Light Theme").equals("Light Theme"))
+            {
+                background.setBackgroundResource(R.drawable.card_background);
+            } else if (sharedPrefs.getString("cp_theme_name", "Light Theme").equals("Dark Theme"))
+            {
+                background.setBackgroundResource(R.drawable.card_background_dark);
+            } else
+            {
+                background.setBackgroundColor(sharedPrefs.getInt("cp_messageBackground", getResources().getColor(R.color.white)));
+            }
+
+            divider1.setBackgroundColor(sharedPrefs.getInt("cp_dividerColor", context.getResources().getColor(R.color.card_conversation_divider)));
+            divider2.setBackgroundColor(sharedPrefs.getInt("cp_dividerColor", context.getResources().getColor(R.color.card_conversation_divider)));
+            divider3.setBackgroundColor(sharedPrefs.getInt("cp_dividerColor", context.getResources().getColor(R.color.card_conversation_divider)));
+
+            close.setColorFilter(sharedPrefs.getInt("cp_buttonColor", context.getResources().getColor(R.color.card_message_text_body)));
+
+            name.setTextColor(sharedPrefs.getInt("cp_nameTextColor", context.getResources().getColor(R.color.card_conversation_name)));
+            number.setTextColor(sharedPrefs.getInt("cp_numberTextColor", context.getResources().getColor(R.color.card_conversation_summary)));
+            date.setTextColor(sharedPrefs.getInt("cp_dateTextColor", context.getResources().getColor(R.color.card_message_text_date_2)));
+            body.setTextColor(sharedPrefs.getInt("cp_messageTextColor", context.getResources().getColor(R.color.card_message_text_body)));
 			
 			if (sharedPrefs.getBoolean("custom_font", false))
 		    {
