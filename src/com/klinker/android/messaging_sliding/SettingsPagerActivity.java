@@ -625,6 +625,25 @@ public class SettingsPagerActivity extends FragmentActivity {
 
         public void setUpSecuritySettings()
         {
+            final Context context = getActivity();
+            final SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+            Preference security = (Preference) findPreference("security");
+            security.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+
+                @Override
+                public boolean onPreferenceClick(Preference arg0) {
+                    if (sharedPrefs.getBoolean("security", false) && sharedPrefs.getString("password", "0000").equals("0000"))
+                    {
+                        Intent intent = new Intent(getActivity(), com.klinker.android.messaging_sliding.SetPasswordActivity.class);
+                        startActivity(intent);
+                    }
+
+                    return true;
+                }
+
+            });
+
             Preference setPassword = (Preference) findPreference("set_password");
             setPassword.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 
