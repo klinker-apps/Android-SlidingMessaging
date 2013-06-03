@@ -100,8 +100,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1e4b5eb9-13da-4bef-bd83-6650ca630326" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/klinker/android/messaging_donate/MainActivity.java" afterPath="$PROJECT_DIR$/src/com/klinker/android/messaging_donate/MainActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/loading_screen.xml" afterPath="$PROJECT_DIR$/res/layout/loading_screen.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Messaging Donate.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -261,10 +260,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="MainActivity.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="MainActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_donate/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="168" column="16" selection-start="5918" selection-end="5918" vertical-scroll-proportion="-0.11006289">
+            <state line="168" column="16" selection-start="5918" selection-end="5918" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -284,10 +283,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="strings.xml" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="strings.xml" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="432" column="65" selection-start="34856" selection-end="34856" vertical-scroll-proportion="0.0">
+            <state line="432" column="65" selection-start="34856" selection-end="34856" vertical-scroll-proportion="0.83627605">
               <folding />
             </state>
           </provider>
@@ -1371,12 +1370,12 @@
       <workItem from="1370178672694" duration="102000" />
       <workItem from="1370186974118" duration="8210000" />
       <workItem from="1370199588696" duration="11652000" />
-      <workItem from="1370216721912" duration="7273000" />
+      <workItem from="1370216721912" duration="7353000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="290742000" />
+    <option name="totallyTimeSpent" value="290822000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1402,8 +1401,8 @@
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26627535" sideWeight="0.6464758" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.45891142" sideWeight="0.6464758" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26627535" sideWeight="0.7290749" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.45891142" sideWeight="0.7290749" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33892617" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3287879" sideWeight="0.7281879" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1419,7 +1418,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.12326574" sideWeight="0.6464758" order="1" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2709251" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2709251" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1579,13 +1578,6 @@
     <entry file="file://$PROJECT_DIR$/To-do/To-do.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state line="1" column="71" selection-start="95" selection-end="95" vertical-scroll-proportion="0.02728732">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="432" column="65" selection-start="34856" selection-end="34856" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -2119,6 +2111,15 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_donate/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="168" column="16" selection-start="5918" selection-end="5918" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/loading_screen.xml">
       <provider selected="true" editor-type-id="android-designer">
         <state />
@@ -2129,12 +2130,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_donate/MainActivity.java">
+    <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="168" column="16" selection-start="5918" selection-end="5918" vertical-scroll-proportion="-0.11006289">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state line="432" column="65" selection-start="34856" selection-end="34856" vertical-scroll-proportion="0.83627605">
+          <folding />
         </state>
       </provider>
     </entry>
