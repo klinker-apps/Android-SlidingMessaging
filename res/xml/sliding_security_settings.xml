@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <CheckBoxPreference
+            android:key="security"
+            android:title="@string/security"
+            android:summary="@string/security_summary"
+            android:defaultValue="false"
+            />
+
+    <ListPreference
+            android:key="timeout_settings"
+            android:title="@string/timeout_settings"
+            android:summary="@string/timeout_settings_summary"
+            android:defaultValue="30000"
+            android:entries="@array/timeout"
+            android:entryValues="@array/timeout_set"
+            android:dependency="security"
+            />
+
+    <Preference
+            android:key="set_password"
+            android:title="@string/set_password"
+            android:dependency="security"
+            />
+</PreferenceScreen>

@@ -76,7 +76,7 @@ public class PasswordActivity extends FragmentActivity {
             @Override
             public void onClick(View view) {
 
-                if (password.equals("1229"))
+                if (password.equals(sharedPrefs.getString("password", "0")))
                 {
                     String version = "";
 
@@ -150,6 +150,12 @@ public class PasswordActivity extends FragmentActivity {
 
                     Toast toast = Toast.makeText(getApplicationContext(), text, duration);
                     toast.show();
+
+                    text = "";
+                    password = "";
+                    numChar = 0;
+
+                    passwordBox.setText("");
                 }
             }
         });

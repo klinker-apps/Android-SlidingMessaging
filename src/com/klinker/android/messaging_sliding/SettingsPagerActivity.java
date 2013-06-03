@@ -42,6 +42,7 @@ public class SettingsPagerActivity extends FragmentActivity {
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
     SectionsPagerAdapter mSectionsPagerAdapter;
+    SharedPreferences sharedPrefs;
 
     /**
      * The {@link android.support.v4.view.ViewPager} that will host the section contents.
@@ -52,6 +53,8 @@ public class SettingsPagerActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_main);
+
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(
                 getFragmentManager());
@@ -112,7 +115,7 @@ public class SettingsPagerActivity extends FragmentActivity {
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        public static final int NUM_PAGES = 8;
+        public static final int NUM_PAGES = 9;
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -152,6 +155,8 @@ public class SettingsPagerActivity extends FragmentActivity {
                 case 6:
                     return getResources().getString(R.string.mms_settings);
                 case 7:
+                    return getResources().getString(R.string.security_settings);
+                case 8:
                     return getResources().getString(R.string.advanced_settings);
             }
             return null;
@@ -208,6 +213,10 @@ public class SettingsPagerActivity extends FragmentActivity {
                     setUpMmsSettings();
                     break;
                 case 7:
+                    addPreferencesFromResource(R.xml.sliding_security_settings);
+                    setUpSecuritySettings();
+                    break;
+                case 8:
                     addPreferencesFromResource(R.xml.sliding_advanced_settings);
                     setUpAdvancedSettings();
                     break;
@@ -275,10 +284,18 @@ public class SettingsPagerActivity extends FragmentActivity {
                 }
             });
 
+            Preference securitySettings = (Preference) findPreference("security_settings");
+            securitySettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                public boolean onPreferenceClick(Preference preference) {
+                    mViewPager.setCurrentItem(7, true);
+                    return true;
+                }
+            });
+
             Preference advancedSettings = (Preference) findPreference("advanced_settings");
             advancedSettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference preference) {
-                    mViewPager.setCurrentItem(7, true);
+                    mViewPager.setCurrentItem(8, true);
                     return true;
                 }
             });
@@ -491,15 +508,15 @@ public class SettingsPagerActivity extends FragmentActivity {
 
         public void setUpMessageSettings()
         {
-            final SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                final SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-            if (sharedPrefs.getString("run_as", "sliding").equals("sliding") || sharedPrefs.getString("run_as", "sliding").equals("hangout"))
-            {
+                if (sharedPrefs.getString("run_as", "sliding").equals("sliding") || sharedPrefs.getString("run_as", "sliding").equals("hangout"))
+                {
 
-            } else
-            {
-                getPreferenceScreen().removePreference(findPreference("text_alignment"));
-                getPreferenceScreen().removePreference(findPreference("contact_pictures"));
+                } else
+                {
+                    getPreferenceScreen().removePreference(findPreference("text_alignment"));
+                    getPreferenceScreen().removePreference(findPreference("contact_pictures"));
             }
         }
 
@@ -604,6 +621,21 @@ public class SettingsPagerActivity extends FragmentActivity {
 //                }
 //
 //            });
+        }
+
+        public void setUpSecuritySettings()
+        {
+            Preference setPassword = (Preference) findPreference("set_password");
+            setPassword.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+
+                @Override
+                public boolean onPreferenceClick(Preference arg0) {
+                    Intent intent = new Intent(getActivity(), com.klinker.android.messaging_sliding.SetPasswordActivity.class);
+                    startActivity(intent);
+                    return false;
+                }
+
+            });
         }
 
         public void setUpAdvancedSettings()

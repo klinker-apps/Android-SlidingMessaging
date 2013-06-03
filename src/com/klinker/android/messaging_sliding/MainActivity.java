@@ -914,14 +914,17 @@ public class MainActivity extends FragmentActivity {
 */
     public void onResume()
     {
-        long currentTime = System.currentTimeMillis();
-        long lastTime = sharedPrefs.getLong("last_time", 0);
-
-        if (currentTime - lastTime > 10000)
+        if(sharedPrefs.getBoolean("security", false))
         {
-            Intent passwordIntent = new Intent(getApplicationContext(), com.klinker.android.messaging_sliding.PasswordActivity.class);
-            startActivity(passwordIntent);
-            finish();
+            long currentTime = System.currentTimeMillis();
+            long lastTime = sharedPrefs.getLong("last_time", 0);
+
+            if (currentTime - lastTime > Long.parseLong(sharedPrefs.getString("timeout_settings", "30000")))
+            {
+                Intent passwordIntent = new Intent(getApplicationContext(), com.klinker.android.messaging_sliding.PasswordActivity.class);
+                startActivity(passwordIntent);
+                finish();
+            }
         }
     }
 	

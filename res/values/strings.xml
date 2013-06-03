@@ -418,11 +418,9 @@
     <string name="review">Review</string>
     <string name="notes">Notes</string>
     <string name="override_stock_disclaimer">If you are having problems with messages not being saved, or you have disabled all other messaging apps on your device except Sliding Messaging, be sure to check the \"Override Stock Messaging\" option in Advanced Settings.</string>
-<<<<<<< HEAD
     <string name="unlock">Unlock</string>
     <string name="close">Close</string>
     <string name="passwordTitle">Enter Password:</string>
-=======
     <string name="popup_theme">Custom Popup Settings</string>
     <string name="cp_theme_name">Popup Theme Name</string>
     <string name="cp_messageBackground">Message Background Color</string>
@@ -435,5 +433,10 @@
     <string name="cp_draftTextColor">Draft Text Color</string>
     <string name="cp_buttonColor">Button Color</string>
     <string name="cp_emojiButtonColor">Emoji Button Color</string>
->>>>>>> a5dff19d14cba00c281bf9ea74458e4697f7dd9d
+    <string name="security_settings">Security Settings</string>
+    <string name="security">Password Protection</string>
+    <string name="security_summary">Check to enable security at startup</string>
+    <string name="timeout_settings">Timeout Duration</string>
+    <string name="timeout_settings_summary">Length of time between password lockouts</string>
+    <string name="set_password">Set Password</string>
 </resources>

@@ -358,4 +358,28 @@
         <item name="airplane">4</item>
         <item name="cloud">5</item>
     </string-array>
+
+    <string-array name="timeout_set">
+        <item name="none">500</item>
+        <item name="ten_sec">10000</item>
+        <item name="thirty_sec">30000</item>
+        <item name="one_min">60000</item>
+        <item name="five_min">300000</item>
+        <item name="ten_min">600000</item>
+        <item name="thirty_min">1800000</item>
+        <item name="one_hour">3600000</item>
+        <item name="five_hour">18000000</item>
+    </string-array>
+
+    <string-array name="timeout">
+        <item name="none">No Timeout</item>
+        <item name="ten_sec">10 Seconds</item>
+        <item name="thirty_sec">30 Seconds</item>
+        <item name="one_min">1 Minute</item>
+        <item name="five_min">5 Minutes</item>
+        <item name="ten_min">10 Minutes</item>
+        <item name="thirty_min">30 Minutes</item>
+        <item name="one_hour">1 Hour</item>
+        <item name="five_hour">5 Hours</item>
+    </string-array>
 </resources>

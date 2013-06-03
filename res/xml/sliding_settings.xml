@@ -43,6 +43,11 @@
     />
 
     <Preference
+            android:key="security_settings"
+            android:title="@string/security_settings"
+    />
+
+    <Preference
         android:key="advanced_settings"
         android:title="@string/advanced_settings"
     />
@@ -51,4 +56,6 @@
         android:key="delete_all"
         android:title="@string/menu_delete"
     />
+
+
 </PreferenceScreen>
