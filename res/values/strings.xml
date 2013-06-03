@@ -418,14 +418,11 @@
     <string name="review">Review</string>
     <string name="notes">Notes</string>
     <string name="override_stock_disclaimer">If you are having problems with messages not being saved, or you have disabled all other messaging apps on your device except Sliding Messaging, be sure to check the \"Override Stock Messaging\" option in Advanced Settings.</string>
-<<<<<<< HEAD
     <string name="unlock">Unlock</string>
     <string name="close">Close</string>
     <string name="passwordTitle">Enter Password:</string>
     <string name="popup_theme">Custom Popup Settings</string>
-=======
     <string name="popup_theme">Custom Popup Theme Settings</string>
->>>>>>> fbb205845b9009fc39c7619117012e00cb77229f
     <string name="cp_theme_name">Popup Theme Name</string>
     <string name="cp_messageBackground">Message Background Color</string>
     <string name="cp_sendBarBackground">Send Bar Background</string>
@@ -437,14 +434,13 @@
     <string name="cp_draftTextColor">Draft Text Color</string>
     <string name="cp_buttonColor">Button Color</string>
     <string name="cp_emojiButtonColor">Emoji Button Color</string>
-<<<<<<< HEAD
     <string name="security_settings">Security Settings</string>
     <string name="security">Password Protection</string>
-    <string name="security_summary">Check to enable security at startup</string>
+    <string name="security_summary">Check to enable security at startup.</string>
     <string name="timeout_settings">Timeout Duration</string>
     <string name="timeout_settings_summary">Length of time between password lockouts</string>
     <string name="set_password">Set Password</string>
-=======
     <string name="loading_conversations">Loading Conversations...</string>
->>>>>>> fbb205845b9009fc39c7619117012e00cb77229f
+    <string name="auto_unlock">Auto-Unlock</string>
+    <string name="auto_unlock_summary">Attempt to automatically unlock the app after the set number of characters has been reached.</string>
 </resources>
