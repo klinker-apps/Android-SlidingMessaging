@@ -3896,7 +3896,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 
         if(sharedPrefs.getBoolean("security", false))
         {
-            long currentTime = System.currentTimeMillis();
+            long currentTime = Calendar.getInstance().getTimeInMillis();
             long lastTime = sharedPrefs.getLong("last_time", 0);
 
             if (currentTime - lastTime > Long.parseLong(sharedPrefs.getString("timeout_settings", "30000")))

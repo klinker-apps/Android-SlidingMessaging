@@ -734,21 +734,6 @@ public class MainActivity extends FragmentActivity {
 
     }
 */
-    public void onResume()
-    {
-        if(sharedPrefs.getBoolean("security", false))
-        {
-            long currentTime = System.currentTimeMillis();
-            long lastTime = sharedPrefs.getLong("last_time", 0);
-
-            if (currentTime - lastTime > Long.parseLong(sharedPrefs.getString("timeout_settings", "30000")))
-            {
-                Intent passwordIntent = new Intent(getApplicationContext(), com.klinker.android.messaging_sliding.PasswordActivity.class);
-                startActivity(passwordIntent);
-                finish();
-            }
-        }
-    }
 	
 	public void refreshMessages(boolean totalRefresh)
 	{
@@ -4726,9 +4711,9 @@ public class MainActivity extends FragmentActivity {
 	}
 	
 	@Override
-	public void onResumeFragments()
+	public void onResume()
 	{
-		super.onResumeFragments();
+		super.onResume();
 		
 		IntentFilter filter = new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
         filter.addCategory(Intent.CATEGORY_DEFAULT);
@@ -4775,6 +4760,19 @@ public class MainActivity extends FragmentActivity {
 
         Intent updateWidget = new Intent("com.klinker.android.messaging.UPDATE_WIDGET");
         sendBroadcast(updateWidget);
+
+        if(sharedPrefs.getBoolean("security", false))
+        {
+            long currentTime = Calendar.getInstance().getTimeInMillis();
+            long lastTime = sharedPrefs.getLong("last_time", 0);
+
+            if (currentTime - lastTime > Long.parseLong(sharedPrefs.getString("timeout_settings", "30000")))
+            {
+                Intent passwordIntent = new Intent(getApplicationContext(), com.klinker.android.messaging_sliding.PasswordActivity.class);
+                startActivity(passwordIntent);
+                finish();
+            }
+        }
 	}
 	
 	@Override

@@ -16,6 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.klinker.android.messaging_donate.R;
 
+import java.util.Calendar;
+
 /**
  * Created by Luke on 6/2/13.
  */
@@ -88,7 +90,7 @@ public class PasswordActivity extends FragmentActivity {
 
                     SharedPreferences.Editor prefEdit = sharedPrefs.edit();
                     prefEdit.putString("current_version", version);
-                    prefEdit.putLong("last_time", System.currentTimeMillis());
+                    prefEdit.putLong("last_time", Calendar.getInstance().getTimeInMillis());
                     prefEdit.commit();
 
                     boolean flag = false;
