@@ -210,26 +210,7 @@ public class CatalogWizardModel extends AbstractWizardModel {
                                 .setRequired(false));
 
         }
-/*
-        return new PageList(
-                new SingleFixedChoicePage(this, mContext.getString(R.string.changelog_title))
-                        .setMessage(changeLog)
-                        .setRequired(false),
 
-                new SingleFixedChoicePage(this, mContext.getString(R.string.theme_support_title))
-                        .setMessage(themeEditor)
-                        .setButton(true, "market://details?id=com.klinker.android.messaging_theme")
-                        .setRequired(false),
-
-                new SingleFixedChoicePage(this, mContext.getString(R.string.pro_dialog))
-                        .setMessage(goPro)
-                        .setButton(true, "market://details?id=com.klinker.android.messaging_donate")
-                        .setRequired(false),
-
-                new SingleFixedChoicePage(this, mContext.getString(R.string.go_sms_title))
-                        .setMessage(goSMS)
-                        .setRequired(false));
-*/
         // Note: The final page is the Notes page, this page can be edited in the ReviewFragment class
         // It wasn't put here because it is automatically called in the main activity and is nessesary to finish the intent.
     }
