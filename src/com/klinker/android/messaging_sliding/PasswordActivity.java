@@ -82,7 +82,6 @@ public class PasswordActivity extends FragmentActivity {
 
                 if (password.equals(sharedPrefs.getString("password", "0")))
                 {
-<<<<<<< HEAD
                     String version = "";
 
                     try {
@@ -148,9 +147,8 @@ public class PasswordActivity extends FragmentActivity {
                         startActivity(intent);
                         finish();
                     }
-=======
+
                     openActivity();
->>>>>>> 4c76482db6819a4653f3f795f094cdf64bffade1
                 } else
                 {
                     incorrectPassword();

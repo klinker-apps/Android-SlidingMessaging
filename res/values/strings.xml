@@ -440,10 +440,7 @@
     <string name="timeout_settings">Timeout Duration</string>
     <string name="timeout_settings_summary">Length of time between password lockouts</string>
     <string name="set_password">Set Password</string>
-    <string name="loading_conversations">Loading Conversations...</string>
-<<<<<<< HEAD
-=======
     <string name="auto_unlock">Auto-Unlock</string>
     <string name="auto_unlock_summary">Attempt to automatically unlock the app after the set number of characters has been reached.</string>
->>>>>>> 4c76482db6819a4653f3f795f094cdf64bffade1
+    <string name="loading_conversations">Loading Conversations...</string>
 </resources>
