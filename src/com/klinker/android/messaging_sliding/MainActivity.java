@@ -710,6 +710,45 @@ public class MainActivity extends FragmentActivity {
 		
 		setUpSendbar();
 	}
+/*
+    public void onDestroy()
+    {
+        super.onDestroy();
+
+        Context context = getApplicationContext();
+        CharSequence text = "Destroy";
+        int duration = Toast.LENGTH_SHORT;
+
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
+
+        long currentTime = System.currentTimeMillis();
+        long lastTime = sharedPrefs.getLong("last_time", 0);
+
+        if (currentTime - lastTime > 10000)
+        {
+            SharedPreferences.Editor prefEdit = sharedPrefs.edit();
+
+            prefEdit.commit();
+        }
+
+    }
+*/
+    public void onResume()
+    {
+        if(sharedPrefs.getBoolean("security", false))
+        {
+            long currentTime = System.currentTimeMillis();
+            long lastTime = sharedPrefs.getLong("last_time", 0);
+
+            if (currentTime - lastTime > Long.parseLong(sharedPrefs.getString("timeout_settings", "30000")))
+            {
+                Intent passwordIntent = new Intent(getApplicationContext(), com.klinker.android.messaging_sliding.PasswordActivity.class);
+                startActivity(passwordIntent);
+                finish();
+            }
+        }
+    }
 	
 	public void refreshMessages(boolean totalRefresh)
 	{

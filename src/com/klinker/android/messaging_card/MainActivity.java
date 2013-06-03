@@ -753,6 +753,8 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 		
 		setUpSendbar();
 	}
+
+
 	
 	public void refreshMessages(boolean totalRefresh)
 	{		
@@ -3891,6 +3893,19 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 	public void onResume()
 	{
 		super.onResume();
+
+        if(sharedPrefs.getBoolean("security", false))
+        {
+            long currentTime = System.currentTimeMillis();
+            long lastTime = sharedPrefs.getLong("last_time", 0);
+
+            if (currentTime - lastTime > Long.parseLong(sharedPrefs.getString("timeout_settings", "30000")))
+            {
+                Intent passwordIntent = new Intent(getApplicationContext(), com.klinker.android.messaging_sliding.PasswordActivity.class);
+                startActivity(passwordIntent);
+                finish();
+            }
+        }
 		
 		IntentFilter filter = new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
         filter.addCategory(Intent.CATEGORY_DEFAULT);
