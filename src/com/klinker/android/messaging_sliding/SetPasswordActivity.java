@@ -72,6 +72,17 @@ public class SetPasswordActivity extends FragmentActivity {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Context context = getApplicationContext();
+                CharSequence text = "Default password of 0000 set.";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+
+                SharedPreferences.Editor prefEdit = sharedPrefs.edit();
+                prefEdit.putString("password", "0000");
+                prefEdit.commit();
+
                 onBackPressed();
             }
         });
@@ -90,7 +101,7 @@ public class SetPasswordActivity extends FragmentActivity {
                 }
 
 
-                if (password.equals(sharedPrefs.getString("password", "0")) && numEntries == 2)
+                if (password.equals(sharedPrefs.getString("password", "0000")) && numEntries == 2)
                 {
                     SharedPreferences.Editor prefEdit = sharedPrefs.edit();
                     prefEdit.putLong("last_time", Calendar.getInstance().getTimeInMillis());
