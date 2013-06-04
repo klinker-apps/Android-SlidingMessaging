@@ -421,8 +421,8 @@
     <string name="unlock">Unlock</string>
     <string name="close">Close</string>
     <string name="passwordTitle">Enter Password:</string>
-    <string name="popup_theme">Custom Popup Settings</string>
     <string name="popup_theme">Custom Popup Theme Settings</string>
+    <string name="popup_theme_summary">Only applicable when using the new popup</string>
     <string name="cp_theme_name">Popup Theme Name</string>
     <string name="cp_messageBackground">Message Background Color</string>
     <string name="cp_sendBarBackground">Send Bar Background</string>

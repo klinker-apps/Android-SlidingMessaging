@@ -11,6 +11,7 @@
     <Preference
         android:key="popup_theme"
         android:title="@string/popup_theme"
+        android:summary="@string/popup_theme_summary"
     />
 	
 	<CheckBoxPreference 
