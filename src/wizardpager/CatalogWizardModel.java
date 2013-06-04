@@ -50,15 +50,12 @@ public class CatalogWizardModel extends AbstractWizardModel {
         }
 
         String changeLog = "Version " + version + ":\n\n" +
-                "- Major rework of settings layout\n" +
-                "- Rework of change log and initial notes\n" +
-                "- Added new 1x1 widget with unread counter\n" +
-                "- More options for notification icons\n" +
-                "- Layout optimizations\n" +
-                "- Fixed color picker force close in theme chooser\n" +
-                "- Bug fixes\n\n";
+                "- Security Options\n" +
+                "- Popup now supports theming with theme engine\n" +
+                "- Popup bug fixes\n" +
+                "- General bug fixes\n\n";
 
-        String themeEditor = "The theme editor now fully supports the Hangouts UI as well, " +
+        String themeEditor = "The theme editor now fully supports the Hangouts UI and popup, " +
                 "better time then ever to get on board and start making Sliding Messaging look exactly how you want!\n\n" +
                 mContext.getString(R.string.theme_support);
 
