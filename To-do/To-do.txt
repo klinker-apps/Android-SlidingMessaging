@@ -1,4 +1,5 @@
 For next update (6.20):
+    - set popup emoji dialog theme
     - message summary when you click on the message like stock app does
     - contact lister to scroll through all contacts and decide who to send message to that way
     - Luke (?): Black widget option, no background widget option
