@@ -59,13 +59,6 @@
         />
 
     <CheckBoxPreference
-        android:key="background_service"
-        android:title="@string/background_service"
-        android:summary="@string/background_service_summary"
-        android:defaultValue="false"
-        />
-
-    <CheckBoxPreference
         android:key="override_lang"
         android:title="@string/override_lang"
         android:summary="@string/override_lang_summary"

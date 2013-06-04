@@ -789,11 +789,6 @@ public class QuickReply extends FragmentActivity {
 		inboxBody.remove(page);
 		inboxDate.remove(page);
 		
-		if (sharedPrefs.getBoolean("background_service", false))
-		{
-			refreshSavedMessages();
-		}
-		
 		if (ids.size() == 0)
 		{
 			finish();

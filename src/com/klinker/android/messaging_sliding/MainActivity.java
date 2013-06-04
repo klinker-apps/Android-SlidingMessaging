@@ -734,21 +734,6 @@ public class MainActivity extends FragmentActivity {
 
     }
 */
-    public void onResume()
-    {
-        if(sharedPrefs.getBoolean("security", false))
-        {
-            long currentTime = System.currentTimeMillis();
-            long lastTime = sharedPrefs.getLong("last_time", 0);
-
-            if (currentTime - lastTime > Long.parseLong(sharedPrefs.getString("timeout_settings", "30000")))
-            {
-                Intent passwordIntent = new Intent(getApplicationContext(), com.klinker.android.messaging_sliding.PasswordActivity.class);
-                startActivity(passwordIntent);
-                finish();
-            }
-        }
-    }
 	
 	public void refreshMessages(boolean totalRefresh)
 	{
@@ -776,83 +761,77 @@ public class MainActivity extends FragmentActivity {
             group = com.klinker.android.messaging_donate.MainActivity.group;
         } else
         {
-            if (!sharedPrefs.getBoolean("background_service", false) || totalRefresh)
+            try
             {
-                try
+                String[] projection = new String[]{"_id", "date", "message_count", "recipient_ids", "snippet", "read"};
+                Uri uri = Uri.parse("content://mms-sms/conversations/?simple=true");
+                Cursor query = contentResolver.query(uri, projection, null, null, "date desc");
+
+                if (query.moveToFirst())
                 {
-                    String[] projection = new String[]{"_id", "date", "message_count", "recipient_ids", "snippet", "read"};
-                    Uri uri = Uri.parse("content://mms-sms/conversations/?simple=true");
-                    Cursor query = contentResolver.query(uri, projection, null, null, "date desc");
-
-                    if (query.moveToFirst())
+                    do
                     {
-                        do
+                        threadIds.add(query.getString(query.getColumnIndex("_id")));
+                        msgCount.add(query.getString(query.getColumnIndex("message_count")));
+                        msgRead.add(query.getString(query.getColumnIndex("read")));
+
+                        inboxBody.add(" ");
+
+                        try
                         {
-                            threadIds.add(query.getString(query.getColumnIndex("_id")));
-                            msgCount.add(query.getString(query.getColumnIndex("message_count")));
-                            msgRead.add(query.getString(query.getColumnIndex("read")));
+                            inboxBody.set(inboxBody.size() - 1, query.getString(query.getColumnIndex("snippet")).replaceAll("\\\n", " "));
+                        } catch (Exception e)
+                        {
+                        }
 
-                            inboxBody.add(" ");
+                        inboxDate.add(query.getString(query.getColumnIndex("date")));
 
+                        String[] ids = query.getString(query.getColumnIndex("recipient_ids")).split(" ");
+                        String numbers = "";
+
+                        for (int i = 0; i < ids.length; i++)
+                        {
                             try
                             {
-                                inboxBody.set(inboxBody.size() - 1, query.getString(query.getColumnIndex("snippet")).replaceAll("\\\n", " "));
-                            } catch (Exception e)
-                            {
-                            }
-
-                            inboxDate.add(query.getString(query.getColumnIndex("date")));
-
-                            String[] ids = query.getString(query.getColumnIndex("recipient_ids")).split(" ");
-                            String numbers = "";
-
-                            for (int i = 0; i < ids.length; i++)
-                            {
-                                try
+                                if (ids[i] != null && (!ids[i].equals("") || !ids[i].equals(" ")))
                                 {
-                                    if (ids[i] != null && (!ids[i].equals("") || !ids[i].equals(" ")))
+                                    Cursor number = contentResolver.query(Uri.parse("content://mms-sms/canonical-addresses"), null, "_id=" + ids[i], null, null);
+
+                                    if (number.moveToFirst())
                                     {
-                                        Cursor number = contentResolver.query(Uri.parse("content://mms-sms/canonical-addresses"), null, "_id=" + ids[i], null, null);
-
-                                        if (number.moveToFirst())
-                                        {
-                                            numbers += number.getString(number.getColumnIndex("address")).replace("-", "").replace(")", "").replace("(", "").replace(" ", "") + " ";
-                                        } else
-                                        {
-                                            numbers += "0 ";
-                                        }
-
-                                        number.close();
+                                        numbers += number.getString(number.getColumnIndex("address")).replace("-", "").replace(")", "").replace("(", "").replace(" ", "") + " ";
                                     } else
                                     {
-
+                                        numbers += "0 ";
                                     }
-                                } catch (Exception e)
+
+                                    number.close();
+                                } else
                                 {
-                                    numbers += "0 ";
+
                                 }
-                            }
-
-                            inboxNumber.add(numbers.trim());
-
-                            if (ids.length > 1)
+                            } catch (Exception e)
                             {
-                                group.add("yes");
-                            } else
-                            {
-                                group.add("no");
+                                numbers += "0 ";
                             }
-                        } while (query.moveToNext());
-                    }
+                        }
 
-                    query.close();
-                } catch (Exception e)
-                {
+                        inboxNumber.add(numbers.trim());
 
+                        if (ids.length > 1)
+                        {
+                            group.add("yes");
+                        } else
+                        {
+                            group.add("no");
+                        }
+                    } while (query.moveToNext());
                 }
-            } else
+
+                query.close();
+            } catch (Exception e)
             {
-                readFromFile3(this);
+
             }
         }
 		
@@ -4726,9 +4705,9 @@ public class MainActivity extends FragmentActivity {
 	}
 	
 	@Override
-	public void onResumeFragments()
+	public void onResume()
 	{
-		super.onResumeFragments();
+		super.onResume();
 		
 		IntentFilter filter = new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
         filter.addCategory(Intent.CATEGORY_DEFAULT);
@@ -4775,6 +4754,19 @@ public class MainActivity extends FragmentActivity {
 
         Intent updateWidget = new Intent("com.klinker.android.messaging.UPDATE_WIDGET");
         sendBroadcast(updateWidget);
+
+        if(sharedPrefs.getBoolean("security", false))
+        {
+            long currentTime = Calendar.getInstance().getTimeInMillis();
+            long lastTime = sharedPrefs.getLong("last_time", 0);
+
+            if (currentTime - lastTime > Long.parseLong(sharedPrefs.getString("timeout_settings", "30000")))
+            {
+                Intent passwordIntent = new Intent(getApplicationContext(), com.klinker.android.messaging_sliding.PasswordActivity.class);
+                startActivity(passwordIntent);
+                finish();
+            }
+        }
 	}
 	
 	@Override
@@ -5273,88 +5265,6 @@ public class MainActivity extends FragmentActivity {
 			glow.setVisibility(View.GONE);
 		}
 		
-		if (sharedPrefs.getBoolean("background_service", false))
-		{
-			new Thread (new Runnable() {
-
-				@Override
-				public void run() {
-					ArrayList<String> data = new ArrayList<String>();
-					
-					String[] projection = new String[]{"_id", "date", "message_count", "recipient_ids", "snippet", "read"};
-					Uri uri = Uri.parse("content://mms-sms/conversations/?simple=true");
-					Cursor query = getContentResolver().query(uri, projection, null, null, "date desc");
-					
-					if (query.moveToFirst())
-					{
-						do
-						{
-							data.add(query.getString(query.getColumnIndex("_id")));
-							data.add(query.getString(query.getColumnIndex("message_count")));
-							data.add(query.getString(query.getColumnIndex("read")));
-							
-							data.add(" ");
-							
-							try
-							{
-								data.set(data.size() - 1, query.getString(query.getColumnIndex("snippet")).replaceAll("\\\n", " "));
-							} catch (Exception e)
-							{
-							}
-							
-							data.add(query.getString(query.getColumnIndex("date")));
-							
-							String[] ids = query.getString(query.getColumnIndex("recipient_ids")).split(" ");
-							String numbers = "";
-							
-							for (int i = 0; i < ids.length; i++)
-							{
-								try
-								{
-									if (ids[i] != null && (!ids[i].equals("") || !ids[i].equals(" ")))
-									{
-										Cursor number = getContentResolver().query(Uri.parse("content://mms-sms/canonical-addresses"), null, "_id=" + ids[i], null, null);
-										
-										if (number.moveToFirst())
-										{
-											numbers += number.getString(number.getColumnIndex("address")).replaceAll("-", "").replaceAll("\\)", "").replaceAll("\\(", "").replaceAll(" ", "") + " ";
-										} else
-										{
-											numbers += "0 ";
-										}
-										
-										number.close();
-									} else
-									{
-										
-									}
-								} catch (Exception e)
-								{
-									numbers += "0 ";
-								}
-							}
-							
-							data.add(numbers.trim());
-							
-							if (ids.length > 1)
-							{
-								data.add("yes");
-							} else
-							{
-								data.add("no");
-							}
-						} while (query.moveToNext());
-					}
-					
-					query.close();
-					
-					writeToFile3(data, getBaseContext());
-					
-				}
-				
-			}).start();
-		}
-		
 		try
 		{
 			invalidateOptionsMenu();
@@ -5484,88 +5394,6 @@ public class MainActivity extends FragmentActivity {
 		
 		mViewPager.setCurrentItem(position);
 		
-		if (sharedPrefs.getBoolean("background_service", false))
-		{
-			new Thread (new Runnable() {
-
-				@Override
-				public void run() {
-					ArrayList<String> data = new ArrayList<String>();
-					
-					String[] projection = new String[]{"_id", "date", "message_count", "recipient_ids", "snippet", "read"};
-					Uri uri = Uri.parse("content://mms-sms/conversations/?simple=true");
-					Cursor query = getContentResolver().query(uri, projection, null, null, "date desc");
-					
-					if (query.moveToFirst())
-					{
-						do
-						{
-							data.add(query.getString(query.getColumnIndex("_id")));
-							data.add(query.getString(query.getColumnIndex("message_count")));
-							data.add(query.getString(query.getColumnIndex("read")));
-							
-							data.add(" ");
-							
-							try
-							{
-								data.set(data.size() - 1, query.getString(query.getColumnIndex("snippet")).replaceAll("\\\n", " "));
-							} catch (Exception e)
-							{
-							}
-							
-							data.add(query.getString(query.getColumnIndex("date")));
-							
-							String[] ids = query.getString(query.getColumnIndex("recipient_ids")).split(" ");
-							String numbers = "";
-							
-							for (int i = 0; i < ids.length; i++)
-							{
-								try
-								{
-									if (ids[i] != null && (!ids[i].equals("") || !ids[i].equals(" ")))
-									{
-										Cursor number = getContentResolver().query(Uri.parse("content://mms-sms/canonical-addresses"), null, "_id=" + ids[i], null, null);
-										
-										if (number.moveToFirst())
-										{
-											numbers += number.getString(number.getColumnIndex("address")).replaceAll("-", "").replaceAll("\\)", "").replaceAll("\\(", "").replaceAll(" ", "") + " ";
-										} else
-										{
-											numbers += "0 ";
-										}
-										
-										number.close();
-									} else
-									{
-										
-									}
-								} catch (Exception e)
-								{
-									numbers += "0 ";
-								}
-							}
-							
-							data.add(numbers.trim());
-							
-							if (ids.length > 1)
-							{
-								data.add("yes");
-							} else
-							{
-								data.add("no");
-							}
-						} while (query.moveToNext());
-					}
-					
-					query.close();
-					
-					writeToFile3(data, getBaseContext());
-					
-				}
-				
-			}).start();
-		}
-		
 		try
 		{
 			invalidateOptionsMenu();
@@ -5685,88 +5513,6 @@ public class MainActivity extends FragmentActivity {
 			{
 				glow.setAlpha((float)0);
 				glow.setVisibility(View.GONE);
-			}
-			
-			if (sharedPrefs.getBoolean("background_service", false))
-			{
-				new Thread (new Runnable() {
-
-					@Override
-					public void run() {
-						ArrayList<String> data = new ArrayList<String>();
-						
-						String[] projection = new String[]{"_id", "date", "message_count", "recipient_ids", "snippet", "read"};
-						Uri uri = Uri.parse("content://mms-sms/conversations/?simple=true");
-						Cursor query = getContentResolver().query(uri, projection, null, null, "date desc");
-						
-						if (query.moveToFirst())
-						{
-							do
-							{
-								data.add(query.getString(query.getColumnIndex("_id")));
-								data.add(query.getString(query.getColumnIndex("message_count")));
-								data.add(query.getString(query.getColumnIndex("read")));
-								
-								data.add(" ");
-								
-								try
-								{
-									data.set(data.size() - 1, query.getString(query.getColumnIndex("snippet")).replaceAll("\\\n", " "));
-								} catch (Exception e)
-								{
-								}
-								
-								data.add(query.getString(query.getColumnIndex("date")));
-								
-								String[] ids = query.getString(query.getColumnIndex("recipient_ids")).split(" ");
-								String numbers = "";
-								
-								for (int i = 0; i < ids.length; i++)
-								{
-									try
-									{
-										if (ids[i] != null && (!ids[i].equals("") || !ids[i].equals(" ")))
-										{
-											Cursor number = getContentResolver().query(Uri.parse("content://mms-sms/canonical-addresses"), null, "_id=" + ids[i], null, null);
-											
-											if (number.moveToFirst())
-											{
-												numbers += number.getString(number.getColumnIndex("address")).replaceAll("-", "").replaceAll("\\)", "").replaceAll("\\(", "").replaceAll(" ", "") + " ";
-											} else
-											{
-												numbers += "0 ";
-											}
-											
-											number.close();
-										} else
-										{
-											
-										}
-									} catch (Exception e)
-									{
-										numbers += "0 ";
-									}
-								}
-								
-								data.add(numbers.trim());
-								
-								if (ids.length > 1)
-								{
-									data.add("yes");
-								} else
-								{
-									data.add("no");
-								}
-							} while (query.moveToNext());
-						}
-						
-						query.close();
-						
-						writeToFile3(data, getBaseContext());
-						
-					}
-					
-				}).start();
 			}
 		} else
 		{

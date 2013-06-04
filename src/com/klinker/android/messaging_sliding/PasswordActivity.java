@@ -16,6 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.klinker.android.messaging_donate.R;
 
+import java.util.Calendar;
+
 /**
  * Created by Luke on 6/2/13.
  */
@@ -80,6 +82,72 @@ public class PasswordActivity extends FragmentActivity {
 
                 if (password.equals(sharedPrefs.getString("password", "0")))
                 {
+                    String version = "";
+
+                    try {
+                        version = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
+                    } catch (PackageManager.NameNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
+                    SharedPreferences.Editor prefEdit = sharedPrefs.edit();
+                    prefEdit.putString("current_version", version);
+                    prefEdit.putLong("last_time", Calendar.getInstance().getTimeInMillis());
+                    prefEdit.commit();
+
+                    boolean flag = false;
+
+                    if (fromIntent.getStringExtra("com.klinker.android.OPEN") != null)
+                    {
+                        flag = true;
+                    }
+
+                    if (sharedPrefs.getString("run_as", "sliding").equals("sliding") || sharedPrefs.getString("run_as", "sliding").equals("hangout"))
+                    {
+                        final Intent intent = new Intent(context, com.klinker.android.messaging_sliding.MainActivity.class);
+                        intent.setAction(fromIntent.getAction());
+                        intent.setData(fromIntent.getData());
+
+                        try
+                        {
+                            intent.putExtras(fromIntent.getExtras());
+                        } catch (Exception e)
+                        {
+
+                        }
+
+                        if (flag)
+                        {
+                            intent.putExtra("com.klinker.android.OPEN", intent.getStringExtra("com.klinker.android.OPEN"));
+                        }
+
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        startActivity(intent);
+                        finish();
+                    } else if (sharedPrefs.getString("run_as", "sliding").equals("card"))
+                    {
+                        final Intent intent = new Intent(context, com.klinker.android.messaging_card.MainActivity.class);
+                        intent.setAction(fromIntent.getAction());
+                        intent.setData(fromIntent.getData());
+
+                        try
+                        {
+                            intent.putExtras(fromIntent.getExtras());
+                        } catch (Exception e)
+                        {
+
+                        }
+
+                        if (flag)
+                        {
+                            intent.putExtra("com.klinker.android.OPEN", intent.getStringExtra("com.klinker.android.OPEN"));
+                        }
+
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        startActivity(intent);
+                        finish();
+                    }
+
                     openActivity();
                 } else
                 {

@@ -23,12 +23,6 @@ public class OnBootReceiver extends BroadcastReceiver {
 			context.startService(mIntent);
 		}
 		
-		if (sharedPrefs.getBoolean("background_service", false))
-		{
-			Intent backIntent = new Intent(context, ConversationSaverService.class);
-			context.startService(backIntent);
-		}
-		
 		if (sharedPrefs.getBoolean("delete_old", false))
 		{
 			Intent deleteIntent = new Intent(context, DeleteOldService.class);

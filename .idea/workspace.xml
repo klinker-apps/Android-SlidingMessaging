@@ -1,0 +1,1332 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AndroidLayoutPreviewToolWindow">
+    <option name="state">
+      <GlobalState />
+    </option>
+  </component>
+  <component name="AndroidLayouts">
+    <shared>
+      <config>
+        <target>android-17</target>
+      </config>
+    </shared>
+    <layouts>
+      <layout url="file://$PROJECT_DIR$/res/layout-sw600dp-land/activity_main.xml">
+        <config>
+          <device>7in WSVGA (Tablet)</device>
+          <state>Landscape</state>
+          <theme>@style/AppTheme</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/res/layout-sw720dp/activity_main.xml">
+        <config>
+          <device>10.1in WXGA (Tablet)</device>
+          <theme>@style/AppTheme</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/res/layout/activity_main.xml">
+        <config>
+          <device>Nexus 4</device>
+          <theme>@style/AppTheme</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/res/layout/card_main_dark.xml">
+        <config>
+          <device>Nexus 4</device>
+          <theme>@style/AppTheme</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/res/layout/contact_body.xml">
+        <config>
+          <device>Nexus 4</device>
+          <theme>@style/AppTheme</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/res/layout/emoji_frame.xml">
+        <config>
+          <device>Nexus 4</device>
+          <theme>@style/AppTheme</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/res/layout/message_body.xml">
+        <config>
+          <device>Nexus 4</device>
+          <theme>@style/AppTheme</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/res/layout/message_card.xml">
+        <config>
+          <device>Nexus 4</device>
+          <theme>@style/AppTheme</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/res/layout/message_hangout_received.xml">
+        <config>
+          <device>Nexus 4</device>
+          <theme>@android:style/Theme.Holo</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/res/layout/message_hangout_sent.xml">
+        <config>
+          <device>Nexus 4</device>
+          <theme>@android:style/Theme.Holo</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/res/layout/unread_widget.xml">
+        <config>
+          <device>Nexus 4</device>
+          <theme>@style/AppTheme</theme>
+        </config>
+      </layout>
+    </layouts>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="1e4b5eb9-13da-4bef-bd83-6650ca630326" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Messaging Donate.apk" afterPath="$PROJECT_DIR$/Messaging Donate.apk" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MMSMessageReceiver.java" afterPath="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MMSMessageReceiver.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/klinker/android/messaging_card/MainActivity.java" afterPath="$PROJECT_DIR$/src/com/klinker/android/messaging_card/MainActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/klinker/android/messaging_donate/MainActivity.java" afterPath="$PROJECT_DIR$/src/com/klinker/android/messaging_donate/MainActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MainActivity.java" afterPath="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MainActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/wizardpager/MainActivity.java" afterPath="$PROJECT_DIR$/src/wizardpager/MainActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/OnBootReceiver.java" afterPath="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/OnBootReceiver.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/klinker/android/messaging_card/QuickReply.java" afterPath="$PROJECT_DIR$/src/com/klinker/android/messaging_card/QuickReply.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/QuickReply.java" afterPath="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/QuickReply.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/TextMessageReceiver.java" afterPath="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/TextMessageReceiver.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/To-do/To-do.txt" afterPath="$PROJECT_DIR$/To-do/To-do.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/xml/sliding_advanced_settings.xml" afterPath="$PROJECT_DIR$/res/xml/sliding_advanced_settings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    </list>
+    <ignored path="Messaging Donate.iws" />
+    <ignored path=".idea/workspace.xml" />
+    <file path="/fragment.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369787072367" ignored="false" />
+    <file path="/a.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1368676941114" ignored="false" />
+    <file path="/sample.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1368676949020" ignored="false" />
+    <file path="/Dummy.txt" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1370301505927" ignored="false" />
+    <file path="/message_hangout_sent.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369012353566" ignored="false" />
+    <file path="/a.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369757797561" ignored="false" />
+    <file path="/message_hangout_received.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369012279483" ignored="false" />
+    <file path="/ecilpse.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1368788564711" ignored="false" />
+    <file path="/MessageArrayAdapter.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369709072887" ignored="false" />
+    <file path="/arrays.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369510698606" ignored="false" />
+    <file path="/SettingsActivity.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1368790404715" ignored="false" />
+    <file path="/AttachMore.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369323106883" ignored="false" />
+    <file path="/ImageViewer.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1368790296116" ignored="false" />
+    <file path="/MainActivity.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1370303353331" ignored="false" />
+    <file path="/ThemeChooserActivity.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369328512623" ignored="false" />
+    <file path="/CustomTheme.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369328184208" ignored="false" />
+    <file path="/styles.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369083410800" ignored="false" />
+    <file path="/colors.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369778551882" ignored="false" />
+    <file path="$PROJECT_DIR$/../SlidingMenu/gen/com/slidingmenu/lib/BuildConfig.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369233469647" ignored="false" />
+    <file path="$PROJECT_DIR$/../ColorPickerPreference/gen/net/margaritov/preference/colorpicker/BuildConfig.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369517475183" ignored="false" />
+    <file path="$PROJECT_DIR$/../SwipeToDismissUndoList/gen/de/timroes/swipetodismiss/BuildConfig.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369517475183" ignored="false" />
+    <file path="/EmojiAdapter3.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1368854018475" ignored="false" />
+    <file path="/EmojiAdapter2.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369174010348" ignored="false" />
+    <file path="/QuickReply.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369493433738" ignored="false" />
+    <file path="/EmojiConverter2_bak.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1368923380372" ignored="false" />
+    <file path="/EmojiConverter2.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369146283519" ignored="false" />
+    <file path="/card_main_dark.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1368984079568" ignored="false" />
+    <file path="/card_main_black.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1368984098404" ignored="false" />
+    <file path="/card_main_abtop_dark.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1368984116467" ignored="false" />
+    <file path="/card_main_abtop_black.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1368984125759" ignored="false" />
+    <file path="/AndroidManifest.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369782994444" ignored="false" />
+    <file path="/MenuArrayAdapter.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369675189927" ignored="false" />
+    <file path="/SendMessage.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369181630438" ignored="false" />
+    <file path="/strings.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1370302382331" ignored="false" />
+    <file path="/emoji_frame.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369189353449" ignored="false" />
+    <file path="/header.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369174565376" ignored="false" />
+    <file path="/conversation_settings.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369237440930" ignored="false" />
+    <file path="/card_conversation_settings.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369237428140" ignored="false" />
+    <file path="/mms_settings.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369324842998" ignored="false" />
+    <file path="/MMSMessageReceiver.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369318472125" ignored="false" />
+    <file path="/CustomThemeActivity.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369328329651" ignored="false" />
+    <file path="/custom_theme_settings.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369328419697" ignored="false" />
+    <file path="/activity_main.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369575774134" ignored="false" />
+    <file path="/dimens.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369347514568" ignored="false" />
+    <file path="/ConversationFragment.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369447536886" ignored="false" />
+    <file path="/MenuArrayAdapterFragment.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369420926239" ignored="false" />
+    <file path="/sliding_settings.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369494670473" ignored="false" />
+    <file path="/SettingsPagerActivity.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369713367246" ignored="false" />
+    <file path="/sliding_notification_settings.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369513625466" ignored="false" />
+    <file path="/TextMessageReceiver.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369513436166" ignored="false" />
+    <file path="$PROJECT_DIR$/../SlidingMenu/gen/com/jeremyfeinstein/slidingmenu/lib/BuildConfig.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369517475183" ignored="false" />
+    <file path="/EmojiAdapter.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369516766138" ignored="false" />
+    <file path="/QmMarkRead2.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369517639010" ignored="false" />
+    <file path="/NotificationReceiver.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369517725502" ignored="false" />
+    <file path="/CardWidgetProvider.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369671949191" ignored="false" />
+    <file path="/unread_widget.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369583238445" ignored="false" />
+    <file path="/launcher_glow.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369579940539" ignored="false" />
+    <file path="/CardWidgetProvider2.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369583080303" ignored="false" />
+    <file path="/WidgetProxyActivity.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369677296818" ignored="false" />
+    <file path="/message_frame.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369676187646" ignored="false" />
+    <file path="/a.groovy" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369757803286" ignored="false" />
+    <file path="$PROJECT_DIR$/src/com/google/android/mms/pdu/PduPart.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369757821128" ignored="false" />
+    <file path="$PROJECT_DIR$/src/com/google/android/mms/pdu/MultimediaMessagePdu.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369757821129" ignored="false" />
+    <file path="$PROJECT_DIR$/src/com/google/android/mms/MMSPart.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369757821129" ignored="false" />
+    <file path="$PROJECT_DIR$/src/com/google/android/mms/APN.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369757821129" ignored="false" />
+    <file path="$PROJECT_DIR$/src/com/google/android/mms/APNHelper.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369757821129" ignored="false" />
+    <file path="$PROJECT_DIR$/src/com/android/mms/ui/ImageAttachmentView.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369757821129" ignored="false" />
+    <file path="$PROJECT_DIR$/../SlidingMenu/src/com/jeremyfeinstein/slidingmenu/lib/SlidingMenu.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369757821416" ignored="false" />
+    <file path="$PROJECT_DIR$/../romannurik-code/misc/wizardpager/src/com/example/android/wizardpager/MainActivity.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369778145428" ignored="false" />
+    <file path="$PROJECT_DIR$/../romannurik-code/misc/wizardpager/src/com/example/android/wizardpager/SandwichWizardModel.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369777002613" ignored="false" />
+    <file path="/SandwichWizardModel.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369801376044" ignored="false" />
+    <file path="$PROJECT_DIR$/../romannurik-code/misc/wizardpager/res/values/strings.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369768866628" ignored="false" />
+    <file path="/SingleChoiceFragment.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369777186042" ignored="false" />
+    <file path="$PROJECT_DIR$/../romannurik-code/misc/wizardpager/src/com/example/android/wizardpager/wizard/ui/SingleChoiceFragment.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369777188639" ignored="false" />
+    <file path="/fragment_page.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369774101470" ignored="false" />
+    <file path="$PROJECT_DIR$/../romannurik-code/misc/wizardpager/res/layout/fragment_page.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369774101470" ignored="false" />
+    <file path="$PROJECT_DIR$/../romannurik-code/misc/wizardpager/src/com/example/android/wizardpager/wizard/model/SingleFixedChoicePage.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369772581521" ignored="false" />
+    <file path="/SingleFixedChoicePage.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369772419132" ignored="false" />
+    <file path="$PROJECT_DIR$/../romannurik-code/misc/wizardpager/src/com/example/android/wizardpager/wizard/model/Page.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369777192078" ignored="false" />
+    <file path="/Page.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369777168042" ignored="false" />
+    <file path="$PROJECT_DIR$/../romannurik-code/misc/wizardpager/src/com/example/android/wizardpager/wizard/ui/ReviewFragment.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369774932589" ignored="false" />
+    <file path="/ReviewFragment.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369800212599" ignored="false" />
+    <file path="$PROJECT_DIR$/../romannurik-code/misc/wizardpager/res/layout/fragment_page_button.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369795736289" ignored="false" />
+    <file path="/fragment_page_button.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369795736289" ignored="false" />
+    <file path="$PROJECT_DIR$/../romannurik-code/misc/wizardpager/.idea/workspace.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369780511664" ignored="false" />
+    <file path="/PasswordActivity.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1370301713842" ignored="false" />
+    <file path="/SetPasswordActivity.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1370301744514" ignored="false" />
+    <file path="/To-do.txt" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1370303739323" ignored="false" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
+  <component name="Commander">
+    <leftPanel />
+    <rightPanel />
+    <splitter proportion="0.5" />
+  </component>
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="DaemonCodeAnalyzer">
+    <disable_hints />
+  </component>
+  <component name="DebuggerManager">
+    <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
+      <breakpoint>
+        <option name="NOTIFY_CAUGHT" value="true" />
+        <option name="NOTIFY_UNCAUGHT" value="true" />
+        <option name="ENABLED" value="false" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint>
+        <option name="NOTIFY_CAUGHT" value="true" />
+        <option name="NOTIFY_UNCAUGHT" value="true" />
+        <option name="ENABLED" value="false" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+    </breakpoint_any>
+    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
+    <breakpoint_rules />
+    <ui_properties />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FavoritesManager">
+    <favorites_list name="Messaging Donate" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="To-do.txt" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/To-do/To-do.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="3" column="64" selection-start="255" selection-end="255" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MainActivity.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_donate/MainActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="150" column="34" selection-start="5293" selection-end="5293" vertical-scroll-proportion="0.18710692">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindManager">
+    <FindUsagesManager>
+      <setting name="OPEN_NEW_TAB" value="false" />
+    </FindUsagesManager>
+  </component>
+  <component name="GenerateSignedApkSettings">
+    <option name="KEY_STORE_PATH" value="C:\Users\Jacob\workspace\Keystore" />
+    <option name="KEY_ALIAS" value="messaging" />
+    <option name="REMEMBER_PASSWORDS" value="true" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitLogSettings">
+    <option name="myStructureFilterPaths" />
+    <option name="myDateState">
+      <MyDateState />
+    </option>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="changedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/src/wizardpager/wizard/ui/ReviewFragment.java" />
+        <option value="$PROJECT_DIR$/src/wizardpager/SandwichWizardModel.java" />
+        <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/SetPasswordActivity.java" />
+        <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/PasswordActivity.java" />
+        <option value="$PROJECT_DIR$/res/values/strings.xml" />
+        <option value="$PROJECT_DIR$/res/xml/sliding_advanced_settings.xml" />
+        <option value="$PROJECT_DIR$/src/wizardpager/MainActivity.java" />
+        <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MainActivity.java" />
+        <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MMSMessageReceiver.java" />
+        <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/OnBootReceiver.java" />
+        <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/QuickReply.java" />
+        <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/TextMessageReceiver.java" />
+        <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_card/MainActivity.java" />
+        <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_card/QuickReply.java" />
+        <option value="$PROJECT_DIR$/To-do/To-do.txt" />
+        <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_donate/MainActivity.java" />
+      </list>
+    </option>
+  </component>
+  <component name="MavenProjectNavigator">
+    <treeState />
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1936" />
+    <option name="height" value="1066" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <OptionsSetting value="true" id="Add" />
+    <OptionsSetting value="true" id="Remove" />
+    <OptionsSetting value="true" id="Checkout" />
+    <OptionsSetting value="true" id="Update" />
+    <OptionsSetting value="true" id="Status" />
+    <OptionsSetting value="true" id="Edit" />
+    <ConfirmationsSetting value="2" id="Add" />
+    <ConfirmationsSetting value="0" id="Remove" />
+  </component>
+  <component name="ProjectReloadState">
+    <option name="STATE" value="0" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SlidingMessaging" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SlidingMessaging" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MessagingDonate" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SlidingMessaging" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MessagingDonate" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="To-do" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SlidingMessaging" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MessagingDonate" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SlidingMessaging" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MessagingDonate" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SlidingMessaging" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MessagingDonate" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="messaging_donate" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SlidingMessaging" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MessagingDonate" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SlidingMessaging" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MessagingDonate" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="GoToFile.includeJavaFiles" value="false" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="options.splitter.main.proportions" value="0.3" />
+    <property name="ExportedApkPath" value="C:\Users\Jacob\workspace\MessagingDonate\Messaging Donate.apk" />
+    <property name="recentsLimit" value="5" />
+    <property name="MemberChooser.sorted" value="false" />
+    <property name="options.lastSelected" value="preferences.toDoOptions" />
+    <property name="ExportedModule" value="Messaging Donate" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../romannurik-code/misc/wizardpager" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="MemberChooser.copyJavadoc" value="false" />
+    <property name="GoToClass.toSaveIncludeLibraries" value="false" />
+    <property name="AndroidRunProguardForReleaseBuild" value="false" />
+    <property name="restartRequiresConfirmation" value="true" />
+    <property name="FullScreen" value="false" />
+    <property name="MemberChooser.showClasses" value="true" />
+    <property name="GoToClass.includeLibraries" value="false" />
+    <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.klinker.android.messaging_hangout" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Luke\repos\slidingmessaging\res\drawable-xhdpi" />
+      <recent name="C:\Users\Luke\repos\slidingmessaging\res\drawable" />
+      <recent name="C:\Users\Luke\repos\slidingmessaging\res\values" />
+      <recent name="C:\Users\Luke\repos\slidingmessaging\res\layout" />
+      <recent name="C:\Users\Luke\repos\slidingmessaging\src" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Android Application.slidingmessaging">
+    <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
+      <module name="" />
+      <option name="TESTING_TYPE" value="0" />
+      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="USE_COMMAND_LINE" value="true" />
+      <option name="COMMAND_LINE" value="" />
+      <option name="WIPE_USER_DATA" value="false" />
+      <option name="DISABLE_BOOT_ANIMATION" value="false" />
+      <option name="NETWORK_SPEED" value="full" />
+      <option name="NETWORK_LATENCY" value="none" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method />
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
+      <module name="" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="DEPLOY" value="true" />
+      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="USE_COMMAND_LINE" value="true" />
+      <option name="COMMAND_LINE" value="" />
+      <option name="WIPE_USER_DATA" value="false" />
+      <option name="DISABLE_BOOT_ANIMATION" value="false" />
+      <option name="NETWORK_SPEED" value="full" />
+      <option name="NETWORK_LATENCY" value="none" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="Messaging Donate" type="AndroidRunConfigurationType" factoryName="Android Application">
+      <module name="slidingmessaging" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="DEPLOY" value="true" />
+      <option name="TARGET_SELECTION_MODE" value="USB_DEVICE" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="USE_COMMAND_LINE" value="true" />
+      <option name="COMMAND_LINE" value="" />
+      <option name="WIPE_USER_DATA" value="false" />
+      <option name="DISABLE_BOOT_ANIMATION" value="false" />
+      <option name="NETWORK_SPEED" value="full" />
+      <option name="NETWORK_LATENCY" value="none" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <RunnerSettings RunnerId="AndroidDebugRunner" />
+      <ConfigurationWrapper RunnerId="AndroidDebugRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="slidingmessaging" type="AndroidRunConfigurationType" factoryName="Android Application">
+      <module name="Messaging Donate" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="DEPLOY" value="true" />
+      <option name="TARGET_SELECTION_MODE" value="USB_DEVICE" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="USE_COMMAND_LINE" value="true" />
+      <option name="COMMAND_LINE" value="" />
+      <option name="WIPE_USER_DATA" value="false" />
+      <option name="DISABLE_BOOT_ANIMATION" value="false" />
+      <option name="NETWORK_SPEED" value="full" />
+      <option name="NETWORK_LATENCY" value="none" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <RunnerSettings RunnerId="AndroidDebugRunner" />
+      <ConfigurationWrapper RunnerId="AndroidDebugRunner" />
+      <method />
+    </configuration>
+    <list size="2">
+      <item index="0" class="java.lang.String" itemvalue="Android Application.Messaging Donate" />
+      <item index="1" class="java.lang.String" itemvalue="Android Application.slidingmessaging" />
+    </list>
+    <configuration name="&lt;template&gt;" type="TestNG" default="true" selected="false">
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+    </configuration>
+    <configuration name="&lt;template&gt;" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" default="true" selected="false">
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
+    </configuration>
+    <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
+      <Host>localhost</Host>
+      <Port>5050</Port>
+    </configuration>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="SliceManager">
+    <option name="analysisUIOptions">
+      <AnalysisUIOptions />
+    </option>
+  </component>
+  <component name="SvnConfiguration" maxAnnotateRevisions="500" myUseAcceleration="nothing" myAutoUpdateAfterCommit="false" cleanupOnStartRun="false" SSL_PROTOCOLS="all">
+    <option name="USER" value="" />
+    <option name="PASSWORD" value="" />
+    <option name="mySSHConnectionTimeout" value="30000" />
+    <option name="mySSHReadTimeout" value="30000" />
+    <option name="LAST_MERGED_REVISION" />
+    <option name="MERGE_DRY_RUN" value="false" />
+    <option name="MERGE_DIFF_USE_ANCESTRY" value="true" />
+    <option name="UPDATE_LOCK_ON_DEMAND" value="false" />
+    <option name="IGNORE_SPACES_IN_MERGE" value="false" />
+    <option name="CHECK_NESTED_FOR_QUICK_MERGE" value="false" />
+    <option name="IGNORE_SPACES_IN_ANNOTATE" value="true" />
+    <option name="SHOW_MERGE_SOURCES_IN_ANNOTATE" value="true" />
+    <option name="FORCE_UPDATE" value="false" />
+    <option name="IGNORE_EXTERNALS" value="false" />
+    <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1e4b5eb9-13da-4bef-bd83-6650ca630326" name="Default" comment="" />
+      <created>1368675976489</created>
+      <updated>1368675976489</updated>
+      <workItem from="1368675979089" duration="504000" />
+      <workItem from="1368676611992" duration="1643000" />
+      <workItem from="1368720143516" duration="1940000" />
+      <workItem from="1368722098166" duration="216000" />
+      <workItem from="1368722324273" duration="207000" />
+      <workItem from="1368722542310" duration="4887000" />
+      <workItem from="1368738064862" duration="160000" />
+      <workItem from="1368738239238" duration="265000" />
+      <workItem from="1368738735870" duration="672000" />
+      <workItem from="1368788418112" duration="3226000" />
+      <workItem from="1368793195338" duration="9206000" />
+      <workItem from="1368824599684" duration="3809000" />
+      <workItem from="1368831311717" duration="22304000" />
+      <workItem from="1368924997739" duration="234000" />
+      <workItem from="1368927420654" duration="1062000" />
+      <workItem from="1368928535592" duration="28000" />
+      <workItem from="1368974467804" duration="1451000" />
+      <workItem from="1368976366192" duration="23000" />
+      <workItem from="1368976422197" duration="16378000" />
+      <workItem from="1369011842880" duration="1870000" />
+      <workItem from="1369014212864" duration="36000" />
+      <workItem from="1369014799396" duration="651000" />
+      <workItem from="1369056560775" duration="213000" />
+      <workItem from="1369081228802" duration="2171000" />
+      <workItem from="1369084014676" duration="1266000" />
+      <workItem from="1369085874983" duration="5705000" />
+      <workItem from="1369103044422" duration="408000" />
+      <workItem from="1369103570617" duration="603000" />
+      <workItem from="1369143887895" duration="880000" />
+      <workItem from="1369144785044" duration="36000" />
+      <workItem from="1369145064937" duration="404000" />
+      <workItem from="1369146167355" duration="912000" />
+      <workItem from="1369169678451" duration="11983000" />
+      <workItem from="1369189196007" duration="1511000" />
+      <workItem from="1369233192124" duration="10438000" />
+      <workItem from="1369244917281" duration="1402000" />
+      <workItem from="1369248104709" duration="236000" />
+      <workItem from="1369251286813" duration="263000" />
+      <workItem from="1369252602227" duration="1259000" />
+      <workItem from="1369316128047" duration="12103000" />
+      <workItem from="1369329764249" duration="467000" />
+      <workItem from="1369330522269" duration="2882000" />
+      <workItem from="1369337178091" duration="2088000" />
+      <workItem from="1369347046249" duration="143000" />
+      <workItem from="1369347340061" duration="7127000" />
+      <workItem from="1369363181583" duration="1184000" />
+      <workItem from="1369364431508" duration="9879000" />
+      <workItem from="1369408030076" duration="3793000" />
+      <workItem from="1369419844874" duration="4170000" />
+      <workItem from="1369435232233" duration="676000" />
+      <workItem from="1369436913057" duration="15217000" />
+      <workItem from="1369452834134" duration="3691000" />
+      <workItem from="1369492700409" duration="8169000" />
+      <workItem from="1369503287041" duration="765000" />
+      <workItem from="1369510398405" duration="5859000" />
+      <workItem from="1369516363715" duration="612000" />
+      <workItem from="1369517400540" duration="1061000" />
+      <workItem from="1369518518513" duration="323000" />
+      <workItem from="1369533054909" duration="3697000" />
+      <workItem from="1369575465849" duration="3701000" />
+      <workItem from="1369579517949" duration="5303000" />
+      <workItem from="1369667193540" duration="349000" />
+      <workItem from="1369667577989" duration="8610000" />
+      <workItem from="1369690894659" duration="520000" />
+      <workItem from="1369691797780" duration="140000" />
+      <workItem from="1369708305499" duration="2425000" />
+      <workItem from="1369711339515" duration="3362000" />
+      <workItem from="1369754749161" duration="1446000" />
+      <workItem from="1369756424412" duration="4706000" />
+      <workItem from="1369762365642" duration="6617000" />
+      <workItem from="1369782604547" duration="662000" />
+      <workItem from="1369711339515" duration="3530000" />
+      <workItem from="1369715202806" duration="90000" />
+      <workItem from="1369751192148" duration="1003000" />
+      <workItem from="1369755182956" duration="1315000" />
+      <workItem from="1369779808585" duration="320000" />
+      <workItem from="1369785432171" duration="1800000" />
+      <workItem from="1369787273629" duration="28000" />
+      <workItem from="1369787331630" duration="155000" />
+      <workItem from="1369789029073" duration="880000" />
+      <workItem from="1369792424456" duration="1123000" />
+      <workItem from="1369793581500" duration="755000" />
+      <workItem from="1369794366349" duration="1806000" />
+      <workItem from="1369797104007" duration="793000" />
+      <workItem from="1369799852816" duration="741000" />
+      <workItem from="1369797104007" duration="975000" />
+      <workItem from="1369798871195" duration="2617000" />
+      <workItem from="1369831295003" duration="14000" />
+      <workItem from="1370264352757" duration="643000" />
+      <workItem from="1370301492299" duration="2629000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="243576000" />
+  </component>
+  <component name="TodoView" selected-index="0">
+    <todo-panel id="selected-file">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="default-changelist">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="false" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33964366" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32870865" sideWeight="0.7290749" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39977974" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27282852" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17899892" sideWeight="0.29705215" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17899892" sideWeight="0.29705215" order="4" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32962137" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35462555" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36123347" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2709251" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24972796" sideWeight="0.72902495" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17502668" sideWeight="0.7290749" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2709251" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3242424" sideWeight="0.8624161" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3239061" sideWeight="0.86414254" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32962137" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+    </layout>
+    <layout-to-restore>
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3242424" sideWeight="0.8624161" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3242424" sideWeight="0.8624161" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32777777" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3297062" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3997773" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13585746" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17899892" sideWeight="0.29705215" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17899892" sideWeight="0.29705215" order="4" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35746104" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36453745" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2709251" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24972796" sideWeight="0.72902495" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17716116" sideWeight="0.86414254" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13585746" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+    </layout-to-restore>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="true" />
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="CHECK_NEW_TODO" value="true" />
+    <option name="myTodoPanelSettings">
+      <value>
+        <are-packages-shown value="false" />
+        <are-modules-shown value="false" />
+        <flatten-packages value="false" />
+        <is-autoscroll-to-source value="false" />
+      </value>
+    </option>
+    <option name="PERFORM_UPDATE_IN_BACKGROUND" value="true" />
+    <option name="PERFORM_COMMIT_IN_BACKGROUND" value="true" />
+    <option name="PERFORM_EDIT_IN_BACKGROUND" value="true" />
+    <option name="PERFORM_CHECKOUT_IN_BACKGROUND" value="true" />
+    <option name="PERFORM_ADD_REMOVE_IN_BACKGROUND" value="true" />
+    <option name="PERFORM_ROLLBACK_IN_BACKGROUND" value="false" />
+    <option name="CHECK_LOCALLY_CHANGED_CONFLICTS_IN_BACKGROUND" value="false" />
+    <option name="CHANGED_ON_SERVER_INTERVAL" value="60" />
+    <option name="SHOW_ONLY_CHANGED_IN_SELECTION_DIFF" value="true" />
+    <option name="CHECK_COMMIT_MESSAGE_SPELLING" value="true" />
+    <option name="DEFAULT_PATCH_EXTENSION" value="patch" />
+    <option name="SHORT_DIFF_HORIZONTALLY" value="true" />
+    <option name="SHORT_DIFF_EXTRA_LINES" value="2" />
+    <option name="SOFT_WRAPS_IN_SHORT_DIFF" value="true" />
+    <option name="INCLUDE_TEXT_INTO_PATCH" value="false" />
+    <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
+    <option name="SHOW_FILE_HISTORY_DETAILS" value="true" />
+    <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
+    <option name="SHOW_DIRTY_RECURSIVELY" value="false" />
+    <option name="LIMIT_HISTORY" value="true" />
+    <option name="MAXIMUM_HISTORY_ROWS" value="1000" />
+    <option name="UPDATE_FILTER_SCOPE_NAME" />
+    <option name="USE_COMMIT_MESSAGE_MARGIN" value="false" />
+    <option name="COMMIT_MESSAGE_MARGIN_SIZE" value="72" />
+    <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
+    <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
+    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
+    <option name="LAST_COMMIT_MESSAGE" />
+    <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
+    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
+    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="REFORMAT_BEFORE_FILE_COMMIT" value="false" />
+    <option name="FILE_HISTORY_DIALOG_COMMENTS_SPLITTER_PROPORTION" value="0.8" />
+    <option name="FILE_HISTORY_DIALOG_SPLITTER_PROPORTION" value="0.5" />
+    <option name="ACTIVE_VCS_NAME" />
+    <option name="UPDATE_GROUP_BY_PACKAGES" value="false" />
+    <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
+    <option name="UPDATE_FILTER_BY_SCOPE" value="false" />
+    <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
+    <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/QmMarkRead2.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="13" selection-start="452" selection-end="452" vertical-scroll-proportion="0.06885246">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/QuickReply.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1221" column="9" selection-start="50285" selection-end="50285" vertical-scroll-proportion="0.27868852">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/QuickTextService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="13" selection-start="403" selection-end="403" vertical-scroll-proportion="0.06885246">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/SendMessage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="44" column="13" selection-start="1480" selection-end="1480" vertical-scroll-proportion="0.06885246">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/TextMessageReceiver.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="125" column="17" selection-start="4351" selection-end="4351" vertical-scroll-proportion="0.22780569">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_donate/CardWidgetProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="13" selection-start="439" selection-end="439" vertical-scroll-proportion="0.06885246">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_donate/CardWidgetService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="6" selection-start="821" selection-end="821" vertical-scroll-proportion="0.26393443">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_donate/CardWidgetSettingsActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="13" selection-start="358" selection-end="358" vertical-scroll-proportion="0.10691824">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_donate/SentReceiver.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="13" selection-start="724" selection-end="724" vertical-scroll-proportion="0.06885246">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_donate/WidgetItem.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="13" selection-start="388" selection-end="388" vertical-scroll-proportion="0.07035176">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_card/BatchDeleteActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="13" selection-start="686" selection-end="686" vertical-scroll-proportion="0.06885246">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_card/ContactViewPager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="13" selection-start="200" selection-end="200" vertical-scroll-proportion="0.06885246">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_card/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3178" column="9" selection-start="128393" selection-end="128393" vertical-scroll-proportion="0.22780569">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#8621#15916#0" expanded="true" />
+            <element signature="e#15911#15912#0" expanded="true" />
+            <element signature="e#15937#16339#0" expanded="true" />
+            <element signature="e#16330#16331#0" expanded="true" />
+            <element signature="e#20384#21819#0" expanded="true" />
+            <element signature="e#20729#21753#0" expanded="true" />
+            <element signature="e#21104#21153#0" expanded="true" />
+            <element signature="e#21734#21735#0" expanded="true" />
+            <element signature="e#21810#21811#0" expanded="true" />
+            <element signature="e#21857#22056#0" expanded="true" />
+            <element signature="e#22047#22048#0" expanded="true" />
+            <element signature="e#22162#22371#0" expanded="true" />
+            <element signature="e#22360#22361#0" expanded="true" />
+            <element signature="e#22419#23232#0" expanded="true" />
+            <element signature="e#22735#23209#0" expanded="true" />
+            <element signature="e#22843#23124#0" expanded="true" />
+            <element signature="e#23105#23106#0" expanded="true" />
+            <element signature="e#23196#23197#0" expanded="true" />
+            <element signature="e#23223#23224#0" expanded="true" />
+            <element signature="e#23270#24042#0" expanded="true" />
+            <element signature="e#24033#24034#0" expanded="true" />
+            <element signature="e#35237#111569#0" expanded="true" />
+            <element signature="e#36569#37065#0" expanded="true" />
+            <element signature="e#37044#37045#0" expanded="true" />
+            <element signature="e#37410#69741#0" expanded="true" />
+            <element signature="e#38122#47614#0" expanded="true" />
+            <element signature="e#38414#40046#0" expanded="true" />
+            <element signature="e#39579#39827#0" expanded="true" />
+            <element signature="e#39782#39783#0" expanded="true" />
+            <element signature="e#39983#39984#0" expanded="true" />
+            <element signature="e#47594#47595#0" expanded="true" />
+            <element signature="e#47751#54757#0" expanded="true" />
+            <element signature="e#48765#49060#0" expanded="true" />
+            <element signature="e#49016#49017#0" expanded="true" />
+            <element signature="e#50824#51119#0" expanded="true" />
+            <element signature="e#51075#51076#0" expanded="true" />
+            <element signature="e#52438#52445#0" expanded="true" />
+            <element signature="e#53557#53564#0" expanded="true" />
+            <element signature="e#54737#54738#0" expanded="true" />
+            <element signature="e#54868#54883#0" expanded="true" />
+            <element signature="e#54948#54963#0" expanded="true" />
+            <element signature="e#57032#66699#0" expanded="true" />
+            <element signature="e#57332#58998#0" expanded="true" />
+            <element signature="e#58517#58772#0" expanded="true" />
+            <element signature="e#58725#58726#0" expanded="true" />
+            <element signature="e#58933#58934#0" expanded="true" />
+            <element signature="e#66679#66680#0" expanded="true" />
+            <element signature="e#66805#66820#0" expanded="true" />
+            <element signature="e#69324#69700#0" expanded="true" />
+            <element signature="e#69669#69670#0" expanded="true" />
+            <element signature="e#69722#69723#0" expanded="true" />
+            <element signature="e#72532#72540#0" expanded="true" />
+            <element signature="e#75161#75640#0" expanded="true" />
+            <element signature="e#75621#75622#0" expanded="true" />
+            <element signature="e#76725#106422#0" expanded="true" />
+            <element signature="e#77372#86097#0" expanded="true" />
+            <element signature="e#86076#86077#0" expanded="true" />
+            <element signature="e#86229#92565#0" expanded="true" />
+            <element signature="e#86865#87164#0" expanded="true" />
+            <element signature="e#87119#87120#0" expanded="true" />
+            <element signature="e#88560#88859#0" expanded="true" />
+            <element signature="e#88814#88815#0" expanded="true" />
+            <element signature="e#90202#90209#0" expanded="true" />
+            <element signature="e#91341#91348#0" expanded="true" />
+            <element signature="e#92544#92545#0" expanded="true" />
+            <element signature="e#92678#92693#0" expanded="true" />
+            <element signature="e#92759#92774#0" expanded="true" />
+            <element signature="e#94721#103416#0" expanded="true" />
+            <element signature="e#103395#103396#0" expanded="true" />
+            <element signature="e#103524#103539#0" expanded="true" />
+            <element signature="e#106045#106374#0" expanded="true" />
+            <element signature="e#106341#106342#0" expanded="true" />
+            <element signature="e#106401#106402#0" expanded="true" />
+            <element signature="e#109293#109301#0" expanded="true" />
+            <element signature="e#111559#111560#0" expanded="true" />
+            <element signature="e#112017#116910#0" expanded="true" />
+            <element signature="e#113241#113586#0" expanded="true" />
+            <element signature="e#113577#113578#0" expanded="true" />
+            <element signature="e#113646#113883#0" expanded="true" />
+            <element signature="e#113856#113857#0" expanded="true" />
+            <element signature="e#113944#114193#0" expanded="true" />
+            <element signature="e#114166#114167#0" expanded="true" />
+            <element signature="e#114253#114508#0" expanded="true" />
+            <element signature="e#114481#114482#0" expanded="true" />
+            <element signature="e#114568#114829#0" expanded="true" />
+            <element signature="e#114802#114803#0" expanded="true" />
+            <element signature="e#114890#115157#0" expanded="true" />
+            <element signature="e#115130#115131#0" expanded="true" />
+            <element signature="e#115273#115616#0" expanded="true" />
+            <element signature="e#115607#115608#0" expanded="true" />
+            <element signature="e#116256#116892#0" expanded="true" />
+            <element signature="e#116877#116878#0" expanded="true" />
+            <element signature="e#116899#116900#0" expanded="true" />
+            <element signature="e#120177#120450#0" expanded="true" />
+            <element signature="e#120442#120443#0" expanded="true" />
+            <element signature="e#121661#122320#0" expanded="true" />
+            <element signature="e#122307#122308#0" expanded="true" />
+            <element signature="e#129426#129611#0" expanded="true" />
+            <element signature="e#129592#129593#0" expanded="true" />
+            <element signature="e#129661#130037#0" expanded="true" />
+            <element signature="e#129950#129999#0" expanded="true" />
+            <element signature="e#130018#130019#0" expanded="true" />
+            <element signature="e#130086#130236#0" expanded="true" />
+            <element signature="e#130217#130218#0" expanded="true" />
+            <element signature="e#131543#131946#0" expanded="true" />
+            <element signature="e#131925#131926#0" expanded="true" />
+            <element signature="e#131998#132384#0" expanded="true" />
+            <element signature="e#132293#132342#0" expanded="true" />
+            <element signature="e#132363#132364#0" expanded="true" />
+            <element signature="e#132435#132592#0" expanded="true" />
+            <element signature="e#132571#132572#0" expanded="true" />
+            <element signature="e#134045#134271#0" expanded="true" />
+            <element signature="e#134250#134251#0" expanded="true" />
+            <element signature="e#134323#134546#0" expanded="true" />
+            <element signature="e#134525#134526#0" expanded="true" />
+            <element signature="e#134597#134841#0" expanded="true" />
+            <element signature="e#134820#134821#0" expanded="true" />
+            <element signature="e#137145#137832#0" expanded="true" />
+            <element signature="e#137540#137688#0" expanded="true" />
+            <element signature="e#137676#137677#0" expanded="true" />
+            <element signature="e#137817#137818#0" expanded="true" />
+            <element signature="e#138540#138739#0" expanded="true" />
+            <element signature="e#138716#138717#0" expanded="true" />
+            <element signature="e#138793#139189#0" expanded="true" />
+            <element signature="e#139094#139143#0" expanded="true" />
+            <element signature="e#139166#139167#0" expanded="true" />
+            <element signature="e#139242#139406#0" expanded="true" />
+            <element signature="e#139383#139384#0" expanded="true" />
+            <element signature="e#140824#141342#0" expanded="true" />
+            <element signature="e#141330#141331#0" expanded="true" />
+            <element signature="e#145092#145139#0" expanded="true" />
+            <element signature="e#145184#145238#0" expanded="true" />
+            <element signature="e#145463#145513#0" expanded="true" />
+            <element signature="e#145627#145675#0" expanded="true" />
+            <element signature="e#146205#146555#0" expanded="true" />
+            <element signature="e#146544#146545#0" expanded="true" />
+            <element signature="e#153392#153443#0" expanded="true" />
+            <element signature="e#153521#153571#0" expanded="true" />
+            <element signature="e#153622#153963#0" expanded="true" />
+            <element signature="e#153948#153949#0" expanded="true" />
+            <element signature="e#153988#154732#0" expanded="true" />
+            <element signature="e#154338#154700#0" expanded="true" />
+            <element signature="e#154690#154691#0" expanded="true" />
+            <element signature="e#154717#154718#0" expanded="true" />
+            <element signature="e#154814#155435#0" expanded="true" />
+            <element signature="e#155073#155383#0" expanded="true" />
+            <element signature="e#155298#155347#0" expanded="true" />
+            <element signature="e#155358#155359#0" expanded="true" />
+            <element signature="e#155416#155417#0" expanded="true" />
+            <element signature="e#155843#156203#0" expanded="true" />
+            <element signature="e#156188#156189#0" expanded="true" />
+            <element signature="e#156561#156621#0" expanded="true" />
+            <element signature="e#156715#156770#0" expanded="true" />
+            <element signature="e#156837#156893#0" expanded="true" />
+            <element signature="e#157424#157724#0" expanded="true" />
+            <element signature="e#157711#157712#0" expanded="true" />
+            <element signature="e#157785#159021#0" expanded="true" />
+            <element signature="e#158355#158993#0" expanded="true" />
+            <element signature="e#158502#158552#0" expanded="true" />
+            <element signature="e#158623#158674#0" expanded="true" />
+            <element signature="e#158766#158825#0" expanded="true" />
+            <element signature="e#158904#158964#0" expanded="true" />
+            <element signature="e#158984#158985#0" expanded="true" />
+            <element signature="e#159008#159009#0" expanded="true" />
+            <element signature="e#159760#159960#0" expanded="true" />
+            <element signature="e#159952#159953#0" expanded="true" />
+            <element signature="e#163571#166585#0" expanded="true" />
+            <element signature="e#165493#166533#0" expanded="true" />
+            <element signature="e#166502#166503#0" expanded="true" />
+            <element signature="e#166561#166562#0" expanded="true" />
+            <element signature="e#166729#167545#0" expanded="true" />
+            <element signature="e#167235#167524#0" expanded="true" />
+            <element signature="e#167515#167516#0" expanded="true" />
+            <element signature="e#167532#167533#0" expanded="true" />
+            <element signature="e#171131#171139#0" expanded="true" />
+            <element signature="e#171204#171212#0" expanded="true" />
+            <element signature="e#171275#171283#0" expanded="true" />
+            <element signature="e#173707#174470#0" expanded="true" />
+            <element signature="e#174441#174442#0" expanded="true" />
+            <element signature="e#182727#182735#0" expanded="true" />
+            <element signature="e#188105#188113#0" expanded="true" />
+            <element signature="e#190657#190665#0" expanded="true" />
+            <element signature="e#195499#196214#0" expanded="true" />
+            <element signature="e#195753#195785#1" expanded="true" />
+            <element signature="e#196203#196204#0" expanded="true" />
+            <element signature="e#196432#203456#0" expanded="true" />
+            <element signature="e#197806#198216#0" expanded="true" />
+            <element signature="e#198208#198209#0" expanded="true" />
+            <element signature="e#199395#199604#0" expanded="true" />
+            <element signature="e#199595#199596#0" expanded="true" />
+            <element signature="e#200204#201263#0" expanded="true" />
+            <element signature="e#201248#201249#0" expanded="true" />
+            <element signature="e#202242#203430#0" expanded="true" />
+            <element signature="e#202517#202571#0" expanded="true" />
+            <element signature="e#202600#202654#0" expanded="true" />
+            <element signature="e#202683#202737#0" expanded="true" />
+            <element signature="e#202766#202820#0" expanded="true" />
+            <element signature="e#202849#202903#0" expanded="true" />
+            <element signature="e#202926#202980#0" expanded="true" />
+            <element signature="e#203015#203074#0" expanded="true" />
+            <element signature="e#203076#203360#0" expanded="true" />
+            <element signature="e#203341#203342#0" expanded="true" />
+            <element signature="e#203409#203410#0" expanded="true" />
+            <element signature="e#203447#203448#0" expanded="true" />
+            <element signature="e#203582#203590#0" expanded="true" />
+            <element signature="e#205331#205360#0" expanded="true" />
+            <element signature="e#205471#205479#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_card/QuickReply.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="789" column="31" selection-start="30694" selection-end="30694" vertical-scroll-proportion="0.2763819">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/To-do/To-do.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="64" selection-start="255" selection-end="255" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_donate/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="150" column="34" selection-start="5293" selection-end="5293" vertical-scroll-proportion="0.18710692">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>Android</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.7</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>Android|SlidingMenu</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectJDKs.UI">
+        <settings>
+          <last-edited>1.7</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>libs</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>
+
