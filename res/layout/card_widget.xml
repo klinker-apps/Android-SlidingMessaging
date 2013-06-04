@@ -1,68 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/widget_background"
-    android:orientation="vertical" >
-
-    <RelativeLayout
+<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/widget_card"
-        android:padding="5dp" >
+        android:id="@+id/widget">
 
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/replyButton"
-            android:layout_alignParentTop="true"
-            android:layout_marginBottom="4dp"
-            android:layout_marginLeft="7dp"
-            android:alpha=".75"
-            android:gravity="center"
-            android:text="@string/app_name_in_app"
-            android:textColor="@color/card_conversation_name"
-            android:textSize="17sp" />
+    <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/widget_background"
+            android:background="@drawable/widget_background_transparent"/>
 
-        <ImageButton
-                android:id="@+id/settingsButton"
-                android:layout_width="wrap_content"
+
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+        <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_below="@+id/replyButton"
+                android:id="@+id/spacer"
+                android:background="@drawable/widget_card_transparent" />
+
+            <RelativeLayout
+                android:id="@+id/relLayout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toLeftOf="@+id/replyButton"
-                android:layout_alignParentTop="true"
-                android:layout_marginRight="10dp"
-                android:alpha=".85"
-                android:background="@drawable/dark_send_button"
-                android:paddingBottom="3dp"
-                android:src="@drawable/ic_settings"
-                android:contentDescription="@string/placeholder" />
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp" >
 
-        <ImageButton
-            android:id="@+id/replyButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginRight="3dp"
-            android:alpha=".5"
-            android:background="@drawable/dark_send_button"
-            android:paddingBottom="3dp"
-            android:src="@drawable/ic_reply_dark"
-            android:contentDescription="@string/placeholder" />
+                <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/spacer"
+                        android:layout_alignParentTop="true"
+                        android:id="@+id/widget_card"
+                        android:background="@drawable/widget_card" />
 
-    </RelativeLayout>
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/replyButton"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginLeft="7dp"
+                    android:alpha=".75"
+                    android:gravity="center"
+                    android:text="@string/app_name_in_app"
+                    android:textColor="@color/card_conversation_name"
+                    android:textSize="17sp" />
 
-    <ListView
-        android:id="@+id/widgetList"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:divider="@null"
-        android:dividerHeight="0dp" >
+                <ImageButton
+                        android:id="@+id/settingsButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toLeftOf="@+id/replyButton"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginRight="10dp"
+                        android:alpha=".85"
+                        android:background="@drawable/dark_send_button"
+                        android:paddingBottom="3dp"
+                        android:src="@drawable/ic_settings"
+                        android:contentDescription="@string/placeholder" />
 
-    </ListView>
+                <ImageButton
+                    android:id="@+id/replyButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="3dp"
+                    android:alpha=".5"
+                    android:background="@drawable/dark_send_button"
+                    android:paddingBottom="3dp"
+                    android:src="@drawable/ic_reply_dark"
+                    android:contentDescription="@string/placeholder" />
 
-</LinearLayout>
+                <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_below="@+id/replyButton"
+                        android:id="@+id/spacer"
+                        android:background="@drawable/widget_card_transparent"
+                         />
+
+            </RelativeLayout>
+
+        <ListView
+            android:id="@+id/widgetList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="5dp"
+            android:paddingTop="5dp" >
+
+        </ListView>
+
+    </LinearLayout>
+</RelativeLayout>

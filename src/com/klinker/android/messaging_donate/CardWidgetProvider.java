@@ -8,17 +8,78 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.widget.RemoteViews;
+import android.widget.Toast;
 
 public class CardWidgetProvider extends AppWidgetProvider {
 
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
     	Intent updateWidget = new Intent(context, CardWidgetService2.class);
         context.startService(updateWidget);
-        
+
+        SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(context);
+
+        RemoteViews views = new RemoteViews(context.getPackageName(),
+                R.layout.card_widget);
+
+        if (sharedPrefs.getBoolean("widget_background", true))
+        {
+            if(sharedPrefs.getBoolean("dark_background", false))
+            {
+                views.setImageViewResource(R.id.widget_background,
+                        R.drawable.widget_background_dark);
+
+                if (sharedPrefs.getBoolean("widget_dark_theme", false))
+                {
+                    views.setImageViewResource(R.id.widget_card,
+                            R.drawable.widget_card_dark);
+                } else
+                {
+                    views.setImageViewResource(R.id.widget_card,
+                            R.drawable.widget_card);
+                }
+
+            } else
+            {
+                views.setImageViewResource(R.id.widget_background,
+                        R.drawable.widget_background);
+
+                if (sharedPrefs.getBoolean("widget_dark_theme", false))
+                {
+                    views.setImageViewResource(R.id.widget_card,
+                            R.drawable.widget_card_dark);
+                } else
+                {
+                    views.setImageViewResource(R.id.widget_card,
+                            R.drawable.widget_card);
+                }
+            }
+        } else
+        {
+            views.setImageViewResource(R.id.widget_background,
+                    R.drawable.widget_background_transparent);
+
+            if (sharedPrefs.getBoolean("widget_dark_theme", false))
+            {
+                views.setImageViewResource(R.id.widget_card,
+                        R.drawable.widget_card_dark);
+            } else
+            {
+                views.setImageViewResource(R.id.widget_card,
+                        R.drawable.widget_card);
+            }
+        }
+
+        for (int i = 0; i < appWidgetIds.length; i++) {
+            appWidgetManager.updateAppWidget(appWidgetIds[i], views);
+        }
+
         super.onUpdate(context, appWidgetManager, appWidgetIds);
+
     }
     
 	@Override
@@ -59,7 +120,7 @@ public class CardWidgetProvider extends AppWidgetProvider {
         	super.onReceive(context, intent);
         }
     }
-    
+
     public static class CardWidgetService2 extends IntentService
     {
     	public CardWidgetService2() {

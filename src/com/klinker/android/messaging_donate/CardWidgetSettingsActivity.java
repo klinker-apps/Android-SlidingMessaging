@@ -63,7 +63,14 @@ public class CardWidgetSettingsActivity  extends PreferenceActivity {
         switch(item.getItemId())
         {
             case R.id.done:
-                int mAppWidgetId = 0;
+                Context context = getApplicationContext();
+                CharSequence text = "Warning: Widget may not fully reload immediately!";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+
+                int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
 
                 // step 1
                 Intent intent = getIntent();
@@ -80,7 +87,7 @@ public class CardWidgetSettingsActivity  extends PreferenceActivity {
                 AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
 
                 // step 4
-                RemoteViews views = new RemoteViews(this.getPackageName(),
+                RemoteViews views = new RemoteViews(getPackageName(),
                         R.layout.card_widget);
                 appWidgetManager.updateAppWidget(mAppWidgetId, views);
 
@@ -88,10 +95,16 @@ public class CardWidgetSettingsActivity  extends PreferenceActivity {
                 Intent resultValue = new Intent();
                 resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
                 setResult(RESULT_OK, resultValue);
-                //finish();
-                Intent i = new Intent(Intent.ACTION_MAIN);
-                i.addCategory(Intent.CATEGORY_HOME);
-                startActivity(i);
+                appWidgetManager.updateAppWidget(mAppWidgetId, views);
+
+                // trying to manually call the on update, but sometimes it doesn't work to update the background right away still...
+                new CardWidgetProvider()
+                        .onUpdate(this,
+                                AppWidgetManager.getInstance(this),
+                                new int[] { mAppWidgetId }
+                        );
+
+                finish();
                 return true;
 
             default:
