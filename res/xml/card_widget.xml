@@ -6,5 +6,6 @@
     android:initialLayout="@layout/card_widget"
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen|keyguard"
-    android:initialKeyguardLayout="@layout/card_widget" >
+    android:initialKeyguardLayout="@layout/card_widget"
+    android:configure="com.klinker.android.messaging_donate.CardWidgetSettingsActivity" >
 </appwidget-provider>
