@@ -148,66 +148,66 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         msgCount = new ArrayList<String>();
         msgRead = new ArrayList<String>();
 
-        if (query.moveToFirst())
-        {
-            do
-            {
-                threadIds.add(query.getString(query.getColumnIndex("_id")));
-                msgCount.add(query.getString(query.getColumnIndex("message_count")));
-                msgRead.add(query.getString(query.getColumnIndex("read")));
-
-                inboxBody.add(" ");
-
-                try
-                {
-                    inboxBody.set(inboxBody.size() - 1, query.getString(query.getColumnIndex("snippet")).replaceAll("\\\n", " "));
-                } catch (Exception e)
-                {
-                }
-
-                inboxDate.add(query.getString(query.getColumnIndex("date")));
-
-                String[] ids = query.getString(query.getColumnIndex("recipient_ids")).split(" ");
-                String numbers = "";
-
-                for (int i = 0; i < ids.length; i++)
-                {
-                    try
-                    {
-                        if (ids[i] != null && (!ids[i].equals("") || !ids[i].equals(" ")))
-                        {
-                            Cursor number = getContentResolver().query(Uri.parse("content://mms-sms/canonical-addresses"), null, "_id=" + ids[i], null, null);
-
-                            if (number.moveToFirst())
-                            {
-                                numbers += number.getString(number.getColumnIndex("address")).replace("-", "").replace(")", "").replace("(", "").replace(" ", "") + " ";
-                            } else
-                            {
-                                numbers += "0 ";
-                            }
-
-                            number.close();
-                        } else
-                        {
-
-                        }
-                    } catch (Exception e)
-                    {
-                        numbers += "0 ";
-                    }
-                }
-
-                inboxNumber.add(numbers.trim());
-
-                if (ids.length > 1)
-                {
-                    group.add("yes");
-                } else
-                {
-                    group.add("no");
-                }
-            } while (query.moveToNext());
-        }
+//        if (query.moveToFirst())
+//        {
+//            do
+//            {
+//                threadIds.add(query.getString(query.getColumnIndex("_id")));
+//                msgCount.add(query.getString(query.getColumnIndex("message_count")));
+//                msgRead.add(query.getString(query.getColumnIndex("read")));
+//
+//                inboxBody.add(" ");
+//
+//                try
+//                {
+//                    inboxBody.set(inboxBody.size() - 1, query.getString(query.getColumnIndex("snippet")).replaceAll("\\\n", " "));
+//                } catch (Exception e)
+//                {
+//                }
+//
+//                inboxDate.add(query.getString(query.getColumnIndex("date")));
+//
+//                String[] ids = query.getString(query.getColumnIndex("recipient_ids")).split(" ");
+//                String numbers = "";
+//
+//                for (int i = 0; i < ids.length; i++)
+//                {
+//                    try
+//                    {
+//                        if (ids[i] != null && (!ids[i].equals("") || !ids[i].equals(" ")))
+//                        {
+//                            Cursor number = getContentResolver().query(Uri.parse("content://mms-sms/canonical-addresses"), null, "_id=" + ids[i], null, null);
+//
+//                            if (number.moveToFirst())
+//                            {
+//                                numbers += number.getString(number.getColumnIndex("address")).replace("-", "").replace(")", "").replace("(", "").replace(" ", "") + " ";
+//                            } else
+//                            {
+//                                numbers += "0 ";
+//                            }
+//
+//                            number.close();
+//                        } else
+//                        {
+//
+//                        }
+//                    } catch (Exception e)
+//                    {
+//                        numbers += "0 ";
+//                    }
+//                }
+//
+//                inboxNumber.add(numbers.trim());
+//
+//                if (ids.length > 1)
+//                {
+//                    group.add("yes");
+//                } else
+//                {
+//                    group.add("no");
+//                }
+//            } while (query.moveToNext());
+//        }
 
         launchActivity();
     }

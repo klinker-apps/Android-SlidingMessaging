@@ -1,17 +1,13 @@
 For next update (6.20):
     - message summary when you click on the message like stock app does
-    - remove background service option
-    - change password timeout to Calendar class instead of System.getTimeInMillis()
-    - cursor loader in messaging_donate.MainActivity instead of in separate main activities
-        - allows for ability of a "loading screen" instead of just black, use progress bar
-        - cursor loader may load cursors faster then manually loading them in a single thread as android would handle everything internally and more efficiently hopefully
     - contact lister to scroll through all contacts and decide who to send message to that way
+    - Luke (?): Black widget option, no background widget option
 
 0) more individual notification options
 1) Draft system
 2) Scheduled SMS
 3) Security options for locking app
-4) Black widget option, no background widget option
+4)
 5) Tasker options
 6) Attach more options for MMS - create slideshow with videos and audio and pictures, attach plain text contact info
 7) Message locking
