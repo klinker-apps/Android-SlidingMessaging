@@ -14,7 +14,6 @@
     <CheckBoxPreference
             android:key="dark_background"
             android:title="@string/dark_background"
-            android:summary="@string/widget_background_summary"
             android:defaultValue="false"
             android:dependency="widget_background" />
 

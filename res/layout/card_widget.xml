@@ -29,6 +29,19 @@
             android:textSize="17sp" />
 
         <ImageButton
+                android:id="@+id/settingsButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/replyButton"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="10dp"
+                android:alpha=".85"
+                android:background="@drawable/dark_send_button"
+                android:paddingBottom="3dp"
+                android:src="@drawable/ic_settings"
+                android:contentDescription="@string/placeholder" />
+
+        <ImageButton
             android:id="@+id/replyButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

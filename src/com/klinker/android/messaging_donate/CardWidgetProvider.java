@@ -83,6 +83,9 @@ public class CardWidgetProvider extends AppWidgetProvider {
 	            Intent quickText = new Intent(this, com.klinker.android.messaging_sliding.SendMessage.class);
 	            PendingIntent quickPending = PendingIntent.getActivity(this, 0, quickText, 0);
 
+                Intent settings = new Intent(this, com.klinker.android.messaging_donate.CardWidgetSettingsActivity.class);
+                PendingIntent settingsPending = PendingIntent.getActivity(this, 0, settings, 0);
+
 	            Intent intent2 = new Intent(this, com.klinker.android.messaging_donate.CardWidgetService.class);
 	            intent2.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
 	            intent2.setData(Uri.parse(intent2.toUri(Intent.URI_INTENT_SCHEME)));
@@ -92,6 +95,7 @@ public class CardWidgetProvider extends AppWidgetProvider {
 	            views.setEmptyView(R.id.widgetList, R.drawable.widget_background);
 	            
 	            views.setOnClickPendingIntent(R.id.replyButton, quickPending);
+                views.setOnClickPendingIntent(R.id.settingsButton, settingsPending);
 	            
 	            Intent openIntent = new Intent(this, CardWidgetProvider.class);
 	            openIntent.setAction("OPEN_APP");
