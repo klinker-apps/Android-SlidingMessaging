@@ -326,460 +326,6 @@ public class QuickReply extends FragmentActivity {
 		background.setColor(getResources().getColor(R.color.black));
 		background.setAlpha(150);
 		getWindow().setBackgroundDrawable(background);
-		
-		ids = new ArrayList<String>();
-		inboxBody = new ArrayList<String>();
-		inboxDate = new ArrayList<String>();
-		inboxNumber = new ArrayList<String>();
-
-        try
-        {
-            inboxBody.add(getIntent().getStringExtra("body"));
-            inboxDate.add(getIntent().getStringExtra("date"));
-            inboxNumber.add(getIntent().getStringExtra("address").replace("-", "").replace(")", "").replace("(", "").replace(" ", ""));
-            ids.add("0");
-        } catch (Exception e)
-        {
-
-        }
-
-		String[] projection = new String[]{"_id", "date", "address", "body", "read"};
-		Uri uri = Uri.parse("content://sms/inbox/");
-		Cursor query = getContentResolver().query(uri, projection, "read=?", new String[] {"0"}, "date desc");
-		
-		if (query.moveToFirst())
-		{
-			do
-			{
-                boolean alreadyExists = false;
-                int alreadyExistsPos = 0;
-                String number = query.getString(query.getColumnIndex("address")).replace("-", "").replace(")", "").replace("(", "").replace(" ", "");
-
-                for (int i = 0; i < inboxNumber.size(); i++)
-                {
-                    if (number.equals(inboxNumber.get(i)))
-                    {
-                        alreadyExists = true;
-                        alreadyExistsPos = i;
-                        break;
-                    }
-                }
-
-                if (!alreadyExists)
-                {
-                    inboxBody.add(query.getString(query.getColumnIndex("body")));
-                    inboxDate.add(query.getString(query.getColumnIndex("date")));
-                    inboxNumber.add(number);
-                    ids.add(query.getString(query.getColumnIndex("_id")));
-                } else
-                {
-                    if (!query.getString(query.getColumnIndex("body")).equals(inboxBody.get(0)))
-                    {
-                        inboxBody.set(alreadyExistsPos, inboxBody.get(alreadyExistsPos) + "\n\n" + query.getString(query.getColumnIndex("body")));
-                        ids.set(alreadyExistsPos, ids.get(alreadyExistsPos) + ", " + query.getString(query.getColumnIndex("_id")));
-                    }
-                }
-			} while (query.moveToNext());
-		}
-		
-		query.close();
-		
-		if (sharedPrefs.getBoolean("custom_font", false))
-		{
-			font = Typeface.createFromFile(sharedPrefs.getString("custom_font_path", ""));
-		}
-		
-		RelativeLayout expandedOptions = (RelativeLayout) findViewById(R.id.expandedOptions);
-		RelativeLayout sendBar = (RelativeLayout) findViewById(R.id.sendBar);
-		Button viewConversation = (Button) findViewById(R.id.viewConversationButton);
-		ImageButton deleteButton = (ImageButton) findViewById(R.id.deleteButton);
-		ImageButton readButton = (ImageButton) findViewById(R.id.readButton);
-		ImageButton emojiButton = (ImageButton) findViewById(R.id.emojiButton);
-		final ImageButton sendButton = (ImageButton) findViewById(R.id.sendButton);
-		final EditText messageEntry = (EditText) findViewById(R.id.messageEntry);
-		final TextView charsRemaining = (TextView) findViewById(R.id.charsRemaining);
-		
-		if (sharedPrefs.getString("cp_theme_name", "Light Theme").equals("Light Theme"))
-        {
-            expandedOptions.setBackgroundResource(R.drawable.card_background);
-            sendBar.setBackgroundResource(R.drawable.card_background);
-        } else if (sharedPrefs.getString("cp_theme_name", "Light Theme").equals("Dark Theme"))
-        {
-            expandedOptions.setBackgroundResource(R.drawable.card_background_dark);
-            sendBar.setBackgroundResource(R.drawable.card_background_dark);
-        } else
-        {
-            expandedOptions.setBackgroundColor(sharedPrefs.getInt("cp_sendBarBackground", getResources().getColor(R.color.white)));
-            sendBar.setBackgroundColor(sharedPrefs.getInt("cp_sendBarBackground", getResources().getColor(R.color.white)));
-        }
-
-        viewConversation.setTextColor(sharedPrefs.getInt("cp_buttonColor", getResources().getColor(R.color.card_message_text_body)));
-        deleteButton.setColorFilter(sharedPrefs.getInt("cp_buttonColor", getResources().getColor(R.color.card_message_text_body)));
-        readButton.setColorFilter(sharedPrefs.getInt("cp_buttonColor", getResources().getColor(R.color.card_message_text_body)));
-        sendButton.setColorFilter(sharedPrefs.getInt("cp_buttonColor", getResources().getColor(R.color.card_message_text_body)));
-        charsRemaining.setTextColor(sharedPrefs.getInt("cp_buttonColor", getResources().getColor(R.color.card_message_text_body)));
-        emojiButton.setColorFilter(sharedPrefs.getInt("cp_emojiButtonColor", getResources().getColor(R.color.emoji_button)));
-        messageEntry.setTextColor(sharedPrefs.getInt("cp_draftTextColor", getResources().getColor(R.color.card_message_text_body)));
-
-		if (sharedPrefs.getBoolean("custom_font", false))
-	    {
-			viewConversation.setTypeface(font);
-	    	messageEntry.setTypeface(font);
-	    	charsRemaining.setTypeface(font);
-	    }
-		
-		if (!sharedPrefs.getBoolean("keyboard_type", true))
-		{
-			messageEntry.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
-			messageEntry.setImeOptions(EditorInfo.IME_ACTION_NONE);
-		}
-		
-		if (!sharedPrefs.getBoolean("emoji", false))
-		{
-			emojiButton.setVisibility(View.GONE);
-			LayoutParams params = (RelativeLayout.LayoutParams)messageEntry.getLayoutParams();
-			params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-			messageEntry.setLayoutParams(params);
-		} else
-		{
-			final Context context = this;
-
-            if (sharedPrefs.getString("run_as", "sliding").equals("hangout"))
-            {
-                emojiButton.setImageResource(R.drawable.ic_emoji_dark);
-                emojiButton.setColorFilter(context.getResources().getColor(R.color.holo_green));
-            }
-			
-			emojiButton.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View arg0) {
-					AlertDialog.Builder builder = new AlertDialog.Builder(context);
-					builder.setTitle("Insert Emojis");
-					LayoutInflater inflater = ((Activity) context).getLayoutInflater();
-					View frame = inflater.inflate(R.layout.emoji_frame, null);
-					
-					final EditText editText = (EditText) frame.findViewById(R.id.emoji_text);
-                    ImageButton peopleButton = (ImageButton) frame.findViewById(R.id.peopleButton);
-                    ImageButton objectsButton = (ImageButton) frame.findViewById(R.id.objectsButton);
-                    ImageButton natureButton = (ImageButton) frame.findViewById(R.id.natureButton);
-                    ImageButton placesButton = (ImageButton) frame.findViewById(R.id.placesButton);
-                    ImageButton symbolsButton = (ImageButton) frame.findViewById(R.id.symbolsButton);
-					
-					final GridView emojiGrid = (GridView) frame.findViewById(R.id.emojiGrid);
-					Button okButton = (Button) frame.findViewById(R.id.emoji_ok);
-					
-					if (sharedPrefs.getBoolean("emoji_type", true))
-					{
-						emojiGrid.setAdapter(new EmojiAdapter2(context));
-						emojiGrid.setOnItemClickListener(new OnItemClickListener() {
-						
-								public void onItemClick(AdapterView<?> parent, View v, int position, long id)
-								{
-									editText.setText(EmojiConverter2.getSmiledText(context, editText.getText().toString() + EmojiAdapter2.mEmojiTexts[position]));
-									editText.setSelection(editText.getText().length());
-								}
-						});
-
-                        peopleButton.setOnClickListener(new OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                emojiGrid.setSelection(0);
-                            }
-                        });
-
-                        objectsButton.setOnClickListener(new OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                emojiGrid.setSelection(153 + (2 * 7));
-                            }
-                        });
-
-                        natureButton.setOnClickListener(new OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                emojiGrid.setSelection(153 + 162 + (3 * 7));
-                            }
-                        });
-
-                        placesButton.setOnClickListener(new OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                emojiGrid.setSelection(153 + 162 + 178 + (5 * 7));
-                            }
-                        });
-
-                        symbolsButton.setOnClickListener(new OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                emojiGrid.setSelection(153 + 162 + 178 + 122 + (7 * 7));
-                            }
-                        });
-					} else
-					{
-						emojiGrid.setAdapter(new EmojiAdapter(context));
-						emojiGrid.setOnItemClickListener(new OnItemClickListener() {
-						
-								public void onItemClick(AdapterView<?> parent, View v, int position, long id)
-								{
-									editText.setText(EmojiConverter.getSmiledText(context, editText.getText().toString() + EmojiAdapter.mEmojiTexts[position]));
-									editText.setSelection(editText.getText().length());
-								}
-						});
-
-                        peopleButton.setMaxHeight(0);
-                        objectsButton.setMaxHeight(0);
-                        natureButton.setMaxHeight(0);
-                        placesButton.setMaxHeight(0);
-                        symbolsButton.setMaxHeight(0);
-
-                        LinearLayout buttons = (LinearLayout) frame.findViewById(R.id.linearLayout);
-                        buttons.setMinimumHeight(0);
-                        buttons.setVisibility(View.GONE);
-					}
-					
-					builder.setView(frame);
-					final AlertDialog dialog = builder.create();
-					dialog.show();
-					
-					okButton.setOnClickListener(new OnClickListener() {
-
-						@Override
-						public void onClick(View v) {
-							if (sharedPrefs.getBoolean("emoji_type", true))
-							{
-								messageEntry.setText(EmojiConverter2.getSmiledText(context, messageEntry.getText().toString() + editText.getText().toString()));
-								messageEntry.setSelection(messageEntry.getText().length());
-							} else
-							{
-								messageEntry.setText(EmojiConverter.getSmiledText(context, messageEntry.getText().toString() + editText.getText().toString()));
-								messageEntry.setSelection(messageEntry.getText().length());
-							}
-							
-							dialog.dismiss();
-						}
-						
-					});
-				}
-				
-			});
-		}
-		
-		if (!sharedPrefs.getBoolean("enable_view_conversation", false))
-		{
-			expandedOptions.setVisibility(View.GONE);
-		} else
-		{
-			final Context context = this;
-			
-			viewConversation.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View arg0) {
-					Intent intent = new Intent(context, com.klinker.android.messaging_donate.MainActivity.class);
-		            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			        intent.putExtra("com.klinker.android.OPEN_THREAD", inboxNumber.get(mViewPager.getCurrentItem()));
-			        intent.putExtra("com.klinker.android.CURRENT_TEXT", messageEntry.getText().toString());
-		            startActivity(intent);
-					
-		            removePage(mViewPager.getCurrentItem());
-				}
-				
-			});
-
-			readButton.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View arg0) {
-                    final String id = ids.get(mViewPager.getCurrentItem());
-                    final String date = inboxDate.get(mViewPager.getCurrentItem());
-
-                    new Thread(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            String[] msgIds = id.split(", ");
-
-                            for (int i = 0; i < msgIds.length; i++)
-                            {
-                                try
-                                {
-                                    if (msgIds[i].equals("0"))
-                                    {
-                                        Cursor query = context.getContentResolver().query(Uri.parse("content://sms/inbox"), new String[] {"_id", "date"}, "date=?", new String[] {date}, null);
-                                        query.moveToFirst();
-                                        msgIds[i] = query.getString(query.getColumnIndex("_id"));
-                                    }
-
-                                    ContentValues values = new ContentValues();
-                                    values.put("read", true);
-                                    getContentResolver().update(Uri.parse("content://sms/" + msgIds[i].replace(",", "").replace(" ", "") + "/"), values, null, null);
-                                } catch (Exception e)
-                                {
-
-                                }
-                            }
-
-                        }
-
-                    }).start();
-					
-					removePage(mViewPager.getCurrentItem());
-				}
-				
-			});
-			
-			deleteButton.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v)
-				{
-                    final String id = ids.get(mViewPager.getCurrentItem());
-                    final String date = inboxDate.get(mViewPager.getCurrentItem());
-
-                    new Thread(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            String[] msgIds = id.split(", ");
-
-                            for (int i = 0; i < msgIds.length; i++)
-                            {
-                                try
-                                {
-                                    if (msgIds[i].equals("0"))
-                                    {
-                                        Cursor query = context.getContentResolver().query(Uri.parse("content://sms/inbox"), new String[] {"_id", "date"}, "date=?", new String[] {date}, null);
-                                        query.moveToFirst();
-                                        msgIds[i] = query.getString(query.getColumnIndex("_id"));
-                                    }
-
-                                    ContentValues values = new ContentValues();
-                                    values.put("read", true);
-                                    getContentResolver().update(Uri.parse("content://sms/" + msgIds[i].replace(",", "").replace(" ", "") + "/"), values, null, null);
-                                    context.getContentResolver().delete(Uri.parse("content://sms/" + msgIds[i].replace(",", "").replace(" ", "") + "/"), null, null);
-                                } catch (Exception e)
-                                {
-
-                                }
-                            }
-
-                        }
-
-                    }).start();
-
-					removePage(mViewPager.getCurrentItem());
-				}
-			});
-		}
-
-		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && sharedPrefs.getBoolean("show_keyboard_popup", true))
-		{
-			messageEntry.postDelayed(new Runnable() {
-	            @Override
-	            public void run() {
-	                InputMethodManager keyboard = (InputMethodManager)
-	                getSystemService(Context.INPUT_METHOD_SERVICE);
-	                keyboard.showSoftInput(messageEntry, 0); 
-	            }
-	        },500);
-		}
-		
-		charsRemaining.setVisibility(View.GONE);
-		
-		messageEntry.addTextChangedListener(new TextWatcher() {
-	        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-	        }
-
-	        public void onTextChanged(CharSequence s, int start, int before, int count) {
-	        	int length = Integer.parseInt(String.valueOf(s.length()));
-	        	
-	        	if (!sharedPrefs.getString("signature", "").equals(""))
-	        	{
-	        		length += ("\n" + sharedPrefs.getString("signature", "")).length();
-	        	}
-	        	
-	        	String patternStr = "[^" + com.klinker.android.messaging_sliding.MainActivity.GSM_CHARACTERS_REGEX + "]";
-				Pattern pattern = Pattern.compile(patternStr);
-				Matcher matcher = pattern.matcher(s);
-				
-				int size = 160;
-				
-				if (matcher.find() && !sharedPrefs.getBoolean("strip_unicode", false))
-				{
-					size = 70;
-				}
-	        	
-	        	int pages = 1;
-	        	
-	        	while (length > size)
-	        	{
-	        		length-=size;
-	        		pages++;
-	        	}
-	        	
-	            charsRemaining.setText(pages + "/" + (size - length));
-	            
-	            if ((pages == 1 && (size - length) <= 30) || pages != 1)
-	            {
-	            	charsRemaining.setVisibility(View.VISIBLE);
-	            }
-	            
-	            if ((pages + "/" + (size - length)).equals("1/31"))
-	            {
-	            	charsRemaining.setVisibility(View.GONE);
-	            }
-	            
-	            if ((pages + "/" + (size - length)).equals("1/160"))
-	            {
-	            	charsRemaining.setVisibility(View.GONE);
-	            }
-	            
-	            if (sharedPrefs.getBoolean("send_with_return", false))
-	            {
-	            	if (messageEntry.getText().toString().endsWith("\n"))
-	            	{
-	            		messageEntry.setText(messageEntry.getText().toString().substring(0, messageEntry.getText().toString().length() - 2));
-	            		sendButton.performClick();
-	            	}
-	            }
-	        }
-
-	        public void afterTextChanged(Editable s) {
-	        }
-		});
-		
-		final Context context = this;
-		
-		sendButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View arg0) {
-				String number = inboxNumber.get(mViewPager.getCurrentItem());
-				String body = messageEntry.getText().toString();
-				
-				if (!body.equals(""))
-				{
-					sendMessage(context, number, body);
-					
-					messageEntry.setText("");
-					removePage(mViewPager.getCurrentItem());
-				} else
-				{
-					Toast.makeText(context, "ERROR: No message to send.", Toast.LENGTH_SHORT);
-				}
-				
-			}
-			
-		});
-		
-		mSectionsPagerAdapter = new SectionsPagerAdapter(
-				getSupportFragmentManager());
-
-		mViewPager = (ViewPager) findViewById(R.id.messagePager);
-		mViewPager.setAdapter(mSectionsPagerAdapter);
-		mViewPager.setPageMargin(getResources().getDisplayMetrics().widthPixels / -18);
-		mViewPager.setOffscreenPageLimit(2);
 	}
 	
 	public void removePage(int page)
@@ -826,6 +372,466 @@ public class QuickReply extends FragmentActivity {
 		writeToFile2(new ArrayList<String>(), this);
 		writeToFile(new ArrayList<String>(), this);
 	}
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+
+        ids = new ArrayList<String>();
+        inboxBody = new ArrayList<String>();
+        inboxDate = new ArrayList<String>();
+        inboxNumber = new ArrayList<String>();
+
+        try
+        {
+            inboxBody.add(getIntent().getStringExtra("body"));
+            inboxDate.add(getIntent().getStringExtra("date"));
+            inboxNumber.add(getIntent().getStringExtra("address").replace("-", "").replace(")", "").replace("(", "").replace(" ", ""));
+            ids.add("0");
+        } catch (Exception e)
+        {
+
+        }
+
+        String[] projection = new String[]{"_id", "date", "address", "body", "read"};
+        Uri uri = Uri.parse("content://sms/inbox/");
+        Cursor query = getContentResolver().query(uri, projection, "read=?", new String[] {"0"}, "date desc");
+
+        if (query.moveToFirst())
+        {
+            do
+            {
+                boolean alreadyExists = false;
+                int alreadyExistsPos = 0;
+                String number = query.getString(query.getColumnIndex("address")).replace("-", "").replace(")", "").replace("(", "").replace(" ", "");
+
+                for (int i = 0; i < inboxNumber.size(); i++)
+                {
+                    if (number.equals(inboxNumber.get(i)))
+                    {
+                        alreadyExists = true;
+                        alreadyExistsPos = i;
+                        break;
+                    }
+                }
+
+                if (!alreadyExists)
+                {
+                    inboxBody.add(query.getString(query.getColumnIndex("body")));
+                    inboxDate.add(query.getString(query.getColumnIndex("date")));
+                    inboxNumber.add(number);
+                    ids.add(query.getString(query.getColumnIndex("_id")));
+                } else
+                {
+                    if (!query.getString(query.getColumnIndex("body")).equals(inboxBody.get(0)))
+                    {
+                        inboxBody.set(alreadyExistsPos, inboxBody.get(alreadyExistsPos) + "\n\n" + query.getString(query.getColumnIndex("body")));
+                        ids.set(alreadyExistsPos, ids.get(alreadyExistsPos) + ", " + query.getString(query.getColumnIndex("_id")));
+                    }
+                }
+            } while (query.moveToNext());
+        }
+
+        query.close();
+
+        if (sharedPrefs.getBoolean("custom_font", false))
+        {
+            font = Typeface.createFromFile(sharedPrefs.getString("custom_font_path", ""));
+        }
+
+        RelativeLayout expandedOptions = (RelativeLayout) findViewById(R.id.expandedOptions);
+        RelativeLayout sendBar = (RelativeLayout) findViewById(R.id.sendBar);
+        Button viewConversation = (Button) findViewById(R.id.viewConversationButton);
+        ImageButton deleteButton = (ImageButton) findViewById(R.id.deleteButton);
+        ImageButton readButton = (ImageButton) findViewById(R.id.readButton);
+        ImageButton emojiButton = (ImageButton) findViewById(R.id.emojiButton);
+        final ImageButton sendButton = (ImageButton) findViewById(R.id.sendButton);
+        final EditText messageEntry = (EditText) findViewById(R.id.messageEntry);
+        final TextView charsRemaining = (TextView) findViewById(R.id.charsRemaining);
+
+        if (sharedPrefs.getString("cp_theme_name", "Light Theme").equals("Light Theme"))
+        {
+            expandedOptions.setBackgroundResource(R.drawable.card_background);
+            sendBar.setBackgroundResource(R.drawable.card_background);
+        } else if (sharedPrefs.getString("cp_theme_name", "Light Theme").equals("Dark Theme"))
+        {
+            expandedOptions.setBackgroundResource(R.drawable.card_background_dark);
+            sendBar.setBackgroundResource(R.drawable.card_background_dark);
+        } else
+        {
+            expandedOptions.setBackgroundColor(sharedPrefs.getInt("cp_sendBarBackground", getResources().getColor(R.color.white)));
+            sendBar.setBackgroundColor(sharedPrefs.getInt("cp_sendBarBackground", getResources().getColor(R.color.white)));
+        }
+
+        viewConversation.setTextColor(sharedPrefs.getInt("cp_buttonColor", getResources().getColor(R.color.card_message_text_body)));
+        deleteButton.setColorFilter(sharedPrefs.getInt("cp_buttonColor", getResources().getColor(R.color.card_message_text_body)));
+        readButton.setColorFilter(sharedPrefs.getInt("cp_buttonColor", getResources().getColor(R.color.card_message_text_body)));
+        sendButton.setColorFilter(sharedPrefs.getInt("cp_buttonColor", getResources().getColor(R.color.card_message_text_body)));
+        charsRemaining.setTextColor(sharedPrefs.getInt("cp_buttonColor", getResources().getColor(R.color.card_message_text_body)));
+        emojiButton.setColorFilter(sharedPrefs.getInt("cp_emojiButtonColor", getResources().getColor(R.color.emoji_button)));
+        messageEntry.setTextColor(sharedPrefs.getInt("cp_draftTextColor", getResources().getColor(R.color.card_message_text_body)));
+
+        if (sharedPrefs.getBoolean("custom_font", false))
+        {
+            viewConversation.setTypeface(font);
+            messageEntry.setTypeface(font);
+            charsRemaining.setTypeface(font);
+        }
+
+        if (!sharedPrefs.getBoolean("keyboard_type", true))
+        {
+            messageEntry.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+            messageEntry.setImeOptions(EditorInfo.IME_ACTION_NONE);
+        }
+
+        if (!sharedPrefs.getBoolean("emoji", false))
+        {
+            emojiButton.setVisibility(View.GONE);
+            LayoutParams params = (RelativeLayout.LayoutParams)messageEntry.getLayoutParams();
+            params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+            messageEntry.setLayoutParams(params);
+        } else
+        {
+            final Context context = this;
+
+            if (sharedPrefs.getString("run_as", "sliding").equals("hangout"))
+            {
+                emojiButton.setImageResource(R.drawable.ic_emoji_dark);
+                emojiButton.setColorFilter(context.getResources().getColor(R.color.holo_green));
+            }
+
+            emojiButton.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View arg0) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("Insert Emojis");
+                    LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+                    View frame = inflater.inflate(R.layout.emoji_frame, null);
+
+                    final EditText editText = (EditText) frame.findViewById(R.id.emoji_text);
+                    ImageButton peopleButton = (ImageButton) frame.findViewById(R.id.peopleButton);
+                    ImageButton objectsButton = (ImageButton) frame.findViewById(R.id.objectsButton);
+                    ImageButton natureButton = (ImageButton) frame.findViewById(R.id.natureButton);
+                    ImageButton placesButton = (ImageButton) frame.findViewById(R.id.placesButton);
+                    ImageButton symbolsButton = (ImageButton) frame.findViewById(R.id.symbolsButton);
+
+                    final GridView emojiGrid = (GridView) frame.findViewById(R.id.emojiGrid);
+                    Button okButton = (Button) frame.findViewById(R.id.emoji_ok);
+
+                    if (sharedPrefs.getBoolean("emoji_type", true))
+                    {
+                        emojiGrid.setAdapter(new EmojiAdapter2(context));
+                        emojiGrid.setOnItemClickListener(new OnItemClickListener() {
+
+                            public void onItemClick(AdapterView<?> parent, View v, int position, long id)
+                            {
+                                editText.setText(EmojiConverter2.getSmiledText(context, editText.getText().toString() + EmojiAdapter2.mEmojiTexts[position]));
+                                editText.setSelection(editText.getText().length());
+                            }
+                        });
+
+                        peopleButton.setOnClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                emojiGrid.setSelection(0);
+                            }
+                        });
+
+                        objectsButton.setOnClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                emojiGrid.setSelection(153 + (2 * 7));
+                            }
+                        });
+
+                        natureButton.setOnClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                emojiGrid.setSelection(153 + 162 + (3 * 7));
+                            }
+                        });
+
+                        placesButton.setOnClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                emojiGrid.setSelection(153 + 162 + 178 + (5 * 7));
+                            }
+                        });
+
+                        symbolsButton.setOnClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                emojiGrid.setSelection(153 + 162 + 178 + 122 + (7 * 7));
+                            }
+                        });
+                    } else
+                    {
+                        emojiGrid.setAdapter(new EmojiAdapter(context));
+                        emojiGrid.setOnItemClickListener(new OnItemClickListener() {
+
+                            public void onItemClick(AdapterView<?> parent, View v, int position, long id)
+                            {
+                                editText.setText(EmojiConverter.getSmiledText(context, editText.getText().toString() + EmojiAdapter.mEmojiTexts[position]));
+                                editText.setSelection(editText.getText().length());
+                            }
+                        });
+
+                        peopleButton.setMaxHeight(0);
+                        objectsButton.setMaxHeight(0);
+                        natureButton.setMaxHeight(0);
+                        placesButton.setMaxHeight(0);
+                        symbolsButton.setMaxHeight(0);
+
+                        LinearLayout buttons = (LinearLayout) frame.findViewById(R.id.linearLayout);
+                        buttons.setMinimumHeight(0);
+                        buttons.setVisibility(View.GONE);
+                    }
+
+                    builder.setView(frame);
+                    final AlertDialog dialog = builder.create();
+                    dialog.show();
+
+                    okButton.setOnClickListener(new OnClickListener() {
+
+                        @Override
+                        public void onClick(View v) {
+                            if (sharedPrefs.getBoolean("emoji_type", true))
+                            {
+                                messageEntry.setText(EmojiConverter2.getSmiledText(context, messageEntry.getText().toString() + editText.getText().toString()));
+                                messageEntry.setSelection(messageEntry.getText().length());
+                            } else
+                            {
+                                messageEntry.setText(EmojiConverter.getSmiledText(context, messageEntry.getText().toString() + editText.getText().toString()));
+                                messageEntry.setSelection(messageEntry.getText().length());
+                            }
+
+                            dialog.dismiss();
+                        }
+
+                    });
+                }
+
+            });
+        }
+
+        if (!sharedPrefs.getBoolean("enable_view_conversation", false))
+        {
+            expandedOptions.setVisibility(View.GONE);
+        } else
+        {
+            final Context context = this;
+
+            viewConversation.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View arg0) {
+                    Intent intent = new Intent(context, com.klinker.android.messaging_donate.MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra("com.klinker.android.OPEN_THREAD", inboxNumber.get(mViewPager.getCurrentItem()));
+                    intent.putExtra("com.klinker.android.CURRENT_TEXT", messageEntry.getText().toString());
+                    startActivity(intent);
+
+                    removePage(mViewPager.getCurrentItem());
+                }
+
+            });
+
+            readButton.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View arg0) {
+                    final String id = ids.get(mViewPager.getCurrentItem());
+                    final String date = inboxDate.get(mViewPager.getCurrentItem());
+
+                    new Thread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            String[] msgIds = id.split(", ");
+
+                            for (int i = 0; i < msgIds.length; i++)
+                            {
+                                try
+                                {
+                                    if (msgIds[i].equals("0"))
+                                    {
+                                        Cursor query = context.getContentResolver().query(Uri.parse("content://sms/inbox"), new String[] {"_id", "date"}, "date=?", new String[] {date}, null);
+                                        query.moveToFirst();
+                                        msgIds[i] = query.getString(query.getColumnIndex("_id"));
+                                    }
+
+                                    ContentValues values = new ContentValues();
+                                    values.put("read", true);
+                                    getContentResolver().update(Uri.parse("content://sms/" + msgIds[i].replace(",", "").replace(" ", "") + "/"), values, null, null);
+                                } catch (Exception e)
+                                {
+
+                                }
+                            }
+
+                        }
+
+                    }).start();
+
+                    removePage(mViewPager.getCurrentItem());
+                }
+
+            });
+
+            deleteButton.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View v)
+                {
+                    final String id = ids.get(mViewPager.getCurrentItem());
+                    final String date = inboxDate.get(mViewPager.getCurrentItem());
+
+                    new Thread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            String[] msgIds = id.split(", ");
+
+                            for (int i = 0; i < msgIds.length; i++)
+                            {
+                                try
+                                {
+                                    if (msgIds[i].equals("0"))
+                                    {
+                                        Cursor query = context.getContentResolver().query(Uri.parse("content://sms/inbox"), new String[] {"_id", "date"}, "date=?", new String[] {date}, null);
+                                        query.moveToFirst();
+                                        msgIds[i] = query.getString(query.getColumnIndex("_id"));
+                                    }
+
+                                    ContentValues values = new ContentValues();
+                                    values.put("read", true);
+                                    getContentResolver().update(Uri.parse("content://sms/" + msgIds[i].replace(",", "").replace(" ", "") + "/"), values, null, null);
+                                    context.getContentResolver().delete(Uri.parse("content://sms/" + msgIds[i].replace(",", "").replace(" ", "") + "/"), null, null);
+                                } catch (Exception e)
+                                {
+
+                                }
+                            }
+
+                        }
+
+                    }).start();
+
+                    removePage(mViewPager.getCurrentItem());
+                }
+            });
+        }
+
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && sharedPrefs.getBoolean("show_keyboard_popup", true))
+        {
+            messageEntry.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    InputMethodManager keyboard = (InputMethodManager)
+                            getSystemService(Context.INPUT_METHOD_SERVICE);
+                    keyboard.showSoftInput(messageEntry, 0);
+                }
+            },500);
+        }
+
+        charsRemaining.setVisibility(View.GONE);
+
+        messageEntry.addTextChangedListener(new TextWatcher() {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                int length = Integer.parseInt(String.valueOf(s.length()));
+
+                if (!sharedPrefs.getString("signature", "").equals(""))
+                {
+                    length += ("\n" + sharedPrefs.getString("signature", "")).length();
+                }
+
+                String patternStr = "[^" + com.klinker.android.messaging_sliding.MainActivity.GSM_CHARACTERS_REGEX + "]";
+                Pattern pattern = Pattern.compile(patternStr);
+                Matcher matcher = pattern.matcher(s);
+
+                int size = 160;
+
+                if (matcher.find() && !sharedPrefs.getBoolean("strip_unicode", false))
+                {
+                    size = 70;
+                }
+
+                int pages = 1;
+
+                while (length > size)
+                {
+                    length-=size;
+                    pages++;
+                }
+
+                charsRemaining.setText(pages + "/" + (size - length));
+
+                if ((pages == 1 && (size - length) <= 30) || pages != 1)
+                {
+                    charsRemaining.setVisibility(View.VISIBLE);
+                }
+
+                if ((pages + "/" + (size - length)).equals("1/31"))
+                {
+                    charsRemaining.setVisibility(View.GONE);
+                }
+
+                if ((pages + "/" + (size - length)).equals("1/160"))
+                {
+                    charsRemaining.setVisibility(View.GONE);
+                }
+
+                if (sharedPrefs.getBoolean("send_with_return", false))
+                {
+                    if (messageEntry.getText().toString().endsWith("\n"))
+                    {
+                        messageEntry.setText(messageEntry.getText().toString().substring(0, messageEntry.getText().toString().length() - 2));
+                        sendButton.performClick();
+                    }
+                }
+            }
+
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        final Context context = this;
+
+        sendButton.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                String number = inboxNumber.get(mViewPager.getCurrentItem());
+                String body = messageEntry.getText().toString();
+
+                if (!body.equals(""))
+                {
+                    sendMessage(context, number, body);
+
+                    messageEntry.setText("");
+                    removePage(mViewPager.getCurrentItem());
+                } else
+                {
+                    Toast.makeText(context, "ERROR: No message to send.", Toast.LENGTH_SHORT);
+                }
+
+            }
+
+        });
+
+        mSectionsPagerAdapter = new SectionsPagerAdapter(
+                getSupportFragmentManager());
+
+        mViewPager = (ViewPager) findViewById(R.id.messagePager);
+        mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.setPageMargin(getResources().getDisplayMetrics().widthPixels / -18);
+        mViewPager.setOffscreenPageLimit(2);
+    }
 	
 	public void sendMessage(final Context context, String number, String body)
 	{

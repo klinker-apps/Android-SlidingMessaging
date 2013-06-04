@@ -495,12 +495,36 @@ public class SettingsPagerActivity extends FragmentActivity {
         public void setUpPopupSettings()
         {
             final Context context = getActivity();
-
+            final SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getActivity());
             Preference customPopup = (Preference) findPreference("popup_theme");
-            customPopup.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+
+            if (!sharedPrefs.getBoolean("use_old_popup", false))
+            {
+                customPopup.setEnabled(true);
+                customPopup.setSelectable(true);
+                customPopup.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    public boolean onPreferenceClick(Preference preference) {
+                        Intent intent = new Intent(context, PopupChooserActivity.class);
+                        startActivity(intent);
+                        return true;
+                    }
+                });
+            } else
+            {
+                customPopup.setEnabled(false);
+                customPopup.setSelectable(false);
+                customPopup.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    public boolean onPreferenceClick(Preference preference) {
+                        return true;
+                    }
+                });
+            }
+
+            Preference oldPopup = findPreference("use_old_popup");
+            oldPopup.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    Intent intent = new Intent(context, PopupChooserActivity.class);
-                    startActivity(intent);
+                    setUpPopupSettings();
                     return true;
                 }
             });
@@ -508,15 +532,15 @@ public class SettingsPagerActivity extends FragmentActivity {
 
         public void setUpMessageSettings()
         {
-                final SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            final SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-                if (sharedPrefs.getString("run_as", "sliding").equals("sliding") || sharedPrefs.getString("run_as", "sliding").equals("hangout"))
-                {
+            if (sharedPrefs.getString("run_as", "sliding").equals("sliding") || sharedPrefs.getString("run_as", "sliding").equals("hangout"))
+            {
 
-                } else
-                {
-                    getPreferenceScreen().removePreference(findPreference("text_alignment"));
-                    getPreferenceScreen().removePreference(findPreference("contact_pictures"));
+            } else
+            {
+                getPreferenceScreen().removePreference(findPreference("text_alignment"));
+                getPreferenceScreen().removePreference(findPreference("contact_pictures"));
             }
         }
 
