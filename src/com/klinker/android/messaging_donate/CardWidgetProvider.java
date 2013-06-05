@@ -95,6 +95,10 @@ public class CardWidgetProvider extends AppWidgetProvider {
 
                 views.setViewVisibility(R.id.settingsButton, View.INVISIBLE);
                 views.setViewVisibility(R.id.replyButton, View.INVISIBLE);
+
+                views.setViewVisibility(R.id.settingsButtonDark, View.VISIBLE);
+                views.setViewVisibility(R.id.replyButtonDark, View.VISIBLE);
+                views.setTextColor(R.id.textView1, getResources().getColor(R.color.white));
             } else
             {
                 views.setImageViewResource(R.id.widget_card,
@@ -102,6 +106,10 @@ public class CardWidgetProvider extends AppWidgetProvider {
 
                 views.setViewVisibility(R.id.settingsButtonDark, View.INVISIBLE);
                 views.setViewVisibility(R.id.replyButtonDark, View.INVISIBLE);
+
+                views.setViewVisibility(R.id.settingsButton, View.VISIBLE);
+                views.setViewVisibility(R.id.replyButton, View.VISIBLE);
+                views.setTextColor(R.id.textView1, getResources().getColor(R.color.light_grey));
             }
 
             // background color of the widget (transparent, white, or black)
@@ -145,6 +153,9 @@ public class CardWidgetProvider extends AppWidgetProvider {
 	            
 	            views.setOnClickPendingIntent(R.id.replyButton, quickPending);
                 views.setOnClickPendingIntent(R.id.settingsButton, settingsPending);
+
+                views.setOnClickPendingIntent(R.id.replyButtonDark, quickPending);
+                views.setOnClickPendingIntent(R.id.settingsButtonDark, settingsPending);
 	            
 	            Intent openIntent = new Intent(this, CardWidgetProvider.class);
 	            openIntent.setAction("OPEN_APP");
