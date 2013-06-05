@@ -53,6 +53,7 @@ public class CatalogWizardModel extends AbstractWizardModel {
                 "- Security Options\n" +
                 "- Popup now supports theming with theme engine\n" +
                 "- Widget options including black theme\n" +
+                "- Access to message details by clicking on the SMS message\n" +
                 "- Popup bug fixes\n" +
                 "- General bug fixes\n\n";
 

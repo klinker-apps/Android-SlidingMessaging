@@ -442,8 +442,15 @@
     <string name="set_password">Set Password</string>
     <string name="auto_unlock">Auto-Unlock</string>
     <string name="auto_unlock_summary">Attempt to automatically unlock the app after the set number of characters has been reached.</string>
-    <string name="loading_conversations">Loading Conversations...</string>
+    <string name="loading_conversations">Loading Conversations…</string>
     <string name="dark_background">Use Black Background</string>
     <string name="widget_done">Done</string>
     <string name="widget_title_dark_theme">Use Dark Title Card</string>
+    <string name="type">Type:</string>
+    <string name="from">From:</string>
+    <string name="to">To:</string>
+    <string name="sent">Sent:</string>
+    <string name="received">Received:</string>
+    <string name="status">Status:</string>
+    <string name="message_details">Message Details</string>
 </resources>

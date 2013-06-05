@@ -1446,6 +1446,142 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
               return true;
           }
       });
+
+      final String idF = id;
+      final boolean mmsF = mms;
+      final boolean sentF = sent;
+
+      rowView.setOnClickListener(new OnClickListener() {
+          @Override
+          public void onClick(View view) {
+              if(!mmsF)
+              {
+                  Cursor query;
+                  String dialogText = "";
+
+                  try
+                  {
+                      if (!sentF)
+                      {
+                          query = contentResolver.query(Uri.parse("content://sms/" + idF + "/"), new String[] {"date", "date_sent", "type", "address"}, null, null, "date desc limit 1");
+
+                          if (query.moveToFirst())
+                          {
+                              String dateSent = query.getString(query.getColumnIndex("date_sent")), dateReceived = query.getString(query.getColumnIndex("date"));
+                              Date date1 = new Date(Long.parseLong(dateSent)), date2 = new Date(Long.parseLong(dateReceived));
+
+                              if (sharedPrefs.getBoolean("hour_format", false))
+                              {
+                                  dateSent = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(date1) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date1);
+                                  dateReceived = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2);
+                              } else
+                              {
+                                  dateSent = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(date1) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date1);
+                                  dateReceived = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2);
+                              }
+
+                              dialogText = context.getResources().getString(R.string.type) + " Text Message\n" +
+                                      context.getResources().getString(R.string.from) + " " + query.getString(query.getColumnIndex("address")) + "\n" +
+                                      context.getResources().getString(R.string.sent) + " " + dateSent + "\n" +
+                                      context.getResources().getString(R.string.received) + " " + dateReceived;
+                          }
+                      } else
+                      {
+                          query = contentResolver.query(Uri.parse("content://sms/" + idF + "/"), new String[] {"date", "status", "type", "address"}, null, null, "date desc limit 1");
+
+                          if (query.moveToFirst())
+                          {
+                              String dateReceived = query.getString(query.getColumnIndex("date"));
+                              Date date2 = new Date(Long.parseLong(dateReceived));
+
+                              if (sharedPrefs.getBoolean("hour_format", false))
+                              {
+                                  dateReceived = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2);
+                              } else
+                              {
+                                  dateReceived = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2);
+                              }
+
+                              dialogText = context.getResources().getString(R.string.type) + " Text Message\n" +
+                                      context.getResources().getString(R.string.to) + " " + query.getString(query.getColumnIndex("address")) + "\n" +
+                                      context.getResources().getString(R.string.sent) + " " + dateReceived;
+
+                              String status = query.getString(query.getColumnIndex("status"));
+
+                              if (!status.equals("-1"))
+                              {
+                                  if (status.equals("64") || status.equals("128"))
+                                  {
+                                      dialogText += context.getResources().getString(R.string.status) + " Error";
+                                  } else
+                                  {
+                                      dialogText += context.getResources().getString(R.string.status) + " Delivered";
+                                  }
+                              }
+                          }
+                      }
+                  } catch (Exception e)
+                  {
+                      query = contentResolver.query(Uri.parse("content://sms/" + idF + "/"), new String[] {"date", "status", "type", "address"}, null, null, "date desc limit 1");
+
+                      if (query.moveToFirst())
+                      {
+                          if (sentF)
+                          {
+                              String dateReceived = query.getString(query.getColumnIndex("date"));
+                              Date date2 = new Date(Long.parseLong(dateReceived));
+
+                              if (sharedPrefs.getBoolean("hour_format", false))
+                              {
+                                  dateReceived = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2);
+                              } else
+                              {
+                                  dateReceived = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2);
+                              }
+
+                              dialogText = context.getResources().getString(R.string.type) + " Text Message\n" +
+                                      context.getResources().getString(R.string.to) + " " + query.getString(query.getColumnIndex("address")) + "\n" +
+                                      context.getResources().getString(R.string.sent) + " " + dateReceived;
+
+                              String status = query.getString(query.getColumnIndex("status"));
+
+                              if (!status.equals("-1"))
+                              {
+                                  if (status.equals("64") || status.equals("128"))
+                                  {
+                                      dialogText += context.getResources().getString(R.string.status) + " Error";
+                                  } else
+                                  {
+                                      dialogText += context.getResources().getString(R.string.status) + " Delivered";
+                                  }
+                              }
+                          } else
+                          {
+                              String dateReceived = query.getString(query.getColumnIndex("date"));
+                              Date date2 = new Date(Long.parseLong(dateReceived));
+
+                              if (sharedPrefs.getBoolean("hour_format", false))
+                              {
+                                  dateReceived = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2);
+                              } else
+                              {
+                                  dateReceived = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2);
+                              }
+
+                              dialogText = context.getResources().getString(R.string.type) + " Text Message\n" +
+                                      context.getResources().getString(R.string.from) + " " + query.getString(query.getColumnIndex("address")) + "\n" +
+                                      context.getResources().getString(R.string.received) + " " + dateReceived;
+                          }
+                      }
+                  }
+
+                  AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                  builder.setTitle(context.getResources().getString(R.string.message_details));
+                  builder.setMessage(dialogText);
+                  builder.create().show();
+              }
+          }
+      });
 	  
 	  rowView.setOnLongClickListener(new OnLongClickListener() {
 			
