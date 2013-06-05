@@ -76,6 +76,7 @@ class CardViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         card.setTextViewText(R.id.unreadText, mWidgetItems.get(arg0).read);
         card.setImageViewBitmap(R.id.contactPicture, getFacebookPhoto(mWidgetItems.get(arg0).number, mContext));
 
+        // changes the layout of the contact cards on update
         if (sharedPrefs.getBoolean("widget_dark_theme", false))
         {
             card.setImageViewResource(R.id.view1, R.drawable.widget_card_dark);
@@ -83,22 +84,6 @@ class CardViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         {
             card.setImageViewResource(R.id.view1, R.drawable.widget_card);
         }
-        /*SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(context);
-
-        RemoteViews widget = new RemoteViews(context.getPackageName(), R.layout.card_widget);
-
-        if (sharedPrefs.getBoolean("widget_background", true))
-        {
-            if(sharedPrefs.getBoolean("dark_background", false))
-            {
-                widget.setImageViewResource(R.id.widget_background, R.drawable.widget_background);
-            } else
-            {
-                widget.setImageViewResource(R.id.widget_background, R.drawable.widget_background);
-            }
-        }
-
-        appWidgetManager.updateAppWidget(appWidgetIds, widget);*/
 		
 		Bundle extras = new Bundle();
         extras.putString("CONVERSATION_TO_OPEN", mWidgetItems.get(arg0).number);

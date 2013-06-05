@@ -63,13 +63,6 @@ public class CardWidgetSettingsActivity  extends PreferenceActivity {
         switch(item.getItemId())
         {
             case R.id.done:
-                Context context = getApplicationContext();
-                CharSequence text = "Warning: Widget may not fully reload immediately!";
-                int duration = Toast.LENGTH_SHORT;
-
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
-
                 int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
 
                 // step 1
@@ -80,6 +73,7 @@ public class CardWidgetSettingsActivity  extends PreferenceActivity {
                             AppWidgetManager.EXTRA_APPWIDGET_ID,
                             AppWidgetManager.INVALID_APPWIDGET_ID);
                 }
+
 
                 // step 2: preform changes here
 
@@ -97,12 +91,9 @@ public class CardWidgetSettingsActivity  extends PreferenceActivity {
                 setResult(RESULT_OK, resultValue);
                 appWidgetManager.updateAppWidget(mAppWidgetId, views);
 
-                // trying to manually call the on update, but sometimes it doesn't work to update the background right away still...
-                new CardWidgetProvider()
-                        .onUpdate(this,
-                                AppWidgetManager.getInstance(this),
-                                new int[] { mAppWidgetId }
-                        );
+                // broadcast to update widget
+                Intent updateWidget = new Intent("com.klinker.android.messaging.UPDATE_WIDGET");
+                this.sendBroadcast(updateWidget);
 
                 finish();
                 return true;
