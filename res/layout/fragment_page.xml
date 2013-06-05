@@ -22,7 +22,9 @@
     <TextView android:id="@android:id/message"
               android:layout_width="match_parent"
               android:layout_height="fill_parent"
-              android:scrollbarStyle="outsideInset" />
+              android:scrollbarStyle="outsideInset"
+              android:autoLink="web"
+              android:linksClickable="true"/>
 
     <ListView android:id="@android:id/list"
         android:layout_width="match_parent"

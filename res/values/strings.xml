@@ -453,4 +453,5 @@
     <string name="received">Received:</string>
     <string name="status">Status:</string>
     <string name="message_details">Message Details</string>
+    <string name="twitter_link">Follow the app on Twitter for updates and future innovations! <a href="http://www.twitter.com/slidingSMS">@SlidingSMS</a></string>
 </resources>

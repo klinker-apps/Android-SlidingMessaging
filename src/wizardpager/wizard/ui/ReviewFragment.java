@@ -20,6 +20,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.text.method.MovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,9 +65,12 @@ public class ReviewFragment extends ListFragment implements ModelCallbacks {
         titleView.setTextColor(getResources().getColor(R.color.review_green));
 
         TextView message = (TextView) rootView.findViewById(android.R.id.message);
+        message.setMovementMethod(LinkMovementMethod.getInstance());
         message.setText(getResources().getString(R.string.changelog_disclaimers)
                        + "\n\n" +
-                       getResources().getString(R.string.override_stock_disclaimer));
+                       getResources().getString(R.string.override_stock_disclaimer)
+                       + "\n\n" +
+                       getResources().getString(R.string.twitter_link));
 
         ListView listView = (ListView) rootView.findViewById(android.R.id.list);
         setListAdapter(mReviewAdapter);

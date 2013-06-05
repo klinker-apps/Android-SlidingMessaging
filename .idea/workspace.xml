@@ -83,11 +83,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1e4b5eb9-13da-4bef-bd83-6650ca630326" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/wizardpager/CatalogWizardModel.java" afterPath="$PROJECT_DIR$/src/wizardpager/CatalogWizardModel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/klinker/android/messaging_card/MessageArrayAdapter.java" afterPath="$PROJECT_DIR$/src/com/klinker/android/messaging_card/MessageArrayAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/klinker/android/messaging_hangout/MessageArrayAdapter.java" afterPath="$PROJECT_DIR$/src/com/klinker/android/messaging_hangout/MessageArrayAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MessageArrayAdapter.java" afterPath="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MessageArrayAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/To-do/To-do.txt" afterPath="$PROJECT_DIR$/To-do/To-do.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/wizardpager/wizard/ui/ReviewFragment.java" afterPath="$PROJECT_DIR$/src/wizardpager/wizard/ui/ReviewFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/fragment_page.xml" afterPath="$PROJECT_DIR$/res/layout/fragment_page.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/strings.xml" afterPath="$PROJECT_DIR$/res/values/strings.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -96,7 +95,7 @@
     <file path="/fragment.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369787072367" ignored="false" />
     <file path="/a.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1368676941114" ignored="false" />
     <file path="/sample.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1368676949020" ignored="false" />
-    <file path="/Dummy.txt" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1370391989620" ignored="false" />
+    <file path="/Dummy.txt" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1370396697475" ignored="false" />
     <file path="/message_hangout_sent.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369012353566" ignored="false" />
     <file path="/a.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369757797561" ignored="false" />
     <file path="/message_hangout_received.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369012279483" ignored="false" />
@@ -126,7 +125,7 @@
     <file path="/AndroidManifest.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369782994444" ignored="false" />
     <file path="/MenuArrayAdapter.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369675189927" ignored="false" />
     <file path="/SendMessage.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369181630438" ignored="false" />
-    <file path="/strings.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1370393803780" ignored="false" />
+    <file path="/strings.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1370398032318" ignored="false" />
     <file path="/emoji_frame.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369189353449" ignored="false" />
     <file path="/header.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369174565376" ignored="false" />
     <file path="/conversation_settings.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369237440930" ignored="false" />
@@ -167,14 +166,14 @@
     <file path="$PROJECT_DIR$/../romannurik-code/misc/wizardpager/res/values/strings.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369768866628" ignored="false" />
     <file path="/SingleChoiceFragment.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369777186042" ignored="false" />
     <file path="$PROJECT_DIR$/../romannurik-code/misc/wizardpager/src/com/example/android/wizardpager/wizard/ui/SingleChoiceFragment.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369777188639" ignored="false" />
-    <file path="/fragment_page.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369774101470" ignored="false" />
+    <file path="/fragment_page.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1370398454772" ignored="false" />
     <file path="$PROJECT_DIR$/../romannurik-code/misc/wizardpager/res/layout/fragment_page.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369774101470" ignored="false" />
     <file path="$PROJECT_DIR$/../romannurik-code/misc/wizardpager/src/com/example/android/wizardpager/wizard/model/SingleFixedChoicePage.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369772581521" ignored="false" />
     <file path="/SingleFixedChoicePage.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369772419132" ignored="false" />
     <file path="$PROJECT_DIR$/../romannurik-code/misc/wizardpager/src/com/example/android/wizardpager/wizard/model/Page.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369777192078" ignored="false" />
     <file path="/Page.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369777168042" ignored="false" />
     <file path="$PROJECT_DIR$/../romannurik-code/misc/wizardpager/src/com/example/android/wizardpager/wizard/ui/ReviewFragment.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369774932589" ignored="false" />
-    <file path="/ReviewFragment.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369800212599" ignored="false" />
+    <file path="/ReviewFragment.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1370397866447" ignored="false" />
     <file path="$PROJECT_DIR$/../romannurik-code/misc/wizardpager/res/layout/fragment_page_button.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369795736289" ignored="false" />
     <file path="/fragment_page_button.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369795736289" ignored="false" />
     <file path="$PROJECT_DIR$/../romannurik-code/misc/wizardpager/.idea/workspace.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369780511664" ignored="false" />
@@ -246,264 +245,18 @@
       <file leaf-file-name="To-do.txt" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/To-do/To-do.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="23" selection-start="23" selection-end="23" vertical-scroll-proportion="0.0">
+            <state line="5" column="16" selection-start="192" selection-end="192" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MessageArrayAdapter.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_hangout/MessageArrayAdapter.java">
+      <file leaf-file-name="ReviewFragment.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/wizardpager/wizard/ui/ReviewFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1377" column="6" selection-start="47060" selection-end="47148" vertical-scroll-proportion="0.0">
+            <state line="67" column="66" selection-start="2431" selection-end="2431" vertical-scroll-proportion="0.0">
               <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#20049#20081#1" expanded="true" />
-                <element signature="e#34152#34215#0" expanded="true" />
-                <element signature="e#34269#34332#0" expanded="true" />
-                <element signature="e#47187#55767#0" expanded="true" />
-                <element signature="e#49104#49151#0" expanded="true" />
-                <element signature="e#49219#49266#0" expanded="true" />
-                <element signature="e#49378#49425#0" expanded="true" />
-                <element signature="e#49497#49548#0" expanded="true" />
-                <element signature="e#50769#50816#0" expanded="true" />
-                <element signature="e#50879#50924#0" expanded="true" />
-                <element signature="e#51031#51078#0" expanded="true" />
-                <element signature="e#51469#51518#0" expanded="true" />
-                <element signature="e#51666#51715#0" expanded="true" />
-                <element signature="e#53092#53139#0" expanded="true" />
-                <element signature="e#53202#53247#0" expanded="true" />
-                <element signature="e#53354#53401#0" expanded="true" />
-                <element signature="e#53792#53841#0" expanded="true" />
-                <element signature="e#53989#54038#0" expanded="true" />
-                <element signature="e#55144#55191#0" expanded="true" />
-                <element signature="e#55298#55349#0" expanded="true" />
-                <element signature="e#55572#55630#0" expanded="true" />
-                <element signature="e#55758#55759#0" expanded="true" />
-                <element signature="e#55871#91168#0" expanded="true" />
-                <element signature="e#56781#56788#0" expanded="true" />
-                <element signature="e#57328#57385#0" expanded="true" />
-                <element signature="e#57423#57469#0" expanded="true" />
-                <element signature="e#58168#58213#0" expanded="true" />
-                <element signature="e#58748#58780#0" expanded="true" />
-                <element signature="e#59262#59269#0" expanded="true" />
-                <element signature="e#62326#62383#0" expanded="true" />
-                <element signature="e#62997#63054#0" expanded="true" />
-                <element signature="e#63092#63138#0" expanded="true" />
-                <element signature="e#63837#63882#0" expanded="true" />
-                <element signature="e#76337#76344#0" expanded="true" />
-                <element signature="e#77300#77307#0" expanded="true" />
-                <element signature="e#89320#89327#0" expanded="true" />
-                <element signature="e#89858#89915#0" expanded="true" />
-                <element signature="e#89952#89998#0" expanded="true" />
-                <element signature="e#90684#90729#0" expanded="true" />
-                <element signature="e#91162#91163#0" expanded="true" />
-                <element signature="e#96561#96593#0" expanded="true" />
-                <element signature="e#100424#100477#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MessageArrayAdapter.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MessageArrayAdapter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="1453" column="6" selection-start="49870" selection-end="58246" vertical-scroll-proportion="-9.807693">
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#4196#4228#0" expanded="true" />
-                <element signature="e#8984#9190#0" expanded="true" />
-                <element signature="e#9177#9178#0" expanded="true" />
-                <element signature="e#9239#9447#0" expanded="true" />
-                <element signature="e#9434#9435#0" expanded="true" />
-                <element signature="e#19430#29149#0" expanded="true" />
-                <element signature="e#20026#25021#0" expanded="true" />
-                <element signature="e#20319#20351#1" expanded="true" />
-                <element signature="e#20735#24914#0" expanded="true" />
-                <element signature="e#22398#22649#0" expanded="true" />
-                <element signature="e#22633#22634#0" expanded="true" />
-                <element signature="e#24314#24489#0" expanded="true" />
-                <element signature="e#24474#24475#0" expanded="true" />
-                <element signature="e#24673#24853#0" expanded="true" />
-                <element signature="e#24838#24839#0" expanded="true" />
-                <element signature="e#24891#24892#0" expanded="true" />
-                <element signature="e#25004#25005#0" expanded="true" />
-                <element signature="e#25116#28998#0" expanded="true" />
-                <element signature="e#26656#26889#0" expanded="true" />
-                <element signature="e#26876#26877#0" expanded="true" />
-                <element signature="e#28461#28618#0" expanded="true" />
-                <element signature="e#28606#28607#0" expanded="true" />
-                <element signature="e#28790#28952#0" expanded="true" />
-                <element signature="e#28940#28941#0" expanded="true" />
-                <element signature="e#28981#28982#0" expanded="true" />
-                <element signature="e#29136#29137#0" expanded="true" />
-                <element signature="e#30759#30809#0" expanded="true" />
-                <element signature="e#32803#32996#0" expanded="true" />
-                <element signature="e#32977#32978#0" expanded="true" />
-                <element signature="e#33372#33715#0" expanded="true" />
-                <element signature="e#33696#33697#0" expanded="true" />
-                <element signature="e#33823#33886#0" expanded="true" />
-                <element signature="e#33941#34004#0" expanded="true" />
-                <element signature="e#34363#34547#0" expanded="true" />
-                <element signature="e#34530#34531#0" expanded="true" />
-                <element signature="e#35042#35681#0" expanded="true" />
-                <element signature="e#35521#35656#0" expanded="true" />
-                <element signature="e#35633#35634#0" expanded="true" />
-                <element signature="e#35664#35665#0" expanded="true" />
-                <element signature="e#36111#36748#0" expanded="true" />
-                <element signature="e#36588#36723#0" expanded="true" />
-                <element signature="e#36700#36701#0" expanded="true" />
-                <element signature="e#36731#36732#0" expanded="true" />
-                <element signature="e#37174#37727#0" expanded="true" />
-                <element signature="e#37567#37702#0" expanded="true" />
-                <element signature="e#37679#37680#0" expanded="true" />
-                <element signature="e#37710#37711#0" expanded="true" />
-                <element signature="e#38111#38750#0" expanded="true" />
-                <element signature="e#38590#38725#0" expanded="true" />
-                <element signature="e#38702#38703#0" expanded="true" />
-                <element signature="e#38733#38734#0" expanded="true" />
-                <element signature="e#49577#49764#0" expanded="true" />
-                <element signature="e#49755#49756#0" expanded="true" />
-                <element signature="e#49897#58244#0" expanded="true" />
-                <element signature="e#51768#51815#0" expanded="true" />
-                <element signature="e#51876#51923#0" expanded="true" />
-                <element signature="e#52028#52075#0" expanded="true" />
-                <element signature="e#52140#52191#0" expanded="true" />
-                <element signature="e#53380#53427#0" expanded="true" />
-                <element signature="e#53488#53533#0" expanded="true" />
-                <element signature="e#53638#53685#0" expanded="true" />
-                <element signature="e#54064#54113#0" expanded="true" />
-                <element signature="e#54255#54304#0" expanded="true" />
-                <element signature="e#55639#55686#0" expanded="true" />
-                <element signature="e#55747#55792#0" expanded="true" />
-                <element signature="e#55897#55944#0" expanded="true" />
-                <element signature="e#56323#56372#0" expanded="true" />
-                <element signature="e#56514#56563#0" expanded="true" />
-                <element signature="e#57531#57578#0" expanded="true" />
-                <element signature="e#57639#57686#0" expanded="true" />
-                <element signature="e#57791#57842#0" expanded="true" />
-                <element signature="e#58055#58113#0" expanded="true" />
-                <element signature="e#58235#58236#0" expanded="true" />
-                <element signature="e#58285#96632#0" expanded="true" />
-                <element signature="e#58690#61105#0" expanded="true" />
-                <element signature="e#59230#59237#0" expanded="true" />
-                <element signature="e#59817#59874#0" expanded="true" />
-                <element signature="e#59912#59958#0" expanded="true" />
-                <element signature="e#60689#60734#0" expanded="true" />
-                <element signature="e#60736#60927#0" expanded="true" />
-                <element signature="e#60909#60910#0" expanded="true" />
-                <element signature="e#61089#61090#0" expanded="true" />
-                <element signature="e#61250#67095#0" expanded="true" />
-                <element signature="e#61305#61337#0" expanded="true" />
-                <element signature="e#61830#61837#0" expanded="true" />
-                <element signature="e#64418#64642#0" expanded="true" />
-                <element signature="e#64613#64614#0" expanded="true" />
-                <element signature="e#64702#65144#0" expanded="true" />
-                <element signature="e#65029#65086#0" expanded="true" />
-                <element signature="e#65115#65116#0" expanded="true" />
-                <element signature="e#65203#65493#0" expanded="true" />
-                <element signature="e#65464#65465#0" expanded="true" />
-                <element signature="e#65807#65864#0" expanded="true" />
-                <element signature="e#65902#65948#0" expanded="true" />
-                <element signature="e#66679#66724#0" expanded="true" />
-                <element signature="e#66726#66917#0" expanded="true" />
-                <element signature="e#66899#66900#0" expanded="true" />
-                <element signature="e#67079#67080#0" expanded="true" />
-                <element signature="e#67243#96518#0" expanded="true" />
-                <element signature="e#67831#94139#0" expanded="true" />
-                <element signature="e#68566#76196#0" expanded="true" />
-                <element signature="e#76174#76175#0" expanded="true" />
-                <element signature="e#76339#82666#0" expanded="true" />
-                <element signature="e#76985#77288#0" expanded="true" />
-                <element signature="e#77242#77243#0" expanded="true" />
-                <element signature="e#78668#78971#0" expanded="true" />
-                <element signature="e#78925#78926#0" expanded="true" />
-                <element signature="e#80301#80308#0" expanded="true" />
-                <element signature="e#81457#81464#0" expanded="true" />
-                <element signature="e#82644#82645#0" expanded="true" />
-                <element signature="e#82781#82796#0" expanded="true" />
-                <element signature="e#82863#82878#0" expanded="true" />
-                <element signature="e#84006#91718#0" expanded="true" />
-                <element signature="e#91696#91697#0" expanded="true" />
-                <element signature="e#91828#91843#0" expanded="true" />
-                <element signature="e#93782#94090#0" expanded="true" />
-                <element signature="e#94055#94056#0" expanded="true" />
-                <element signature="e#94116#94117#0" expanded="true" />
-                <element signature="e#94687#94694#0" expanded="true" />
-                <element signature="e#95261#95318#0" expanded="true" />
-                <element signature="e#95355#95401#0" expanded="true" />
-                <element signature="e#96117#96162#0" expanded="true" />
-                <element signature="e#96164#96351#0" expanded="true" />
-                <element signature="e#96334#96335#0" expanded="true" />
-                <element signature="e#96504#96505#0" expanded="true" />
-                <element signature="e#96623#96624#0" expanded="true" />
-                <element signature="e#102132#102164#0" expanded="true" />
-                <element signature="e#106026#106079#0" expanded="true" />
-                <element signature="e#107733#108168#0" expanded="true" />
-                <element signature="e#108164#108165#0" expanded="true" />
-                <element signature="e#108201#108638#0" expanded="true" />
-                <element signature="e#108634#108635#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CatalogWizardModel.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/wizardpager/CatalogWizardModel.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="55" column="80" selection-start="2004" selection-end="2004" vertical-scroll-proportion="0.7216981">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MessageArrayAdapter.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_card/MessageArrayAdapter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="1272" column="9" selection-start="45489" selection-end="45489" vertical-scroll-proportion="-21.653847">
-              <folding>
-                <element signature="e#16443#16475#1" expanded="true" />
-                <element signature="e#26460#26510#0" expanded="true" />
-                <element signature="e#29116#29179#0" expanded="true" />
-                <element signature="e#29234#29297#0" expanded="true" />
-                <element signature="e#37140#45487#0" expanded="true" />
-                <element signature="e#39011#39058#0" expanded="true" />
-                <element signature="e#39119#39166#0" expanded="true" />
-                <element signature="e#39271#39318#0" expanded="true" />
-                <element signature="e#39383#39434#0" expanded="true" />
-                <element signature="e#40623#40670#0" expanded="true" />
-                <element signature="e#40731#40776#0" expanded="true" />
-                <element signature="e#40881#40928#0" expanded="true" />
-                <element signature="e#41307#41356#0" expanded="true" />
-                <element signature="e#41498#41547#0" expanded="true" />
-                <element signature="e#42882#42929#0" expanded="true" />
-                <element signature="e#42990#43035#0" expanded="true" />
-                <element signature="e#43140#43187#0" expanded="true" />
-                <element signature="e#43566#43615#0" expanded="true" />
-                <element signature="e#43757#43806#0" expanded="true" />
-                <element signature="e#44774#44821#0" expanded="true" />
-                <element signature="e#44882#44929#0" expanded="true" />
-                <element signature="e#45034#45085#0" expanded="true" />
-                <element signature="e#45298#45356#0" expanded="true" />
-                <element signature="e#45478#45479#0" expanded="true" />
-                <element signature="e#46469#46476#0" expanded="true" />
-                <element signature="e#46952#47009#0" expanded="true" />
-                <element signature="e#47047#47093#0" expanded="true" />
-                <element signature="e#48211#48256#0" expanded="true" />
-                <element signature="e#49308#49315#0" expanded="true" />
-                <element signature="e#51719#51776#0" expanded="true" />
-                <element signature="e#52237#52294#0" expanded="true" />
-                <element signature="e#52332#52378#0" expanded="true" />
-                <element signature="e#53109#53154#0" expanded="true" />
-                <element signature="e#66685#66692#0" expanded="true" />
-                <element signature="e#67808#67815#0" expanded="true" />
-                <element signature="e#80942#80949#0" expanded="true" />
-                <element signature="e#82644#82701#0" expanded="true" />
-                <element signature="e#83144#83201#0" expanded="true" />
-                <element signature="e#83238#83284#0" expanded="true" />
-                <element signature="e#84000#84045#0" expanded="true" />
-                <element signature="e#90963#90995#0" expanded="true" />
-                <element signature="e#94849#94902#0" expanded="true" />
+                <element signature="e#2458#2514#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -512,7 +265,19 @@
       <file leaf-file-name="strings.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="454" column="50" selection-start="36185" selection-end="36185" vertical-scroll-proportion="0.0">
+            <state line="426" column="73" selection-start="34464" selection-end="34464" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="fragment_page.xml" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/res/layout/fragment_page.xml">
+          <provider editor-type-id="android-designer">
+            <state />
+          </provider>
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="21" column="46" selection-start="799" selection-end="799" vertical-scroll-proportion="0.67741936">
               <folding />
             </state>
           </provider>
@@ -542,22 +307,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/res/values-tr/arrays.xml" />
         <option value="$PROJECT_DIR$/res/values-tr/strings.xml" />
         <option value="$PROJECT_DIR$/../SlidingMenu/src/com/jeremyfeinstein/slidingmenu/lib/CustomViewAbove.java" />
         <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MainActivity.java" />
         <option value="$PROJECT_DIR$/res/layout/fragment_page_button.xml" />
-        <option value="$PROJECT_DIR$/src/wizardpager/wizard/ui/ReviewFragment.java" />
         <option value="$PROJECT_DIR$/src/wizardpager/MainActivity.java" />
         <option value="$PROJECT_DIR$/src/wizardpager/SandwichWizardModel.java" />
         <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_donate/MainActivity.java" />
-        <option value="$PROJECT_DIR$/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_hangout/MessageArrayAdapter.java" />
         <option value="$PROJECT_DIR$/To-do/To-do.txt" />
         <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MessageArrayAdapter.java" />
         <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_card/MessageArrayAdapter.java" />
         <option value="$PROJECT_DIR$/src/wizardpager/CatalogWizardModel.java" />
+        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/src/wizardpager/wizard/ui/ReviewFragment.java" />
+        <option value="$PROJECT_DIR$/res/values/strings.xml" />
+        <option value="$PROJECT_DIR$/res/layout/fragment_page.xml" />
       </list>
     </option>
   </component>
@@ -568,7 +333,7 @@
     <option name="x" value="-8" />
     <option name="y" value="-8" />
     <option name="width" value="1936" />
-    <option name="height" value="1066" />
+    <option name="height" value="1056" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -596,6 +361,8 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -610,7 +377,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="MessagingDonate" />
+              <option name="myItemId" value="slidingmessaging" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -620,105 +387,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="MessagingDonate" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="To-do" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SlidingMessaging" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MessagingDonate" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="wizardpager" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SlidingMessaging" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MessagingDonate" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SlidingMessaging" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MessagingDonate" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="messaging_card" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SlidingMessaging" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MessagingDonate" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SlidingMessaging" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MessagingDonate" />
+              <option name="myItemId" value="slidingmessaging" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -732,7 +401,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="MessagingDonate" />
+              <option name="myItemId" value="slidingmessaging" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -740,10 +409,26 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SlidingMessaging" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="slidingmessaging" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="layout" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -760,11 +445,11 @@
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="restartRequiresConfirmation" value="true" />
-    <property name="MemberChooser.showClasses" value="true" />
     <property name="FullScreen" value="false" />
+    <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
@@ -1034,11 +719,12 @@
       <workItem from="1369798871195" duration="2617000" />
       <workItem from="1369831295003" duration="14000" />
       <workItem from="1370391989061" duration="2789000" />
+      <workItem from="1370396692715" duration="1976000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="243093000" />
+    <option name="totallyTimeSpent" value="245069000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1061,28 +747,28 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3239061" sideWeight="0.8624161" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3239061" sideWeight="0.86414254" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33964366" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32870865" sideWeight="0.64365256" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39977974" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27282852" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17899892" sideWeight="0.29705215" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17899892" sideWeight="0.29705215" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32962137" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35572687" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.35634744" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36222222" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2709251" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24972796" sideWeight="0.72902495" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17502668" sideWeight="0.7290749" order="1" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2709251" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3242424" sideWeight="0.8624161" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17502668" sideWeight="0.64365256" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26837417" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3239061" sideWeight="0.86414254" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3287879" sideWeight="0.64365256" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32962137" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1102,18 +788,18 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3997773" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13585746" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17899892" sideWeight="0.29705215" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17899892" sideWeight="0.29705215" order="4" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35746104" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36453745" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2709251" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24972796" sideWeight="0.72902495" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17716116" sideWeight="0.86414254" order="1" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13585746" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13585746" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -1177,34 +863,19 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="411" column="0" selection-start="33292" selection-end="33292" vertical-scroll-proportion="0.60465115" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/values/styles.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="47" selection-start="1256" selection-end="1256" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/res/values/dimens.xml" />
     <entry file="file://$PROJECT_DIR$/res/layout/fragment_page_button.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="40" selection-start="703" selection-end="703" vertical-scroll-proportion="0.34120426" />
-      </provider>
       <provider editor-type-id="android-designer">
         <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="40" selection-start="703" selection-end="703" vertical-scroll-proportion="0.34120426" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/values/attrs.xml" />
     <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="388" column="49" selection-start="14216" selection-end="14248" vertical-scroll-proportion="4.8175898" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/wizardpager/wizard/ui/ReviewFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="60" column="48" selection-start="2008" selection-end="2008" vertical-scroll-proportion="0.7320574" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/wizardpager/MainActivity.java">
@@ -1221,270 +892,73 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_donate/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="29" selection-start="1047" selection-end="1047" vertical-scroll-proportion="0.01923077">
+        <state line="29" column="29" selection-start="1047" selection-end="1047" vertical-scroll-proportion="0.01923077" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/wizardpager/CatalogWizardModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="57" column="39" selection-start="2084" selection-end="2084" vertical-scroll-proportion="-2.209382">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
+    <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_card/MessageArrayAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="454" column="50" selection-start="36185" selection-end="36185" vertical-scroll-proportion="0.0">
+        <state line="1417" column="44" selection-start="51292" selection-end="51292" vertical-scroll-proportion="0.019744484">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/To-do/To-do.txt">
+    <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MessageArrayAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="23" selection-start="23" selection-end="23" vertical-scroll-proportion="0.0">
+        <state line="1589" column="6" selection-start="58380" selection-end="58380" vertical-scroll-proportion="0.019744484">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_hangout/MessageArrayAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1377" column="6" selection-start="47060" selection-end="47148" vertical-scroll-proportion="0.0">
+        <state line="1513" column="6" selection-start="55777" selection-end="55865" vertical-scroll-proportion="0.019744484">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="75" selection-start="1776" selection-end="1776" vertical-scroll-proportion="0.8007246">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/wizardpager/wizard/ui/ReviewFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="67" column="66" selection-start="2431" selection-end="2431" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#20049#20081#1" expanded="true" />
-            <element signature="e#34152#34215#0" expanded="true" />
-            <element signature="e#34269#34332#0" expanded="true" />
-            <element signature="e#47187#55767#0" expanded="true" />
-            <element signature="e#49104#49151#0" expanded="true" />
-            <element signature="e#49219#49266#0" expanded="true" />
-            <element signature="e#49378#49425#0" expanded="true" />
-            <element signature="e#49497#49548#0" expanded="true" />
-            <element signature="e#50769#50816#0" expanded="true" />
-            <element signature="e#50879#50924#0" expanded="true" />
-            <element signature="e#51031#51078#0" expanded="true" />
-            <element signature="e#51469#51518#0" expanded="true" />
-            <element signature="e#51666#51715#0" expanded="true" />
-            <element signature="e#53092#53139#0" expanded="true" />
-            <element signature="e#53202#53247#0" expanded="true" />
-            <element signature="e#53354#53401#0" expanded="true" />
-            <element signature="e#53792#53841#0" expanded="true" />
-            <element signature="e#53989#54038#0" expanded="true" />
-            <element signature="e#55144#55191#0" expanded="true" />
-            <element signature="e#55298#55349#0" expanded="true" />
-            <element signature="e#55572#55630#0" expanded="true" />
-            <element signature="e#55758#55759#0" expanded="true" />
-            <element signature="e#55871#91168#0" expanded="true" />
-            <element signature="e#56781#56788#0" expanded="true" />
-            <element signature="e#57328#57385#0" expanded="true" />
-            <element signature="e#57423#57469#0" expanded="true" />
-            <element signature="e#58168#58213#0" expanded="true" />
-            <element signature="e#58748#58780#0" expanded="true" />
-            <element signature="e#59262#59269#0" expanded="true" />
-            <element signature="e#62326#62383#0" expanded="true" />
-            <element signature="e#62997#63054#0" expanded="true" />
-            <element signature="e#63092#63138#0" expanded="true" />
-            <element signature="e#63837#63882#0" expanded="true" />
-            <element signature="e#76337#76344#0" expanded="true" />
-            <element signature="e#77300#77307#0" expanded="true" />
-            <element signature="e#89320#89327#0" expanded="true" />
-            <element signature="e#89858#89915#0" expanded="true" />
-            <element signature="e#89952#89998#0" expanded="true" />
-            <element signature="e#90684#90729#0" expanded="true" />
-            <element signature="e#91162#91163#0" expanded="true" />
-            <element signature="e#96561#96593#0" expanded="true" />
-            <element signature="e#100424#100477#0" expanded="true" />
+            <element signature="e#2458#2514#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MessageArrayAdapter.java">
+    <entry file="file://$PROJECT_DIR$/To-do/To-do.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1453" column="6" selection-start="49870" selection-end="58246" vertical-scroll-proportion="-9.807693">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#4196#4228#0" expanded="true" />
-            <element signature="e#8984#9190#0" expanded="true" />
-            <element signature="e#9177#9178#0" expanded="true" />
-            <element signature="e#9239#9447#0" expanded="true" />
-            <element signature="e#9434#9435#0" expanded="true" />
-            <element signature="e#19430#29149#0" expanded="true" />
-            <element signature="e#20026#25021#0" expanded="true" />
-            <element signature="e#20319#20351#1" expanded="true" />
-            <element signature="e#20735#24914#0" expanded="true" />
-            <element signature="e#22398#22649#0" expanded="true" />
-            <element signature="e#22633#22634#0" expanded="true" />
-            <element signature="e#24314#24489#0" expanded="true" />
-            <element signature="e#24474#24475#0" expanded="true" />
-            <element signature="e#24673#24853#0" expanded="true" />
-            <element signature="e#24838#24839#0" expanded="true" />
-            <element signature="e#24891#24892#0" expanded="true" />
-            <element signature="e#25004#25005#0" expanded="true" />
-            <element signature="e#25116#28998#0" expanded="true" />
-            <element signature="e#26656#26889#0" expanded="true" />
-            <element signature="e#26876#26877#0" expanded="true" />
-            <element signature="e#28461#28618#0" expanded="true" />
-            <element signature="e#28606#28607#0" expanded="true" />
-            <element signature="e#28790#28952#0" expanded="true" />
-            <element signature="e#28940#28941#0" expanded="true" />
-            <element signature="e#28981#28982#0" expanded="true" />
-            <element signature="e#29136#29137#0" expanded="true" />
-            <element signature="e#30759#30809#0" expanded="true" />
-            <element signature="e#32803#32996#0" expanded="true" />
-            <element signature="e#32977#32978#0" expanded="true" />
-            <element signature="e#33372#33715#0" expanded="true" />
-            <element signature="e#33696#33697#0" expanded="true" />
-            <element signature="e#33823#33886#0" expanded="true" />
-            <element signature="e#33941#34004#0" expanded="true" />
-            <element signature="e#34363#34547#0" expanded="true" />
-            <element signature="e#34530#34531#0" expanded="true" />
-            <element signature="e#35042#35681#0" expanded="true" />
-            <element signature="e#35521#35656#0" expanded="true" />
-            <element signature="e#35633#35634#0" expanded="true" />
-            <element signature="e#35664#35665#0" expanded="true" />
-            <element signature="e#36111#36748#0" expanded="true" />
-            <element signature="e#36588#36723#0" expanded="true" />
-            <element signature="e#36700#36701#0" expanded="true" />
-            <element signature="e#36731#36732#0" expanded="true" />
-            <element signature="e#37174#37727#0" expanded="true" />
-            <element signature="e#37567#37702#0" expanded="true" />
-            <element signature="e#37679#37680#0" expanded="true" />
-            <element signature="e#37710#37711#0" expanded="true" />
-            <element signature="e#38111#38750#0" expanded="true" />
-            <element signature="e#38590#38725#0" expanded="true" />
-            <element signature="e#38702#38703#0" expanded="true" />
-            <element signature="e#38733#38734#0" expanded="true" />
-            <element signature="e#49577#49764#0" expanded="true" />
-            <element signature="e#49755#49756#0" expanded="true" />
-            <element signature="e#49897#58244#0" expanded="true" />
-            <element signature="e#51768#51815#0" expanded="true" />
-            <element signature="e#51876#51923#0" expanded="true" />
-            <element signature="e#52028#52075#0" expanded="true" />
-            <element signature="e#52140#52191#0" expanded="true" />
-            <element signature="e#53380#53427#0" expanded="true" />
-            <element signature="e#53488#53533#0" expanded="true" />
-            <element signature="e#53638#53685#0" expanded="true" />
-            <element signature="e#54064#54113#0" expanded="true" />
-            <element signature="e#54255#54304#0" expanded="true" />
-            <element signature="e#55639#55686#0" expanded="true" />
-            <element signature="e#55747#55792#0" expanded="true" />
-            <element signature="e#55897#55944#0" expanded="true" />
-            <element signature="e#56323#56372#0" expanded="true" />
-            <element signature="e#56514#56563#0" expanded="true" />
-            <element signature="e#57531#57578#0" expanded="true" />
-            <element signature="e#57639#57686#0" expanded="true" />
-            <element signature="e#57791#57842#0" expanded="true" />
-            <element signature="e#58055#58113#0" expanded="true" />
-            <element signature="e#58235#58236#0" expanded="true" />
-            <element signature="e#58285#96632#0" expanded="true" />
-            <element signature="e#58690#61105#0" expanded="true" />
-            <element signature="e#59230#59237#0" expanded="true" />
-            <element signature="e#59817#59874#0" expanded="true" />
-            <element signature="e#59912#59958#0" expanded="true" />
-            <element signature="e#60689#60734#0" expanded="true" />
-            <element signature="e#60736#60927#0" expanded="true" />
-            <element signature="e#60909#60910#0" expanded="true" />
-            <element signature="e#61089#61090#0" expanded="true" />
-            <element signature="e#61250#67095#0" expanded="true" />
-            <element signature="e#61305#61337#0" expanded="true" />
-            <element signature="e#61830#61837#0" expanded="true" />
-            <element signature="e#64418#64642#0" expanded="true" />
-            <element signature="e#64613#64614#0" expanded="true" />
-            <element signature="e#64702#65144#0" expanded="true" />
-            <element signature="e#65029#65086#0" expanded="true" />
-            <element signature="e#65115#65116#0" expanded="true" />
-            <element signature="e#65203#65493#0" expanded="true" />
-            <element signature="e#65464#65465#0" expanded="true" />
-            <element signature="e#65807#65864#0" expanded="true" />
-            <element signature="e#65902#65948#0" expanded="true" />
-            <element signature="e#66679#66724#0" expanded="true" />
-            <element signature="e#66726#66917#0" expanded="true" />
-            <element signature="e#66899#66900#0" expanded="true" />
-            <element signature="e#67079#67080#0" expanded="true" />
-            <element signature="e#67243#96518#0" expanded="true" />
-            <element signature="e#67831#94139#0" expanded="true" />
-            <element signature="e#68566#76196#0" expanded="true" />
-            <element signature="e#76174#76175#0" expanded="true" />
-            <element signature="e#76339#82666#0" expanded="true" />
-            <element signature="e#76985#77288#0" expanded="true" />
-            <element signature="e#77242#77243#0" expanded="true" />
-            <element signature="e#78668#78971#0" expanded="true" />
-            <element signature="e#78925#78926#0" expanded="true" />
-            <element signature="e#80301#80308#0" expanded="true" />
-            <element signature="e#81457#81464#0" expanded="true" />
-            <element signature="e#82644#82645#0" expanded="true" />
-            <element signature="e#82781#82796#0" expanded="true" />
-            <element signature="e#82863#82878#0" expanded="true" />
-            <element signature="e#84006#91718#0" expanded="true" />
-            <element signature="e#91696#91697#0" expanded="true" />
-            <element signature="e#91828#91843#0" expanded="true" />
-            <element signature="e#93782#94090#0" expanded="true" />
-            <element signature="e#94055#94056#0" expanded="true" />
-            <element signature="e#94116#94117#0" expanded="true" />
-            <element signature="e#94687#94694#0" expanded="true" />
-            <element signature="e#95261#95318#0" expanded="true" />
-            <element signature="e#95355#95401#0" expanded="true" />
-            <element signature="e#96117#96162#0" expanded="true" />
-            <element signature="e#96164#96351#0" expanded="true" />
-            <element signature="e#96334#96335#0" expanded="true" />
-            <element signature="e#96504#96505#0" expanded="true" />
-            <element signature="e#96623#96624#0" expanded="true" />
-            <element signature="e#102132#102164#0" expanded="true" />
-            <element signature="e#106026#106079#0" expanded="true" />
-            <element signature="e#107733#108168#0" expanded="true" />
-            <element signature="e#108164#108165#0" expanded="true" />
-            <element signature="e#108201#108638#0" expanded="true" />
-            <element signature="e#108634#108635#0" expanded="true" />
-          </folding>
+        <state line="5" column="16" selection-start="192" selection-end="192" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_card/MessageArrayAdapter.java">
+    <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1272" column="9" selection-start="45489" selection-end="45489" vertical-scroll-proportion="-21.653847">
-          <folding>
-            <element signature="e#16443#16475#1" expanded="true" />
-            <element signature="e#26460#26510#0" expanded="true" />
-            <element signature="e#29116#29179#0" expanded="true" />
-            <element signature="e#29234#29297#0" expanded="true" />
-            <element signature="e#37140#45487#0" expanded="true" />
-            <element signature="e#39011#39058#0" expanded="true" />
-            <element signature="e#39119#39166#0" expanded="true" />
-            <element signature="e#39271#39318#0" expanded="true" />
-            <element signature="e#39383#39434#0" expanded="true" />
-            <element signature="e#40623#40670#0" expanded="true" />
-            <element signature="e#40731#40776#0" expanded="true" />
-            <element signature="e#40881#40928#0" expanded="true" />
-            <element signature="e#41307#41356#0" expanded="true" />
-            <element signature="e#41498#41547#0" expanded="true" />
-            <element signature="e#42882#42929#0" expanded="true" />
-            <element signature="e#42990#43035#0" expanded="true" />
-            <element signature="e#43140#43187#0" expanded="true" />
-            <element signature="e#43566#43615#0" expanded="true" />
-            <element signature="e#43757#43806#0" expanded="true" />
-            <element signature="e#44774#44821#0" expanded="true" />
-            <element signature="e#44882#44929#0" expanded="true" />
-            <element signature="e#45034#45085#0" expanded="true" />
-            <element signature="e#45298#45356#0" expanded="true" />
-            <element signature="e#45478#45479#0" expanded="true" />
-            <element signature="e#46469#46476#0" expanded="true" />
-            <element signature="e#46952#47009#0" expanded="true" />
-            <element signature="e#47047#47093#0" expanded="true" />
-            <element signature="e#48211#48256#0" expanded="true" />
-            <element signature="e#49308#49315#0" expanded="true" />
-            <element signature="e#51719#51776#0" expanded="true" />
-            <element signature="e#52237#52294#0" expanded="true" />
-            <element signature="e#52332#52378#0" expanded="true" />
-            <element signature="e#53109#53154#0" expanded="true" />
-            <element signature="e#66685#66692#0" expanded="true" />
-            <element signature="e#67808#67815#0" expanded="true" />
-            <element signature="e#80942#80949#0" expanded="true" />
-            <element signature="e#82644#82701#0" expanded="true" />
-            <element signature="e#83144#83201#0" expanded="true" />
-            <element signature="e#83238#83284#0" expanded="true" />
-            <element signature="e#84000#84045#0" expanded="true" />
-            <element signature="e#90963#90995#0" expanded="true" />
-            <element signature="e#94849#94902#0" expanded="true" />
-          </folding>
+        <state line="426" column="73" selection-start="34464" selection-end="34464" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/wizardpager/CatalogWizardModel.java">
+    <entry file="file://$PROJECT_DIR$/res/layout/fragment_page.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state line="55" column="80" selection-start="2004" selection-end="2004" vertical-scroll-proportion="0.7216981">
+        <state line="21" column="46" selection-start="799" selection-end="799" vertical-scroll-proportion="0.67741936">
           <folding />
         </state>
       </provider>
