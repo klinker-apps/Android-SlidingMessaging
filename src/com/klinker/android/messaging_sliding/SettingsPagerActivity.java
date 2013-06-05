@@ -657,7 +657,7 @@ public class SettingsPagerActivity extends FragmentActivity {
 
                 @Override
                 public boolean onPreferenceClick(Preference arg0) {
-                    if (sharedPrefs.getBoolean("security", false) && sharedPrefs.getString("password", "0000").equals("0000"))
+                    if (sharedPrefs.getBoolean("security", false))
                     {
                         Intent intent = new Intent(getActivity(), com.klinker.android.messaging_sliding.SetPasswordActivity.class);
                         startActivity(intent);

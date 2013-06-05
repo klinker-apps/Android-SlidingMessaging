@@ -8,17 +8,78 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.widget.RemoteViews;
+import android.widget.Toast;
 
 public class CardWidgetProvider extends AppWidgetProvider {
 
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
     	Intent updateWidget = new Intent(context, CardWidgetService2.class);
         context.startService(updateWidget);
-        
+
+        SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(context);
+
+        RemoteViews views = new RemoteViews(context.getPackageName(),
+                R.layout.card_widget);
+
+        if (sharedPrefs.getBoolean("widget_background", true))
+        {
+            if(sharedPrefs.getBoolean("dark_background", false))
+            {
+                views.setImageViewResource(R.id.widget_background,
+                        R.drawable.widget_background_dark);
+
+                if (sharedPrefs.getBoolean("widget_dark_theme", false))
+                {
+                    views.setImageViewResource(R.id.widget_card,
+                            R.drawable.widget_card_dark);
+                } else
+                {
+                    views.setImageViewResource(R.id.widget_card,
+                            R.drawable.widget_card);
+                }
+
+            } else
+            {
+                views.setImageViewResource(R.id.widget_background,
+                        R.drawable.widget_background);
+
+                if (sharedPrefs.getBoolean("widget_dark_theme", false))
+                {
+                    views.setImageViewResource(R.id.widget_card,
+                            R.drawable.widget_card_dark);
+                } else
+                {
+                    views.setImageViewResource(R.id.widget_card,
+                            R.drawable.widget_card);
+                }
+            }
+        } else
+        {
+            views.setImageViewResource(R.id.widget_background,
+                    R.drawable.widget_background_transparent);
+
+            if (sharedPrefs.getBoolean("widget_dark_theme", false))
+            {
+                views.setImageViewResource(R.id.widget_card,
+                        R.drawable.widget_card_dark);
+            } else
+            {
+                views.setImageViewResource(R.id.widget_card,
+                        R.drawable.widget_card);
+            }
+        }
+
+        for (int i = 0; i < appWidgetIds.length; i++) {
+            appWidgetManager.updateAppWidget(appWidgetIds[i], views);
+        }
+
         super.onUpdate(context, appWidgetManager, appWidgetIds);
+
     }
     
 	@Override
@@ -59,7 +120,7 @@ public class CardWidgetProvider extends AppWidgetProvider {
         	super.onReceive(context, intent);
         }
     }
-    
+
     public static class CardWidgetService2 extends IntentService
     {
     	public CardWidgetService2() {
@@ -83,6 +144,9 @@ public class CardWidgetProvider extends AppWidgetProvider {
 	            Intent quickText = new Intent(this, com.klinker.android.messaging_sliding.SendMessage.class);
 	            PendingIntent quickPending = PendingIntent.getActivity(this, 0, quickText, 0);
 
+                Intent settings = new Intent(this, com.klinker.android.messaging_donate.CardWidgetSettingsActivity.class);
+                PendingIntent settingsPending = PendingIntent.getActivity(this, 0, settings, 0);
+
 	            Intent intent2 = new Intent(this, com.klinker.android.messaging_donate.CardWidgetService.class);
 	            intent2.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
 	            intent2.setData(Uri.parse(intent2.toUri(Intent.URI_INTENT_SCHEME)));
@@ -92,6 +156,7 @@ public class CardWidgetProvider extends AppWidgetProvider {
 	            views.setEmptyView(R.id.widgetList, R.drawable.widget_background);
 	            
 	            views.setOnClickPendingIntent(R.id.replyButton, quickPending);
+                views.setOnClickPendingIntent(R.id.settingsButton, settingsPending);
 	            
 	            Intent openIntent = new Intent(this, CardWidgetProvider.class);
 	            openIntent.setAction("OPEN_APP");

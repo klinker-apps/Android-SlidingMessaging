@@ -4,19 +4,19 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.content.ContentResolver;
-import android.content.ContentUris;
-import android.content.Context;
-import android.content.Intent;
+import android.appwidget.AppWidgetManager;
+import android.content.*;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.PhoneLookup;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
+import android.widget.Toast;
 
 public class CardWidgetService extends RemoteViewsService {
     @Override
@@ -65,21 +65,48 @@ class CardViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
 	@Override
 	public RemoteViews getViewAt(int arg0) {
-		RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.widget_card);
-		rv.setTextViewText(R.id.contactName, mWidgetItems.get(arg0).name);
-		rv.setTextViewText(R.id.contactNumber, mWidgetItems.get(arg0).number);
-		rv.setTextViewText(R.id.contactNumberType, mWidgetItems.get(arg0).preview);
-		rv.setTextViewText(R.id.msgCount, mWidgetItems.get(arg0).count);
-		rv.setTextViewText(R.id.unreadText, mWidgetItems.get(arg0).read);
-		rv.setImageViewBitmap(R.id.contactPicture, getFacebookPhoto(mWidgetItems.get(arg0).number, mContext));
+                SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(mContext);
+
+        RemoteViews card = new RemoteViews(mContext.getPackageName(), R.layout.widget_card);
+
+        card.setTextViewText(R.id.contactName, mWidgetItems.get(arg0).name);
+        card.setTextViewText(R.id.contactNumber, mWidgetItems.get(arg0).number);
+        card.setTextViewText(R.id.contactNumberType, mWidgetItems.get(arg0).preview);
+        card.setTextViewText(R.id.msgCount, mWidgetItems.get(arg0).count);
+        card.setTextViewText(R.id.unreadText, mWidgetItems.get(arg0).read);
+        card.setImageViewBitmap(R.id.contactPicture, getFacebookPhoto(mWidgetItems.get(arg0).number, mContext));
+
+        if (sharedPrefs.getBoolean("widget_dark_theme", false))
+        {
+            card.setImageViewResource(R.id.view1, R.drawable.widget_card_dark);
+        } else
+        {
+            card.setImageViewResource(R.id.view1, R.drawable.widget_card);
+        }
+        /*SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(context);
+
+        RemoteViews widget = new RemoteViews(context.getPackageName(), R.layout.card_widget);
+
+        if (sharedPrefs.getBoolean("widget_background", true))
+        {
+            if(sharedPrefs.getBoolean("dark_background", false))
+            {
+                widget.setImageViewResource(R.id.widget_background, R.drawable.widget_background);
+            } else
+            {
+                widget.setImageViewResource(R.id.widget_background, R.drawable.widget_background);
+            }
+        }
+
+        appWidgetManager.updateAppWidget(appWidgetIds, widget);*/
 		
 		Bundle extras = new Bundle();
         extras.putString("CONVERSATION_TO_OPEN", mWidgetItems.get(arg0).number);
-        Intent fillInIntent = new Intent();
-        fillInIntent.putExtras(extras);
-        rv.setOnClickFillInIntent(R.id.widget_card_background, fillInIntent);
+        Intent cardFillInIntent = new Intent();
+        cardFillInIntent.putExtras(extras);
+        card.setOnClickFillInIntent(R.id.widget_card_background, cardFillInIntent);
 		
-		return rv;
+		return card;
 	}
 
 	@Override

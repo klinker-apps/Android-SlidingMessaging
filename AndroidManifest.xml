@@ -402,7 +402,10 @@
         <service android:name=".CardWidgetService"
 			android:permission="android.permission.BIND_REMOTEVIEWS" />
         
-        <activity android:name=".CardWidgetSettingsActivity">
+        <activity android:name=".CardWidgetSettingsActivity"
+                android:theme="@android:style/Theme.Holo.Light"
+                android:allowTaskReparenting="false"
+                android:taskAffinity="">
 		    <intent-filter>
 		        <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
 		    </intent-filter>
