@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
+import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -20,63 +21,6 @@ public class CardWidgetProvider extends AppWidgetProvider {
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
     	Intent updateWidget = new Intent(context, CardWidgetService2.class);
         context.startService(updateWidget);
-
-        SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(context);
-
-        RemoteViews views = new RemoteViews(context.getPackageName(),
-                R.layout.card_widget);
-
-        if (sharedPrefs.getBoolean("widget_background", true))
-        {
-            if(sharedPrefs.getBoolean("dark_background", false))
-            {
-                views.setImageViewResource(R.id.widget_background,
-                        R.drawable.widget_background_dark);
-
-                if (sharedPrefs.getBoolean("widget_dark_theme", false))
-                {
-                    views.setImageViewResource(R.id.widget_card,
-                            R.drawable.widget_card_dark);
-                } else
-                {
-                    views.setImageViewResource(R.id.widget_card,
-                            R.drawable.widget_card);
-                }
-
-            } else
-            {
-                views.setImageViewResource(R.id.widget_background,
-                        R.drawable.widget_background);
-
-                if (sharedPrefs.getBoolean("widget_dark_theme", false))
-                {
-                    views.setImageViewResource(R.id.widget_card,
-                            R.drawable.widget_card_dark);
-                } else
-                {
-                    views.setImageViewResource(R.id.widget_card,
-                            R.drawable.widget_card);
-                }
-            }
-        } else
-        {
-            views.setImageViewResource(R.id.widget_background,
-                    R.drawable.widget_background_transparent);
-
-            if (sharedPrefs.getBoolean("widget_dark_theme", false))
-            {
-                views.setImageViewResource(R.id.widget_card,
-                        R.drawable.widget_card_dark);
-            } else
-            {
-                views.setImageViewResource(R.id.widget_card,
-                        R.drawable.widget_card);
-            }
-        }
-
-        for (int i = 0; i < appWidgetIds.length; i++) {
-            appWidgetManager.updateAppWidget(appWidgetIds[i], views);
-        }
 
         super.onUpdate(context, appWidgetManager, appWidgetIds);
 
@@ -137,6 +81,50 @@ public class CardWidgetProvider extends AppWidgetProvider {
 			AppWidgetManager mgr = AppWidgetManager.getInstance(this);
 	        ComponentName thisAppWidget = new ComponentName(this.getPackageName(), CardWidgetProvider.class.getName());
 	        int[] appWidgetIds = mgr.getAppWidgetIds(thisAppWidget);
+
+            RemoteViews views = new RemoteViews(this.getPackageName(), R.layout.card_widget);
+
+            SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(this);
+
+            // color of the card at the top of the widget (white or black)
+                // and hiding the icons
+            if (sharedPrefs.getBoolean("widget_title_dark_theme", false))
+            {
+                views.setImageViewResource(R.id.widget_card,
+                        R.drawable.widget_card_dark);
+
+                views.setViewVisibility(R.id.settingsButton, View.INVISIBLE);
+                views.setViewVisibility(R.id.replyButton, View.INVISIBLE);
+            } else
+            {
+                views.setImageViewResource(R.id.widget_card,
+                        R.drawable.widget_card);
+
+                views.setViewVisibility(R.id.settingsButtonDark, View.INVISIBLE);
+                views.setViewVisibility(R.id.replyButtonDark, View.INVISIBLE);
+            }
+
+            // background color of the widget (transparent, white, or black)
+            if (sharedPrefs.getBoolean("widget_background", true))
+            {
+                if(sharedPrefs.getBoolean("dark_background", false))
+                {
+                    views.setImageViewResource(R.id.widget_background,
+                            R.drawable.widget_background_dark);
+                } else
+                {
+                    views.setImageViewResource(R.id.widget_background,
+                            R.drawable.widget_background);
+                }
+            } else
+            {
+                views.setImageViewResource(R.id.widget_background,
+                        R.drawable.widget_background_transparent);
+            }
+
+            for (int i = 0; i < appWidgetIds.length; i++) {
+                mgr.updateAppWidget(appWidgetIds[i], views);
+            }
 	          
 	        for (int i=0; i<appWidgetIds.length; i++) {
 	        	int appWidgetId = appWidgetIds[i];
@@ -151,7 +139,7 @@ public class CardWidgetProvider extends AppWidgetProvider {
 	            intent2.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
 	            intent2.setData(Uri.parse(intent2.toUri(Intent.URI_INTENT_SCHEME)));
 
-	            RemoteViews views = new RemoteViews(this.getPackageName(), R.layout.card_widget);
+
 	            views.setRemoteAdapter(R.id.widgetList, intent2);
 	            views.setEmptyView(R.id.widgetList, R.drawable.widget_background);
 	            
