@@ -19,9 +19,11 @@ package wizardpager.wizard.ui;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.text.Html;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.method.MovementMethod;
+import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +40,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class ReviewFragment extends ListFragment implements ModelCallbacks {
     private Callbacks mCallbacks;
@@ -65,7 +68,6 @@ public class ReviewFragment extends ListFragment implements ModelCallbacks {
         titleView.setTextColor(getResources().getColor(R.color.review_green));
 
         TextView message = (TextView) rootView.findViewById(android.R.id.message);
-        message.setMovementMethod(LinkMovementMethod.getInstance());
         message.setText(getResources().getString(R.string.changelog_disclaimers)
                        + "\n\n" +
                        getResources().getString(R.string.override_stock_disclaimer)

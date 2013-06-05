@@ -23,8 +23,7 @@
               android:layout_width="match_parent"
               android:layout_height="fill_parent"
               android:scrollbarStyle="outsideInset"
-              android:autoLink="web"
-              android:linksClickable="true"/>
+              android:autoLink="web"/>
 
     <ListView android:id="@android:id/list"
         android:layout_width="match_parent"
