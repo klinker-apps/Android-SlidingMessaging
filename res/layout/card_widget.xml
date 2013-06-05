@@ -46,8 +46,8 @@
                     android:layout_alignParentTop="true"
                     android:layout_marginBottom="4dp"
                     android:layout_marginLeft="7dp"
-                    android:alpha=".75"
                     android:gravity="center"
+                    android:alpha=".6"
                     android:text="@string/app_name_in_app"
                     android:textColor="@color/card_conversation_name"
                     android:textSize="17sp" />
@@ -59,11 +59,13 @@
                         android:layout_toLeftOf="@+id/replyButton"
                         android:layout_alignParentTop="true"
                         android:layout_marginRight="10dp"
-                        android:alpha=".85"
+                        android:alpha=".6"
                         android:background="@drawable/dark_send_button"
                         android:paddingBottom="3dp"
                         android:src="@drawable/ic_settings"
-                        android:contentDescription="@string/placeholder" />
+                        android:contentDescription="@string/placeholder"
+                        android:scaleX=".85"
+                        android:scaleY=".85" />
 
                 <ImageButton
                         android:id="@+id/settingsButtonDark"
@@ -72,11 +74,13 @@
                         android:layout_toLeftOf="@+id/replyButton"
                         android:layout_alignParentTop="true"
                         android:layout_marginRight="10dp"
-                        android:alpha=".85"
+                        android:alpha=".6"
                         android:background="@drawable/dark_send_button"
                         android:paddingBottom="3dp"
                         android:src="@drawable/ic_settings_dark"
-                        android:contentDescription="@string/placeholder" />
+                        android:contentDescription="@string/placeholder"
+                        android:scaleX=".85"
+                        android:scaleY=".85"/>
 
                 <ImageButton
                     android:id="@+id/replyButton"
@@ -85,11 +89,13 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
                     android:layout_marginRight="3dp"
-                    android:alpha=".5"
+                    android:alpha=".6"
                     android:background="@drawable/dark_send_button"
                     android:paddingBottom="3dp"
-                    android:src="@drawable/ic_reply_dark"
-                    android:contentDescription="@string/placeholder" />
+                    android:src="@drawable/ic_new_message"
+                    android:contentDescription="@string/placeholder"
+                    android:scaleX=".85"
+                    android:scaleY=".85"/>
 
                 <ImageButton
                         android:id="@+id/replyButtonDark"
@@ -98,11 +104,13 @@
                         android:layout_alignParentRight="true"
                         android:layout_alignParentTop="true"
                         android:layout_marginRight="3dp"
-                        android:alpha=".5"
+                        android:alpha=".6"
                         android:background="@drawable/dark_send_button"
                         android:paddingBottom="3dp"
-                        android:src="@drawable/ic_reply"
-                        android:contentDescription="@string/placeholder" />
+                        android:src="@drawable/ic_new_message_dark"
+                        android:contentDescription="@string/placeholder"
+                        android:scaleX=".85"
+                        android:scaleY=".85"/>
 
                 <ImageView
                         android:layout_width="match_parent"

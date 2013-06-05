@@ -65,32 +65,37 @@ class CardViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
 	@Override
 	public RemoteViews getViewAt(int arg0) {
-                SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(mContext);
+        SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(mContext);
 
         RemoteViews card = new RemoteViews(mContext.getPackageName(), R.layout.widget_card);
 
-        card.setTextViewText(R.id.contactName, mWidgetItems.get(arg0).name);
-        card.setTextViewText(R.id.contactNumber, mWidgetItems.get(arg0).number);
-        card.setTextViewText(R.id.contactNumberType, mWidgetItems.get(arg0).preview);
-        card.setTextViewText(R.id.msgCount, mWidgetItems.get(arg0).count);
-        card.setTextViewText(R.id.unreadText, mWidgetItems.get(arg0).read);
-        card.setImageViewBitmap(R.id.contactPicture, getFacebookPhoto(mWidgetItems.get(arg0).number, mContext));
+        try {
+            card.setTextViewText(R.id.contactName, mWidgetItems.get(arg0).name);
+            card.setTextViewText(R.id.contactNumber, mWidgetItems.get(arg0).number);
+            card.setTextViewText(R.id.contactNumberType, mWidgetItems.get(arg0).preview);
+            card.setTextViewText(R.id.msgCount, mWidgetItems.get(arg0).count);
+            card.setTextViewText(R.id.unreadText, mWidgetItems.get(arg0).read);
+            card.setImageViewBitmap(R.id.contactPicture, getFacebookPhoto(mWidgetItems.get(arg0).number, mContext));
 
-        // changes the layout of the contact cards on update
-        if (sharedPrefs.getBoolean("widget_dark_theme", false))
+            // changes the layout of the contact cards on update
+            if (sharedPrefs.getBoolean("widget_dark_theme", false))
+            {
+                card.setImageViewResource(R.id.view1, R.drawable.widget_card_dark);
+            } else
+            {
+                card.setImageViewResource(R.id.view1, R.drawable.widget_card);
+            }
+
+            Bundle extras = new Bundle();
+            extras.putString("CONVERSATION_TO_OPEN", mWidgetItems.get(arg0).number);
+            Intent cardFillInIntent = new Intent();
+            cardFillInIntent.putExtras(extras);
+            card.setOnClickFillInIntent(R.id.widget_card_background, cardFillInIntent);
+        } catch (IndexOutOfBoundsException e)
         {
-            card.setImageViewResource(R.id.view1, R.drawable.widget_card_dark);
-        } else
-        {
-            card.setImageViewResource(R.id.view1, R.drawable.widget_card);
+
         }
-		
-		Bundle extras = new Bundle();
-        extras.putString("CONVERSATION_TO_OPEN", mWidgetItems.get(arg0).number);
-        Intent cardFillInIntent = new Intent();
-        cardFillInIntent.putExtras(extras);
-        card.setOnClickFillInIntent(R.id.widget_card_background, cardFillInIntent);
-		
+
 		return card;
 	}
 
