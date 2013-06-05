@@ -52,6 +52,7 @@ public class CatalogWizardModel extends AbstractWizardModel {
         String changeLog = "Version " + version + ":\n\n" +
                 "- Security Options\n" +
                 "- Popup now supports theming with theme engine\n" +
+                "- Widget options including black theme\n" +
                 "- Popup bug fixes\n" +
                 "- General bug fixes\n\n";
 
