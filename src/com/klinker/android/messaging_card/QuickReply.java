@@ -505,7 +505,7 @@ public class QuickReply extends FragmentActivity {
 
                 @Override
                 public void onClick(View arg0) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context, android.R.style.Theme_Holo_Dialog);
                     builder.setTitle("Insert Emojis");
                     LayoutInflater inflater = ((Activity) context).getLayoutInflater();
                     View frame = inflater.inflate(R.layout.emoji_frame, null);
