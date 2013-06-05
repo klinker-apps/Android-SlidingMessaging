@@ -2161,6 +2161,7 @@ public class MainActivity extends FragmentActivity {
 		final ImageButton sendButton = (ImageButton) newMessageView.findViewById(R.id.sendButton);
 		imageAttachBackground2 = newMessageView.findViewById(R.id.image_attachment_view_background);
 		imageAttach2 = (ImageAttachmentView) newMessageView.findViewById(R.id.image_attachment_view);
+        ImageButton contactLister = (ImageButton) newMessageView.findViewById(R.id.contactLister);
 		
 		mTextView.setVisibility(View.GONE);
 		mEditText.requestFocus();
@@ -2245,6 +2246,80 @@ public class MainActivity extends FragmentActivity {
 		
 		final Context context = (Context) this;
 		final EditText contact = (EditText) newMessageView.findViewById(R.id.contactEntry);
+
+        contactLister.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                contactNames = new ArrayList<String>();
+                contactNumbers = new ArrayList<String>();
+                contactTypes = new ArrayList<String>();
+
+                Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
+                String[] projection    = new String[] {ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+                        ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.LABEL};
+
+                Cursor people = getContentResolver().query(uri, projection, null, null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " asc");
+                int indexName = people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
+                int indexNumber = people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+
+                if (people.moveToFirst())
+                {
+                    do {
+                        int type = people.getInt(people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
+                        String customLabel = people.getString(people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.LABEL));
+
+                        if (sharedPrefs.getBoolean("mobile_only", false))
+                        {
+                            if (type == 2)
+                            {
+                                contactNames.add(people.getString(indexName));
+                                contactNumbers.add(people.getString(indexNumber).replaceAll("[^0-9\\+]", ""));
+                                contactTypes.add(ContactsContract.CommonDataKinds.Phone.getTypeLabel(context.getResources(), type, customLabel).toString());
+                            }
+                        } else
+                        {
+                            contactNames.add(people.getString(indexName));
+                            contactNumbers.add(people.getString(indexNumber).replaceAll("[^0-9\\+]", ""));
+                            contactTypes.add(ContactsContract.CommonDataKinds.Phone.getTypeLabel(context.getResources(), type, customLabel).toString());
+                        }
+                    } while (people.moveToNext());
+                }
+
+                people.close();
+
+                ListView searchView = (ListView) newMessageView.findViewById(R.id.contactSearch);
+                ContactSearchArrayAdapter adapter;
+                adapter = new ContactSearchArrayAdapter((Activity)context, contactNames, contactNumbers, contactTypes);
+                searchView.setAdapter(adapter);
+
+                searchView.setOnItemClickListener(new OnItemClickListener() {
+
+                    @Override
+                    public void onItemClick(AdapterView<?> arg0, View arg1,
+                                            int position, long arg3) {
+                        TextView view2 = (TextView) arg1.findViewById(R.id.receivedMessage);
+
+                        String[] t1 = contact.getText().toString().split("; ");
+                        String string = "";
+
+                        for (int i = 0; i < t1.length - 1; i++)
+                        {
+                            string += t1[i] + "; ";
+                        }
+
+                        contact.setText(string + view2.getText() + "; ");
+                        contact.setSelection(contact.getText().toString().length());
+
+                        if (contact.getText().toString().length() <= 12)
+                        {
+                            mEditText.requestFocus();
+                        }
+
+                    }
+
+                });
+            }
+        });
 
 		contact.addTextChangedListener(new TextWatcher() {
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -3299,6 +3374,7 @@ public class MainActivity extends FragmentActivity {
 		emojiButton.setColorFilter(sharedPrefs.getInt("ct_emojiButtonColor", getResources().getColor(R.color.emoji_button)));
 		mEditText.setTextColor(sharedPrefs.getInt("ct_draftTextColor", sharedPrefs.getInt("ct_sendButtonColor", getResources().getColor(R.color.black))));
 		contact.setTextColor(sharedPrefs.getInt("ct_draftTextColor", sharedPrefs.getInt("ct_sendButtonColor", getResources().getColor(R.color.black))));
+        contactLister.setColorFilter(sharedPrefs.getInt("ct_sendButtonColor", getResources().getColor(R.color.black)));
 		
 		imageAttachBackground2.setBackgroundColor(sharedPrefs.getInt("ct_messageListBackground", context.getResources().getColor(R.color.light_silver)));
 		Drawable attachBack = getResources().getDrawable(R.drawable.attachment_editor_bg);

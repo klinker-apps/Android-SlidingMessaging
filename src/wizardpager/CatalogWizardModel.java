@@ -54,6 +54,7 @@ public class CatalogWizardModel extends AbstractWizardModel {
                 "- Popup now supports theming with theme engine\n" +
                 "- Widget options including black theme\n" +
                 "- Access to message details by clicking on the SMS message\n" +
+                "- Ability to pick a contact name from a list of all contacts when creating a new message\n" +
                 "- Popup bug fixes\n" +
                 "- General bug fixes\n\n";
 
