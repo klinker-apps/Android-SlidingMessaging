@@ -37,12 +37,6 @@
           <theme>@style/AppTheme</theme>
         </config>
       </layout>
-      <layout url="file://$PROJECT_DIR$/res/layout/card_widget.xml">
-        <config>
-          <device>Nexus 4</device>
-          <theme>@style/AppTheme</theme>
-        </config>
-      </layout>
       <layout url="file://$PROJECT_DIR$/res/layout/contact_body.xml">
         <config>
           <device>Nexus 4</device>
@@ -88,30 +82,15 @@
     </layouts>
   </component>
   <component name="ChangeListManager">
-<<<<<<< HEAD
-    <list default="true" id="1e4b5eb9-13da-4bef-bd83-6650ca630326" name="Default" comment="" />
-=======
     <list default="true" id="1e4b5eb9-13da-4bef-bd83-6650ca630326" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/klinker/android/messaging_donate/CardWidgetProvider.java" afterPath="$PROJECT_DIR$/src/com/klinker/android/messaging_donate/CardWidgetProvider.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/klinker/android/messaging_donate/CardWidgetService.java" afterPath="$PROJECT_DIR$/src/com/klinker/android/messaging_donate/CardWidgetService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/klinker/android/messaging_donate/CardWidgetSettingsActivity.java" afterPath="$PROJECT_DIR$/src/com/klinker/android/messaging_donate/CardWidgetSettingsActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/card_widget.xml" afterPath="$PROJECT_DIR$/res/layout/card_widget.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/strings.xml" afterPath="$PROJECT_DIR$/res/values/strings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/xml/widget_settings.xml" afterPath="$PROJECT_DIR$/res/xml/widget_settings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/klinker/android/messaging_card/QuickReply.java" afterPath="$PROJECT_DIR$/src/com/klinker/android/messaging_card/QuickReply.java" />
     </list>
->>>>>>> 09414128edfd01f696e1cdb7e2a88f8943c83ed9
     <ignored path="Messaging Donate.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/fragment.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369787072367" ignored="false" />
     <file path="/a.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1368676941114" ignored="false" />
     <file path="/sample.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1368676949020" ignored="false" />
-<<<<<<< HEAD
     <file path="/Dummy.txt" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1370390296759" ignored="false" />
-=======
-    <file path="/Dummy.txt" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1370388078980" ignored="false" />
->>>>>>> 09414128edfd01f696e1cdb7e2a88f8943c83ed9
     <file path="/message_hangout_sent.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369012353566" ignored="false" />
     <file path="/a.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369757797561" ignored="false" />
     <file path="/message_hangout_received.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369012279483" ignored="false" />
@@ -131,7 +110,7 @@
     <file path="$PROJECT_DIR$/../SwipeToDismissUndoList/gen/de/timroes/swipetodismiss/BuildConfig.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369517475183" ignored="false" />
     <file path="/EmojiAdapter3.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1368854018475" ignored="false" />
     <file path="/EmojiAdapter2.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369174010348" ignored="false" />
-    <file path="/QuickReply.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1370390651962" ignored="false" />
+    <file path="/QuickReply.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1370391245371" ignored="false" />
     <file path="/EmojiConverter2_bak.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1368923380372" ignored="false" />
     <file path="/EmojiConverter2.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369146283519" ignored="false" />
     <file path="/card_main_dark.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1368984079568" ignored="false" />
@@ -141,11 +120,7 @@
     <file path="/AndroidManifest.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369782994444" ignored="false" />
     <file path="/MenuArrayAdapter.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369675189927" ignored="false" />
     <file path="/SendMessage.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369181630438" ignored="false" />
-<<<<<<< HEAD
     <file path="/strings.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1370309519665" ignored="false" />
-=======
-    <file path="/strings.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1370385813810" ignored="false" />
->>>>>>> 09414128edfd01f696e1cdb7e2a88f8943c83ed9
     <file path="/emoji_frame.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369189353449" ignored="false" />
     <file path="/header.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369174565376" ignored="false" />
     <file path="/conversation_settings.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369237440930" ignored="false" />
@@ -166,11 +141,7 @@
     <file path="/EmojiAdapter.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369516766138" ignored="false" />
     <file path="/QmMarkRead2.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369517639010" ignored="false" />
     <file path="/NotificationReceiver.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369517725502" ignored="false" />
-<<<<<<< HEAD
     <file path="/CardWidgetProvider.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369671949191" ignored="false" />
-=======
-    <file path="/CardWidgetProvider.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1370390720997" ignored="false" />
->>>>>>> 09414128edfd01f696e1cdb7e2a88f8943c83ed9
     <file path="/unread_widget.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369583238445" ignored="false" />
     <file path="/launcher_glow.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369579940539" ignored="false" />
     <file path="/CardWidgetProvider2.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369583080303" ignored="false" />
@@ -201,23 +172,11 @@
     <file path="$PROJECT_DIR$/../romannurik-code/misc/wizardpager/res/layout/fragment_page_button.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369795736289" ignored="false" />
     <file path="/fragment_page_button.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369795736289" ignored="false" />
     <file path="$PROJECT_DIR$/../romannurik-code/misc/wizardpager/.idea/workspace.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1369780511664" ignored="false" />
-<<<<<<< HEAD
     <file path="/PasswordActivity.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1370301713842" ignored="false" />
     <file path="/SetPasswordActivity.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1370301744514" ignored="false" />
     <file path="/To-do.txt" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1370312764325" ignored="false" />
     <file path="/popup_settings.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1370309470791" ignored="false" />
     <file path="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/SetPasswordActivity.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1370310099719" ignored="false" />
-=======
-    <file path="/CardWidgetSettingsButtonActivity.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1370357221009" ignored="false" />
-    <file path="/CardWidgetSettingsActivity.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1370388602283" ignored="false" />
-    <file path="/widget_card.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1370377851919" ignored="false" />
-    <file path="/card_widget.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1370390505124" ignored="false" />
-    <file path="/CardWidgetService.java" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1370385589398" ignored="false" />
-    <file path="/card_widget_dark.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1370364669074" ignored="false" />
-    <file path="/card_widget_light.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1370364970593" ignored="false" />
-    <file path="/widget_card_dark.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1370377801248" ignored="false" />
-    <file path="/widget_settings.xml" changelist="1e4b5eb9-13da-4bef-bd83-6650ca630326" time="1370384244132" ignored="false" />
->>>>>>> 09414128edfd01f696e1cdb7e2a88f8943c83ed9
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -283,14 +242,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="QuickReply.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="QuickReply.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_card/QuickReply.java">
           <provider selected="true" editor-type-id="text-editor">
-<<<<<<< HEAD
-            <state line="507" column="81" selection-start="19977" selection-end="19977" vertical-scroll-proportion="0.57197696">
-=======
-            <state line="97" column="25" selection-start="3446" selection-end="3446" vertical-scroll-proportion="0.0">
->>>>>>> 09414128edfd01f696e1cdb7e2a88f8943c83ed9
+            <state line="507" column="116" selection-start="20012" selection-end="20012" vertical-scroll-proportion="-11.461538">
               <folding />
             </state>
           </provider>
@@ -299,9 +254,10 @@
       <file leaf-file-name="card_widget.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/res/layout/card_widget.xml">
           <provider selected="true" editor-type-id="text-editor">
-<<<<<<< HEAD
-            <state line="54" column="0" selection-start="2254" selection-end="2254" vertical-scroll-proportion="-7.12">
-              <folding />
+            <state line="67" column="0" selection-start="2952" selection-end="2952" vertical-scroll-proportion="-7.12">
+              <folding>
+                <element signature="e#2110#2135#0" expanded="true" />
+              </folding>
             </state>
           </provider>
           <provider editor-type-id="android-designer">
@@ -309,10 +265,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="widget_settings.xml" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="widget_settings.xml" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/res/menu/widget_settings.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="0" selection-start="106" selection-end="106" vertical-scroll-proportion="0.0">
+            <state line="3" column="4" selection-start="110" selection-end="110" vertical-scroll-proportion="0.09107143">
               <folding />
             </state>
           </provider>
@@ -340,36 +296,16 @@
         <entry file="file://$PROJECT_DIR$/src/wizardpager/CatalogWizardModel.java">
           <provider selected="true" editor-type-id="text-editor">
             <state line="54" column="60" selection-start="1923" selection-end="1923" vertical-scroll-proportion="0.0">
-=======
-            <state line="103" column="78" selection-start="3908" selection-end="3908" vertical-scroll-proportion="0.54587156">
->>>>>>> 09414128edfd01f696e1cdb7e2a88f8943c83ed9
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-<<<<<<< HEAD
       <file leaf-file-name="To-do.txt" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/To-do/To-do.txt">
           <provider selected="true" editor-type-id="text-editor">
             <state line="1" column="34" selection-start="58" selection-end="58" vertical-scroll-proportion="0.0">
               <folding />
-=======
-      <file leaf-file-name="card_widget.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/layout/card_widget.xml">
-          <provider editor-type-id="android-designer">
-            <state />
-          </provider>
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="43" column="39" selection-start="1745" selection-end="1745" vertical-scroll-proportion="3.88">
-              <folding>
-                <element signature="e#2110#2135#0" expanded="true" />
-                <element signature="e#2851#2874#0" expanded="true" />
-                <element signature="e#3553#3581#0" expanded="true" />
-                <element signature="e#4280#4301#0" expanded="true" />
-                <element signature="e#4970#4991#0" expanded="true" />
-              </folding>
->>>>>>> 09414128edfd01f696e1cdb7e2a88f8943c83ed9
             </state>
           </provider>
         </entry>
@@ -398,7 +334,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-<<<<<<< HEAD
         <option value="$PROJECT_DIR$/res/xml/sliding_advanced_settings.xml" />
         <option value="$PROJECT_DIR$/src/wizardpager/MainActivity.java" />
         <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MainActivity.java" />
@@ -415,24 +350,6 @@
         <option value="$PROJECT_DIR$/src/wizardpager/CatalogWizardModel.java" />
         <option value="$PROJECT_DIR$/To-do/To-do.txt" />
         <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_card/QuickReply.java" />
-=======
-        <option value="$PROJECT_DIR$/res/layout/widget_card.xml" />
-        <option value="$PROJECT_DIR$/res/layout/card_widget_dark.xml" />
-        <option value="$PROJECT_DIR$/res/layout/card_widget_light.xml" />
-        <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_donate/CardWidgetProvider2.java" />
-        <option value="$PROJECT_DIR$/res/drawable/widget_background_transparent.xml" />
-        <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/SettingsPagerActivity.java" />
-        <option value="$PROJECT_DIR$/res/drawable/widget_card_dark.xml" />
-        <option value="$PROJECT_DIR$/res/drawable/widget_card.xml" />
-        <option value="$PROJECT_DIR$/res/drawable/widget_card_transparent.xml" />
-        <option value="$PROJECT_DIR$/res/xml/widget_settings.xml" />
-        <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_donate/CardWidgetService.java" />
-        <option value="$PROJECT_DIR$/res/values/strings.xml" />
-        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_donate/CardWidgetSettingsActivity.java" />
-        <option value="$PROJECT_DIR$/res/layout/card_widget.xml" />
-        <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_donate/CardWidgetProvider.java" />
->>>>>>> 09414128edfd01f696e1cdb7e2a88f8943c83ed9
       </list>
     </option>
   </component>
@@ -515,12 +432,24 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
-<<<<<<< HEAD
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="wizardpager" />
-=======
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SlidingMessaging" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MessagingDonate" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -538,7 +467,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="slidingmessaging" />
+              <option name="myItemId" value="MessagingDonate" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -564,25 +493,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="slidingmessaging" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
->>>>>>> 09414128edfd01f696e1cdb7e2a88f8943c83ed9
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SlidingMessaging" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="MessagingDonate" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -591,59 +501,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SlidingMessaging" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MessagingDonate" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-<<<<<<< HEAD
-              <option name="myItemId" value="messaging_donate" />
-=======
-              <option name="myItemId" value="menu" />
->>>>>>> 09414128edfd01f696e1cdb7e2a88f8943c83ed9
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SlidingMessaging" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MessagingDonate" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-<<<<<<< HEAD
               <option name="myItemId" value="com" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -659,9 +516,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
-=======
-              <option name="myItemId" value="drawable-hdpi" />
->>>>>>> 09414128edfd01f696e1cdb7e2a88f8943c83ed9
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -962,35 +816,18 @@
       <workItem from="1369797104007" duration="793000" />
       <workItem from="1369799852816" duration="741000" />
       <workItem from="1369797104007" duration="975000" />
-<<<<<<< HEAD
       <workItem from="1369798871195" duration="2617000" />
       <workItem from="1369831295003" duration="14000" />
       <workItem from="1370264352757" duration="643000" />
       <workItem from="1370301492299" duration="2859000" />
       <workItem from="1370308798018" duration="1565000" />
       <workItem from="1370312118035" duration="647000" />
-      <workItem from="1370390272499" duration="892000" />
-=======
-      <workItem from="1369798871195" duration="2890000" />
-      <workItem from="1369801820706" duration="228000" />
-      <workItem from="1369835246135" duration="1400000" />
-      <workItem from="1369839349286" duration="708000" />
-      <workItem from="1369841129880" duration="572000" />
-      <workItem from="1369842201988" duration="2897000" />
-      <workItem from="1370356660487" duration="16148000" />
-      <workItem from="1370374454257" duration="5318000" />
-      <workItem from="1370384114230" duration="2843000" />
-      <workItem from="1370388075726" duration="1912000" />
->>>>>>> 09414128edfd01f696e1cdb7e2a88f8943c83ed9
+      <workItem from="1370390272499" duration="1046000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-<<<<<<< HEAD
-    <option name="totallyTimeSpent" value="246910000" />
-=======
-    <option name="totallyTimeSpent" value="274647000" />
->>>>>>> 09414128edfd01f696e1cdb7e2a88f8943c83ed9
+    <option name="totallyTimeSpent" value="247064000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1016,39 +853,23 @@
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
     <editor active="true" />
     <layout>
-<<<<<<< HEAD
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33920705" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32870865" sideWeight="0.6453745" order="1" side_tool="false" content_ui="tabs" />
-=======
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33964366" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32924226" sideWeight="0.63028955" order="1" side_tool="false" content_ui="tabs" />
->>>>>>> 09414128edfd01f696e1cdb7e2a88f8943c83ed9
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39977974" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27282852" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17899892" sideWeight="0.29705215" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17899892" sideWeight="0.29705215" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32962137" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-<<<<<<< HEAD
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.35462555" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36043957" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-=======
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35634744" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36971048" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
->>>>>>> 09414128edfd01f696e1cdb7e2a88f8943c83ed9
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2709251" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24972796" sideWeight="0.72902495" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-<<<<<<< HEAD
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17502668" sideWeight="0.6453745" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2709251" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3242424" sideWeight="0.8624161" order="0" side_tool="false" content_ui="tabs" />
-=======
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1755603" sideWeight="0.64365256" order="1" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27282852" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3239061" sideWeight="0.7271715" order="0" side_tool="false" content_ui="tabs" />
->>>>>>> 09414128edfd01f696e1cdb7e2a88f8943c83ed9
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3239061" sideWeight="0.86414254" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1145,20 +966,13 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_card/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="3178" column="9" selection-start="128393" selection-end="128393" vertical-scroll-proportion="0.22780569" />
-=======
-    <entry file="file://$PROJECT_DIR$/res/drawable/widget_background.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="13" selection-start="249" selection-end="249" vertical-scroll-proportion="0.0" />
->>>>>>> 09414128edfd01f696e1cdb7e2a88f8943c83ed9
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/drawable/widget_background_transparent.xml">
+    <entry file="file://$PROJECT_DIR$/res/xml/card_widget.xml">
       <provider selected="true" editor-type-id="text-editor">
-<<<<<<< HEAD
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
@@ -1167,114 +981,64 @@
         <state line="13" column="53" selection-start="468" selection-end="468" vertical-scroll-proportion="0.0">
           <folding />
         </state>
-=======
-        <state line="4" column="37" selection-start="175" selection-end="175" vertical-scroll-proportion="0.0" />
->>>>>>> 09414128edfd01f696e1cdb7e2a88f8943c83ed9
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/SettingsPagerActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-<<<<<<< HEAD
         <state line="733" column="0" selection-start="31379" selection-end="31379" vertical-scroll-proportion="0.0">
-=======
-        <state line="659" column="65" selection-start="28194" selection-end="28194" vertical-scroll-proportion="0.0">
->>>>>>> 09414128edfd01f696e1cdb7e2a88f8943c83ed9
           <folding />
         </state>
       </provider>
     </entry>
-<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/wizardpager/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="40" column="13" selection-start="1396" selection-end="1396" vertical-scroll-proportion="0.0">
-=======
-    <entry file="file://$PROJECT_DIR$/res/drawable/widget_card.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="13" selection-start="487" selection-end="487" vertical-scroll-proportion="0.0">
->>>>>>> 09414128edfd01f696e1cdb7e2a88f8943c83ed9
           <folding />
         </state>
       </provider>
     </entry>
-<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="4" column="29" selection-start="265" selection-end="265" vertical-scroll-proportion="0.0">
-=======
-    <entry file="file://$PROJECT_DIR$/res/drawable/widget_card_dark.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="509" vertical-scroll-proportion="0.0">
->>>>>>> 09414128edfd01f696e1cdb7e2a88f8943c83ed9
           <folding />
         </state>
       </provider>
     </entry>
-<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="424" column="79" selection-start="34310" selection-end="34310" vertical-scroll-proportion="0.0">
-=======
-    <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/TextMessageReceiver.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1037" column="52" selection-start="43071" selection-end="43192" vertical-scroll-proportion="0.35329342">
->>>>>>> 09414128edfd01f696e1cdb7e2a88f8943c83ed9
           <folding />
         </state>
       </provider>
     </entry>
-<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/wizardpager/CatalogWizardModel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="54" column="60" selection-start="1923" selection-end="1923" vertical-scroll-proportion="0.0">
-=======
-    <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="354" column="54" selection-start="28658" selection-end="28658" vertical-scroll-proportion="0.0">
->>>>>>> 09414128edfd01f696e1cdb7e2a88f8943c83ed9
           <folding />
         </state>
       </provider>
     </entry>
-<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_donate/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="148" column="42" selection-start="5257" selection-end="5257" vertical-scroll-proportion="0.01923077">
-=======
-    <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_donate/CardWidgetService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="85" column="9" selection-start="3218" selection-end="3218" vertical-scroll-proportion="0.0">
->>>>>>> 09414128edfd01f696e1cdb7e2a88f8943c83ed9
           <folding />
         </state>
       </provider>
     </entry>
-<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_donate/CardWidgetSettingsActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="12" column="13" selection-start="358" selection-end="358" vertical-scroll-proportion="0.07692308">
-=======
-    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="405" column="56" selection-start="17121" selection-end="17121" vertical-scroll-proportion="0.0">
->>>>>>> 09414128edfd01f696e1cdb7e2a88f8943c83ed9
           <folding />
         </state>
       </provider>
     </entry>
-<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_donate/CardWidgetProvider2.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="22" column="13" selection-start="603" selection-end="603" vertical-scroll-proportion="0.13492064">
-=======
-    <entry file="file://$PROJECT_DIR$/res/xml/widget_settings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="43" selection-start="295" selection-end="295" vertical-scroll-proportion="0.0">
->>>>>>> 09414128edfd01f696e1cdb7e2a88f8943c83ed9
           <folding />
         </state>
       </provider>
     </entry>
-<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_donate/CardWidgetProvider.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="17" column="13" selection-start="555" selection-end="555" vertical-scroll-proportion="-2.1995466">
@@ -1285,75 +1049,32 @@
     <entry file="file://$PROJECT_DIR$/To-do/To-do.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state line="1" column="34" selection-start="58" selection-end="58" vertical-scroll-proportion="0.0">
-=======
-    <entry file="file://$PROJECT_DIR$/res/drawable-hdpi/ic_done.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/menu/widget_settings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#201#222#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_donate/CardWidgetSettingsActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="97" column="25" selection-start="3446" selection-end="3446" vertical-scroll-proportion="0.0">
->>>>>>> 09414128edfd01f696e1cdb7e2a88f8943c83ed9
           <folding />
-        </state>
-      </provider>
-    </entry>
-<<<<<<< HEAD
-    <entry file="file://$PROJECT_DIR$/res/layout/card_widget.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="54" column="0" selection-start="2254" selection-end="2254" vertical-scroll-proportion="-7.12">
-=======
-    <entry file="file://$PROJECT_DIR$/res/drawable/widget_card_transparent.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="37" selection-start="410" selection-end="410" vertical-scroll-proportion="0.3462963">
->>>>>>> 09414128edfd01f696e1cdb7e2a88f8943c83ed9
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-<<<<<<< HEAD
-    <entry file="file://$PROJECT_DIR$/res/menu/widget_settings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="0" selection-start="106" selection-end="106" vertical-scroll-proportion="0.0">
-          <folding />
-=======
-    <entry file="file://$PROJECT_DIR$/res/layout/card_widget.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="39" selection-start="1745" selection-end="1745" vertical-scroll-proportion="3.88">
-          <folding>
-            <element signature="e#2110#2135#0" expanded="true" />
-            <element signature="e#2851#2874#0" expanded="true" />
-            <element signature="e#3553#3581#0" expanded="true" />
-            <element signature="e#4280#4301#0" expanded="true" />
-            <element signature="e#4970#4991#0" expanded="true" />
-          </folding>
->>>>>>> 09414128edfd01f696e1cdb7e2a88f8943c83ed9
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_card/QuickReply.java">
       <provider selected="true" editor-type-id="text-editor">
-<<<<<<< HEAD
-        <state line="507" column="81" selection-start="19977" selection-end="19977" vertical-scroll-proportion="0.57197696">
-=======
-        <state line="103" column="78" selection-start="3908" selection-end="3908" vertical-scroll-proportion="0.54587156">
->>>>>>> 09414128edfd01f696e1cdb7e2a88f8943c83ed9
+        <state line="507" column="116" selection-start="20012" selection-end="20012" vertical-scroll-proportion="-11.461538">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/card_widget.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="67" column="0" selection-start="2952" selection-end="2952" vertical-scroll-proportion="-7.12">
+          <folding>
+            <element signature="e#2110#2135#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/menu/widget_settings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="4" selection-start="110" selection-end="110" vertical-scroll-proportion="0.09107143">
           <folding />
         </state>
       </provider>
