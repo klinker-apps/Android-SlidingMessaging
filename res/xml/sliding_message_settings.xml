@@ -75,4 +75,11 @@
         android:title="@string/contact_pictures"
         android:defaultValue="true"
         />
+
+    <CheckBoxPreference
+        android:key="limit_messages"
+        android:title="@string/limit_messages"
+        android:summary="@string/limit_messages_summary"
+        android:defaultValue="true"
+        />
 </PreferenceScreen>

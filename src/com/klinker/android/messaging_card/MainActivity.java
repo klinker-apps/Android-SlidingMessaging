@@ -22,6 +22,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import android.view.*;
 import android.widget.*;
 import com.android.mms.transaction.HttpUtils;
 import com.android.mms.ui.ImageAttachmentView;
@@ -103,13 +104,7 @@ import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.TypedValue;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.WindowManager;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -118,7 +113,6 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Animation.AnimationListener;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.view.ViewGroup;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView.ScaleType;
 import android.widget.RelativeLayout.LayoutParams;
@@ -196,6 +190,8 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 	public static boolean isFastScrolling = false;
 	public static int scrollTo = 0;
 	public static boolean waitMessagePager = true;
+    public static int loadAllMessagesPosition = -1;
+    public static boolean loadAllMessages = false;
 	
 	public static boolean fromNewMessageButton = false;
 	
@@ -4391,7 +4387,20 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
                                 projection2 = new String[]{"_id", "ct_t", "body", "date", "type", "read", "status", "msg_box"};
                             }
 
-                            query2 = context.getContentResolver().query(uri3, projection2, null, null, null);
+                            String sortOrder = "normalized_date desc";
+
+                            if (sharedPrefs.getBoolean("limit_messages", true) && !(MainActivity.loadAllMessages && position == MainActivity.loadAllMessagesPosition))
+                            {
+                                sortOrder += " limit 20";
+                            }
+
+                            if (MainActivity.loadAllMessages && position == MainActivity.loadAllMessagesPosition)
+                            {
+                                MainActivity.loadAllMessages = false;
+                                MainActivity.loadAllMessagesPosition = -1;
+                            }
+
+                            query2 = context.getContentResolver().query(uri3, projection2, null, null, sortOrder);
                             final CustomListView messageList = (CustomListView) view.findViewById(R.id.messageListView);
                             final MessageArrayAdapter adapter = new MessageArrayAdapter((Activity) context, inboxNumber.get(position), threadIds.get(position), query2, position);
                             MainActivity.isFastScrolling = false;
@@ -4401,6 +4410,39 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 
                                 @Override
                                 public void run() {
+
+                                    if (adapter.getCount() >= 20 && messageList.getHeaderViewsCount() == 0)
+                                    {
+                                        Button footer = new Button (context);
+                                        int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, getResources().getDisplayMetrics());
+                                        footer.setPadding(0, scale, 0, scale);
+                                        footer.setGravity(Gravity.CENTER);
+                                        footer.setText(context.getResources().getString(R.string.load_all));
+                                        footer.setTextColor(sharedPrefs.getInt("ct_draftTextColor", sharedPrefs.getInt("ct_sendButtonColor", getResources().getColor(R.color.black))));
+
+                                        if (sharedPrefs.getString("card_theme", "Light").equals("Light"))
+                                        {
+                                            footer.setBackgroundResource(R.drawable.card_background);
+                                        } else if (sharedPrefs.getString("card_theme", "Light").equals("Dark"))
+                                        {
+                                            footer.setBackgroundResource(R.drawable.card_background_dark);
+                                        } else if (sharedPrefs.getString("card_theme", "Light").equals("Pitch Black"))
+                                        {
+                                            footer.setBackgroundResource(R.drawable.card_background_black);
+                                        }
+
+                                        footer.setOnClickListener(new OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                MainActivity.loadAllMessages = true;
+                                                MainActivity.loadAllMessagesPosition = position;
+                                                ((MainActivity)context).refreshViewPager(false);
+                                            }
+                                        });
+
+                                        messageList.addHeaderView(footer);
+                                    }
+
                                     messageList.setAdapter(adapter);
                                     messageList.setStackFromBottom(true);
                                     messageList.setDividerHeight(7);

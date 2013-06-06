@@ -339,7 +339,7 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
 	  
 	  try
 	  {
-		  query.moveToPosition(position);
+		  query.moveToPosition(getCount() - 1 - position);
 		  
 		  String s = query.getString(query.getColumnIndex("ct_t"));
 			

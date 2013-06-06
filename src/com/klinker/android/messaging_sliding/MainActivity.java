@@ -159,6 +159,9 @@ public class MainActivity extends FragmentActivity {
 	public boolean firstContactSearch = true;
 	public int contactSearchPosition = 0;
 	public boolean refreshMyContact = true;
+
+    public static int loadAllMessagesPosition = -1;
+    public static boolean loadAllMessages = false;
 	
 	public static boolean animationOn = false;
 	public static int animationReceived = 0;
@@ -6667,7 +6670,20 @@ public class MainActivity extends FragmentActivity {
                             projection2 = new String[]{"_id", "ct_t", "body", "date", "type", "read", "status", "msg_box"};
                         }
 
-                        messageQuery = contentResolver.query(uri3, projection2, null, null, null);
+                        String sortOrder = "normalized_date desc";
+
+                        if (sharedPrefs.getBoolean("limit_messages", true) && !(MainActivity.loadAllMessages && position == MainActivity.loadAllMessagesPosition))
+                        {
+                            sortOrder += " limit 20";
+                        }
+
+                        if (MainActivity.loadAllMessages && position == MainActivity.loadAllMessagesPosition)
+                        {
+                            MainActivity.loadAllMessages = false;
+                            MainActivity.loadAllMessagesPosition = -1;
+                        }
+
+                        messageQuery = contentResolver.query(uri3, projection2, null, null, sortOrder);
 
                         ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 
@@ -6676,12 +6692,56 @@ public class MainActivity extends FragmentActivity {
                                 if (sharedPrefs.getString("run_as", "sliding").equals("sliding"))
                                 {
                                     MessageArrayAdapter adapter = new MessageArrayAdapter((Activity) context, myId, numbers.get(position), threadIds.get(position), messageQuery, myPhoneNumber, position);
+
+                                    if (adapter.getCount() >= 20 && listView.getHeaderViewsCount() == 0)
+                                    {
+                                        Button footer = new Button (context);
+                                        int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, getResources().getDisplayMetrics());
+                                        footer.setPadding(0, scale, 0, scale);
+                                        footer.setGravity(Gravity.CENTER);
+                                        footer.setText(context.getResources().getString(R.string.load_all));
+                                        footer.setTextColor(sharedPrefs.getInt("ct_draftTextColor", sharedPrefs.getInt("ct_sendButtonColor", getResources().getColor(R.color.black))));
+
+                                        footer.setOnClickListener(new OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                MainActivity.loadAllMessages = true;
+                                                MainActivity.loadAllMessagesPosition = position;
+                                                ((MainActivity)context).refreshViewPager(false);
+                                            }
+                                        });
+
+                                        listView.addHeaderView(footer);
+                                    }
+
                                     listView.setAdapter(adapter);
                                     listView.setStackFromBottom(true);
                                     spinner.setVisibility(View.GONE);
                                 } else
                                 {
                                     com.klinker.android.messaging_hangout.MessageArrayAdapter adapter = new com.klinker.android.messaging_hangout.MessageArrayAdapter((Activity) context, myId, numbers.get(position), threadIds.get(position), messageQuery, myPhoneNumber, position);
+
+                                    if (adapter.getCount() >= 20 && listView.getHeaderViewsCount() == 0)
+                                    {
+                                        Button footer = new Button (context);
+                                        int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, getResources().getDisplayMetrics());
+                                        footer.setPadding(0, scale, 0, scale);
+                                        footer.setGravity(Gravity.CENTER);
+                                        footer.setText(context.getResources().getString(R.string.load_all));
+                                        footer.setTextColor(sharedPrefs.getInt("ct_draftTextColor", sharedPrefs.getInt("ct_sendButtonColor", getResources().getColor(R.color.black))));
+
+                                        footer.setOnClickListener(new OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                MainActivity.loadAllMessages = true;
+                                                MainActivity.loadAllMessagesPosition = position;
+                                                ((MainActivity)context).refreshViewPager(false);
+                                            }
+                                        });
+
+                                        listView.addHeaderView(footer);
+                                    }
+
                                     listView.setAdapter(adapter);
                                     listView.setStackFromBottom(true);
                                     spinner.setVisibility(View.GONE);
@@ -6729,17 +6789,74 @@ public class MainActivity extends FragmentActivity {
                     projection2 = new String[]{"_id", "ct_t", "body", "date", "type", "read", "status", "msg_box"};
                 }
 
-                messageQuery = contentResolver.query(uri3, projection2, null, null, null);
+                String sortOrder = "normalized_date desc";
+
+                if (sharedPrefs.getBoolean("limit_messages", true) && !(MainActivity.loadAllMessages && position == MainActivity.loadAllMessagesPosition))
+                {
+                    sortOrder += " limit 20";
+                }
+
+                if (MainActivity.loadAllMessages && position == MainActivity.loadAllMessagesPosition)
+                {
+                    MainActivity.loadAllMessages = false;
+                    MainActivity.loadAllMessagesPosition = -1;
+                }
+
+                messageQuery = contentResolver.query(uri3, projection2, null, null, sortOrder);
 
                 if (sharedPrefs.getString("run_as", "sliding").equals("sliding"))
                 {
                     MessageArrayAdapter adapter = new MessageArrayAdapter((Activity) context, myId, numbers.get(position), threadIds.get(position), messageQuery, myPhoneNumber, position);
+
+                    if (adapter.getCount() >= 20 && listView.getHeaderViewsCount() == 0)
+                    {
+                        Button footer = new Button (context);
+                        int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, getResources().getDisplayMetrics());
+                        footer.setPadding(0, scale, 0, scale);
+                        footer.setGravity(Gravity.CENTER);
+                        footer.setText(context.getResources().getString(R.string.load_all));
+                        footer.setTextColor(sharedPrefs.getInt("ct_draftTextColor", sharedPrefs.getInt("ct_sendButtonColor", getResources().getColor(R.color.black))));
+
+                        footer.setOnClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                MainActivity.loadAllMessages = true;
+                                MainActivity.loadAllMessagesPosition = position;
+                                ((MainActivity)context).refreshViewPager(false);
+                            }
+                        });
+
+                        listView.addHeaderView(footer);
+                    }
+
                     listView.setAdapter(adapter);
                     listView.setStackFromBottom(true);
 					spinner.setVisibility (View.GONE);
                 } else
                 {
                     com.klinker.android.messaging_hangout.MessageArrayAdapter adapter = new com.klinker.android.messaging_hangout.MessageArrayAdapter((Activity) context, myId, numbers.get(position), threadIds.get(position), messageQuery, myPhoneNumber, position);
+
+                    if (adapter.getCount() >= 20 && listView.getHeaderViewsCount() == 0)
+                    {
+                        Button footer = new Button (context);
+                        int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, getResources().getDisplayMetrics());
+                        footer.setPadding(0, scale, 0, scale);
+                        footer.setGravity(Gravity.CENTER);
+                        footer.setText(context.getResources().getString(R.string.load_all));
+                        footer.setTextColor(sharedPrefs.getInt("ct_draftTextColor", sharedPrefs.getInt("ct_sendButtonColor", getResources().getColor(R.color.black))));
+
+                        footer.setOnClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                MainActivity.loadAllMessages = true;
+                                MainActivity.loadAllMessagesPosition = position;
+                                ((MainActivity)context).refreshViewPager(false);
+                            }
+                        });
+
+                        listView.addHeaderView(footer);
+                    }
+
                     listView.setAdapter(adapter);
                     listView.setStackFromBottom(true);
 					spinner.setVisibility (View.GONE);
