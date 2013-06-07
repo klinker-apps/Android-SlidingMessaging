@@ -7,6 +7,7 @@ import android.support.v4.app.*;
 import android.support.v4.app.TaskStackBuilder;
 import android.view.*;
 import android.widget.*;
+import com.haarman.listviewanimations.swinginadapters.prepared.SwingTopInAnimatorAdapter;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.klinker.android.messaging_card.BatchDeleteActivity;
 import com.klinker.android.messaging_donate.DeliveredReceiver;
@@ -6650,7 +6651,7 @@ public class MainActivity extends FragmentActivity {
                         {
                             try
                             {
-                                Thread.sleep(500);
+                                Thread.sleep(200);
                             } catch (Exception e)
                             {
 
@@ -6708,6 +6709,7 @@ public class MainActivity extends FragmentActivity {
                                                 MainActivity.loadAllMessages = true;
                                                 MainActivity.loadAllMessagesPosition = position;
                                                 ((MainActivity)context).refreshViewPager(false);
+                                                MainActivity.mViewPager.setCurrentItem(position, false);
                                             }
                                         });
 
@@ -6736,13 +6738,17 @@ public class MainActivity extends FragmentActivity {
                                                 MainActivity.loadAllMessages = true;
                                                 MainActivity.loadAllMessagesPosition = position;
                                                 ((MainActivity)context).refreshViewPager(false);
+                                                MainActivity.mViewPager.setCurrentItem(position, false);
                                             }
                                         });
 
                                         listView.addHeaderView(footer);
                                     }
 
-                                    listView.setAdapter(adapter);
+                                    SwingTopInAnimatorAdapter swingAdapter = new SwingTopInAnimatorAdapter(adapter);
+                                    swingAdapter.setListView(listView);
+
+                                    listView.setAdapter(swingAdapter);
                                     listView.setStackFromBottom(true);
                                     spinner.setVisibility(View.GONE);
                                 }
@@ -6823,6 +6829,7 @@ public class MainActivity extends FragmentActivity {
                                 MainActivity.loadAllMessages = true;
                                 MainActivity.loadAllMessagesPosition = position;
                                 ((MainActivity)context).refreshViewPager(false);
+                                MainActivity.mViewPager.setCurrentItem(position, false);
                             }
                         });
 
@@ -6851,6 +6858,7 @@ public class MainActivity extends FragmentActivity {
                                 MainActivity.loadAllMessages = true;
                                 MainActivity.loadAllMessagesPosition = position;
                                 ((MainActivity)context).refreshViewPager(false);
+                                MainActivity.mViewPager.setCurrentItem(position, false);
                             }
                         });
 

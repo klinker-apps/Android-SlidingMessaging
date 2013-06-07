@@ -4437,6 +4437,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
                                                 MainActivity.loadAllMessages = true;
                                                 MainActivity.loadAllMessagesPosition = position;
                                                 ((MainActivity)context).refreshViewPager(false);
+                                                messagePager.setCurrentItem(position + 1, false);
                                             }
                                         });
 
