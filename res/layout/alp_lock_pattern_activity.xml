@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_gravity="center_horizontal">
+
+    <TextView style="@style/WizardPageTitle"
+            android:id="@+id/title"
+            android:text="@string/passwordTitle"
+            android:paddingTop="6dp"/>
+
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="50dp"
+            android:id="@+id/password"
+            android:layout_below="@+id/title"
+            android:paddingTop="7dp"/>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:padding="55dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:layout_below="@+id/password"
+            android:layout_alignBottom="@+id/filler"
+            android:id="@+id/tableLayout">
+
+        <include
+                android:id="@+id/alp_lock_pattern"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                layout="@layout/alp_lock_pattern_view" />
+
+    </RelativeLayout>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:orientation="horizontal"
+                    android:layout_above="@+id/bottomButtons"
+                    android:id="@+id/filler">
+    </RelativeLayout>
+
+    <RelativeLayout
+            style="?android:attr/buttonBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            android:id="@+id/bottomButtons">
+
+        <View android:id="@+id/divider"
+              android:background="?android:attr/dividerHorizontal"
+              android:layout_height="1dp"
+              android:layout_width="match_parent" />
+
+        <LinearLayout
+                style="?android:attr/buttonBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@id/divider">
+            <Button
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:background="@drawable/selectable_item_background"
+                    android:id="@+id/close_button"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/divider"
+                    android:text="@string/close" />
+
+            <Button
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:background="@drawable/selectable_item_background"
+                    android:id="@+id/unlock_button"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/unlock" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

@@ -71,5 +71,8 @@
     <color name="review_green">#ff669900</color>
 
     <color name="text_light">#66000000</color>
+
+    <color name="alp_pattern_path_light">@android:color/white</color>
+    <color name="alp_pattern_path_dark">#999999</color>
     
 </resources>

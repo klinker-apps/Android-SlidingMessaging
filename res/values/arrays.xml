@@ -383,6 +383,20 @@
         <item name="five_hour">5 Hours</item>
     </string-array>
 
+    <string-array name="security_type">
+        <item name="none">No Security</item>
+        <item name="pin">PIN</item>
+        <item name="pattern">Pattern</item>
+        <item name="password">Password</item>
+    </string-array>
+
+    <string-array name="security_type_set">
+        <item name="none">none</item>
+        <item name="pin">pin</item>
+        <item name="pattern">patten</item>
+        <item name="password">password</item>
+    </string-array>
+
     <string-array name="pageChangeAnimation">
         <item name="standard">Standard</item>
         <item name="tablet">Tablet</item>

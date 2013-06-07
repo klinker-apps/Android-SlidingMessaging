@@ -21,7 +21,7 @@ import java.util.Calendar;
 /**
  * Created by Luke on 6/2/13.
  */
-public class SetPasswordActivity extends FragmentActivity {
+public class SetPinActivity extends FragmentActivity {
     private SharedPreferences sharedPrefs;
 
     private Intent fromIntent;

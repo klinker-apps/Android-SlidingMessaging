@@ -93,30 +93,6 @@ public class CardWidgetSettingsActivity  extends PreferenceActivity {
                 ViewGroup.LayoutParams.MATCH_PARENT));
 	}
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.discard, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.discard:
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putBoolean("widget_title_dark_theme", widgetDarkTitle);
-                editor.putBoolean("widget_dark_theme", widgetDarkCards);
-                editor.putBoolean("dark_background", widgetDarkBackground);
-                editor.putBoolean("widget_background", useBackground);
-                editor.commit();
-                finish(); // TODO: don't just finish()!
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     public boolean discardClick()
     {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);

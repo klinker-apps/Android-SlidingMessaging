@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.*;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.app.TaskStackBuilder;
 import android.content.*;
 import android.database.Cursor;
 import android.media.RingtoneManager;
@@ -19,16 +18,15 @@ import android.support.v4.app.*;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.*;
-import android.widget.TextView;
 import android.widget.Toast;
 import com.klinker.android.messaging_card.theme.PopupChooserActivity;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_sliding.blacklist.BlacklistActivity;
 import com.klinker.android.messaging_sliding.notifications.NotificationsSettingsActivity;
 import com.klinker.android.messaging_sliding.theme.ThemeChooserActivity;
+import group.pals.android.lib.ui.lockpattern.LockPatternActivity;
 
 import java.io.*;
-import java.net.URLEncoder;
 import java.util.*;
 
 public class SettingsPagerActivity extends FragmentActivity {
@@ -657,11 +655,11 @@ public class SettingsPagerActivity extends FragmentActivity {
 
                 @Override
                 public boolean onPreferenceClick(Preference arg0) {
-                    if (sharedPrefs.getBoolean("security", false))
+                    /*if (sharedPrefs.getBoolean("security", false))
                     {
-                        Intent intent = new Intent(getActivity(), com.klinker.android.messaging_sliding.SetPasswordActivity.class);
+                        Intent intent = new Intent(getActivity(), SetPinActivity.class);
                         startActivity(intent);
-                    }
+                    }*/
 
                     return true;
                 }
@@ -673,12 +671,39 @@ public class SettingsPagerActivity extends FragmentActivity {
 
                 @Override
                 public boolean onPreferenceClick(Preference arg0) {
-                    Intent intent = new Intent(getActivity(), com.klinker.android.messaging_sliding.SetPasswordActivity.class);
+                    Intent intent = new Intent(getActivity(), SetPinActivity.class);
                     startActivity(intent);
                     return false;
                 }
 
             });
+        }
+
+        private static final int REQ_CREATE_PATTERN = 3;
+
+        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
+                                              String key) {
+
+            //Make sure the item changed was the list_preference
+            if(key.equals("security")) {
+                //Get the value from the list_preference with default: "Nothing"
+                String value = sharedPreferences.getString(key, "none");
+
+                // If the value not the default, then open google.com using intent.
+                if(value.equals("pin")) {
+                    Intent intent = new Intent(getActivity(), SetPinActivity.class);
+                    startActivity(intent);
+                } else if (value.equals("password"))
+                {
+                    Intent intent = new Intent(getActivity(), SetPinActivity.class);
+                    startActivity(intent);
+                } else if (value.equals("pattern"))
+                {
+                    Intent intent = new Intent(LockPatternActivity.ACTION_CREATE_PATTERN, null,
+                            getActivity(), LockPatternActivity.class);
+                    startActivityForResult(intent, REQ_CREATE_PATTERN);
+                }
+            }
         }
 
         public void setUpAdvancedSettings()
@@ -1139,9 +1164,19 @@ public class SettingsPagerActivity extends FragmentActivity {
                     editor.commit();
 
                 }
-            } else
+            } else if (requestCode == REQ_CREATE_PATTERN)
             {
+                if (resultCode == RESULT_OK) {
+                    char[] pattern = imageReturnedIntent.getCharArrayExtra(LockPatternActivity.EXTRA_PATTERN);
 
+                    String password = new String(pattern);
+
+                    SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                    SharedPreferences.Editor editor = sharedPrefs.edit();
+
+                    editor.putString("password", password);
+                    editor.commit();
+                }
             }
         }
 
