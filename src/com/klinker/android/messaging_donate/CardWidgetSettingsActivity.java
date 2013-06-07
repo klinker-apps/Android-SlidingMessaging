@@ -12,10 +12,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
+import android.view.*;
 import android.widget.Button;
 import android.widget.RemoteViews;
 import android.widget.Toast;
@@ -63,16 +60,25 @@ public class CardWidgetSettingsActivity  extends PreferenceActivity {
 		    getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
 		}
 
-        // Inflate a "Done" custom action bar view to serve as the "Up" affordance.
+        // Inflate a "Done/Discard" custom action bar view.
         LayoutInflater inflater = (LayoutInflater) getActionBar().getThemedContext()
                 .getSystemService(LAYOUT_INFLATER_SERVICE);
         final View customActionBarView = inflater.inflate(
-                R.layout.actionbar_custom_view_done, null);
+                R.layout.actionbar_custom_view_done_discard, null);
         customActionBarView.findViewById(R.id.actionbar_done).setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         doneClick();
+                        finish(); // TODO: don't just finish()!
+                    }
+                });
+        customActionBarView.findViewById(R.id.actionbar_discard).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        discardClick();
+                        finish(); // TODO: don't just finish()!
                     }
                 });
 
@@ -82,7 +88,9 @@ public class CardWidgetSettingsActivity  extends PreferenceActivity {
                 ActionBar.DISPLAY_SHOW_CUSTOM,
                 ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME
                         | ActionBar.DISPLAY_SHOW_TITLE);
-        actionBar.setCustomView(customActionBarView);
+        actionBar.setCustomView(customActionBarView, new ActionBar.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT));
 	}
 
     @Override
@@ -107,6 +115,19 @@ public class CardWidgetSettingsActivity  extends PreferenceActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public boolean discardClick()
+    {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("widget_title_dark_theme", widgetDarkTitle);
+        editor.putBoolean("widget_dark_theme", widgetDarkCards);
+        editor.putBoolean("dark_background", widgetDarkBackground);
+        editor.putBoolean("widget_background", useBackground);
+        editor.commit();
+        finish(); // TODO: don't just finish()!
+        return true;
     }
 
     public boolean doneClick()
