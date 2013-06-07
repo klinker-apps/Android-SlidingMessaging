@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
     package="com.klinker.android.messaging_donate"
     android:versionCode="141"
-    android:versionName="6.16" >
+    android:versionName="6.20 Beta" >
     
     <uses-permission android:name="android.permission.SEND_SMS"/>
     <uses-permission android:name="android.permission.READ_SMS"/>
