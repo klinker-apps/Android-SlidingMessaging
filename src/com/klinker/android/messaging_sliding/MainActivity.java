@@ -5,10 +5,11 @@ import android.os.Handler;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.*;
 import android.support.v4.app.TaskStackBuilder;
+import android.support.v4.view.ViewPager;
 import android.view.*;
 import android.widget.*;
-import com.haarman.listviewanimations.swinginadapters.prepared.SwingTopInAnimatorAdapter;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import jazzyviewpager.JazzyViewPager;
 import com.klinker.android.messaging_card.BatchDeleteActivity;
 import com.klinker.android.messaging_donate.DeliveredReceiver;
 import com.klinker.android.messaging_donate.DisconnectWifi;
@@ -97,7 +98,6 @@ import android.provider.MediaStore;
 import android.provider.MediaStore.Images;
 import android.provider.Telephony;
 import android.support.v4.view.PagerTitleStrip;
-import android.support.v4.view.ViewPager;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
@@ -3593,7 +3593,7 @@ public class MainActivity extends FragmentActivity {
         
         });
         
-        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() 
+        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener()
 		{
 		    public void onPageScrolled(int i, float f, int i2) {
 		    	if (!menu.isMenuShowing())
@@ -6745,10 +6745,7 @@ public class MainActivity extends FragmentActivity {
                                         listView.addHeaderView(footer);
                                     }
 
-                                    SwingTopInAnimatorAdapter swingAdapter = new SwingTopInAnimatorAdapter(adapter);
-                                    swingAdapter.setListView(listView);
-
-                                    listView.setAdapter(swingAdapter);
+                                    listView.setAdapter(adapter);
                                     listView.setStackFromBottom(true);
                                     spinner.setVisibility(View.GONE);
                                 }
