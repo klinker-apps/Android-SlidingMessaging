@@ -711,6 +711,8 @@ public class MainActivity extends FragmentActivity {
 		
 		View v = findViewById(R.id.newMessageGlow);
 		v.setVisibility(View.GONE);
+
+
 		
 		setUpSendbar();
 	}
@@ -3230,6 +3232,8 @@ public class MainActivity extends FragmentActivity {
 					imageAttachBackground2.setVisibility(View.GONE);
 					menu.showContent();
 					mViewPager.setCurrentItem(0);
+
+
 				}
 			}
 			
@@ -6328,6 +6332,8 @@ public class MainActivity extends FragmentActivity {
 			}).start();
 		}
 
+
+
 		@Override
 		public DummySectionFragment getItem(int position) {
 			DummySectionFragment fragment = new DummySectionFragment();
@@ -6651,7 +6657,7 @@ public class MainActivity extends FragmentActivity {
                         {
                             try
                             {
-                                Thread.sleep(200);
+                                Thread.sleep(350);
                             } catch (Exception e)
                             {
 
