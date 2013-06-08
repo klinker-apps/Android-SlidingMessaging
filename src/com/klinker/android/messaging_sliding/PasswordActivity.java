@@ -28,6 +28,8 @@ public class PasswordActivity extends FragmentActivity {
 
     private String password;
 
+    private EditText passwordText;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_password);
@@ -44,7 +46,7 @@ public class PasswordActivity extends FragmentActivity {
         unlock.setText(getResources().getText(R.string.unlock));
         cancel.setText(getResources().getText(R.string.cancel));
 
-        final EditText passwordText = (EditText)findViewById(R.id.passwordText);
+        passwordText = (EditText)findViewById(R.id.passwordText);
 
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -194,5 +196,7 @@ public class PasswordActivity extends FragmentActivity {
 
         Toast toast = Toast.makeText(getApplicationContext(), text, duration);
         toast.show();
+
+        passwordText.setText("");
     }
 }

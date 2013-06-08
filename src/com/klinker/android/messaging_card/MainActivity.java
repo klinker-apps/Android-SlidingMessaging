@@ -3637,16 +3637,25 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 	{
 		super.onResume();
 
-        if(sharedPrefs.getBoolean("security", false))
+        if(!sharedPrefs.getString("security_option", "none").equals("none"))
         {
             long currentTime = Calendar.getInstance().getTimeInMillis();
             long lastTime = sharedPrefs.getLong("last_time", 0);
 
             if (currentTime - lastTime > Long.parseLong(sharedPrefs.getString("timeout_settings", "30000")))
             {
-                Intent passwordIntent = new Intent(getApplicationContext(), PinActivity.class);
-                startActivity(passwordIntent);
-                finish();
+                if (sharedPrefs.getString("security_option", "none").equals("pin"))
+                {
+                    Intent passwordIntent = new Intent(getApplicationContext(), PinActivity.class);
+                    startActivity(passwordIntent);
+                    finish();
+                } else if (sharedPrefs.getString("security_option", "none").equals("password"))
+                {
+                    Intent passwordIntent = new Intent(getApplicationContext(), PasswordActivity.class);
+                    startActivity(passwordIntent);
+                    finish();
+                }
+
             }
         }
 		
