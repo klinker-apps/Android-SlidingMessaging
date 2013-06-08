@@ -25,7 +25,7 @@
             android:key="timeout_settings"
             android:title="@string/timeout_settings"
             android:summary="@string/timeout_settings_summary"
-            android:defaultValue="30000"
+            android:defaultValue="300000"
             android:entries="@array/timeout"
             android:entryValues="@array/timeout_set" />
             <!-- android:dependency="security" -->

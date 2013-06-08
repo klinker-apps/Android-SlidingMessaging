@@ -91,7 +91,15 @@
     <option name="TOOL_WINDOW_LOG_LEVEL" value="ERROR" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1e4b5eb9-13da-4bef-bd83-6650ca630326" name="Default" comment="" />
+    <list default="true" id="1e4b5eb9-13da-4bef-bd83-6650ca630326" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Messaging Donate.apk" afterPath="$PROJECT_DIR$/Messaging Donate.apk" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/klinker/android/messaging_card/MainActivity.java" afterPath="$PROJECT_DIR$/src/com/klinker/android/messaging_card/MainActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MainActivity.java" afterPath="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MainActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/SettingsPagerActivity.java" afterPath="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/SettingsPagerActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/xml/sliding_security_settings.xml" afterPath="$PROJECT_DIR$/res/xml/sliding_security_settings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    </list>
     <ignored path="Messaging Donate.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -113,7 +121,6 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
-    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -150,6 +157,7 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
+    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -159,12 +167,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="SettingsPagerActivity.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="SettingsPagerActivity.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/SettingsPagerActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="719" column="73" selection-start="31029" selection-end="31029" vertical-scroll-proportion="0.0" vertical-offset="10115" max-vertical-offset="20179">
+            <state line="681" column="83" selection-start="29367" selection-end="29367" vertical-scroll-proportion="0.77509296" vertical-offset="9069" max-vertical-offset="20247">
               <folding>
-                <element signature="imports" expanded="true" />
                 <element signature="e#4807#4855#0" expanded="true" />
                 <element signature="e#4908#4957#0" expanded="true" />
                 <element signature="e#5010#5074#0" expanded="true" />
@@ -178,9 +185,13 @@
                 <element signature="e#12641#12687#0" expanded="true" />
                 <element signature="e#13094#13145#0" expanded="true" />
                 <element signature="e#14060#14105#0" expanded="true" />
-                <element signature="e#32784#32841#0" expanded="true" />
-                <element signature="e#33423#33481#0" expanded="true" />
-                <element signature="e#54876#54906#1" expanded="true" />
+                <element signature="e#29504#31836#0" expanded="true" />
+                <element signature="e#31821#31822#0" expanded="true" />
+                <element signature="e#32083#32876#0" expanded="true" />
+                <element signature="e#32856#32857#0" expanded="true" />
+                <element signature="e#34491#34548#0" expanded="true" />
+                <element signature="e#35130#35188#0" expanded="true" />
+                <element signature="e#56583#56613#1" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -189,36 +200,8 @@
       <file leaf-file-name="AndroidManifest.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="272" column="46" selection-start="11851" selection-end="11851" vertical-scroll-proportion="0.0" vertical-offset="4400" max-vertical-offset="7395">
-              <folding>
-                <element signature="e#1993#2011#0" expanded="true" />
-                <element signature="e#4684#4702#0" expanded="true" />
-                <element signature="e#5001#5019#0" expanded="true" />
-                <element signature="e#5386#5397#0" expanded="true" />
-                <element signature="e#6311#6334#0" expanded="true" />
-                <element signature="e#6504#6568#0" expanded="true" />
-                <element signature="e#6838#6862#0" expanded="true" />
-                <element signature="e#7076#7097#0" expanded="true" />
-                <element signature="e#7299#7321#0" expanded="true" />
-                <element signature="e#7537#7565#0" expanded="true" />
-                <element signature="e#7770#7798#0" expanded="true" />
-                <element signature="e#8005#8026#0" expanded="true" />
-                <element signature="e#8243#8272#0" expanded="true" />
-                <element signature="e#8489#8518#0" expanded="true" />
-                <element signature="e#8733#8739#0" expanded="true" />
-                <element signature="e#9688#9710#0" expanded="true" />
-                <element signature="e#9835#9915#0" expanded="true" />
-                <element signature="e#10287#10357#0" expanded="true" />
-                <element signature="e#10646#10704#0" expanded="true" />
-                <element signature="e#10858#10876#0" expanded="true" />
-                <element signature="e#11479#11497#0" expanded="true" />
-                <element signature="e#11708#11759#0" expanded="true" />
-                <element signature="e#12007#12025#0" expanded="true" />
-                <element signature="e#12251#12269#0" expanded="true" />
-                <element signature="e#13897#13922#0" expanded="true" />
-                <element signature="e#14290#14321#0" expanded="true" />
-                <element signature="e#14537#14555#0" expanded="true" />
-              </folding>
+            <state line="50" column="75" selection-start="2759" selection-end="2759" vertical-scroll-proportion="0.0" vertical-offset="544" max-vertical-offset="7395">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -226,99 +209,35 @@
       <file leaf-file-name="MainActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="4868" column="9" selection-start="193633" selection-end="193633" vertical-scroll-proportion="0.0" vertical-offset="74715" max-vertical-offset="109531">
-              <folding>
-                <element signature="e#34735#34767#0" expanded="true" />
-                <element signature="e#54075#54082#0" expanded="true" />
-                <element signature="e#55177#55184#0" expanded="true" />
-                <element signature="e#81753#81785#0" expanded="true" />
-                <element signature="e#113695#113702#0" expanded="true" />
-                <element signature="e#114817#114824#0" expanded="true" />
-                <element signature="e#160479#160526#0" expanded="true" />
-                <element signature="e#160575#160629#0" expanded="true" />
-                <element signature="e#161934#161983#0" expanded="true" />
-                <element signature="e#163261#163310#0" expanded="true" />
-                <element signature="e#164791#164841#0" expanded="true" />
-                <element signature="e#164955#165003#0" expanded="true" />
-                <element signature="e#167147#167151#0" expanded="true" />
-                <element signature="e#167421#167475#0" expanded="true" />
-                <element signature="e#167514#167576#0" expanded="true" />
-                <element signature="e#167622#167660#0" expanded="true" />
-                <element signature="e#168010#168053#0" expanded="true" />
-                <element signature="e#169079#169116#0" expanded="true" />
-                <element signature="e#169745#169777#0" expanded="true" />
-                <element signature="e#171865#171914#0" expanded="true" />
-                <element signature="e#174301#174350#0" expanded="true" />
-                <element signature="e#177423#177472#0" expanded="true" />
-                <element signature="e#180315#180364#0" expanded="true" />
-                <element signature="e#198720#198769#0" expanded="true" />
-                <element signature="e#200489#200521#0" expanded="true" />
-                <element signature="e#221927#221959#1" expanded="true" />
-                <element signature="e#228746#228800#0" expanded="true" />
-                <element signature="e#228829#228883#0" expanded="true" />
-                <element signature="e#228912#228966#0" expanded="true" />
-                <element signature="e#228995#229049#0" expanded="true" />
-                <element signature="e#229078#229132#0" expanded="true" />
-                <element signature="e#229155#229209#0" expanded="true" />
-                <element signature="e#229244#229303#0" expanded="true" />
-                <element signature="e#235192#235221#0" expanded="true" />
-                <element signature="e#242888#242920#0" expanded="true" />
-                <element signature="e#248514#248565#0" expanded="true" />
-                <element signature="e#250711#250762#0" expanded="true" />
-                <element signature="e#254862#254913#0" expanded="true" />
-                <element signature="e#256639#256690#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PinActivity.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/PinActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="340" column="5" selection-start="11054" selection-end="11054" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4896">
+            <state line="4853" column="103" selection-start="192988" selection-end="192988" vertical-scroll-proportion="0.0" vertical-offset="82484" max-vertical-offset="119170">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SetPasswordActivity.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/SetPasswordActivity.java">
+      <file leaf-file-name="sliding_security_settings.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/xml/sliding_security_settings.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="113" column="65" selection-start="3829" selection-end="3829" vertical-scroll-proportion="0.5872727" vertical-offset="1326" max-vertical-offset="2023">
-              <folding>
-                <element signature="e#1308#1353#0" expanded="true" />
-                <element signature="e#1379#1418#0" expanded="true" />
-                <element signature="e#2189#4268#0" expanded="true" />
-                <element signature="e#4257#4258#0" expanded="true" />
-              </folding>
+            <state line="15" column="0" selection-start="590" selection-end="590" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="663">
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PasswordActivity.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/PasswordActivity.java">
+      <file leaf-file-name="MainActivity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_card/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="189" column="35" selection-start="6799" selection-end="6799" vertical-scroll-proportion="0.0" vertical-offset="2256" max-vertical-offset="3128">
-              <folding>
-                <element signature="e#1239#1278#0" expanded="true" />
-                <element signature="e#1304#1343#0" expanded="true" />
-              </folding>
+            <state line="3635" column="26" selection-start="141247" selection-end="141247" vertical-scroll-proportion="0.0" vertical-offset="61778" max-vertical-offset="97988">
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="activity_password.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/layout/activity_password.xml">
-          <provider editor-type-id="android-designer">
-            <state />
-          </provider>
+      <file leaf-file-name="arrays.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/values/arrays.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="44" selection-start="870" selection-end="870" vertical-scroll-proportion="-15.64" vertical-offset="0" max-vertical-offset="1581">
-              <folding>
-                <element signature="e#438#461#0" expanded="true" />
-                <element signature="e#2797#2812#0" expanded="true" />
-                <element signature="e#3213#3229#0" expanded="true" />
-              </folding>
+            <state line="366" column="31" selection-start="12623" selection-end="12623" vertical-scroll-proportion="0.0" vertical-offset="6083" max-vertical-offset="6868">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -347,8 +266,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/res/values-es/arrays.xml" />
-        <option value="$PROJECT_DIR$/res/values-tr/strings.xml" />
         <option value="$PROJECT_DIR$/res/values-tr/arrays.xml" />
         <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_card/QuickReply.java" />
         <option value="$PROJECT_DIR$/../lockpattern/src/group/pals/android/lib/ui/lockpattern/widget/LockPatternView.java" />
@@ -359,10 +276,12 @@
         <option value="$PROJECT_DIR$/res/layout/activity_password.xml" />
         <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/PinActivity.java" />
         <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/PasswordActivity.java" />
-        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MainActivity.java" />
-        <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/SettingsPagerActivity.java" />
         <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/SetPasswordActivity.java" />
+        <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MainActivity.java" />
+        <option value="$PROJECT_DIR$/res/xml/sliding_security_settings.xml" />
+        <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_card/MainActivity.java" />
+        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/SettingsPagerActivity.java" />
       </list>
     </option>
   </component>
@@ -401,8 +320,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -501,40 +418,10 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SlidingMessaging" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="slidingmessaging" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SlidingMessaging" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="slidingmessaging" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="layout" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -882,22 +769,22 @@
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3239061" sideWeight="0.8624161" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33920705" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3239061" sideWeight="0.86414254" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32870865" sideWeight="0.6414254" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39977974" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27282852" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17899892" sideWeight="0.29705215" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32962137" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17899892" sideWeight="0.29705215" order="4" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35412025" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3585746" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35333332" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.35746104" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27032968" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24972796" sideWeight="0.72902495" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17502668" sideWeight="0.6414254" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17502668" sideWeight="0.64253896" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26726058" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32870865" sideWeight="0.6414254" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32962137" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -993,191 +880,110 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../lockpattern/res/values/dimens.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="629" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../lockpattern/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="40" selection-start="1221" selection-end="1221" vertical-scroll-proportion="0.0" vertical-offset="476" max-vertical-offset="646">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../lockpattern/src/group/pals/android/lib/ui/lockpattern/widget/LockPatternView_v14.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="0" selection-start="1254" selection-end="1254" vertical-scroll-proportion="0.0" vertical-offset="680" max-vertical-offset="1309">
-          <folding />
-        </state>
+        <state line="41" column="0" selection-start="1254" selection-end="1254" vertical-scroll-proportion="0.0" vertical-offset="680" max-vertical-offset="1309" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../lockpattern/src/group/pals/android/lib/ui/lockpattern/widget/LockPatternView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="281" column="0" selection-start="8514" selection-end="8514" vertical-scroll-proportion="0.0" vertical-offset="4760" max-vertical-offset="21862">
-          <folding />
-        </state>
+        <state line="281" column="0" selection-start="8514" selection-end="8514" vertical-scroll-proportion="0.0" vertical-offset="4760" max-vertical-offset="21862" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../lockpattern/res/layout/alp_lock_pattern_activity.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="46" column="36" selection-start="1716" selection-end="1716" vertical-scroll-proportion="0.0" vertical-offset="590" max-vertical-offset="1462" />
+      </provider>
       <provider editor-type-id="android-designer">
         <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="46" column="36" selection-start="1716" selection-end="1716" vertical-scroll-proportion="0.0" vertical-offset="590" max-vertical-offset="1462">
-          <folding />
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../lockpattern/src/group/pals/android/lib/ui/lockpattern/LockPatternActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="448" column="0" selection-start="15360" selection-end="15360" vertical-scroll-proportion="0.0" vertical-offset="7599" max-vertical-offset="11118">
-          <folding />
-        </state>
+        <state line="448" column="0" selection-start="15360" selection-end="15360" vertical-scroll-proportion="0.0" vertical-offset="7599" max-vertical-offset="11118" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/SetPinActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="13" selection-start="0" selection-end="8261" vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="3366">
+        <state line="19" column="13" selection-start="0" selection-end="8261" vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="3366" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/activity_pin.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="9244" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="3808" />
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/activity_password.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="44" selection-start="870" selection-end="870" vertical-scroll-proportion="0.0" vertical-offset="374" max-vertical-offset="1581" />
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/PasswordActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="170" column="49" selection-start="6330" selection-end="6330" vertical-scroll-proportion="0.3607595" vertical-offset="2322" max-vertical-offset="3196">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/activity_pin.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
+    <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/SetPasswordActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="9244" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="3808">
+        <state line="113" column="65" selection-start="3829" selection-end="3829" vertical-scroll-proportion="0.82753164" vertical-offset="1092" max-vertical-offset="1972">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/PinActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="340" column="5" selection-start="11054" selection-end="11054" vertical-scroll-proportion="0.4620253" vertical-offset="4264" max-vertical-offset="4896">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/values/arrays.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="388" column="52" selection-start="13487" selection-end="13487" vertical-scroll-proportion="0.6880734" vertical-offset="5996" max-vertical-offset="6868">
+        <state line="366" column="31" selection-start="12623" selection-end="12623" vertical-scroll-proportion="0.0" vertical-offset="6083" max-vertical-offset="6868">
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/activity_password.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="44" selection-start="870" selection-end="870" vertical-scroll-proportion="-15.64" vertical-offset="0" max-vertical-offset="1581">
-          <folding>
-            <element signature="e#438#461#0" expanded="true" />
-            <element signature="e#2797#2812#0" expanded="true" />
-            <element signature="e#3213#3229#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/PinActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="340" column="5" selection-start="11054" selection-end="11054" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4896">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/PasswordActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="189" column="35" selection-start="6799" selection-end="6799" vertical-scroll-proportion="0.0" vertical-offset="2256" max-vertical-offset="3128">
-          <folding>
-            <element signature="e#1239#1278#0" expanded="true" />
-            <element signature="e#1304#1343#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="272" column="46" selection-start="11851" selection-end="11851" vertical-scroll-proportion="0.0" vertical-offset="4400" max-vertical-offset="7395">
-          <folding>
-            <element signature="e#1993#2011#0" expanded="true" />
-            <element signature="e#4684#4702#0" expanded="true" />
-            <element signature="e#5001#5019#0" expanded="true" />
-            <element signature="e#5386#5397#0" expanded="true" />
-            <element signature="e#6311#6334#0" expanded="true" />
-            <element signature="e#6504#6568#0" expanded="true" />
-            <element signature="e#6838#6862#0" expanded="true" />
-            <element signature="e#7076#7097#0" expanded="true" />
-            <element signature="e#7299#7321#0" expanded="true" />
-            <element signature="e#7537#7565#0" expanded="true" />
-            <element signature="e#7770#7798#0" expanded="true" />
-            <element signature="e#8005#8026#0" expanded="true" />
-            <element signature="e#8243#8272#0" expanded="true" />
-            <element signature="e#8489#8518#0" expanded="true" />
-            <element signature="e#8733#8739#0" expanded="true" />
-            <element signature="e#9688#9710#0" expanded="true" />
-            <element signature="e#9835#9915#0" expanded="true" />
-            <element signature="e#10287#10357#0" expanded="true" />
-            <element signature="e#10646#10704#0" expanded="true" />
-            <element signature="e#10858#10876#0" expanded="true" />
-            <element signature="e#11479#11497#0" expanded="true" />
-            <element signature="e#11708#11759#0" expanded="true" />
-            <element signature="e#12007#12025#0" expanded="true" />
-            <element signature="e#12251#12269#0" expanded="true" />
-            <element signature="e#13897#13922#0" expanded="true" />
-            <element signature="e#14290#14321#0" expanded="true" />
-            <element signature="e#14537#14555#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4868" column="9" selection-start="193633" selection-end="193633" vertical-scroll-proportion="0.0" vertical-offset="74715" max-vertical-offset="109531">
-          <folding>
-            <element signature="e#34735#34767#0" expanded="true" />
-            <element signature="e#54075#54082#0" expanded="true" />
-            <element signature="e#55177#55184#0" expanded="true" />
-            <element signature="e#81753#81785#0" expanded="true" />
-            <element signature="e#113695#113702#0" expanded="true" />
-            <element signature="e#114817#114824#0" expanded="true" />
-            <element signature="e#160479#160526#0" expanded="true" />
-            <element signature="e#160575#160629#0" expanded="true" />
-            <element signature="e#161934#161983#0" expanded="true" />
-            <element signature="e#163261#163310#0" expanded="true" />
-            <element signature="e#164791#164841#0" expanded="true" />
-            <element signature="e#164955#165003#0" expanded="true" />
-            <element signature="e#167147#167151#0" expanded="true" />
-            <element signature="e#167421#167475#0" expanded="true" />
-            <element signature="e#167514#167576#0" expanded="true" />
-            <element signature="e#167622#167660#0" expanded="true" />
-            <element signature="e#168010#168053#0" expanded="true" />
-            <element signature="e#169079#169116#0" expanded="true" />
-            <element signature="e#169745#169777#0" expanded="true" />
-            <element signature="e#171865#171914#0" expanded="true" />
-            <element signature="e#174301#174350#0" expanded="true" />
-            <element signature="e#177423#177472#0" expanded="true" />
-            <element signature="e#180315#180364#0" expanded="true" />
-            <element signature="e#198720#198769#0" expanded="true" />
-            <element signature="e#200489#200521#0" expanded="true" />
-            <element signature="e#221927#221959#1" expanded="true" />
-            <element signature="e#228746#228800#0" expanded="true" />
-            <element signature="e#228829#228883#0" expanded="true" />
-            <element signature="e#228912#228966#0" expanded="true" />
-            <element signature="e#228995#229049#0" expanded="true" />
-            <element signature="e#229078#229132#0" expanded="true" />
-            <element signature="e#229155#229209#0" expanded="true" />
-            <element signature="e#229244#229303#0" expanded="true" />
-            <element signature="e#235192#235221#0" expanded="true" />
-            <element signature="e#242888#242920#0" expanded="true" />
-            <element signature="e#248514#248565#0" expanded="true" />
-            <element signature="e#250711#250762#0" expanded="true" />
-            <element signature="e#254862#254913#0" expanded="true" />
-            <element signature="e#256639#256690#0" expanded="true" />
-          </folding>
+        <state line="4853" column="103" selection-start="192988" selection-end="192988" vertical-scroll-proportion="0.0" vertical-offset="82484" max-vertical-offset="119170">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_card/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3635" column="26" selection-start="141247" selection-end="141247" vertical-scroll-proportion="0.0" vertical-offset="61778" max-vertical-offset="97988">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="50" column="75" selection-start="2759" selection-end="2759" vertical-scroll-proportion="0.0" vertical-offset="544" max-vertical-offset="7395">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/xml/sliding_security_settings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="0" selection-start="590" selection-end="590" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="663">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/SettingsPagerActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="719" column="73" selection-start="31029" selection-end="31029" vertical-scroll-proportion="0.0" vertical-offset="10115" max-vertical-offset="20179">
+        <state line="681" column="83" selection-start="29367" selection-end="29367" vertical-scroll-proportion="0.77509296" vertical-offset="9069" max-vertical-offset="20247">
           <folding>
-            <element signature="imports" expanded="true" />
             <element signature="e#4807#4855#0" expanded="true" />
             <element signature="e#4908#4957#0" expanded="true" />
             <element signature="e#5010#5074#0" expanded="true" />
@@ -1191,21 +997,13 @@
             <element signature="e#12641#12687#0" expanded="true" />
             <element signature="e#13094#13145#0" expanded="true" />
             <element signature="e#14060#14105#0" expanded="true" />
-            <element signature="e#32784#32841#0" expanded="true" />
-            <element signature="e#33423#33481#0" expanded="true" />
-            <element signature="e#54876#54906#1" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/SetPasswordActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="113" column="65" selection-start="3829" selection-end="3829" vertical-scroll-proportion="0.5872727" vertical-offset="1326" max-vertical-offset="2023">
-          <folding>
-            <element signature="e#1308#1353#0" expanded="true" />
-            <element signature="e#1379#1418#0" expanded="true" />
-            <element signature="e#2189#4268#0" expanded="true" />
-            <element signature="e#4257#4258#0" expanded="true" />
+            <element signature="e#29504#31836#0" expanded="true" />
+            <element signature="e#31821#31822#0" expanded="true" />
+            <element signature="e#32083#32876#0" expanded="true" />
+            <element signature="e#32856#32857#0" expanded="true" />
+            <element signature="e#34491#34548#0" expanded="true" />
+            <element signature="e#35130#35188#0" expanded="true" />
+            <element signature="e#56583#56613#1" expanded="true" />
           </folding>
         </state>
       </provider>

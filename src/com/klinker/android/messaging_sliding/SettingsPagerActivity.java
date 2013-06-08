@@ -666,18 +666,48 @@ public class SettingsPagerActivity extends FragmentActivity {
             final Context context = getActivity();
             final SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(context);
 
+            if (sharedPrefs.getString("security_option", "none").equals("none"))
+            {
+                getPreferenceScreen().findPreference("set_password").setEnabled(false);
+                getPreferenceScreen().findPreference("auto_unlock").setEnabled(false);
+                getPreferenceScreen().findPreference("timeout_settings").setEnabled(false);
+            } else if (sharedPrefs.getString("security_option", "none").equals("password"))
+            {
+                getPreferenceScreen().findPreference("set_password").setEnabled(true);
+                getPreferenceScreen().findPreference("auto_unlock").setEnabled(false);
+                getPreferenceScreen().findPreference("timeout_settings").setEnabled(true);
+            } else if (sharedPrefs.getString("security_option", "none").equals("pin"))
+            {
+                getPreferenceScreen().findPreference("set_password").setEnabled(true);
+                getPreferenceScreen().findPreference("auto_unlock").setEnabled(true);
+                getPreferenceScreen().findPreference("timeout_settings").setEnabled(true);
+            }
+
             myPrefListner = new SharedPreferences.OnSharedPreferenceChangeListener(){
                 public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
                     if(key.equals("security_option")) {
                         //Get the value from the list_preference with default: "Nothing"
                         String value = sharedPrefs.getString(key, "none");
 
+                        if(value.equals("none"))
+                        {
+                            getPreferenceScreen().findPreference("set_password").setEnabled(false);
+                            getPreferenceScreen().findPreference("auto_unlock").setEnabled(false);
+                            getPreferenceScreen().findPreference("timeout_settings").setEnabled(false);
+                        }
+
                         // If the value not the default, then open google.com using intent.
                         if(value.equals("pin")) {
+                            getPreferenceScreen().findPreference("auto_unlock").setEnabled(true);
+                            getPreferenceScreen().findPreference("set_password").setEnabled(true);
+                            getPreferenceScreen().findPreference("timeout_settings").setEnabled(true);
                             Intent intent = new Intent(getActivity(), SetPinActivity.class);
                             startActivity(intent);
                         } else if (value.equals("password"))
                         {
+                            getPreferenceScreen().findPreference("auto_unlock").setEnabled(false);
+                            getPreferenceScreen().findPreference("set_password").setEnabled(true);
+                            getPreferenceScreen().findPreference("timeout_settings").setEnabled(true);
                             Intent intent = new Intent(getActivity(), SetPasswordActivity.class);
                             startActivity(intent);
                         } /*else if (value.equals("pattern"))
@@ -690,40 +720,29 @@ public class SettingsPagerActivity extends FragmentActivity {
                 }
             };
 
-            Preference security = (Preference) findPreference("security_option");
-            security.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 
-                @Override
-                public boolean onPreferenceClick(Preference arg0) {
-                    /*if (sharedPrefs.getBoolean("security", false))
-                    {
-                        Intent intent = new Intent(getActivity(), SetPinActivity.class);
-                        startActivity(intent);
-                    }*/
 
-                    return true;
-                }
+            //if(!sharedPrefs.getString("security_option", "none").equals("none"))
+            //{
+                Preference setPassword = (Preference) findPreference("set_password");
+                setPassword.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 
-            });
-
-            Preference setPassword = (Preference) findPreference("set_password");
-            setPassword.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-
-                @Override
-                public boolean onPreferenceClick(Preference arg0) {
-                    if (sharedPrefs.getString("security_option", "none").equals("pin"))
-                    {
-                        Intent intent = new Intent(getActivity(), SetPinActivity.class);
-                        startActivity(intent);
-                    } else if (sharedPrefs.getString("security_option", "none").equals("password"))
-                    {
-                        Intent intent = new Intent(getActivity(), SetPasswordActivity.class);
-                        startActivity(intent);
+                    @Override
+                    public boolean onPreferenceClick(Preference arg0) {
+                        if (sharedPrefs.getString("security_option", "none").equals("pin"))
+                        {
+                            Intent intent = new Intent(getActivity(), SetPinActivity.class);
+                            startActivity(intent);
+                        } else if (sharedPrefs.getString("security_option", "none").equals("password"))
+                        {
+                            Intent intent = new Intent(getActivity(), SetPasswordActivity.class);
+                            startActivity(intent);
+                        }
+                        return false;
                     }
-                    return false;
-                }
 
-            });
+                });
+            //}
         }
 
         public void setUpAdvancedSettings()

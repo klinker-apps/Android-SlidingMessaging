@@ -4851,7 +4851,7 @@ public class MainActivity extends FragmentActivity {
             long currentTime = Calendar.getInstance().getTimeInMillis();
             long lastTime = sharedPrefs.getLong("last_time", 0);
 
-            if (currentTime - lastTime > Long.parseLong(sharedPrefs.getString("timeout_settings", "30000")))
+            if (currentTime - lastTime > Long.parseLong(sharedPrefs.getString("timeout_settings", "300000")))
             {
                 if (sharedPrefs.getString("security_option", "none").equals("pin"))
                 {
