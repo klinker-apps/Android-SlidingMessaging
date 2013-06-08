@@ -420,7 +420,6 @@ Debido a limitaciones implementadas por google en Android 4.0 (Ice Cream Sandwic
     <string name="symbols">Símbolos</string>
     <string name="limit_number_conversations">Conversaciones límite cargan inicialmente</string>
     <string name="limit_number_conversations_summary">Carga sólo 15 conversaciones cuando abre la app para mejorar el tiempo</string>
-
     <string name="limit_attachment_size">Tamaño de archivos adjuntos</string>
     <string name="limit_attachment_size_summary">Comprime las imágenes para enviarlas más facilmente en tu conexión. Si se desactiva, las fotos se enviarán con resoluciones altas. Advertencia: muchos proveedores no soportan imágenes en alta resolución.</string>
     <string name="send_with_stock">Enviar usando stock</string>
@@ -433,4 +432,49 @@ Debido a limitaciones implementadas por google en Android 4.0 (Ice Cream Sandwic
     <string name="notification_image">Icono de notificación</string>
     <string name="test_notification">Notificación de prueba</string>
     <string name="test_notification_summary">La notificación de prueba se mostrará cuando apagues la pantalla.</string>
+
+    <string name="next">Next</string>
+    <string name="prev">Previous</string>
+    <string name="finish">Finish</string>
+    <string name="review">Review</string>
+    <string name="notes">Notes</string>
+    <string name="override_stock_disclaimer">If you are having problems with messages not being saved, or you have disabled all other messaging apps on your device except Sliding Messaging, be sure to check the \"Override Stock Messaging\" option in Advanced Settings.</string>
+    <string name="unlock">Unlock</string>
+    <string name="close">Close</string>
+    <string name="passwordTitle">Enter Password:</string>
+    <string name="popup_theme">Custom Popup Theme Settings</string>
+    <string name="popup_theme_summary">Only applicable when using the new popup</string>
+    <string name="cp_theme_name">Popup Theme Name</string>
+    <string name="cp_messageBackground">Message Background Color</string>
+    <string name="cp_sendBarBackground">Send Bar Background</string>
+    <string name="cp_dividerColor">Divider Color</string>
+    <string name="cp_nameTextColor">Name Text Color</string>
+    <string name="cp_numberTextColor">Number Text Color</string>
+    <string name="cp_dateTextColor">Date Text Color</string>
+    <string name="cp_messageTextColor">Message Text Color</string>
+    <string name="cp_draftTextColor">Draft Text Color</string>
+    <string name="cp_buttonColor">Button Color</string>
+    <string name="cp_emojiButtonColor">Emoji Button Color</string>
+    <string name="security_settings">Security Settings</string>
+    <string name="security">Password Protection</string>
+    <string name="security_summary">Check to enable security at startup.</string>
+    <string name="timeout_settings">Timeout Duration</string>
+    <string name="timeout_settings_summary">Length of time between password lockouts</string>
+    <string name="set_password">Set Password</string>
+    <string name="auto_unlock">Auto-Unlock</string>
+    <string name="auto_unlock_summary">Attempt to automatically unlock the app after the set number of characters has been reached.</string>
+    <string name="loading_conversations">Loading Conversations…</string>
+    <string name="dark_background">Use Black Background</string>
+    <string name="widget_done">Done</string>
+    <string name="done">Done</string>
+    <string name="discard">Discard</string>
+    <string name="widget_title_dark_theme">Use Dark Title Card</string>
+    <string name="type">Type:</string>
+    <string name="from">From:</string>
+    <string name="to">To:</string>
+    <string name="sent">Sent:</string>
+    <string name="received">Received:</string>
+    <string name="status">Status:</string>
+    <string name="message_details">Message Details</string>
+    <string name="twitter_link">Follow the app on Twitter for updates and future innovations! \nhttp://www.twitter.com/SlidingSMS</string>
 </resources>

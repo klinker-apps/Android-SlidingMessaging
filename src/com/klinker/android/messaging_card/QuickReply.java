@@ -298,9 +298,8 @@ public class QuickReply extends FragmentActivity {
 
                         ids.set(pos, ids.get(pos) + ", " + id);
 			        }
-			        
-			        mSectionsPagerAdapter = new SectionsPagerAdapter(
-							getSupportFragmentManager());
+
+                    mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
 					mViewPager = (ViewPager) findViewById(R.id.messagePager);
 					mViewPager.setAdapter(mSectionsPagerAdapter);
@@ -340,9 +339,7 @@ public class QuickReply extends FragmentActivity {
 			finish();
 		} else
 		{
-			mSectionsPagerAdapter = new SectionsPagerAdapter(
-					getSupportFragmentManager());
-
+            mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 			mViewPager = (ViewPager) findViewById(R.id.messagePager);
 			mViewPager.setAdapter(mSectionsPagerAdapter);
 			mViewPager.setPageMargin(getResources().getDisplayMetrics().widthPixels / -18);
@@ -824,8 +821,7 @@ public class QuickReply extends FragmentActivity {
 
         });
 
-        mSectionsPagerAdapter = new SectionsPagerAdapter(
-                getSupportFragmentManager());
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         mViewPager = (ViewPager) findViewById(R.id.messagePager);
         mViewPager.setAdapter(mSectionsPagerAdapter);

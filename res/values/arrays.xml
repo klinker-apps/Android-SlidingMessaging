@@ -396,32 +396,4 @@
         <item name="pattern">patten</item>
         <item name="password">password</item>
     </string-array>
-
-    <string-array name="pageChangeAnimation">
-        <item name="standard">Standard</item>
-        <item name="tablet">Tablet</item>
-        <item name="cubein">Cube In</item>
-        <item name="cubeout">Cube Out</item>
-        <item name="flip">Flip</item>
-        <item name="stack">Stack</item>
-        <item name="zoomin">Zoom In</item>
-        <item name="zoomout">Zoom Out</item>
-        <item name="rotateup">Rotate Up</item>
-        <item name="rotatedown">Rotate Down</item>
-        <item name="accordian">Accordian</item>
-    </string-array>
-
-    <string-array name="pageChangeAnimationSet">
-        <item name="standard">standard</item>
-        <item name="tablet">tablet</item>
-        <item name="cubein">cubein</item>
-        <item name="cubeout">cubeout</item>
-        <item name="flip">flip</item>
-        <item name="stack">stack</item>
-        <item name="zoomin">zoomin</item>
-        <item name="zoomout">zoomout</item>
-        <item name="rotateup">rotateup</item>
-        <item name="rotatedown">rotatedown</item>
-        <item name="accordian">accordian</item>
-    </string-array>
 </resources>

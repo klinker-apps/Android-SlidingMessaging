@@ -6736,7 +6736,7 @@ public class MainActivity extends FragmentActivity {
 
                                     if (adapter.getCount() >= 20 && listView.getHeaderViewsCount() == 0)
                                     {
-                                        Button footer = new Button (context);
+                                        final Button footer = new Button (context);
                                         int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, getResources().getDisplayMetrics());
                                         footer.setPadding(0, scale, 0, scale);
                                         footer.setGravity(Gravity.CENTER);
