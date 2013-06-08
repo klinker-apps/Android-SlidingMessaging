@@ -9,7 +9,6 @@ import android.support.v4.view.ViewPager;
 import android.view.*;
 import android.widget.*;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
-import jazzyviewpager.JazzyViewPager;
 import com.klinker.android.messaging_card.BatchDeleteActivity;
 import com.klinker.android.messaging_donate.DeliveredReceiver;
 import com.klinker.android.messaging_donate.DisconnectWifi;
@@ -219,6 +218,7 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         if (sharedPrefs.getString("run_as", "sliding").equals("hangout") && sharedPrefs.getString("ct_theme_name", "Light Theme").equals("Hangouts Theme"))
@@ -6331,8 +6331,6 @@ public class MainActivity extends FragmentActivity {
 				
 			}).start();
 		}
-
-
 
 		@Override
 		public DummySectionFragment getItem(int position) {
