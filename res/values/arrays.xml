@@ -393,7 +393,7 @@
     <string-array name="security_type_set">
         <item name="none">none</item>
         <item name="pin">pin</item>
-        <item name="pattern">patten</item>
+        <item name="pattern">pattern</item>
         <item name="password">password</item>
     </string-array>
 </resources>
