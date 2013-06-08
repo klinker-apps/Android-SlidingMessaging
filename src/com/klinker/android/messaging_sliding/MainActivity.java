@@ -4853,9 +4853,18 @@ public class MainActivity extends FragmentActivity {
 
             if (currentTime - lastTime > Long.parseLong(sharedPrefs.getString("timeout_settings", "30000")))
             {
-                Intent passwordIntent = new Intent(getApplicationContext(), com.klinker.android.messaging_sliding.PasswordActivity.class);
-                startActivity(passwordIntent);
-                finish();
+                if (sharedPrefs.getString("security_option", "none").equals("pin"))
+                {
+                    Intent passwordIntent = new Intent(getApplicationContext(), PinActivity.class);
+                    startActivity(passwordIntent);
+                    finish();
+                } else if (sharedPrefs.getString("security_option", "none").equals("password"))
+                {
+                    Intent passwordIntent = new Intent(getApplicationContext(), PasswordActivity.class);
+                    startActivity(passwordIntent);
+                    finish();
+                }
+
             }
         }
 	}

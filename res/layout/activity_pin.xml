@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_gravity="center_horizontal">
+
+    <TextView style="@style/WizardPageTitle"
+            android:id="@+id/title"
+            android:text="@string/passwordTitle"
+            android:paddingTop="6dp"/>
+
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="50dp"
+            android:id="@+id/password"
+            android:layout_below="@+id/title"
+            android:paddingTop="7dp"/>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:padding="55dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:layout_below="@+id/password"
+            android:layout_alignBottom="@+id/filler"
+            android:id="@+id/tableLayout">
+
+        <View android:id="@+id/divider"
+              android:background="?android:attr/dividerHorizontal"
+              android:layout_height="1dp"
+              android:layout_width="match_parent" />
+
+        <View android:id="@+id/divider"
+              android:background="?android:attr/dividerVertical"
+              android:layout_height="fill_parent"
+              android:layout_width="1dp"/>
+
+        <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                     android:layout_width="match_parent"
+                     android:layout_height="match_parent"
+                     android:stretchColumns="*"
+                     android:weightSum="4"
+                     android:layout_centerInParent="true"
+                     android:id="@+id/tableLayout" >
+
+            <TableRow android:layout_weight="1" >
+                <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:text="1"
+                        android:id="@+id/button1"
+                        android:background="@drawable/selectable_item_background"/>
+
+                <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:text="2"
+                        android:id="@+id/button2"
+                        android:background="@drawable/selectable_item_background"/>
+
+                <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:text="3"
+                        android:id="@+id/button3"
+                        android:background="@drawable/selectable_item_background"/>
+            </TableRow>
+
+            <View android:id="@+id/divider"
+                  android:background="?android:attr/dividerHorizontal"
+                  android:layout_height="1dp"
+                  android:layout_width="match_parent" />
+
+            <TableRow android:layout_weight="1" >
+                <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:text="4"
+                        android:id="@+id/button4"
+                        android:background="@drawable/selectable_item_background"/>
+
+                <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:text="5"
+                        android:id="@+id/button5"
+                        android:background="@drawable/selectable_item_background"/>
+
+                <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:text="6"
+                        android:id="@+id/button6"
+                        android:background="@drawable/selectable_item_background"/>
+            </TableRow>
+
+            <View android:id="@+id/divider"
+                  android:background="?android:attr/dividerHorizontal"
+                  android:layout_height="1dp"
+                  android:layout_width="match_parent" />
+
+            <TableRow android:layout_weight="1" >
+                <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:text="7"
+                        android:id="@+id/button7"
+                        android:background="@drawable/selectable_item_background"/>
+
+                <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:text="8"
+                        android:id="@+id/button8"
+                        android:background="@drawable/selectable_item_background"/>
+
+                <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:text="9"
+                        android:id="@+id/button9"
+                        android:background="@drawable/selectable_item_background"/>
+            </TableRow>
+
+            <View android:id="@+id/divider"
+                  android:background="?android:attr/dividerHorizontal"
+                  android:layout_height="1dp"
+                  android:layout_width="match_parent" />
+
+            <TableRow android:layout_weight="1" >
+                <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:text="@string/delete"
+                        android:id="@+id/delete"
+                        android:background="@drawable/selectable_item_background"/>
+
+                <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:layout_span="2"
+                        android:text="0"
+                        android:id="@+id/button0"
+                        android:background="@drawable/selectable_item_background"/>
+            </TableRow>
+        </TableLayout>
+
+        <View android:id="@+id/divider"
+              android:background="?android:attr/dividerHorizontal"
+              android:layout_height="1dp"
+              android:layout_width="match_parent"
+              android:layout_alignParentBottom="true"/>
+
+        <View android:id="@+id/divider"
+              android:background="?android:attr/dividerVertical"
+              android:layout_height="fill_parent"
+              android:layout_width="1dp"
+              android:layout_alignParentRight="true"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:orientation="horizontal"
+                    android:layout_above="@+id/bottomButtons"
+                    android:id="@+id/filler">
+    </RelativeLayout>
+
+    <RelativeLayout
+            style="?android:attr/buttonBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            android:id="@+id/bottomButtons">
+
+        <View android:id="@+id/divider"
+              android:background="?android:attr/dividerHorizontal"
+              android:layout_height="1dp"
+              android:layout_width="match_parent" />
+
+        <LinearLayout
+                style="?android:attr/buttonBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@id/divider">
+            <Button
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:background="@drawable/selectable_item_background"
+                    android:id="@+id/close_button"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/divider"
+                    android:text="@string/close" />
+
+            <Button
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:background="@drawable/selectable_item_background"
+                    android:id="@+id/unlock_button"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/unlock" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

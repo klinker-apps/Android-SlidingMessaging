@@ -24,7 +24,7 @@ import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_sliding.blacklist.BlacklistActivity;
 import com.klinker.android.messaging_sliding.notifications.NotificationsSettingsActivity;
 import com.klinker.android.messaging_sliding.theme.ThemeChooserActivity;
-import group.pals.android.lib.ui.lockpattern.LockPatternActivity;
+//import group.pals.android.lib.ui.lockpattern.LockPatternActivity;
 
 import java.io.*;
 import java.util.*;
@@ -678,14 +678,14 @@ public class SettingsPagerActivity extends FragmentActivity {
                             startActivity(intent);
                         } else if (value.equals("password"))
                         {
-                            Intent intent = new Intent(getActivity(), SetPinActivity.class);
+                            Intent intent = new Intent(getActivity(), SetPasswordActivity.class);
                             startActivity(intent);
-                        } else if (value.equals("pattern"))
+                        } /*else if (value.equals("pattern"))
                         {
                             Intent intent = new Intent(LockPatternActivity.ACTION_CREATE_PATTERN, null,
                                     getActivity(), LockPatternActivity.class);
                             startActivityForResult(intent, REQ_CREATE_PATTERN);
-                        }
+                        }*/
                     }
                 }
             };
@@ -711,8 +711,15 @@ public class SettingsPagerActivity extends FragmentActivity {
 
                 @Override
                 public boolean onPreferenceClick(Preference arg0) {
-                    Intent intent = new Intent(getActivity(), SetPinActivity.class);
-                    startActivity(intent);
+                    if (sharedPrefs.getString("security_option", "none").equals("pin"))
+                    {
+                        Intent intent = new Intent(getActivity(), SetPinActivity.class);
+                        startActivity(intent);
+                    } else if (sharedPrefs.getString("security_option", "none").equals("password"))
+                    {
+                        Intent intent = new Intent(getActivity(), SetPasswordActivity.class);
+                        startActivity(intent);
+                    }
                     return false;
                 }
 
@@ -1179,7 +1186,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                 }
             } else if (requestCode == REQ_CREATE_PATTERN)
             {
-                if (resultCode == RESULT_OK) {
+                /*if (resultCode == RESULT_OK) {
                     char[] pattern = imageReturnedIntent.getCharArrayExtra(LockPatternActivity.EXTRA_PATTERN);
 
                     String password = new String(pattern);
@@ -1189,7 +1196,7 @@ public class SettingsPagerActivity extends FragmentActivity {
 
                     editor.putString("password", password);
                     editor.commit();
-                }
+                }*/
             }
         }
 

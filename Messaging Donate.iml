@@ -3,6 +3,7 @@
   <component name="FacetManager">
     <facet type="android" name="Android">
       <configuration>
+        <option name="UPDATE_PROPERTY_FILES" value="true" />
         <notImportedProperties>
           <property>MANIFEST_FILE_PATH</property>
           <property>RESOURCES_DIR_PATH</property>
@@ -23,7 +24,6 @@
     <orderEntry type="library" name="libs" level="project" />
     <orderEntry type="module" module-name="ColorPickerPreference" />
     <orderEntry type="module" module-name="SlidingMenu" />
-    <orderEntry type="module" module-name="lockpattern" />
   </component>
 </module>
 

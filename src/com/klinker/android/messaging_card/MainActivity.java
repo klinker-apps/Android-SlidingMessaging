@@ -57,7 +57,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
@@ -3645,7 +3644,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 
             if (currentTime - lastTime > Long.parseLong(sharedPrefs.getString("timeout_settings", "30000")))
             {
-                Intent passwordIntent = new Intent(getApplicationContext(), com.klinker.android.messaging_sliding.PasswordActivity.class);
+                Intent passwordIntent = new Intent(getApplicationContext(), PinActivity.class);
                 startActivity(passwordIntent);
                 finish();
             }
