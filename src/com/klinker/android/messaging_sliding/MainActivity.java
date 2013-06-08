@@ -6662,7 +6662,7 @@ public class MainActivity extends FragmentActivity {
                         {
                             try
                             {
-                                Thread.sleep(350);
+                                Thread.sleep(400);
                             } catch (Exception e)
                             {
 

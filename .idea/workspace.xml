@@ -87,6 +87,7 @@
   <component name="ChangeListManager">
     <list default="true" id="1e4b5eb9-13da-4bef-bd83-6650ca630326" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MainActivity.java" afterPath="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MainActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Messaging Donate.iws" />
@@ -159,69 +160,7 @@
       <file leaf-file-name="MainActivity.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2155" column="18" selection-start="84910" selection-end="84910" vertical-scroll-proportion="0.45333335" vertical-offset="32827" max-vertical-offset="109497">
-              <folding>
-                <element signature="e#34735#34767#0" expanded="true" />
-                <element signature="e#54075#54082#0" expanded="true" />
-                <element signature="e#55177#55184#0" expanded="true" />
-                <element signature="e#81753#81785#0" expanded="true" />
-                <element signature="e#84436#84905#0" expanded="true" />
-                <element signature="e#84890#84891#0" expanded="true" />
-                <element signature="e#113695#113702#0" expanded="true" />
-                <element signature="e#114817#114824#0" expanded="true" />
-                <element signature="e#129183#129497#0" expanded="true" />
-                <element signature="e#129466#129467#0" expanded="true" />
-                <element signature="e#160479#160526#0" expanded="true" />
-                <element signature="e#160575#160629#0" expanded="true" />
-                <element signature="e#161934#161983#0" expanded="true" />
-                <element signature="e#163261#163310#0" expanded="true" />
-                <element signature="e#164791#164841#0" expanded="true" />
-                <element signature="e#164955#165003#0" expanded="true" />
-                <element signature="e#167147#167151#0" expanded="true" />
-                <element signature="e#167421#167475#0" expanded="true" />
-                <element signature="e#167514#167576#0" expanded="true" />
-                <element signature="e#167622#167660#0" expanded="true" />
-                <element signature="e#168010#168053#0" expanded="true" />
-                <element signature="e#169079#169116#0" expanded="true" />
-                <element signature="e#169745#169777#0" expanded="true" />
-                <element signature="e#171865#171914#0" expanded="true" />
-                <element signature="e#174301#174350#0" expanded="true" />
-                <element signature="e#177423#177472#0" expanded="true" />
-                <element signature="e#180315#180364#0" expanded="true" />
-                <element signature="e#198307#198356#0" expanded="true" />
-                <element signature="e#200076#200108#0" expanded="true" />
-                <element signature="e#221514#221546#1" expanded="true" />
-                <element signature="e#228333#228387#0" expanded="true" />
-                <element signature="e#228416#228470#0" expanded="true" />
-                <element signature="e#228499#228553#0" expanded="true" />
-                <element signature="e#228582#228636#0" expanded="true" />
-                <element signature="e#228665#228719#0" expanded="true" />
-                <element signature="e#228742#228796#0" expanded="true" />
-                <element signature="e#228831#228890#0" expanded="true" />
-                <element signature="e#234779#234808#0" expanded="true" />
-                <element signature="e#242475#242507#0" expanded="true" />
-                <element signature="e#248101#248152#0" expanded="true" />
-                <element signature="e#250292#250343#0" expanded="true" />
-                <element signature="e#254443#254494#0" expanded="true" />
-                <element signature="e#256220#256271#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MainActivity.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_donate/MainActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="40" column="9" selection-start="1516" selection-end="1516" vertical-scroll-proportion="0.0" vertical-offset="2676" max-vertical-offset="3519">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="sliding_conversation_settings.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/xml/sliding_conversation_settings.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="313" max-vertical-offset="952">
+            <state line="6722" column="104" selection-start="248944" selection-end="248944" vertical-scroll-proportion="0.49021864" vertical-offset="104617" max-vertical-offset="109378">
               <folding />
             </state>
           </provider>
@@ -306,7 +245,6 @@
     </navigator>
     <panes>
       <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -360,6 +298,10 @@
               <option name="myItemId" value="android" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="messaging_sliding" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -382,10 +324,6 @@
               <option name="myItemId" value="android" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="messaging_donate" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -415,12 +353,21 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -439,11 +386,11 @@
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="AndroidRunProguardForReleaseBuild" value="false" />
     <property name="restartRequiresConfirmation" value="true" />
-    <property name="MemberChooser.showClasses" value="true" />
     <property name="FullScreen" value="false" />
+    <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
@@ -769,19 +716,19 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17899892" sideWeight="0.29705215" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32962137" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17899892" sideWeight="0.29705215" order="4" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35572687" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35934067" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2709251" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24972796" sideWeight="0.72902495" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17502668" sideWeight="0.73237884" order="1" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26762116" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26762116" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32870865" sideWeight="0.6442731" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32962137" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35572687" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
     </layout>
@@ -798,18 +745,18 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3997773" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13585746" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17899892" sideWeight="0.29705215" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17899892" sideWeight="0.29705215" order="4" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35746104" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36453745" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2709251" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24972796" sideWeight="0.72902495" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17716116" sideWeight="0.86414254" order="1" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13585746" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13585746" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -881,16 +828,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/res/values/dimens.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="0" selection-start="1314" selection-end="1314" vertical-scroll-proportion="0.0" vertical-offset="162" max-vertical-offset="714">
-          <folding />
-        </state>
+        <state line="35" column="0" selection-start="1314" selection-end="1314" vertical-scroll-proportion="0.0" vertical-offset="162" max-vertical-offset="714" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/values/styles.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="63" column="12" selection-start="2590" selection-end="2590" vertical-scroll-proportion="0.7536232" vertical-offset="655" max-vertical-offset="1207">
-          <folding />
-        </state>
+        <state line="63" column="12" selection-start="2590" selection-end="2590" vertical-scroll-proportion="0.7536232" vertical-offset="655" max-vertical-offset="1207" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/SettingsPagerActivity.java">
@@ -904,16 +847,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/res/xml/sliding_security_settings.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="40" selection-start="178" selection-end="178" vertical-scroll-proportion="0.10641628" vertical-offset="0" max-vertical-offset="663">
-          <folding />
-        </state>
+        <state line="4" column="40" selection-start="178" selection-end="178" vertical-scroll-proportion="0.10641628" vertical-offset="0" max-vertical-offset="663" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/values/colors.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="75" column="46" selection-start="3663" selection-end="3663" vertical-scroll-proportion="1.1705791" vertical-offset="527" max-vertical-offset="1411">
-          <folding />
-        </state>
+        <state line="75" column="46" selection-start="3663" selection-end="3663" vertical-scroll-proportion="1.1705791" vertical-offset="527" max-vertical-offset="1411" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/theme/CustomThemeActivity.java">
@@ -929,31 +868,16 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/activity_main.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="5" selection-start="212" selection-end="245" vertical-scroll-proportion="-3.52" vertical-offset="14" max-vertical-offset="3247" />
+      </provider>
       <provider editor-type-id="android-designer">
         <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="5" selection-start="212" selection-end="245" vertical-scroll-proportion="-3.52" vertical-offset="14" max-vertical-offset="3247">
-          <folding>
-            <element signature="e#1364#1385#0" expanded="true" />
-            <element signature="e#2072#2094#0" expanded="true" />
-            <element signature="e#2814#2829#0" expanded="true" />
-            <element signature="e#3357#3378#0" expanded="true" />
-            <element signature="e#3921#3936#0" expanded="true" />
-            <element signature="e#5133#5154#0" expanded="true" />
-            <element signature="e#5611#5625#0" expanded="true" />
-            <element signature="e#5936#5953#0" expanded="true" />
-            <element signature="e#6263#6279#0" expanded="true" />
-            <element signature="e#6743#6756#0" expanded="true" />
-          </folding>
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/values/arrays.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="425" column="19" selection-start="14879" selection-end="14879" vertical-scroll-proportion="0.7855856" vertical-offset="6789" max-vertical-offset="7344">
-          <folding />
-        </state>
+        <state line="425" column="19" selection-start="14879" selection-end="14879" vertical-scroll-proportion="0.7855856" vertical-offset="6789" max-vertical-offset="7344" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MenuArrayAdapter.java">
@@ -965,80 +889,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/res/values/attrs.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="24" selection-start="724" selection-end="724" vertical-scroll-proportion="0.58198196" vertical-offset="0" max-vertical-offset="555">
-          <folding />
-        </state>
+        <state line="19" column="24" selection-start="724" selection-end="724" vertical-scroll-proportion="0.58198196" vertical-offset="0" max-vertical-offset="555" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="458" column="0" selection-start="36437" selection-end="36437" vertical-scroll-proportion="0.8118081" vertical-offset="7346" max-vertical-offset="7905">
-          <folding />
-        </state>
+        <state line="458" column="0" selection-start="36437" selection-end="36437" vertical-scroll-proportion="0.8118081" vertical-offset="7346" max-vertical-offset="7905" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/xml/sliding_conversation_settings.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="313" max-vertical-offset="952">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="313" max-vertical-offset="952" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_donate/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="9" selection-start="1516" selection-end="1516" vertical-scroll-proportion="0.0" vertical-offset="2676" max-vertical-offset="3519">
-          <folding />
-        </state>
+        <state line="40" column="9" selection-start="1516" selection-end="1516" vertical-scroll-proportion="0.0" vertical-offset="2676" max-vertical-offset="3519" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2155" column="18" selection-start="84910" selection-end="84910" vertical-scroll-proportion="0.45333335" vertical-offset="32827" max-vertical-offset="109497">
-          <folding>
-            <element signature="e#34735#34767#0" expanded="true" />
-            <element signature="e#54075#54082#0" expanded="true" />
-            <element signature="e#55177#55184#0" expanded="true" />
-            <element signature="e#81753#81785#0" expanded="true" />
-            <element signature="e#84436#84905#0" expanded="true" />
-            <element signature="e#84890#84891#0" expanded="true" />
-            <element signature="e#113695#113702#0" expanded="true" />
-            <element signature="e#114817#114824#0" expanded="true" />
-            <element signature="e#129183#129497#0" expanded="true" />
-            <element signature="e#129466#129467#0" expanded="true" />
-            <element signature="e#160479#160526#0" expanded="true" />
-            <element signature="e#160575#160629#0" expanded="true" />
-            <element signature="e#161934#161983#0" expanded="true" />
-            <element signature="e#163261#163310#0" expanded="true" />
-            <element signature="e#164791#164841#0" expanded="true" />
-            <element signature="e#164955#165003#0" expanded="true" />
-            <element signature="e#167147#167151#0" expanded="true" />
-            <element signature="e#167421#167475#0" expanded="true" />
-            <element signature="e#167514#167576#0" expanded="true" />
-            <element signature="e#167622#167660#0" expanded="true" />
-            <element signature="e#168010#168053#0" expanded="true" />
-            <element signature="e#169079#169116#0" expanded="true" />
-            <element signature="e#169745#169777#0" expanded="true" />
-            <element signature="e#171865#171914#0" expanded="true" />
-            <element signature="e#174301#174350#0" expanded="true" />
-            <element signature="e#177423#177472#0" expanded="true" />
-            <element signature="e#180315#180364#0" expanded="true" />
-            <element signature="e#198307#198356#0" expanded="true" />
-            <element signature="e#200076#200108#0" expanded="true" />
-            <element signature="e#221514#221546#1" expanded="true" />
-            <element signature="e#228333#228387#0" expanded="true" />
-            <element signature="e#228416#228470#0" expanded="true" />
-            <element signature="e#228499#228553#0" expanded="true" />
-            <element signature="e#228582#228636#0" expanded="true" />
-            <element signature="e#228665#228719#0" expanded="true" />
-            <element signature="e#228742#228796#0" expanded="true" />
-            <element signature="e#228831#228890#0" expanded="true" />
-            <element signature="e#234779#234808#0" expanded="true" />
-            <element signature="e#242475#242507#0" expanded="true" />
-            <element signature="e#248101#248152#0" expanded="true" />
-            <element signature="e#250292#250343#0" expanded="true" />
-            <element signature="e#254443#254494#0" expanded="true" />
-            <element signature="e#256220#256271#0" expanded="true" />
-          </folding>
+        <state line="6722" column="104" selection-start="248944" selection-end="248944" vertical-scroll-proportion="0.49021864" vertical-offset="104617" max-vertical-offset="109378">
+          <folding />
         </state>
       </provider>
     </entry>
