@@ -650,7 +650,7 @@ public class SettingsPagerActivity extends FragmentActivity {
             final Context context = getActivity();
             final SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-            Preference security = (Preference) findPreference("security");
+            Preference security = (Preference) findPreference("security_option");
             security.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 
                 @Override
@@ -685,7 +685,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                                               String key) {
 
             //Make sure the item changed was the list_preference
-            if(key.equals("security")) {
+            if(key.equals("security_option")) {
                 //Get the value from the list_preference with default: "Nothing"
                 String value = sharedPreferences.getString(key, "none");
 

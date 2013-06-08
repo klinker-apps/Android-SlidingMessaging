@@ -23,7 +23,7 @@
     <orderEntry type="library" name="libs" level="project" />
     <orderEntry type="module" module-name="ColorPickerPreference" />
     <orderEntry type="module" module-name="SlidingMenu" />
-    <orderEntry type="module" module-name="lockpatten" />
+    <orderEntry type="module" module-name="lockpattern" />
   </component>
 </module>
 
