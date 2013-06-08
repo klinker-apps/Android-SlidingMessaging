@@ -646,6 +646,7 @@ public class SettingsPagerActivity extends FragmentActivity {
 //            });
         }
 
+        // used for the list preference to determine when it changes and when to call the intents
         SharedPreferences.OnSharedPreferenceChangeListener myPrefListner;
 
         @Override
@@ -666,6 +667,7 @@ public class SettingsPagerActivity extends FragmentActivity {
             final Context context = getActivity();
             final SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(context);
 
+            // sets up the preferences dynamically depending on what security type you have
             if (sharedPrefs.getString("security_option", "none").equals("none"))
             {
                 getPreferenceScreen().findPreference("set_password").setEnabled(false);
@@ -683,6 +685,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                 getPreferenceScreen().findPreference("timeout_settings").setEnabled(true);
             }
 
+            // listner for list preference change to call intents and change preferences
             myPrefListner = new SharedPreferences.OnSharedPreferenceChangeListener(){
                 public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
                     if(key.equals("security_option")) {
@@ -694,10 +697,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                             getPreferenceScreen().findPreference("set_password").setEnabled(false);
                             getPreferenceScreen().findPreference("auto_unlock").setEnabled(false);
                             getPreferenceScreen().findPreference("timeout_settings").setEnabled(false);
-                        }
-
-                        // If the value not the default, then open google.com using intent.
-                        if(value.equals("pin")) {
+                        } else if(value.equals("pin")) {
                             getPreferenceScreen().findPreference("auto_unlock").setEnabled(true);
                             getPreferenceScreen().findPreference("set_password").setEnabled(true);
                             getPreferenceScreen().findPreference("timeout_settings").setEnabled(true);
@@ -710,7 +710,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                             getPreferenceScreen().findPreference("timeout_settings").setEnabled(true);
                             Intent intent = new Intent(getActivity(), SetPasswordActivity.class);
                             startActivity(intent);
-                        } /*else if (value.equals("pattern"))
+                        } /*else if (value.equals("pattern")) // could be implemented for pattern, but it wasn't working before
                         {
                             Intent intent = new Intent(LockPatternActivity.ACTION_CREATE_PATTERN, null,
                                     getActivity(), LockPatternActivity.class);
@@ -720,29 +720,25 @@ public class SettingsPagerActivity extends FragmentActivity {
                 }
             };
 
+            // calls the correct intent for clicking set password preference
+            Preference setPassword = (Preference) findPreference("set_password");
+            setPassword.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 
-
-            //if(!sharedPrefs.getString("security_option", "none").equals("none"))
-            //{
-                Preference setPassword = (Preference) findPreference("set_password");
-                setPassword.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-
-                    @Override
-                    public boolean onPreferenceClick(Preference arg0) {
-                        if (sharedPrefs.getString("security_option", "none").equals("pin"))
-                        {
-                            Intent intent = new Intent(getActivity(), SetPinActivity.class);
-                            startActivity(intent);
-                        } else if (sharedPrefs.getString("security_option", "none").equals("password"))
-                        {
-                            Intent intent = new Intent(getActivity(), SetPasswordActivity.class);
-                            startActivity(intent);
-                        }
-                        return false;
+                @Override
+                public boolean onPreferenceClick(Preference arg0) {
+                    if (sharedPrefs.getString("security_option", "none").equals("pin"))
+                    {
+                        Intent intent = new Intent(getActivity(), SetPinActivity.class);
+                        startActivity(intent);
+                    } else if (sharedPrefs.getString("security_option", "none").equals("password"))
+                    {
+                        Intent intent = new Intent(getActivity(), SetPasswordActivity.class);
+                        startActivity(intent);
                     }
+                    return false;
+                }
 
-                });
-            //}
+            });
         }
 
         public void setUpAdvancedSettings()

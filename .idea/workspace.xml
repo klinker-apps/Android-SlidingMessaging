@@ -92,13 +92,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1e4b5eb9-13da-4bef-bd83-6650ca630326" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Messaging Donate.apk" afterPath="$PROJECT_DIR$/Messaging Donate.apk" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/klinker/android/messaging_card/MainActivity.java" afterPath="$PROJECT_DIR$/src/com/klinker/android/messaging_card/MainActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MainActivity.java" afterPath="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MainActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/SettingsPagerActivity.java" afterPath="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/SettingsPagerActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/xml/sliding_security_settings.xml" afterPath="$PROJECT_DIR$/res/xml/sliding_security_settings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Messaging Donate.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -170,7 +164,7 @@
       <file leaf-file-name="SettingsPagerActivity.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/SettingsPagerActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="681" column="83" selection-start="29367" selection-end="29367" vertical-scroll-proportion="0.77509296" vertical-offset="9069" max-vertical-offset="20247">
+            <state line="699" column="31" selection-start="30564" selection-end="30564" vertical-scroll-proportion="0.39962825" vertical-offset="9577" max-vertical-offset="20179">
               <folding>
                 <element signature="e#4807#4855#0" expanded="true" />
                 <element signature="e#4908#4957#0" expanded="true" />
@@ -185,59 +179,14 @@
                 <element signature="e#12641#12687#0" expanded="true" />
                 <element signature="e#13094#13145#0" expanded="true" />
                 <element signature="e#14060#14105#0" expanded="true" />
-                <element signature="e#29504#31836#0" expanded="true" />
-                <element signature="e#31821#31822#0" expanded="true" />
-                <element signature="e#32083#32876#0" expanded="true" />
-                <element signature="e#32856#32857#0" expanded="true" />
-                <element signature="e#34491#34548#0" expanded="true" />
-                <element signature="e#35130#35188#0" expanded="true" />
-                <element signature="e#56583#56613#1" expanded="true" />
+                <element signature="e#29783#32069#0" expanded="true" />
+                <element signature="e#32054#32055#0" expanded="true" />
+                <element signature="e#32284#33021#0" expanded="true" />
+                <element signature="e#33005#33006#0" expanded="true" />
+                <element signature="e#34620#34677#0" expanded="true" />
+                <element signature="e#35259#35317#0" expanded="true" />
+                <element signature="e#56712#56742#1" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AndroidManifest.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="50" column="75" selection-start="2759" selection-end="2759" vertical-scroll-proportion="0.0" vertical-offset="544" max-vertical-offset="7395">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MainActivity.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MainActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="4853" column="103" selection-start="192988" selection-end="192988" vertical-scroll-proportion="0.0" vertical-offset="82484" max-vertical-offset="119170">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="sliding_security_settings.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/xml/sliding_security_settings.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="0" selection-start="590" selection-end="590" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="663">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MainActivity.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_card/MainActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="3635" column="26" selection-start="141247" selection-end="141247" vertical-scroll-proportion="0.0" vertical-offset="61778" max-vertical-offset="97988">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="arrays.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/values/arrays.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="366" column="31" selection-start="12623" selection-end="12623" vertical-scroll-proportion="0.0" vertical-offset="6083" max-vertical-offset="6868">
-              <folding />
             </state>
           </provider>
         </entry>
@@ -982,7 +931,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/SettingsPagerActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="681" column="83" selection-start="29367" selection-end="29367" vertical-scroll-proportion="0.77509296" vertical-offset="9069" max-vertical-offset="20247">
+        <state line="699" column="31" selection-start="30564" selection-end="30564" vertical-scroll-proportion="0.39962825" vertical-offset="9577" max-vertical-offset="20179">
           <folding>
             <element signature="e#4807#4855#0" expanded="true" />
             <element signature="e#4908#4957#0" expanded="true" />
@@ -997,13 +946,13 @@
             <element signature="e#12641#12687#0" expanded="true" />
             <element signature="e#13094#13145#0" expanded="true" />
             <element signature="e#14060#14105#0" expanded="true" />
-            <element signature="e#29504#31836#0" expanded="true" />
-            <element signature="e#31821#31822#0" expanded="true" />
-            <element signature="e#32083#32876#0" expanded="true" />
-            <element signature="e#32856#32857#0" expanded="true" />
-            <element signature="e#34491#34548#0" expanded="true" />
-            <element signature="e#35130#35188#0" expanded="true" />
-            <element signature="e#56583#56613#1" expanded="true" />
+            <element signature="e#29783#32069#0" expanded="true" />
+            <element signature="e#32054#32055#0" expanded="true" />
+            <element signature="e#32284#33021#0" expanded="true" />
+            <element signature="e#33005#33006#0" expanded="true" />
+            <element signature="e#34620#34677#0" expanded="true" />
+            <element signature="e#35259#35317#0" expanded="true" />
+            <element signature="e#56712#56742#1" expanded="true" />
           </folding>
         </state>
       </provider>
