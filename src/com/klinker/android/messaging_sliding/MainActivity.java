@@ -4846,7 +4846,7 @@ public class MainActivity extends FragmentActivity {
         Intent updateWidget = new Intent("com.klinker.android.messaging.UPDATE_WIDGET");
         sendBroadcast(updateWidget);
 
-        if(sharedPrefs.getBoolean("security", false))
+        if(!sharedPrefs.getString("security_option", "none").equals("none"))
         {
             long currentTime = Calendar.getInstance().getTimeInMillis();
             long lastTime = sharedPrefs.getLong("last_time", 0);

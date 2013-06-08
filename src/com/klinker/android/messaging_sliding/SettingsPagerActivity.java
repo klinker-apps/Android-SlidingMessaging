@@ -41,6 +41,7 @@ public class SettingsPagerActivity extends FragmentActivity {
      */
     SectionsPagerAdapter mSectionsPagerAdapter;
     SharedPreferences sharedPrefs;
+    private static final int REQ_CREATE_PATTERN = 3;
 
     /**
      * The {@link android.support.v4.view.ViewPager} that will host the section contents.
@@ -165,7 +166,7 @@ public class SettingsPagerActivity extends FragmentActivity {
      * A dummy fragment representing a section of the app, but that simply
      * displays dummy text.
      */
-    public static class PrefFragment extends PreferenceFragment {
+    public class PrefFragment extends PreferenceFragment {
 
         public static final String ARG_SECTION_NUMBER = "section_number";
         public int position;
@@ -645,10 +646,49 @@ public class SettingsPagerActivity extends FragmentActivity {
 //            });
         }
 
+        SharedPreferences.OnSharedPreferenceChangeListener myPrefListner;
+
+        @Override
+        public void onResume() {
+            super.onResume();
+            getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(myPrefListner);
+        }
+
+        @Override
+        public void onPause() {
+            super.onPause();
+            getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(myPrefListner);
+
+        }
+
         public void setUpSecuritySettings()
         {
             final Context context = getActivity();
-            final SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            final SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(context);
+
+            myPrefListner = new SharedPreferences.OnSharedPreferenceChangeListener(){
+                public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+                    if(key.equals("security_option")) {
+                        //Get the value from the list_preference with default: "Nothing"
+                        String value = sharedPrefs.getString(key, "none");
+
+                        // If the value not the default, then open google.com using intent.
+                        if(value.equals("pin")) {
+                            Intent intent = new Intent(getActivity(), SetPinActivity.class);
+                            startActivity(intent);
+                        } else if (value.equals("password"))
+                        {
+                            Intent intent = new Intent(getActivity(), SetPinActivity.class);
+                            startActivity(intent);
+                        } else if (value.equals("pattern"))
+                        {
+                            Intent intent = new Intent(LockPatternActivity.ACTION_CREATE_PATTERN, null,
+                                    getActivity(), LockPatternActivity.class);
+                            startActivityForResult(intent, REQ_CREATE_PATTERN);
+                        }
+                    }
+                }
+            };
 
             Preference security = (Preference) findPreference("security_option");
             security.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -677,33 +717,6 @@ public class SettingsPagerActivity extends FragmentActivity {
                 }
 
             });
-        }
-
-        private static final int REQ_CREATE_PATTERN = 3;
-
-        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
-                                              String key) {
-
-            //Make sure the item changed was the list_preference
-            if(key.equals("security_option")) {
-                //Get the value from the list_preference with default: "Nothing"
-                String value = sharedPreferences.getString(key, "none");
-
-                // If the value not the default, then open google.com using intent.
-                if(value.equals("pin")) {
-                    Intent intent = new Intent(getActivity(), SetPinActivity.class);
-                    startActivity(intent);
-                } else if (value.equals("password"))
-                {
-                    Intent intent = new Intent(getActivity(), SetPinActivity.class);
-                    startActivity(intent);
-                } else if (value.equals("pattern"))
-                {
-                    Intent intent = new Intent(LockPatternActivity.ACTION_CREATE_PATTERN, null,
-                            getActivity(), LockPatternActivity.class);
-                    startActivityForResult(intent, REQ_CREATE_PATTERN);
-                }
-            }
         }
 
         public void setUpAdvancedSettings()

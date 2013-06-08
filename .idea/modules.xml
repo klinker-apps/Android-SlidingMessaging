@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/Messaging Donate.iml" filepath="$PROJECT_DIR$/Messaging Donate.iml" />
       <module fileurl="file://$PROJECT_DIR$/../SlidingMenu/SlidingMenu.iml" filepath="$PROJECT_DIR$/../SlidingMenu/SlidingMenu.iml" />
       <module fileurl="file://$PROJECT_DIR$/../lockpattern/lockpattern.iml" filepath="$PROJECT_DIR$/../lockpattern/lockpattern.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../lockpattern/lockpattern.iml" filepath="$PROJECT_DIR$/../lockpattern/lockpattern.iml" />
     </modules>
   </component>
 </project>
