@@ -2144,9 +2144,16 @@ public class MainActivity extends FragmentActivity {
                 menuLayout.setBackgroundColor(sharedPrefs.getInt("ct_conversationListBackground", getResources().getColor(R.color.light_silver)));
             }
 
-            menuAdapter = new MenuArrayAdapter(this, inboxBody, inboxDate, inboxNumber, mViewPager, threadIds, group, msgCount, msgRead);
-            menuLayout.setAdapter(menuAdapter);
-            menuLayout.setDivider(new ColorDrawable(sharedPrefs.getInt("ct_conversationDividerColor", getResources().getColor(R.color.white))));
+            final Activity activity = this;
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    menuAdapter = new MenuArrayAdapter(activity, inboxBody, inboxDate, inboxNumber, mViewPager, threadIds, group, msgCount, msgRead);
+                    menuLayout.setAdapter(menuAdapter);
+                    menuLayout.setDivider(new ColorDrawable(sharedPrefs.getInt("ct_conversationDividerColor", getResources().getColor(R.color.white))));
+                }
+            }, 100);
 
             if (sharedPrefs.getBoolean("ct_messageDividerVisibility", true))
             {

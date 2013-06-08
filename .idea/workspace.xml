@@ -86,6 +86,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1e4b5eb9-13da-4bef-bd83-6650ca630326" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MainActivity.java" afterPath="$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MainActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Messaging Donate.iws" />
@@ -155,19 +156,72 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="MainActivity.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="MainActivity.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="219" column="43" selection-start="7804" selection-end="7804" vertical-scroll-proportion="0.0" vertical-offset="3706" max-vertical-offset="118898">
+            <state line="2155" column="18" selection-start="84910" selection-end="84910" vertical-scroll-proportion="0.45333335" vertical-offset="32827" max-vertical-offset="109497">
+              <folding>
+                <element signature="e#34735#34767#0" expanded="true" />
+                <element signature="e#54075#54082#0" expanded="true" />
+                <element signature="e#55177#55184#0" expanded="true" />
+                <element signature="e#81753#81785#0" expanded="true" />
+                <element signature="e#84436#84905#0" expanded="true" />
+                <element signature="e#84890#84891#0" expanded="true" />
+                <element signature="e#113695#113702#0" expanded="true" />
+                <element signature="e#114817#114824#0" expanded="true" />
+                <element signature="e#129183#129497#0" expanded="true" />
+                <element signature="e#129466#129467#0" expanded="true" />
+                <element signature="e#160479#160526#0" expanded="true" />
+                <element signature="e#160575#160629#0" expanded="true" />
+                <element signature="e#161934#161983#0" expanded="true" />
+                <element signature="e#163261#163310#0" expanded="true" />
+                <element signature="e#164791#164841#0" expanded="true" />
+                <element signature="e#164955#165003#0" expanded="true" />
+                <element signature="e#167147#167151#0" expanded="true" />
+                <element signature="e#167421#167475#0" expanded="true" />
+                <element signature="e#167514#167576#0" expanded="true" />
+                <element signature="e#167622#167660#0" expanded="true" />
+                <element signature="e#168010#168053#0" expanded="true" />
+                <element signature="e#169079#169116#0" expanded="true" />
+                <element signature="e#169745#169777#0" expanded="true" />
+                <element signature="e#171865#171914#0" expanded="true" />
+                <element signature="e#174301#174350#0" expanded="true" />
+                <element signature="e#177423#177472#0" expanded="true" />
+                <element signature="e#180315#180364#0" expanded="true" />
+                <element signature="e#198307#198356#0" expanded="true" />
+                <element signature="e#200076#200108#0" expanded="true" />
+                <element signature="e#221514#221546#1" expanded="true" />
+                <element signature="e#228333#228387#0" expanded="true" />
+                <element signature="e#228416#228470#0" expanded="true" />
+                <element signature="e#228499#228553#0" expanded="true" />
+                <element signature="e#228582#228636#0" expanded="true" />
+                <element signature="e#228665#228719#0" expanded="true" />
+                <element signature="e#228742#228796#0" expanded="true" />
+                <element signature="e#228831#228890#0" expanded="true" />
+                <element signature="e#234779#234808#0" expanded="true" />
+                <element signature="e#242475#242507#0" expanded="true" />
+                <element signature="e#248101#248152#0" expanded="true" />
+                <element signature="e#250292#250343#0" expanded="true" />
+                <element signature="e#254443#254494#0" expanded="true" />
+                <element signature="e#256220#256271#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MainActivity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_donate/MainActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="40" column="9" selection-start="1516" selection-end="1516" vertical-scroll-proportion="0.0" vertical-offset="2676" max-vertical-offset="3519">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MainActivity.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_donate/MainActivity.java">
+      <file leaf-file-name="sliding_conversation_settings.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/xml/sliding_conversation_settings.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="40" column="60" selection-start="1567" selection-end="1567" vertical-scroll-proportion="0.4738676" vertical-offset="102" max-vertical-offset="3519">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="313" max-vertical-offset="952">
               <folding />
             </state>
           </provider>
@@ -302,6 +356,10 @@
               <option name="myItemId" value="com" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -324,6 +382,10 @@
               <option name="myItemId" value="android" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="messaging_donate" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -335,7 +397,25 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="libs" />
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SlidingMessaging" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MessagingDonate" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -681,7 +761,7 @@
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3239061" sideWeight="0.8624161" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33920705" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33920705" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3239061" sideWeight="0.86414254" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39977974" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -695,8 +775,8 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24972796" sideWeight="0.72902495" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17502668" sideWeight="0.66079295" order="1" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26762116" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17502668" sideWeight="0.73237884" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26762116" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32870865" sideWeight="0.6442731" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -794,14 +874,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/res/layout/alp_lock_pattern_activity.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="37" column="57" selection-start="1526" selection-end="1526" vertical-scroll-proportion="-21.08" vertical-offset="102" max-vertical-offset="1683" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/wizardpager/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="35" column="44" selection-start="1310" selection-end="1357" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5610" />
@@ -823,12 +895,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/SettingsPagerActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="687" column="47" selection-start="29223" selection-end="29223" vertical-scroll-proportion="0.26198083" vertical-offset="9713" max-vertical-offset="19873" />
+        <state line="687" column="47" selection-start="29223" selection-end="29223" vertical-scroll-proportion="0.26198083" vertical-offset="9713" max-vertical-offset="19873">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/xml/sliding_security_settings.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="40" selection-start="178" selection-end="178" vertical-scroll-proportion="0.10641628" vertical-offset="0" max-vertical-offset="663" />
+        <state line="4" column="40" selection-start="178" selection-end="178" vertical-scroll-proportion="0.10641628" vertical-offset="0" max-vertical-offset="663">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/values/colors.xml">
@@ -878,16 +956,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="219" column="43" selection-start="7804" selection-end="7804" vertical-scroll-proportion="0.0" vertical-offset="3706" max-vertical-offset="118898">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MenuArrayAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="57" column="13" selection-start="1891" selection-end="1891" vertical-scroll-proportion="-4.5793357" vertical-offset="2550" max-vertical-offset="10897" />
+        <state line="57" column="13" selection-start="1891" selection-end="1891" vertical-scroll-proportion="-4.5793357" vertical-offset="2550" max-vertical-offset="10897">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/values/attrs.xml">
@@ -904,10 +977,68 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/res/xml/sliding_conversation_settings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="313" max-vertical-offset="952">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_donate/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="60" selection-start="1567" selection-end="1567" vertical-scroll-proportion="0.4738676" vertical-offset="102" max-vertical-offset="3519">
+        <state line="40" column="9" selection-start="1516" selection-end="1516" vertical-scroll-proportion="0.0" vertical-offset="2676" max-vertical-offset="3519">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/klinker/android/messaging_sliding/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2155" column="18" selection-start="84910" selection-end="84910" vertical-scroll-proportion="0.45333335" vertical-offset="32827" max-vertical-offset="109497">
+          <folding>
+            <element signature="e#34735#34767#0" expanded="true" />
+            <element signature="e#54075#54082#0" expanded="true" />
+            <element signature="e#55177#55184#0" expanded="true" />
+            <element signature="e#81753#81785#0" expanded="true" />
+            <element signature="e#84436#84905#0" expanded="true" />
+            <element signature="e#84890#84891#0" expanded="true" />
+            <element signature="e#113695#113702#0" expanded="true" />
+            <element signature="e#114817#114824#0" expanded="true" />
+            <element signature="e#129183#129497#0" expanded="true" />
+            <element signature="e#129466#129467#0" expanded="true" />
+            <element signature="e#160479#160526#0" expanded="true" />
+            <element signature="e#160575#160629#0" expanded="true" />
+            <element signature="e#161934#161983#0" expanded="true" />
+            <element signature="e#163261#163310#0" expanded="true" />
+            <element signature="e#164791#164841#0" expanded="true" />
+            <element signature="e#164955#165003#0" expanded="true" />
+            <element signature="e#167147#167151#0" expanded="true" />
+            <element signature="e#167421#167475#0" expanded="true" />
+            <element signature="e#167514#167576#0" expanded="true" />
+            <element signature="e#167622#167660#0" expanded="true" />
+            <element signature="e#168010#168053#0" expanded="true" />
+            <element signature="e#169079#169116#0" expanded="true" />
+            <element signature="e#169745#169777#0" expanded="true" />
+            <element signature="e#171865#171914#0" expanded="true" />
+            <element signature="e#174301#174350#0" expanded="true" />
+            <element signature="e#177423#177472#0" expanded="true" />
+            <element signature="e#180315#180364#0" expanded="true" />
+            <element signature="e#198307#198356#0" expanded="true" />
+            <element signature="e#200076#200108#0" expanded="true" />
+            <element signature="e#221514#221546#1" expanded="true" />
+            <element signature="e#228333#228387#0" expanded="true" />
+            <element signature="e#228416#228470#0" expanded="true" />
+            <element signature="e#228499#228553#0" expanded="true" />
+            <element signature="e#228582#228636#0" expanded="true" />
+            <element signature="e#228665#228719#0" expanded="true" />
+            <element signature="e#228742#228796#0" expanded="true" />
+            <element signature="e#228831#228890#0" expanded="true" />
+            <element signature="e#234779#234808#0" expanded="true" />
+            <element signature="e#242475#242507#0" expanded="true" />
+            <element signature="e#248101#248152#0" expanded="true" />
+            <element signature="e#250292#250343#0" expanded="true" />
+            <element signature="e#254443#254494#0" expanded="true" />
+            <element signature="e#256220#256271#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
