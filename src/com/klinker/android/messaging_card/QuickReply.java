@@ -299,12 +299,14 @@ public class QuickReply extends FragmentActivity {
                         ids.set(pos, ids.get(pos) + ", " + id);
 			        }
 
+                    mSectionsPagerAdapter.notifyDataSetChanged();
+
                     mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
-					mViewPager = (ViewPager) findViewById(R.id.messagePager);
-					mViewPager.setAdapter(mSectionsPagerAdapter);
-					mViewPager.setPageMargin(getResources().getDisplayMetrics().widthPixels / -18);
-					mViewPager.setOffscreenPageLimit(2);
+                    mViewPager = (ViewPager) findViewById(R.id.messagePager);
+                    mViewPager.setAdapter(mSectionsPagerAdapter);
+                    mViewPager.setPageMargin(getResources().getDisplayMetrics().widthPixels / -18);
+                    mViewPager.setOffscreenPageLimit(2);
 					
 					if (!flag)
 					{
@@ -333,6 +335,7 @@ public class QuickReply extends FragmentActivity {
 		inboxNumber.remove(page);
 		inboxBody.remove(page);
 		inboxDate.remove(page);
+        mSectionsPagerAdapter.notifyDataSetChanged();
 		
 		if (ids.size() == 0)
 		{
@@ -340,10 +343,11 @@ public class QuickReply extends FragmentActivity {
 		} else
 		{
             mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-			mViewPager = (ViewPager) findViewById(R.id.messagePager);
-			mViewPager.setAdapter(mSectionsPagerAdapter);
-			mViewPager.setPageMargin(getResources().getDisplayMetrics().widthPixels / -18);
-			mViewPager.setOffscreenPageLimit(2);
+
+            mViewPager = (ViewPager) findViewById(R.id.messagePager);
+            mViewPager.setAdapter(mSectionsPagerAdapter);
+            mViewPager.setPageMargin(getResources().getDisplayMetrics().widthPixels / -18);
+            mViewPager.setOffscreenPageLimit(2);
 		}
 		
 		NotificationManager mNotificationManager =
@@ -1392,7 +1396,14 @@ public class QuickReply extends FragmentActivity {
     @Override
     public void finish()
     {
-        unregisterReceiver(receiver);
+        try
+        {
+            unregisterReceiver(receiver);
+        } catch (Exception e)
+        {
+
+        }
+
         super.finish();
     }
 
