@@ -1,11 +1,5 @@
 package com.klinker.android.messaging_card;
 
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-
-import com.klinker.android.messaging_donate.R;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -18,13 +12,22 @@ import android.preference.PreferenceManager;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
+import com.haarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
+import com.klinker.android.messaging_donate.R;
+
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 
 public class BatchDeleteActivity extends Activity {
 	
 	public ArrayList<String> threadIds, inboxNumber;
+
+    public BaseAdapter mAdapter;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -32,7 +35,7 @@ public class BatchDeleteActivity extends Activity {
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.batch_delete);
-		
+
 		BatchDeleteArrayAdapter.itemsToDelete = new ArrayList<Integer>();
 
         if (sharedPrefs.getString("run_as", "sliding").equals("sliding") || sharedPrefs.getString("run_as", "sliding").equals("hangout"))
@@ -65,7 +68,13 @@ public class BatchDeleteActivity extends Activity {
 		BatchDeleteArrayAdapter adapter = new BatchDeleteArrayAdapter(this, inboxNumber);
 		contactList.setAdapter(adapter);
 		contactList.setDividerHeight((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -10, getResources().getDisplayMetrics()));
-		
+
+        // Animation for the list view
+        mAdapter = new BatchDeleteArrayAdapter(this, inboxNumber);
+        SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(mAdapter);
+        swingBottomInAnimationAdapter.setListView(contactList);
+        contactList.setAdapter(swingBottomInAnimationAdapter);
+
 		Button deleteButton = (Button) findViewById(R.id.doneButton);
 		
 		final Context context = this;

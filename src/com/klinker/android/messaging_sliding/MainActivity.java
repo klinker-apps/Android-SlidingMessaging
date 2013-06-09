@@ -8,6 +8,7 @@ import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.view.ViewPager;
 import android.view.*;
 import android.widget.*;
+import com.haarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.klinker.android.messaging_card.BatchDeleteActivity;
 import com.klinker.android.messaging_donate.DeliveredReceiver;
@@ -712,7 +713,6 @@ public class MainActivity extends FragmentActivity {
 		View v = findViewById(R.id.newMessageGlow);
 		v.setVisibility(View.GONE);
 
-
 		
 		setUpSendbar();
 	}
@@ -740,7 +740,7 @@ public class MainActivity extends FragmentActivity {
 
     }
 */
-	
+
 	public void refreshMessages(boolean totalRefresh)
 	{
 		inboxSent = new ArrayList<Boolean>();
@@ -6722,6 +6722,7 @@ public class MainActivity extends FragmentActivity {
                                         footer.setGravity(Gravity.CENTER);
                                         footer.setText(context.getResources().getString(R.string.load_all));
                                         footer.setTextColor(sharedPrefs.getInt("ct_draftTextColor", sharedPrefs.getInt("ct_sendButtonColor", getResources().getColor(R.color.black))));
+                                        footer.setBackgroundResource(R.drawable.load_all_button);
 
                                         footer.setOnClickListener(new OnClickListener() {
                                             @Override
