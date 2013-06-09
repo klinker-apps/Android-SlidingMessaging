@@ -1,0 +1,35 @@
+Confirmed Working:
+
+AT&T: 
+	MMSC: http://mmsc.cingular.com
+	MMS Proxy: wireless.cingular.com
+	MMS Port: 80
+
+Straight Talk AT&T:
+	MMSC: http://mmsc.cingular.com
+	MMS Proxy: 66.209.11.33
+	MMS Port: 80
+
+T-Mobile:
+	MMSC: http://mms.msg.eng.t-mobile.com/mms/wapenc
+	MMS Proxy: 216.155.165.50
+	MMS Port: 8080
+
+
+
+Experimental:
+
+Virgin Mobile:
+	MMSC: http://mmsc.vmobl.com:8088/mms?type=null
+	MMS Proxy:205.239.233.136
+	MMS Port: 81
+
+Sprint:
+	MMSC: http://mms.sprintpcs.com
+	MMS Proxy: 68.28.31.7
+	MMS Port: 80
+
+Boost:
+	MMSC: http://mm.myboostmobile.com
+	MMS Proxy: 68.28.31.7
+	MMS Port: 80
