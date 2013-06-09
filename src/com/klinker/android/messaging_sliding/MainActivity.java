@@ -756,7 +756,14 @@ public class MainActivity extends FragmentActivity {
 		msgRead = new ArrayList<String>();
 		ContentResolver contentResolver = getContentResolver();
 
-        if (firstRun)
+        boolean nullPointer = false;
+
+        if (com.klinker.android.messaging_donate.MainActivity.threadIds == null)
+        {
+            nullPointer = true;
+        }
+
+        if (firstRun && !nullPointer)
         {
             threadIds = com.klinker.android.messaging_donate.MainActivity.threadIds;
             msgCount = com.klinker.android.messaging_donate.MainActivity.msgCount;
@@ -2428,6 +2435,12 @@ public class MainActivity extends FragmentActivity {
 				        }
 			    	} catch (Exception e)
 			    	{
+                        if (contactNames == null)
+                        {
+                            contactNames = new ArrayList<String>();
+                            contactNumbers = new ArrayList<String>();
+                            contactTypes = new ArrayList<String>();
+                        }
 			    		if (text.length() <= contactNames.get(i).length())
 				        {
 			    			Matcher matcher = pattern.matcher(contactNames.get(i).toLowerCase());

@@ -380,11 +380,11 @@
 
 
     <string name="contact_name_or_number">Kişi İsmi veya Numara</string>
-    <string name="save_blacklist">Karaliste Kişisini Kaydet</string>
+    <string name="save_blacklist">Kara liste Kişisini Kaydet</string>
     <string name="black_list_1">Bildirimleri gizle ama bu kişiden gelen mesajları sakla</string>
     <string name="black_list_2">Bildirimleri gizle ve bu kişiden gelen mesajları saklama</string>
-    <string name="delete_blacklist_contact">Karaliste Kişisini Sil ?</string>
-    <string name="blacklist_settings">Karaliste Seçenekleri</string>
+    <string name="delete_blacklist_contact">Kara liste Kişisini Sil ?</string>
+    <string name="blacklist_settings">Kara liste Seçenekleri</string>
     <string name="blacklist_settings_summary"></string>
     <string name="save_to_external">SD Karta Aktar</string>
     <string name="save_to_external_summary">Özelleştirilmiş bildirimler, kara liste gibi sizin kaydettiğiniz verileri telefon hafızası yerine SD kartınıza aktarır.</string>

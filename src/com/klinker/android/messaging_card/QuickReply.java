@@ -75,7 +75,7 @@ public class QuickReply extends FragmentActivity {
 	public SectionsPagerAdapter mSectionsPagerAdapter;
 	public ViewPager mViewPager;
 	
-	public ArrayList<String> ids, inboxBody, inboxDate, inboxNumber;
+	public static ArrayList<String> ids, inboxBody, inboxDate, inboxNumber;
 	public static SharedPreferences sharedPrefs;
 	
 	public static Typeface font;
@@ -1425,10 +1425,6 @@ public class QuickReply extends FragmentActivity {
 			Fragment fragment = new PagerFragment();
 			Bundle args = new Bundle();
 			args.putInt("position", position);
-			args.putStringArrayList("ids", ids);
-			args.putStringArrayList("inboxBody", inboxBody);
-			args.putStringArrayList("inboxDate", inboxDate);
-			args.putStringArrayList("inboxNumber", inboxNumber);
 			fragment.setArguments(args);
 			return fragment;
 		}
@@ -1447,7 +1443,6 @@ public class QuickReply extends FragmentActivity {
 	public static class PagerFragment extends Fragment {
 
 		public int position;
-		public ArrayList<String> ids, inboxBody, inboxDate, inboxNumber;
 		public Context context;
 		
 		public PagerFragment() {
@@ -1468,9 +1463,6 @@ public class QuickReply extends FragmentActivity {
 			Bundle args = getArguments();
 			
 			position = args.getInt("position");
-			inboxNumber = args.getStringArrayList("inboxNumber");
-			inboxBody = args.getStringArrayList("inboxBody");
-			inboxDate = args.getStringArrayList("inboxDate");
 		}
 
 		@Override

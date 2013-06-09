@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item android:id="@+id/menu_settings" android:showAsAction="never" android:title="@string/menu_settings" android:orderInCategory="4"></item>
-    <item android:id="@+id/menu_about" android:showAsAction="never" android:title="@string/menu_about" android:orderInCategory="7"></item>
-    <item android:id="@+id/menu_delete" android:orderInCategory="5" android:title="@string/batch_delete" android:showAsAction="never"></item>
-    <item android:id="@+id/menu_template" android:orderInCategory="6" android:title="@string/insert_template" android:showAsAction="never"></item>
+    <item android:id="@+id/menu_settings" android:showAsAction="never" android:title="@string/menu_settings" android:orderInCategory="3"></item>
+    <item android:id="@+id/menu_about" android:showAsAction="never" android:title="@string/menu_about" android:orderInCategory="4"></item>
+    <item android:id="@+id/menu_delete" android:orderInCategory="1" android:title="@string/batch_delete" android:showAsAction="never"></item>
+    <item android:id="@+id/menu_template" android:orderInCategory="2" android:title="@string/insert_template" android:showAsAction="never"></item>
 </menu>

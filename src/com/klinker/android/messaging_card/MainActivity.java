@@ -766,7 +766,14 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 		msgRead = new ArrayList<String>();
 		ContentResolver contentResolver = getContentResolver();
 
-        if (firstRun)
+        boolean nullPointer = false;
+
+        if (com.klinker.android.messaging_donate.MainActivity.threadIds == null)
+        {
+            nullPointer = true;
+        }
+
+        if (firstRun && !nullPointer)
         {
             threadIds = com.klinker.android.messaging_donate.MainActivity.threadIds;
             msgCount = com.klinker.android.messaging_donate.MainActivity.msgCount;
@@ -3842,7 +3849,13 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 
 		@Override
 		public int getCount() {
-			return threadIds.size() + 2;
+            try {
+                return threadIds.size() + 2;
+            } catch (Exception e)
+            {
+                return 0;
+            }
+
 		}
 
 		@Override
