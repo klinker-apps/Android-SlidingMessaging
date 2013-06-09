@@ -303,7 +303,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 						        PendingIntent resultPendingIntent =
 						                stackBuilder.getPendingIntent(
 						                    0,
-						                    PendingIntent.FLAG_UPDATE_CURRENT
+						                    PendingIntent.FLAG_CANCEL_CURRENT
 						                );
 						        
 						        mBuilder.setContentIntent(resultPendingIntent);
@@ -482,7 +482,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 						        PendingIntent resultPendingIntent =
 						                stackBuilder.getPendingIntent(
 						                    0,
-						                    PendingIntent.FLAG_UPDATE_CURRENT
+                                            PendingIntent.FLAG_CANCEL_CURRENT
 						                );
 						        
 						        mBuilder.setContentIntent(resultPendingIntent);
@@ -642,7 +642,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 						        PendingIntent resultPendingIntent =
 						                stackBuilder.getPendingIntent(
 						                    0,
-						                    PendingIntent.FLAG_UPDATE_CURRENT
+                                            PendingIntent.FLAG_CANCEL_CURRENT
 						                );
 						        
 						        mBuilder.setContentIntent(resultPendingIntent);
@@ -782,7 +782,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 						        PendingIntent resultPendingIntent =
 						                stackBuilder.getPendingIntent(
 						                    0,
-						                    PendingIntent.FLAG_UPDATE_CURRENT
+                                            PendingIntent.FLAG_CANCEL_CURRENT
 						                );
 						        
 						        mBuilder.setContentIntent(resultPendingIntent);
@@ -907,7 +907,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 						        PendingIntent resultPendingIntent =
 						                stackBuilder.getPendingIntent(
 						                    0,
-						                    PendingIntent.FLAG_UPDATE_CURRENT
+                                            PendingIntent.FLAG_CANCEL_CURRENT
 						                );
 						        
 						        mBuilder.setContentIntent(resultPendingIntent);

@@ -2,11 +2,11 @@
     <item android:id="@+id/menu_call" android:orderInCategory="1" android:title="@string/menu_call" android:icon="@drawable/ic_menu_call" android:showAsAction="always"></item>
     <item android:id="@+id/menu_attach" android:title="@string/menu_attach" android:orderInCategory="2" android:showAsAction="always" android:icon="@drawable/ic_attach"></item>
     <item android:id="@+id/menu_new_message" android:title="@string/menu_new_message" android:showAsAction="ifRoom" android:icon="@drawable/ic_reply" android:orderInCategory="3"></item>
-    <item android:id="@+id/menu_settings" android:showAsAction="never" android:title="@string/menu_settings" android:orderInCategory="4"></item>
-    <item android:id="@+id/menu_delete" android:orderInCategory="5" android:title="@string/batch_delete" android:showAsAction="never"></item>
-    <item android:id="@+id/menu_template" android:title="@string/insert_template" android:orderInCategory="6" android:showAsAction="never"></item>
-    <item android:id="@+id/delete_conversation" android:title="@string/delete_conversation" android:orderInCategory="7" android:showAsAction="never"></item>
-    <item android:id="@+id/copy_sender" android:title="@string/copy_sender_address" android:orderInCategory="8" android:showAsAction="never"></item>
+    <item android:id="@+id/menu_settings" android:showAsAction="never" android:title="@string/menu_settings" android:orderInCategory="8"></item>
+    <item android:id="@+id/menu_delete" android:orderInCategory="4" android:title="@string/batch_delete" android:showAsAction="never"></item>
+    <item android:id="@+id/menu_template" android:title="@string/insert_template" android:orderInCategory="5" android:showAsAction="never"></item>
+    <item android:id="@+id/delete_conversation" android:title="@string/delete_conversation" android:orderInCategory="6" android:showAsAction="never"></item>
+    <item android:id="@+id/copy_sender" android:title="@string/copy_sender_address" android:orderInCategory="7" android:showAsAction="never"></item>
     <item android:id="@+id/menu_about" android:showAsAction="never" android:title="@string/menu_about" android:orderInCategory="9"></item>
 
 </menu>

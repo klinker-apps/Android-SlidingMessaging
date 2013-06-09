@@ -3831,34 +3831,34 @@ public class MainActivity extends FragmentActivity {
                 menu.getItem(0).setVisible(false);
                 menu.getItem(1).setVisible(false);
                 menu.getItem(2).setVisible(true);
-                menu.getItem(4).setVisible(true);
+                menu.getItem(3).setVisible(true);
+                menu.getItem(4).setVisible(false);
                 menu.getItem(5).setVisible(false);
                 menu.getItem(6).setVisible(false);
-                menu.getItem(7).setVisible(false);
 
                 if (MainActivity.menu.isSecondaryMenuShowing())
                 {
                     menu.getItem(0).setVisible(false);
                     menu.getItem(1).setVisible(true);
                     menu.getItem(2).setVisible(false);
-                    menu.getItem(4).setVisible(false);
-                    menu.getItem(5).setVisible(true);
+                    menu.getItem(3).setVisible(false);
+                    menu.getItem(4).setVisible(true);
+                    menu.getItem(5).setVisible(false);
                     menu.getItem(6).setVisible(false);
-                    menu.getItem(7).setVisible(false);
                 }
             } else
             {
                 menu.getItem(0).setVisible(true);
                 menu.getItem(1).setVisible(true);
                 menu.getItem(2).setVisible(true);
-                menu.getItem(4).setVisible(false);
+                menu.getItem(3).setVisible(false);
+                menu.getItem(4).setVisible(true);
                 menu.getItem(5).setVisible(true);
                 menu.getItem(6).setVisible(true);
-                menu.getItem(7).setVisible(true);
 
                 if (group.get(mViewPager.getCurrentItem()).equals("yes"))
                 {
-                    menu.getItem(7).setVisible(false);
+                    menu.getItem(6).setVisible(false);
                 }
             }
         } else
@@ -3867,20 +3867,20 @@ public class MainActivity extends FragmentActivity {
             {
                 menu.getItem(0).setVisible(false);
                 menu.getItem(2).setVisible(false);
-                menu.getItem(4).setVisible(false);
+                menu.getItem(3).setVisible(false);
+                menu.getItem(5).setVisible(false);
                 menu.getItem(6).setVisible(false);
-                menu.getItem(7).setVisible(false);
             } else
             {
                 menu.getItem(0).setVisible(true);
                 menu.getItem(2).setVisible(true);
-                menu.getItem(4).setVisible(true);
+                menu.getItem(3).setVisible(true);
+                menu.getItem(5).setVisible(true);
                 menu.getItem(6).setVisible(true);
-                menu.getItem(7).setVisible(true);
 
                 if (group.get(mViewPager.getCurrentItem()).equals("yes"))
                 {
-                    menu.getItem(7).setVisible(false);
+                    menu.getItem(6).setVisible(false);
                 }
             }
         }

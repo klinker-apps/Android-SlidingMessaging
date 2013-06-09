@@ -333,7 +333,34 @@ public class MainActivity extends FragmentActivity implements
 
         @Override
         public int getCount() {
-            return Math.min(mCutOffPage + 1, mCurrentPageSequence.size() + 1);
+            int extraPageCount = 1;
+
+            try
+            {
+                PackageManager pm = getBaseContext().getPackageManager();
+                pm.getPackageInfo("com.klinker.android.messaging_theme", PackageManager.GET_ACTIVITIES);
+            } catch (Exception e)
+            {
+                extraPageCount++;
+            }
+            try
+            {
+                PackageManager pm = getBaseContext().getPackageManager();
+                pm.getPackageInfo("com.klinker.android.messaging_donate", PackageManager.GET_ACTIVITIES);
+            } catch (Exception e)
+            {
+                extraPageCount++;
+            }
+            try
+            {
+                PackageManager pm = getBaseContext().getPackageManager();
+                pm.getPackageInfo("com.jb.gosms", PackageManager.GET_ACTIVITIES);
+            } catch (Exception e)
+            {
+                extraPageCount--;
+            }
+
+            return 2 + extraPageCount;
         }
 
         public void setCutOffPage(int cutOffPage) {

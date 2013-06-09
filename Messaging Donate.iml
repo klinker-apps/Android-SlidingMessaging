@@ -25,6 +25,7 @@
     <orderEntry type="module" module-name="ColorPickerPreference" />
     <orderEntry type="module" module-name="SlidingMenu" />
     <orderEntry type="module" module-name="ListViewAnimations" />
+    <orderEntry type="module" module-name="lockpattern" />
   </component>
 </module>
 
