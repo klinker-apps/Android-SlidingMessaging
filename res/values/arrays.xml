@@ -360,8 +360,8 @@
     </string-array>
 
     <string-array name="timeout_set">
-        <item name="none">500</item>
-        <item name="ten_sec">10000</item>
+        <!--<item name="none">500</item>
+        <item name="ten_sec">10000</item> -->
         <item name="thirty_sec">30000</item>
         <item name="one_min">60000</item>
         <item name="five_min">300000</item>
@@ -372,8 +372,8 @@
     </string-array>
 
     <string-array name="timeout">
-        <item name="none">No Timeout</item>
-        <item name="ten_sec">10 Seconds</item>
+        <!-- <item name="none">No Timeout</item>
+        <item name="ten_sec">10 Seconds</item> -->
         <item name="thirty_sec">30 Seconds</item>
         <item name="one_min">1 Minute</item>
         <item name="five_min">5 Minutes</item>

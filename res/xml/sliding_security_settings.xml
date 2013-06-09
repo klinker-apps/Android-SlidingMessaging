@@ -14,13 +14,6 @@
             android:title="@string/set_password" />
             <!--android:dependency="security"-->
 
-    <CheckBoxPreference
-            android:key="auto_unlock"
-            android:title="@string/auto_unlock"
-            android:summary="@string/auto_unlock_summary"
-            android:defaultValue="true" />
-            <!-- android:dependency="security" -->
-
     <ListPreference
             android:key="timeout_settings"
             android:title="@string/timeout_settings"
@@ -28,7 +21,13 @@
             android:defaultValue="300000"
             android:entries="@array/timeout"
             android:entryValues="@array/timeout_set" />
-            <!-- android:dependency="security" -->
+    <!-- android:dependency="security" -->
 
+    <CheckBoxPreference
+            android:key="auto_unlock"
+            android:title="@string/auto_unlock"
+            android:summary="@string/auto_unlock_summary"
+            android:defaultValue="true" />
+            <!-- android:dependency="security" -->
 
 </PreferenceScreen>
