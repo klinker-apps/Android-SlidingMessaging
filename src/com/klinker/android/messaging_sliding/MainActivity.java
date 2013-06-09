@@ -2159,16 +2159,16 @@ public class MainActivity extends FragmentActivity {
                     menuAdapter = new MenuArrayAdapter(activity, inboxBody, inboxDate, inboxNumber, mViewPager, threadIds, group, msgCount, msgRead);
                     menuLayout.setAdapter(menuAdapter);
                     menuLayout.setDivider(new ColorDrawable(sharedPrefs.getInt("ct_conversationDividerColor", getResources().getColor(R.color.white))));
+
+                    if (sharedPrefs.getBoolean("ct_messageDividerVisibility", true))
+                    {
+                        menuLayout.setDividerHeight(1);
+                    } else
+                    {
+                        menuLayout.setDividerHeight(0);
+                    }
                 }
             }, 100);
-
-            if (sharedPrefs.getBoolean("ct_messageDividerVisibility", true))
-            {
-                menuLayout.setDividerHeight(1);
-            } else
-            {
-                menuLayout.setDividerHeight(0);
-            }
         }
 		
 		LayoutInflater inflater2 = (LayoutInflater) this
@@ -3949,6 +3949,7 @@ public class MainActivity extends FragmentActivity {
 	        return true;
 	    case R.id.menu_settings:
 	    	startActivity(new Intent(this, SettingsPagerActivity.class));
+            finish();
 	    	return true;
 	    case R.id.menu_about:
 	    	AlertDialog.Builder builder = new AlertDialog.Builder(this);

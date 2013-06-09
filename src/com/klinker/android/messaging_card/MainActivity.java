@@ -3756,6 +3756,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 		{
 		case R.id.menu_settings:
 			startActivity(new Intent(this, SettingsPagerActivity.class));
+            finish();
 			return true;
 		case R.id.menu_delete:
 			Intent intent = new Intent(this, BatchDeleteActivity.class);

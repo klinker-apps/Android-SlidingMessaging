@@ -1,9 +1,7 @@
-For next update (6.20):
-    - contact lister to scroll through all contacts and decide who to send message to that way
-
 0) more individual notification options
 1) Draft system
 2) Scheduled SMS
+3) Batch delete of messages inside single conversation
 5) Tasker options
 6) Attach more options for MMS - create slideshow with videos and audio and pictures, attach plain text contact info
 7) Message locking

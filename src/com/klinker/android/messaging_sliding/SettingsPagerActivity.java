@@ -89,23 +89,9 @@ public class SettingsPagerActivity extends FragmentActivity {
     {
         if (mViewPager.getCurrentItem() == 0)
         {
-            super.onBackPressed();
-
-            SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-
-            if (sharedPrefs.getString("run_as", "sliding").equals("sliding") || sharedPrefs.getString("run_as", "sliding").equals("hangout"))
-            {
-                Intent i = new Intent(this, MainActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(i);
-            } else if (sharedPrefs.getString("run_as", "sliding").equals("card"))
-            {
-                Intent i = new Intent(this, com.klinker.android.messaging_card.MainActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(i);
-            }
+            Intent i = new Intent(this, com.klinker.android.messaging_donate.MainActivity.class);
+            startActivity(i);
+            finish();
         } else
         {
             mViewPager.setCurrentItem(0, true);

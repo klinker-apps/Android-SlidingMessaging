@@ -419,7 +419,7 @@ public class PopupChooserActivity extends Activity {
             divider3.setBackgroundColor(themes.get(position).dividerColor);
 
             name.setText("Contact Name");
-            number.setText("+1-555-4444");
+            number.setText("+1-333-555-4444");
             body.setText("Message Body");
             date.setText("8:00 AM");
 			

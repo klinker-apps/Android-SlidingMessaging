@@ -499,7 +499,6 @@ public class QuickReply extends FragmentActivity {
             if (sharedPrefs.getString("run_as", "sliding").equals("hangout"))
             {
                 emojiButton.setImageResource(R.drawable.ic_emoji_dark);
-                emojiButton.setColorFilter(context.getResources().getColor(R.color.holo_green));
             }
 
             emojiButton.setOnClickListener(new OnClickListener() {
