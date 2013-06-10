@@ -16,6 +16,8 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
+import com.haarman.listviewanimations.itemmanipulation.OnDismissCallback;
+import com.haarman.listviewanimations.itemmanipulation.SwipeDismissAdapter;
 import com.haarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
 import com.klinker.android.messaging_donate.R;
 
@@ -27,7 +29,9 @@ public class BatchDeleteActivity extends Activity {
 	
 	public ArrayList<String> threadIds, inboxNumber;
 
-    public BaseAdapter mAdapter;
+    public BatchDeleteArrayAdapter mAdapter;
+
+    public final Context context = this;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -71,9 +75,14 @@ public class BatchDeleteActivity extends Activity {
 
         // Animation for the list view
         mAdapter = new BatchDeleteArrayAdapter(this, inboxNumber);
-        SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(mAdapter);
+
+        SwipeDismissAdapter swipeDismissAdapter = new SwipeDismissAdapter(mAdapter, new MyOnDismissCallback(mAdapter));
+        swipeDismissAdapter.setListView(contactList);
+
+        SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(swipeDismissAdapter);
         swingBottomInAnimationAdapter.setListView(contactList);
         contactList.setAdapter(swingBottomInAnimationAdapter);
+
 
 		Button deleteButton = (Button) findViewById(R.id.doneButton);
 		
@@ -218,4 +227,121 @@ public class BatchDeleteActivity extends Activity {
         } 
 		
 	}
+
+    private class MyOnDismissCallback implements OnDismissCallback {
+
+        private BatchDeleteArrayAdapter mAdapter;
+
+        public MyOnDismissCallback(BatchDeleteArrayAdapter adapter) {
+            mAdapter = adapter;
+        }
+
+        @Override
+        public void onDismiss(ListView listView, int[] reverseSortedPositions) {
+            final ProgressDialog progDialog = new ProgressDialog(context);
+            progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progDialog.setMessage(context.getResources().getString(R.string.deleting));
+            progDialog.show();
+
+            new Thread(new Runnable(){
+
+                @Override
+                public void run() {
+                    ArrayList<Integer> positions = BatchDeleteArrayAdapter.itemsToDelete;
+
+                    for (int i = 0; i < positions.size(); i++)
+                    {
+                        deleteSMS(context, threadIds.get(positions.get(i)));
+                    }
+
+                    ArrayList<String> data = new ArrayList<String>();
+
+                    String[] projection = new String[]{"_id", "date", "message_count", "recipient_ids", "snippet", "read"};
+                    Uri uri = Uri.parse("content://mms-sms/conversations/?simple=true");
+                    Cursor query = getContentResolver().query(uri, projection, null, null, "date desc");
+
+                    if (query.moveToFirst())
+                    {
+                        do
+                        {
+                            data.add(query.getString(query.getColumnIndex("_id")));
+                            data.add(query.getString(query.getColumnIndex("message_count")));
+                            data.add(query.getString(query.getColumnIndex("read")));
+
+                            data.add(" ");
+
+                            try
+                            {
+                                data.set(data.size() - 1, query.getString(query.getColumnIndex("snippet")).replaceAll("\\\n", " "));
+                            } catch (Exception e)
+                            {
+                            }
+
+                            data.add(query.getString(query.getColumnIndex("date")));
+
+                            String[] ids = query.getString(query.getColumnIndex("recipient_ids")).split(" ");
+                            String numbers = "";
+
+                            for (int i = 0; i < ids.length; i++)
+                            {
+                                try
+                                {
+                                    if (ids[i] != null && (!ids[i].equals("") || !ids[i].equals(" ")))
+                                    {
+                                        Cursor number = getContentResolver().query(Uri.parse("content://mms-sms/canonical-addresses"), null, "_id=" + ids[i], null, null);
+
+                                        if (number.moveToFirst())
+                                        {
+                                            numbers += number.getString(number.getColumnIndex("address")).replaceAll("-", "").replaceAll("\\)", "").replaceAll("\\(", "").replaceAll(" ", "") + " ";
+                                        } else
+                                        {
+                                            numbers += "0 ";
+                                        }
+
+                                        number.close();
+                                    } else
+                                    {
+
+                                    }
+                                } catch (Exception e)
+                                {
+                                    numbers += "0 ";
+                                }
+                            }
+
+                            data.add(numbers.trim());
+
+                            if (ids.length > 1)
+                            {
+                                data.add("yes");
+                            } else
+                            {
+                                data.add("no");
+                            }
+                        } while (query.moveToNext());
+                    }
+
+                    query.close();
+
+                    writeToFile3(data, context);
+
+                    ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            progDialog.dismiss();
+                            Intent intent = new Intent(context, com.klinker.android.messaging_donate.MainActivity.class);
+                            context.startActivity(intent);
+                            finish();
+
+                            Intent updateWidget = new Intent("com.klinker.android.messaging.UPDATE_WIDGET");
+                            context.sendBroadcast(updateWidget);
+                        }
+
+                    });
+                }
+
+            }).start();
+        }
+    }
 }
