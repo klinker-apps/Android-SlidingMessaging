@@ -3130,10 +3130,11 @@ public class MainActivity extends FragmentActivity {
 			
 											@Override
 											public void run() {
+
                                                 MainActivity.threadedLoad = false;
-												sentMessage = true;
-												refreshViewPager(true);
-												mTextView.setVisibility(View.GONE);
+                                                sentMessage = true;
+                                                refreshViewPager(true);
+                                                mTextView.setVisibility(View.GONE);
 											}
 									    	
 									    });
@@ -3961,9 +3962,9 @@ public class MainActivity extends FragmentActivity {
 			} catch (NameNotFoundException e) {
 				e.printStackTrace();
 			}
-	    	
-			builder.setMessage(this.getResources().getString(R.string.version) + ": " + version +
-                    "\n\n" + this.getResources().getString(R.string.about_expanded) + "\n\nŠ 2013 Jacob Klinker");
+
+            builder.setMessage(this.getResources().getString(R.string.version) + ": " + version +
+                    "\n\n" + this.getResources().getString(R.string.about_expanded) + "\n\n© 2013 Jacob Klinker");
 			
 			AlertDialog dialog = builder.create();
 			dialog.show();

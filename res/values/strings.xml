@@ -132,7 +132,7 @@
     <string name="extension_description">Displays new messages to your lockscreen</string>
     <string name="emoji_type">Android Style Emojis</string>
     <string name="notification_settings">Notification Settings</string>
-    <string name="about_expanded">Credit to jfeinstein10 on GitHub for SlidingMenu and JazzyViewPager libraries, attenzione on GitHub for ColorPickerPreference library, Roman Nurik for his Wizard Pager, and to all of the translators.</string>
+    <string name="about_expanded">Credit to jfeinstein10 on GitHub for SlidingMenu library, attenzione on GitHub for ColorPickerPreference library, nhaarman on Github for ListViewAnimations library, Roman Nurik for his Wizard Pager, and to all of the translators.</string>
     <string name="download">Download</string>
     <string name="none"></string>
     <string name="message_delivered">Message Delivered</string>
