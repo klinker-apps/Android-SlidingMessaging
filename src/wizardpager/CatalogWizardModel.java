@@ -56,7 +56,8 @@ public class CatalogWizardModel extends AbstractWizardModel {
                 "- Access to message details by clicking on the SMS message\n" +
                 "- Ability to pick a contact name from a list of all contacts when creating a new message\n" +
                 "- Popup bug fixes\n" +
-                "- General bug fixes\n\n";
+                "- General bug fixes\n\n" +
+                "- Messages are now limited by default for speed and preformance; however, you are able to disable this feature if you choose.\n\n";
 
         String themeEditor = "The theme editor now fully supports the Hangouts UI and popup, " +
                 "better time then ever to get on board and start making Sliding Messaging look exactly how you want!\n\n" +

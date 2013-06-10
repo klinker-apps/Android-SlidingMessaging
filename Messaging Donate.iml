@@ -26,6 +26,7 @@
     <orderEntry type="module" module-name="SlidingMenu" />
     <orderEntry type="module" module-name="ListViewAnimations" />
     <orderEntry type="module" module-name="lockpattern" />
+    <orderEntry type="module" module-name="library" />
   </component>
 </module>
 

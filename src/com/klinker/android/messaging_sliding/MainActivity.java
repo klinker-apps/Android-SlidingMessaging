@@ -1,7 +1,7 @@
 package com.klinker.android.messaging_sliding;
 
 import android.app.*;
-import android.os.Handler;
+import android.os.*;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.*;
 import android.support.v4.app.TaskStackBuilder;
@@ -86,9 +86,6 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.os.Bundle;
-import android.os.Environment;
-import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.Contacts;
@@ -121,6 +118,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.RelativeLayout.LayoutParams;
 import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
+import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 
 public class MainActivity extends FragmentActivity {
 
@@ -713,7 +711,6 @@ public class MainActivity extends FragmentActivity {
 		View v = findViewById(R.id.newMessageGlow);
 		v.setVisibility(View.GONE);
 
-		
 		setUpSendbar();
 	}
 /*
@@ -6519,7 +6516,7 @@ public class MainActivity extends FragmentActivity {
 	 * A dummy fragment representing a section of the app, but that simply
 	 * displays dummy text.
 	 */
-	public static class DummySectionFragment extends android.app.Fragment {
+	public static class DummySectionFragment extends android.app.Fragment implements PullToRefreshAttacher.OnRefreshListener {
 		/**
 		 * The fragment argument representing the section number for this
 		 * fragment.
@@ -6534,10 +6531,39 @@ public class MainActivity extends FragmentActivity {
 		private SharedPreferences sharedPrefs;
 		public Context context;
         public Cursor messageQuery;
+
+        public static PullToRefreshAttacher mPullToRefreshAttacher;
 		
 		public DummySectionFragment() {
 			
 		}
+
+        @Override
+        public void onRefreshStarted(View view) {
+            /**
+             * Simulate Refresh with 4 seconds sleep
+             */
+            new AsyncTask<Void, Void, Void>() {
+
+                @Override
+                protected Void doInBackground(Void... params) {
+                    try {
+                        Thread.sleep(4000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(Void result) {
+                    super.onPostExecute(result);
+
+                    // Notify PullToRefreshAttacher that the refresh has finished
+                    mPullToRefreshAttacher.setRefreshComplete();
+                }
+            }.execute();
+        }
 		
 		@Override
 		public void onSaveInstanceState(Bundle outState) {
@@ -6737,7 +6763,6 @@ public class MainActivity extends FragmentActivity {
                                         footer.setGravity(Gravity.CENTER);
                                         footer.setText(context.getResources().getString(R.string.load_all));
                                         footer.setTextColor(sharedPrefs.getInt("ct_draftTextColor", sharedPrefs.getInt("ct_sendButtonColor", getResources().getColor(R.color.black))));
-                                        footer.setBackgroundResource(R.drawable.load_all_button);
 
                                         footer.setOnClickListener(new OnClickListener() {
                                             @Override
@@ -7017,4 +7042,6 @@ public class MainActivity extends FragmentActivity {
 
   	    return returnArray;
   	}
+
+
 }
