@@ -258,19 +258,22 @@ s
 			} else if (action.equals(Intent.ACTION_SEND))
 			{
 				Bundle extras = intent.getExtras();
-				
-				if (extras.containsKey(Intent.EXTRA_TEXT))
-				{
-					whatToSend = (String) extras.getCharSequence(Intent.EXTRA_TEXT);
-				}
-				
-				if (extras.containsKey(Intent.EXTRA_STREAM))
-				{
-					sendTo = true;
-					sendMessageTo = "";
-					fromNotification = false;
-					attachedImage2 = intent.getParcelableExtra(Intent.EXTRA_STREAM);
-				}
+
+                if (extras != null)
+                {
+                    if (extras.containsKey(Intent.EXTRA_TEXT))
+                    {
+                        whatToSend = (String) extras.getCharSequence(Intent.EXTRA_TEXT);
+                    }
+
+                    if (extras.containsKey(Intent.EXTRA_STREAM))
+                    {
+                        sendTo = true;
+                        sendMessageTo = "";
+                        fromNotification = false;
+                        attachedImage2 = intent.getParcelableExtra(Intent.EXTRA_STREAM);
+                    }
+                }
 			}
 		} else
 		{
@@ -6656,7 +6659,7 @@ s
 					}
 	        	} else
 	        	{
-	        		groupList.setBackgroundColor(sharedPrefs.getInt("ct_titleBarColor", getResources().getColor(R.color.holo_blue)));
+	        		groupList.setBackgroundColor(sharedPrefs.getInt("ct_titleBarColor", context.getResources().getColor(R.color.holo_blue)));
 	        	}
 			} else
 			{
@@ -6731,11 +6734,11 @@ s
                                     if (adapter.getCount() >= 20 && listView.getHeaderViewsCount() == 0)
                                     {
                                         Button footer = new Button (context);
-                                        int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, getResources().getDisplayMetrics());
+                                        int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, context.getResources().getDisplayMetrics());
                                         footer.setPadding(0, scale, 0, scale);
                                         footer.setGravity(Gravity.CENTER);
                                         footer.setText(context.getResources().getString(R.string.load_all));
-                                        footer.setTextColor(sharedPrefs.getInt("ct_draftTextColor", sharedPrefs.getInt("ct_sendButtonColor", getResources().getColor(R.color.black))));
+                                        footer.setTextColor(sharedPrefs.getInt("ct_draftTextColor", sharedPrefs.getInt("ct_sendButtonColor", context.getResources().getColor(R.color.black))));
 
                                         footer.setOnClickListener(new OnClickListener() {
                                             @Override
@@ -6760,11 +6763,11 @@ s
                                     if (adapter.getCount() >= 20 && listView.getHeaderViewsCount() == 0)
                                     {
                                         final Button footer = new Button (context);
-                                        int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, getResources().getDisplayMetrics());
+                                        int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, context.getResources().getDisplayMetrics());
                                         footer.setPadding(0, scale, 0, scale);
                                         footer.setGravity(Gravity.CENTER);
                                         footer.setText(context.getResources().getString(R.string.load_all));
-                                        footer.setTextColor(sharedPrefs.getInt("ct_draftTextColor", sharedPrefs.getInt("ct_sendButtonColor", getResources().getColor(R.color.black))));
+                                        footer.setTextColor(sharedPrefs.getInt("ct_draftTextColor", sharedPrefs.getInt("ct_sendButtonColor", context.getResources().getColor(R.color.black))));
 
                                         footer.setOnClickListener(new OnClickListener() {
                                             @Override
@@ -6873,11 +6876,11 @@ s
                     if (adapter.getCount() >= 20 && listView.getHeaderViewsCount() == 0)
                     {
                         Button footer = new Button (context);
-                        int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, getResources().getDisplayMetrics());
+                        int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, context.getResources().getDisplayMetrics());
                         footer.setPadding(0, scale, 0, scale);
                         footer.setGravity(Gravity.CENTER);
                         footer.setText(context.getResources().getString(R.string.load_all));
-                        footer.setTextColor(sharedPrefs.getInt("ct_draftTextColor", sharedPrefs.getInt("ct_sendButtonColor", getResources().getColor(R.color.black))));
+                        footer.setTextColor(sharedPrefs.getInt("ct_draftTextColor", sharedPrefs.getInt("ct_sendButtonColor", context.getResources().getColor(R.color.black))));
 
                         footer.setOnClickListener(new OnClickListener() {
                             @Override
@@ -6902,11 +6905,11 @@ s
                     if (adapter.getCount() >= 20 && listView.getHeaderViewsCount() == 0)
                     {
                         Button footer = new Button (context);
-                        int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, getResources().getDisplayMetrics());
+                        int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, context.getResources().getDisplayMetrics());
                         footer.setPadding(0, scale, 0, scale);
                         footer.setGravity(Gravity.CENTER);
                         footer.setText(context.getResources().getString(R.string.load_all));
-                        footer.setTextColor(sharedPrefs.getInt("ct_draftTextColor", sharedPrefs.getInt("ct_sendButtonColor", getResources().getColor(R.color.black))));
+                        footer.setTextColor(sharedPrefs.getInt("ct_draftTextColor", sharedPrefs.getInt("ct_sendButtonColor", context.getResources().getColor(R.color.black))));
 
                         footer.setOnClickListener(new OnClickListener() {
                             @Override
