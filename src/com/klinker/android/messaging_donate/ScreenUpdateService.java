@@ -37,11 +37,13 @@ public class ScreenUpdateService extends Service {
                 intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             }
 
+            // TODO make this a listener for when the screen is unlocked instead of just waiting a second and hoping user has unlocked device by then
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run()
                 {
                     startActivity(intent3);
+                    stopSelf();
                 }
             }, 1000);
         } else {
