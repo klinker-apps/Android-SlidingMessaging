@@ -129,13 +129,12 @@ public class MainActivity extends FragmentActivity {
 	 * will keep every loaded fragment in memory. If this becomes too memory
 	 * intensive, it may be best to switch to a
 	 * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-	 */
-	public SectionsPagerAdapter mSectionsPagerAdapter;
-
+s
 	/**
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	public static ViewPager mViewPager;
+    public static SectionsPagerAdapter mSectionsPagerAdapter;
 
     public static String deviceType;
 	
@@ -6516,7 +6515,7 @@ public class MainActivity extends FragmentActivity {
 	 * A dummy fragment representing a section of the app, but that simply
 	 * displays dummy text.
 	 */
-	public static class DummySectionFragment extends android.app.Fragment implements PullToRefreshAttacher.OnRefreshListener {
+	public static class DummySectionFragment extends android.app.Fragment {
 		/**
 		 * The fragment argument representing the section number for this
 		 * fragment.
@@ -6532,38 +6531,12 @@ public class MainActivity extends FragmentActivity {
 		public Context context;
         public Cursor messageQuery;
 
-        public static PullToRefreshAttacher mPullToRefreshAttacher;
+        public PullToRefreshAttacher mPullToRefreshAttacher;
+        public CustomListView listView;
 		
 		public DummySectionFragment() {
 			
 		}
-
-        @Override
-        public void onRefreshStarted(View view) {
-            /**
-             * Simulate Refresh with 4 seconds sleep
-             */
-            new AsyncTask<Void, Void, Void>() {
-
-                @Override
-                protected Void doInBackground(Void... params) {
-                    try {
-                        Thread.sleep(4000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    return null;
-                }
-
-                @Override
-                protected void onPostExecute(Void result) {
-                    super.onPostExecute(result);
-
-                    // Notify PullToRefreshAttacher that the refresh has finished
-                    mPullToRefreshAttacher.setRefreshComplete();
-                }
-            }.execute();
-        }
 		
 		@Override
 		public void onSaveInstanceState(Bundle outState) {
@@ -6690,7 +6663,7 @@ public class MainActivity extends FragmentActivity {
 				groupList.setHeight(0);
 			}
 			
-			final CustomListView listView = (CustomListView) view.findViewById(R.id.fontListView);
+			listView = (CustomListView) view.findViewById(R.id.fontListView);
 
             final ProgressBar spinner = (ProgressBar) view.findViewById(R.id.emptyView);
 
@@ -6810,6 +6783,31 @@ public class MainActivity extends FragmentActivity {
                                     listView.setStackFromBottom(true);
                                     spinner.setVisibility(View.GONE);
                                 }
+
+//                                mPullToRefreshAttacher = new PullToRefreshAttacher(getActivity(), listView);
+//                                mPullToRefreshAttacher.setRefreshListener(new PullToRefreshAttacher.OnRefreshListener() {
+//                                    @Override
+//                                    public void onRefreshStarted(View view) {
+//                                        new AsyncTask<Void, Void, Void>() {
+//
+//                                            @Override
+//                                            protected Void doInBackground(Void... params) {
+//                                                try {
+//                                                    Thread.sleep(4000);
+//                                                } catch (InterruptedException e) {
+//                                                    e.printStackTrace();
+//                                                }
+//                                                return null;
+//                                            }
+//
+//                                            @Override
+//                                            protected void onPostExecute(Void result) {
+//                                                super.onPostExecute(result);
+//                                                mPullToRefreshAttacher.setRefreshComplete();
+//                                            }
+//                                        }.execute();
+//                                    }
+//                                });
                             }
 
                         });
@@ -6927,6 +6925,31 @@ public class MainActivity extends FragmentActivity {
                     listView.setStackFromBottom(true);
 					spinner.setVisibility (View.GONE);
                 }
+
+//                mPullToRefreshAttacher = new PullToRefreshAttacher(getActivity(), listView);
+//                mPullToRefreshAttacher.setRefreshListener(new PullToRefreshAttacher.OnRefreshListener() {
+//                    @Override
+//                    public void onRefreshStarted(View view) {
+//                        new AsyncTask<Void, Void, Void>() {
+//
+//                            @Override
+//                            protected Void doInBackground(Void... params) {
+//                                try {
+//                                    Thread.sleep(4000);
+//                                } catch (InterruptedException e) {
+//                                    e.printStackTrace();
+//                                }
+//                                return null;
+//                            }
+//
+//                            @Override
+//                            protected void onPostExecute(Void result) {
+//                                super.onPostExecute(result);
+//                                mPullToRefreshAttacher.setRefreshComplete();
+//                            }
+//                        }.execute();
+//                    }
+//                });
 
                 new Handler().postDelayed(new Runnable() {
                     @Override

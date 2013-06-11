@@ -1055,25 +1055,23 @@ public class TextMessageReceiver extends BroadcastReceiver {
 								{
 									intent3 = new Intent(context, com.klinker.android.messaging_sliding.QuickReply.class);
 								}
-					        	
-								// TODO add multiwindow functionality
-	//							if (sharedPrefs.getBoolean("halo_popup", false))
-	//							{
-	//								intent2 = new Intent(context, com.klinker.android.messaging_donate.MainActivity.class);
-	//							
-	//								try
-	//								{
-	//									intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTI_WINDOW);
-	//								} catch (Exception e)
-	//								{
-	//									intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-	//								}
-	//							} else
-	//							{
-	//								intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-	//							}
-					        	
-					        	intent3.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+								if (sharedPrefs.getBoolean("halo_popup", false))
+								{
+									intent3 = new Intent(context, com.klinker.android.messaging_donate.MainActivity.class);
+
+									try
+									{
+										intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | 0x00002000);
+									} catch (Exception e)
+									{
+										intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+									}
+								} else
+								{
+									intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+								}
+
 					        	context.startActivity(intent3);
 					        }
 							

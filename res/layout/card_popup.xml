@@ -93,7 +93,6 @@
             android:ems="10"
             android:hint="@string/type_message"
             android:inputType="textCapSentences|textMultiLine|textShortMessage"
-            android:maxLines="5"
             android:minHeight="30dp"
             android:padding="5dp"
             android:paddingBottom="5dp"

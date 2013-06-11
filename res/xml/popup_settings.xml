@@ -42,16 +42,16 @@
         android:dependency="use_old_popup"
     />
 	
-<!-- 	<PreferenceCategory -->
-<!--         android:title="@string/experimental" -->
-<!--         android:key="experimental_category" > -->
+ 	<PreferenceCategory
+         android:title="@string/experimental"
+         android:key="experimental_category" >
 
-<!-- 			<CheckBoxPreference  -->
-<!-- 			    android:key="halo_popup" -->
-<!-- 			    android:title="@string/halo_popup" -->
-<!-- 			    android:summary="@string/halo_popup_summary" -->
-<!-- 			    android:defaultValue="false" -->
-<!-- 			    android:dependency="popup_reply"  -->
-<!-- 			/> -->
-<!-- 	</PreferenceCategory> -->
+ 			<CheckBoxPreference
+ 			    android:key="halo_popup"
+ 			    android:title="@string/halo_popup"
+ 			    android:summary="@string/halo_popup_summary"
+ 			    android:defaultValue="false"
+ 			    android:dependency="popup_reply"
+ 			/>
+ 	</PreferenceCategory>
 </PreferenceScreen>
