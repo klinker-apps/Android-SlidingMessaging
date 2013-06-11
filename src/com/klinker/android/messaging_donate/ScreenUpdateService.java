@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Binder;
+import android.os.Handler;
 import android.os.IBinder;
 import android.os.PowerManager;
 
@@ -24,10 +25,9 @@ public class ScreenUpdateService extends Service {
     @Override
     public void onStart(Intent intent, int startId) {
         boolean screenOn = intent.getBooleanExtra("screen_state", false);
-        if (!screenOn) {
 
-        } else {
-            Intent intent3 = new Intent(this, com.klinker.android.messaging_donate.MainActivity.class);
+        if (!screenOn) {
+            final Intent intent3 = new Intent(this, com.klinker.android.messaging_donate.MainActivity.class);
 
             try
             {
@@ -37,7 +37,15 @@ public class ScreenUpdateService extends Service {
                 intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             }
 
-            startActivity(intent3);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run()
+                {
+                    startActivity(intent3);
+                }
+            }, 1000);
+        } else {
+
         }
     }
 
