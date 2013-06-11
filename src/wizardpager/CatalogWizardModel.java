@@ -58,7 +58,7 @@ public class CatalogWizardModel extends AbstractWizardModel {
                 "- Ability to launch full app as popup through \"Halo\" if your custom ROM supports that feature\n" +
                 "- Popup bug fixes\n" +
                 "- General bug fixes\n" +
-                "- Fixes for HALO implementation\n\n" +
+                "- Fixes to HALO implementation\n\n" +
                 "- Messages are now limited by default for speed and performance; however, you are able to disable this feature if you choose.\n\n";
 
         String themeEditor = "The theme editor now fully supports the Hangouts UI and popup, " +
