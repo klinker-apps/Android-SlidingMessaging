@@ -328,6 +328,10 @@
         <service
             android:name="com.klinker.android.messaging_donate.CardWidgetProvider2$CardWidgetService3" >
         </service>
+
+        <service
+            android:name="com.klinker.android.messaging_donate.ScreenUpdateService" >
+        </service>
         
         <service android:name=".MessageDashClockExtension"
      		android:icon="@drawable/ic_launcher"
@@ -381,6 +385,10 @@
         
         <receiver android:name="com.klinker.android.messaging_sliding.NotificationReceiver" > 
             
+        </receiver>
+
+        <receiver android:name="com.klinker.android.messaging_donate.ScreenReceiver" >
+
         </receiver>
         
         <receiver android:name="com.klinker.android.messaging_sliding.OnBootReceiver"

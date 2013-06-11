@@ -1,6 +1,7 @@
 package com.klinker.android.messaging_sliding;
 
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_donate.ScreenUpdateService;
 import com.klinker.android.messaging_sliding.blacklist.BlacklistContact;
 import com.klinker.android.messaging_sliding.notifications.IndividualSetting;
 
@@ -1067,12 +1068,22 @@ public class TextMessageReceiver extends BroadcastReceiver {
 									{
 										intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 									}
+
+                                    PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+
+                                    if (pm.isScreenOn())
+                                    {
+                                        context.startActivity(intent3);
+                                    } else
+                                    {
+                                        context.startService(new Intent(context, ScreenUpdateService.class));
+                                    }
 								} else
 								{
 									intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-								}
 
-					        	context.startActivity(intent3);
+                                    context.startActivity(intent3);
+								}
 					        }
 							
 						}
