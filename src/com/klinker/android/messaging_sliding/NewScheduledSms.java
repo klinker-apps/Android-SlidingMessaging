@@ -41,9 +41,8 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
     private TextView timeDisplay;
     private TextView dateDisplay;
     private EditText contactSearch;
-    private EditText messageText;
 
-    private String repetition;
+    private String repetition = "None";
 
     public SharedPreferences sharedPrefs;
 
@@ -481,10 +480,7 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
     }
 
     public void onNothingSelected(AdapterView<?> parent) {
-        if (repetition.equals(null))
-        {
-            repetition = "none";
-        }
+
     }
 
     // finishes the activity when the discard button is clicked, without making any changes or saving anything
@@ -498,7 +494,19 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
     // including the alarm manager and writing the files to the database to save them
     public boolean doneClick()
     {
-        finish(); // just finishes for now, not doing anything. Implementation needed.
+        // just checks contact and message boxes now, need to check date and time as well
+        if (!contactSearch.getText().toString().equals("") && !mEditText.getText().toString().equals(""))
+        {
+            finish(); // just finishes activity for now, not doing anything. Implementation needed.
+        }else
+        {
+            Context context = getApplicationContext();
+            CharSequence text = "Please complete the form!";
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        }
         return true;
     }
 
