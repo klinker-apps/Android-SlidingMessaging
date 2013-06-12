@@ -3,6 +3,7 @@ Version 6.30
 - Drafts
 - Message Locking?
 - fix force closes on settings pager and scheduled sms when changing orientation
+- Dismissal of floating notifications from google+ page (should just have to apply the code)
 
 0) more individual notification options
 1) Draft system

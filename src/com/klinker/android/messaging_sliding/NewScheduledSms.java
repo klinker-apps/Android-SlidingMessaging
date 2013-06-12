@@ -16,8 +16,11 @@ import android.view.*;
 import android.widget.*;
 import com.klinker.android.messaging_donate.R;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -25,28 +28,40 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
 
     private Context context;
 
-    private EditText mEditText;
-
     private ListPopupWindow lpw;
+
+    private Date setDate;
 
     private int currentYear;
     private int currentMonth;
     private int currentDay;
+    private int currentHour;
+    private int currentMinute;
+
+    private int setYear = -1;
+    private int setMonth = -1;
+    private int setDay = -1;
+    private int setHour = -1;
+    private int setMinute = -1;
+
     static final int DATE_DIALOG_ID = 0;
     static final int TIME_DIALOG_ID = 1;
-    int hour;
-    int minute;
+
     private Button btDate;
     private Button btTime;
+
     private TextView timeDisplay;
     private TextView dateDisplay;
+
     private EditText contactSearch;
+    private EditText mEditText;
 
     private String repetition = "None";
 
     public SharedPreferences sharedPrefs;
 
     public boolean firstContactSearch = true;
+    private boolean timeDone = false;
 
     public ArrayList<String> contactNames, contactNumbers, contactTypes;
 
@@ -65,13 +80,15 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
         currentYear = c.get(Calendar.YEAR);
         currentMonth = c.get(Calendar.MONTH);
         currentDay = c.get(Calendar.DAY_OF_MONTH);
-        hour = c.get(Calendar.HOUR_OF_DAY);
-        minute = c.get(Calendar.MINUTE);
+        currentHour = c.get(Calendar.HOUR_OF_DAY);
+        currentMinute = c.get(Calendar.MINUTE);
 
         timeDisplay = (TextView) findViewById(R.id.currentTime);
         dateDisplay = (TextView) findViewById(R.id.currentDate);
         btDate = (Button) findViewById(R.id.setDate);
         btTime = (Button) findViewById(R.id.setTime);
+
+        btTime.setEnabled(false);
 
         lpw = new ListPopupWindow(NewScheduledSms.this);
 
@@ -393,6 +410,7 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 showDialog(DATE_DIALOG_ID);
+                btTime.setEnabled(true);
             }
         });
 
@@ -444,7 +462,7 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
                 return new DatePickerDialog(this, reservationDate, currentYear,
                         currentMonth, currentDay);
             case TIME_DIALOG_ID:
-                return new TimePickerDialog(this, timeDate, hour, minute, false);
+                return new TimePickerDialog(this, timeDate, currentHour, currentMinute, false);
         }
         return null;
     }
@@ -453,7 +471,34 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
     // gets the date text from what is entered in the dialog and displays it
     private DatePickerDialog.OnDateSetListener reservationDate = new DatePickerDialog.OnDateSetListener() {
         public void onDateSet(DatePicker view, int year, int month, int day) {
-                dateDisplay.setText((month + 1) + "/" + day + "/" + year);
+            setYear = year;
+            setMonth = month;
+            setDay = day;
+
+            if (setHour != -1 && setMinute != -1)
+            {
+                setDate = new Date(setYear, setMonth, setDay, setHour, setMinute);
+
+                if (sharedPrefs.getBoolean("hour_format", false))
+                {
+                    dateDisplay.setText(DateFormat.getDateInstance(DateFormat.SHORT, Locale.GERMAN).format(setDate));
+                } else
+                {
+                    dateDisplay.setText(DateFormat.getDateInstance(DateFormat.SHORT, Locale.US).format(setDate));
+                }
+            } else
+            {
+                setDate = new Date(setYear, setMonth, setDay);
+
+                if (sharedPrefs.getBoolean("hour_format", false))
+                {
+                    dateDisplay.setText(DateFormat.getDateInstance(DateFormat.SHORT, Locale.GERMAN).format(setDate));
+                } else
+                {
+                    dateDisplay.setText(DateFormat.getDateInstance(DateFormat.SHORT, Locale.US).format(setDate));
+                }
+            }
+                //dateDisplay.setText((month + 1) + "/" + day + "/" + year);
         }
 
     };
@@ -461,13 +506,21 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
     // gets the time text from what is entered in the dialog and displays it
     private TimePickerDialog.OnTimeSetListener timeDate = new TimePickerDialog.OnTimeSetListener() {
         public void onTimeSet(TimePicker view, int hours, int minutes) {
-            if (minutes < 10)
+            setHour = hours;
+            setMinute = minutes;
+
+            setDate.setHours(setHour);
+            setDate.setMinutes(setMinute);
+
+            if (sharedPrefs.getBoolean("hour_format", false))
             {
-                timeDisplay.setText(hours + ":0" + minutes);
+                timeDisplay.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(setDate));
             } else
             {
-                timeDisplay.setText(hours + ":" + minutes);
+                timeDisplay.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(setDate));
             }
+
+            timeDone = true;
         }
     };
 
@@ -495,8 +548,9 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
     public boolean doneClick()
     {
         // just checks contact and message boxes now, need to check date and time as well
-        if (!contactSearch.getText().toString().equals("") && !mEditText.getText().toString().equals(""))
+        if (!contactSearch.getText().toString().equals("") && !mEditText.getText().toString().equals("") && timeDone)
         {
+            writeToFile();
             finish(); // just finishes activity for now, not doing anything. Implementation needed.
         }else
         {
@@ -508,6 +562,11 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
             toast.show();
         }
         return true;
+    }
+
+    public void writeToFile()
+    {
+
     }
 
 }
