@@ -1,7 +1,7 @@
 package com.klinker.android.messaging_sliding;
 
 import com.klinker.android.messaging_donate.R;
-import com.klinker.android.messaging_donate.ScreenUpdateService;
+import com.klinker.android.messaging_donate.UnlockReceiver;
 import com.klinker.android.messaging_sliding.blacklist.BlacklistContact;
 import com.klinker.android.messaging_sliding.notifications.IndividualSetting;
 
@@ -1076,7 +1076,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
                                         context.startActivity(intent3);
                                     } else
                                     {
-                                        context.startService(new Intent(context, ScreenUpdateService.class));
+                                        UnlockReceiver.openApp = true;
                                     }
 								} else
 								{

@@ -3,6 +3,7 @@
     	<CheckBoxPreference 
         	android:key="enable_mms"
         	android:title="@string/enable_mms"
+            android:summary="@string/enable_mms_summary"
         	android:defaultValue="false"
         	android:selectable="true" 
         	android:enabled="true" />

@@ -1201,10 +1201,10 @@ public class MessageArrayAdapter extends ArrayAdapter<String> {
                               {
                                   if (status.equals("64") || status.equals("128"))
                                   {
-                                      dialogText += context.getResources().getString(R.string.status) + " Error";
+                                      dialogText += "\n" + context.getResources().getString(R.string.status) + " Error";
                                   } else
                                   {
-                                      dialogText += context.getResources().getString(R.string.status) + " Delivered";
+                                      dialogText += "\n" + context.getResources().getString(R.string.status) + " Delivered";
                                   }
                               }
                           }
@@ -1238,10 +1238,10 @@ public class MessageArrayAdapter extends ArrayAdapter<String> {
                               {
                                   if (status.equals("64") || status.equals("128"))
                                   {
-                                      dialogText += context.getResources().getString(R.string.status) + " Error";
+                                      dialogText += "\n" + context.getResources().getString(R.string.status) + " Error";
                                   } else
                                   {
-                                      dialogText += context.getResources().getString(R.string.status) + " Delivered";
+                                      dialogText += "\n" + context.getResources().getString(R.string.status) + " Delivered";
                                   }
                               }
                           } else
