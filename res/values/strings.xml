@@ -239,7 +239,7 @@
 	<string name="remind_me_later">Remind Me Next Time</string>
 	<string name="dont_bother">Don\'t Bother Me Again</string>
 	<string name="changelog_title">Change Log:</string>
-	<string name="changelog_disclaimers">As always, remember Sliding Messaging is still the in beta stages and things will constantly be changing and improving - evolving alongside Android.\n\nCDMA Users, remember to check the \"Split SMS\" option in Advanced Settings to send long messages.</string>
+	<string name="changelog_disclaimers">As always, remember Sliding Messaging is still in the beta stages and things will constantly be changing and improving - evolving alongside Android.\n\nCDMA Users, remember to check the \"Split SMS\" option in Advanced Settings to send long messages.</string>
 	<string name="led">LED Light on Notification</string>
 	<string name="default_theme_prefs">Default Theme Settings</string>
 	<string name="breath">Notification Breath Animation</string>
@@ -456,5 +456,9 @@
     <string name="status">Status:</string>
     <string name="message_details">Message Details</string>
     <string name="twitter_link">Follow the app on Twitter for updates and future innovations! \nhttp://www.twitter.com/SlidingSMS</string>
-
+    <string name="date_picker">Choose a Date</string>
+    <string name="time_picker">Choose a Time</string>
+    <string name="scheduled_sms">Scheduled SMS</string>
+    <string name="repetition">Repetition:</string>
+    <string name="add_new_sms">New Scheduled SMS</string>
 </resources>

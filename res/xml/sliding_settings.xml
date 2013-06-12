@@ -43,6 +43,11 @@
     />
 
     <Preference
+        android:key="scheduled_sms"
+        android:title="@string/scheduled_sms"
+    />
+
+    <Preference
             android:key="security_settings"
             android:title="@string/security_settings"
     />

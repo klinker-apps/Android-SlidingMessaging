@@ -15,6 +15,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -33,7 +34,7 @@ import com.klinker.android.messaging_donate.R;
 public class ScheduledSms extends Activity {
 
     public static Context context;
-    public ListView templates;
+    public ListView sms;
     public Button addNew;
     public SharedPreferences sharedPrefs;
     public ArrayList<String> text;
@@ -42,7 +43,7 @@ public class ScheduledSms extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.scheduled_sms);
-        templates = (ListView) findViewById(R.id.smsListView);
+        sms = (ListView) findViewById(R.id.smsListView);
         addNew = (Button) findViewById(R.id.addNewButton);
 
         sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
@@ -51,8 +52,8 @@ public class ScheduledSms extends Activity {
         text = readFromFile(this);
 
         TemplateArrayAdapter adapter = new TemplateArrayAdapter(this, text);
-        templates.setAdapter(adapter);
-        templates.setStackFromBottom(false);
+        sms.setAdapter(adapter);
+        sms.setStackFromBottom(false);
 
         if (sharedPrefs.getBoolean("override_lang", false))
         {
@@ -72,7 +73,7 @@ public class ScheduledSms extends Activity {
             getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
         }
 
-        templates.setOnItemLongClickListener(new OnItemLongClickListener() {
+        sms.setOnItemLongClickListener(new OnItemLongClickListener() {
 
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
@@ -84,7 +85,7 @@ public class ScheduledSms extends Activity {
                                 text.remove(arg2);
 
                                 TemplateArrayAdapter adapter = new TemplateArrayAdapter((Activity) context, text);
-                                templates.setAdapter(adapter);
+                                sms.setAdapter(adapter);
                             }
                         }).setNegativeButton(context.getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
@@ -100,25 +101,8 @@ public class ScheduledSms extends Activity {
 
             @Override
             public void onClick(View arg0) {
-                final EditText input = new EditText(context);
-
-                new AlertDialog.Builder(context)
-                        .setTitle(context.getResources().getString(R.string.add_new))
-                        .setView(input)
-                        .setPositiveButton(context.getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                String inputText = input.getText().toString();
-                                text.add(inputText);
-
-                                TemplateArrayAdapter adapter = new TemplateArrayAdapter((Activity) context, text);
-                                templates.setAdapter(adapter);
-                            }
-                        }).setNegativeButton(context.getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-
-                    }
-                }).show();
-
+                Intent intent = new Intent(context, NewScheduledSms.class);
+                startActivity(intent);
             }
 
         });

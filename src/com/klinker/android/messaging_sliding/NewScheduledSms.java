@@ -261,11 +261,7 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
             }
         });
 
-        LayoutInflater inflater2 = (LayoutInflater) this
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final View newMessageView = inflater2.inflate(R.layout.scheduled_sms_activity, (ViewGroup) this.getWindow().getDecorView(), false);
-
-        ImageButton emojiButton = (ImageButton) newMessageView.findViewById(R.id.display_emoji);
+        ImageButton emojiButton = (ImageButton) findViewById(R.id.display_emoji);
 
         if (!sharedPrefs.getBoolean("emoji", false))
         {
@@ -448,6 +444,7 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
         return null;
     }
 
+    // To-do: make a date object to display in different time formats, check out the messageArrayAdapter class, it works with the dates
     private DatePickerDialog.OnDateSetListener reservationDate = new DatePickerDialog.OnDateSetListener() {
         public void onDateSet(DatePicker view, int year, int month, int day) {
                 dateDisplay.setText((month + 1) + "/" + day + "/" + year);
@@ -457,7 +454,13 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
 
     private TimePickerDialog.OnTimeSetListener timeDate = new TimePickerDialog.OnTimeSetListener() {
         public void onTimeSet(TimePicker view, int hours, int minutes) {
-            timeDisplay.setText(hours + ":" + minutes);
+            if (minutes < 10)
+            {
+                timeDisplay.setText(hours + ":0" + minutes);
+            } else
+            {
+                timeDisplay.setText(hours + ":" + minutes);
+            }
         }
     };
 

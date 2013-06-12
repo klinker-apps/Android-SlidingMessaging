@@ -23,7 +23,6 @@ import com.klinker.android.messaging_card.theme.PopupChooserActivity;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_sliding.blacklist.BlacklistActivity;
 import com.klinker.android.messaging_sliding.notifications.NotificationsSettingsActivity;
-import com.klinker.android.messaging_sliding.theme.ThemeChooserActivity;
 //import group.pals.android.lib.ui.lockpattern.LockPatternActivity;
 
 import java.io.*;
@@ -293,6 +292,18 @@ public class SettingsPagerActivity extends FragmentActivity {
                 @Override
                 public boolean onPreferenceClick(Preference arg0) {
                     Intent intent = new Intent(context, TemplateActivity.class);
+                    startActivity(intent);
+                    return false;
+                }
+
+            });
+
+            Preference scheduledSMS = (Preference) findPreference("scheduled_sms");
+            scheduledSMS.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+
+                @Override
+                public boolean onPreferenceClick(Preference arg0) {
+                    Intent intent = new Intent(context, ScheduledSms.class);
                     startActivity(intent);
                     return false;
                 }

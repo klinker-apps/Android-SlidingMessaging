@@ -185,7 +185,7 @@
         </activity>
         
         <activity
-            android:name="com.klinker.android.messaging_sliding.theme.ThemeChooserActivity"
+            android:name="com.klinker.android.messaging_sliding.ThemeChooserActivity"
             android:label="@string/theme_chooser_prefs"
             android:theme="@style/SettingsTheme" >
         </activity>
@@ -287,14 +287,28 @@
                 android:name="com.klinker.android.messaging_sliding.PasswordActivity"
                 android:label="@string/app_name"
                 android:theme="@style/WizardTheme"
-                android:windowSoftInputMode="stateVisible|adjustResize">
+                android:windowSoftInputMode="stateVisible|adjustResize" >
         </activity>
 
         <activity
-                android:name="com.klinker.android.messaging_sliding.SetPasswordActivity"
+            android:name="com.klinker.android.messaging_sliding.SetPasswordActivity"
+            android:label="@string/app_name"
+            android:theme="@style/WizardTheme"
+            android:windowSoftInputMode="stateVisible|adjustResize">
+        </activity>
+
+        <activity
+                android:name="com.klinker.android.messaging_sliding.NewScheduledSms"
                 android:label="@string/app_name"
+                android:excludeFromRecents="true"
                 android:theme="@style/WizardTheme"
-                android:windowSoftInputMode="stateVisible|adjustResize">
+                android:windowSoftInputMode="adjustResize" >
+        </activity>
+
+        <activity
+                android:name="com.klinker.android.messaging_sliding.ScheduledSms"
+                android:excludeFromRecents="true"
+                android:theme="@style/SettingsTheme" >
         </activity>
 
         <service 

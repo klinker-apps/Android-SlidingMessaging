@@ -396,4 +396,12 @@
         <!--<item name="pattern">pattern</item> -->
         <item name="password">password</item>
     </string-array>
+
+    <string-array name="repetition_array">
+        <item>None</item>
+        <item>Daily</item>
+        <item>Weekly</item>
+        <item>Monthly</item>
+        <item>Yearly</item>
+    </string-array>
 </resources>
