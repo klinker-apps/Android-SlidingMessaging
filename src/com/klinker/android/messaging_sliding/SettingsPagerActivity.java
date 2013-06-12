@@ -85,6 +85,12 @@ public class SettingsPagerActivity extends FragmentActivity {
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState)
+    {
+        
+    }
+
+    @Override
     public void onBackPressed()
     {
         if (mViewPager.getCurrentItem() == 0)

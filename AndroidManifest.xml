@@ -132,7 +132,8 @@
             android:name="com.klinker.android.messaging_sliding.SettingsPagerActivity"
             android:label="@string/menu_settings"
             android:theme="@style/SettingsTheme"
-            android:excludeFromRecents="true" >
+            android:excludeFromRecents="true"
+            android:configChanges="orientation" >
         </activity>
         
         <activity
