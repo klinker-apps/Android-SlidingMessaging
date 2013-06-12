@@ -118,6 +118,7 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
 
         contactSearch.requestFocus();
 
+        // brings up the pop up window for contact search
         contactSearch.addTextChangedListener(new TextWatcher() {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 if (firstContactSearch)
@@ -261,6 +262,7 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
             }
         });
 
+        // sets up the emoji button and implements the listener
         ImageButton emojiButton = (ImageButton) findViewById(R.id.display_emoji);
 
         if (!sharedPrefs.getBoolean("emoji", false))
@@ -386,6 +388,7 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
             });
         }
 
+        // sets the date button listener to call the dialog
         btDate.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
@@ -393,6 +396,8 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
                 showDialog(DATE_DIALOG_ID);
             }
         });
+
+        // sets the time button listener to call the dialog
         btTime.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
@@ -433,6 +438,7 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
                 ViewGroup.LayoutParams.MATCH_PARENT));
     }
 
+    // sets up the correct dialog (date vs. time)
     protected Dialog onCreateDialog(int id) {
         switch (id) {
             case DATE_DIALOG_ID:
@@ -445,6 +451,7 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
     }
 
     // To-do: make a date object to display in different time formats, check out the messageArrayAdapter class, it works with the dates
+    // gets the date text from what is entered in the dialog and displays it
     private DatePickerDialog.OnDateSetListener reservationDate = new DatePickerDialog.OnDateSetListener() {
         public void onDateSet(DatePicker view, int year, int month, int day) {
                 dateDisplay.setText((month + 1) + "/" + day + "/" + year);
@@ -452,6 +459,7 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
 
     };
 
+    // gets the time text from what is entered in the dialog and displays it
     private TimePickerDialog.OnTimeSetListener timeDate = new TimePickerDialog.OnTimeSetListener() {
         public void onTimeSet(TimePicker view, int hours, int minutes) {
             if (minutes < 10)
@@ -464,6 +472,7 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
         }
     };
 
+    // sets the string repetition to whatever is choosen from the spinner
     public void onItemSelected(AdapterView<?> parent, View view,
                                int pos, long id) {
         // An item was selected. You can retrieve the selected item using
@@ -472,25 +481,25 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
     }
 
     public void onNothingSelected(AdapterView<?> parent) {
-        // Another interface callback
+        if (repetition.equals(null))
+        {
+            repetition = "none";
+        }
     }
 
+    // finishes the activity when the discard button is clicked, without making any changes or saving anything
     public boolean discardClick()
     {
         finish();
         return true;
     }
 
+    // this is where we will set everything up when the user has entered all the information
+    // including the alarm manager and writing the files to the database to save them
     public boolean doneClick()
     {
-        // This is where we will get all of the information that we need and set the alarm manager
-        finish();
+        finish(); // just finishes for now, not doing anything. Implementation needed.
         return true;
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState)
-    {
-
-    }
 }
