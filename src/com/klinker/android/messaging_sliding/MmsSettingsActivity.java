@@ -110,27 +110,6 @@ public class MmsSettingsActivity  extends PreferenceActivity implements OnShared
 			}
 			
 		});
-		
-		Preference report = (Preference) findPreference("mms_report");
-		report.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-
-			@Override
-			public boolean onPreferenceClick(Preference arg0) {
-				String uriText =
-					    "mailto:jklinker1@gmail.com" + 
-					    "?subject=" + URLEncoder.encode("Sliding Messaging APNs") + 
-					    "&body=" + URLEncoder.encode("MMSC: " + sharedPrefs.getString("mmsc_url", "") + "\nMMS Proxy: " + sharedPrefs.getString("mms_proxy", "") + "\nMMS Port: " + sharedPrefs.getString("mms_port", "") + 
-					    		                     "\n\n My carrier is: ________\nMMS is working or not working: ________");
-
-				Uri uri = Uri.parse(uriText);
-
-				Intent sendIntent = new Intent(Intent.ACTION_SENDTO);
-				sendIntent.setData(uri);
-				startActivity(Intent.createChooser(sendIntent, "Send email")); 
-				return false;
-			}
-			
-		});
 	}
 	
 	@SuppressWarnings("deprecation")
