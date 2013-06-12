@@ -87,7 +87,7 @@ public class SettingsPagerActivity extends FragmentActivity {
     @Override
     public void onSaveInstanceState(Bundle outState)
     {
-        
+
     }
 
     @Override
