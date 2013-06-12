@@ -27,8 +27,8 @@ To switch to free version:
 - change folder names
 - change version code
 - change package declaration
-- disable sendto, share from gallery, mms (settings and menu), custom background, custom background2, custom text colors, text opacity, send animations, received animations, animation speed, quick text, widget, individual notifications, blacklist
-- change strings (title, mms, custom background, custom background2, custom text colors, send animations, received animations, quick text, individual settings, blacklist)
+- disable sendto, share from gallery, mms (settings and menu), custom background, custom background2, custom text colors, text opacity, send animations, received animations, animation speed, quick text, widget, individual notifications, blacklist, securtiy settings)
+- change strings (title, mms, custom background, custom background2, custom text colors, send animations, received animations, quick text, individual settings, blacklist, security settings)
 - change packages in .java files
 - comment out custom background and custom background2 on click listener in SettingsActivity
 - change send/received animation defaults in messagearrayadapter and settings xml
