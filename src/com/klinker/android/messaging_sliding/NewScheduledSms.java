@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.text.Editable;
@@ -16,6 +17,7 @@ import android.view.*;
 import android.widget.*;
 import com.klinker.android.messaging_donate.R;
 
+import java.io.*;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -66,6 +68,7 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
     public Date currentDate;
 
     public ArrayList<String> contactNames, contactNumbers, contactTypes;
+    public ArrayList<String[]> data;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,6 +78,8 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
         sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
         context = this;
+
+        data = readFromFile(context);
 
         mEditText = (EditText) findViewById(R.id.messageEntry2);
 
@@ -573,7 +578,24 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
         // just checks contact and message boxes now, need to check date and time as well
         if (!contactSearch.getText().toString().equals("") && !mEditText.getText().toString().equals("") && timeDone)
         {
-            writeToFile();
+            String[] details = new String[4];
+            details[0] = contactSearch.getText().toString();
+            details[1] = "" + setDate.getTime();
+
+            if (repetition.equals("None"))
+                details[2] = "0";
+            else if (repetition.equals("Daily"))
+                details[2] = "86400000";
+            else if (repetition.equals("Weekly"))
+                details[2] = "604800000";
+            else if (repetition.equals("Yearly"))
+                details[2] = "220752000000";
+
+            details[3] = mEditText.getText().toString();
+
+            data.add(details);
+
+            writeToFile(data, this);
             finish(); // just finishes activity for now, not doing anything. Implementation needed.
         }else
         {
@@ -587,9 +609,80 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
         return true;
     }
 
-    public void writeToFile()
-    {
+    @SuppressWarnings("resource")
+    private ArrayList<String[]> readFromFile(Context context) {
 
+        ArrayList<String[]> ret = new ArrayList<String[]>();
+
+        try {
+            InputStream inputStream;
+
+            if (sharedPrefs.getBoolean("save_to_external", true))
+            {
+                inputStream = new FileInputStream(Environment.getExternalStorageDirectory() + "/SlidingMessaging/scheduledSMS.txt");
+            } else
+            {
+                inputStream = context.openFileInput("scheduledSMS.txt");
+            }
+
+            if ( inputStream != null ) {
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                String receiveString = "";
+
+                while ( (receiveString = bufferedReader.readLine()) != null ) {
+
+                    String[] details = new String[4];
+                    details[0] = receiveString;
+
+                    for(int i = 1; i < 4; i++)
+                        details[i] = bufferedReader.readLine();
+
+                    ret.add(details);
+                }
+
+                inputStream.close();
+            }
+        }
+        catch (FileNotFoundException e) {
+
+        } catch (IOException e) {
+
+        }
+
+        return ret;
     }
 
+    private void writeToFile(ArrayList<String[]> data, Context context) {
+        try {
+
+            OutputStreamWriter outputStreamWriter;
+
+            if (sharedPrefs.getBoolean("save_to_external", true))
+            {
+                outputStreamWriter = new OutputStreamWriter(new FileOutputStream(Environment.getExternalStorageDirectory() + "/SlidingMessaging/scheduledSMS.txt"));
+            } else
+            {
+                outputStreamWriter = new OutputStreamWriter(context.openFileOutput("scheduledSMS.txt", Context.MODE_PRIVATE));
+            }
+
+            for (int i = 0; i < data.size(); i++)
+            {
+                String[] details = data.get(i);
+
+                for (int j = 0; j < 4; j++)
+                {
+                    outputStreamWriter.write(details[j] + "\n");
+                }
+
+
+            }
+
+            outputStreamWriter.close();
+        }
+        catch (IOException e) {
+
+        }
+
+    }
 }
