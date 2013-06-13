@@ -63,6 +63,8 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
     public boolean firstContactSearch = true;
     private boolean timeDone = false;
 
+    public Date currentDate;
+
     public ArrayList<String> contactNames, contactNumbers, contactTypes;
 
     @Override
@@ -82,6 +84,8 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
         currentDay = c.get(Calendar.DAY_OF_MONTH);
         currentHour = c.get(Calendar.HOUR_OF_DAY);
         currentMinute = c.get(Calendar.MINUTE);
+
+        currentDate = new Date(currentYear, currentMonth, currentDay, currentHour, currentMinute);
 
         timeDisplay = (TextView) findViewById(R.id.currentTime);
         dateDisplay = (TextView) findViewById(R.id.currentDate);
@@ -512,15 +516,34 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
             setDate.setHours(setHour);
             setDate.setMinutes(setMinute);
 
-            if (sharedPrefs.getBoolean("hour_format", false))
+            if (!setDate.before(currentDate))
             {
-                timeDisplay.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(setDate));
+                if (sharedPrefs.getBoolean("hour_format", false))
+                {
+                    timeDisplay.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(setDate));
+                } else
+                {
+                    timeDisplay.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(setDate));
+                }
+
+                timeDone = true;
             } else
             {
-                timeDisplay.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(setDate));
+                Context context = getApplicationContext();
+                CharSequence text = "Date must be forward!";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+
+                btTime.setEnabled(false);
+
+                timeDisplay.setText("");
+                dateDisplay.setText("");
+
+                timeDone = false;
             }
 
-            timeDone = true;
         }
     };
 
