@@ -11,10 +11,7 @@ import android.widget.*;
 import com.haarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.klinker.android.messaging_card.BatchDeleteActivity;
-import com.klinker.android.messaging_donate.DeliveredReceiver;
-import com.klinker.android.messaging_donate.DisconnectWifi;
-import com.klinker.android.messaging_donate.R;
-import com.klinker.android.messaging_donate.SentReceiver;
+import com.klinker.android.messaging_donate.*;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
