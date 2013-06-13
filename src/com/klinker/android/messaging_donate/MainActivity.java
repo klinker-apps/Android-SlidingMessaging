@@ -43,6 +43,8 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
 
     public void launchActivity()
     {
+        UnlockReceiver.openApp = false;
+
         Intent fromIntent = getIntent();
 
         String version = "";

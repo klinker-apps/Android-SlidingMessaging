@@ -24,6 +24,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -5840,6 +5842,25 @@ s
 
 	    return res;
 	}
+
+    private void setMobileDataEnabled(Context context, boolean enabled) {
+        try {
+            final ConnectivityManager conman = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            final Class conmanClass = Class.forName(conman.getClass().getName());
+            final Field iConnectivityManagerField = conmanClass.getDeclaredField("mService");
+            iConnectivityManagerField.setAccessible(true);
+            final Object iConnectivityManager = iConnectivityManagerField.get(conman);
+            final Class iConnectivityManagerClass = Class.forName(iConnectivityManager.getClass().getName());
+            final Method setMobileDataEnabledMethod = iConnectivityManagerClass.getDeclaredMethod("setMobileDataEnabled", Boolean.TYPE);
+            setMobileDataEnabledMethod.setAccessible(true);
+
+            setMobileDataEnabledMethod.invoke(iConnectivityManager, enabled);
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+    }
 	
 	public void sendMMS(final String recipient, final MMSPart[] parts)
 	{
@@ -5851,6 +5872,7 @@ s
 			wifi.disconnect();
 			discon = new DisconnectWifi();
 			registerReceiver(discon, new IntentFilter(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION));
+            setMobileDataEnabled(this, true);
 		}
 		
 		ConnectivityManager mConnMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -6045,6 +6067,7 @@ s
 							    wifi.setWifiEnabled(false);
 							    wifi.setWifiEnabled(currentWifiState);
 							    Log.v("Reconnect", "" + wifi.reconnect());
+                                setMobileDataEnabled(context, false);
 							}
 						}
 						
@@ -6060,6 +6083,7 @@ s
 					    wifi.setWifiEnabled(false);
 					    wifi.setWifiEnabled(currentWifiState);
 					    Log.v("Reconnect", "" + wifi.reconnect());
+                        setMobileDataEnabled(context, false);
 					}
 					
 					Cursor query = context.getContentResolver().query(Uri.parse("content://mms"), new String[] {"_id"}, null, null, "date desc");
