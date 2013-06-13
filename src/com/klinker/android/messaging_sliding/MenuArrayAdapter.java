@@ -636,44 +636,81 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 	}
   	
   	public Bitmap getFacebookPhoto(String phoneNumber) {
-	    Uri phoneUri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNumber));
-	    Uri photoUri = null;
-	    ContentResolver cr = context.getContentResolver();
-	    Cursor contact = cr.query(phoneUri,
-	            new String[] { ContactsContract.Contacts._ID }, null, null, null);
+        try
+        {
+            Uri phoneUri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNumber));
+            Uri photoUri = null;
+            ContentResolver cr = context.getContentResolver();
+            Cursor contact = cr.query(phoneUri,
+                    new String[] { ContactsContract.Contacts._ID }, null, null, null);
 
-	    try
-	    {
-		    if (contact.moveToFirst()) {
-		        long userId = contact.getLong(contact.getColumnIndex(ContactsContract.Contacts._ID));
-		        photoUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, userId);
-	
-		    }
-		    else {
-		        Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_picture);
-                contact.close();
-		        return defaultPhoto;
-		    }
-		    if (photoUri != null) {
-		        InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(
-		                cr, photoUri);
-		        if (input != null) {
+            try
+            {
+                if (contact.moveToFirst()) {
+                    long userId = contact.getLong(contact.getColumnIndex(ContactsContract.Contacts._ID));
+                    photoUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, userId);
                     contact.close();
-		            return BitmapFactory.decodeStream(input);
-		        }
-		    } else {
-		        Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_picture);
+                }
+                else {
+                    Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_picture);
+
+                    if (sharedPrefs.getBoolean("ct_darkContactImage", false))
+                    {
+                        defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_dark);
+                    }
+
+                    contact.close();
+                    return defaultPhoto;
+                }
+                if (photoUri != null) {
+                    InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(
+                            cr, photoUri);
+                    if (input != null) {
+                        contact.close();
+                        return BitmapFactory.decodeStream(input);
+                    }
+                } else {
+                    Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_picture);
+
+                    if (sharedPrefs.getBoolean("ct_darkContactImage", false))
+                    {
+                        defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_dark);
+                    }
+
+                    contact.close();
+                    return defaultPhoto;
+                }
+                Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_picture);
+
+                if (sharedPrefs.getBoolean("ct_darkContactImage", false))
+                {
+                    defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_dark);
+                }
+
                 contact.close();
-		        return defaultPhoto;
-		    }
-		    Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_picture);
-            contact.close();
-		    return defaultPhoto;
-	    } catch (Exception e)
-	    {
-            contact.close();
-	    	return BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_picture);
-	    }
+                return defaultPhoto;
+            } catch (Exception e)
+            {
+                if (sharedPrefs.getBoolean("ct_darkContactImage", false))
+                {
+                    contact.close();
+                    return BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_dark);
+                } else
+                {
+                    contact.close();
+                    return BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_picture);
+                }
+            }
+        } catch (Exception e)
+        {
+            if (sharedPrefs.getBoolean("ct_darkContactImage", false))
+            {
+                return BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_dark);
+            } else
+            {
+                return BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_picture);
+            }
+        }
 	}
   
   public Bitmap drawableToBitmap (Drawable drawable) {
