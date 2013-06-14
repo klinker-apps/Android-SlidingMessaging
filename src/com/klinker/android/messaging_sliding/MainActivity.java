@@ -6079,7 +6079,6 @@ s
 							    wifi.setWifiEnabled(false);
 							    wifi.setWifiEnabled(currentWifiState);
 							    Log.v("Reconnect", "" + wifi.reconnect());
-                                setMobileDataEnabled(context, false);
 							}
 						}
 						
@@ -6095,7 +6094,6 @@ s
 					    wifi.setWifiEnabled(false);
 					    wifi.setWifiEnabled(currentWifiState);
 					    Log.v("Reconnect", "" + wifi.reconnect());
-                        setMobileDataEnabled(context, false);
 					}
 					
 					Cursor query = context.getContentResolver().query(Uri.parse("content://mms"), new String[] {"_id"}, null, null, "date desc");

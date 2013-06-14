@@ -726,7 +726,6 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
                                                 wifi.setWifiEnabled(false);
                                                 wifi.setWifiEnabled(currentWifiState);
                                                 Log.v("Reconnect", "" + wifi.reconnect());
-                                                MainActivity.setMobileDataEnabled(context, false);
                                             }
 											
 										}
@@ -847,7 +846,6 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
                                     wifi.setWifiEnabled(false);
                                     wifi.setWifiEnabled(currentWifiState);
                                     Log.v("Reconnect", "" + wifi.reconnect());
-                                    MainActivity.setMobileDataEnabled(context, false);
                                 }
 								
 							}

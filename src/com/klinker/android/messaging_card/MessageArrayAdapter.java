@@ -609,7 +609,6 @@ public class MessageArrayAdapter extends ArrayAdapter<String> {
                                                 wifi.setWifiEnabled(false);
                                                 wifi.setWifiEnabled(currentWifiState);
                                                 Log.v("Reconnect", "" + wifi.reconnect());
-                                                com.klinker.android.messaging_sliding.MainActivity.setMobileDataEnabled(context, false);
                                             }
 											
 										}
@@ -730,7 +729,6 @@ public class MessageArrayAdapter extends ArrayAdapter<String> {
                                     wifi.setWifiEnabled(false);
                                     wifi.setWifiEnabled(currentWifiState);
                                     Log.v("Reconnect", "" + wifi.reconnect());
-                                    com.klinker.android.messaging_sliding.MainActivity.setMobileDataEnabled(context, false);
                                 }
 								
 							}

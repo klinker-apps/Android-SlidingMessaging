@@ -5565,7 +5565,6 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 							    wifi.setWifiEnabled(false);
 							    wifi.setWifiEnabled(currentWifiState);
 							    wifi.reconnect();
-                                setMobileDataEnabled(context, true);
 							}
 						}
 						
@@ -5582,7 +5581,6 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 						wifi.setWifiEnabled(false);
 					    wifi.setWifiEnabled(currentWifiState);
 						wifi.reconnect();
-                        setMobileDataEnabled(context, true);
 					}
 					
 					Cursor query = context.getContentResolver().query(Uri.parse("content://mms"), new String[] {"_id"}, null, null, "date desc");

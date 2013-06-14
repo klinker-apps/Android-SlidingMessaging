@@ -13,6 +13,10 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+import android.content.*;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import com.klinker.android.messaging_donate.DisconnectWifi;
 import com.klinker.android.messaging_donate.R;
 
 import com.android.mms.transaction.HttpUtils;
@@ -33,13 +37,6 @@ import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
-import android.content.ContentResolver;
-import android.content.ContentUris;
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SqliteWrapper;
@@ -69,6 +66,10 @@ public class MMSMessageReceiver extends BroadcastReceiver {
 	public Context context;
 	public String phoneNumber;
 	public String picNumber;
+
+    public DisconnectWifi discon;
+    public WifiInfo currentWifi;
+    public boolean currentWifiState;
 	
 	public void onReceive(final Context context, Intent intent)
 	{
@@ -109,7 +110,7 @@ public class MMSMessageReceiver extends BroadcastReceiver {
 			
 			boolean error = false;
 			
-			if (sharedPrefs.getBoolean("override_stock", false))
+			if (sharedPrefs.getBoolean("override_stock", false) && !sharedPrefs.getBoolean("receive_with_stock", false))
 			{
 				byte[] pushData = intent.getByteArrayExtra("data");
 	            PduParser parser = new PduParser(pushData);
@@ -213,7 +214,7 @@ public class MMSMessageReceiver extends BroadcastReceiver {
 			
 			phoneNumber = mmsFrom;
 			
-			if (!sharedPrefs.getBoolean("auto_download_mms", false) || !sharedPrefs.getBoolean("enable_mms", false))
+			if (!sharedPrefs.getBoolean("auto_download_mms", false) || !sharedPrefs.getBoolean("enable_mms", false) || sharedPrefs.getBoolean("receive_with_stock", false))
 			{
 				if (sharedPrefs.getBoolean("secure_notification", false))
 				{
@@ -234,6 +235,16 @@ public class MMSMessageReceiver extends BroadcastReceiver {
 							} catch (InterruptedException e1) {
 								e1.printStackTrace();
 							}
+
+                            if (sharedPrefs.getBoolean("wifi_mms_fix", false))
+                            {
+                                WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+                                currentWifi = wifi.getConnectionInfo();
+                                currentWifiState = wifi.isWifiEnabled();
+                                wifi.disconnect();
+                                discon = new DisconnectWifi();
+                                MainActivity.setMobileDataEnabled(context, true);
+                            }
 							
 							Cursor locationQuery = context.getContentResolver().query(Uri.parse("content://mms/"), new String[] {"ct_l", "thread_id", "_id"}, null, null, "date desc");
 							locationQuery.moveToFirst();
@@ -324,6 +335,14 @@ public class MMSMessageReceiver extends BroadcastReceiver {
 								{
 									makeNotification("New Picture Message", phoneNumber, null);
 								}
+
+                                if (sharedPrefs.getBoolean("wifi_mms_fix", false))
+                                {
+                                    WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+                                    wifi.setWifiEnabled(false);
+                                    wifi.setWifiEnabled(currentWifiState);
+                                    Log.v("Reconnect", "" + wifi.reconnect());
+                                }
 							}
 							
 							try {
@@ -389,11 +408,24 @@ public class MMSMessageReceiver extends BroadcastReceiver {
 					        		makeNotification(phoneNumber, body, b);
 				        		}
 				        	}
+
+                            if (sharedPrefs.getBoolean("wifi_mms_fix", false))
+                            {
+                                WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+                                wifi.setWifiEnabled(false);
+                                wifi.setWifiEnabled(currentWifiState);
+                                Log.v("Reconnect", "" + wifi.reconnect());
+                            }
 							
 						}
 						
 					}).start();
 			}
+
+            if (!sharedPrefs.getBoolean("receive_with_stock", false))
+            {
+                error = true;
+            }
 			
 			if (sharedPrefs.getBoolean("override_stock", false) && !error)
 			{
