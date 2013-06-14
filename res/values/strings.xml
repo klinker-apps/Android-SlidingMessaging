@@ -461,4 +461,5 @@
     <string name="scheduled_sms">Scheduled SMS</string>
     <string name="repetition">Repetition:</string>
     <string name="add_new_sms">New Scheduled SMS</string>
+    <string name="delete_scheduled_sms">Delete Scheduled SMS?</string>
 </resources>

@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 
 import android.app.Activity;
@@ -24,20 +25,32 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
+import android.widget.*;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
 import com.klinker.android.messaging_donate.R;
 
 public class ScheduledSms extends Activity {
+
+    public final static String EXTRA_NUMBER = "com.klinker.android.messaging_sliding.NUMBER";
+    public final static String EXTRA_DATE = "com.klinker.android.messaging_sliding.DATE";
+    public final static String EXTRA_REPEAT = "com.klinker.android.messaging_sliding.REPEAT";
+    public final static String EXTRA_MESSAGE = "com.klinker.android.messaging_sliding.MESSAGE";
 
     public static Context context;
     public ListView sms;
     public Button addNew;
     public SharedPreferences sharedPrefs;
-    public ArrayList<String> text;
+    public ArrayList<String[]> text;
+
+    @Override
+    protected void onResume()
+    {
+        text = readFromFile(this, true);
+
+        SchedulesArrayAdapter adapter = new SchedulesArrayAdapter(this, text);
+        sms.setAdapter(adapter);
+        sms.setStackFromBottom(false);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,9 +62,9 @@ public class ScheduledSms extends Activity {
         sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         context = this;
 
-        text = readFromFile(this);
+        text = readFromFile(this, true);
 
-        TemplateArrayAdapter adapter = new TemplateArrayAdapter(this, text);
+        SchedulesArrayAdapter adapter = new SchedulesArrayAdapter(this, text);
         sms.setAdapter(adapter);
         sms.setStackFromBottom(false);
 
@@ -74,18 +87,18 @@ public class ScheduledSms extends Activity {
         }
 
         sms.setOnItemLongClickListener(new OnItemLongClickListener() {
-
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
                                            final int arg2, long arg3) {
                 new AlertDialog.Builder(context)
-                        .setMessage(context.getResources().getString(R.string.delete_template))
+                        .setMessage(context.getResources().getString(R.string.delete_scheduled_sms))
                         .setPositiveButton(context.getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 text.remove(arg2);
 
-                                TemplateArrayAdapter adapter = new TemplateArrayAdapter((Activity) context, text);
-                                sms.setAdapter(adapter);
+                                writeToFile(text, context);
+
+                                onResume();
                             }
                         }).setNegativeButton(context.getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
@@ -94,7 +107,21 @@ public class ScheduledSms extends Activity {
                 }).show();
                 return false;
             }
+        });
 
+        sms.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1,
+                                           final int pos, long arg3) {
+
+                Intent intent = new Intent(context, NewScheduledSms.class);
+                intent.putExtra(EXTRA_NUMBER, text.get(pos)[0]);
+                intent.putExtra(EXTRA_DATE, text.get(pos)[1]);
+                intent.putExtra(EXTRA_REPEAT, text.get(pos)[2]);
+                intent.putExtra(EXTRA_MESSAGE, text.get(pos)[3]);
+
+                startActivity(intent);
+            }
         });
 
         addNew.setOnClickListener(new OnClickListener() {
@@ -102,6 +129,12 @@ public class ScheduledSms extends Activity {
             @Override
             public void onClick(View arg0) {
                 Intent intent = new Intent(context, NewScheduledSms.class);
+
+                intent.putExtra(EXTRA_NUMBER, "");
+                intent.putExtra(EXTRA_DATE, "");
+                intent.putExtra(EXTRA_REPEAT, "0");
+                intent.putExtra(EXTRA_MESSAGE, "");
+
                 startActivity(intent);
             }
 
@@ -115,20 +148,25 @@ public class ScheduledSms extends Activity {
     }
 
     @SuppressWarnings("resource")
-    private ArrayList<String> readFromFile(Context context) {
+    private ArrayList<String[]> readFromFile(Context context, boolean tryRemove) {
 
-        ArrayList<String> ret = new ArrayList<String>();
+        ArrayList<String[]> ret = new ArrayList<String[]>();
+
+        if (tryRemove)
+            removeOld();
 
         try {
             InputStream inputStream;
 
             if (sharedPrefs.getBoolean("save_to_external", true))
             {
-                inputStream = new FileInputStream(Environment.getExternalStorageDirectory() + "/SlidingMessaging/templates.txt");
+                inputStream = new FileInputStream(Environment.getExternalStorageDirectory() + "/SlidingMessaging/scheduledSMS.txt");
             } else
             {
-                inputStream = context.openFileInput("templates.txt");
+                inputStream = context.openFileInput("scheduledSMS.txt");
             }
+
+
 
             if ( inputStream != null ) {
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
@@ -136,7 +174,14 @@ public class ScheduledSms extends Activity {
                 String receiveString = "";
 
                 while ( (receiveString = bufferedReader.readLine()) != null ) {
-                    ret.add(receiveString);
+
+                    String[] details = new String[4];
+                    details[0] = receiveString;
+
+                    for(int i = 1; i < 4; i++)
+                        details[i] = bufferedReader.readLine();
+
+                    ret.add(details);
                 }
 
                 inputStream.close();
@@ -151,22 +196,29 @@ public class ScheduledSms extends Activity {
         return ret;
     }
 
-    private void writeToFile(ArrayList<String> data, Context context) {
+    private void writeToFile(ArrayList<String[]> data, Context context) {
         try {
 
             OutputStreamWriter outputStreamWriter;
 
             if (sharedPrefs.getBoolean("save_to_external", true))
             {
-                outputStreamWriter = new OutputStreamWriter(new FileOutputStream(Environment.getExternalStorageDirectory() + "/SlidingMessaging/templates.txt"));
+                outputStreamWriter = new OutputStreamWriter(new FileOutputStream(Environment.getExternalStorageDirectory() + "/SlidingMessaging/scheduledSMS.txt"));
             } else
             {
-                outputStreamWriter = new OutputStreamWriter(context.openFileOutput("templates.txt", Context.MODE_PRIVATE));
+                outputStreamWriter = new OutputStreamWriter(context.openFileOutput("scheduledSMS.txt", Context.MODE_PRIVATE));
             }
 
             for (int i = 0; i < data.size(); i++)
             {
-                outputStreamWriter.write(data.get(i) + "\n");
+                String[] details = data.get(i);
+
+                for (int j = 0; j < 4; j++)
+                {
+                    outputStreamWriter.write(details[j] + "\n");
+                }
+
+
             }
 
             outputStreamWriter.close();
@@ -175,5 +227,22 @@ public class ScheduledSms extends Activity {
 
         }
 
+    }
+
+    public void removeOld()
+    {
+        ArrayList<String[]> list = readFromFile(context, false);
+
+        for(int i = 0; i < list.size(); i++)
+        {
+            Date sendDate = new Date(Long.parseLong(list.get(i)[2]));
+            if (sendDate.before(new Date()) && list.get(i)[2].equals("0")) // date is earlier than current and no repetition
+            {
+                list.remove(i);
+                i--;
+            }
+        }
+
+        writeToFile(list, context);
     }
 }
