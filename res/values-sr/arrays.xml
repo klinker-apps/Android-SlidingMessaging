@@ -93,6 +93,7 @@
     </string-array>
     
     <string-array name="deliveryOptions">
+        <item name="none">Nothing on Delivery</item>
         <item name="popup">Popup on Delivery</item>
         <item name="toast">Toast on Delivery</item>
     </string-array>

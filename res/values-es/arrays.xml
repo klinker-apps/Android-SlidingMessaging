@@ -85,6 +85,7 @@
     </string-array>
     
     <string-array name="deliveryOptions">
+        <item name="none">Nothing on Delivery</item>
         <item name="popup">Popup en entrega</item>
         <item name="toast">Toast en entrega</item>
     </string-array>

@@ -1392,7 +1392,10 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 									            		switch (getResultCode())
 										                {
 										                    case Activity.RESULT_OK:
-										                    	Toast.makeText(context, R.string.message_delivered, Toast.LENGTH_LONG).show();
+                                                                if (sharedPrefs.getString("delivery_options", "2").equals("2"))
+                                                                {
+                                                                    Toast.makeText(context, R.string.message_delivered, Toast.LENGTH_LONG).show();
+                                                                }
 										                    	
 										                    	Cursor query = context.getContentResolver().query(Uri.parse("content://sms/sent"), null, null, null, "date desc");
 										                        
@@ -1409,7 +1412,10 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 									                    		
 										                        break;
 										                    case Activity.RESULT_CANCELED:
-										                    	Toast.makeText(context, R.string.message_not_delivered, Toast.LENGTH_LONG).show();
+                                                                if (sharedPrefs.getString("delivery_options", "2").equals("2"))
+                                                                {
+                                                                    Toast.makeText(context, R.string.message_not_delivered, Toast.LENGTH_LONG).show();
+                                                                }
 										                    	
 										                    	Cursor query2 = context.getContentResolver().query(Uri.parse("content://sms/sent"), null, null, null, "date desc");
 										                        
@@ -2171,7 +2177,10 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 										            		switch (getResultCode())
 											                {
 											                    case Activity.RESULT_OK:
-											                    	Toast.makeText(context, R.string.message_delivered, Toast.LENGTH_LONG).show();
+                                                                    if (sharedPrefs.getString("delivery_options", "2").equals("2"))
+                                                                    {
+                                                                        Toast.makeText(context, R.string.message_delivered, Toast.LENGTH_LONG).show();
+                                                                    }
 											                    	
 											                    	Cursor query = context.getContentResolver().query(Uri.parse("content://sms/sent"), null, null, null, "date desc");
 											                        
@@ -2188,7 +2197,10 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 											                        
 											                        break;
 											                    case Activity.RESULT_CANCELED:
-											                    	Toast.makeText(context, R.string.message_not_delivered, Toast.LENGTH_LONG).show();
+                                                                    if (sharedPrefs.getString("delivery_options", "2").equals("2"))
+                                                                    {
+                                                                        Toast.makeText(context, R.string.message_not_delivered, Toast.LENGTH_LONG).show();
+                                                                    }
 											                    	
 											                    	Cursor query2 = context.getContentResolver().query(Uri.parse("content://sms/sent"), null, null, null, "date desc");
 											                        
