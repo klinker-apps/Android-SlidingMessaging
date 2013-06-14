@@ -772,10 +772,26 @@ public class SettingsPagerActivity extends FragmentActivity {
 
                 @Override
                 public boolean onPreferenceClick(Preference arg0) {
-                    File des = new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/backup.prefs");
-                    saveSharedPreferencesToFile(des);
+                    new AlertDialog.Builder(context)
+                            .setTitle(context.getResources().getString(R.string.backup_settings))
+                            .setMessage(context.getResources().getString(R.string.backup_settings_summary))
+                            .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    File des = new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/backup.prefs");
+                                    saveSharedPreferencesToFile(des);
 
-                    Toast.makeText(context, context.getResources().getString(R.string.backup_success), Toast.LENGTH_LONG).show();
+                                    Toast.makeText(context, context.getResources().getString(R.string.backup_success), Toast.LENGTH_LONG).show();
+                                }
+                            })
+                            .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                }
+                            })
+                            .create()
+                            .show();
 
                     return false;
                 }

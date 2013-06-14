@@ -50,17 +50,9 @@ public class CatalogWizardModel extends AbstractWizardModel {
         }
 
         String changeLog = "Version " + version + ":\n\n" +
-                "- Fixes to HALO implementation\n" +
-                "- Bug fixes\n\n" +
-                "- Security Options\n" +
-                "- Popup now supports theming with theme engine\n" +
-                "- Widget options including black theme\n" +
-                "- Access to message details by clicking on the SMS message\n" +
-                "- Ability to pick a contact name from a list of all contacts when creating a new message\n" +
-                "- Ability to launch full app as popup through \"Halo\" if your custom ROM supports that feature\n" +
-                "- Popup bug fixes\n" +
-                "- General bug fixes\n" +
-                "- Messages are now limited by default for speed and performance; however, you are able to disable this feature if you choose.\n\n";
+                "- Fixes to WiFi MMS workaround, will now enable mobile data connection while sending and receiving MMS\n" +
+                "- Bug fixes\n\n";
+
 
         String themeEditor = "The theme editor now fully supports the Hangouts UI and popup, " +
                 "better time then ever to get on board and start making Sliding Messaging look exactly how you want!\n\n" +

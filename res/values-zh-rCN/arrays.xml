@@ -85,6 +85,7 @@
     </string-array>
     
     <string-array name="deliveryOptions">
+        <item name="none">Nothing on Delivery</item>
         <item name="popup">弹出交互窗口</item>
         <item name="toast">临时显示窗口</item>
     </string-array>

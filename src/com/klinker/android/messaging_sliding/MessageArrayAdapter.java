@@ -1,5 +1,8 @@
 package com.klinker.android.messaging_sliding;
 
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.util.Log;
 import com.android.mms.transaction.HttpUtils;
 import com.android.mms.util.SendingProgressTokenManager;
 import com.google.android.mms.APN;
@@ -7,6 +10,7 @@ import com.google.android.mms.APNHelper;
 import com.google.android.mms.pdu.PduParser;
 import com.google.android.mms.pdu.PduPersister;
 import com.google.android.mms.pdu.RetrieveConf;
+import com.klinker.android.messaging_donate.DisconnectWifi;
 import com.klinker.android.messaging_donate.R;
 
 import java.io.BufferedReader;
@@ -108,6 +112,10 @@ public class MessageArrayAdapter extends ArrayAdapter<String> {
   private Paint paint;
   private int width;
   private Typeface font;
+
+  public DisconnectWifi discon;
+  public WifiInfo currentWifi;
+  public boolean currentWifiState;
   
   static class ViewHolder {
 	    public TextView text;
@@ -571,6 +579,17 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
 				if (sharedPrefs.getBoolean("enable_mms", false))
 				{
 					holder.downloadButton.setVisibility(View.INVISIBLE);
+
+                    if (sharedPrefs.getBoolean("wifi_mms_fix", false))
+                    {
+                        WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+                        currentWifi = wifi.getConnectionInfo();
+                        currentWifiState = wifi.isWifiEnabled();
+                        wifi.disconnect();
+                        discon = new DisconnectWifi();
+                        context.registerReceiver(discon, new IntentFilter(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION));
+                        MainActivity.setMobileDataEnabled(context, true);
+                    }
 					
 					ConnectivityManager mConnMgr =  (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
 					final int result = mConnMgr.startUsingNetworkFeature(ConnectivityManager.TYPE_MOBILE, "enableMMS");
@@ -699,6 +718,16 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
 													}
 												});
 											}
+
+                                            if (sharedPrefs.getBoolean("wifi_mms_fix", false))
+                                            {
+                                                context.unregisterReceiver(discon);
+                                                WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+                                                wifi.setWifiEnabled(false);
+                                                wifi.setWifiEnabled(currentWifiState);
+                                                Log.v("Reconnect", "" + wifi.reconnect());
+                                                MainActivity.setMobileDataEnabled(context, false);
+                                            }
 											
 										}
 										
@@ -810,6 +839,16 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
 										}
 									});
 								}
+
+                                if (sharedPrefs.getBoolean("wifi_mms_fix", false))
+                                {
+                                    context.unregisterReceiver(discon);
+                                    WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+                                    wifi.setWifiEnabled(false);
+                                    wifi.setWifiEnabled(currentWifiState);
+                                    Log.v("Reconnect", "" + wifi.reconnect());
+                                    MainActivity.setMobileDataEnabled(context, false);
+                                }
 								
 							}
 							
@@ -2035,7 +2074,10 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
 											            		switch (getResultCode())
 												                {
 												                    case Activity.RESULT_OK:
-												                    	Toast.makeText(context, R.string.message_delivered, Toast.LENGTH_LONG).show();
+                                                                        if (sharedPrefs.getString("delivery_options", "2").equals("2"))
+                                                                        {
+                                                                            Toast.makeText(context, R.string.message_delivered, Toast.LENGTH_LONG).show();
+                                                                        }
 												                    	
 												                    	Cursor query = context.getContentResolver().query(Uri.parse("content://sms/sent"), null, null, null, "date desc");
 												                        
@@ -2052,7 +2094,10 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
 												                        
 												                        break;
 												                    case Activity.RESULT_CANCELED:
-												                    	Toast.makeText(context, R.string.message_not_delivered, Toast.LENGTH_LONG).show();
+                                                                        if (sharedPrefs.getString("delivery_options", "2").equals("2"))
+                                                                        {
+                                                                            Toast.makeText(context, R.string.message_not_delivered, Toast.LENGTH_LONG).show();
+                                                                        }
 												                    	
 												                    	Cursor query2 = context.getContentResolver().query(Uri.parse("content://sms/sent"), null, null, null, "date desc");
 												                        

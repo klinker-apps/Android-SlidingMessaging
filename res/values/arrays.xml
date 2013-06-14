@@ -228,11 +228,13 @@
     </string-array>
     
     <string-array name="deliveryOptions">
+        <item name="none">Nothing on Delivery</item>
         <item name="popup">Popup on Delivery</item>
         <item name="toast">Toast on Delivery</item>
     </string-array>
     
     <string-array name="deliveryOptionsInserted">
+        <item name="none">0</item>
         <item name="popup">1</item>
         <item name="toast">2</item>
     </string-array>
