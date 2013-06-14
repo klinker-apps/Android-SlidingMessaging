@@ -1,5 +1,8 @@
 package com.klinker.android.messaging_card;
 
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.util.Log;
 import com.android.mms.transaction.HttpUtils;
 import com.android.mms.util.SendingProgressTokenManager;
 import com.google.android.mms.APN;
@@ -7,6 +10,7 @@ import com.google.android.mms.APNHelper;
 import com.google.android.mms.pdu.PduParser;
 import com.google.android.mms.pdu.PduPersister;
 import com.google.android.mms.pdu.RetrieveConf;
+import com.klinker.android.messaging_donate.DisconnectWifi;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_sliding.EmojiConverter;
 import com.klinker.android.messaging_sliding.EmojiConverter2;
@@ -103,6 +107,10 @@ public class MessageArrayAdapter extends ArrayAdapter<String> {
   private ContentResolver contentResolver;
   private final Cursor query;
   private Bitmap contactPicture = null;
+
+    public DisconnectWifi discon;
+    public WifiInfo currentWifi;
+    public boolean currentWifiState;
   
   static class ViewHolder {
 	    public TextView text;
@@ -454,6 +462,17 @@ public class MessageArrayAdapter extends ArrayAdapter<String> {
 				if (sharedPrefs.getBoolean("enable_mms", false))
 				{
 					holder.downloadButton.setVisibility(View.INVISIBLE);
+
+                    if (sharedPrefs.getBoolean("wifi_mms_fix", false))
+                    {
+                        WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+                        currentWifi = wifi.getConnectionInfo();
+                        currentWifiState = wifi.isWifiEnabled();
+                        wifi.disconnect();
+                        discon = new DisconnectWifi();
+                        context.registerReceiver(discon, new IntentFilter(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION));
+                        com.klinker.android.messaging_sliding.MainActivity.setMobileDataEnabled(context, true);
+                    }
 					
 					ConnectivityManager mConnMgr =  (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
 					final int result = mConnMgr.startUsingNetworkFeature(ConnectivityManager.TYPE_MOBILE, "enableMMS");
@@ -582,6 +601,16 @@ public class MessageArrayAdapter extends ArrayAdapter<String> {
 													}
 												});
 											}
+
+                                            if (sharedPrefs.getBoolean("wifi_mms_fix", false))
+                                            {
+                                                context.unregisterReceiver(discon);
+                                                WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+                                                wifi.setWifiEnabled(false);
+                                                wifi.setWifiEnabled(currentWifiState);
+                                                Log.v("Reconnect", "" + wifi.reconnect());
+                                                com.klinker.android.messaging_sliding.MainActivity.setMobileDataEnabled(context, false);
+                                            }
 											
 										}
 										
@@ -693,6 +722,16 @@ public class MessageArrayAdapter extends ArrayAdapter<String> {
 										}
 									});
 								}
+
+                                if (sharedPrefs.getBoolean("wifi_mms_fix", false))
+                                {
+                                    context.unregisterReceiver(discon);
+                                    WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+                                    wifi.setWifiEnabled(false);
+                                    wifi.setWifiEnabled(currentWifiState);
+                                    Log.v("Reconnect", "" + wifi.reconnect());
+                                    com.klinker.android.messaging_sliding.MainActivity.setMobileDataEnabled(context, false);
+                                }
 								
 							}
 							

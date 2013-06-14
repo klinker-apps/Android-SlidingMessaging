@@ -15,8 +15,8 @@ Version 6.30
 5) Tasker options
 6) Attach more options for MMS - create slideshow with videos and audio and pictures, attach plain text contact info
 7) Message locking
-8) vibrate when in phone call
 9) search through messages
+10) Pin contact to always be first conversation
 
 Side Project: Emoji Keyboard
     - Look and feel just like hangouts emoji keyboard does with 5 catagories, recents and sliding between pages
