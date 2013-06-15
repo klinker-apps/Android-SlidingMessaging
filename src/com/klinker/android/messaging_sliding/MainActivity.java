@@ -169,6 +169,7 @@ s
 	public DisconnectWifi discon;
 	public WifiInfo currentWifi;
 	public boolean currentWifiState;
+    public boolean currentDataState;
 	
 	public static int contactWidth;
 	public static String draft = "";
@@ -5873,6 +5874,21 @@ s
         }
 
     }
+
+    public static Boolean isMobileDataEnabled(Context context){
+        Object connectivityService = context.getSystemService(CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) connectivityService;
+
+        try {
+            Class<?> c = Class.forName(cm.getClass().getName());
+            Method m = c.getDeclaredMethod("getMobileDataEnabled");
+            m.setAccessible(true);
+            return (Boolean)m.invoke(cm);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 	
 	public void sendMMS(final String recipient, final MMSPart[] parts)
 	{
@@ -5884,6 +5900,7 @@ s
 			wifi.disconnect();
 			discon = new DisconnectWifi();
 			registerReceiver(discon, new IntentFilter(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION));
+            currentDataState = isMobileDataEnabled(this);
             setMobileDataEnabled(this, true);
 		}
 		
@@ -6079,6 +6096,7 @@ s
 							    wifi.setWifiEnabled(false);
 							    wifi.setWifiEnabled(currentWifiState);
 							    Log.v("Reconnect", "" + wifi.reconnect());
+                                setMobileDataEnabled(context, currentDataState);
 							}
 						}
 						
@@ -6094,6 +6112,7 @@ s
 					    wifi.setWifiEnabled(false);
 					    wifi.setWifiEnabled(currentWifiState);
 					    Log.v("Reconnect", "" + wifi.reconnect());
+                        setMobileDataEnabled(context, currentDataState);
 					}
 					
 					Cursor query = context.getContentResolver().query(Uri.parse("content://mms"), new String[] {"_id"}, null, null, "date desc");

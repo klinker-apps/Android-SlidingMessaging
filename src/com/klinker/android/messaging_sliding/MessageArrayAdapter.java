@@ -116,6 +116,7 @@ public class MessageArrayAdapter extends ArrayAdapter<String> {
   public DisconnectWifi discon;
   public WifiInfo currentWifi;
   public boolean currentWifiState;
+  public boolean currentDataState;
   
   static class ViewHolder {
 	    public TextView text;
@@ -588,6 +589,7 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
                         wifi.disconnect();
                         discon = new DisconnectWifi();
                         context.registerReceiver(discon, new IntentFilter(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION));
+                        currentDataState = MainActivity.isMobileDataEnabled(context);
                         MainActivity.setMobileDataEnabled(context, true);
                     }
 					
@@ -726,6 +728,7 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
                                                 wifi.setWifiEnabled(false);
                                                 wifi.setWifiEnabled(currentWifiState);
                                                 Log.v("Reconnect", "" + wifi.reconnect());
+                                                MainActivity.setMobileDataEnabled(context, currentDataState);
                                             }
 											
 										}
@@ -846,6 +849,7 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
                                     wifi.setWifiEnabled(false);
                                     wifi.setWifiEnabled(currentWifiState);
                                     Log.v("Reconnect", "" + wifi.reconnect());
+                                    MainActivity.setMobileDataEnabled(context, currentDataState);
                                 }
 								
 							}

@@ -108,9 +108,10 @@ public class MessageArrayAdapter extends ArrayAdapter<String> {
   private final Cursor query;
   private Bitmap contactPicture = null;
 
-    public DisconnectWifi discon;
-    public WifiInfo currentWifi;
-    public boolean currentWifiState;
+  public DisconnectWifi discon;
+  public WifiInfo currentWifi;
+  public boolean currentWifiState;
+  public boolean currentDataState;
   
   static class ViewHolder {
 	    public TextView text;
@@ -471,6 +472,7 @@ public class MessageArrayAdapter extends ArrayAdapter<String> {
                         wifi.disconnect();
                         discon = new DisconnectWifi();
                         context.registerReceiver(discon, new IntentFilter(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION));
+                        currentDataState = com.klinker.android.messaging_sliding.MainActivity.isMobileDataEnabled(context);
                         com.klinker.android.messaging_sliding.MainActivity.setMobileDataEnabled(context, true);
                     }
 					
@@ -609,6 +611,7 @@ public class MessageArrayAdapter extends ArrayAdapter<String> {
                                                 wifi.setWifiEnabled(false);
                                                 wifi.setWifiEnabled(currentWifiState);
                                                 Log.v("Reconnect", "" + wifi.reconnect());
+                                                com.klinker.android.messaging_sliding.MainActivity.setMobileDataEnabled(context, currentDataState);
                                             }
 											
 										}
@@ -729,6 +732,7 @@ public class MessageArrayAdapter extends ArrayAdapter<String> {
                                     wifi.setWifiEnabled(false);
                                     wifi.setWifiEnabled(currentWifiState);
                                     Log.v("Reconnect", "" + wifi.reconnect());
+                                    com.klinker.android.messaging_sliding.MainActivity.setMobileDataEnabled(context, currentDataState);
                                 }
 								
 							}

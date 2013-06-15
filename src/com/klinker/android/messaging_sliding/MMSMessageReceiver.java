@@ -67,9 +67,9 @@ public class MMSMessageReceiver extends BroadcastReceiver {
 	public String phoneNumber;
 	public String picNumber;
 
-    public DisconnectWifi discon;
     public WifiInfo currentWifi;
     public boolean currentWifiState;
+    public boolean currentDataState;
 	
 	public void onReceive(final Context context, Intent intent)
 	{
@@ -242,7 +242,7 @@ public class MMSMessageReceiver extends BroadcastReceiver {
                                 currentWifi = wifi.getConnectionInfo();
                                 currentWifiState = wifi.isWifiEnabled();
                                 wifi.disconnect();
-                                discon = new DisconnectWifi();
+                                currentDataState = MainActivity.isMobileDataEnabled(context);
                                 MainActivity.setMobileDataEnabled(context, true);
                             }
 							
@@ -342,6 +342,7 @@ public class MMSMessageReceiver extends BroadcastReceiver {
                                     wifi.setWifiEnabled(false);
                                     wifi.setWifiEnabled(currentWifiState);
                                     Log.v("Reconnect", "" + wifi.reconnect());
+                                    MainActivity.setMobileDataEnabled(context, currentDataState);
                                 }
 							}
 							
