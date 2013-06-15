@@ -2279,18 +2279,51 @@ s
         final ListPopupWindow lpw = new ListPopupWindow(this);
         lpw.setBackgroundDrawable(new ColorDrawable(sharedPrefs.getInt("ct_sendbarBackground", getResources().getColor(R.color.white))));
 
+        lpw.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                final ArrayList<String> currentNames = new ArrayList<String>(), currentNumbers = new ArrayList<String>(), currentTypes = new ArrayList<String>();
+
+                String[] numbers = contact.getText().toString().split("; ");
+
+                for (int i = 0; i < numbers.length; i++)
+                {
+                    currentNumbers.add(numbers[i]);
+                    currentTypes.add("");
+                    currentNames.add(findContactName(numbers[i], context));
+                }
+
+                getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        ListView current = (ListView) newMessageView.findViewById(R.id.contactSearch);
+
+                        if (!currentNames.get(0).equals("No Information"))
+                        {
+                            current.setAdapter(new ContactSearchArrayAdapter((Activity)context, currentNames, currentNumbers, currentTypes));
+                        } else
+                        {
+                            current.setAdapter(new ContactSearchArrayAdapter((Activity)context, new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>()));
+                        }
+                    }
+
+                });
+            }
+        });
+
         lpw.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1,
                                     int position, long arg3) {
+
                 TextView view2 = (TextView) arg1.findViewById(R.id.receivedMessage);
 
                 String[] t1 = contact.getText().toString().split("; ");
                 String string = "";
 
-                for (int i = 0; i < t1.length - 1; i++)
-                {
+                for (int i = 0; i < t1.length - 1; i++) {
                     string += t1[i] + "; ";
                 }
 
@@ -2299,8 +2332,7 @@ s
                 lpw.dismiss();
                 firstContactSearch = true;
 
-                if (contact.getText().length() <= 13)
-                {
+                if (contact.getText().length() <= 13) {
                     mEditText.requestFocus();
                 }
             }
@@ -3392,7 +3424,7 @@ s
 		
 		ListView searchView = (ListView) newMessageView.findViewById(R.id.contactSearch);
 		
-		mEditText.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,2)));
+		mEditText.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0, 2)));
 		
 		View v1 = newMessageView.findViewById(R.id.view1);
 		View v2 = newMessageView.findViewById(R.id.sentBackground);
