@@ -2277,7 +2277,7 @@ s
 		final EditText contact = (EditText) newMessageView.findViewById(R.id.contactEntry);
 
         final ListPopupWindow lpw = new ListPopupWindow(this);
-        lpw.setBackgroundDrawable(new ColorDrawable(sharedPrefs.getInt("ct_sendbarBackground", getResources().getColor(R.color.white))));
+        lpw.setBackgroundDrawable(new ColorDrawable(sharedPrefs.getInt("ct_conversationListBackground", getResources().getColor(R.color.light_silver))));
 
         lpw.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override

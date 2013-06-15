@@ -478,7 +478,6 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
         btDate.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 showDialog(DATE_DIALOG_ID);
                 btTime.setEnabled(true);
             }
@@ -529,8 +528,10 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
     protected Dialog onCreateDialog(int id) {
         switch (id) {
             case DATE_DIALOG_ID:
-                return new DatePickerDialog(this, reservationDate, currentYear,
+                DatePickerDialog dialog = new DatePickerDialog(this, reservationDate, currentYear,
                         currentMonth, currentDay);
+                dialog.getDatePicker().setCalendarViewShown(false);
+                return dialog;
             case TIME_DIALOG_ID:
                 return new TimePickerDialog(this, timeDate, currentHour, currentMinute, false);
         }
