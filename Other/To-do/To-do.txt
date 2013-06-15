@@ -6,7 +6,6 @@ Version 6.30
     ? implement monthly feature (don't know about his though with the different month lengths... right now i have none, daily, weekly, and yearly, all set amounts of time...) I figure i won't worry about leap years because in four years when we have one, no one is going to care about or app anymore hahaha lets be honest
 - Drafts
 - Message Locking?
-- ListPopup in app
 
 0) more individual notification options
 1) Draft system
