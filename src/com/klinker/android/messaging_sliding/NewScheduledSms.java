@@ -3,6 +3,7 @@ package com.klinker.android.messaging_sliding;
 import android.annotation.SuppressLint;
 import android.app.*;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Point;
@@ -70,10 +71,17 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
     public ArrayList<String> contactNames, contactNumbers, contactTypes;
     public ArrayList<String[]> data;
 
+    String startNumber;
+    String startDate;
+    String startRepeat;
+    String startMessage;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.scheduled_sms_activity);
+
+        Intent intent = getIntent();
 
         sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
@@ -82,6 +90,22 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
         data = readFromFile(context);
 
         mEditText = (EditText) findViewById(R.id.messageEntry2);
+
+        startNumber = intent.getStringExtra(ScheduledSms.EXTRA_NUMBER);
+        startDate = intent.getStringExtra(ScheduledSms.EXTRA_DATE);
+        startRepeat = intent.getStringExtra(ScheduledSms.EXTRA_REPEAT);
+        startMessage = intent.getStringExtra(ScheduledSms.EXTRA_MESSAGE);
+
+        int spinnerIndex;
+
+        if (startRepeat.equals("0") || startRepeat.equals(""))
+            spinnerIndex = 0;
+        else if (startRepeat.equals("86400000"))
+            spinnerIndex = 1;
+        else if (startRepeat.equals("604800000"))
+            spinnerIndex = 2;
+        else
+            spinnerIndex = 3;
 
         final Calendar c = Calendar.getInstance();
         currentYear = c.get(Calendar.YEAR);
@@ -97,7 +121,41 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
         btDate = (Button) findViewById(R.id.setDate);
         btTime = (Button) findViewById(R.id.setTime);
 
-        btTime.setEnabled(false);
+        contactSearch = (EditText) findViewById(R.id.contactEntry);
+        contactSearch.requestFocus();
+
+        if(!startDate.equals(""))
+        {
+            setDate = new Date (Long.parseLong(startDate));
+            timeDone = true;
+            btTime.setEnabled(true);
+        } else
+        {
+            btTime.setEnabled(false);
+        }
+
+        contactSearch.setText(startNumber);
+        mEditText.setText(startMessage);
+
+        if (!startDate.equals(""))
+        {
+            Date startDateObj = new Date(Long.parseLong(startDate));
+            if (sharedPrefs.getBoolean("hour_format", false))
+            {
+                timeDisplay.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(startDateObj));
+            } else
+            {
+                timeDisplay.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(startDateObj));
+            }
+
+            if (sharedPrefs.getBoolean("hour_format", false))
+            {
+                dateDisplay.setText(DateFormat.getDateInstance(DateFormat.SHORT, Locale.GERMAN).format(startDateObj));
+            } else
+            {
+                dateDisplay.setText(DateFormat.getDateInstance(DateFormat.SHORT, Locale.US).format(startDateObj));
+            }
+        }
 
         lpw = new ListPopupWindow(NewScheduledSms.this);
 
@@ -137,11 +195,9 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
 
+        spinner.setSelection(spinnerIndex);
+
         spinner.setOnItemSelectedListener(this);
-
-        contactSearch = (EditText) findViewById(R.id.contactEntry);
-
-        contactSearch.requestFocus();
 
         // brings up the pop up window for contact search
         contactSearch.addTextChangedListener(new TextWatcher() {
@@ -575,10 +631,11 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
     // including the alarm manager and writing the files to the database to save them
     public boolean doneClick()
     {
+
         // just checks contact and message boxes now, need to check date and time as well
         if (!contactSearch.getText().toString().equals("") && !mEditText.getText().toString().equals("") && timeDone)
         {
-            String[] details = new String[4];
+            String[] details = new String[5];
             details[0] = contactSearch.getText().toString();
             details[1] = "" + setDate.getTime();
 
@@ -593,10 +650,28 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
 
             details[3] = mEditText.getText().toString();
 
-            data.add(details);
+            if (details[0].equals(startNumber) && details[1].equals(startDate) && details[2].equals(startRepeat) && details[3].equals(startMessage))
+            {
+                writeToFile(data, this);
+                finish();
+            } else
+            {
+                for (int i = 0; i < data.size(); i++)
+                {
+                    String[] detail = data.get(i);
 
-            writeToFile(data, this);
-            finish(); // just finishes activity for now, not doing anything. Implementation needed.
+                    if (detail[0].equals(startNumber) && detail[1].equals(startDate) && detail[2].equals(startRepeat) && detail[3].equals(startMessage))
+                    {
+                        data.remove(i);
+                        break;
+                    }
+                }
+                data.add(details);
+
+                writeToFile(data, this);
+                finish(); // just finishes activity for now, not doing anything. Implementation needed.
+            }
+
         }else
         {
             Context context = getApplicationContext();
@@ -668,13 +743,16 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
 
             for (int i = 0; i < data.size(); i++)
             {
-                String[] details = data.get(i);
+                boolean isOriginal = data.get(i)[0].equals(startNumber) && data.get(i)[1].equals(startDate) && data.get(i)[2].equals(startRepeat) && data.get(i)[3].equals(startMessage);
+                //if((isOriginal))
+                //{
+                    String[] details = data.get(i);
 
-                for (int j = 0; j < 4; j++)
-                {
-                    outputStreamWriter.write(details[j] + "\n");
-                }
-
+                    for (int j = 0; j < 4; j++)
+                    {
+                        outputStreamWriter.write(details[j] + "\n");
+                    }
+                //}
 
             }
 
