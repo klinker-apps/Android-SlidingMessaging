@@ -1,6 +1,7 @@
 package com.klinker.android.messaging_sliding;
 
 import android.app.*;
+import android.graphics.*;
 import android.os.*;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.*;
@@ -65,13 +66,8 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Bitmap.Config;
-import android.graphics.Matrix;
 import android.graphics.PorterDuff.Mode;
-import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -2284,8 +2280,39 @@ s
 			mEditText.setImeOptions(EditorInfo.IME_ACTION_NONE);
 		}
 		
-		final Context context = (Context) this;
+		final Context context = this;
 		final EditText contact = (EditText) newMessageView.findViewById(R.id.contactEntry);
+
+        final ListPopupWindow lpw = new ListPopupWindow(this);
+        lpw.setBackgroundDrawable(new ColorDrawable(sharedPrefs.getInt("ct_conversationListBackground", getResources().getColor(R.color.light_silver))));
+
+        lpw.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1,
+                                    int position, long arg3) {
+                TextView view2 = (TextView) arg1.findViewById(R.id.receivedMessage);
+
+                String[] t1 = contact.getText().toString().split("; ");
+                String string = "";
+
+                for (int i = 0; i < t1.length - 1; i++)
+                {
+                    string += t1[i] + "; ";
+                }
+
+                contact.setText(string + view2.getText() + "; ");
+                contact.setSelection(contact.getText().length());
+                lpw.dismiss();
+                firstContactSearch = true;
+
+                if (contact.getText().length() <= 13)
+                {
+                    mEditText.requestFocus();
+                }
+            }
+
+        });
 
         contactLister.setOnClickListener(new OnClickListener() {
             @Override
@@ -2327,37 +2354,17 @@ s
 
                 people.close();
 
-                ListView searchView = (ListView) newMessageView.findViewById(R.id.contactSearch);
-                ContactSearchArrayAdapter adapter;
-                adapter = new ContactSearchArrayAdapter((Activity)context, contactNames, contactNumbers, contactTypes);
-                searchView.setAdapter(adapter);
+                Display display = getWindowManager().getDefaultDisplay();
+                Point size = new Point();
+                display.getSize(size);
+                int width = size.x;
+                int height = size.y;
 
-                searchView.setOnItemClickListener(new OnItemClickListener() {
-
-                    @Override
-                    public void onItemClick(AdapterView<?> arg0, View arg1,
-                                            int position, long arg3) {
-                        TextView view2 = (TextView) arg1.findViewById(R.id.receivedMessage);
-
-                        String[] t1 = contact.getText().toString().split("; ");
-                        String string = "";
-
-                        for (int i = 0; i < t1.length - 1; i++)
-                        {
-                            string += t1[i] + "; ";
-                        }
-
-                        contact.setText(string + view2.getText() + "; ");
-                        contact.setSelection(contact.getText().toString().length());
-
-                        if (contact.getText().toString().length() <= 12)
-                        {
-                            mEditText.requestFocus();
-                        }
-
-                    }
-
-                });
+                lpw.setAdapter(new ContactSearchArrayAdapter((Activity)context, contactNames, contactNumbers, contactTypes));
+                lpw.setAnchorView(contact);
+                lpw.setWidth(width - 20); // TODO better sizing
+                lpw.setHeight(height/3);
+                lpw.show();
             }
         });
 
@@ -2405,8 +2412,6 @@ s
 	        		{
 	        			
 	        		}
-	        		
-	        		firstContactSearch = false;
 	        	}
 	        }
 
@@ -2473,46 +2478,29 @@ s
 				        }
 			    	}
 			    }
-	        	
-		        ListView searchView = (ListView) newMessageView.findViewById(R.id.contactSearch);
-		        ContactSearchArrayAdapter adapter;
-		        
-		        if (text.length() != 0)
-		        {
-	        		adapter = new ContactSearchArrayAdapter((Activity)context, searchedNames, searchedNumbers, searchedTypes);
-		        } else
-		        {
-	        		adapter = new ContactSearchArrayAdapter((Activity)context, new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>());
-		        }
-	        	
-	        	searchView.setAdapter(adapter);
-	        	
-	        	searchView.setOnItemClickListener(new OnItemClickListener() {
 
-					@Override
-					public void onItemClick(AdapterView<?> arg0, View arg1,
-							int position, long arg3) {
-						TextView view2 = (TextView) arg1.findViewById(R.id.receivedMessage);
-						
-						String[] t1 = contact.getText().toString().split("; ");
-						String string = "";
-						
-						for (int i = 0; i < t1.length - 1; i++)
-						{
-							string += t1[i] + "; ";
-						}
-						
-						contact.setText(string + view2.getText() + "; ");
-						contact.setSelection(contact.getText().toString().length());
-						
-						if (contact.getText().toString().length() <= 12)
-						{
-							mEditText.requestFocus();
-						}
-						
-					}
-	        		
-	        	});
+                Display display = getWindowManager().getDefaultDisplay();
+                Point size = new Point();
+                display.getSize(size);
+                int width = size.x;
+                int height = size.y;
+
+                lpw.setAdapter(new ContactSearchArrayAdapter((Activity)context, searchedNames, searchedNumbers, searchedTypes));
+                lpw.setAnchorView(findViewById(R.id.contactEntry));
+                lpw.setWidth(width - 20); // TODO better sizing
+                lpw.setHeight(height/3);
+
+                if (firstContactSearch)
+                {
+                    lpw.show();
+                    firstContactSearch = false;
+                }
+
+                if (text.length() == 0)
+                {
+                    lpw.dismiss();
+                    firstContactSearch = true;
+                }
 	        }
 
 	        public void afterTextChanged(Editable s) {
@@ -3510,70 +3498,63 @@ s
         
         menu.setOnOpenedListener(new SlidingMenu.OnOpenedListener() {
 
-			@Override
-			public void onOpened() {
-				invalidateOptionsMenu();
-				
-				if (menu.isSecondaryMenuShowing())
-				{
-					contact.requestFocus();
-				}
-				
-					ActionBar ab = getActionBar();
-					ab.setTitle(R.string.app_name_in_app);
-					ab.setSubtitle(null);
-					ab.setIcon(R.drawable.ic_launcher);
-					
-					ab.setDisplayHomeAsUpEnabled(false);
-					
-					if (menu.isMenuShowing() && !menu.isSecondaryMenuShowing())
-					{
-						InputMethodManager imm = (InputMethodManager)getSystemService(
-							      Context.INPUT_METHOD_SERVICE);
-							imm.hideSoftInputFromWindow(mEditText.getWindowToken(), 0);
-					}
-					
-					if (menu.isMenuShowing() && menu.isSecondaryMenuShowing())
-					{
-						InputMethodManager imm = (InputMethodManager)getSystemService(
-							      Context.INPUT_METHOD_SERVICE);
-						imm.showSoftInput(contact, 0);
-					}
-			}
-        	
+            @Override
+            public void onOpened() {
+                invalidateOptionsMenu();
+
+                if (menu.isSecondaryMenuShowing()) {
+                    contact.requestFocus();
+                }
+
+                ActionBar ab = getActionBar();
+                ab.setTitle(R.string.app_name_in_app);
+                ab.setSubtitle(null);
+                ab.setIcon(R.drawable.ic_launcher);
+
+                ab.setDisplayHomeAsUpEnabled(false);
+
+                if (menu.isMenuShowing() && !menu.isSecondaryMenuShowing()) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(
+                            Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(mEditText.getWindowToken(), 0);
+                }
+
+                if (menu.isMenuShowing() && menu.isSecondaryMenuShowing()) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(
+                            Context.INPUT_METHOD_SERVICE);
+                    imm.showSoftInput(contact, 0);
+                }
+            }
+
         });
         
         menu.setOnClosedListener(new SlidingMenu.OnClosedListener() {
 
-			@Override
-			public void onClosed() {
-				
-				invalidateOptionsMenu();
+            @Override
+            public void onClosed() {
 
-                if (deviceType.equals("phone") || deviceType.equals("phablet2"))
-                {
-				    getActionBar().setDisplayHomeAsUpEnabled(true);
+                invalidateOptionsMenu();
+
+                if (deviceType.equals("phone") || deviceType.equals("phablet2")) {
+                    getActionBar().setDisplayHomeAsUpEnabled(true);
                 }
-				
-				if (!sharedPrefs.getBoolean("hide_title_bar", true) || sharedPrefs.getBoolean("always_show_contact_info", false))
-				{
-					final ActionBar ab = getActionBar();
-					
-					try
-					{
-						new Thread(new Runnable() {
 
-							@Override
-							public void run() {
-								if (inboxNumber.size() != 0)
-								{
-									final String title = findContactName(inboxNumber.get(mViewPager.getCurrentItem()), context);
-									
-									((MainActivity)context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-	
-					    				@Override
-					    				public void run() {
-					    					ab.setTitle(title);
+                if (!sharedPrefs.getBoolean("hide_title_bar", true) || sharedPrefs.getBoolean("always_show_contact_info", false)) {
+                    final ActionBar ab = getActionBar();
+
+                    try {
+                        new Thread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                if (inboxNumber.size() != 0) {
+                                    final String title = findContactName(inboxNumber.get(mViewPager.getCurrentItem()), context);
+
+                                    ((MainActivity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                                        @Override
+                                        public void run() {
+                                            ab.setTitle(title);
 
                                             Locale sCachedLocale = Locale.getDefault();
                                             int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
@@ -3581,44 +3562,39 @@ s
                                             PhoneNumberUtils.formatNumber(editable, sFormatType);
                                             ab.setSubtitle(editable.toString());
 
-                                            if (ab.getTitle().equals(ab.getSubtitle()))
-                                            {
+                                            if (ab.getTitle().equals(ab.getSubtitle())) {
                                                 ab.setSubtitle(null);
                                             }
 
-                                            if (group.get(mViewPager.getCurrentItem()).equals("yes"))
-                                            {
+                                            if (group.get(mViewPager.getCurrentItem()).equals("yes")) {
                                                 ab.setTitle("Group MMS");
                                                 ab.setSubtitle(null);
                                             }
-					    				}
-					    		    	
-					    		    });
-								}
-							}
-							
-						}).start();
-					} catch (Exception e)
-					{
-						ab.setTitle(R.string.app_name_in_app);
-						ab.setIcon(R.drawable.ic_launcher);
-					}
-				}
-				
-				if (sharedPrefs.getBoolean("title_contact_image", false))
-		        {
-		        	final ActionBar ab = getActionBar();
-		        	
-		        	new Thread(new Runnable() {
+                                        }
 
-						@Override
-						public void run() {
-                            if (inboxNumber.size() != 0)
-                            {
+                                    });
+                                }
+                            }
+
+                        }).start();
+                    } catch (Exception e) {
+                        ab.setTitle(R.string.app_name_in_app);
+                        ab.setIcon(R.drawable.ic_launcher);
+                    }
+                }
+
+                if (sharedPrefs.getBoolean("title_contact_image", false)) {
+                    final ActionBar ab = getActionBar();
+
+                    new Thread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            if (inboxNumber.size() != 0) {
                                 Bitmap image = getFacebookPhoto(inboxNumber.get(mViewPager.getCurrentItem()), context);
                                 final BitmapDrawable image2 = new BitmapDrawable(image);
 
-                                ((MainActivity)context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+                                ((MainActivity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 
                                     @Override
                                     public void run() {
@@ -3627,21 +3603,20 @@ s
 
                                 });
                             }
-							
-						}
-		        		
-		        	}).start();
-			    	
-			    	if (threadIds.size() == 0)
-			    	{
-			    		ab.setIcon(R.drawable.ic_launcher);
-			    	}
-		        }
-				
-				EditText textEntry = (EditText) findViewById(R.id.messageEntry);
-				textEntry.requestFocus();
-			}
-        
+
+                        }
+
+                    }).start();
+
+                    if (threadIds.size() == 0) {
+                        ab.setIcon(R.drawable.ic_launcher);
+                    }
+                }
+
+                EditText textEntry = (EditText) findViewById(R.id.messageEntry);
+                textEntry.requestFocus();
+            }
+
         });
         
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener()
