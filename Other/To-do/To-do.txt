@@ -1,5 +1,6 @@
 Version 6.30
 - Scheduled SMS
+    - Hide calendar view in date picker dialog
     - Notifications
     - alarm manager
     - send the messages
