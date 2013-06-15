@@ -734,6 +734,16 @@ public class QuickReply extends FragmentActivity {
                     keyboard.showSoftInput(messageEntry, 0);
                 }
             },500);
+        } else
+        {
+            messageEntry.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    InputMethodManager imm = (InputMethodManager)getSystemService(
+                            Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(messageEntry.getWindowToken(), 0);
+                }
+            },500);
         }
 
         charsRemaining.setVisibility(View.GONE);
