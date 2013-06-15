@@ -8,9 +8,8 @@ import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.view.ViewPager;
 import android.view.*;
 import android.widget.*;
-import com.haarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
-import com.klinker.android.messaging_card.BatchDeleteActivity;
+import com.klinker.android.messaging_card.batch_delete.BatchDeleteActivity;
 import com.klinker.android.messaging_donate.*;
 
 import java.io.BufferedReader;
@@ -116,6 +115,22 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.RelativeLayout.LayoutParams;
+import com.klinker.android.messaging_donate.receivers.DeliveredReceiver;
+import com.klinker.android.messaging_donate.receivers.DisconnectWifi;
+import com.klinker.android.messaging_donate.receivers.SentReceiver;
+import com.klinker.android.messaging_donate.settings.MmsSettingsActivity;
+import com.klinker.android.messaging_donate.settings.SettingsPagerActivity;
+import com.klinker.android.messaging_sliding.custom_dialogs.CustomListView;
+import com.klinker.android.messaging_sliding.emojis.EmojiAdapter;
+import com.klinker.android.messaging_sliding.emojis.EmojiAdapter2;
+import com.klinker.android.messaging_sliding.emojis.EmojiConverter;
+import com.klinker.android.messaging_sliding.emojis.EmojiConverter2;
+import com.klinker.android.messaging_sliding.receivers.NotificationReceiver;
+import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
+import com.klinker.android.messaging_sliding.receivers.QuickTextService;
+import com.klinker.android.messaging_sliding.security.PasswordActivity;
+import com.klinker.android.messaging_sliding.security.PinActivity;
+import com.klinker.android.messaging_sliding.templates.TemplateArrayAdapter;
 import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 
@@ -2663,7 +2678,7 @@ s
 										    	            (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 										    	        
 										    	        Notification notification = mBuilder.build();
-										    	        Intent deleteIntent = new Intent(context, NotificationReceiver.class); 
+										    	        Intent deleteIntent = new Intent(context, NotificationReceiver.class);
 										    	        notification.deleteIntent = PendingIntent.getBroadcast(context, 0, deleteIntent, 0);
 										    	        mNotificationManager.notify(1, notification);
 								                        break;

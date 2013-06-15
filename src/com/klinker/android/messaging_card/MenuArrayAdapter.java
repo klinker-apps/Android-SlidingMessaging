@@ -1,5 +1,6 @@
 package com.klinker.android.messaging_card;
 
+import com.klinker.android.messaging_card.group.GroupActivity;
 import com.klinker.android.messaging_donate.R;
 
 import java.io.BufferedReader;
@@ -14,11 +15,11 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.klinker.android.messaging_sliding.EmojiConverter;
-import com.klinker.android.messaging_sliding.EmojiConverter2;
-import com.klinker.android.messaging_sliding.EmoticonConverter;
-import com.klinker.android.messaging_sliding.EmoticonConverter2;
-import com.klinker.android.messaging_sliding.EmoticonConverter3;
+import com.klinker.android.messaging_sliding.emojis.EmojiConverter;
+import com.klinker.android.messaging_sliding.emojis.EmojiConverter2;
+import com.klinker.android.messaging_sliding.emojis.EmoticonConverter;
+import com.klinker.android.messaging_sliding.emojis.EmoticonConverter2;
+import com.klinker.android.messaging_sliding.emojis.EmoticonConverter3;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;

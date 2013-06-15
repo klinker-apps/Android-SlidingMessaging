@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal" >
 
-    <com.klinker.android.messaging_sliding.CustomListView
+    <com.klinker.android.messaging_sliding.custom_dialogs.CustomListView
         android:id="@+id/fontListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,7 +14,7 @@
         android:background="@null"
         android:paddingBottom="1dp" >
 
-    </com.klinker.android.messaging_sliding.CustomListView>
+    </com.klinker.android.messaging_sliding.custom_dialogs.CustomListView>
 
     <TextView
         android:id="@+id/groupList"

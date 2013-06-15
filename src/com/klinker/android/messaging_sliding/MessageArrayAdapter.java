@@ -10,7 +10,7 @@ import com.google.android.mms.APNHelper;
 import com.google.android.mms.pdu.PduParser;
 import com.google.android.mms.pdu.PduPersister;
 import com.google.android.mms.pdu.RetrieveConf;
-import com.klinker.android.messaging_donate.DisconnectWifi;
+import com.klinker.android.messaging_donate.receivers.DisconnectWifi;
 import com.klinker.android.messaging_donate.R;
 
 import java.io.BufferedReader;
@@ -97,6 +97,9 @@ import android.widget.QuickContactBadge;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.klinker.android.messaging_donate.StripAccents;
+import com.klinker.android.messaging_sliding.emojis.*;
+import com.klinker.android.messaging_sliding.receivers.NotificationReceiver;
 
 public class MessageArrayAdapter extends ArrayAdapter<String> {
   private final Activity context;
@@ -2222,7 +2225,7 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
 													    	            (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 													    	        
 													    	        Notification notification = mBuilder.build();
-													    	        Intent deleteIntent = new Intent(context, NotificationReceiver.class); 
+													    	        Intent deleteIntent = new Intent(context, NotificationReceiver.class);
 													    	        notification.deleteIntent = PendingIntent.getBroadcast(context, 0, deleteIntent, 0);
 													    	        mNotificationManager.notify(1, notification);
 											                        break;

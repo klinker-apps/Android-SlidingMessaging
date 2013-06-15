@@ -1,7 +1,7 @@
 package com.klinker.android.messaging_sliding.mms;
 
 public class PresetAPNs {
-	public static int CONFIRMED_APNS = 16;
+	public static int CONFIRMED_APNS = 17;
 	public static int EXPERIMENTAL_APNS = 5;
 	
 	public static String[] apns = {
@@ -21,6 +21,7 @@ public class PresetAPNs {
 		"T-Mobile_Polish--http://mms/servlets/mms, 213.158.194.226, 8080",
 		"Virgin_Mobile_Canada--http://mms.bell.ca/mms/wapenc, web.wireless.bell.ca, 80",
 		"Vodafone_UK--http://mms.vodafone.co.uk/servlets/mms, 212.183.137.012, 8799",
+        "Vodafone_Au--http://pxt.vodafone.net.au/pxtsend, 10.202.2.60, 8080",
 		
 		
 		"Boost--http://mm.myboostmobile.com, 68.28.31.7, 80",

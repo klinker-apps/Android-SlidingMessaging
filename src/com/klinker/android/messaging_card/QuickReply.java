@@ -11,10 +11,9 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import android.util.Log;
 import android.widget.*;
 import com.klinker.android.messaging_donate.R;
-import com.klinker.android.messaging_sliding.*;
+import com.klinker.android.messaging_donate.StripAccents;
 
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -69,6 +68,10 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.RelativeLayout.LayoutParams;
+import com.klinker.android.messaging_sliding.emojis.*;
+import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead2;
+import com.klinker.android.messaging_sliding.receivers.NotificationReceiver;
+import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
 
 public class QuickReply extends FragmentActivity {
 
@@ -927,7 +930,7 @@ public class QuickReply extends FragmentActivity {
 		    	            (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 		    	        
 		    	        Notification notification = mBuilder.build();
-		    	        Intent deleteIntent = new Intent(context, NotificationReceiver.class); 
+		    	        Intent deleteIntent = new Intent(context, NotificationReceiver.class);
 		    	        notification.deleteIntent = PendingIntent.getBroadcast(context, 0, deleteIntent, 0);
 		    	        mNotificationManager.notify(1, notification);
                         break;

@@ -1,7 +1,6 @@
 package com.klinker.android.messaging_sliding;
 
 import android.text.Spanned;
-import android.util.Log;
 import android.widget.RelativeLayout;
 import com.klinker.android.messaging_donate.R;
 
@@ -19,6 +18,7 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.klinker.android.messaging_sliding.emojis.*;
 import com.klinker.android.messaging_sliding.theme.CustomTheme;
 
 import android.annotation.SuppressLint;

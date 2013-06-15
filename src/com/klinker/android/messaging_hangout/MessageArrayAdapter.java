@@ -48,9 +48,12 @@ import com.google.android.mms.APNHelper;
 import com.google.android.mms.pdu.PduParser;
 import com.google.android.mms.pdu.PduPersister;
 import com.google.android.mms.pdu.RetrieveConf;
-import com.klinker.android.messaging_donate.DisconnectWifi;
+import com.klinker.android.messaging_donate.receivers.DisconnectWifi;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_donate.StripAccents;
 import com.klinker.android.messaging_sliding.*;
+import com.klinker.android.messaging_sliding.emojis.*;
+import com.klinker.android.messaging_sliding.receivers.NotificationReceiver;
 
 import java.io.*;
 import java.text.DateFormat;

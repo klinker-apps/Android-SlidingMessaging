@@ -42,7 +42,7 @@
 	    	android:entryValues="@array/textColorsInserted"
 	    />
 	    
-	    <com.klinker.android.messaging_sliding.SeekBarPreference
+	    <com.klinker.android.messaging_sliding.custom_dialogs.SeekBarPreference
 	        android:key="text_opacity"
 	        android:title="@string/text_opacity"
 	        android:summary="@string/text_opacity_summary"
