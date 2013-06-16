@@ -317,18 +317,18 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
       final ViewHolder holder = preHolder;
 	  
 	  boolean sent = false;
-	  boolean mms = false;
-	  String image = "";
+	  boolean mms;
+	  String image;
 	  String video = "";
-	  String body = "";
-	  String date = "";
-	  String id = "";
+	  String body;
+	  String date;
+	  String id;
 	  boolean sending = false;
 	  boolean error = false;
 	  boolean group = false;
 	  String sender = "";
 	  String status = "-1";
-	  String location = "";
+	  String location;
 	  
 	  String dateType = "date";
 	  
