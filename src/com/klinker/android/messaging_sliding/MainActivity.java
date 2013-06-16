@@ -719,30 +719,6 @@ s
 
 		setUpSendbar();
 	}
-/*
-    public void onDestroy()
-    {
-        super.onDestroy();
-
-        Context context = getApplicationContext();
-        CharSequence text = "Destroy";
-        int duration = Toast.LENGTH_SHORT;
-
-        Toast toast = Toast.makeText(context, text, duration);
-        toast.show();
-
-        long currentTime = System.currentTimeMillis();
-        long lastTime = sharedPrefs.getLong("last_time", 0);
-
-        if (currentTime - lastTime > 10000)
-        {
-            SharedPreferences.Editor prefEdit = sharedPrefs.edit();
-
-            prefEdit.commit();
-        }
-
-    }
-*/
 
 	public void refreshMessages(boolean totalRefresh)
 	{
@@ -7125,7 +7101,8 @@ s
         @Override
         public void onLoaderReset(Loader<Cursor> loader)
         {
-
+            // TODO experiment with this and battery life maybe
+            getSupportLoaderManager().restartLoader(position, null, this);
         }
 	}
 	
