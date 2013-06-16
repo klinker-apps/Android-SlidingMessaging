@@ -51,6 +51,7 @@ public class CatalogWizardModel extends AbstractWizardModel {
 
         String changeLog = "Version " + version + ":\n\n" +
                 "- Fixes to WiFi MMS workaround, will now enable mobile data connection while sending and receiving MMS\n" +
+                "- Option to receive MMS through stock if you are having problems receiving\n" +
                 "- Bug fixes\n\n";
 
 

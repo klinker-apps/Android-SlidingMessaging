@@ -38,7 +38,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 
 import com.klinker.android.messaging_donate.R;
-import com.klinker.android.messaging_sliding.TemplateArrayAdapter;
+import com.klinker.android.messaging_sliding.templates.TemplateArrayAdapter;
 
 public class BlacklistActivity extends Activity {
 	

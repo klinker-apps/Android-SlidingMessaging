@@ -26,6 +26,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -104,7 +105,7 @@
         </activity>
         
         <activity
-            android:name="com.klinker.android.messaging_sliding.QuickReply"
+            android:name="com.klinker.android.messaging_sliding.quick_reply.QuickReply"
             android:label="@string/quick_reply"
             android:theme="@android:style/Theme.Dialog"
             android:launchMode="singleTop"
@@ -130,7 +131,7 @@
         </activity>
 
         <activity
-            android:name="com.klinker.android.messaging_sliding.SettingsPagerActivity"
+            android:name=".settings.SettingsPagerActivity"
             android:label="@string/menu_settings"
             android:theme="@style/SettingsTheme"
             android:excludeFromRecents="true"
@@ -138,7 +139,7 @@
         </activity>
         
         <activity
-            android:name="com.klinker.android.messaging_sliding.TitleBarSettingsActivity"
+            android:name=".settings.TitleBarSettingsActivity"
             android:label="@string/title_bar_settings"
             android:theme="@style/SettingsTheme" >
         </activity>
@@ -156,7 +157,7 @@
         </activity>
 
         <activity
-            android:name="com.klinker.android.messaging_sliding.MmsSettingsActivity"
+            android:name=".settings.MmsSettingsActivity"
             android:label="@string/mms_settings"
             android:theme="@style/SettingsTheme" >
         </activity>
@@ -187,25 +188,25 @@
         </activity>
         
         <activity
-            android:name="com.klinker.android.messaging_sliding.ThemeChooserActivity"
+            android:name=".settings.ThemeChooserActivity"
             android:label="@string/theme_chooser_prefs"
             android:theme="@style/SettingsTheme" >
         </activity>
         
         <activity 
-            android:name="com.klinker.android.messaging_card.GroupActivity"
+            android:name="com.klinker.android.messaging_card.group.GroupActivity"
             android:excludeFromRecents="true"
             android:theme="@style/CardTheme" >
         </activity>
         
         <activity
-            android:name="com.klinker.android.messaging_card.BatchDeleteActivity"
+            android:name="com.klinker.android.messaging_card.batch_delete.BatchDeleteActivity"
             android:excludeFromRecents="true"
             android:theme="@style/CardTheme" >
         </activity>
         
         <activity 
-            android:name="com.klinker.android.messaging_sliding.TemplateActivity"
+            android:name="com.klinker.android.messaging_sliding.templates.TemplateActivity"
             android:excludeFromRecents="true"
             android:theme="@style/SettingsTheme" >
         </activity>
@@ -244,11 +245,11 @@
         </activity>
 
         <activity
-            android:name="com.klinker.android.messaging_donate.WidgetProxyActivity" >
+            android:name=".widget.WidgetProxyActivity" >
         </activity>
         
         <activity 
-            android:name="com.klinker.android.messaging_sliding.SendMessage"
+            android:name="com.klinker.android.messaging_sliding.quick_reply.SendMessage"
             android:label="@string/app_name"
             android:theme="@style/QuickSendTheme"
             android:launchMode="singleTop"
@@ -273,34 +274,34 @@
         </activity>
 
         <activity
-            android:name="com.klinker.android.messaging_sliding.PinActivity"
+            android:name="com.klinker.android.messaging_sliding.security.PinActivity"
             android:label="@string/app_name"
             android:theme="@style/WizardTheme" >
         </activity>
 
         <activity
-                android:name="com.klinker.android.messaging_sliding.SetPinActivity"
+                android:name="com.klinker.android.messaging_sliding.security.SetPinActivity"
                 android:label="@string/app_name"
                 android:theme="@style/WizardTheme"
                  >
         </activity>
 
         <activity
-                android:name="com.klinker.android.messaging_sliding.PasswordActivity"
+                android:name="com.klinker.android.messaging_sliding.security.PasswordActivity"
                 android:label="@string/app_name"
                 android:theme="@style/WizardTheme"
                 android:windowSoftInputMode="stateVisible|adjustResize" >
         </activity>
 
         <activity
-            android:name="com.klinker.android.messaging_sliding.SetPasswordActivity"
+            android:name="com.klinker.android.messaging_sliding.security.SetPasswordActivity"
             android:label="@string/app_name"
             android:theme="@style/WizardTheme"
             android:windowSoftInputMode="stateVisible|adjustResize">
         </activity>
 
         <activity
-                android:name="com.klinker.android.messaging_sliding.NewScheduledSms"
+                android:name="com.klinker.android.messaging_sliding.scheduled.NewScheduledSms"
                 android:label="@string/app_name"
                 android:excludeFromRecents="true"
                 android:theme="@style/WizardTheme"
@@ -308,21 +309,21 @@
         </activity>
 
         <activity
-                android:name="com.klinker.android.messaging_sliding.ScheduledSms"
+                android:name="com.klinker.android.messaging_sliding.scheduled.ScheduledSms"
                 android:excludeFromRecents="true"
                 android:theme="@style/SettingsTheme" >
         </activity>
 
         <service 
-            android:name="com.klinker.android.messaging_sliding.QmMarkRead2" >
+            android:name="com.klinker.android.messaging_sliding.quick_reply.QmMarkRead2" >
         </service>
         
         <service 
-            android:name="com.klinker.android.messaging_sliding.QmDelete" >
+            android:name="com.klinker.android.messaging_sliding.quick_reply.QmDelete" >
         </service>
 
         <service
-            android:name="com.klinker.android.messaging_sliding.QuickTextService" >
+            android:name="com.klinker.android.messaging_sliding.receivers.QuickTextService" >
         </service>
 
         <service
@@ -330,19 +331,15 @@
         </service>
         
         <service
-            android:name="com.klinker.android.messaging_sliding.ConversationSaverService" >
+            android:name="com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService" >
         </service>
         
         <service
-            android:name="com.klinker.android.messaging_sliding.NotificationRepeaterService" >
-        </service>
-        
-        <service
-            android:name="com.klinker.android.messaging_donate.CardWidgetProvider$CardWidgetService2" >
+            android:name=".widget.CardWidgetProvider$CardWidgetService2" >
         </service>
 
         <service
-            android:name="com.klinker.android.messaging_donate.CardWidgetProvider2$CardWidgetService3" >
+            android:name=".widget.CardWidgetProvider2$CardWidgetService3" >
         </service>
         
         <service android:name=".MessageDashClockExtension"
@@ -365,14 +362,14 @@
             android:theme="@style/SettingsTheme"
             android:exported="true" />
         
-        <receiver android:name="com.klinker.android.messaging_sliding.TextMessageReceiver" > 
+        <receiver android:name="com.klinker.android.messaging_sliding.receivers.TextMessageReceiver" >
             <intent-filter android:priority="2"> 
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
                 <category android:name="android.intent.category.HOME" />
             </intent-filter> 
         </receiver>
         
-        <receiver android:name="com.klinker.android.messaging_sliding.MMSMessageReceiver"
+        <receiver android:name="com.klinker.android.messaging_sliding.receivers.MMSMessageReceiver"
             	  android:permission="android.permission.BROADCAST_WAP_PUSH" > 
             <intent-filter android:priority="2"> 
                 <action android:name="android.provider.Telephony.WAP_PUSH_RECEIVED" />
@@ -381,32 +378,32 @@
             </intent-filter> 
         </receiver>
         
-        <receiver android:name=".SentReceiver" > 
+        <receiver android:name=".receivers.SentReceiver" >
             <intent-filter android:priority="-10"> 
                 <action android:name="SMS_SENT" />
                 <category android:name="android.intent.category.HOME" />
             </intent-filter> 
         </receiver>
         
-        <receiver android:name=".DeliveredReceiver" > 
+        <receiver android:name=".receivers.DeliveredReceiver" >
             <intent-filter android:priority="-10"> 
                 <action android:name="SMS_DELIVERED" />
                 <category android:name="android.intent.category.HOME" />
             </intent-filter> 
         </receiver>
         
-        <receiver android:name="com.klinker.android.messaging_sliding.NotificationReceiver" > 
+        <receiver android:name="com.klinker.android.messaging_sliding.receivers.NotificationReceiver" >
             
         </receiver>
 
-        <receiver android:name="com.klinker.android.messaging_donate.UnlockReceiver"
+        <receiver android:name=".receivers.UnlockReceiver"
                   android:enabled="true" >
             <intent-filter android:enabled="true" android:exported="false">
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
         
-        <receiver android:name="com.klinker.android.messaging_sliding.OnBootReceiver"
+        <receiver android:name="com.klinker.android.messaging_sliding.receivers.OnBootReceiver"
                   android:enabled="true" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -414,7 +411,7 @@
         </receiver>
         
         
-        <receiver android:name=".CardWidgetProvider" >
+        <receiver android:name=".widget.CardWidgetProvider" >
 		    <intent-filter>
 		        <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
 		    </intent-filter>
@@ -427,7 +424,7 @@
 		               android:resource="@xml/card_widget" />
 		</receiver>
 
-        <receiver android:name=".CardWidgetProvider2" >
+        <receiver android:name=".widget.CardWidgetProvider2" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -440,10 +437,10 @@
                        android:resource="@xml/unread_widget" />
         </receiver>
 		
-        <service android:name=".CardWidgetService"
+        <service android:name=".widget.CardWidgetService"
 			android:permission="android.permission.BIND_REMOTEVIEWS" />
         
-        <activity android:name=".CardWidgetSettingsActivity"
+        <activity android:name=".widget.CardWidgetSettingsActivity"
                 android:theme="@android:style/Theme.Holo"
                 android:allowTaskReparenting="false"
                 android:taskAffinity="">

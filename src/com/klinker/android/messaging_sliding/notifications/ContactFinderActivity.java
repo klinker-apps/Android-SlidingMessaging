@@ -27,7 +27,7 @@ import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.klinker.android.messaging_donate.R;
-import com.klinker.android.messaging_sliding.TemplateArrayAdapter;
+import com.klinker.android.messaging_sliding.templates.TemplateArrayAdapter;
 
 public class ContactFinderActivity extends Activity {
 	

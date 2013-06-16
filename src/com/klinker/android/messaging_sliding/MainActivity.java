@@ -1,16 +1,21 @@
 package com.klinker.android.messaging_sliding;
 
 import android.app.*;
+import android.content.*;
+import android.content.CursorLoader;
+import android.graphics.*;
 import android.os.*;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.*;
+import android.support.v4.app.LoaderManager;
 import android.support.v4.app.TaskStackBuilder;
+import android.support.v4.content.*;
+import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
 import android.view.*;
 import android.widget.*;
-import com.haarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
-import com.klinker.android.messaging_card.BatchDeleteActivity;
+import com.klinker.android.messaging_card.batch_delete.BatchDeleteActivity;
 import com.klinker.android.messaging_donate.*;
 
 import java.io.BufferedReader;
@@ -48,31 +53,14 @@ import com.google.android.mms.pdu.PduPart;
 import com.google.android.mms.pdu.SendReq;
 
 import android.annotation.SuppressLint;
-import android.content.BroadcastReceiver;
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.ComponentName;
-import android.content.ContentResolver;
-import android.content.ContentUris;
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Bitmap.Config;
-import android.graphics.Matrix;
 import android.graphics.PorterDuff.Mode;
-import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -116,6 +104,22 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.RelativeLayout.LayoutParams;
+import com.klinker.android.messaging_donate.receivers.DeliveredReceiver;
+import com.klinker.android.messaging_donate.receivers.DisconnectWifi;
+import com.klinker.android.messaging_donate.receivers.SentReceiver;
+import com.klinker.android.messaging_donate.settings.MmsSettingsActivity;
+import com.klinker.android.messaging_donate.settings.SettingsPagerActivity;
+import com.klinker.android.messaging_sliding.custom_dialogs.CustomListView;
+import com.klinker.android.messaging_sliding.emojis.EmojiAdapter;
+import com.klinker.android.messaging_sliding.emojis.EmojiAdapter2;
+import com.klinker.android.messaging_sliding.emojis.EmojiConverter;
+import com.klinker.android.messaging_sliding.emojis.EmojiConverter2;
+import com.klinker.android.messaging_sliding.receivers.NotificationReceiver;
+import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
+import com.klinker.android.messaging_sliding.receivers.QuickTextService;
+import com.klinker.android.messaging_sliding.security.PasswordActivity;
+import com.klinker.android.messaging_sliding.security.PinActivity;
+import com.klinker.android.messaging_sliding.templates.TemplateArrayAdapter;
 import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 
@@ -169,6 +173,7 @@ s
 	public DisconnectWifi discon;
 	public WifiInfo currentWifi;
 	public boolean currentWifiState;
+    public boolean currentDataState;
 	
 	public static int contactWidth;
 	public static String draft = "";
@@ -2268,8 +2273,71 @@ s
 			mEditText.setImeOptions(EditorInfo.IME_ACTION_NONE);
 		}
 		
-		final Context context = (Context) this;
+		final Context context = this;
 		final EditText contact = (EditText) newMessageView.findViewById(R.id.contactEntry);
+
+        final ListPopupWindow lpw = new ListPopupWindow(this);
+        lpw.setBackgroundDrawable(new ColorDrawable(sharedPrefs.getInt("ct_conversationListBackground", getResources().getColor(R.color.light_silver))));
+
+        lpw.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                final ArrayList<String> currentNames = new ArrayList<String>(), currentNumbers = new ArrayList<String>(), currentTypes = new ArrayList<String>();
+
+                String[] numbers = contact.getText().toString().split("; ");
+
+                for (int i = 0; i < numbers.length; i++)
+                {
+                    currentNumbers.add(numbers[i]);
+                    currentTypes.add("");
+                    currentNames.add(findContactName(numbers[i], context));
+                }
+
+                getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        ListView current = (ListView) newMessageView.findViewById(R.id.contactSearch);
+
+                        if (!currentNames.get(0).equals("No Information"))
+                        {
+                            current.setAdapter(new ContactSearchArrayAdapter((Activity)context, currentNames, currentNumbers, currentTypes));
+                        } else
+                        {
+                            current.setAdapter(new ContactSearchArrayAdapter((Activity)context, new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>()));
+                        }
+                    }
+
+                });
+            }
+        });
+
+        lpw.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1,
+                                    int position, long arg3) {
+
+                TextView view2 = (TextView) arg1.findViewById(R.id.receivedMessage);
+
+                String[] t1 = contact.getText().toString().split("; ");
+                String string = "";
+
+                for (int i = 0; i < t1.length - 1; i++) {
+                    string += t1[i] + "; ";
+                }
+
+                contact.setText(string + view2.getText() + "; ");
+                contact.setSelection(contact.getText().length());
+                lpw.dismiss();
+                firstContactSearch = true;
+
+                if (contact.getText().length() <= 13) {
+                    mEditText.requestFocus();
+                }
+            }
+
+        });
 
         contactLister.setOnClickListener(new OnClickListener() {
             @Override
@@ -2311,37 +2379,16 @@ s
 
                 people.close();
 
-                ListView searchView = (ListView) newMessageView.findViewById(R.id.contactSearch);
-                ContactSearchArrayAdapter adapter;
-                adapter = new ContactSearchArrayAdapter((Activity)context, contactNames, contactNumbers, contactTypes);
-                searchView.setAdapter(adapter);
+                Display display = getWindowManager().getDefaultDisplay();
+                Point size = new Point();
+                display.getSize(size);
+                int height = size.y;
 
-                searchView.setOnItemClickListener(new OnItemClickListener() {
-
-                    @Override
-                    public void onItemClick(AdapterView<?> arg0, View arg1,
-                                            int position, long arg3) {
-                        TextView view2 = (TextView) arg1.findViewById(R.id.receivedMessage);
-
-                        String[] t1 = contact.getText().toString().split("; ");
-                        String string = "";
-
-                        for (int i = 0; i < t1.length - 1; i++)
-                        {
-                            string += t1[i] + "; ";
-                        }
-
-                        contact.setText(string + view2.getText() + "; ");
-                        contact.setSelection(contact.getText().toString().length());
-
-                        if (contact.getText().toString().length() <= 12)
-                        {
-                            mEditText.requestFocus();
-                        }
-
-                    }
-
-                });
+                lpw.setAdapter(new ContactSearchArrayAdapter((Activity)context, contactNames, contactNumbers, contactTypes));
+                lpw.setAnchorView(contact);
+                lpw.setWidth(ListPopupWindow.WRAP_CONTENT);
+                lpw.setHeight(height/3);
+                lpw.show();
             }
         });
 
@@ -2389,8 +2436,6 @@ s
 	        		{
 	        			
 	        		}
-	        		
-	        		firstContactSearch = false;
 	        	}
 	        }
 
@@ -2457,46 +2502,28 @@ s
 				        }
 			    	}
 			    }
-	        	
-		        ListView searchView = (ListView) newMessageView.findViewById(R.id.contactSearch);
-		        ContactSearchArrayAdapter adapter;
-		        
-		        if (text.length() != 0)
-		        {
-	        		adapter = new ContactSearchArrayAdapter((Activity)context, searchedNames, searchedNumbers, searchedTypes);
-		        } else
-		        {
-	        		adapter = new ContactSearchArrayAdapter((Activity)context, new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>());
-		        }
-	        	
-	        	searchView.setAdapter(adapter);
-	        	
-	        	searchView.setOnItemClickListener(new OnItemClickListener() {
 
-					@Override
-					public void onItemClick(AdapterView<?> arg0, View arg1,
-							int position, long arg3) {
-						TextView view2 = (TextView) arg1.findViewById(R.id.receivedMessage);
-						
-						String[] t1 = contact.getText().toString().split("; ");
-						String string = "";
-						
-						for (int i = 0; i < t1.length - 1; i++)
-						{
-							string += t1[i] + "; ";
-						}
-						
-						contact.setText(string + view2.getText() + "; ");
-						contact.setSelection(contact.getText().toString().length());
-						
-						if (contact.getText().toString().length() <= 12)
-						{
-							mEditText.requestFocus();
-						}
-						
-					}
-	        		
-	        	});
+                Display display = getWindowManager().getDefaultDisplay();
+                Point size = new Point();
+                display.getSize(size);
+                int height = size.y;
+
+                lpw.setAdapter(new ContactSearchArrayAdapter((Activity)context, searchedNames, searchedNumbers, searchedTypes));
+                lpw.setAnchorView(findViewById(R.id.contactEntry));
+                lpw.setWidth(ListPopupWindow.WRAP_CONTENT);
+                lpw.setHeight(height/3);
+
+                if (firstContactSearch)
+                {
+                    lpw.show();
+                    firstContactSearch = false;
+                }
+
+                if (text.length() == 0)
+                {
+                    lpw.dismiss();
+                    firstContactSearch = true;
+                }
 	        }
 
 	        public void afterTextChanged(Editable s) {
@@ -2662,7 +2689,7 @@ s
 										    	            (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 										    	        
 										    	        Notification notification = mBuilder.build();
-										    	        Intent deleteIntent = new Intent(context, NotificationReceiver.class); 
+										    	        Intent deleteIntent = new Intent(context, NotificationReceiver.class);
 										    	        notification.deleteIntent = PendingIntent.getBroadcast(context, 0, deleteIntent, 0);
 										    	        mNotificationManager.notify(1, notification);
 								                        break;
@@ -3397,7 +3424,7 @@ s
 		
 		ListView searchView = (ListView) newMessageView.findViewById(R.id.contactSearch);
 		
-		mEditText.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,2)));
+		mEditText.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0, 2)));
 		
 		View v1 = newMessageView.findViewById(R.id.view1);
 		View v2 = newMessageView.findViewById(R.id.sentBackground);
@@ -3494,70 +3521,63 @@ s
         
         menu.setOnOpenedListener(new SlidingMenu.OnOpenedListener() {
 
-			@Override
-			public void onOpened() {
-				invalidateOptionsMenu();
-				
-				if (menu.isSecondaryMenuShowing())
-				{
-					contact.requestFocus();
-				}
-				
-					ActionBar ab = getActionBar();
-					ab.setTitle(R.string.app_name_in_app);
-					ab.setSubtitle(null);
-					ab.setIcon(R.drawable.ic_launcher);
-					
-					ab.setDisplayHomeAsUpEnabled(false);
-					
-					if (menu.isMenuShowing() && !menu.isSecondaryMenuShowing())
-					{
-						InputMethodManager imm = (InputMethodManager)getSystemService(
-							      Context.INPUT_METHOD_SERVICE);
-							imm.hideSoftInputFromWindow(mEditText.getWindowToken(), 0);
-					}
-					
-					if (menu.isMenuShowing() && menu.isSecondaryMenuShowing())
-					{
-						InputMethodManager imm = (InputMethodManager)getSystemService(
-							      Context.INPUT_METHOD_SERVICE);
-						imm.showSoftInput(contact, 0);
-					}
-			}
-        	
+            @Override
+            public void onOpened() {
+                invalidateOptionsMenu();
+
+                if (menu.isSecondaryMenuShowing()) {
+                    contact.requestFocus();
+                }
+
+                ActionBar ab = getActionBar();
+                ab.setTitle(R.string.app_name_in_app);
+                ab.setSubtitle(null);
+                ab.setIcon(R.drawable.ic_launcher);
+
+                ab.setDisplayHomeAsUpEnabled(false);
+
+                if (menu.isMenuShowing() && !menu.isSecondaryMenuShowing()) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(
+                            Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(mEditText.getWindowToken(), 0);
+                }
+
+                if (menu.isMenuShowing() && menu.isSecondaryMenuShowing()) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(
+                            Context.INPUT_METHOD_SERVICE);
+                    imm.showSoftInput(contact, 0);
+                }
+            }
+
         });
         
         menu.setOnClosedListener(new SlidingMenu.OnClosedListener() {
 
-			@Override
-			public void onClosed() {
-				
-				invalidateOptionsMenu();
+            @Override
+            public void onClosed() {
 
-                if (deviceType.equals("phone") || deviceType.equals("phablet2"))
-                {
-				    getActionBar().setDisplayHomeAsUpEnabled(true);
+                invalidateOptionsMenu();
+
+                if (deviceType.equals("phone") || deviceType.equals("phablet2")) {
+                    getActionBar().setDisplayHomeAsUpEnabled(true);
                 }
-				
-				if (!sharedPrefs.getBoolean("hide_title_bar", true) || sharedPrefs.getBoolean("always_show_contact_info", false))
-				{
-					final ActionBar ab = getActionBar();
-					
-					try
-					{
-						new Thread(new Runnable() {
 
-							@Override
-							public void run() {
-								if (inboxNumber.size() != 0)
-								{
-									final String title = findContactName(inboxNumber.get(mViewPager.getCurrentItem()), context);
-									
-									((MainActivity)context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-	
-					    				@Override
-					    				public void run() {
-					    					ab.setTitle(title);
+                if (!sharedPrefs.getBoolean("hide_title_bar", true) || sharedPrefs.getBoolean("always_show_contact_info", false)) {
+                    final ActionBar ab = getActionBar();
+
+                    try {
+                        new Thread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                if (inboxNumber.size() != 0) {
+                                    final String title = findContactName(inboxNumber.get(mViewPager.getCurrentItem()), context);
+
+                                    ((MainActivity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                                        @Override
+                                        public void run() {
+                                            ab.setTitle(title);
 
                                             Locale sCachedLocale = Locale.getDefault();
                                             int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
@@ -3565,44 +3585,39 @@ s
                                             PhoneNumberUtils.formatNumber(editable, sFormatType);
                                             ab.setSubtitle(editable.toString());
 
-                                            if (ab.getTitle().equals(ab.getSubtitle()))
-                                            {
+                                            if (ab.getTitle().equals(ab.getSubtitle())) {
                                                 ab.setSubtitle(null);
                                             }
 
-                                            if (group.get(mViewPager.getCurrentItem()).equals("yes"))
-                                            {
+                                            if (group.get(mViewPager.getCurrentItem()).equals("yes")) {
                                                 ab.setTitle("Group MMS");
                                                 ab.setSubtitle(null);
                                             }
-					    				}
-					    		    	
-					    		    });
-								}
-							}
-							
-						}).start();
-					} catch (Exception e)
-					{
-						ab.setTitle(R.string.app_name_in_app);
-						ab.setIcon(R.drawable.ic_launcher);
-					}
-				}
-				
-				if (sharedPrefs.getBoolean("title_contact_image", false))
-		        {
-		        	final ActionBar ab = getActionBar();
-		        	
-		        	new Thread(new Runnable() {
+                                        }
 
-						@Override
-						public void run() {
-                            if (inboxNumber.size() != 0)
-                            {
+                                    });
+                                }
+                            }
+
+                        }).start();
+                    } catch (Exception e) {
+                        ab.setTitle(R.string.app_name_in_app);
+                        ab.setIcon(R.drawable.ic_launcher);
+                    }
+                }
+
+                if (sharedPrefs.getBoolean("title_contact_image", false)) {
+                    final ActionBar ab = getActionBar();
+
+                    new Thread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            if (inboxNumber.size() != 0) {
                                 Bitmap image = getFacebookPhoto(inboxNumber.get(mViewPager.getCurrentItem()), context);
                                 final BitmapDrawable image2 = new BitmapDrawable(image);
 
-                                ((MainActivity)context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+                                ((MainActivity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 
                                     @Override
                                     public void run() {
@@ -3611,21 +3626,20 @@ s
 
                                 });
                             }
-							
-						}
-		        		
-		        	}).start();
-			    	
-			    	if (threadIds.size() == 0)
-			    	{
-			    		ab.setIcon(R.drawable.ic_launcher);
-			    	}
-		        }
-				
-				EditText textEntry = (EditText) findViewById(R.id.messageEntry);
-				textEntry.requestFocus();
-			}
-        
+
+                        }
+
+                    }).start();
+
+                    if (threadIds.size() == 0) {
+                        ab.setIcon(R.drawable.ic_launcher);
+                    }
+                }
+
+                EditText textEntry = (EditText) findViewById(R.id.messageEntry);
+                textEntry.requestFocus();
+            }
+
         });
         
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener()
@@ -5873,6 +5887,21 @@ s
         }
 
     }
+
+    public static Boolean isMobileDataEnabled(Context context){
+        Object connectivityService = context.getSystemService(CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) connectivityService;
+
+        try {
+            Class<?> c = Class.forName(cm.getClass().getName());
+            Method m = c.getDeclaredMethod("getMobileDataEnabled");
+            m.setAccessible(true);
+            return (Boolean)m.invoke(cm);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 	
 	public void sendMMS(final String recipient, final MMSPart[] parts)
 	{
@@ -5884,6 +5913,7 @@ s
 			wifi.disconnect();
 			discon = new DisconnectWifi();
 			registerReceiver(discon, new IntentFilter(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION));
+            currentDataState = isMobileDataEnabled(this);
             setMobileDataEnabled(this, true);
 		}
 		
@@ -6079,7 +6109,7 @@ s
 							    wifi.setWifiEnabled(false);
 							    wifi.setWifiEnabled(currentWifiState);
 							    Log.v("Reconnect", "" + wifi.reconnect());
-                                setMobileDataEnabled(context, false);
+                                setMobileDataEnabled(context, currentDataState);
 							}
 						}
 						
@@ -6095,7 +6125,7 @@ s
 					    wifi.setWifiEnabled(false);
 					    wifi.setWifiEnabled(currentWifiState);
 					    Log.v("Reconnect", "" + wifi.reconnect());
-                        setMobileDataEnabled(context, false);
+                        setMobileDataEnabled(context, currentDataState);
 					}
 					
 					Cursor query = context.getContentResolver().query(Uri.parse("content://mms"), new String[] {"_id"}, null, null, "date desc");
@@ -6146,16 +6176,6 @@ s
 			
 	}
 	
-	public void setContactSearchPosition(int position)
-	{
-		this.contactSearchPosition = position;
-	}
-	
-	public int getContactSearchPosition()
-	{
-		return this.contactSearchPosition;
-	}
-	
 	private void writeToFile2(ArrayList<String> data, Context context) {
         try {
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("notifications.txt", Context.MODE_PRIVATE));
@@ -6189,13 +6209,6 @@ s
         } 
 		
 	}
-	
-	public Uri getImageUri(Context inContext, Bitmap inImage) {
-		  ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-		  inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-		  String path = Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
-		  return Uri.parse(path);
-		}
 	
 	private ArrayList<String> readFromFile(Context context) {
 		
@@ -6551,7 +6564,7 @@ s
 	 * A dummy fragment representing a section of the app, but that simply
 	 * displays dummy text.
 	 */
-	public static class DummySectionFragment extends android.app.Fragment {
+	public class DummySectionFragment extends android.app.Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 		/**
 		 * The fragment argument representing the section number for this
 		 * fragment.
@@ -6567,8 +6580,8 @@ s
 		public Context context;
         public Cursor messageQuery;
 
-        public PullToRefreshAttacher mPullToRefreshAttacher;
         public CustomListView listView;
+        public ProgressBar spinner;
 		
 		public DummySectionFragment() {
 			
@@ -6701,7 +6714,7 @@ s
 			
 			listView = (CustomListView) view.findViewById(R.id.fontListView);
 
-            final ProgressBar spinner = (ProgressBar) view.findViewById(R.id.emptyView);
+            spinner = (ProgressBar) view.findViewById(R.id.emptyView);
 
             if (MainActivity.waitToLoad)
             {
@@ -6713,169 +6726,162 @@ s
 
             if (MainActivity.threadedLoad)
             {
-                new Thread(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        if (MainActivity.waitToLoad)
-                        {
-                            try
-                            {
-                                Thread.sleep(400);
-                            } catch (Exception e)
-                            {
-
-                            }
-
-                            MainActivity.waitToLoad = false;
+                if (MainActivity.waitToLoad)
+                {
+                    final LoaderManager.LoaderCallbacks<Cursor> callback = this;
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            getSupportLoaderManager().restartLoader(position, null, callback);
                         }
+                    }, 400);
 
-                        Uri uri3 = Uri.parse("content://mms-sms/conversations/" + threadIds.get(position) + "/");
-                        String[] projection2;
+                    MainActivity.waitToLoad = false;
+                } else
+                {
+                    getSupportLoaderManager().restartLoader(position, null, this);
+                }
 
-                        if (sharedPrefs.getBoolean("show_original_timestamp", false))
-                        {
-                            projection2 = new String[]{"_id", "ct_t", "body", "date", "date_sent", "type", "read", "status", "msg_box"};
-                        } else
-                        {
-                            projection2 = new String[]{"_id", "ct_t", "body", "date", "type", "read", "status", "msg_box"};
-                        }
-
-                        String sortOrder = "normalized_date desc";
-
-                        if (sharedPrefs.getBoolean("limit_messages", true) && !(MainActivity.loadAllMessages && position == MainActivity.loadAllMessagesPosition))
-                        {
-                            sortOrder += " limit 20";
-                        }
-
-                        if (MainActivity.loadAllMessages && position == MainActivity.loadAllMessagesPosition)
-                        {
-                            MainActivity.loadAllMessages = false;
-                            MainActivity.loadAllMessagesPosition = -1;
-                        }
-
-                        messageQuery = contentResolver.query(uri3, projection2, null, null, sortOrder);
-
-                        ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                if (sharedPrefs.getString("run_as", "sliding").equals("sliding"))
-                                {
-                                    MessageArrayAdapter adapter = new MessageArrayAdapter((Activity) context, myId, numbers.get(position), threadIds.get(position), messageQuery, myPhoneNumber, position);
-
-                                    if (adapter.getCount() >= 20 && listView.getHeaderViewsCount() == 0)
-                                    {
-                                        Button footer = new Button (context);
-                                        int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, context.getResources().getDisplayMetrics());
-                                        footer.setPadding(0, scale, 0, scale);
-                                        footer.setGravity(Gravity.CENTER);
-                                        footer.setText(context.getResources().getString(R.string.load_all));
-                                        footer.setTextColor(sharedPrefs.getInt("ct_draftTextColor", sharedPrefs.getInt("ct_sendButtonColor", context.getResources().getColor(R.color.black))));
-
-                                        footer.setOnClickListener(new OnClickListener() {
-                                            @Override
-                                            public void onClick(View view) {
-                                                MainActivity.loadAllMessages = true;
-                                                MainActivity.loadAllMessagesPosition = position;
-                                                ((MainActivity)context).refreshViewPager(false);
-                                                MainActivity.mViewPager.setCurrentItem(position, false);
-                                            }
-                                        });
-
-                                        listView.addHeaderView(footer);
-                                    }
-
-                                    listView.setAdapter(adapter);
-                                    listView.setStackFromBottom(true);
-                                    spinner.setVisibility(View.GONE);
-                                } else
-                                {
-                                    com.klinker.android.messaging_hangout.MessageArrayAdapter adapter = new com.klinker.android.messaging_hangout.MessageArrayAdapter((Activity) context, myId, numbers.get(position), threadIds.get(position), messageQuery, myPhoneNumber, position);
-
-                                    if (adapter.getCount() >= 20 && listView.getHeaderViewsCount() == 0)
-                                    {
-                                        final Button footer = new Button (context);
-                                        int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, context.getResources().getDisplayMetrics());
-                                        footer.setPadding(0, scale, 0, scale);
-                                        footer.setGravity(Gravity.CENTER);
-                                        footer.setText(context.getResources().getString(R.string.load_all));
-                                        footer.setTextColor(sharedPrefs.getInt("ct_draftTextColor", sharedPrefs.getInt("ct_sendButtonColor", context.getResources().getColor(R.color.black))));
-
-                                        footer.setOnClickListener(new OnClickListener() {
-                                            @Override
-                                            public void onClick(View view) {
-                                                MainActivity.loadAllMessages = true;
-                                                MainActivity.loadAllMessagesPosition = position;
-                                                ((MainActivity)context).refreshViewPager(false);
-                                                MainActivity.mViewPager.setCurrentItem(position, false);
-                                            }
-                                        });
-
-                                        listView.addHeaderView(footer);
-                                    }
-
-                                    listView.setAdapter(adapter);
-                                    listView.setStackFromBottom(true);
-                                    spinner.setVisibility(View.GONE);
-                                }
-
-//                                mPullToRefreshAttacher = new PullToRefreshAttacher(getActivity(), listView);
-//                                mPullToRefreshAttacher.setRefreshListener(new PullToRefreshAttacher.OnRefreshListener() {
-//                                    @Override
-//                                    public void onRefreshStarted(View view) {
-//                                        new AsyncTask<Void, Void, Void>() {
+//                new Thread(new Runnable() {
 //
-//                                            @Override
-//                                            protected Void doInBackground(Void... params) {
-//                                                try {
-//                                                    Thread.sleep(4000);
-//                                                } catch (InterruptedException e) {
-//                                                    e.printStackTrace();
-//                                                }
-//                                                return null;
-//                                            }
+//                    @Override
+//                    public void run() {
+//                        if (MainActivity.waitToLoad)
+//                        {
+//                            try
+//                            {
+//                                Thread.sleep(400);
+//                            } catch (Exception e)
+//                            {
 //
+//                            }
+//
+//                            MainActivity.waitToLoad = false;
+//                        }
+//
+//                        Uri uri3 = Uri.parse("content://mms-sms/conversations/" + threadIds.get(position) + "/");
+//                        String[] projection2;
+//
+//                        if (sharedPrefs.getBoolean("show_original_timestamp", false))
+//                        {
+//                            projection2 = new String[]{"_id", "ct_t", "body", "date", "date_sent", "type", "read", "status", "msg_box"};
+//                        } else
+//                        {
+//                            projection2 = new String[]{"_id", "ct_t", "body", "date", "type", "read", "status", "msg_box"};
+//                        }
+//
+//                        String sortOrder = "normalized_date desc";
+//
+//                        if (sharedPrefs.getBoolean("limit_messages", true) && !(MainActivity.loadAllMessages && position == MainActivity.loadAllMessagesPosition))
+//                        {
+//                            sortOrder += " limit 20";
+//                        }
+//
+//                        if (MainActivity.loadAllMessages && position == MainActivity.loadAllMessagesPosition)
+//                        {
+//                            MainActivity.loadAllMessages = false;
+//                            MainActivity.loadAllMessagesPosition = -1;
+//                        }
+//
+//                        messageQuery = contentResolver.query(uri3, projection2, null, null, sortOrder);
+//
+//                        ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+//
+//                            @Override
+//                            public void run() {
+//                                if (sharedPrefs.getString("run_as", "sliding").equals("sliding"))
+//                                {
+//                                    MessageArrayAdapter adapter = new MessageArrayAdapter((Activity) context, myId, numbers.get(position), threadIds.get(position), messageQuery, myPhoneNumber, position);
+//
+//                                    if (adapter.getCount() >= 20 && listView.getHeaderViewsCount() == 0)
+//                                    {
+//                                        Button footer = new Button (context);
+//                                        int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, context.getResources().getDisplayMetrics());
+//                                        footer.setPadding(0, scale, 0, scale);
+//                                        footer.setGravity(Gravity.CENTER);
+//                                        footer.setText(context.getResources().getString(R.string.load_all));
+//                                        footer.setTextColor(sharedPrefs.getInt("ct_draftTextColor", sharedPrefs.getInt("ct_sendButtonColor", context.getResources().getColor(R.color.black))));
+//
+//                                        footer.setOnClickListener(new OnClickListener() {
 //                                            @Override
-//                                            protected void onPostExecute(Void result) {
-//                                                super.onPostExecute(result);
-//                                                mPullToRefreshAttacher.setRefreshComplete();
+//                                            public void onClick(View view) {
+//                                                MainActivity.loadAllMessages = true;
+//                                                MainActivity.loadAllMessagesPosition = position;
+//                                                ((MainActivity)context).refreshViewPager(false);
+//                                                MainActivity.mViewPager.setCurrentItem(position, false);
 //                                            }
-//                                        }.execute();
+//                                        });
+//
+//                                        listView.addHeaderView(footer);
 //                                    }
-//                                });
-                            }
-
-                        });
-
-                        try
-                        {
-                            Thread.sleep(500);
-                        } catch (Exception e)
-                        {
-
-                        }
-
-                        ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                try
-                                {
-                                    listView.setSelection(messageQuery.getCount() - 1);
-                                } catch (Exception e)
-                                {
-
-                                }
-                            }
-
-                        });
-
-                    }
-
-                }).start();
+//
+//                                    listView.setAdapter(adapter);
+//                                    listView.setStackFromBottom(true);
+//                                    spinner.setVisibility(View.GONE);
+//                                } else
+//                                {
+//                                    com.klinker.android.messaging_hangout.MessageArrayAdapter adapter = new com.klinker.android.messaging_hangout.MessageArrayAdapter((Activity) context, myId, numbers.get(position), threadIds.get(position), messageQuery, myPhoneNumber, position);
+//
+//                                    if (adapter.getCount() >= 20 && listView.getHeaderViewsCount() == 0)
+//                                    {
+//                                        final Button footer = new Button (context);
+//                                        int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, context.getResources().getDisplayMetrics());
+//                                        footer.setPadding(0, scale, 0, scale);
+//                                        footer.setGravity(Gravity.CENTER);
+//                                        footer.setText(context.getResources().getString(R.string.load_all));
+//                                        footer.setTextColor(sharedPrefs.getInt("ct_draftTextColor", sharedPrefs.getInt("ct_sendButtonColor", context.getResources().getColor(R.color.black))));
+//
+//                                        footer.setOnClickListener(new OnClickListener() {
+//                                            @Override
+//                                            public void onClick(View view) {
+//                                                MainActivity.loadAllMessages = true;
+//                                                MainActivity.loadAllMessagesPosition = position;
+//                                                ((MainActivity)context).refreshViewPager(false);
+//                                                MainActivity.mViewPager.setCurrentItem(position, false);
+//                                            }
+//                                        });
+//
+//                                        listView.addHeaderView(footer);
+//                                    }
+//
+//                                    listView.setAdapter(adapter);
+//                                    listView.setStackFromBottom(true);
+//                                    spinner.setVisibility(View.GONE);
+//                                }
+//                            }
+//
+//                        });
+//
+//                        try
+//                        {
+//                            Thread.sleep(500);
+//                        } catch (Exception e)
+//                        {
+//
+//                        }
+//
+//                        ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+//
+//                            @Override
+//                            public void run() {
+//                                try
+//                                {
+//                                    listView.setSelection(messageQuery.getCount() - 1);
+//                                } catch (Exception e)
+//                                {
+//
+//                                }
+//                            }
+//
+//                        });
+//
+//                    }
+//
+//                }).start();
             } else
             {
+                getSupportLoaderManager().destroyLoader(position);
+
                 Uri uri3 = Uri.parse("content://mms-sms/conversations/" + threadIds.get(position) + "/");
                 String[] projection2;
 
@@ -6962,31 +6968,6 @@ s
 					spinner.setVisibility (View.GONE);
                 }
 
-//                mPullToRefreshAttacher = new PullToRefreshAttacher(getActivity(), listView);
-//                mPullToRefreshAttacher.setRefreshListener(new PullToRefreshAttacher.OnRefreshListener() {
-//                    @Override
-//                    public void onRefreshStarted(View view) {
-//                        new AsyncTask<Void, Void, Void>() {
-//
-//                            @Override
-//                            protected Void doInBackground(Void... params) {
-//                                try {
-//                                    Thread.sleep(4000);
-//                                } catch (InterruptedException e) {
-//                                    e.printStackTrace();
-//                                }
-//                                return null;
-//                            }
-//
-//                            @Override
-//                            protected void onPostExecute(Void result) {
-//                                super.onPostExecute(result);
-//                                mPullToRefreshAttacher.setRefreshComplete();
-//                            }
-//                        }.execute();
-//                    }
-//                });
-
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -7028,6 +7009,124 @@ s
 		     }
 		     return null;
 		 }
+
+        @Override
+        public android.support.v4.content.Loader<Cursor> onCreateLoader(int loaderID, Bundle bundle)
+        {
+            Uri uri3 = Uri.parse("content://mms-sms/conversations/" + threadIds.get(position) + "/");
+            String[] projection2;
+
+            if (sharedPrefs.getBoolean("show_original_timestamp", false))
+            {
+                projection2 = new String[]{"_id", "ct_t", "body", "date", "date_sent", "type", "read", "status", "msg_box"};
+            } else
+            {
+                projection2 = new String[]{"_id", "ct_t", "body", "date", "type", "read", "status", "msg_box"};
+            }
+
+            String sortOrder = "normalized_date desc";
+
+            if (sharedPrefs.getBoolean("limit_messages", true) && !(MainActivity.loadAllMessages && position == MainActivity.loadAllMessagesPosition))
+            {
+                sortOrder += " limit 20";
+            }
+
+            if (MainActivity.loadAllMessages && position == MainActivity.loadAllMessagesPosition)
+            {
+                MainActivity.loadAllMessages = false;
+                MainActivity.loadAllMessagesPosition = -1;
+            }
+
+            return new android.support.v4.content.CursorLoader(
+                    context,
+                    uri3,
+                    projection2,
+                    null,
+                    null,
+                    sortOrder
+            );
+        }
+
+        @Override
+        public void onLoadFinished(Loader<Cursor> loader, final Cursor query)
+        {
+            if (sharedPrefs.getString("run_as", "sliding").equals("sliding"))
+            {
+                MessageArrayAdapter adapter = new MessageArrayAdapter((Activity) context, myId, numbers.get(position), threadIds.get(position), query, myPhoneNumber, position);
+
+                if (adapter.getCount() >= 20 && listView.getHeaderViewsCount() == 0)
+                {
+                    Button footer = new Button (context);
+                    int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, context.getResources().getDisplayMetrics());
+                    footer.setPadding(0, scale, 0, scale);
+                    footer.setGravity(Gravity.CENTER);
+                    footer.setText(context.getResources().getString(R.string.load_all));
+                    footer.setTextColor(sharedPrefs.getInt("ct_draftTextColor", sharedPrefs.getInt("ct_sendButtonColor", context.getResources().getColor(R.color.black))));
+
+                    footer.setOnClickListener(new OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            MainActivity.loadAllMessages = true;
+                            MainActivity.loadAllMessagesPosition = position;
+                            ((MainActivity)context).refreshViewPager(false);
+                            MainActivity.mViewPager.setCurrentItem(position, false);
+                        }
+                    });
+
+                    listView.addHeaderView(footer);
+                }
+
+                listView.setAdapter(adapter);
+                listView.setStackFromBottom(true);
+                spinner.setVisibility(View.GONE);
+            } else
+            {
+                com.klinker.android.messaging_hangout.MessageArrayAdapter adapter = new com.klinker.android.messaging_hangout.MessageArrayAdapter((Activity) context, myId, numbers.get(position), threadIds.get(position), query, myPhoneNumber, position);
+
+                if (adapter.getCount() >= 20 && listView.getHeaderViewsCount() == 0)
+                {
+                    final Button footer = new Button (context);
+                    int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, context.getResources().getDisplayMetrics());
+                    footer.setPadding(0, scale, 0, scale);
+                    footer.setGravity(Gravity.CENTER);
+                    footer.setText(context.getResources().getString(R.string.load_all));
+                    footer.setTextColor(sharedPrefs.getInt("ct_draftTextColor", sharedPrefs.getInt("ct_sendButtonColor", context.getResources().getColor(R.color.black))));
+
+                    footer.setOnClickListener(new OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            MainActivity.loadAllMessages = true;
+                            MainActivity.loadAllMessagesPosition = position;
+                            ((MainActivity)context).refreshViewPager(false);
+                            MainActivity.mViewPager.setCurrentItem(position, false);
+                        }
+                    });
+
+                    listView.addHeaderView(footer);
+                }
+
+                listView.setAdapter(adapter);
+                listView.setStackFromBottom(true);
+                spinner.setVisibility(View.GONE);
+            }
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        listView.setSelection(query.getCount() - 1);
+                    } catch (Exception e) {
+
+                    }
+                }
+            }, 500);
+        }
+
+        @Override
+        public void onLoaderReset(Loader<Cursor> loader)
+        {
+
+        }
 	}
 	
 	public static Bitmap getFacebookPhoto(String phoneNumber, Context context) {

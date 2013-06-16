@@ -10,7 +10,7 @@ import com.google.android.mms.APNHelper;
 import com.google.android.mms.pdu.PduParser;
 import com.google.android.mms.pdu.PduPersister;
 import com.google.android.mms.pdu.RetrieveConf;
-import com.klinker.android.messaging_donate.DisconnectWifi;
+import com.klinker.android.messaging_donate.receivers.DisconnectWifi;
 import com.klinker.android.messaging_donate.R;
 
 import java.io.BufferedReader;
@@ -97,6 +97,9 @@ import android.widget.QuickContactBadge;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.klinker.android.messaging_donate.StripAccents;
+import com.klinker.android.messaging_sliding.emojis.*;
+import com.klinker.android.messaging_sliding.receivers.NotificationReceiver;
 
 public class MessageArrayAdapter extends ArrayAdapter<String> {
   private final Activity context;
@@ -116,6 +119,7 @@ public class MessageArrayAdapter extends ArrayAdapter<String> {
   public DisconnectWifi discon;
   public WifiInfo currentWifi;
   public boolean currentWifiState;
+  public boolean currentDataState;
   
   static class ViewHolder {
 	    public TextView text;
@@ -588,6 +592,7 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
                         wifi.disconnect();
                         discon = new DisconnectWifi();
                         context.registerReceiver(discon, new IntentFilter(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION));
+                        currentDataState = MainActivity.isMobileDataEnabled(context);
                         MainActivity.setMobileDataEnabled(context, true);
                     }
 					
@@ -726,7 +731,7 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
                                                 wifi.setWifiEnabled(false);
                                                 wifi.setWifiEnabled(currentWifiState);
                                                 Log.v("Reconnect", "" + wifi.reconnect());
-                                                MainActivity.setMobileDataEnabled(context, false);
+                                                MainActivity.setMobileDataEnabled(context, currentDataState);
                                             }
 											
 										}
@@ -847,7 +852,7 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
                                     wifi.setWifiEnabled(false);
                                     wifi.setWifiEnabled(currentWifiState);
                                     Log.v("Reconnect", "" + wifi.reconnect());
-                                    MainActivity.setMobileDataEnabled(context, false);
+                                    MainActivity.setMobileDataEnabled(context, currentDataState);
                                 }
 								
 							}
@@ -2220,7 +2225,7 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
 													    	            (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 													    	        
 													    	        Notification notification = mBuilder.build();
-													    	        Intent deleteIntent = new Intent(context, NotificationReceiver.class); 
+													    	        Intent deleteIntent = new Intent(context, NotificationReceiver.class);
 													    	        notification.deleteIntent = PendingIntent.getBroadcast(context, 0, deleteIntent, 0);
 													    	        mNotificationManager.notify(1, notification);
 											                        break;

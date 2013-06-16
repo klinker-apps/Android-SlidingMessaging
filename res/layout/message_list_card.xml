@@ -8,7 +8,7 @@
     android:paddingRight="17dp"
     android:paddingTop="10dp" >
 
-    <com.klinker.android.messaging_sliding.CustomListView
+    <com.klinker.android.messaging_sliding.custom_dialogs.CustomListView
         android:id="@+id/messageListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,6 +19,6 @@
         android:fadingEdgeLength="0dp"
         android:divider="@null" >
 
-    </com.klinker.android.messaging_sliding.CustomListView>
+    </com.klinker.android.messaging_sliding.custom_dialogs.CustomListView>
 
 </RelativeLayout>

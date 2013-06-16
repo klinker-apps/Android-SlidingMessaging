@@ -36,10 +36,14 @@ import com.google.android.mms.pdu.PduBody;
 import com.google.android.mms.pdu.PduComposer;
 import com.google.android.mms.pdu.PduPart;
 import com.google.android.mms.pdu.SendReq;
-import com.klinker.android.messaging_donate.DeliveredReceiver;
-import com.klinker.android.messaging_donate.DisconnectWifi;
-import com.klinker.android.messaging_donate.R;
-import com.klinker.android.messaging_donate.SentReceiver;
+import com.klinker.android.messaging_card.batch_delete.BatchDeleteActivity;
+import com.klinker.android.messaging_card.group.GroupActivity;
+import com.klinker.android.messaging_donate.*;
+import com.klinker.android.messaging_donate.receivers.DeliveredReceiver;
+import com.klinker.android.messaging_donate.receivers.DisconnectWifi;
+import com.klinker.android.messaging_donate.receivers.SentReceiver;
+import com.klinker.android.messaging_donate.settings.MmsSettingsActivity;
+import com.klinker.android.messaging_donate.settings.SettingsPagerActivity;
 import com.klinker.android.messaging_sliding.*;
 
 import android.annotation.SuppressLint;
@@ -117,6 +121,17 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView.ScaleType;
 import android.widget.RelativeLayout.LayoutParams;
+import com.klinker.android.messaging_sliding.custom_dialogs.CustomListView;
+import com.klinker.android.messaging_sliding.emojis.EmojiAdapter;
+import com.klinker.android.messaging_sliding.emojis.EmojiAdapter2;
+import com.klinker.android.messaging_sliding.emojis.EmojiConverter;
+import com.klinker.android.messaging_sliding.emojis.EmojiConverter2;
+import com.klinker.android.messaging_sliding.receivers.NotificationReceiver;
+import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
+import com.klinker.android.messaging_sliding.receivers.QuickTextService;
+import com.klinker.android.messaging_sliding.security.PasswordActivity;
+import com.klinker.android.messaging_sliding.security.PinActivity;
+import com.klinker.android.messaging_sliding.templates.TemplateArrayAdapter;
 
 public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuItemClickListener {
 
@@ -149,6 +164,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 	public DisconnectWifi discon;
 	public WifiInfo currentWifi;
 	public boolean currentWifiState;
+    public boolean currentDataState;
 	
 	public ContactPagerAdapter contactPagerAdapter;
 	public static MessagePagerAdapter messagePagerAdapter;
@@ -728,25 +744,6 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 		
 		View v = findViewById(R.id.newMessageGlow);
 		v.setVisibility(View.GONE);
-		
-//		Display display = getWindowManager().getDefaultDisplay();
-//		Point size = new Point();
-//		display.getSize(size);
-//		int width = size.x;
-//		int distance =  (int) ((sharedPrefs.getInt("gesture_distance", 15)/100.0) * width);
-//		
-//		gdt = new GestureDetector(this, new GestureListener(sharedPrefs.getInt("gesture_length", 50),
-//				                                      		sharedPrefs.getInt("gesture_speed", 150),
-//				                                      		distance));
-//		
-//		gestureView = findViewById(R.id.gestureView);
-//		gestureView.setOnTouchListener(new OnTouchListener() {
-//			@Override
-//			public boolean onTouch(View arg0, MotionEvent arg1) {
-//				
-//				return gdt.onTouchEvent(arg1);
-//			}
-//		});
 		
 		setUpSendbar();
 	}
@@ -1603,7 +1600,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 											    	            (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 											    	        
 											    	        Notification notification = mBuilder.build();
-											    	        Intent deleteIntent = new Intent(context, NotificationReceiver.class); 
+											    	        Intent deleteIntent = new Intent(context, NotificationReceiver.class);
 											    	        notification.deleteIntent = PendingIntent.getBroadcast(context, 0, deleteIntent, 0);
 											    	        mNotificationManager.notify(1, notification);
 									                        break;
@@ -5360,6 +5357,21 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
         }
 
     }
+
+    public static Boolean isMobileDataEnabled(Context context){
+        Object connectivityService = context.getSystemService(CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) connectivityService;
+
+        try {
+            Class<?> c = Class.forName(cm.getClass().getName());
+            Method m = c.getDeclaredMethod("getMobileDataEnabled");
+            m.setAccessible(true);
+            return (Boolean)m.invoke(cm);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 	
 	public void sendMMS(final String recipient, final MMSPart[] parts)
 	{
@@ -5371,6 +5383,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 			wifi.disconnect();
 			discon = new DisconnectWifi();
 			registerReceiver(discon, new IntentFilter(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION));
+            currentDataState = isMobileDataEnabled(this);
             setMobileDataEnabled(this, true);
 		}
 		
@@ -5565,7 +5578,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 							    wifi.setWifiEnabled(false);
 							    wifi.setWifiEnabled(currentWifiState);
 							    wifi.reconnect();
-                                setMobileDataEnabled(context, true);
+                                setMobileDataEnabled(context, currentDataState);
 							}
 						}
 						
@@ -5582,7 +5595,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 						wifi.setWifiEnabled(false);
 					    wifi.setWifiEnabled(currentWifiState);
 						wifi.reconnect();
-                        setMobileDataEnabled(context, true);
+                        setMobileDataEnabled(context, currentDataState);
 					}
 					
 					Cursor query = context.getContentResolver().query(Uri.parse("content://mms"), new String[] {"_id"}, null, null, "date desc");

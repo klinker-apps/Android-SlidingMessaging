@@ -164,7 +164,7 @@
     <string name="mms_limit">MMS Limiti</string>
     <string name="mms_limit_summary">Saklanacak MMS sayısını belirler.</string>
     <string name="cancel">İptal Et</string>
-    <string name="conversation_settings">Konşm Listesi Ayarları</string>
+    <string name="conversation_settings">Konuşma Listesi Ayarlar</string>
     <string name="name_text_color">Kişi İsim Rengi</string>
     <string name="name_text_color_summary">Kişi isminin rengini belirler.</string>
     <string name="quick_text">Bildirimlerde Hızlı Mesaj</string>
@@ -408,7 +408,7 @@
     <string name="send_with_stock">Stok mesaj ile Göndr</string>
     <string name="send_with_stock_summary">MMS mesajlarını işletim sistemiyle gelen mesaj programıyla gönderir,Sliding Messaging uygulamasını ayarlarken problem yaşıyorsanız işe yarayabilir.</string>
     <string name="ct_unread_conversation_color">Okunmayan mesaj rengi</string>
-    <string name="copy_sender_address">Gönderen adresini kopyala</string>
+    <string name="copy_sender_address">Gönderen Numrsnı Kopyala</string>
     <string name="delete_conversation_message">Konuşmayı silmek istiyor musunuz ?</string>
     <string name="sliding_notification_settings">Bildirim Ayarları</string>
     <string name="theme_settings">Tema Ayarları</string>

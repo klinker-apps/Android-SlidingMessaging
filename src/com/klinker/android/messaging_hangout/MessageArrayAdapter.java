@@ -34,6 +34,7 @@ import android.text.Html;
 import android.text.Html.ImageGetter;
 import android.text.Spannable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.*;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
@@ -47,9 +48,12 @@ import com.google.android.mms.APNHelper;
 import com.google.android.mms.pdu.PduParser;
 import com.google.android.mms.pdu.PduPersister;
 import com.google.android.mms.pdu.RetrieveConf;
-import com.klinker.android.messaging_donate.DisconnectWifi;
+import com.klinker.android.messaging_donate.receivers.DisconnectWifi;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_donate.StripAccents;
 import com.klinker.android.messaging_sliding.*;
+import com.klinker.android.messaging_sliding.emojis.*;
+import com.klinker.android.messaging_sliding.receivers.NotificationReceiver;
 
 import java.io.*;
 import java.text.DateFormat;
@@ -71,9 +75,10 @@ public class MessageArrayAdapter extends ArrayAdapter<String> {
   private Paint paint;
   private Typeface font;
 
-    public DisconnectWifi discon;
-    public WifiInfo currentWifi;
-    public boolean currentWifiState;
+  public DisconnectWifi discon;
+  public WifiInfo currentWifi;
+  public boolean currentWifiState;
+  public boolean currentDataState;
   
   static class ViewHolder {
 	    public TextView text;
@@ -569,6 +574,7 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
                         wifi.disconnect();
                         discon = new DisconnectWifi();
                         context.registerReceiver(discon, new IntentFilter(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION));
+                        currentDataState = MainActivity.isMobileDataEnabled(context);
                         MainActivity.setMobileDataEnabled(context, true);
                     }
 					
@@ -699,6 +705,16 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
 													}
 												});
 											}
+
+                                            if (sharedPrefs.getBoolean("wifi_mms_fix", false))
+                                            {
+                                                context.unregisterReceiver(discon);
+                                                WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+                                                wifi.setWifiEnabled(false);
+                                                wifi.setWifiEnabled(currentWifiState);
+                                                Log.v("Reconnect", "" + wifi.reconnect());
+                                                MainActivity.setMobileDataEnabled(context, currentDataState);
+                                            }
 											
 										}
 										
@@ -810,6 +826,16 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
 										}
 									});
 								}
+
+                                if (sharedPrefs.getBoolean("wifi_mms_fix", false))
+                                {
+                                    context.unregisterReceiver(discon);
+                                    WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+                                    wifi.setWifiEnabled(false);
+                                    wifi.setWifiEnabled(currentWifiState);
+                                    Log.v("Reconnect", "" + wifi.reconnect());
+                                    MainActivity.setMobileDataEnabled(context, currentDataState);
+                                }
 								
 							}
 							
