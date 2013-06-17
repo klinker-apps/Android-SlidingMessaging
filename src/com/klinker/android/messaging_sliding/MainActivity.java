@@ -121,6 +121,7 @@ import com.klinker.android.messaging_sliding.security.PasswordActivity;
 import com.klinker.android.messaging_sliding.security.PinActivity;
 import com.klinker.android.messaging_sliding.templates.TemplateArrayAdapter;
 import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
+import net.simonvt.messagebar.messagebar.MessageBar;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 
 public class MainActivity extends FragmentActivity {
@@ -154,6 +155,7 @@ s
 	public ArrayList<String> contactNames, contactNumbers, contactTypes, threadIds;
 	
 	public static SlidingMenu menu;
+    public MessageBar messageBar;
 	public boolean firstRun = true;
 	public boolean firstContactSearch = true;
 	public boolean refreshMyContact = true;
@@ -174,6 +176,8 @@ s
 	
 	public static int contactWidth;
 	public boolean jump = true;
+
+    public ArrayList<String> drafts, draftNames;
 	
 	public ListView menuLayout;
 	public MenuArrayAdapter menuAdapter;
@@ -833,6 +837,19 @@ s
 			
 			getWindow().getDecorView().setBackgroundColor(sharedPrefs.getInt("ct_messageListBackground", getResources().getColor(R.color.light_silver)));
 		}
+
+        drafts = new ArrayList<String>();
+        draftNames = new ArrayList<String>();
+
+        Cursor query = getContentResolver().query(Uri.parse("content://sms/draft/"), new String[] {"thread_id", "body"}, null, null, null);
+
+        if (query.moveToFirst())
+        {
+            do {
+                drafts.add(query.getString(query.getColumnIndex("body")));
+                draftNames.add(query.getString(query.getColumnIndex("thread_id")));
+            } while (query.moveToNext());
+        }
 		
 		if (refreshMyContact)
 		{
@@ -3602,22 +3619,18 @@ s
             }
 
         });
-        
+
+        messageBar = new MessageBar (this);
+
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener()
 		{
 		    public void onPageScrolled(int i, float f, int i2) {
-		    	if (!menu.isMenuShowing())
-		    	{
-		    		menu.showContent();
-		    	}
+
 		    }
 
 			@Override
 			public void onPageScrollStateChanged(int arg0) {
-				if (!menu.isMenuShowing())
-		    	{
-		    		menu.showContent();
-		    	}
+
 			}
 
 			@Override
@@ -3626,8 +3639,8 @@ s
 		    	{
 		    		menu.showContent();
 		    	}
-				
-				new Thread(new Runnable() {
+
+                new Thread(new Runnable() {
 
 					@Override
 					public void run() {
@@ -3681,6 +3694,19 @@ s
                         }
 
                         final BitmapDrawable icon = image2;
+
+                        int index = -1;
+
+                        for (int i = 0; i < draftNames.size(); i++)
+                        {
+                            if (draftNames.get(i).equals(threadIds.get(mViewPager.getCurrentItem())))
+                            {
+                                index = i;
+                                break;
+                            }
+                        }
+
+                        final int indexF = index;
 				        
 				        ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 
@@ -3707,6 +3733,19 @@ s
                                 if (sharedPrefs.getBoolean("title_contact_image", false))
                                 {
                                     ab.setIcon(icon);
+                                }
+
+                                if (indexF != -1)
+                                {
+                                    messageBar.setOnClickListener(new MessageBar.OnMessageClickListener() {
+                                        @Override
+                                        public void onMessageClick(Parcelable token) {
+                                            messageEntry.setText(drafts.get(indexF));
+                                            messageEntry.setSelection(drafts.get(indexF).length());
+                                        }
+                                    });
+
+                                    messageBar.show(context.getResources().getString(R.string.draft_found), context.getResources().getString(R.string.apply_draft));
                                 }
 							}
 					    	
@@ -4829,6 +4868,32 @@ s
                 }
 
             }
+        }
+
+        int index = -1;
+
+        for (int i = 0; i < draftNames.size(); i++)
+        {
+            if (draftNames.get(i).equals(threadIds.get(mViewPager.getCurrentItem())))
+            {
+                index = i;
+                break;
+            }
+        }
+
+        if (index != -1)
+        {
+            final int indexF = index;
+
+            messageBar.setOnClickListener(new MessageBar.OnMessageClickListener() {
+                @Override
+                public void onMessageClick(Parcelable token) {
+                    messageEntry.setText(drafts.get(indexF));
+                    messageEntry.setSelection(drafts.get(indexF).length());
+                }
+            });
+
+            messageBar.show(getString(R.string.draft_found), getString(R.string.apply_draft));
         }
 	}
 	
@@ -6629,7 +6694,7 @@ s
                 if (MainActivity.waitToLoad)
                 {
                     final LoaderManager.LoaderCallbacks<Cursor> callback = this;
-                    new Handler().postDelayed(new Runnable() {
+                    listView.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             getSupportLoaderManager().restartLoader(position, null, callback);
@@ -6952,7 +7017,7 @@ s
         {
             if (sharedPrefs.getString("run_as", "sliding").equals("sliding"))
             {
-                MessageArrayAdapter adapter = new MessageArrayAdapter((Activity) context, myId, numbers.get(position), threadIds.get(position), query, myPhoneNumber, position);
+                final MessageArrayAdapter adapter = new MessageArrayAdapter((Activity) context, myId, numbers.get(position), threadIds.get(position), query, myPhoneNumber, position);
 
                 if (adapter.getCount() >= 20 && listView.getHeaderViewsCount() == 0)
                 {
@@ -7025,8 +7090,7 @@ s
         @Override
         public void onLoaderReset(Loader<Cursor> loader)
         {
-            // TODO experiment with this and battery life maybe
-            getSupportLoaderManager().restartLoader(position, null, this);
+
         }
 	}
 	

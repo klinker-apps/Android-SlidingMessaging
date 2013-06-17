@@ -15,6 +15,9 @@
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="messageBarContainerStyle">@style/MessageBar.Container</item>
+        <item name="messageBarTextStyle">@style/MessageBar.Message</item>
+        <item name="messageBarButtonStyle">@style/MessageBar.Button</item>
     </style>
     
     <style name="SettingsTheme" parent="android:Theme">
@@ -61,6 +64,52 @@
         <item name="android:textAllCaps">true</item>
         <item name="android:paddingLeft">12dp</item>
         <item name="android:paddingRight">12dp</item>
+    </style>
+
+    <style name="MessageBar" />
+
+    <style name="MessageBar.Container">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">bottom</item>
+        <item name="android:layout_marginLeft">8dp</item>
+        <item name="android:layout_marginRight">8dp</item>
+        <item name="android:layout_marginBottom">36dp</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:background">@drawable/mb__messagebar_background</item>
+        <item name="android:clickable">true</item>
+        <item name="android:showDividers">middle</item>
+        <item name="android:divider">@drawable/mb__messagebar_divider</item>
+        <item name="android:dividerPadding">10dp</item>
+    </style>
+
+    <style name="MessageBar.Message">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:textAppearance">?android:textAppearanceMedium</item>
+        <item name="android:textColor">#fff</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="MessageBar.Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:background">@drawable/mb__item_background_holo_dark</item>
+        <item name="android:drawablePadding">12dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textAppearance">?android:textAppearanceSmall</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#fff</item>
     </style>
 
 </resources>
