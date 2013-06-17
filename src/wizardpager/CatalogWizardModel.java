@@ -32,7 +32,7 @@ public class CatalogWizardModel extends AbstractWizardModel {
     }
 
     @Override
-    protected PageList onNewRootPageList() {
+        protected PageList onNewRootPageList() {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
 
         boolean needTheme = false;
@@ -52,6 +52,7 @@ public class CatalogWizardModel extends AbstractWizardModel {
         String changeLog = "Version " + version + ":\n\n" +
                 "- Fixes to WiFi MMS workaround, will now enable mobile data connection while sending and receiving MMS\n" +
                 "- Option to receive MMS through stock if you are having problems receiving\n" +
+                "- Draft support: By default, drafts are not auto inserted as this process causes lag when switching pages. You can turn on auto insert in message settings if you prefer that.\n" +
                 "- Bug fixes\n\n";
 
 

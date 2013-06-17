@@ -77,6 +77,13 @@
         />
 
     <CheckBoxPreference
+        android:key="auto_insert_draft"
+        android:title="@string/auto_insert_draft"
+        android:summary="@string/auto_insert_draft_summary"
+        android:defaultValue="false"
+        />
+
+    <CheckBoxPreference
         android:key="limit_messages"
         android:title="@string/limit_messages"
         android:summary="@string/limit_messages_summary"

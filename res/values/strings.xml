@@ -468,4 +468,6 @@
     <string name="receive_through_stock_summary">Does not allow Sliding Messaging to save MMS messages, allowing your stock app to do so instead, even if you have check the \"Override Stock Messaging\" option.</string>
     <string name="draft_found">Draft found</string>
     <string name="apply_draft">Apply?</string>
+    <string name="auto_insert_draft">Auto Insert Drafts</string>
+    <string name="auto_insert_draft_summary">Will automatically insert draft into message entry box if present. If disabled, you will get a popup box to choose whether or not to insert each draft</string>
 </resources>
