@@ -178,6 +178,8 @@ s
 	public boolean jump = true;
 
     public ArrayList<String> drafts, draftNames;
+    public boolean fromDraft = false;
+    public String newDraft = "";
 	
 	public ListView menuLayout;
 	public MenuArrayAdapter menuAdapter;
@@ -850,6 +852,8 @@ s
                 draftNames.add(query.getString(query.getColumnIndex("thread_id")));
             } while (query.moveToNext());
         }
+
+        query.close();
 		
 		if (refreshMyContact)
 		{
@@ -1143,6 +1147,10 @@ s
 	        }
 
 	        public void afterTextChanged(Editable s) {
+                if (newDraft.equals(""))
+                {
+                    newDraft = threadIds.get(mViewPager.getCurrentItem());
+                }
 	        }
 		});
 
@@ -1801,6 +1809,19 @@ s
 	
 										@Override
 										public void run() {
+                                            if (fromDraft)
+                                            {
+                                                for (int i = 0; i < draftNames.size(); i++)
+                                                {
+                                                    if (draftNames.get(i).equals(threadIds.get(mViewPager.getCurrentItem())))
+                                                    {
+                                                        draftNames.remove(i);
+                                                        drafts.remove(i);
+                                                        break;
+                                                    }
+                                                }
+                                            }
+
 											MainActivity.sentMessage = true;
                                             MainActivity.threadedLoad = false;
 								        	refreshViewPager4(address2, StripAccents.stripAccents(body), cal.getTimeInMillis() + "");
@@ -3695,6 +3716,34 @@ s
 
                         final BitmapDrawable icon = image2;
 
+                        boolean contains = false;
+                        int where = -1;
+
+                        for (int i = 0; i < draftNames.size(); i++)
+                        {
+                            if (draftNames.get(i).equals(newDraft))
+                            {
+                                contains = true;
+                                where = i;
+                                break;
+                            }
+                        }
+
+                        if (!contains && messageEntry.getText().toString().trim().length() > 0)
+                        {
+                            draftNames.add(newDraft);
+                            drafts.add(messageEntry.getText().toString());
+                        } else if (contains && messageEntry.getText().toString().trim().length() > 0)
+                        {
+                            drafts.set(where, messageEntry.getText().toString());
+                        } else if (contains && messageEntry.getText().toString().trim().length() == 0 && fromDraft)
+                        {
+                            draftNames.remove(where);
+                            drafts.remove(where);
+                        }
+
+                        newDraft = "";
+
                         int index = -1;
 
                         for (int i = 0; i < draftNames.size(); i++)
@@ -3735,17 +3784,33 @@ s
                                     ab.setIcon(icon);
                                 }
 
+                                if (!messageEntry.getText().equals(""))
+                                {
+                                    messageEntry.setText("");
+                                }
+
+                                fromDraft = false;
+
                                 if (indexF != -1)
                                 {
-                                    messageBar.setOnClickListener(new MessageBar.OnMessageClickListener() {
-                                        @Override
-                                        public void onMessageClick(Parcelable token) {
-                                            messageEntry.setText(drafts.get(indexF));
-                                            messageEntry.setSelection(drafts.get(indexF).length());
-                                        }
-                                    });
+                                    if (sharedPrefs.getBoolean("auto_insert_draft", false))
+                                    {
+                                        fromDraft = true;
+                                        messageEntry.setText(drafts.get(indexF));
+                                        messageEntry.setSelection(drafts.get(indexF).length());
+                                    } else
+                                    {
+                                        messageBar.setOnClickListener(new MessageBar.OnMessageClickListener() {
+                                            @Override
+                                            public void onMessageClick(Parcelable token) {
+                                                fromDraft = true;
+                                                messageEntry.setText(drafts.get(indexF));
+                                                messageEntry.setSelection(drafts.get(indexF).length());
+                                            }
+                                        });
 
-                                    messageBar.show(context.getResources().getString(R.string.draft_found), context.getResources().getString(R.string.apply_draft));
+                                        messageBar.show(getString(R.string.draft_found), getString(R.string.apply_draft));
+                                    }
                                 }
 							}
 					    	
@@ -4881,19 +4946,30 @@ s
             }
         }
 
+        fromDraft = false;
+
         if (index != -1)
         {
-            final int indexF = index;
+            if (sharedPrefs.getBoolean("auto_insert_draft", false))
+            {
+                fromDraft = true;
+                messageEntry.setText(drafts.get(index));
+                messageEntry.setSelection(drafts.get(index).length());
+            } else
+            {
+                final int indexF = index;
 
-            messageBar.setOnClickListener(new MessageBar.OnMessageClickListener() {
-                @Override
-                public void onMessageClick(Parcelable token) {
-                    messageEntry.setText(drafts.get(indexF));
-                    messageEntry.setSelection(drafts.get(indexF).length());
-                }
-            });
+                messageBar.setOnClickListener(new MessageBar.OnMessageClickListener() {
+                    @Override
+                    public void onMessageClick(Parcelable token) {
+                        fromDraft = true;
+                        messageEntry.setText(drafts.get(indexF));
+                        messageEntry.setSelection(drafts.get(indexF).length());
+                    }
+                });
 
-            messageBar.show(getString(R.string.draft_found), getString(R.string.apply_draft));
+                messageBar.show(getString(R.string.draft_found), getString(R.string.apply_draft));
+            }
         }
 	}
 	
