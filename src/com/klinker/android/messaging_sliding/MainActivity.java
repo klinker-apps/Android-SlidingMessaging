@@ -121,6 +121,7 @@ import com.klinker.android.messaging_sliding.security.PasswordActivity;
 import com.klinker.android.messaging_sliding.security.PinActivity;
 import com.klinker.android.messaging_sliding.templates.TemplateArrayAdapter;
 import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
+import net.simonvt.messagebar.messagebar.MessageBar;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 
 public class MainActivity extends FragmentActivity {
@@ -141,9 +142,7 @@ s
 
     public static String deviceType;
 	
-	public ArrayList<String> inboxNumber, inboxDate, inboxBody, inboxId;
-	public ArrayList<Boolean> inboxSent, mms;
-	public ArrayList<String> images;
+	public ArrayList<String> inboxNumber, inboxDate, inboxBody;
 	public ArrayList<String> group;
 	public ArrayList<String> msgCount;
 	public ArrayList<String> msgRead;
@@ -156,9 +155,9 @@ s
 	public ArrayList<String> contactNames, contactNumbers, contactTypes, threadIds;
 	
 	public static SlidingMenu menu;
+    public MessageBar messageBar;
 	public boolean firstRun = true;
 	public boolean firstContactSearch = true;
-	public int contactSearchPosition = 0;
 	public boolean refreshMyContact = true;
 
     public static int loadAllMessagesPosition = -1;
@@ -176,8 +175,9 @@ s
     public boolean currentDataState;
 	
 	public static int contactWidth;
-	public static String draft = "";
 	public boolean jump = true;
+
+    public ArrayList<String> drafts, draftNames;
 	
 	public ListView menuLayout;
 	public MenuArrayAdapter menuAdapter;
@@ -569,13 +569,7 @@ s
 			        
 			        messageRecieved = true;
 			        
-			        if (draft.equals(""))
-			        {
-			        	jump = false;
-			        } else
-			        {
-			        	jump = false;
-			        }
+			        jump = false;
 
                     try
                     {
@@ -719,41 +713,13 @@ s
 
 		setUpSendbar();
 	}
-/*
-    public void onDestroy()
-    {
-        super.onDestroy();
-
-        Context context = getApplicationContext();
-        CharSequence text = "Destroy";
-        int duration = Toast.LENGTH_SHORT;
-
-        Toast toast = Toast.makeText(context, text, duration);
-        toast.show();
-
-        long currentTime = System.currentTimeMillis();
-        long lastTime = sharedPrefs.getLong("last_time", 0);
-
-        if (currentTime - lastTime > 10000)
-        {
-            SharedPreferences.Editor prefEdit = sharedPrefs.edit();
-
-            prefEdit.commit();
-        }
-
-    }
-*/
 
 	public void refreshMessages(boolean totalRefresh)
 	{
-		inboxSent = new ArrayList<Boolean>();
 		inboxNumber = new ArrayList<String>();
 		inboxDate = new ArrayList<String>();
 		inboxBody = new ArrayList<String>();
-		inboxId = new ArrayList<String>();
 		threadIds = new ArrayList<String>();
-		mms = new ArrayList<Boolean>();
-		images = new ArrayList<String>();
 		group = new ArrayList<String>();
 		msgCount = new ArrayList<String>();
 		msgRead = new ArrayList<String>();
@@ -871,6 +837,19 @@ s
 			
 			getWindow().getDecorView().setBackgroundColor(sharedPrefs.getInt("ct_messageListBackground", getResources().getColor(R.color.light_silver)));
 		}
+
+        drafts = new ArrayList<String>();
+        draftNames = new ArrayList<String>();
+
+        Cursor query = getContentResolver().query(Uri.parse("content://sms/draft/"), new String[] {"thread_id", "body"}, null, null, null);
+
+        if (query.moveToFirst())
+        {
+            do {
+                drafts.add(query.getString(query.getColumnIndex("body")));
+                draftNames.add(query.getString(query.getColumnIndex("thread_id")));
+            } while (query.moveToNext());
+        }
 		
 		if (refreshMyContact)
 		{
@@ -1173,7 +1152,6 @@ s
 
 			@Override
 			public void onClick(View v) {
-				MainActivity.draft = "";
 				
 				Intent updateWidget = new Intent("com.klinker.android.messaging.UPDATE_WIDGET");
 				context.sendBroadcast(updateWidget);
@@ -3641,22 +3619,18 @@ s
             }
 
         });
-        
+
+        messageBar = new MessageBar (this);
+
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener()
 		{
 		    public void onPageScrolled(int i, float f, int i2) {
-		    	if (!menu.isMenuShowing())
-		    	{
-		    		menu.showContent();
-		    	}
+
 		    }
 
 			@Override
 			public void onPageScrollStateChanged(int arg0) {
-				if (!menu.isMenuShowing())
-		    	{
-		    		menu.showContent();
-		    	}
+
 			}
 
 			@Override
@@ -3665,8 +3639,8 @@ s
 		    	{
 		    		menu.showContent();
 		    	}
-				
-				new Thread(new Runnable() {
+
+                new Thread(new Runnable() {
 
 					@Override
 					public void run() {
@@ -3677,29 +3651,62 @@ s
 				        	if (newMessages.get(j).replaceAll("-", "").endsWith(findContactName(inboxNumber.get(mViewPager.getCurrentItem()), context).replace("-", "")))
 				        	{
 				        		newMessages.remove(j);
-
-				        		int wantedPosition = mViewPager.getCurrentItem();
-				        		int firstPosition = menuLayout.getFirstVisiblePosition() - menuLayout.getHeaderViewsCount();
-				        		int wantedChild = wantedPosition - firstPosition;
-
-				        		if (wantedChild < 0 || wantedChild >= menuLayout.getChildCount()) {
-				        		} else
-				        		{
-					        		final View item = menuLayout.getChildAt(wantedChild);
-
-					        		((MainActivity)context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-					    				@Override
-					    				public void run() {
-					    					item.setBackgroundColor(menuLayout.getDrawingCacheBackgroundColor());
-					    				}
-
-					    		    });
-				        		}
 				        	}
 				        }
 				        
 				        writeToFile(newMessages, context);
+
+                        final ActionBar ab = getActionBar();
+                        String title = "";
+                        String subtitle = "";
+
+                        if (!sharedPrefs.getBoolean("hide_title_bar", true) || sharedPrefs.getBoolean("always_show_contact_info", false))
+                        {
+                            if (group.get(mViewPager.getCurrentItem()).equals("yes"))
+                            {
+                                title = "Group MMS";
+                                subtitle = null;
+                            } else
+                            {
+                                title = findContactName(inboxNumber.get(mViewPager.getCurrentItem()), context);
+
+                                Locale sCachedLocale = Locale.getDefault();
+                                int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
+                                Editable editable = new SpannableStringBuilder(inboxNumber.get(mViewPager.getCurrentItem()));
+                                PhoneNumberUtils.formatNumber(editable, sFormatType);
+                                subtitle = editable.toString();
+
+                                if (title.equals(subtitle))
+                                {
+                                    subtitle = null;
+                                }
+                            }
+                        }
+
+                        final String titleF = title, subtitleF = subtitle;
+
+                        BitmapDrawable image2 = null;
+
+                        if (sharedPrefs.getBoolean("title_contact_image", false))
+                        {
+                            Bitmap image = getFacebookPhoto(inboxNumber.get(mViewPager.getCurrentItem()), context);
+                            image2 = new BitmapDrawable(image);
+                        }
+
+                        final BitmapDrawable icon = image2;
+
+                        int index = -1;
+
+                        for (int i = 0; i < draftNames.size(); i++)
+                        {
+                            if (draftNames.get(i).equals(threadIds.get(mViewPager.getCurrentItem())))
+                            {
+                                index = i;
+                                break;
+                            }
+                        }
+
+                        final int indexF = index;
 				        
 				        ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 
@@ -3716,80 +3723,36 @@ s
 								{
 									
 								}
+
+                                if (!sharedPrefs.getBoolean("hide_title_bar", true) || sharedPrefs.getBoolean("always_show_contact_info", false))
+                                {
+                                    ab.setTitle(titleF);
+                                    ab.setSubtitle(subtitleF);
+                                }
+
+                                if (sharedPrefs.getBoolean("title_contact_image", false))
+                                {
+                                    ab.setIcon(icon);
+                                }
+
+                                if (indexF != -1)
+                                {
+                                    messageBar.setOnClickListener(new MessageBar.OnMessageClickListener() {
+                                        @Override
+                                        public void onMessageClick(Parcelable token) {
+                                            messageEntry.setText(drafts.get(indexF));
+                                            messageEntry.setSelection(drafts.get(indexF).length());
+                                        }
+                                    });
+
+                                    messageBar.show(context.getResources().getString(R.string.draft_found), context.getResources().getString(R.string.apply_draft));
+                                }
 							}
 					    	
 					    });
 					}
 					
 				}).start();
-				
-				if (!sharedPrefs.getBoolean("hide_title_bar", true) || sharedPrefs.getBoolean("always_show_contact_info", false))
-				{
-					final ActionBar ab = getActionBar();
-					
-					if (group.get(mViewPager.getCurrentItem()).equals("yes"))
-					{
-						ab.setTitle("Group MMS");
-						ab.setSubtitle(null);
-					} else
-					{
-						new Thread(new Runnable() {
-
-							@Override
-							public void run() {
-								final String title = findContactName(inboxNumber.get(mViewPager.getCurrentItem()), context);
-								
-								((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-									
-									@Override
-									public void run() {
-										ab.setTitle(title);
-
-                                        Locale sCachedLocale = Locale.getDefault();
-                                        int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
-                                        Editable editable = new SpannableStringBuilder(inboxNumber.get(mViewPager.getCurrentItem()));
-                                        PhoneNumberUtils.formatNumber(editable, sFormatType);
-                                        ab.setSubtitle(editable.toString());
-
-                                        if (ab.getTitle().equals(ab.getSubtitle()))
-                                        {
-                                            ab.setSubtitle(null);
-                                        }
-									}
-							    	
-							    });
-								
-							}
-							
-						}).start();
-					}
-				}
-				
-				if (sharedPrefs.getBoolean("title_contact_image", false))
-		        {
-		        	final ActionBar ab = getActionBar();
-		        	
-		        	new Thread(new Runnable() {
-
-						@Override
-						public void run() {
-							final Bitmap image = getFacebookPhoto(inboxNumber.get(mViewPager.getCurrentItem()), context);
-							final BitmapDrawable image2 = new BitmapDrawable(image);
-							
-							((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-								
-								@Override
-								public void run() {
-									ab.setIcon(image2);
-								}
-						    	
-						    });
-							
-						}
-		        		
-		        	}).start();
-		        }
-				
 			}
 		});
         
@@ -4906,6 +4869,32 @@ s
 
             }
         }
+
+        int index = -1;
+
+        for (int i = 0; i < draftNames.size(); i++)
+        {
+            if (draftNames.get(i).equals(threadIds.get(mViewPager.getCurrentItem())))
+            {
+                index = i;
+                break;
+            }
+        }
+
+        if (index != -1)
+        {
+            final int indexF = index;
+
+            messageBar.setOnClickListener(new MessageBar.OnMessageClickListener() {
+                @Override
+                public void onMessageClick(Parcelable token) {
+                    messageEntry.setText(drafts.get(indexF));
+                    messageEntry.setSelection(drafts.get(indexF).length());
+                }
+            });
+
+            messageBar.show(getString(R.string.draft_found), getString(R.string.apply_draft));
+        }
 	}
 	
 	@Override
@@ -5211,14 +5200,6 @@ s
 		AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 		alarm.cancel(pStopRepeating);
 		
-		if (!draft.equals(""))
-		{
-			ClipboardManager clipboard = (ClipboardManager)
-			        getSystemService(Context.CLIPBOARD_SERVICE);
-			ClipData clip = ClipData.newPlainText("Message Draft", draft);
-			clipboard.setPrimaryClip(clip);
-		}
-		
 		if (!firstRun)
 		{
             if (deviceType.equals("phone") || deviceType.equals("phablet2"))
@@ -5440,14 +5421,6 @@ s
 		
 		Intent intent = new Intent("com.klinker.android.messaging.CLEARED_NOTIFICATION");
 	    this.sendBroadcast(intent);
-		
-		if (!draft.equals(""))
-		{
-			ClipboardManager clipboard = (ClipboardManager)
-			        getSystemService(Context.CLIPBOARD_SERVICE);
-			ClipData clip = ClipData.newPlainText("Message Draft", draft);
-			clipboard.setPrimaryClip(clip);
-		}
 		
 		if (!firstRun)
 		{
@@ -6412,14 +6385,6 @@ s
 		public DummySectionFragment getItem(int position) {
 			DummySectionFragment fragment = new DummySectionFragment();
 			Bundle args = new Bundle();
-			boolean[] inboxSents = new boolean[inboxSent.size()];
-			boolean[] mmsArray = new boolean[mms.size()];
-			
-			for (int i = 0; i < inboxSent.size(); i++)
-			{
-				inboxSents[i] = inboxSent.get(i);
-				mmsArray[i] = mms.get(i);
-			}
 			
 			args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
 			args.putInt("position", position);
@@ -6729,7 +6694,7 @@ s
                 if (MainActivity.waitToLoad)
                 {
                     final LoaderManager.LoaderCallbacks<Cursor> callback = this;
-                    new Handler().postDelayed(new Runnable() {
+                    listView.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             getSupportLoaderManager().restartLoader(position, null, callback);
@@ -7052,7 +7017,7 @@ s
         {
             if (sharedPrefs.getString("run_as", "sliding").equals("sliding"))
             {
-                MessageArrayAdapter adapter = new MessageArrayAdapter((Activity) context, myId, numbers.get(position), threadIds.get(position), query, myPhoneNumber, position);
+                final MessageArrayAdapter adapter = new MessageArrayAdapter((Activity) context, myId, numbers.get(position), threadIds.get(position), query, myPhoneNumber, position);
 
                 if (adapter.getCount() >= 20 && listView.getHeaderViewsCount() == 0)
                 {
