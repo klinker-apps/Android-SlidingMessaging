@@ -5021,6 +5021,12 @@ s
 
         final Context context = this;
 
+        if (messageEntry.getText().toString().length() != 0) {
+            draftChanged.add(true);
+            draftNames.add(threadIds.get(mViewPager.getCurrentItem()));
+            drafts.add(messageEntry.getText().toString());
+        }
+
         new Thread(new Runnable() {
             @Override
             public void run() {
