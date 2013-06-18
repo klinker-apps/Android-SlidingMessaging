@@ -178,6 +178,8 @@ s
 	public boolean jump = true;
 
     public ArrayList<String> drafts, draftNames;
+    public ArrayList<Boolean> draftChanged;
+    public ArrayList<String> draftsToDelete;
     public boolean fromDraft = false;
     public String newDraft = "";
 	
@@ -842,6 +844,8 @@ s
 
         drafts = new ArrayList<String>();
         draftNames = new ArrayList<String>();
+        draftChanged = new ArrayList<Boolean>();
+        draftsToDelete = new ArrayList<String>();
 
         Cursor query = getContentResolver().query(Uri.parse("content://sms/draft/"), new String[] {"thread_id", "body"}, null, null, null);
 
@@ -850,6 +854,7 @@ s
             do {
                 drafts.add(query.getString(query.getColumnIndex("body")));
                 draftNames.add(query.getString(query.getColumnIndex("thread_id")));
+                draftChanged.add(false);
             } while (query.moveToNext());
         }
 
@@ -1815,8 +1820,10 @@ s
                                                 {
                                                     if (draftNames.get(i).equals(threadIds.get(mViewPager.getCurrentItem())))
                                                     {
+                                                        draftsToDelete.add(draftNames.get(i));
                                                         draftNames.remove(i);
                                                         drafts.remove(i);
+                                                        draftChanged.remove(i);
                                                         break;
                                                     }
                                                 }
@@ -3733,13 +3740,17 @@ s
                         {
                             draftNames.add(newDraft);
                             drafts.add(messageEntry.getText().toString());
+                            draftChanged.add(true);
                         } else if (contains && messageEntry.getText().toString().trim().length() > 0)
                         {
                             drafts.set(where, messageEntry.getText().toString());
+                            draftChanged.set(where, true);
                         } else if (contains && messageEntry.getText().toString().trim().length() == 0 && fromDraft)
                         {
+                            draftsToDelete.add(draftNames.get(where));
                             draftNames.remove(where);
                             drafts.remove(where);
+                            draftChanged.remove(where);
                         }
 
                         newDraft = "";
@@ -5007,6 +5018,71 @@ s
 
         Intent updateWidget = new Intent("com.klinker.android.messaging.UPDATE_WIDGET");
         sendBroadcast(updateWidget);
+
+        final Context context = this;
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < draftChanged.size(); i++) {
+                    if (draftChanged.get(i) == false) {
+                        draftChanged.remove(i);
+                        draftNames.remove(i);
+                        drafts.remove(i);
+                        i--;
+                    }
+                }
+
+                Log.v("draft_deleted", draftsToDelete.get(0));
+                ArrayList<String> ids = new ArrayList<String>();
+
+                Cursor query = context.getContentResolver().query(Uri.parse("content://sms/draft/"), new String[] {"_id", "thread_id"}, null, null, null);
+
+                if (query != null) {
+                    if (query.moveToFirst()) {
+                        do {
+                            for (int i = 0; i < draftsToDelete.size(); i++) {
+                                if (query.getString(query.getColumnIndex("thread_id")).equals(draftsToDelete.get(i))) {
+                                    ids.add(query.getString(query.getColumnIndex("_id")));
+                                    break;
+                                }
+                            }
+
+                            for (int i = 0; i < draftNames.size(); i++) {
+                                if (draftNames.get(i).equals(query.getString(query.getColumnIndex("thread_id")))) {
+                                    context.getContentResolver().delete(Uri.parse("content://sms/" + query.getString(query.getColumnIndex("_id"))), null, null);
+                                    break;
+                                }
+                            }
+                        } while (query.moveToNext());
+
+                        for (int i = 0; i < ids.size(); i++) {
+                            context.getContentResolver().delete(Uri.parse("content://sms/" + ids.get(i)), null, null);
+                        }
+                    }
+
+                    query.close();
+                }
+
+                for (int i = 0; i < draftNames.size(); i++) {
+                    String address = "";
+
+                    for (int j = 0; j < inboxNumber.size(); j++) {
+                        if (threadIds.get(j).equals(draftNames.get(i))) {
+                            address = inboxNumber.get(j);
+                            break;
+                        }
+                    }
+
+                    ContentValues values = new ContentValues();
+                    values.put("address", address);
+                    values.put("thread_id", draftNames.get(i));
+                    values.put("body", drafts.get(i));
+                    values.put("type", "3");
+                    context.getContentResolver().insert(Uri.parse("content://sms/"), values);
+                }
+            }
+        }).start();
 	}
 
     @Override
