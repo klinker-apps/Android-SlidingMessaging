@@ -841,24 +841,6 @@ s
 			
 			getWindow().getDecorView().setBackgroundColor(sharedPrefs.getInt("ct_messageListBackground", getResources().getColor(R.color.light_silver)));
 		}
-
-        drafts = new ArrayList<String>();
-        draftNames = new ArrayList<String>();
-        draftChanged = new ArrayList<Boolean>();
-        draftsToDelete = new ArrayList<String>();
-
-        Cursor query = getContentResolver().query(Uri.parse("content://sms/draft/"), new String[] {"thread_id", "body"}, null, null, null);
-
-        if (query.moveToFirst())
-        {
-            do {
-                drafts.add(query.getString(query.getColumnIndex("body")));
-                draftNames.add(query.getString(query.getColumnIndex("thread_id")));
-                draftChanged.add(false);
-            } while (query.moveToNext());
-        }
-
-        query.close();
 		
 		if (refreshMyContact)
 		{
@@ -4946,6 +4928,24 @@ s
             }
         }
 
+        drafts = new ArrayList<String>();
+        draftNames = new ArrayList<String>();
+        draftChanged = new ArrayList<Boolean>();
+        draftsToDelete = new ArrayList<String>();
+
+        Cursor query = getContentResolver().query(Uri.parse("content://sms/draft/"), new String[] {"thread_id", "body"}, null, null, null);
+
+        if (query.moveToFirst())
+        {
+            do {
+                drafts.add(query.getString(query.getColumnIndex("body")));
+                draftNames.add(query.getString(query.getColumnIndex("thread_id")));
+                draftChanged.add(false);
+            } while (query.moveToNext());
+        }
+
+        query.close();
+
         int index = -1;
 
         for (int i = 0; i < draftNames.size(); i++)
@@ -5033,7 +5033,6 @@ s
                     }
                 }
 
-                Log.v("draft_deleted", draftsToDelete.get(0));
                 ArrayList<String> ids = new ArrayList<String>();
 
                 Cursor query = context.getContentResolver().query(Uri.parse("content://sms/draft/"), new String[] {"_id", "thread_id"}, null, null, null);
