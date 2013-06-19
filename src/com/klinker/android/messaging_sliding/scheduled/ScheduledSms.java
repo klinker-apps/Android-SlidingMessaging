@@ -13,7 +13,9 @@ import java.util.Date;
 import java.util.Locale;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -94,6 +96,8 @@ public class ScheduledSms extends Activity {
                         .setMessage(context.getResources().getString(R.string.delete_scheduled_sms))
                         .setPositiveButton(context.getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
+                                cancelAlarm(Integer.parseInt(text.get(arg2)[4]), text.get(arg2)[2], Long.parseLong(text.get(arg2)[1]));
+
                                 text.remove(arg2);
 
                                 writeToFile(text, context);
@@ -178,10 +182,10 @@ public class ScheduledSms extends Activity {
 
                 while ( (receiveString = bufferedReader.readLine()) != null ) {
 
-                    String[] details = new String[4];
+                    String[] details = new String[5];
                     details[0] = receiveString;
 
-                    for(int i = 1; i < 4; i++)
+                    for(int i = 1; i < 5; i++)
                         details[i] = bufferedReader.readLine();
 
                     ret.add(details);
@@ -216,7 +220,7 @@ public class ScheduledSms extends Activity {
             {
                 String[] details = data.get(i);
 
-                for (int j = 0; j < 4; j++)
+                for (int j = 0; j < 5; j++)
                 {
                     outputStreamWriter.write(details[j] + "\n");
                 }
@@ -238,8 +242,8 @@ public class ScheduledSms extends Activity {
 
         for(int i = 0; i < list.size(); i++)
         {
-            Date sendDate = new Date(Long.parseLong(list.get(i)[2]));
-            if (sendDate.compareTo(new Date()) < 0 && list.get(i)[2].equals("0")) // date is earlier than current and no repetition
+            Date sendDate = new Date(Long.parseLong(list.get(i)[1]));
+            if (sendDate.before(new Date()) && list.get(i)[2].equals("None")) // date is earlier than current and no repetition
             {
                 list.remove(i);
                 i--;
@@ -247,5 +251,57 @@ public class ScheduledSms extends Activity {
         }
 
         writeToFile(list, context);
+    }
+
+    public void cancelAlarm(int alarmId, String repetition, long date)
+    {
+        Intent serviceIntent = new Intent(getApplicationContext(), ScheduledService.class);
+
+        PendingIntent pi = getDistinctPendingIntent(serviceIntent, alarmId);
+
+        // Schedule the alarm!
+        AlarmManager am = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+
+        if (repetition.equals("None"))
+        {
+            am.set(AlarmManager.RTC_WAKEUP,
+                    date,
+                    pi);
+        } else
+        {
+            if (repetition.equals("Daily"))
+            {
+                am.setRepeating(AlarmManager.RTC_WAKEUP,
+                        date,
+                        AlarmManager.INTERVAL_DAY,
+                        pi);
+            } else if (repetition.equals("Weekly"))
+            {
+                am.setRepeating(AlarmManager.RTC_WAKEUP,
+                        date,
+                        AlarmManager.INTERVAL_DAY * 7,
+                        pi);
+            } else if (repetition.equals("Yearly"))
+            {
+                am.setRepeating(AlarmManager.RTC_WAKEUP,
+                        date,
+                        AlarmManager.INTERVAL_DAY * 365,
+                        pi);
+            }
+
+            am.cancel(pi);
+        }
+    }
+
+    protected PendingIntent getDistinctPendingIntent(Intent intent, int requestId)
+    {
+        PendingIntent pi =
+                PendingIntent.getService(
+                        this,         //context
+                        requestId,    //request id
+                        intent,       //intent to be delivered
+                        0);
+
+        return pi;
     }
 }
