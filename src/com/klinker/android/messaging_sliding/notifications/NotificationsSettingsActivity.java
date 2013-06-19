@@ -126,6 +126,7 @@ public class NotificationsSettingsActivity extends Activity {
 				individuals.remove(arg2);
 				writeToFile(individuals, context);
 				startActivity(intent);
+                overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
 			}
 			
 		});
@@ -139,6 +140,7 @@ public class NotificationsSettingsActivity extends Activity {
 				writeToFile(individuals, context);
 				Intent intent = new Intent(context, ContactFinderActivity.class);
 				context.startActivity(intent);
+                overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
 				
 			}
 			
@@ -167,6 +169,7 @@ public class NotificationsSettingsActivity extends Activity {
 	public void onBackPressed() {
 		writeToFile(individuals, this);
 		super.onBackPressed();
+        overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
 	}
 	
 	@SuppressWarnings("resource")

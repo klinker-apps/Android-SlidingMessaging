@@ -3996,6 +3996,7 @@ s
 	    case R.id.menu_settings:
 	    	startActivity(new Intent(this, SettingsPagerActivity.class));
             finish();
+            overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
 	    	return true;
 	    case R.id.menu_about:
 	    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -4132,6 +4133,7 @@ s
 			intent.putExtra("threadIds", threadIds);
 			intent.putExtra("inboxNumber", inboxNumber);
 			startActivity(intent);
+            overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
             
 	    	return true;
 	    case R.id.menu_template:
@@ -6287,7 +6289,8 @@ s
 								@Override
 								public void onClick(DialogInterface dialog,
 										int which) {
-									Intent intent = new Intent(context, MmsSettingsActivity.class);
+                                    Intent intent = new Intent(context, SettingsPagerActivity.class);
+                                    intent.putExtra("mms", true);
 									context.startActivity(intent);
 									
 								}

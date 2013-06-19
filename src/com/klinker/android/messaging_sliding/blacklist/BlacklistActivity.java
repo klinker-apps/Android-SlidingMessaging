@@ -126,6 +126,7 @@ public class BlacklistActivity extends Activity {
 				intent.putExtra("com.klinker.android.messaging.BLACKLIST_NAME", individuals.get(arg2).name);
 				intent.putExtra("com.klinker.android.messaging.BLACKLIST_TYPE", individuals.get(arg2).type);
 				context.startActivity(intent);
+                overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
 			}
 			
 		});
@@ -139,6 +140,7 @@ public class BlacklistActivity extends Activity {
 				writeToFile(individuals, context);
 				Intent intent = new Intent(context, NewBlacklistActivity.class);
 				context.startActivity(intent);
+                overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
 				
 			}
 			
@@ -168,6 +170,7 @@ public class BlacklistActivity extends Activity {
 		writeToFile(individuals, this);
 		super.onBackPressed();
 		finish();
+        overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
 	}
 	
 	@SuppressWarnings("resource")

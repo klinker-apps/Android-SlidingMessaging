@@ -31,4 +31,9 @@ public class APNSettingsActivity extends Activity {
 		apns.setAdapter(adapter);
 	}
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
+    }
 }

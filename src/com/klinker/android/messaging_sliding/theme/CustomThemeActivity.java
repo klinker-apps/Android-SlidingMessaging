@@ -86,6 +86,7 @@ public class CustomThemeActivity extends PreferenceActivity {
 		 				 
 		 				 Toast.makeText(getBaseContext(), getResources().getString(R.string.toast_theme_saved), Toast.LENGTH_LONG).show();
 		            	 finish();
+                         overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
 		                 return true;
 		             }
 		         });
@@ -131,6 +132,7 @@ public class CustomThemeActivity extends PreferenceActivity {
 		 Toast.makeText(getBaseContext(), "Theme Saved", Toast.LENGTH_LONG).show();
 		 
 		super.onBackPressed();
+        overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
 	}
 	
 	private void writeToFile(String data, Context context, String name) {

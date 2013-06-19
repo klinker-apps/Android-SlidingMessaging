@@ -88,6 +88,7 @@ public class ContactFinderActivity extends Activity {
 				Intent intent = new Intent(context, NotificationSetterActivity.class);
 				intent.putExtra("com.klinker.android.messaging.CONTACT_NAME", name.get(arg2));
 				startActivity(intent);
+                overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
 				
 				finish();
 			}
@@ -112,6 +113,12 @@ public class ContactFinderActivity extends Activity {
 		    getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
 		}
 	}
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
+    }
 	
 	public void findContacts()
 	{

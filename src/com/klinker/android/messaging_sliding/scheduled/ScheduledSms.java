@@ -121,6 +121,7 @@ public class ScheduledSms extends Activity {
                 intent.putExtra(EXTRA_MESSAGE, text.get(pos)[3]);
 
                 startActivity(intent);
+                overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
             }
         });
 
@@ -136,6 +137,7 @@ public class ScheduledSms extends Activity {
                 intent.putExtra(EXTRA_MESSAGE, "");
 
                 startActivity(intent);
+                overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
             }
 
         });
@@ -145,6 +147,7 @@ public class ScheduledSms extends Activity {
     public void onBackPressed() {
         writeToFile(text, this);
         super.onBackPressed();
+        overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
     }
 
     @SuppressWarnings("resource")

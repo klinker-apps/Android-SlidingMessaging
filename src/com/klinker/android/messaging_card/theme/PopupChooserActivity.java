@@ -192,6 +192,7 @@ public class PopupChooserActivity extends Activity {
 
 		    	Intent intent = new Intent(this, CustomPopupActivity.class);
 		    	startActivity(intent);
+                 overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
 	       	 } catch (PackageManager.NameNotFoundException e)
 	       	 {
 	       		 Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -218,6 +219,7 @@ public class PopupChooserActivity extends Activity {
 
 			    	 Intent intent2 = new Intent(this, CustomPopupActivity.class);
 			    	 startActivity(intent2);
+                     overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
 		       	 } catch (PackageManager.NameNotFoundException e)
 		       	 {
 		       		 Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -426,4 +428,10 @@ public class PopupChooserActivity extends Activity {
 			return view;
 		}
 	}
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
+    }
 }

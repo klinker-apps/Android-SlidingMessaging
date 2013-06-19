@@ -333,8 +333,6 @@ public class NewBlacklistActivity extends Activity {
 	
 	@Override
 	public void onBackPressed() {
-		super.onBackPressed();
-		
 		boolean stop = false;
 		int pos = 0;
 		
@@ -357,8 +355,10 @@ public class NewBlacklistActivity extends Activity {
 			individuals.set(pos, new BlacklistContact(contact.getText().toString(), saveType));
 			writeToFile(individuals, context);
 		}
-		
-		finish();
+
+        super.onBackPressed();
+        finish();
+        overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
 	}
 	
 	@SuppressWarnings("resource")
