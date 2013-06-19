@@ -90,10 +90,8 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
                     intent.putExtra("com.klinker.android.OPEN", intent.getStringExtra("com.klinker.android.OPEN"));
                 }
 
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent);
                 finish();
-                overridePendingTransition(0, 0);
             } else if (sharedPrefs.getString("run_as", "sliding").equals("card"))
             {
                 final Intent intent = new Intent(this, com.klinker.android.messaging_card.MainActivity.class);
@@ -113,10 +111,8 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
                     intent.putExtra("com.klinker.android.OPEN", intent.getStringExtra("com.klinker.android.OPEN"));
                 }
 
-                intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent);
                 finish();
-                overridePendingTransition(0, 0);
             }
         }
     }

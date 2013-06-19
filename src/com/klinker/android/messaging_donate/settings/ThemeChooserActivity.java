@@ -81,6 +81,12 @@ public class ThemeChooserActivity extends Activity {
 		    getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
 		}
 	}
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
+    }
 	
 	public void refreshThemes()
 	{
@@ -247,6 +253,7 @@ public class ThemeChooserActivity extends Activity {
 				
 		    	Intent intent = new Intent(this, CustomThemeActivity.class);
 		    	startActivity(intent);
+                 overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
 	       	 } catch (PackageManager.NameNotFoundException e)
 	       	 {
 	       		 Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -262,6 +269,7 @@ public class ThemeChooserActivity extends Activity {
 	    		
 	    		 Intent intent2 = new Intent(this, DefaultThemeActivity.class);
 		    	 startActivity(intent2);
+                overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
 	    	} else if (mViewPager.getCurrentItem() < 3)
 	    	{
 	    		try
@@ -273,6 +281,7 @@ public class ThemeChooserActivity extends Activity {
 		       		 
 			    	 Intent intent2 = new Intent(this, DefaultThemeActivity.class);
 			    	 startActivity(intent2);
+                     overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
 		       	 } catch (PackageManager.NameNotFoundException e)
 		       	 {
 		       		 try
@@ -284,6 +293,7 @@ public class ThemeChooserActivity extends Activity {
 			       		 
 			       		Intent intent2 = new Intent(this, DefaultThemeActivity.class);
 				    	 startActivity(intent2);
+                         overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
 		       		 } catch (Exception f)
 		       		 {
 		       			 Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -306,6 +316,7 @@ public class ThemeChooserActivity extends Activity {
 			    	
 			    	 Intent intent2 = new Intent(this, CustomThemeActivity.class);
 			    	 startActivity(intent2);
+                     overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
 		       	 } catch (PackageManager.NameNotFoundException e)
 		       	 {
 		       		 Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -330,6 +341,7 @@ public class ThemeChooserActivity extends Activity {
 			    	
 			    	 Intent intent2 = new Intent(this, CustomThemeActivity.class);
 			    	 startActivity(intent2);
+                     overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
 		       	 } catch (PackageManager.NameNotFoundException e)
 		       	 {
 		       		 Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -369,6 +381,7 @@ public class ThemeChooserActivity extends Activity {
 	    case R.id.menu_custom_font:
        		 Intent intent3 = new Intent(this, CustomFontSettingsActivity.class);
        		 startActivity(intent3);
+            overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
 	    	return true;
 	    case R.id.menu_instructions:
 	    	AlertDialog.Builder builder = new AlertDialog.Builder(this);

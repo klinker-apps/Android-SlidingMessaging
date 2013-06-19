@@ -201,6 +201,12 @@ public class BatchDeleteActivity extends Activity {
 			
 		});
 	}
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
+    }
 	
 	public void deleteSMS(Context context, String threadId) {
 	    try {

@@ -69,6 +69,14 @@ public class SettingsPagerActivity extends FragmentActivity {
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
+        try {
+            if (getIntent().getBooleanExtra("mms", false)) {
+                mViewPager.setCurrentItem(6, true);
+            }
+        } catch (Exception e) {
+
+        }
+
     }
 
     @Override
@@ -104,6 +112,7 @@ public class SettingsPagerActivity extends FragmentActivity {
             Intent i = new Intent(this, com.klinker.android.messaging_donate.MainActivity.class);
             startActivity(i);
             finish();
+            overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
         } else
         {
             mViewPager.setCurrentItem(0, true);
@@ -135,7 +144,6 @@ public class SettingsPagerActivity extends FragmentActivity {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            Locale l = Locale.getDefault();
             switch (position) {
                 case 0:
                     return getResources().getString(R.string.menu_settings);
@@ -306,6 +314,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                 public boolean onPreferenceClick(Preference arg0) {
                     Intent intent = new Intent(context, TemplateActivity.class);
                     startActivity(intent);
+                    overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                     return false;
                 }
 
@@ -318,6 +327,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                 public boolean onPreferenceClick(Preference arg0) {
                     Intent intent = new Intent(context, ScheduledSms.class);
                     startActivity(intent);
+                    overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                     return false;
                 }
 
@@ -394,6 +404,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                     public boolean onPreferenceClick(Preference preference) {
                         Intent intent = new Intent(context, TitleBarSettingsActivity.class);
                         startActivity(intent);
+                        overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                         return true;
                     }
                 });
@@ -403,6 +414,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                     public boolean onPreferenceClick(Preference preference) {
                         Intent intent = new Intent(context, ThemeChooserActivity.class);
                         startActivity(intent);
+                        overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
 
                         return true;
                     }
@@ -458,6 +470,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                     public boolean onPreferenceClick(Preference arg0) {
                         Intent intent3 = new Intent(context, com.klinker.android.messaging_sliding.theme.CustomFontSettingsActivity.class);
                         startActivity(intent3);
+                        overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
 
                         return true;
                     }
@@ -477,6 +490,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                 public boolean onPreferenceClick(Preference arg0) {
                     Intent intent = new Intent(context, NotificationsSettingsActivity.class);
                     startActivity(intent);
+                    overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                     return false;
                 }
 
@@ -487,6 +501,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                 public boolean onPreferenceClick(Preference preference) {
                     Intent intent = new Intent(context, BlacklistActivity.class);
                     startActivity(intent);
+                    overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                     return true;
                 }
             });
@@ -515,6 +530,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                     public boolean onPreferenceClick(Preference preference) {
                         Intent intent = new Intent(context, PopupChooserActivity.class);
                         startActivity(intent);
+                        overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                         return true;
                     }
                 });
@@ -616,6 +632,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                 public boolean onPreferenceClick(Preference arg0) {
                     Intent intent = new Intent(getActivity(), com.klinker.android.messaging_sliding.mms.APNSettingsActivity.class);
                     startActivity(intent);
+                    overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                     return false;
                 }
 

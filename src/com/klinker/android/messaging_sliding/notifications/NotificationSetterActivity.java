@@ -89,6 +89,7 @@ public class NotificationSetterActivity extends PreferenceActivity {
 		writeToFile(individuals, this);
 		
 		super.onBackPressed();
+        overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
 	}
 	
 	@SuppressWarnings("resource")

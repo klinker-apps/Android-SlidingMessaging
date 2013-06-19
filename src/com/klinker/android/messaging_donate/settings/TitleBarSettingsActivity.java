@@ -47,9 +47,8 @@ public class TitleBarSettingsActivity extends PreferenceActivity {
 	}
 	
 	@Override
-	public synchronized void onActivityResult(final int requestCode,
-		    int resultCode, final Intent data) {
-
-		super.onActivityResult(requestCode, resultCode, data);
-	}
+	public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
+    }
 }
