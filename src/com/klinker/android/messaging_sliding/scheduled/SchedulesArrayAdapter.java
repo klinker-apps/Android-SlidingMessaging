@@ -26,6 +26,7 @@ public class SchedulesArrayAdapter  extends ArrayAdapter<String> {
         public TextView name;
         public TextView date;
         public TextView message;
+        public TextView repetition;
     }
 
     public SchedulesArrayAdapter(Activity context, ArrayList<String[]> text) {
@@ -59,6 +60,10 @@ public class SchedulesArrayAdapter  extends ArrayAdapter<String> {
             viewHolder.date.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0, 2)));
             viewHolder.date.setTextColor(context.getResources().getColor(R.color.messageCounterLight));
 
+            viewHolder.repetition = (TextView) rowView.findViewById(R.id.repetition);
+            viewHolder.repetition.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0, 2)));
+            viewHolder.repetition.setTextColor(context.getResources().getColor(R.color.messageCounterLight));
+
             viewHolder.message = (TextView) rowView.findViewById(R.id.message);
             viewHolder.message.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0, 2)));
             viewHolder.message.setTextColor(context.getResources().getColor(R.color.white));
@@ -90,6 +95,7 @@ public class SchedulesArrayAdapter  extends ArrayAdapter<String> {
         holder.name.setText(contactName);
         holder.date.setText(dateString);
         holder.message.setText(text.get(position)[3]);
+        holder.repetition.setText(text.get(position)[2]);
 
         return rowView;
     }

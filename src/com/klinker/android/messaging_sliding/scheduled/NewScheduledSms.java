@@ -106,7 +106,7 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
 
         int spinnerIndex;
 
-        if (startRepeat.equals("None") || startRepeat.equals(""))
+        if (startRepeat.equals("None") || startRepeat.equals("0"))
             spinnerIndex = 0;
         else if (startRepeat.equals("Daily"))
             spinnerIndex = 1;
@@ -787,10 +787,10 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
 
                 while ( (receiveString = bufferedReader.readLine()) != null ) {
 
-                    String[] details = new String[4];
+                    String[] details = new String[5];
                     details[0] = receiveString;
 
-                    for(int i = 1; i < 4; i++)
+                    for(int i = 1; i < 5; i++)
                         details[i] = bufferedReader.readLine();
 
                     ret.add(details);

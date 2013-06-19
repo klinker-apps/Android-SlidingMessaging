@@ -118,6 +118,8 @@ public class ScheduledSms extends Activity {
             public void onItemClick(AdapterView<?> arg0, View arg1,
                                            final int pos, long arg3) {
 
+                cancelAlarm(Integer.parseInt(text.get(pos)[4]), text.get(pos)[2], Long.parseLong(text.get(pos)[1]));
+
                 Intent intent = new Intent(context, NewScheduledSms.class);
                 intent.putExtra(EXTRA_NUMBER, text.get(pos)[0]);
                 intent.putExtra(EXTRA_DATE, text.get(pos)[1]);
@@ -262,6 +264,7 @@ public class ScheduledSms extends Activity {
         // Schedule the alarm!
         AlarmManager am = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
 
+
         if (repetition.equals("None"))
         {
             am.set(AlarmManager.RTC_WAKEUP,
@@ -289,8 +292,8 @@ public class ScheduledSms extends Activity {
                         pi);
             }
 
-            am.cancel(pi);
         }
+        am.cancel(pi);
     }
 
     protected PendingIntent getDistinctPendingIntent(Intent intent, int requestId)
