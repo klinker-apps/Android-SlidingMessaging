@@ -341,6 +341,10 @@
         <service
             android:name=".widget.CardWidgetProvider2$CardWidgetService3" >
         </service>
+
+        <service
+                android:name="com.klinker.android.messaging_sliding.scheduled.ScheduledService" >
+        </service>
         
         <service android:name=".MessageDashClockExtension"
      		android:icon="@drawable/ic_launcher"

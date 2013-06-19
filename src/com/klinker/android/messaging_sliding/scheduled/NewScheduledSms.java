@@ -34,6 +34,9 @@ import java.util.regex.Pattern;
 
 public class NewScheduledSms extends Activity implements AdapterView.OnItemSelectedListener{
 
+    public final static String EXTRA_NUMBER = "com.klinker.android.messaging_sliding.NUMBER";
+    public final static String EXTRA_MESSAGE = "com.klinker.android.messaging_sliding.MESSAGE";
+
     private Context context;
 
     private ListPopupWindow lpw;
@@ -548,7 +551,7 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
 
             if (setHour != -1 && setMinute != -1)
             {
-                setDate = new Date(setYear, setMonth, setDay, setHour, setMinute);
+                setDate = new Date(setYear - 1900, setMonth, setDay, setHour, setMinute);
 
                 if (sharedPrefs.getBoolean("hour_format", false))
                 {
@@ -559,7 +562,7 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
                 }
             } else
             {
-                setDate = new Date(setYear, setMonth, setDay);
+                setDate = new Date(setYear - 1900, setMonth, setDay);
 
                 if (sharedPrefs.getBoolean("hour_format", false))
                 {
@@ -582,6 +585,8 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
 
             setDate.setHours(setHour);
             setDate.setMinutes(setMinute);
+
+            currentDate.setYear(currentYear - 1900);
 
             if (!setDate.before(currentDate))
             {
@@ -637,8 +642,6 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
     // including the alarm manager and writing the files to the database to save them
     public boolean doneClick()
     {
-
-        // just checks contact and message boxes now, need to check date and time as well
         if (!contactSearch.getText().toString().equals("") && !mEditText.getText().toString().equals("") && timeDone)
         {
             String[] details = new String[5];
@@ -659,6 +662,7 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
             if (details[0].equals(startNumber) && details[1].equals(startDate) && details[2].equals(startRepeat) && details[3].equals(startMessage))
             {
                 writeToFile(data, this);
+                createAlarm();
                 finish();
             } else
             {
@@ -675,7 +679,8 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
                 data.add(details);
 
                 writeToFile(data, this);
-                finish(); // just finishes activity for now, not doing anything. Implementation needed.
+                createAlarm();
+                finish();
             }
 
         }else
@@ -688,6 +693,35 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
             toast.show();
         }
         return true;
+    }
+
+    public void createAlarm()
+    {
+        Intent serviceIntent = new Intent(this, ScheduledService.class);
+
+        serviceIntent.putExtra(EXTRA_MESSAGE, mEditText.getText().toString());
+        serviceIntent.putExtra(EXTRA_NUMBER, contactSearch.getText().toString());
+
+        PendingIntent pi = getDistinctPendingIntent(serviceIntent, 1);
+
+        // Schedule the alarm!
+        AlarmManager am = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+
+        am.set(AlarmManager.RTC,
+                setDate.getTime(),
+                pi);
+    }
+
+    protected PendingIntent getDistinctPendingIntent(Intent intent, int requestId)
+    {
+        PendingIntent pi =
+                PendingIntent.getService(
+                        this,         //context
+                        requestId,    //request id
+                        intent,       //intent to be delivered
+                        0);
+
+        return pi;
     }
 
     @SuppressWarnings("resource")
