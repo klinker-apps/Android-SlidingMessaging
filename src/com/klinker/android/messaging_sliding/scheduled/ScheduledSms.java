@@ -236,7 +236,7 @@ public class ScheduledSms extends Activity {
         for(int i = 0; i < list.size(); i++)
         {
             Date sendDate = new Date(Long.parseLong(list.get(i)[2]));
-            if (sendDate.after(new Date()) && list.get(i)[2].equals("0")) // date is earlier than current and no repetition
+            if (sendDate.before(new Date()) && list.get(i)[2].equals("0")) // date is earlier than current and no repetition
             {
                 list.remove(i);
                 i--;
