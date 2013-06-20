@@ -7,9 +7,8 @@ import android.media.*;
 import android.os.*;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.*;
-import android.support.v4.app.LoaderManager;
 import android.support.v4.app.TaskStackBuilder;
-import android.support.v4.content.Loader;
+import android.content.Loader;
 import android.support.v4.view.ViewPager;
 import android.view.*;
 import android.widget.*;
@@ -6696,7 +6695,7 @@ s
 	 * A dummy fragment representing a section of the app, but that simply
 	 * displays dummy text.
 	 */
-	public class DummySectionFragment extends android.app.Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+	public class DummySectionFragment extends android.app.Fragment implements android.app.LoaderManager.LoaderCallbacks<Cursor> {
 		/**
 		 * The fragment argument representing the section number for this
 		 * fragment.
@@ -6995,12 +6994,11 @@ s
                     }).start();
                 } else
                 {
-                    getSupportLoaderManager().restartLoader(position, null, this);
+                    getLoaderManager().restartLoader(position, null, this);
+                    Log.v("loading", position + "");
                 }
             } else
             {
-                getSupportLoaderManager().destroyLoader(position);
-
                 Uri uri3 = Uri.parse("content://mms-sms/conversations/" + threadIds.get(position) + "/");
                 String[] projection2;
 
@@ -7130,7 +7128,7 @@ s
 		 }
 
         @Override
-        public android.support.v4.content.Loader<Cursor> onCreateLoader(int loaderID, Bundle bundle)
+        public android.content.Loader<Cursor> onCreateLoader(int loaderID, Bundle bundle)
         {
             Uri uri3 = Uri.parse("content://mms-sms/conversations/" + threadIds.get(position) + "/");
             String[] projection2;
@@ -7156,7 +7154,9 @@ s
                 MainActivity.loadAllMessagesPosition = -1;
             }
 
-            return new android.support.v4.content.CursorLoader(
+            Log.v("loading", "Status: Started");
+
+            return new android.content.CursorLoader(
                     context,
                     uri3,
                     projection2,
@@ -7167,7 +7167,7 @@ s
         }
 
         @Override
-        public void onLoadFinished(Loader<Cursor> loader, final Cursor query)
+        public void onLoadFinished(android.content.Loader<Cursor> loader, final Cursor query)
         {
             if (sharedPrefs.getString("run_as", "sliding").equals("sliding"))
             {
