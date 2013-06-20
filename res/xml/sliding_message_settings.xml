@@ -70,6 +70,13 @@
         android:max="1000"
         />
 
+    <!--<CheckBoxPreference-->
+        <!--android:key="message_sounds"-->
+        <!--android:title="@string/message_sounds"-->
+        <!--android:summary="@string/message_sounds_summary"-->
+        <!--android:defaultValue="false"-->
+        <!--/>-->
+
     <CheckBoxPreference
         android:key="contact_pictures"
         android:title="@string/contact_pictures"

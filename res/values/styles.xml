@@ -19,6 +19,18 @@
         <item name="messageBarTextStyle">@style/MessageBar.Message</item>
         <item name="messageBarButtonStyle">@style/MessageBar.Button</item>
     </style>
+
+    <style name="cardThemeLight" parent="android:Theme.Holo.Light.NoActionBar">
+        <item name="messageBarContainerStyle">@style/MessageBar.Container</item>
+        <item name="messageBarTextStyle">@style/MessageBar.Message</item>
+        <item name="messageBarButtonStyle">@style/MessageBar.Button</item>
+    </style>
+
+    <style name="cardTheme" parent="android:Theme.Holo.NoActionBar">
+        <item name="messageBarContainerStyle">@style/MessageBar.Container</item>
+        <item name="messageBarTextStyle">@style/MessageBar.Message</item>
+        <item name="messageBarButtonStyle">@style/MessageBar.Button</item>
+    </style>
     
     <style name="SettingsTheme" parent="android:Theme">
         

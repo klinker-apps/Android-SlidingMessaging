@@ -2,15 +2,13 @@ package com.klinker.android.messaging_sliding;
 
 import android.app.*;
 import android.content.*;
-import android.content.CursorLoader;
 import android.graphics.*;
+import android.media.*;
 import android.os.*;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.*;
-import android.support.v4.app.LoaderManager;
 import android.support.v4.app.TaskStackBuilder;
-import android.support.v4.content.*;
-import android.support.v4.content.Loader;
+import android.content.Loader;
 import android.support.v4.view.ViewPager;
 import android.view.*;
 import android.widget.*;
@@ -64,10 +62,6 @@ import android.graphics.PorterDuff.Mode;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.AudioManager;
-import android.media.ExifInterface;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -79,7 +73,6 @@ import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.PhoneLookup;
 import android.provider.ContactsContract.Profile;
 import android.provider.MediaStore;
-import android.provider.MediaStore.Images;
 import android.provider.Telephony;
 import android.support.v4.view.PagerTitleStrip;
 import android.telephony.PhoneNumberUtils;
@@ -107,7 +100,6 @@ import android.widget.RelativeLayout.LayoutParams;
 import com.klinker.android.messaging_donate.receivers.DeliveredReceiver;
 import com.klinker.android.messaging_donate.receivers.DisconnectWifi;
 import com.klinker.android.messaging_donate.receivers.SentReceiver;
-import com.klinker.android.messaging_donate.settings.MmsSettingsActivity;
 import com.klinker.android.messaging_donate.settings.SettingsPagerActivity;
 import com.klinker.android.messaging_sliding.custom_dialogs.CustomListView;
 import com.klinker.android.messaging_sliding.emojis.EmojiAdapter;
@@ -122,7 +114,6 @@ import com.klinker.android.messaging_sliding.security.PinActivity;
 import com.klinker.android.messaging_sliding.templates.TemplateArrayAdapter;
 import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
 import net.simonvt.messagebar.messagebar.MessageBar;
-import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 
 public class MainActivity extends FragmentActivity {
 
@@ -217,6 +208,8 @@ s
 	public boolean multipleAttachments = false;
 	
 	public Typeface font;
+    public SoundPool soundPool;
+    public int ping;
 
     public static final String GSM_CHARACTERS_REGEX = "^[A-Za-z0-9 \\r\\n@Ł$ĽčéůěňÇŘřĹĺ\u0394_\u03A6\u0393\u039B\u03A9\u03A0\u03A8\u03A3\u0398\u039EĆćßÉ!\"#$%&'()*+,\\-./:;<=>?ĄÄÖŃÜ§żäöńüŕ^{}\\\\\\[~\\]|\u20AC]*$";
 
@@ -711,6 +704,9 @@ s
         {
             ab.setBackgroundDrawable(getResources().getDrawable(R.drawable.ab_hangouts));
         }
+
+        soundPool = new SoundPool(1, AudioManager.STREAM_NOTIFICATION, 0);
+        ping = soundPool.load(this, R.raw.message_ping, 1);
 		
 		View v = findViewById(R.id.newMessageGlow);
 		v.setVisibility(View.GONE);
@@ -1237,6 +1233,16 @@ s
 							                        }
 							                        
 							                        query.close();
+
+                                                    if (sharedPrefs.getBoolean("message_sounds", false)) {
+                                                        AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+                                                        float actualVolume = (float) audioManager
+                                                                .getStreamVolume(AudioManager.STREAM_NOTIFICATION);
+                                                        float maxVolume = (float) audioManager
+                                                                .getStreamMaxVolume(AudioManager.STREAM_NOTIFICATION);
+                                                        float volume = actualVolume / maxVolume;
+                                                        soundPool.play(ping, volume, volume, 1, 0, 1f);
+                                                    }
 							                        
 							                        break;
 							                    case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
@@ -6689,7 +6695,7 @@ s
 	 * A dummy fragment representing a section of the app, but that simply
 	 * displays dummy text.
 	 */
-	public class DummySectionFragment extends android.app.Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+	public class DummySectionFragment extends android.app.Fragment implements android.app.LoaderManager.LoaderCallbacks<Cursor> {
 		/**
 		 * The fragment argument representing the section number for this
 		 * fragment.
@@ -6853,160 +6859,148 @@ s
             {
                 if (MainActivity.waitToLoad)
                 {
-                    final LoaderManager.LoaderCallbacks<Cursor> callback = this;
-                    listView.postDelayed(new Runnable() {
+                    new Thread(new Runnable() {
+
                         @Override
                         public void run() {
-                            getSupportLoaderManager().restartLoader(position, null, callback);
-                        }
-                    }, 400);
+                            try
+                            {
+                                Thread.sleep(500);
+                            } catch (Exception e)
+                            {
 
-                    MainActivity.waitToLoad = false;
+                            }
+
+                            MainActivity.waitToLoad = false;
+
+                            Uri uri3 = Uri.parse("content://mms-sms/conversations/" + threadIds.get(position) + "/");
+                            String[] projection2;
+
+                            if (sharedPrefs.getBoolean("show_original_timestamp", false))
+                            {
+                                projection2 = new String[]{"_id", "ct_t", "body", "date", "date_sent", "type", "read", "status", "msg_box"};
+                            } else
+                            {
+                                projection2 = new String[]{"_id", "ct_t", "body", "date", "type", "read", "status", "msg_box"};
+                            }
+
+                            String sortOrder = "normalized_date desc";
+
+                            if (sharedPrefs.getBoolean("limit_messages", true) && !(MainActivity.loadAllMessages && position == MainActivity.loadAllMessagesPosition))
+                            {
+                                sortOrder += " limit 20";
+                            }
+
+                            if (MainActivity.loadAllMessages && position == MainActivity.loadAllMessagesPosition)
+                            {
+                                MainActivity.loadAllMessages = false;
+                                MainActivity.loadAllMessagesPosition = -1;
+                            }
+
+                            messageQuery = contentResolver.query(uri3, projection2, null, null, sortOrder);
+
+                            ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                                @Override
+                                public void run() {
+                                    if (sharedPrefs.getString("run_as", "sliding").equals("sliding"))
+                                    {
+                                        MessageArrayAdapter adapter = new MessageArrayAdapter((Activity) context, myId, numbers.get(position), threadIds.get(position), messageQuery, myPhoneNumber, position);
+
+                                        if (adapter.getCount() >= 20 && listView.getHeaderViewsCount() == 0)
+                                        {
+                                            Button footer = new Button (context);
+                                            int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, context.getResources().getDisplayMetrics());
+                                            footer.setPadding(0, scale, 0, scale);
+                                            footer.setGravity(Gravity.CENTER);
+                                            footer.setText(context.getResources().getString(R.string.load_all));
+                                            footer.setTextColor(sharedPrefs.getInt("ct_draftTextColor", sharedPrefs.getInt("ct_sendButtonColor", context.getResources().getColor(R.color.black))));
+
+                                            footer.setOnClickListener(new OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                    MainActivity.loadAllMessages = true;
+                                                    MainActivity.loadAllMessagesPosition = position;
+                                                    ((MainActivity)context).refreshViewPager(false);
+                                                    MainActivity.mViewPager.setCurrentItem(position, false);
+                                                }
+                                            });
+
+                                            listView.addHeaderView(footer);
+                                        }
+
+                                        listView.setAdapter(adapter);
+                                        listView.setStackFromBottom(true);
+                                        spinner.setVisibility(View.GONE);
+                                    } else
+                                    {
+                                        com.klinker.android.messaging_hangout.MessageArrayAdapter adapter = new com.klinker.android.messaging_hangout.MessageArrayAdapter((Activity) context, myId, numbers.get(position), threadIds.get(position), messageQuery, myPhoneNumber, position);
+
+                                        if (adapter.getCount() >= 20 && listView.getHeaderViewsCount() == 0)
+                                        {
+                                            final Button footer = new Button (context);
+                                            int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, context.getResources().getDisplayMetrics());
+                                            footer.setPadding(0, scale, 0, scale);
+                                            footer.setGravity(Gravity.CENTER);
+                                            footer.setText(context.getResources().getString(R.string.load_all));
+                                            footer.setTextColor(sharedPrefs.getInt("ct_draftTextColor", sharedPrefs.getInt("ct_sendButtonColor", context.getResources().getColor(R.color.black))));
+
+                                            footer.setOnClickListener(new OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                    MainActivity.loadAllMessages = true;
+                                                    MainActivity.loadAllMessagesPosition = position;
+                                                    ((MainActivity)context).refreshViewPager(false);
+                                                    MainActivity.mViewPager.setCurrentItem(position, false);
+                                                }
+                                            });
+
+                                            listView.addHeaderView(footer);
+                                        }
+
+                                        listView.setAdapter(adapter);
+                                        listView.setStackFromBottom(true);
+                                        spinner.setVisibility(View.GONE);
+                                    }
+                                }
+
+                            });
+
+                            try
+                            {
+                                Thread.sleep(500);
+                            } catch (Exception e)
+                            {
+
+                            }
+
+                            ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                                @Override
+                                public void run() {
+                                    try
+                                    {
+                                        listView.setSelection(messageQuery.getCount() - 1);
+                                    } catch (Exception e)
+                                    {
+
+                                    }
+                                }
+
+                            });
+
+                        }
+
+                    }).start();
                 } else
                 {
-                    getSupportLoaderManager().restartLoader(position, null, this);
+                    getLoaderManager().restartLoader(position, null, this);
+                    Log.v("loading", position + "");
                 }
-
-//                new Thread(new Runnable() {
-//
-//                    @Override
-//                    public void run() {
-//                        if (MainActivity.waitToLoad)
-//                        {
-//                            try
-//                            {
-//                                Thread.sleep(400);
-//                            } catch (Exception e)
-//                            {
-//
-//                            }
-//
-//                            MainActivity.waitToLoad = false;
-//                        }
-//
-//                        Uri uri3 = Uri.parse("content://mms-sms/conversations/" + threadIds.get(position) + "/");
-//                        String[] projection2;
-//
-//                        if (sharedPrefs.getBoolean("show_original_timestamp", false))
-//                        {
-//                            projection2 = new String[]{"_id", "ct_t", "body", "date", "date_sent", "type", "read", "status", "msg_box"};
-//                        } else
-//                        {
-//                            projection2 = new String[]{"_id", "ct_t", "body", "date", "type", "read", "status", "msg_box"};
-//                        }
-//
-//                        String sortOrder = "normalized_date desc";
-//
-//                        if (sharedPrefs.getBoolean("limit_messages", true) && !(MainActivity.loadAllMessages && position == MainActivity.loadAllMessagesPosition))
-//                        {
-//                            sortOrder += " limit 20";
-//                        }
-//
-//                        if (MainActivity.loadAllMessages && position == MainActivity.loadAllMessagesPosition)
-//                        {
-//                            MainActivity.loadAllMessages = false;
-//                            MainActivity.loadAllMessagesPosition = -1;
-//                        }
-//
-//                        messageQuery = contentResolver.query(uri3, projection2, null, null, sortOrder);
-//
-//                        ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-//
-//                            @Override
-//                            public void run() {
-//                                if (sharedPrefs.getString("run_as", "sliding").equals("sliding"))
-//                                {
-//                                    MessageArrayAdapter adapter = new MessageArrayAdapter((Activity) context, myId, numbers.get(position), threadIds.get(position), messageQuery, myPhoneNumber, position);
-//
-//                                    if (adapter.getCount() >= 20 && listView.getHeaderViewsCount() == 0)
-//                                    {
-//                                        Button footer = new Button (context);
-//                                        int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, context.getResources().getDisplayMetrics());
-//                                        footer.setPadding(0, scale, 0, scale);
-//                                        footer.setGravity(Gravity.CENTER);
-//                                        footer.setText(context.getResources().getString(R.string.load_all));
-//                                        footer.setTextColor(sharedPrefs.getInt("ct_draftTextColor", sharedPrefs.getInt("ct_sendButtonColor", context.getResources().getColor(R.color.black))));
-//
-//                                        footer.setOnClickListener(new OnClickListener() {
-//                                            @Override
-//                                            public void onClick(View view) {
-//                                                MainActivity.loadAllMessages = true;
-//                                                MainActivity.loadAllMessagesPosition = position;
-//                                                ((MainActivity)context).refreshViewPager(false);
-//                                                MainActivity.mViewPager.setCurrentItem(position, false);
-//                                            }
-//                                        });
-//
-//                                        listView.addHeaderView(footer);
-//                                    }
-//
-//                                    listView.setAdapter(adapter);
-//                                    listView.setStackFromBottom(true);
-//                                    spinner.setVisibility(View.GONE);
-//                                } else
-//                                {
-//                                    com.klinker.android.messaging_hangout.MessageArrayAdapter adapter = new com.klinker.android.messaging_hangout.MessageArrayAdapter((Activity) context, myId, numbers.get(position), threadIds.get(position), messageQuery, myPhoneNumber, position);
-//
-//                                    if (adapter.getCount() >= 20 && listView.getHeaderViewsCount() == 0)
-//                                    {
-//                                        final Button footer = new Button (context);
-//                                        int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, context.getResources().getDisplayMetrics());
-//                                        footer.setPadding(0, scale, 0, scale);
-//                                        footer.setGravity(Gravity.CENTER);
-//                                        footer.setText(context.getResources().getString(R.string.load_all));
-//                                        footer.setTextColor(sharedPrefs.getInt("ct_draftTextColor", sharedPrefs.getInt("ct_sendButtonColor", context.getResources().getColor(R.color.black))));
-//
-//                                        footer.setOnClickListener(new OnClickListener() {
-//                                            @Override
-//                                            public void onClick(View view) {
-//                                                MainActivity.loadAllMessages = true;
-//                                                MainActivity.loadAllMessagesPosition = position;
-//                                                ((MainActivity)context).refreshViewPager(false);
-//                                                MainActivity.mViewPager.setCurrentItem(position, false);
-//                                            }
-//                                        });
-//
-//                                        listView.addHeaderView(footer);
-//                                    }
-//
-//                                    listView.setAdapter(adapter);
-//                                    listView.setStackFromBottom(true);
-//                                    spinner.setVisibility(View.GONE);
-//                                }
-//                            }
-//
-//                        });
-//
-//                        try
-//                        {
-//                            Thread.sleep(500);
-//                        } catch (Exception e)
-//                        {
-//
-//                        }
-//
-//                        ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-//
-//                            @Override
-//                            public void run() {
-//                                try
-//                                {
-//                                    listView.setSelection(messageQuery.getCount() - 1);
-//                                } catch (Exception e)
-//                                {
-//
-//                                }
-//                            }
-//
-//                        });
-//
-//                    }
-//
-//                }).start();
             } else
             {
-                getSupportLoaderManager().destroyLoader(position);
-
+                getLoaderManager().destroyLoader(position);
+                
                 Uri uri3 = Uri.parse("content://mms-sms/conversations/" + threadIds.get(position) + "/");
                 String[] projection2;
 
@@ -7136,7 +7130,7 @@ s
 		 }
 
         @Override
-        public android.support.v4.content.Loader<Cursor> onCreateLoader(int loaderID, Bundle bundle)
+        public android.content.Loader<Cursor> onCreateLoader(int loaderID, Bundle bundle)
         {
             Uri uri3 = Uri.parse("content://mms-sms/conversations/" + threadIds.get(position) + "/");
             String[] projection2;
@@ -7162,7 +7156,9 @@ s
                 MainActivity.loadAllMessagesPosition = -1;
             }
 
-            return new android.support.v4.content.CursorLoader(
+            Log.v("loading", "Status: Started");
+
+            return new android.content.CursorLoader(
                     context,
                     uri3,
                     projection2,
@@ -7173,7 +7169,7 @@ s
         }
 
         @Override
-        public void onLoadFinished(Loader<Cursor> loader, final Cursor query)
+        public void onLoadFinished(android.content.Loader<Cursor> loader, final Cursor query)
         {
             if (sharedPrefs.getString("run_as", "sliding").equals("sliding"))
             {

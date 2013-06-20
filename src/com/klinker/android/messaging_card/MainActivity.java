@@ -24,6 +24,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import android.os.Parcelable;
 import android.view.*;
 import android.widget.*;
 import com.android.mms.transaction.HttpUtils;
@@ -42,7 +43,6 @@ import com.klinker.android.messaging_donate.*;
 import com.klinker.android.messaging_donate.receivers.DeliveredReceiver;
 import com.klinker.android.messaging_donate.receivers.DisconnectWifi;
 import com.klinker.android.messaging_donate.receivers.SentReceiver;
-import com.klinker.android.messaging_donate.settings.MmsSettingsActivity;
 import com.klinker.android.messaging_donate.settings.SettingsPagerActivity;
 import com.klinker.android.messaging_sliding.*;
 
@@ -132,6 +132,7 @@ import com.klinker.android.messaging_sliding.receivers.QuickTextService;
 import com.klinker.android.messaging_sliding.security.PasswordActivity;
 import com.klinker.android.messaging_sliding.security.PinActivity;
 import com.klinker.android.messaging_sliding.templates.TemplateArrayAdapter;
+import net.simonvt.messagebar.messagebar.MessageBar;
 
 public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuItemClickListener {
 
@@ -192,6 +193,13 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 	
 	public static String myPhoneNumber, myContactId;
 	public static Bitmap myPicture;
+
+    public ArrayList<String> drafts, draftNames;
+    public ArrayList<Boolean> draftChanged;
+    public ArrayList<String> draftsToDelete;
+    public boolean fromDraft = false;
+    public String newDraft = "";
+    public MessageBar messageBar;
 	
 	public boolean refreshMyContact = true;
 	public static ArrayList<String> contactNames;
@@ -238,7 +246,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 				setContentView(R.layout.card_main);
 			}
 			
-			setTheme(android.R.style.Theme_Holo_Light_NoActionBar);
+			setTheme(R.style.cardThemeLight);
 		} else if (sharedPrefs.getString("card_theme", "Light").equals("Dark"))
 		{
 			if (sharedPrefs.getBoolean("top_actionbar", false))
@@ -249,7 +257,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 				setContentView(R.layout.card_main_dark);
 			}
 			
-			setTheme(android.R.style.Theme_Holo_NoActionBar);
+			setTheme(R.style.cardTheme);
 		} else if (sharedPrefs.getString("card_theme", "Light").equals("Pitch Black"))
 		{
 			if (sharedPrefs.getBoolean("top_actionbar", false))
@@ -260,7 +268,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 				setContentView(R.layout.card_main_black);
 			}
 			
-			setTheme(android.R.style.Theme_Holo_NoActionBar);
+			setTheme(R.style.cardTheme);
 		}
 		
 		getWindow().setBackgroundDrawable(null);
@@ -1029,6 +1037,10 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 	        }
 
 	        public void afterTextChanged(Editable s) {
+                if (newDraft.equals("") && messagePager.getCurrentItem() != 0)
+                {
+                    newDraft = threadIds.get(messagePager.getCurrentItem() - 1);
+                }
 	        }
 		});
 		
@@ -1756,6 +1768,21 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 		
 											@Override
 											public void run() {
+                                                if (fromDraft)
+                                                {
+                                                    for (int i = 0; i < draftNames.size(); i++)
+                                                    {
+                                                        if (draftNames.get(i).equals(threadIds.get(messagePager.getCurrentItem() - 1)))
+                                                        {
+                                                            draftsToDelete.add(draftNames.get(i));
+                                                            draftNames.remove(i);
+                                                            drafts.remove(i);
+                                                            draftChanged.remove(i);
+                                                            break;
+                                                        }
+                                                    }
+                                                }
+
 												MainActivity.sentMessage = true;
 									        	refreshViewPager4(address2, StripAccents.stripAccents(body), cal.getTimeInMillis() + "");
 									        	messagePager.setCurrentItem(1);
@@ -2509,6 +2536,22 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 				
 												@Override
 												public void run() {
+
+                                                    if (fromDraft)
+                                                    {
+                                                        for (int i = 0; i < draftNames.size(); i++)
+                                                        {
+                                                            if (draftNames.get(i).equals(threadIds.get(messagePager.getCurrentItem() - 1)))
+                                                            {
+                                                                draftsToDelete.add(draftNames.get(i));
+                                                                draftNames.remove(i);
+                                                                drafts.remove(i);
+                                                                draftChanged.remove(i);
+                                                                break;
+                                                            }
+                                                        }
+                                                    }
+
 													sentMessage = true;
 													waitMessagePager = false;
 													refreshViewPager(true);
@@ -2821,6 +2864,12 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 		alarm.cancel(pStopRepeating);
 		
 		final Context context = this;
+
+        messageBar = new MessageBar (this);
+        drafts = new ArrayList<String>();
+        draftNames = new ArrayList<String>();
+        draftChanged = new ArrayList<Boolean>();
+        draftsToDelete = new ArrayList<String>();
 		
 		messagePager.setOnPageChangeListener(new OnPageChangeListener() {
 
@@ -2929,6 +2978,86 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 				        }
 				        
 				        writeToFile(newMessages, context);
+
+                        boolean contains = false;
+                        int where = -1;
+
+                        for (int i = 0; i < draftNames.size(); i++)
+                        {
+                            if (draftNames.get(i).equals(newDraft))
+                            {
+                                contains = true;
+                                where = i;
+                                break;
+                            }
+                        }
+
+                        if (!contains && messageEntry.getText().toString().trim().length() > 0)
+                        {
+                            draftNames.add(newDraft);
+                            drafts.add(messageEntry.getText().toString());
+                            draftChanged.add(true);
+                        } else if (contains && messageEntry.getText().toString().trim().length() > 0)
+                        {
+                            drafts.set(where, messageEntry.getText().toString());
+                            draftChanged.set(where, true);
+                        } else if (contains && messageEntry.getText().toString().trim().length() == 0 && fromDraft)
+                        {
+                            draftsToDelete.add(draftNames.get(where));
+                            draftNames.remove(where);
+                            drafts.remove(where);
+                            draftChanged.remove(where);
+                        }
+
+                        newDraft = "";
+
+                        int index = -1;
+
+                        for (int i = 0; i < draftNames.size(); i++)
+                        {
+                            if (draftNames.get(i).equals(threadIds.get(messagePager.getCurrentItem() - 1)))
+                            {
+                                index = i;
+                                break;
+                            }
+                        }
+
+                        final int indexF = index;
+
+                        ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                if (!messageEntry.getText().equals(""))
+                                {
+                                    messageEntry.setText("");
+                                }
+
+                                fromDraft = false;
+
+                                if (indexF != -1)
+                                {
+                                    if (sharedPrefs.getBoolean("auto_insert_draft", false))
+                                    {
+                                        fromDraft = true;
+                                        messageEntry.setText(drafts.get(indexF));
+                                        messageEntry.setSelection(drafts.get(indexF).length());
+                                    } else
+                                    {
+                                        messageBar.setOnClickListener(new MessageBar.OnMessageClickListener() {
+                                            @Override
+                                            public void onMessageClick(Parcelable token) {
+                                                fromDraft = true;
+                                                messageEntry.setText(drafts.get(indexF));
+                                                messageEntry.setSelection(drafts.get(indexF).length());
+                                            }
+                                        });
+
+                                        messageBar.show(getString(R.string.draft_found), getString(R.string.apply_draft));
+                                    }
+                                }
+                            }
+                        });
 					}
 					
 				}).start();
@@ -3686,6 +3815,61 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
         filter.addCategory(Intent.CATEGORY_DEFAULT);
         filter.setPriority(3);
         registerReceiver(mmsReceiver, filter);
+
+        drafts = new ArrayList<String>();
+        draftNames = new ArrayList<String>();
+        draftChanged = new ArrayList<Boolean>();
+        draftsToDelete = new ArrayList<String>();
+
+        Cursor query = getContentResolver().query(Uri.parse("content://sms/draft/"), new String[] {"thread_id", "body"}, null, null, null);
+
+        if (query.moveToFirst())
+        {
+            do {
+                drafts.add(query.getString(query.getColumnIndex("body")));
+                draftNames.add(query.getString(query.getColumnIndex("thread_id")));
+                draftChanged.add(false);
+            } while (query.moveToNext());
+        }
+
+        query.close();
+
+        int index = -1;
+
+        for (int i = 0; i < draftNames.size(); i++)
+        {
+            if (draftNames.get(i).equals(threadIds.get(messagePager.getCurrentItem() - 1)))
+            {
+                index = i;
+                break;
+            }
+        }
+
+        fromDraft = false;
+
+        if (index != -1)
+        {
+            if (sharedPrefs.getBoolean("auto_insert_draft", false))
+            {
+                fromDraft = true;
+                messageEntry.setText(drafts.get(index));
+                messageEntry.setSelection(drafts.get(index).length());
+            } else
+            {
+                final int indexF = index;
+
+                messageBar.setOnClickListener(new MessageBar.OnMessageClickListener() {
+                    @Override
+                    public void onMessageClick(Parcelable token) {
+                        fromDraft = true;
+                        messageEntry.setText(drafts.get(indexF));
+                        messageEntry.setSelection(drafts.get(indexF).length());
+                    }
+                });
+
+                messageBar.show(getString(R.string.draft_found), getString(R.string.apply_draft));
+            }
+        }
 	}
 	
 	@Override
@@ -3718,6 +3902,76 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 
         Intent updateWidget = new Intent("com.klinker.android.messaging.UPDATE_WIDGET");
         sendBroadcast(updateWidget);
+
+        final Context context = this;
+
+        if (messageEntry.getText().toString().length() != 0) {
+            draftChanged.add(true);
+            draftNames.add(threadIds.get(messagePager.getCurrentItem() - 1));
+            drafts.add(messageEntry.getText().toString());
+        }
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < draftChanged.size(); i++) {
+                    if (draftChanged.get(i) == false) {
+                        draftChanged.remove(i);
+                        draftNames.remove(i);
+                        drafts.remove(i);
+                        i--;
+                    }
+                }
+
+                ArrayList<String> ids = new ArrayList<String>();
+
+                Cursor query = context.getContentResolver().query(Uri.parse("content://sms/draft/"), new String[] {"_id", "thread_id"}, null, null, null);
+
+                if (query != null) {
+                    if (query.moveToFirst()) {
+                        do {
+                            for (int i = 0; i < draftsToDelete.size(); i++) {
+                                if (query.getString(query.getColumnIndex("thread_id")).equals(draftsToDelete.get(i))) {
+                                    ids.add(query.getString(query.getColumnIndex("_id")));
+                                    break;
+                                }
+                            }
+
+                            for (int i = 0; i < draftNames.size(); i++) {
+                                if (draftNames.get(i).equals(query.getString(query.getColumnIndex("thread_id")))) {
+                                    context.getContentResolver().delete(Uri.parse("content://sms/" + query.getString(query.getColumnIndex("_id"))), null, null);
+                                    break;
+                                }
+                            }
+                        } while (query.moveToNext());
+
+                        for (int i = 0; i < ids.size(); i++) {
+                            context.getContentResolver().delete(Uri.parse("content://sms/" + ids.get(i)), null, null);
+                        }
+                    }
+
+                    query.close();
+                }
+
+                for (int i = 0; i < draftNames.size(); i++) {
+                    String address = "";
+
+                    for (int j = 0; j < inboxNumber.size(); j++) {
+                        if (threadIds.get(j).equals(draftNames.get(i))) {
+                            address = inboxNumber.get(j);
+                            break;
+                        }
+                    }
+
+                    ContentValues values = new ContentValues();
+                    values.put("address", address);
+                    values.put("thread_id", draftNames.get(i));
+                    values.put("body", drafts.get(i));
+                    values.put("type", "3");
+                    context.getContentResolver().insert(Uri.parse("content://sms/"), values);
+                }
+            }
+        }).start();
 	}
 	
 	@Override
