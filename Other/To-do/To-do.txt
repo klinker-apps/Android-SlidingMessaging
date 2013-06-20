@@ -1,6 +1,5 @@
 Version 6.30
 - Scheduled SMS
-    - Notifications
 - Drafts
 - Sent message sounds
 - cache conversations
@@ -8,8 +7,8 @@ Version 6.30
 - Message Locking?
 
 0) more individual notification options
-1) Draft system
-2) Scheduled SMS
+ ---- 1) Draft system
+ ---- 2) Scheduled SMS
 3) Batch delete of messages inside single conversation
 5) Tasker options
 6) Attach more options for MMS - create slideshow with videos and audio and pictures, attach plain text contact info

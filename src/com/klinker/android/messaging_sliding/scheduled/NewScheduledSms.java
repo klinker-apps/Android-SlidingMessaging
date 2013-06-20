@@ -747,7 +747,6 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
                         AlarmManager.INTERVAL_DAY * 365,
                         pi);
             }
-
         }
 
     }
