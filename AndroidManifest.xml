@@ -155,12 +155,6 @@
             android:label="@string/preset_apns"
             android:theme="@style/SettingsTheme" >
         </activity>
-
-        <activity
-            android:name=".settings.MmsSettingsActivity"
-            android:label="@string/mms_settings"
-            android:theme="@style/SettingsTheme" >
-        </activity>
         
         <activity
             android:name="com.klinker.android.messaging_sliding.theme.CustomThemeActivity"

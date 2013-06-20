@@ -2,14 +2,12 @@ package com.klinker.android.messaging_sliding;
 
 import android.app.*;
 import android.content.*;
-import android.content.CursorLoader;
 import android.graphics.*;
 import android.os.*;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.*;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.app.TaskStackBuilder;
-import android.support.v4.content.*;
 import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
 import android.view.*;
@@ -79,7 +77,6 @@ import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.PhoneLookup;
 import android.provider.ContactsContract.Profile;
 import android.provider.MediaStore;
-import android.provider.MediaStore.Images;
 import android.provider.Telephony;
 import android.support.v4.view.PagerTitleStrip;
 import android.telephony.PhoneNumberUtils;
@@ -107,7 +104,6 @@ import android.widget.RelativeLayout.LayoutParams;
 import com.klinker.android.messaging_donate.receivers.DeliveredReceiver;
 import com.klinker.android.messaging_donate.receivers.DisconnectWifi;
 import com.klinker.android.messaging_donate.receivers.SentReceiver;
-import com.klinker.android.messaging_donate.settings.MmsSettingsActivity;
 import com.klinker.android.messaging_donate.settings.SettingsPagerActivity;
 import com.klinker.android.messaging_sliding.custom_dialogs.CustomListView;
 import com.klinker.android.messaging_sliding.emojis.EmojiAdapter;
@@ -122,7 +118,6 @@ import com.klinker.android.messaging_sliding.security.PinActivity;
 import com.klinker.android.messaging_sliding.templates.TemplateArrayAdapter;
 import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
 import net.simonvt.messagebar.messagebar.MessageBar;
-import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 
 public class MainActivity extends FragmentActivity {
 
