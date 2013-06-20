@@ -55,16 +55,38 @@ public class ScheduledService extends IntentService {
         {
             for (int i = 0; i < numbers.size(); i++)
             {
-                //SmsManager smsManager = SmsManager.getDefault();
-                //smsManager.sendTextMessage(numbers.get(i), null, message, null, null);
                 sendMessage(this, numbers.get(i), message);
+
+                NotificationCompat.Builder mBuilder =
+                        new NotificationCompat.Builder(this)
+                                .setSmallIcon(R.drawable.stat_notify_sms)
+                                .setContentTitle("Sending Successful")
+                                .setContentText("Scheduled SMS sent successfully.");
+
+                Intent resultIntent = new Intent(this, com.klinker.android.messaging_sliding.scheduled.ScheduledSms.class);
+
+                PendingIntent resultPendingIntent =
+                        PendingIntent.getActivity(
+                                this,
+                                0,
+                                resultIntent,
+                                PendingIntent.FLAG_UPDATE_CURRENT
+                        );
+
+                mBuilder.setContentIntent(resultPendingIntent);
+
+                int mNotificationId = 5;
+
+                NotificationManager mNotifyMgr =
+                        (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+                mNotifyMgr.notify(mNotificationId, mBuilder.build());
             }
 
         } catch (Exception e)
         {
 
         }
-
     }
 
     public void sendMessage(final Context context, String number, String body)

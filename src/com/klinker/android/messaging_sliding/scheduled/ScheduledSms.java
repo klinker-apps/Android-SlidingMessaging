@@ -12,10 +12,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.AlertDialog;
-import android.app.PendingIntent;
+import android.app.*;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -58,6 +55,11 @@ public class ScheduledSms extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.scheduled_sms);
+
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.cancel(5);
+
         sms = (ListView) findViewById(R.id.smsListView);
         addNew = (Button) findViewById(R.id.addNewButton);
 
