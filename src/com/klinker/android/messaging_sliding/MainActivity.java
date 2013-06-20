@@ -3,6 +3,7 @@ package com.klinker.android.messaging_sliding;
 import android.app.*;
 import android.content.*;
 import android.graphics.*;
+import android.media.*;
 import android.os.*;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.*;
@@ -62,10 +63,6 @@ import android.graphics.PorterDuff.Mode;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.AudioManager;
-import android.media.ExifInterface;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -212,6 +209,8 @@ s
 	public boolean multipleAttachments = false;
 	
 	public Typeface font;
+    public SoundPool soundPool;
+    public int ping;
 
     public static final String GSM_CHARACTERS_REGEX = "^[A-Za-z0-9 \\r\\n@Ł$ĽčéůěňÇŘřĹĺ\u0394_\u03A6\u0393\u039B\u03A9\u03A0\u03A8\u03A3\u0398\u039EĆćßÉ!\"#$%&'()*+,\\-./:;<=>?ĄÄÖŃÜ§żäöńüŕ^{}\\\\\\[~\\]|\u20AC]*$";
 
@@ -706,6 +705,9 @@ s
         {
             ab.setBackgroundDrawable(getResources().getDrawable(R.drawable.ab_hangouts));
         }
+
+        soundPool = new SoundPool(1, AudioManager.STREAM_NOTIFICATION, 0);
+        ping = soundPool.load(this, R.raw.message_ping, 1);
 		
 		View v = findViewById(R.id.newMessageGlow);
 		v.setVisibility(View.GONE);
@@ -1232,6 +1234,16 @@ s
 							                        }
 							                        
 							                        query.close();
+
+                                                    if (sharedPrefs.getBoolean("message_sounds", false)) {
+                                                        AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+                                                        float actualVolume = (float) audioManager
+                                                                .getStreamVolume(AudioManager.STREAM_NOTIFICATION);
+                                                        float maxVolume = (float) audioManager
+                                                                .getStreamMaxVolume(AudioManager.STREAM_NOTIFICATION);
+                                                        float volume = actualVolume / maxVolume;
+                                                        soundPool.play(ping, volume, volume, 1, 0, 1f);
+                                                    }
 							                        
 							                        break;
 							                    case SmsManager.RESULT_ERROR_GENERIC_FAILURE:

@@ -1,7 +1,4 @@
 Version 6.30
-- Scheduled SMS
-    - Notifications
-- Drafts
 - Sent message sounds
 - cache conversations
 - Investigate MMS apns on stock

@@ -63,7 +63,7 @@ public class MessageDashClockExtension extends DashClockExtension {
 			
 			publishUpdate(new ExtensionData()
 	        	.visible(true)
-	        	.icon(R.drawable.ic_launcher)
+	        	.icon(R.drawable.dashclock)
 	        	.status(senderNames.size() + "")
 	        	.expandedTitle(expandedTitle)
 	        	.expandedBody(names)
@@ -82,7 +82,7 @@ public class MessageDashClockExtension extends DashClockExtension {
 				
 				publishUpdate(new ExtensionData()
 		        	.visible(true)
-		        	.icon(R.drawable.ic_launcher)
+		        	.icon(R.drawable.dashclock)
 		        	.status("0")
 		        	.expandedTitle("0 New Messages")
 		        	.clickIntent(intent));
