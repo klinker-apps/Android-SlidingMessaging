@@ -261,38 +261,8 @@ public class ScheduledSms extends Activity {
 
         PendingIntent pi = getDistinctPendingIntent(serviceIntent, alarmId);
 
-        // Schedule the alarm!
         AlarmManager am = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
 
-
-        if (repetition.equals("None"))
-        {
-            am.set(AlarmManager.RTC_WAKEUP,
-                    date,
-                    pi);
-        } else
-        {
-            if (repetition.equals("Daily"))
-            {
-                am.setRepeating(AlarmManager.RTC_WAKEUP,
-                        date,
-                        AlarmManager.INTERVAL_DAY,
-                        pi);
-            } else if (repetition.equals("Weekly"))
-            {
-                am.setRepeating(AlarmManager.RTC_WAKEUP,
-                        date,
-                        AlarmManager.INTERVAL_DAY * 7,
-                        pi);
-            } else if (repetition.equals("Yearly"))
-            {
-                am.setRepeating(AlarmManager.RTC_WAKEUP,
-                        date,
-                        AlarmManager.INTERVAL_DAY * 365,
-                        pi);
-            }
-
-        }
         am.cancel(pi);
     }
 
