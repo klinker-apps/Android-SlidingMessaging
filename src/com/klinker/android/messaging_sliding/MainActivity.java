@@ -6999,6 +6999,8 @@ s
                 }
             } else
             {
+                getLoaderManager().destroyLoader(position);
+                
                 Uri uri3 = Uri.parse("content://mms-sms/conversations/" + threadIds.get(position) + "/");
                 String[] projection2;
 
