@@ -797,7 +797,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                 @Override
                 public boolean onPreferenceClick(Preference arg0) {
                     new AlertDialog.Builder(context)
-                            .setTitle(context.getResources().getString(R.string.backup_settings))
+                            .setTitle(context.getResources().getString(R.string.backup_settings_title))
                             .setMessage(context.getResources().getString(R.string.backup_settings_summary))
                             .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                                 @Override
