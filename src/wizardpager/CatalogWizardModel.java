@@ -20,7 +20,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import com.klinker.android.messaging_donate.R;
 import wizardpager.wizard.model.AbstractWizardModel;
 import wizardpager.wizard.model.PageList;
@@ -53,7 +52,9 @@ public class CatalogWizardModel extends AbstractWizardModel {
                 "- Fixes to WiFi MMS workaround, will now enable mobile data connection while sending and receiving MMS\n" +
                 "- Option to receive MMS through stock if you are having problems receiving\n" +
                 "- Draft support: By default, drafts are not auto inserted as this process causes lag when switching pages. You can turn on auto insert in message settings if you prefer that.\n" +
-                "- Bug fixes\n\n";
+                "- Bug fixes\n\n" +
+                "Theme Editor Additions:\n" +
+                "- Option to use the Light Action Bar with any theme (NOTE: This option means that if you were previously using the Hangout's theme, you will need to go into settings and reselect it.)\n\n";
 
 
         String themeEditor = "The theme editor now fully supports the Hangouts UI and popup, " +

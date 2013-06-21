@@ -220,7 +220,7 @@ s
 
 		sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        if (sharedPrefs.getString("run_as", "sliding").equals("hangout") && sharedPrefs.getString("ct_theme_name", "Light Theme").equals("Hangouts Theme"))
+        if (sharedPrefs.getBoolean("ct_light_action_bar", false))
         {
             setTheme(R.style.HangoutsTheme);
         }
@@ -686,7 +686,7 @@ s
 		ActionBar ab = getActionBar();
 		ab.setDisplayHomeAsUpEnabled(true);
 
-        if (!sharedPrefs.getString("run_as", "sliding").equals("hangout") || !sharedPrefs.getString("ct_theme_name", "Light Theme").equals("Hangouts Theme"))
+        if (!sharedPrefs.getBoolean("ct_light_action_bar", false))
         {
             ab.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.black)));
 
@@ -3955,7 +3955,7 @@ s
 			menu.getItem(1).setVisible(false);
 		}
 
-        if (sharedPrefs.getString("run_as", "sliding").equals("hangout") && sharedPrefs.getString("ct_theme_name", "Light Theme").equals("Hangouts Theme"))
+        if (sharedPrefs.getBoolean("ct_light_action_bar", false))
         {
             Drawable callButton = getResources().getDrawable(R.drawable.ic_menu_call);
             callButton.setColorFilter(getResources().getColor(R.color.hangouts_ab_icon), Mode.MULTIPLY);

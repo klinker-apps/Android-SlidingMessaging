@@ -30,6 +30,7 @@ public class CustomTheme {
 	public int emojiButtonColor;
 	public int conversationDividerColor;
     public int unreadConversationColor;
+    public boolean lightAb;
 	
 	public CustomTheme(String name, Context context)
 	{
@@ -57,6 +58,7 @@ public class CustomTheme {
 			emojiButtonColor = convertToColorInt("ff8dbc36");
 			conversationDividerColor = convertToColorInt("22ffffff");
             unreadConversationColor = receivedMessageBackground;
+            lightAb = false;
 		} else if (name.equals("Dark"))
 		{
 			this.name = "Dark Theme";
@@ -81,6 +83,7 @@ public class CustomTheme {
 			emojiButtonColor = convertToColorInt("ff8dbc36");
 			conversationDividerColor = convertToColorInt("22ffffff");
             unreadConversationColor = receivedMessageBackground;
+            lightAb = false;
 		} else if (name.equals("Pitch Black"))
 		{
 			this.name = "Pitch Black Theme";
@@ -105,6 +108,7 @@ public class CustomTheme {
 			emojiButtonColor = convertToColorInt("#8DBC36");
 			conversationDividerColor = convertToColorInt("22ffffff");
             unreadConversationColor = receivedMessageBackground;
+            lightAb = false;
 		} else if (name.equals("Dark Blue"))
 		{
 			this.name = "Dark Blue Theme";
@@ -129,6 +133,7 @@ public class CustomTheme {
 			emojiButtonColor = convertToColorInt("#8DBC36");
 			conversationDividerColor = convertToColorInt("22ffffff");
             unreadConversationColor = receivedMessageBackground;
+            lightAb = false;
 		} else if (name.equals("Burnt Orange"))
 		{
 			this.name = "Burnt Orange Theme";
@@ -153,6 +158,7 @@ public class CustomTheme {
 			emojiButtonColor = convertToColorInt("#8DBC36");
 			conversationDividerColor = convertToColorInt("22ffffff");
             unreadConversationColor = receivedMessageBackground;
+            lightAb = false;
 		} else if (name.equals("Light Green"))
 		{
 			this.name = "Light Green Theme";
@@ -177,6 +183,7 @@ public class CustomTheme {
 			emojiButtonColor = convertToColorInt("#8DBC36");
 			conversationDividerColor = convertToColorInt("22ffffff");
             unreadConversationColor = receivedMessageBackground;
+            lightAb = false;
 		} else if (name.equals("Holo Purple"))
 		{
 			this.name = "Holo Purple Theme";
@@ -201,6 +208,7 @@ public class CustomTheme {
 			emojiButtonColor = convertToColorInt("#8DBC36");
 			conversationDividerColor = convertToColorInt("22ffffff");
             unreadConversationColor = receivedMessageBackground;
+            lightAb = false;
 		} else if (name.equals("Bright Red"))
 		{
 			this.name = "Bright Red Theme";
@@ -225,6 +233,7 @@ public class CustomTheme {
 			emojiButtonColor = -13027015;
 			conversationDividerColor = convertToColorInt("22ffffff");
             unreadConversationColor = receivedMessageBackground;
+            lightAb = false;
 		} else if (name.equals("Hangouts"))
         {
             this.name = "Hangouts Theme";
@@ -249,6 +258,7 @@ public class CustomTheme {
             emojiButtonColor = convertToColorInt("ff8dbc36");
             conversationDividerColor = convertToColorInt("adadad");
             unreadConversationColor = receivedMessageBackground;
+            lightAb = true;
         }
 	}
 	
@@ -272,7 +282,8 @@ public class CustomTheme {
 			           int draftTextColor,
 			           int emojiButtonColor,
 			           int conversationDividerColor,
-                       int unreadConversationColor)
+                       int unreadConversationColor,
+                       boolean lightAb)
 	{
 		this.name = name;
 		this.custom = true;
@@ -296,6 +307,7 @@ public class CustomTheme {
 		this.emojiButtonColor = emojiButtonColor;
 		this.conversationDividerColor = conversationDividerColor;
         this.unreadConversationColor = unreadConversationColor;
+        this.lightAb = lightAb;
 	}
 	
 	public String toString()
@@ -320,7 +332,8 @@ public class CustomTheme {
 			   this.draftTextColor + "\n" +
 			   this.emojiButtonColor + "\n" +
 			   this.conversationDividerColor + "\n" +
-               this.unreadConversationColor;
+               this.unreadConversationColor + "\n" +
+               this.lightAb;
 			   
 	}
 	
@@ -381,6 +394,16 @@ public class CustomTheme {
         {
             unreadConversationColor = Integer.parseInt(data2.get(6));
         }
+
+        boolean lightActionBar = false;
+
+        try
+        {
+            lightActionBar = Boolean.parseBoolean(data2.get(21));
+        } catch (Exception e)
+        {
+
+        }
 		
 		return new CustomTheme(data2.get(0),
 							   Integer.parseInt(data2.get(1)),
@@ -402,7 +425,8 @@ public class CustomTheme {
 					           draftTextColor,
 					           emojiButtonColor,
 					           conversationDividerColor,
-                               unreadConversationColor);
+                               unreadConversationColor,
+                               lightActionBar);
 	}
 	
 	public static String convertToARGB(int color) {

@@ -76,7 +76,8 @@ public class CustomThemeActivity extends PreferenceActivity {
 		            	 data += sharedPrefs.getInt("ct_draftTextColor", -1) + "\n";
 		            	 data += sharedPrefs.getInt("ct_emojiButtonColor", -1) + "\n";
 		        	   	 data += sharedPrefs.getInt("ct_conversationDividerColor", -1) + "\n";
-                         data += sharedPrefs.getInt("ct_unreadConversationColor", -1);
+                         data += sharedPrefs.getInt("ct_unreadConversationColor", -1) + "\n";
+                         data += sharedPrefs.getBoolean("ct_light_action_bar", false);
 		            	 
 		            	 writeToFile(data, context, sharedPrefs.getString("ct_theme_name", "Light Theme").replace(" ", "") + ".theme");
 		            	 
@@ -121,7 +122,8 @@ public class CustomThemeActivity extends PreferenceActivity {
 	   	 data += sharedPrefs.getInt("ct_draftTextColor", -1) + "\n";
 	   	 data += sharedPrefs.getInt("ct_emojiButtonColor", -1) + "\n";
 	   	 data += sharedPrefs.getInt("ct_conversationDividerColor", -1) + "\n";
-         data += sharedPrefs.getInt("ct_unreadConversationColor", -1);
+         data += sharedPrefs.getInt("ct_unreadConversationColor", -1) + "\n";
+         data += sharedPrefs.getBoolean("ct_light_action_bar", false);
 	   	 
 	   	 writeToFile(data, this, sharedPrefs.getString("ct_theme_name", "Light Theme").replace(" ", "") + ".theme");
 	   	 
