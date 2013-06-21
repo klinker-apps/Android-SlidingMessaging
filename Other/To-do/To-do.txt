@@ -1,14 +1,12 @@
 Version 6.30
-- Scheduled SMS
-- Drafts
 - Sent message sounds
 - cache conversations
 - Investigate MMS apns on stock
 - Message Locking?
+- add theme previews when hangouts is enabled
+- implement trial fix for mms being received twice
 
 0) more individual notification options
- ---- 1) Draft system
- ---- 2) Scheduled SMS
 3) Batch delete of messages inside single conversation
 5) Tasker options
 6) Attach more options for MMS - create slideshow with videos and audio and pictures, attach plain text contact info

@@ -2376,13 +2376,18 @@ s
                 Display display = getWindowManager().getDefaultDisplay();
                 Point size = new Point();
                 display.getSize(size);
-                int height = size.y;
+                final int height = size.y;
 
-                lpw.setAdapter(new ContactSearchArrayAdapter((Activity)context, contactNames, contactNumbers, contactTypes));
-                lpw.setAnchorView(contact);
-                lpw.setWidth(ListPopupWindow.WRAP_CONTENT);
-                lpw.setHeight(height/3);
-                lpw.show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        lpw.setAdapter(new ContactSearchArrayAdapter((Activity)context, contactNames, contactNumbers, contactTypes));
+                        lpw.setAnchorView(contact);
+                        lpw.setWidth(ListPopupWindow.WRAP_CONTENT);
+                        lpw.setHeight(height/3);
+                        lpw.show();
+                    }
+                }, 500);
             }
         });
 
@@ -2435,9 +2440,9 @@ s
 
 	        @SuppressLint("DefaultLocale")
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-	        	ArrayList<String> searchedNames = new ArrayList<String>();
-	        	ArrayList<String> searchedNumbers = new ArrayList<String>();
-	        	ArrayList<String> searchedTypes = new ArrayList<String>();
+	        	final ArrayList<String> searchedNames = new ArrayList<String>();
+	        	final ArrayList<String> searchedNumbers = new ArrayList<String>();
+	        	final ArrayList<String> searchedTypes = new ArrayList<String>();
 	        	
 	        	String text = contact.getText().toString();
 	        	
@@ -2500,23 +2505,50 @@ s
                 Display display = getWindowManager().getDefaultDisplay();
                 Point size = new Point();
                 display.getSize(size);
-                int height = size.y;
+                final int height = size.y;
 
-                lpw.setAdapter(new ContactSearchArrayAdapter((Activity)context, searchedNames, searchedNumbers, searchedTypes));
-                lpw.setAnchorView(findViewById(R.id.contactEntry));
-                lpw.setWidth(ListPopupWindow.WRAP_CONTENT);
-                lpw.setHeight(height/3);
+                if (sendTo) {
+                    final String textF = text;
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            lpw.setAdapter(new ContactSearchArrayAdapter((Activity)context, searchedNames, searchedNumbers, searchedTypes));
+                            lpw.setAnchorView(findViewById(R.id.contactEntry));
+                            lpw.setWidth(ListPopupWindow.WRAP_CONTENT);
+                            lpw.setHeight(height/3);
 
-                if (firstContactSearch)
-                {
-                    lpw.show();
-                    firstContactSearch = false;
-                }
 
-                if (text.length() == 0)
-                {
-                    lpw.dismiss();
-                    firstContactSearch = true;
+                            if (firstContactSearch)
+                            {
+                                lpw.show();
+                                firstContactSearch = false;
+                            }
+
+                            if (textF.length() == 0)
+                            {
+                                lpw.dismiss();
+                                firstContactSearch = true;
+                            }
+                        }
+                    }, 500);
+                } else {
+                    lpw.setAdapter(new ContactSearchArrayAdapter((Activity)context, searchedNames, searchedNumbers, searchedTypes));
+                    lpw.setAnchorView(findViewById(R.id.contactEntry));
+                    lpw.setWidth(ListPopupWindow.WRAP_CONTENT);
+                    lpw.setHeight(height/3);
+
+
+                    if (firstContactSearch)
+                    {
+                        lpw.show();
+                        firstContactSearch = false;
+                    }
+
+                    if (text.length() == 0)
+                    {
+                        lpw.dismiss();
+                        firstContactSearch = true;
+                    }
                 }
 	        }
 
