@@ -566,7 +566,7 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
 				{
 					holder.downloadButton.setVisibility(View.INVISIBLE);
 
-                    if (sharedPrefs.getBoolean("wifi_mms_fix", false))
+                    if (sharedPrefs.getBoolean("wifi_mms_fix", true))
                     {
                         WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
                         currentWifi = wifi.getConnectionInfo();
@@ -706,7 +706,7 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
 												});
 											}
 
-                                            if (sharedPrefs.getBoolean("wifi_mms_fix", false))
+                                            if (sharedPrefs.getBoolean("wifi_mms_fix", true))
                                             {
                                                 context.unregisterReceiver(discon);
                                                 WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
@@ -827,7 +827,7 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
 									});
 								}
 
-                                if (sharedPrefs.getBoolean("wifi_mms_fix", false))
+                                if (sharedPrefs.getBoolean("wifi_mms_fix", true))
                                 {
                                     context.unregisterReceiver(discon);
                                     WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);

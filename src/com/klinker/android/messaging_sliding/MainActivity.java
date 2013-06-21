@@ -6043,7 +6043,7 @@ s
 	
 	public void sendMMS(final String recipient, final MMSPart[] parts)
 	{
-		if (sharedPrefs.getBoolean("wifi_mms_fix", false))
+		if (sharedPrefs.getBoolean("wifi_mms_fix", true))
 		{
 			WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 			currentWifi = wifi.getConnectionInfo();
@@ -6240,7 +6240,7 @@ s
 						    ((MainActivity) context).refreshViewPager3();
 						    context.unregisterReceiver(this);
 						    
-						    if (sharedPrefs.getBoolean("wifi_mms_fix", false))
+						    if (sharedPrefs.getBoolean("wifi_mms_fix", true))
 							{
 							    context.unregisterReceiver(discon);
 							    WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
@@ -6256,7 +6256,7 @@ s
 					registerReceiver(receiver, filter);
 				} catch (Exception e) {
 					
-					if (sharedPrefs.getBoolean("wifi_mms_fix", false))
+					if (sharedPrefs.getBoolean("wifi_mms_fix", true))
 					{
 					    context.unregisterReceiver(discon);
 					    WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
@@ -7000,7 +7000,7 @@ s
             } else
             {
                 getLoaderManager().destroyLoader(position);
-                
+
                 Uri uri3 = Uri.parse("content://mms-sms/conversations/" + threadIds.get(position) + "/");
                 String[] projection2;
 

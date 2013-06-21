@@ -5632,7 +5632,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 	
 	public void sendMMS(final String recipient, final MMSPart[] parts)
 	{
-		if (sharedPrefs.getBoolean("wifi_mms_fix", false))
+		if (sharedPrefs.getBoolean("wifi_mms_fix", true))
 		{
 			WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 			currentWifiState = wifi.isWifiEnabled();
@@ -5828,7 +5828,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 						    
 						    ((MainActivity) context).refreshViewPager3();
 						    context.unregisterReceiver(this);
-						    if (sharedPrefs.getBoolean("wifi_mms_fix", false))
+						    if (sharedPrefs.getBoolean("wifi_mms_fix", true))
 							{
 							    context.unregisterReceiver(discon);
 							    WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
@@ -5845,7 +5845,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 				} catch (Exception e) {
 					e.printStackTrace();
 					
-					if (sharedPrefs.getBoolean("wifi_mms_fix", false))
+					if (sharedPrefs.getBoolean("wifi_mms_fix", true))
 					{
 						unregisterReceiver(discon);
 						WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);

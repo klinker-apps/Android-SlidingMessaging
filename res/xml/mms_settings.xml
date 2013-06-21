@@ -41,7 +41,7 @@
             android:title="@string/wifi_mms_fix"
             android:summary="@string/wifi_mms_fix_summary"
             android:dependency="enable_mms"
-            android:defaultValue="false" 
+            android:defaultValue="true"
         />
 
         <CheckBoxPreference

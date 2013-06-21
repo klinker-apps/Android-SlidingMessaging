@@ -236,7 +236,7 @@ public class MMSMessageReceiver extends BroadcastReceiver {
 								e1.printStackTrace();
 							}
 
-                            if (sharedPrefs.getBoolean("wifi_mms_fix", false))
+                            if (sharedPrefs.getBoolean("wifi_mms_fix", true))
                             {
                                 WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
                                 currentWifi = wifi.getConnectionInfo();
@@ -336,7 +336,7 @@ public class MMSMessageReceiver extends BroadcastReceiver {
 									makeNotification("New Picture Message", phoneNumber, null);
 								}
 
-                                if (sharedPrefs.getBoolean("wifi_mms_fix", false))
+                                if (sharedPrefs.getBoolean("wifi_mms_fix", true))
                                 {
                                     WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
                                     wifi.setWifiEnabled(false);
@@ -410,7 +410,7 @@ public class MMSMessageReceiver extends BroadcastReceiver {
 				        		}
 				        	}
 
-                            if (sharedPrefs.getBoolean("wifi_mms_fix", false))
+                            if (sharedPrefs.getBoolean("wifi_mms_fix", true))
                             {
                                 WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
                                 wifi.setWifiEnabled(false);
