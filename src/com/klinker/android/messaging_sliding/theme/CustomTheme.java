@@ -259,6 +259,31 @@ public class CustomTheme {
             conversationDividerColor = convertToColorInt("adadad");
             unreadConversationColor = receivedMessageBackground;
             lightAb = true;
+        } else if (name.equals("Light 2.0"))
+        {
+            this.name = "Light Theme 2.0";
+            custom = true;
+            titleBarColor = convertToColorInt("ffcecece");
+            titleBarTextColor = convertToColorInt("ff525252");
+            messageListBackground = convertToColorInt("ffebebeb");
+            sendbarBackground = convertToColorInt("ffebebeb");
+            sentMessageBackground = convertToColorInt("fff1fdfa");
+            receivedMessageBackground = convertToColorInt("fff1fdfa");
+            sentTextColor = convertToColorInt("ff292828");
+            receivedTextColor = convertToColorInt("ff292828");
+            conversationListBackground = convertToColorInt("ffdedede");
+            nameTextColor = convertToColorInt("ff292828");
+            summaryTextColor = convertToColorInt("ff292828");
+            messageDividerVisibility = false;
+            messageDividerColor = convertToColorInt("e5e5e5");
+            sendButtonColor = convertToColorInt("ffadadad");
+            darkContactImage = false;
+            messageCounterColor = "FF9e9c9c";
+            draftTextColor = convertToColorInt("ff222222");
+            emojiButtonColor = convertToColorInt("ff8dbc36");
+            conversationDividerColor = convertToColorInt("adadad");
+            unreadConversationColor = receivedMessageBackground;
+            lightAb = true;
         }
 	}
 	

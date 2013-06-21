@@ -96,6 +96,7 @@ public class ThemeChooserActivity extends Activity {
 		themes.add(new CustomTheme("Dark", this));
 		themes.add(new CustomTheme("Pitch Black", this));
         themes.add(new CustomTheme("Hangouts", this));
+        themes.add(new CustomTheme("Light 2.0", this));
 		themes.add(new CustomTheme("Dark Blue", this));
 		themes.add(new CustomTheme("Light Green", this));
 		themes.add(new CustomTheme("Burnt Orange", this));

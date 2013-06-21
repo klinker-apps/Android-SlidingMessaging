@@ -27,7 +27,7 @@
 	    android:summary="@string/show_keyboard_popup_summary"
 	    android:defaultValue="true"
 	/>
-	
+
 	<CheckBoxPreference
 	    android:key="use_old_popup"
 	    android:title="@string/use_old_popup"
