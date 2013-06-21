@@ -78,8 +78,14 @@ public class QuickReply extends Activity {
 	{
 		super.onCreate(bundle);
 		this.setFinishOnTouchOutside(false);
-		
-		final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        if (sharedPrefs.getBoolean("unlock_screen", false))
+        {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+        }
 		
 		if (sharedPrefs.getBoolean("dark_theme_quick_reply", true))
 		{

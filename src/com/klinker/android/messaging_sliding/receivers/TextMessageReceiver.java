@@ -219,12 +219,12 @@ public class TextMessageReceiver extends BroadcastReceiver {
 				            final WakeLock wakeLock = pm.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "TAG");
 				            wakeLock.acquire(Long.parseLong(sharedPrefs.getString("screen_timeout", "5"))*1000);
 							
-							if (sharedPrefs.getBoolean("unlock_screen", false))
-							{
-								KeyguardManager keyguardManager = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE); 
-					            KeyguardLock keyguardLock =  keyguardManager.newKeyguardLock("TAG");
-					            keyguardLock.disableKeyguard();
-							}
+//							if (sharedPrefs.getBoolean("unlock_screen", false))
+//							{
+//								KeyguardManager keyguardManager = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
+//					            KeyguardLock keyguardLock =  keyguardManager.newKeyguardLock("TAG");
+//					            keyguardLock.disableKeyguard();
+//							}
 						}
 						
 				        ArrayList<String> prevNotifications = readFromFile2(context);

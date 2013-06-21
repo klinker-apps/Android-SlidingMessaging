@@ -11,16 +11,12 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import android.app.*;
+import android.view.WindowManager;
 import android.widget.*;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.StripAccents;
 
-import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.AlertDialog;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -89,8 +85,16 @@ public class QuickReply extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        if (sharedPrefs.getBoolean("unlock_screen", false))
+        {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+        }
+
 		setContentView(R.layout.card_popup);
-		sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 		
 		receiver = new BroadcastReceiver() {
 		    @Override
