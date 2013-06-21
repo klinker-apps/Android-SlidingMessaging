@@ -62,7 +62,7 @@ public class ThemeChooserActivity extends Activity {
 	public ViewPager mViewPager;
 	public SharedPreferences sharedPrefs;
 	public static ArrayList<CustomTheme> themes;
-	public static int NUMBER_DEFAULT_THEMES = 9;
+	public static int NUMBER_DEFAULT_THEMES = 10;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
