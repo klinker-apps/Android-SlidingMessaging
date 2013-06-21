@@ -54,7 +54,7 @@ public class CatalogWizardModel extends AbstractWizardModel {
                 "- Draft support: By default, drafts are not auto inserted as this process causes lag when switching pages. You can turn on auto insert in message settings if you prefer that.\n" +
                 "- Bug fixes\n\n" +
                 "Theme Editor Additions:\n" +
-                "- New Light Theme 2.0 option\n" +
+                "- New Light Theme 2.0 option, looks great with the Hangouts Layout!\n" +
                 "- Option to use the Light Action Bar with any theme (NOTE: This option means that if you were previously using the Hangout's theme, you will need to go into settings and reselect it.)\n\n";
 
 
