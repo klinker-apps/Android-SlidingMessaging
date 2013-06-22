@@ -1127,6 +1127,8 @@ s
 	            		sendButton.performClick();
 	            	}
 	            }
+
+                messageEntry.setError(null);
 	        }
 
 	        public void afterTextChanged(Editable s) {
@@ -2255,6 +2257,8 @@ s
 	            		sendButton.performClick();
 	            	}
 	            }
+
+                mEditText.setError(null);
 	        }
 
 	        public void afterTextChanged(Editable s) {
@@ -2550,6 +2554,8 @@ s
                         firstContactSearch = true;
                     }
                 }
+
+                contact.setError(null);
 	        }
 
 	        public void afterTextChanged(Editable s) {
