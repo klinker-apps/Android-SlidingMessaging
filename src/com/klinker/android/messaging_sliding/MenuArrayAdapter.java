@@ -201,16 +201,16 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 	  
 	  final ViewHolder holder = (ViewHolder) contactView.getTag();
 
-      numbers.set(position, MainActivity.findContactNumber(numbers.get(position), context));
+      final String number = MainActivity.findContactNumber(numbers.get(position), context);
 
-      holder.image.assignContactFromPhone(numbers.get(position), true);
+      holder.image.assignContactFromPhone(number, true);
       holder.image.setMode(ContactsContract.QuickContact.MODE_LARGE);
 
 	  new Thread(new Runnable() {
 
 		@Override
 		public void run() {
-			final Bitmap image = getFacebookPhoto(numbers.get(position));
+			final Bitmap image = getFacebookPhoto(number);
 
             Spanned text;
             String names = "";
@@ -227,10 +227,10 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
                         text = Html.fromHtml("Group MMS");
                     }
 
-                    names = MainActivity.loadGroupContacts(numbers.get(position), context);
+                    names = MainActivity.loadGroupContacts(number, context);
                 } else
                 {
-                    String contactName = MainActivity.findContactName(numbers.get(position), context);
+                    String contactName = MainActivity.findContactName(number, context);
 
                     if (Integer.parseInt(count.get(position)) > 1)
                     {
@@ -245,10 +245,10 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
                 if (group.get(position).equals("yes"))
                 {
                     text = Html.fromHtml("Group MMS");
-                    names = MainActivity.loadGroupContacts(numbers.get(position), context);
+                    names = MainActivity.loadGroupContacts(number, context);
                 } else
                 {
-                    text = Html.fromHtml(MainActivity.findContactName(numbers.get(position), context));
+                    text = Html.fromHtml(MainActivity.findContactName(number, context));
                 }
             }
 
@@ -495,7 +495,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 		        vibrator.vibrate(25);
 
 				AlertDialog.Builder builder = new AlertDialog.Builder(context);
-				builder.setMessage(context.getResources().getString(R.string.delete_messages) + "\n\n" + context.getResources().getString(R.string.conversation) + ": " + MainActivity.findContactName(numbers.get(position), context));
+				builder.setMessage(context.getResources().getString(R.string.delete_messages) + "\n\n" + context.getResources().getString(R.string.conversation) + ": " + MainActivity.findContactName(number, context));
 				builder.setPositiveButton(context.getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 			               final ProgressDialog progDialog = new ProgressDialog(context);

@@ -570,7 +570,7 @@ s
 
                     try
                     {
-                        if (address.endsWith(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context)))
+                        if (address.replace(" ", "").replace("(", "").replace(")", "").replace("-", "").endsWith(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context).replace(" ", "").replace("(", "").replace(")", "").replace("-", "")))
                         {
                             animationReceived = 1;
                             animationThread = mViewPager.getCurrentItem();
@@ -934,33 +934,6 @@ s
 			{
 				name = "No Information";
 			}
-		}
-
-		return name;
-	}
-
-	public static String findContactId(String number, Context context)
-	{
-		String name = "";
-
-		String origin = number;
-
-		if (origin.length() != 0)
-		{
-			Uri phoneUri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(origin));
-			Cursor phonesCursor = context.getContentResolver().query(phoneUri, new String[] {ContactsContract.Contacts.DISPLAY_NAME_PRIMARY, ContactsContract.RawContacts._ID}, null, null, ContactsContract.Contacts.DISPLAY_NAME + " desc limit 1");
-
-			if(phonesCursor != null && phonesCursor.moveToFirst()) {
-				name = phonesCursor.getString(1);
-			} else
-			{
-				name = "0";
-			}
-
-			phonesCursor.close();
-		} else
-		{
-			name = "0";
 		}
 
 		return name;
@@ -1803,6 +1776,7 @@ s
 								    values.put("body", body2); 
 								    values.put("date", cal.getTimeInMillis() + "");
 								    values.put("read", true);
+                                    values.put("thread_id", threadIds.get(mViewPager.getCurrentItem()));
 								    context.getContentResolver().insert(Uri.parse("content://sms/outbox"), values);
 									
 								    final String address2 = address;
@@ -5729,57 +5703,18 @@ s
 			
 		}
 	}
-
-    public String findContactIdFromNumber(String number, Context context) {
-        try {
-            String[] numbers = number.split(" ");
-            String ids = "";
-
-            for (int i = 0; i < numbers.length; i++)
-            {
-                try
-                {
-                    if (numbers[i] != null && (!numbers[i].equals("") || !numbers[i].equals(" ")))
-                    {
-                        Cursor id = context.getContentResolver().query(Uri.parse("content://mms-sms/canonical-addresses"), null, "_address=" + numbers[i], null, null);
-
-                        if (id.moveToFirst())
-                        {
-                            ids += id.getString(id.getColumnIndex("_id")) + " ";
-                        } else
-                        {
-                            ids += numbers[i] + " ";
-                        }
-
-                        id.close();
-                    } else
-                    {
-
-                    }
-                } catch (Exception e)
-                {
-                    ids += "0 ";
-                }
-            }
-
-            return ids;
-        } catch (Exception e) {
-            return number;
-        }
-    }
 	
 	public void refreshViewPager4(String number, String body, String date)
 	{
-        number = findContactIdFromNumber(number, this);
         MainActivity.threadedLoad = false;
 		int position = mViewPager.getCurrentItem();
-		String currentNumber = inboxNumber.get(position);
+		String currentNumber = findContactNumber(inboxNumber.get(position), this);
 		
 		boolean flag = false;
 		
 		for (int i = 0; i < inboxNumber.size(); i++)
 		{
-			if (number.endsWith(inboxNumber.get(i)))
+			if (number.endsWith(findContactNumber(inboxNumber.get(i), this)))
 			{
 				inboxBody.add(0, body);
 				inboxDate.add(0, date);
@@ -5821,7 +5756,7 @@ s
 			
 			for (int i = 0; i < inboxNumber.size(); i++)
 			{
-				if (currentNumber.equals(inboxNumber.get(i)))
+				if (currentNumber.equals(findContactNumber(inboxNumber.get(i), this)))
 				{
 					position = i;
 					break;
