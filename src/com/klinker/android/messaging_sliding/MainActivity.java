@@ -3676,6 +3676,11 @@ s
 
         messageBar = new MessageBar (this);
 
+        drafts = new ArrayList<String>();
+        draftNames = new ArrayList<String>();
+        draftChanged = new ArrayList<Boolean>();
+        draftsToDelete = new ArrayList<String>();
+
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener()
 		{
 		    public void onPageScrolled(int i, float f, int i2) {

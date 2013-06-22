@@ -868,7 +868,7 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
 
       }
 	  
-	  if (group)
+	  if (group && !sent)
 	  {
           final String sentFrom = sender;
           new Thread(new Runnable() {
@@ -1334,40 +1334,10 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
           {
 			  if (sharedPrefs.getString("text_alignment", "split").equals("right"))
 			  {
-//				  if (!sent)
-//				  {
-//					  RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)holder.text.getLayoutParams();
-//					  params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-//				  } else
-//				  {
-//					  if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1)
-//					  {
-//						  RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)holder.text.getLayoutParams();
-//						  params.removeRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-//					  }
-//				  }
-
 				  holder.text.setGravity(Gravity.RIGHT);
 				  holder.date.setGravity(Gravity.RIGHT);
 			  } else
 			  {
-//				  if (sent)
-//				  {
-//					  RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)holder.text.getLayoutParams();
-//					  params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-//					  RelativeLayout.LayoutParams params2 = (RelativeLayout.LayoutParams)holder.date.getLayoutParams();
-//					  params2.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-//				  } else
-//				  {
-//					  if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1)
-//					  {
-//						  RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)holder.text.getLayoutParams();
-//						  params.removeRule(RelativeLayout.ALIGN_PARENT_LEFT);
-//						  RelativeLayout.LayoutParams params2 = (RelativeLayout.LayoutParams)holder.date.getLayoutParams();
-//						  params2.removeRule(RelativeLayout.ALIGN_PARENT_LEFT);
-//					  }
-//				  }
-
 				  holder.text.setGravity(Gravity.LEFT);
 				  holder.date.setGravity(Gravity.LEFT);
 			  }
