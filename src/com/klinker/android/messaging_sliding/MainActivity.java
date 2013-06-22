@@ -1159,7 +1159,7 @@ s
 				{
 					if (messageEntry.getText().toString().equals(""))
 					{
-						Toast.makeText(context, "ERROR: Nothing to send", Toast.LENGTH_SHORT).show();
+						messageEntry.setError("Nothing to send");
 					} else
 					{
 						MainActivity.animationOn = true;
@@ -2565,10 +2565,10 @@ s
 				
 				if (contact.getText().toString().equals(""))
 				{
-					Toast.makeText(context, "ERROR: No valid recipients", Toast.LENGTH_SHORT).show();
+					contact.setError("No Recipients");
 				} else if (mEditText.getText().toString().equals("") && imageAttach2.getVisibility() == View.GONE)
 				{
-					Toast.makeText(context, "ERROR: Nothing to send", Toast.LENGTH_SHORT).show();
+					mEditText.setError("Nothing to Send");
 				} else
 				{
 					MainActivity.animationOn = true;
