@@ -5,12 +5,12 @@ Version 6.30
 - Message Locking?
 - add theme previews when hangouts is enabled
 - implement trial fix for mms being received twice
+- change how the inboxNumbers are loaded (merge to cards theme, works amazing in hangouts and classic)
 
 0) more individual notification options
 3) Batch delete of messages inside single conversation
 5) Tasker options
 6) Attach more options for MMS - create slideshow with videos and audio and pictures, attach plain text contact info
-7) Message locking
 9) search through messages
 10) Pin contact to always be first conversation
 

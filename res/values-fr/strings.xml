@@ -94,7 +94,7 @@
 	<string name="send_to">Envoyé À</string>
 	<string name="button_options">Boutons de la Notification</string>
 	<string name="button_options_summary">Choisir les boutons à afficher dans la notification (Sur la plupart des téléphones, 3 maximum peuvent être affichés)</string>
-	<string name="slide_messages">Slide Messages off Screen</string> <!-- TODO What's that ?! -->
+	<string name="slide_messages">Slide Messages off Screen</string>
 	<string name="slide_messages_summary">Enable to slide messages all the way off of the screen when opening conversations menu</string>
 	<string name="disable_sliding">Désactiver Slide des Menus</string>
 	<string name="disable_sliding_summary">Désactive les menus par défilement à gauche et à droite, ouverture par boutons en haut de l\'écran</string>

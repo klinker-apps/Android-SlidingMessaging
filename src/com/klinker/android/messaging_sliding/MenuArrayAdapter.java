@@ -201,6 +201,8 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 	  
 	  final ViewHolder holder = (ViewHolder) contactView.getTag();
 
+      numbers.set(position, MainActivity.findContactNumber(numbers.get(position), context));
+
       holder.image.assignContactFromPhone(numbers.get(position), true);
       holder.image.setMode(ContactsContract.QuickContact.MODE_LARGE);
 

@@ -163,39 +163,39 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
 
                 inboxDate.add(query.getString(query.getColumnIndex("date")));
 
-                String[] ids = query.getString(query.getColumnIndex("recipient_ids")).split(" ");
-                String numbers = "";
+//                String[] ids = query.getString(query.getColumnIndex("recipient_ids")).split(" ");
+//                String numbers = "";
+//
+//                for (int i = 0; i < ids.length; i++)
+//                {
+//                    try
+//                    {
+//                        if (ids[i] != null && (!ids[i].equals("") || !ids[i].equals(" ")))
+//                        {
+//                            Cursor number = getContentResolver().query(Uri.parse("content://mms-sms/canonical-addresses"), null, "_id=" + ids[i], null, null);
+//
+//                            if (number.moveToFirst())
+//                            {
+//                                numbers += number.getString(number.getColumnIndex("address")).replace("-", "").replace(")", "").replace("(", "").replace(" ", "") + " ";
+//                            } else
+//                            {
+//                                numbers += "0 ";
+//                            }
+//
+//                            number.close();
+//                        } else
+//                        {
+//
+//                        }
+//                    } catch (Exception e)
+//                    {
+//                        numbers += "0 ";
+//                    }
+//                }
 
-                for (int i = 0; i < ids.length; i++)
-                {
-                    try
-                    {
-                        if (ids[i] != null && (!ids[i].equals("") || !ids[i].equals(" ")))
-                        {
-                            Cursor number = getContentResolver().query(Uri.parse("content://mms-sms/canonical-addresses"), null, "_id=" + ids[i], null, null);
+                inboxNumber.add(query.getString(query.getColumnIndex("recipient_ids")));
 
-                            if (number.moveToFirst())
-                            {
-                                numbers += number.getString(number.getColumnIndex("address")).replace("-", "").replace(")", "").replace("(", "").replace(" ", "") + " ";
-                            } else
-                            {
-                                numbers += "0 ";
-                            }
-
-                            number.close();
-                        } else
-                        {
-
-                        }
-                    } catch (Exception e)
-                    {
-                        numbers += "0 ";
-                    }
-                }
-
-                inboxNumber.add(numbers.trim());
-
-                if (ids.length > 1)
+                if (query.getString(query.getColumnIndex("recipient_ids")).split(" ").length > 1)
                 {
                     group.add("yes");
                 } else
