@@ -6928,7 +6928,7 @@ s
                                 public void run() {
                                     if (sharedPrefs.getString("run_as", "sliding").equals("sliding"))
                                     {
-                                        MessageArrayAdapter adapter = new MessageArrayAdapter((Activity) context, myId, numbers.get(position), threadIds.get(position), messageQuery, myPhoneNumber, position);
+                                        MessageArrayAdapter adapter = new MessageArrayAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), messageQuery, myPhoneNumber, position);
 
                                         if (adapter.getCount() >= 20 && listView.getHeaderViewsCount() == 0)
                                         {
@@ -6957,7 +6957,7 @@ s
                                         spinner.setVisibility(View.GONE);
                                     } else
                                     {
-                                        com.klinker.android.messaging_hangout.MessageArrayAdapter adapter = new com.klinker.android.messaging_hangout.MessageArrayAdapter((Activity) context, myId, numbers.get(position), threadIds.get(position), messageQuery, myPhoneNumber, position);
+                                        com.klinker.android.messaging_hangout.MessageArrayAdapter adapter = new com.klinker.android.messaging_hangout.MessageArrayAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), messageQuery, myPhoneNumber, position);
 
                                         if (adapter.getCount() >= 20 && listView.getHeaderViewsCount() == 0)
                                         {
@@ -7052,7 +7052,7 @@ s
 
                 if (sharedPrefs.getString("run_as", "sliding").equals("sliding"))
                 {
-                    MessageArrayAdapter adapter = new MessageArrayAdapter((Activity) context, myId, numbers.get(position), threadIds.get(position), messageQuery, myPhoneNumber, position);
+                    MessageArrayAdapter adapter = new MessageArrayAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), messageQuery, myPhoneNumber, position);
 
                     if (adapter.getCount() >= 20 && listView.getHeaderViewsCount() == 0)
                     {
@@ -7081,7 +7081,7 @@ s
 					spinner.setVisibility (View.GONE);
                 } else
                 {
-                    com.klinker.android.messaging_hangout.MessageArrayAdapter adapter = new com.klinker.android.messaging_hangout.MessageArrayAdapter((Activity) context, myId, numbers.get(position), threadIds.get(position), messageQuery, myPhoneNumber, position);
+                    com.klinker.android.messaging_hangout.MessageArrayAdapter adapter = new com.klinker.android.messaging_hangout.MessageArrayAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), messageQuery, myPhoneNumber, position);
 
                     if (adapter.getCount() >= 20 && listView.getHeaderViewsCount() == 0)
                     {
@@ -7196,7 +7196,7 @@ s
         {
             if (sharedPrefs.getString("run_as", "sliding").equals("sliding"))
             {
-                final MessageArrayAdapter adapter = new MessageArrayAdapter((Activity) context, myId, numbers.get(position), threadIds.get(position), query, myPhoneNumber, position);
+                final MessageArrayAdapter adapter = new MessageArrayAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), query, myPhoneNumber, position);
 
                 if (adapter.getCount() >= 20 && listView.getHeaderViewsCount() == 0)
                 {
@@ -7225,7 +7225,7 @@ s
                 spinner.setVisibility(View.GONE);
             } else
             {
-                com.klinker.android.messaging_hangout.MessageArrayAdapter adapter = new com.klinker.android.messaging_hangout.MessageArrayAdapter((Activity) context, myId, numbers.get(position), threadIds.get(position), query, myPhoneNumber, position);
+                com.klinker.android.messaging_hangout.MessageArrayAdapter adapter = new com.klinker.android.messaging_hangout.MessageArrayAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), query, myPhoneNumber, position);
 
                 if (adapter.getCount() >= 20 && listView.getHeaderViewsCount() == 0)
                 {
