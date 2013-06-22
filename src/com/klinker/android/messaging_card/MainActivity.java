@@ -225,10 +225,6 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 	public static EditText contactEntry;
 	
 	public static Typeface font;
-	
-//	public View gestureView;
-//	public GestureDetector gdt;
-//	public static boolean flinging = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -446,7 +442,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 			        
 			        try
 			        {
-				        if (address.endsWith(inboxNumber.get(messagePager.getCurrentItem() - 1)))
+				        if (address.replace(" ", "").replace("(","").replace("(","").replace("-","").endsWith(findContactNumber(inboxNumber.get(messagePager.getCurrentItem() - 1), context).replace(" ", "").replace("(","").replace("(","").replace("-","")))
 				        {
 				        	animationReceived = 1;
 				        	animationThread = messagePager.getCurrentItem() - 1;
@@ -718,7 +714,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 					if (group.get(messagePager.getCurrentItem() - 1).equals("no"))
 					{
 						Intent callIntent = new Intent(Intent.ACTION_CALL);
-				        callIntent.setData(Uri.parse("tel:"+inboxNumber.get(messagePager.getCurrentItem() - 1)));
+				        callIntent.setData(Uri.parse("tel:"+findContactNumber(inboxNumber.get(messagePager.getCurrentItem() - 1), context)));
 				        callIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				        startActivity(callIntent);
 					} else
@@ -815,40 +811,9 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
                         }
 
                         inboxDate.add(query.getString(query.getColumnIndex("date")));
+                        inboxNumber.add(query.getString(query.getColumnIndex("recipient_ids")));
 
-                        String[] ids = query.getString(query.getColumnIndex("recipient_ids")).split(" ");
-                        String numbers = "";
-
-                        for (int i = 0; i < ids.length; i++)
-                        {
-                            try
-                            {
-                                if (ids[i] != null && (!ids[i].equals("") || !ids[i].equals(" ")))
-                                {
-                                    Cursor number = contentResolver.query(Uri.parse("content://mms-sms/canonical-addresses"), null, "_id=" + ids[i], null, null);
-
-                                    if (number.moveToFirst())
-                                    {
-                                        numbers += number.getString(number.getColumnIndex("address")).replace("-", "").replace(")", "").replace("(", "").replace(" ", "") + " ";
-                                    } else
-                                    {
-                                        numbers += "0 ";
-                                    }
-
-                                    number.close();
-                                } else
-                                {
-
-                                }
-                            } catch (Exception e)
-                            {
-                                numbers += "0 ";
-                            }
-                        }
-
-                        inboxNumber.add(numbers.trim());
-
-                        if (ids.length > 1)
+                        if (query.getString(query.getColumnIndex("recipient_ids")).split(" ").length > 1)
                         {
                             group.add("yes");
                         } else
@@ -1039,7 +1004,12 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 	        public void afterTextChanged(Editable s) {
                 if (newDraft.equals("") && messagePager.getCurrentItem() != 0)
                 {
-                    newDraft = threadIds.get(messagePager.getCurrentItem() - 1);
+                    try {
+                        newDraft = threadIds.get(messagePager.getCurrentItem() - 1);
+                    } catch (Exception e) {
+
+                    }
+
                 }
 	        }
 		});
@@ -1127,7 +1097,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 									
 									if (sharedPrefs.getBoolean("delivery_reports", false))
 									{
-										if (!inboxNumber.get(position2).replaceAll("[^0-9]", "").equals(""))
+										if (!findContactNumber(inboxNumber.get(position2), context).replaceAll("[^0-9]", "").equals(""))
 										{
 											String SENT = "SMS_SENT";
 									        String DELIVERED = "SMS_DELIVERED";
@@ -1332,7 +1302,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 										                    	
 										                    	try
 										                    	{
-										                    		builder.setTitle(findContactName(inboxNumber.get(position2), context));
+										                    		builder.setTitle(findContactName(findContactNumber(inboxNumber.get(position2), context), context));
 										                    	} catch (Exception e)
 										                    	{
 										                    		
@@ -1366,7 +1336,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 										                    	
 										                    	try
 										                    	{
-										                    		builder2.setTitle(findContactName(inboxNumber.get(position2), context));
+										                    		builder2.setTitle(findContactName(findContactNumber(inboxNumber.get(position2), context), context));
 										                    	} catch (Exception e)
 										                    	{
 										                    		
@@ -1484,7 +1454,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 														dPI.add(deliveredPI);
 													}
 													
-													smsManager.sendMultipartTextMessage(inboxNumber.get(position2), null, parts, sPI, dPI);
+													smsManager.sendMultipartTextMessage(findContactNumber(inboxNumber.get(position2), context), null, parts, sPI, dPI);
 												}
 											} else
 											{
@@ -1496,14 +1466,14 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 													dPI.add(deliveredPI);
 												}
 												
-												smsManager.sendMultipartTextMessage(inboxNumber.get(position2), null, parts, sPI, dPI);
+												smsManager.sendMultipartTextMessage(findContactNumber(inboxNumber.get(position2), context), null, parts, sPI, dPI);
 											}
 										} else
 										{
 										}
 									} else
 									{
-										if (!inboxNumber.get(position2).replaceAll("[^0-9]", "").equals(""))
+										if (!findContactNumber(inboxNumber.get(position2), context).replaceAll("[^0-9]", "").equals(""))
 										{
 											String SENT = "SMS_SENT";
 											 
@@ -1726,7 +1696,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 														sPI.add(sentPI);
 													}
 													
-													smsManager.sendMultipartTextMessage(inboxNumber.get(position2), null, parts, sPI, null);
+													smsManager.sendMultipartTextMessage(findContactNumber(inboxNumber.get(position2), context), null, parts, sPI, null);
 												}
 											} else
 											{
@@ -1737,14 +1707,14 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 													sPI.add(sentPI);
 												}
 												
-												smsManager.sendMultipartTextMessage(inboxNumber.get(position2), null, parts, sPI, null);
+												smsManager.sendMultipartTextMessage(findContactNumber(inboxNumber.get(position2), context), null, parts, sPI, null);
 											}
 										} else
 										{
 										}
 									}
 									
-									String address = inboxNumber.get(position2);
+									String address = findContactNumber(inboxNumber.get(position2), context);
 									String body2 = body;
 									
 									if (sharedPrefs.getBoolean("strip_unicode", false))
@@ -1824,7 +1794,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 						
 						String body = messageEntry.getText().toString();
 						
-						String[] to = ("insert-address-token " + inboxNumber.get(messagePager.getCurrentItem() - 1)).split(" ");
+						String[] to = ("insert-address-token " + findContactNumber(inboxNumber.get(messagePager.getCurrentItem() - 1), context)).split(" ");
 
                         if (!sharedPrefs.getBoolean("send_with_stock", false))
                         {
@@ -1856,7 +1826,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
                                     parts[0].Data = body.getBytes();
                                 }
 
-                                sendMMS(inboxNumber.get(messagePager.getCurrentItem() - 1), parts);
+                                sendMMS(findContactNumber(inboxNumber.get(messagePager.getCurrentItem() - 1), context), parts);
                             } else
                             {
                                 ArrayList<byte[]> bytes = new ArrayList<byte[]>();
@@ -1876,7 +1846,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
                                 part.Data = body.getBytes();
                                 AttachMore.data.add(part);
 
-                                sendMMS(inboxNumber.get(messagePager.getCurrentItem() - 1), AttachMore.data.toArray(new MMSPart[AttachMore.data.size()]));
+                                sendMMS(findContactNumber(inboxNumber.get(messagePager.getCurrentItem() - 1), context), AttachMore.data.toArray(new MMSPart[AttachMore.data.size()]));
 
                                 AttachMore.data = new ArrayList<MMSPart>();
                             }
@@ -1885,7 +1855,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
                             if (multipleAttachments == false)
                             {
                                 Intent sendIntent = new Intent(Intent.ACTION_SEND);
-                                sendIntent.putExtra("address", inboxNumber.get(messagePager.getCurrentItem() - 1));
+                                sendIntent.putExtra("address", findContactNumber(inboxNumber.get(messagePager.getCurrentItem() - 1), context));
                                 sendIntent.putExtra("sms_body", body);
                                 sendIntent.putExtra(Intent.EXTRA_STREAM, attachedImage);
                                 sendIntent.setType("image/png");
@@ -2899,7 +2869,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 					{
 						if (group.get(messagePager.getCurrentItem() - 1).equals("no"))
 						{
-							contactName.setText(findContactName(inboxNumber.get(messagePager.getCurrentItem() - 1), context));
+							contactName.setText(findContactName(findContactNumber(inboxNumber.get(messagePager.getCurrentItem() - 1), context), context));
 						} else
 						{
 							contactName.setText("Group MMS");
@@ -2967,7 +2937,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 				        {
 				        	try
 				        	{
-					        	if (newMessages.get(j).replaceAll("-", "").endsWith(findContactName(inboxNumber.get(messagePager.getCurrentItem() - 1).replace("-", ""), context)))
+					        	if (newMessages.get(j).replaceAll("-", "").endsWith(findContactName(findContactNumber(inboxNumber.get(messagePager.getCurrentItem() - 1), context).replace("-", ""), context)))
 					        	{
 					        		newMessages.remove(j);
 					        	}
@@ -3124,10 +3094,10 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 		
 		if (position != 0 && position != messagePagerAdapter.getCount() - 1)
 		{
-			currentNumber = inboxNumber.get(position - 1);
+			currentNumber = findContactNumber(inboxNumber.get(position - 1), this);
 		} else
 		{
-			currentNumber = inboxNumber.get(0);
+			currentNumber = findContactNumber(inboxNumber.get(0), this);
 		}
 		
 		boolean flag = false;
@@ -3135,7 +3105,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 		
 		for (int i = 0; i < inboxNumber.size(); i++)
 		{
-			if (number.endsWith(inboxNumber.get(i)))
+			if (number.endsWith(findContactNumber(inboxNumber.get(i), this)))
 			{
 				inboxBody.add(0, body);
 				inboxDate.add(0, date);
@@ -3160,7 +3130,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 		
 		for (int i = 0; i < inboxNumber.size(); i++)
 		{
-			if (currentNumber.equals(inboxNumber.get(i)))
+			if (currentNumber.equals(findContactNumber(inboxNumber.get(i), this)))
 			{
 				position = i + 1;
 				break;
@@ -3183,7 +3153,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 			
 			for (int i = 0; i < inboxNumber.size(); i++)
 			{
-				if (currentNumber.equals(inboxNumber.get(i)))
+				if (currentNumber.equals(findContactNumber(inboxNumber.get(i), this)))
 				{
 					position = i + 1;
 					break;
@@ -3568,7 +3538,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 				{
 					for (int i = 0; i < inboxNumber.size(); i++)
 					{
-						if (inboxNumber.get(i).replace("-","").replace("+", "").startsWith(sendMessageTo.replace("-", "").replace("+1", "")) || inboxNumber.get(i).replace("-","").replace("+", "").endsWith(sendMessageTo.replace("-", "").replace("+1", "")))
+						if (findContactNumber(inboxNumber.get(i), this).replace("-","").replace("+", "").startsWith(sendMessageTo.replace("-", "").replace("+1", "")) || findContactNumber(inboxNumber.get(i), this).replace("-","").replace("+", "").endsWith(sendMessageTo.replace("-", "").replace("+1", "")))
 						{
 							MainActivity.isFastScrolling = true;
 							MainActivity.scrollTo = i + 1;
@@ -3584,7 +3554,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 						
 						for (int i = 0; i < inboxNumber.size(); i++)
 						{
-							if (findContactName(inboxNumber.get(i), this).equals(name))
+							if (findContactName(findContactNumber(inboxNumber.get(i), this), this).equals(name))
 							{
 								MainActivity.isFastScrolling = true;
 								MainActivity.scrollTo = i + 1;
@@ -3958,7 +3928,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 
                     for (int j = 0; j < inboxNumber.size(); j++) {
                         if (threadIds.get(j).equals(draftNames.get(i))) {
-                            address = inboxNumber.get(j);
+                            address = findContactNumber(inboxNumber.get(j), context);
                             break;
                         }
                     }
@@ -4045,7 +4015,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 			}
 	    	
 			builder.setMessage(this.getResources().getString(R.string.version) + ": " + version +
-					           "\n\n" + this.getResources().getString(R.string.about_expanded) + "\n\n© 2013 Jacob Klinker");
+					           "\n\n" + this.getResources().getString(R.string.about_expanded) + "\n\nï¿½ 2013 Jacob Klinker");
 			
 			AlertDialog dialog = builder.create();
 			dialog.show();
@@ -4273,7 +4243,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 				{
 					Locale sCachedLocale = Locale.getDefault();
 					int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
-					Editable editable = new SpannableStringBuilder(inboxNumber.get(position));
+					Editable editable = new SpannableStringBuilder(findContactNumber(inboxNumber.get(position), context));
 					PhoneNumberUtils.formatNumber(editable, sFormatType);
 					final String number2 = editable.toString();
 					
@@ -4292,7 +4262,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 						@Override
 						public void onClick(View v) {
 							Intent callIntent = new Intent(Intent.ACTION_CALL);
-					        callIntent.setData(Uri.parse("tel:"+inboxNumber.get(position)));
+					        callIntent.setData(Uri.parse("tel:"+findContactNumber(inboxNumber.get(position), context)));
 					        callIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					        startActivity(callIntent);
 						}
@@ -4303,15 +4273,15 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 	
 						@Override
 						public void run() {
-							final Bitmap contactImageSet = getFacebookPhoto(inboxNumber.get(position), context);
-							final String name2 = MainActivity.findContactName(inboxNumber.get(position), context);
+							final Bitmap contactImageSet = getFacebookPhoto(findContactNumber(inboxNumber.get(position), context), context);
+							final String name2 = MainActivity.findContactName(findContactNumber(inboxNumber.get(position), context), context);
 							
 							((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 								
 								@Override
 								public void run() {
 									contactImage.setImageBitmap(contactImageSet);
-									contactImage.assignContactFromPhone(inboxNumber.get(position), true);
+									contactImage.assignContactFromPhone(findContactNumber(inboxNumber.get(position), context), true);
 									
 									name.setText(name2);
 									
@@ -4333,7 +4303,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 
 						@Override
 						public void run() {
-							final String name2 = MainActivity.loadGroupContacts(inboxNumber.get(position), context);
+							final String name2 = MainActivity.loadGroupContacts(findContactNumber(inboxNumber.get(position), context), context);
 							
 							((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 
@@ -4368,10 +4338,9 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 						@Override
 						public void onClick(View v) {
 							Intent intent = new Intent(context, GroupActivity.class);
-							intent.putExtra("names", loadGroupContacts(inboxNumber.get(position), context));
-							intent.putExtra("numbers", inboxNumber.get(position));
+							intent.putExtra("names", loadGroupContacts(findContactNumber(inboxNumber.get(position), context), context));
+							intent.putExtra("numbers", findContactNumber(inboxNumber.get(position), context));
 							context.startActivity(intent);
-							
 						}
 						
 					});
@@ -4692,7 +4661,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 
                             query2 = context.getContentResolver().query(uri3, projection2, null, null, sortOrder);
                             final CustomListView messageList = (CustomListView) view.findViewById(R.id.messageListView);
-                            final MessageArrayAdapter adapter = new MessageArrayAdapter((Activity) context, inboxNumber.get(position), threadIds.get(position), query2, position);
+                            final MessageArrayAdapter adapter = new MessageArrayAdapter((Activity) context, findContactNumber(inboxNumber.get(position), context), threadIds.get(position), query2, position);
                             MainActivity.isFastScrolling = false;
                             MainActivity.scrollTo = 0;
 
@@ -4966,6 +4935,44 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 			return view;
 		}
 	}
+
+    public static String findContactNumber(String id, Context context) {
+        try {
+            String[] ids = id.split(" ");
+            String numbers = "";
+
+            for (int i = 0; i < ids.length; i++)
+            {
+                try
+                {
+                    if (ids[i] != null && (!ids[i].equals("") || !ids[i].equals(" ")))
+                    {
+                        Cursor number = context.getContentResolver().query(Uri.parse("content://mms-sms/canonical-addresses"), null, "_id=" + ids[i], null, null);
+
+                        if (number.moveToFirst())
+                        {
+                            numbers += number.getString(number.getColumnIndex("address")).replace("-", "").replace(")", "").replace("(", "").replace(" ", "") + " ";
+                        } else
+                        {
+                            numbers += ids[i] + " ";
+                        }
+
+                        number.close();
+                    } else
+                    {
+
+                    }
+                } catch (Exception e)
+                {
+                    numbers += "0 ";
+                }
+            }
+
+            return numbers;
+        } catch (Exception e) {
+            return id;
+        }
+    }
 	
 	public static String findContactName(String number, Context context)
 	{

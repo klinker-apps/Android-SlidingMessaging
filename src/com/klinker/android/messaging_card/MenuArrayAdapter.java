@@ -156,6 +156,8 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 	  }
 	  
 	  final ViewHolder holder = (ViewHolder) contactView.getTag();
+
+      final String number = MainActivity.findContactNumber(numbers.get(position), context);
 	  
 	  if (group.get(position).equals("no"))
 	  {
@@ -163,7 +165,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 	
 			@Override
 			public void run() {
-				final Bitmap image = getFacebookPhoto(numbers.get(position));
+				final Bitmap image = getFacebookPhoto(number);
 				
 				context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 	
@@ -193,8 +195,8 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 			@Override
 			public void onClick(View arg0) {
 				Intent intent = new Intent(context, GroupActivity.class);
-				intent.putExtra("names", MainActivity.loadGroupContacts(numbers.get(position), context));
-				intent.putExtra("numbers", numbers.get(position));
+				intent.putExtra("names", MainActivity.loadGroupContacts(number, context));
+				intent.putExtra("numbers", number);
 				context.startActivity(intent);
 				
 			}
@@ -204,7 +206,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 	  
 	  Locale sCachedLocale = Locale.getDefault();
 	  int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
-	  Editable editable = new SpannableStringBuilder(numbers.get(position));
+	  Editable editable = new SpannableStringBuilder(number);
 	  PhoneNumberUtils.formatNumber(editable, sFormatType);
 		
 	  holder.number.setText(editable.toString());
@@ -230,7 +232,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 
 			@Override
 			public void run() {
-				final String name = MainActivity.loadGroupContacts(numbers.get(position), context);
+				final String name = MainActivity.loadGroupContacts(number, context);
 				
 				context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 
@@ -252,7 +254,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 
 				@Override
 				public void run() {
-					final String name = MainActivity.findContactName(numbers.get(position), context);
+					final String name = MainActivity.findContactName(number, context);
 					
 					context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 
@@ -584,7 +586,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 		        vibrator.vibrate(25);
 		        
 				AlertDialog.Builder builder = new AlertDialog.Builder(context);
-				builder.setMessage(resources.getString(R.string.delete_messages) + "\n\n" + resources.getString(R.string.conversation) + ": " + MainActivity.loadGroupContacts(numbers.get(position), context));
+				builder.setMessage(resources.getString(R.string.delete_messages) + "\n\n" + resources.getString(R.string.conversation) + ": " + MainActivity.loadGroupContacts(number, context));
 				builder.setPositiveButton(resources.getString(R.string.yes), new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 			               final ProgressDialog progDialog = new ProgressDialog(context);
