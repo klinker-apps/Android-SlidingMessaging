@@ -6835,7 +6835,7 @@ s
 					
 				}).start();
 				
-				groupList.setTextColor(getResources().getColor(R.color.white));
+				groupList.setTextColor(sharedPrefs.getInt("ct_titleBarTextColor", getResources().getColor(R.color.white)));
 				
 				if (!sharedPrefs.getBoolean("custom_theme", false))
 	        	{
