@@ -572,11 +572,6 @@ s
 			        notChanged = false;
 			        jump = false;
 
-                    if (sharedPrefs.getBoolean("cache_conversations", false)) {
-                        Intent cacheService = new Intent(context, CacheService.class);
-                        context.startService(cacheService);
-                    }
-
                     try
                     {
                         if (address.replace(" ", "").replace("(", "").replace(")", "").replace("-", "").endsWith(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context).replace(" ", "").replace("(", "").replace(")", "").replace("-", "")))
@@ -5132,6 +5127,11 @@ s
                 }
             }
         }).start();
+
+        if (sharedPrefs.getBoolean("cache_conversations", false)) {
+            Intent cacheService = new Intent(context, CacheService.class);
+            context.startService(cacheService);
+        }
 	}
 
     @Override
