@@ -436,13 +436,8 @@ public class MMSMessageReceiver extends BroadcastReceiver {
             }
 
             if (sharedPrefs.getBoolean("cache_conversations", false)) {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        Intent cacheService = new Intent(context, CacheService.class);
-                        context.startService(cacheService);
-                    }
-                }, 500);
+                Intent cacheService = new Intent(context, CacheService.class);
+                context.startService(cacheService);
             }
 			
 			if (sharedPrefs.getBoolean("override_stock", false) && !error)
@@ -646,6 +641,11 @@ public class MMSMessageReceiver extends BroadcastReceiver {
             	PendingIntent pRepeatingIntent = PendingIntent.getService(context, 0, repeatingIntent, 0);
             	AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             	alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis() + Long.parseLong(sharedPrefs.getString("repeating_notification", "none")), Long.parseLong(sharedPrefs.getString("repeating_notification", "none")), pRepeatingIntent);
+            }
+
+            if (sharedPrefs.getBoolean("cache_conversations", false)) {
+                Intent cacheService = new Intent(context, CacheService.class);
+                context.startService(cacheService);
             }
 		}
 	}
