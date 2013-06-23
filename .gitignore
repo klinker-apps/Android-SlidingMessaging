@@ -30,6 +30,7 @@ local.properties
 target
 pom.xml.*
 release.properties
+project.properties
 
 .idea
 *.iml
