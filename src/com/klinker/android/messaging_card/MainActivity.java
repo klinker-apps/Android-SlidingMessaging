@@ -3879,6 +3879,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
             draftChanged.add(true);
             draftNames.add(threadIds.get(messagePager.getCurrentItem() - 1));
             drafts.add(messageEntry.getText().toString());
+            messageEntry.setText("");
         }
 
         new Thread(new Runnable() {

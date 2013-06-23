@@ -5063,6 +5063,7 @@ s
             draftChanged.add(true);
             draftNames.add(threadIds.get(mViewPager.getCurrentItem()));
             drafts.add(messageEntry.getText().toString());
+            messageEntry.setText("");
         }
 
         new Thread(new Runnable() {
