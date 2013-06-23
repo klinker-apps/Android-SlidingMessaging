@@ -84,27 +84,53 @@ public class OnBootReceiver extends BroadcastReceiver {
                     pi);
         } else
         {
+            long alarmFireTime = getNextTime(details[2], Long.parseLong(details[1])); // finds the next time the alarm will go off by sending the repetition and the time it is suppose to go off
+
             if (details[2].equals("Daily"))
             {
                 am.setRepeating(AlarmManager.RTC_WAKEUP,
-                        Long.parseLong(details[1]),
+                        alarmFireTime,
                         AlarmManager.INTERVAL_DAY,
                         pi);
             } else if (details[2].equals("Weekly"))
             {
                 am.setRepeating(AlarmManager.RTC_WAKEUP,
-                        Long.parseLong(details[1]),
+                        alarmFireTime,
                         AlarmManager.INTERVAL_DAY * 7,
                         pi);
             } else if (details[2].equals("Yearly"))
             {
                 am.setRepeating(AlarmManager.RTC_WAKEUP,
-                        Long.parseLong(details[1]),
+                        alarmFireTime,
                         AlarmManager.INTERVAL_DAY * 365,
                         pi);
             }
         }
 
+    }
+
+    public long getNextTime(String repetition, long firstFire)
+    {
+        long nextFireLong = 0;
+
+        Calendar nextFire = Calendar.getInstance();
+        nextFire.setTimeInMillis(firstFire);
+
+        Calendar currentTime = Calendar.getInstance();
+
+        while(nextFire.before(currentTime))
+        {
+            if (repetition.equals("Daily"))
+                nextFire.add(Calendar.DATE, 1);
+            else if (repetition.equals("Weekly"))
+                nextFire.add(Calendar.DATE, 7);
+            else
+                nextFire.add(Calendar.DATE, 365);
+        }
+
+        nextFireLong = nextFire.getTimeInMillis();
+
+        return nextFireLong;
     }
 
     protected PendingIntent getDistinctPendingIntent(Intent intent, int requestId)
