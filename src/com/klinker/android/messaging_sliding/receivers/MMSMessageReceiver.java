@@ -16,6 +16,7 @@ import java.util.Locale;
 import android.content.*;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Handler;
 import com.google.android.mms.pdu.*;
 import com.klinker.android.messaging_donate.R;
 
@@ -56,6 +57,9 @@ import android.util.Log;
 import com.klinker.android.messaging_sliding.MainActivity;
 
 public class MMSMessageReceiver extends BroadcastReceiver {
+    public static String lastReceivedNumber = "";
+    public static long lastReceivedTime = Calendar.getInstance().getTimeInMillis();
+
 	public SharedPreferences sharedPrefs;
 	public Context context;
 	public String phoneNumber;
@@ -164,6 +168,13 @@ public class MMSMessageReceiver extends BroadcastReceiver {
 			incomingNumber = incomingNumber.replace("+1", "").replace("+", "").replace("-", "").replace(" ", "").replace("(","").replace(")","");
 			String mmsFrom = incomingNumber;
 			picNumber = incomingNumber;
+
+            if (lastReceivedNumber.equals(picNumber) && Calendar.getInstance().getTimeInMillis() < lastReceivedTime + (1000 * 10)) {
+                return;
+            }
+
+            lastReceivedNumber = picNumber;
+            lastReceivedTime = Calendar.getInstance().getTimeInMillis();
 			
 			try
 	        {
@@ -425,8 +436,13 @@ public class MMSMessageReceiver extends BroadcastReceiver {
             }
 
             if (sharedPrefs.getBoolean("cache_conversations", false)) {
-                Intent cacheService = new Intent(context, CacheService.class);
-                context.startService(cacheService);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent cacheService = new Intent(context, CacheService.class);
+                        context.startService(cacheService);
+                    }
+                }, 500);
             }
 			
 			if (sharedPrefs.getBoolean("override_stock", false) && !error)
