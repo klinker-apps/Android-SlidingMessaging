@@ -311,7 +311,7 @@ s
 		{
 			NotificationManager mNotificationManager =
 		            (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-			mNotificationManager.cancel(2);
+			mNotificationManager.cancel(3);
 		}
 		
 		if (sharedPrefs.getBoolean("override_lang", false))

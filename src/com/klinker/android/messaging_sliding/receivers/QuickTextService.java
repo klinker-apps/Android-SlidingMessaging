@@ -46,7 +46,7 @@ public class QuickTextService extends IntentService {
 		mBuilder.setContentIntent(intent2);
 		NotificationManager mNotificationManager =
 		    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-		mNotificationManager.notify(2, mBuilder.build());
+		mNotificationManager.notify(3, mBuilder.build());
             
         stopSelf();
 	}

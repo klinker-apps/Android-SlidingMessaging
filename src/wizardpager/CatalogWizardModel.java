@@ -56,6 +56,7 @@ public class CatalogWizardModel extends AbstractWizardModel {
                 "- Option to receive MMS through stock if you are having problems receiving\n" +
                 "- Bug fixes\n\n" +
                 "Theme Editor Additions:\n" +
+                "- Hangouts theme previews if you are on the Hangouts UI\n" +
                 "- New Light Theme 2.0 option, looks great with the Hangouts UI!\n" +
                 "- Option to use the Light Action Bar with any theme (NOTE: This option means that if you were previously using the Hangout's theme, you will need to go into settings and reselect it.)\n\n";
 

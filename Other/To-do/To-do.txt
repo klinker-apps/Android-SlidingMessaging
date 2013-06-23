@@ -3,7 +3,6 @@ Version 6.30
 - cache conversations
 - Investigate MMS apns on stock
 - Message Locking?
-- add theme previews when hangouts is enabled
 - implement trial fix for mms being received twice
 - fix quick text notification disappearing sometimes
 
