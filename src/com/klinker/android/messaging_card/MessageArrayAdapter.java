@@ -8,7 +8,7 @@ import com.android.mms.util.SendingProgressTokenManager;
 import com.google.android.mms.APN;
 import com.google.android.mms.APNHelper;
 import com.google.android.mms.pdu.PduParser;
-import com.google.android.mms.pdu.PduPersister;
+import com.google.android.mms.pdu.PduPersisterNew;
 import com.google.android.mms.pdu.RetrieveConf;
 import com.klinker.android.messaging_donate.receivers.DisconnectWifi;
 import com.klinker.android.messaging_donate.R;
@@ -574,7 +574,7 @@ public class MessageArrayAdapter extends ArrayAdapter<String> {
 								            	}
 												
 												RetrieveConf retrieveConf = (RetrieveConf) new PduParser(resp).parse();
-												PduPersister persister = PduPersister.getPduPersister(context);
+												PduPersisterNew persister = PduPersisterNew.getPduPersister(context);
 												Uri msgUri = persister.persist(retrieveConf, Inbox.CONTENT_URI, true,
 								                        groupMMS, null);
 												
@@ -695,7 +695,7 @@ public class MessageArrayAdapter extends ArrayAdapter<String> {
 					            	}
 									
 									RetrieveConf retrieveConf = (RetrieveConf) new PduParser(resp).parse();
-									PduPersister persister = PduPersister.getPduPersister(context);
+									PduPersisterNew persister = PduPersisterNew.getPduPersister(context);
 									Uri msgUri = persister.persist(retrieveConf, Inbox.CONTENT_URI, true,
 					                        groupMMS, null);
 									

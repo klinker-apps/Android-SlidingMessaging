@@ -39,13 +39,8 @@ import android.util.Log;
 import com.android.mms.MmsConfig;
 import com.android.mms.util.DownloadManager;
 import com.google.android.mms.MmsException;
-import com.google.android.mms.pdu.GenericPdu;
-import com.google.android.mms.pdu.NotificationInd;
-import com.google.android.mms.pdu.NotifyRespInd;
-import com.google.android.mms.pdu.PduComposer;
-import com.google.android.mms.pdu.PduHeaders;
-import com.google.android.mms.pdu.PduParser;
-import com.google.android.mms.pdu.PduPersister;
+import com.google.android.mms.pdu.*;
+import com.google.android.mms.pdu.PduPersisterNew;
 
 /**
  * The NotificationTransaction is responsible for handling multimedia
@@ -80,7 +75,7 @@ public class NotificationTransaction extends Transaction implements Runnable {
 
         try {
             mNotificationInd = (NotificationInd)
-                    PduPersister.getPduPersister(context).load(mUri);
+                    PduPersisterNew.getPduPersister(context).load(mUri);
         } catch (MmsException e) {
             Log.e(TAG, "Failed to load NotificationInd from: " + uriString, e);
             throw new IllegalArgumentException();
@@ -104,7 +99,7 @@ public class NotificationTransaction extends Transaction implements Runnable {
         try {
             // Save the pdu. If we can start downloading the real pdu immediately, don't allow
             // persist() to create a thread for the notificationInd because it causes UI jank.
-            mUri = PduPersister.getPduPersister(context).persist(
+            mUri = PduPersisterNew.getPduPersister(context).persist(
                         ind, Inbox.CONTENT_URI, !allowAutoDownload(),
                         true, null);
         } catch (MmsException e) {
@@ -174,7 +169,7 @@ public class NotificationTransaction extends Transaction implements Runnable {
                     status = STATUS_UNRECOGNIZED;
                 } else {
                     // Save the received PDU (must be a M-RETRIEVE.CONF).
-                    PduPersister p = PduPersister.getPduPersister(mContext);
+                    PduPersisterNew p = PduPersisterNew.getPduPersister(mContext);
                     Uri uri = p.persist(pdu, Inbox.CONTENT_URI, true,
                             true, null);
 

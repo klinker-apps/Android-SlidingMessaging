@@ -44,7 +44,7 @@ import com.google.android.mms.pdu.GenericPdu;
 import com.google.android.mms.pdu.NotificationInd;
 import com.google.android.mms.pdu.PduHeaders;
 import com.google.android.mms.pdu.PduParser;
-import com.google.android.mms.pdu.PduPersister;
+import com.google.android.mms.pdu.PduPersisterNew;
 import com.google.android.mms.pdu.ReadOrigInd;
 
 /**
@@ -75,7 +75,7 @@ public class PushReceiver extends BroadcastReceiver {
                 return null;
             }
 
-            PduPersister p = PduPersister.getPduPersister(mContext);
+            PduPersisterNew p = PduPersisterNew.getPduPersister(mContext);
             ContentResolver cr = mContext.getContentResolver();
             int type = pdu.getMessageType();
             long threadId = -1;

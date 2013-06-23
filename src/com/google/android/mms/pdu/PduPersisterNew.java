@@ -62,12 +62,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
-import com.google.android.mms.pdu.EncodedStringValue;
-
 /**
  * This class is the high-level manager of PDU storage.
  */
-public class PduPersister {
+public class PduPersisterNew {
     private static final String TAG = "PduPersister";
     private static final boolean LOCAL_LOGV = false;
 
@@ -89,7 +87,7 @@ public class PduPersister {
      */
     public static final int PROC_STATUS_COMPLETED           = 3;
 
-    private static PduPersister sPersister;
+    private static PduPersisterNew sPersister;
     private static final PduCache PDU_CACHE_INSTANCE;
 
     private static final int[] ADDRESS_FIELDS = new int[] {
@@ -279,7 +277,7 @@ public class PduPersister {
 	private final DrmManagerClient mDrmManagerClient;
     private final TelephonyManager mTelephonyManager;
 
-    private PduPersister(Context context) {
+    private PduPersisterNew(Context context) {
         mContext = context;
         mContentResolver = context.getContentResolver();
         mDrmManagerClient = new DrmManagerClient(context);
@@ -288,9 +286,9 @@ public class PduPersister {
      }
 
     /** Get(or create if not exist) an instance of PduPersister */
-    public static PduPersister getPduPersister(Context context) {
+    public static PduPersisterNew getPduPersister(Context context) {
         if ((sPersister == null) || !context.equals(sPersister.mContext)) {
-            sPersister = new PduPersister(context);
+            sPersister = new PduPersisterNew(context);
         }
 
         return sPersister;

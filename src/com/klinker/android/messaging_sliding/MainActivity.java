@@ -5127,7 +5127,7 @@ s
             }
         }).start();
 
-        if (sharedPrefs.getBoolean("cache_conversations", true)) {
+        if (sharedPrefs.getBoolean("cache_conversations", false)) {
             Intent cacheService = new Intent(context, CacheService.class);
             context.startService(cacheService);
         }
@@ -6794,7 +6794,7 @@ s
 
             try
             {
-                if (!sharedPrefs.getBoolean("cache_conversations", true) || !CacheService.cached || !MainActivity.notChanged || !(position < sharedPrefs.getInt("num_cache_conversations", 5))) {
+                if (!sharedPrefs.getBoolean("cache_conversations", false) || !CacheService.cached || !MainActivity.notChanged || !(position < sharedPrefs.getInt("num_cache_conversations", 5))) {
                     messageQuery.close();
                 }
             } catch (Exception e)
@@ -6891,7 +6891,7 @@ s
                 spinner.setVisibility(View.GONE);
             }
 
-            if (sharedPrefs.getBoolean("cache_conversations", true) && CacheService.cached && MainActivity.notChanged && position < sharedPrefs.getInt("num_cache_conversations", 5)) {
+            if (sharedPrefs.getBoolean("cache_conversations", false) && CacheService.cached && MainActivity.notChanged && position < sharedPrefs.getInt("num_cache_conversations", 5)) {
                 MainActivity.threadedLoad = false;
             }
 
@@ -7064,7 +7064,7 @@ s
                     MainActivity.loadAllMessagesPosition = -1;
                 }
 
-                if (!sharedPrefs.getBoolean("cache_conversations", true) || !CacheService.cached || !MainActivity.notChanged || !(position < sharedPrefs.getInt("num_cache_conversations", 5))) {
+                if (!sharedPrefs.getBoolean("cache_conversations", false) || !CacheService.cached || !MainActivity.notChanged || !(position < sharedPrefs.getInt("num_cache_conversations", 5))) {
                     messageQuery = contentResolver.query(uri3, projection2, null, null, sortOrder);
                 } else {
                     messageQuery = CacheService.conversations.get(position);

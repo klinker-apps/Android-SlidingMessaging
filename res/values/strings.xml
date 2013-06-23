@@ -239,7 +239,7 @@
 	<string name="remind_me_later">Remind Me Next Time</string>
 	<string name="dont_bother">Don\'t Bother Me Again</string>
 	<string name="changelog_title">Change Log:</string>
-	<string name="changelog_disclaimers">Sliding Messaging Pro is now out of the beta stages!\n\nCDMA Users, remember to check the \"Split SMS\" option in Advanced Settings to send long messages.\n\nThis app runs a background service that will cache conversations for faster loading by default. This may affect better life, therefore you can disable it in Advanced Settings if you would like.</string>
+	<string name="changelog_disclaimers">Sliding Messaging Pro is now out of the beta stages!\n\nCDMA Users, remember to check the \"Split SMS\" option in Advanced Settings to send long messages.\n\nIf you experience lag when sliding between conversations, you can enable the option in advanced settings to \"Cache Conversations\". This may affect battery life.</string>
 	<string name="led">LED Light on Notification</string>
 	<string name="default_theme_prefs">Default Theme Settings</string>
 	<string name="breath">Notification Breath Animation</string>

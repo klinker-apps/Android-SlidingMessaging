@@ -25,6 +25,7 @@ import com.klinker.android.messaging_sliding.DeleteOldService;
 import com.klinker.android.messaging_sliding.blacklist.BlacklistActivity;
 import com.klinker.android.messaging_sliding.custom_dialogs.NumberPickerDialog;
 import com.klinker.android.messaging_sliding.notifications.NotificationsSettingsActivity;
+import com.klinker.android.messaging_sliding.receivers.CacheService;
 import com.klinker.android.messaging_sliding.receivers.NotificationReceiver;
 import com.klinker.android.messaging_sliding.scheduled.ScheduledSms;
 import com.klinker.android.messaging_sliding.security.SetPasswordActivity;
@@ -867,7 +868,7 @@ public class SettingsPagerActivity extends FragmentActivity {
 
                 @Override
                 public boolean onPreferenceClick(Preference arg0) {
-                    if (sharedPrefs.getBoolean("cache_conversations", true))
+                    if (sharedPrefs.getBoolean("cache_conversations", false))
                     {
                         NumberPickerDialog.OnNumberSetListener numCacheListener =
                                 new NumberPickerDialog.OnNumberSetListener() {
@@ -876,10 +877,15 @@ public class SettingsPagerActivity extends FragmentActivity {
 
                                         editor.putInt("num_cache_conversations", limit);
                                         editor.commit();
+
+                                        if (sharedPrefs.getBoolean("cache_conversations", false)) {
+                                            Intent cacheService = new Intent(context, CacheService.class);
+                                            context.startService(cacheService);
+                                        }
                                     }
                                 };
 
-                        new NumberPickerDialog(context, numCacheListener, sharedPrefs.getInt("num_cache_conversations", 5), 1, 15, R.string.num_cache_conversations).show();
+                        new NumberPickerDialog(context, numCacheListener, sharedPrefs.getInt("num_cache_conversations", 5), 0, 15, R.string.num_cache_conversations).show();
                     }
 
                     return false;

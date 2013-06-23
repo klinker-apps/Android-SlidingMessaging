@@ -69,7 +69,7 @@
         android:key="cache_conversations"
         android:title="@string/cache_conversations"
         android:summary="@string/cache_conversations_summary"
-        android:defaultValue="true"
+        android:defaultValue="false"
         />
 
     <Preference

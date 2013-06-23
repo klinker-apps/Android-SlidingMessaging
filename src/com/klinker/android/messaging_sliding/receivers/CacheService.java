@@ -81,7 +81,7 @@ public class CacheService extends IntentService {
 
     @Override
     public void onDestroy() {
-        if (sharedPrefs.getBoolean("cache_conversations", true)) {
+        if (sharedPrefs.getBoolean("cache_conversations", false)) {
             onCreate();
         } else {
             super.onDestroy();

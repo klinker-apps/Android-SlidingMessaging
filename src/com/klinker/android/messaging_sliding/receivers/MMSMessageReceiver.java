@@ -16,6 +16,7 @@ import java.util.Locale;
 import android.content.*;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import com.google.android.mms.pdu.*;
 import com.klinker.android.messaging_donate.R;
 
 import com.android.mms.transaction.HttpUtils;
@@ -23,13 +24,7 @@ import com.android.mms.util.SendingProgressTokenManager;
 import com.google.android.mms.APN;
 import com.google.android.mms.APNHelper;
 import com.google.android.mms.MmsException;
-import com.google.android.mms.pdu.DeliveryInd;
-import com.google.android.mms.pdu.GenericPdu;
-import com.google.android.mms.pdu.PduHeaders;
-import com.google.android.mms.pdu.PduParser;
-import com.google.android.mms.pdu.PduPersister;
-import com.google.android.mms.pdu.ReadOrigInd;
-import com.google.android.mms.pdu.RetrieveConf;
+import com.google.android.mms.pdu.PduPersisterNew;
 
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -123,7 +118,7 @@ public class MMSMessageReceiver extends BroadcastReceiver {
 	            int type = pdu.getMessageType();
 	            long threadId = -1;
 	
-	            PduPersister p = PduPersister.getPduPersister(context);
+	            PduPersisterNew p = PduPersisterNew.getPduPersister(context);
 	            
 	            try {
 	            	boolean groupMMS = false;
@@ -314,7 +309,7 @@ public class MMSMessageReceiver extends BroadcastReceiver {
 								        Integer.parseInt(apns.get(0).MMSPort));
 								
 								RetrieveConf retrieveConf = (RetrieveConf) new PduParser(resp).parse();
-								PduPersister persister = PduPersister.getPduPersister(context);
+								PduPersisterNew persister = PduPersisterNew.getPduPersister(context);
 								Uri msgUri = persister.persist(retrieveConf, Inbox.CONTENT_URI, true,
 				                        true, null);
 								ContentValues values = new ContentValues(1);
@@ -427,7 +422,7 @@ public class MMSMessageReceiver extends BroadcastReceiver {
                 error = true;
             }
 
-            if (sharedPrefs.getBoolean("cache_conversations", true)) {
+            if (sharedPrefs.getBoolean("cache_conversations", false)) {
                 Intent cacheService = new Intent(context, CacheService.class);
                 context.startService(cacheService);
             }
