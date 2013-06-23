@@ -54,6 +54,7 @@ public class CatalogWizardModel extends AbstractWizardModel {
                 "- Performance increases (faster startup time)\n" +
                 "- Fixes to WiFi MMS workaround, will now enable mobile data connection while sending and receiving MMS\n" +
                 "- Option to receive MMS through stock if you are having problems receiving\n" +
+                "- Fixes to the Quick Text notification disappearing\n" +
                 "- Bug fixes\n\n" +
                 "Theme Editor Additions:\n" +
                 "- Hangouts theme previews if you are on the Hangouts UI\n" +
