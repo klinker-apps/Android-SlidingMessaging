@@ -2,7 +2,6 @@ Version 6.30
 - Sent message sounds
 - Investigate MMS apns on stock
 - Message Locking?
-- implement trial fix for mms being received twice
 
 0) more individual notification options
 3) Batch delete of messages inside single conversation
