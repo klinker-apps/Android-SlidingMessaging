@@ -15,6 +15,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.view.WindowManager;
 import com.klinker.android.messaging_donate.receivers.UnlockReceiver;
+import com.klinker.android.messaging_sliding.receivers.CacheService;
 
 import java.util.ArrayList;
 
@@ -36,7 +37,11 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
 	            (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		mNotificationManager.cancel(1);
 
-        getSupportLoaderManager().initLoader(0, null, this);
+        if (sharedPrefs.getBoolean("cache_conversations", true) && CacheService.cached) {
+            onLoadFinished(null, CacheService.conversationList);
+        } else {
+            getSupportLoaderManager().initLoader(0, null, this);
+        }
 	}
 
     public void launchActivity()
@@ -162,36 +167,6 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
                 }
 
                 inboxDate.add(query.getString(query.getColumnIndex("date")));
-
-//                String[] ids = query.getString(query.getColumnIndex("recipient_ids")).split(" ");
-//                String numbers = "";
-//
-//                for (int i = 0; i < ids.length; i++)
-//                {
-//                    try
-//                    {
-//                        if (ids[i] != null && (!ids[i].equals("") || !ids[i].equals(" ")))
-//                        {
-//                            Cursor number = getContentResolver().query(Uri.parse("content://mms-sms/canonical-addresses"), null, "_id=" + ids[i], null, null);
-//
-//                            if (number.moveToFirst())
-//                            {
-//                                numbers += number.getString(number.getColumnIndex("address")).replace("-", "").replace(")", "").replace("(", "").replace(" ", "") + " ";
-//                            } else
-//                            {
-//                                numbers += "0 ";
-//                            }
-//
-//                            number.close();
-//                        } else
-//                        {
-//
-//                        }
-//                    } catch (Exception e)
-//                    {
-//                        numbers += "0 ";
-//                    }
-//                }
 
                 inboxNumber.add(query.getString(query.getColumnIndex("recipient_ids")));
 

@@ -51,6 +51,7 @@ public class CatalogWizardModel extends AbstractWizardModel {
         String changeLog = "Version " + version + ":\n\n" +
                 "- Scheduling SMS support\n" +
                 "- Draft support: By default, drafts are not auto inserted as this process causes lag when switching pages. You can turn on auto insert in message settings if you prefer that.\n" +
+                "- Ability to cache conversations for faster loading\n" +
                 "- Performance increases (faster startup time)\n" +
                 "- Fixes to WiFi MMS workaround, will now enable mobile data connection while sending and receiving MMS\n" +
                 "- Option to receive MMS through stock if you are having problems receiving\n" +

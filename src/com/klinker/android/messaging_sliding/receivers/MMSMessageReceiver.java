@@ -61,7 +61,6 @@ import android.util.Log;
 import com.klinker.android.messaging_sliding.MainActivity;
 
 public class MMSMessageReceiver extends BroadcastReceiver {
-	public static final String MMS_EXTRA_NAME = "pdus";
 	public SharedPreferences sharedPrefs;
 	public Context context;
 	public String phoneNumber;
@@ -426,6 +425,11 @@ public class MMSMessageReceiver extends BroadcastReceiver {
             if (!sharedPrefs.getBoolean("receive_with_stock", false))
             {
                 error = true;
+            }
+
+            if (sharedPrefs.getBoolean("cache_conversations", true)) {
+                Intent cacheService = new Intent(context, CacheService.class);
+                context.startService(cacheService);
             }
 			
 			if (sharedPrefs.getBoolean("override_stock", false) && !error)

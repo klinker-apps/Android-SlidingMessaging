@@ -239,7 +239,7 @@
 	<string name="remind_me_later">Remind Me Next Time</string>
 	<string name="dont_bother">Don\'t Bother Me Again</string>
 	<string name="changelog_title">Change Log:</string>
-	<string name="changelog_disclaimers">As always, remember Sliding Messaging is still in the beta stages and things will constantly be changing and improving - evolving alongside Android.\n\nCDMA Users, remember to check the \"Split SMS\" option in Advanced Settings to send long messages.</string>
+	<string name="changelog_disclaimers">Sliding Messaging Pro is now out of the beta stages!\n\nCDMA Users, remember to check the \"Split SMS\" option in Advanced Settings to send long messages.\n\nThis app runs a background service that will cache conversations for faster loading by default. This may affect better life, therefore you can disable it in Advanced Settings if you would like.</string>
 	<string name="led">LED Light on Notification</string>
 	<string name="default_theme_prefs">Default Theme Settings</string>
 	<string name="breath">Notification Breath Animation</string>
@@ -473,4 +473,9 @@
     <string name="message_sounds">Message Sounds</string>
     <string name="message_sounds_summary">Will play sound when message has sent</string>
     <string name="ct_light_action_bar">Light Action Bar</string>
+    <string name="cache_conversations">Cache Conversations</string>
+    <string name="cache_conversations_summary">Caches conversations in the background to allow for faster loading times, has potential to affect battery life. This feature is still experimental.</string>
+    <string name="num_cache_conversations">Number of Cached Conversations</string>
+    <string name="num_cache_conversations_summary">By setting to one, you will optimize battery life and still have the first conversation loaded instantly when you start the app.</string>
+
 </resources>

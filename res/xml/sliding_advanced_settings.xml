@@ -66,6 +66,21 @@
         />
 
     <CheckBoxPreference
+        android:key="cache_conversations"
+        android:title="@string/cache_conversations"
+        android:summary="@string/cache_conversations_summary"
+        android:defaultValue="true"
+        />
+
+    <Preference
+        android:key="num_cache_conversations"
+        android:title="@string/num_cache_conversations"
+        android:summary="@string/num_cache_conversations_summary"
+        android:defaultValue="5"
+        android:dependency="cache_conversations"
+        />
+
+    <CheckBoxPreference
         android:key="override"
         android:title="@string/override"
         android:summary="@string/override_summary"

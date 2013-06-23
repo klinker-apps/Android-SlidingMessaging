@@ -106,6 +106,7 @@ import com.klinker.android.messaging_sliding.emojis.EmojiAdapter;
 import com.klinker.android.messaging_sliding.emojis.EmojiAdapter2;
 import com.klinker.android.messaging_sliding.emojis.EmojiConverter;
 import com.klinker.android.messaging_sliding.emojis.EmojiConverter2;
+import com.klinker.android.messaging_sliding.receivers.CacheService;
 import com.klinker.android.messaging_sliding.receivers.NotificationReceiver;
 import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
 import com.klinker.android.messaging_sliding.receivers.QuickTextService;
@@ -140,6 +141,7 @@ s
 
     public static boolean waitToLoad = false;
     public static boolean threadedLoad = true;
+    public static boolean notChanged = true;
 	
 	public static String myPhoneNumber, myContactId;
 	
@@ -228,6 +230,8 @@ s
         getWindow().getDecorView().setBackgroundColor(sharedPrefs.getInt("ct_messageListBackground", getResources().getColor(R.color.light_silver)));
 		setContentView(R.layout.activity_main);
 		setTitle(R.string.app_name_in_app);
+
+        MainActivity.notChanged = true;
 		
 		getWindow().setBackgroundDrawable(null);
 		
@@ -565,7 +569,7 @@ s
 			        }
 			        
 			        messageRecieved = true;
-			        
+			        notChanged = false;
 			        jump = false;
 
                     try
@@ -1802,6 +1806,7 @@ s
 
 											MainActivity.sentMessage = true;
                                             MainActivity.threadedLoad = false;
+                                            MainActivity.notChanged = false;
 								        	refreshViewPager4(address2, StripAccents.stripAccents(body), cal.getTimeInMillis() + "");
 								        	mViewPager.setCurrentItem(0);
 								        	mTextView.setVisibility(View.GONE);
@@ -3182,6 +3187,7 @@ s
 											public void run() {
 
                                                 MainActivity.threadedLoad = false;
+                                                MainActivity.notChanged = false;
                                                 sentMessage = true;
                                                 refreshViewPager(true);
                                                 mTextView.setVisibility(View.GONE);
@@ -5120,6 +5126,11 @@ s
                 }
             }
         }).start();
+
+        if (sharedPrefs.getBoolean("cache_conversations", true)) {
+            Intent cacheService = new Intent(context, CacheService.class);
+            context.startService(cacheService);
+        }
 	}
 
     @Override
@@ -6783,7 +6794,9 @@ s
 
             try
             {
-                messageQuery.close();
+                if (!sharedPrefs.getBoolean("cache_conversations", true) || !CacheService.cached || !MainActivity.notChanged || !(position < sharedPrefs.getInt("num_cache_conversations", 5))) {
+                    messageQuery.close();
+                }
             } catch (Exception e)
             {
 
@@ -6876,6 +6889,10 @@ s
             } else
             {
                 spinner.setVisibility(View.GONE);
+            }
+
+            if (sharedPrefs.getBoolean("cache_conversations", true) && CacheService.cached && MainActivity.notChanged && position < sharedPrefs.getInt("num_cache_conversations", 5)) {
+                MainActivity.threadedLoad = false;
             }
 
             if (MainActivity.threadedLoad)
@@ -7018,7 +7035,6 @@ s
                 } else
                 {
                     getLoaderManager().restartLoader(position, null, this);
-                    Log.v("loading", position + "");
                 }
             } else
             {
@@ -7048,7 +7064,11 @@ s
                     MainActivity.loadAllMessagesPosition = -1;
                 }
 
-                messageQuery = contentResolver.query(uri3, projection2, null, null, sortOrder);
+                if (!sharedPrefs.getBoolean("cache_conversations", true) || !CacheService.cached || !MainActivity.notChanged || !(position < sharedPrefs.getInt("num_cache_conversations", 5))) {
+                    messageQuery = contentResolver.query(uri3, projection2, null, null, sortOrder);
+                } else {
+                    messageQuery = CacheService.conversations.get(position);
+                }
 
                 if (sharedPrefs.getString("run_as", "sliding").equals("sliding"))
                 {
@@ -7067,6 +7087,7 @@ s
                             @Override
                             public void onClick(View view) {
                                 MainActivity.loadAllMessages = true;
+                                MainActivity.notChanged = false;
                                 MainActivity.loadAllMessagesPosition = position;
                                 ((MainActivity)context).refreshViewPager(false);
                                 MainActivity.mViewPager.setCurrentItem(position, false);

@@ -1041,6 +1041,11 @@ public class TextMessageReceiver extends BroadcastReceiver {
 		        
 		        Intent updateWidget = new Intent("com.klinker.android.messaging.UPDATE_WIDGET");
 				context.sendBroadcast(updateWidget);
+
+                if (sharedPrefs.getBoolean("cache_conversations", true)) {
+                    Intent cacheService = new Intent(context, CacheService.class);
+                    context.startService(cacheService);
+                }
 		        
 		        if (!isRunning(context) && blacklistType != 1)
 		        {

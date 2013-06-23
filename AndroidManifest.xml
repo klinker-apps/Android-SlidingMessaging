@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
     package="com.klinker.android.messaging_donate"
     android:versionCode="149"
-    android:versionName="6.23" >
+    android:versionName="6.29" >
     
     <uses-permission android:name="android.permission.SEND_SMS"/>
     <uses-permission android:name="android.permission.READ_SMS"/>
@@ -338,6 +338,10 @@
 
         <service
                 android:name="com.klinker.android.messaging_sliding.scheduled.ScheduledService" >
+        </service>
+
+        <service
+            android:name="com.klinker.android.messaging_sliding.receivers.CacheService" >
         </service>
         
         <service android:name=".MessageDashClockExtension"

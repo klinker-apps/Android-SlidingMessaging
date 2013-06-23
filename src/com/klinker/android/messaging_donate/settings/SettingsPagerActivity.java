@@ -862,6 +862,31 @@ public class SettingsPagerActivity extends FragmentActivity {
 
             });
 
+            Preference numCacheConversations = findPreference("num_cache_conversations");
+            numCacheConversations.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+
+                @Override
+                public boolean onPreferenceClick(Preference arg0) {
+                    if (sharedPrefs.getBoolean("cache_conversations", true))
+                    {
+                        NumberPickerDialog.OnNumberSetListener numCacheListener =
+                                new NumberPickerDialog.OnNumberSetListener() {
+                                    public void onNumberSet(int limit) {
+                                        SharedPreferences.Editor editor = sharedPrefs.edit();
+
+                                        editor.putInt("num_cache_conversations", limit);
+                                        editor.commit();
+                                    }
+                                };
+
+                        new NumberPickerDialog(context, numCacheListener, sharedPrefs.getInt("num_cache_conversations", 5), 1, 15, R.string.num_cache_conversations).show();
+                    }
+
+                    return false;
+                }
+
+            });
+
 //		Preference mmsToStore = (Preference) findPreference("mms_limit");
 //		mmsToStore.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 //

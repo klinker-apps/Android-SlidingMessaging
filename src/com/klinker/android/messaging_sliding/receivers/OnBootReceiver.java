@@ -31,6 +31,11 @@ public class OnBootReceiver extends BroadcastReceiver {
 			AlarmManager alarm = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 			alarm.setRepeating(AlarmManager.RTC_WAKEUP, Calendar.getInstance().getTimeInMillis(), 6*60*60*1000, pintent);
 		}
+
+        if (sharedPrefs.getBoolean("cache_conversations", true)) {
+            Intent cacheService = new Intent(context, CacheService.class);
+            context.startService(cacheService);
+        }
 		
 	}
 
