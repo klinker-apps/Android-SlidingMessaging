@@ -126,6 +126,7 @@ import com.klinker.android.messaging_sliding.emojis.EmojiAdapter;
 import com.klinker.android.messaging_sliding.emojis.EmojiAdapter2;
 import com.klinker.android.messaging_sliding.emojis.EmojiConverter;
 import com.klinker.android.messaging_sliding.emojis.EmojiConverter2;
+import com.klinker.android.messaging_sliding.receivers.CacheService;
 import com.klinker.android.messaging_sliding.receivers.NotificationReceiver;
 import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
 import com.klinker.android.messaging_sliding.receivers.QuickTextService;
@@ -194,6 +195,8 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 	public static String myPhoneNumber, myContactId;
 	public static Bitmap myPicture;
 
+    public static boolean notChanged = true;
+
     public ArrayList<String> drafts, draftNames;
     public ArrayList<Boolean> draftChanged;
     public ArrayList<String> draftsToDelete;
@@ -230,6 +233,9 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED, WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
+
+        MainActivity.notChanged = true;
+
 		sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 		
 		if (sharedPrefs.getString("card_theme", "Light").equals("Light"))
@@ -454,6 +460,8 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 			        {
 			        	animationReceived = 0;
 			        }
+
+                    notChanged = false;
 			        
 		        	refreshViewPager4(address, body, date);
 		        	
@@ -1754,6 +1762,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
                                                 }
 
 												MainActivity.sentMessage = true;
+                                                notChanged = false;
 									        	refreshViewPager4(address2, StripAccents.stripAccents(body), cal.getTimeInMillis() + "");
 									        	messagePager.setCurrentItem(1);
 									        	charsRemaining.setVisibility(View.GONE);
@@ -2524,6 +2533,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 
 													sentMessage = true;
 													waitMessagePager = false;
+                                                    notChanged = false;
 													refreshViewPager(true);
 													charsRemaining.setVisibility(View.GONE);
 													messagePager.setCurrentItem(1);
@@ -2799,6 +2809,10 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 	
 	public void refreshViewPager(boolean totalRefresh)
 	{
+        if (!firstRun) {
+            notChanged = true;
+        }
+
 		refreshMessages(totalRefresh);
 		
 		contactPagerAdapter = new ContactPagerAdapter(getFragmentManager());
@@ -3088,6 +3102,8 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 	
 	public void refreshViewPager4(String number, String body, String date)
 	{
+        notChanged = false;
+
 		int position = messagePager.getCurrentItem();
 		
 		String currentNumber; 
@@ -4575,7 +4591,9 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 			
 			try
 			{
-				query2.close();
+                if (!sharedPrefs.getBoolean("cache_conversations", false) || !CacheService.cached || !MainActivity.notChanged || !(position < sharedPrefs.getInt("num_cache_conversations", 5))) {
+				    query2.close();
+                }
 			} catch (Exception e)
 			{
 				
@@ -4660,7 +4678,12 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
                                 MainActivity.loadAllMessagesPosition = -1;
                             }
 
-                            query2 = context.getContentResolver().query(uri3, projection2, null, null, sortOrder);
+                            if (!sharedPrefs.getBoolean("cache_conversations", false) || !CacheService.cached || !MainActivity.notChanged || !(position < sharedPrefs.getInt("num_cache_conversations", 5))) {
+                                query2 = context.getContentResolver().query(uri3, projection2, null, null, sortOrder);
+                            } else {
+                                query2 = CacheService.conversations.get(position);
+                            }
+
                             final CustomListView messageList = (CustomListView) view.findViewById(R.id.messageListView);
                             final MessageArrayAdapter adapter = new MessageArrayAdapter((Activity) context, findContactNumber(inboxNumber.get(position), context), threadIds.get(position), query2, position);
                             MainActivity.isFastScrolling = false;
