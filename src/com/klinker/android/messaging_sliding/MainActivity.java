@@ -311,7 +311,7 @@ s
 		{
 			NotificationManager mNotificationManager =
 		            (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-			mNotificationManager.cancel(2);
+			mNotificationManager.cancel(3);
 		}
 		
 		if (sharedPrefs.getBoolean("override_lang", false))
@@ -570,7 +570,7 @@ s
 
                     try
                     {
-                        if (address.endsWith(inboxNumber.get(mViewPager.getCurrentItem())))
+                        if (address.replace(" ", "").replace("(", "").replace(")", "").replace("-", "").endsWith(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context).replace(" ", "").replace("(", "").replace(")", "").replace("-", "")))
                         {
                             animationReceived = 1;
                             animationThread = mViewPager.getCurrentItem();
@@ -599,7 +599,7 @@ s
 
 								@Override
 								public void run() {
-									final String title = findContactName(inboxNumber.get(mViewPager.getCurrentItem()), context);
+									final String title = findContactName(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context), context);
 									
 									((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 										
@@ -616,7 +616,7 @@ s
 							
 							Locale sCachedLocale = Locale.getDefault();
 							int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
-							Editable editable = new SpannableStringBuilder(inboxNumber.get(mViewPager.getCurrentItem()));
+							Editable editable = new SpannableStringBuilder(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context));
 							PhoneNumberUtils.formatNumber(editable, sFormatType);
 							ab.setSubtitle(editable.toString());
 							
@@ -635,7 +635,7 @@ s
 
 							@Override
 							public void run() {
-								final Bitmap image = getFacebookPhoto(inboxNumber.get(mViewPager.getCurrentItem()), context);
+								final Bitmap image = getFacebookPhoto(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context), context);
 								final BitmapDrawable image2 = new BitmapDrawable(image);
 								
 								((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
@@ -767,40 +767,9 @@ s
                         }
 
                         inboxDate.add(query.getString(query.getColumnIndex("date")));
+                        inboxNumber.add(query.getString(query.getColumnIndex("recipient_ids")));
 
-                        String[] ids = query.getString(query.getColumnIndex("recipient_ids")).split(" ");
-                        String numbers = "";
-
-                        for (int i = 0; i < ids.length; i++)
-                        {
-                            try
-                            {
-                                if (ids[i] != null && (!ids[i].equals("") || !ids[i].equals(" ")))
-                                {
-                                    Cursor number = contentResolver.query(Uri.parse("content://mms-sms/canonical-addresses"), null, "_id=" + ids[i], null, null);
-
-                                    if (number.moveToFirst())
-                                    {
-                                        numbers += number.getString(number.getColumnIndex("address")).replace("-", "").replace(")", "").replace("(", "").replace(" ", "") + " ";
-                                    } else
-                                    {
-                                        numbers += "0 ";
-                                    }
-
-                                    number.close();
-                                } else
-                                {
-
-                                }
-                            } catch (Exception e)
-                            {
-                                numbers += "0 ";
-                            }
-                        }
-
-                        inboxNumber.add(numbers.trim());
-
-                        if (ids.length > 1)
+                        if (query.getString(query.getColumnIndex("recipient_ids")).split(" ").length > 1)
                         {
                             group.add("yes");
                         } else
@@ -871,13 +840,51 @@ s
 			refreshMyContact = false;
 		}
 	}
+
+    public static String findContactNumber(String id, Context context) {
+        try {
+            String[] ids = id.split(" ");
+            String numbers = "";
+
+            for (int i = 0; i < ids.length; i++)
+            {
+                try
+                {
+                    if (ids[i] != null && (!ids[i].equals("") || !ids[i].equals(" ")))
+                    {
+                        Cursor number = context.getContentResolver().query(Uri.parse("content://mms-sms/canonical-addresses"), null, "_id=" + ids[i], null, null);
+
+                        if (number.moveToFirst())
+                        {
+                            numbers += number.getString(number.getColumnIndex("address")).replace("-", "").replace(")", "").replace("(", "").replace(" ", "") + " ";
+                        } else
+                        {
+                            numbers += ids[i] + " ";
+                        }
+
+                        number.close();
+                    } else
+                    {
+
+                    }
+                } catch (Exception e)
+                {
+                    numbers += "0 ";
+                }
+            }
+
+            return numbers;
+        } catch (Exception e) {
+            return id;
+        }
+    }
 	
 	public static String findContactName(String number, Context context)
 	{
 		String name = "";
-		
+
 		String origin = number;
-		
+
 		if (origin.length() != 0)
 		{
 			Uri phoneUri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(origin));
@@ -905,10 +912,10 @@ s
 					name = "No Information";
 				}
 			}
-			
+
 			phonesCursor.close();
 		} else
-		{			
+		{
 			if (!number.equals(""))
 			{
 				try
@@ -928,34 +935,7 @@ s
 				name = "No Information";
 			}
 		}
-		
-		return name;
-	}
-	
-	public static String findContactId(String number, Context context)
-	{
-		String name = "";
-		
-		String origin = number;
-		
-		if (origin.length() != 0)
-		{
-			Uri phoneUri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(origin));
-			Cursor phonesCursor = context.getContentResolver().query(phoneUri, new String[] {ContactsContract.Contacts.DISPLAY_NAME_PRIMARY, ContactsContract.RawContacts._ID}, null, null, ContactsContract.Contacts.DISPLAY_NAME + " desc limit 1");
 
-			if(phonesCursor != null && phonesCursor.moveToFirst()) {
-				name = phonesCursor.getString(1);
-			} else
-			{
-				name = "0";
-			}
-			
-			phonesCursor.close();
-		} else
-		{			
-			name = "0";
-		}
-		
 		return name;
 	}
 	
@@ -1205,7 +1185,7 @@ s
 								
 								if (sharedPrefs.getBoolean("delivery_reports", false))
 								{
-									if (!inboxNumber.get(position2).replaceAll("[^0-9]", "").equals(""))
+									if (!findContactNumber(inboxNumber.get(position2), context).replaceAll("[^0-9]", "").equals(""))
 									{
 										String SENT = "SMS_SENT";
 								        String DELIVERED = "SMS_DELIVERED";
@@ -1394,7 +1374,7 @@ s
 									                    	
 									                    	try
 									                    	{
-									                    		builder.setTitle(loadGroupContacts(inboxNumber.get(position2), context));
+									                    		builder.setTitle(loadGroupContacts(findContactNumber(inboxNumber.get(position2), context), context));
 									                    	} catch (Exception e)
 									                    	{
 									                    		
@@ -1428,7 +1408,7 @@ s
 									                    	
 									                    	try
 									                    	{
-									                    		builder2.setTitle(loadGroupContacts(inboxNumber.get(position2), context));
+									                    		builder2.setTitle(loadGroupContacts(findContactNumber(inboxNumber.get(position2), context), context));
 									                    	} catch (Exception e)
 									                    	{
 									                    		
@@ -1546,7 +1526,7 @@ s
 													dPI.add(deliveredPI);
 												}
 												
-												smsManager.sendMultipartTextMessage(inboxNumber.get(position2), null, parts, sPI, dPI);
+												smsManager.sendMultipartTextMessage(findContactNumber(inboxNumber.get(position2), context), null, parts, sPI, dPI);
 											}
 										} else
 										{
@@ -1558,14 +1538,14 @@ s
 												dPI.add(deliveredPI);
 											}
 											
-											smsManager.sendMultipartTextMessage(inboxNumber.get(position2), null, parts, sPI, dPI);
+											smsManager.sendMultipartTextMessage(findContactNumber(inboxNumber.get(position2), context), null, parts, sPI, dPI);
 										}
 									} else
 									{
 									}
 								} else
 								{
-									if (!inboxNumber.get(position2).replaceAll("[^0-9]", "").equals(""))
+									if (!findContactNumber(inboxNumber.get(position2), context).replaceAll("[^0-9]", "").equals(""))
 									{
 										String SENT = "SMS_SENT";
 										 
@@ -1762,7 +1742,7 @@ s
 													sPI.add(sentPI);
 												}
 												
-												smsManager.sendMultipartTextMessage(inboxNumber.get(position2), null, parts, sPI, null);
+												smsManager.sendMultipartTextMessage(findContactNumber(inboxNumber.get(position2), context), null, parts, sPI, null);
 											}
 										} else
 										{
@@ -1773,14 +1753,14 @@ s
 												sPI.add(sentPI);
 											}
 											
-											smsManager.sendMultipartTextMessage(inboxNumber.get(position2), null, parts, sPI, null);
+											smsManager.sendMultipartTextMessage(findContactNumber(inboxNumber.get(position2), context), null, parts, sPI, null);
 										}
 									} else
 									{
 									}
 								}
 								
-								String address = inboxNumber.get(position2);
+								String address = findContactNumber(inboxNumber.get(position2), context);
 								String body2 = body;
 								
 								if (sharedPrefs.getBoolean("strip_unicode", false))
@@ -1796,6 +1776,7 @@ s
 								    values.put("body", body2); 
 								    values.put("date", cal.getTimeInMillis() + "");
 								    values.put("read", true);
+                                    values.put("thread_id", threadIds.get(mViewPager.getCurrentItem()));
 								    context.getContentResolver().insert(Uri.parse("content://sms/outbox"), values);
 									
 								    final String address2 = address;
@@ -1861,7 +1842,7 @@ s
 					
 					String body = messageEntry.getText().toString();
 					
-					String[] to = ("insert-address-token " + inboxNumber.get(mViewPager.getCurrentItem())).split(" ");
+					String[] to = ("insert-address-token " + findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context)).split(" ");
 
                     if (!sharedPrefs.getBoolean("send_with_stock", false))
                     {
@@ -1893,7 +1874,7 @@ s
                                 parts[0].Data = body.getBytes();
                             }
 
-                            sendMMS(inboxNumber.get(mViewPager.getCurrentItem()), parts);
+                            sendMMS(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context), parts);
                         } else
                         {
                             ArrayList<byte[]> bytes = new ArrayList<byte[]>();
@@ -1913,7 +1894,7 @@ s
                             part.Data = body.getBytes();
                             AttachMore.data.add(part);
 
-                            sendMMS(inboxNumber.get(mViewPager.getCurrentItem()), AttachMore.data.toArray(new MMSPart[AttachMore.data.size()]));
+                            sendMMS(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context), AttachMore.data.toArray(new MMSPart[AttachMore.data.size()]));
 
                             AttachMore.data = new ArrayList<MMSPart>();
                         }
@@ -1922,7 +1903,7 @@ s
                         if (multipleAttachments == false)
                         {
                             Intent sendIntent = new Intent(Intent.ACTION_SEND);
-                            sendIntent.putExtra("address", inboxNumber.get(mViewPager.getCurrentItem()));
+                            sendIntent.putExtra("address", findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context));
                             sendIntent.putExtra("sms_body", body);
                             sendIntent.putExtra(Intent.EXTRA_STREAM, attachedImage);
                             sendIntent.setType("image/png");
@@ -1939,7 +1920,7 @@ s
 					imageAttach.setVisibility(false);
 					imageAttachBackground.setVisibility(View.GONE);
 					
-					refreshViewPager4(inboxNumber.get(mViewPager.getCurrentItem()), StripAccents.stripAccents(body), "0");
+					refreshViewPager4(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context), StripAccents.stripAccents(body), "0");
 				}
 			}
 			
@@ -3603,7 +3584,7 @@ s
                             @Override
                             public void run() {
                                 if (inboxNumber.size() != 0) {
-                                    final String title = findContactName(inboxNumber.get(mViewPager.getCurrentItem()), context);
+                                    final String title = findContactName(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context), context);
 
                                     ((MainActivity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 
@@ -3613,7 +3594,7 @@ s
 
                                             Locale sCachedLocale = Locale.getDefault();
                                             int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
-                                            Editable editable = new SpannableStringBuilder(inboxNumber.get(mViewPager.getCurrentItem()));
+                                            Editable editable = new SpannableStringBuilder(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context));
                                             PhoneNumberUtils.formatNumber(editable, sFormatType);
                                             ab.setSubtitle(editable.toString());
 
@@ -3646,7 +3627,7 @@ s
                         @Override
                         public void run() {
                             if (inboxNumber.size() != 0) {
-                                Bitmap image = getFacebookPhoto(inboxNumber.get(mViewPager.getCurrentItem()), context);
+                                Bitmap image = getFacebookPhoto(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context), context);
                                 final BitmapDrawable image2 = new BitmapDrawable(image);
 
                                 ((MainActivity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
@@ -3707,7 +3688,7 @@ s
 				        
 				        for (int j = 0; j < newMessages.size(); j++)
 				        {
-				        	if (newMessages.get(j).replaceAll("-", "").endsWith(findContactName(inboxNumber.get(mViewPager.getCurrentItem()), context).replace("-", "")))
+				        	if (newMessages.get(j).replaceAll("-", "").endsWith(findContactName(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context), context).replace("-", "")))
 				        	{
 				        		newMessages.remove(j);
 				        	}
@@ -3727,11 +3708,11 @@ s
                                 subtitle = null;
                             } else
                             {
-                                title = findContactName(inboxNumber.get(mViewPager.getCurrentItem()), context);
+                                title = findContactName(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context), context);
 
                                 Locale sCachedLocale = Locale.getDefault();
                                 int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
-                                Editable editable = new SpannableStringBuilder(inboxNumber.get(mViewPager.getCurrentItem()));
+                                Editable editable = new SpannableStringBuilder(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context));
                                 PhoneNumberUtils.formatNumber(editable, sFormatType);
                                 subtitle = editable.toString();
 
@@ -3748,7 +3729,7 @@ s
 
                         if (sharedPrefs.getBoolean("title_contact_image", false))
                         {
-                            Bitmap image = getFacebookPhoto(inboxNumber.get(mViewPager.getCurrentItem()), context);
+                            Bitmap image = getFacebookPhoto(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context), context);
                             image2 = new BitmapDrawable(image);
                         }
 
@@ -4169,7 +4150,7 @@ s
 	    	try
 	    	{
 		    	Intent callIntent = new Intent(Intent.ACTION_CALL);
-		        callIntent.setData(Uri.parse("tel:"+inboxNumber.get(mViewPager.getCurrentItem())));
+		        callIntent.setData(Uri.parse("tel:"+findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), this)));
 		        callIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		        startActivity(callIntent);
 	    	} catch (Exception e)
@@ -4251,7 +4232,7 @@ s
 			return true;
         case R.id.copy_sender:
             ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-            ClipData clip = ClipData.newPlainText("Copied Address", inboxNumber.get(mViewPager.getCurrentItem()));
+            ClipData clip = ClipData.newPlainText("Copied Address", findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), this));
             clipboard.setPrimaryClip(clip);
 
             Toast.makeText(this, R.string.text_saved, Toast.LENGTH_SHORT).show();
@@ -5125,7 +5106,7 @@ s
 
                     for (int j = 0; j < inboxNumber.size(); j++) {
                         if (threadIds.get(j).equals(draftNames.get(i))) {
-                            address = inboxNumber.get(j);
+                            address = findContactNumber(inboxNumber.get(j), context);
                             break;
                         }
                     }
@@ -5186,7 +5167,7 @@ s
 				
 				for (int i = 0; i < inboxNumber.size(); i++)
 				{
-					if (inboxNumber.get(i).replace("-","").replace("+", "").equals(sendMessageTo.replace("-", "").replace("+1", "")))
+					if (findContactNumber(inboxNumber.get(i), this).replace("-","").replace("+", "").equals(sendMessageTo.replace("-", "").replace("+1", "")))
 					{
 						mViewPager.setCurrentItem(i);
 						menu.showContent();
@@ -5201,7 +5182,7 @@ s
 					
 					for (int i = 0; i < inboxNumber.size(); i++)
 					{
-						if (findContactName(inboxNumber.get(i), this).equals(name))
+						if (findContactName(findContactNumber(inboxNumber.get(i), this), this).equals(name))
 						{
 							mViewPager.setCurrentItem(i);
 							menu.showContent();
@@ -5360,7 +5341,7 @@ s
 		
 		if (!firstRun && inboxNumber.size() != 0)
 		{
-			threadTitle = findContactName(inboxNumber.get(mViewPager.getCurrentItem()), this);
+			threadTitle = findContactName(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), this), this);
 		}
 		
 		refreshMessages(totalRefresh);
@@ -5461,7 +5442,7 @@ s
 					
 					for (int i = 0; i < inboxNumber.size(); i++)
 					{
-						if (threadT.equals(findContactName(inboxNumber.get(i), context)))
+						if (threadT.equals(findContactName(findContactNumber(inboxNumber.get(i), context), context)))
 						{
 							final int index = i;
 							
@@ -5501,11 +5482,11 @@ s
 			
 			try
 			{
-				ab.setTitle(findContactName(inboxNumber.get(mViewPager.getCurrentItem()), context));
+				ab.setTitle(findContactName(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context), context));
 				
 				Locale sCachedLocale = Locale.getDefault();
 				int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
-				Editable editable = new SpannableStringBuilder(inboxNumber.get(mViewPager.getCurrentItem()));
+				Editable editable = new SpannableStringBuilder(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context));
 				PhoneNumberUtils.formatNumber(editable, sFormatType);
 				ab.setSubtitle(editable.toString());
 				
@@ -5534,7 +5515,7 @@ s
         	
         	try
         	{
-        		ab.setIcon(new BitmapDrawable(getFacebookPhoto(inboxNumber.get(mViewPager.getCurrentItem()), context)));
+        		ab.setIcon(new BitmapDrawable(getFacebookPhoto(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context), context)));
         	} catch (Exception e)
         	{
         		
@@ -5608,7 +5589,7 @@ s
 		
 		if (!firstRun)
 		{
-			threadTitle = findContactName(inboxNumber.get(mViewPager.getCurrentItem()), this);
+			threadTitle = findContactName(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), this), this);
 		}
 		
 		if ((messageRecieved && jump) || sentMessage)
@@ -5659,7 +5640,7 @@ s
 					
 					for (int i = 0; i < inboxNumber.size(); i++)
 					{
-						if (threadT.equals(findContactName(inboxNumber.get(i), context)))
+						if (threadT.equals(findContactName(findContactNumber(inboxNumber.get(i), context), context)))
 						{
 							final int index = i;
 							
@@ -5727,13 +5708,13 @@ s
 	{
         MainActivity.threadedLoad = false;
 		int position = mViewPager.getCurrentItem();
-		String currentNumber = inboxNumber.get(position);
+		String currentNumber = findContactNumber(inboxNumber.get(position), this);
 		
 		boolean flag = false;
 		
 		for (int i = 0; i < inboxNumber.size(); i++)
 		{
-			if (number.endsWith(inboxNumber.get(i)))
+			if (number.endsWith(findContactNumber(inboxNumber.get(i), this)))
 			{
 				inboxBody.add(0, body);
 				inboxDate.add(0, date);
@@ -5767,16 +5748,15 @@ s
                 ListFragment newFragment = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.menuList);
                 newFragment.setListAdapter(new MenuArrayAdapter(this, inboxBody, inboxDate, inboxNumber, MainActivity.mViewPager, threadIds, group, msgCount, msgRead));
             }
-			
-			mSectionsPagerAdapter = new SectionsPagerAdapter(
-					getFragmentManager());
-			
+
+            mSectionsPagerAdapter.notifyDataSetChanged();
+
 			mViewPager = (ViewPager) findViewById(R.id.pager);
 			mViewPager.setAdapter(mSectionsPagerAdapter);
 			
 			for (int i = 0; i < inboxNumber.size(); i++)
 			{
-				if (currentNumber.equals(inboxNumber.get(i)))
+				if (currentNumber.equals(findContactNumber(inboxNumber.get(i), this)))
 				{
 					position = i;
 					break;
@@ -6579,7 +6559,7 @@ s
 					
 					for (int i = 0; i < inboxNumber.size(); i++)
 					{
-						contacts.add(loadGroupContacts(inboxNumber.get(i), getBaseContext()));
+						contacts.add(loadGroupContacts(findContactNumber(inboxNumber.get(i), getBaseContext()), getBaseContext()));
 					}
 					
 					contact = new ArrayList<String>();
@@ -6639,11 +6619,11 @@ s
 						{
 							if (sharedPrefs.getBoolean("always_show_contact_info", false))
 							{
-								String[] names = findContactName(inboxNumber.get(position), getBaseContext()).split(" ");
+								String[] names = findContactName(findContactNumber(inboxNumber.get(position), getBaseContext()), getBaseContext()).split(" ");
 								text = names[0].trim().toUpperCase(Locale.getDefault());
 							} else
 							{
-								text = findContactName(inboxNumber.get(position), getBaseContext()).toUpperCase(Locale.getDefault());
+								text = findContactName(findContactNumber(inboxNumber.get(position), getBaseContext()), getBaseContext()).toUpperCase(Locale.getDefault());
 							}
 						} else
 						{
@@ -6651,15 +6631,15 @@ s
 							{
 								try
 								{
-									String[] names = findContactName(inboxNumber.get(position), getBaseContext()).split(" ");
+									String[] names = findContactName(findContactNumber(inboxNumber.get(position), getBaseContext()), getBaseContext()).split(" ");
 									text = names[0].trim();
 								} catch (Exception e)
 								{
-									text = findContactName(inboxNumber.get(position), getBaseContext());
+									text = findContactName(findContactNumber(inboxNumber.get(position), getBaseContext()), getBaseContext());
 								}
 							} else
 							{
-								text = findContactName(inboxNumber.get(position), getBaseContext());
+								text = findContactName(findContactNumber(inboxNumber.get(position), getBaseContext()), getBaseContext());
 							}
 						}
 					}
@@ -6832,7 +6812,7 @@ s
 
 					@Override
 					public void run() {
-						final String name = loadGroupContacts(numbers.get(position), context);
+						final String name = loadGroupContacts(findContactNumber(numbers.get(position), context), context);
 						
 						((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 							
@@ -6948,7 +6928,7 @@ s
                                 public void run() {
                                     if (sharedPrefs.getString("run_as", "sliding").equals("sliding"))
                                     {
-                                        MessageArrayAdapter adapter = new MessageArrayAdapter((Activity) context, myId, numbers.get(position), threadIds.get(position), messageQuery, myPhoneNumber, position);
+                                        MessageArrayAdapter adapter = new MessageArrayAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), messageQuery, myPhoneNumber, position);
 
                                         if (adapter.getCount() >= 20 && listView.getHeaderViewsCount() == 0)
                                         {
@@ -6977,7 +6957,7 @@ s
                                         spinner.setVisibility(View.GONE);
                                     } else
                                     {
-                                        com.klinker.android.messaging_hangout.MessageArrayAdapter adapter = new com.klinker.android.messaging_hangout.MessageArrayAdapter((Activity) context, myId, numbers.get(position), threadIds.get(position), messageQuery, myPhoneNumber, position);
+                                        com.klinker.android.messaging_hangout.MessageArrayAdapter adapter = new com.klinker.android.messaging_hangout.MessageArrayAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), messageQuery, myPhoneNumber, position);
 
                                         if (adapter.getCount() >= 20 && listView.getHeaderViewsCount() == 0)
                                         {
@@ -7072,7 +7052,7 @@ s
 
                 if (sharedPrefs.getString("run_as", "sliding").equals("sliding"))
                 {
-                    MessageArrayAdapter adapter = new MessageArrayAdapter((Activity) context, myId, numbers.get(position), threadIds.get(position), messageQuery, myPhoneNumber, position);
+                    MessageArrayAdapter adapter = new MessageArrayAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), messageQuery, myPhoneNumber, position);
 
                     if (adapter.getCount() >= 20 && listView.getHeaderViewsCount() == 0)
                     {
@@ -7101,7 +7081,7 @@ s
 					spinner.setVisibility (View.GONE);
                 } else
                 {
-                    com.klinker.android.messaging_hangout.MessageArrayAdapter adapter = new com.klinker.android.messaging_hangout.MessageArrayAdapter((Activity) context, myId, numbers.get(position), threadIds.get(position), messageQuery, myPhoneNumber, position);
+                    com.klinker.android.messaging_hangout.MessageArrayAdapter adapter = new com.klinker.android.messaging_hangout.MessageArrayAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), messageQuery, myPhoneNumber, position);
 
                     if (adapter.getCount() >= 20 && listView.getHeaderViewsCount() == 0)
                     {
@@ -7216,7 +7196,7 @@ s
         {
             if (sharedPrefs.getString("run_as", "sliding").equals("sliding"))
             {
-                final MessageArrayAdapter adapter = new MessageArrayAdapter((Activity) context, myId, numbers.get(position), threadIds.get(position), query, myPhoneNumber, position);
+                final MessageArrayAdapter adapter = new MessageArrayAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), query, myPhoneNumber, position);
 
                 if (adapter.getCount() >= 20 && listView.getHeaderViewsCount() == 0)
                 {
@@ -7245,7 +7225,7 @@ s
                 spinner.setVisibility(View.GONE);
             } else
             {
-                com.klinker.android.messaging_hangout.MessageArrayAdapter adapter = new com.klinker.android.messaging_hangout.MessageArrayAdapter((Activity) context, myId, numbers.get(position), threadIds.get(position), query, myPhoneNumber, position);
+                com.klinker.android.messaging_hangout.MessageArrayAdapter adapter = new com.klinker.android.messaging_hangout.MessageArrayAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), query, myPhoneNumber, position);
 
                 if (adapter.getCount() >= 20 && listView.getHeaderViewsCount() == 0)
                 {

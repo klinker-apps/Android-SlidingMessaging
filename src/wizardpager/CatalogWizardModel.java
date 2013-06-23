@@ -49,12 +49,16 @@ public class CatalogWizardModel extends AbstractWizardModel {
         }
 
         String changeLog = "Version " + version + ":\n\n" +
+                "- Scheduling SMS support\n" +
+                "- Draft support: By default, drafts are not auto inserted as this process causes lag when switching pages. You can turn on auto insert in message settings if you prefer that.\n" +
+                "- Performance increases (faster startup time)\n" +
                 "- Fixes to WiFi MMS workaround, will now enable mobile data connection while sending and receiving MMS\n" +
                 "- Option to receive MMS through stock if you are having problems receiving\n" +
-                "- Draft support: By default, drafts are not auto inserted as this process causes lag when switching pages. You can turn on auto insert in message settings if you prefer that.\n" +
+                "- Fixes to the Quick Text notification disappearing\n" +
                 "- Bug fixes\n\n" +
                 "Theme Editor Additions:\n" +
-                "- New Light Theme 2.0 option, looks great with the Hangouts Layout!\n" +
+                "- Hangouts theme previews if you are on the Hangouts UI\n" +
+                "- New Light Theme 2.0 option, looks great with the Hangouts UI!\n" +
                 "- Option to use the Light Action Bar with any theme (NOTE: This option means that if you were previously using the Hangout's theme, you will need to go into settings and reselect it.)\n\n";
 
 

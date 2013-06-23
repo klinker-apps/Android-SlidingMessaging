@@ -130,9 +130,11 @@ public class BatchDeleteArrayAdapter extends ArrayAdapter<String> {
 		  }
 		  
 		  final ViewHolder holder = (ViewHolder) contactView.getTag();
+
+          final String number = com.klinker.android.messaging_sliding.MainActivity.findContactNumber(numbers.get(position), context);
 		  
-		  holder.number.setText(numbers.get(position));
-		  holder.image.assignContactFromPhone(numbers.get(position), true);
+		  holder.number.setText(number);
+		  holder.image.assignContactFromPhone(number, true);
 		  
 		  if (itemsToDelete.contains(position))
 		  {
@@ -155,8 +157,8 @@ public class BatchDeleteArrayAdapter extends ArrayAdapter<String> {
 
 			@Override
 			public void run() {
-				final String name = loadGroupContacts(numbers.get(position), context);
-				final Bitmap picture = getFacebookPhoto(numbers.get(position));
+				final String name = loadGroupContacts(number, context);
+				final Bitmap picture = getFacebookPhoto(number);
 				
 				((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
             		
