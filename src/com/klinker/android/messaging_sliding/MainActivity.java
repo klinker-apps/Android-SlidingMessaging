@@ -5352,6 +5352,7 @@ s
 		
 		if (!firstRun && inboxNumber.size() != 0)
 		{
+            MainActivity.notChanged = false;
 			threadTitle = findContactName(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), this), this);
 		}
 		
@@ -5594,107 +5595,9 @@ s
 		}
 	}
 	
-	public void refreshViewPager2()
-	{
-		String threadTitle = "0";
-		
-		if (!firstRun)
-		{
-			threadTitle = findContactName(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), this), this);
-		}
-		
-		if ((messageRecieved && jump) || sentMessage)
-		{
-			threadTitle = "0";
-			sentMessage = false;
-		}
-		
-		mSectionsPagerAdapter = new SectionsPagerAdapter(
-				getFragmentManager());
-		
-		mViewPager = (ViewPager) findViewById(R.id.pager);
-		mViewPager.setAdapter(mSectionsPagerAdapter);
-		
-		NotificationManager mNotificationManager =
-	            (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-		mNotificationManager.cancel(1);
-		
-		Intent intent = new Intent("com.klinker.android.messaging.CLEARED_NOTIFICATION");
-	    this.sendBroadcast(intent);
-		
-		if (!firstRun)
-		{
-            if (deviceType.equals("phone") || deviceType.equals("phablet2"))
-            {
-                menuAdapter = new MenuArrayAdapter(this, inboxBody, inboxDate, inboxNumber, mViewPager, threadIds, group, msgCount, msgRead);
-                menuLayout.setAdapter(menuAdapter);
-            } else
-            {
-                ListFragment newFragment = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.menuList);
-                newFragment.setListAdapter(new MenuArrayAdapter(this, inboxBody, inboxDate, inboxNumber, MainActivity.mViewPager, threadIds, group, msgCount, msgRead));
-            }
-		}
-		
-		if (threadTitle.equals("0"))
-		{
-			mViewPager.setCurrentItem(0);
-		} else
-		{
-			final String threadT = threadTitle;
-			final Context context = this;
-			
-			new Thread(new Runnable() {
-
-				@Override
-				public void run() {
-					boolean flag = false;
-					
-					for (int i = 0; i < inboxNumber.size(); i++)
-					{
-						if (threadT.equals(findContactName(findContactNumber(inboxNumber.get(i), context), context)))
-						{
-							final int index = i;
-							
-							((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-								
-								@Override
-								public void run() {
-									mViewPager.setCurrentItem(index);
-								}
-							});
-							
-							flag = true;
-							break;
-						}
-					}
-					
-					if (!flag)
-					{
-						((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-							
-							@Override
-							public void run() {
-								mViewPager.setCurrentItem(0);
-							}
-						});
-					}
-					
-				}
-				
-			}).start();
-		}
-		
-		try
-		{
-			invalidateOptionsMenu();
-		} catch (Exception e)
-		{
-			
-		}
-	}
-	
 	public void refreshViewPager3()
 	{
+        MainActivity.notChanged = false;
         MainActivity.threadedLoad = false;
 		int position = mViewPager.getCurrentItem();
 		
@@ -5717,6 +5620,7 @@ s
 	
 	public void refreshViewPager4(String number, String body, String date)
 	{
+        MainActivity.notChanged = false;
         MainActivity.threadedLoad = false;
 		int position = mViewPager.getCurrentItem();
 		String currentNumber = findContactNumber(inboxNumber.get(position), this);

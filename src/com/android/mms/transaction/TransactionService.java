@@ -45,7 +45,7 @@ import android.widget.Toast;
 
 import com.android.mms.util.RateController;
 import com.google.android.mms.pdu.*;
-import com.google.android.mms.pdu.PduPersisterNew;
+import com.google.android.mms.pdu.PduPersister;
 
 /**
  * The TransactionService of the MMS Client is responsible for handling requests
@@ -190,7 +190,7 @@ public class TransactionService extends Service implements Observer {
         if (ACTION_ONALARM.equals(action) || ACTION_ENABLE_AUTO_RETRIEVE.equals(action) ||
                 (intent.getExtras() == null)) {
             // Scan database to find all pending operations.
-            Cursor cursor = PduPersisterNew.getPduPersister(this).getPendingMessages(
+            Cursor cursor = PduPersister.getPduPersister(this).getPendingMessages(
                     System.currentTimeMillis());
             if (cursor != null) {
                 try {

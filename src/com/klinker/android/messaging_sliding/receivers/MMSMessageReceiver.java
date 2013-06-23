@@ -24,7 +24,7 @@ import com.android.mms.util.SendingProgressTokenManager;
 import com.google.android.mms.APN;
 import com.google.android.mms.APNHelper;
 import com.google.android.mms.MmsException;
-import com.google.android.mms.pdu.PduPersisterNew;
+import com.google.android.mms.pdu.PduPersister;
 
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -118,7 +118,7 @@ public class MMSMessageReceiver extends BroadcastReceiver {
 	            int type = pdu.getMessageType();
 	            long threadId = -1;
 	
-	            PduPersisterNew p = PduPersisterNew.getPduPersister(context);
+	            PduPersister p = PduPersister.getPduPersister(context);
 	            
 	            try {
 	            	boolean groupMMS = false;
@@ -204,7 +204,9 @@ public class MMSMessageReceiver extends BroadcastReceiver {
 	        } catch (IllegalArgumentException e)
 	        {
                 e.printStackTrace();
-	        }
+	        } catch (Exception e) {
+                error = true;
+            }
 			
 			phoneNumber = mmsFrom;
 			
@@ -309,7 +311,7 @@ public class MMSMessageReceiver extends BroadcastReceiver {
 								        Integer.parseInt(apns.get(0).MMSPort));
 								
 								RetrieveConf retrieveConf = (RetrieveConf) new PduParser(resp).parse();
-								PduPersisterNew persister = PduPersisterNew.getPduPersister(context);
+								PduPersister persister = PduPersister.getPduPersister(context);
 								Uri msgUri = persister.persist(retrieveConf, Inbox.CONTENT_URI, true,
 				                        true, null);
 								ContentValues values = new ContentValues(1);

@@ -27,7 +27,7 @@ import android.util.Log;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.EncodedStringValue;
 import com.google.android.mms.pdu.PduComposer;
-import com.google.android.mms.pdu.PduPersisterNew;
+import com.google.android.mms.pdu.PduPersister;
 import com.google.android.mms.pdu.ReadRecInd;
 import com.klinker.android.messaging_sliding.MainActivity;
 
@@ -66,7 +66,7 @@ public class ReadRecTransaction extends Transaction {
      */
     @Override
     public void process() {
-        PduPersisterNew persister = PduPersisterNew.getPduPersister(mContext);
+        PduPersister persister = PduPersister.getPduPersister(mContext);
 
         try {
             // Load M-read-rec.ind from outbox

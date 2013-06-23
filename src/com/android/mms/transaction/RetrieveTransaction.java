@@ -32,13 +32,8 @@ import android.util.Log;
 import com.android.mms.MmsConfig;
 import com.android.mms.util.DownloadManager;
 import com.google.android.mms.MmsException;
-import com.google.android.mms.pdu.AcknowledgeInd;
-import com.google.android.mms.pdu.EncodedStringValue;
-import com.google.android.mms.pdu.PduComposer;
-import com.google.android.mms.pdu.PduHeaders;
-import com.google.android.mms.pdu.PduParser;
-import com.google.android.mms.pdu.PduPersisterNew;
-import com.google.android.mms.pdu.RetrieveConf;
+import com.google.android.mms.pdu.*;
+import com.google.android.mms.pdu.PduPersister;
 import com.klinker.android.messaging_sliding.MainActivity;
 
 /**
@@ -148,7 +143,7 @@ public class RetrieveTransaction extends Transaction implements Runnable {
                 mTransactionState.setContentUri(mUri);
             } else {
                 // Store M-Retrieve.conf into Inbox
-                PduPersisterNew persister = PduPersisterNew.getPduPersister(mContext);
+                PduPersister persister = PduPersister.getPduPersister(mContext);
                 msgUri = persister.persist(retrieveConf, Inbox.CONTENT_URI, true,
                         true, null);
 
@@ -239,7 +234,7 @@ public class RetrieveTransaction extends Transaction implements Runnable {
             subject = cursor.getString(subjectIdx);
             int charset = cursor.getInt(charsetIdx);
             if (subject != null) {
-                encodedSubjectStored = new EncodedStringValue(charset, PduPersisterNew
+                encodedSubjectStored = new EncodedStringValue(charset, PduPersister
                         .getBytes(subject));
             }
             if (encodedSubjectStored == null && encodedSubjectReceived == null) {

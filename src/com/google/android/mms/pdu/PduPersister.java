@@ -65,7 +65,7 @@ import java.util.Map.Entry;
 /**
  * This class is the high-level manager of PDU storage.
  */
-public class PduPersisterNew {
+public class PduPersister {
     private static final String TAG = "PduPersister";
     private static final boolean LOCAL_LOGV = false;
 
@@ -87,7 +87,7 @@ public class PduPersisterNew {
      */
     public static final int PROC_STATUS_COMPLETED           = 3;
 
-    private static PduPersisterNew sPersister;
+    private static PduPersister sPersister;
     private static final PduCache PDU_CACHE_INSTANCE;
 
     private static final int[] ADDRESS_FIELDS = new int[] {
@@ -277,7 +277,7 @@ public class PduPersisterNew {
 	private final DrmManagerClient mDrmManagerClient;
     private final TelephonyManager mTelephonyManager;
 
-    private PduPersisterNew(Context context) {
+    private PduPersister(Context context) {
         mContext = context;
         mContentResolver = context.getContentResolver();
         mDrmManagerClient = new DrmManagerClient(context);
@@ -286,9 +286,9 @@ public class PduPersisterNew {
      }
 
     /** Get(or create if not exist) an instance of PduPersister */
-    public static PduPersisterNew getPduPersister(Context context) {
+    public static PduPersister getPduPersister(Context context) {
         if ((sPersister == null) || !context.equals(sPersister.mContext)) {
-            sPersister = new PduPersisterNew(context);
+            sPersister = new PduPersister(context);
         }
 
         return sPersister;

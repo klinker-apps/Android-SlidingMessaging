@@ -39,13 +39,8 @@ import android.util.Log;
 import com.android.mms.MmsConfig;
 import com.google.android.mms.ContentType;
 import com.google.android.mms.MmsException;
-import com.google.android.mms.pdu.DeliveryInd;
-import com.google.android.mms.pdu.GenericPdu;
-import com.google.android.mms.pdu.NotificationInd;
-import com.google.android.mms.pdu.PduHeaders;
-import com.google.android.mms.pdu.PduParser;
-import com.google.android.mms.pdu.PduPersisterNew;
-import com.google.android.mms.pdu.ReadOrigInd;
+import com.google.android.mms.pdu.*;
+import com.google.android.mms.pdu.PduPersister;
 
 /**
  * Receives Intent.WAP_PUSH_RECEIVED_ACTION intents and starts the
@@ -75,7 +70,7 @@ public class PushReceiver extends BroadcastReceiver {
                 return null;
             }
 
-            PduPersisterNew p = PduPersisterNew.getPduPersister(mContext);
+            PduPersister p = PduPersister.getPduPersister(mContext);
             ContentResolver cr = mContext.getContentResolver();
             int type = pdu.getMessageType();
             long threadId = -1;

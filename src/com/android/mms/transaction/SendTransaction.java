@@ -32,7 +32,7 @@ import android.util.Log;
 import com.android.mms.util.RateController;
 import com.android.mms.util.SendingProgressTokenManager;
 import com.google.android.mms.pdu.*;
-import com.google.android.mms.pdu.PduPersisterNew;
+import com.google.android.mms.pdu.PduPersister;
 import com.klinker.android.messaging_sliding.MainActivity;
 
 /**
@@ -83,7 +83,7 @@ public class SendTransaction extends Transaction implements Runnable {
             }
 
             // Load M-Send.req from outbox
-            PduPersisterNew persister = PduPersisterNew.getPduPersister(mContext);
+            PduPersister persister = PduPersister.getPduPersister(mContext);
             SendReq sendReq = (SendReq) persister.load(mSendReqURI);
 
             // Update the 'date' field of the PDU right before sending it.
@@ -137,7 +137,7 @@ public class SendTransaction extends Transaction implements Runnable {
                 return;
             }
 
-            String messageId = PduPersisterNew.toIsoString(conf.getMessageId());
+            String messageId = PduPersister.toIsoString(conf.getMessageId());
             values.put(Mms.MESSAGE_ID, messageId);
             SqliteWrapper.update(mContext, mContext.getContentResolver(),
                                  mSendReqURI, values, null, null);

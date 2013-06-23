@@ -36,7 +36,7 @@ import android.widget.Toast;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.EncodedStringValue;
 import com.google.android.mms.pdu.NotificationInd;
-import com.google.android.mms.pdu.PduPersisterNew;
+import com.google.android.mms.pdu.PduPersister;
 import com.klinker.android.messaging_sliding.MainActivity;
 
 public class DownloadManager {
@@ -176,7 +176,7 @@ public class DownloadManager {
     public void markState(final Uri uri, int state) {
         // Notify user if the message has expired.
         try {
-            NotificationInd nInd = (NotificationInd) PduPersisterNew.getPduPersister(mContext)
+            NotificationInd nInd = (NotificationInd) PduPersister.getPduPersister(mContext)
                     .load(uri);
             if ((nInd.getExpiry() < System.currentTimeMillis()/1000L)
                 && (state == STATE_DOWNLOADING)) {
@@ -232,7 +232,7 @@ public class DownloadManager {
     }
 
     private String getMessage(Uri uri) throws MmsException {
-        NotificationInd ind = (NotificationInd) PduPersisterNew
+        NotificationInd ind = (NotificationInd) PduPersister
                 .getPduPersister(mContext).load(uri);
 
         EncodedStringValue v = ind.getSubject();
