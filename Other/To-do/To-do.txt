@@ -10,6 +10,8 @@ Version 6.30
 9) search through messages
 10) Pin contact to always be first conversation
 
+Sliding Messaging Pro is now out of beta with a slew of new features, bug fixes and enhancements in version 6.30! Tell all your friends to check it out! After the end of the month, the free version of Sliding Messaging will be taken down permanantly and the price of Sliding Messaging Pro will go up, so get it now and continue getting all of the updates!
+
 Side Project: Emoji Keyboard
     - Look and feel just like hangouts emoji keyboard does with 5 catagories, recents and sliding between pages
     - usable in any app to insert emojis (although not all emojis would show in every app unless support was specifically added in that app or android font)

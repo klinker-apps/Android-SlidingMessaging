@@ -44,6 +44,7 @@ public class ScheduledSms extends Activity {
     @Override
     protected void onResume()
     {
+        super.onResume();
         text = readFromFile(this, false);
 
         SchedulesArrayAdapter adapter = new SchedulesArrayAdapter(this, text);

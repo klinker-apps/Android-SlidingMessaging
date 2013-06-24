@@ -4986,13 +4986,17 @@ s
 
         int index = -1;
 
-        for (int i = 0; i < draftNames.size(); i++)
-        {
-            if (draftNames.get(i).equals(threadIds.get(mViewPager.getCurrentItem())))
+        try {
+            for (int i = 0; i < draftNames.size(); i++)
             {
-                index = i;
-                break;
+                if (draftNames.get(i).equals(threadIds.get(mViewPager.getCurrentItem())))
+                {
+                    index = i;
+                    break;
+                }
             }
+        } catch (Exception e) {
+
         }
 
         fromDraft = false;
