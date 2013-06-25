@@ -81,6 +81,10 @@ public class QuickReply extends Activity {
 
         final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
+        if (!sharedPrefs.getBoolean("show_keyboard_popup", true)) {
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        }
+
         if (sharedPrefs.getBoolean("unlock_screen", false))
         {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
@@ -390,147 +394,151 @@ public class QuickReply extends Activity {
 				        registerReceiver(new BroadcastReceiver(){
 				            @Override
 				            public void onReceive(Context arg0, Intent arg1) {
-				                switch (getResultCode())
-				                {
-				                case Activity.RESULT_OK:
-			                        Cursor query = context.getContentResolver().query(Uri.parse("content://sms/outbox"), null, null, null, null);
-			                        
-			                        if (query.moveToFirst())
-			                        {
-			                        	String id = query.getString(query.getColumnIndex("_id"));
-			                        	ContentValues values = new ContentValues();
-			                        	values.put("type", "2");
-			                        	context.getContentResolver().update(Uri.parse("content://sms/outbox"), values, "_id=" + id, null);
-			                        }
-			                        
-			                        break;
-			                    case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-			                    	try
-			                    	{
-			                    		wait(500);
-			                    	} catch (Exception e)
-			                    	{
-			                    		
-			                    	}
-			                    	
-			                    	query = context.getContentResolver().query(Uri.parse("content://sms/outbox"), null, null, null, null);
-			                        
-			                        if (query.moveToFirst())
-			                        {
-			                        	String id = query.getString(query.getColumnIndex("_id"));
-			                        	ContentValues values = new ContentValues();
-			                        	values.put("type", "5");
-			                        	context.getContentResolver().update(Uri.parse("content://sms/outbox"), values, "_id=" + id, null);
-			                        }
-			                        
-			                    	NotificationCompat.Builder mBuilder =
-			    	                	new NotificationCompat.Builder(context)
-			    	                .setSmallIcon(R.drawable.ic_alert)
-			    	                .setContentTitle("Error")
-			    	                .setContentText("Could not send message");
-					    	        
-					    	        Intent resultIntent = new Intent(context, com.klinker.android.messaging_donate.MainActivity.class);
-					    	
-					    	        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-					    	        stackBuilder.addParentStack(com.klinker.android.messaging_donate.MainActivity.class);
-					    	        stackBuilder.addNextIntent(resultIntent);
-					    	        PendingIntent resultPendingIntent =
-					    	                stackBuilder.getPendingIntent(
-					    	                    0,
-					    	                    PendingIntent.FLAG_UPDATE_CURRENT
-					    	                );
-					    	        
-					    	        mBuilder.setContentIntent(resultPendingIntent);
-					    	        mBuilder.setAutoCancel(true);
-					    	        long[] pattern = {0L, 400L, 100L, 400L};
-					    	        mBuilder.setVibrate(pattern);
-					    	        mBuilder.setLights(0xFFffffff, 1000, 2000);
-					    	        
-					    	        try
-					    	        {
-					    	        	mBuilder.setSound(Uri.parse(sharedPrefs.getString("ringtone", "null")));
-					    	        } catch(Exception e)
-					    	        {
-					    	        	mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-					    	        }
-					    	        
-					    	        NotificationManager mNotificationManager =
-					    	            (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-					    	        
-					    	        Notification notification = mBuilder.build();
-					    	        Intent deleteIntent = new Intent(context, NotificationReceiver.class); 
-					    	        notification.deleteIntent = PendingIntent.getBroadcast(context, 0, deleteIntent, 0);
-					    	        mNotificationManager.notify(1, notification);
-			                        break;
-			                    case SmsManager.RESULT_ERROR_NO_SERVICE:
-			                    	try
-			                    	{
-			                    		wait(500);
-			                    	} catch (Exception e)
-			                    	{
-			                    		
-			                    	}
-			                    	
-			                    	query = context.getContentResolver().query(Uri.parse("content://sms/outbox"), null, null, null, null);
-			                        
-			                        if (query.moveToFirst())
-			                        {
-			                        	String id = query.getString(query.getColumnIndex("_id"));
-			                        	ContentValues values = new ContentValues();
-			                        	values.put("type", "5");
-			                        	context.getContentResolver().update(Uri.parse("content://sms/outbox"), values, "_id=" + id, null);
-			                        }
-			                        
-			                        Toast.makeText(context, "No service", 
-			                                Toast.LENGTH_SHORT).show();
-			                        break;
-			                    case SmsManager.RESULT_ERROR_NULL_PDU:
-			                    	try
-			                    	{
-			                    		wait(500);
-			                    	} catch (Exception e)
-			                    	{
-			                    		
-			                    	}
-			                    	
-			                    	query = context.getContentResolver().query(Uri.parse("content://sms/outbox"), null, null, null, null);
-			                        
-			                        if (query.moveToFirst())
-			                        {
-			                        	String id = query.getString(query.getColumnIndex("_id"));
-			                        	ContentValues values = new ContentValues();
-			                        	values.put("type", "5");
-			                        	context.getContentResolver().update(Uri.parse("content://sms/outbox"), values, "_id=" + id, null);
-			                        }
-			                        
-			                        Toast.makeText(context, "Null PDU", 
-			                                Toast.LENGTH_SHORT).show();
-			                        break;
-			                    case SmsManager.RESULT_ERROR_RADIO_OFF:
-			                    	try
-			                    	{
-			                    		wait(500);
-			                    	} catch (Exception e)
-			                    	{
-			                    		
-			                    	}
-			                    	
-			                    	query = context.getContentResolver().query(Uri.parse("content://sms/outbox"), null, null, null, null);
-			                        
-			                        if (query.moveToFirst())
-			                        {
-			                        	String id = query.getString(query.getColumnIndex("_id"));
-			                        	ContentValues values = new ContentValues();
-			                        	values.put("type", "5");
-			                        	context.getContentResolver().update(Uri.parse("content://sms/outbox"), values, "_id=" + id, null);
-			                        }
-			                        
-			                        Toast.makeText(context, "Radio off", 
-			                                Toast.LENGTH_SHORT).show();
-			                        break;
-				                }
-				                
-				                unregisterReceiver(this);
+                                try {
+                                    switch (getResultCode())
+                                    {
+                                        case Activity.RESULT_OK:
+                                            Cursor query = context.getContentResolver().query(Uri.parse("content://sms/outbox"), null, null, null, null);
+
+                                            if (query.moveToFirst())
+                                            {
+                                                String id = query.getString(query.getColumnIndex("_id"));
+                                                ContentValues values = new ContentValues();
+                                                values.put("type", "2");
+                                                context.getContentResolver().update(Uri.parse("content://sms/outbox"), values, "_id=" + id, null);
+                                            }
+
+                                            break;
+                                        case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+                                            try
+                                            {
+                                                wait(500);
+                                            } catch (Exception e)
+                                            {
+
+                                            }
+
+                                            query = context.getContentResolver().query(Uri.parse("content://sms/outbox"), null, null, null, null);
+
+                                            if (query.moveToFirst())
+                                            {
+                                                String id = query.getString(query.getColumnIndex("_id"));
+                                                ContentValues values = new ContentValues();
+                                                values.put("type", "5");
+                                                context.getContentResolver().update(Uri.parse("content://sms/outbox"), values, "_id=" + id, null);
+                                            }
+
+                                            NotificationCompat.Builder mBuilder =
+                                                    new NotificationCompat.Builder(context)
+                                                            .setSmallIcon(R.drawable.ic_alert)
+                                                            .setContentTitle("Error")
+                                                            .setContentText("Could not send message");
+
+                                            Intent resultIntent = new Intent(context, com.klinker.android.messaging_donate.MainActivity.class);
+
+                                            TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+                                            stackBuilder.addParentStack(com.klinker.android.messaging_donate.MainActivity.class);
+                                            stackBuilder.addNextIntent(resultIntent);
+                                            PendingIntent resultPendingIntent =
+                                                    stackBuilder.getPendingIntent(
+                                                            0,
+                                                            PendingIntent.FLAG_UPDATE_CURRENT
+                                                    );
+
+                                            mBuilder.setContentIntent(resultPendingIntent);
+                                            mBuilder.setAutoCancel(true);
+                                            long[] pattern = {0L, 400L, 100L, 400L};
+                                            mBuilder.setVibrate(pattern);
+                                            mBuilder.setLights(0xFFffffff, 1000, 2000);
+
+                                            try
+                                            {
+                                                mBuilder.setSound(Uri.parse(sharedPrefs.getString("ringtone", "null")));
+                                            } catch(Exception e)
+                                            {
+                                                mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+                                            }
+
+                                            NotificationManager mNotificationManager =
+                                                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+                                            Notification notification = mBuilder.build();
+                                            Intent deleteIntent = new Intent(context, NotificationReceiver.class);
+                                            notification.deleteIntent = PendingIntent.getBroadcast(context, 0, deleteIntent, 0);
+                                            mNotificationManager.notify(1, notification);
+                                            break;
+                                        case SmsManager.RESULT_ERROR_NO_SERVICE:
+                                            try
+                                            {
+                                                wait(500);
+                                            } catch (Exception e)
+                                            {
+
+                                            }
+
+                                            query = context.getContentResolver().query(Uri.parse("content://sms/outbox"), null, null, null, null);
+
+                                            if (query.moveToFirst())
+                                            {
+                                                String id = query.getString(query.getColumnIndex("_id"));
+                                                ContentValues values = new ContentValues();
+                                                values.put("type", "5");
+                                                context.getContentResolver().update(Uri.parse("content://sms/outbox"), values, "_id=" + id, null);
+                                            }
+
+                                            Toast.makeText(context, "No service",
+                                                    Toast.LENGTH_SHORT).show();
+                                            break;
+                                        case SmsManager.RESULT_ERROR_NULL_PDU:
+                                            try
+                                            {
+                                                wait(500);
+                                            } catch (Exception e)
+                                            {
+
+                                            }
+
+                                            query = context.getContentResolver().query(Uri.parse("content://sms/outbox"), null, null, null, null);
+
+                                            if (query.moveToFirst())
+                                            {
+                                                String id = query.getString(query.getColumnIndex("_id"));
+                                                ContentValues values = new ContentValues();
+                                                values.put("type", "5");
+                                                context.getContentResolver().update(Uri.parse("content://sms/outbox"), values, "_id=" + id, null);
+                                            }
+
+                                            Toast.makeText(context, "Null PDU",
+                                                    Toast.LENGTH_SHORT).show();
+                                            break;
+                                        case SmsManager.RESULT_ERROR_RADIO_OFF:
+                                            try
+                                            {
+                                                wait(500);
+                                            } catch (Exception e)
+                                            {
+
+                                            }
+
+                                            query = context.getContentResolver().query(Uri.parse("content://sms/outbox"), null, null, null, null);
+
+                                            if (query.moveToFirst())
+                                            {
+                                                String id = query.getString(query.getColumnIndex("_id"));
+                                                ContentValues values = new ContentValues();
+                                                values.put("type", "5");
+                                                context.getContentResolver().update(Uri.parse("content://sms/outbox"), values, "_id=" + id, null);
+                                            }
+
+                                            Toast.makeText(context, "Radio off",
+                                                    Toast.LENGTH_SHORT).show();
+                                            break;
+                                    }
+
+                                    unregisterReceiver(this);
+                                } catch (Exception e) {
+
+                                }
 				            }
 				        }, new IntentFilter(SENT));
 				 
@@ -538,95 +546,99 @@ public class QuickReply extends Activity {
 				        registerReceiver(new BroadcastReceiver(){
 				            @Override
 				            public void onReceive(Context arg0, Intent arg1) {
-				            	if (sharedPrefs.getString("delivery_options", "2").equals("1"))
-				            	{
-					                switch (getResultCode())
-					                {
-					                    case Activity.RESULT_OK:
-					                    	AlertDialog.Builder builder = new AlertDialog.Builder(context);
-					                        builder.setMessage(R.string.message_delivered)
-					                               .setPositiveButton(R.string.dismiss, new DialogInterface.OnClickListener() {
-					                                   public void onClick(DialogInterface dialog, int id) {
-					                                       dialog.dismiss();
-					                                   }
-					                               });
-					                        
-					                        builder.create().show();
-					                        
-					                        Cursor query = context.getContentResolver().query(Uri.parse("content://sms/sent"), null, null, null, "date desc");
-					                        
-					                        if (query.moveToFirst())
-					                        {
-					                        	String id = query.getString(query.getColumnIndex("_id"));
-					                        	ContentValues values = new ContentValues();
-					                        	values.put("status", "0");
-					                        	context.getContentResolver().update(Uri.parse("content://sms/sent"), values, "_id=" + id, null);
-					                        }
-					                        break;
-					                    case Activity.RESULT_CANCELED:
-					                    	AlertDialog.Builder builder2 = new AlertDialog.Builder(context);
-					                        builder2.setMessage(R.string.message_not_delivered)
-					                               .setPositiveButton(R.string.dismiss, new DialogInterface.OnClickListener() {
-					                                   public void onClick(DialogInterface dialog, int id) {
-					                                       dialog.dismiss();
-					                                   }
-					                               });
-					                        
-					                        builder2.create().show();
-					                        
-					                        Cursor query2 = context.getContentResolver().query(Uri.parse("content://sms/sent"), null, null, null, "date desc");
-					                        
-					                        if (query2.moveToFirst())
-					                        {
-					                        	String id = query2.getString(query2.getColumnIndex("_id"));
-					                        	ContentValues values = new ContentValues();
-					                        	values.put("status", "64");
-					                        	context.getContentResolver().update(Uri.parse("content://sms/sent"), values, "_id=" + id, null);
-					                        }
-					                        break;
-					                }
-				            	} else
-				            	{
-				            		switch (getResultCode())
-					                {
-					                    case Activity.RESULT_OK:
-                                            if (sharedPrefs.getString("delivery_options", "2").equals("2"))
-                                            {
-                                                Toast.makeText(context, R.string.message_delivered, Toast.LENGTH_LONG).show();
-                                            }
-					                    	
-					                    	Cursor query = context.getContentResolver().query(Uri.parse("content://sms/sent"), null, null, null, "date desc");
-					                        
-					                        if (query.moveToFirst())
-					                        {
-					                        	String id = query.getString(query.getColumnIndex("_id"));
-					                        	ContentValues values = new ContentValues();
-					                        	values.put("status", "0");
-					                        	context.getContentResolver().update(Uri.parse("content://sms/sent"), values, "_id=" + id, null);
-					                        }
-					                        
-					                        break;
-					                    case Activity.RESULT_CANCELED:
-                                            if (sharedPrefs.getString("delivery_options", "2").equals("2"))
-                                            {
-                                                Toast.makeText(context, R.string.message_not_delivered, Toast.LENGTH_LONG).show();
-                                            }
-					                    	
-					                    	Cursor query2 = context.getContentResolver().query(Uri.parse("content://sms/sent"), null, null, null, "date desc");
-					                        
-					                        if (query2.moveToFirst())
-					                        {
-					                        	String id = query2.getString(query2.getColumnIndex("_id"));
-					                        	ContentValues values = new ContentValues();
-					                        	values.put("status", "64");
-					                        	context.getContentResolver().update(Uri.parse("content://sms/sent"), values, "_id=" + id, null);
-					                        }
-					                        
-					                        break;
-					                }
-				            	}
-				                
-				                context.unregisterReceiver(this);
+                                try {
+                                    if (sharedPrefs.getString("delivery_options", "2").equals("1"))
+                                    {
+                                        switch (getResultCode())
+                                        {
+                                            case Activity.RESULT_OK:
+                                                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                                                builder.setMessage(R.string.message_delivered)
+                                                        .setPositiveButton(R.string.dismiss, new DialogInterface.OnClickListener() {
+                                                            public void onClick(DialogInterface dialog, int id) {
+                                                                dialog.dismiss();
+                                                            }
+                                                        });
+
+                                                builder.create().show();
+
+                                                Cursor query = context.getContentResolver().query(Uri.parse("content://sms/sent"), null, null, null, "date desc");
+
+                                                if (query.moveToFirst())
+                                                {
+                                                    String id = query.getString(query.getColumnIndex("_id"));
+                                                    ContentValues values = new ContentValues();
+                                                    values.put("status", "0");
+                                                    context.getContentResolver().update(Uri.parse("content://sms/sent"), values, "_id=" + id, null);
+                                                }
+                                                break;
+                                            case Activity.RESULT_CANCELED:
+                                                AlertDialog.Builder builder2 = new AlertDialog.Builder(context);
+                                                builder2.setMessage(R.string.message_not_delivered)
+                                                        .setPositiveButton(R.string.dismiss, new DialogInterface.OnClickListener() {
+                                                            public void onClick(DialogInterface dialog, int id) {
+                                                                dialog.dismiss();
+                                                            }
+                                                        });
+
+                                                builder2.create().show();
+
+                                                Cursor query2 = context.getContentResolver().query(Uri.parse("content://sms/sent"), null, null, null, "date desc");
+
+                                                if (query2.moveToFirst())
+                                                {
+                                                    String id = query2.getString(query2.getColumnIndex("_id"));
+                                                    ContentValues values = new ContentValues();
+                                                    values.put("status", "64");
+                                                    context.getContentResolver().update(Uri.parse("content://sms/sent"), values, "_id=" + id, null);
+                                                }
+                                                break;
+                                        }
+                                    } else
+                                    {
+                                        switch (getResultCode())
+                                        {
+                                            case Activity.RESULT_OK:
+                                                if (sharedPrefs.getString("delivery_options", "2").equals("2"))
+                                                {
+                                                    Toast.makeText(context, R.string.message_delivered, Toast.LENGTH_LONG).show();
+                                                }
+
+                                                Cursor query = context.getContentResolver().query(Uri.parse("content://sms/sent"), null, null, null, "date desc");
+
+                                                if (query.moveToFirst())
+                                                {
+                                                    String id = query.getString(query.getColumnIndex("_id"));
+                                                    ContentValues values = new ContentValues();
+                                                    values.put("status", "0");
+                                                    context.getContentResolver().update(Uri.parse("content://sms/sent"), values, "_id=" + id, null);
+                                                }
+
+                                                break;
+                                            case Activity.RESULT_CANCELED:
+                                                if (sharedPrefs.getString("delivery_options", "2").equals("2"))
+                                                {
+                                                    Toast.makeText(context, R.string.message_not_delivered, Toast.LENGTH_LONG).show();
+                                                }
+
+                                                Cursor query2 = context.getContentResolver().query(Uri.parse("content://sms/sent"), null, null, null, "date desc");
+
+                                                if (query2.moveToFirst())
+                                                {
+                                                    String id = query2.getString(query2.getColumnIndex("_id"));
+                                                    ContentValues values = new ContentValues();
+                                                    values.put("status", "64");
+                                                    context.getContentResolver().update(Uri.parse("content://sms/sent"), values, "_id=" + id, null);
+                                                }
+
+                                                break;
+                                        }
+                                    }
+
+                                    context.unregisterReceiver(this);
+                                } catch (Exception e) {
+
+                                }
 				            }
 				        }, new IntentFilter(DELIVERED));
 				        
@@ -697,147 +709,151 @@ public class QuickReply extends Activity {
 				        context.registerReceiver(new BroadcastReceiver(){
 				            @Override
 				            public void onReceive(Context arg0, Intent arg1) {
-				                switch (getResultCode())
-				                {
-				                case Activity.RESULT_OK:
-			                        Cursor query = context.getContentResolver().query(Uri.parse("content://sms/outbox"), null, null, null, null);
-			                        
-			                        if (query.moveToFirst())
-			                        {
-			                        	String id = query.getString(query.getColumnIndex("_id"));
-			                        	ContentValues values = new ContentValues();
-			                        	values.put("type", "2");
-			                        	context.getContentResolver().update(Uri.parse("content://sms/outbox"), values, "_id=" + id, null);
-			                        }
-			                        
-			                        break;
-			                    case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-			                    	try
-			                    	{
-			                    		wait(500);
-			                    	} catch (Exception e)
-			                    	{
-			                    		
-			                    	}
-			                    	
-			                    	query = context.getContentResolver().query(Uri.parse("content://sms/outbox"), null, null, null, null);
-			                        
-			                        if (query.moveToFirst())
-			                        {
-			                        	String id = query.getString(query.getColumnIndex("_id"));
-			                        	ContentValues values = new ContentValues();
-			                        	values.put("type", "5");
-			                        	context.getContentResolver().update(Uri.parse("content://sms/outbox"), values, "_id=" + id, null);
-			                        }
-			                        
-			                    	NotificationCompat.Builder mBuilder =
-			    	                	new NotificationCompat.Builder(context)
-			    	                .setSmallIcon(R.drawable.ic_alert)
-			    	                .setContentTitle("Error")
-			    	                .setContentText("Could not send message");
-					    	        
-					    	        Intent resultIntent = new Intent(context, com.klinker.android.messaging_donate.MainActivity.class);
-					    	
-					    	        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-					    	        stackBuilder.addParentStack(com.klinker.android.messaging_donate.MainActivity.class);
-					    	        stackBuilder.addNextIntent(resultIntent);
-					    	        PendingIntent resultPendingIntent =
-					    	                stackBuilder.getPendingIntent(
-					    	                    0,
-					    	                    PendingIntent.FLAG_UPDATE_CURRENT
-					    	                );
-					    	        
-					    	        mBuilder.setContentIntent(resultPendingIntent);
-					    	        mBuilder.setAutoCancel(true);
-					    	        long[] pattern = {0L, 400L, 100L, 400L};
-					    	        mBuilder.setVibrate(pattern);
-					    	        mBuilder.setLights(0xFFffffff, 1000, 2000);
-					    	        
-					    	        try
-					    	        {
-					    	        	mBuilder.setSound(Uri.parse(sharedPrefs.getString("ringtone", "null")));
-					    	        } catch(Exception e)
-					    	        {
-					    	        	mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-					    	        }
-					    	        
-					    	        NotificationManager mNotificationManager =
-					    	            (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-					    	        
-					    	        Notification notification = mBuilder.build();
-					    	        Intent deleteIntent = new Intent(context, NotificationReceiver.class);
-					    	        notification.deleteIntent = PendingIntent.getBroadcast(context, 0, deleteIntent, 0);
-					    	        mNotificationManager.notify(1, notification);
-			                        break;
-			                    case SmsManager.RESULT_ERROR_NO_SERVICE:
-			                    	try
-			                    	{
-			                    		wait(500);
-			                    	} catch (Exception e)
-			                    	{
-			                    		
-			                    	}
-			                    	
-			                    	query = context.getContentResolver().query(Uri.parse("content://sms/outbox"), null, null, null, null);
-			                        
-			                        if (query.moveToFirst())
-			                        {
-			                        	String id = query.getString(query.getColumnIndex("_id"));
-			                        	ContentValues values = new ContentValues();
-			                        	values.put("type", "5");
-			                        	context.getContentResolver().update(Uri.parse("content://sms/outbox"), values, "_id=" + id, null);
-			                        }
-			                        
-			                        Toast.makeText(context, "No service", 
-			                                Toast.LENGTH_SHORT).show();
-			                        break;
-			                    case SmsManager.RESULT_ERROR_NULL_PDU:
-			                    	try
-			                    	{
-			                    		wait(500);
-			                    	} catch (Exception e)
-			                    	{
-			                    		
-			                    	}
-			                    	
-			                    	query = context.getContentResolver().query(Uri.parse("content://sms/outbox"), null, null, null, null);
-			                        
-			                        if (query.moveToFirst())
-			                        {
-			                        	String id = query.getString(query.getColumnIndex("_id"));
-			                        	ContentValues values = new ContentValues();
-			                        	values.put("type", "5");
-			                        	context.getContentResolver().update(Uri.parse("content://sms/outbox"), values, "_id=" + id, null);
-			                        }
-			                        
-			                        Toast.makeText(context, "Null PDU", 
-			                                Toast.LENGTH_SHORT).show();
-			                        break;
-			                    case SmsManager.RESULT_ERROR_RADIO_OFF:
-			                    	try
-			                    	{
-			                    		wait(500);
-			                    	} catch (Exception e)
-			                    	{
-			                    		
-			                    	}
-			                    	
-			                    	query = context.getContentResolver().query(Uri.parse("content://sms/outbox"), null, null, null, null);
-			                        
-			                        if (query.moveToFirst())
-			                        {
-			                        	String id = query.getString(query.getColumnIndex("_id"));
-			                        	ContentValues values = new ContentValues();
-			                        	values.put("type", "5");
-			                        	context.getContentResolver().update(Uri.parse("content://sms/outbox"), values, "_id=" + id, null);
-			                        }
-			                        
-			                        Toast.makeText(context, "Radio off", 
-			                                Toast.LENGTH_SHORT).show();
-			                        break;
-				                }
-				                
-				                unregisterReceiver(this);
+                                try {
+                                    switch (getResultCode())
+                                    {
+                                        case Activity.RESULT_OK:
+                                            Cursor query = context.getContentResolver().query(Uri.parse("content://sms/outbox"), null, null, null, null);
+
+                                            if (query.moveToFirst())
+                                            {
+                                                String id = query.getString(query.getColumnIndex("_id"));
+                                                ContentValues values = new ContentValues();
+                                                values.put("type", "2");
+                                                context.getContentResolver().update(Uri.parse("content://sms/outbox"), values, "_id=" + id, null);
+                                            }
+
+                                            break;
+                                        case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+                                            try
+                                            {
+                                                wait(500);
+                                            } catch (Exception e)
+                                            {
+
+                                            }
+
+                                            query = context.getContentResolver().query(Uri.parse("content://sms/outbox"), null, null, null, null);
+
+                                            if (query.moveToFirst())
+                                            {
+                                                String id = query.getString(query.getColumnIndex("_id"));
+                                                ContentValues values = new ContentValues();
+                                                values.put("type", "5");
+                                                context.getContentResolver().update(Uri.parse("content://sms/outbox"), values, "_id=" + id, null);
+                                            }
+
+                                            NotificationCompat.Builder mBuilder =
+                                                    new NotificationCompat.Builder(context)
+                                                            .setSmallIcon(R.drawable.ic_alert)
+                                                            .setContentTitle("Error")
+                                                            .setContentText("Could not send message");
+
+                                            Intent resultIntent = new Intent(context, com.klinker.android.messaging_donate.MainActivity.class);
+
+                                            TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+                                            stackBuilder.addParentStack(com.klinker.android.messaging_donate.MainActivity.class);
+                                            stackBuilder.addNextIntent(resultIntent);
+                                            PendingIntent resultPendingIntent =
+                                                    stackBuilder.getPendingIntent(
+                                                            0,
+                                                            PendingIntent.FLAG_UPDATE_CURRENT
+                                                    );
+
+                                            mBuilder.setContentIntent(resultPendingIntent);
+                                            mBuilder.setAutoCancel(true);
+                                            long[] pattern = {0L, 400L, 100L, 400L};
+                                            mBuilder.setVibrate(pattern);
+                                            mBuilder.setLights(0xFFffffff, 1000, 2000);
+
+                                            try
+                                            {
+                                                mBuilder.setSound(Uri.parse(sharedPrefs.getString("ringtone", "null")));
+                                            } catch(Exception e)
+                                            {
+                                                mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+                                            }
+
+                                            NotificationManager mNotificationManager =
+                                                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+                                            Notification notification = mBuilder.build();
+                                            Intent deleteIntent = new Intent(context, NotificationReceiver.class);
+                                            notification.deleteIntent = PendingIntent.getBroadcast(context, 0, deleteIntent, 0);
+                                            mNotificationManager.notify(1, notification);
+                                            break;
+                                        case SmsManager.RESULT_ERROR_NO_SERVICE:
+                                            try
+                                            {
+                                                wait(500);
+                                            } catch (Exception e)
+                                            {
+
+                                            }
+
+                                            query = context.getContentResolver().query(Uri.parse("content://sms/outbox"), null, null, null, null);
+
+                                            if (query.moveToFirst())
+                                            {
+                                                String id = query.getString(query.getColumnIndex("_id"));
+                                                ContentValues values = new ContentValues();
+                                                values.put("type", "5");
+                                                context.getContentResolver().update(Uri.parse("content://sms/outbox"), values, "_id=" + id, null);
+                                            }
+
+                                            Toast.makeText(context, "No service",
+                                                    Toast.LENGTH_SHORT).show();
+                                            break;
+                                        case SmsManager.RESULT_ERROR_NULL_PDU:
+                                            try
+                                            {
+                                                wait(500);
+                                            } catch (Exception e)
+                                            {
+
+                                            }
+
+                                            query = context.getContentResolver().query(Uri.parse("content://sms/outbox"), null, null, null, null);
+
+                                            if (query.moveToFirst())
+                                            {
+                                                String id = query.getString(query.getColumnIndex("_id"));
+                                                ContentValues values = new ContentValues();
+                                                values.put("type", "5");
+                                                context.getContentResolver().update(Uri.parse("content://sms/outbox"), values, "_id=" + id, null);
+                                            }
+
+                                            Toast.makeText(context, "Null PDU",
+                                                    Toast.LENGTH_SHORT).show();
+                                            break;
+                                        case SmsManager.RESULT_ERROR_RADIO_OFF:
+                                            try
+                                            {
+                                                wait(500);
+                                            } catch (Exception e)
+                                            {
+
+                                            }
+
+                                            query = context.getContentResolver().query(Uri.parse("content://sms/outbox"), null, null, null, null);
+
+                                            if (query.moveToFirst())
+                                            {
+                                                String id = query.getString(query.getColumnIndex("_id"));
+                                                ContentValues values = new ContentValues();
+                                                values.put("type", "5");
+                                                context.getContentResolver().update(Uri.parse("content://sms/outbox"), values, "_id=" + id, null);
+                                            }
+
+                                            Toast.makeText(context, "Radio off",
+                                                    Toast.LENGTH_SHORT).show();
+                                            break;
+                                    }
+
+                                    unregisterReceiver(this);
+                                } catch (Exception e) {
+
+                                }
 				            }
 				        }, new IntentFilter(SENT));
 				        
@@ -1031,7 +1047,7 @@ public class QuickReply extends Activity {
 		
 		messageEntry.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,2)));
 		
-		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
+		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && sharedPrefs.getBoolean("show_keyboard_popup", true))
 		{
 			messageEntry.postDelayed(new Runnable() {
 	            @Override

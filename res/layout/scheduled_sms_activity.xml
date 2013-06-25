@@ -11,6 +11,100 @@
             android:layout_alignTop="@+id/messageEntry2"
             android:background="@color/white" />
 
+    <ScrollView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/sentBackground"
+        android:layout_above="@+id/view1">
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/sentBackground">
+
+            <LinearLayout
+                    style="?android:attr/buttonBarStyle"
+                    android:id="@+id/selectDate"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingTop="15dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp" >
+
+                <Button style="?android:attr/buttonBarButtonStyle"
+                        android:id="@+id/setDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/date_picker"
+                        android:onClick="showDatePickerDialog" />
+                <Button style="?android:attr/buttonBarButtonStyle"
+                        android:id="@+id/setTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/time_picker"
+                        android:onClick="showTimePickerDialog" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:id="@+id/time_and_date"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/selectDate"
+                    android:orientation="horizontal"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp">
+
+                <TextView
+                        android:id="@+id/currentDate"
+                        android:layout_height="wrap_content"
+                        android:layout_width="fill_parent"
+                        android:layout_weight="1"
+                        android:textSize="25sp"
+                        android:gravity="center" />
+
+                <TextView
+                        android:id="@+id/currentTime"
+                        android:layout_height="wrap_content"
+                        android:layout_width="fill_parent"
+                        android:layout_weight="1"
+                        android:textSize="25sp"
+                        android:gravity="center" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:id="@+id/spinner"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/time_and_date"
+                    android:orientation="horizontal"
+                    android:paddingLeft="15dp"
+                    android:gravity="center_vertical" >
+
+                <TextView
+                        android:id="@+id/repetitionText"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:textSize="25sp"
+                        android:text="@string/repetition" />
+
+                <Spinner
+                        android:id="@+id/repetitionSpinner"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="15dp" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
     <View
             android:id="@+id/sentBackground"
             android:layout_width="wrap_content"
@@ -20,88 +114,16 @@
             android:layout_alignParentTop="true"
             android:background="@color/white" />
 
-
-    <LinearLayout
-            android:id="@+id/selectDate"
+    <EditText
+            android:id="@+id/contactEntry"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/sentBackground"
-            android:orientation="horizontal"
-            android:paddingTop="15dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp" >
-
-        <Button
-                android:id="@+id/setDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/date_picker"
-                android:onClick="showDatePickerDialog" />
-        <Button
-                android:id="@+id/setTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/time_picker"
-                android:onClick="showTimePickerDialog" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/time_and_date"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/selectDate"
-        android:orientation="horizontal"
-        android:paddingBottom="15dp"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp">
-
-        <TextView
-                android:id="@+id/currentDate"
-                android:layout_below="@+id/selectDate"
-                android:layout_height="wrap_content"
-                android:layout_width="fill_parent"
-                android:layout_weight="1"
-                android:textSize="25dp"
-                android:gravity="center" />
-
-        <TextView
-                android:id="@+id/currentTime"
-                android:layout_below="@+id/currentDate"
-                android:layout_height="wrap_content"
-                android:layout_width="fill_parent"
-                android:layout_weight="1"
-                android:textSize="25dp"
-                android:gravity="center" />
-
-    </LinearLayout>
-
-    <LinearLayout
-            android:id="@+id/spinner"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/time_and_date"
-            android:orientation="horizontal"
-            android:paddingLeft="15dp"
-            android:gravity="center_vertical" >
-
-        <TextView
-                android:id="@+id/repetitionText"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:textSize="25dp"
-                android:text="@string/repetition" />
-
-        <Spinner
-                android:id="@+id/repetitionSpinner"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/time_and_date"
-                android:paddingLeft="15dp" />
-
-    </LinearLayout>
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:ems="10"
+            android:hint="@string/contact_entry"
+            android:textCursorDrawable="@null">
+    </EditText>
 
 
 
@@ -126,18 +148,6 @@
 
     </EditText>
 
-    <EditText
-            android:id="@+id/contactEntry"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:ems="10"
-            android:hint="@string/contact_entry"
-            android:textCursorDrawable="@null"
-            android:layout_toLeftOf="@+id/contactLister">
-    </EditText>
-
     <ImageButton
             android:id="@+id/display_emoji"
             android:layout_width="wrap_content"
@@ -152,26 +162,5 @@
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:src="@drawable/emo_im_smirk" />
-
-    <View
-            android:id="@+id/image_attachment_view_background"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/image_attachment_view"
-            android:layout_alignTop="@+id/image_attachment_view" />
-
-    <TextView
-            android:id="@+id/mmsText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/sendButton"
-            android:layout_alignParentRight="true"
-            android:layout_alignTop="@+id/view1"
-            android:gravity="center"
-            android:text="@string/mms"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/light_grey"
-            android:textSize="@dimen/chars_remaining"
-            android:visibility="gone" />
 
 </RelativeLayout>
