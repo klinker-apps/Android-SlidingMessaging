@@ -1875,7 +1875,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
                             if (multipleAttachments == false)
                             {
                                 Intent sendIntent = new Intent(Intent.ACTION_SEND);
-                                sendIntent.putExtra("address", findContactNumber(inboxNumber.get(messagePager.getCurrentItem() - 1), context));
+                                sendIntent.putExtra("address", findContactNumber(inboxNumber.get(messagePager.getCurrentItem() - 1).replace(" ", "; "), context));
                                 sendIntent.putExtra("sms_body", body);
                                 sendIntent.putExtra(Intent.EXTRA_STREAM, attachedImage);
                                 sendIntent.setType("image/png");
