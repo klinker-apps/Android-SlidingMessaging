@@ -66,6 +66,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.RelativeLayout.LayoutParams;
 import com.klinker.android.messaging_sliding.emojis.*;
 import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead2;
+import com.klinker.android.messaging_sliding.receivers.CacheService;
 import com.klinker.android.messaging_sliding.receivers.NotificationReceiver;
 import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
 
@@ -1430,6 +1431,11 @@ public class QuickReply extends FragmentActivity {
         } catch (Exception e)
         {
 
+        }
+
+        if (sharedPrefs.getBoolean("cache_conversations", false)) {
+            Intent cacheService = new Intent(this, CacheService.class);
+            this.startService(cacheService);
         }
 
         super.finish();

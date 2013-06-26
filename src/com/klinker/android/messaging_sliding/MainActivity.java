@@ -227,13 +227,12 @@ s
             setTheme(R.style.HangoutsTheme);
         }
 
-        getWindow().getDecorView().setBackgroundColor(sharedPrefs.getInt("ct_messageListBackground", getResources().getColor(R.color.light_silver)));
 		setContentView(R.layout.activity_main);
 		setTitle(R.string.app_name_in_app);
 
+        getWindow().setBackgroundDrawable(null);
+
         MainActivity.notChanged = true;
-		
-		getWindow().setBackgroundDrawable(null);
 		
 		Intent intent = getIntent();
 		String action = intent.getAction();
@@ -709,8 +708,8 @@ s
             ab.setBackgroundDrawable(getResources().getDrawable(R.drawable.ab_hangouts));
         }
 
-        soundPool = new SoundPool(1, AudioManager.STREAM_NOTIFICATION, 0);
-        ping = soundPool.load(this, R.raw.message_ping, 1);
+//        soundPool = new SoundPool(1, AudioManager.STREAM_NOTIFICATION, 0);
+//        ping = soundPool.load(this, R.raw.message_ping, 1);
 		
 		View v = findViewById(R.id.newMessageGlow);
 		v.setVisibility(View.GONE);
@@ -1920,7 +1919,7 @@ s
                         if (multipleAttachments == false)
                         {
                             Intent sendIntent = new Intent(Intent.ACTION_SEND);
-                            sendIntent.putExtra("address", findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()).replace(" ", "; "), context));
+                            sendIntent.putExtra("address", findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context).replace(" ", ";"));
                             sendIntent.putExtra("sms_body", body);
                             sendIntent.putExtra(Intent.EXTRA_STREAM, attachedImage);
                             sendIntent.setType("image/png");
@@ -2109,7 +2108,7 @@ s
                 {
                     BitmapFactory.Options options = new BitmapFactory.Options();
 
-                    options.inSampleSize = 1;
+                    options.inSampleSize = 2;
                     Bitmap myBitmap = BitmapFactory.decodeFile(Uri.parse(sharedPrefs.getString("custom_background_location", "")).getPath(),options);
                     this.getResources();
                     Drawable d = new BitmapDrawable(Resources.getSystem(),myBitmap);
@@ -2140,7 +2139,7 @@ s
                 {
                     BitmapFactory.Options options = new BitmapFactory.Options();
 
-                    options.inSampleSize = 1;
+                    options.inSampleSize = 2;
                     Bitmap myBitmap = BitmapFactory.decodeFile(Uri.parse(sharedPrefs.getString("custom_background_location", "")).getPath(),options);
                     this.getResources();
                     Drawable d = new BitmapDrawable(Resources.getSystem(),myBitmap);
@@ -3363,7 +3362,7 @@ s
 			{
 				BitmapFactory.Options options = new BitmapFactory.Options();
 
-				options.inSampleSize = 1;
+				options.inSampleSize = 2;
 				Bitmap myBitmap = BitmapFactory.decodeFile(Uri.parse(sharedPrefs.getString("custom_background_location", "")).getPath(),options);
 				this.getResources();
 				Drawable d = new BitmapDrawable(Resources.getSystem(),myBitmap);
@@ -3568,7 +3567,7 @@ s
 					@Override
 					public void run() {
 						ArrayList<String> newMessages = readFromFile(context);
-				        
+
 				        for (int j = 0; j < newMessages.size(); j++)
 				        {
 				        	if (newMessages.get(j).replaceAll("-", "").endsWith(findContactName(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context), context).replace("-", "")))
@@ -3576,7 +3575,7 @@ s
 				        		newMessages.remove(j);
 				        	}
 				        }
-				        
+
 				        writeToFile(newMessages, context);
 
                         final ActionBar ab = getActionBar();
@@ -3656,13 +3655,17 @@ s
 
                         int index = -1;
 
-                        for (int i = 0; i < draftNames.size(); i++)
-                        {
-                            if (draftNames.get(i).equals(threadIds.get(mViewPager.getCurrentItem())))
+                        try {
+                            for (int i = 0; i < draftNames.size(); i++)
                             {
-                                index = i;
-                                break;
+                                if (draftNames.get(i).equals(threadIds.get(mViewPager.getCurrentItem())))
+                                {
+                                    index = i;
+                                    break;
+                                }
                             }
+                        } catch (Exception e) {
+
                         }
 
                         final int indexF = index;
@@ -4910,7 +4913,7 @@ s
 	@Override
 	public void onPause()
 	{
-		super.onStop();
+		super.onPause();
 		
 		try
 		{
@@ -5257,7 +5260,7 @@ s
             {
                 BitmapFactory.Options options = new BitmapFactory.Options();
 
-                options.inSampleSize = 1;
+                options.inSampleSize = 2;
                 Bitmap myBitmap = BitmapFactory.decodeFile(Uri.parse(sharedPrefs.getString("custom_background2_location", "")).getPath(),options);
                 Drawable d = new BitmapDrawable(Resources.getSystem(),myBitmap);
                 mViewPager.setBackgroundDrawable(d);
@@ -6705,14 +6708,18 @@ s
 
                             Uri uri3 = Uri.parse("content://mms-sms/conversations/" + threadIds.get(position) + "/");
                             String[] projection2;
+                            String proj = "_id body date type read msg_box";
 
                             if (sharedPrefs.getBoolean("show_original_timestamp", false))
                             {
-                                projection2 = new String[]{"_id", "ct_t", "body", "date", "date_sent", "type", "read", "status", "msg_box"};
-                            } else
-                            {
-                                projection2 = new String[]{"_id", "ct_t", "body", "date", "type", "read", "status", "msg_box"};
+                                proj += " date_sent";
                             }
+
+                            if (sharedPrefs.getBoolean("delivery_reports", false)) {
+                                proj += " status";
+                            }
+
+                            projection2 = proj.split(" ");
 
                             String sortOrder = "normalized_date desc";
 
@@ -6832,14 +6839,18 @@ s
 
                 Uri uri3 = Uri.parse("content://mms-sms/conversations/" + threadIds.get(position) + "/");
                 String[] projection2;
+                String proj = "_id body date type read msg_box";
 
                 if (sharedPrefs.getBoolean("show_original_timestamp", false))
                 {
-                    projection2 = new String[]{"_id", "ct_t", "body", "date", "date_sent", "type", "read", "status", "msg_box"};
-                } else
-                {
-                    projection2 = new String[]{"_id", "ct_t", "body", "date", "type", "read", "status", "msg_box"};
+                    proj += " date_sent";
                 }
+
+                if (sharedPrefs.getBoolean("delivery_reports", false)) {
+                    proj += " status";
+                }
+
+                projection2 = proj.split(" ");
 
                 String sortOrder = "normalized_date desc";
 
@@ -6968,14 +6979,18 @@ s
         {
             Uri uri3 = Uri.parse("content://mms-sms/conversations/" + threadIds.get(position) + "/");
             String[] projection2;
+            String proj = "_id body date type read msg_box";
 
             if (sharedPrefs.getBoolean("show_original_timestamp", false))
             {
-                projection2 = new String[]{"_id", "ct_t", "body", "date", "date_sent", "type", "read", "status", "msg_box"};
-            } else
-            {
-                projection2 = new String[]{"_id", "ct_t", "body", "date", "type", "read", "status", "msg_box"};
+                proj += " date_sent";
             }
+
+            if (sharedPrefs.getBoolean("delivery_reports", false)) {
+                proj += " status";
+            }
+
+            projection2 = proj.split(" ");
 
             String sortOrder = "normalized_date desc";
 

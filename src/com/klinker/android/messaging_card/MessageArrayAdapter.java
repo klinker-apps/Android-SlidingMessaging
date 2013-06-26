@@ -219,18 +219,18 @@ public class MessageArrayAdapter extends ArrayAdapter<String> {
 	  final ViewHolder holder = (ViewHolder) rowView.getTag();
 	  
 	  boolean sent = false;
-	  boolean mms = false;
-	  String image = "";
+	  boolean mms;
+	  String image;
 	  String video = "";
-	  String body = "";
-	  String date = "";
-	  String id = "";
+	  String body;
+	  String date;
+	  String id;
 	  boolean sending = false;
 	  boolean error = false;
 	  boolean group = false;
 	  String sender = "";
 	  String status = "-1";
-	  String location = "";
+	  String location;
 	  
 	  String dateType = "date";
 	  
@@ -242,16 +242,15 @@ public class MessageArrayAdapter extends ArrayAdapter<String> {
 	  try
 	  {
 		  query.moveToPosition(getCount() - 1 - position);
-		  
-		  String s = query.getString(query.getColumnIndex("ct_t"));
-			
-		    if ("application/vnd.wap.multipart.related".equals(s) || "application/vnd.wap.multipart.mixed".equals(s)) {
+
+          String s = query.getString(query.getColumnIndex("msg_box"));
+
+          if (s != null) {
 				id = query.getString(query.getColumnIndex("_id"));
 				mms = true;
 				body = "";
 				image = null;
 				video = null;
-				date = "";
 				
 				date = Long.parseLong(query.getString(query.getColumnIndex("date"))) * 1000 + "";
 				
@@ -297,7 +296,7 @@ public class MessageArrayAdapter extends ArrayAdapter<String> {
 	        	    do {
 	        	        String partId = cursor.getString(cursor.getColumnIndex("_id"));
 	        	        String type = cursor.getString(cursor.getColumnIndex("ct"));
-	        	        String body2 = "";
+	        	        String body2;
 	        	        if ("text/plain".equals(type)) {
 	        	            String data = cursor.getString(cursor.getColumnIndex("_data"));
 	        	            if (data != null) {
@@ -342,13 +341,13 @@ public class MessageArrayAdapter extends ArrayAdapter<String> {
 
                     try
                     {
-					    body = query.getString(query.getColumnIndex("body")).toString();
+					    body = query.getString(query.getColumnIndex("body"));
                     } catch (Exception e)
                     {
                         body = "";
                     }
 
-					date = query.getString(query.getColumnIndex(dateType)).toString();					
+					date = query.getString(query.getColumnIndex(dateType));
 					id = query.getString(query.getColumnIndex("_id"));
 					mms = false;
 					image = null;
@@ -364,17 +363,20 @@ public class MessageArrayAdapter extends ArrayAdapter<String> {
 				} else if (type.equals("2"))
 				{
 					sent = true;
-					body = query.getString(query.getColumnIndex("body")).toString();
-					date = query.getString(query.getColumnIndex("date")).toString();
+					body = query.getString(query.getColumnIndex("body"));
+					date = query.getString(query.getColumnIndex("date"));
 					id = query.getString(query.getColumnIndex("_id"));
 					mms = false;
 					image = null;
-					status = query.getString(query.getColumnIndex("status"));
-					
-					if (status.equals("64") || status.equals("128"))
-					{
-						error = true;
-					}
+
+                    if (sharedPrefs.getBoolean("delivery_reports", false)) {
+                        status = query.getString(query.getColumnIndex("status"));
+
+                        if (status.equals("64") || status.equals("128"))
+                        {
+                            error = true;
+                        }
+                    }
 					
 					if (query.getInt(query.getColumnIndex("read")) == 0)
 					{
@@ -386,8 +388,8 @@ public class MessageArrayAdapter extends ArrayAdapter<String> {
 				} else if (type.equals("5"))
 				{
 					sent = true;
-					body = query.getString(query.getColumnIndex("body")).toString();
-					date = query.getString(query.getColumnIndex("date")).toString();
+					body = query.getString(query.getColumnIndex("body"));
+					date = query.getString(query.getColumnIndex("date"));
 					id = query.getString(query.getColumnIndex("_id"));
 					mms = false;
 					image = null;
@@ -395,8 +397,8 @@ public class MessageArrayAdapter extends ArrayAdapter<String> {
 				} else if (type.equals("4") || type.equals("6"))
 				{
 					sent = true;
-					body = query.getString(query.getColumnIndex("body")).toString();
-					date = query.getString(query.getColumnIndex("date")).toString();
+					body = query.getString(query.getColumnIndex("body"));
+					date = query.getString(query.getColumnIndex("date"));
 					id = query.getString(query.getColumnIndex("_id"));
 					mms = false;
 					image = null;
@@ -404,8 +406,8 @@ public class MessageArrayAdapter extends ArrayAdapter<String> {
 				} else
 				{
 					sent = false;
-					body = query.getString(query.getColumnIndex("body")).toString();
-					date = query.getString(query.getColumnIndex(dateType)).toString();
+					body = query.getString(query.getColumnIndex("body"));
+					date = query.getString(query.getColumnIndex(dateType));
 					id = query.getString(query.getColumnIndex("_id"));
 					mms = false;
 					image = null;

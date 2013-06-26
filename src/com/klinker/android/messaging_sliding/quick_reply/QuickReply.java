@@ -64,6 +64,7 @@ import android.widget.RelativeLayout.LayoutParams;
 import com.klinker.android.messaging_donate.StripAccents;
 import com.klinker.android.messaging_sliding.MainActivity;
 import com.klinker.android.messaging_sliding.emojis.*;
+import com.klinker.android.messaging_sliding.receivers.CacheService;
 import com.klinker.android.messaging_sliding.receivers.NotificationReceiver;
 import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
 
@@ -935,6 +936,11 @@ public class QuickReply extends Activity {
 		            mrIntent.putExtra("date", cal.getTimeInMillis() + "");
 		            mrIntent.putExtra("address", address);
 		            startService(mrIntent);
+
+                    if (sharedPrefs.getBoolean("cache_conversations", false)) {
+                        Intent cacheService = new Intent(context, CacheService.class);
+                        context.startService(cacheService);
+                    }
 				    
 				    ((Activity) context).finish();
 				    

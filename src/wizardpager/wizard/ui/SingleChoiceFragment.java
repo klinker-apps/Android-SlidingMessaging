@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,6 +79,9 @@ public class SingleChoiceFragment extends ListFragment {
         // If it needs a button
         if (mPage.getButton()) {
             rootView = inflater.inflate(R.layout.fragment_page_button, container, false);
+
+            TextView textView = (TextView) rootView.findViewById(android.R.id.message);
+            textView.setMovementMethod(new ScrollingMovementMethod());
 
             Button button = (Button) rootView.findViewById(android.R.id.button1);
             button.setOnClickListener(new View.OnClickListener() {

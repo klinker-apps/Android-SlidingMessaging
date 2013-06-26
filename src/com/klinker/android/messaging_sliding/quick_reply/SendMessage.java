@@ -48,6 +48,7 @@ import com.klinker.android.messaging_sliding.emojis.EmojiAdapter;
 import com.klinker.android.messaging_sliding.emojis.EmojiAdapter2;
 import com.klinker.android.messaging_sliding.emojis.EmojiConverter;
 import com.klinker.android.messaging_sliding.emojis.EmojiConverter2;
+import com.klinker.android.messaging_sliding.receivers.CacheService;
 import com.klinker.android.messaging_sliding.receivers.NotificationReceiver;
 
 public class SendMessage extends Activity {
@@ -880,6 +881,11 @@ public class SendMessage extends Activity {
 							    values.put("date", cal.getTimeInMillis() + "");
 							    values.put("read", 1);
 							    getContentResolver().insert(Uri.parse("content://sms/sent"), values);
+
+                                if (sharedPrefs.getBoolean("cache_conversations", false)) {
+                                    Intent cacheService = new Intent(context, CacheService.class);
+                                    context.startService(cacheService);
+                                }
 								
 							    getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 	

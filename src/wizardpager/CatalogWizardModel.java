@@ -65,7 +65,7 @@ public class CatalogWizardModel extends AbstractWizardModel {
 
 
         String themeEditor = "The theme editor now fully supports the Hangouts UI and popup, " +
-                "better time then ever to get on board and start making Sliding Messaging look exactly how you want!\n\n" +
+                "better time than ever to get on board and start making Sliding Messaging look exactly how you want!\n\n" +
                 mContext.getString(R.string.theme_support);
 
         String goPro = mContext.getString(R.string.go_pro1) + "\n" +

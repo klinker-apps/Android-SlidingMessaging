@@ -1875,7 +1875,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
                             if (multipleAttachments == false)
                             {
                                 Intent sendIntent = new Intent(Intent.ACTION_SEND);
-                                sendIntent.putExtra("address", findContactNumber(inboxNumber.get(messagePager.getCurrentItem() - 1).replace(" ", "; "), context));
+                                sendIntent.putExtra("address", findContactNumber(inboxNumber.get(messagePager.getCurrentItem() - 1), context).replace(" ", ";"));
                                 sendIntent.putExtra("sms_body", body);
                                 sendIntent.putExtra(Intent.EXTRA_STREAM, attachedImage);
                                 sendIntent.setType("image/png");
@@ -3961,6 +3961,11 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
                 }
             }
         }).start();
+
+        if (sharedPrefs.getBoolean("cache_conversations", false)) {
+            Intent cacheService = new Intent(context, CacheService.class);
+            context.startService(cacheService);
+        }
 	}
 	
 	@Override
@@ -4658,14 +4663,18 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 
                             Uri uri3 = Uri.parse("content://mms-sms/conversations/" + threadIds.get(position) + "/");
                             String[] projection2;
+                            String proj = "_id body date type read msg_box";
 
                             if (sharedPrefs.getBoolean("show_original_timestamp", false))
                             {
-                                projection2 = new String[]{"_id", "ct_t", "body", "date", "date_sent", "type", "read", "status", "msg_box"};
-                            } else
-                            {
-                                projection2 = new String[]{"_id", "ct_t", "body", "date", "type", "read", "status", "msg_box"};
+                                proj += " date_sent";
                             }
+
+                            if (sharedPrefs.getBoolean("delivery_reports", false)) {
+                                proj += " status";
+                            }
+
+                            projection2 = proj.split(" ");
 
                             String sortOrder = "normalized_date desc";
 

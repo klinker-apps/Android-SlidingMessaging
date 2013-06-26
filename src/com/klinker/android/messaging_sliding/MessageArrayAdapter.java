@@ -329,18 +329,18 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
 	  final ViewHolder holder = (ViewHolder) rowView.getTag();
 	  
 	  boolean sent = false;
-	  boolean mms = false;
-	  String image = "";
+	  boolean mms;
+	  String image;
 	  String video = "";
-	  String body = "";
-	  String date = "";
-	  String id = "";
+	  String body;
+	  String date;
+	  String id;
 	  boolean sending = false;
 	  boolean error = false;
 	  boolean group = false;
 	  String sender = "";
 	  String status = "-1";
-	  String location = "";
+	  String location;
 	  
 	  String dateType = "date";
 	  
@@ -352,16 +352,15 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
 	  try
 	  {
 		  query.moveToPosition(getCount() - 1 - position);
-		  
-		  String s = query.getString(query.getColumnIndex("ct_t"));
-			
-		    if ("application/vnd.wap.multipart.related".equals(s) || "application/vnd.wap.multipart.mixed".equals(s)) {
+
+          String s = query.getString(query.getColumnIndex("msg_box"));
+
+          if (s != null) {
 				id = query.getString(query.getColumnIndex("_id"));
 				mms = true;
 				body = "";
 				image = null;
 				video = null;
-				date = "";
 				
 				date = Long.parseLong(query.getString(query.getColumnIndex("date"))) * 1000 + "";
 				
@@ -380,6 +379,14 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
 				} else if (query.getInt(query.getColumnIndex("msg_box")) == 1)
 				{
 					sent = false;
+
+                    if (query.getInt(query.getColumnIndex("read")) == 0)
+                    {
+                        String SmsMessageId = query.getString(query.getColumnIndex("_id"));
+                        ContentValues values = new ContentValues();
+                        values.put("read", true);
+                        contentResolver.update(Uri.parse("content://mms/inbox"), values, "_id=" + SmsMessageId, null);
+                    }
 				} else if (query.getInt(query.getColumnIndex("msg_box")) == 2)
 				{
 					sent = true;
@@ -389,14 +396,6 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
 				{
 					group = true;
 					sender = numbers[0];
-				}
-				
-				if (query.getInt(query.getColumnIndex("read")) == 0)
-				{
-					String SmsMessageId = query.getString(query.getColumnIndex("_id"));
-	                ContentValues values = new ContentValues();
-	                values.put("read", true);
-	                contentResolver.update(Uri.parse("content://mms/inbox"), values, "_id=" + SmsMessageId, null);
 				}
 				
 	        	String selectionPart = "mid=" + query.getString(query.getColumnIndex("_id"));
@@ -452,51 +451,46 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
 
                     try
                     {
-					    body = query.getString(query.getColumnIndex("body")).toString();
+					    body = query.getString(query.getColumnIndex("body"));
                     } catch (Exception e)
                     {
                         body = "";
                     }
 
-					date = query.getString(query.getColumnIndex(dateType)).toString();					
+					date = query.getString(query.getColumnIndex(dateType));
 					id = query.getString(query.getColumnIndex("_id"));
 					mms = false;
 					image = null;
-					
-					if (query.getInt(query.getColumnIndex("read")) == 0)
-					{
-						String SmsMessageId = query.getString(query.getColumnIndex("_id"));
-		                ContentValues values = new ContentValues();
-		                values.put("read", true);
-		                contentResolver.update(Uri.parse("content://sms/inbox"), values, "_id=" + SmsMessageId, null);
-					}
+
+                    if (query.getInt(query.getColumnIndex("read")) == 0)
+                    {
+                        String SmsMessageId = query.getString(query.getColumnIndex("_id"));
+                        ContentValues values = new ContentValues();
+                        values.put("read", true);
+                        contentResolver.update(Uri.parse("content://sms/inbox"), values, "_id=" + SmsMessageId, null);
+                    }
 				} else if (type.equals("2"))
 				{
 					sent = true;
-					body = query.getString(query.getColumnIndex("body")).toString();
-					date = query.getString(query.getColumnIndex("date")).toString();
+					body = query.getString(query.getColumnIndex("body"));
+					date = query.getString(query.getColumnIndex("date"));
 					id = query.getString(query.getColumnIndex("_id"));
 					mms = false;
 					image = null;
-					status = query.getString(query.getColumnIndex("status"));
-					
-					if (status.equals("64") || status.equals("128"))
-					{
-						error = true;
-					}
-					
-					if (query.getInt(query.getColumnIndex("read")) == 0)
-					{
-						String SmsMessageId = query.getString(query.getColumnIndex("_id"));
-		                ContentValues values = new ContentValues();
-		                values.put("read", true);
-		                contentResolver.update(Uri.parse("content://mms/inbox"), values, "_id=" + SmsMessageId, null);
-					}
+
+                    if (sharedPrefs.getBoolean("delivery_reports", false)) {
+                        status = query.getString(query.getColumnIndex("status"));
+
+                        if (status.equals("64") || status.equals("128"))
+                        {
+                            error = true;
+                        }
+                    }
 				} else if (type.equals("5"))
 				{
 					sent = true;
-					body = query.getString(query.getColumnIndex("body")).toString();
-					date = query.getString(query.getColumnIndex("date")).toString();
+					body = query.getString(query.getColumnIndex("body"));
+					date = query.getString(query.getColumnIndex("date"));
 					id = query.getString(query.getColumnIndex("_id"));
 					mms = false;
 					image = null;
@@ -504,8 +498,8 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
 				} else if (type.equals("4") || type.equals("6"))
 				{
 					sent = true;
-					body = query.getString(query.getColumnIndex("body")).toString();
-					date = query.getString(query.getColumnIndex("date")).toString();
+					body = query.getString(query.getColumnIndex("body"));
+					date = query.getString(query.getColumnIndex("date"));
 					id = query.getString(query.getColumnIndex("_id"));
 					mms = false;
 					image = null;
@@ -513,8 +507,8 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
 				} else
 				{
 					sent = false;
-					body = query.getString(query.getColumnIndex("body")).toString();
-					date = query.getString(query.getColumnIndex(dateType)).toString();
+					body = query.getString(query.getColumnIndex("body"));
+					date = query.getString(query.getColumnIndex(dateType));
 					id = query.getString(query.getColumnIndex("_id"));
 					mms = false;
 					image = null;

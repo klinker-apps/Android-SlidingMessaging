@@ -1,16 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent" >
+	android:layout_height="match_parent"
+    android:background="@null">
 	    
 	<android.support.v4.view.ViewPager
 	    android:id="@+id/pager"
 	    android:layout_width="match_parent"
 	    android:layout_height="match_parent"
-	    android:layout_above="@+id/image_attachment_view"
-	    android:background="@null"
-	    tools:context=".MainActivity" >
+	    android:layout_above="@+id/image_attachment_view" >
 	
 	    <!--
 	    This title strip will display the currently visible page title, as well as the page
@@ -89,7 +88,6 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/messageEntry"
-        android:background="@null"
         android:contentDescription="@string/send_button"
         android:cropToPadding="false"
         android:paddingLeft="10dp"
