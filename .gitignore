@@ -32,6 +32,7 @@ pom.xml.*
 release.properties
 project.properties
 
+.iml
 .idea
 *.iml
 classes
