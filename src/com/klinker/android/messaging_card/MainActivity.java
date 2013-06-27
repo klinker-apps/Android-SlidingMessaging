@@ -4008,6 +4008,8 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 		popup.setOnMenuItemClickListener(this);
 		popup.show();
 	}
+
+    public String version;
 	
 	@Override
 	public boolean onMenuItemClick(MenuItem item)
@@ -4030,7 +4032,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 		case R.id.menu_about:
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 	    	builder.setTitle(R.string.menu_about);
-	    	String version = "";
+	    	version = "";
 	    	
 	    	try {
 				version = this.getPackageManager().getPackageInfo(this.getPackageName(), 0).versionName;
@@ -4039,7 +4041,22 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 			}
 	    	
 			builder.setMessage(this.getResources().getString(R.string.version) + ": " + version +
-					           "\n\n" + this.getResources().getString(R.string.about_expanded) + "\n\n� 2013 Jacob Klinker");
+					           "\n\n" + this.getResources().getString(R.string.about_expanded) + "\n\n� 2013 Jacob Klinker and Luke Klinker")
+                    .setPositiveButton(this.getResources().getString(R.string.changelog), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            Intent wizardintent = new Intent(getApplicationContext(), wizardpager.MainActivity.class);
+                            wizardintent.putExtra("version", version);
+                            startActivity(wizardintent);
+                        }
+                    })
+                    .setNegativeButton(this.getResources().getString(R.string.tweet_us), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+                            sharingIntent.setType("text/plain");
+                            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, "@sliding_sms ");
+                            startActivity(Intent.createChooser(sharingIntent, "Share using"));
+                        }
+                    });
 			
 			AlertDialog dialog = builder.create();
 			dialog.show();
