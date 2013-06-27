@@ -116,6 +116,9 @@ import com.klinker.android.messaging_sliding.templates.TemplateArrayAdapter;
 import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
 import net.simonvt.messagebar.messagebar.MessageBar;
 
+import group.pals.android.lib.ui.lockpattern.LockPatternActivity;
+import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
+
 public class MainActivity extends FragmentActivity {
 
 	/**
@@ -214,6 +217,7 @@ s
     public int ping;
 
     public static final String GSM_CHARACTERS_REGEX = "^[A-Za-z0-9 \\r\\n@Ł$ĽčéůěňÇŘřĹĺ\u0394_\u03A6\u0393\u039B\u03A9\u03A0\u03A8\u03A3\u0398\u039EĆćßÉ!\"#$%&'()*+,\\-./:;<=>?ĄÄÖŃÜ§żäöńüŕ^{}\\\\\\[~\\]|\u20AC]*$";
+    private static final int REQ_ENTER_PATTERN = 7;
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -4634,6 +4638,28 @@ s
  	    			
  	    		});
             }
+        } else if (requestCode == REQ_ENTER_PATTERN) // Code for pattern unlock
+        {
+            /*
+            * NOTE that there are 3 possible result codes!!!
+            */
+            switch (resultCode) {
+                case RESULT_OK:
+                    finish();
+                    break;
+                case RESULT_CANCELED:
+                    onBackPressed();
+                    break;
+                case LockPatternActivity.RESULT_FAILED:
+                    Context context = getApplicationContext();
+                    CharSequence text = "Incorrect Pattern!";
+                    int duration = Toast.LENGTH_SHORT;
+
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+
+                    break;
+            }
         } else
         {
         	
@@ -4871,6 +4897,15 @@ s
                     Intent passwordIntent = new Intent(getApplicationContext(), PasswordActivity.class);
                     startActivity(passwordIntent);
                     finish();
+                } else if (sharedPrefs.getString("security_option", "none").equals("pattern"))
+                {
+                    char[] savedPattern = sharedPrefs.getString("security_option", "none").toCharArray();
+
+                    Intent intent = new Intent(LockPatternActivity.ACTION_COMPARE_PATTERN, null,
+                            getApplicationContext(), LockPatternActivity.class);
+                    intent.putExtra(LockPatternActivity.EXTRA_PATTERN, savedPattern);
+                    startActivityForResult(intent, REQ_ENTER_PATTERN);
+                    //finish();
                 }
 
             }
@@ -6568,8 +6603,8 @@ s
 		private SharedPreferences sharedPrefs;
 		public Context context;
         public Cursor messageQuery;
-
         public CustomListView listView;
+
         public ProgressBar spinner;
 		
 		public DummySectionFragment() {
@@ -6632,7 +6667,7 @@ s
 				Bundle savedInstanceState) {
 			
 			view = inflater.inflate(R.layout.message_frame, container, false);
-			
+
 			return refreshMessages();
 		}		
 		

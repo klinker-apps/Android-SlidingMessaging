@@ -134,6 +134,8 @@ import com.klinker.android.messaging_sliding.security.PasswordActivity;
 import com.klinker.android.messaging_sliding.security.PinActivity;
 import com.klinker.android.messaging_sliding.templates.TemplateArrayAdapter;
 
+import group.pals.android.lib.ui.lockpattern.LockPatternActivity;
+
 public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuItemClickListener {
 
 	public static SharedPreferences sharedPrefs;
@@ -226,6 +228,8 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 	public static EditText contactEntry;
 	
 	public static Typeface font;
+
+    private static final int REQ_ENTER_PATTERN = 7;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -3520,6 +3524,28 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
  	    			
  	    		});
             }
+        } else if (requestCode == REQ_ENTER_PATTERN) // code for pattern unlock
+        {
+            /*
+            * NOTE that there are 3 possible result codes!!!
+            */
+            switch (resultCode) {
+                case RESULT_OK:
+                    finish();
+                    break;
+                case RESULT_CANCELED:
+                    onBackPressed();
+                    break;
+                case LockPatternActivity.RESULT_FAILED:
+                    Context context = getApplicationContext();
+                    CharSequence text = "Incorrect Pattern!";
+                    int duration = Toast.LENGTH_SHORT;
+
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+
+                    break;
+            }
         } else
         {
         	
@@ -3802,6 +3828,15 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
                     Intent passwordIntent = new Intent(getApplicationContext(), PasswordActivity.class);
                     startActivity(passwordIntent);
                     finish();
+                } else if (sharedPrefs.getString("security_option", "none").equals("pattern"))
+                {
+                    char[] savedPattern = sharedPrefs.getString("security_option", "none").toCharArray();
+
+                    Intent intent = new Intent(LockPatternActivity.ACTION_COMPARE_PATTERN, null,
+                            getApplicationContext(), LockPatternActivity.class);
+                    intent.putExtra(LockPatternActivity.EXTRA_PATTERN, savedPattern);
+                    startActivityForResult(intent, REQ_ENTER_PATTERN);
+                    //finish();
                 }
 
             }

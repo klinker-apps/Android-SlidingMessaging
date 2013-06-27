@@ -36,6 +36,8 @@ import com.klinker.android.messaging_sliding.templates.TemplateActivity;
 import java.io.*;
 import java.util.*;
 
+import group.pals.android.lib.ui.lockpattern.LockPatternActivity;
+
 public class SettingsPagerActivity extends FragmentActivity {
 
     /**
@@ -48,6 +50,7 @@ public class SettingsPagerActivity extends FragmentActivity {
      */
     SectionsPagerAdapter mSectionsPagerAdapter;
     SharedPreferences sharedPrefs;
+
     private static final int REQ_CREATE_PATTERN = 3;
 
     /**
@@ -711,6 +714,11 @@ public class SettingsPagerActivity extends FragmentActivity {
                 getPreferenceScreen().findPreference("set_password").setEnabled(true);
                 getPreferenceScreen().findPreference("auto_unlock").setEnabled(true);
                 getPreferenceScreen().findPreference("timeout_settings").setEnabled(true);
+            } else if (sharedPrefs.getString("security_option", "none").equals("pattern"))
+            {
+                getPreferenceScreen().findPreference("set_password").setEnabled(true);
+                getPreferenceScreen().findPreference("auto_unlock").setEnabled(false);
+                getPreferenceScreen().findPreference("timeout_settings").setEnabled(true);
             }
 
             // listner for list preference change to call intents and change preferences
@@ -729,6 +737,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                             getPreferenceScreen().findPreference("auto_unlock").setEnabled(true);
                             getPreferenceScreen().findPreference("set_password").setEnabled(true);
                             getPreferenceScreen().findPreference("timeout_settings").setEnabled(true);
+
                             Intent intent = new Intent(getActivity(), SetPinActivity.class);
                             startActivity(intent);
                         } else if (value.equals("password"))
@@ -736,14 +745,19 @@ public class SettingsPagerActivity extends FragmentActivity {
                             getPreferenceScreen().findPreference("auto_unlock").setEnabled(false);
                             getPreferenceScreen().findPreference("set_password").setEnabled(true);
                             getPreferenceScreen().findPreference("timeout_settings").setEnabled(true);
+
                             Intent intent = new Intent(getActivity(), SetPasswordActivity.class);
                             startActivity(intent);
-                        } /*else if (value.equals("pattern")) // could be implemented for pattern, but it wasn't working before
+                        } else if (value.equals("pattern")) // could be implemented for pattern, but it wasn't working before
                         {
+                            getPreferenceScreen().findPreference("set_password").setEnabled(true);
+                            getPreferenceScreen().findPreference("auto_unlock").setEnabled(false);
+                            getPreferenceScreen().findPreference("timeout_settings").setEnabled(true);
+
                             Intent intent = new Intent(LockPatternActivity.ACTION_CREATE_PATTERN, null,
-                                    getActivity(), LockPatternActivity.class);
+                                    context, LockPatternActivity.class);
                             startActivityForResult(intent, REQ_CREATE_PATTERN);
-                        }*/
+                        }
                     }
                 }
             };
@@ -762,6 +776,11 @@ public class SettingsPagerActivity extends FragmentActivity {
                     {
                         Intent intent = new Intent(getActivity(), SetPasswordActivity.class);
                         startActivity(intent);
+                    } else if (sharedPrefs.getString("security_option", "none").equals("pattern"))
+                    {
+                        Intent intent = new Intent(LockPatternActivity.ACTION_CREATE_PATTERN, null,
+                                context, LockPatternActivity.class);
+                        startActivityForResult(intent, REQ_CREATE_PATTERN);
                     }
                     return false;
                 }
@@ -1275,17 +1294,16 @@ public class SettingsPagerActivity extends FragmentActivity {
                 }
             } else if (requestCode == REQ_CREATE_PATTERN)
             {
-                /*if (resultCode == RESULT_OK) {
-                    char[] pattern = imageReturnedIntent.getCharArrayExtra(LockPatternActivity.EXTRA_PATTERN);
-
-                    String password = new String(pattern);
+                if (resultCode == RESULT_OK) {
+                    char[] pattern = imageReturnedIntent.getCharArrayExtra(
+                            LockPatternActivity.EXTRA_PATTERN);
 
                     SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getActivity());
                     SharedPreferences.Editor editor = sharedPrefs.edit();
 
-                    editor.putString("password", password);
+                    editor.putString("password", new String(pattern));
                     editor.commit();
-                }*/
+                }
             }
         }
 

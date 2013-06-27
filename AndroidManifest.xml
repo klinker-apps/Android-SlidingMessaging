@@ -310,6 +310,12 @@
                 android:theme="@style/SettingsTheme" >
         </activity>
 
+        <activity
+                android:name="group.pals.android.lib.ui.lockpattern.LockPatternActivity"
+                android:configChanges="orientation|screenSize|keyboard|keyboardHidden"
+                android:screenOrientation="user"
+                android:theme="@style/Alp.Theme.Dark" />
+
         <service 
             android:name="com.klinker.android.messaging_sliding.quick_reply.QmMarkRead2" >
         </service>
