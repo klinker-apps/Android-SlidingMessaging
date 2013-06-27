@@ -3953,7 +3953,7 @@ s
                         public void onClick(DialogInterface dialog, int id) {
                             Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                             sharingIntent.setType("text/plain");
-                            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, "@sliding_sms ");
+                            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, "@slidingSMS ");
                             startActivity(Intent.createChooser(sharingIntent, "Share using"));
                         }
                     });
