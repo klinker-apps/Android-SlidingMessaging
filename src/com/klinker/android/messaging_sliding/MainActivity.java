@@ -217,6 +217,8 @@ s
     public SoundPool soundPool;
     public int ping;
 
+    private PullToRefreshAttacher mPullToRefreshAttacher;
+
     public static final String GSM_CHARACTERS_REGEX = "^[A-Za-z0-9 \\r\\n@Ł$ĽčéůěňÇŘřĹĺ\u0394_\u03A6\u0393\u039B\u03A9\u03A0\u03A8\u03A3\u0398\u039EĆćßÉ!\"#$%&'()*+,\\-./:;<=>?ĄÄÖŃÜ§żäöńüŕ^{}\\\\\\[~\\]|\u20AC]*$";
     private static final int REQ_ENTER_PATTERN = 7;
 
@@ -236,6 +238,8 @@ s
 		setTitle(R.string.app_name_in_app);
 
         getWindow().setBackgroundDrawable(null);
+
+        mPullToRefreshAttacher = new PullToRefreshAttacher(this);
 
         MainActivity.notChanged = true;
 		
@@ -6412,6 +6416,10 @@ s
 		      return ret;
 			}
 
+    PullToRefreshAttacher getPullToRefreshAttacher() {
+        return mPullToRefreshAttacher;
+    }
+
 	/**
 	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
 	 * one of the sections/tabs/pages.
@@ -6590,7 +6598,7 @@ s
 	 * A dummy fragment representing a section of the app, but that simply
 	 * displays dummy text.
 	 */
-	public class DummySectionFragment extends android.app.Fragment implements android.app.LoaderManager.LoaderCallbacks<Cursor> {
+	public class DummySectionFragment extends android.app.Fragment implements android.app.LoaderManager.LoaderCallbacks<Cursor>, PullToRefreshAttacher.OnRefreshListener {
 		/**
 		 * The fragment argument representing the section number for this
 		 * fragment.
@@ -6608,6 +6616,7 @@ s
         public CustomListView listView;
 
         public ProgressBar spinner;
+        private PullToRefreshAttacher mPullToRefreshAttacher;
 		
 		public DummySectionFragment() {
 			
@@ -6669,6 +6678,8 @@ s
 				Bundle savedInstanceState) {
 			
 			view = inflater.inflate(R.layout.message_frame, container, false);
+
+            mPullToRefreshAttacher = ((MainActivity) getActivity()).getPullToRefreshAttacher();
 
 			return refreshMessages();
 		}		
@@ -6998,6 +7009,7 @@ s
                     listView.setAdapter(adapter);
                     listView.setStackFromBottom(true);
 					spinner.setVisibility (View.GONE);
+                    mPullToRefreshAttacher.setRefreshableView(listView, this);
                 }
 
                 new Handler().postDelayed(new Runnable() {
@@ -7146,6 +7158,7 @@ s
                 listView.setAdapter(adapter);
                 listView.setStackFromBottom(true);
                 spinner.setVisibility(View.GONE);
+                mPullToRefreshAttacher.setRefreshableView(listView, this);
             }
 
             new Handler().postDelayed(new Runnable() {
@@ -7164,6 +7177,33 @@ s
         public void onLoaderReset(Loader<Cursor> loader)
         {
 
+        }
+
+        @Override
+        public void onRefreshStarted(View view) {
+            /**
+             * Simulate Refresh with 4 seconds sleep
+             */
+            new AsyncTask<Void, Void, Void>() {
+
+                @Override
+                protected Void doInBackground(Void... params) {
+                    try {
+                        Thread.sleep(4000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(Void result) {
+                    super.onPostExecute(result);
+
+                    // Notify PullToRefreshAttacher that the refresh has finished
+                    mPullToRefreshAttacher.setRefreshComplete();
+                }
+            }.execute();
         }
 	}
 	
