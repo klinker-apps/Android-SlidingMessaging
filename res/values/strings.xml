@@ -476,6 +476,6 @@
     <string name="cache_conversations">Cache Conversations</string>
     <string name="cache_conversations_summary">Caches conversations in the background to allow for faster loading times, has potential to affect battery life. This feature is still experimental.</string>
     <string name="num_cache_conversations">Number of Cached Conversations</string>
-    <string name="num_cache_conversations_summary">By setting to one, you will optimize battery life and still have the first conversation loaded instantly when you start the app.</string>
+    <string name="num_cache_conversations_summary">Sets the number of conversations to be cached and quickly loaded at application startup and in the background</string>
 
 </resources>

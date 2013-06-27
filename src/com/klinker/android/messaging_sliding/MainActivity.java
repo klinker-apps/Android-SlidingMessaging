@@ -236,62 +236,66 @@ s
 		
 		Intent intent = getIntent();
 		String action = intent.getAction();
-		
-		if (action != null)
-		{
-			if (action.equals(Intent.ACTION_SENDTO))
-			{
-				sendTo = true;
-				
-				try
-				{
-					if (intent.getDataString().startsWith("smsto:"))
-					{
-						sendMessageTo = Uri.decode(intent.getDataString()).substring("smsto:".length()).replace("(", "").replace(")", "").replace("-", "").replace(" ", "");
-						fromNotification = false;
-					} else
-					{
-						sendMessageTo = Uri.decode(intent.getDataString()).substring("sms:".length()).replace("(", "").replace(")", "").replace("-", "").replace(" ", "");
-						fromNotification = false;
-					}
-				} catch (Exception e)
-				{
-					sendMessageTo = intent.getStringExtra("com.klinker.android.OPEN").replace("(", "").replace(")", "").replace("-", "").replace(" ", "");
-					fromNotification = true;
-				}
-			} else if (action.equals(Intent.ACTION_SEND))
-			{
-				Bundle extras = intent.getExtras();
+
+        try {
+            if (action != null)
+            {
+                if (action.equals(Intent.ACTION_SENDTO))
+                {
+                    sendTo = true;
+
+                    try
+                    {
+                        if (intent.getDataString().startsWith("smsto:"))
+                        {
+                            sendMessageTo = Uri.decode(intent.getDataString()).substring("smsto:".length()).replace("(", "").replace(")", "").replace("-", "").replace(" ", "");
+                            fromNotification = false;
+                        } else
+                        {
+                            sendMessageTo = Uri.decode(intent.getDataString()).substring("sms:".length()).replace("(", "").replace(")", "").replace("-", "").replace(" ", "");
+                            fromNotification = false;
+                        }
+                    } catch (Exception e)
+                    {
+                        sendMessageTo = intent.getStringExtra("com.klinker.android.OPEN").replace("(", "").replace(")", "").replace("-", "").replace(" ", "");
+                        fromNotification = true;
+                    }
+                } else if (action.equals(Intent.ACTION_SEND))
+                {
+                    Bundle extras = intent.getExtras();
+
+                    if (extras != null)
+                    {
+                        if (extras.containsKey(Intent.EXTRA_TEXT))
+                        {
+                            whatToSend = (String) extras.getCharSequence(Intent.EXTRA_TEXT);
+                        }
+
+                        if (extras.containsKey(Intent.EXTRA_STREAM))
+                        {
+                            sendTo = true;
+                            sendMessageTo = "";
+                            fromNotification = false;
+                            attachedImage2 = intent.getParcelableExtra(Intent.EXTRA_STREAM);
+                        }
+                    }
+                }
+            } else
+            {
+                Bundle extras = intent.getExtras();
 
                 if (extras != null)
                 {
-                    if (extras.containsKey(Intent.EXTRA_TEXT))
+                    if (extras.containsKey("com.klinker.android.OPEN_THREAD"))
                     {
-                        whatToSend = (String) extras.getCharSequence(Intent.EXTRA_TEXT);
-                    }
-
-                    if (extras.containsKey(Intent.EXTRA_STREAM))
-                    {
-                        sendTo = true;
-                        sendMessageTo = "";
-                        fromNotification = false;
-                        attachedImage2 = intent.getParcelableExtra(Intent.EXTRA_STREAM);
+                        sendToThread = extras.getString("com.klinker.android.OPEN_THREAD");
+                        sendToMessage = extras.getString("com.klinker.android.CURRENT_TEXT");
                     }
                 }
-			}
-		} else
-		{
-			Bundle extras = intent.getExtras();
-			
-			if (extras != null)
-			{
-				if (extras.containsKey("com.klinker.android.OPEN_THREAD"))
-				{
-					sendToThread = extras.getString("com.klinker.android.OPEN_THREAD");
-					sendToMessage = extras.getString("com.klinker.android.CURRENT_TEXT");
-				}
-			}
-		}
+            }
+        } catch (Exception e) {
+
+        }
 		
 		if (sharedPrefs.getBoolean("custom_font", false))
 		{
@@ -573,6 +577,7 @@ s
 
                     try
                     {
+                        // TODO
                         if (address.replace(" ", "").replace("(", "").replace(")", "").replace("-", "").endsWith(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context).replace(" ", "").replace("(", "").replace(")", "").replace("-", "")))
                         {
                             animationReceived = 1;
@@ -1802,16 +1807,20 @@ s
 										public void run() {
                                             if (fromDraft)
                                             {
-                                                for (int i = 0; i < draftNames.size(); i++)
-                                                {
-                                                    if (draftNames.get(i).equals(threadIds.get(mViewPager.getCurrentItem())))
+                                                try {
+                                                    for (int i = 0; i < draftNames.size(); i++)
                                                     {
-                                                        draftsToDelete.add(draftNames.get(i));
-                                                        draftNames.remove(i);
-                                                        drafts.remove(i);
-                                                        draftChanged.remove(i);
-                                                        break;
+                                                        if (draftNames.get(i).equals(threadIds.get(mViewPager.getCurrentItem())))
+                                                        {
+                                                            draftsToDelete.add(draftNames.get(i));
+                                                            draftNames.remove(i);
+                                                            drafts.remove(i);
+                                                            draftChanged.remove(i);
+                                                            break;
+                                                        }
                                                     }
+                                                } catch (Exception e) {
+
                                                 }
                                             }
 
@@ -3630,25 +3639,25 @@ s
                                     break;
                                 }
                             }
+
+                            if (!contains && messageEntry.getText().toString().trim().length() > 0)
+                            {
+                                draftNames.add(newDraft);
+                                drafts.add(messageEntry.getText().toString());
+                                draftChanged.add(true);
+                            } else if (contains && messageEntry.getText().toString().trim().length() > 0)
+                            {
+                                drafts.set(where, messageEntry.getText().toString());
+                                draftChanged.set(where, true);
+                            } else if (contains && messageEntry.getText().toString().trim().length() == 0 && fromDraft)
+                            {
+                                draftsToDelete.add(draftNames.get(where));
+                                draftNames.remove(where);
+                                drafts.remove(where);
+                                draftChanged.remove(where);
+                            }
                         } catch (Exception e) {
 
-                        }
-
-                        if (!contains && messageEntry.getText().toString().trim().length() > 0)
-                        {
-                            draftNames.add(newDraft);
-                            drafts.add(messageEntry.getText().toString());
-                            draftChanged.add(true);
-                        } else if (contains && messageEntry.getText().toString().trim().length() > 0)
-                        {
-                            drafts.set(where, messageEntry.getText().toString());
-                            draftChanged.set(where, true);
-                        } else if (contains && messageEntry.getText().toString().trim().length() == 0 && fromDraft)
-                        {
-                            draftsToDelete.add(draftNames.get(where));
-                            draftNames.remove(where);
-                            drafts.remove(where);
-                            draftChanged.remove(where);
                         }
 
                         newDraft = "";
@@ -4957,61 +4966,65 @@ s
         new Thread(new Runnable() {
             @Override
             public void run() {
-                for (int i = 0; i < draftChanged.size(); i++) {
-                    if (draftChanged.get(i) == false) {
-                        draftChanged.remove(i);
-                        draftNames.remove(i);
-                        drafts.remove(i);
-                        i--;
-                    }
-                }
-
-                ArrayList<String> ids = new ArrayList<String>();
-
-                Cursor query = context.getContentResolver().query(Uri.parse("content://sms/draft/"), new String[] {"_id", "thread_id"}, null, null, null);
-
-                if (query != null) {
-                    if (query.moveToFirst()) {
-                        do {
-                            for (int i = 0; i < draftsToDelete.size(); i++) {
-                                if (query.getString(query.getColumnIndex("thread_id")).equals(draftsToDelete.get(i))) {
-                                    ids.add(query.getString(query.getColumnIndex("_id")));
-                                    break;
-                                }
-                            }
-
-                            for (int i = 0; i < draftNames.size(); i++) {
-                                if (draftNames.get(i).equals(query.getString(query.getColumnIndex("thread_id")))) {
-                                    context.getContentResolver().delete(Uri.parse("content://sms/" + query.getString(query.getColumnIndex("_id"))), null, null);
-                                    break;
-                                }
-                            }
-                        } while (query.moveToNext());
-
-                        for (int i = 0; i < ids.size(); i++) {
-                            context.getContentResolver().delete(Uri.parse("content://sms/" + ids.get(i)), null, null);
+                try {
+                    for (int i = 0; i < draftChanged.size(); i++) {
+                        if (draftChanged.get(i) == false) {
+                            draftChanged.remove(i);
+                            draftNames.remove(i);
+                            drafts.remove(i);
+                            i--;
                         }
                     }
 
-                    query.close();
-                }
+                    ArrayList<String> ids = new ArrayList<String>();
 
-                for (int i = 0; i < draftNames.size(); i++) {
-                    String address = "";
+                    Cursor query = context.getContentResolver().query(Uri.parse("content://sms/draft/"), new String[] {"_id", "thread_id"}, null, null, null);
 
-                    for (int j = 0; j < inboxNumber.size(); j++) {
-                        if (threadIds.get(j).equals(draftNames.get(i))) {
-                            address = findContactNumber(inboxNumber.get(j), context);
-                            break;
+                    if (query != null) {
+                        if (query.moveToFirst()) {
+                            do {
+                                for (int i = 0; i < draftsToDelete.size(); i++) {
+                                    if (query.getString(query.getColumnIndex("thread_id")).equals(draftsToDelete.get(i))) {
+                                        ids.add(query.getString(query.getColumnIndex("_id")));
+                                        break;
+                                    }
+                                }
+
+                                for (int i = 0; i < draftNames.size(); i++) {
+                                    if (draftNames.get(i).equals(query.getString(query.getColumnIndex("thread_id")))) {
+                                        context.getContentResolver().delete(Uri.parse("content://sms/" + query.getString(query.getColumnIndex("_id"))), null, null);
+                                        break;
+                                    }
+                                }
+                            } while (query.moveToNext());
+
+                            for (int i = 0; i < ids.size(); i++) {
+                                context.getContentResolver().delete(Uri.parse("content://sms/" + ids.get(i)), null, null);
+                            }
                         }
+
+                        query.close();
                     }
 
-                    ContentValues values = new ContentValues();
-                    values.put("address", address);
-                    values.put("thread_id", draftNames.get(i));
-                    values.put("body", drafts.get(i));
-                    values.put("type", "3");
-                    context.getContentResolver().insert(Uri.parse("content://sms/"), values);
+                    for (int i = 0; i < draftNames.size(); i++) {
+                        String address = "";
+
+                        for (int j = 0; j < inboxNumber.size(); j++) {
+                            if (threadIds.get(j).equals(draftNames.get(i))) {
+                                address = findContactNumber(inboxNumber.get(j), context);
+                                break;
+                            }
+                        }
+
+                        ContentValues values = new ContentValues();
+                        values.put("address", address);
+                        values.put("thread_id", draftNames.get(i));
+                        values.put("body", drafts.get(i));
+                        values.put("type", "3");
+                        context.getContentResolver().insert(Uri.parse("content://sms/"), values);
+                    }
+                } catch (Exception e) {
+
                 }
             }
         }).start();
@@ -5509,10 +5522,11 @@ s
 	
 	public void refreshViewPager4(String number, String body, String date)
 	{
+        number = number.replace("(", "").replace(")", "").replace("-", "").replace(" ", "").replace("+1", "");
         MainActivity.notChanged = false;
         MainActivity.threadedLoad = false;
 		int position = mViewPager.getCurrentItem();
-		String currentNumber = findContactNumber(inboxNumber.get(position), this);
+		String currentNumber = inboxNumber.get(position);
 		
 		boolean flag = false;
 		
@@ -5560,7 +5574,7 @@ s
 			
 			for (int i = 0; i < inboxNumber.size(); i++)
 			{
-				if (currentNumber.equals(findContactNumber(inboxNumber.get(i), this)))
+				if (currentNumber.equals(inboxNumber.get(i)))
 				{
 					position = i;
 					break;

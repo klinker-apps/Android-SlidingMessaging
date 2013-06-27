@@ -48,14 +48,18 @@ public class CacheService extends IntentService {
             do {
                 Uri uri2 = Uri.parse("content://mms-sms/conversations/" + conversationList.getString(conversationList.getColumnIndex("_id")) + "/");
                 String[] projection2;
+                String proj = "_id body date type read msg_box";
 
                 if (sharedPrefs.getBoolean("show_original_timestamp", false))
                 {
-                    projection2 = new String[]{"_id", "ct_t", "body", "date", "date_sent", "type", "read", "status", "msg_box"};
-                } else
-                {
-                    projection2 = new String[]{"_id", "ct_t", "body", "date", "type", "read", "status", "msg_box"};
+                    proj += " date_sent";
                 }
+
+                if (sharedPrefs.getBoolean("delivery_reports", false)) {
+                    proj += " status";
+                }
+
+                projection2 = proj.split(" ");
 
                 String sortOrder = "normalized_date desc";
 
