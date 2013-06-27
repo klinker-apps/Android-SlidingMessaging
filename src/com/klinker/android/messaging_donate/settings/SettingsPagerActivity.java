@@ -37,6 +37,7 @@ import java.io.*;
 import java.util.*;
 
 import group.pals.android.lib.ui.lockpattern.LockPatternActivity;
+import group.pals.android.lib.ui.lockpattern.prefs.SecurityPrefs;
 
 public class SettingsPagerActivity extends FragmentActivity {
 
@@ -754,8 +755,9 @@ public class SettingsPagerActivity extends FragmentActivity {
                             getPreferenceScreen().findPreference("auto_unlock").setEnabled(false);
                             getPreferenceScreen().findPreference("timeout_settings").setEnabled(true);
 
+                            SecurityPrefs.setAutoSavePattern(getActivity(), true);
                             Intent intent = new Intent(LockPatternActivity.ACTION_CREATE_PATTERN, null,
-                                    context, LockPatternActivity.class);
+                                    getActivity(), LockPatternActivity.class);
                             startActivityForResult(intent, REQ_CREATE_PATTERN);
                         }
                     }
@@ -778,8 +780,9 @@ public class SettingsPagerActivity extends FragmentActivity {
                         startActivity(intent);
                     } else if (sharedPrefs.getString("security_option", "none").equals("pattern"))
                     {
+                        SecurityPrefs.setAutoSavePattern(context, true);
                         Intent intent = new Intent(LockPatternActivity.ACTION_CREATE_PATTERN, null,
-                                context, LockPatternActivity.class);
+                                getActivity(), LockPatternActivity.class);
                         startActivityForResult(intent, REQ_CREATE_PATTERN);
                     }
                     return false;
@@ -1295,13 +1298,11 @@ public class SettingsPagerActivity extends FragmentActivity {
             } else if (requestCode == REQ_CREATE_PATTERN)
             {
                 if (resultCode == RESULT_OK) {
-                    char[] pattern = imageReturnedIntent.getCharArrayExtra(
-                            LockPatternActivity.EXTRA_PATTERN);
 
+                } else {
                     SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getActivity());
                     SharedPreferences.Editor editor = sharedPrefs.edit();
-
-                    editor.putString("password", new String(pattern));
+                    editor.putString("security_option", "none");
                     editor.commit();
                 }
             }

@@ -114,6 +114,7 @@ import com.klinker.android.messaging_sliding.security.PasswordActivity;
 import com.klinker.android.messaging_sliding.security.PinActivity;
 import com.klinker.android.messaging_sliding.templates.TemplateArrayAdapter;
 import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
+import group.pals.android.lib.ui.lockpattern.prefs.SecurityPrefs;
 import net.simonvt.messagebar.messagebar.MessageBar;
 
 import group.pals.android.lib.ui.lockpattern.LockPatternActivity;
@@ -4645,10 +4646,12 @@ s
             */
             switch (resultCode) {
                 case RESULT_OK:
-                    finish();
+                    SharedPreferences.Editor prefEdit = sharedPrefs.edit();
+                    prefEdit.putLong("last_time", Calendar.getInstance().getTimeInMillis());
+                    prefEdit.commit();
                     break;
                 case RESULT_CANCELED:
-                    onBackPressed();
+                    finish();
                     break;
                 case LockPatternActivity.RESULT_FAILED:
                     Context context = getApplicationContext();
@@ -4657,6 +4660,8 @@ s
 
                     Toast toast = Toast.makeText(context, text, duration);
                     toast.show();
+
+                    finish();
 
                     break;
             }
@@ -4899,13 +4904,10 @@ s
                     finish();
                 } else if (sharedPrefs.getString("security_option", "none").equals("pattern"))
                 {
-                    char[] savedPattern = sharedPrefs.getString("security_option", "none").toCharArray();
-
+                    SecurityPrefs.setAutoSavePattern(this, true);
                     Intent intent = new Intent(LockPatternActivity.ACTION_COMPARE_PATTERN, null,
-                            getApplicationContext(), LockPatternActivity.class);
-                    intent.putExtra(LockPatternActivity.EXTRA_PATTERN, savedPattern);
+                            this, LockPatternActivity.class);
                     startActivityForResult(intent, REQ_ENTER_PATTERN);
-                    //finish();
                 }
 
             }
