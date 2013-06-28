@@ -7127,8 +7127,6 @@ s
                         listView.setSelection(adapter.getCount() - 20);
                     }
 
-                    query.close();
-
                     // Notify PullToRefreshAttacher that the refresh has finished
                     mPullToRefreshAttacher.setRefreshComplete();
                 }
