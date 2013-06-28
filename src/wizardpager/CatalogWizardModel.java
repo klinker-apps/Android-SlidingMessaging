@@ -52,6 +52,7 @@ public class CatalogWizardModel extends AbstractWizardModel {
                 "- Scheduling SMS support\n" +
                 "- Draft support: By default, drafts are not auto inserted as this process causes lag when switching pages. You can turn on auto insert in message settings if you prefer that.\n" +
                 "- Pattern unlock security option\n" +
+                "- Pull to load more messages instead of clicking a button\n" +
                 "- Ability to cache conversations for smoother sliding\n" +
                 "- Performance increases\n" +
                 "- Fixes to WiFi MMS workaround, will now enable mobile data connection while sending and receiving MMS\n" +

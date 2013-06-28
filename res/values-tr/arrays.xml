@@ -180,6 +180,7 @@
     <string-array name="security_type">
         <item name="none">Güvenlik Kapalı</item>
         <item name="pin">PIN</item>
+        <item name="pattern">Pattern</item>
         <item name="password">Parola</item>
     </string-array>
 </resources>

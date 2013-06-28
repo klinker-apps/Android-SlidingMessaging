@@ -231,7 +231,15 @@ public class SendMessage extends Activity {
 	        		
 	        	}
 	        	
-	  		    Pattern pattern = Pattern.compile(text.toLowerCase());
+	  		    Pattern pattern;
+
+                try
+                {
+                    pattern = Pattern.compile(text.toLowerCase());
+                } catch (Exception e)
+                {
+                    pattern = Pattern.compile(text.toLowerCase().replace("(", "").replace(")", "").replace("?", "").replace("[", "").replace("{", "").replace("}", "").replace("\\", ""));
+                }
 	        	
 			    for (int i = 0; i < contactNames.size(); i++)
 			    {

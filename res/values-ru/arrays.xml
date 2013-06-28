@@ -148,6 +148,7 @@
     <string-array name="security_type">
         <item name="none">Без защиты</item>
         <item name="pin">ПИН</item>
+        <item name="pattern">Pattern</item>
         <item name="password">Пароль</item>
     </string-array>
 </resources>

@@ -600,4 +600,28 @@
     <string name="message_details">Подробности</string>
     <string name="twitter_link">СЛЕДУЙТЕ ЗА НОВОСТЯМИ: \nhttp://www.twitter.com/SlidingSMS</string>
 
+    <string name="date_picker">Choose a Date</string>
+    <string name="time_picker">Choose a Time</string>
+    <string name="scheduled_sms">Scheduled SMS</string>
+    <string name="repetition">Repetition:</string>
+    <string name="add_new_sms">New Scheduled SMS</string>
+    <string name="delete_scheduled_sms">Delete Scheduled SMS?</string>
+    <string name="backup_settings_title">Create new backup?</string>
+    <string name="backup_settings_summary">This will override all previous backups.</string>
+    <string name="receive_through_stock">Receive through Stock</string>
+    <string name="receive_through_stock_summary">Does not allow Sliding Messaging to save MMS messages, allowing your stock app to do so instead, even if you have check the \"Override Stock Messaging\" option.</string>
+    <string name="draft_found">Draft found</string>
+    <string name="apply_draft">Apply?</string>
+    <string name="auto_insert_draft">Auto Insert Drafts</string>
+    <string name="auto_insert_draft_summary">Will automatically insert draft into message entry box if present. If disabled, you will get a popup box to choose whether or not to insert each draft</string>
+    <string name="message_sounds">Message Sounds</string>
+    <string name="message_sounds_summary">Will play sound when message has sent</string>
+    <string name="ct_light_action_bar">Light Action Bar</string>
+    <string name="cache_conversations">Cache Conversations</string>
+    <string name="cache_conversations_summary">Caches conversations in the background to allow for faster loading times, has potential to affect battery life. This feature is still experimental.</string>
+    <string name="num_cache_conversations">Number of Cached Conversations</string>
+    <string name="num_cache_conversations_summary">Sets the number of conversations to be cached and quickly loaded at application startup and in the background</string>
+    <string name="changelog">Change Log</string>
+    <string name="tweet_us">Tweet Us!</string>
+
 </resources>
