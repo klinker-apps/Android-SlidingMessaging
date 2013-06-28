@@ -230,6 +230,39 @@ s
 
 		sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
+        /*
+        if (Calendar.getInstance().getTimeInMillis() >= sharedPrefs.getLong("appADay", 1373000400000L)) {    // That time is 07/05/13 in millis (this Friday)
+
+            PackageManager pm = getPackageManager();
+
+            try {
+                pm.getPackageInfo("com.imediapp.appgratis", PackageManager.GET_ACTIVITIES);
+
+            } catch (PackageManager.NameNotFoundException e) {
+
+                View layout = View.inflate(this, R.layout.app_a_day_dialog, null);
+                ImageView ad = (ImageView) layout.findViewById(R.id.app_a_day_ad);
+                ad.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Uri link = Uri.parse("http://appgratis.com/download/android/?source=SlidingMessaging_2013");
+                        startActivity(new Intent(Intent.ACTION_VIEW, link));
+                    }
+                });
+
+                new AlertDialog.Builder(this)
+                        .setTitle("HUGE thanks to our friends at…")
+                        .setView(layout)
+                        .create()
+                        .show();
+
+                SharedPreferences.Editor editor = sharedPrefs.edit();
+                editor.putLong("appADay", Calendar.getInstance().getTimeInMillis() + (2 * 24 * 60 * 60 * 1000));
+                editor.commit();
+            }
+        }
+        */
+
         if (sharedPrefs.getBoolean("ct_light_action_bar", false))
         {
             setTheme(R.style.HangoutsTheme);
