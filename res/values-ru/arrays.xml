@@ -68,7 +68,7 @@
     <item name="Black">Черный</item>
   </string-array>
   <string-array name="deliveryOptions">
-    <item name="none">Nothing on Delivery</item>
+    <item name="none">Нет</item>
     <item name="popup">Всплывающее окно</item>
     <item name="toast">Всплывающее уведомление снизу</item>
   </string-array>
@@ -148,7 +148,7 @@
     <string-array name="security_type">
         <item name="none">Без защиты</item>
         <item name="pin">ПИН</item>
-        <item name="pattern">Pattern</item>
+        <item name="pattern">Узор</item>
         <item name="password">Пароль</item>
     </string-array>
 </resources>

@@ -91,7 +91,7 @@
             android:name="com.klinker.android.messaging_card.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/CardTheme"
-            android:configChanges="orientation|screenSize|keyboardHidden|keyboard"
+            android:configChanges="orientation|screenSize"
             android:hardwareAccelerated="true"
             android:launchMode="singleTop">
         </activity>
@@ -100,7 +100,7 @@
             android:name="com.klinker.android.messaging_sliding.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme"
-            android:configChanges="orientation|screenSize|keyboardHidden|keyboard"
+            android:configChanges="orientation|screenSize"
             android:hardwareAccelerated="true"
             android:launchMode="singleTop">
         </activity>
