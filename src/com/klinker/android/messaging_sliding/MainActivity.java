@@ -273,7 +273,7 @@ s
 
         getWindow().setBackgroundDrawable(null);
 
-        mPullToRefreshAttacher = new PullToRefreshAttacher(this);
+        mPullToRefreshAttacher = new PullToRefreshAttacher(this, sharedPrefs.getBoolean("ct_light_action_bar", false));
 
         MainActivity.notChanged = true;
 		
@@ -5124,18 +5124,22 @@ s
 	public void onStart()
 	{
 		super.onStart();
-		
-		ComponentName receiver = new ComponentName(this, SentReceiver.class);
-		ComponentName receiver2 = new ComponentName(this, DeliveredReceiver.class);
-	    PackageManager pm = this.getPackageManager();
 
-	    pm.setComponentEnabledSetting(receiver,
-	            PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-	            PackageManager.DONT_KILL_APP);
-	    
-	    pm.setComponentEnabledSetting(receiver2,
-	    		PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-	            PackageManager.DONT_KILL_APP);
+        try {
+            ComponentName receiver = new ComponentName(this, SentReceiver.class);
+            ComponentName receiver2 = new ComponentName(this, DeliveredReceiver.class);
+            PackageManager pm = this.getPackageManager();
+
+            pm.setComponentEnabledSetting(receiver,
+                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                    PackageManager.DONT_KILL_APP);
+
+            pm.setComponentEnabledSetting(receiver2,
+                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                    PackageManager.DONT_KILL_APP);
+        } catch (Exception e) {
+
+        }
 		
 		if (firstRun)
 		{
