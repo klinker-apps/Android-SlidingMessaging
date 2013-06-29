@@ -2719,8 +2719,12 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 			}
 				
 		});
-		
-		messageEntry.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,2)));
+
+        try {
+            messageEntry.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,2)));
+        } catch (Exception e) {
+            messageEntry.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,1)));
+        }
 		
 		if (!sharedPrefs.getBoolean("emoji", false))
 		{

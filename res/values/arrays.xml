@@ -2,6 +2,10 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
     
     <string-array name="textSize">
+        <item name="8">8</item>
+        <item name="9">9</item>
+        <item name="10">10</item>
+        <item name="11">11</item>
         <item name="12">12</item>
         <item name="13">13</item>
         <item name="14">14</item>
@@ -13,6 +17,9 @@
         <item name="20">20</item>
         <item name="21">21</item>
         <item name="22">22</item>
+        <item name="23">23</item>
+        <item name="24">24</item>
+        <item name="25">25</item>
     </string-array>
     
     <string-array name="titleColorsSet">

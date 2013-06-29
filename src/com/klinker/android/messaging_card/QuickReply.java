@@ -1549,9 +1549,15 @@ public class QuickReply extends FragmentActivity {
 		    	name.setTypeface(font);
 		    	number.setTypeface(font);
 		    }
-			  
-			body.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,2)));
-			date.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,2)) - 4);
+
+            try {
+                body.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,2)));
+                date.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,2)) - 4);
+            } catch (Exception e) {
+                body.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,1)));
+                date.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,1)) - 4);
+            }
+
 			name.setTextSize((float)Integer.parseInt(sharedPrefs.getString("text_size2", 14 + "")));
 			number.setTextSize((float)Integer.parseInt(sharedPrefs.getString("text_size2", 14 + "")) - 2);
 			

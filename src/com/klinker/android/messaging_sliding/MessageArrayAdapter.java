@@ -309,9 +309,14 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
 			  viewHolder.image.setImageBitmap(contactImage);
 			  viewHolder.image2.setImageBitmap(myImage);
 		  }
-		  
-		  viewHolder.text.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,2)));
-		  viewHolder.text2.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,2)) - 4);
+
+          try {
+              viewHolder.text.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,2)));
+              viewHolder.text2.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,2)) - 4);
+          } catch (Exception e) {
+              viewHolder.text.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,1)));
+              viewHolder.text2.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,1)) - 4);
+          }
 		  
 		  if (sharedPrefs.getBoolean("tiny_date", false))
 		  {

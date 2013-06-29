@@ -39,8 +39,12 @@ public class TemplateArrayAdapter  extends ArrayAdapter<String> {
 	      
 	      ViewHolder viewHolder = new ViewHolder();
 	      viewHolder.text = (TextView) rowView.findViewById(R.id.template);
-	      
-	      viewHolder.text.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,2)));
+
+          try {
+              viewHolder.text.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,2)));
+          } catch (Exception e) {
+              viewHolder.text.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,1)));
+          }
 	      
 	      rowView.setTag(viewHolder);
 	    }

@@ -315,8 +315,12 @@ public class QuickReply extends Activity {
 				  contactBody.setText(EmoticonConverter3.getSmiledText(this, body));
 			  }
 		  }
-	    
-	    contactBody.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,2)));
+
+        try {
+            contactBody.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,2)));
+        } catch (Exception e) {
+            contactBody.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,1)));
+        }
 	    
 	    try
         {
@@ -1050,8 +1054,12 @@ public class QuickReply extends Activity {
 			}
 			
 		});
-		
-		messageEntry.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,2)));
+
+        try {
+            messageEntry.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,2)));
+        } catch (Exception e) {
+            messageEntry.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,1)));
+        }
 		
 		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && sharedPrefs.getBoolean("show_keyboard_popup", true))
 		{

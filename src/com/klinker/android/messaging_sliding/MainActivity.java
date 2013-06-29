@@ -1993,8 +1993,13 @@ s
 			}
 			
 		});
-		
-		messageEntry.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,2)));
+
+        try {
+            messageEntry.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,2)));
+        } catch (Exception e) {
+            messageEntry.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,1)));
+        }
+
 		
 		if (!sharedPrefs.getBoolean("emoji", false))
 		{
@@ -3370,8 +3375,12 @@ s
 		}
 		
 		ListView searchView = (ListView) newMessageView.findViewById(R.id.contactSearch);
-		
-		mEditText.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0, 2)));
+
+        try {
+            mEditText.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0, 2)));
+        } catch (Exception e) {
+            mEditText.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0, 1)));
+        }
 		
 		View v1 = newMessageView.findViewById(R.id.view1);
 		View v2 = newMessageView.findViewById(R.id.sentBackground);
