@@ -75,7 +75,7 @@ public class QuickReply extends FragmentActivity {
 	public SectionsPagerAdapter mSectionsPagerAdapter;
 	public ViewPager mViewPager;
 	
-	public static ArrayList<String> ids, inboxBody, inboxDate, inboxNumber;
+	public ArrayList<String> ids, inboxBody, inboxDate, inboxNumber;
 	public static SharedPreferences sharedPrefs;
 	
 	public static Typeface font;
@@ -1474,7 +1474,7 @@ public class QuickReply extends FragmentActivity {
 		}
 	}
 	
-	public static class PagerFragment extends Fragment {
+	public class PagerFragment extends Fragment {
 
 		public int position;
 		public Context context;
