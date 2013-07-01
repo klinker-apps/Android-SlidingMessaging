@@ -45,8 +45,6 @@
             android:text="@string/placeholder"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/card_conversation_summary"
-            android:linksClickable="true"
-            android:autoLink="all"
             />
 
         <Button

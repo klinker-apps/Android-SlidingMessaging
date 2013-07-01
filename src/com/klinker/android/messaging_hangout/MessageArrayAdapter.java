@@ -34,6 +34,7 @@ import android.text.Html;
 import android.text.Html.ImageGetter;
 import android.text.Spannable;
 import android.text.TextUtils;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.*;
 import android.view.View.OnClickListener;
@@ -1106,6 +1107,7 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
 							@Override
 							public void run() {
 									holder.text.setText(text);
+                                    Linkify.addLinks(holder.text, Linkify.ALL);
 							}
 
 					    });
@@ -1115,6 +1117,7 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
 			  } else
 			  {
 				  holder.text.setText(EmoticonConverter2.getSmiledText(context, body));
+                  Linkify.addLinks(holder.text, Linkify.ALL);
 			  }
 		  } else if (sharedPrefs.getString("smilies", "with").equals("without"))
 		  {
@@ -1145,6 +1148,7 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
 							@Override
 							public void run() {
 									holder.text.setText(text);
+                                Linkify.addLinks(holder.text, Linkify.ALL);
 							}
 
 					    });
@@ -1154,6 +1158,7 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
 			  } else
 			  {
 				  holder.text.setText(EmoticonConverter.getSmiledText(context, body));
+                  Linkify.addLinks(holder.text, Linkify.ALL);
 			  }
 		  } else if (sharedPrefs.getString("smilies", "with").equals("none"))
 		  {
@@ -1184,6 +1189,7 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
 							@Override
 							public void run() {
 									holder.text.setText(text);
+                                Linkify.addLinks(holder.text, Linkify.ALL);
 							}
 
 					    });
@@ -1193,6 +1199,7 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
 			  } else
 			  {
 				  holder.text.setText(body);
+                  Linkify.addLinks(holder.text, Linkify.ALL);
 			  }
 		  } else if (sharedPrefs.getString("smilies", "with").equals("both"))
 		  {
@@ -1223,6 +1230,7 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
 							@Override
 							public void run() {
 									holder.text.setText(text);
+                                Linkify.addLinks(holder.text, Linkify.ALL);
 							}
 
 					    });
@@ -1232,6 +1240,7 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
 		      } else
 			  {
 				  holder.text.setText(EmoticonConverter3.getSmiledText(context, body));
+                  Linkify.addLinks(holder.text, Linkify.ALL);
 			  }
 		  }
 

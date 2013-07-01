@@ -36,9 +36,7 @@
                 android:paddingTop="10dp"
                 android:text="@string/placeholder"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/card_conversation_summary"
-                android:linksClickable="true"
-                android:autoLink="all"/>
+                android:textColor="@color/card_conversation_summary"/>
 
         <ImageView
             android:layout_width="200dp"
