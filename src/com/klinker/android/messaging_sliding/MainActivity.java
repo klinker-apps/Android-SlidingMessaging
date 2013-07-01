@@ -156,9 +156,6 @@ s
 	public boolean firstRun = true;
 	public boolean firstContactSearch = true;
 	public boolean refreshMyContact = true;
-
-    public static int loadAllMessagesPosition = -1;
-    public static boolean loadAllMessages = false;
 	
 	public static boolean animationOn = false;
 	public static int animationReceived = 0;
@@ -185,6 +182,7 @@ s
 	public static boolean messageRecieved = false;
 	public static boolean sentMessage = false;
 	public static boolean loadAll = false;
+    public static int numToLoad = 20;
 	
 	public boolean sendTo = false;
 	public String sendMessageTo;
@@ -6794,6 +6792,8 @@ s
                 MainActivity.threadedLoad = false;
             }
 
+            MainActivity.numToLoad = 20;
+
             if (MainActivity.threadedLoad)
             {
                 if (MainActivity.waitToLoad)
@@ -6829,15 +6829,9 @@ s
 
                             String sortOrder = "normalized_date desc";
 
-                            if (sharedPrefs.getBoolean("limit_messages", true) && !(MainActivity.loadAllMessages && position == MainActivity.loadAllMessagesPosition))
+                            if (sharedPrefs.getBoolean("limit_messages", true))
                             {
-                                sortOrder += " limit 20";
-                            }
-
-                            if (MainActivity.loadAllMessages && position == MainActivity.loadAllMessagesPosition)
-                            {
-                                MainActivity.loadAllMessages = false;
-                                MainActivity.loadAllMessagesPosition = -1;
+                                sortOrder += " limit " + MainActivity.numToLoad;
                             }
 
                             messageQuery = contentResolver.query(uri3, projection2, null, null, sortOrder);
@@ -6916,15 +6910,9 @@ s
 
                 String sortOrder = "normalized_date desc";
 
-                if (sharedPrefs.getBoolean("limit_messages", true) && !(MainActivity.loadAllMessages && position == MainActivity.loadAllMessagesPosition))
+                if (sharedPrefs.getBoolean("limit_messages", true))
                 {
-                    sortOrder += " limit 20";
-                }
-
-                if (MainActivity.loadAllMessages && position == MainActivity.loadAllMessagesPosition)
-                {
-                    MainActivity.loadAllMessages = false;
-                    MainActivity.loadAllMessagesPosition = -1;
+                    sortOrder += " limit " + MainActivity.numToLoad;
                 }
 
                 if (!sharedPrefs.getBoolean("cache_conversations", false) || !CacheService.cached || !MainActivity.notChanged || !(position < sharedPrefs.getInt("num_cache_conversations", 5))) {
@@ -7028,18 +7016,10 @@ s
 
             String sortOrder = "normalized_date desc";
 
-            if (sharedPrefs.getBoolean("limit_messages", true) && !(MainActivity.loadAllMessages && position == MainActivity.loadAllMessagesPosition))
+            if (sharedPrefs.getBoolean("limit_messages", true))
             {
-                sortOrder += " limit 20";
+                sortOrder += " limit " + MainActivity.numToLoad;
             }
-
-            if (MainActivity.loadAllMessages && position == MainActivity.loadAllMessagesPosition)
-            {
-                MainActivity.loadAllMessages = false;
-                MainActivity.loadAllMessagesPosition = -1;
-            }
-
-            Log.v("loading", "Status: Started");
 
             return new android.content.CursorLoader(
                     context,
@@ -7091,8 +7071,7 @@ s
         @Override
         public void onRefreshStarted(View view) {
 
-            MainActivity.loadAllMessages = true;
-            MainActivity.loadAllMessagesPosition = position;
+            MainActivity.numToLoad += 20;
 
             new AsyncTask<Void, Void, Void>() {
 
@@ -7119,15 +7098,9 @@ s
 
                     String sortOrder = "normalized_date desc";
 
-                    if (sharedPrefs.getBoolean("limit_messages", true) && !(MainActivity.loadAllMessages && position == MainActivity.loadAllMessagesPosition))
+                    if (sharedPrefs.getBoolean("limit_messages", true))
                     {
-                        sortOrder += " limit 20";
-                    }
-
-                    if (MainActivity.loadAllMessages && position == MainActivity.loadAllMessagesPosition)
-                    {
-                        MainActivity.loadAllMessages = false;
-                        MainActivity.loadAllMessagesPosition = -1;
+                        sortOrder += " limit " + MainActivity.numToLoad;
                     }
 
                     query = context.getContentResolver().query(uri3, projection2, null, null, sortOrder);
@@ -7156,7 +7129,7 @@ s
                         listView.setStackFromBottom(true);
                         spinner.setVisibility (View.GONE);
 
-                        listView.setSelection(adapter.getCount() - 20);
+                        listView.setSelection(adapter.getCount() - MainActivity.numToLoad + 20);
                     } else
                     {
                         com.klinker.android.messaging_hangout.MessageArrayAdapter adapter = new com.klinker.android.messaging_hangout.MessageArrayAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), query, myPhoneNumber, position);
@@ -7165,7 +7138,7 @@ s
                         listView.setStackFromBottom(true);
                         spinner.setVisibility(View.GONE);
 
-                        listView.setSelection(adapter.getCount() - 20);
+                        listView.setSelection(adapter.getCount() - MainActivity.numToLoad + 20);
                     }
 
                     // Notify PullToRefreshAttacher that the refresh has finished
