@@ -337,6 +337,10 @@ public class MessageArrayAdapter extends ArrayAdapter<String> {
 	        	}
 	        	
 	        	cursor.close();
+
+                  if (image == null && video == null && body.equals("")) {
+                      throw new Exception();
+                  }
 		    } else {
 		    	String type = query.getString(query.getColumnIndex("type"));
 		

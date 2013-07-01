@@ -1,8 +1,8 @@
 package com.klinker.android.messaging_sliding.mms;
 
 public class PresetAPNs {
-	public static int CONFIRMED_APNS = 17;
-	public static int EXPERIMENTAL_APNS = 5;
+	public static int CONFIRMED_APNS = 19;
+	public static int EXPERIMENTAL_APNS = 3;
 	
 	public static String[] apns = {
 		"AT&T--http://mmsc.cingular.com, wireless.cingular.com, 80",
@@ -20,14 +20,14 @@ public class PresetAPNs {
 		"T-Mobile_US--http://mms.msg.eng.t-mobile.com/mms/wapenc, 216.155.165.50, 8080",
 		"T-Mobile_Polish--http://mms/servlets/mms, 213.158.194.226, 8080",
 		"Virgin_Mobile_Canada--http://mms.bell.ca/mms/wapenc, web.wireless.bell.ca, 80",
+        "Verizon_Wireless--http://mms.vtext.com/servlets/mms?X-VZW-MDN=**********, null, 8080",
+        "Verizon_Wireless_#2_(Try_this_if_first_doesn't_work_for_you)--http://mms.vtext.com/servlets/mms?X-VZW-MDN=**********, null, 80",
 		"Vodafone_UK--http://mms.vodafone.co.uk/servlets/mms, 212.183.137.012, 8799",
         "Vodafone_Au--http://pxt.vodafone.net.au/pxtsend, 10.202.2.60, 8080",
 		
 		
 		"Boost--http://mm.myboostmobile.com, 68.28.31.7, 80",
 		"Sprint--http://mms.sprintpcs.com, 68.28.31.7, 80",
-		"Verizon_Wireless--http://mms.vtext.com/servlets/mms?X-VZW-MDN=**********, null, 8080",
-		"Verizon_Wireless_#2_(Try_this_if_first_doesn't_work_for_you)--http://mms.vtext.com/servlets/mms?X-VZW-MDN=**********, null, 80",
 		"Virgin_Mobile--http://mmsc.vmobl.com:8088/mms?type=null, 205.239.233.136, 81"
 	};
 }
