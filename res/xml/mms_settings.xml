@@ -1,26 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
-    	<CheckBoxPreference 
-        	android:key="enable_mms"
-        	android:title="@string/enable_mms"
-            android:summary="@string/enable_mms_summary"
-        	android:defaultValue="false"
-        	android:selectable="true" 
-        	android:enabled="true" />
+    	<!--<CheckBoxPreference -->
+        	<!--android:key="enable_mms"-->
+        	<!--android:title="@string/enable_mms"-->
+            <!--android:summary="@string/enable_mms_summary"-->
+        	<!--android:defaultValue="false"-->
+        	<!--android:selectable="true" -->
+        	<!--android:enabled="true" />-->
         
         <CheckBoxPreference 
         	android:key="group_message"
         	android:title="@string/group_message"
         	android:summary="@string/group_message_summary"
-        	android:defaultValue="false"
-        	android:dependency="enable_mms" />
+        	android:defaultValue="false" />
         
         <CheckBoxPreference
             android:key="send_as_mms"
             android:title="@string/send_as_mms"
             android:summary="@string/send_as_mms_summary"
-            android:defaultValue="false"
-            android:dependency="enable_mms" />
+            android:defaultValue="false" />
         
         <Preference 
             android:key="mms_after"
@@ -33,14 +31,12 @@
             android:key="auto_download_mms"
             android:title="@string/auto_download_mms"
             android:defaultValue="false"
-            android:dependency="enable_mms"
         />
         
         <CheckBoxPreference 
             android:key="wifi_mms_fix"
             android:title="@string/wifi_mms_fix"
             android:summary="@string/wifi_mms_fix_summary"
-            android:dependency="enable_mms"
             android:defaultValue="true"
         />
 
@@ -48,7 +44,6 @@
             android:key="limit_attachment_size"
             android:title="@string/limit_attachment_size"
             android:summary="@string/limit_attachment_size_summary"
-            android:dependency="enable_mms"
             android:defaultValue="true"
         />
 
@@ -56,7 +51,6 @@
             android:key="send_with_stock"
             android:title="@string/send_with_stock"
             android:summary="@string/send_with_stock_summary"
-            android:dependency="enable_mms"
             android:defaultValue="false"
         />
 
@@ -64,7 +58,6 @@
             android:key="receive_with_stock"
             android:title="@string/receive_through_stock"
             android:summary="@string/receive_through_stock_summary"
-            android:dependency="enable_mms"
             android:defaultValue="false"
         />
         

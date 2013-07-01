@@ -471,8 +471,6 @@ public class MessageArrayAdapter extends ArrayAdapter<String> {
 
                   @Override
                   public void onClick(View v) {
-                      if (sharedPrefs.getBoolean("enable_mms", false))
-                      {
                           holder.downloadButton.setVisibility(View.INVISIBLE);
 
                           if (sharedPrefs.getBoolean("wifi_mms_fix", true))
@@ -750,11 +748,6 @@ public class MessageArrayAdapter extends ArrayAdapter<String> {
 
                               }).start();
                           }
-                      } else
-                      {
-                          Toast.makeText(context, "Enable MMS first in settings.", Toast.LENGTH_LONG).show();
-                      }
-
                   }
 
               });

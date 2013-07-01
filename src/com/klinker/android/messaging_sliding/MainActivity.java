@@ -3906,11 +3906,6 @@ s
                 }
             }
         }
-		
-		if (!sharedPrefs.getBoolean("enable_mms", false))
-		{
-			menu.getItem(1).setVisible(false);
-		}
 
         if (sharedPrefs.getBoolean("ct_light_action_bar", false))
         {
