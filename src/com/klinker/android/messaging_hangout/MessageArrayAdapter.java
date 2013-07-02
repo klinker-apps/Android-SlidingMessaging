@@ -721,7 +721,12 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
 
                                                   if (sharedPrefs.getBoolean("wifi_mms_fix", true))
                                                   {
-                                                      context.unregisterReceiver(discon);
+                                                      try {
+                                                          context.unregisterReceiver(discon);
+                                                      } catch (Exception e) {
+
+                                                      }
+
                                                       WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
                                                       wifi.setWifiEnabled(false);
                                                       wifi.setWifiEnabled(currentWifiState);
@@ -842,7 +847,12 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
 
                                       if (sharedPrefs.getBoolean("wifi_mms_fix", true))
                                       {
-                                          context.unregisterReceiver(discon);
+                                          try {
+                                              context.unregisterReceiver(discon);
+                                          } catch (Exception e) {
+
+                                          }
+
                                           WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
                                           wifi.setWifiEnabled(false);
                                           wifi.setWifiEnabled(currentWifiState);

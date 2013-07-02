@@ -466,11 +466,11 @@
     <string name="scheduled_sms">Zamanlnmş SMS</string>
     <string name="repetition">Tekrar:</string>
     <string name="add_new_sms">Yeni Zamanlnmş SMS</string>
-    <string name="delete_scheduled_sms">Zamanlanmış SMS'leri sil?</string>
+    <string name="delete_scheduled_sms">Zamanlanmış SMS\'leri sil?</string>
     <string name="backup_settings_title">Yeni yedek yarat?</string>
     <string name="backup_settings_summary">Bu işlem önceki yedekleri silecek.</string>
     <string name="receive_through_stock">Stok mesajlaşma ile al</string>
-    <string name="receive_through_stock_summary">\"Stok Mesaj Devre Dışı\" seçeneğini etkinleştirseniz bile Sliding Messaging ile MMS'lerinizi saklayamazsınız.</string>
+    <string name="receive_through_stock_summary">\"Stok Mesaj Devre Dışı\" seçeneğini etkinleştirseniz bile Sliding Messaging ile MMS\'lerinizi saklayamazsınız.</string>
     <string name="draft_found">Taslak bulundu</string>
     <string name="draft_found">Taslak bulundu</string>
     <string name="apply_draft">Uygula?</string>

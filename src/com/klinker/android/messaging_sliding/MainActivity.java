@@ -112,6 +112,7 @@ import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterServi
 import com.klinker.android.messaging_sliding.receivers.QuickTextService;
 import com.klinker.android.messaging_sliding.security.PasswordActivity;
 import com.klinker.android.messaging_sliding.security.PinActivity;
+import com.klinker.android.messaging_sliding.templates.TemplateActivity;
 import com.klinker.android.messaging_sliding.templates.TemplateArrayAdapter;
 import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
 import group.pals.android.lib.ui.lockpattern.prefs.SecurityPrefs;
@@ -4129,6 +4130,15 @@ s
 			footer.setText(getResources().getString(R.string.add_templates));
 			int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());
 			footer.setPadding(scale, scale, scale, scale);
+
+            footer.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(view.getContext(), TemplateActivity.class);
+                    startActivity(i);
+                }
+            });
+
 			templates.addFooterView(footer);
 			
 			final ArrayList<String> text = readFromFile4(this);
@@ -6184,7 +6194,12 @@ s
 						    
 						    if (sharedPrefs.getBoolean("wifi_mms_fix", true))
 							{
-							    context.unregisterReceiver(discon);
+                                try {
+                                    context.unregisterReceiver(discon);
+                                } catch (Exception e) {
+
+                                }
+
 							    WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 							    wifi.setWifiEnabled(false);
 							    wifi.setWifiEnabled(currentWifiState);
@@ -6200,7 +6215,12 @@ s
 					
 					if (sharedPrefs.getBoolean("wifi_mms_fix", true))
 					{
-					    context.unregisterReceiver(discon);
+                        try {
+                            context.unregisterReceiver(discon);
+                        } catch (Exception f) {
+
+                        }
+
 					    WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 					    wifi.setWifiEnabled(false);
 					    wifi.setWifiEnabled(currentWifiState);
