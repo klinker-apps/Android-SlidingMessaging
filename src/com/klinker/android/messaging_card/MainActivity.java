@@ -561,8 +561,12 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 					}
 				} catch (Exception e)
 				{
-					sendMessageTo = intent.getStringExtra("com.klinker.android.OPEN").replace("(", "").replace(")", "").replace("-", "").replace(" ", "");
-					fromDashclock = true;
+                    try {
+                        sendMessageTo = intent.getStringExtra("com.klinker.android.OPEN").replace("(", "").replace(")", "").replace("-", "").replace(" ", "");
+                        fromDashclock = true;
+                    } catch (Exception f) {
+
+                    }
 				}
 				
 				attachedImage = null;
@@ -5005,16 +5009,20 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 						        }
 					    	} catch (Exception e)
 					    	{
-					    		if (text.length() <= contactNames.get(i).length())
-						        {
-					    			Matcher matcher = pattern.matcher(contactNames.get(i).toLowerCase());
-							        if(matcher.find())
-							        {
-							        	searchedNames.add(contactNames.get(i));
-							        	searchedNumbers.add(contactNumbers.get(i));
-							        	searchedTypes.add(contactTypes.get(i));
-							        }
-						        }
+                                try {
+                                    if (text.length() <= contactNames.get(i).length())
+                                    {
+                                        Matcher matcher = pattern.matcher(contactNames.get(i).toLowerCase());
+                                        if(matcher.find())
+                                        {
+                                            searchedNames.add(contactNames.get(i));
+                                            searchedNumbers.add(contactNumbers.get(i));
+                                            searchedTypes.add(contactTypes.get(i));
+                                        }
+                                    }
+                                } catch (Exception f) {
+
+                                }
 					    	}
 					    }
 			        	

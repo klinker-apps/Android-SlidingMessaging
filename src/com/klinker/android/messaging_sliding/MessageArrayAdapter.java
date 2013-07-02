@@ -423,26 +423,23 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
 	        	                
 	        	            }
 	        	        }
-	        	        
-	        	        if (sharedPrefs.getBoolean("enable_mms", false))
-	    		    	{
-		        	        if ("image/jpeg".equals(type) || "image/bmp".equals(type) ||
-		        	                "image/gif".equals(type) || "image/jpg".equals(type) ||
-		        	                "image/png".equals(type)) {
-		        	        	if (image == null)
-		        	        	{
-		        	        		image = "content://mms/part/" + partId;
-		        	        	} else
-		        	        	{
-		        	        		image += " content://mms/part/" + partId;
-		        	        	}
-		        	        }
-		        	        
-		        	        if ("video/mpeg".equals(type) || "video/3gpp".equals(type))
-		        	        {
-		        	        	video = "content://mms/part/" + partId;
-		        	        }
-	    		    	}
+
+                        if ("image/jpeg".equals(type) || "image/bmp".equals(type) ||
+                                "image/gif".equals(type) || "image/jpg".equals(type) ||
+                                "image/png".equals(type)) {
+                            if (image == null)
+                            {
+                                image = "content://mms/part/" + partId;
+                            } else
+                            {
+                                image += " content://mms/part/" + partId;
+                            }
+                        }
+
+                        if ("video/mpeg".equals(type) || "video/3gpp".equals(type))
+                        {
+                            video = "content://mms/part/" + partId;
+                        }
 	        	    } while (cursor.moveToNext());
 	        	}
 	        	

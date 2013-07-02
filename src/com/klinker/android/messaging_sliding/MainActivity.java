@@ -2470,21 +2470,27 @@ s
 	        			do {
 	        				int type = people.getInt(people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
 	        				String customLabel = people.getString(people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.LABEL));
-	        				
-	        				if (sharedPrefs.getBoolean("mobile_only", false))
-	        				{
-	        					if (type == 2)
-	        					{
-	        						contactNames.add(people.getString(indexName));
-	    	        				contactNumbers.add(people.getString(indexNumber).replaceAll("[^0-9\\+]", ""));
-	        						contactTypes.add(ContactsContract.CommonDataKinds.Phone.getTypeLabel(context.getResources(), type, customLabel).toString());
-	        					}
-	        				} else
-	        				{
-	        					contactNames.add(people.getString(indexName));
-		        				contactNumbers.add(people.getString(indexNumber).replaceAll("[^0-9\\+]", ""));
-	        					contactTypes.add(ContactsContract.CommonDataKinds.Phone.getTypeLabel(context.getResources(), type, customLabel).toString());
-	        				}
+
+                            try {
+                                if (sharedPrefs.getBoolean("mobile_only", false))
+                                {
+                                    if (type == 2)
+                                    {
+                                        contactNames.add(people.getString(indexName));
+                                        contactNumbers.add(people.getString(indexNumber).replaceAll("[^0-9\\+]", ""));
+                                        contactTypes.add(ContactsContract.CommonDataKinds.Phone.getTypeLabel(context.getResources(), type, customLabel).toString());
+                                    }
+                                } else
+                                {
+                                    contactNames.add(people.getString(indexName));
+                                    contactNumbers.add(people.getString(indexNumber).replaceAll("[^0-9\\+]", ""));
+                                    contactTypes.add(ContactsContract.CommonDataKinds.Phone.getTypeLabel(context.getResources(), type, customLabel).toString());
+                                }
+                            } catch (Exception e) {
+                                contactNames.add(people.getString(indexName));
+                                contactNumbers.add(people.getString(indexName));
+                                contactTypes.add(ContactsContract.CommonDataKinds.Phone.getTypeLabel(context.getResources(), type, customLabel).toString());
+                            }
 	        			} while (people.moveToNext());
 	        			people.close();
 	        		} catch (IllegalArgumentException e)
@@ -6510,124 +6516,128 @@ s
 
 		@Override
 		public CharSequence getPageTitle(int position) {	
-			String text = "No Messages";
+			try {
+                String text = "No Messages";
 
-            if (!sharedPrefs.getBoolean("hide_title_bar", true))
-            {
+                if (!sharedPrefs.getBoolean("hide_title_bar", true))
+                {
+                    return "";
+                }
+
+                if (contact == null)
+                {
+                    if (inboxNumber.size() >= 1)
+                    {
+                        if (group.get(position).equals("yes"))
+                        {
+                            if (sharedPrefs.getBoolean("title_caps", true))
+                            {
+                                text = "GROUP MMS";
+                            } else
+                            {
+                                text = "Group MMS";
+                            }
+                        } else
+                        {
+                            if (sharedPrefs.getBoolean("title_caps", true))
+                            {
+                                if (sharedPrefs.getBoolean("always_show_contact_info", false))
+                                {
+                                    String[] names = findContactName(findContactNumber(inboxNumber.get(position), getBaseContext()), getBaseContext()).split(" ");
+                                    text = names[0].trim().toUpperCase(Locale.getDefault());
+                                } else
+                                {
+                                    text = findContactName(findContactNumber(inboxNumber.get(position), getBaseContext()), getBaseContext()).toUpperCase(Locale.getDefault());
+                                }
+                            } else
+                            {
+                                if (sharedPrefs.getBoolean("always_show_contact_info", false))
+                                {
+                                    try
+                                    {
+                                        String[] names = findContactName(findContactNumber(inboxNumber.get(position), getBaseContext()), getBaseContext()).split(" ");
+                                        text = names[0].trim();
+                                    } catch (Exception e)
+                                    {
+                                        text = findContactName(findContactNumber(inboxNumber.get(position), getBaseContext()), getBaseContext());
+                                    }
+                                } else
+                                {
+                                    text = findContactName(findContactNumber(inboxNumber.get(position), getBaseContext()), getBaseContext());
+                                }
+                            }
+                        }
+                    }
+
+                    return text;
+                } else
+                {
+                    try
+                    {
+                        if (contact.size() >= 1)
+                        {
+                            if (group.get(position).equals("yes"))
+                            {
+                                if (sharedPrefs.getBoolean("title_caps", true))
+                                {
+                                    text = "GROUP MMS";
+                                } else
+                                {
+                                    text = "Group MMS";
+                                }
+                            } else
+                            {
+                                if (sharedPrefs.getBoolean("title_caps", true))
+                                {
+                                    if (sharedPrefs.getBoolean("always_show_contact_info", false))
+                                    {
+                                        try
+                                        {
+                                            String[] names = contact.get(position).split(" ");
+                                            text = names[0].trim().toUpperCase(Locale.getDefault());
+                                        } catch (Exception e)
+                                        {
+                                            text = contact.get(position).toUpperCase(Locale.getDefault());
+                                        }
+                                    } else
+                                    {
+                                        text = contact.get(position).toUpperCase(Locale.getDefault());
+                                    }
+                                } else
+                                {
+                                    if (sharedPrefs.getBoolean("always_show_contact_info", false))
+                                    {
+                                        try
+                                        {
+                                            String[] names = contact.get(position).split(" ");
+                                            text = names[0].trim();
+                                        } catch (Exception e)
+                                        {
+                                            text = contact.get(position);
+                                        }
+                                    } else
+                                    {
+                                        text = contact.get(position);
+                                    }
+                                }
+                            }
+                        }
+
+                        return text;
+                    } catch (Exception e)
+                    {
+                        if (contact.size() > 0)
+                        {
+                            return contact.get(position);
+                        } else
+                        {
+                            return "No Messages";
+                        }
+                    }
+                }
+            } catch (Exception e) {
                 return "";
             }
-
-			if (contact == null)
-			{
-				if (inboxNumber.size() >= 1)
-				{
-					if (group.get(position).equals("yes"))
-					{
-						if (sharedPrefs.getBoolean("title_caps", true))
-						{
-							text = "GROUP MMS";
-						} else
-						{
-							text = "Group MMS";
-						}
-					} else
-					{
-						if (sharedPrefs.getBoolean("title_caps", true))
-						{
-							if (sharedPrefs.getBoolean("always_show_contact_info", false))
-							{
-								String[] names = findContactName(findContactNumber(inboxNumber.get(position), getBaseContext()), getBaseContext()).split(" ");
-								text = names[0].trim().toUpperCase(Locale.getDefault());
-							} else
-							{
-								text = findContactName(findContactNumber(inboxNumber.get(position), getBaseContext()), getBaseContext()).toUpperCase(Locale.getDefault());
-							}
-						} else
-						{
-							if (sharedPrefs.getBoolean("always_show_contact_info", false))
-							{
-								try
-								{
-									String[] names = findContactName(findContactNumber(inboxNumber.get(position), getBaseContext()), getBaseContext()).split(" ");
-									text = names[0].trim();
-								} catch (Exception e)
-								{
-									text = findContactName(findContactNumber(inboxNumber.get(position), getBaseContext()), getBaseContext());
-								}
-							} else
-							{
-								text = findContactName(findContactNumber(inboxNumber.get(position), getBaseContext()), getBaseContext());
-							}
-						}
-					}
-				}
-				
-				return text;
-			} else
-			{
-				try
-				{
-					if (contact.size() >= 1)
-					{
-						if (group.get(position).equals("yes"))
-						{
-							if (sharedPrefs.getBoolean("title_caps", true))
-							{
-								text = "GROUP MMS";
-							} else
-							{
-								text = "Group MMS";
-							}
-						} else
-						{
-							if (sharedPrefs.getBoolean("title_caps", true))
-							{
-								if (sharedPrefs.getBoolean("always_show_contact_info", false))
-								{
-									try
-									{
-										String[] names = contact.get(position).split(" ");
-										text = names[0].trim().toUpperCase(Locale.getDefault());
-									} catch (Exception e)
-									{
-										text = contact.get(position).toUpperCase(Locale.getDefault());
-									}
-								} else
-								{
-									text = contact.get(position).toUpperCase(Locale.getDefault());
-								}
-							} else
-							{
-								if (sharedPrefs.getBoolean("always_show_contact_info", false))
-								{
-									try
-									{
-										String[] names = contact.get(position).split(" ");
-										text = names[0].trim();
-									} catch (Exception e)
-									{
-										text = contact.get(position);
-									}
-								} else
-								{
-									text = contact.get(position);
-								}
-							}
-						}
-					}
-					
-					return text;
-				} catch (Exception e)
-				{
-					if (contact.size() > 0)
-					{
-						return contact.get(position);
-					} else
-					{
-						return "No Messages";
-					}
-				}
-			}
 		}
 	}
 

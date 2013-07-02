@@ -411,26 +411,23 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
 	        	                
 	        	            }
 	        	        }
-	        	        
-	        	        if (sharedPrefs.getBoolean("enable_mms", false))
-	    		    	{
-		        	        if ("image/jpeg".equals(type) || "image/bmp".equals(type) ||
-		        	                "image/gif".equals(type) || "image/jpg".equals(type) ||
-		        	                "image/png".equals(type)) {
-		        	        	if (image == null)
-		        	        	{
-		        	        		image = "content://mms/part/" + partId;
-		        	        	} else
-		        	        	{
-		        	        		image += " content://mms/part/" + partId;
-		        	        	}
-		        	        }
-		        	        
-		        	        if ("video/mpeg".equals(type) || "video/3gpp".equals(type))
-		        	        {
-		        	        	video = "content://mms/part/" + partId;
-		        	        }
-	    		    	}
+
+                        if ("image/jpeg".equals(type) || "image/bmp".equals(type) ||
+                                "image/gif".equals(type) || "image/jpg".equals(type) ||
+                                "image/png".equals(type)) {
+                            if (image == null)
+                            {
+                                image = "content://mms/part/" + partId;
+                            } else
+                            {
+                                image += " content://mms/part/" + partId;
+                            }
+                        }
+
+                        if ("video/mpeg".equals(type) || "video/3gpp".equals(type))
+                        {
+                            video = "content://mms/part/" + partId;
+                        }
 	        	    } while (cursor.moveToNext());
 	        	}
 	        	
@@ -554,14 +551,20 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
               holder.bubble.setColorFilter(sharedPrefs.getInt("ct_receivedMessageBackground", context.getResources().getColor(R.color.white)));
               holder.date.setText("");
 
+              boolean error2 = false;
+
               try
               {
                   holder.date.setText("Message size: " + (int)(Double.parseDouble(size)/1000) + " KB Expires: " +  DateFormat.getDateInstance(DateFormat.MEDIUM).format(new Date(Long.parseLong(exp) * 1000)));
                   holder.downloadButton.setVisibility(View.VISIBLE);
               } catch (Exception f)
               {
-                  holder.date.setText("Error loading message.");
-                  holder.downloadButton.setVisibility(View.GONE);
+                  try {
+                      holder.date.setText("Error loading message.");
+                      holder.downloadButton.setVisibility(View.GONE);
+                  } catch (Exception g) {
+                      error2 = true;
+                  }
               }
 
               holder.date.setGravity(Gravity.LEFT);
@@ -569,10 +572,11 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
               final String downloadLocation = location;
               final String msgId = id;
 
-              holder.downloadButton.setOnClickListener(new OnClickListener() {
+              if (!error2) {
+                  holder.downloadButton.setOnClickListener(new OnClickListener() {
 
-                  @Override
-                  public void onClick(View v) {
+                      @Override
+                      public void onClick(View v) {
                           holder.downloadButton.setVisibility(View.INVISIBLE);
 
                           if (sharedPrefs.getBoolean("wifi_mms_fix", true))
@@ -851,9 +855,10 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
                               }).start();
                           }
 
-                  }
+                      }
 
-              });
+                  });
+              }
 
               convertView.setPadding(10,5,10,5);
 
