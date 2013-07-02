@@ -34,8 +34,6 @@ public class BackupService extends IntentService {
         sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         context = getApplicationContext();
 
-        ArrayList<String> numbers = new ArrayList<String>();
-
         backupToDrive();
         backupToSD();
 

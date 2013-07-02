@@ -22,6 +22,29 @@
             android:dependency="use_backup"
             />
 
+    <CheckBoxPreference
+            android:key="delete_after_backup"
+            android:title="@string/delete_after_backup"
+            android:summary="@string/delete_after_backup_summary"
+            android:defaultValue="true"
+            android:dependency="use_backup"
+            />
+
+    <CheckBoxPreference
+            android:key="previous_day"
+            android:title="@string/dont_delete_previous"
+            android:summary="@string/dont_delete_previous_summary"
+            android:defaultValue="true"
+            android:dependency="use_backup"
+            />
+
+    <CheckBoxPreference
+            android:key="only_read"
+            android:title="@string/only_read"
+            android:defaultValue="true"
+            android:dependency="use_backup"
+            />
+
     <Preference
             android:key="run_backup"
             android:title="@string/run_backup"
