@@ -359,6 +359,10 @@
         </service>
 
         <service
+                android:name="com.klinker.android.messaging_sliding.backup.BackupService" >
+        </service>
+
+        <service
             android:name="com.klinker.android.messaging_sliding.receivers.CacheService" >
         </service>
         

@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.klinker.android.messaging_card.theme.PopupChooserActivity;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_sliding.DeleteOldService;
+import com.klinker.android.messaging_sliding.backup.BackupService;
 import com.klinker.android.messaging_sliding.blacklist.BlacklistActivity;
 import com.klinker.android.messaging_sliding.custom_dialogs.NumberPickerDialog;
 import com.klinker.android.messaging_sliding.notifications.NotificationsSettingsActivity;
@@ -815,6 +816,18 @@ public class SettingsPagerActivity extends FragmentActivity {
                     Intent intent = new Intent(getActivity(), com.klinker.android.messaging_sliding.backup.ScheduleBackup.class);
                     startActivity(intent);
                     overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                    return false;
+                }
+
+            });
+
+            Preference runNow = (Preference) findPreference("run_backup");
+            runNow.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+
+                @Override
+                public boolean onPreferenceClick(Preference arg0) {
+                    Intent intent = new Intent(getActivity(), BackupService.class);
+                    startService(intent);
                     return false;
                 }
 
