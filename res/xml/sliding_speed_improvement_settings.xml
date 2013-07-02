@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <CheckBoxPreference
+            android:key="use_backup"
+            android:title="@string/use_backup"
+            android:summary="@string/use_backup_summary"
+            android:defaultValue="false"
+            />
+
+    <CheckBoxPreference
+            android:key="sd_backup"
+            android:title="@string/sd_backup"
+            android:defaultValue="true"
+            android:dependency="use_backup"
+            />
+
+    <CheckBoxPreference
+            android:key="drive_backup"
+            android:title="@string/drive_backup"
+            android:defaultValue="false"
+            android:dependency="use_backup"
+            />
+
+    <Preference
+            android:key="run_backup"
+            android:title="@string/run_backup"
+            android:dependency="use_backup"
+            />
+
+    <Preference
+            android:key="schedule_backup"
+            android:title="@string/schedule_backup"
+            android:dependency="use_backup"
+            />
+
+</PreferenceScreen>

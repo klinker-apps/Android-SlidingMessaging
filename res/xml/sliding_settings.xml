@@ -38,24 +38,29 @@
     />
 
     <Preference
-        android:key="quick_template_settings"
-        android:title="@string/quick_templates"
-    />
-
-    <Preference
-        android:key="scheduled_sms"
-        android:title="@string/scheduled_sms"
-    />
-
-    <Preference
             android:key="security_settings"
             android:title="@string/security_settings"
+    />
+
+    <Preference
+            android:key="speed_improvement_settings"
+            android:title="@string/speed_improvement_settings"
     />
 
     <Preference
         android:key="advanced_settings"
         android:title="@string/advanced_settings"
     />
+
+    <Preference
+            android:key="quick_template_settings"
+            android:title="@string/quick_templates"
+            />
+
+    <Preference
+            android:key="scheduled_sms"
+            android:title="@string/scheduled_sms"
+            />
 
     <Preference
         android:key="delete_all"
