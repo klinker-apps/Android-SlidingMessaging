@@ -2,7 +2,9 @@
 <module type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="android" name="Android">
-      <configuration />
+      <configuration>
+        <option name="UPDATE_PROPERTY_FILES" value="true" />
+      </configuration>
     </facet>
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
@@ -16,9 +18,9 @@
     <orderEntry type="library" name="libs" level="project" />
     <orderEntry type="module" module-name="ColorPickerPreference" />
     <orderEntry type="module" module-name="ListViewAnimations" />
-    <orderEntry type="module" module-name="Actionbar PullToRefresh" />
     <orderEntry type="module" module-name="SlidingMenu" />
     <orderEntry type="module" module-name="code" />
+    <orderEntry type="module" module-name="ActionBar-PullToRefresh" />
   </component>
 </module>
 

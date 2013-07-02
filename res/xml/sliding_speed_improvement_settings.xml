@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <CheckBoxPreference
+            android:key="use_backup"
+            android:title="@string/use_backup"
+            android:summary="@string/use_backup_summary"
+            android:defaultValue="false"
+            />
+
+    <CheckBoxPreference
+            android:key="sd_backup"
+            android:title="@string/sd_backup"
+            android:defaultValue="true"
+            android:dependency="use_backup"
+            />
+
+    <CheckBoxPreference
+            android:key="drive_backup"
+            android:title="@string/drive_backup"
+            android:defaultValue="false"
+            android:dependency="use_backup"
+            />
+
+    <CheckBoxPreference
+            android:key="delete_after_backup"
+            android:title="@string/delete_after_backup"
+            android:summary="@string/delete_after_backup_summary"
+            android:defaultValue="true"
+            android:dependency="use_backup"
+            />
+
+    <CheckBoxPreference
+            android:key="previous_day"
+            android:title="@string/dont_delete_previous"
+            android:summary="@string/dont_delete_previous_summary"
+            android:defaultValue="true"
+            android:dependency="use_backup"
+            />
+
+    <CheckBoxPreference
+            android:key="only_read"
+            android:title="@string/only_read"
+            android:defaultValue="true"
+            android:dependency="use_backup"
+            />
+
+    <Preference
+            android:key="run_backup"
+            android:title="@string/run_backup"
+            android:dependency="use_backup"
+            />
+
+    <Preference
+            android:key="schedule_backup"
+            android:title="@string/schedule_backup"
+            android:dependency="use_backup"
+            />
+
+</PreferenceScreen>

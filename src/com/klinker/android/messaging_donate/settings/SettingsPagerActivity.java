@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.klinker.android.messaging_card.theme.PopupChooserActivity;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_sliding.DeleteOldService;
+import com.klinker.android.messaging_sliding.backup.BackupService;
 import com.klinker.android.messaging_sliding.blacklist.BlacklistActivity;
 import com.klinker.android.messaging_sliding.custom_dialogs.NumberPickerDialog;
 import com.klinker.android.messaging_sliding.notifications.NotificationsSettingsActivity;
@@ -167,6 +168,8 @@ public class SettingsPagerActivity extends FragmentActivity {
                 case 7:
                     return getResources().getString(R.string.security_settings);
                 case 8:
+                    return getResources().getString(R.string.speed_improvement_settings);
+                case 9:
                     return getResources().getString(R.string.advanced_settings);
             }
             return null;
@@ -227,6 +230,10 @@ public class SettingsPagerActivity extends FragmentActivity {
                     setUpSecuritySettings();
                     break;
                 case 8:
+                    addPreferencesFromResource(R.xml.sliding_speed_improvement_settings);
+                    setUpSpeedSettings();
+                    break;
+                case 9:
                     addPreferencesFromResource(R.xml.sliding_advanced_settings);
                     setUpAdvancedSettings();
                     break;
@@ -302,10 +309,18 @@ public class SettingsPagerActivity extends FragmentActivity {
                 }
             });
 
+            Preference speedImprovementSettings = (Preference) findPreference("speed_improvement_settings");
+            speedImprovementSettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                public boolean onPreferenceClick(Preference preference) {
+                    mViewPager.setCurrentItem(8, true);
+                    return true;
+                }
+            });
+
             Preference advancedSettings = (Preference) findPreference("advanced_settings");
             advancedSettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference preference) {
-                    mViewPager.setCurrentItem(8, true);
+                    mViewPager.setCurrentItem(9, true);
                     return true;
                 }
             });
@@ -785,6 +800,34 @@ public class SettingsPagerActivity extends FragmentActivity {
                                 getActivity(), LockPatternActivity.class);
                         startActivityForResult(intent, REQ_CREATE_PATTERN);
                     }
+                    return false;
+                }
+
+            });
+        }
+
+        public void setUpSpeedSettings()
+        {
+            Preference scheduleBackup = (Preference) findPreference("schedule_backup");
+            scheduleBackup.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+
+                @Override
+                public boolean onPreferenceClick(Preference arg0) {
+                    Intent intent = new Intent(getActivity(), com.klinker.android.messaging_sliding.backup.ScheduleBackup.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                    return false;
+                }
+
+            });
+
+            Preference runNow = (Preference) findPreference("run_backup");
+            runNow.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+
+                @Override
+                public boolean onPreferenceClick(Preference arg0) {
+                    Intent intent = new Intent(getActivity(), BackupService.class);
+                    startService(intent);
                     return false;
                 }
 
