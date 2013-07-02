@@ -4131,14 +4131,6 @@ s
 			int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());
 			footer.setPadding(scale, scale, scale, scale);
 
-            footer.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent i = new Intent(view.getContext(), TemplateActivity.class);
-                    startActivity(i);
-                }
-            });
-
 			templates.addFooterView(footer);
 			
 			final ArrayList<String> text = readFromFile4(this);
@@ -4148,6 +4140,16 @@ s
 			template.setView(templates);
 			final AlertDialog templateDialog = template.create();
 			templateDialog.show();
+
+            footer.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    templateDialog.dismiss();
+                    Intent i = new Intent(view.getContext(), TemplateActivity.class);
+                    startActivity(i);
+                    overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                }
+            });
 			
 			templates.setOnItemClickListener(new OnItemClickListener() {
 
