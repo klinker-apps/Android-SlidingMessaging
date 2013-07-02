@@ -417,7 +417,14 @@ public class QuickReply extends FragmentActivity {
             {
                 boolean alreadyExists = false;
                 int alreadyExistsPos = 0;
-                String number = query.getString(query.getColumnIndex("address")).replace("-", "").replace(")", "").replace("(", "").replace(" ", "");
+
+                String number;
+
+                try {
+                    number = query.getString(query.getColumnIndex("address")).replace("-", "").replace(")", "").replace("(", "").replace(" ", "");
+                } catch (Exception e) {
+                    number = "";
+                }
 
                 for (int i = 0; i < inboxNumber.size(); i++)
                 {

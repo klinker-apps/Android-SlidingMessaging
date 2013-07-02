@@ -555,9 +555,14 @@ public class ThemeChooserActivity extends Activity {
                     messageEntry.setLayoutParams(params);
                 }
 
-                titleBar.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
-                titleBar.setBackgroundColor(ThemeChooserActivity.themes.get(position).titleBarColor);
-                titleBar.setTextColor(ThemeChooserActivity.themes.get(position).titleBarTextColor);
+                try {
+                    titleBar.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
+                    titleBar.setBackgroundColor(ThemeChooserActivity.themes.get(position).titleBarColor);
+                    titleBar.setTextColor(ThemeChooserActivity.themes.get(position).titleBarTextColor);
+                } catch (Exception e) {
+
+                }
+
                 headerPadding.setBackgroundColor(ThemeChooserActivity.themes.get(position).messageListBackground);
                 sendbar.setBackgroundColor(ThemeChooserActivity.themes.get(position).sendbarBackground);
                 sentBackground.setBackgroundColor(ThemeChooserActivity.themes.get(position).sentMessageBackground);

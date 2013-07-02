@@ -353,8 +353,12 @@ public class BatchDeleteArrayAdapter extends ArrayAdapter<String> {
 					}
 				}
 			}
-			
-			return names.substring(2);
+
+            try {
+                return names.substring(2);
+            } catch (Exception e) {
+                return "";
+            }
 		}
 
 }

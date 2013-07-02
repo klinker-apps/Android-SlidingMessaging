@@ -3970,7 +3970,13 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 
         if (messageEntry.getText().toString().length() != 0) {
             draftChanged.add(true);
-            draftNames.add(threadIds.get(messagePager.getCurrentItem() - 1));
+
+            try {
+                draftNames.add(threadIds.get(messagePager.getCurrentItem() - 1));
+            } catch (Exception e) {
+                draftNames.add(threadIds.get(messagePager.getCurrentItem()));
+            }
+
             drafts.add(messageEntry.getText().toString());
             messageEntry.setText("");
         }

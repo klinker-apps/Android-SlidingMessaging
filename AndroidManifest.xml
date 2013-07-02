@@ -111,7 +111,8 @@
             android:theme="@android:style/Theme.Dialog"
             android:launchMode="singleTop"
             android:taskAffinity=""
-            android:excludeFromRecents="true" >
+            android:excludeFromRecents="true"
+            android:configChanges="orientation|screenSize">
         </activity>
         
         <activity
@@ -122,7 +123,8 @@
             android:taskAffinity=""
             android:excludeFromRecents="true"
             android:noHistory="true"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustResize"
+            android:configChanges="orientation|screenSize">
         </activity>
         
         <activity

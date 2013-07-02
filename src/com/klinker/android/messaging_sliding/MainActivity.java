@@ -2520,43 +2520,47 @@ s
 	        	{
 	        		pattern = Pattern.compile(text.toLowerCase().replace("(", "").replace(")", "").replace("?", "").replace("[", "").replace("{", "").replace("}", "").replace("\\", ""));
 	        	}
-	        	
-			    for (int i = 0; i < contactNames.size(); i++)
-			    {
-			    	try
-			    	{
-			    		Long.parseLong(text);
-			    		
-				        if (text.length() <= contactNumbers.get(i).length())
-				        {
-				        	Matcher matcher = pattern.matcher(contactNumbers.get(i));
-					        if(matcher.find())
-					        {
-					        	searchedNames.add(contactNames.get(i));
-					        	searchedNumbers.add(contactNumbers.get(i));
-					        	searchedTypes.add(contactTypes.get(i));
-					        }
-				        }
-			    	} catch (Exception e)
-			    	{
-                        if (contactNames == null)
+
+                try {
+                    for (int i = 0; i < contactNames.size(); i++)
+                    {
+                        try
                         {
-                            contactNames = new ArrayList<String>();
-                            contactNumbers = new ArrayList<String>();
-                            contactTypes = new ArrayList<String>();
+                            Long.parseLong(text);
+
+                            if (text.length() <= contactNumbers.get(i).length())
+                            {
+                                Matcher matcher = pattern.matcher(contactNumbers.get(i));
+                                if(matcher.find())
+                                {
+                                    searchedNames.add(contactNames.get(i));
+                                    searchedNumbers.add(contactNumbers.get(i));
+                                    searchedTypes.add(contactTypes.get(i));
+                                }
+                            }
+                        } catch (Exception e)
+                        {
+                            if (contactNames == null)
+                            {
+                                contactNames = new ArrayList<String>();
+                                contactNumbers = new ArrayList<String>();
+                                contactTypes = new ArrayList<String>();
+                            }
+                            if (text.length() <= contactNames.get(i).length())
+                            {
+                                Matcher matcher = pattern.matcher(contactNames.get(i).toLowerCase());
+                                if(matcher.find())
+                                {
+                                    searchedNames.add(contactNames.get(i));
+                                    searchedNumbers.add(contactNumbers.get(i));
+                                    searchedTypes.add(contactTypes.get(i));
+                                }
+                            }
                         }
-			    		if (text.length() <= contactNames.get(i).length())
-				        {
-			    			Matcher matcher = pattern.matcher(contactNames.get(i).toLowerCase());
-					        if(matcher.find())
-					        {
-					        	searchedNames.add(contactNames.get(i));
-					        	searchedNumbers.add(contactNumbers.get(i));
-					        	searchedTypes.add(contactTypes.get(i));
-					        }
-				        }
-			    	}
-			    }
+                    }
+                } catch (Exception e) {
+
+                }
 
                 Display display = getWindowManager().getDefaultDisplay();
                 Point size = new Point();
@@ -4935,23 +4939,27 @@ s
             }
         }
 
-        drafts = new ArrayList<String>();
-        draftNames = new ArrayList<String>();
-        draftChanged = new ArrayList<Boolean>();
-        draftsToDelete = new ArrayList<String>();
+        try {
+            drafts = new ArrayList<String>();
+            draftNames = new ArrayList<String>();
+            draftChanged = new ArrayList<Boolean>();
+            draftsToDelete = new ArrayList<String>();
 
-        Cursor query = getContentResolver().query(Uri.parse("content://sms/draft/"), new String[] {"thread_id", "body"}, null, null, null);
+            Cursor query = getContentResolver().query(Uri.parse("content://sms/draft/"), new String[] {"thread_id", "body"}, null, null, null);
 
-        if (query.moveToFirst())
-        {
-            do {
-                drafts.add(query.getString(query.getColumnIndex("body")));
-                draftNames.add(query.getString(query.getColumnIndex("thread_id")));
-                draftChanged.add(false);
-            } while (query.moveToNext());
+            if (query.moveToFirst())
+            {
+                do {
+                    drafts.add(query.getString(query.getColumnIndex("body")));
+                    draftNames.add(query.getString(query.getColumnIndex("thread_id")));
+                    draftChanged.add(false);
+                } while (query.moveToNext());
+            }
+
+            query.close();
+        } catch (Exception e) {
+
         }
-
-        query.close();
 
         int index = -1;
 
@@ -5156,114 +5164,118 @@ s
 			
 			if (sendTo && !fromNotification)
 			{
-				boolean flag = false;
-				
-				for (int i = 0; i < inboxNumber.size(); i++)
-				{
-					if (findContactNumber(inboxNumber.get(i), this).replace("-","").replace("+", "").equals(sendMessageTo.replace("-", "").replace("+1", "")))
-					{
-						mViewPager.setCurrentItem(i);
-						menu.showContent();
-						flag = true;
-						break;
-					}
-				}
-				
-				if (flag == false)
-				{
-					String name = findContactName(sendMessageTo, this);
-					
-					for (int i = 0; i < inboxNumber.size(); i++)
-					{
-						if (findContactName(findContactNumber(inboxNumber.get(i), this), this).equals(name))
-						{
-							mViewPager.setCurrentItem(i);
-							menu.showContent();
-							flag = true;
-							break;
-						}
-					}
-				}
-				
-				if (flag == false)
-				{
-                    View newMessage;
+                try {
+                    boolean flag = false;
 
-                    if (deviceType.equals("phone") || deviceType.equals("phablet2"))
+                    for (int i = 0; i < inboxNumber.size(); i++)
                     {
-                        menu.showSecondaryMenu();
-                        newMessage = menu.getSecondaryMenu();
-                    } else
-                    {
-                        menu.showMenu();
-                        newMessage = menu.getMenu();
+                        if (findContactNumber(inboxNumber.get(i), this).replace("-","").replace("+", "").equals(sendMessageTo.replace("-", "").replace("+1", "")))
+                        {
+                            mViewPager.setCurrentItem(i);
+                            menu.showContent();
+                            flag = true;
+                            break;
+                        }
                     }
 
-					EditText contact = (EditText) newMessage.findViewById(R.id.contactEntry);
-					contact.setText(sendMessageTo);
-					
-					if (attachedImage2 != null)
-					{
-						imageAttachBackground2.setBackgroundColor(sharedPrefs.getInt("ct_conversationListBackground", getResources().getColor(R.color.light_silver)));
-			    		Drawable attachBack = getResources().getDrawable(R.drawable.attachment_editor_bg);
-			    		attachBack.setColorFilter(sharedPrefs.getInt("ct_sentMessageBackground", getResources().getColor(R.color.white)), Mode.MULTIPLY);
-			    		imageAttach2.setBackgroundDrawable(attachBack);
-			    		imageAttachBackground2.setVisibility(View.VISIBLE);
-			    		imageAttach2.setVisibility(true);
-			    		
-			    		try
-			    		{
-			    			imageAttach2.setImage("send_image", decodeFile(new File(getPath(attachedImage2))));
-			    		} catch (Exception e)
-			    		{
-			    			Toast.makeText(this, "Error loading image", Toast.LENGTH_SHORT).show();
-			    			imageAttach2.setVisibility(false);
-			    			imageAttachBackground2.setVisibility(View.GONE);
-			    		}
-			    		
-			    		final Context context = this;
-			    		
-			    		Button viewImage = (Button) findViewById(R.id.view_image_button2);
-			    		Button replaceImage = (Button) findViewById(R.id.replace_image_button2);
-			    		Button removeImage = (Button) findViewById(R.id.remove_image_button2);
-			    		
-			    		viewImage.setOnClickListener(new OnClickListener() {
+                    if (flag == false)
+                    {
+                        String name = findContactName(sendMessageTo, this);
 
-							@Override
-							public void onClick(View arg0) {
-								context.startActivity(new Intent(Intent.ACTION_VIEW, attachedImage2));
-								
-							}
-			    			
-			    		});
-			    		
-			    		replaceImage.setOnClickListener(new OnClickListener() {
+                        for (int i = 0; i < inboxNumber.size(); i++)
+                        {
+                            if (findContactName(findContactNumber(inboxNumber.get(i), this), this).equals(name))
+                            {
+                                mViewPager.setCurrentItem(i);
+                                menu.showContent();
+                                flag = true;
+                                break;
+                            }
+                        }
+                    }
 
-							@Override
-							public void onClick(View v) {
-								Intent intent = new Intent();
-				                intent.setType("image/*");
-				                intent.setAction(Intent.ACTION_GET_CONTENT);
-				                startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.select_picture)), 2);
-								
-							}
-			    			
-			    		});
-			    		
-			    		removeImage.setOnClickListener(new OnClickListener() {
+                    if (flag == false)
+                    {
+                        View newMessage;
 
-							@Override
-							public void onClick(View v) {
-								imageAttach2.setVisibility(false);
-								imageAttachBackground2.setVisibility(View.GONE);
-								
-							}
-			    			
-			    		});
-					}
-				}
-				
-				sendTo = false;
+                        if (deviceType.equals("phone") || deviceType.equals("phablet2"))
+                        {
+                            menu.showSecondaryMenu();
+                            newMessage = menu.getSecondaryMenu();
+                        } else
+                        {
+                            menu.showMenu();
+                            newMessage = menu.getMenu();
+                        }
+
+                        EditText contact = (EditText) newMessage.findViewById(R.id.contactEntry);
+                        contact.setText(sendMessageTo);
+
+                        if (attachedImage2 != null)
+                        {
+                            imageAttachBackground2.setBackgroundColor(sharedPrefs.getInt("ct_conversationListBackground", getResources().getColor(R.color.light_silver)));
+                            Drawable attachBack = getResources().getDrawable(R.drawable.attachment_editor_bg);
+                            attachBack.setColorFilter(sharedPrefs.getInt("ct_sentMessageBackground", getResources().getColor(R.color.white)), Mode.MULTIPLY);
+                            imageAttach2.setBackgroundDrawable(attachBack);
+                            imageAttachBackground2.setVisibility(View.VISIBLE);
+                            imageAttach2.setVisibility(true);
+
+                            try
+                            {
+                                imageAttach2.setImage("send_image", decodeFile(new File(getPath(attachedImage2))));
+                            } catch (Exception e)
+                            {
+                                Toast.makeText(this, "Error loading image", Toast.LENGTH_SHORT).show();
+                                imageAttach2.setVisibility(false);
+                                imageAttachBackground2.setVisibility(View.GONE);
+                            }
+
+                            final Context context = this;
+
+                            Button viewImage = (Button) findViewById(R.id.view_image_button2);
+                            Button replaceImage = (Button) findViewById(R.id.replace_image_button2);
+                            Button removeImage = (Button) findViewById(R.id.remove_image_button2);
+
+                            viewImage.setOnClickListener(new OnClickListener() {
+
+                                @Override
+                                public void onClick(View arg0) {
+                                    context.startActivity(new Intent(Intent.ACTION_VIEW, attachedImage2));
+
+                                }
+
+                            });
+
+                            replaceImage.setOnClickListener(new OnClickListener() {
+
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent();
+                                    intent.setType("image/*");
+                                    intent.setAction(Intent.ACTION_GET_CONTENT);
+                                    startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.select_picture)), 2);
+
+                                }
+
+                            });
+
+                            removeImage.setOnClickListener(new OnClickListener() {
+
+                                @Override
+                                public void onClick(View v) {
+                                    imageAttach2.setVisibility(false);
+                                    imageAttachBackground2.setVisibility(View.GONE);
+
+                                }
+
+                            });
+                        }
+                    }
+
+                    sendTo = false;
+                } catch (Exception e) {
+
+                }
 			}
 			
 			if (sendToThread != null)

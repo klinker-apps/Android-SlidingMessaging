@@ -33,8 +33,12 @@ public class DeliveredReceiver extends BroadcastReceiver {
                                       dialog.dismiss();
                                   }
                               });
-                       
-                       builder.create().show();
+
+                       try {
+                           builder.create().show();
+                       } catch (Exception e) {
+
+                       }
                        
                        Cursor query = context.getContentResolver().query(Uri.parse("content://sms/sent"), null, null, null, "date desc");
                        

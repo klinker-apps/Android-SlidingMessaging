@@ -2318,7 +2318,7 @@ public MessageArrayAdapter(Activity context, String myId, String inboxNumbers, S
 					dialog.show();
 				}
 
-				return false;
+				return true;
 			}
 
 		});

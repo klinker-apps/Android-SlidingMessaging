@@ -2129,7 +2129,7 @@ public class MessageArrayAdapter extends ArrayAdapter<String> {
 					dialog.show();
 				}
 				
-				return false;
+				return true;
 			}
 			
 		});
