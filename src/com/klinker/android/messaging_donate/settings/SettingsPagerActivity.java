@@ -127,7 +127,7 @@ public class SettingsPagerActivity extends FragmentActivity {
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        public static final int NUM_PAGES = 9;
+        public static final int NUM_PAGES = 10;
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);

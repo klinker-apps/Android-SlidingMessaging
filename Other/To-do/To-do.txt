@@ -3,7 +3,7 @@ Version 6.60
 - Investigate MMS apns on stock
 - Message Locking?
 - Make MMS settings page in changelog wizard to easily select carrier
-- use linkify to make links clickable in messages
+- in app notifications with crouton
 - remake message array adapter as cursor adapter
 - remake menu array adapter
 
