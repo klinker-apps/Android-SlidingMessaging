@@ -22,7 +22,7 @@
             android:dependency="use_backup"
             />
 
-    <CheckBoxPreference
+    <!--<CheckBoxPreference
             android:key="delete_after_backup"
             android:title="@string/delete_after_backup"
             android:summary="@string/delete_after_backup_summary"
@@ -43,7 +43,7 @@
             android:title="@string/only_read"
             android:defaultValue="true"
             android:dependency="use_backup"
-            />
+            /> -->
 
     <Preference
             android:key="run_backup"
@@ -54,6 +54,7 @@
     <Preference
             android:key="schedule_backup"
             android:title="@string/schedule_backup"
+            android:summary="@string/schedule_backup_summary"
             android:dependency="use_backup"
             />
 

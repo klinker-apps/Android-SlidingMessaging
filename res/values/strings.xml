@@ -486,6 +486,7 @@
     <string name="drive_backup">Backup to Google Drive</string>
     <string name="run_backup">Run backup/delete now</string>
     <string name="schedule_backup">Schedule backup/delete</string>
+    <string name="schedule_backup_summary">WARNING: May backup and delete unread messages if scheduled before they are seen.</string>
     <string name="only_read">Delete read messages only</string>
     <string name="dont_delete_previous">Don\'t delete previous day</string>
     <string name="dont_delete_previous_summary">Keep the last day in the manifest so that you have only those messages after the backup and delete</string>
