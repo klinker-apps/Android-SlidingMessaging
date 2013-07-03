@@ -142,14 +142,47 @@ public class BackupService extends IntentService {
                             // formats the body to width of 30
                             /*if (body.length() > 30)
                             {
-                                int count = 0;
+                                int next = 30;
 
-                                for(int j = 0; j < (body.length() - 30); j += 30)
+                                for(int j = 0; j < (body.length() - 30); j += next)
                                 {
-                                    body = body.substring(j, j + 30) + "\n" + body.substring(j + 30, body.length());
-                                    count++;
+                                    if (body.charAt(next) == ' ')
+                                        body = body.substring(j, next) + "\n" + body.substring(j + next, body.length());
+                                    else
+                                    {
+                                        while(next > 0 + (j*30))
+                                        {
+                                            if (body.charAt(next) == ' ')
+                                            {
+                                                body = body.substring(j, next) + "\n" + body.substring(j + next, body.length());
+                                                break;
+                                            }
+                                            next--;
+                                        }
+                                    }
                                 }
                             }*/
+
+                            ArrayList<String> myBody = new ArrayList<String>();
+
+                            if (body.length() > 30)
+                            {
+                                for(int j = 0; j < (body.length() - 30); j += 30)
+                                {
+                                    int next = 30;
+
+                                    while (body.charAt(next) != ' ' && next > 0)
+                                        next--;
+
+                                    myBody.add(body.substring(0,next) + "\n");
+                                    body = body.substring(next, body.length());
+                                }
+                            }
+
+                            body = "";
+
+                            for (int x = 0; x < myBody.size(); x++)
+                                body += myBody.get(x);
 
                             // format the date
                             Date myDate = new Date(Long.parseLong(date));
