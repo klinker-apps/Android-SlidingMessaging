@@ -177,6 +177,9 @@ public class BackupService extends IntentService {
                                     myBody.add(body.substring(0,next) + "\n");
                                     body = body.substring(next, body.length());
                                 }
+                            } else
+                            {
+                                myBody.add(body);
                             }
 
                             body = "";
