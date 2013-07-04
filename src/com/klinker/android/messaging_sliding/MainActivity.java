@@ -641,7 +641,7 @@ s
                         public void run() {
                             deleteDraft = true;
                         }
-                    }, 500);
+                    }, 2000);
 		        	
 		        	if (!sharedPrefs.getBoolean("hide_title_bar", true) || sharedPrefs.getBoolean("always_show_contact_info", false))
 					{
@@ -5852,7 +5852,7 @@ s
 				}
 			}
 			
-			mViewPager.setCurrentItem(position);
+			mViewPager.setCurrentItem(position, false);
 			
 			final ImageView glow = (ImageView) findViewById(R.id.newMessageGlow);
 			glow.setVisibility(View.VISIBLE);
