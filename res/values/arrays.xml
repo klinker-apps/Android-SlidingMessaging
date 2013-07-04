@@ -291,6 +291,18 @@
         <item name="right">right</item>
         <item name="left">left</item>
     </string-array>
+
+    <string-array name="textAlignment2">
+        <item name="center">Center Alignment</item>
+        <item name="right">Right Alignment</item>
+        <item name="left">Left Alignment</item>
+    </string-array>
+
+    <string-array name="textAlignmentInserted2">
+        <item name="center">center</item>
+        <item name="right">right</item>
+        <item name="left">left</item>
+    </string-array>
     
     <string-array name="selectImage">
         <item name="select">Select Image</item>

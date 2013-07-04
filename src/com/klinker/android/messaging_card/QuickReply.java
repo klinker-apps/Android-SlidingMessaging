@@ -12,7 +12,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import android.app.*;
-import android.view.WindowManager;
+import android.view.*;
 import android.widget.*;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.StripAccents;
@@ -56,9 +56,6 @@ import android.text.InputType;
 import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
 import android.text.method.ScrollingMovementMethod;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -1556,6 +1553,12 @@ public class QuickReply extends FragmentActivity {
 		    	name.setTypeface(font);
 		    	number.setTypeface(font);
 		    }
+
+            if (sharedPrefs.getString("text_alignment_popup", "center").equals("right")) {
+                body.setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
+            } else if (sharedPrefs.getString("text_alignment_popup", "center").equals("left")) {
+                body.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
+            }
 
             try {
                 body.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,2)));

@@ -1,5 +1,6 @@
 package com.klinker.android.messaging_sliding.quick_reply;
 
+import android.view.*;
 import android.widget.*;
 import com.klinker.android.messaging_donate.R;
 
@@ -52,11 +53,7 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
-import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.LayoutInflater;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView.OnItemClickListener;
@@ -155,6 +152,12 @@ public class QuickReply extends Activity {
 			  messageEntry.setTypeface(font);
 			  charsRemaining.setTypeface(font);
 		  }
+
+        if (sharedPrefs.getString("text_alignment_popup", "center").equals("right")) {
+            contactBody.setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
+        } else if (sharedPrefs.getString("text_alignment_popup", "center").equals("left")) {
+            contactBody.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
+        }
 	    
 	    if (!sharedPrefs.getBoolean("keyboard_type", true))
 		{

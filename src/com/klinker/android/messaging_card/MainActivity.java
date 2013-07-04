@@ -3636,38 +3636,42 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 			if (sendTo && !fromDashclock)
 			{
 				boolean flag = false;
-				
-				if (attachedImage == null)
-				{
-					for (int i = 0; i < inboxNumber.size(); i++)
-					{
-						if (findContactNumber(inboxNumber.get(i), this).replace("-","").replace("+", "").startsWith(sendMessageTo.replace("-", "").replace("+1", "")) || findContactNumber(inboxNumber.get(i), this).replace("-","").replace("+", "").endsWith(sendMessageTo.replace("-", "").replace("+1", "")))
-						{
-							MainActivity.isFastScrolling = true;
-							MainActivity.scrollTo = i + 1;
-							messagePager.setCurrentItem(i + 1);
-							flag = true;
-							break;
-						}
-					}
-					
-					if (flag == false)
-					{
-						String name = findContactName(sendMessageTo.replace("-","").replace("+1", "").replace("+", ""), this);
-						
-						for (int i = 0; i < inboxNumber.size(); i++)
-						{
-							if (findContactName(findContactNumber(inboxNumber.get(i), this), this).equals(name))
-							{
-								MainActivity.isFastScrolling = true;
-								MainActivity.scrollTo = i + 1;
-								messagePager.setCurrentItem(i + 1);
-								flag = true;
-								break;
-							}
-						}
-					}
-				}
+
+                try {
+                    if (attachedImage == null)
+                    {
+                        for (int i = 0; i < inboxNumber.size(); i++)
+                        {
+                            if (findContactNumber(inboxNumber.get(i), this).replace("-","").replace("+", "").startsWith(sendMessageTo.replace("-", "").replace("+1", "")) || findContactNumber(inboxNumber.get(i), this).replace("-","").replace("+", "").endsWith(sendMessageTo.replace("-", "").replace("+1", "")))
+                            {
+                                MainActivity.isFastScrolling = true;
+                                MainActivity.scrollTo = i + 1;
+                                messagePager.setCurrentItem(i + 1);
+                                flag = true;
+                                break;
+                            }
+                        }
+
+                        if (flag == false)
+                        {
+                            String name = findContactName(sendMessageTo.replace("-","").replace("+1", "").replace("+", ""), this);
+
+                            for (int i = 0; i < inboxNumber.size(); i++)
+                            {
+                                if (findContactName(findContactNumber(inboxNumber.get(i), this), this).equals(name))
+                                {
+                                    MainActivity.isFastScrolling = true;
+                                    MainActivity.scrollTo = i + 1;
+                                    messagePager.setCurrentItem(i + 1);
+                                    flag = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+
+                }
 				
 				if (flag == false)
 				{
