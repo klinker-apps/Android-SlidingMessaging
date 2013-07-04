@@ -140,47 +140,22 @@ public class BackupService extends IntentService {
                                 phone = phone.substring(phone.length() - 10, phone.length());
 
                             // formats the body to width of 30
-                            /*if (body.length() > 30)
-                            {
-                                int next = 30;
-
-                                for(int j = 0; j < (body.length() - 30); j += next)
-                                {
-                                    if (body.charAt(next) == ' ')
-                                        body = body.substring(j, next) + "\n" + body.substring(j + next, body.length());
-                                    else
-                                    {
-                                        while(next > 0 + (j*30))
-                                        {
-                                            if (body.charAt(next) == ' ')
-                                            {
-                                                body = body.substring(j, next) + "\n" + body.substring(j + next, body.length());
-                                                break;
-                                            }
-                                            next--;
-                                        }
-                                    }
-                                }
-                            }*/
-
                             ArrayList<String> myBody = new ArrayList<String>();
 
-                            if (body.length() > 30)
+                            while(body.length() > 30)
                             {
-                                for(int j = 0; j < (body.length() - 30); j += 30)
-                                {
-                                    int next = 30;
+                                int index = 30;
+                                while(body.charAt(index) != ' ' && index > 0)
+                                    index--;
+                                if (type == 1)
+                                    myBody.add(body.substring(0,index) + "\n");
+                                else if (type == 2)
+                                    myBody.add(body.substring(0,index) + "\n\t\t\t\t");
 
-                                    while (body.charAt(next) != ' ' && next > 0)
-                                        next--;
-
-                                    myBody.add(body.substring(0,next) + "\n");
-                                    body = body.substring(next, body.length());
-                                }
-                            } else
-                            {
-                                myBody.add(body);
+                                body = body.substring(index + 1, body.length());
                             }
+
+                            myBody.add(body);
 
                             body = "";
 
@@ -206,8 +181,12 @@ public class BackupService extends IntentService {
                                 date += " " + (DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(myDate));
                             }
 
+                            String name = com.klinker.android.messaging_card.MainActivity.findContactName(phone, this);
+
+                            name = name.replace(" ", "_");
+
                             OutputStreamWriter outputStreamWriter;
-                            outputStreamWriter = new OutputStreamWriter(new FileOutputStream(Environment.getExternalStorageDirectory() + "/Messages/SMS/" + phone + ".txt", true));
+                            outputStreamWriter = new OutputStreamWriter(new FileOutputStream(Environment.getExternalStorageDirectory() + "/Messages/SMS/" + name + ".txt", true));
 
                             if (type == 1)
                                 outputStreamWriter.append(body + "\n" + date + "\n\n");
