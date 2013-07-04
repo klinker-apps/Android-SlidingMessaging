@@ -3934,6 +3934,8 @@ s
                                             messageBar.show(getString(R.string.draft_found), getString(R.string.apply_draft));
                                         }
                                     }
+                                } else {
+                                    fromDraft = true;
                                 }
                             }
 
