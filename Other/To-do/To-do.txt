@@ -6,6 +6,14 @@ Version 6.60
 - in app notifications with crouton
 - remake message array adapter as cursor adapter
 - remake menu array adapter
+- sms backup
+	- different icon in notification
+	- apply for mms
+	- redo cursors for more efficiency
+	- make sure menu page works as expected (closes alarm manager on uncheck, makes SD or Drive is checked when you run it)
+	- implement store to drive (comment out the choices until that is done)
+	- actually delete the messages :) just uncomment the code. it should work just fine
+	- add notifications to delete and drive backup
 
 0) more individual notification options
 3) Batch delete of messages inside single conversation
