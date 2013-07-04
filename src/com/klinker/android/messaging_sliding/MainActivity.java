@@ -177,6 +177,7 @@ s
     public ArrayList<String> draftsToDelete;
     public boolean fromDraft = false;
     public String newDraft = "";
+    public boolean deleteDraft = true;
 	
 	public ListView menuLayout;
 	public MenuArrayAdapter menuAdapter;
@@ -619,7 +620,6 @@ s
 
                     try
                     {
-                        // TODO
                         if (address.replace(" ", "").replace("(", "").replace(")", "").replace("-", "").endsWith(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context).replace(" ", "").replace("(", "").replace(")", "").replace("-", "")))
                         {
                             animationReceived = 1;
@@ -632,8 +632,16 @@ s
                     {
                         animationReceived = 2;
                     }
-			        
+
+                    deleteDraft = false;
 		        	refreshViewPager4(address, body, date);
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            deleteDraft = true;
+                        }
+                    }, 500);
 		        	
 		        	if (!sharedPrefs.getBoolean("hide_title_bar", true) || sharedPrefs.getBoolean("always_show_contact_info", false))
 					{
@@ -3901,28 +3909,30 @@ s
                                     ab.setIcon(icon);
                                 }
 
-                                if (!messageEntry.getText().equals("")) {
-                                    messageEntry.setText("");
-                                }
+                                if (deleteDraft) {
+                                    if (!messageEntry.getText().equals("")) {
+                                        messageEntry.setText("");
+                                    }
 
-                                fromDraft = false;
+                                    fromDraft = false;
 
-                                if (indexF != -1) {
-                                    if (sharedPrefs.getBoolean("auto_insert_draft", false)) {
-                                        fromDraft = true;
-                                        messageEntry.setText(drafts.get(indexF));
-                                        messageEntry.setSelection(drafts.get(indexF).length());
-                                    } else {
-                                        messageBar.setOnClickListener(new MessageBar.OnMessageClickListener() {
-                                            @Override
-                                            public void onMessageClick(Parcelable token) {
-                                                fromDraft = true;
-                                                messageEntry.setText(drafts.get(indexF));
-                                                messageEntry.setSelection(drafts.get(indexF).length());
-                                            }
-                                        });
+                                    if (indexF != -1) {
+                                        if (sharedPrefs.getBoolean("auto_insert_draft", false)) {
+                                            fromDraft = true;
+                                            messageEntry.setText(drafts.get(indexF));
+                                            messageEntry.setSelection(drafts.get(indexF).length());
+                                        } else {
+                                            messageBar.setOnClickListener(new MessageBar.OnMessageClickListener() {
+                                                @Override
+                                                public void onMessageClick(Parcelable token) {
+                                                    fromDraft = true;
+                                                    messageEntry.setText(drafts.get(indexF));
+                                                    messageEntry.setSelection(drafts.get(indexF).length());
+                                                }
+                                            });
 
-                                        messageBar.show(getString(R.string.draft_found), getString(R.string.apply_draft));
+                                            messageBar.show(getString(R.string.draft_found), getString(R.string.apply_draft));
+                                        }
                                     }
                                 }
                             }

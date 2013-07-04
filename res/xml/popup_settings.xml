@@ -29,11 +29,11 @@
 	/>
 
     <ListPreference
-        android:key="text_alignment_popup"
+        android:key="text_alignment2"
         android:title="@string/text_alignment"
-        android:defaultValue="split"
+        android:defaultValue="center"
         android:entries="@array/textAlignment2"
-        android:entryValues="@array/textAlignmentInserted2"
+        android:entryValues="@array/textAlignmentInserted"
     />
 
 	<CheckBoxPreference
