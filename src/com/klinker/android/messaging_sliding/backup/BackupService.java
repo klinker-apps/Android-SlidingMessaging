@@ -93,6 +93,15 @@ public class BackupService extends IntentService {
 
             query.close();
 
+            NotificationManager mNotifyManager =
+                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
+            mBuilder.setContentTitle("Backup to SD Card")
+                    .setContentText("Backup in progress")
+                    .setSmallIcon(R.drawable.ic_action_discard);
+
+
+
             // 1. set up the output file with contact names
             // 2. check if it already exists or not
             // 3. start by writing header or appending to the end
@@ -100,6 +109,8 @@ public class BackupService extends IntentService {
 
             for (int i = 0; i < threadIds.size(); i++)
             {
+                mNotifyManager.notify(0, mBuilder.build());
+
                 ContentResolver contentResolver = getContentResolver();
                 final String[] project = new String[]{"_id", "ct_t"};
                 uri = Uri.parse("content://mms-sms/conversations/" + threadIds.get(i) + "/");
@@ -110,6 +121,7 @@ public class BackupService extends IntentService {
                         String string = query.getString(query.getColumnIndex("ct_t"));
                         if ("application/vnd.wap.multipart.related".equals(string)) {
                             // it's MMS
+
                         } else {
                             // it's SMS
 
@@ -200,47 +212,13 @@ public class BackupService extends IntentService {
 
                 query.close();
 
-
+                mBuilder.setProgress(threadIds.size(), i, false);
 
             }
 
-            /*OutputStreamWriter outputStreamWriter;
-            outputStreamWriter = new OutputStreamWriter(new FileOutputStream(Environment.getExternalStorageDirectory() + "/Messages/ids.txt"));
-
-            ArrayList<String> threadIds = new ArrayList<String>();
-            String[] projection = new String[]{"_id"};
-            Uri uri = Uri.parse("content://mms-sms/conversations/?simple=true");
-            Cursor query = context.getContentResolver().query(uri, projection, null, null, null);
-
-            if (query.moveToFirst())
-            {
-                do
-                {
-                    threadIds.add(query.getString(query.getColumnIndex("_id")));
-                } while (query.moveToNext());
-            }
-
-            for (int i = 0; i < threadIds.size(); i++)
-                outputStreamWriter.write(threadIds.get(i) + "\n");
-
-            outputStreamWriter.close();*/
-
-            /*
-            ArrayList<String> threadIds = new ArrayList<String>();
-            String[] projection = new String[]{"_id"};
-            Uri uri = Uri.parse("content://mms-sms/conversations/?simple=true");
-            Cursor query = context.getContentResolver().query(uri, projection, null, null, null);
-
-            if (query.moveToFirst())
-            {
-                do
-                {
-                    threadIds.add(query.getString(query.getColumnIndex("_id")));
-                } while (query.moveToNext());
-            }
-
-            for (int i = 0; i < threadIds.size(); i++)
-                //fos.write(threadIds.get(i).getBytes());*/
+            mBuilder.setContentText("Backup complete")
+                    .setProgress(0,0,false);
+            mNotifyManager.notify(0, mBuilder.build());
 
         }
         catch (IOException e) {
