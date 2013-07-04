@@ -446,6 +446,7 @@ s
 		receiver = new BroadcastReceiver() {
 		    @Override
 		    public void onReceive(final Context context, Intent intent) {
+                    deleteDraft = false;
 			    	Bundle extras = intent.getExtras();
 			        
 			        String body = "";
@@ -633,15 +634,7 @@ s
                         animationReceived = 2;
                     }
 
-                    deleteDraft = false;
 		        	refreshViewPager4(address, body, date);
-
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            deleteDraft = true;
-                        }
-                    }, 2000);
 		        	
 		        	if (!sharedPrefs.getBoolean("hide_title_bar", true) || sharedPrefs.getBoolean("always_show_contact_info", false))
 					{
@@ -712,6 +705,13 @@ s
 					
 					Intent updateWidget = new Intent("com.klinker.android.messaging.UPDATE_WIDGET");
 					context.sendBroadcast(updateWidget);
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            deleteDraft = true;
+                        }
+                    }, 2000);
 					
 					abortBroadcast();
 		        }

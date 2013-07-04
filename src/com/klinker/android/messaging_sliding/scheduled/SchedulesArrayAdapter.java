@@ -45,7 +45,13 @@ public class SchedulesArrayAdapter  extends ArrayAdapter<String> {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         View rowView = convertView;
-        Date sendDate = new Date(Long.parseLong(text.get(position)[1]));
+        Date sendDate;
+
+        try {
+            sendDate = new Date(Long.parseLong(text.get(position)[1]));
+        } catch (Exception e) {
+            sendDate = new Date(0);
+        }
 
         if (rowView == null) {
             LayoutInflater inflater = context.getLayoutInflater();
