@@ -28,6 +28,14 @@
 	    android:defaultValue="true"
 	/>
 
+    <ListPreference
+        android:key="text_alignment_popup"
+        android:title="@string/text_alignment"
+        android:defaultValue="split"
+        android:entries="@array/textAlignment2"
+        android:entryValues="@array/textAlignmentInserted2"
+    />
+
 	<CheckBoxPreference
 	    android:key="use_old_popup"
 	    android:title="@string/use_old_popup"
