@@ -13,8 +13,10 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.*;
+import android.view.inputmethod.EditorInfo;
 import android.widget.*;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_sliding.ContactSearchArrayAdapter;
@@ -98,6 +100,12 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
         data = readFromFile(context);
 
         mEditText = (EditText) findViewById(R.id.messageEntry2);
+
+        if (!sharedPrefs.getBoolean("keyboard_type", true))
+        {
+            mEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+            mEditText.setImeOptions(EditorInfo.IME_ACTION_NONE);
+        }
 
         startNumber = intent.getStringExtra(ScheduledSms.EXTRA_NUMBER);
         startDate = intent.getStringExtra(ScheduledSms.EXTRA_DATE);

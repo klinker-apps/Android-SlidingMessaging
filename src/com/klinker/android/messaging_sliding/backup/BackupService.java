@@ -212,7 +212,9 @@ public class BackupService extends IntentService {
 
                 query.close();
 
-                mBuilder.setProgress(threadIds.size(), i, false);
+                mBuilder.setProgress(threadIds.size(), i, false)
+                        .setContentText("Backed up " + i + "/" +threadIds.size() + " conversations");
+
 
             }
 
