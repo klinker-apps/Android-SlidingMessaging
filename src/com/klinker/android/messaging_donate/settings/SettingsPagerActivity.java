@@ -822,6 +822,9 @@ public class SettingsPagerActivity extends FragmentActivity {
 
             });
 
+            Preference sdcard = (Preference) findPreference("sd_backup");
+            sdcard.setEnabled(false);
+
             Preference runNow = (Preference) findPreference("run_backup");
             runNow.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 
