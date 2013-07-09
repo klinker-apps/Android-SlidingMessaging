@@ -9,6 +9,13 @@
         />
 
     <CheckBoxPreference
+        android:key="in_app_notifications"
+        android:title="@string/in_app_notifications"
+        android:summary="@string/in_app_notifications_summary"
+        android:defaultValue="true"
+        />
+
+    <CheckBoxPreference
         android:key="notifications"
         android:title="@string/notifications"
         android:summary="@string/notifications_summary"

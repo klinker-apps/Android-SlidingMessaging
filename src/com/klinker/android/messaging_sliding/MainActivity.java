@@ -12,6 +12,7 @@ import android.content.Loader;
 import android.support.v4.view.ViewPager;
 import android.view.*;
 import android.widget.*;
+import com.devspark.appmsg.AppMsg;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.klinker.android.messaging_card.batch_delete.BatchDeleteActivity;
 import com.klinker.android.messaging_donate.*;
@@ -220,6 +221,10 @@ s
     private PullToRefreshAttacher mPullToRefreshAttacher;
     public static int pullToRefreshPosition = -1;
 
+    private AppMsg appMsg = null;
+    private int appMsgConversations = 0;
+    private boolean dismissCrouton = true;
+
     public static final String GSM_CHARACTERS_REGEX = "^[A-Za-z0-9 \\r\\n@Ł$ĽčéůěňÇŘřĹĺ\u0394_\u03A6\u0393\u039B\u03A9\u03A0\u03A8\u03A3\u0398\u039EĆćßÉ!\"#$%&'()*+,\\-./:;<=>?ĄÄÖŃÜ§żäöńüŕ^{}\\\\\\[~\\]|\u20AC]*$";
     private static final int REQ_ENTER_PATTERN = 7;
 
@@ -241,6 +246,7 @@ s
         getWindow().setBackgroundDrawable(null);
 
         mPullToRefreshAttacher = new PullToRefreshAttacher(this, sharedPrefs.getBoolean("ct_light_action_bar", false));
+        appMsg = AppMsg.makeText(this, "", AppMsg.STYLE_ALERT);
 
         MainActivity.notChanged = true;
 		
@@ -601,7 +607,40 @@ s
                         animationReceived = 2;
                     }
 
+                    if (animationReceived == 2) {
+                        if (sharedPrefs.getBoolean("in_app_notifications", true)) {
+                            boolean flag = false;
+                            for (int i = 0; i < appMsgConversations; i++) {
+                                 if (address.replace(" ", "").replace("(", "").replace(")", "").replace("-", "").endsWith(findContactNumber(inboxNumber.get(i), context).replace(" ", "").replace("(", "").replace(")", "").replace("-", ""))) {
+                                     flag = true;
+                                     break;
+                                 }
+                            }
+
+                            if (!flag) {
+                                appMsgConversations++;
+                            }
+
+                            if (appMsgConversations == 1) {
+                                appMsg = AppMsg.makeText((Activity) context, appMsgConversations + getString(R.string.new_conversation), AppMsg.STYLE_ALERT);
+                            } else {
+                                appMsg = AppMsg.makeText((Activity) context, appMsgConversations + getString(R.string.new_conversations), AppMsg.STYLE_ALERT);
+                            }
+
+                            appMsg.show();
+                        }
+                    }
+
+                    dismissCrouton = false;
+
 		        	refreshViewPager4(address, body, date);
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            dismissCrouton = true;
+                        }
+                    }, 500);
 		        	
 		        	if (!sharedPrefs.getBoolean("hide_title_bar", true) || sharedPrefs.getBoolean("always_show_contact_info", false))
 					{
@@ -3749,6 +3788,11 @@ s
 		    	{
 		    		menu.showContent();
 		    	}
+
+                if (mViewPager.getCurrentItem() < appMsgConversations && appMsg.isShowing() && dismissCrouton) {
+                    appMsg.cancel();
+                    appMsgConversations = 0;
+                }
 
                 new Thread(new Runnable() {
 

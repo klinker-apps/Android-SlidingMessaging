@@ -493,4 +493,7 @@
     <string name="delete_after_backup">Delete messages after backup</string>
     <string name="delete_after_backup_summary">RECOMMENDED: this will delete all messages after backup is complete to increase speed and fluidity of Sliding Messaging.</string>
     <string name="enable_drafts">Enable Drafts</string>
+    <string name="in_app_notifications">In App Notifications</string>
+    <string name="in_app_notifications_summary">Will display a small notification bar at the top of the screen when a new message has been received</string>
+
 </resources>
