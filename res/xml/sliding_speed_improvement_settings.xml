@@ -15,14 +15,14 @@
             android:dependency="use_backup"
             />
 
-    <CheckBoxPreference
+    <!--<CheckBoxPreference
             android:key="drive_backup"
             android:title="@string/drive_backup"
             android:defaultValue="false"
             android:dependency="use_backup"
             />
 
-    <!--<CheckBoxPreference
+    <CheckBoxPreference
             android:key="delete_after_backup"
             android:title="@string/delete_after_backup"
             android:summary="@string/delete_after_backup_summary"

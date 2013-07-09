@@ -481,7 +481,7 @@
     <string name="tweet_us">Tweet Us!</string>
     <string name="speed_improvement_settings">Speed Improvement</string>
     <string name="use_backup">Backup/Delete Messages</string>
-    <string name="use_backup_summary">PLEASE READ: Enabling this will greatly increase the speed of Sliding Messaging, it will also backup all your messages to an external service for safekeeping and delete them from the SMS/MMS database. You will not be able to see these messages in Sliding Messaging or any other messaging app.</string>
+    <string name="use_backup_summary">PLEASE READ: Enabling this will greatly increase the speed of Sliding Messaging, it will also backup all your SMS messages to an external service for safekeeping and delete them from the SMS database. You will not be able to see these messages in Sliding Messaging or any other messaging app.</string>
     <string name="sd_backup">Backup to SD card</string>
     <string name="drive_backup">Backup to Google Drive</string>
     <string name="run_backup">Run backup/delete now</string>
@@ -493,4 +493,5 @@
     <string name="delete_after_backup">Delete messages after backup</string>
     <string name="delete_after_backup_summary">RECOMMENDED: this will delete all messages after backup is complete to increase speed and fluidity of Sliding Messaging.</string>
     <string name="mark_all_read">Mark All Read</string>
+
 </resources>

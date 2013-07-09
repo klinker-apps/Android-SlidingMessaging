@@ -98,7 +98,7 @@ public class BackupService extends IntentService {
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
             mBuilder.setContentTitle("Backup to SD Card")
                     .setContentText("Backup in progress")
-                    .setSmallIcon(R.drawable.ic_action_discard);
+                    .setSmallIcon(R.drawable.stat_notify_sms);
 
 
 
@@ -230,7 +230,12 @@ public class BackupService extends IntentService {
 
     public void deleteAll()
     {
-        Toast.makeText(getApplicationContext(), "Deleting messages", Toast.LENGTH_SHORT).show();
+        NotificationManager mNotifyManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
+        mBuilder.setContentTitle("Deleting Messages")
+                .setContentText("Delete in progress")
+                .setSmallIcon(R.drawable.ic_action_discard);
 
         /*
         ArrayList<String> threadIds = new ArrayList<String>();
@@ -249,10 +254,18 @@ public class BackupService extends IntentService {
         try {
             for (int i = 0; i < threadIds.size(); i++)
             {
+                mBuilder.setProgress(threadIds.size(), i, false)
+                        .setContentText("Deleting " + i + "/" +threadIds.size() + " conversations");
+                mNotifyManager.notify(0, mBuilder.build());
+
                 context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/" + threadIds.get(i) + "/"), null, null);
             }
         } catch (Exception e) {
         }*/
+
+        mBuilder.setContentText("Delete complete")
+                .setProgress(0,0,false);
+        mNotifyManager.notify(0, mBuilder.build());
     }
 
 }
