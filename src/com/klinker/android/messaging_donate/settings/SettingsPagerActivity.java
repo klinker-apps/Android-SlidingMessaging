@@ -586,6 +586,7 @@ public class SettingsPagerActivity extends FragmentActivity {
             {
                 getPreferenceScreen().removePreference(findPreference("text_alignment"));
                 getPreferenceScreen().removePreference(findPreference("contact_pictures"));
+                getPreferenceScreen().removePreference(findPreference("auto_insert_draft"));
             }
         }
 

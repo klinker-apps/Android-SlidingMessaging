@@ -492,4 +492,5 @@
     <string name="dont_delete_previous_summary">Keep the last day in the manifest so that you have only those messages after the backup and delete</string>
     <string name="delete_after_backup">Delete messages after backup</string>
     <string name="delete_after_backup_summary">RECOMMENDED: this will delete all messages after backup is complete to increase speed and fluidity of Sliding Messaging.</string>
+    <string name="enable_drafts">Enable Drafts</string>
 </resources>

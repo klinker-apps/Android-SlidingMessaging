@@ -240,39 +240,6 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
         MainActivity.notChanged = true;
 
 		sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-
-        /*
-        if (Calendar.getInstance().getTimeInMillis() >= sharedPrefs.getLong("appADay", 1373000400000L)) {    // That time is 07/05/13 in millis (this Friday)
-
-            PackageManager pm = getPackageManager();
-
-            try {
-                pm.getPackageInfo("com.imediapp.appgratis", PackageManager.GET_ACTIVITIES);
-
-            } catch (PackageManager.NameNotFoundException e) {
-
-                View layout = View.inflate(this, R.layout.app_a_day_dialog, null);
-                ImageView ad = (ImageView) layout.findViewById(R.id.app_a_day_ad);
-                ad.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Uri link = Uri.parse("http://appgratis.com/download/android/?source=SlidingMessaging_2013");
-                        startActivity(new Intent(Intent.ACTION_VIEW, link));
-                    }
-                });
-
-                new AlertDialog.Builder(this)
-                        .setTitle("HUGE thanks to our friends at…")
-                        .setView(layout)
-                        .create()
-                        .show();
-
-                SharedPreferences.Editor editor = sharedPrefs.edit();
-                editor.putLong("appADay", Calendar.getInstance().getTimeInMillis() + (2 * 24 * 60 * 60 * 1000));
-                editor.commit();
-            }
-        }
-        */
 		
 		if (sharedPrefs.getString("card_theme", "Light").equals("Light"))
 		{
@@ -1050,14 +1017,16 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 	        }
 
 	        public void afterTextChanged(Editable s) {
-                if (newDraft.equals("") && messagePager.getCurrentItem() != 0)
-                {
-                    try {
-                        newDraft = threadIds.get(messagePager.getCurrentItem() - 1);
-                    } catch (Exception e) {
+                if (sharedPrefs.getBoolean("enable_drafts", true)) {
+                    if (newDraft.equals("") && messagePager.getCurrentItem() != 0)
+                    {
+                        try {
+                            newDraft = threadIds.get(messagePager.getCurrentItem() - 1);
+                        } catch (Exception e) {
+
+                        }
 
                     }
-
                 }
 	        }
 		});
@@ -1799,17 +1768,19 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 		
 											@Override
 											public void run() {
-                                                if (fromDraft)
-                                                {
-                                                    for (int i = 0; i < draftNames.size(); i++)
+                                                if (sharedPrefs.getBoolean("enable_drafts", true)) {
+                                                    if (fromDraft)
                                                     {
-                                                        if (draftNames.get(i).equals(threadIds.get(messagePager.getCurrentItem() - 1)))
+                                                        for (int i = 0; i < draftNames.size(); i++)
                                                         {
-                                                            draftsToDelete.add(draftNames.get(i));
-                                                            draftNames.remove(i);
-                                                            drafts.remove(i);
-                                                            draftChanged.remove(i);
-                                                            break;
+                                                            if (draftNames.get(i).equals(threadIds.get(messagePager.getCurrentItem() - 1)))
+                                                            {
+                                                                draftsToDelete.add(draftNames.get(i));
+                                                                draftNames.remove(i);
+                                                                drafts.remove(i);
+                                                                draftChanged.remove(i);
+                                                                break;
+                                                            }
                                                         }
                                                     }
                                                 }
@@ -2581,17 +2552,19 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 												@Override
 												public void run() {
 
-                                                    if (fromDraft)
-                                                    {
-                                                        for (int i = 0; i < draftNames.size(); i++)
+                                                    if (sharedPrefs.getBoolean("enable_drafts", true)) {
+                                                        if (fromDraft)
                                                         {
-                                                            if (draftNames.get(i).equals(threadIds.get(messagePager.getCurrentItem() - 1)))
+                                                            for (int i = 0; i < draftNames.size(); i++)
                                                             {
-                                                                draftsToDelete.add(draftNames.get(i));
-                                                                draftNames.remove(i);
-                                                                drafts.remove(i);
-                                                                draftChanged.remove(i);
-                                                                break;
+                                                                if (draftNames.get(i).equals(threadIds.get(messagePager.getCurrentItem() - 1)))
+                                                                {
+                                                                    draftsToDelete.add(draftNames.get(i));
+                                                                    draftNames.remove(i);
+                                                                    drafts.remove(i);
+                                                                    draftChanged.remove(i);
+                                                                    break;
+                                                                }
                                                             }
                                                         }
                                                     }
@@ -3033,53 +3006,54 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 
                         boolean contains = false;
                         int where = -1;
-
-                        try {
-                            for (int i = 0; i < draftNames.size(); i++)
-                            {
-                                if (draftNames.get(i).equals(newDraft))
-                                {
-                                    contains = true;
-                                    where = i;
-                                    break;
-                                }
-                            }
-                        } catch (Exception e) {
-
-                        }
-
-                        if (!contains && messageEntry.getText().toString().trim().length() > 0)
-                        {
-                            draftNames.add(newDraft);
-                            drafts.add(messageEntry.getText().toString());
-                            draftChanged.add(true);
-                        } else if (contains && messageEntry.getText().toString().trim().length() > 0)
-                        {
-                            drafts.set(where, messageEntry.getText().toString());
-                            draftChanged.set(where, true);
-                        } else if (contains && messageEntry.getText().toString().trim().length() == 0 && fromDraft)
-                        {
-                            draftsToDelete.add(draftNames.get(where));
-                            draftNames.remove(where);
-                            drafts.remove(where);
-                            draftChanged.remove(where);
-                        }
-
-                        newDraft = "";
-
                         int index = -1;
 
-                        try {
-                            for (int i = 0; i < draftNames.size(); i++)
-                            {
-                                if (draftNames.get(i).equals(threadIds.get(messagePager.getCurrentItem() - 1)))
+                        if (sharedPrefs.getBoolean("enable_drafts", true)) {
+                            try {
+                                for (int i = 0; i < draftNames.size(); i++)
                                 {
-                                    index = i;
-                                    break;
+                                    if (draftNames.get(i).equals(newDraft))
+                                    {
+                                        contains = true;
+                                        where = i;
+                                        break;
+                                    }
                                 }
-                            }
-                        } catch (Exception e) {
+                            } catch (Exception e) {
 
+                            }
+
+                            if (!contains && messageEntry.getText().toString().trim().length() > 0)
+                            {
+                                draftNames.add(newDraft);
+                                drafts.add(messageEntry.getText().toString());
+                                draftChanged.add(true);
+                            } else if (contains && messageEntry.getText().toString().trim().length() > 0)
+                            {
+                                drafts.set(where, messageEntry.getText().toString());
+                                draftChanged.set(where, true);
+                            } else if (contains && messageEntry.getText().toString().trim().length() == 0 && fromDraft)
+                            {
+                                draftsToDelete.add(draftNames.get(where));
+                                draftNames.remove(where);
+                                drafts.remove(where);
+                                draftChanged.remove(where);
+                            }
+
+                            newDraft = "";
+
+                            try {
+                                for (int i = 0; i < draftNames.size(); i++)
+                                {
+                                    if (draftNames.get(i).equals(threadIds.get(messagePager.getCurrentItem() - 1)))
+                                    {
+                                        index = i;
+                                        break;
+                                    }
+                                }
+                            } catch (Exception e) {
+
+                            }
                         }
 
                         final int indexF = index;
@@ -3088,18 +3062,20 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 
                             @Override
                             public void run() {
-                                if (!messageEntry.getText().equals(""))
-                                {
-                                    messageEntry.setText("");
-                                }
+                                if (sharedPrefs.getBoolean("enable_drafts", true)) {
+                                    if (!messageEntry.getText().equals(""))
+                                    {
+                                        messageEntry.setText("");
+                                    }
 
-                                fromDraft = false;
+                                    fromDraft = false;
 
-                                if (indexF != -1)
-                                {
-                                    fromDraft = true;
-                                    messageEntry.setText(drafts.get(indexF));
-                                    messageEntry.setSelection(drafts.get(indexF).length());
+                                    if (indexF != -1)
+                                    {
+                                        fromDraft = true;
+                                        messageEntry.setText(drafts.get(indexF));
+                                        messageEntry.setSelection(drafts.get(indexF).length());
+                                    }
                                 }
                             }
                         });
@@ -3905,41 +3881,43 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
         draftChanged = new ArrayList<Boolean>();
         draftsToDelete = new ArrayList<String>();
 
-        Cursor query = getContentResolver().query(Uri.parse("content://sms/draft/"), new String[] {"thread_id", "body"}, null, null, null);
+        if (sharedPrefs.getBoolean("enable_drafts", true)) {
+            Cursor query = getContentResolver().query(Uri.parse("content://sms/draft/"), new String[] {"thread_id", "body"}, null, null, null);
 
-        if (query.moveToFirst())
-        {
-            do {
-                drafts.add(query.getString(query.getColumnIndex("body")));
-                draftNames.add(query.getString(query.getColumnIndex("thread_id")));
-                draftChanged.add(false);
-            } while (query.moveToNext());
-        }
-
-        query.close();
-
-        int index = -1;
-
-        try {
-            for (int i = 0; i < draftNames.size(); i++)
+            if (query.moveToFirst())
             {
-                if (draftNames.get(i).equals(threadIds.get(messagePager.getCurrentItem() - 1)))
-                {
-                    index = i;
-                    break;
-                }
+                do {
+                    drafts.add(query.getString(query.getColumnIndex("body")));
+                    draftNames.add(query.getString(query.getColumnIndex("thread_id")));
+                    draftChanged.add(false);
+                } while (query.moveToNext());
             }
-        } catch (Exception e) {
 
-        }
+            query.close();
 
-        fromDraft = false;
+            int index = -1;
 
-        if (index != -1)
-        {
-            fromDraft = true;
-            messageEntry.setText(drafts.get(index));
-            messageEntry.setSelection(drafts.get(index).length());
+            try {
+                for (int i = 0; i < draftNames.size(); i++)
+                {
+                    if (draftNames.get(i).equals(threadIds.get(messagePager.getCurrentItem() - 1)))
+                    {
+                        index = i;
+                        break;
+                    }
+                }
+            } catch (Exception e) {
+
+            }
+
+            fromDraft = false;
+
+            if (index != -1)
+            {
+                fromDraft = true;
+                messageEntry.setText(drafts.get(index));
+                messageEntry.setSelection(drafts.get(index).length());
+            }
         }
 	}
 	
@@ -3976,80 +3954,82 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 
         final Context context = this;
 
-        if (messageEntry.getText().toString().length() != 0) {
-            draftChanged.add(true);
+        if (sharedPrefs.getBoolean("enable_drafts", true)) {
+            if (messageEntry.getText().toString().length() != 0) {
+                draftChanged.add(true);
 
-            try {
-                draftNames.add(threadIds.get(messagePager.getCurrentItem() - 1));
-            } catch (Exception e) {
-                draftNames.add(threadIds.get(messagePager.getCurrentItem()));
+                try {
+                    draftNames.add(threadIds.get(messagePager.getCurrentItem() - 1));
+                } catch (Exception e) {
+                    draftNames.add(threadIds.get(messagePager.getCurrentItem()));
+                }
+
+                drafts.add(messageEntry.getText().toString());
+                messageEntry.setText("");
             }
 
-            drafts.add(messageEntry.getText().toString());
-            messageEntry.setText("");
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    for (int i = 0; i < draftChanged.size(); i++) {
+                        if (draftChanged.get(i) == false) {
+                            draftChanged.remove(i);
+                            draftNames.remove(i);
+                            drafts.remove(i);
+                            i--;
+                        }
+                    }
+
+                    ArrayList<String> ids = new ArrayList<String>();
+
+                    Cursor query = context.getContentResolver().query(Uri.parse("content://sms/draft/"), new String[] {"_id", "thread_id"}, null, null, null);
+
+                    if (query != null) {
+                        if (query.moveToFirst()) {
+                            do {
+                                for (int i = 0; i < draftsToDelete.size(); i++) {
+                                    if (query.getString(query.getColumnIndex("thread_id")).equals(draftsToDelete.get(i))) {
+                                        ids.add(query.getString(query.getColumnIndex("_id")));
+                                        break;
+                                    }
+                                }
+
+                                for (int i = 0; i < draftNames.size(); i++) {
+                                    if (draftNames.get(i).equals(query.getString(query.getColumnIndex("thread_id")))) {
+                                        context.getContentResolver().delete(Uri.parse("content://sms/" + query.getString(query.getColumnIndex("_id"))), null, null);
+                                        break;
+                                    }
+                                }
+                            } while (query.moveToNext());
+
+                            for (int i = 0; i < ids.size(); i++) {
+                                context.getContentResolver().delete(Uri.parse("content://sms/" + ids.get(i)), null, null);
+                            }
+                        }
+
+                        query.close();
+                    }
+
+                    for (int i = 0; i < draftNames.size(); i++) {
+                        String address = "";
+
+                        for (int j = 0; j < inboxNumber.size(); j++) {
+                            if (threadIds.get(j).equals(draftNames.get(i))) {
+                                address = findContactNumber(inboxNumber.get(j), context);
+                                break;
+                            }
+                        }
+
+                        ContentValues values = new ContentValues();
+                        values.put("address", address);
+                        values.put("thread_id", draftNames.get(i));
+                        values.put("body", drafts.get(i));
+                        values.put("type", "3");
+                        context.getContentResolver().insert(Uri.parse("content://sms/"), values);
+                    }
+                }
+            }).start();
         }
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                for (int i = 0; i < draftChanged.size(); i++) {
-                    if (draftChanged.get(i) == false) {
-                        draftChanged.remove(i);
-                        draftNames.remove(i);
-                        drafts.remove(i);
-                        i--;
-                    }
-                }
-
-                ArrayList<String> ids = new ArrayList<String>();
-
-                Cursor query = context.getContentResolver().query(Uri.parse("content://sms/draft/"), new String[] {"_id", "thread_id"}, null, null, null);
-
-                if (query != null) {
-                    if (query.moveToFirst()) {
-                        do {
-                            for (int i = 0; i < draftsToDelete.size(); i++) {
-                                if (query.getString(query.getColumnIndex("thread_id")).equals(draftsToDelete.get(i))) {
-                                    ids.add(query.getString(query.getColumnIndex("_id")));
-                                    break;
-                                }
-                            }
-
-                            for (int i = 0; i < draftNames.size(); i++) {
-                                if (draftNames.get(i).equals(query.getString(query.getColumnIndex("thread_id")))) {
-                                    context.getContentResolver().delete(Uri.parse("content://sms/" + query.getString(query.getColumnIndex("_id"))), null, null);
-                                    break;
-                                }
-                            }
-                        } while (query.moveToNext());
-
-                        for (int i = 0; i < ids.size(); i++) {
-                            context.getContentResolver().delete(Uri.parse("content://sms/" + ids.get(i)), null, null);
-                        }
-                    }
-
-                    query.close();
-                }
-
-                for (int i = 0; i < draftNames.size(); i++) {
-                    String address = "";
-
-                    for (int j = 0; j < inboxNumber.size(); j++) {
-                        if (threadIds.get(j).equals(draftNames.get(i))) {
-                            address = findContactNumber(inboxNumber.get(j), context);
-                            break;
-                        }
-                    }
-
-                    ContentValues values = new ContentValues();
-                    values.put("address", address);
-                    values.put("thread_id", draftNames.get(i));
-                    values.put("body", drafts.get(i));
-                    values.put("type", "3");
-                    context.getContentResolver().insert(Uri.parse("content://sms/"), values);
-                }
-            }
-        }).start();
 
         if (sharedPrefs.getBoolean("cache_conversations", false)) {
             Intent cacheService = new Intent(context, CacheService.class);

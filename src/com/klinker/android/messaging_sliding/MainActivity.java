@@ -230,39 +230,6 @@ s
 
 		sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        /*
-        if (Calendar.getInstance().getTimeInMillis() >= sharedPrefs.getLong("appADay", 1373000400000L)) {    // That time is 07/05/13 in millis (this Friday)
-
-            PackageManager pm = getPackageManager();
-
-            try {
-                pm.getPackageInfo("com.imediapp.appgratis", PackageManager.GET_ACTIVITIES);
-
-            } catch (PackageManager.NameNotFoundException e) {
-
-                View layout = View.inflate(this, R.layout.app_a_day_dialog, null);
-                ImageView ad = (ImageView) layout.findViewById(R.id.app_a_day_ad);
-                ad.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Uri link = Uri.parse("http://appgratis.com/download/android/?source=SlidingMessaging_2013");
-                        startActivity(new Intent(Intent.ACTION_VIEW, link));
-                    }
-                });
-
-                new AlertDialog.Builder(this)
-                        .setTitle("HUGE thanks to our friends at…")
-                        .setView(layout)
-                        .create()
-                        .show();
-
-                SharedPreferences.Editor editor = sharedPrefs.edit();
-                editor.putLong("appADay", Calendar.getInstance().getTimeInMillis() + (2 * 24 * 60 * 60 * 1000));
-                editor.commit();
-            }
-        }
-        */
-
         if (sharedPrefs.getBoolean("ct_light_action_bar", false))
         {
             setTheme(R.style.HangoutsTheme);
@@ -1170,9 +1137,11 @@ s
 	        }
 
 	        public void afterTextChanged(Editable s) {
-                if (newDraft.equals(""))
-                {
-                    newDraft = threadIds.get(mViewPager.getCurrentItem());
+                if (sharedPrefs.getBoolean("enable_drafts", true)) {
+                    if (newDraft.equals(""))
+                    {
+                        newDraft = threadIds.get(mViewPager.getCurrentItem());
+                    }
                 }
 	        }
 		});
@@ -1855,22 +1824,24 @@ s
 	
 										@Override
 										public void run() {
-                                            if (fromDraft)
-                                            {
-                                                try {
-                                                    for (int i = 0; i < draftNames.size(); i++)
-                                                    {
-                                                        if (draftNames.get(i).equals(threadIds.get(mViewPager.getCurrentItem())))
+                                            if (sharedPrefs.getBoolean("enable_drafts", true)) {
+                                                if (fromDraft)
+                                                {
+                                                    try {
+                                                        for (int i = 0; i < draftNames.size(); i++)
                                                         {
-                                                            draftsToDelete.add(draftNames.get(i));
-                                                            draftNames.remove(i);
-                                                            drafts.remove(i);
-                                                            draftChanged.remove(i);
-                                                            break;
+                                                            if (draftNames.get(i).equals(threadIds.get(mViewPager.getCurrentItem())))
+                                                            {
+                                                                draftsToDelete.add(draftNames.get(i));
+                                                                draftNames.remove(i);
+                                                                drafts.remove(i);
+                                                                draftChanged.remove(i);
+                                                                break;
+                                                            }
                                                         }
-                                                    }
-                                                } catch (Exception e) {
+                                                    } catch (Exception e) {
 
+                                                    }
                                                 }
                                             }
 
@@ -3836,53 +3807,54 @@ s
 
                         boolean contains = false;
                         int where = -1;
-
-                        try {
-                            for (int i = 0; i < draftNames.size(); i++)
-                            {
-                                if (draftNames.get(i).equals(newDraft))
-                                {
-                                    contains = true;
-                                    where = i;
-                                    break;
-                                }
-                            }
-
-                            if (!contains && messageEntry.getText().toString().trim().length() > 0)
-                            {
-                                draftNames.add(newDraft);
-                                drafts.add(messageEntry.getText().toString());
-                                draftChanged.add(true);
-                            } else if (contains && messageEntry.getText().toString().trim().length() > 0)
-                            {
-                                drafts.set(where, messageEntry.getText().toString());
-                                draftChanged.set(where, true);
-                            } else if (contains && messageEntry.getText().toString().trim().length() == 0 && fromDraft)
-                            {
-                                draftsToDelete.add(draftNames.get(where));
-                                draftNames.remove(where);
-                                drafts.remove(where);
-                                draftChanged.remove(where);
-                            }
-                        } catch (Exception e) {
-
-                        }
-
-                        newDraft = "";
-
                         int index = -1;
 
-                        try {
-                            for (int i = 0; i < draftNames.size(); i++)
-                            {
-                                if (draftNames.get(i).equals(threadIds.get(mViewPager.getCurrentItem())))
+                        if (sharedPrefs.getBoolean("enable_drafts", true)) {
+                            try {
+                                for (int i = 0; i < draftNames.size(); i++)
                                 {
-                                    index = i;
-                                    break;
+                                    if (draftNames.get(i).equals(newDraft))
+                                    {
+                                        contains = true;
+                                        where = i;
+                                        break;
+                                    }
                                 }
-                            }
-                        } catch (Exception e) {
 
+                                if (!contains && messageEntry.getText().toString().trim().length() > 0)
+                                {
+                                    draftNames.add(newDraft);
+                                    drafts.add(messageEntry.getText().toString());
+                                    draftChanged.add(true);
+                                } else if (contains && messageEntry.getText().toString().trim().length() > 0)
+                                {
+                                    drafts.set(where, messageEntry.getText().toString());
+                                    draftChanged.set(where, true);
+                                } else if (contains && messageEntry.getText().toString().trim().length() == 0 && fromDraft)
+                                {
+                                    draftsToDelete.add(draftNames.get(where));
+                                    draftNames.remove(where);
+                                    drafts.remove(where);
+                                    draftChanged.remove(where);
+                                }
+                            } catch (Exception e) {
+
+                            }
+
+                            newDraft = "";
+
+                            try {
+                                for (int i = 0; i < draftNames.size(); i++)
+                                {
+                                    if (draftNames.get(i).equals(threadIds.get(mViewPager.getCurrentItem())))
+                                    {
+                                        index = i;
+                                        break;
+                                    }
+                                }
+                            } catch (Exception e) {
+
+                            }
                         }
 
                         final int indexF = index;
@@ -3909,33 +3881,35 @@ s
                                     ab.setIcon(icon);
                                 }
 
-                                if (deleteDraft) {
-                                    if (!messageEntry.getText().equals("")) {
-                                        messageEntry.setText("");
-                                    }
-
-                                    fromDraft = false;
-
-                                    if (indexF != -1) {
-                                        if (sharedPrefs.getBoolean("auto_insert_draft", false)) {
-                                            fromDraft = true;
-                                            messageEntry.setText(drafts.get(indexF));
-                                            messageEntry.setSelection(drafts.get(indexF).length());
-                                        } else {
-                                            messageBar.setOnClickListener(new MessageBar.OnMessageClickListener() {
-                                                @Override
-                                                public void onMessageClick(Parcelable token) {
-                                                    fromDraft = true;
-                                                    messageEntry.setText(drafts.get(indexF));
-                                                    messageEntry.setSelection(drafts.get(indexF).length());
-                                                }
-                                            });
-
-                                            messageBar.show(getString(R.string.draft_found), getString(R.string.apply_draft));
+                                if (sharedPrefs.getBoolean("enable_drafts", true)) {
+                                    if (deleteDraft) {
+                                        if (!messageEntry.getText().equals("")) {
+                                            messageEntry.setText("");
                                         }
+
+                                        fromDraft = false;
+
+                                        if (indexF != -1) {
+                                            if (sharedPrefs.getBoolean("auto_insert_draft", false)) {
+                                                fromDraft = true;
+                                                messageEntry.setText(drafts.get(indexF));
+                                                messageEntry.setSelection(drafts.get(indexF).length());
+                                            } else {
+                                                messageBar.setOnClickListener(new MessageBar.OnMessageClickListener() {
+                                                    @Override
+                                                    public void onMessageClick(Parcelable token) {
+                                                        fromDraft = true;
+                                                        messageEntry.setText(drafts.get(indexF));
+                                                        messageEntry.setSelection(drafts.get(indexF).length());
+                                                    }
+                                                });
+
+                                                messageBar.show(getString(R.string.draft_found), getString(R.string.apply_draft));
+                                            }
+                                        }
+                                    } else {
+                                        fromDraft = true;
                                     }
-                                } else {
-                                    fromDraft = true;
                                 }
                             }
 
@@ -5117,66 +5091,68 @@ s
             }
         }
 
-        try {
-            drafts = new ArrayList<String>();
-            draftNames = new ArrayList<String>();
-            draftChanged = new ArrayList<Boolean>();
-            draftsToDelete = new ArrayList<String>();
+        if (sharedPrefs.getBoolean("enable_drafts", true)) {
+            try {
+                drafts = new ArrayList<String>();
+                draftNames = new ArrayList<String>();
+                draftChanged = new ArrayList<Boolean>();
+                draftsToDelete = new ArrayList<String>();
 
-            Cursor query = getContentResolver().query(Uri.parse("content://sms/draft/"), new String[] {"thread_id", "body"}, null, null, null);
+                Cursor query = getContentResolver().query(Uri.parse("content://sms/draft/"), new String[] {"thread_id", "body"}, null, null, null);
 
-            if (query.moveToFirst())
-            {
-                do {
-                    drafts.add(query.getString(query.getColumnIndex("body")));
-                    draftNames.add(query.getString(query.getColumnIndex("thread_id")));
-                    draftChanged.add(false);
-                } while (query.moveToNext());
-            }
-
-            query.close();
-        } catch (Exception e) {
-
-        }
-
-        int index = -1;
-
-        try {
-            for (int i = 0; i < draftNames.size(); i++)
-            {
-                if (draftNames.get(i).equals(threadIds.get(mViewPager.getCurrentItem())))
+                if (query.moveToFirst())
                 {
-                    index = i;
-                    break;
+                    do {
+                        drafts.add(query.getString(query.getColumnIndex("body")));
+                        draftNames.add(query.getString(query.getColumnIndex("thread_id")));
+                        draftChanged.add(false);
+                    } while (query.moveToNext());
                 }
+
+                query.close();
+            } catch (Exception e) {
+
             }
-        } catch (Exception e) {
 
-        }
+            int index = -1;
 
-        fromDraft = false;
-
-        if (index != -1)
-        {
-            if (sharedPrefs.getBoolean("auto_insert_draft", false))
-            {
-                fromDraft = true;
-                messageEntry.setText(drafts.get(index));
-                messageEntry.setSelection(drafts.get(index).length());
-            } else
-            {
-                final int indexF = index;
-
-                messageBar.setOnClickListener(new MessageBar.OnMessageClickListener() {
-                    @Override
-                    public void onMessageClick(Parcelable token) {
-                        fromDraft = true;
-                        messageEntry.setText(drafts.get(indexF));
-                        messageEntry.setSelection(drafts.get(indexF).length());
+            try {
+                for (int i = 0; i < draftNames.size(); i++)
+                {
+                    if (draftNames.get(i).equals(threadIds.get(mViewPager.getCurrentItem())))
+                    {
+                        index = i;
+                        break;
                     }
-                });
+                }
+            } catch (Exception e) {
 
-                messageBar.show(getString(R.string.draft_found), getString(R.string.apply_draft));
+            }
+
+            fromDraft = false;
+
+            if (index != -1)
+            {
+                if (sharedPrefs.getBoolean("auto_insert_draft", false))
+                {
+                    fromDraft = true;
+                    messageEntry.setText(drafts.get(index));
+                    messageEntry.setSelection(drafts.get(index).length());
+                } else
+                {
+                    final int indexF = index;
+
+                    messageBar.setOnClickListener(new MessageBar.OnMessageClickListener() {
+                        @Override
+                        public void onMessageClick(Parcelable token) {
+                            fromDraft = true;
+                            messageEntry.setText(drafts.get(indexF));
+                            messageEntry.setSelection(drafts.get(indexF).length());
+                        }
+                    });
+
+                    messageBar.show(getString(R.string.draft_found), getString(R.string.apply_draft));
+                }
             }
         }
 	}
@@ -5218,78 +5194,80 @@ s
 
         final Context context = this;
 
-        if (messageEntry.getText().toString().length() != 0) {
-            draftChanged.add(true);
-            draftNames.add(threadIds.get(mViewPager.getCurrentItem()));
-            drafts.add(messageEntry.getText().toString());
-            messageEntry.setText("");
-        }
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    for (int i = 0; i < draftChanged.size(); i++) {
-                        if (draftChanged.get(i) == false) {
-                            draftChanged.remove(i);
-                            draftNames.remove(i);
-                            drafts.remove(i);
-                            i--;
-                        }
-                    }
-
-                    ArrayList<String> ids = new ArrayList<String>();
-
-                    Cursor query = context.getContentResolver().query(Uri.parse("content://sms/draft/"), new String[] {"_id", "thread_id"}, null, null, null);
-
-                    if (query != null) {
-                        if (query.moveToFirst()) {
-                            do {
-                                for (int i = 0; i < draftsToDelete.size(); i++) {
-                                    if (query.getString(query.getColumnIndex("thread_id")).equals(draftsToDelete.get(i))) {
-                                        ids.add(query.getString(query.getColumnIndex("_id")));
-                                        break;
-                                    }
-                                }
-
-                                for (int i = 0; i < draftNames.size(); i++) {
-                                    if (draftNames.get(i).equals(query.getString(query.getColumnIndex("thread_id")))) {
-                                        context.getContentResolver().delete(Uri.parse("content://sms/" + query.getString(query.getColumnIndex("_id"))), null, null);
-                                        break;
-                                    }
-                                }
-                            } while (query.moveToNext());
-
-                            for (int i = 0; i < ids.size(); i++) {
-                                context.getContentResolver().delete(Uri.parse("content://sms/" + ids.get(i)), null, null);
-                            }
-                        }
-
-                        query.close();
-                    }
-
-                    for (int i = 0; i < draftNames.size(); i++) {
-                        String address = "";
-
-                        for (int j = 0; j < inboxNumber.size(); j++) {
-                            if (threadIds.get(j).equals(draftNames.get(i))) {
-                                address = findContactNumber(inboxNumber.get(j), context);
-                                break;
-                            }
-                        }
-
-                        ContentValues values = new ContentValues();
-                        values.put("address", address);
-                        values.put("thread_id", draftNames.get(i));
-                        values.put("body", drafts.get(i));
-                        values.put("type", "3");
-                        context.getContentResolver().insert(Uri.parse("content://sms/"), values);
-                    }
-                } catch (Exception e) {
-
-                }
+        if (sharedPrefs.getBoolean("enable_drafts", true)) {
+            if (messageEntry.getText().toString().length() != 0) {
+                draftChanged.add(true);
+                draftNames.add(threadIds.get(mViewPager.getCurrentItem()));
+                drafts.add(messageEntry.getText().toString());
+                messageEntry.setText("");
             }
-        }).start();
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        for (int i = 0; i < draftChanged.size(); i++) {
+                            if (draftChanged.get(i) == false) {
+                                draftChanged.remove(i);
+                                draftNames.remove(i);
+                                drafts.remove(i);
+                                i--;
+                            }
+                        }
+
+                        ArrayList<String> ids = new ArrayList<String>();
+
+                        Cursor query = context.getContentResolver().query(Uri.parse("content://sms/draft/"), new String[] {"_id", "thread_id"}, null, null, null);
+
+                        if (query != null) {
+                            if (query.moveToFirst()) {
+                                do {
+                                    for (int i = 0; i < draftsToDelete.size(); i++) {
+                                        if (query.getString(query.getColumnIndex("thread_id")).equals(draftsToDelete.get(i))) {
+                                            ids.add(query.getString(query.getColumnIndex("_id")));
+                                            break;
+                                        }
+                                    }
+
+                                    for (int i = 0; i < draftNames.size(); i++) {
+                                        if (draftNames.get(i).equals(query.getString(query.getColumnIndex("thread_id")))) {
+                                            context.getContentResolver().delete(Uri.parse("content://sms/" + query.getString(query.getColumnIndex("_id"))), null, null);
+                                            break;
+                                        }
+                                    }
+                                } while (query.moveToNext());
+
+                                for (int i = 0; i < ids.size(); i++) {
+                                    context.getContentResolver().delete(Uri.parse("content://sms/" + ids.get(i)), null, null);
+                                }
+                            }
+
+                            query.close();
+                        }
+
+                        for (int i = 0; i < draftNames.size(); i++) {
+                            String address = "";
+
+                            for (int j = 0; j < inboxNumber.size(); j++) {
+                                if (threadIds.get(j).equals(draftNames.get(i))) {
+                                    address = findContactNumber(inboxNumber.get(j), context);
+                                    break;
+                                }
+                            }
+
+                            ContentValues values = new ContentValues();
+                            values.put("address", address);
+                            values.put("thread_id", draftNames.get(i));
+                            values.put("body", drafts.get(i));
+                            values.put("type", "3");
+                            context.getContentResolver().insert(Uri.parse("content://sms/"), values);
+                        }
+                    } catch (Exception e) {
+
+                    }
+                }
+            }).start();
+        }
 
         if (sharedPrefs.getBoolean("cache_conversations", false)) {
             Intent cacheService = new Intent(context, CacheService.class);

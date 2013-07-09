@@ -84,10 +84,16 @@
         />
 
     <CheckBoxPreference
+        android:key="enable_drafts"
+        android:title="@string/enable_drafts"
+        android:defaultValue="true"/>
+
+    <CheckBoxPreference
         android:key="auto_insert_draft"
         android:title="@string/auto_insert_draft"
         android:summary="@string/auto_insert_draft_summary"
         android:defaultValue="false"
+        android:dependency="enable_drafts"
         />
 
     <CheckBoxPreference
