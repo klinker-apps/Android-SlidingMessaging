@@ -49,25 +49,9 @@ public class CatalogWizardModel extends AbstractWizardModel {
         }
 
         String changeLog = "Version " + version + ":\n\n" +
-                "- More bug fixes\n\n" +
-                "Version 6.50:\n\n" +
-                "- Scheduling SMS support\n" +
-                "- Draft support: By default, drafts are not auto inserted as this process causes lag when switching pages. You can turn on auto insert in message settings if you prefer that.\n" +
-                "- Pattern unlock security option\n" +
-                "- Pull to load more messages instead of clicking a button\n" +
-                "- Ability to cache conversations for smoother sliding\n" +
-                "- Performance increases\n" +
-                "- Fixes to WiFi MMS workaround, will now enable mobile data connection while sending and receiving MMS\n" +
-                "- Option to receive MMS through stock if you are having problems receiving\n" +
-                "- New DashClock icon\n" +
-                "- Fixes to the Quick Text notification disappearing\n" +
-                "- Bug fixes\n\n" +
-                "Theme Editor Additions:\n" +
-                "- Hangouts theme previews if you are on the Hangouts UI\n" +
-                "- New Light Theme 2.0 option, looks great with the Hangouts UI!\n" +
-                "- Option to use the Light Action Bar with any theme (NOTE: This option means that if you were previously using the Hangout's theme, you will need to go into settings and reselect it.)\n\n";
-
-
+                "Option to disable drafts\n" +
+                "Better in-app notifications for hangouts and classic UIs\n";
+                
         String themeEditor = "The theme editor now fully supports the Hangouts UI and popup, " +
                 "better time than ever to get on board and start making Sliding Messaging look exactly how you want!\n\n" +
                 mContext.getString(R.string.theme_support);
