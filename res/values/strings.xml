@@ -496,5 +496,6 @@
     <string name="in_app_notifications">In App Notifications</string>
     <string name="in_app_notifications_summary">Will display a small notification bar at the top of the screen when a new message has been received</string>
     <string name="mark_all_read">Mark All Read</string>
+    <string name="show_number_widget">Show phone number</string>
 
 </resources>
