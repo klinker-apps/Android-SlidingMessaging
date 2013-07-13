@@ -21,5 +21,10 @@
             android:title="@string/dark_background"
             android:defaultValue="false"
             android:dependency="widget_background" />
+            
+    <CheckBoxPreference
+            android:key="show_number_widget"
+            android:title="@string/show_number_widget"
+            android:defaultValue="true" />
 
 </PreferenceScreen>
