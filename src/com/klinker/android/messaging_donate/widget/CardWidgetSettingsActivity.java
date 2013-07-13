@@ -27,6 +27,7 @@ public class CardWidgetSettingsActivity  extends PreferenceActivity {
     private boolean widgetDarkCards;
     private boolean widgetDarkBackground;
     private boolean useBackground;
+    private boolean showNumber;
 	
 	@SuppressWarnings("deprecation")
 	@Override
@@ -42,6 +43,7 @@ public class CardWidgetSettingsActivity  extends PreferenceActivity {
         widgetDarkCards = sharedPrefs.getBoolean("widget_dark_theme", false);
         widgetDarkBackground = sharedPrefs.getBoolean("dark_background", false);
         useBackground = sharedPrefs.getBoolean("widget_background", true);
+        showNumber = sharedPrefs.getBoolean("show_number_widget", true);
 		
 		if (sharedPrefs.getBoolean("override_lang", false))
 		{
@@ -102,6 +104,7 @@ public class CardWidgetSettingsActivity  extends PreferenceActivity {
         editor.putBoolean("widget_dark_theme", widgetDarkCards);
         editor.putBoolean("dark_background", widgetDarkBackground);
         editor.putBoolean("widget_background", useBackground);
+        editor.putBoolean("show_number_widget", showNumber);
         editor.commit();
         finish(); // TODO: don't just finish()!
         return true;
@@ -144,49 +147,4 @@ public class CardWidgetSettingsActivity  extends PreferenceActivity {
         finish();
         return true;
     }
-/*
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch(item.getItemId())
-        {
-            case R.id.done:
-                int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
-
-                // step 1
-                Intent intent = getIntent();
-                Bundle extras = intent.getExtras();
-                if (extras != null) {
-                    mAppWidgetId = extras.getInt(
-                            AppWidgetManager.EXTRA_APPWIDGET_ID,
-                            AppWidgetManager.INVALID_APPWIDGET_ID);
-                }
-
-
-                // step 2: preform changes here
-
-                // step 3
-                AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
-
-                // step 4
-                RemoteViews views = new RemoteViews(getPackageName(),
-                        R.layout.card_widget);
-                appWidgetManager.updateAppWidget(mAppWidgetId, views);
-
-                // step 5
-                Intent resultValue = new Intent();
-                resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
-                setResult(RESULT_OK, resultValue);
-                appWidgetManager.updateAppWidget(mAppWidgetId, views);
-
-                // broadcast to update widget
-                Intent updateWidget = new Intent("com.klinker.android.messaging.UPDATE_WIDGET");
-                this.sendBroadcast(updateWidget);
-
-                finish();
-                return true;
-
-            default:
-                return true;
-        }
-    }*/
 }
