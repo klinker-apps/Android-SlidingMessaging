@@ -172,6 +172,37 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
                   viewHolder.text3.setTextColor(sharedPrefs.getInt("ct_summaryTextColor", context.getResources().getColor(R.color.black)));
                   viewHolder.text4.setTextColor(sharedPrefs.getInt("ct_summaryTextColor", context.getResources().getColor(R.color.black)));
               }
+
+              color = sharedPrefs.getString("name_text_color", "default");
+
+              if (color.equals("blue"))
+              {
+                  viewHolder.text.setTextColor(context.getResources().getColor(R.color.holo_blue));
+              } else if (color.equals("white"))
+              {
+                  viewHolder.text.setTextColor(context.getResources().getColor(R.color.white));
+              } else if (color.equals("green"))
+              {
+                  viewHolder.text.setTextColor(context.getResources().getColor(R.color.holo_green));
+              } else if (color.equals("orange"))
+              {
+                  viewHolder.text.setTextColor(context.getResources().getColor(R.color.holo_orange));
+              } else if (color.equals("red"))
+              {
+                  viewHolder.text.setTextColor(context.getResources().getColor(R.color.holo_red));
+              } else if (color.equals("purple"))
+              {
+                  viewHolder.text.setTextColor(context.getResources().getColor(R.color.holo_purple));
+              } else if (color.equals("black"))
+              {
+                  viewHolder.text.setTextColor(context.getResources().getColor(R.color.pitch_black));
+              } else if (color.equals("grey"))
+              {
+                  viewHolder.text.setTextColor(context.getResources().getColor(R.color.grey));
+              }  else
+              {
+                  viewHolder.text.setTextColor(sharedPrefs.getInt("ct_nameTextColor", context.getResources().getColor(R.color.black)));
+              }
           } else
           {
               viewHolder.text.setTextColor(sharedPrefs.getInt("ct_nameTextColor", context.getResources().getColor(R.color.black)));
@@ -201,16 +232,12 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 	  
 	  final ViewHolder holder = (ViewHolder) contactView.getTag();
 
-      final String number = MainActivity.findContactNumber(numbers.get(position), context);
-
-      holder.image.assignContactFromPhone(number, true);
-      holder.image.setMode(ContactsContract.QuickContact.MODE_LARGE);
-
 	  new Thread(new Runnable() {
 
 		@Override
 		public void run() {
-			final Bitmap image = getFacebookPhoto(number);
+            final String number = MainActivity.findContactNumber(numbers.get(position), context);
+			final Bitmap image = Bitmap.createScaledBitmap(getFacebookPhoto(number), MainActivity.contactWidth, MainActivity.contactWidth, true);
 
             Spanned text;
             String names = "";
@@ -259,6 +286,8 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 
 				@Override
 				public void run() {
+                    holder.image.assignContactFromPhone(number, true);
+
 					if (sharedPrefs.getBoolean("contact_pictures2", true))
 					{
                         if (group.get(position).equals("no"))
@@ -422,7 +451,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 			  read.set(position, "1");
 		  } else
 		  {
-			  if (MainActivity.sentMessage != true)
+			  if (!MainActivity.sentMessage)
 			  {
 				  if (!sharedPrefs.getBoolean("custom_background", false))
 			        {
@@ -495,7 +524,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 		        vibrator.vibrate(25);
 
 				AlertDialog.Builder builder = new AlertDialog.Builder(context);
-				builder.setMessage(context.getResources().getString(R.string.delete_messages) + "\n\n" + context.getResources().getString(R.string.conversation) + ": " + MainActivity.findContactName(number, context));
+				builder.setMessage(context.getResources().getString(R.string.delete_messages) + "\n\n" + context.getResources().getString(R.string.conversation) + ": " + MainActivity.findContactName(MainActivity.findContactNumber(numbers.get(position), context), context));
 				builder.setPositiveButton(context.getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 			               final ProgressDialog progDialog = new ProgressDialog(context);
@@ -542,48 +571,6 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 			}
 
 		});
-
-      if (!sharedPrefs.getBoolean("custom_theme", false))
-      {
-          String color = sharedPrefs.getString("name_text_color", "default");
-
-          if (color.equals("blue"))
-          {
-              holder.text.setText(holder.text.getText().toString());
-              holder.text.setTextColor(context.getResources().getColor(R.color.holo_blue));
-          } else if (color.equals("white"))
-          {
-              holder.text.setText(holder.text.getText().toString());
-              holder.text.setTextColor(context.getResources().getColor(R.color.white));
-          } else if (color.equals("green"))
-          {
-              holder.text.setText(holder.text.getText().toString());
-              holder.text.setTextColor(context.getResources().getColor(R.color.holo_green));
-          } else if (color.equals("orange"))
-          {
-              holder.text.setText(holder.text.getText().toString());
-              holder.text.setTextColor(context.getResources().getColor(R.color.holo_orange));
-          } else if (color.equals("red"))
-          {
-              holder.text.setText(holder.text.getText().toString());
-              holder.text.setTextColor(context.getResources().getColor(R.color.holo_red));
-          } else if (color.equals("purple"))
-          {
-              holder.text.setText(holder.text.getText().toString());
-              holder.text.setTextColor(context.getResources().getColor(R.color.holo_purple));
-          } else if (color.equals("black"))
-          {
-              holder.text.setText(holder.text.getText().toString());
-              holder.text.setTextColor(context.getResources().getColor(R.color.pitch_black));
-          } else if (color.equals("grey"))
-          {
-              holder.text.setText(holder.text.getText().toString());
-              holder.text.setTextColor(context.getResources().getColor(R.color.grey));
-          }  else
-          {
-              holder.text.setTextColor(sharedPrefs.getInt("ct_nameTextColor", context.getResources().getColor(R.color.black)));
-          }
-      }
 
 	  return contactView;
   }
