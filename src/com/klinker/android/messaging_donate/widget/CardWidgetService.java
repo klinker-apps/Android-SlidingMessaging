@@ -75,6 +75,11 @@ class CardViewsFactory implements RemoteViewsService.RemoteViewsFactory {
             card.setTextViewText(R.id.msgCount, mWidgetItems.get(arg0).count);
             card.setTextViewText(R.id.unreadText, mWidgetItems.get(arg0).read);
             card.setImageViewBitmap(R.id.contactPicture, getFacebookPhoto(mWidgetItems.get(arg0).number, mContext));
+			
+			if (sharedPrefs.getBoolean("show_number_widget", true)
+			{
+				card.setTextViewText(R.id.contactNumber, "");
+			}
 
             // changes the layout of the contact cards on update
             if (sharedPrefs.getBoolean("widget_dark_theme", false))
