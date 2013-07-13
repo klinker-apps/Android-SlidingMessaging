@@ -53,6 +53,7 @@ public class CatalogWizardModel extends AbstractWizardModel {
                 "- Better in-app notifications for hangouts and classic UIs (Option to disable if you don't like it)\n" +
                 "- Option to remove numbers from the widget\n" +
                 "- Mark all conversations as read overflow menu option\n" +
+                "- Faster emoji load time when inserting\n" +
                 "- Bug fixes\n";
                 
         String themeEditor = "The theme editor now fully supports the Hangouts UI and popup, " +

@@ -23,15 +23,6 @@ Version 6.60
 9) search through messages
 10) Pin contact to always be first conversation
 
-Sliding Messaging Pro is now out of beta with a slew of new features, bug fixes and enhancements in version 6.30! Tell all your friends to check it out! After the end of the month, the free version of Sliding Messaging will be taken down permanantly and the price of Sliding Messaging Pro will go up, so get it now and continue getting all of the updates!
-
-Side Project: Emoji Keyboard
-    - Look and feel just like hangouts emoji keyboard does with 5 catagories, recents and sliding between pages
-    - usable in any app to insert emojis (although not all emojis would show in every app unless support was specifically added in that app or android font)
-    - contact other devs (maybe falcon pro) and talk about supporting in their apps. Would gain visibility for app and also add support for features users have been asking for in falcon
-    - charged at $0.99 or $1.99 and advertise in Sliding Messaging for it
-    - github library with EmojiConverter class and images so other apps can easily adapt and use all 855 icons
-
 - igamer777@gmail.com, nikorezzano@gmail.com
 
 To switch to free version:
