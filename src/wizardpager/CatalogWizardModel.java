@@ -49,8 +49,11 @@ public class CatalogWizardModel extends AbstractWizardModel {
         }
 
         String changeLog = "Version " + version + ":\n\n" +
-                "Option to disable drafts\n" +
-                "Better in-app notifications for hangouts and classic UIs\n";
+                "- Option to disable drafts\n" +
+                "- Better in-app notifications for hangouts and classic UIs\n" +
+                "- Option to remove numbers from the widget\n" +
+                "- Mark all conversations as read overflow option\n" + 
+                "- Bug fixes\n";
                 
         String themeEditor = "The theme editor now fully supports the Hangouts UI and popup, " +
                 "better time than ever to get on board and start making Sliding Messaging look exactly how you want!\n\n" +
