@@ -46,34 +46,12 @@ public class EmojiAdapter extends BaseAdapter {
             textView = new ImageView(context);
             int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, context.getResources().getDisplayMetrics());
             textView.setPadding(scale, (int)(scale*1.2), scale, (int)(scale * 1.2));
+            textView.setAdjustViewBounds(true);
         } else {
             textView = (ImageView) convertView;
         }
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try
-                {
-                    Thread.sleep(250);
-                } catch (Exception e)
-                {
-
-                }
-
-                int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30, context.getResources().getDisplayMetrics());
-                final Bitmap bitmap = Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(sIconIds[position])), scale, scale, true);
-
-                ((Activity)context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        textView.setImageBitmap(bitmap);
-                    }
-
-                });
-            }
-        }).start();
+        textView.setImageResource(sIconIds[position]);
 
         return textView;
 	}

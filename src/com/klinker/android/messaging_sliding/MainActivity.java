@@ -4043,7 +4043,8 @@ s
                 menu.getItem(3).setVisible(true);
                 menu.getItem(4).setVisible(false);
                 menu.getItem(5).setVisible(false);
-                menu.getItem(6).setVisible(false);
+                menu.getItem(6).setVisible(true);
+                menu.getItem(7).setVisible(false);
 
                 if (MainActivity.menu.isSecondaryMenuShowing())
                 {
@@ -4054,6 +4055,7 @@ s
                     menu.getItem(4).setVisible(true);
                     menu.getItem(5).setVisible(false);
                     menu.getItem(6).setVisible(false);
+                    menu.getItem(7).setVisible(false);
                 }
             } else
             {
@@ -4064,10 +4066,11 @@ s
                 menu.getItem(4).setVisible(true);
                 menu.getItem(5).setVisible(true);
                 menu.getItem(6).setVisible(true);
+                menu.getItem(7).setVisible(true);
 
                 if (group.get(mViewPager.getCurrentItem()).equals("yes"))
                 {
-                    menu.getItem(6).setVisible(false);
+                    menu.getItem(7).setVisible(false);
                 }
             }
         } else
@@ -4079,6 +4082,7 @@ s
                 menu.getItem(3).setVisible(false);
                 menu.getItem(5).setVisible(false);
                 menu.getItem(6).setVisible(false);
+                menu.getItem(7).setVisible(false);
             } else
             {
                 menu.getItem(0).setVisible(true);
@@ -4086,10 +4090,11 @@ s
                 menu.getItem(3).setVisible(true);
                 menu.getItem(5).setVisible(true);
                 menu.getItem(6).setVisible(true);
+                menu.getItem(7).setVisible(true);
 
                 if (group.get(mViewPager.getCurrentItem()).equals("yes"))
                 {
-                    menu.getItem(6).setVisible(false);
+                    menu.getItem(7).setVisible(false);
                 }
             }
         }
