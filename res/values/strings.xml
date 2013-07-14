@@ -479,7 +479,7 @@
     <string name="num_cache_conversations_summary">Sets the number of conversations to be cached and quickly loaded at application startup and in the background</string>
     <string name="changelog">Change Log</string>
     <string name="tweet_us">Tweet Us!</string>
-    <string name="speed_improvement_settings">Speed Improvement</string>
+    <string name="speed_improvement_settings">Message Backup</string>
     <string name="use_backup">Backup/Delete Messages</string>
     <string name="use_backup_summary">PLEASE READ: Enabling this will greatly increase the speed of Sliding Messaging, it will also backup all your SMS messages to an external service for safekeeping and delete them from the SMS database. You will not be able to see these messages in Sliding Messaging or any other messaging app.</string>
     <string name="sd_backup">Backup to SD card</string>
@@ -491,7 +491,7 @@
     <string name="dont_delete_previous">Don\'t delete previous day</string>
     <string name="dont_delete_previous_summary">Keep the last day in the manifest so that you have only those messages after the backup and delete</string>
     <string name="delete_after_backup">Delete messages after backup</string>
-    <string name="delete_after_backup_summary">RECOMMENDED: this will delete all messages after backup is complete to increase speed and fluidity of Sliding Messaging.</string>
+    <string name="delete_after_backup_summary">RECOMMENDED: this will delete all messages after backup is complete to increase speed and fluidity of Sliding Messaging.\nWARNING: it will also delete MMS which are not backed up through this utility.</string>
     <string name="enable_drafts">Enable Drafts</string>
     <string name="in_app_notifications">In App Notifications</string>
     <string name="in_app_notifications_summary">Will display a small notification bar at the top of the screen when a new message has been received</string>
