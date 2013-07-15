@@ -7130,7 +7130,7 @@ s
                                         spinner.setVisibility(View.GONE);
                                     } else
                                     {
-                                        com.klinker.android.messaging_hangout.MessageArrayAdapter adapter = new com.klinker.android.messaging_hangout.MessageArrayAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), messageQuery, myPhoneNumber, position);
+                                        com.klinker.android.messaging_hangout.MessageCursorAdapter adapter = new com.klinker.android.messaging_hangout.MessageCursorAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), messageQuery, position);
 
                                         listView.setAdapter(adapter);
                                         listView.setStackFromBottom(true);
@@ -7211,7 +7211,7 @@ s
 					spinner.setVisibility (View.GONE);
                 } else
                 {
-                    com.klinker.android.messaging_hangout.MessageArrayAdapter adapter = new com.klinker.android.messaging_hangout.MessageArrayAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), messageQuery, myPhoneNumber, position);
+                    com.klinker.android.messaging_hangout.MessageCursorAdapter adapter = new com.klinker.android.messaging_hangout.MessageCursorAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), messageQuery, position);
 
                     listView.setAdapter(adapter);
                     listView.setStackFromBottom(true);
@@ -7324,7 +7324,7 @@ s
                 spinner.setVisibility(View.GONE);
             } else
             {
-                com.klinker.android.messaging_hangout.MessageArrayAdapter adapter = new com.klinker.android.messaging_hangout.MessageArrayAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), query, myPhoneNumber, position);
+                com.klinker.android.messaging_hangout.MessageCursorAdapter adapter = new com.klinker.android.messaging_hangout.MessageCursorAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), query, position);
 
                 listView.setAdapter(adapter);
                 listView.setStackFromBottom(true);
@@ -7413,7 +7413,7 @@ s
                         listView.setSelection(adapter.getCount() - MainActivity.numToLoad + 20);
                     } else
                     {
-                        com.klinker.android.messaging_hangout.MessageArrayAdapter adapter = new com.klinker.android.messaging_hangout.MessageArrayAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), query, myPhoneNumber, position);
+                        com.klinker.android.messaging_hangout.MessageCursorAdapter adapter = new com.klinker.android.messaging_hangout.MessageCursorAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), query, position);
 
                         listView.setAdapter(adapter);
                         listView.setStackFromBottom(true);
