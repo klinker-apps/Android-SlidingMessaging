@@ -828,6 +828,7 @@ public class MessageCursorAdapter extends CursorAdapter {
         if (group == true && sent == false)
         {
             final String senderF = sender;
+            // TODO see if this is really necessary, or if the holder can just be used instead... hopefully holder is fine
             final TextView dateView = (TextView) view.findViewById(R.id.textDate);
 
             new Thread(new Runnable() {
@@ -855,6 +856,7 @@ public class MessageCursorAdapter extends CursorAdapter {
             }).start();
         }
 
+        // TODO make this into a function by sending the holder into it, that way it can be easily used for MMS text as well without rewriting
         if (sharedPrefs.getString("smilies", "with").equals("with"))
         {
             String patternStr = "[^\\x20-\\x7E\\n]";
