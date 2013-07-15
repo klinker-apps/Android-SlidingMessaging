@@ -74,8 +74,8 @@ public class BackupService extends IntentService {
             File backedup = new File(Environment.getExternalStorageDirectory() + "/Messages/SMS/");
             backedup.mkdirs();
 
-            backedup = new File(Environment.getExternalStorageDirectory() + "/Messages/MMS/");
-            backedup.mkdirs();
+            //backedup = new File(Environment.getExternalStorageDirectory() + "/Messages/MMS/");
+            //backedup.mkdirs();
 
             ArrayList<String> threadIds = new ArrayList<String>();
             String[] projection = new String[]{"_id"};
@@ -98,7 +98,8 @@ public class BackupService extends IntentService {
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
             mBuilder.setContentTitle("Backup to SD Card")
                     .setContentText("Backup in progress")
-                    .setSmallIcon(R.drawable.stat_notify_sms);
+                    .setSmallIcon(R.drawable.stat_notify_sms)
+                    .setOngoing(true);
 
 
 
@@ -219,7 +220,8 @@ public class BackupService extends IntentService {
             }
 
             mBuilder.setContentText("Backup complete")
-                    .setProgress(0,0,false);
+                    .setProgress(0,0,false)
+                    .setOngoing(false);
             mNotifyManager.notify(0, mBuilder.build());
 
         }
@@ -235,9 +237,10 @@ public class BackupService extends IntentService {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
         mBuilder.setContentTitle("Deleting Messages")
                 .setContentText("Delete in progress")
-                .setSmallIcon(R.drawable.ic_action_discard);
+                .setSmallIcon(R.drawable.ic_action_discard)
+                .setOngoing(true);
 
-        /*
+
         ArrayList<String> threadIds = new ArrayList<String>();
         String[] projection = new String[]{"_id"};
         Uri uri = Uri.parse("content://mms-sms/conversations/?simple=true");
@@ -261,10 +264,11 @@ public class BackupService extends IntentService {
                 context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/" + threadIds.get(i) + "/"), null, null);
             }
         } catch (Exception e) {
-        }*/
+        }
 
         mBuilder.setContentText("Delete complete")
-                .setProgress(0,0,false);
+                .setProgress(0,0,false)
+                .setOngoing(false);
         mNotifyManager.notify(0, mBuilder.build());
     }
 

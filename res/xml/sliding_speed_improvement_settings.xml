@@ -20,7 +20,7 @@
             android:title="@string/drive_backup"
             android:defaultValue="false"
             android:dependency="use_backup"
-            />
+            /> -->
 
     <CheckBoxPreference
             android:key="delete_after_backup"
@@ -30,7 +30,7 @@
             android:dependency="use_backup"
             />
 
-    <CheckBoxPreference
+    <!-- <CheckBoxPreference
             android:key="previous_day"
             android:title="@string/dont_delete_previous"
             android:summary="@string/dont_delete_previous_summary"
