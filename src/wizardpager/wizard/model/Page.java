@@ -42,6 +42,7 @@ public abstract class Page implements PageTreeNode {
     protected String mMessage;
     protected boolean mButton = false;
     protected String mLink;
+    protected boolean mNeedMMS =  false;
 
     protected Page(ModelCallbacks callbacks, String title) {
         mCallbacks = callbacks;
@@ -54,6 +55,10 @@ public abstract class Page implements PageTreeNode {
 
     public boolean getButton() {
         return mButton;
+    }
+
+    public boolean getMMS() {
+        return mNeedMMS;
     }
 
     public String getLink() {
@@ -120,6 +125,12 @@ public abstract class Page implements PageTreeNode {
     public Page setButton(boolean button, String link) {
         mButton = button;
         mLink = link;
+        return this;
+    }
+
+    public Page setMMS()
+    {
+        mNeedMMS = true;
         return this;
     }
 }

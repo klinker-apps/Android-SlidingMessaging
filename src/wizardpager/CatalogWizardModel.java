@@ -33,8 +33,10 @@ public class CatalogWizardModel extends AbstractWizardModel {
     @Override
         protected PageList onNewRootPageList() {
         boolean needTheme = false;
-        boolean needPro = false;
         boolean haveGoSMS = true;
+        boolean needMMS = true;
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
 
         int extraPageCount = 1;
 
@@ -59,12 +61,16 @@ public class CatalogWizardModel extends AbstractWizardModel {
                 "better time than ever to get on board and start making Sliding Messaging look exactly how you want!\n\n" +
                 mContext.getString(R.string.theme_support);
 
+        /*
         String goPro = mContext.getString(R.string.go_pro1) + "\n" +
                 mContext.getString(R.string.go_pro2) +
                 mContext.getString(R.string.go_pro3) +
                 mContext.getString(R.string.go_pro4);
+                */
 
         String goSMS = mContext.getString(R.string.go_sms_body);
+
+        String mmsSetupMessage = mContext.getString(R.string.mms_setup_message);
 
         try
         {
@@ -75,96 +81,62 @@ public class CatalogWizardModel extends AbstractWizardModel {
             needTheme = true;
             extraPageCount++;
         }
-        try
-		{
-			PackageManager pm = mContext.getPackageManager();
-			pm.getPackageInfo("com.klinker.android.messaging_donate", PackageManager.GET_ACTIVITIES);
-		} catch (Exception e)
-		{
-            needPro = true;
-            extraPageCount++;
-        }
+
         try
         {
             PackageManager pm = mContext.getPackageManager();
-     		 pm.getPackageInfo("com.jb.gosms", PackageManager.GET_ACTIVITIES);
+     		pm.getPackageInfo("com.jb.gosms", PackageManager.GET_ACTIVITIES);
         } catch (Exception e)
         {
             haveGoSMS = false;
             extraPageCount--;
         }
 
-        switch(extraPageCount)
+        if (sharedPrefs.getString("current_version", "0").equals("0"))
         {
-            case 1:
-                if (needPro)
-                {
-                    return new PageList(
-                            new SingleFixedChoicePage(this, mContext.getString(R.string.changelog_title))
-                                    .setMessage(changeLog)
-                                    .setRequired(false),
+            needMMS = true;
+        }
 
-                            new SingleFixedChoicePage(this, mContext.getString(R.string.pro_dialog))
-                                    .setMessage(goPro)
-                                    .setButton(true, "market://details?id=com.klinker.android.messaging_donate")
-                                    .setRequired(false));
-                } else if (needTheme)
-                {
-                    return new PageList(
-                            new SingleFixedChoicePage(this, mContext.getString(R.string.changelog_title))
-                                    .setMessage(changeLog)
-                                    .setRequired(false),
+        if (needMMS)
+        {
+            switch(extraPageCount)
+            {
+                case 1:
+                    if (needTheme)
+                    {
+                        return new PageList(
+                                new SingleFixedChoicePage(this, mContext.getString(R.string.changelog_title))
+                                        .setMessage(changeLog)
+                                        .setRequired(false),
 
-                            new SingleFixedChoicePage(this, mContext.getString(R.string.theme_support_title))
-                                    .setMessage(themeEditor)
-                                    .setButton(true, "market://details?id=com.klinker.android.messaging_theme")
-                                    .setRequired(false));
-                } else
-                {
-                    return new PageList(
-                            new SingleFixedChoicePage(this, mContext.getString(R.string.changelog_title))
-                                    .setMessage(changeLog)
-                                    .setRequired(false),
+                                new SingleFixedChoicePage(this, mContext.getString(R.string.theme_support_title))
+                                        .setMessage(themeEditor)
+                                        .setButton(true, "market://details?id=com.klinker.android.messaging_theme")
+                                        .setRequired(false),
 
-                            new SingleFixedChoicePage(this, mContext.getString(R.string.go_sms_title))
-                                    .setMessage(goSMS)
-                                    .setRequired(false));
-                }
+                                new SingleFixedChoicePage(this, mContext.getString(R.string.need_mms_setup))
+                                        .setMessage(mmsSetupMessage)
+                                        .setRequired(false)
+                                        .setMMS());
+                    } else
+                    {
+                        return new PageList(
+                                new SingleFixedChoicePage(this, mContext.getString(R.string.changelog_title))
+                                        .setMessage(changeLog)
+                                        .setRequired(false),
 
-            case 2:
-                if(needPro && needTheme)
-                {
-                    return new PageList(
-                            new SingleFixedChoicePage(this, mContext.getString(R.string.changelog_title))
-                                    .setMessage(changeLog)
-                                    .setRequired(false),
+                                new SingleFixedChoicePage(this, mContext.getString(R.string.go_sms_title))
+                                        .setMessage(goSMS)
+                                        .setRequired(false),
 
-                            new SingleFixedChoicePage(this, mContext.getString(R.string.theme_support_title))
-                                    .setMessage(themeEditor)
-                                    .setButton(true, "market://details?id=com.klinker.android.messaging_theme")
-                                    .setRequired(false),
+                                new SingleFixedChoicePage(this, mContext.getString(R.string.need_mms_setup))
+                                        .setMessage(mmsSetupMessage)
+                                        .setRequired(false)
+                                        .setMMS());
+                    }
 
-                            new SingleFixedChoicePage(this, mContext.getString(R.string.pro_dialog))
-                                    .setMessage(goPro)
-                                    .setButton(true, "market://details?id=com.klinker.android.messaging_donate")
-                                    .setRequired(false));
-                } else if (needPro && haveGoSMS)
-                {
-                    return new PageList(
-                            new SingleFixedChoicePage(this, mContext.getString(R.string.changelog_title))
-                                    .setMessage(changeLog)
-                                    .setRequired(false),
+                case 2:
 
-                            new SingleFixedChoicePage(this, mContext.getString(R.string.pro_dialog))
-                                    .setMessage(goPro)
-                                    .setButton(true, "market://details?id=com.klinker.android.messaging_donate")
-                                    .setRequired(false),
-
-                            new SingleFixedChoicePage(this, mContext.getString(R.string.go_sms_title))
-                                    .setMessage(goSMS)
-                                    .setRequired(false));
-                } else
-                {
                     return new PageList(
                             new SingleFixedChoicePage(this, mContext.getString(R.string.changelog_title))
                                     .setMessage(changeLog)
@@ -177,35 +149,76 @@ public class CatalogWizardModel extends AbstractWizardModel {
 
                             new SingleFixedChoicePage(this, mContext.getString(R.string.go_sms_title))
                                     .setMessage(goSMS)
+                                    .setRequired(false),
+
+                            new SingleFixedChoicePage(this, mContext.getString(R.string.need_mms_setup))
+                                    .setMessage(mmsSetupMessage)
+                                    .setRequired(false)
+                                    .setMMS());
+
+                default:
+                    return new PageList(
+                            new SingleFixedChoicePage(this, mContext.getString(R.string.changelog_title))
+                                    .setMessage(changeLog)
+                                    .setRequired(false),
+
+                            new SingleFixedChoicePage(this, mContext.getString(R.string.need_mms_setup))
+                                    .setMessage(mmsSetupMessage)
+                                    .setRequired(false)
+                                    .setMMS());
+
+            }
+        } else
+        {
+            switch(extraPageCount)
+            {
+                case 1:
+                    if (needTheme)
+                    {
+                        return new PageList(
+                                new SingleFixedChoicePage(this, mContext.getString(R.string.changelog_title))
+                                        .setMessage(changeLog)
+                                        .setRequired(false),
+
+                                new SingleFixedChoicePage(this, mContext.getString(R.string.theme_support_title))
+                                        .setMessage(themeEditor)
+                                        .setButton(true, "market://details?id=com.klinker.android.messaging_theme")
+                                        .setRequired(false));
+                    } else
+                    {
+                        return new PageList(
+                                new SingleFixedChoicePage(this, mContext.getString(R.string.changelog_title))
+                                        .setMessage(changeLog)
+                                        .setRequired(false),
+
+                                new SingleFixedChoicePage(this, mContext.getString(R.string.go_sms_title))
+                                        .setMessage(goSMS)
+                                        .setRequired(false));
+                    }
+
+                case 2:
+
+                        return new PageList(
+                                new SingleFixedChoicePage(this, mContext.getString(R.string.changelog_title))
+                                        .setMessage(changeLog)
+                                        .setRequired(false),
+
+                                new SingleFixedChoicePage(this, mContext.getString(R.string.theme_support_title))
+                                        .setMessage(themeEditor)
+                                        .setButton(true, "market://details?id=com.klinker.android.messaging_theme")
+                                        .setRequired(false),
+
+                                new SingleFixedChoicePage(this, mContext.getString(R.string.go_sms_title))
+                                        .setMessage(goSMS)
+                                        .setRequired(false));
+
+                default:
+                    return new PageList(
+                            new SingleFixedChoicePage(this, mContext.getString(R.string.changelog_title))
+                                    .setMessage(changeLog)
                                     .setRequired(false));
-                }
 
-            case 3:
-                return new PageList(
-                        new SingleFixedChoicePage(this, mContext.getString(R.string.changelog_title))
-                                .setMessage(changeLog)
-                                .setRequired(false),
-
-                        new SingleFixedChoicePage(this, mContext.getString(R.string.theme_support_title))
-                                .setMessage(themeEditor)
-                                .setButton(true, "market://details?id=com.klinker.android.messaging_theme")
-                                .setRequired(false),
-
-                        new SingleFixedChoicePage(this, mContext.getString(R.string.pro_dialog))
-                                .setMessage(goPro)
-                                .setButton(true, "market://details?id=com.klinker.android.messaging_donate")
-                                .setRequired(false),
-
-                        new SingleFixedChoicePage(this, mContext.getString(R.string.go_sms_title))
-                                .setMessage(goSMS)
-                                .setRequired(false));
-
-            default:
-                return new PageList(
-                        new SingleFixedChoicePage(this, mContext.getString(R.string.changelog_title))
-                                .setMessage(changeLog)
-                                .setRequired(false));
-
+            }
         }
 
         // Note: The final page is the Notes page, this page can be edited in the ReviewFragment class

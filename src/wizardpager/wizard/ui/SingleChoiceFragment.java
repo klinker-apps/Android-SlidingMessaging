@@ -93,6 +93,9 @@ public class SingleChoiceFragment extends ListFragment {
                     startActivity(intent);
                 }
             });
+        }else if (mPage.getMMS())
+        {
+
         }
 
         ((TextView) rootView.findViewById(android.R.id.title)).setText(mPage.getTitle());
