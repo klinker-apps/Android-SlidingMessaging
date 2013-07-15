@@ -3,8 +3,7 @@ Version 6.60
 - Investigate MMS apns on stock
 - Message Locking?
 - Make MMS settings page in changelog wizard to easily select carrier
-- remake message array adapter as cursor adapter
-- remake menu array adapter
+- make mms in message array adapter and change classic ui to use the same adapter
 - sms backup
 	- different icon in notification
 	- apply for mms
@@ -14,7 +13,6 @@ Version 6.60
 	- actually delete the messages :) just uncomment the code. it should work just fine
 	- add notifications to delete and drive backup
 - fix popup residual message in some cases
-- test croutons, specifically getting more then one unread conversation
 
 0) more individual notification options
 3) Batch delete of messages inside single conversation
