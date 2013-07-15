@@ -127,7 +127,7 @@ public class SettingsPagerActivity extends FragmentActivity {
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        public static final int NUM_PAGES = 10;
+        public static final int NUM_PAGES = 9;
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -167,9 +167,9 @@ public class SettingsPagerActivity extends FragmentActivity {
                     return getResources().getString(R.string.mms_settings);
                 case 7:
                     return getResources().getString(R.string.security_settings);
+                //case 8:
+                    //return getResources().getString(R.string.speed_improvement_settings);
                 case 8:
-                    return getResources().getString(R.string.speed_improvement_settings);
-                case 9:
                     return getResources().getString(R.string.advanced_settings);
             }
             return null;
@@ -229,11 +229,11 @@ public class SettingsPagerActivity extends FragmentActivity {
                     addPreferencesFromResource(R.xml.sliding_security_settings);
                     setUpSecuritySettings();
                     break;
+                //case 8:
+                    //addPreferencesFromResource(R.xml.sliding_speed_improvement_settings);
+                    //setUpSpeedSettings();
+                    //break;
                 case 8:
-                    addPreferencesFromResource(R.xml.sliding_speed_improvement_settings);
-                    setUpSpeedSettings();
-                    break;
-                case 9:
                     addPreferencesFromResource(R.xml.sliding_advanced_settings);
                     setUpAdvancedSettings();
                     break;
@@ -308,7 +308,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                     return true;
                 }
             });
-
+/*
             Preference speedImprovementSettings = (Preference) findPreference("speed_improvement_settings");
             speedImprovementSettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference preference) {
@@ -316,7 +316,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                     return true;
                 }
             });
-
+*/
             Preference advancedSettings = (Preference) findPreference("advanced_settings");
             advancedSettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference preference) {

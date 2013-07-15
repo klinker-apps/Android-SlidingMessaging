@@ -42,10 +42,10 @@
             android:title="@string/security_settings"
     />
 
-    <Preference
+    <!-- <Preference
             android:key="speed_improvement_settings"
             android:title="@string/speed_improvement_settings"
-    />
+    /> -->
 
     <Preference
         android:key="advanced_settings"
