@@ -97,7 +97,7 @@ public class SingleChoiceFragment extends ListFragment {
         }else if (!mChoices.isEmpty()) // page with mms settings
         {
             rootView = inflater.inflate(R.layout.fragment_page_mms, container, false);
-/*
+
             Button button = (Button) rootView.findViewById(R.id.manualSetup);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -126,7 +126,7 @@ public class SingleChoiceFragment extends ListFragment {
                         }
                     }
                 }
-            });*/
+            });
         } else // normal page
         {
             rootView = inflater.inflate(R.layout.fragment_page, container, false);

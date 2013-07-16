@@ -138,8 +138,7 @@ public class CatalogWizardModel extends AbstractWizardModel {
                                             "Verizon Wireless","Verizon Wireless #2","Vodafone UK",
                                             "Vodafone AU","Not on list")
                                     .setMessage(mmsSetupMessage)
-                                    .setMMS()
-                                    .setRequired(false));
+                                    .setRequired(true));
                 }
 
             case 2:
@@ -179,8 +178,7 @@ public class CatalogWizardModel extends AbstractWizardModel {
                                             "Verizon Wireless","Verizon Wireless #2","Vodafone UK",
                                             "Vodafone AU","Not on list")
                                     .setMessage(mmsSetupMessage)
-                                    .setMMS()
-                                    .setRequired(false));
+                                    .setRequired(true));
                 } else if (needMMS && haveGoSMS)
                 {
                     return new PageList(
@@ -200,8 +198,7 @@ public class CatalogWizardModel extends AbstractWizardModel {
                                             "Verizon Wireless","Verizon Wireless #2","Vodafone UK",
                                             "Vodafone AU","Not on list")
                                     .setMessage(mmsSetupMessage)
-                                    .setMMS()
-                                    .setRequired(false));
+                                    .setRequired(true));
                 }
 
             case 3:
@@ -215,8 +212,9 @@ public class CatalogWizardModel extends AbstractWizardModel {
                                 .setMessage(goSMS)
                                 .setRequired(false),
 
-                        new SingleFixedChoicePage(this, mContext.getString(R.string.go_sms_title))
-                                .setMessage(goSMS)
+                        new SingleFixedChoicePage(this, mContext.getString(R.string.theme_support_title))
+                                .setMessage(themeEditor)
+                                .setButton(true, "market://details?id=com.klinker.android.messaging_theme")
                                 .setRequired(false),
 
                         new SingleFixedChoicePage(this, mContext.getString(R.string.need_mms_setup))
@@ -227,8 +225,7 @@ public class CatalogWizardModel extends AbstractWizardModel {
                                         "Verizon Wireless","Verizon Wireless #2","Vodafone UK",
                                         "Vodafone AU","Not on list")
                                 .setMessage(mmsSetupMessage)
-                                .setMMS()
-                                .setRequired(false));
+                                .setRequired(true));
 
             default:
                 return new PageList(
