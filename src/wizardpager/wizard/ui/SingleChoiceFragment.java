@@ -20,11 +20,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.ListFragment;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -93,36 +95,47 @@ public class SingleChoiceFragment extends ListFragment {
                     startActivity(intent);
                 }
             });
-        }else if (mPage.getMMS())
-        {
+        }
 
+        if (!mChoices.isEmpty())
+        {
+            rootView = inflater.inflate(R.layout.fragment_page_mms, container, false);
+
+            Button button = (Button) rootView.findViewById(R.id.manualSetup);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getActivity(), com.klinker.android.messaging_sliding.mms.APNSettingsActivity.class);
+                    startActivity(intent);
+                }
+            });
+
+            final ListView listView = (ListView) rootView.findViewById(android.R.id.list);
+            setListAdapter(new ArrayAdapter<String>(getActivity(),
+                    android.R.layout.simple_list_item_single_choice,
+                    android.R.id.text1,
+                    mChoices));
+            listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+
+            // Pre-select currently selected item.
+            new Handler().post(new Runnable() {
+                @Override
+                public void run() {
+                    String selection = mPage.getData().getString(Page.SIMPLE_DATA_KEY);
+                    for (int i = 0; i < mChoices.size(); i++) {
+                        if (mChoices.get(i).equals(selection)) {
+                            listView.setItemChecked(i, true);
+                            break;
+                        }
+                    }
+                }
+            });
         }
 
         ((TextView) rootView.findViewById(android.R.id.title)).setText(mPage.getTitle());
-
-        //final TextView textView = (TextView) rootView.findViewById(android.R.id.list);
-        //setListAdapter(new ArrayAdapter<String>(getActivity(),
-        //        android.R.layout.simple_list_item_single_choice,
-        //        android.R.id.text1,
-        //        mChoices));
-        //listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-
         ((TextView) rootView.findViewById(android.R.id.message)).setText(mPage.getMessage());
 
-        // Pre-select currently selected item.
-        /*
-        new Handler().post(new Runnable() {
-            @Override
-            public void run() {
-                String selection = mPage.getData().getString(Page.SIMPLE_DATA_KEY);
-                for (int i = 0; i < mChoices.size(); i++) {
-                    if (mChoices.get(i).equals(selection)) {
-                        listView.setItemChecked(i, true);
-                        break;
-                    }
-                }
-            }
-        });*/
+
 
         return rootView;
     }

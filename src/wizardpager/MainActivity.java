@@ -115,6 +115,15 @@ public class MainActivity extends FragmentActivity implements
             @Override
             public void onClick(View view) {
                 if (mPager.getCurrentItem() == mCurrentPageSequence.size()) {
+
+                    try {
+                        String presetMMS = mWizardModel.findByKey(context.getString(R.string.need_mms_setup)).getData().getString(Page.SIMPLE_DATA_KEY);
+                    } catch (Exception e)
+                    {
+
+                    }
+
+
                     SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
                     String version = "";

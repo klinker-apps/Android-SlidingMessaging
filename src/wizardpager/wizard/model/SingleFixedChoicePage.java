@@ -21,6 +21,7 @@ import android.text.TextUtils;
 import wizardpager.wizard.ui.SingleChoiceFragment;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * A page offering the user a number of mutually exclusive choices.
@@ -54,6 +55,11 @@ public class SingleFixedChoicePage extends Page {
     @Override
     public boolean isCompleted() {
         return !TextUtils.isEmpty(mData.getString(SIMPLE_DATA_KEY));
+    }
+
+    public SingleFixedChoicePage setChoices(String... choices) {
+        mChoices.addAll(Arrays.asList(choices));
+        return this;
     }
 
     public SingleFixedChoicePage setValue(String value) {
