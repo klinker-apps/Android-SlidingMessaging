@@ -75,8 +75,7 @@ public class SingleChoiceFragment extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        // without a button
-        View rootView = inflater.inflate(R.layout.fragment_page, container, false);
+        View rootView;
 
         // If it needs a button
         if (mPage.getButton()) {
@@ -95,12 +94,10 @@ public class SingleChoiceFragment extends ListFragment {
                     startActivity(intent);
                 }
             });
-        }
-
-        if (!mChoices.isEmpty())
+        }else if (!mChoices.isEmpty()) // page with mms settings
         {
             rootView = inflater.inflate(R.layout.fragment_page_mms, container, false);
-
+/*
             Button button = (Button) rootView.findViewById(R.id.manualSetup);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -129,7 +126,10 @@ public class SingleChoiceFragment extends ListFragment {
                         }
                     }
                 }
-            });
+            });*/
+        } else // normal page
+        {
+            rootView = inflater.inflate(R.layout.fragment_page, container, false);
         }
 
         ((TextView) rootView.findViewById(android.R.id.title)).setText(mPage.getTitle());
