@@ -92,6 +92,12 @@
         />
 
     <CheckBoxPreference
+        android:key="smiliesType"
+        android:title="@string/holo_style_smiles"
+        android:defaultValue="true"
+    />
+
+    <CheckBoxPreference
         android:key="emoji"
         android:title="@string/emoji"
         android:defaultValue="false"

@@ -2047,10 +2047,18 @@ public class MessageCursorAdapter extends CursorAdapter {
 
                         if (sharedPrefs.getBoolean("emoji_type", true))
                         {
-                            text = EmojiConverter2.getSmiledText(context, EmoticonConverter2.getSmiledText(context, body));
+                            if (sharedPrefs.getBoolean("smiliesType", true)) {
+                                text = EmojiConverter2.getSmiledText(context, EmoticonConverter2New.getSmiledText(context, body));
+                            } else {
+                                text = EmojiConverter2.getSmiledText(context, EmoticonConverter2.getSmiledText(context, body));
+                            }
                         } else
                         {
-                            text = EmojiConverter.getSmiledText(context, EmoticonConverter2.getSmiledText(context, body));
+                            if (sharedPrefs.getBoolean("smiliesType", true)) {
+                                text = EmojiConverter.getSmiledText(context, EmoticonConverter2New.getSmiledText(context, body));
+                            } else {
+                                text = EmojiConverter.getSmiledText(context, EmoticonConverter2.getSmiledText(context, body));
+                            }
                         }
 
                         context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
@@ -2086,10 +2094,18 @@ public class MessageCursorAdapter extends CursorAdapter {
 
                         if (sharedPrefs.getBoolean("emoji_type", true))
                         {
-                            text = EmojiConverter2.getSmiledText(context, EmoticonConverter.getSmiledText(context, body));
+                            if (sharedPrefs.getBoolean("smiliesType", true)) {
+                                text = EmojiConverter2.getSmiledText(context, EmoticonConverterNew.getSmiledText(context, body));
+                            } else {
+                                text = EmojiConverter2.getSmiledText(context, EmoticonConverter.getSmiledText(context, body));
+                            }
                         } else
                         {
-                            text = EmojiConverter.getSmiledText(context, EmoticonConverter.getSmiledText(context, body));
+                            if (sharedPrefs.getBoolean("smiliesType", true)) {
+                                text = EmojiConverter.getSmiledText(context, EmoticonConverterNew.getSmiledText(context, body));
+                            } else {
+                                text = EmojiConverter.getSmiledText(context, EmoticonConverter.getSmiledText(context, body));
+                            }
                         }
 
                         context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
@@ -2164,10 +2180,18 @@ public class MessageCursorAdapter extends CursorAdapter {
 
                         if (sharedPrefs.getBoolean("emoji_type", true))
                         {
-                            text = EmojiConverter2.getSmiledText(context, EmoticonConverter3.getSmiledText(context, body));
+                            if (sharedPrefs.getBoolean("smiliesType", true)) {
+                                text = EmojiConverter2.getSmiledText(context, EmoticonConverter3New.getSmiledText(context, body));
+                            } else {
+                                text = EmojiConverter2.getSmiledText(context, EmoticonConverter3.getSmiledText(context, body));
+                            }
                         } else
                         {
-                            text = EmojiConverter.getSmiledText(context, EmoticonConverter3.getSmiledText(context, body));
+                            if (sharedPrefs.getBoolean("smiliesType", true)) {
+                                text = EmojiConverter.getSmiledText(context, EmoticonConverter3New.getSmiledText(context, body));
+                            } else {
+                                text = EmojiConverter.getSmiledText(context, EmoticonConverter3.getSmiledText(context, body));
+                            }
                         }
 
                         context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {

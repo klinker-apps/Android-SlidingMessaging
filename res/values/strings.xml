@@ -500,4 +500,5 @@
     <string name="need_mms_setup">Initial MMS Setup:</string>
     <string name="mms_setup_message">Please select carrier from the drop-down menu or configure APN settings manually.</string>
     <string name="mms_manual_setup">Manual Setup</string>
+    <string name="holo_style_smiles">Holo Style Smilies</string>
 </resources>
