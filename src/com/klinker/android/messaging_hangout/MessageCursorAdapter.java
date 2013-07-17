@@ -33,6 +33,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.*;
 import com.android.mms.transaction.HttpUtils;
 import com.android.mms.util.SendingProgressTokenManager;
@@ -290,6 +292,9 @@ public class MessageCursorAdapter extends CursorAdapter {
                         }
                     }).start();
                 }
+
+                // TODO load mms text, image and video in new thread
+                // TODO set viewholder image uri
             } else {
                 String type = cursor.getString(cursor.getColumnIndex("type"));
 
@@ -372,6 +377,7 @@ public class MessageCursorAdapter extends CursorAdapter {
             }
         } catch (Exception e)
         {
+            // TODO test downloading messages
             e.printStackTrace();
 
             id = cursor.getString(cursor.getColumnIndex("_id"));
@@ -726,7 +732,7 @@ public class MessageCursorAdapter extends CursorAdapter {
 
                 view.setPadding(10,5,10,5);
 
-                if (cursor.getPosition() == getCount() - 1)
+                if (cursor.getPosition() == 0)
                 {
                     view.setPadding(10, 5, 10, 7);
                 }
@@ -828,8 +834,6 @@ public class MessageCursorAdapter extends CursorAdapter {
         if (group == true && sent == false)
         {
             final String senderF = sender;
-            // TODO see if this is really necessary, or if the holder can just be used instead... hopefully holder is fine
-            final TextView dateView = (TextView) view.findViewById(R.id.textDate);
 
             new Thread(new Runnable() {
                 @Override
@@ -842,10 +846,10 @@ public class MessageCursorAdapter extends CursorAdapter {
                         @Override
                         public void run() {
                             if(phonesCursor != null && phonesCursor.moveToFirst()) {
-                                dateView.setText(holder.date.getText() + " - " + phonesCursor.getString(0));
+                                holder.date.setText(holder.date.getText() + " - " + phonesCursor.getString(0));
                             } else
                             {
-                                dateView.setText(holder.date.getText() + " - " + senderF);
+                                holder.date.setText(holder.date.getText() + " - " + senderF);
                             }
 
                             phonesCursor.close();
@@ -856,182 +860,14 @@ public class MessageCursorAdapter extends CursorAdapter {
             }).start();
         }
 
-        // TODO make this into a function by sending the holder into it, that way it can be easily used for MMS text as well without rewriting
-        if (sharedPrefs.getString("smilies", "with").equals("with"))
-        {
-            String patternStr = "[^\\x20-\\x7E\\n]";
-            Pattern pattern = Pattern.compile(patternStr);
-            Matcher matcher = pattern.matcher(body);
+        setMessageText(holder, body);
 
-            if (matcher.find())
-            {
-                final String bodyF = body;
-
-                new Thread(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        final Spannable text;
-
-                        if (sharedPrefs.getBoolean("emoji_type", true))
-                        {
-                            text = EmojiConverter2.getSmiledText(context, EmoticonConverter2.getSmiledText(context, bodyF));
-                        } else
-                        {
-                            text = EmojiConverter.getSmiledText(context, EmoticonConverter2.getSmiledText(context, bodyF));
-                        }
-
-                        context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                holder.text.setText(text);
-                                Linkify.addLinks(holder.text, Linkify.ALL);
-                            }
-
-                        });
-                    }
-
-                }).start();
-            } else
-            {
-                holder.text.setText(EmoticonConverter2.getSmiledText(context, body));
-                Linkify.addLinks(holder.text, Linkify.ALL);
-            }
-        } else if (sharedPrefs.getString("smilies", "with").equals("without"))
-        {
-            String patternStr = "[^\\x20-\\x7E\\n]";
-            Pattern pattern = Pattern.compile(patternStr);
-            Matcher matcher = pattern.matcher(body);
-
-            if (matcher.find())
-            {
-                final String bodyF = body;
-
-                new Thread(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        final Spannable text;
-
-                        if (sharedPrefs.getBoolean("emoji_type", true))
-                        {
-                            text = EmojiConverter2.getSmiledText(context, EmoticonConverter.getSmiledText(context, bodyF));
-                        } else
-                        {
-                            text = EmojiConverter.getSmiledText(context, EmoticonConverter.getSmiledText(context, bodyF));
-                        }
-
-                        context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                holder.text.setText(text);
-                                Linkify.addLinks(holder.text, Linkify.ALL);
-                            }
-
-                        });
-                    }
-
-                }).start();
-            } else
-            {
-                holder.text.setText(EmoticonConverter.getSmiledText(context, body));
-                Linkify.addLinks(holder.text, Linkify.ALL);
-            }
-        } else if (sharedPrefs.getString("smilies", "with").equals("none"))
-        {
-            String patternStr = "[^\\x20-\\x7E\\n]";
-            Pattern pattern = Pattern.compile(patternStr);
-            Matcher matcher = pattern.matcher(body);
-
-            if (matcher.find())
-            {
-                final String bodyF = body;
-
-                new Thread(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        final Spannable text;
-
-                        if (sharedPrefs.getBoolean("emoji_type", true))
-                        {
-                            text = EmojiConverter2.getSmiledText(context, bodyF);
-                        } else
-                        {
-                            text = EmojiConverter.getSmiledText(context, bodyF);
-                        }
-
-                        context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                holder.text.setText(text);
-                                Linkify.addLinks(holder.text, Linkify.ALL);
-                            }
-
-                        });
-                    }
-
-                }).start();
-            } else
-            {
-                holder.text.setText(body);
-                Linkify.addLinks(holder.text, Linkify.ALL);
-            }
-        } else if (sharedPrefs.getString("smilies", "with").equals("both"))
-        {
-            String patternStr = "[^\\x20-\\x7E\\n]";
-            Pattern pattern = Pattern.compile(patternStr);
-            Matcher matcher = pattern.matcher(body);
-
-            if (matcher.find())
-            {
-                final String bodyF = body;
-
-                new Thread(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        final Spannable text;
-
-                        if (sharedPrefs.getBoolean("emoji_type", true))
-                        {
-                            text = EmojiConverter2.getSmiledText(context, EmoticonConverter3.getSmiledText(context, bodyF));
-                        } else
-                        {
-                            text = EmojiConverter.getSmiledText(context, EmoticonConverter3.getSmiledText(context, bodyF));
-                        }
-
-                        context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                holder.text.setText(text);
-                                Linkify.addLinks(holder.text, Linkify.ALL);
-                            }
-
-                        });
-                    }
-
-                }).start();
-            } else
-            {
-                holder.text.setText(EmoticonConverter3.getSmiledText(context, body));
-                Linkify.addLinks(holder.text, Linkify.ALL);
-            }
-        }
-
-        if (cursor.getPosition() == getCount() - 1)
+        if (cursor.getPosition() == 0)
         {
             view.setPadding(10,5,10,7);
         }
 
-        final boolean mmsT = mms;
-        final String imageT = image;
         final String dateT = date;
-        final String idT = id;
         int size2 = 0;
 
         try
@@ -1204,7 +1040,7 @@ public class MessageCursorAdapter extends CursorAdapter {
 
                 if (!errorT)
                 {
-                    if (!mmsT || sizeT > 1)
+                    if (!mmsF || sizeT > 1)
                     {
                         builder2.setItems(R.array.messageOptions, new DialogInterface.OnClickListener() {
 
@@ -1240,7 +1076,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                             public void onClick(DialogInterface dialog, int id) {
                                                 String threadId = threadIds;
 
-                                                deleteSMS(context, threadId, idT);
+                                                deleteSMS(context, threadId, idF);
                                                 ((MainActivity) context).refreshViewPager(true);
                                             }
 
@@ -1289,16 +1125,10 @@ public class MessageCursorAdapter extends CursorAdapter {
                                         break;
                                     case 1:
                                         try {
-                                            saveImage(MediaStore.Images.Media.getBitmap(context.getContentResolver(), Uri.parse(imageT)), dateT);
-                                        } catch (FileNotFoundException e1) {
-                                            Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
-                                            e1.printStackTrace();
-                                        } catch (IOException e1) {
-                                            Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
-                                            e1.printStackTrace();
+                                            saveImage(((BitmapDrawable) holder.media.getDrawable()).getBitmap(), dateT);
                                         } catch (Exception e)
                                         {
-                                            Toast.makeText(context, "Nothing to Save", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(context, "ERROR", Toast.LENGTH_SHORT).show();
                                         }
                                         break;
                                     case 2:
@@ -1311,7 +1141,7 @@ public class MessageCursorAdapter extends CursorAdapter {
 
                                         try
                                         {
-                                            ((MainActivity)context).attachedImage2 = Uri.parse(imageT);
+                                            ((MainActivity)context).attachedImage2 = holder.imageUri;
 
                                             ((MainActivity)context).imageAttachBackground2.setBackgroundColor(sharedPrefs.getInt("ct_conversationListBackground", context.getResources().getColor(R.color.light_silver)));
                                             Drawable attachBack = context.getResources().getDrawable(R.drawable.attachment_editor_bg);
@@ -1326,7 +1156,7 @@ public class MessageCursorAdapter extends CursorAdapter {
 
                                         try
                                         {
-                                            ((MainActivity)context).imageAttach2.setImage("send_image", decodeFile(new File(getPath(Uri.parse(imageT)))));
+                                            ((MainActivity)context).imageAttach2.setImage("send_image", decodeFile(new File(getPath(holder.imageUri))));
                                         } catch (Exception e)
                                         {
                                             ((MainActivity)context).imageAttach2.setVisibility(false);
@@ -1341,7 +1171,7 @@ public class MessageCursorAdapter extends CursorAdapter {
 
                                             @Override
                                             public void onClick(View arg0) {
-                                                context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(imageT)));
+                                                context.startActivity(new Intent(Intent.ACTION_VIEW, holder.imageUri));
 
                                             }
 
@@ -1390,7 +1220,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                             public void onClick(DialogInterface dialog, int id) {
                                                 String threadId = threadIds;
 
-                                                deleteSMS(context, threadId, idT);
+                                                deleteSMS(context, threadId, idF);
                                                 ((MainActivity) context).refreshViewPager(true);
                                             }
 
@@ -1429,7 +1259,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                             switch (which)
                             {
                                 case 0:
-                                    if (!mmsT)
+                                    if (!mmsF)
                                     {
                                         MainActivity.animationOn = true;
 
@@ -1938,7 +1768,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                         public void onClick(DialogInterface dialog, int id) {
                                             String threadId = threadIds;
 
-                                            deleteSMS(context, threadId, idT);
+                                            deleteSMS(context, threadId, idF);
                                             ((MainActivity) context).refreshViewPager(true);
                                         }
 
@@ -1973,8 +1803,54 @@ public class MessageCursorAdapter extends CursorAdapter {
             }
 
         });
-        
-        // TODO add in animations to view (same as in array adapter)
+
+        if (MainActivity.animationOn == true && cursor.getPosition() == 0 && threadPosition == 0)
+        {
+            String animation = sharedPrefs.getString("send_animation", "left");
+
+            if (animation.equals("left"))
+            {
+                Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
+                anim.setDuration(sharedPrefs.getInt("animation_speed", 300));
+                view.startAnimation(anim);
+            } else if (animation.equals("right"))
+            {
+                Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_left);
+                anim.setDuration(sharedPrefs.getInt("animation_speed", 300));
+                view.startAnimation(anim);
+            } else if (animation.equals("up"))
+            {
+                Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_up);
+                anim.setDuration(sharedPrefs.getInt("animation_speed", 300));
+                view.startAnimation(anim);
+            }
+
+            MainActivity.animationOn = false;
+        }
+
+        if (MainActivity.animationReceived == 1 && cursor.getPosition() == 0 && MainActivity.animationThread == threadPosition)
+        {
+            String animation = sharedPrefs.getString("receive_animation", "right");
+
+            if (animation.equals("left"))
+            {
+                Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
+                anim.setDuration(sharedPrefs.getInt("animation_speed", 300));
+                view.startAnimation(anim);
+            } else if (animation.equals("right"))
+            {
+                Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_left);
+                anim.setDuration(sharedPrefs.getInt("animation_speed", 300));
+                view.startAnimation(anim);
+            } else if (animation.equals("up"))
+            {
+                Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_up);
+                anim.setDuration(sharedPrefs.getInt("animation_speed", 300));
+                view.startAnimation(anim);
+            }
+
+            MainActivity.animationReceived = 0;
+        }
     }
 
     @Override
@@ -2151,6 +2027,167 @@ public class MessageCursorAdapter extends CursorAdapter {
         public ImageView ellipsis;
         public Button downloadButton;
         public ImageView bubble;
+        public Uri imageUri;
+    }
+
+    public void setMessageText(final ViewHolder holder, final String body) {
+        if (sharedPrefs.getString("smilies", "with").equals("with"))
+        {
+            String patternStr = "[^\\x20-\\x7E\\n]";
+            Pattern pattern = Pattern.compile(patternStr);
+            Matcher matcher = pattern.matcher(body);
+
+            if (matcher.find())
+            {
+                new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        final Spannable text;
+
+                        if (sharedPrefs.getBoolean("emoji_type", true))
+                        {
+                            text = EmojiConverter2.getSmiledText(context, EmoticonConverter2.getSmiledText(context, body));
+                        } else
+                        {
+                            text = EmojiConverter.getSmiledText(context, EmoticonConverter2.getSmiledText(context, body));
+                        }
+
+                        context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                holder.text.setText(text);
+                                Linkify.addLinks(holder.text, Linkify.ALL);
+                            }
+
+                        });
+                    }
+
+                }).start();
+            } else
+            {
+                holder.text.setText(EmoticonConverter2.getSmiledText(context, body));
+                Linkify.addLinks(holder.text, Linkify.ALL);
+            }
+        } else if (sharedPrefs.getString("smilies", "with").equals("without"))
+        {
+            String patternStr = "[^\\x20-\\x7E\\n]";
+            Pattern pattern = Pattern.compile(patternStr);
+            Matcher matcher = pattern.matcher(body);
+
+            if (matcher.find())
+            {
+                new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        final Spannable text;
+
+                        if (sharedPrefs.getBoolean("emoji_type", true))
+                        {
+                            text = EmojiConverter2.getSmiledText(context, EmoticonConverter.getSmiledText(context, body));
+                        } else
+                        {
+                            text = EmojiConverter.getSmiledText(context, EmoticonConverter.getSmiledText(context, body));
+                        }
+
+                        context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                holder.text.setText(text);
+                                Linkify.addLinks(holder.text, Linkify.ALL);
+                            }
+
+                        });
+                    }
+
+                }).start();
+            } else
+            {
+                holder.text.setText(EmoticonConverter.getSmiledText(context, body));
+                Linkify.addLinks(holder.text, Linkify.ALL);
+            }
+        } else if (sharedPrefs.getString("smilies", "with").equals("none"))
+        {
+            String patternStr = "[^\\x20-\\x7E\\n]";
+            Pattern pattern = Pattern.compile(patternStr);
+            Matcher matcher = pattern.matcher(body);
+
+            if (matcher.find())
+            {
+                new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        final Spannable text;
+
+                        if (sharedPrefs.getBoolean("emoji_type", true))
+                        {
+                            text = EmojiConverter2.getSmiledText(context, body);
+                        } else
+                        {
+                            text = EmojiConverter.getSmiledText(context, body);
+                        }
+
+                        context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                holder.text.setText(text);
+                                Linkify.addLinks(holder.text, Linkify.ALL);
+                            }
+
+                        });
+                    }
+
+                }).start();
+            } else
+            {
+                holder.text.setText(body);
+                Linkify.addLinks(holder.text, Linkify.ALL);
+            }
+        } else if (sharedPrefs.getString("smilies", "with").equals("both"))
+        {
+            String patternStr = "[^\\x20-\\x7E\\n]";
+            Pattern pattern = Pattern.compile(patternStr);
+            Matcher matcher = pattern.matcher(body);
+
+            if (matcher.find())
+            {
+                new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        final Spannable text;
+
+                        if (sharedPrefs.getBoolean("emoji_type", true))
+                        {
+                            text = EmojiConverter2.getSmiledText(context, EmoticonConverter3.getSmiledText(context, body));
+                        } else
+                        {
+                            text = EmojiConverter.getSmiledText(context, EmoticonConverter3.getSmiledText(context, body));
+                        }
+
+                        context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                holder.text.setText(text);
+                                Linkify.addLinks(holder.text, Linkify.ALL);
+                            }
+
+                        });
+                    }
+
+                }).start();
+            } else
+            {
+                holder.text.setText(EmoticonConverter3.getSmiledText(context, body));
+                Linkify.addLinks(holder.text, Linkify.ALL);
+            }
+        }
     }
 
     public InputStream openDisplayPhoto(long contactId) {
