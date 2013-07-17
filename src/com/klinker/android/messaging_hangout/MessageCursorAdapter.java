@@ -1973,6 +1973,8 @@ public class MessageCursorAdapter extends CursorAdapter {
             }
 
         });
+        
+        // TODO add in animations to view (same as in array adapter)
     }
 
     @Override

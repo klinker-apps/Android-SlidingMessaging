@@ -54,6 +54,7 @@
             android:layout_gravity="left|center_vertical"
             android:src="@drawable/ellipsis"
             android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:contentDescription="@string/placeholder"/>
 
         <TextView
