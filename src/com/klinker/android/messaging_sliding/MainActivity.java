@@ -2587,11 +2587,10 @@ s
 
                 }
 
-				// TODO remove if not needed because popup window height is wrapped
-                //Display display = getWindowManager().getDefaultDisplay();
-                //Point size = new Point();
-                //display.getSize(size);
-                //final int height = size.y;
+                Display display = getWindowManager().getDefaultDisplay();
+                Point size = new Point();
+                display.getSize(size);
+                final int height = size.y;
 
                 if (sendTo) {
                     final String textF = text;
@@ -2601,8 +2600,7 @@ s
                             lpw.setAdapter(new ContactSearchArrayAdapter((Activity)context, searchedNames, searchedNumbers, searchedTypes));
                             lpw.setAnchorView(findViewById(R.id.contactEntry));
                             lpw.setWidth(ListPopupWindow.WRAP_CONTENT);
-                            // TODO test if this wraps the popup window's height
-							//lpw.setHeight(height/3);
+							lpw.setHeight(height/3);
 
 
                             if (firstContactSearch)
@@ -2622,8 +2620,7 @@ s
                     lpw.setAdapter(new ContactSearchArrayAdapter((Activity)context, searchedNames, searchedNumbers, searchedTypes));
                     lpw.setAnchorView(findViewById(R.id.contactEntry));
                     lpw.setWidth(ListPopupWindow.WRAP_CONTENT);
-                    // TODO test if this wraps the popup window's height
-					//lpw.setHeight(height/3);
+					lpw.setHeight(height/3);
 
 
                     if (firstContactSearch)
