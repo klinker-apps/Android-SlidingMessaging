@@ -13,6 +13,7 @@ Version 6.60
 	- actually delete the messages :) just uncomment the code. it should work just fine
 	- add notifications to delete and drive backup
 - fix popup residual message in some cases
+- fix MMS pictures not opening correctly in he gallery app, even though it shows in the message list
 
 0) more individual notification options
 3) Batch delete of messages inside single conversation
