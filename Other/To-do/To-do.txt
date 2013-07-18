@@ -15,6 +15,11 @@ Version 6.60
 - fix popup residual message in some cases
 - fix MMS pictures not opening correctly in he gallery app, even though it shows in the message list
 
+Likes ideas for speed/fluidity improvement:
+1.) Limit conversations to 10 and add back the load all messages button
+2.) Limit initial messages loaded to 10 or 12
+3.) Don't refresh the view pager when a new message is received that isn't from the conversation you are currently viewing. Make a refresh attached in the cconversations list to refresh the view pager instead, so it oesnt jump around and the users can continue texting without being interrupted. It will look better and work more fluidly.
+
 0) more individual notification options
 3) Batch delete of messages inside single conversation
 5) Tasker options
