@@ -231,6 +231,13 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 	  }
 	  
 	  final ViewHolder holder = (ViewHolder) contactView.getTag();
+      
+      if (sharedPrefs.getBoolean("ct_darkContactImage", false))
+      {
+          holder.image.setImageResource(R.drawable.ic_contact_dark);
+      } else {
+          holder.image.setImageResource(R.drawable.ic_contact_picture);
+      }
 
 	  new Thread(new Runnable() {
 
