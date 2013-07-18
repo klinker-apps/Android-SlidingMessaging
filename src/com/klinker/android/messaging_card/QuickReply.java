@@ -1600,14 +1600,26 @@ public class QuickReply extends FragmentActivity {
 				  {
                       if (sharedPrefs.getBoolean("emoji_type", true))
                       {
-                          body.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter2.getSmiledText(context, inboxBody.get(position))));
+                          if (sharedPrefs.getBoolean("smiliesType", true)) {
+                              body.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter2New.getSmiledText(context, inboxBody.get(position))));
+                          } else {
+                              body.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter2.getSmiledText(context, inboxBody.get(position))));
+                          }
                       } else
                       {
-                          body.setText(EmojiConverter.getSmiledText(context, EmoticonConverter2.getSmiledText(context, inboxBody.get(position))));
+                          if (sharedPrefs.getBoolean("smiliesType", true)) {
+                              body.setText(EmojiConverter.getSmiledText(context, EmoticonConverter2New.getSmiledText(context, inboxBody.get(position))));
+                          } else {
+                              body.setText(EmojiConverter.getSmiledText(context, EmoticonConverter2.getSmiledText(context, inboxBody.get(position))));
+                          }
                       }
 				  } else
 				  {
-					  body.setText(EmoticonConverter2.getSmiledText(context, inboxBody.get(position)));
+                      if (sharedPrefs.getBoolean("smiliesType", true)) {
+                          body.setText(EmoticonConverter2New.getSmiledText(context, inboxBody.get(position)));
+                      } else {
+                          body.setText(EmoticonConverter2.getSmiledText(context, inboxBody.get(position)));
+                      }
 				  }
 			  } else if (sharedPrefs.getString("smilies", "with").equals("without"))
 			  {
@@ -1619,14 +1631,26 @@ public class QuickReply extends FragmentActivity {
 				  {
                       if (sharedPrefs.getBoolean("emoji_type", true))
                       {
-                          body.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter.getSmiledText(context, inboxBody.get(position))));
+                          if (sharedPrefs.getBoolean("smiliesType", true)) {
+                              body.setText(EmojiConverter2.getSmiledText(context, EmoticonConverterNew.getSmiledText(context, inboxBody.get(position))));
+                          } else {
+                              body.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter.getSmiledText(context, inboxBody.get(position))));
+                          }
                       } else
                       {
-                          body.setText(EmojiConverter.getSmiledText(context, EmoticonConverter.getSmiledText(context, inboxBody.get(position))));
+                          if (sharedPrefs.getBoolean("smiliesType", true)) {
+                              body.setText(EmojiConverter.getSmiledText(context, EmoticonConverterNew.getSmiledText(context, inboxBody.get(position))));
+                          } else {
+                              body.setText(EmojiConverter.getSmiledText(context, EmoticonConverter.getSmiledText(context, inboxBody.get(position))));
+                          }
                       }
 				  } else
 				  {
-					  body.setText(EmoticonConverter.getSmiledText(context, inboxBody.get(position)));
+                      if (sharedPrefs.getBoolean("smiliesType", true)) {
+                          body.setText(EmoticonConverterNew.getSmiledText(context, inboxBody.get(position)));
+                      } else {
+                          body.setText(EmoticonConverter.getSmiledText(context, inboxBody.get(position)));
+                      }
 				  }
 			  } else if (sharedPrefs.getString("smilies", "with").equals("none"))
 			  {
@@ -1655,16 +1679,28 @@ public class QuickReply extends FragmentActivity {
 				  
 				  if (matcher.find())
 				  {
-					  if (sharedPrefs.getBoolean("emoji_type", true))
-					  {
-						  body.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter3.getSmiledText(context, inboxBody.get(position))));
-					  } else
-					  {
-						  body.setText(EmojiConverter.getSmiledText(context, EmoticonConverter3.getSmiledText(context, inboxBody.get(position))));
-					  }
+                      if (sharedPrefs.getBoolean("emoji_type", true))
+                      {
+                          if (sharedPrefs.getBoolean("smiliesType", true)) {
+                              body.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter3New.getSmiledText(context, inboxBody.get(position))));
+                          } else {
+                              body.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter3.getSmiledText(context, inboxBody.get(position))));
+                          }
+                      } else
+                      {
+                          if (sharedPrefs.getBoolean("smiliesType", true)) {
+                              body.setText(EmojiConverter.getSmiledText(context, EmoticonConverter3New.getSmiledText(context, inboxBody.get(position))));
+                          } else {
+                              body.setText(EmojiConverter.getSmiledText(context, EmoticonConverter3.getSmiledText(context, inboxBody.get(position))));
+                          }
+                      }
 			      } else
 				  {
-					  body.setText(EmoticonConverter3.getSmiledText(context, inboxBody.get(position)));
+                      if (sharedPrefs.getBoolean("smiliesType", true)) {
+                          body.setText(EmoticonConverter3New.getSmiledText(context, inboxBody.get(position)));
+                      } else {
+                          body.setText(EmoticonConverter3.getSmiledText(context, inboxBody.get(position)));
+                      }
 				  }
 			  }
 			

@@ -2600,7 +2600,7 @@ s
                             lpw.setAdapter(new ContactSearchArrayAdapter((Activity)context, searchedNames, searchedNumbers, searchedTypes));
                             lpw.setAnchorView(findViewById(R.id.contactEntry));
                             lpw.setWidth(ListPopupWindow.WRAP_CONTENT);
-                            lpw.setHeight(height/3);
+							lpw.setHeight(height/3);
 
 
                             if (firstContactSearch)
@@ -2620,7 +2620,7 @@ s
                     lpw.setAdapter(new ContactSearchArrayAdapter((Activity)context, searchedNames, searchedNumbers, searchedTypes));
                     lpw.setAnchorView(findViewById(R.id.contactEntry));
                     lpw.setWidth(ListPopupWindow.WRAP_CONTENT);
-                    lpw.setHeight(height/3);
+					lpw.setHeight(height/3);
 
 
                     if (firstContactSearch)

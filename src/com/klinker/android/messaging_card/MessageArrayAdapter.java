@@ -12,11 +12,7 @@ import com.google.android.mms.pdu.PduPersister;
 import com.google.android.mms.pdu.RetrieveConf;
 import com.klinker.android.messaging_donate.receivers.DisconnectWifi;
 import com.klinker.android.messaging_donate.R;
-import com.klinker.android.messaging_sliding.emojis.EmojiConverter;
-import com.klinker.android.messaging_sliding.emojis.EmojiConverter2;
-import com.klinker.android.messaging_sliding.emojis.EmoticonConverter;
-import com.klinker.android.messaging_sliding.emojis.EmoticonConverter2;
-import com.klinker.android.messaging_sliding.emojis.EmoticonConverter3;
+import com.klinker.android.messaging_sliding.emojis.*;
 import com.klinker.android.messaging_sliding.receivers.NotificationReceiver;
 import com.klinker.android.messaging_donate.StripAccents;
 
@@ -939,14 +935,22 @@ public class MessageArrayAdapter extends ArrayAdapter<String> {
 					@Override
 					public void run() {
 						final Spannable text;
-						
-						if (sharedPrefs.getBoolean("emoji_type", true))
-						{
-							text = EmojiConverter2.getSmiledText(context, EmoticonConverter2.getSmiledText(context, bodyF));
-						} else
-						{
-							text = EmojiConverter.getSmiledText(context, EmoticonConverter2.getSmiledText(context, bodyF));
-						}
+
+                        if (sharedPrefs.getBoolean("emoji_type", true))
+                        {
+                            if (sharedPrefs.getBoolean("smiliesType", true)) {
+                                text = EmojiConverter2.getSmiledText(context, EmoticonConverter2New.getSmiledText(context, bodyF));
+                            } else {
+                                text = EmojiConverter2.getSmiledText(context, EmoticonConverter2.getSmiledText(context, bodyF));
+                            }
+                        } else
+                        {
+                            if (sharedPrefs.getBoolean("smiliesType", true)) {
+                                text = EmojiConverter.getSmiledText(context, EmoticonConverter2New.getSmiledText(context, bodyF));
+                            } else {
+                                text = EmojiConverter.getSmiledText(context, EmoticonConverter2.getSmiledText(context, bodyF));
+                            }
+                        }
 						
 						context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 							
@@ -961,7 +965,11 @@ public class MessageArrayAdapter extends ArrayAdapter<String> {
 				  }).start();
 			  } else
 			  {
-				  holder.text.setText(EmoticonConverter2.getSmiledText(context, body));
+                  if (sharedPrefs.getBoolean("smiliesType", true)) {
+                      holder.text.setText(EmoticonConverter2New.getSmiledText(context, body));
+                  } else {
+                      holder.text.setText(EmoticonConverter2.getSmiledText(context, body));
+                  }
 			  }
 		  } else if (sharedPrefs.getString("smilies", "with").equals("without"))
 		  {
@@ -978,14 +986,22 @@ public class MessageArrayAdapter extends ArrayAdapter<String> {
 					@Override
 					public void run() {
 						final Spannable text;
-						
-						if (sharedPrefs.getBoolean("emoji_type", true))
-						{
-							text = EmojiConverter2.getSmiledText(context, EmoticonConverter.getSmiledText(context, bodyF));
-						} else
-						{
-							text = EmojiConverter.getSmiledText(context, EmoticonConverter.getSmiledText(context, bodyF));
-						}
+
+                        if (sharedPrefs.getBoolean("emoji_type", true))
+                        {
+                            if (sharedPrefs.getBoolean("smiliesType", true)) {
+                                text = EmojiConverter2.getSmiledText(context, EmoticonConverterNew.getSmiledText(context, bodyF));
+                            } else {
+                                text = EmojiConverter2.getSmiledText(context, EmoticonConverter.getSmiledText(context, bodyF));
+                            }
+                        } else
+                        {
+                            if (sharedPrefs.getBoolean("smiliesType", true)) {
+                                text = EmojiConverter.getSmiledText(context, EmoticonConverterNew.getSmiledText(context, bodyF));
+                            } else {
+                                text = EmojiConverter.getSmiledText(context, EmoticonConverter.getSmiledText(context, bodyF));
+                            }
+                        }
 						
 						context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 							
@@ -1000,7 +1016,11 @@ public class MessageArrayAdapter extends ArrayAdapter<String> {
 				  }).start();
 			  } else
 			  {
-				  holder.text.setText(EmoticonConverter.getSmiledText(context, body));
+                  if (sharedPrefs.getBoolean("smiliesType", true)) {
+                      holder.text.setText(EmoticonConverterNew.getSmiledText(context, body));
+                  } else {
+                      holder.text.setText(EmoticonConverter.getSmiledText(context, body));
+                  }
 			  }
 		  } else if (sharedPrefs.getString("smilies", "with").equals("none"))
 		  {
@@ -1056,14 +1076,22 @@ public class MessageArrayAdapter extends ArrayAdapter<String> {
 					@Override
 					public void run() {
 						final Spannable text;
-						
-						if (sharedPrefs.getBoolean("emoji_type", true))
-						{
-							text = EmojiConverter2.getSmiledText(context, EmoticonConverter3.getSmiledText(context, bodyF));
-						} else
-						{
-							text = EmojiConverter.getSmiledText(context, EmoticonConverter3.getSmiledText(context, bodyF));
-						}
+
+                        if (sharedPrefs.getBoolean("emoji_type", true))
+                        {
+                            if (sharedPrefs.getBoolean("smiliesType", true)) {
+                                text = EmojiConverter2.getSmiledText(context, EmoticonConverter3New.getSmiledText(context, bodyF));
+                            } else {
+                                text = EmojiConverter2.getSmiledText(context, EmoticonConverter3.getSmiledText(context, bodyF));
+                            }
+                        } else
+                        {
+                            if (sharedPrefs.getBoolean("smiliesType", true)) {
+                                text = EmojiConverter.getSmiledText(context, EmoticonConverter3New.getSmiledText(context, bodyF));
+                            } else {
+                                text = EmojiConverter.getSmiledText(context, EmoticonConverter3.getSmiledText(context, bodyF));
+                            }
+                        }
 						
 						context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 							
@@ -1078,7 +1106,11 @@ public class MessageArrayAdapter extends ArrayAdapter<String> {
 				  }).start();
 		      } else
 			  {
-				  holder.text.setText(EmoticonConverter3.getSmiledText(context, body));
+                  if (sharedPrefs.getBoolean("smiliesType", true)) {
+                      holder.text.setText(EmoticonConverter3New.getSmiledText(context, body));
+                  } else {
+                      holder.text.setText(EmoticonConverter3.getSmiledText(context, body));
+                  }
 			  }
 		  }
 		  

@@ -324,7 +324,7 @@ public class MainActivity extends FragmentActivity implements
                         {
                             phoneNumber = phoneNumber.substring(1);
                         }
-                        
+
                         editor.putString("mmsc_url","http://mms.vtext.com/servlets/mms?X-VZW-MDN=" + phoneNumber);
                         editor.putString("mms_proxy","null");
                         editor.putString("mms_port","80");

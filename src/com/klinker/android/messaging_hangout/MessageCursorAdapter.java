@@ -33,6 +33,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.*;
 import com.android.mms.transaction.HttpUtils;
 import com.android.mms.util.SendingProgressTokenManager;
@@ -65,7 +67,7 @@ public class MessageCursorAdapter extends CursorAdapter {
     private final Bitmap myImage;
     private SharedPreferences sharedPrefs;
     private ContentResolver contentResolver;
-    private Cursor cursor;
+    private Cursor mCursor;
     private Paint paint;
     private Typeface font;
     private final LayoutInflater mInflater;
@@ -85,7 +87,7 @@ public class MessageCursorAdapter extends CursorAdapter {
         this.sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         this.contentResolver = context.getContentResolver();
         this.mInflater = LayoutInflater.from(context);
-        this.cursor = query;
+        this.mCursor = query;
 
         Bitmap input;
 
@@ -214,22 +216,21 @@ public class MessageCursorAdapter extends CursorAdapter {
     }
 
     @Override
-    public void bindView(View view, Context mContext, Cursor cursor) {
+    public void bindView(final View view, Context mContext, final Cursor cursor) {
         final ViewHolder holder = (ViewHolder) view.getTag();
+        holder.media.setVisibility(View.GONE);
 
         boolean sent = false;
-        boolean mms;
-        String image;
-        String video = "";
-        String body;
-        String date;
-        String id;
+        boolean mms = false;
+        String image = null;
+        String body = "";
+        String date = "0";
+        String id = "";
         boolean sending = false;
         boolean error = false;
         boolean group = false;
         String sender = "";
         String status = "-1";
-        String location;
 
         String dateType = "date";
 
@@ -246,8 +247,6 @@ public class MessageCursorAdapter extends CursorAdapter {
                 id = cursor.getString(cursor.getColumnIndex("_id"));
                 mms = true;
                 body = "";
-                image = null;
-                video = null;
 
                 date = Long.parseLong(cursor.getString(cursor.getColumnIndex("date"))) * 1000 + "";
 
@@ -290,6 +289,168 @@ public class MessageCursorAdapter extends CursorAdapter {
                         }
                     }).start();
                 }
+
+                final String selectionPart = "mid=" + cursor.getString(cursor.getColumnIndex("_id"));
+                // TODO load mms image and video
+
+                if (!group) {
+                    holder.media.setVisibility(View.VISIBLE);
+                    holder.media.setImageResource(android.R.color.transparent);
+
+                    final int position = cursor.getPosition();
+
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                Thread.sleep(250);
+                            } catch (Exception e) {
+
+                            }
+
+                            if (position < mCursor.getPosition() + 10 && position > mCursor.getPosition() - 10) {
+                                // not fast scrolling through content, so show information
+
+                                String body = "";
+                                String image = null;
+                                String video = null;
+
+                                Uri uri = Uri.parse("content://mms/part");
+                                Cursor query = contentResolver.query(uri, null, selectionPart, null, null);
+
+                                if (query.moveToFirst()) {
+                                    do {
+                                        String partId = query.getString(query.getColumnIndex("_id"));
+                                        String type = query.getString(query.getColumnIndex("ct"));
+                                        String body2 = "";
+
+                                        if ("text/plain".equals(type)) {
+                                            String data = query.getString(query.getColumnIndex("_data"));
+                                            if (data != null) {
+                                                body2 = getMmsText(partId, context);
+                                                body += body2;
+                                            } else {
+                                                body2 = query.getString(query.getColumnIndex("text"));
+                                                body += body2;
+                                            }
+                                        }
+
+                                        if ("image/jpeg".equals(type) || "image/bmp".equals(type) ||
+                                                "image/gif".equals(type) || "image/jpg".equals(type) ||
+                                                "image/png".equals(type)) {
+                                            if (image == null)
+                                            {
+                                                image = "content://mms/part/" + partId;
+                                            } else
+                                            {
+                                                image += " content://mms/part/" + partId;
+                                            }
+                                        }
+
+                                        if ("video/mpeg".equals(type) || "video/3gpp".equals(type))
+                                        {
+                                            video = "content://mms/part/" + partId;
+                                        }
+                                    } while (query.moveToNext());
+                                }
+
+                                query.close();
+
+                                if (image == null && video == null && body.equals("")) {
+                                    downloadableMessage(holder, view, cursor);
+                                } else {
+                                    try {
+                                        holder.imageUri = Uri.parse(image);
+                                    } catch (Exception e) {
+                                        // message has no image
+                                    }
+
+                                    final String text = body;
+                                    final String imageUri = image;
+
+                                    context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                                        @Override
+                                        public void run() {
+                                            setMessageText(holder.text, text);
+
+                                            if (imageUri == null) {
+                                                holder.media.setVisibility(View.GONE);
+                                                holder.media.setImageResource(android.R.color.transparent);
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                    }).start();
+                } else {
+                    body = "";
+                    image = null;
+                    String video = null;
+
+                    Uri uri = Uri.parse("content://mms/part");
+                    Cursor query = contentResolver.query(uri, null, selectionPart, null, null);
+
+                    if (query.moveToFirst()) {
+                        do {
+                            String partId = query.getString(query.getColumnIndex("_id"));
+                            String type = query.getString(query.getColumnIndex("ct"));
+                            String body2 = "";
+
+                            if ("text/plain".equals(type)) {
+                                String data = query.getString(query.getColumnIndex("_data"));
+                                if (data != null) {
+                                    body2 = getMmsText(partId, context);
+                                    body += body2;
+                                } else {
+                                    body2 = query.getString(query.getColumnIndex("text"));
+                                    body += body2;
+                                }
+                            }
+
+                            if ("image/jpeg".equals(type) || "image/bmp".equals(type) ||
+                                    "image/gif".equals(type) || "image/jpg".equals(type) ||
+                                    "image/png".equals(type)) {
+                                if (image == null)
+                                {
+                                    image = "content://mms/part/" + partId;
+                                } else
+                                {
+                                    image += " content://mms/part/" + partId;
+                                }
+                            }
+
+                            if ("video/mpeg".equals(type) || "video/3gpp".equals(type))
+                            {
+                                video = "content://mms/part/" + partId;
+                            }
+                        } while (query.moveToNext());
+                    }
+
+                    query.close();
+
+                    if (image == null && video == null && body.equals("")) {
+                        downloadableMessage(holder, view, cursor);
+                    } else {
+                        try {
+                            holder.imageUri = Uri.parse(image);
+                        } catch (Exception e) {
+                            // message has no image
+                        }
+
+                        final String text = body;
+                        final String imageUri = image;
+
+                        setMessageText(holder.text, text);
+
+                        if (imageUri == null) {
+                            holder.media.setVisibility(View.GONE);
+                            holder.media.setImageResource(android.R.color.transparent);
+                        }
+                    }
+                }
+
             } else {
                 String type = cursor.getString(cursor.getColumnIndex("type"));
 
@@ -373,366 +534,6 @@ public class MessageCursorAdapter extends CursorAdapter {
         } catch (Exception e)
         {
             e.printStackTrace();
-
-            id = cursor.getString(cursor.getColumnIndex("_id"));
-            Cursor locationQuery = context.getContentResolver().query(Uri.parse("content://mms/"), new String[] {"m_size", "exp", "ct_l", "_id"}, "_id=?", new String[]{id}, null);
-
-            if (locationQuery.moveToFirst()) {
-                String exp = "1";
-                String size = "1";
-
-                try
-                {
-                    size = locationQuery.getString(locationQuery.getColumnIndex("m_size"));
-                    exp = locationQuery.getString(locationQuery.getColumnIndex("exp"));
-                } catch (Exception f)
-                {
-
-                }
-
-                location = locationQuery.getString(locationQuery.getColumnIndex("ct_l"));
-
-                holder.image.setVisibility(View.VISIBLE);
-                holder.bubble.setVisibility(View.VISIBLE);
-                holder.media.setVisibility(View.GONE);
-                holder.text.setText("");
-                holder.text.setGravity(Gravity.CENTER);
-
-                holder.text.setTextColor(sharedPrefs.getInt("ct_receivedTextColor", context.getResources().getColor(R.color.black)));
-                holder.date.setTextColor(sharedPrefs.getInt("ct_receivedTextColor", context.getResources().getColor(R.color.black)));
-                holder.background.setBackgroundColor(sharedPrefs.getInt("ct_receivedMessageBackground", context.getResources().getColor(R.color.white)));
-                holder.media.setBackgroundColor(sharedPrefs.getInt("ct_receivedMessageBackground", context.getResources().getColor(R.color.white)));
-                holder.bubble.setColorFilter(sharedPrefs.getInt("ct_receivedMessageBackground", context.getResources().getColor(R.color.white)));
-                holder.date.setText("");
-
-                boolean error2 = false;
-
-                try
-                {
-                    holder.date.setText("Message size: " + (int)(Double.parseDouble(size)/1000) + " KB Expires: " +  DateFormat.getDateInstance(DateFormat.MEDIUM).format(new Date(Long.parseLong(exp) * 1000)));
-                    holder.downloadButton.setVisibility(View.VISIBLE);
-                } catch (Exception f)
-                {
-                    try {
-                        holder.date.setText("Error loading message.");
-                        holder.downloadButton.setVisibility(View.GONE);
-                    } catch (Exception g) {
-                        error2 = true;
-                    }
-                }
-
-                holder.date.setGravity(Gravity.LEFT);
-
-                final String downloadLocation = location;
-                final String msgId = id;
-
-                if (!error2) {
-                    holder.downloadButton.setOnClickListener(new View.OnClickListener() {
-
-                        @Override
-                        public void onClick(View v) {
-                            holder.downloadButton.setVisibility(View.INVISIBLE);
-
-                            if (sharedPrefs.getBoolean("wifi_mms_fix", true))
-                            {
-                                WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-                                currentWifi = wifi.getConnectionInfo();
-                                currentWifiState = wifi.isWifiEnabled();
-                                wifi.disconnect();
-                                discon = new DisconnectWifi();
-                                context.registerReceiver(discon, new IntentFilter(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION));
-                                currentDataState = MainActivity.isMobileDataEnabled(context);
-                                MainActivity.setMobileDataEnabled(context, true);
-                            }
-
-                            ConnectivityManager mConnMgr =  (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
-                            final int result = mConnMgr.startUsingNetworkFeature(ConnectivityManager.TYPE_MOBILE, "enableMMS");
-
-                            if (result != 0)
-                            {
-                                IntentFilter filter = new IntentFilter();
-                                filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-                                BroadcastReceiver receiver = new BroadcastReceiver() {
-
-                                    @Override
-                                    public void onReceive(final Context context, Intent intent) {
-                                        String action = intent.getAction();
-
-                                        if (!action.equals(ConnectivityManager.CONNECTIVITY_ACTION))
-                                        {
-                                            return;
-                                        }
-
-                                        @SuppressWarnings("deprecation")
-                                        NetworkInfo mNetworkInfo = (NetworkInfo) intent.getParcelableExtra(ConnectivityManager.EXTRA_NETWORK_INFO);
-
-                                        if ((mNetworkInfo == null) || (mNetworkInfo.getType() != ConnectivityManager.TYPE_MOBILE))
-                                        {
-                                            return;
-                                        }
-
-                                        if (!mNetworkInfo.isConnected())
-                                        {
-                                            return;
-                                        } else
-                                        {
-                                            new Thread(new Runnable() {
-
-                                                @Override
-                                                public void run() {
-                                                    List<APN> apns = new ArrayList<APN>();
-
-                                                    try
-                                                    {
-                                                        APNHelper helper = new APNHelper(context);
-                                                        apns = helper.getMMSApns();
-
-                                                    } catch (Exception e)
-                                                    {
-                                                        APN apn = new APN(sharedPrefs.getString("mmsc_url", ""), sharedPrefs.getString("mms_port", ""), sharedPrefs.getString("mms_proxy", ""));
-                                                        apns.add(apn);
-
-                                                        String mmscUrl = apns.get(0).MMSCenterUrl != null ? apns.get(0).MMSCenterUrl.trim() : null;
-                                                        apns.get(0).MMSCenterUrl = mmscUrl;
-
-                                                        try
-                                                        {
-                                                            if (sharedPrefs.getBoolean("apn_username_password", false))
-                                                            {
-                                                                if (!sharedPrefs.getString("apn_username", "").equals("") && !sharedPrefs.getString("apn_username", "").equals(""))
-                                                                {
-                                                                    String mmsc = apns.get(0).MMSCenterUrl;
-                                                                    String[] parts = mmsc.split("://");
-                                                                    String newMmsc = parts[0] + "://";
-
-                                                                    newMmsc += sharedPrefs.getString("apn_username", "") + ":" + sharedPrefs.getString("apn_password", "") + "@";
-
-                                                                    for (int i = 1; i < parts.length; i++)
-                                                                    {
-                                                                        newMmsc += parts[i];
-                                                                    }
-
-                                                                    apns.set(0, new APN(newMmsc, apns.get(0).MMSPort, apns.get(0).MMSProxy));
-                                                                }
-                                                            }
-                                                        } catch (Exception f)
-                                                        {
-                                                            ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                                                                @Override
-                                                                public void run() {
-                                                                    Toast.makeText(context, "There may be an error in your username and password settings.", Toast.LENGTH_LONG).show();
-                                                                }
-                                                            });
-                                                        }
-                                                    }
-
-                                                    try {
-                                                        byte[] resp = HttpUtils.httpConnection(
-                                                                context, SendingProgressTokenManager.NO_TOKEN,
-                                                                downloadLocation, null, HttpUtils.HTTP_GET_METHOD,
-                                                                !TextUtils.isEmpty(apns.get(0).MMSProxy),
-                                                                apns.get(0).MMSProxy,
-                                                                Integer.parseInt(apns.get(0).MMSPort));
-
-                                                        boolean groupMMS = false;
-
-                                                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1 && sharedPrefs.getBoolean("group_message", false))
-                                                        {
-                                                            groupMMS = true;
-                                                        }
-
-                                                        RetrieveConf retrieveConf = (RetrieveConf) new PduParser(resp).parse();
-                                                        PduPersister persister = PduPersister.getPduPersister(context);
-                                                        Uri msgUri = persister.persist(retrieveConf, Telephony.Mms.Inbox.CONTENT_URI, true,
-                                                                groupMMS, null);
-
-                                                        ContentValues values = new ContentValues(1);
-                                                        values.put(Telephony.Mms.DATE, System.currentTimeMillis() / 1000L);
-                                                        SqliteWrapper.update(context, context.getContentResolver(),
-                                                                msgUri, values, null, null);
-                                                        SqliteWrapper.delete(context, context.getContentResolver(),
-                                                                Uri.parse("content://mms/"), "thread_id=? and _id=?", new String[] {threadIds, msgId});
-
-                                                        ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                                                            @Override
-                                                            public void run() {
-                                                                ((MainActivity) context).refreshViewPager3();
-                                                            }
-                                                        });
-                                                    } catch (Exception e) {
-                                                        e.printStackTrace();
-
-                                                        ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                                                            @Override
-                                                            public void run() {
-                                                                holder.downloadButton.setVisibility(View.VISIBLE);
-                                                            }
-                                                        });
-                                                    }
-
-                                                    if (sharedPrefs.getBoolean("wifi_mms_fix", true))
-                                                    {
-                                                        try {
-                                                            context.unregisterReceiver(discon);
-                                                        } catch (Exception e) {
-
-                                                        }
-
-                                                        WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-                                                        wifi.setWifiEnabled(false);
-                                                        wifi.setWifiEnabled(currentWifiState);
-                                                        Log.v("Reconnect", "" + wifi.reconnect());
-                                                        MainActivity.setMobileDataEnabled(context, currentDataState);
-                                                    }
-
-                                                }
-
-                                            }).start();
-
-                                            context.unregisterReceiver(this);
-                                        }
-
-                                    }
-
-                                };
-
-                                context.registerReceiver(receiver, filter);
-                            } else
-                            {
-                                new Thread(new Runnable() {
-
-                                    @Override
-                                    public void run() {
-                                        List<APN> apns = new ArrayList<APN>();
-
-                                        try
-                                        {
-                                            APNHelper helper = new APNHelper(context);
-                                            apns = helper.getMMSApns();
-
-                                        } catch (Exception e)
-                                        {
-                                            APN apn = new APN(sharedPrefs.getString("mmsc_url", ""), sharedPrefs.getString("mms_port", ""), sharedPrefs.getString("mms_proxy", ""));
-                                            apns.add(apn);
-
-                                            String mmscUrl = apns.get(0).MMSCenterUrl != null ? apns.get(0).MMSCenterUrl.trim() : null;
-                                            apns.get(0).MMSCenterUrl = mmscUrl;
-
-                                            try
-                                            {
-                                                if (sharedPrefs.getBoolean("apn_username_password", false))
-                                                {
-                                                    if (!sharedPrefs.getString("apn_username", "").equals("") && !sharedPrefs.getString("apn_username", "").equals(""))
-                                                    {
-                                                        String mmsc = apns.get(0).MMSCenterUrl;
-                                                        String[] parts = mmsc.split("://");
-                                                        String newMmsc = parts[0] + "://";
-
-                                                        newMmsc += sharedPrefs.getString("apn_username", "") + ":" + sharedPrefs.getString("apn_password", "") + "@";
-
-                                                        for (int i = 1; i < parts.length; i++)
-                                                        {
-                                                            newMmsc += parts[i];
-                                                        }
-
-                                                        apns.set(0, new APN(newMmsc, apns.get(0).MMSPort, apns.get(0).MMSProxy));
-                                                    }
-                                                }
-                                            } catch (Exception f)
-                                            {
-                                                ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                                                    @Override
-                                                    public void run() {
-                                                        Toast.makeText(context, "There may be an error in your username and password settings.", Toast.LENGTH_LONG).show();
-                                                    }
-                                                });
-                                            }
-                                        }
-
-                                        try {
-                                            byte[] resp = HttpUtils.httpConnection(
-                                                    context, SendingProgressTokenManager.NO_TOKEN,
-                                                    downloadLocation, null, HttpUtils.HTTP_GET_METHOD,
-                                                    !TextUtils.isEmpty(apns.get(0).MMSProxy),
-                                                    apns.get(0).MMSProxy,
-                                                    Integer.parseInt(apns.get(0).MMSPort));
-
-                                            boolean groupMMS = false;
-
-                                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1 && sharedPrefs.getBoolean("group_message", false))
-                                            {
-                                                groupMMS = true;
-                                            }
-
-                                            RetrieveConf retrieveConf = (RetrieveConf) new PduParser(resp).parse();
-                                            PduPersister persister = PduPersister.getPduPersister(context);
-                                            Uri msgUri = persister.persist(retrieveConf, Telephony.Mms.Inbox.CONTENT_URI, true,
-                                                    groupMMS, null);
-
-                                            ContentValues values = new ContentValues(1);
-                                            values.put(Telephony.Mms.DATE, System.currentTimeMillis() / 1000L);
-                                            SqliteWrapper.update(context, context.getContentResolver(),
-                                                    msgUri, values, null, null);
-                                            SqliteWrapper.delete(context, context.getContentResolver(),
-                                                    Uri.parse("content://mms/"), "thread_id=? and _id=?", new String[] {threadIds, msgId});
-
-                                            ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                                                @Override
-                                                public void run() {
-                                                    ((MainActivity) context).refreshViewPager3();
-                                                }
-                                            });
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
-
-                                            ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                                                @Override
-                                                public void run() {
-                                                    holder.downloadButton.setVisibility(View.VISIBLE);
-                                                }
-                                            });
-                                        }
-
-                                        if (sharedPrefs.getBoolean("wifi_mms_fix", true))
-                                        {
-                                            try {
-                                                context.unregisterReceiver(discon);
-                                            } catch (Exception e) {
-
-                                            }
-
-                                            WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-                                            wifi.setWifiEnabled(false);
-                                            wifi.setWifiEnabled(currentWifiState);
-                                            Log.v("Reconnect", "" + wifi.reconnect());
-                                            MainActivity.setMobileDataEnabled(context, currentDataState);
-                                        }
-
-                                    }
-
-                                }).start();
-                            }
-
-                        }
-
-                    });
-                }
-
-                view.setPadding(10,5,10,5);
-
-                if (cursor.getPosition() == getCount() - 1)
-                {
-                    view.setPadding(10, 5, 10, 7);
-                }
-            }
-
-            return;
         }
 
         if (group && !sent)
@@ -828,8 +629,6 @@ public class MessageCursorAdapter extends CursorAdapter {
         if (group == true && sent == false)
         {
             final String senderF = sender;
-            // TODO see if this is really necessary, or if the holder can just be used instead... hopefully holder is fine
-            final TextView dateView = (TextView) view.findViewById(R.id.textDate);
 
             new Thread(new Runnable() {
                 @Override
@@ -842,10 +641,10 @@ public class MessageCursorAdapter extends CursorAdapter {
                         @Override
                         public void run() {
                             if(phonesCursor != null && phonesCursor.moveToFirst()) {
-                                dateView.setText(holder.date.getText() + " - " + phonesCursor.getString(0));
+                                holder.date.setText(holder.date.getText() + " - " + phonesCursor.getString(0));
                             } else
                             {
-                                dateView.setText(holder.date.getText() + " - " + senderF);
+                                holder.date.setText(holder.date.getText() + " - " + senderF);
                             }
 
                             phonesCursor.close();
@@ -856,182 +655,14 @@ public class MessageCursorAdapter extends CursorAdapter {
             }).start();
         }
 
-        // TODO make this into a function by sending the holder into it, that way it can be easily used for MMS text as well without rewriting
-        if (sharedPrefs.getString("smilies", "with").equals("with"))
-        {
-            String patternStr = "[^\\x20-\\x7E\\n]";
-            Pattern pattern = Pattern.compile(patternStr);
-            Matcher matcher = pattern.matcher(body);
+        setMessageText(holder.text, body);
 
-            if (matcher.find())
-            {
-                final String bodyF = body;
-
-                new Thread(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        final Spannable text;
-
-                        if (sharedPrefs.getBoolean("emoji_type", true))
-                        {
-                            text = EmojiConverter2.getSmiledText(context, EmoticonConverter2.getSmiledText(context, bodyF));
-                        } else
-                        {
-                            text = EmojiConverter.getSmiledText(context, EmoticonConverter2.getSmiledText(context, bodyF));
-                        }
-
-                        context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                holder.text.setText(text);
-                                Linkify.addLinks(holder.text, Linkify.ALL);
-                            }
-
-                        });
-                    }
-
-                }).start();
-            } else
-            {
-                holder.text.setText(EmoticonConverter2.getSmiledText(context, body));
-                Linkify.addLinks(holder.text, Linkify.ALL);
-            }
-        } else if (sharedPrefs.getString("smilies", "with").equals("without"))
-        {
-            String patternStr = "[^\\x20-\\x7E\\n]";
-            Pattern pattern = Pattern.compile(patternStr);
-            Matcher matcher = pattern.matcher(body);
-
-            if (matcher.find())
-            {
-                final String bodyF = body;
-
-                new Thread(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        final Spannable text;
-
-                        if (sharedPrefs.getBoolean("emoji_type", true))
-                        {
-                            text = EmojiConverter2.getSmiledText(context, EmoticonConverter.getSmiledText(context, bodyF));
-                        } else
-                        {
-                            text = EmojiConverter.getSmiledText(context, EmoticonConverter.getSmiledText(context, bodyF));
-                        }
-
-                        context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                holder.text.setText(text);
-                                Linkify.addLinks(holder.text, Linkify.ALL);
-                            }
-
-                        });
-                    }
-
-                }).start();
-            } else
-            {
-                holder.text.setText(EmoticonConverter.getSmiledText(context, body));
-                Linkify.addLinks(holder.text, Linkify.ALL);
-            }
-        } else if (sharedPrefs.getString("smilies", "with").equals("none"))
-        {
-            String patternStr = "[^\\x20-\\x7E\\n]";
-            Pattern pattern = Pattern.compile(patternStr);
-            Matcher matcher = pattern.matcher(body);
-
-            if (matcher.find())
-            {
-                final String bodyF = body;
-
-                new Thread(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        final Spannable text;
-
-                        if (sharedPrefs.getBoolean("emoji_type", true))
-                        {
-                            text = EmojiConverter2.getSmiledText(context, bodyF);
-                        } else
-                        {
-                            text = EmojiConverter.getSmiledText(context, bodyF);
-                        }
-
-                        context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                holder.text.setText(text);
-                                Linkify.addLinks(holder.text, Linkify.ALL);
-                            }
-
-                        });
-                    }
-
-                }).start();
-            } else
-            {
-                holder.text.setText(body);
-                Linkify.addLinks(holder.text, Linkify.ALL);
-            }
-        } else if (sharedPrefs.getString("smilies", "with").equals("both"))
-        {
-            String patternStr = "[^\\x20-\\x7E\\n]";
-            Pattern pattern = Pattern.compile(patternStr);
-            Matcher matcher = pattern.matcher(body);
-
-            if (matcher.find())
-            {
-                final String bodyF = body;
-
-                new Thread(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        final Spannable text;
-
-                        if (sharedPrefs.getBoolean("emoji_type", true))
-                        {
-                            text = EmojiConverter2.getSmiledText(context, EmoticonConverter3.getSmiledText(context, bodyF));
-                        } else
-                        {
-                            text = EmojiConverter.getSmiledText(context, EmoticonConverter3.getSmiledText(context, bodyF));
-                        }
-
-                        context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                holder.text.setText(text);
-                                Linkify.addLinks(holder.text, Linkify.ALL);
-                            }
-
-                        });
-                    }
-
-                }).start();
-            } else
-            {
-                holder.text.setText(EmoticonConverter3.getSmiledText(context, body));
-                Linkify.addLinks(holder.text, Linkify.ALL);
-            }
-        }
-
-        if (cursor.getPosition() == getCount() - 1)
+        if (cursor.getPosition() == 0)
         {
             view.setPadding(10,5,10,7);
         }
 
-        final boolean mmsT = mms;
-        final String imageT = image;
         final String dateT = date;
-        final String idT = id;
         int size2 = 0;
 
         try
@@ -1204,7 +835,7 @@ public class MessageCursorAdapter extends CursorAdapter {
 
                 if (!errorT)
                 {
-                    if (!mmsT || sizeT > 1)
+                    if (!mmsF || sizeT > 1)
                     {
                         builder2.setItems(R.array.messageOptions, new DialogInterface.OnClickListener() {
 
@@ -1240,7 +871,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                             public void onClick(DialogInterface dialog, int id) {
                                                 String threadId = threadIds;
 
-                                                deleteSMS(context, threadId, idT);
+                                                deleteSMS(context, threadId, idF);
                                                 ((MainActivity) context).refreshViewPager(true);
                                             }
 
@@ -1289,16 +920,10 @@ public class MessageCursorAdapter extends CursorAdapter {
                                         break;
                                     case 1:
                                         try {
-                                            saveImage(MediaStore.Images.Media.getBitmap(context.getContentResolver(), Uri.parse(imageT)), dateT);
-                                        } catch (FileNotFoundException e1) {
-                                            Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
-                                            e1.printStackTrace();
-                                        } catch (IOException e1) {
-                                            Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
-                                            e1.printStackTrace();
+                                            saveImage(((BitmapDrawable) holder.media.getDrawable()).getBitmap(), dateT);
                                         } catch (Exception e)
                                         {
-                                            Toast.makeText(context, "Nothing to Save", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(context, "ERROR", Toast.LENGTH_SHORT).show();
                                         }
                                         break;
                                     case 2:
@@ -1311,7 +936,7 @@ public class MessageCursorAdapter extends CursorAdapter {
 
                                         try
                                         {
-                                            ((MainActivity)context).attachedImage2 = Uri.parse(imageT);
+                                            ((MainActivity)context).attachedImage2 = holder.imageUri;
 
                                             ((MainActivity)context).imageAttachBackground2.setBackgroundColor(sharedPrefs.getInt("ct_conversationListBackground", context.getResources().getColor(R.color.light_silver)));
                                             Drawable attachBack = context.getResources().getDrawable(R.drawable.attachment_editor_bg);
@@ -1326,7 +951,7 @@ public class MessageCursorAdapter extends CursorAdapter {
 
                                         try
                                         {
-                                            ((MainActivity)context).imageAttach2.setImage("send_image", decodeFile(new File(getPath(Uri.parse(imageT)))));
+                                            ((MainActivity)context).imageAttach2.setImage("send_image", decodeFile(new File(getPath(holder.imageUri))));
                                         } catch (Exception e)
                                         {
                                             ((MainActivity)context).imageAttach2.setVisibility(false);
@@ -1341,7 +966,7 @@ public class MessageCursorAdapter extends CursorAdapter {
 
                                             @Override
                                             public void onClick(View arg0) {
-                                                context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(imageT)));
+                                                context.startActivity(new Intent(Intent.ACTION_VIEW, holder.imageUri));
 
                                             }
 
@@ -1390,7 +1015,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                             public void onClick(DialogInterface dialog, int id) {
                                                 String threadId = threadIds;
 
-                                                deleteSMS(context, threadId, idT);
+                                                deleteSMS(context, threadId, idF);
                                                 ((MainActivity) context).refreshViewPager(true);
                                             }
 
@@ -1429,7 +1054,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                             switch (which)
                             {
                                 case 0:
-                                    if (!mmsT)
+                                    if (!mmsF)
                                     {
                                         MainActivity.animationOn = true;
 
@@ -1938,7 +1563,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                         public void onClick(DialogInterface dialog, int id) {
                                             String threadId = threadIds;
 
-                                            deleteSMS(context, threadId, idT);
+                                            deleteSMS(context, threadId, idF);
                                             ((MainActivity) context).refreshViewPager(true);
                                         }
 
@@ -1973,8 +1598,54 @@ public class MessageCursorAdapter extends CursorAdapter {
             }
 
         });
-        
-        // TODO add in animations to view (same as in array adapter)
+
+        if (MainActivity.animationOn == true && cursor.getPosition() == 0 && threadPosition == 0)
+        {
+            String animation = sharedPrefs.getString("send_animation", "left");
+
+            if (animation.equals("left"))
+            {
+                Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
+                anim.setDuration(sharedPrefs.getInt("animation_speed", 300));
+                view.startAnimation(anim);
+            } else if (animation.equals("right"))
+            {
+                Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_left);
+                anim.setDuration(sharedPrefs.getInt("animation_speed", 300));
+                view.startAnimation(anim);
+            } else if (animation.equals("up"))
+            {
+                Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_up);
+                anim.setDuration(sharedPrefs.getInt("animation_speed", 300));
+                view.startAnimation(anim);
+            }
+
+            MainActivity.animationOn = false;
+        }
+
+        if (MainActivity.animationReceived == 1 && cursor.getPosition() == 0 && MainActivity.animationThread == threadPosition)
+        {
+            String animation = sharedPrefs.getString("receive_animation", "right");
+
+            if (animation.equals("left"))
+            {
+                Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
+                anim.setDuration(sharedPrefs.getInt("animation_speed", 300));
+                view.startAnimation(anim);
+            } else if (animation.equals("right"))
+            {
+                Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_left);
+                anim.setDuration(sharedPrefs.getInt("animation_speed", 300));
+                view.startAnimation(anim);
+            } else if (animation.equals("up"))
+            {
+                Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_up);
+                anim.setDuration(sharedPrefs.getInt("animation_speed", 300));
+                view.startAnimation(anim);
+            }
+
+            MainActivity.animationReceived = 0;
+        }
     }
 
     @Override
@@ -2129,16 +1800,16 @@ public class MessageCursorAdapter extends CursorAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        if (!cursor.moveToPosition(getCount() - 1 - position)) {
+        if (!mCursor.moveToPosition(getCount() - 1 - position)) {
             throw new IllegalStateException("couldn't move cursor to position " + position);
         }
         View v;
         if (convertView == null) {
-            v = newView(context, cursor, parent);
+            v = newView(context, mCursor, parent);
         } else {
             v = convertView;
         }
-        bindView(v, context, cursor);
+        bindView(v, context, mCursor);
         return v;
     }
 
@@ -2151,6 +1822,574 @@ public class MessageCursorAdapter extends CursorAdapter {
         public ImageView ellipsis;
         public Button downloadButton;
         public ImageView bubble;
+        public Uri imageUri;
+    }
+
+    public void setMessageText(final TextView textView, final String body) {
+        if (sharedPrefs.getString("smilies", "with").equals("with"))
+        {
+            String patternStr = "[^\\x20-\\x7E\\n]";
+            Pattern pattern = Pattern.compile(patternStr);
+            Matcher matcher = pattern.matcher(body);
+
+            if (matcher.find())
+            {
+                textView.setText(body);
+
+                new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        final Spannable text;
+
+                        if (sharedPrefs.getBoolean("emoji_type", true))
+                        {
+                            if (sharedPrefs.getBoolean("smiliesType", true)) {
+                                text = EmojiConverter2.getSmiledText(context, EmoticonConverter2New.getSmiledText(context, body));
+                            } else {
+                                text = EmojiConverter2.getSmiledText(context, EmoticonConverter2.getSmiledText(context, body));
+                            }
+                        } else
+                        {
+                            if (sharedPrefs.getBoolean("smiliesType", true)) {
+                                text = EmojiConverter.getSmiledText(context, EmoticonConverter2New.getSmiledText(context, body));
+                            } else {
+                                text = EmojiConverter.getSmiledText(context, EmoticonConverter2.getSmiledText(context, body));
+                            }
+                        }
+
+                        context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                textView.setText(text);
+                                Linkify.addLinks(textView, Linkify.ALL);
+                            }
+
+                        });
+                    }
+
+                }).start();
+            } else
+            {
+                if (sharedPrefs.getBoolean("smiliesType", true)) {
+                    textView.setText(EmoticonConverter2New.getSmiledText(context, body));
+                } else {
+                    textView.setText(EmoticonConverter2.getSmiledText(context, body));
+                }
+
+                Linkify.addLinks(textView, Linkify.ALL);
+            }
+        } else if (sharedPrefs.getString("smilies", "with").equals("without"))
+        {
+            String patternStr = "[^\\x20-\\x7E\\n]";
+            Pattern pattern = Pattern.compile(patternStr);
+            Matcher matcher = pattern.matcher(body);
+
+            if (matcher.find())
+            {
+                textView.setText(body);
+
+                new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        final Spannable text;
+
+                        if (sharedPrefs.getBoolean("emoji_type", true))
+                        {
+                            if (sharedPrefs.getBoolean("smiliesType", true)) {
+                                text = EmojiConverter2.getSmiledText(context, EmoticonConverterNew.getSmiledText(context, body));
+                            } else {
+                                text = EmojiConverter2.getSmiledText(context, EmoticonConverter.getSmiledText(context, body));
+                            }
+                        } else
+                        {
+                            if (sharedPrefs.getBoolean("smiliesType", true)) {
+                                text = EmojiConverter.getSmiledText(context, EmoticonConverterNew.getSmiledText(context, body));
+                            } else {
+                                text = EmojiConverter.getSmiledText(context, EmoticonConverter.getSmiledText(context, body));
+                            }
+                        }
+
+                        context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                textView.setText(text);
+                                Linkify.addLinks(textView, Linkify.ALL);
+                            }
+
+                        });
+                    }
+
+                }).start();
+            } else
+            {
+                if (sharedPrefs.getBoolean("smiliesType", true)) {
+                    textView.setText(EmoticonConverterNew.getSmiledText(context, body));
+                } else {
+                    textView.setText(EmoticonConverter.getSmiledText(context, body));
+                }
+
+                Linkify.addLinks(textView, Linkify.ALL);
+            }
+        } else if (sharedPrefs.getString("smilies", "with").equals("none"))
+        {
+            String patternStr = "[^\\x20-\\x7E\\n]";
+            Pattern pattern = Pattern.compile(patternStr);
+            Matcher matcher = pattern.matcher(body);
+
+            if (matcher.find())
+            {
+                textView.setText(body);
+
+                new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        final Spannable text;
+
+                        if (sharedPrefs.getBoolean("emoji_type", true))
+                        {
+                            text = EmojiConverter2.getSmiledText(context, body);
+                        } else
+                        {
+                            text = EmojiConverter.getSmiledText(context, body);
+                        }
+
+                        context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                textView.setText(text);
+                                Linkify.addLinks(textView, Linkify.ALL);
+                            }
+
+                        });
+                    }
+
+                }).start();
+            } else
+            {
+                textView.setText(body);
+                Linkify.addLinks(textView, Linkify.ALL);
+            }
+        } else if (sharedPrefs.getString("smilies", "with").equals("both"))
+        {
+            String patternStr = "[^\\x20-\\x7E\\n]";
+            Pattern pattern = Pattern.compile(patternStr);
+            Matcher matcher = pattern.matcher(body);
+
+            if (matcher.find())
+            {
+                textView.setText(body);
+
+                new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        final Spannable text;
+
+                        if (sharedPrefs.getBoolean("emoji_type", true))
+                        {
+                            if (sharedPrefs.getBoolean("smiliesType", true)) {
+                                text = EmojiConverter2.getSmiledText(context, EmoticonConverter3New.getSmiledText(context, body));
+                            } else {
+                                text = EmojiConverter2.getSmiledText(context, EmoticonConverter3.getSmiledText(context, body));
+                            }
+                        } else
+                        {
+                            if (sharedPrefs.getBoolean("smiliesType", true)) {
+                                text = EmojiConverter.getSmiledText(context, EmoticonConverter3New.getSmiledText(context, body));
+                            } else {
+                                text = EmojiConverter.getSmiledText(context, EmoticonConverter3.getSmiledText(context, body));
+                            }
+                        }
+
+                        context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                textView.setText(text);
+                                Linkify.addLinks(textView, Linkify.ALL);
+                            }
+
+                        });
+                    }
+
+                }).start();
+            } else
+            {
+                if (sharedPrefs.getBoolean("smiliesType", true)) {
+                    textView.setText(EmoticonConverter3New.getSmiledText(context, body));
+                } else {
+                    textView.setText(EmoticonConverter3.getSmiledText(context, body));
+                }
+
+                Linkify.addLinks(textView, Linkify.ALL);
+            }
+        }
+    }
+
+    public void downloadableMessage(final ViewHolder holder, View view, Cursor cursor) {
+        String id = cursor.getString(cursor.getColumnIndex("_id"));
+        Cursor locationQuery = context.getContentResolver().query(Uri.parse("content://mms/"), new String[] {"m_size", "exp", "ct_l", "_id"}, "_id=?", new String[]{id}, null);
+
+        if (locationQuery.moveToFirst()) {
+            String exp = "1";
+            String size = "1";
+
+            try
+            {
+                size = locationQuery.getString(locationQuery.getColumnIndex("m_size"));
+                exp = locationQuery.getString(locationQuery.getColumnIndex("exp"));
+            } catch (Exception f)
+            {
+
+            }
+
+            String location = locationQuery.getString(locationQuery.getColumnIndex("ct_l"));
+
+            holder.image.setVisibility(View.VISIBLE);
+            holder.bubble.setVisibility(View.VISIBLE);
+            holder.media.setVisibility(View.GONE);
+            holder.text.setText("");
+            holder.text.setGravity(Gravity.CENTER);
+
+            holder.text.setTextColor(sharedPrefs.getInt("ct_receivedTextColor", context.getResources().getColor(R.color.black)));
+            holder.date.setTextColor(sharedPrefs.getInt("ct_receivedTextColor", context.getResources().getColor(R.color.black)));
+            holder.background.setBackgroundColor(sharedPrefs.getInt("ct_receivedMessageBackground", context.getResources().getColor(R.color.white)));
+            holder.media.setBackgroundColor(sharedPrefs.getInt("ct_receivedMessageBackground", context.getResources().getColor(R.color.white)));
+            holder.bubble.setColorFilter(sharedPrefs.getInt("ct_receivedMessageBackground", context.getResources().getColor(R.color.white)));
+            holder.date.setText("");
+
+            boolean error2 = false;
+
+            try
+            {
+                holder.date.setText("Message size: " + (int)(Double.parseDouble(size)/1000) + " KB Expires: " +  DateFormat.getDateInstance(DateFormat.MEDIUM).format(new Date(Long.parseLong(exp) * 1000)));
+                holder.downloadButton.setVisibility(View.VISIBLE);
+            } catch (Exception f)
+            {
+                try {
+                    holder.date.setText("Error loading message.");
+                    holder.downloadButton.setVisibility(View.GONE);
+                } catch (Exception g) {
+                    error2 = true;
+                }
+            }
+
+            holder.date.setGravity(Gravity.LEFT);
+
+            final String downloadLocation = location;
+            final String msgId = id;
+
+            if (!error2) {
+                holder.downloadButton.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        holder.downloadButton.setVisibility(View.INVISIBLE);
+
+                        if (sharedPrefs.getBoolean("wifi_mms_fix", true))
+                        {
+                            WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+                            currentWifi = wifi.getConnectionInfo();
+                            currentWifiState = wifi.isWifiEnabled();
+                            wifi.disconnect();
+                            discon = new DisconnectWifi();
+                            context.registerReceiver(discon, new IntentFilter(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION));
+                            currentDataState = MainActivity.isMobileDataEnabled(context);
+                            MainActivity.setMobileDataEnabled(context, true);
+                        }
+
+                        ConnectivityManager mConnMgr =  (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                        final int result = mConnMgr.startUsingNetworkFeature(ConnectivityManager.TYPE_MOBILE, "enableMMS");
+
+                        if (result != 0)
+                        {
+                            IntentFilter filter = new IntentFilter();
+                            filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+                            BroadcastReceiver receiver = new BroadcastReceiver() {
+
+                                @Override
+                                public void onReceive(final Context context, Intent intent) {
+                                    String action = intent.getAction();
+
+                                    if (!action.equals(ConnectivityManager.CONNECTIVITY_ACTION))
+                                    {
+                                        return;
+                                    }
+
+                                    @SuppressWarnings("deprecation")
+                                    NetworkInfo mNetworkInfo = (NetworkInfo) intent.getParcelableExtra(ConnectivityManager.EXTRA_NETWORK_INFO);
+
+                                    if ((mNetworkInfo == null) || (mNetworkInfo.getType() != ConnectivityManager.TYPE_MOBILE))
+                                    {
+                                        return;
+                                    }
+
+                                    if (!mNetworkInfo.isConnected())
+                                    {
+                                        return;
+                                    } else
+                                    {
+                                        new Thread(new Runnable() {
+
+                                            @Override
+                                            public void run() {
+                                                List<APN> apns = new ArrayList<APN>();
+
+                                                try
+                                                {
+                                                    APNHelper helper = new APNHelper(context);
+                                                    apns = helper.getMMSApns();
+
+                                                } catch (Exception e)
+                                                {
+                                                    APN apn = new APN(sharedPrefs.getString("mmsc_url", ""), sharedPrefs.getString("mms_port", ""), sharedPrefs.getString("mms_proxy", ""));
+                                                    apns.add(apn);
+
+                                                    String mmscUrl = apns.get(0).MMSCenterUrl != null ? apns.get(0).MMSCenterUrl.trim() : null;
+                                                    apns.get(0).MMSCenterUrl = mmscUrl;
+
+                                                    try
+                                                    {
+                                                        if (sharedPrefs.getBoolean("apn_username_password", false))
+                                                        {
+                                                            if (!sharedPrefs.getString("apn_username", "").equals("") && !sharedPrefs.getString("apn_username", "").equals(""))
+                                                            {
+                                                                String mmsc = apns.get(0).MMSCenterUrl;
+                                                                String[] parts = mmsc.split("://");
+                                                                String newMmsc = parts[0] + "://";
+
+                                                                newMmsc += sharedPrefs.getString("apn_username", "") + ":" + sharedPrefs.getString("apn_password", "") + "@";
+
+                                                                for (int i = 1; i < parts.length; i++)
+                                                                {
+                                                                    newMmsc += parts[i];
+                                                                }
+
+                                                                apns.set(0, new APN(newMmsc, apns.get(0).MMSPort, apns.get(0).MMSProxy));
+                                                            }
+                                                        }
+                                                    } catch (Exception f)
+                                                    {
+                                                        ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                                                            @Override
+                                                            public void run() {
+                                                                Toast.makeText(context, "There may be an error in your username and password settings.", Toast.LENGTH_LONG).show();
+                                                            }
+                                                        });
+                                                    }
+                                                }
+
+                                                try {
+                                                    byte[] resp = HttpUtils.httpConnection(
+                                                            context, SendingProgressTokenManager.NO_TOKEN,
+                                                            downloadLocation, null, HttpUtils.HTTP_GET_METHOD,
+                                                            !TextUtils.isEmpty(apns.get(0).MMSProxy),
+                                                            apns.get(0).MMSProxy,
+                                                            Integer.parseInt(apns.get(0).MMSPort));
+
+                                                    boolean groupMMS = false;
+
+                                                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1 && sharedPrefs.getBoolean("group_message", false))
+                                                    {
+                                                        groupMMS = true;
+                                                    }
+
+                                                    RetrieveConf retrieveConf = (RetrieveConf) new PduParser(resp).parse();
+                                                    PduPersister persister = PduPersister.getPduPersister(context);
+                                                    Uri msgUri = persister.persist(retrieveConf, Telephony.Mms.Inbox.CONTENT_URI, true,
+                                                            groupMMS, null);
+
+                                                    ContentValues values = new ContentValues(1);
+                                                    values.put(Telephony.Mms.DATE, System.currentTimeMillis() / 1000L);
+                                                    SqliteWrapper.update(context, context.getContentResolver(),
+                                                            msgUri, values, null, null);
+                                                    SqliteWrapper.delete(context, context.getContentResolver(),
+                                                            Uri.parse("content://mms/"), "thread_id=? and _id=?", new String[] {threadIds, msgId});
+
+                                                    ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                                                        @Override
+                                                        public void run() {
+                                                            ((MainActivity) context).refreshViewPager3();
+                                                        }
+                                                    });
+                                                } catch (Exception e) {
+                                                    e.printStackTrace();
+
+                                                    ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                                                        @Override
+                                                        public void run() {
+                                                            holder.downloadButton.setVisibility(View.VISIBLE);
+                                                        }
+                                                    });
+                                                }
+
+                                                if (sharedPrefs.getBoolean("wifi_mms_fix", true))
+                                                {
+                                                    try {
+                                                        context.unregisterReceiver(discon);
+                                                    } catch (Exception e) {
+
+                                                    }
+
+                                                    WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+                                                    wifi.setWifiEnabled(false);
+                                                    wifi.setWifiEnabled(currentWifiState);
+                                                    Log.v("Reconnect", "" + wifi.reconnect());
+                                                    MainActivity.setMobileDataEnabled(context, currentDataState);
+                                                }
+
+                                            }
+
+                                        }).start();
+
+                                        context.unregisterReceiver(this);
+                                    }
+
+                                }
+
+                            };
+
+                            context.registerReceiver(receiver, filter);
+                        } else
+                        {
+                            new Thread(new Runnable() {
+
+                                @Override
+                                public void run() {
+                                    List<APN> apns = new ArrayList<APN>();
+
+                                    try
+                                    {
+                                        APNHelper helper = new APNHelper(context);
+                                        apns = helper.getMMSApns();
+
+                                    } catch (Exception e)
+                                    {
+                                        APN apn = new APN(sharedPrefs.getString("mmsc_url", ""), sharedPrefs.getString("mms_port", ""), sharedPrefs.getString("mms_proxy", ""));
+                                        apns.add(apn);
+
+                                        String mmscUrl = apns.get(0).MMSCenterUrl != null ? apns.get(0).MMSCenterUrl.trim() : null;
+                                        apns.get(0).MMSCenterUrl = mmscUrl;
+
+                                        try
+                                        {
+                                            if (sharedPrefs.getBoolean("apn_username_password", false))
+                                            {
+                                                if (!sharedPrefs.getString("apn_username", "").equals("") && !sharedPrefs.getString("apn_username", "").equals(""))
+                                                {
+                                                    String mmsc = apns.get(0).MMSCenterUrl;
+                                                    String[] parts = mmsc.split("://");
+                                                    String newMmsc = parts[0] + "://";
+
+                                                    newMmsc += sharedPrefs.getString("apn_username", "") + ":" + sharedPrefs.getString("apn_password", "") + "@";
+
+                                                    for (int i = 1; i < parts.length; i++)
+                                                    {
+                                                        newMmsc += parts[i];
+                                                    }
+
+                                                    apns.set(0, new APN(newMmsc, apns.get(0).MMSPort, apns.get(0).MMSProxy));
+                                                }
+                                            }
+                                        } catch (Exception f)
+                                        {
+                                            ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                                                @Override
+                                                public void run() {
+                                                    Toast.makeText(context, "There may be an error in your username and password settings.", Toast.LENGTH_LONG).show();
+                                                }
+                                            });
+                                        }
+                                    }
+
+                                    try {
+                                        byte[] resp = HttpUtils.httpConnection(
+                                                context, SendingProgressTokenManager.NO_TOKEN,
+                                                downloadLocation, null, HttpUtils.HTTP_GET_METHOD,
+                                                !TextUtils.isEmpty(apns.get(0).MMSProxy),
+                                                apns.get(0).MMSProxy,
+                                                Integer.parseInt(apns.get(0).MMSPort));
+
+                                        boolean groupMMS = false;
+
+                                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1 && sharedPrefs.getBoolean("group_message", false))
+                                        {
+                                            groupMMS = true;
+                                        }
+
+                                        RetrieveConf retrieveConf = (RetrieveConf) new PduParser(resp).parse();
+                                        PduPersister persister = PduPersister.getPduPersister(context);
+                                        Uri msgUri = persister.persist(retrieveConf, Telephony.Mms.Inbox.CONTENT_URI, true,
+                                                groupMMS, null);
+
+                                        ContentValues values = new ContentValues(1);
+                                        values.put(Telephony.Mms.DATE, System.currentTimeMillis() / 1000L);
+                                        SqliteWrapper.update(context, context.getContentResolver(),
+                                                msgUri, values, null, null);
+                                        SqliteWrapper.delete(context, context.getContentResolver(),
+                                                Uri.parse("content://mms/"), "thread_id=? and _id=?", new String[] {threadIds, msgId});
+
+                                        ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                                            @Override
+                                            public void run() {
+                                                ((MainActivity) context).refreshViewPager3();
+                                            }
+                                        });
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+
+                                        ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                                            @Override
+                                            public void run() {
+                                                holder.downloadButton.setVisibility(View.VISIBLE);
+                                            }
+                                        });
+                                    }
+
+                                    if (sharedPrefs.getBoolean("wifi_mms_fix", true))
+                                    {
+                                        try {
+                                            context.unregisterReceiver(discon);
+                                        } catch (Exception e) {
+
+                                        }
+
+                                        WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+                                        wifi.setWifiEnabled(false);
+                                        wifi.setWifiEnabled(currentWifiState);
+                                        Log.v("Reconnect", "" + wifi.reconnect());
+                                        MainActivity.setMobileDataEnabled(context, currentDataState);
+                                    }
+
+                                }
+
+                            }).start();
+                        }
+
+                    }
+
+                });
+            }
+
+            view.setPadding(10,5,10,5);
+
+            if (cursor.getPosition() == 0)
+            {
+                view.setPadding(10, 5, 10, 7);
+            }
+        }
     }
 
     public InputStream openDisplayPhoto(long contactId) {

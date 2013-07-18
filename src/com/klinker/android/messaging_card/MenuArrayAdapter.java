@@ -15,11 +15,7 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.klinker.android.messaging_sliding.emojis.EmojiConverter;
-import com.klinker.android.messaging_sliding.emojis.EmojiConverter2;
-import com.klinker.android.messaging_sliding.emojis.EmoticonConverter;
-import com.klinker.android.messaging_sliding.emojis.EmoticonConverter2;
-import com.klinker.android.messaging_sliding.emojis.EmoticonConverter3;
+import com.klinker.android.messaging_sliding.emojis.*;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -456,14 +452,26 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 		  {
 			  if (sharedPrefs.getBoolean("emoji_type", true))
 			  {
-				  holder.summary.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter2.getSmiledText(context, body.get(position))));
+                  if (sharedPrefs.getBoolean("smiliesType", true)) {
+                      holder.summary.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter2New.getSmiledText(context, body.get(position))));
+                  } else {
+                      holder.summary.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter2.getSmiledText(context, body.get(position))));
+                  }
 			  } else
 			  {
-				  holder.summary.setText(EmojiConverter.getSmiledText(context, EmoticonConverter2.getSmiledText(context, body.get(position))));
+                  if (sharedPrefs.getBoolean("smiliesType", true)) {
+                      holder.summary.setText(EmojiConverter.getSmiledText(context, EmoticonConverter2New.getSmiledText(context, body.get(position))));
+                  } else {
+                      holder.summary.setText(EmojiConverter.getSmiledText(context, EmoticonConverter2.getSmiledText(context, body.get(position))));
+                  }
 			  }
 	      } else
 		  {
-			  holder.summary.setText(EmoticonConverter2.getSmiledText(context, body.get(position)));
+              if (sharedPrefs.getBoolean("smiliesType", true)) {
+                  holder.summary.setText(EmoticonConverter2New.getSmiledText(context, body.get(position)));
+              } else {
+                  holder.summary.setText(EmoticonConverter2.getSmiledText(context, body.get(position)));
+              }
 		  }
 	  } else if (sharedPrefs.getString("smilies", "with").equals("without"))
 	  {
@@ -475,14 +483,26 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 		  {
 			  if (sharedPrefs.getBoolean("emoji_type", true))
 			  {
-				  holder.summary.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter2.getSmiledText(context, body.get(position))));
+                  if (sharedPrefs.getBoolean("smiliesType", true)) {
+                      holder.summary.setText(EmojiConverter2.getSmiledText(context, EmoticonConverterNew.getSmiledText(context, body.get(position))));
+                  } else {
+                      holder.summary.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter.getSmiledText(context, body.get(position))));
+                  }
 			  } else
 			  {
-				  holder.summary.setText(EmojiConverter.getSmiledText(context, EmoticonConverter2.getSmiledText(context, body.get(position))));
+                  if (sharedPrefs.getBoolean("smiliesType", true)) {
+                      holder.summary.setText(EmojiConverter.getSmiledText(context, EmoticonConverterNew.getSmiledText(context, body.get(position))));
+                  } else {
+                      holder.summary.setText(EmojiConverter.getSmiledText(context, EmoticonConverter.getSmiledText(context, body.get(position))));
+                  }
 			  }
 		  } else
 		  {
-			  holder.summary.setText(EmoticonConverter.getSmiledText(context, body.get(position)));
+              if (sharedPrefs.getBoolean("smiliesType", true)) {
+                  holder.summary.setText(EmoticonConverterNew.getSmiledText(context, body.get(position)));
+              } else {
+                  holder.summary.setText(EmoticonConverter.getSmiledText(context, body.get(position)));
+              }
 		  }
 	  } else if (sharedPrefs.getString("smilies", "with").equals("none"))
 	  {
@@ -511,16 +531,28 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 		  
 		  if (matcher.find())
 		  {
-			  if (sharedPrefs.getBoolean("emoji_type", true))
-			  {
-				  holder.summary.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter2.getSmiledText(context, body.get(position))));
-			  } else
-			  {
-				  holder.summary.setText(EmojiConverter.getSmiledText(context, EmoticonConverter2.getSmiledText(context, body.get(position))));
-			  }
+              if (sharedPrefs.getBoolean("emoji_type", true))
+              {
+                  if (sharedPrefs.getBoolean("smiliesType", true)) {
+                      holder.summary.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter3New.getSmiledText(context, body.get(position))));
+                  } else {
+                      holder.summary.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter3.getSmiledText(context, body.get(position))));
+                  }
+              } else
+              {
+                  if (sharedPrefs.getBoolean("smiliesType", true)) {
+                      holder.summary.setText(EmojiConverter.getSmiledText(context, EmoticonConverter3New.getSmiledText(context, body.get(position))));
+                  } else {
+                      holder.summary.setText(EmojiConverter.getSmiledText(context, EmoticonConverter3.getSmiledText(context, body.get(position))));
+                  }
+              }
 	      } else
 		  {
-			  holder.summary.setText(EmoticonConverter3.getSmiledText(context, body.get(position)));
+              if (sharedPrefs.getBoolean("smiliesType", true)) {
+                  holder.summary.setText(EmoticonConverter3New.getSmiledText(context, body.get(position)));
+              } else {
+                  holder.summary.setText(EmoticonConverter3.getSmiledText(context, body.get(position)));
+              }
 		  }
 	  }
 	  

@@ -333,83 +333,119 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 
 	  }).start();
 
-	  if (sharedPrefs.getString("smilies", "with").equals("with"))
-	  {
-		  String patternStr = "[^\\x20-\\x7E]";
-		  Pattern pattern = Pattern.compile(patternStr);
-		  Matcher matcher = pattern.matcher(body.get(position));
+      if (sharedPrefs.getString("smilies", "with").equals("with"))
+      {
+          String patternStr = "[^\\x20-\\x7E]";
+          Pattern pattern = Pattern.compile(patternStr);
+          Matcher matcher = pattern.matcher(body.get(position));
 
-		  if (matcher.find())
-		  {
-			  if (sharedPrefs.getBoolean("emoji_type", true))
-			  {
-				  holder.text2.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter2.getSmiledText(context, body.get(position))));
-			  } else
-			  {
-				  holder.text2.setText(EmojiConverter.getSmiledText(context, EmoticonConverter2.getSmiledText(context, body.get(position))));
-			  }
-	      } else
-		  {
-			  holder.text2.setText(EmoticonConverter2.getSmiledText(context, body.get(position)));
-		  }
-	  } else if (sharedPrefs.getString("smilies", "with").equals("without"))
-	  {
-		  String patternStr = "[^\\x20-\\x7E]";
-		  Pattern pattern = Pattern.compile(patternStr);
-		  Matcher matcher = pattern.matcher(body.get(position));
+          if (matcher.find())
+          {
+              if (sharedPrefs.getBoolean("emoji_type", true))
+              {
+                  if (sharedPrefs.getBoolean("smiliesType", true)) {
+                      holder.text2.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter2New.getSmiledText(context, body.get(position))));
+                  } else {
+                      holder.text2.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter2.getSmiledText(context, body.get(position))));
+                  }
+              } else
+              {
+                  if (sharedPrefs.getBoolean("smiliesType", true)) {
+                      holder.text2.setText(EmojiConverter.getSmiledText(context, EmoticonConverter2New.getSmiledText(context, body.get(position))));
+                  } else {
+                      holder.text2.setText(EmojiConverter.getSmiledText(context, EmoticonConverter2.getSmiledText(context, body.get(position))));
+                  }
+              }
+          } else
+          {
+              if (sharedPrefs.getBoolean("smiliesType", true)) {
+                  holder.text2.setText(EmoticonConverter2New.getSmiledText(context, body.get(position)));
+              } else {
+                  holder.text2.setText(EmoticonConverter2.getSmiledText(context, body.get(position)));
+              }
+          }
+      } else if (sharedPrefs.getString("smilies", "with").equals("without"))
+      {
+          String patternStr = "[^\\x20-\\x7E]";
+          Pattern pattern = Pattern.compile(patternStr);
+          Matcher matcher = pattern.matcher(body.get(position));
 
-		  if (matcher.find())
-		  {
-			  if (sharedPrefs.getBoolean("emoji_type", true))
-			  {
-				  holder.text2.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter2.getSmiledText(context, body.get(position))));
-			  } else
-			  {
-				  holder.text2.setText(EmojiConverter.getSmiledText(context, EmoticonConverter2.getSmiledText(context, body.get(position))));
-			  }
-		  } else
-		  {
-			  holder.text2.setText(EmoticonConverter.getSmiledText(context, body.get(position)));
-		  }
-	  } else if (sharedPrefs.getString("smilies", "with").equals("none"))
-	  {
-		  String patternStr = "[^\\x20-\\x7E]";
-		  Pattern pattern = Pattern.compile(patternStr);
-		  Matcher matcher = pattern.matcher(body.get(position));
+          if (matcher.find())
+          {
+              if (sharedPrefs.getBoolean("emoji_type", true))
+              {
+                  if (sharedPrefs.getBoolean("smiliesType", true)) {
+                      holder.text2.setText(EmojiConverter2.getSmiledText(context, EmoticonConverterNew.getSmiledText(context, body.get(position))));
+                  } else {
+                      holder.text2.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter.getSmiledText(context, body.get(position))));
+                  }
+              } else
+              {
+                  if (sharedPrefs.getBoolean("smiliesType", true)) {
+                      holder.text2.setText(EmojiConverter.getSmiledText(context, EmoticonConverterNew.getSmiledText(context, body.get(position))));
+                  } else {
+                      holder.text2.setText(EmojiConverter.getSmiledText(context, EmoticonConverter.getSmiledText(context, body.get(position))));
+                  }
+              }
+          } else
+          {
+              if (sharedPrefs.getBoolean("smiliesType", true)) {
+                  holder.text2.setText(EmoticonConverterNew.getSmiledText(context, body.get(position)));
+              } else {
+                  holder.text2.setText(EmoticonConverter.getSmiledText(context, body.get(position)));
+              }
+          }
+      } else if (sharedPrefs.getString("smilies", "with").equals("none"))
+      {
+          String patternStr = "[^\\x20-\\x7E]";
+          Pattern pattern = Pattern.compile(patternStr);
+          Matcher matcher = pattern.matcher(body.get(position));
 
-		  if (matcher.find())
-		  {
-			  if (sharedPrefs.getBoolean("emoji_type", true))
-			  {
-				  holder.text2.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter2.getSmiledText(context, body.get(position))));
-			  } else
-			  {
-				  holder.text2.setText(EmojiConverter.getSmiledText(context, EmoticonConverter2.getSmiledText(context, body.get(position))));
-			  }
-		  } else
-		  {
-			  holder.text2.setText(body.get(position));
-		  }
-	  } else if (sharedPrefs.getString("smilies", "with").equals("both"))
-	  {
-		  String patternStr = "[^\\x20-\\x7E]";
-		  Pattern pattern = Pattern.compile(patternStr);
-		  Matcher matcher = pattern.matcher(body.get(position));
+          if (matcher.find())
+          {
+              if (sharedPrefs.getBoolean("emoji_type", true))
+              {
+                  holder.text2.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter2.getSmiledText(context, body.get(position))));
+              } else
+              {
+                  holder.text2.setText(EmojiConverter.getSmiledText(context, EmoticonConverter2.getSmiledText(context, body.get(position))));
+              }
+          } else
+          {
+              holder.text2.setText(body.get(position));
+          }
+      } else if (sharedPrefs.getString("smilies", "with").equals("both"))
+      {
+          String patternStr = "[^\\x20-\\x7E]";
+          Pattern pattern = Pattern.compile(patternStr);
+          Matcher matcher = pattern.matcher(body.get(position));
 
-		  if (matcher.find())
-		  {
-			  if (sharedPrefs.getBoolean("emoji_type", true))
-			  {
-				  holder.text2.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter2.getSmiledText(context, body.get(position))));
-			  } else
-			  {
-				  holder.text2.setText(EmojiConverter.getSmiledText(context, EmoticonConverter2.getSmiledText(context, body.get(position))));
-			  }
-	      } else
-		  {
-			  holder.text2.setText(EmoticonConverter3.getSmiledText(context, body.get(position)));
-		  }
-	  }
+          if (matcher.find())
+          {
+              if (sharedPrefs.getBoolean("emoji_type", true))
+              {
+                  if (sharedPrefs.getBoolean("smiliesType", true)) {
+                      holder.text2.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter3New.getSmiledText(context, body.get(position))));
+                  } else {
+                      holder.text2.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter3.getSmiledText(context, body.get(position))));
+                  }
+              } else
+              {
+                  if (sharedPrefs.getBoolean("smiliesType", true)) {
+                      holder.text2.setText(EmojiConverter.getSmiledText(context, EmoticonConverter3New.getSmiledText(context, body.get(position))));
+                  } else {
+                      holder.text2.setText(EmojiConverter.getSmiledText(context, EmoticonConverter3.getSmiledText(context, body.get(position))));
+                  }
+              }
+          } else
+          {
+              if (sharedPrefs.getBoolean("smiliesType", true)) {
+                  holder.text2.setText(EmoticonConverter3New.getSmiledText(context, body.get(position)));
+              } else {
+                  holder.text2.setText(EmoticonConverter3.getSmiledText(context, body.get(position)));
+              }
+          }
+      }
 
 	  Date date2 = new Date(0);
 
