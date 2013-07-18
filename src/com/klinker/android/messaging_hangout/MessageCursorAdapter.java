@@ -2075,7 +2075,12 @@ public class MessageCursorAdapter extends CursorAdapter {
                 }).start();
             } else
             {
-                holder.text.setText(EmoticonConverter2.getSmiledText(context, body));
+                if (sharedPrefs.getBoolean("smiliesType", true)) {
+                    holder.text.setText(EmoticonConverter2New.getSmiledText(context, body));
+                } else {
+                    holder.text.setText(EmoticonConverter2.getSmiledText(context, body));
+                }
+
                 Linkify.addLinks(holder.text, Linkify.ALL);
             }
         } else if (sharedPrefs.getString("smilies", "with").equals("without"))
@@ -2122,7 +2127,12 @@ public class MessageCursorAdapter extends CursorAdapter {
                 }).start();
             } else
             {
-                holder.text.setText(EmoticonConverter.getSmiledText(context, body));
+                if (sharedPrefs.getBoolean("smiliesType", true)) {
+                    holder.text.setText(EmoticonConverterNew.getSmiledText(context, body));
+                } else {
+                    holder.text.setText(EmoticonConverter.getSmiledText(context, body));
+                }
+
                 Linkify.addLinks(holder.text, Linkify.ALL);
             }
         } else if (sharedPrefs.getString("smilies", "with").equals("none"))
@@ -2208,7 +2218,12 @@ public class MessageCursorAdapter extends CursorAdapter {
                 }).start();
             } else
             {
-                holder.text.setText(EmoticonConverter3.getSmiledText(context, body));
+                if (sharedPrefs.getBoolean("smiliesType", true)) {
+                    holder.text.setText(EmoticonConverter3New.getSmiledText(context, body));
+                } else {
+                    holder.text.setText(EmoticonConverter3.getSmiledText(context, body));
+                }
+
                 Linkify.addLinks(holder.text, Linkify.ALL);
             }
         }

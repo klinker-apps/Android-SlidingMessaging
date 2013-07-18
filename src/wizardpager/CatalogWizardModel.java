@@ -53,6 +53,7 @@ public class CatalogWizardModel extends AbstractWizardModel {
                 "- Option to remove numbers from the widget\n" +
                 "- Mark all conversations as read overflow menu option\n" +
                 "- Faster emoji load time when inserting\n" +
+                "- New emoticons, can reenable old ones in Theme Settings\n" +
                 "- Option to disable drafts\n" +
                 "- Improved performance\n" +
                 "- Bug fixes\n";
