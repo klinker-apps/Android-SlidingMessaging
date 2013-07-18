@@ -1612,6 +1612,7 @@ s
 												dPI.add(deliveredPI);
 											}
 											
+											// TODO add try/catch that catches sending exception and tells user to check split option in advanced settings through toast
 											smsManager.sendMultipartTextMessage(findContactNumber(inboxNumber.get(position2), context), null, parts, sPI, dPI);
 										}
 									} else
