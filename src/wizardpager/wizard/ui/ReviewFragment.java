@@ -74,9 +74,9 @@ public class ReviewFragment extends ListFragment implements ModelCallbacks {
                        + "\n\n" +
                        getResources().getString(R.string.twitter_link));
 
-        ListView listView = (ListView) rootView.findViewById(android.R.id.list);
-        setListAdapter(mReviewAdapter);
-        listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        //ListView listView = (ListView) rootView.findViewById(android.R.id.list);
+        //setListAdapter(mReviewAdapter);
+        //listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         return rootView;
     }
 
@@ -173,13 +173,13 @@ public class ReviewFragment extends ListFragment implements ModelCallbacks {
             LayoutInflater inflater = LayoutInflater.from(getActivity());
             View rootView = inflater.inflate(R.layout.list_item_review, container, false);
 
-            ReviewItem reviewItem = mCurrentReviewItems.get(position);
-            String value = reviewItem.getDisplayValue();
-            if (TextUtils.isEmpty(value)) {
-                value = "(None)";
-            }
-            ((TextView) rootView.findViewById(android.R.id.text1)).setText(reviewItem.getTitle());
-            ((TextView) rootView.findViewById(android.R.id.text2)).setText(value);
+            //ReviewItem reviewItem = mCurrentReviewItems.get(position);
+            //String value = reviewItem.getDisplayValue();
+            //if (TextUtils.isEmpty(value)) {
+                //value = "(None)";
+            //}
+            //((TextView) rootView.findViewById(android.R.id.text1)).setText(reviewItem.getTitle());
+            //((TextView) rootView.findViewById(android.R.id.text2)).setText(value);
             return rootView;
         }
 

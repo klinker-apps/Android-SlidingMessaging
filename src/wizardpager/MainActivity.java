@@ -16,24 +16,32 @@
 
 package wizardpager;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.v4.app.*;
-import android.support.v4.view.ViewPager;
-import android.util.TypedValue;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import wizardpager.wizard.model.AbstractWizardModel;
 import wizardpager.wizard.model.ModelCallbacks;
 import wizardpager.wizard.model.Page;
 import wizardpager.wizard.ui.PageFragmentCallbacks;
 import wizardpager.wizard.ui.ReviewFragment;
 import wizardpager.wizard.ui.StepPagerStrip;
+
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.util.TypedValue;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+
 import com.klinker.android.messaging_donate.R;
 
 import java.util.List;
@@ -58,12 +66,10 @@ public class MainActivity extends FragmentActivity implements
     private StepPagerStrip mStepPagerStrip;
 
     private Intent fromIntent;
-
     private String version;
 
     public void onCreate(Bundle savedInstanceState) {
-              super.onCreate(savedInstanceState);
-
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.wizard_main);
 
         mWizardModel = new CatalogWizardModel(getBaseContext());
@@ -115,14 +121,16 @@ public class MainActivity extends FragmentActivity implements
             @Override
             public void onClick(View view) {
                 if (mPager.getCurrentItem() == mCurrentPageSequence.size()) {
+                    String carrier;
 
                     try {
-                        String presetMMS = mWizardModel.findByKey(context.getString(R.string.need_mms_setup)).getData().getString(Page.SIMPLE_DATA_KEY);
+                        carrier = mWizardModel.findByKey(context.getString(R.string.need_mms_setup)).getData().getString(Page.SIMPLE_DATA_KEY);
                     } catch (Exception e)
                     {
-
+                        carrier = "";
                     }
 
+                    setAPN(carrier);
 
                     SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
@@ -198,6 +206,14 @@ public class MainActivity extends FragmentActivity implements
                     } else {
                         mPager.setCurrentItem(mPager.getCurrentItem() + 1);
                     }
+                }
+            }
+
+            public void setAPN(String carrier)
+            {
+                if (!carrier.equals(""))
+                {
+
                 }
             }
         });
@@ -352,14 +368,7 @@ public class MainActivity extends FragmentActivity implements
             {
                 extraPageCount++;
             }
-            try
-            {
-                PackageManager pm = getBaseContext().getPackageManager();
-                pm.getPackageInfo("com.klinker.android.messaging_donate", PackageManager.GET_ACTIVITIES);
-            } catch (Exception e)
-            {
-                extraPageCount++;
-            }
+
             try
             {
                 PackageManager pm = getBaseContext().getPackageManager();
@@ -367,6 +376,13 @@ public class MainActivity extends FragmentActivity implements
             } catch (Exception e)
             {
                 extraPageCount--;
+            }
+
+            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+
+            if (sharedPrefs.getString("mmsc_url", "").equals(""))
+            {
+                extraPageCount++;
             }
 
             return 2 + extraPageCount;

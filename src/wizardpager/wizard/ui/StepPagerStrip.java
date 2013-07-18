@@ -26,6 +26,7 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+
 import com.klinker.android.messaging_donate.R;
 
 public class StepPagerStrip extends View {

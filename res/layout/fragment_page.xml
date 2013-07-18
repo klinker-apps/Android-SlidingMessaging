@@ -14,26 +14,27 @@
   limitations under the License.
   -->
 
-<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_height="match_parent"
-             android:layout_width="match_parent">
-    <LinearLayout
-            style="@style/WizardPageContainer">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/WizardPageContainer">
 
-        <TextView style="@style/WizardPageTitle" />
+    <TextView style="@style/WizardPageTitle" />
 
-        <TextView android:id="@android:id/message"
-                  android:layout_width="match_parent"
-                  android:layout_height="fill_parent"
-                  android:scrollbarStyle="outsideInset"
-                  android:autoLink="web"/>
+    <TextView android:id="@android:id/message"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:scrollbarStyle="outsideInset"
+              android:scrollbars="vertical"/>
 
-        <ListView android:id="@android:id/list"
-                  android:layout_width="match_parent"
-                  android:layout_height="0dp"
-                  android:saveEnabled="false"
-                  android:scrollbarStyle="outsideInset" />
+    <ListView android:id="@android:id/list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:saveEnabled="false"
+        android:scrollbarStyle="outsideInset" />
 
-    </LinearLayout>
-</ScrollView>
+    <View android:id="@+id/divider"
+          android:background="?android:attr/dividerHorizontal"
+          android:layout_height="1dp"
+          android:layout_width="match_parent" />
 
+</LinearLayout>

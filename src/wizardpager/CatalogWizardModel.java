@@ -22,10 +22,14 @@ import android.content.pm.PackageManager;
 import android.preference.PreferenceManager;
 import com.klinker.android.messaging_donate.R;
 import wizardpager.wizard.model.AbstractWizardModel;
+import wizardpager.wizard.model.LinkPage;
+import wizardpager.wizard.model.MMSPage;
+import wizardpager.wizard.model.MessagePage;
 import wizardpager.wizard.model.PageList;
 import wizardpager.wizard.model.SingleFixedChoicePage;
 
 public class CatalogWizardModel extends AbstractWizardModel {
+
     public CatalogWizardModel(Context context) {
         super(context);
     }
@@ -60,6 +64,12 @@ public class CatalogWizardModel extends AbstractWizardModel {
         String themeEditor = "The theme editor now fully supports the Hangouts UI and popup, " +
                 "better time than ever to get on board and start making Sliding Messaging look exactly how you want!\n\n" +
                 mContext.getString(R.string.theme_support);
+
+        String notesPage = mContext.getResources().getString(R.string.changelog_disclaimers)
+                        + "\n\n" +
+                        mContext.getResources().getString(R.string.override_stock_disclaimer)
+                        + "\n\n" +
+                        mContext.getResources().getString(R.string.twitter_link);
 
         /*
         String goPro = mContext.getString(R.string.go_pro1) + "\n" +
@@ -105,28 +115,30 @@ public class CatalogWizardModel extends AbstractWizardModel {
                 if (needTheme)
                 {
                     return new PageList(
-                            new SingleFixedChoicePage(this, mContext.getString(R.string.changelog_title))
+                            new MessagePage(this, mContext.getString(R.string.changelog_title))
                                     .setMessage(changeLog)
                                     .setRequired(false),
 
-                            new SingleFixedChoicePage(this, mContext.getString(R.string.theme_support_title))
-                                    .setMessage(themeEditor)
-                                    .setButton(true, "market://details?id=com.klinker.android.messaging_theme")
+                            new LinkPage(this, mContext.getString(R.string.theme_support_title))
+                                    .setExtra(themeEditor, "market://details?id=com.klinker.android.messaging_theme")
                                     .setRequired(false));
+
                 } else if (haveGoSMS)
                 {
                     return new PageList(
-                            new SingleFixedChoicePage(this, mContext.getString(R.string.changelog_title))
+                            new MessagePage(this, mContext.getString(R.string.changelog_title))
                                     .setMessage(changeLog)
                                     .setRequired(false),
 
-                            new SingleFixedChoicePage(this, mContext.getString(R.string.go_sms_title))
+                            new MessagePage(this, mContext.getString(R.string.go_sms_title))
                                     .setMessage(goSMS)
                                     .setRequired(false));
+
+
                 } else if (needMMS)
                 {
                     return new PageList(
-                            new SingleFixedChoicePage(this, mContext.getString(R.string.changelog_title))
+                            new MessagePage(this, mContext.getString(R.string.changelog_title))
                                     .setMessage(changeLog)
                                     .setRequired(false),
 
@@ -146,28 +158,26 @@ public class CatalogWizardModel extends AbstractWizardModel {
                 if (needTheme && haveGoSMS)
                 {
                     return new PageList(
-                            new SingleFixedChoicePage(this, mContext.getString(R.string.changelog_title))
+                            new MessagePage(this, mContext.getString(R.string.changelog_title))
                                     .setMessage(changeLog)
                                     .setRequired(false),
 
-                            new SingleFixedChoicePage(this, mContext.getString(R.string.theme_support_title))
-                                    .setMessage(themeEditor)
-                                    .setButton(true, "market://details?id=com.klinker.android.messaging_theme")
+                            new LinkPage(this, mContext.getString(R.string.theme_support_title))
+                                    .setExtra(themeEditor, "market://details?id=com.klinker.android.messaging_theme")
                                     .setRequired(false),
 
-                            new SingleFixedChoicePage(this, mContext.getString(R.string.go_sms_title))
+                            new MessagePage(this, mContext.getString(R.string.go_sms_title))
                                     .setMessage(goSMS)
                                     .setRequired(false));
                 } else if (needTheme && needMMS)
                 {
                     return new PageList(
-                            new SingleFixedChoicePage(this, mContext.getString(R.string.changelog_title))
+                            new MessagePage(this, mContext.getString(R.string.changelog_title))
                                     .setMessage(changeLog)
                                     .setRequired(false),
 
-                            new SingleFixedChoicePage(this, mContext.getString(R.string.theme_support_title))
-                                    .setMessage(themeEditor)
-                                    .setButton(true, "market://details?id=com.klinker.android.messaging_theme")
+                            new LinkPage(this, mContext.getString(R.string.theme_support_title))
+                                    .setExtra(themeEditor, "market://details?id=com.klinker.android.messaging_theme")
                                     .setRequired(false),
 
                             new SingleFixedChoicePage(this, mContext.getString(R.string.need_mms_setup))
@@ -179,14 +189,15 @@ public class CatalogWizardModel extends AbstractWizardModel {
                                             "Vodafone AU","Not on list")
                                     .setMessage(mmsSetupMessage)
                                     .setRequired(true));
+
                 } else if (needMMS && haveGoSMS)
                 {
                     return new PageList(
-                            new SingleFixedChoicePage(this, mContext.getString(R.string.changelog_title))
+                            new MessagePage(this, mContext.getString(R.string.changelog_title))
                                     .setMessage(changeLog)
                                     .setRequired(false),
 
-                            new SingleFixedChoicePage(this, mContext.getString(R.string.go_sms_title))
+                            new MessagePage(this, mContext.getString(R.string.go_sms_title))
                                     .setMessage(goSMS)
                                     .setRequired(false),
 
@@ -204,17 +215,17 @@ public class CatalogWizardModel extends AbstractWizardModel {
             case 3:
 
                 return new PageList(
-                        new SingleFixedChoicePage(this, mContext.getString(R.string.changelog_title))
+
+                        new MessagePage(this, mContext.getString(R.string.changelog_title))
                                 .setMessage(changeLog)
                                 .setRequired(false),
 
-                        new SingleFixedChoicePage(this, mContext.getString(R.string.go_sms_title))
+                        new MessagePage(this, mContext.getString(R.string.go_sms_title))
                                 .setMessage(goSMS)
                                 .setRequired(false),
 
-                        new SingleFixedChoicePage(this, mContext.getString(R.string.theme_support_title))
-                                .setMessage(themeEditor)
-                                .setButton(true, "market://details?id=com.klinker.android.messaging_theme")
+                        new LinkPage(this, mContext.getString(R.string.theme_support_title))
+                                .setExtra(themeEditor, "market://details?id=com.klinker.android.messaging_theme")
                                 .setRequired(false),
 
                         new SingleFixedChoicePage(this, mContext.getString(R.string.need_mms_setup))
@@ -229,7 +240,7 @@ public class CatalogWizardModel extends AbstractWizardModel {
 
             default:
                 return new PageList(
-                        new SingleFixedChoicePage(this, mContext.getString(R.string.changelog_title))
+                        new MessagePage(this, mContext.getString(R.string.changelog_title))
                                 .setMessage(changeLog)
                                 .setRequired(false));
 
@@ -238,3 +249,14 @@ public class CatalogWizardModel extends AbstractWizardModel {
         // It wasn't put here because it is automatically called in the main activity and is nessesary to finish the intent.
     }
 }
+/*
+new SingleFixedChoicePage(this, mContext.getString(R.string.need_mms_setup))
+                                    .setChoices("AT&T","AT&T #2","Bell Canada","Fido Canada",
+                                            "Free Mobile France","Network Norway","Net10","O2",
+                                            "Rogers","Straight Talk AT&T","Tele2","Telus",
+                                            "T-Mobile US","T-Mobile Polish","Virgin Mobile Canada",
+                                            "Verizon Wireless","Verizon Wireless #2","Vodafone UK",
+                                            "Vodafone AU","Not on list")
+                                    .setMessage(mmsSetupMessage)
+                                    .setRequired(true));
+                                    */

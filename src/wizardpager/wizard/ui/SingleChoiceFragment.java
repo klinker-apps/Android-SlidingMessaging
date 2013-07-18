@@ -16,23 +16,20 @@
 
 package wizardpager.wizard.ui;
 
+import com.klinker.android.messaging_donate.R;
+import wizardpager.wizard.model.Page;
+import wizardpager.wizard.model.SingleFixedChoicePage;
+
 import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ListFragment;
-import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import com.klinker.android.messaging_donate.R;
-import wizardpager.wizard.model.Page;
-import wizardpager.wizard.model.SingleFixedChoicePage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,67 +72,29 @@ public class SingleChoiceFragment extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        View rootView;
+        View rootView = inflater.inflate(R.layout.fragment_page, container, false);
+        ((TextView) rootView.findViewById(android.R.id.title)).setText(mPage.getTitle());
 
-        // If it needs a button
-        if (mPage.getButton()) {
-            rootView = inflater.inflate(R.layout.fragment_page_button, container, false);
+        final ListView listView = (ListView) rootView.findViewById(android.R.id.list);
+        setListAdapter(new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_list_item_single_choice,
+                android.R.id.text1,
+                mChoices));
+        listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
-            TextView textView = (TextView) rootView.findViewById(android.R.id.message);
-            textView.setMovementMethod(new ScrollingMovementMethod());
-
-            Button button = (Button) rootView.findViewById(android.R.id.button1);
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse(mPage.getLink()));
-                    startActivity(intent);
-                    startActivity(intent);
-                }
-            });
-        }else if (!mChoices.isEmpty()) // page with mms settings
-        {
-            rootView = inflater.inflate(R.layout.fragment_page_mms, container, false);
-
-            Button button = (Button) rootView.findViewById(R.id.manualSetup);
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(getActivity(), com.klinker.android.messaging_sliding.mms.APNSettingsActivity.class);
-                    startActivity(intent);
-                }
-            });
-
-            final ListView listView = (ListView) rootView.findViewById(android.R.id.list);
-            setListAdapter(new ArrayAdapter<String>(getActivity(),
-                    android.R.layout.simple_list_item_single_choice,
-                    android.R.id.text1,
-                    mChoices));
-            listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-
-            // Pre-select currently selected item.
-            new Handler().post(new Runnable() {
-                @Override
-                public void run() {
-                    String selection = mPage.getData().getString(Page.SIMPLE_DATA_KEY);
-                    for (int i = 0; i < mChoices.size(); i++) {
-                        if (mChoices.get(i).equals(selection)) {
-                            listView.setItemChecked(i, true);
-                            break;
-                        }
+        // Pre-select currently selected item.
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                String selection = mPage.getData().getString(Page.SIMPLE_DATA_KEY);
+                for (int i = 0; i < mChoices.size(); i++) {
+                    if (mChoices.get(i).equals(selection)) {
+                        listView.setItemChecked(i, true);
+                        break;
                     }
                 }
-            });
-        } else // normal page
-        {
-            rootView = inflater.inflate(R.layout.fragment_page, container, false);
-        }
-
-        ((TextView) rootView.findViewById(android.R.id.title)).setText(mPage.getTitle());
-        ((TextView) rootView.findViewById(android.R.id.message)).setText(mPage.getMessage());
-
-
+            }
+        });
 
         return rootView;
     }

@@ -16,9 +16,10 @@
 
 package wizardpager.wizard.model;
 
+import wizardpager.wizard.ui.SingleChoiceFragment;
+
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import wizardpager.wizard.ui.SingleChoiceFragment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,7 +29,6 @@ import java.util.Arrays;
  */
 public class SingleFixedChoicePage extends Page {
     protected ArrayList<String> mChoices = new ArrayList<String>();
-    protected String mMessage;
 
     public SingleFixedChoicePage(ModelCallbacks callbacks, String title) {
         super(callbacks, title);
@@ -64,6 +64,12 @@ public class SingleFixedChoicePage extends Page {
 
     public SingleFixedChoicePage setValue(String value) {
         mData.putString(SIMPLE_DATA_KEY, value);
+        return this;
+    }
+
+    public Page setMessage(String message)
+    {
+        mMessage = message;
         return this;
     }
 }
