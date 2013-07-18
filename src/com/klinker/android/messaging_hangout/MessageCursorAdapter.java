@@ -2039,6 +2039,8 @@ public class MessageCursorAdapter extends CursorAdapter {
 
             if (matcher.find())
             {
+                holder.text.setText(body);
+
                 new Thread(new Runnable() {
 
                     @Override
@@ -2091,6 +2093,8 @@ public class MessageCursorAdapter extends CursorAdapter {
 
             if (matcher.find())
             {
+                holder.text.setText(body);
+
                 new Thread(new Runnable() {
 
                     @Override
@@ -2143,6 +2147,8 @@ public class MessageCursorAdapter extends CursorAdapter {
 
             if (matcher.find())
             {
+                holder.text.setText(body);
+
                 new Thread(new Runnable() {
 
                     @Override
@@ -2182,6 +2188,8 @@ public class MessageCursorAdapter extends CursorAdapter {
 
             if (matcher.find())
             {
+                holder.text.setText(body);
+
                 new Thread(new Runnable() {
 
                     @Override
