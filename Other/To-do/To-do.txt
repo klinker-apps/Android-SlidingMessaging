@@ -17,8 +17,12 @@ Version 6.60
 
 Likes ideas for speed/fluidity improvement:
 1.) Limit conversations to 10 and add back the load all messages button
+		- would not be able to limit query, but could just not display all of them by changing the
+		  getCount methods of the menu array adapter and pager adapter
 2.) Limit initial messages loaded to 10 or 12
-3.) Don't refresh the view pager when a new message is received that isn't from the conversation you are currently viewing. Make a refresh attached in the cconversations list to refresh the view pager instead, so it oesnt jump around and the users can continue texting without being interrupted. It will look better and work more fluidly.
+		- Would do almost nothing
+3.) Don't refresh the view pager when a new message is received that isn't from the conversation you are currently viewing. Make a refresh attached in the cconversations list to refresh the view pager instead, so it doesnt jump around and the users can continue texting without being interrupted. It will look better and work more fluidly.
+		- not sure how this would affect scrolling through the view pager though. may work, but may never move the threads to the correct position
 
 0) more individual notification options
 3) Batch delete of messages inside single conversation
