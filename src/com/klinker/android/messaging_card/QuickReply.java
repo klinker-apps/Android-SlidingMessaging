@@ -1167,7 +1167,12 @@ public class QuickReply extends FragmentActivity {
 					dPI.add(deliveredPI);
 				}
 				
-				smsManager.sendMultipartTextMessage(number, null, parts, sPI, dPI);
+				// TODO test
+				try {
+					smsManager.sendMultipartTextMessage(number, null, parts, sPI, dPI);
+				} catch (Exception e) {
+					Toast.makeText(context, "Error, check the \"Split SMS\" option in advanced settings and try again.", Toast.LENGTH_LONG).show();
+				}
 			}
 		} else
 		{
@@ -1379,7 +1384,12 @@ public class QuickReply extends FragmentActivity {
 					sPI.add(sentPI);
 				}
 				
-				smsManager.sendMultipartTextMessage(number, null, parts, sPI, null);
+				// TODO test
+				try {
+					smsManager.sendMultipartTextMessage(number, null, parts, sPI, null);
+				} catch (Exception e) {
+					Toast.makeText(context, "Error, check the \"Split SMS\" option in advanced settings and try again.", Toast.LENGTH_LONG).show();
+				}
 			}
 		}
 	    
