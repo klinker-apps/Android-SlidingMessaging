@@ -1491,7 +1491,12 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 													dPI.add(deliveredPI);
 												}
 												
-												smsManager.sendMultipartTextMessage(findContactNumber(inboxNumber.get(position2), context), null, parts, sPI, dPI);
+												// TODO test
+												try {
+													smsManager.sendMultipartTextMessage(findContactNumber(inboxNumber.get(position2), context), null, parts, sPI, dPI);
+												} catch (Exception e) {
+													Toast.makeText(context, "Error, check the \"Split SMS\" option in advanced settings and retry.", Toast.LENGTH_LONG).show();
+												}
 											}
 										} else
 										{
@@ -1736,7 +1741,12 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 													sPI.add(sentPI);
 												}
 												
-												smsManager.sendMultipartTextMessage(findContactNumber(inboxNumber.get(position2), context), null, parts, sPI, null);
+												// TODO test
+												try {
+													smsManager.sendMultipartTextMessage(findContactNumber(inboxNumber.get(position2), context), null, parts, sPI, null);
+												} catch (Exception e) {
+													Toast.makeText(context, "Error, check the \"Split SMS\" option in advanced settings and retry.", Toast.LENGTH_LONG).show();
+												}
 											}
 										} else
 										{
@@ -2307,7 +2317,12 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 														dPI.add(deliveredPI);
 													}
 													
-													smsManager.sendMultipartTextMessage(address, null, parts, sPI, dPI);
+													// TODO test
+													try {
+														smsManager.sendMultipartTextMessage(address, null, parts, sPI, dPI);
+													} catch (Exception e) {
+														Toast.makeText(context, "Error, check the \"Split SMS\" option in advanced settings and retry.", Toast.LENGTH_LONG).show();
+													}
 												}
 											} else
 											{
@@ -2521,7 +2536,12 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 														sPI.add(sentPI);
 													}
 													
-													smsManager.sendMultipartTextMessage(address, null, parts, sPI, null);
+													// TODO test
+													try {
+														smsManager.sendMultipartTextMessage(address, null, parts, sPI, null);
+													} catch (Exception e) {
+														Toast.makeText(context, "Error, check the \"Split SMS\" option in advanced settings and retry.", Toast.LENGTH_LONG).show();
+													}													
 												}
 											}
 										} catch (NullPointerException e)
