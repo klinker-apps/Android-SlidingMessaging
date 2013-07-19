@@ -2,8 +2,6 @@ Version 6.60
 - Sent message sounds
 - Investigate MMS apns on stock
 - Message Locking?
-- Make MMS settings page in changelog wizard to easily select carrier
-- make mms in message array adapter and change classic ui to use the same adapter
 - sms backup
 	- different icon in notification
 	- apply for mms
@@ -13,9 +11,10 @@ Version 6.60
 	- actually delete the messages :) just uncomment the code. it should work just fine
 	- add notifications to delete and drive backup
 - fix popup residual message in some cases
-- fix MMS pictures not opening correctly in he gallery app, even though it shows in the message list
+- make cursor adapter compatible with classic ui
+- TEST --- fix MMS pictures not opening correctly in he gallery app, even though it shows in the message list
 
-Likes ideas for speed/fluidity improvement:
+Luke's ideas for speed/fluidity improvement:
 1.) Limit conversations to 10 and add back the load all messages button
 		- would not be able to limit query, but could just not display all of them by changing the
 		  getCount methods of the menu array adapter and pager adapter
