@@ -15,6 +15,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
@@ -46,6 +47,7 @@ import com.google.android.mms.pdu.RetrieveConf;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.StripAccents;
 import com.klinker.android.messaging_donate.receivers.DisconnectWifi;
+import com.klinker.android.messaging_sliding.ImageViewer;
 import com.klinker.android.messaging_sliding.MainActivity;
 import com.klinker.android.messaging_sliding.emojis.*;
 import com.klinker.android.messaging_sliding.receivers.NotificationReceiver;
@@ -359,14 +361,23 @@ public class MessageCursorAdapter extends CursorAdapter {
                                 if (image == null && video == null && body.equals("")) {
                                     downloadableMessage(holder, view, cursor);
                                 } else {
+                                    String images[];
+                                    Bitmap picture;
+
                                     try {
                                         holder.imageUri = Uri.parse(image);
+                                        images = image.trim().split(" ");
+                                        picture = decodeFile(new File(getRealPathFromURI(Uri.parse(images[0].trim()))));
                                     } catch (Exception e) {
-                                        // message has no image
+                                        images = null;
+                                        picture = null;
                                     }
 
                                     final String text = body;
                                     final String imageUri = image;
+                                    final String[] imagesF = images;
+                                    final Bitmap pictureF = picture;
+                                    final String videoF = video;
 
                                     context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 
@@ -374,9 +385,40 @@ public class MessageCursorAdapter extends CursorAdapter {
                                         public void run() {
                                             setMessageText(holder.text, text);
 
-                                            if (imageUri == null) {
+                                            if (imageUri == null && videoF == null) {
                                                 holder.media.setVisibility(View.GONE);
                                                 holder.media.setImageResource(android.R.color.transparent);
+                                            } else if (imageUri != null) {
+                                                holder.media.setImageBitmap(pictureF);
+                                                holder.media.setOnClickListener(new View.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(View view) {
+                                                        if (imagesF.length == 1) {
+                                                            Intent intent = new Intent();
+                                                            intent.setAction(Intent.ACTION_VIEW);
+                                                            intent.setDataAndType(Uri.parse(imageUri), "image/*");
+                                                            context.startActivity(intent);
+                                                        } else {
+                                                            Intent intent = new Intent();
+                                                            intent.setClass(context, ImageViewer.class);
+                                                            Bundle b = new Bundle();
+                                                            b.putString("image", imageUri);
+                                                            intent.putExtra("bundle", b);
+                                                            context.startActivity(intent);
+                                                        }
+                                                    }
+                                                });
+                                            } else if (videoF != null) {
+                                                holder.media.setImageResource(R.drawable.ic_video_play);
+                                                holder.media.setOnClickListener(new View.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(View view) {
+                                                        Intent intent = new Intent();
+                                                        intent.setAction(Intent.ACTION_VIEW);
+                                                        intent.setDataAndType(Uri.parse(videoF), "video/*");
+                                                        context.startActivity(intent);
+                                                    }
+                                                });
                                             }
                                         }
                                     });
@@ -433,21 +475,67 @@ public class MessageCursorAdapter extends CursorAdapter {
                     if (image == null && video == null && body.equals("")) {
                         downloadableMessage(holder, view, cursor);
                     } else {
+                        String images[];
+                        Bitmap picture;
+
                         try {
                             holder.imageUri = Uri.parse(image);
+                            images = image.trim().split(" ");
+                            picture = decodeFile(new File(getRealPathFromURI(Uri.parse(images[0].trim()))));
                         } catch (Exception e) {
-                            // message has no image
+                            images = null;
+                            picture = null;
                         }
 
                         final String text = body;
                         final String imageUri = image;
+                        final String[] imagesF = images;
+                        final Bitmap pictureF = picture;
+                        final String videoF = video;
 
-                        setMessageText(holder.text, text);
+                        context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 
-                        if (imageUri == null) {
-                            holder.media.setVisibility(View.GONE);
-                            holder.media.setImageResource(android.R.color.transparent);
-                        }
+                            @Override
+                            public void run() {
+                                setMessageText(holder.text, text);
+
+                                if (imageUri == null && videoF == null) {
+                                    holder.media.setVisibility(View.GONE);
+                                    holder.media.setImageResource(android.R.color.transparent);
+                                } else if (imageUri != null) {
+                                    holder.media.setImageBitmap(pictureF);
+                                    holder.media.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            if (imagesF.length == 1) {
+                                                Intent intent = new Intent();
+                                                intent.setAction(Intent.ACTION_VIEW);
+                                                intent.setDataAndType(Uri.parse(imageUri), "image/*");
+                                                context.startActivity(intent);
+                                            } else {
+                                                Intent intent = new Intent();
+                                                intent.setClass(context, ImageViewer.class);
+                                                Bundle b = new Bundle();
+                                                b.putString("image", imageUri);
+                                                intent.putExtra("bundle", b);
+                                                context.startActivity(intent);
+                                            }
+                                        }
+                                    });
+                                } else if (videoF != null) {
+                                    holder.media.setImageResource(R.drawable.ic_video_play);
+                                    holder.media.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            Intent intent = new Intent();
+                                            intent.setAction(Intent.ACTION_VIEW);
+                                            intent.setDataAndType(Uri.parse(videoF), "video/*");
+                                            context.startActivity(intent);
+                                        }
+                                    });
+                                }
+                            }
+                        });
                     }
                 }
 
