@@ -1797,12 +1797,18 @@ public class MessageCursorAdapter extends CursorAdapter {
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
         ViewHolder holder = new ViewHolder();
-        View v = null;
+        View v;
 
         int type = getItemViewType(cursor);
 
         if (type == 1) {
-            v = mInflater.inflate(R.layout.message_hangout_sent, parent, false);
+            if (sharedPrefs.getString("run_as", "sliding").equals("hangout")) {
+                v = mInflater.inflate(R.layout.message_hangout_sent, parent, false);
+            } else {
+                // TODO change to classic sent
+                v = mInflater.inflate(R.layout.message_hangout_sent, parent, false);
+            }
+
             holder.text = (TextView) v.findViewById(R.id.textBody);
 
             holder.date = (TextView) v.findViewById(R.id.textDate);
@@ -1814,7 +1820,13 @@ public class MessageCursorAdapter extends CursorAdapter {
 
             holder.image.assignContactUri(ContactsContract.Profile.CONTENT_URI);
         } else {
-            v = mInflater.inflate(R.layout.message_hangout_received, parent, false);
+            if (sharedPrefs.getString("run_as", "sliding").equals("hangout")) {
+                v = mInflater.inflate(R.layout.message_hangout_received, parent, false);
+            } else {
+                // TODO change to classic received
+                v = mInflater.inflate(R.layout.message_hangout_received, parent, false);
+            }
+
             holder.text = (TextView) v.findViewById(R.id.textBody);
             holder.date = (TextView) v.findViewById(R.id.textDate);
             holder.media = (ImageView) v.findViewById(R.id.media);

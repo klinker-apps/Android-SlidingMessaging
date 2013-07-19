@@ -7141,6 +7141,7 @@ s
 
                                 @Override
                                 public void run() {
+                                    // TODO switch to only using one cursor adapter for both
                                     if (sharedPrefs.getString("run_as", "sliding").equals("sliding"))
                                     {
                                         MessageArrayAdapter adapter = new MessageArrayAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), messageQuery, myPhoneNumber, position);
@@ -7222,6 +7223,7 @@ s
                     messageQuery = CacheService.conversations.get(position);
                 }
 
+                // TODO switch to only using one cursor adapter for both
                 if (sharedPrefs.getString("run_as", "sliding").equals("sliding"))
                 {
                     MessageArrayAdapter adapter = new MessageArrayAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), messageQuery, myPhoneNumber, position);
@@ -7335,6 +7337,7 @@ s
         @Override
         public void onLoadFinished(android.content.Loader<Cursor> loader, final Cursor query)
         {
+            // TODO switch to only using one cursor adapter for both
             if (sharedPrefs.getString("run_as", "sliding").equals("sliding"))
             {
                 final MessageArrayAdapter adapter = new MessageArrayAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), query, myPhoneNumber, position);
@@ -7422,6 +7425,7 @@ s
                 protected void onPostExecute(Void result) {
                     super.onPostExecute(result);
 
+                    // TODO switch to only using one cursor adapter for both
                     if (sharedPrefs.getString("run_as", "sliding").equals("sliding"))
                     {
                         MessageArrayAdapter adapter = new MessageArrayAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), query, myPhoneNumber, position);
