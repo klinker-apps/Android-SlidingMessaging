@@ -55,7 +55,10 @@ public class ImageArrayAdapter extends ArrayAdapter<String> {
 
 			@Override
 			public void onClick(View arg0) {
-				context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(images[position])));
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.setDataAndType(Uri.parse(images[position]), "image/*");
+                context.startActivity(intent);
 				
 			}
 	    	

@@ -293,13 +293,13 @@ public class MessageCursorAdapter extends CursorAdapter {
                 }
 
                 final String selectionPart = "mid=" + cursor.getString(cursor.getColumnIndex("_id"));
-                // TODO load mms image and video
 
                 if (!group) {
                     holder.media.setVisibility(View.VISIBLE);
                     holder.media.setImageResource(android.R.color.transparent);
 
                     final int position = cursor.getPosition();
+                    final String idF = id;
 
                     new Thread(new Runnable() {
                         @Override
@@ -316,6 +316,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                 String body = "";
                                 String image = null;
                                 String video = null;
+                                String audio = null;
 
                                 Uri uri = Uri.parse("content://mms/part");
                                 Cursor query = contentResolver.query(uri, null, selectionPart, null, null);
@@ -349,17 +350,33 @@ public class MessageCursorAdapter extends CursorAdapter {
                                             }
                                         }
 
-                                        if ("video/mpeg".equals(type) || "video/3gpp".equals(type))
+                                        if ("video/mpeg".equals(type) || "video/3gpp".equals(type) || "video/mp4".equals(type))
                                         {
                                             video = "content://mms/part/" + partId;
+                                        }
+
+                                        if (type.startsWith("audio/")) {
+                                            audio = "content://mms/part/" + partId;
                                         }
                                     } while (query.moveToNext());
                                 }
 
                                 query.close();
 
-                                if (image == null && video == null && body.equals("")) {
-                                    downloadableMessage(holder, view, cursor);
+                                try {
+                                    Log.v("audioUri", audio);
+                                } catch (Exception e) {
+
+                                }
+
+                                if (image == null && video == null && audio == null && body.equals("")) {
+                                    context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                                        @Override
+                                        public void run() {
+                                            downloadableMessage(holder, idF);
+                                        }
+                                    });
                                 } else {
                                     String images[];
                                     Bitmap picture;
@@ -378,6 +395,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                     final String[] imagesF = images;
                                     final Bitmap pictureF = picture;
                                     final String videoF = video;
+                                    final String audioF = audio;
 
                                     context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 
@@ -385,10 +403,11 @@ public class MessageCursorAdapter extends CursorAdapter {
                                         public void run() {
                                             setMessageText(holder.text, text);
 
-                                            if (imageUri == null && videoF == null) {
+                                            if (imageUri == null && videoF == null && audioF == null) {
                                                 holder.media.setVisibility(View.GONE);
                                                 holder.media.setImageResource(android.R.color.transparent);
                                             } else if (imageUri != null) {
+                                                holder.media.setVisibility(View.VISIBLE);
                                                 holder.media.setImageBitmap(pictureF);
                                                 holder.media.setOnClickListener(new View.OnClickListener() {
                                                     @Override
@@ -408,14 +427,33 @@ public class MessageCursorAdapter extends CursorAdapter {
                                                         }
                                                     }
                                                 });
+
+                                                if (imagesF.length > 1) {
+                                                    holder.date.setText(holder.date.getText().toString() + " - Multiple Attachments");
+                                                }
                                             } else if (videoF != null) {
+                                                holder.media.setVisibility(View.VISIBLE);
                                                 holder.media.setImageResource(R.drawable.ic_video_play);
+                                                holder.media.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
                                                 holder.media.setOnClickListener(new View.OnClickListener() {
                                                     @Override
                                                     public void onClick(View view) {
                                                         Intent intent = new Intent();
                                                         intent.setAction(Intent.ACTION_VIEW);
                                                         intent.setDataAndType(Uri.parse(videoF), "video/*");
+                                                        context.startActivity(intent);
+                                                    }
+                                                });
+                                            } else if (audioF != null) {
+                                                holder.media.setVisibility(View.VISIBLE);
+                                                holder.media.setImageResource(R.drawable.ic_video_play);
+                                                holder.media.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                                                holder.media.setOnClickListener(new View.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(View view) {
+                                                        Intent intent = new Intent();
+                                                        intent.setAction(Intent.ACTION_VIEW);
+                                                        intent.setDataAndType(Uri.parse(audioF), "audio/*");
                                                         context.startActivity(intent);
                                                     }
                                                 });
@@ -430,6 +468,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                     body = "";
                     image = null;
                     String video = null;
+                    String audio = null;
 
                     Uri uri = Uri.parse("content://mms/part");
                     Cursor query = contentResolver.query(uri, null, selectionPart, null, null);
@@ -463,17 +502,21 @@ public class MessageCursorAdapter extends CursorAdapter {
                                 }
                             }
 
-                            if ("video/mpeg".equals(type) || "video/3gpp".equals(type))
+                            if ("video/mpeg".equals(type) || "video/3gpp".equals(type) || "video/mp4".equals(type))
                             {
                                 video = "content://mms/part/" + partId;
+                            }
+
+                            if (type.startsWith("audio/")) {
+                                audio = "content://mms/part/" + partId;
                             }
                         } while (query.moveToNext());
                     }
 
                     query.close();
 
-                    if (image == null && video == null && body.equals("")) {
-                        downloadableMessage(holder, view, cursor);
+                    if (image == null && video == null && audio == null && body.equals("")) {
+                        downloadableMessage(holder, id);
                     } else {
                         String images[];
                         Bitmap picture;
@@ -492,50 +535,65 @@ public class MessageCursorAdapter extends CursorAdapter {
                         final String[] imagesF = images;
                         final Bitmap pictureF = picture;
                         final String videoF = video;
+                        final String audioF = audio;
 
-                        context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+                        setMessageText(holder.text, text);
 
-                            @Override
-                            public void run() {
-                                setMessageText(holder.text, text);
-
-                                if (imageUri == null && videoF == null) {
-                                    holder.media.setVisibility(View.GONE);
-                                    holder.media.setImageResource(android.R.color.transparent);
-                                } else if (imageUri != null) {
-                                    holder.media.setImageBitmap(pictureF);
-                                    holder.media.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View view) {
-                                            if (imagesF.length == 1) {
-                                                Intent intent = new Intent();
-                                                intent.setAction(Intent.ACTION_VIEW);
-                                                intent.setDataAndType(Uri.parse(imageUri), "image/*");
-                                                context.startActivity(intent);
-                                            } else {
-                                                Intent intent = new Intent();
-                                                intent.setClass(context, ImageViewer.class);
-                                                Bundle b = new Bundle();
-                                                b.putString("image", imageUri);
-                                                intent.putExtra("bundle", b);
-                                                context.startActivity(intent);
-                                            }
-                                        }
-                                    });
-                                } else if (videoF != null) {
-                                    holder.media.setImageResource(R.drawable.ic_video_play);
-                                    holder.media.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View view) {
-                                            Intent intent = new Intent();
-                                            intent.setAction(Intent.ACTION_VIEW);
-                                            intent.setDataAndType(Uri.parse(videoF), "video/*");
-                                            context.startActivity(intent);
-                                        }
-                                    });
+                        if (imageUri == null && videoF == null && audioF == null) {
+                            holder.media.setVisibility(View.GONE);
+                            holder.media.setImageResource(android.R.color.transparent);
+                        } else if (imageUri != null) {
+                            holder.media.setVisibility(View.VISIBLE);
+                            holder.media.setImageBitmap(pictureF);
+                            holder.media.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    if (imagesF.length == 1) {
+                                        Intent intent = new Intent();
+                                        intent.setAction(Intent.ACTION_VIEW);
+                                        intent.setDataAndType(Uri.parse(imageUri), "image/*");
+                                        context.startActivity(intent);
+                                    } else {
+                                        Intent intent = new Intent();
+                                        intent.setClass(context, ImageViewer.class);
+                                        Bundle b = new Bundle();
+                                        b.putString("image", imageUri);
+                                        intent.putExtra("bundle", b);
+                                        context.startActivity(intent);
+                                    }
                                 }
+                            });
+
+                            if (imagesF.length > 1) {
+                                holder.date.setText(holder.date.getText().toString() + " - Multiple Attachments");
                             }
-                        });
+                        } else if (videoF != null) {
+                            holder.media.setVisibility(View.VISIBLE);
+                            holder.media.setImageResource(R.drawable.ic_video_play);
+                            holder.media.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                            holder.media.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent intent = new Intent();
+                                    intent.setAction(Intent.ACTION_VIEW);
+                                    intent.setDataAndType(Uri.parse(videoF), "video/*");
+                                    context.startActivity(intent);
+                                }
+                            });
+                        } else if (audioF != null) {
+                            holder.media.setVisibility(View.VISIBLE);
+                            holder.media.setImageResource(R.drawable.ic_video_play);
+                            holder.media.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                            holder.media.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent intent = new Intent();
+                                    intent.setAction(Intent.ACTION_VIEW);
+                                    intent.setDataAndType(Uri.parse(audioF), "audio/*");
+                                    context.startActivity(intent);
+                                }
+                            });
+                        }
                     }
                 }
 
@@ -1805,8 +1863,6 @@ public class MessageCursorAdapter extends CursorAdapter {
         holder.text.setText("");
         holder.date.setText("");
 
-        holder.media.setVisibility(View.GONE);
-
         if (type == 0) {
             holder.downloadButton.setVisibility(View.GONE);
         }
@@ -2120,8 +2176,7 @@ public class MessageCursorAdapter extends CursorAdapter {
         }
     }
 
-    public void downloadableMessage(final ViewHolder holder, View view, Cursor cursor) {
-        String id = cursor.getString(cursor.getColumnIndex("_id"));
+    public void downloadableMessage(final ViewHolder holder, String id) {
         Cursor locationQuery = context.getContentResolver().query(Uri.parse("content://mms/"), new String[] {"m_size", "exp", "ct_l", "_id"}, "_id=?", new String[]{id}, null);
 
         if (locationQuery.moveToFirst()) {
@@ -2469,13 +2524,6 @@ public class MessageCursorAdapter extends CursorAdapter {
                     }
 
                 });
-            }
-
-            view.setPadding(10,5,10,5);
-
-            if (cursor.getPosition() == 0)
-            {
-                view.setPadding(10, 5, 10, 7);
             }
         }
     }
