@@ -1490,12 +1490,18 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 													sPI.add(sentPI);
 													dPI.add(deliveredPI);
 												}
-												
-												// TODO test
+
 												try {
 													smsManager.sendMultipartTextMessage(findContactNumber(inboxNumber.get(position2), context), null, parts, sPI, dPI);
 												} catch (Exception e) {
-													Toast.makeText(context, "Error, check the \"Split SMS\" option in advanced settings and retry.", Toast.LENGTH_LONG).show();
+                                                    getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                                                        @Override
+                                                        public void run() {
+                                                            Toast.makeText(context, "Error, check the \"Split SMS\" option in advanced settings and retry.", Toast.LENGTH_LONG).show();
+                                                        }
+
+                                                    });
 												}
 											}
 										} else
@@ -1740,12 +1746,18 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 												{
 													sPI.add(sentPI);
 												}
-												
-												// TODO test
+
 												try {
 													smsManager.sendMultipartTextMessage(findContactNumber(inboxNumber.get(position2), context), null, parts, sPI, null);
 												} catch (Exception e) {
-													Toast.makeText(context, "Error, check the \"Split SMS\" option in advanced settings and retry.", Toast.LENGTH_LONG).show();
+                                                    getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                                                        @Override
+                                                        public void run() {
+                                                            Toast.makeText(context, "Error, check the \"Split SMS\" option in advanced settings and retry.", Toast.LENGTH_LONG).show();
+                                                        }
+
+                                                    });
 												}
 											}
 										} else
@@ -2316,12 +2328,18 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 														sPI.add(sentPI);
 														dPI.add(deliveredPI);
 													}
-													
-													// TODO test
+
 													try {
 														smsManager.sendMultipartTextMessage(address, null, parts, sPI, dPI);
 													} catch (Exception e) {
-														Toast.makeText(context, "Error, check the \"Split SMS\" option in advanced settings and retry.", Toast.LENGTH_LONG).show();
+                                                        getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                                                            @Override
+                                                            public void run() {
+                                                                Toast.makeText(context, "Error, check the \"Split SMS\" option in advanced settings and retry.", Toast.LENGTH_LONG).show();
+                                                            }
+
+                                                        });
 													}
 												}
 											} else
@@ -2535,12 +2553,18 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 													{
 														sPI.add(sentPI);
 													}
-													
-													// TODO test
+
 													try {
 														smsManager.sendMultipartTextMessage(address, null, parts, sPI, null);
 													} catch (Exception e) {
-														Toast.makeText(context, "Error, check the \"Split SMS\" option in advanced settings and retry.", Toast.LENGTH_LONG).show();
+                                                        getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                                                            @Override
+                                                            public void run() {
+                                                                Toast.makeText(context, "Error, check the \"Split SMS\" option in advanced settings and retry.", Toast.LENGTH_LONG).show();
+                                                            }
+
+                                                        });
 													}													
 												}
 											}
