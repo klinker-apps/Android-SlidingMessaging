@@ -153,10 +153,12 @@ public class QuickReply extends Activity {
 			  charsRemaining.setTypeface(font);
 		  }
 
-        if (sharedPrefs.getString("text_alignment_popup", "center").equals("right")) {
+        if (sharedPrefs.getString("text_alignment2", "center").equals("right")) {
             contactBody.setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
-        } else if (sharedPrefs.getString("text_alignment_popup", "center").equals("left")) {
+        } else if (sharedPrefs.getString("text_alignment2", "center").equals("left")) {
             contactBody.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
+        } else {
+            contactBody.setGravity(Gravity.CENTER);
         }
 	    
 	    if (!sharedPrefs.getBoolean("keyboard_type", true))

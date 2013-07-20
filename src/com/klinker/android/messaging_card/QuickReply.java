@@ -1564,10 +1564,12 @@ public class QuickReply extends FragmentActivity {
 		    	number.setTypeface(font);
 		    }
 
-            if (sharedPrefs.getString("text_alignment_popup", "center").equals("right")) {
+            if (sharedPrefs.getString("text_alignment2", "center").equals("right")) {
                 body.setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
-            } else if (sharedPrefs.getString("text_alignment_popup", "center").equals("left")) {
+            } else if (sharedPrefs.getString("text_alignment2", "center").equals("left")) {
                 body.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
+            } else {
+                body.setGravity(Gravity.CENTER);
             }
 
             try {

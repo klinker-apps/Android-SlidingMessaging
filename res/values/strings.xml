@@ -51,7 +51,7 @@
     <string name="donate_summary">Get tons more features and much more frequent updates</string>
     <string name="load_messages">Messages to Load</string>
     <string name="load_messages_summary">Select the number of messages to be initially loaded</string>
-    <string name="load_all">Load all messages</string>
+    <string name="load_all">Load All Conversations</string>
     <string name="limit_messages">Limit Messages</string>
     <string name="limit_messages_summary">Limits the amount of messages initially loaded</string>
     <string name="pull_to_refresh">Pull to Load All Messages</string>
