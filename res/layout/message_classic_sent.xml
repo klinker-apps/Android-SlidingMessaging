@@ -60,7 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/ellipsis"
-            android:layout_gravity="left|center_vertical"
+            android:layout_gravity="right|center_vertical"
             android:src="@drawable/ellipsis"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"

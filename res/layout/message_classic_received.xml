@@ -64,15 +64,6 @@
             android:textColor="@color/card_message_text_date_2"
             android:layout_gravity="left|center_vertical"/>
 
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/download"
-            android:id="@+id/downloadButton"
-            android:layout_gravity="center"
-            android:maxHeight="48dp"/>
-
         <ImageView
             android:layout_width="200dp"
             android:layout_height="200dp"
@@ -83,5 +74,20 @@
             android:padding="12dp"/>
 
     </LinearLayout>
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/download"
+        android:id="@+id/downloadButton"
+        android:layout_gravity="right|center_vertical"
+        android:maxHeight="48dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="false"
+        android:layout_alignBottom="@+id/imageContactPicture"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_alignParentRight="true"/>
 
 </RelativeLayout>
