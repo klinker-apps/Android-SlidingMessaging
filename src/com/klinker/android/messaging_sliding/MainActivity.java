@@ -1,6 +1,7 @@
 package com.klinker.android.messaging_sliding;
 
 import android.app.*;
+import android.app.Fragment;
 import android.content.*;
 import android.graphics.*;
 import android.media.*;
@@ -225,6 +226,8 @@ s
     private int appMsgConversations = 0;
     private boolean dismissCrouton = true;
 
+    public static boolean limitConversations = true;
+
     public static final String GSM_CHARACTERS_REGEX = "^[A-Za-z0-9 \\r\\n@Ł$ĽčéůěňÇŘřĹĺ\u0394_\u03A6\u0393\u039B\u03A9\u03A0\u03A8\u03A3\u0398\u039EĆćßÉ!\"#$%&'()*+,\\-./:;<=>?ĄÄÖŃÜ§żäöńüŕ^{}\\\\\\[~\\]|\u20AC]*$";
     private static final int REQ_ENTER_PATTERN = 7;
 
@@ -247,6 +250,12 @@ s
 
         mPullToRefreshAttacher = new PullToRefreshAttacher(this, sharedPrefs.getBoolean("ct_light_action_bar", false));
         appMsg = AppMsg.makeText(this, "", AppMsg.STYLE_ALERT);
+
+        if (sharedPrefs.getBoolean("limit_conversations_start", true)) {
+            limitConversations = true;
+        } else {
+            limitConversations = false;
+        }
 
         MainActivity.notChanged = true;
 		
@@ -411,6 +420,19 @@ s
         }
         
         menuLayout = new ListView(this);
+
+        if (sharedPrefs.getBoolean("limit_conversations_start", true)) {
+            Button footer = new Button(this);
+            footer.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    limitConversations = false;
+                    refreshViewPager(true);
+                }
+            });
+            footer.setText(getResources().getString(R.string.load_all));
+            menuLayout.addFooterView(footer);
+        }
 		
 		myPhoneNumber = getMyPhoneNumber();
 		
@@ -5627,12 +5649,12 @@ s
 		}
 		
 		refreshMessages(totalRefresh);
-		
-		mSectionsPagerAdapter = new SectionsPagerAdapter(
-				getFragmentManager());
-		
-		mViewPager = (ViewPager) findViewById(R.id.pager);
-		mViewPager.setAdapter(mSectionsPagerAdapter);
+
+        mSectionsPagerAdapter = new SectionsPagerAdapter(
+                getFragmentManager());
+
+        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setBackgroundColor(sharedPrefs.getInt("ct_messageListBackground", getResources().getColor(R.color.light_silver)));
 
         if (sharedPrefs.getBoolean("custom_background2", false))
@@ -5870,15 +5892,14 @@ s
         pullToRefreshPosition = -1;
         MainActivity.notChanged = false;
         MainActivity.threadedLoad = false;
-		int position = mViewPager.getCurrentItem();
+        int position = mViewPager.getCurrentItem();
 		
 		mSectionsPagerAdapter = new SectionsPagerAdapter(
-				getFragmentManager());
-		
-		mViewPager = (ViewPager) findViewById(R.id.pager);
-		mViewPager.setAdapter(mSectionsPagerAdapter);
-		
-		mViewPager.setCurrentItem(position);
+            getFragmentManager());
+
+        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.setCurrentItem(position);
 		
 		try
 		{
@@ -6553,23 +6574,6 @@ s
 		
 	}
 	
-	private void writeToFile3(ArrayList<String> data, Context context) {
-        try {
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("conversationList.txt", Context.MODE_PRIVATE));
-            
-            for (int i = 0; i < data.size(); i++)
-            {
-            	outputStreamWriter.write(data.get(i) + "\n");
-            }
-            	
-            outputStreamWriter.close();
-        }
-        catch (IOException e) {
-            
-        } 
-		
-	}
-	
 	private ArrayList<String> readFromFile(Context context) {
 		
 	      ArrayList<String> ret = new ArrayList<String>();
@@ -6614,92 +6618,6 @@ s
 	        } 
 			
 		}
-	  	
-	  	private void readFromFile3(Context context) {
-		      
-		      try {
-		          InputStream inputStream = context.openFileInput("conversationList.txt");
-		          
-		          if ( inputStream != null ) {
-		          	InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-		          	BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-		          	String receiveString = "";
-		          	
-		          	while ( (receiveString = bufferedReader.readLine()) != null ) {
-		          		threadIds.add(receiveString);
-		          		
-		          		receiveString = bufferedReader.readLine();
-		          		try
-		          		{
-		          			Integer.parseInt(receiveString);
-			          		msgCount.add(receiveString);
-		          		} catch (Exception e)
-		          		{
-		          			msgCount.add("1");
-		          		}
-		          		
-		          		receiveString = bufferedReader.readLine();
-		          		try
-		          		{
-		          			Integer.parseInt(receiveString);
-			          		msgRead.add(receiveString);
-		          		} catch (Exception e)
-		          		{
-		          			msgRead.add("1");
-		          		}
-						
-		          		if ( (receiveString = bufferedReader.readLine()) != null )
-		          		{
-		          			inboxBody.add(receiveString);
-		          		} else
-		          		{
-		          			inboxBody.add("error");
-		          		}
-		          		
-		          		receiveString = bufferedReader.readLine();
-		          		try
-		          		{
-		          			Long.parseLong(receiveString);
-			          		inboxDate.add(receiveString);
-		          		} catch (Exception e)
-		          		{
-		          			Calendar cal = Calendar.getInstance();
-		          			inboxDate.add(cal.getTimeInMillis() + "");
-		          		}
-		          		
-		          		if ( (receiveString = bufferedReader.readLine()) != null )
-		          		{
-		          			inboxNumber.add(receiveString);
-		          		} else
-		          		{
-		          			inboxNumber.add("1");
-		          		}
-		          		
-		          		receiveString = bufferedReader.readLine();
-		          		if (receiveString != null)
-		          		{
-			          		if (receiveString.equals("yes") || receiveString.equals("no"))
-			          		{
-			          			group.add(receiveString);
-			          		} else
-			          		{
-			          			group.add("no");
-			          		}
-		          		} else
-		          		{
-		          			group.add("no");
-		          		}
-		          	}
-		          	
-		          	inputStream.close();
-		          }
-		      }
-		      catch (FileNotFoundException e) {
-		      	
-				} catch (IOException e) {
-					
-				}
-			}
 	  	
 	  	@SuppressWarnings("resource")
 		private ArrayList<String> readFromFile4(Context context) {
@@ -6749,6 +6667,7 @@ s
 	public class SectionsPagerAdapter extends android.support.v13.app.FragmentStatePagerAdapter {
 		
 		public ArrayList<String> contact = null;
+        private ArrayList<Fragment> mFragments = new ArrayList<Fragment>();
 		
 		public SectionsPagerAdapter(android.app.FragmentManager fm) {
 			super(fm);
@@ -6772,6 +6691,31 @@ s
 			}).start();
 		}
 
+        @Override
+        public void notifyDataSetChanged() {
+            contact = null;
+
+            new Thread(new Runnable() {
+
+                @Override
+                public void run() {
+                    ArrayList<String> contacts = new ArrayList<String>();
+
+                    for (int i = 0; i < inboxNumber.size(); i++)
+                    {
+                        contacts.add(loadGroupContacts(findContactNumber(inboxNumber.get(i), getBaseContext()), getBaseContext()));
+                    }
+
+                    contact = new ArrayList<String>();
+                    contact = contacts;
+
+                }
+
+            }).start();
+
+            super.notifyDataSetChanged();
+        }
+
 		@Override
 		public DummySectionFragment getItem(int position) {
 			DummySectionFragment fragment = new DummySectionFragment();
@@ -6790,7 +6734,15 @@ s
 
 		@Override
 		public int getCount() {
-			return inboxNumber.size();
+            if (MainActivity.limitConversations) {
+                if (inboxNumber.size() < 10) {
+                    return inboxNumber.size();
+                } else {
+                    return 10;
+                }
+            } else {
+                return inboxNumber.size();
+            }
 		}
 
 		@Override

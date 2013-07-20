@@ -93,7 +93,15 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
   @Override
   public int getCount()
   {
-	return body.size();
+      if (MainActivity.limitConversations) {
+          if (body.size() < 10) {
+              return body.size();
+          } else {
+              return 10;
+          }
+      } else {
+          return body.size();
+      }
   }
 
   @SuppressLint("SimpleDateFormat")
@@ -617,27 +625,6 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 
 	  return contactView;
   }
-  
-  public InputStream openDisplayPhoto(long contactId) {
-	  Uri contactUri = ContentUris.withAppendedId(Contacts.CONTENT_URI, contactId);
-	     Uri photoUri = Uri.withAppendedPath(contactUri, Contacts.Photo.CONTENT_DIRECTORY);
-	     Cursor cursor = context.getContentResolver().query(photoUri,
-	          new String[] {Contacts.Photo.PHOTO}, null, null, null);
-	     if (cursor == null) {
-	         return null;
-	     }
-	     try {
-	         if (cursor.moveToFirst()) {
-	             byte[] data = cursor.getBlob(0);
-	             if (data != null) {
-	                 return new ByteArrayInputStream(data);
-	             }
-	         }
-	     } finally {
-	         cursor.close();
-	     }
-	     return null;
-	 }
   
   	private ArrayList<String> readFromFile(Context context) {
 		

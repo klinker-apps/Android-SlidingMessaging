@@ -60,8 +60,6 @@
     <string name="override_summary">Will save message to inbox and abort broadcast to other texting apps, stopping notifications. May stop Light Flow notifications.</string>
 	<string name="open_contact_menu">Open Contact List at Startup</string>
 	<string name="open_contact_menu_summary">Opens the left side menu at app startup</string>
-	<string name="limit_conversations">Conversations to Load</string>
-	<string name="limit_conversations_summary">Select the number of conversations to be initially loaded</string>
 	<string name="contact_pictures">Display Contact Pictures</string>
 	<string name="date_format">Date Format</string>
 	<string name="date_format_summary">Select how date should be formatted</string>
@@ -70,7 +68,6 @@
 	<string name="enable_view_conversation">Enable Popup Expanded Options</string>
 	<string name="enable_view_conversation_summary">Shows the view conversation and delete buttons at the bottom of the quick reply dialog</string>
 	<string name="enable_mms">Enable MMS</string>
-	<string name="enable_mms_summary"></string>
 	<string name="mobile_only">Mobile Numbers Only</string>
 	<string name="mobile_only_summary">Display only mobile numbers when searching through contacts for new message</string>
 	<string name="led_color">LED Color</string>
@@ -383,7 +380,6 @@
 	<string name="black_list_2">Hide notifications and don\'t save messages from this contact</string>
 	<string name="delete_blacklist_contact">Delete blacklist contact?</string>
 	<string name="blacklist_settings">Blacklist Settings</string>
-	<string name="blacklist_settings_summary"></string>
 	<string name="save_to_external">Save To External SD</string>
 	<string name="save_to_external_summary">Saves some data such as individual notifications and blacklist settings to the external SD card instead of internally</string>
 	<string name="split_sms">Split SMS Messages</string>
@@ -501,4 +497,6 @@
     <string name="mms_setup_message">Please select carrier from the drop-down menu or configure APN settings manually.</string>
     <string name="mms_manual_setup">Manual Setup</string>
     <string name="holo_style_smiles">Holo Style Smilies</string>
+    <string name="limit_conversations_start">Limit Conversations</string>
+    <string name="limit_conversations_start_summary">Loads only 10 conversations at app startup for speed purposes</string>
 </resources>

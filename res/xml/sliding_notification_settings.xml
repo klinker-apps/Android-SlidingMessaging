@@ -152,7 +152,6 @@
     <Preference
         android:key="blacklist_settings"
         android:title="@string/blacklist_settings"
-        android:summary="@string/blacklist_settings_summary"
         />
 
     <CheckBoxPreference
