@@ -7141,22 +7141,12 @@ s
 
                                 @Override
                                 public void run() {
-                                    // TODO switch to only using one cursor adapter for both
-                                    if (sharedPrefs.getString("run_as", "sliding").equals("sliding"))
-                                    {
-                                        MessageArrayAdapter adapter = new MessageArrayAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), messageQuery, myPhoneNumber, position);
 
-                                        listView.setAdapter(adapter);
-                                        listView.setStackFromBottom(true);
-                                        spinner.setVisibility(View.GONE);
-                                    } else
-                                    {
-                                        com.klinker.android.messaging_hangout.MessageCursorAdapter adapter = new com.klinker.android.messaging_hangout.MessageCursorAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), messageQuery, position);
+                                    com.klinker.android.messaging_hangout.MessageCursorAdapter adapter = new com.klinker.android.messaging_hangout.MessageCursorAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), messageQuery, position);
 
-                                        listView.setAdapter(adapter);
-                                        listView.setStackFromBottom(true);
-                                        spinner.setVisibility(View.GONE);
-                                    }
+                                    listView.setAdapter(adapter);
+                                    listView.setStackFromBottom(true);
+                                    spinner.setVisibility(View.GONE);
                                 }
 
                             });
@@ -7223,22 +7213,11 @@ s
                     messageQuery = CacheService.conversations.get(position);
                 }
 
-                // TODO switch to only using one cursor adapter for both
-                if (sharedPrefs.getString("run_as", "sliding").equals("sliding"))
-                {
-                    MessageArrayAdapter adapter = new MessageArrayAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), messageQuery, myPhoneNumber, position);
+                com.klinker.android.messaging_hangout.MessageCursorAdapter adapter = new com.klinker.android.messaging_hangout.MessageCursorAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), messageQuery, position);
 
-                    listView.setAdapter(adapter);
-                    listView.setStackFromBottom(true);
-					spinner.setVisibility (View.GONE);
-                } else
-                {
-                    com.klinker.android.messaging_hangout.MessageCursorAdapter adapter = new com.klinker.android.messaging_hangout.MessageCursorAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), messageQuery, position);
-
-                    listView.setAdapter(adapter);
-                    listView.setStackFromBottom(true);
-					spinner.setVisibility(View.GONE);
-                }
+                listView.setAdapter(adapter);
+                listView.setStackFromBottom(true);
+                spinner.setVisibility(View.GONE);
 
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -7337,22 +7316,11 @@ s
         @Override
         public void onLoadFinished(android.content.Loader<Cursor> loader, final Cursor query)
         {
-            // TODO switch to only using one cursor adapter for both
-            if (sharedPrefs.getString("run_as", "sliding").equals("sliding"))
-            {
-                final MessageArrayAdapter adapter = new MessageArrayAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), query, myPhoneNumber, position);
+            com.klinker.android.messaging_hangout.MessageCursorAdapter adapter = new com.klinker.android.messaging_hangout.MessageCursorAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), query, position);
 
-                listView.setAdapter(adapter);
-                listView.setStackFromBottom(true);
-                spinner.setVisibility(View.GONE);
-            } else
-            {
-                com.klinker.android.messaging_hangout.MessageCursorAdapter adapter = new com.klinker.android.messaging_hangout.MessageCursorAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), query, position);
-
-                listView.setAdapter(adapter);
-                listView.setStackFromBottom(true);
-                spinner.setVisibility(View.GONE);
-            }
+            listView.setAdapter(adapter);
+            listView.setStackFromBottom(true);
+            spinner.setVisibility(View.GONE);
 
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -7425,26 +7393,13 @@ s
                 protected void onPostExecute(Void result) {
                     super.onPostExecute(result);
 
-                    // TODO switch to only using one cursor adapter for both
-                    if (sharedPrefs.getString("run_as", "sliding").equals("sliding"))
-                    {
-                        MessageArrayAdapter adapter = new MessageArrayAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), query, myPhoneNumber, position);
+                    com.klinker.android.messaging_hangout.MessageCursorAdapter adapter = new com.klinker.android.messaging_hangout.MessageCursorAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), query, position);
 
-                        listView.setAdapter(adapter);
-                        listView.setStackFromBottom(true);
-                        spinner.setVisibility (View.GONE);
+                    listView.setAdapter(adapter);
+                    listView.setStackFromBottom(true);
+                    spinner.setVisibility(View.GONE);
 
-                        listView.setSelection(adapter.getCount() - MainActivity.numToLoad + 20);
-                    } else
-                    {
-                        com.klinker.android.messaging_hangout.MessageCursorAdapter adapter = new com.klinker.android.messaging_hangout.MessageCursorAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), query, position);
-
-                        listView.setAdapter(adapter);
-                        listView.setStackFromBottom(true);
-                        spinner.setVisibility(View.GONE);
-
-                        listView.setSelection(adapter.getCount() - MainActivity.numToLoad + 20);
-                    }
+                    listView.setSelection(adapter.getCount() - MainActivity.numToLoad + 20);
 
                     // Notify PullToRefreshAttacher that the refresh has finished
                     mPullToRefreshAttacher.setRefreshComplete();
@@ -7457,7 +7412,7 @@ s
 		  try
 		  {
 		    Uri phoneUri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNumber));
-		    Uri photoUri = null;
+		    Uri photoUri;
 		    ContentResolver cr = context.getContentResolver();
 		    Cursor contact = cr.query(phoneUri,
 		            new String[] { ContactsContract.Contacts._ID }, null, null, null);

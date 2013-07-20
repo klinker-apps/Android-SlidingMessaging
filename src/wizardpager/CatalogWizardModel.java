@@ -23,7 +23,6 @@ import android.preference.PreferenceManager;
 import com.klinker.android.messaging_donate.R;
 import wizardpager.wizard.model.AbstractWizardModel;
 import wizardpager.wizard.model.LinkPage;
-import wizardpager.wizard.model.MMSPage;
 import wizardpager.wizard.model.MessagePage;
 import wizardpager.wizard.model.PageList;
 import wizardpager.wizard.model.SingleFixedChoicePage;
@@ -61,6 +60,7 @@ public class CatalogWizardModel extends AbstractWizardModel {
                 "- Better support for viewing video and audio MMS messages\n" +
                 "- Option to disable drafts\n" +
                 "- Improved performance\n" +
+                "- UI improvements\n" +
                 "- Bug fixes\n";
                 
         String themeEditor = "The theme editor now fully supports the Hangouts UI and popup, " +

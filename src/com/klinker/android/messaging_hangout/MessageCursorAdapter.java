@@ -30,6 +30,7 @@ import android.text.Spannable;
 import android.text.TextUtils;
 import android.text.util.Linkify;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -1745,6 +1746,15 @@ public class MessageCursorAdapter extends CursorAdapter {
 
         });
 
+        if (!sharedPrefs.getString("run_as", "sliding").equals("hangout")) {
+            if (cursor.getPosition() == 0) {
+                int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, context.getResources().getDisplayMetrics());
+                view.setPadding(0, 0, 0, scale);
+            } else {
+                view.setPadding(0, 0, 0, 0);
+            }
+        }
+
         if (MainActivity.animationOn == true && cursor.getPosition() == 0 && threadPosition == 0)
         {
             String animation = sharedPrefs.getString("send_animation", "left");
@@ -1805,8 +1815,7 @@ public class MessageCursorAdapter extends CursorAdapter {
             if (sharedPrefs.getString("run_as", "sliding").equals("hangout")) {
                 v = mInflater.inflate(R.layout.message_hangout_sent, parent, false);
             } else {
-                // TODO change to classic sent
-                v = mInflater.inflate(R.layout.message_hangout_sent, parent, false);
+                v = mInflater.inflate(R.layout.message_classic_sent, parent, false);
             }
 
             holder.text = (TextView) v.findViewById(R.id.textBody);
@@ -1823,8 +1832,7 @@ public class MessageCursorAdapter extends CursorAdapter {
             if (sharedPrefs.getString("run_as", "sliding").equals("hangout")) {
                 v = mInflater.inflate(R.layout.message_hangout_received, parent, false);
             } else {
-                // TODO change to classic received
-                v = mInflater.inflate(R.layout.message_hangout_received, parent, false);
+                v = mInflater.inflate(R.layout.message_classic_received, parent, false);
             }
 
             holder.text = (TextView) v.findViewById(R.id.textBody);
@@ -1947,7 +1955,9 @@ public class MessageCursorAdapter extends CursorAdapter {
             }
         }
 
-        v.setPadding(10,5,10,5);
+        if (sharedPrefs.getString("run_as", "sliding").equals("hangout")) {
+            v.setPadding(10,5,10,5);
+        }
 
         v.setTag(holder);
         return v;
