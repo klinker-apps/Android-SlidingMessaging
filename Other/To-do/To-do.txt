@@ -1,26 +1,13 @@
 Version 6.60
-- Sent message sounds
 - Investigate MMS apns on stock
 - Message Locking?
-- sms backup
-	- different icon in notification
-	- apply for mms
-	- redo cursors for more efficiency
-	- make sure menu page works as expected (closes alarm manager on uncheck, makes SD or Drive is checked when you run it)
-	- implement store to drive (comment out the choices until that is done)
-	- actually delete the messages :) just uncomment the code. it should work just fine
-	- add notifications to delete and drive backup
 - fix popup residual message in some cases
 - make cursor adapter compatible with classic ui
-- TEST --- fix MMS pictures not opening correctly in he gallery app, even though it shows in the message list
+- fix MMS pictures not opening correctly in he gallery app, even though it shows in the message list
+- Figure out how to judge file size of png images and adjust them accordingly when sending
 
 Luke's ideas for speed/fluidity improvement:
-1.) Limit conversations to 10 and add back the load all messages button
-		- would not be able to limit query, but could just not display all of them by changing the
-		  getCount methods of the menu array adapter and pager adapter
-2.) Limit initial messages loaded to 10 or 12
-		- Would do almost nothing
-3.) Don't refresh the view pager when a new message is received that isn't from the conversation you are currently viewing. Make a refresh attached in the cconversations list to refresh the view pager instead, so it doesnt jump around and the users can continue texting without being interrupted. It will look better and work more fluidly.
+3.) Don't refresh the view pager when a new message is received that isn't from the conversation you are currently viewing. Make a refresh attached in the conversations list to refresh the view pager instead, so it doesnt jump around and the users can continue texting without being interrupted. It will look better and work more fluidly.
 		- not sure how this would affect scrolling through the view pager though. may work, but may never move the threads to the correct position
 
 0) more individual notification options
@@ -32,14 +19,12 @@ Luke's ideas for speed/fluidity improvement:
 
 - igamer777@gmail.com, nikorezzano@gmail.com
 
-To switch to free version:
-- change folder names
-- change version code
-- change package declaration
-- disable sendto, share from gallery, mms (settings and menu), custom background, custom background2, custom text colors, text opacity, send animations, received animations, animation speed, quick text, widget, individual notifications, blacklist, securtiy settings)
-- change strings (title, mms, custom background, custom background2, custom text colors, send animations, received animations, quick text, individual settings, blacklist, security settings)
-- change packages in .java files
-- comment out custom background and custom background2 on click listener in SettingsActivity
-- change send/received animation defaults in messagearrayadapter and settings xml
-- attach button does nothing in card layout
-- uncomment pro link at top of settings and in settings activity
+
+- sms backup
+	- different icon in notification
+	- apply for mms
+	- redo cursors for more efficiency
+	- make sure menu page works as expected (closes alarm manager on uncheck, makes SD or Drive is checked when you run it)
+	- implement store to drive (comment out the choices until that is done)
+	- actually delete the messages :) just uncomment the code. it should work just fine
+	- add notifications to delete and drive backup
