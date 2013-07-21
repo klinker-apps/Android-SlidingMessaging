@@ -2205,12 +2205,13 @@ s
         if (deviceType.equals("phablet") || deviceType.equals("tablet"))
         {
             ListFragment newFragment = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.menuList);
-            ListView menuLayout = newFragment.getListView();
+            final ListView menuLayout = newFragment.getListView();
             if (sharedPrefs.getBoolean("limit_conversations_start", true) && inboxNumber.size() > 10) {
-                Button footer = new Button(this);
+                final Button footer = new Button(this);
                 footer.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        menuLayout.removeFooterView(footer);
                         limitConversations = false;
                         refreshViewPager(true);
                     }
@@ -2255,10 +2256,11 @@ s
         } else
         {
             if (sharedPrefs.getBoolean("limit_conversations_start", true) && inboxNumber.size() > 10) {
-                Button footer = new Button(this);
+                final Button footer = new Button(this);
                 footer.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        menuLayout.removeFooterView(footer);
                         limitConversations = false;
                         refreshViewPager(true);
                     }

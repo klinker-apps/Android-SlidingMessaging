@@ -4930,10 +4930,11 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 							@Override
 							public void run() {
                                 if (sharedPrefs.getBoolean("limit_conversations_start", true) && inboxNumber.size() > 10) {
-                                    Button footer = new Button(context);
+                                    final Button footer = new Button(context);
                                     footer.setOnClickListener(new OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
+                                            conversationList.removeFooterView(footer);
                                             limitConversations = false;
                                             ((MainActivity)context).refreshViewPager(true);
                                         }
