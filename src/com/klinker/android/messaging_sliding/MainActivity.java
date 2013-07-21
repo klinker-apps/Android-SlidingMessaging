@@ -421,7 +421,7 @@ s
         
         menuLayout = new ListView(this);
 
-        if (sharedPrefs.getBoolean("limit_conversations_start", true)) {
+        if (sharedPrefs.getBoolean("limit_conversations_start", true) && inboxNumber.size() > 10) {
             Button footer = new Button(this);
             footer.setOnClickListener(new OnClickListener() {
                 @Override
@@ -2222,7 +2222,7 @@ s
         {
             ListFragment newFragment = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.menuList);
             ListView menuLayout = newFragment.getListView();
-            if (sharedPrefs.getBoolean("limit_conversations_start", true)) {
+            if (sharedPrefs.getBoolean("limit_conversations_start", true) && inboxNumber.size() > 10) {
                 Button footer = new Button(this);
                 footer.setOnClickListener(new OnClickListener() {
                     @Override
