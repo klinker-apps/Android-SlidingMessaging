@@ -73,6 +73,7 @@ public class ReviewFragment extends ListFragment implements ModelCallbacks {
                        getResources().getString(R.string.override_stock_disclaimer)
                        + "\n\n" +
                        getResources().getString(R.string.twitter_link));
+        Linkify.addLinks(message, Linkify.ALL);
 
         //ListView listView = (ListView) rootView.findViewById(android.R.id.list);
         //setListAdapter(mReviewAdapter);
