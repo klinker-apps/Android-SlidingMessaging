@@ -21,11 +21,17 @@
 
     <TextView style="@style/WizardPageTitle" />
 
-    <TextView android:id="@android:id/message"
-              android:layout_weight="1"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:scrollbarStyle="outsideInset"
-              android:scrollbars="vertical"/>
+    <ScrollView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent">
+
+        <TextView android:id="@android:id/message"
+                  android:layout_weight="1"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:scrollbarStyle="outsideInset"
+                  android:scrollbars="vertical"/>
+        
+    </ScrollView>
 
 </LinearLayout>
