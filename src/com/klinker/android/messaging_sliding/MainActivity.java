@@ -420,22 +420,6 @@ s
         }
         
         menuLayout = new ListView(this);
-
-        if (sharedPrefs.getBoolean("limit_conversations_start", true) && inboxNumber.size() > 10) {
-            Button footer = new Button(this);
-            footer.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    limitConversations = false;
-                    refreshViewPager(true);
-                }
-            });
-            footer.setText(getResources().getString(R.string.load_all));
-            footer.setTypeface(font);
-            footer.setBackgroundResource(android.R.color.transparent);
-            footer.setTextColor(sharedPrefs.getInt("ct_nameTextColor", getResources().getColor(R.color.black)));
-            menuLayout.addFooterView(footer);
-        }
 		
 		myPhoneNumber = getMyPhoneNumber();
 		
@@ -2270,6 +2254,22 @@ s
             }
         } else
         {
+            if (sharedPrefs.getBoolean("limit_conversations_start", true) && inboxNumber.size() > 10) {
+                Button footer = new Button(this);
+                footer.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        limitConversations = false;
+                        refreshViewPager(true);
+                    }
+                });
+                footer.setText(getResources().getString(R.string.load_all));
+                footer.setTypeface(font);
+                footer.setBackgroundResource(android.R.color.transparent);
+                footer.setTextColor(sharedPrefs.getInt("ct_nameTextColor", getResources().getColor(R.color.black)));
+                menuLayout.addFooterView(footer);
+            }
+
             if (sharedPrefs.getBoolean("custom_background", false))
             {
                 try
