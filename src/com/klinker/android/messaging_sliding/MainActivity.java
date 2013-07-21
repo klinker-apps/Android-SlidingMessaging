@@ -5727,6 +5727,19 @@ s
             {
                 ListFragment newFragment = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.menuList);
                 newFragment.setListAdapter(new MenuArrayAdapter(this, inboxBody, inboxDate, inboxNumber, MainActivity.mViewPager, threadIds, group, msgCount, msgRead));
+                ListView menuLayout = newFragment.getListView();
+                if (sharedPrefs.getBoolean("limit_conversations_start", true)) {
+                    Button footer = new Button(this);
+                    footer.setOnClickListener(new OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            limitConversations = false;
+                            refreshViewPager(true);
+                        }
+                    });
+                    footer.setText(getResources().getString(R.string.load_all));
+                    menuLayout.addFooterView(footer);
+                }
             }
 		} else
 		{
