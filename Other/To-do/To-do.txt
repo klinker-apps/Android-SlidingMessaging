@@ -25,6 +25,8 @@ Luke's ideas for speed/fluidity improvement:
 	- apply for mms
 	- redo cursors for more efficiency
 	- make sure menu page works as expected (closes alarm manager on uncheck, makes SD or Drive is checked when you run it)
-	- implement store to drive (comment out the choices until that is done)
-	- actually delete the messages :) just uncomment the code. it should work just fine
-	- add notifications to delete and drive backup
+	- implement store to drive (comment out the choices until that is done
+	- add notifications to drive backup
+	- cancel scheduled button
+	- Dated folders for backups
+	- check to make sure backup exists before deleting
