@@ -223,6 +223,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
     public static boolean loadAllMessages = false;
 	
 	public static boolean fromNewMessageButton = false;
+    public static boolean limitConversations = true;
 	
 	public static int currentMessageTag = 1;
 	
@@ -569,6 +570,12 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 				}
 			}
 		}
+
+        if (sharedPrefs.getBoolean("limit_conversations_start", true)) {
+            limitConversations = true;
+        } else {
+            limitConversations = false;
+        }
 		
 		menuButton = (ImageButton) findViewById(R.id.menuButton);
 		attachButton = (ImageButton) findViewById(R.id.attachButton);
@@ -4243,7 +4250,15 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 		@Override
 		public int getCount() {
             try {
-                return threadIds.size() + 2;
+                if (MainActivity.limitConversations) {
+                    if (threadIds.size() < 10) {
+                        return threadIds.size() + 2;
+                    } else {
+                        return 12;
+                    }
+                } else {
+                    return threadIds.size() + 2;
+                }
             } catch (Exception e)
             {
                 return 0;
@@ -4661,7 +4676,15 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 
 		@Override
 		public int getCount() {
-			return threadIds.size() + 2;
+            if (MainActivity.limitConversations) {
+                if (threadIds.size() < 10) {
+                    return threadIds.size() + 2;
+                } else {
+                    return 12;
+                }
+            } else {
+                return threadIds.size() + 2;
+            }
 		}
 
 		@Override

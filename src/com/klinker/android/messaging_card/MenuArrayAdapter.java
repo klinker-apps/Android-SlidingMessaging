@@ -94,7 +94,15 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
   @Override
   public int getCount()
   {
-	return body.size();
+      if (com.klinker.android.messaging_sliding.MainActivity.limitConversations) {
+          if (body.size() < 10) {
+              return body.size();
+          } else {
+              return 10;
+          }
+      } else {
+          return body.size();
+      }
   }
 
   @SuppressLint("SimpleDateFormat")
