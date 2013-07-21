@@ -24,6 +24,8 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import android.*;
+import android.graphics.*;
 import android.os.Parcelable;
 import android.view.*;
 import android.widget.*;
@@ -40,6 +42,7 @@ import com.google.android.mms.pdu.SendReq;
 import com.klinker.android.messaging_card.batch_delete.BatchDeleteActivity;
 import com.klinker.android.messaging_card.group.GroupActivity;
 import com.klinker.android.messaging_donate.*;
+import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.receivers.DeliveredReceiver;
 import com.klinker.android.messaging_donate.receivers.DisconnectWifi;
 import com.klinker.android.messaging_donate.receivers.SentReceiver;
@@ -67,12 +70,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Matrix;
 import android.graphics.Bitmap.Config;
-import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
@@ -4931,6 +4929,31 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 							
 							@Override
 							public void run() {
+                                if (sharedPrefs.getBoolean("limit_conversations_start", true)) {
+                                    Button footer = new Button(context);
+                                    footer.setOnClickListener(new OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            limitConversations = false;
+                                            ((MainActivity)context).refreshViewPager(true);
+                                        }
+                                    });
+                                    footer.setText(getResources().getString(R.string.load_all));
+                                    footer.setTypeface(font);
+                                    footer.setBackgroundResource(android.R.color.transparent);
+                                    if (sharedPrefs.getString("card_theme", "Light").equals("Light"))
+                                    {
+                                        footer.setTextColor(getResources().getColor(R.color.card_conversation_name));
+                                    } else if (sharedPrefs.getString("card_theme", "Light").equals("Dark"))
+                                    {
+                                        footer.setTextColor(getResources().getColor(R.color.card_dark_conversation_name));
+                                    } else if (sharedPrefs.getString("card_theme", "Light").equals("Pitch Black"))
+                                    {
+                                        footer.setTextColor(getResources().getColor(R.color.card_black_conversation_name));
+                                    }
+                                    conversationList.addFooterView(footer);
+                                }
+
 								conversationList.setAdapter(adapter);
 								conversationList.setDividerHeight(0);
 								conversationList.setPadding(0, 10, 0, 10);

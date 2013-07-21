@@ -94,7 +94,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
   @Override
   public int getCount()
   {
-      if (com.klinker.android.messaging_sliding.MainActivity.limitConversations) {
+      if (MainActivity.limitConversations) {
           if (body.size() < 10) {
               return body.size();
           } else {
