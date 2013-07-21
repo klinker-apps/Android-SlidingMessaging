@@ -2195,7 +2195,11 @@ public class MessageArrayAdapter extends ArrayAdapter<String> {
 			  Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_up);
 			  anim.setDuration(sharedPrefs.getInt("animation_speed", 300));
 			  rowView.startAnimation(anim);
-		  }
+		  } else if (animation.equals("hangouts")) {
+              Animation anim = AnimationUtils.loadAnimation(context, R.anim.hangouts_in);
+              anim.setDuration(sharedPrefs.getInt("animation_speed", 300));
+              rowView.startAnimation(anim);
+          }
 		  
 		  MainActivity.animationOn = false;
 	  }
@@ -2219,7 +2223,11 @@ public class MessageArrayAdapter extends ArrayAdapter<String> {
 			  Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_up);
 			  anim.setDuration(sharedPrefs.getInt("animation_speed", 300));
 			  rowView.startAnimation(anim);
-		  }
+		  } else if (animation.equals("hangouts")) {
+              Animation anim = AnimationUtils.loadAnimation(context, R.anim.hangouts_in);
+              anim.setDuration(sharedPrefs.getInt("animation_speed", 300));
+              rowView.startAnimation(anim);
+          }
 		  
 		  MainActivity.animationReceived = 0;
 	  }

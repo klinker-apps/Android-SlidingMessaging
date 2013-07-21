@@ -270,6 +270,7 @@
         <item name="left">Slide in from left</item>
         <item name="right">Slide in from right</item>
         <item name="up">Slide up from bottom</item>
+        <item name="hangouts">Scale in from bottom</item>
         <item name="none">No animation</item>
     </string-array>
     
@@ -277,6 +278,7 @@
         <item name="left">left</item>
         <item name="right">right</item>
         <item name="up">up</item>
+        <item name="hangouts">hangouts</item>
         <item name="none">none</item>
     </string-array>
     

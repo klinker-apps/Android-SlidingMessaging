@@ -1774,6 +1774,10 @@ public class MessageCursorAdapter extends CursorAdapter {
                 Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_up);
                 anim.setDuration(sharedPrefs.getInt("animation_speed", 300));
                 view.startAnimation(anim);
+            } else if (animation.equals("hangouts")) {
+                Animation anim = AnimationUtils.loadAnimation(context, R.anim.hangouts_in);
+                anim.setDuration(sharedPrefs.getInt("animation_speed", 300));
+                view.startAnimation(anim);
             }
 
             MainActivity.animationOn = false;
@@ -1796,6 +1800,10 @@ public class MessageCursorAdapter extends CursorAdapter {
             } else if (animation.equals("up"))
             {
                 Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_up);
+                anim.setDuration(sharedPrefs.getInt("animation_speed", 300));
+                view.startAnimation(anim);
+            } else if (animation.equals("hangouts")) {
+                Animation anim = AnimationUtils.loadAnimation(context, R.anim.hangouts_in);
                 anim.setDuration(sharedPrefs.getInt("animation_speed", 300));
                 view.startAnimation(anim);
             }
