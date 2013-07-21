@@ -431,6 +431,9 @@ s
                 }
             });
             footer.setText(getResources().getString(R.string.load_all));
+            footer.setTypeface(font);
+            footer.setBackgroundResource(android.R.color.transparent);
+            footer.setTextColor(sharedPrefs.getInt("ct_nameTextColor", getResources().getColor(R.color.black)));
             menuLayout.addFooterView(footer);
         }
 		
@@ -2229,6 +2232,9 @@ s
                     }
                 });
                 footer.setText(getResources().getString(R.string.load_all));
+                footer.setTypeface(font);
+                footer.setBackgroundResource(android.R.color.transparent);
+                footer.setTextColor(sharedPrefs.getInt("ct_nameTextColor", getResources().getColor(R.color.black)));
                 menuLayout.addFooterView(footer);
             }
             newFragment.setListAdapter(new MenuArrayAdapter(this, inboxBody, inboxDate, inboxNumber, MainActivity.mViewPager, threadIds, group, msgCount, msgRead));
