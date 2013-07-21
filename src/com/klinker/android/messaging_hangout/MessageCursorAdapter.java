@@ -1897,48 +1897,95 @@ public class MessageCursorAdapter extends CursorAdapter {
 
         holder.date.setAlpha((float) .5);
 
-        holder.text.setTextColor(sharedPrefs.getInt("ct_sentTextColor", context.getResources().getColor(R.color.black)));
-        holder.date.setTextColor(sharedPrefs.getInt("ct_sentTextColor", context.getResources().getColor(R.color.black)));
-        holder.background.setBackgroundColor(sharedPrefs.getInt("ct_sentMessageBackground", context.getResources().getColor(R.color.white)));
-        holder.media.setBackgroundColor(sharedPrefs.getInt("ct_sentMessageBackground", context.getResources().getColor(R.color.white)));
-        holder.bubble.setColorFilter(sharedPrefs.getInt("ct_sentMessageBackground", context.getResources().getColor(R.color.white)));
+        if (type == 1) {
+            holder.text.setTextColor(sharedPrefs.getInt("ct_sentTextColor", context.getResources().getColor(R.color.black)));
+            holder.date.setTextColor(sharedPrefs.getInt("ct_sentTextColor", context.getResources().getColor(R.color.black)));
+            holder.background.setBackgroundColor(sharedPrefs.getInt("ct_sentMessageBackground", context.getResources().getColor(R.color.white)));
+            holder.media.setBackgroundColor(sharedPrefs.getInt("ct_sentMessageBackground", context.getResources().getColor(R.color.white)));
+            holder.bubble.setColorFilter(sharedPrefs.getInt("ct_sentMessageBackground", context.getResources().getColor(R.color.white)));
 
-        if (!sharedPrefs.getBoolean("custom_theme", false))
-        {
-            String color = sharedPrefs.getString("sent_text_color", "default");
+            if (!sharedPrefs.getBoolean("custom_theme", false))
+            {
+                String color = sharedPrefs.getString("sent_text_color", "default");
 
-            if (color.equals("blue"))
+                if (color.equals("blue"))
+                {
+                    holder.text.setTextColor(context.getResources().getColor(R.color.holo_blue));
+                    holder.date.setTextColor(context.getResources().getColor(R.color.holo_blue));
+                } else if (color.equals("white"))
+                {
+                    holder.text.setTextColor(context.getResources().getColor(R.color.white));
+                    holder.date.setTextColor(context.getResources().getColor(R.color.white));
+                } else if (color.equals("green"))
+                {
+                    holder.text.setTextColor(context.getResources().getColor(R.color.holo_green));
+                    holder.date.setTextColor(context.getResources().getColor(R.color.holo_green));
+                } else if (color.equals("orange"))
+                {
+                    holder.text.setTextColor(context.getResources().getColor(R.color.holo_orange));
+                    holder.date.setTextColor(context.getResources().getColor(R.color.holo_orange));
+                } else if (color.equals("red"))
+                {
+                    holder.text.setTextColor(context.getResources().getColor(R.color.holo_red));
+                    holder.date.setTextColor(context.getResources().getColor(R.color.holo_red));
+                } else if (color.equals("purple"))
+                {
+                    holder.text.setTextColor(context.getResources().getColor(R.color.holo_purple));
+                    holder.date.setTextColor(context.getResources().getColor(R.color.holo_purple));
+                } else if (color.equals("black"))
+                {
+                    holder.text.setTextColor(context.getResources().getColor(R.color.pitch_black));
+                    holder.date.setTextColor(context.getResources().getColor(R.color.pitch_black));
+                } else if (color.equals("grey"))
+                {
+                    holder.text.setTextColor(context.getResources().getColor(R.color.grey));
+                    holder.date.setTextColor(context.getResources().getColor(R.color.grey));
+                }
+            }
+        } else {
+            holder.text.setTextColor(sharedPrefs.getInt("ct_receivedTextColor", context.getResources().getColor(R.color.black)));
+            holder.date.setTextColor(sharedPrefs.getInt("ct_receivedTextColor", context.getResources().getColor(R.color.black)));
+            holder.background.setBackgroundColor(sharedPrefs.getInt("ct_receivedMessageBackground", context.getResources().getColor(R.color.white)));
+            holder.media.setBackgroundColor(sharedPrefs.getInt("ct_receivedMessageBackground", context.getResources().getColor(R.color.white)));
+            holder.bubble.setColorFilter(sharedPrefs.getInt("ct_receivedMessageBackground", context.getResources().getColor(R.color.white)));
+
+            if (!sharedPrefs.getBoolean("custom_theme", false))
             {
-                holder.text.setTextColor(context.getResources().getColor(R.color.holo_blue));
-                holder.date.setTextColor(context.getResources().getColor(R.color.holo_blue));
-            } else if (color.equals("white"))
-            {
-                holder.text.setTextColor(context.getResources().getColor(R.color.white));
-                holder.date.setTextColor(context.getResources().getColor(R.color.white));
-            } else if (color.equals("green"))
-            {
-                holder.text.setTextColor(context.getResources().getColor(R.color.holo_green));
-                holder.date.setTextColor(context.getResources().getColor(R.color.holo_green));
-            } else if (color.equals("orange"))
-            {
-                holder.text.setTextColor(context.getResources().getColor(R.color.holo_orange));
-                holder.date.setTextColor(context.getResources().getColor(R.color.holo_orange));
-            } else if (color.equals("red"))
-            {
-                holder.text.setTextColor(context.getResources().getColor(R.color.holo_red));
-                holder.date.setTextColor(context.getResources().getColor(R.color.holo_red));
-            } else if (color.equals("purple"))
-            {
-                holder.text.setTextColor(context.getResources().getColor(R.color.holo_purple));
-                holder.date.setTextColor(context.getResources().getColor(R.color.holo_purple));
-            } else if (color.equals("black"))
-            {
-                holder.text.setTextColor(context.getResources().getColor(R.color.pitch_black));
-                holder.date.setTextColor(context.getResources().getColor(R.color.pitch_black));
-            } else if (color.equals("grey"))
-            {
-                holder.text.setTextColor(context.getResources().getColor(R.color.grey));
-                holder.date.setTextColor(context.getResources().getColor(R.color.grey));
+                String color = sharedPrefs.getString("received_text_color", "default");
+
+                if (color.equals("blue"))
+                {
+                    holder.text.setTextColor(context.getResources().getColor(R.color.holo_blue));
+                    holder.date.setTextColor(context.getResources().getColor(R.color.holo_blue));
+                } else if (color.equals("white"))
+                {
+                    holder.text.setTextColor(context.getResources().getColor(R.color.white));
+                    holder.date.setTextColor(context.getResources().getColor(R.color.white));
+                } else if (color.equals("green"))
+                {
+                    holder.text.setTextColor(context.getResources().getColor(R.color.holo_green));
+                    holder.date.setTextColor(context.getResources().getColor(R.color.holo_green));
+                } else if (color.equals("orange"))
+                {
+                    holder.text.setTextColor(context.getResources().getColor(R.color.holo_orange));
+                    holder.date.setTextColor(context.getResources().getColor(R.color.holo_orange));
+                } else if (color.equals("red"))
+                {
+                    holder.text.setTextColor(context.getResources().getColor(R.color.holo_red));
+                    holder.date.setTextColor(context.getResources().getColor(R.color.holo_red));
+                } else if (color.equals("purple"))
+                {
+                    holder.text.setTextColor(context.getResources().getColor(R.color.holo_purple));
+                    holder.date.setTextColor(context.getResources().getColor(R.color.holo_purple));
+                } else if (color.equals("black"))
+                {
+                    holder.text.setTextColor(context.getResources().getColor(R.color.pitch_black));
+                    holder.date.setTextColor(context.getResources().getColor(R.color.pitch_black));
+                } else if (color.equals("grey"))
+                {
+                    holder.text.setTextColor(context.getResources().getColor(R.color.grey));
+                    holder.date.setTextColor(context.getResources().getColor(R.color.grey));
+                }
             }
         }
 
