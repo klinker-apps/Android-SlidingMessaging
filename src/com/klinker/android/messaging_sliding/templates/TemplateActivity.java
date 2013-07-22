@@ -29,20 +29,72 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import com.klinker.android.messaging_donate.R;
+import com.mobeta.android.dslv.DragSortListView;
+import com.mobeta.android.dslv.DragSortController;
 
 public class TemplateActivity extends Activity {
 	
 	public static Context context;
-	public ListView templates;
+	public DragSortListView templates;
 	public Button addNew;
 	public SharedPreferences sharedPrefs;
 	public ArrayList<String> text;
+
+    TemplateArrayAdapter adapter;
+
+    private DragSortListView.DropListener onDrop =
+            new DragSortListView.DropListener() {
+                @Override
+                public void drop(int from, int to) {
+                    if (from != to) {
+                        //DragSortListView list = (DragSortListView) findViewById(R.id.templateListView);
+                        String item = adapter.getItem(from);
+                        adapter.remove(item);
+                        adapter.insert(item, to);
+
+                        if (to < from)
+                        {
+                            text.add(to + 1, text.get(from));
+                            text.remove(from + 1);
+                        } else
+                        {
+                            text.add(to, text.get(from));
+                            text.remove(from + 1);
+                        }
+
+                        adapter = new TemplateArrayAdapter(getActivity(), text);
+                        templates.setAdapter(adapter);
+                    }
+                }
+            };
+
+    private DragSortListView.RemoveListener onRemove =
+            new DragSortListView.RemoveListener() {
+                @Override
+                public void remove(int which) {
+                    adapter.remove(adapter.getItem(which));
+                    text.remove(which);
+                }
+            };
+
+    private DragSortListView.DragScrollProfile ssProfile =
+            new DragSortListView.DragScrollProfile() {
+                @Override
+                public float getSpeed(float w, long t) {
+                    if (w > 0.8f) {
+                        // Traverse all views in a millisecond
+                        return ((float) adapter.getCount()) / 0.001f;
+                    } else {
+                        return 10.0f * w;
+                    }
+                }
+            };
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.templates);
-		templates = (ListView) findViewById(R.id.templateListView);
+		templates = (DragSortListView) findViewById(R.id.templateListView);
 		addNew = (Button) findViewById(R.id.addNewButton);
 		
 		sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
@@ -50,9 +102,13 @@ public class TemplateActivity extends Activity {
 		
 		text = readFromFile(this);
 		
-		TemplateArrayAdapter adapter = new TemplateArrayAdapter(this, text);
-		templates.setAdapter(adapter);
+		adapter = new TemplateArrayAdapter(this, text);
 		templates.setStackFromBottom(false);
+        templates.setDropListener(onDrop);
+        templates.setRemoveListener(onRemove);
+        templates.setDragScrollProfile(ssProfile);
+        templates.setAdapter(adapter);
+
 		
 		if (sharedPrefs.getBoolean("override_lang", false))
 		{
@@ -193,4 +249,9 @@ public class TemplateActivity extends Activity {
 	        } 
 			
 		}
+
+    public Activity getActivity()
+    {
+        return this;
+    }
 }
