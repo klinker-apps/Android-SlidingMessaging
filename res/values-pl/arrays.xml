@@ -70,41 +70,4 @@
         <item name="Purple">Fioletowy</item>
         <item name="Icon">Ikona Aplikacji</item>
     </string-array>
-    
-    
-    
-    <string-array name="textColors">
-        <item name="Default">Default</item>
-        <item name="White">White</item>
-        <item name="Blue">Blue</item>
-        <item name="Green">Green</item>
-        <item name="Orange">Orange</item>
-        <item name="Red">Red</item>
-        <item name="Purple">Purple</item>
-        <item name="Grey">Grey</item>
-        <item name="Black">Black</item>
-    </string-array>
-    
-    <string-array name="deliveryOptions">
-        <item name="none">Nothing on Delivery</item>
-        <item name="popup">Popup on Delivery</item>
-        <item name="toast">Toast on Delivery</item>
-    </string-array>
-    
-    <string-array name="screenTimeout">
-        <item name="1">1 Second</item>
-        <item name="5">5 Seconds</item>
-        <item name="15">15 Seconds</item>
-        <item name="30">30 Seconds</item>
-        <item name="60">1 Minute</item>
-        <item name="180">3 Minutes</item>
-        <item name="300">5 Minutes</item>
-    </string-array>
-    
-    <string-array name="sendAnimation">
-        <item name="left">Slide in from left</item>
-        <item name="right">Slide in from right</item>
-        <item name="up">Slide up from bottom</item>
-        <item name="none">No animation</item>
-    </string-array>
 </resources>

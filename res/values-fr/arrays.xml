@@ -112,6 +112,7 @@
         <item name="left">Glissement entrant depuis la gauche</item>
         <item name="right">Glissement entrant depuis la droite</item>
         <item name="up">Glissement entrant depuis le bas</item>
+        <item name="hangouts">Scale in from bottom</item>
         <item name="none">Pas d\'animation</item>
     </string-array>
     

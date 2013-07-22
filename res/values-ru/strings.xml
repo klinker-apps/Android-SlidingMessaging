@@ -554,7 +554,6 @@
     <string name="notification_image">Иконка уведомления</string>
     <string name="test_notification">Тестовое уведомление</string>
     <string name="test_notification_summary">Отобразится после отключения дисплея</string>
-
     <string name="next">Далее</string>
     <string name="prev">Назад</string>
     <string name="finish">Завершить</string>
@@ -599,7 +598,6 @@
     <string name="status">Состояние:</string>
     <string name="message_details">Подробности</string>
     <string name="twitter_link">СЛЕДУЙТЕ ЗА НОВОСТЯМИ: \nhttp://www.twitter.com/SlidingSMS</string>
-
     <string name="date_picker">Задайте дату</string>
     <string name="time_picker">Задайте время</string>
     <string name="scheduled_sms">Планировка SMS</string>
@@ -623,5 +621,30 @@
     <string name="num_cache_conversations_summary">Количество диалогов, которые будут кэшированы и быстро загружены при запуске приложения</string>
     <string name="changelog">Список изменений</string>
     <string name="tweet_us">Пишите нам!</string>
+
+    <string name="speed_improvement_settings">Message Backup</string>
+    <string name="use_backup">Backup/Delete Messages</string>
+    <string name="use_backup_summary">PLEASE READ: Enabling this will greatly increase the speed of Sliding Messaging, it will also backup all your SMS messages to an external service for safekeeping and delete them from the SMS database. You will not be able to see these messages in Sliding Messaging or any other messaging app.</string>
+    <string name="sd_backup">Backup to SD card</string>
+    <string name="drive_backup">Backup to Google Drive</string>
+    <string name="run_backup">Run backup/delete now</string>
+    <string name="schedule_backup">Schedule backup/delete</string>
+    <string name="schedule_backup_summary">WARNING: May backup and delete unread messages if scheduled before they are seen.</string>
+    <string name="only_read">Delete read messages only</string>
+    <string name="dont_delete_previous">Don\'t delete previous day</string>
+    <string name="dont_delete_previous_summary">Keep the last day in the manifest so that you have only those messages after the backup and delete</string>
+    <string name="delete_after_backup">Delete messages after backup</string>
+    <string name="delete_after_backup_summary">RECOMMENDED: this will delete all messages after backup is complete to increase speed and fluidity of Sliding Messaging.\nWARNING: it will also delete MMS which are not backed up through this utility.</string>
+    <string name="enable_drafts">Enable Drafts</string>
+    <string name="in_app_notifications">In App Notifications</string>
+    <string name="in_app_notifications_summary">Will display a small notification bar at the top of the screen when a new message has been received</string>
+    <string name="mark_all_read">Mark All Read</string>
+    <string name="show_number_widget">Show phone number</string>
+    <string name="need_mms_setup">Initial MMS Setup:</string>
+    <string name="mms_setup_message">Please select carrier from the drop-down menu or configure APN settings manually.</string>
+    <string name="mms_manual_setup">Manual Setup</string>
+    <string name="holo_style_smiles">Holo Style Smilies</string>
+    <string name="limit_conversations_start">Limit Conversations</string>
+    <string name="limit_conversations_start_summary">Loads only 10 conversations at app startup for speed purposes</string>
 
 </resources>

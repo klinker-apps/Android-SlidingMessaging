@@ -85,6 +85,7 @@
     <item name="left">Слева направо</item>
     <item name="right">Справа налево</item>
     <item name="up">Снизу вверх</item>
+    <item name="hangouts">Scale in from bottom</item>
     <item name="none">Без анимации</item>
   </string-array>
   <string-array name="quickReplyOptions">
@@ -150,5 +151,19 @@
         <item name="pin">ПИН</item>
         <item name="pattern">Узор</item>
         <item name="password">Пароль</item>
+    </string-array>
+
+    <string-array name="repetition_array">
+        <item>None</item>
+        <item>Daily</item>
+        <item>Weekly</item>
+        <item>Yearly</item>
+    </string-array>
+
+    <string-array name="backup_repetition_array">
+        <item>None</item>
+        <item>Daily</item>
+        <item>Every 3 Days</item>
+        <item>Weekly</item>
     </string-array>
 </resources>

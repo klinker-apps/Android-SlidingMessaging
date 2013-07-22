@@ -91,6 +91,7 @@
     <item name="left">החלקה משמאל</item>
     <item name="right">החלקה מימין</item>
     <item name="up">החלקה למעלה מלמטה</item>
+      <item name="hangouts">Scale in from bottom</item>
     <item name="none">ללא אנימציה</item>
   </string-array>
 </resources>

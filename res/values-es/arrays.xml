@@ -104,6 +104,7 @@
         <item name="left">Deslizar desde la izquierda</item>
         <item name="right">Deslizar desde la derecha</item>
         <item name="up">Deslizar desde abajo</item>
+        <item name="hangouts">Scale in from bottom</item>
         <item name="none">Sin animación</item>
     </string-array>
     
@@ -168,5 +169,19 @@
         <item name="pin">PIN</item>
         <item name="pattern">Patrón</item>
         <item name="password">Contraseña</item>
+    </string-array>
+
+    <string-array name="repetition_array">
+        <item>None</item>
+        <item>Daily</item>
+        <item>Weekly</item>
+        <item>Yearly</item>
+    </string-array>
+
+    <string-array name="backup_repetition_array">
+        <item>None</item>
+        <item>Daily</item>
+        <item>Every 3 Days</item>
+        <item>Weekly</item>
     </string-array>
 </resources>
