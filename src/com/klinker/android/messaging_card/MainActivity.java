@@ -4033,31 +4033,35 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 
                     Cursor query = context.getContentResolver().query(Uri.parse("content://sms/draft/"), new String[] {"_id", "thread_id"}, null, null, null);
 
-                    if (query != null) {
-                        if (query.moveToFirst()) {
-                            do {
-                                for (int i = 0; i < draftsToDelete.size(); i++) {
-                                    if (query.getString(query.getColumnIndex("thread_id")).equals(draftsToDelete.get(i))) {
-                                        ids.add(query.getString(query.getColumnIndex("_id")));
-                                        break;
-                                    }
-                                }
-
-                                for (int i = 0; i < draftNames.size(); i++) {
-                                    if (draftNames.get(i).equals(query.getString(query.getColumnIndex("thread_id")))) {
-                                        context.getContentResolver().delete(Uri.parse("content://sms/" + query.getString(query.getColumnIndex("_id"))), null, null);
-                                        break;
-                                    }
-                                }
-                            } while (query.moveToNext());
-
-                            for (int i = 0; i < ids.size(); i++) {
-                                context.getContentResolver().delete(Uri.parse("content://sms/" + ids.get(i)), null, null);
-                            }
-                        }
-
-                        query.close();
-                    }
+					try {
+						if (query != null) {
+							if (query.moveToFirst()) {
+								do {
+									for (int i = 0; i < draftsToDelete.size(); i++) {
+										if (query.getString(query.getColumnIndex("thread_id")).equals(draftsToDelete.get(i))) {
+											ids.add(query.getString(query.getColumnIndex("_id")));
+											break;
+										}
+									}
+	
+									for (int i = 0; i < draftNames.size(); i++) {
+										if (draftNames.get(i).equals(query.getString(query.getColumnIndex("thread_id")))) {
+											context.getContentResolver().delete(Uri.parse("content://sms/" + query.getString(query.getColumnIndex("_id"))), null, null);
+											break;
+										}
+									}
+								} while (query.moveToNext());
+	
+								for (int i = 0; i < ids.size(); i++) {
+									context.getContentResolver().delete(Uri.parse("content://sms/" + ids.get(i)), null, null);
+								}
+							}
+	
+							query.close();
+						}
+					} catch (Exception e) {
+						// error with drafts, oh well
+					}
 
                     for (int i = 0; i < draftNames.size(); i++) {
                         String address = "";
@@ -4939,7 +4943,11 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
                                             ((MainActivity)context).refreshViewPager(true);
                                         }
                                     });
-                                    footer.setText(getResources().getString(R.string.load_all));
+									try {
+                                    	footer.setText(context.getResources().getString(R.string.load_all));
+									} catch (Exception e) {
+										footer.setText("Load All Conversations");
+									}
                                     footer.setTypeface(font);
                                     footer.setBackgroundResource(android.R.color.transparent);
                                     if (sharedPrefs.getString("card_theme", "Light").equals("Light"))
