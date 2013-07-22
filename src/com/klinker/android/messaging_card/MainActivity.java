@@ -4933,34 +4933,39 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 							
 							@Override
 							public void run() {
-                                if (sharedPrefs.getBoolean("limit_conversations_start", true) && inboxNumber.size() > 10) {
-                                    final Button footer = new Button(context);
-                                    footer.setOnClickListener(new OnClickListener() {
-                                        @Override
-                                        public void onClick(View view) {
-                                            conversationList.removeFooterView(footer);
-                                            limitConversations = false;
-                                            ((MainActivity)context).refreshViewPager(true);
+                                try {
+                                    if (sharedPrefs.getBoolean("limit_conversations_start", true) && inboxNumber.size() > 10) {
+                                        final Button footer = new Button(context);
+                                        footer.setOnClickListener(new OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                conversationList.removeFooterView(footer);
+                                                limitConversations = false;
+                                                ((MainActivity)context).refreshViewPager(true);
+                                            }
+                                        });
+                                        try {
+                                            footer.setText(context.getResources().getString(R.string.load_all));
+                                        } catch (Exception e) {
+                                            footer.setText("Load All Conversations");
                                         }
-                                    });
-									try {
-                                    	footer.setText(context.getResources().getString(R.string.load_all));
-									} catch (Exception e) {
-										footer.setText("Load All Conversations");
-									}
-                                    footer.setTypeface(font);
-                                    footer.setBackgroundResource(android.R.color.transparent);
-                                    if (sharedPrefs.getString("card_theme", "Light").equals("Light"))
-                                    {
-                                        footer.setTextColor(getResources().getColor(R.color.card_conversation_name));
-                                    } else if (sharedPrefs.getString("card_theme", "Light").equals("Dark"))
-                                    {
-                                        footer.setTextColor(getResources().getColor(R.color.card_dark_conversation_name));
-                                    } else if (sharedPrefs.getString("card_theme", "Light").equals("Pitch Black"))
-                                    {
-                                        footer.setTextColor(getResources().getColor(R.color.card_black_conversation_name));
+                                        footer.setTypeface(font);
+                                        footer.setBackgroundResource(android.R.color.transparent);
+                                        if (sharedPrefs.getString("card_theme", "Light").equals("Light"))
+                                        {
+                                            footer.setTextColor(getResources().getColor(R.color.card_conversation_name));
+                                        } else if (sharedPrefs.getString("card_theme", "Light").equals("Dark"))
+                                        {
+                                            footer.setTextColor(getResources().getColor(R.color.card_dark_conversation_name));
+                                        } else if (sharedPrefs.getString("card_theme", "Light").equals("Pitch Black"))
+                                        {
+                                            footer.setTextColor(getResources().getColor(R.color.card_black_conversation_name));
+                                        }
+                                        conversationList.addFooterView(footer);
                                     }
-                                    conversationList.addFooterView(footer);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    // TODO something when wrong attaching button, figure out what.
                                 }
 
 								conversationList.setAdapter(adapter);
