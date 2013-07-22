@@ -61,7 +61,7 @@ public class CatalogWizardModel extends AbstractWizardModel {
                 "- Drag to reorder templates\n" +
                 "- Mark all conversations as read overflow menu option\n" +
                 "- Faster emoji load time when inserting\n" +
-                "- Improved performance\n" +
+                "- Performance improvements\n" +
                 "- UI improvements\n" +
                 "- Bug fixes\n";
                 
