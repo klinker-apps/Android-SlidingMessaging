@@ -54,15 +54,10 @@ public class TemplateActivity extends Activity {
                         adapter.remove(item);
                         adapter.insert(item, to);
 
-                        if (to < from)
-                        {
-                            text.add(to + 1, text.get(from));
-                            text.remove(from + 1);
-                        } else
-                        {
-                            text.add(to, text.get(from));
-                            text.remove(from);
-                        }
+                        text.remove(item);
+                        text.add(to, item);
+
+                        writeToFile(text, getBaseContext());
 
                         adapter = new TemplateArrayAdapter(getActivity(), text);
                         templates.setAdapter(adapter);
@@ -126,62 +121,68 @@ public class TemplateActivity extends Activity {
 		    config.locale = locale;
 		    getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
 		}
-		
-		templates.setOnItemLongClickListener(new OnItemLongClickListener() {
 
-			@Override
-			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
-					final int arg2, long arg3) {
-				new AlertDialog.Builder(context)
-					.setMessage(context.getResources().getString(R.string.delete_template))
-					.setPositiveButton(context.getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
-				        public void onClick(DialogInterface dialog, int whichButton) {
-				            text.remove(arg2);
-				            
-				            TemplateArrayAdapter adapter = new TemplateArrayAdapter((Activity) context, text);
-				    		templates.setAdapter(adapter);
-				        }
-				    }).setNegativeButton(context.getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
-				        public void onClick(DialogInterface dialog, int whichButton) {
-				            
-				        }
-				    }).show();
-				return false;
-			}
-			
-		});
-		
-		addNew.setOnClickListener(new OnClickListener() {
+		templates.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-			@Override
-			public void onClick(View arg0) {
-				final EditText input = new EditText(context);
-				
-				new AlertDialog.Builder(context)
-				    .setTitle(context.getResources().getString(R.string.add_new))
-				    .setView(input)
-				    .setPositiveButton(context.getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
-				        public void onClick(DialogInterface dialog, int whichButton) {
-				            String inputText = input.getText().toString();
-				            text.add(inputText);
-				            
-				            TemplateArrayAdapter adapter = new TemplateArrayAdapter((Activity) context, text);
-				    		templates.setAdapter(adapter);
-				        }
-				    }).setNegativeButton(context.getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
-				        public void onClick(DialogInterface dialog, int whichButton) {
-				            
-				        }
-				    }).show();
-				
-			}
-			
-		});
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1,
+                                   final int arg2, long arg3) {
+                final EditText input = new EditText(context);
+                input.setText(text.get(arg2));
+
+                new AlertDialog.Builder(context)
+                        .setTitle(context.getResources().getString(R.string.add_new))
+                        .setView(input)
+                        .setPositiveButton(context.getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                String inputText = input.getText().toString();
+                                text.set(arg2, inputText);
+
+                                TemplateArrayAdapter adapter = new TemplateArrayAdapter((Activity) context, text);
+                                templates.setAdapter(adapter);
+                            }
+                        }).setNegativeButton(context.getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                    }
+                }).show();
+            }
+
+        });
+
+            addNew.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick (View arg0){
+                    final EditText input = new EditText(context);
+
+                    new AlertDialog.Builder(context)
+                            .setTitle(context.getResources().getString(R.string.add_new))
+                            .setView(input)
+                            .setPositiveButton(context.getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    String inputText = input.getText().toString();
+                                    text.add(inputText);
+
+                                    TemplateArrayAdapter adapter = new TemplateArrayAdapter((Activity) context, text);
+                                    templates.setAdapter(adapter);
+                                }
+                            }).setNegativeButton(context.getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+
+                        }
+                    }).show();
+
+                }
+
+            }
+
+            );
 
 
-	}
-	
-	@Override
+        }
+
+        @Override
 	public void onBackPressed() {
 		writeToFile(text, this);
 		super.onBackPressed();
