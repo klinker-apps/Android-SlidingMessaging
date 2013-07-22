@@ -20,7 +20,7 @@
             android:layout_above="@+id/addNewButton"
             android:padding="3dp"
             android:layout_margin="3dp"
-            android:dividerHeight="2dp" />
+            android:dividerHeight="2dp"/>
             <!--dslv:drag_enabled="true"
             dslv:collapsed_height="2dp"
             dslv:drag_scroll_start="0.33"
