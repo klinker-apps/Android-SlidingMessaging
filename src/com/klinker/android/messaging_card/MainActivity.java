@@ -4939,7 +4939,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
                                             ((MainActivity)context).refreshViewPager(true);
                                         }
                                     });
-                                    footer.setText(getResources().getString(R.string.load_all));
+                                    footer.setText(context.getResources().getString(R.string.load_all));
                                     footer.setTypeface(font);
                                     footer.setBackgroundResource(android.R.color.transparent);
                                     if (sharedPrefs.getString("card_theme", "Light").equals("Light"))
