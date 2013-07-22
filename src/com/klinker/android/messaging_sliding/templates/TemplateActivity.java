@@ -27,32 +27,87 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import com.klinker.android.messaging_donate.R;
+import com.mobeta.android.dslv.DragSortListView;
+import com.mobeta.android.dslv.DragSortController;
 
 public class TemplateActivity extends Activity {
 	
 	public static Context context;
-	public ListView templates;
+	public DragSortListView templates;
 	public Button addNew;
+    public ImageButton delete;
 	public SharedPreferences sharedPrefs;
 	public ArrayList<String> text;
+
+    public TemplateArrayAdapter adapter;
+
+    private DragSortListView.DropListener onDrop =
+            new DragSortListView.DropListener() {
+                @Override
+                public void drop(int from, int to) {
+                    if (from != to) {
+
+                        String item = adapter.getItem(from);
+                        adapter.remove(item);
+                        adapter.insert(item, to);
+
+                        if (to < from)
+                        {
+                            text.add(to + 1, text.get(from));
+                            text.remove(from + 1);
+                        } else
+                        {
+                            text.add(to, text.get(from));
+                            text.remove(from);
+                        }
+
+                        adapter = new TemplateArrayAdapter(getActivity(), text);
+                        templates.setAdapter(adapter);
+                    }
+                }
+            };
+
+    private DragSortListView.RemoveListener onRemove =
+            new DragSortListView.RemoveListener() {
+                @Override
+                public void remove(int which) {
+                    text.remove(which);
+
+                    adapter = new TemplateArrayAdapter(getActivity(), text);
+                    templates.setAdapter(adapter);
+                }
+            };
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.templates);
-		templates = (ListView) findViewById(R.id.templateListView);
+		templates = (DragSortListView) findViewById(R.id.templateListView);
 		addNew = (Button) findViewById(R.id.addNewButton);
-		
+
 		sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 		context = this;
 		
 		text = readFromFile(this);
 		
-		TemplateArrayAdapter adapter = new TemplateArrayAdapter(this, text);
-		templates.setAdapter(adapter);
+		adapter = new TemplateArrayAdapter(this, text);
 		templates.setStackFromBottom(false);
+        templates.setDropListener(onDrop);
+        templates.setRemoveListener(onRemove);
+        templates.setAdapter(adapter);
+
+        DragSortController controller = new DragSortController(templates);
+        controller.setRemoveEnabled(true);
+        controller.setSortEnabled(true);
+        controller.setDragInitMode(DragSortController.ON_DRAG);
+
+        templates.setFloatViewManager(controller);
+        templates.setOnTouchListener(controller);
+        templates.setDragEnabled(true);
+
 		
 		if (sharedPrefs.getBoolean("override_lang", false))
 		{
@@ -122,6 +177,8 @@ public class TemplateActivity extends Activity {
 			}
 			
 		});
+
+
 	}
 	
 	@Override
@@ -193,4 +250,9 @@ public class TemplateActivity extends Activity {
 	        } 
 			
 		}
+
+    public Activity getActivity()
+    {
+        return this;
+    }
 }

@@ -53,13 +53,14 @@ public class CatalogWizardModel extends AbstractWizardModel {
 
         String changeLog = "Version " + version + ":\n\n" +
                 "- Better in-app notifications for hangouts and classic UIs (option to disable if you don't like it)\n" +
-                "- Option to remove numbers from the widget\n" +
-                "- Mark all conversations as read overflow menu option\n" +
-                "- Faster emoji load time when inserting\n" +
                 "- New emoticons, can reenable old ones in Theme Settings if you wish\n" +
                 "- New scale in sending and receiving animation\n" +
                 "- Better support for viewing video and audio MMS messages\n" +
                 "- Option to disable drafts\n" +
+                "- Option to remove numbers from the widget\n" +
+                "- Drag to reorder templates\n" +
+                "- Mark all conversations as read overflow menu option\n" +
+                "- Faster emoji load time when inserting\n" +
                 "- Improved performance\n" +
                 "- UI improvements\n" +
                 "- Bug fixes\n";

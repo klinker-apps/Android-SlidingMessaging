@@ -1,16 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:dslv="http://schemas.android.com/apk/res/com.mobeta.android.demodslv"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <ListView
+    <!--<ListView
         android:id="@+id/templateListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/addNewButton" >
 
-    </ListView>
+    </ListView>-->
+
+    <com.mobeta.android.dslv.DragSortListView
+            android:id="@+id/templateListView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/addNewButton"
+            android:padding="3dp"
+            android:layout_margin="3dp"
+            android:dividerHeight="2dp"/>
+            <!--dslv:drag_enabled="true"
+            dslv:collapsed_height="2dp"
+            dslv:drag_scroll_start="0.33"
+            dslv:max_drag_scroll_speed="0.5"
+            dslv:float_alpha="0.6"
+            dslv:slide_shuffle_speed="0.3"
+            dslv:track_drag_sort="false"
+            dslv:use_default_controller="false" />-->
 
     <Button
         android:id="@+id/addNewButton"
