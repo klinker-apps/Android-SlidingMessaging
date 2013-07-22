@@ -222,6 +222,7 @@ public class MessageCursorAdapter extends CursorAdapter {
     public void bindView(final View view, Context mContext, final Cursor cursor) {
         final ViewHolder holder = (ViewHolder) view.getTag();
         holder.media.setVisibility(View.GONE);
+        holder.tag = false;
 
         boolean sent = false;
         boolean mms = false;
@@ -298,6 +299,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                 if (!group) {
                     holder.media.setVisibility(View.VISIBLE);
                     holder.media.setImageResource(android.R.color.transparent);
+                    holder.tag = true;
 
                     final int position = cursor.getPosition();
                     final String idF = id;
@@ -311,93 +313,86 @@ public class MessageCursorAdapter extends CursorAdapter {
 
                             }
 
-                            if (position < mCursor.getPosition() + 10 && position > mCursor.getPosition() - 10) {
-                                // not fast scrolling through content, so show information
+                            String body = "";
+                            String image = null;
+                            String video = null;
+                            String audio = null;
 
-                                String body = "";
-                                String image = null;
-                                String video = null;
-                                String audio = null;
+                            Uri uri = Uri.parse("content://mms/part");
+                            Cursor query = contentResolver.query(uri, null, selectionPart, null, null);
 
-                                Uri uri = Uri.parse("content://mms/part");
-                                Cursor query = contentResolver.query(uri, null, selectionPart, null, null);
+                            if (query.moveToFirst()) {
+                                do {
+                                    String partId = query.getString(query.getColumnIndex("_id"));
+                                    String type = query.getString(query.getColumnIndex("ct"));
+                                    String body2 = "";
 
-                                if (query.moveToFirst()) {
-                                    do {
-                                        String partId = query.getString(query.getColumnIndex("_id"));
-                                        String type = query.getString(query.getColumnIndex("ct"));
-                                        String body2 = "";
-
-                                        if ("text/plain".equals(type)) {
-                                            String data = query.getString(query.getColumnIndex("_data"));
-                                            if (data != null) {
-                                                body2 = getMmsText(partId, context);
-                                                body += body2;
-                                            } else {
-                                                body2 = query.getString(query.getColumnIndex("text"));
-                                                body += body2;
-                                            }
+                                    if ("text/plain".equals(type)) {
+                                        String data = query.getString(query.getColumnIndex("_data"));
+                                        if (data != null) {
+                                            body2 = getMmsText(partId, context);
+                                            body += body2;
+                                        } else {
+                                            body2 = query.getString(query.getColumnIndex("text"));
+                                            body += body2;
                                         }
-
-                                        if ("image/jpeg".equals(type) || "image/bmp".equals(type) ||
-                                                "image/gif".equals(type) || "image/jpg".equals(type) ||
-                                                "image/png".equals(type)) {
-                                            if (image == null)
-                                            {
-                                                image = "content://mms/part/" + partId;
-                                            } else
-                                            {
-                                                image += " content://mms/part/" + partId;
-                                            }
-                                        }
-
-                                        if ("video/mpeg".equals(type) || "video/3gpp".equals(type) || "video/mp4".equals(type))
-                                        {
-                                            video = "content://mms/part/" + partId;
-                                        }
-
-                                        if (type.startsWith("audio/")) {
-                                            audio = "content://mms/part/" + partId;
-                                        }
-                                    } while (query.moveToNext());
-                                }
-
-                                query.close();
-
-                                try {
-                                    Log.v("audioUri", audio);
-                                } catch (Exception e) {
-
-                                }
-
-                                if (image == null && video == null && audio == null && body.equals("")) {
-                                    context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                                        @Override
-                                        public void run() {
-                                            downloadableMessage(holder, idF);
-                                        }
-                                    });
-                                } else {
-                                    String images[];
-                                    Bitmap picture;
-
-                                    try {
-                                        holder.imageUri = Uri.parse(image);
-                                        images = image.trim().split(" ");
-                                        picture = decodeFile(new File(getRealPathFromURI(Uri.parse(images[0].trim()))));
-                                    } catch (Exception e) {
-                                        images = null;
-                                        picture = null;
                                     }
 
-                                    final String text = body;
-                                    final String imageUri = image;
-                                    final String[] imagesF = images;
-                                    final Bitmap pictureF = picture;
-                                    final String videoF = video;
-                                    final String audioF = audio;
+                                    if ("image/jpeg".equals(type) || "image/bmp".equals(type) ||
+                                            "image/gif".equals(type) || "image/jpg".equals(type) ||
+                                            "image/png".equals(type)) {
+                                        if (image == null)
+                                        {
+                                            image = "content://mms/part/" + partId;
+                                        } else
+                                        {
+                                            image += " content://mms/part/" + partId;
+                                        }
+                                    }
 
+                                    if ("video/mpeg".equals(type) || "video/3gpp".equals(type) || "video/mp4".equals(type))
+                                    {
+                                        video = "content://mms/part/" + partId;
+                                    }
+
+                                    if (type.startsWith("audio/")) {
+                                        audio = "content://mms/part/" + partId;
+                                    }
+                                } while (query.moveToNext());
+                            }
+
+                            query.close();
+
+                            if (image == null && video == null && audio == null && body.equals("")) {
+                                context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                                    @Override
+                                    public void run() {
+                                        downloadableMessage(holder, idF);
+                                    }
+                                });
+                            } else {
+                                String images[];
+                                Bitmap picture;
+
+                                try {
+                                    holder.imageUri = Uri.parse(image);
+                                    images = image.trim().split(" ");
+                                    picture = decodeFile(new File(getRealPathFromURI(Uri.parse(images[0].trim()))));
+                                } catch (Exception e) {
+                                    images = null;
+                                    picture = null;
+                                }
+
+                                final String text = body;
+                                final String imageUri = image;
+                                final String[] imagesF = images;
+                                final Bitmap pictureF = picture;
+                                final String videoF = video;
+                                final String audioF = audio;
+
+                                if (holder.tag) {
+                                    // view has not been recycled, so show the images
                                     context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 
                                         @Override
@@ -766,10 +761,13 @@ public class MessageCursorAdapter extends CursorAdapter {
 
             }
 
-            if (sent == true && sharedPrefs.getBoolean("delivery_reports", false) && error == false && status.equals("0"))
+            if (sent && sharedPrefs.getBoolean("delivery_reports", false) && !error && status.equals("0"))
             {
                 String text = "<html><body><img src=\"ic_sent.png\"/> " + holder.date.getText().toString() + "</body></html>";
                 holder.date.setText(Html.fromHtml(text, imgGetterSent, null));
+            } else if (error) {
+                String text = "<html><body><img src=\"ic_error.png\"/> ERROR</body></html>";
+                holder.date.setText(Html.fromHtml(text, imgGetterFail, null));
             }
         }
 
@@ -2044,6 +2042,7 @@ public class MessageCursorAdapter extends CursorAdapter {
         public Button downloadButton;
         public ImageView bubble;
         public Uri imageUri;
+        public boolean tag;
     }
 
     public void setMessageText(final TextView textView, final String body) {
