@@ -69,7 +69,7 @@
             android:layout_height="200dp"
             android:id="@+id/media"
             android:layout_gravity="center"
-            android:src="@drawable/emo_im_smirk"
+            android:src="@android:color/transparent"
             android:contentDescription="@string/placeholder"
             android:padding="12dp"/>
 
