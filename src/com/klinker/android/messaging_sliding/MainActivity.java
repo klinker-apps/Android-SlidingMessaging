@@ -112,6 +112,7 @@ import com.klinker.android.messaging_sliding.receivers.CacheService;
 import com.klinker.android.messaging_sliding.receivers.NotificationReceiver;
 import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
 import com.klinker.android.messaging_sliding.receivers.QuickTextService;
+import com.klinker.android.messaging_sliding.search.SearchActivity;
 import com.klinker.android.messaging_sliding.security.PasswordActivity;
 import com.klinker.android.messaging_sliding.security.PinActivity;
 import com.klinker.android.messaging_sliding.templates.TemplateActivity;
@@ -230,6 +231,7 @@ s
 
     public static final String GSM_CHARACTERS_REGEX = "^[A-Za-z0-9 \\r\\n@Ł$ĽčéůěňÇŘřĹĺ\u0394_\u03A6\u0393\u039B\u03A9\u03A0\u03A8\u03A3\u0398\u039EĆćßÉ!\"#$%&'()*+,\\-./:;<=>?ĄÄÖŃÜ§żäöńüŕ^{}\\\\\\[~\\]|\u20AC]*$";
     private static final int REQ_ENTER_PATTERN = 7;
+    public static final String EXTRA_QUERY = "com.klinker.android.messaging_sliding.QUERY";
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -4114,50 +4116,89 @@ s
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.activity_main, menu);
+
+        //SearchView searchView = (SearchView)menu.findItem(R.id.menu_search).getActionView();
+        //searchView.setQueryHint("Search");
+
 		return true;
 	}
 	
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu)
 	{
+        // Associate searchable configuration with the SearchView
+        final SearchView searchView =
+                (SearchView) menu.findItem(R.id.menu_search).getActionView();
+        searchView.setQueryHint("Search");
+        searchView.setIconifiedByDefault(false);
+        searchView.setSubmitButtonEnabled(false);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                String query = searchView.getQuery().toString();
+
+                Intent intent = new Intent(getBaseContext(), SearchActivity.class);
+                intent.putExtra("query", query);
+                startActivity(intent);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
+
         if (deviceType.equals("phone") || deviceType.equals("phablet2"))
         {
-            if (inboxNumber.size() == 0 || MainActivity.menu.isMenuShowing())
+            if (inboxNumber.size() == 0 || MainActivity.menu.isMenuShowing()) // on conversation list
             {
+                //getActionBar().setDisplayShowHomeEnabled(false); // removes the launcher icon so it looks better with expanded search, cause i think it is way cooler to have it expanded by default
+                //getActionBar().setDisplayShowTitleEnabled(false);
+
                 menu.getItem(0).setVisible(false);
                 menu.getItem(1).setVisible(false);
                 menu.getItem(2).setVisible(true);
                 menu.getItem(3).setVisible(true);
-                menu.getItem(4).setVisible(false);
+                menu.getItem(4).setVisible(true);
                 menu.getItem(5).setVisible(false);
-                menu.getItem(6).setVisible(true);
-                menu.getItem(7).setVisible(false);
+                menu.getItem(6).setVisible(false);
+                menu.getItem(7).setVisible(true);
+                menu.getItem(8).setVisible(false);
 
-                if (MainActivity.menu.isSecondaryMenuShowing())
+                if (MainActivity.menu.isSecondaryMenuShowing()) // on new message
                 {
+                    //getActionBar().setDisplayShowHomeEnabled(true);
+                    //getActionBar().setDisplayShowTitleEnabled(true);
+
                     menu.getItem(0).setVisible(false);
                     menu.getItem(1).setVisible(true);
                     menu.getItem(2).setVisible(false);
                     menu.getItem(3).setVisible(false);
-                    menu.getItem(4).setVisible(true);
-                    menu.getItem(5).setVisible(false);
+                    menu.getItem(4).setVisible(false);
+                    menu.getItem(5).setVisible(true);
                     menu.getItem(6).setVisible(false);
                     menu.getItem(7).setVisible(false);
+                    menu.getItem(8).setVisible(false);
                 }
-            } else
+            } else // in ViewPager
             {
+                //getActionBar().setDisplayShowHomeEnabled(true);
+                //getActionBar().setDisplayShowTitleEnabled(true);
+
                 menu.getItem(0).setVisible(true);
                 menu.getItem(1).setVisible(true);
-                menu.getItem(2).setVisible(true);
-                menu.getItem(3).setVisible(false);
-                menu.getItem(4).setVisible(true);
+                menu.getItem(2).setVisible(false);
+                menu.getItem(3).setVisible(true);
+                menu.getItem(4).setVisible(false);
                 menu.getItem(5).setVisible(true);
                 menu.getItem(6).setVisible(true);
                 menu.getItem(7).setVisible(true);
+                menu.getItem(8).setVisible(true);
 
-                if (group.get(mViewPager.getCurrentItem()).equals("yes"))
+                if (group.get(mViewPager.getCurrentItem()).equals("yes")) // if there is a group message
                 {
-                    menu.getItem(7).setVisible(false);
+                    menu.getItem(8).setVisible(false);
                 }
             }
         } else
@@ -4165,23 +4206,23 @@ s
             if (inboxNumber.size() == 0 || MainActivity.menu.isMenuShowing())
             {
                 menu.getItem(0).setVisible(false);
-                menu.getItem(2).setVisible(false);
                 menu.getItem(3).setVisible(false);
-                menu.getItem(5).setVisible(false);
+                menu.getItem(4).setVisible(false);
                 menu.getItem(6).setVisible(false);
                 menu.getItem(7).setVisible(false);
+                menu.getItem(8).setVisible(false);
             } else
             {
                 menu.getItem(0).setVisible(true);
-                menu.getItem(2).setVisible(true);
                 menu.getItem(3).setVisible(true);
-                menu.getItem(5).setVisible(true);
+                menu.getItem(4).setVisible(true);
                 menu.getItem(6).setVisible(true);
                 menu.getItem(7).setVisible(true);
+                menu.getItem(8).setVisible(true);
 
                 if (group.get(mViewPager.getCurrentItem()).equals("yes"))
                 {
-                    menu.getItem(7).setVisible(false);
+                    menu.getItem(8).setVisible(false);
                 }
             }
         }
@@ -4198,7 +4239,11 @@ s
 
             Drawable replyButton = getResources().getDrawable(R.drawable.ic_reply);
             replyButton.setColorFilter(getResources().getColor(R.color.hangouts_ab_icon), Mode.MULTIPLY);
-            menu.getItem(2).setIcon(replyButton);
+            menu.getItem(3).setIcon(replyButton);
+
+            Drawable searchButton = getResources().getDrawable(R.drawable.ic_search);
+            searchButton.setColorFilter(getResources().getColor(R.color.hangouts_ab_icon), Mode.MULTIPLY);
+            menu.getItem(2).setIcon(searchButton);
         } else
         {
             Drawable callButton = getResources().getDrawable(R.drawable.ic_menu_call);
@@ -4211,7 +4256,11 @@ s
 
             Drawable replyButton = getResources().getDrawable(R.drawable.ic_reply);
             replyButton.setColorFilter(getResources().getColor(R.color.white), Mode.MULTIPLY);
-            menu.getItem(2).setIcon(replyButton);
+            menu.getItem(3).setIcon(replyButton);
+
+            Drawable searchButton = getResources().getDrawable(R.drawable.ic_search);
+            searchButton.setColorFilter(getResources().getColor(R.color.white), Mode.MULTIPLY);
+            menu.getItem(2).setIcon(searchButton);
         }
 		
 		return true;
