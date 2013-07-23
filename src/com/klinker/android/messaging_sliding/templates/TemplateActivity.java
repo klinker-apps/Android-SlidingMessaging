@@ -81,6 +81,7 @@ public class TemplateActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.templates);
 		templates = (DragSortListView) findViewById(R.id.templateListView);
+        findViewById(R.id.templateListView2).setVisibility(View.GONE);
 		addNew = (Button) findViewById(R.id.addNewButton);
 
 		sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
