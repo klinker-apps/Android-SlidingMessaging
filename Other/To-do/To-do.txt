@@ -1,12 +1,14 @@
 Version 6.60
-- Investigate MMS apns on stock
-- Message Locking?
+
+- floating notifications extension
+- Message Locking
+- Message Search
 - fix popup residual message in some cases
+- Investigate MMS apns on stock
 - fix MMS pictures not opening correctly in he gallery app, even though it shows in the message list
 - Figure out how to judge file size of png images and adjust them accordingly when sending
 - compare loading 15 messages on startup instead of 20
 - look into scheduled SMS bug reported
-- fix jumping around on templates drag and drop
 
 Luke's ideas for speed/fluidity improvement:
 3.) Don't refresh the view pager when a new message is received that isn't from the conversation you are currently viewing. Make a refresh attached in the conversations list to refresh the view pager instead, so it doesnt jump around and the users can continue texting without being interrupted. It will look better and work more fluidly.
