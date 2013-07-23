@@ -52,6 +52,8 @@ public class CatalogWizardModel extends AbstractWizardModel {
         }
 
         String changeLog = "Version " + version + ":\n\n" +
+                "- Bug fixes with respect to individual notifications, blacklist, and MMS images not showing in conversations\n\n" +
+                "Version 6.60:\n" +
                 "- Better in-app notifications for hangouts and classic UIs (option to disable if you don't like it)\n" +
                 "- New emoticons, can reenable old ones in Theme Settings if you wish\n" +
                 "- New scale in sending and receiving animation\n" +
