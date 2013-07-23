@@ -10,11 +10,16 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,22 +31,36 @@ import java.util.Calendar;
 /**
  * Created by luke on 7/23/13.
  */
-public class SearchActivity extends Activity {
+public class SearchActivity extends FragmentActivity {
 
-    public final static String EXTRA_QUERY = "com.klinker.android.messaging_sliding.QUERY";
-
-    String query;
+    String searchQuery;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        getActionBar().hide();
+        LayoutInflater inflater = (LayoutInflater) getActionBar().getThemedContext()
+                .getSystemService(LAYOUT_INFLATER_SERVICE);
+        final View customActionBarView = inflater.inflate(
+                R.layout.search_menu, null);
+
+        SearchView search = (SearchView) customActionBarView.findViewById(R.id.menu_search);
+        search.setQueryHint("New Search");
+        search.setIconifiedByDefault(false);
+        search.setSubmitButtonEnabled(false);
+
+        // Show the custom action bar view and hide the normal Home icon and title.
+        final ActionBar actionBar = getActionBar();
+        actionBar.setDisplayOptions(
+                ActionBar.DISPLAY_SHOW_CUSTOM,
+                ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME
+                        | ActionBar.DISPLAY_SHOW_TITLE);
+        actionBar.setCustomView(customActionBarView, new ActionBar.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT));
 
         handleIntent(getIntent());
 
-        TextView tv = (TextView) findViewById(R.id.searchText);
-        tv.setText(query);
     }
 
     @Override
@@ -52,6 +71,6 @@ public class SearchActivity extends Activity {
     }
 
     private void handleIntent(Intent intent) {
-        query = intent.getStringExtra("query");
+        searchQuery = intent.getStringExtra("query");
     }
 }
