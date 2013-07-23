@@ -4130,7 +4130,7 @@ s
         final SearchView searchView =
                 (SearchView) menu.findItem(R.id.menu_search).getActionView();
         searchView.setQueryHint("Search");
-        searchView.setIconifiedByDefault(false);
+        searchView.setIconifiedByDefault(true);
         searchView.setSubmitButtonEnabled(false);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
