@@ -391,8 +391,9 @@ public class MessageCursorAdapter extends CursorAdapter {
                                 final String videoF = video;
                                 final String audioF = audio;
 
-                                if (holder.tag) {
-                                    // view has not been recycled, so show the images
+                                // TODO test, previously was just if(holder.tag). if this works, remove all tag references from ViewHolder
+                                if (holder.text.getText().toString().equals("")) {
+                                    // view is empty and has not been recycled, so show the images
                                     context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 
                                         @Override
