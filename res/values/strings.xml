@@ -499,4 +499,5 @@
     <string name="holo_style_smiles">Holo Style Smilies</string>
     <string name="limit_conversations_start">Limit Conversations</string>
     <string name="limit_conversations_start_summary">Loads only 10 conversations at app startup for speed purposes</string>
+    <string name="search">Search</string>
 </resources>
