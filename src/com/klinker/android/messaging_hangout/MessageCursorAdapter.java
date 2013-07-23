@@ -298,7 +298,6 @@ public class MessageCursorAdapter extends CursorAdapter {
 
                 if (!group) {
                     holder.media.setVisibility(View.VISIBLE);
-                    holder.media.setImageResource(android.R.color.transparent);
                     holder.tag = true;
 
                     final int position = cursor.getPosition();
