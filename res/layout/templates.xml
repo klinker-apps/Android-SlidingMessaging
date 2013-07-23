@@ -5,13 +5,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <!--<ListView
-        android:id="@+id/templateListView"
+    <ListView
+        android:id="@+id/templateListView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/addNewButton" >
 
-    </ListView>-->
+    </ListView>
 
     <com.mobeta.android.dslv.DragSortListView
             android:id="@+id/templateListView"
