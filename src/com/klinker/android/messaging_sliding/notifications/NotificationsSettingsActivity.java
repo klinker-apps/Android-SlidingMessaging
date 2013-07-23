@@ -46,7 +46,8 @@ public class NotificationsSettingsActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.templates);
-		templates = (ListView) findViewById(R.id.templateListView);
+		templates = (ListView) findViewById(R.id.templateListView2);
+		findViewById(R.id.templateListView).setVisibility(View.GONE);
 		addNew = (Button) findViewById(R.id.addNewButton);
 		
 		sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
