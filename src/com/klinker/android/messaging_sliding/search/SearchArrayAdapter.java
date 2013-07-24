@@ -50,12 +50,7 @@ public class SearchArrayAdapter  extends ArrayAdapter<String> {
         public TextView date;
         public TextView message;
 
-        public Button downloadButton;
-
         public QuickContactBadge image;
-
-        public ImageView media;
-        public ImageView ellipsis;
     }
 
     public SearchArrayAdapter(Activity context, ArrayList<String[]> messages) {
@@ -151,26 +146,36 @@ public class SearchArrayAdapter  extends ArrayAdapter<String> {
             needMyPicture = false;
         }
 
-        LayoutInflater inflater = context.getLayoutInflater();
+        if (rowView == null) {
+            LayoutInflater inflater = context.getLayoutInflater();
 
-        if (type.equals("2")) // sent
-            rowView = inflater.inflate(R.layout.message_hangout_sent, null);
-        else
-            rowView = inflater.inflate(R.layout.message_hangout_received, null);
+            if (sharedPrefs.getString("run_as", "classic").equals("hangout")) {
+                if (type.equals("2")) // sent
+                    rowView = inflater.inflate(R.layout.message_hangout_sent, null);
+                else
+                    rowView = inflater.inflate(R.layout.message_hangout_received, null);
+            } else {
+                if (type.equals("2")) // sent
+                    rowView = inflater.inflate(R.layout.message_classic_sent, null);
+                else
+                    rowView = inflater.inflate(R.layout.message_classic_received, null);
+            }
 
-        ViewHolder viewHolder = new ViewHolder();
+            ViewHolder viewHolder = new ViewHolder();
 
-        viewHolder.date = (TextView) rowView.findViewById(R.id.textDate);
-        viewHolder.message = (TextView) rowView.findViewById(R.id.textBody);
-        viewHolder.media = (ImageView) rowView.findViewById(R.id.media);
-        viewHolder.image = (QuickContactBadge) rowView.findViewById(R.id.imageContactPicture);
+            viewHolder.date = (TextView) rowView.findViewById(R.id.textDate);
+            viewHolder.message = (TextView) rowView.findViewById(R.id.textBody);
+            viewHolder.image = (QuickContactBadge) rowView.findViewById(R.id.imageContactPicture);
+            rowView.findViewById(R.id.media).setVisibility(View.GONE);
 
-        if (type.equals("2")) // sent
-            viewHolder.ellipsis = (ImageView) rowView.findViewById(R.id.ellipsis);
-        else
-            viewHolder.downloadButton = (Button) rowView.findViewById(R.id.downloadButton);
+            try {
+                rowView.findViewById(R.id.downloadButton).setVisibility(View.GONE);
+            } catch (Exception e) {
 
-        rowView.setTag(viewHolder);
+            }
+
+            rowView.setTag(viewHolder);
+        }
 
         final ViewHolder holder = (ViewHolder) rowView.getTag();
 
@@ -253,17 +258,12 @@ public class SearchArrayAdapter  extends ArrayAdapter<String> {
 
         if (type.equals("2")) // sent
         {
-            holder.ellipsis.setVisibility(View.GONE);
             holder.date.setText(dateString);
         } else // sent
         {
-            holder.downloadButton.setVisibility(View.GONE);
             holder.date.setText(dateString + " - " + contactName);
 
         }
-
-        if (!picture)
-            holder.media.setVisibility(View.GONE);
 
         return rowView;
     }

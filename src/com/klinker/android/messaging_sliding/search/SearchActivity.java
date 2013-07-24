@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -44,9 +45,20 @@ public class SearchActivity extends FragmentActivity {
 
     public String searchQuery;
     public ArrayList<String[]> messages;
+    public SharedPreferences sharedPrefs;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        if (sharedPrefs.getBoolean("ct_light_action_bar", false))
+        {
+            setTheme(R.style.HangoutsTheme);
+        }
+
+        getWindow().setBackgroundDrawable(new ColorDrawable(sharedPrefs.getInt("ct_messageListBackground", getResources().getColor(R.color.light_silver))));
+
         setContentView(R.layout.activity_search);
 
         LayoutInflater inflater = (LayoutInflater) getActionBar().getThemedContext()
@@ -69,6 +81,27 @@ public class SearchActivity extends FragmentActivity {
         actionBar.setCustomView(customActionBarView, new ActionBar.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
+
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+        if (!sharedPrefs.getBoolean("ct_light_action_bar", false))
+        {
+            actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.black)));
+
+            if (sharedPrefs.getInt("ct_conversationListBackground", getResources().getColor(R.color.light_silver)) == getResources().getColor(R.color.pitch_black))
+            {
+                if (!sharedPrefs.getBoolean("hide_title_bar", true))
+                {
+                    actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.pitch_black_action_bar_blue));
+                } else
+                {
+                    actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.pitch_black)));
+                }
+            }
+        } else
+        {
+            actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.ab_hangouts));
+        }
 
         searchQuery = handleIntent(getIntent());
 
