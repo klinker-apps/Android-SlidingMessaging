@@ -63,11 +63,31 @@ public class SearchActivity extends FragmentActivity {
         final View customActionBarView = inflater.inflate(
                 R.layout.search_menu, null);
 
-        SearchView search = (SearchView) customActionBarView.findViewById(R.id.menu_search);
+        final SearchView search = (SearchView) customActionBarView.findViewById(R.id.menu_search);
         search.setQueryHint("New Search");
         search.setIconifiedByDefault(false);
         search.setSubmitButtonEnabled(false);
         //search.requestFocusFromTouch();
+
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                String query = search.getQuery().toString();
+
+                Intent intent = new Intent(getBaseContext(), SearchActivity.class);
+                intent.putExtra("query", query);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent);
+                finish();
+                overridePendingTransition(0, 0);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
 
         // Show the custom action bar view and hide the normal Home icon and title.
         final ActionBar actionBar = getActionBar();
