@@ -24,14 +24,11 @@ import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.telephony.TelephonyManager;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.QuickContactBadge;
-import android.widget.TextView;
+import android.widget.*;
 
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_sliding.MainActivity;
@@ -51,6 +48,8 @@ public class SearchArrayAdapter  extends ArrayAdapter<String> {
     static class ViewHolder {
         public TextView date;
         public TextView message;
+        public LinearLayout background;
+        public ImageView bubble;
 
         public QuickContactBadge image;
     }
@@ -189,12 +188,14 @@ public class SearchArrayAdapter  extends ArrayAdapter<String> {
             viewHolder.date = (TextView) rowView.findViewById(R.id.textDate);
             viewHolder.message = (TextView) rowView.findViewById(R.id.textBody);
             viewHolder.image = (QuickContactBadge) rowView.findViewById(R.id.imageContactPicture);
+            viewHolder.background = (LinearLayout) rowView.findViewById(R.id.messageBody);
+            viewHolder.bubble = (ImageView) rowView.findViewById(R.id.msgBubble);
             rowView.findViewById(R.id.media).setVisibility(View.GONE);
 
             try {
                 rowView.findViewById(R.id.downloadButton).setVisibility(View.GONE);
             } catch (Exception e) {
-
+                rowView.findViewById(R.id.ellipsis).setVisibility(View.GONE);
             }
 
             if (sharedPrefs.getBoolean("custom_font", false))
@@ -220,6 +221,117 @@ public class SearchArrayAdapter  extends ArrayAdapter<String> {
 
             if (sharedPrefs.getString("run_as", "sliding").equals("hangout")) {
                 rowView.setPadding(10,5,10,5);
+            }
+
+            if (sent) {
+                viewHolder.message.setTextColor(sharedPrefs.getInt("ct_sentTextColor", context.getResources().getColor(R.color.black)));
+                viewHolder.date.setTextColor(sharedPrefs.getInt("ct_sentTextColor", context.getResources().getColor(R.color.black)));
+                viewHolder.background.setBackgroundColor(sharedPrefs.getInt("ct_sentMessageBackground", context.getResources().getColor(R.color.white)));
+                viewHolder.bubble.setColorFilter(sharedPrefs.getInt("ct_sentMessageBackground", context.getResources().getColor(R.color.white)));
+
+                if (!sharedPrefs.getBoolean("custom_theme", false))
+                {
+                    String color = sharedPrefs.getString("sent_text_color", "default");
+
+                    if (color.equals("blue"))
+                    {
+                        viewHolder.message.setTextColor(context.getResources().getColor(R.color.holo_blue));
+                        viewHolder.date.setTextColor(context.getResources().getColor(R.color.holo_blue));
+                    } else if (color.equals("white"))
+                    {
+                        viewHolder.message.setTextColor(context.getResources().getColor(R.color.white));
+                        viewHolder.date.setTextColor(context.getResources().getColor(R.color.white));
+                    } else if (color.equals("green"))
+                    {
+                        viewHolder.message.setTextColor(context.getResources().getColor(R.color.holo_green));
+                        viewHolder.date.setTextColor(context.getResources().getColor(R.color.holo_green));
+                    } else if (color.equals("orange"))
+                    {
+                        viewHolder.message.setTextColor(context.getResources().getColor(R.color.holo_orange));
+                        viewHolder.date.setTextColor(context.getResources().getColor(R.color.holo_orange));
+                    } else if (color.equals("red"))
+                    {
+                        viewHolder.message.setTextColor(context.getResources().getColor(R.color.holo_red));
+                        viewHolder.date.setTextColor(context.getResources().getColor(R.color.holo_red));
+                    } else if (color.equals("purple"))
+                    {
+                        viewHolder.message.setTextColor(context.getResources().getColor(R.color.holo_purple));
+                        viewHolder.date.setTextColor(context.getResources().getColor(R.color.holo_purple));
+                    } else if (color.equals("black"))
+                    {
+                        viewHolder.message.setTextColor(context.getResources().getColor(R.color.pitch_black));
+                        viewHolder.date.setTextColor(context.getResources().getColor(R.color.pitch_black));
+                    } else if (color.equals("grey"))
+                    {
+                        viewHolder.message.setTextColor(context.getResources().getColor(R.color.grey));
+                        viewHolder.date.setTextColor(context.getResources().getColor(R.color.grey));
+                    }
+                }
+            } else {
+                viewHolder.message.setTextColor(sharedPrefs.getInt("ct_receivedTextColor", context.getResources().getColor(R.color.black)));
+                viewHolder.date.setTextColor(sharedPrefs.getInt("ct_receivedTextColor", context.getResources().getColor(R.color.black)));
+                viewHolder.background.setBackgroundColor(sharedPrefs.getInt("ct_receivedMessageBackground", context.getResources().getColor(R.color.white)));
+                viewHolder.bubble.setColorFilter(sharedPrefs.getInt("ct_receivedMessageBackground", context.getResources().getColor(R.color.white)));
+
+                if (!sharedPrefs.getBoolean("custom_theme", false))
+                {
+                    String color = sharedPrefs.getString("received_text_color", "default");
+
+                    if (color.equals("blue"))
+                    {
+                        viewHolder.message.setTextColor(context.getResources().getColor(R.color.holo_blue));
+                        viewHolder.date.setTextColor(context.getResources().getColor(R.color.holo_blue));
+                    } else if (color.equals("white"))
+                    {
+                        viewHolder.message.setTextColor(context.getResources().getColor(R.color.white));
+                        viewHolder.date.setTextColor(context.getResources().getColor(R.color.white));
+                    } else if (color.equals("green"))
+                    {
+                        viewHolder.message.setTextColor(context.getResources().getColor(R.color.holo_green));
+                        viewHolder.date.setTextColor(context.getResources().getColor(R.color.holo_green));
+                    } else if (color.equals("orange"))
+                    {
+                        viewHolder.message.setTextColor(context.getResources().getColor(R.color.holo_orange));
+                        viewHolder.date.setTextColor(context.getResources().getColor(R.color.holo_orange));
+                    } else if (color.equals("red"))
+                    {
+                        viewHolder.message.setTextColor(context.getResources().getColor(R.color.holo_red));
+                        viewHolder.date.setTextColor(context.getResources().getColor(R.color.holo_red));
+                    } else if (color.equals("purple"))
+                    {
+                        viewHolder.message.setTextColor(context.getResources().getColor(R.color.holo_purple));
+                        viewHolder.date.setTextColor(context.getResources().getColor(R.color.holo_purple));
+                    } else if (color.equals("black"))
+                    {
+                        viewHolder.message.setTextColor(context.getResources().getColor(R.color.pitch_black));
+                        viewHolder.date.setTextColor(context.getResources().getColor(R.color.pitch_black));
+                    } else if (color.equals("grey"))
+                    {
+                        viewHolder.message.setTextColor(context.getResources().getColor(R.color.grey));
+                        viewHolder.date.setTextColor(context.getResources().getColor(R.color.grey));
+                    }
+                }
+            }
+
+            if (!sharedPrefs.getString("text_alignment", "split").equals("split"))
+            {
+                if (sharedPrefs.getString("text_alignment", "split").equals("right"))
+                {
+                    viewHolder.message.setGravity(Gravity.RIGHT);
+                    viewHolder.date.setGravity(Gravity.RIGHT);
+                } else
+                {
+                    viewHolder.message.setGravity(Gravity.LEFT);
+                    viewHolder.date.setGravity(Gravity.LEFT);
+                }
+            } else if (!sharedPrefs.getBoolean("contact_pictures", true)) {
+                if (!sent) {
+                    viewHolder.message.setGravity(Gravity.LEFT);
+                    viewHolder.date.setGravity(Gravity.LEFT);
+                } else {
+                    viewHolder.message.setGravity(Gravity.RIGHT);
+                    viewHolder.date.setGravity(Gravity.RIGHT);
+                }
             }
 
             rowView.setTag(viewHolder);
