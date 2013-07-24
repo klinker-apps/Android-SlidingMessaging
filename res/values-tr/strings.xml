@@ -486,18 +486,18 @@
     <string name="tweet_us">Bize tweet atın!</string>
 
     <string name="speed_improvement_settings">SMS Yedekleme</string>
-    <string name="use_backup">SMS'leri Yedekle/Geri Yükle</string>
+    <string name="use_backup">SMS\'leri Yedekle/Geri Yükle</string>
     <string name="use_backup_summary">Lütfen Okuyun: Bu özelliği etkinleştirmek uygulamanın hızını büyük ölçüde arttıracaktır.Ayrıca tüm sms\'leriniz harici bir diske yedeklenecek ve telefon hafızasından silinecektir.Bu mesajları Sliding Message ile ya da diğer mesaj programlarıyla göremezsiniz.</string>
-    <string name="sd_backup">SD Kart'a Yedekle</string>
-    <string name="drive_backup">Google Drive'a Yedekle</string>
+    <string name="sd_backup">SD Kart\'a Yedekle</string>
+    <string name="drive_backup">Google Drive\'a Yedekle</string>
     <string name="run_backup">Yedekle/Sil Başlat</string>
     <string name="schedule_backup">Yedekle/Sil\i Zamanla</string>
     <string name="schedule_backup_summary">UYARI: İşlem yapılmadan önce olan okunmamış mesajlar da yedeklenip silinebilir.</string>
     <string name="only_read">Sadece Okunmş Msj\'ları Sil </string>
     <string name="dont_delete_previous">Bir önceki günü silme</string>
-    <string name="dont_delete_previous_summary">Son günkü mesajları hafızada tutulur.Böylece yedekle/sil'den sonra son mesajlarınız korunur.</string>
+    <string name="dont_delete_previous_summary">Son günkü mesajları hafızada tutulur.Böylece yedekle/sil\'den sonra son mesajlarınız korunur.</string>
     <string name="delete_after_backup">Yedeklemeden sonra Msj\'ları Sil</string>
-    <string name="delete_after_backup_summary">ÖNERİ:Uygulama hızı ve akıcılığı için yedeklemeden sonra tüm mesajlarınız silinir.\nUYARI: Bu program ile yedekleyenmeyen MMS'lerinizde silinecektir.</string>
+    <string name="delete_after_backup_summary">ÖNERİ:Uygulama hızı ve akıcılığı için yedeklemeden sonra tüm mesajlarınız silinir.\nUYARI: Bu program ile yedekleyenmeyen MMS\'lerinizde silinecektir.</string>
     <string name="enable_drafts">Taslakları Etkinleştir</string>
     <string name="in_app_notifications">Uyglma İçi Msjlar</string>
     <string name="in_app_notifications_summary">Will display a small notification bar at the top of the screen when a new message has been received</string>
