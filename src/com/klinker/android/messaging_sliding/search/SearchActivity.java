@@ -172,7 +172,7 @@ public class SearchActivity extends FragmentActivity {
                 //{
                     body = c.getString(c.getColumnIndexOrThrow("body"));
 
-                    if (body.contains(text))
+                    if (body.toUpperCase().contains(text.toUpperCase()))
                     {
                         String[] data = new String[5];
                         data[0] = c.getString(c.getColumnIndexOrThrow("address"));
