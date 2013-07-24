@@ -72,6 +72,20 @@ public class SearchArrayAdapter  extends ArrayAdapter<String> {
     }
 
     @Override
+    public int getItemViewType(int position) {
+        if (messages.get(position)[3].equals("2") || messages.get(position)[3].equals("3") || messages.get(position)[3].equals("4") || messages.get(position)[3].equals("5") || messages.get(position)[3].equals("6")) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    @Override
+    public int getViewTypeCount() {
+        return 2;
+    }
+
+    @Override
     public int getCount()
     {
         return messages.size();
@@ -86,13 +100,13 @@ public class SearchArrayAdapter  extends ArrayAdapter<String> {
         String date = messages.get(position)[2];
         String message = messages.get(position)[1];
         final String type = messages.get(position)[3];
-        boolean picture = Boolean.parseBoolean(messages.get(position)[4]);
+        boolean sent;
 
-        boolean sent =  false;
-        String contactName = MainActivity.loadGroupContacts(number, context);
-
-        if (type.equals("2") || type.equals("4") || type.equals("5") || type.equals("6"))
+        if (getItemViewType(position) == 1) {
             sent = true;
+        } else {
+            sent = false;
+        }
 
         // Sets up the date
         Date sendDate;
@@ -159,12 +173,12 @@ public class SearchArrayAdapter  extends ArrayAdapter<String> {
             LayoutInflater inflater = context.getLayoutInflater();
 
             if (sharedPrefs.getString("run_as", "classic").equals("hangout")) {
-                if (type.equals("2")) // sent
+                if (sent)
                     rowView = inflater.inflate(R.layout.message_hangout_sent, null);
                 else
                     rowView = inflater.inflate(R.layout.message_hangout_received, null);
             } else {
-                if (type.equals("2")) // sent
+                if (sent)
                     rowView = inflater.inflate(R.layout.message_classic_sent, null);
                 else
                     rowView = inflater.inflate(R.layout.message_classic_received, null);
@@ -204,20 +218,26 @@ public class SearchArrayAdapter  extends ArrayAdapter<String> {
 
             viewHolder.date.setAlpha((float) .5);
 
+            if (sharedPrefs.getString("run_as", "sliding").equals("hangout")) {
+                rowView.setPadding(10,5,10,5);
+            }
+
             rowView.setTag(viewHolder);
         }
 
         final ViewHolder holder = (ViewHolder) rowView.getTag();
 
-        //String contactName = MainActivity.loadGroupContacts(text.get(position)[0].replaceAll(";", ""), context);
-
+        final boolean sentF = sent;
+        final String dateStringF = dateString;
 
         new Thread(new Runnable() {
 
             @Override
             public void run()
             {
-                if(!type.equals("2"))
+                final String contactName = MainActivity.loadGroupContacts(number, context);
+
+                if(!sentF)
                 {
                     final Bitmap picture = Bitmap.createScaledBitmap(getFacebookPhoto(number), MainActivity.contactWidth, MainActivity.contactWidth, true);
 
@@ -227,11 +247,16 @@ public class SearchArrayAdapter  extends ArrayAdapter<String> {
                         public void run() {
                             holder.image.setImageBitmap(picture);
                             holder.image.assignContactFromPhone(number, true);
+
+                            if (sentF) {
+                                holder.date.setText(dateStringF);
+                            } else {
+                                holder.date.setText(dateStringF + " - " + contactName);
+                            }
                         }
                     });
                 } else
                 {
-
                     InputStream input2;
                     try
                     {
@@ -276,6 +301,12 @@ public class SearchArrayAdapter  extends ArrayAdapter<String> {
                         public void run() {
                             holder.image.setImageBitmap(image);
                             holder.image.assignContactFromPhone(number, true);
+
+                            if (sentF) {
+                                holder.date.setText(dateStringF);
+                            } else {
+                                holder.date.setText(dateStringF + " - " + contactName);
+                            }
                         }
                     });
                 }
@@ -284,16 +315,6 @@ public class SearchArrayAdapter  extends ArrayAdapter<String> {
         }).start();
 
         holder.message.setText(message);
-
-
-        if (type.equals("2")) // sent
-        {
-            holder.date.setText(dateString);
-        } else // sent
-        {
-            holder.date.setText(dateString + " - " + contactName);
-
-        }
 
         return rowView;
     }
