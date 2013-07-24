@@ -222,7 +222,6 @@ public class MessageCursorAdapter extends CursorAdapter {
     public void bindView(final View view, Context mContext, final Cursor cursor) {
         final ViewHolder holder = (ViewHolder) view.getTag();
         holder.media.setVisibility(View.GONE);
-        holder.tag = false;
 
         boolean sent = false;
         boolean mms = false;
@@ -298,9 +297,7 @@ public class MessageCursorAdapter extends CursorAdapter {
 
                 if (!group) {
                     holder.media.setVisibility(View.VISIBLE);
-                    holder.tag = true;
 
-                    final int position = cursor.getPosition();
                     final String idF = id;
 
                     new Thread(new Runnable() {
@@ -377,8 +374,9 @@ public class MessageCursorAdapter extends CursorAdapter {
                                 try {
                                     holder.imageUri = Uri.parse(image);
                                     images = image.trim().split(" ");
-                                    picture = decodeFile(new File(getRealPathFromURI(Uri.parse(images[0].trim()))));
+                                    picture = BitmapFactory.decodeFile(getRealPathFromURI(Uri.parse(images[0])));
                                 } catch (Exception e) {
+                                    e.printStackTrace();
                                     images = null;
                                     picture = null;
                                 }
@@ -390,7 +388,6 @@ public class MessageCursorAdapter extends CursorAdapter {
                                 final String videoF = video;
                                 final String audioF = audio;
 
-                                // TODO test, previously was just if(holder.tag). if this works, remove all tag references from ViewHolder
                                 if (holder.text.getText().toString().equals("")) {
                                     // view is empty and has not been recycled, so show the images
                                     context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
@@ -404,7 +401,13 @@ public class MessageCursorAdapter extends CursorAdapter {
                                                 holder.media.setImageResource(android.R.color.transparent);
                                             } else if (imageUri != null) {
                                                 holder.media.setVisibility(View.VISIBLE);
-                                                holder.media.setImageBitmap(pictureF);
+
+                                                if (pictureF == null) {
+                                                    holder.media.setImageURI(Uri.parse(imageUri));
+                                                } else {
+                                                    holder.media.setImageBitmap(pictureF);
+                                                }
+
                                                 holder.media.setOnClickListener(new View.OnClickListener() {
                                                     @Override
                                                     public void onClick(View view) {
@@ -2042,7 +2045,6 @@ public class MessageCursorAdapter extends CursorAdapter {
         public Button downloadButton;
         public ImageView bubble;
         public Uri imageUri;
-        public boolean tag;
     }
 
     public void setMessageText(final TextView textView, final String body) {
