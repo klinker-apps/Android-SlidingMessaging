@@ -8,8 +8,10 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v13.app.FragmentStatePagerAdapter;
@@ -23,12 +25,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_sliding.MainActivity;
+import com.klinker.android.messaging_sliding.scheduled.SchedulesArrayAdapter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -54,6 +58,7 @@ public class SearchActivity extends FragmentActivity {
         search.setQueryHint("New Search");
         search.setIconifiedByDefault(false);
         search.setSubmitButtonEnabled(false);
+        search.requestFocusFromTouch();
 
         // Show the custom action bar view and hide the normal Home icon and title.
         final ActionBar actionBar = getActionBar();
@@ -69,8 +74,8 @@ public class SearchActivity extends FragmentActivity {
 
         // TODO - might want to make it so it shows progress dialog while searching, saw something about an async task to do this. will look into it later
 
-        messages = fillMessagesExample(); // this will just be a filler one with a dummy arraylist with dummy values
-        //messages = fillMessages(searchQuery); // TODO - read in the messages with the search text into arraylist
+        //messages = fillMessagesExample(); // this will just be a filler one with a dummy arraylist with dummy values
+        messages = fillMessages(searchQuery); // TODO - read in the messages with the search text into arraylist
 
         // Return as an arraylist of string arrays
         // [0] is the name or number, don't care which you get me, will be changed to name eventually anyways
@@ -80,11 +85,55 @@ public class SearchActivity extends FragmentActivity {
         // [4] tells if it has a picture (true if it does, false if it doesn't)
         // Might think of more i need later, but this is it for now
 
+        ListView lv = (ListView) findViewById(R.id.searchList);
+        SearchArrayAdapter adapter = new SearchArrayAdapter(this, messages);
+        lv.setAdapter(adapter);
+        lv.setDividerHeight(0);
+
     }
 
     public ArrayList<String[]> fillMessages(String text)
     {
-        return null;
+        ArrayList<String[]> messages = new ArrayList<String[]>();
+
+        Uri uri ;
+        Cursor c;
+        uri = Uri.parse("content://mms-sms/conversations");
+        c = getContentResolver().query(uri, null, null ,null, "date DESC");
+        startManagingCursor(c);
+
+        String body;
+
+        if(c.moveToFirst()){
+            for(int i=0;i<c.getCount();i++){
+
+                if (c.getString(c.getColumnIndexOrThrow("msg_box")) != null)
+                {
+
+                } else
+                {
+                    body = c.getString(c.getColumnIndexOrThrow("body"));
+
+                    if (body.contains(text))
+                    {
+                        String[] data = new String[5];
+                        data[0] = c.getString(c.getColumnIndexOrThrow("address"));
+                        data[1] = body;
+                        data[2] = c.getString(c.getColumnIndexOrThrow("date"));
+                        data[3] = c.getString(c.getColumnIndexOrThrow("type"));
+                        data[4] = "false";
+
+                        messages.add(data);
+                    }
+                }
+
+
+                c.moveToNext();
+            }
+        }
+        c.close();
+
+        return messages;
     }
 
     public ArrayList<String[]> fillMessagesExample()
@@ -94,6 +143,25 @@ public class SearchActivity extends FragmentActivity {
         for(int i = 0; i < 5; i++)
         {
             String[] data = new String[5];
+            data[0] = "515-422-4558";
+            data[1] = "Hey whats up?!";
+            data[2] = "12/29/1993";
+            data[3] = "0";
+            data[4] = "false";
+
+            messages.add(data);
+        }
+
+        for(int i = 0; i < 5; i++)
+        {
+            String[] data = new String[5];
+            data[0] = "5159911493";
+            data[1] = "Hey whats up?!";
+            data[2] = "12/29/1993";
+            data[3] = "1";
+            data[4] = "false";
+
+            messages.add(data);
         }
 
         return messages;
