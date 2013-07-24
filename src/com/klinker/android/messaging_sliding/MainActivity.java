@@ -4237,13 +4237,13 @@ s
             attachButton.setColorFilter(getResources().getColor(R.color.hangouts_ab_icon), Mode.MULTIPLY);
             menu.getItem(1).setIcon(attachButton);
 
-            Drawable replyButton = getResources().getDrawable(R.drawable.ic_reply);
-            replyButton.setColorFilter(getResources().getColor(R.color.hangouts_ab_icon), Mode.MULTIPLY);
-            menu.getItem(3).setIcon(replyButton);
-
             Drawable searchButton = getResources().getDrawable(R.drawable.ic_search);
             searchButton.setColorFilter(getResources().getColor(R.color.hangouts_ab_icon), Mode.MULTIPLY);
             menu.getItem(2).setIcon(searchButton);
+
+            Drawable replyButton = getResources().getDrawable(R.drawable.ic_reply);
+            replyButton.setColorFilter(getResources().getColor(R.color.hangouts_ab_icon), Mode.MULTIPLY);
+            menu.getItem(3).setIcon(replyButton);
         } else
         {
             Drawable callButton = getResources().getDrawable(R.drawable.ic_menu_call);
@@ -4254,13 +4254,13 @@ s
             attachButton.setColorFilter(getResources().getColor(R.color.white), Mode.MULTIPLY);
             menu.getItem(1).setIcon(attachButton);
 
-            Drawable replyButton = getResources().getDrawable(R.drawable.ic_reply);
-            replyButton.setColorFilter(getResources().getColor(R.color.white), Mode.MULTIPLY);
-            menu.getItem(3).setIcon(replyButton);
-
             Drawable searchButton = getResources().getDrawable(R.drawable.ic_search);
             searchButton.setColorFilter(getResources().getColor(R.color.white), Mode.MULTIPLY);
             menu.getItem(2).setIcon(searchButton);
+
+            Drawable replyButton = getResources().getDrawable(R.drawable.ic_reply);
+            replyButton.setColorFilter(getResources().getColor(R.color.white), Mode.MULTIPLY);
+            menu.getItem(3).setIcon(replyButton);
         }
 		
 		return true;
