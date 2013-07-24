@@ -30,6 +30,7 @@ import android.widget.Toast;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_sliding.MainActivity;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
@@ -38,6 +39,7 @@ import java.util.Calendar;
 public class SearchActivity extends FragmentActivity {
 
     public String searchQuery;
+    public ArrayList<String[]> messages;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,8 +65,38 @@ public class SearchActivity extends FragmentActivity {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
 
-        handleIntent(getIntent());
+        searchQuery = handleIntent(getIntent());
 
+        // TODO - might want to make it so it shows progress dialog while searching, saw something about an async task to do this. will look into it later
+
+        messages = fillMessagesExample(); // this will just be a filler one with a dummy arraylist with dummy values
+        //messages = fillMessages(searchQuery); // TODO - read in the messages with the search text into arraylist
+
+        // Return as an arraylist of string arrays
+        // [0] is the name or number, don't care which you get me, will be changed to name eventually anyways
+        // [1] is the message/body
+        // [2] is the date
+        // [3] is the type (1 for sent, 0 for recieved)
+        // [4] tells if it has a picture (true if it does, false if it doesn't)
+        // Might think of more i need later, but this is it for now
+
+    }
+
+    public ArrayList<String[]> fillMessages(String text)
+    {
+        return null;
+    }
+
+    public ArrayList<String[]> fillMessagesExample()
+    {
+        ArrayList<String[]> messages = new ArrayList<String[]>();
+
+        for(int i = 0; i < 5; i++)
+        {
+            String[] data = new String[5];
+        }
+
+        return messages;
     }
 
     @Override
@@ -74,7 +106,7 @@ public class SearchActivity extends FragmentActivity {
         handleIntent(intent);
     }
 
-    private void handleIntent(Intent intent) {
-        searchQuery = intent.getStringExtra("query");
+    private String handleIntent(Intent intent) {
+        return intent.getStringExtra("query");
     }
 }

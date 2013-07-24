@@ -4153,9 +4153,6 @@ s
         {
             if (inboxNumber.size() == 0 || MainActivity.menu.isMenuShowing()) // on conversation list
             {
-                //getActionBar().setDisplayShowHomeEnabled(false); // removes the launcher icon so it looks better with expanded search, cause i think it is way cooler to have it expanded by default
-                //getActionBar().setDisplayShowTitleEnabled(false);
-
                 menu.getItem(0).setVisible(false);
                 menu.getItem(1).setVisible(false);
                 menu.getItem(2).setVisible(true);
@@ -4168,9 +4165,6 @@ s
 
                 if (MainActivity.menu.isSecondaryMenuShowing()) // on new message
                 {
-                    //getActionBar().setDisplayShowHomeEnabled(true);
-                    //getActionBar().setDisplayShowTitleEnabled(true);
-
                     menu.getItem(0).setVisible(false);
                     menu.getItem(1).setVisible(true);
                     menu.getItem(2).setVisible(false);
@@ -4183,9 +4177,6 @@ s
                 }
             } else // in ViewPager
             {
-                //getActionBar().setDisplayShowHomeEnabled(true);
-                //getActionBar().setDisplayShowTitleEnabled(true);
-
                 menu.getItem(0).setVisible(true);
                 menu.getItem(1).setVisible(true);
                 menu.getItem(2).setVisible(false);
