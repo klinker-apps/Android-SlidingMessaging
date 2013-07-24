@@ -10,6 +10,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
@@ -491,19 +492,26 @@ public class SettingsPagerActivity extends FragmentActivity {
             findPreference("run_as").setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
-                    if (sharedPrefs.getString("run_as", "classic").equals("card")) {
-                        new AlertDialog.Builder(context)
-                                .setTitle("Note:")
-                                .setMessage("Cards UI is more of a proof of concept that we feel would look great for a messaging app. Because of how it is implemented, it will be slower on some devices. You have been warned.")
-                                .setPositiveButton(context.getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (sharedPrefs.getString("run_as", "classic").equals("card")) {
+                                new AlertDialog.Builder(context)
+                                        .setTitle("Note:")
+                                        .setMessage("Cards UI is more of a proof of concept that we feel would look great for a messaging app. Because of how it is implemented, it will be slower on some devices. You have been warned.")
+                                        .setPositiveButton(context.getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
 
-                                    }
-                                })
-                                .create().show();
-                    }
-                    return false;
+                                            }
+                                        })
+                                        .create()
+                                        .show();
+                            }
+                        }
+                    }, 200);
+
+                    return true;
                 }
             });
         }
