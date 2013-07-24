@@ -42,7 +42,7 @@ public class SearchArrayAdapter  extends ArrayAdapter<String> {
     public static String myPhoneNumber;
     public static String myId;
     public Typeface font;
-
+    public Bitmap myImage;
 
 
     static class ViewHolder {
@@ -70,6 +70,44 @@ public class SearchArrayAdapter  extends ArrayAdapter<String> {
         {
             font = Typeface.createFromFile(sharedPrefs.getString("custom_font_path", ""));
         }
+
+        InputStream input2;
+        try
+        {
+            input2 = openDisplayPhoto(Long.parseLong(myId));
+        } catch (NumberFormatException e)
+        {
+            input2 = null;
+        }
+
+        if (input2 == null)
+        {
+            if (sharedPrefs.getBoolean("ct_darkContactImage", false))
+            {
+                input2 = context.getResources().openRawResource(R.drawable.default_avatar_dark);
+            } else
+            {
+                input2 = context.getResources().openRawResource(R.drawable.default_avatar);
+            }
+        }
+
+        Bitmap im;
+
+        try
+        {
+            im = Bitmap.createScaledBitmap(BitmapFactory.decodeStream(input2), MainActivity.contactWidth, MainActivity.contactWidth, true);
+        } catch (Exception e)
+        {
+            if (sharedPrefs.getBoolean("ct_darkContactImage", false))
+            {
+                im = Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(R.drawable.default_avatar_dark)), MainActivity.contactWidth, MainActivity.contactWidth, true);
+            } else
+            {
+                im = Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(R.drawable.default_avatar)), MainActivity.contactWidth, MainActivity.contactWidth, true);
+            }
+        }
+
+        myImage = im;
     }
 
     @Override
@@ -226,6 +264,7 @@ public class SearchArrayAdapter  extends ArrayAdapter<String> {
             }
 
             if (sent) {
+                viewHolder.image.setImageBitmap(myImage);
                 viewHolder.message.setTextColor(sharedPrefs.getInt("ct_sentTextColor", context.getResources().getColor(R.color.black)));
                 viewHolder.date.setTextColor(sharedPrefs.getInt("ct_sentTextColor", context.getResources().getColor(R.color.black)));
                 viewHolder.background.setBackgroundColor(sharedPrefs.getInt("ct_sentMessageBackground", context.getResources().getColor(R.color.white)));
@@ -342,109 +381,70 @@ public class SearchArrayAdapter  extends ArrayAdapter<String> {
         final ViewHolder holder = (ViewHolder) rowView.getTag();
         holder.number = number;
 
-        if (sharedPrefs.getBoolean("ct_darkContactImage", false))
-        {
-            holder.image.setImageResource(R.drawable.default_avatar_dark);
-        } else
-        {
-            holder.image.setImageResource(R.drawable.default_avatar);
+        if (!sent) {
+            if (sharedPrefs.getBoolean("ct_darkContactImage", false))
+            {
+                holder.image.setImageResource(R.drawable.default_avatar_dark);
+            } else
+            {
+                holder.image.setImageResource(R.drawable.default_avatar);
+            }
         }
 
         final boolean sentF = sent;
         final String dateStringF = dateString;
 
-        new Thread(new Runnable() {
+        if (!sent) {
+            new Thread(new Runnable() {
 
-            @Override
-            public void run()
-            {
-                try {
-                    Thread.sleep(250);
-                } catch (Exception e) {
+                @Override
+                public void run()
+                {
+                    try {
+                        Thread.sleep(250);
+                    } catch (Exception e) {
 
-                }
+                    }
 
-                if (number.equals(holder.number)) {
-                    // view has not been recycled, so not fast scrolling and should post image
-                    final String contactName = MainActivity.loadGroupContacts(number, context);
+                    if (number.equals(holder.number)) {
+                        // view has not been recycled, so not fast scrolling and should post image
+                        final String contactName = MainActivity.loadGroupContacts(number, context);
 
-                    if(!sentF)
-                    {
-                        final Bitmap picture = Bitmap.createScaledBitmap(getFacebookPhoto(number), MainActivity.contactWidth, MainActivity.contactWidth, true);
+                        if(!sentF)
+                        {
+                            final Bitmap picture = Bitmap.createScaledBitmap(getFacebookPhoto(number), MainActivity.contactWidth, MainActivity.contactWidth, true);
 
-                        context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+                            context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 
-                            @Override
-                            public void run() {
-                                holder.image.setImageBitmap(picture);
-                                holder.image.assignContactFromPhone(number, true);
+                                @Override
+                                public void run() {
+                                    holder.image.setImageBitmap(picture);
+                                    holder.image.assignContactFromPhone(number, true);
 
-                                if (sentF) {
-                                    holder.date.setText(dateStringF);
-                                } else {
-                                    holder.date.setText(dateStringF + " - " + contactName);
+                                    if (sentF) {
+                                        holder.date.setText(dateStringF);
+                                    } else {
+                                        holder.date.setText(dateStringF + " - " + contactName);
+                                    }
                                 }
-                            }
-                        });
-                    } else
-                    {
-                        InputStream input2;
-                        try
+                            });
+                        } else
                         {
-                            input2 = openDisplayPhoto(Long.parseLong(myId));
-                        } catch (NumberFormatException e)
-                        {
-                            input2 = null;
-                        }
+                            context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 
-                        if (input2 == null)
-                        {
-                            if (sharedPrefs.getBoolean("ct_darkContactImage", false))
-                            {
-                                input2 = context.getResources().openRawResource(R.drawable.default_avatar_dark);
-                            } else
-                            {
-                                input2 = context.getResources().openRawResource(R.drawable.default_avatar);
-                            }
-                        }
+                                @Override
+                                public void run() {
 
-                        Bitmap im;
-
-                        try
-                        {
-                            im = Bitmap.createScaledBitmap(BitmapFactory.decodeStream(input2), MainActivity.contactWidth, MainActivity.contactWidth, true);
-                        } catch (Exception e)
-                        {
-                            if (sharedPrefs.getBoolean("ct_darkContactImage", false))
-                            {
-                                im = Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(R.drawable.default_avatar_dark)), MainActivity.contactWidth, MainActivity.contactWidth, true);
-                            } else
-                            {
-                                im = Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(R.drawable.default_avatar)), MainActivity.contactWidth, MainActivity.contactWidth, true);
-                            }
-                        }
-
-                        final Bitmap image = im;
-
-                        context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                holder.image.setImageBitmap(image);
-                                holder.image.assignContactFromPhone(number, true);
-
-                                if (sentF) {
-                                    holder.date.setText(dateStringF);
-                                } else {
-                                    holder.date.setText(dateStringF + " - " + contactName);
                                 }
-                            }
-                        });
+                            });
+                        }
                     }
                 }
-            }
 
-        }).start();
+            }).start();
+        } else {
+            holder.date.setText(dateStringF);
+        }
 
         holder.message.setText(message);
 
