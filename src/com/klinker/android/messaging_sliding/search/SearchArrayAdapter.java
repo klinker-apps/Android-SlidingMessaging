@@ -1,5 +1,6 @@
 package com.klinker.android.messaging_sliding.search;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -9,13 +10,19 @@ import java.util.Locale;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentUris;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
+import android.provider.MediaStore;
+import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +39,12 @@ public class SearchArrayAdapter  extends ArrayAdapter<String> {
     private final Activity context;
     private final ArrayList<String[]> messages;
     public SharedPreferences sharedPrefs;
+    public static boolean needMyPicture;
+    public static String myContactId = "";
+    public static String myPhoneNumber;
+    public static String myId;
+
+
 
     static class ViewHolder {
         public TextView date;
@@ -50,6 +63,8 @@ public class SearchArrayAdapter  extends ArrayAdapter<String> {
         this.context = context;
         this.messages = messages;
         this.sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        needMyPicture = true;
+        myPhoneNumber = getMyPhoneNumber();
     }
 
     @Override
@@ -62,21 +77,80 @@ public class SearchArrayAdapter  extends ArrayAdapter<String> {
     public View getView(final int position, View convertView, ViewGroup parent) {
         View rowView = convertView;
 
+        // Info from array list that was sent in
         final String number = messages.get(position)[0];
         String date = messages.get(position)[2];
         String message = messages.get(position)[1];
-        String type = messages.get(position)[3];
-        String picture = messages.get(position)[4];
+        final String type = messages.get(position)[3];
+        boolean picture = Boolean.parseBoolean(messages.get(position)[4]);
 
+        boolean sent =  false;
         String contactName = MainActivity.loadGroupContacts(number, context);
 
+        if (type.equals("2") || type.equals("4") || type.equals("5") || type.equals("6"))
+            sent = true;
+
+        // Sets up the date
         Date sendDate;
 
-        //try {
-            //sendDate = new Date(Long.parseLong(text.get(position)[1]));
-        //} catch (Exception e) {
-            //sendDate = new Date(0);
-        //}
+        try {
+            sendDate = new Date(Long.parseLong(date));
+        } catch (Exception e) {
+            sendDate = new Date(0);
+        }
+
+        String dateString;
+
+        if (sharedPrefs.getBoolean("hour_format", false))
+        {
+            dateString = DateFormat.getDateInstance(DateFormat.SHORT, Locale.GERMAN).format(sendDate);
+        } else
+        {
+            dateString = DateFormat.getDateInstance(DateFormat.SHORT, Locale.US).format(sendDate);
+        }
+
+        if (sharedPrefs.getBoolean("hour_format", false))
+        {
+            dateString += " " + DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(sendDate);
+        } else
+        {
+            dateString += " " + DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(sendDate);
+        }
+
+        // gets the me contact picture the first time through
+        if (needMyPicture)
+        {
+            String[] mProjection = new String[]
+                    {
+                            ContactsContract.Profile._ID
+                    };
+
+            Cursor mProfileCursor = context.getContentResolver().query(
+                    ContactsContract.Profile.CONTENT_URI,
+                    mProjection ,
+                    null,
+                    null,
+                    null);
+
+            try
+            {
+                if (mProfileCursor.moveToFirst())
+                {
+                    myContactId = mProfileCursor.getString(mProfileCursor.getColumnIndex(ContactsContract.Profile._ID));
+                }
+            } catch (Exception e)
+            {
+                myContactId = myPhoneNumber;
+            } finally
+            {
+                mProfileCursor.close();
+            }
+
+            myId = myContactId;
+
+            needMyPicture = false;
+        }
+
         LayoutInflater inflater = context.getLayoutInflater();
 
         if (type.equals("2")) // sent
@@ -101,40 +175,75 @@ public class SearchArrayAdapter  extends ArrayAdapter<String> {
         final ViewHolder holder = (ViewHolder) rowView.getTag();
 
         //String contactName = MainActivity.loadGroupContacts(text.get(position)[0].replaceAll(";", ""), context);
-        String dateString;
 
-        /*
-        if (sharedPrefs.getBoolean("hour_format", false))
-        {
-            dateString = DateFormat.getDateInstance(DateFormat.SHORT, Locale.GERMAN).format(sendDate);
-        } else
-        {
-            dateString = DateFormat.getDateInstance(DateFormat.SHORT, Locale.US).format(sendDate);
-        }
 
-        if (sharedPrefs.getBoolean("hour_format", false))
-        {
-            dateString += " " + DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(sendDate);
-        } else
-        {
-            dateString += " " + DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(sendDate);
-        }
-        */
         new Thread(new Runnable() {
 
             @Override
             public void run()
             {
-                final Bitmap picture = Bitmap.createScaledBitmap(getFacebookPhoto(number), MainActivity.contactWidth, MainActivity.contactWidth, true);
+                if(!type.equals("2"))
+                {
+                    final Bitmap picture = Bitmap.createScaledBitmap(getFacebookPhoto(number), MainActivity.contactWidth, MainActivity.contactWidth, true);
 
-                context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+                    context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 
-                    @Override
-                    public void run() {
-                        holder.image.setImageBitmap(picture);
-                        holder.image.assignContactFromPhone(number, true);
+                        @Override
+                        public void run() {
+                            holder.image.setImageBitmap(picture);
+                            holder.image.assignContactFromPhone(number, true);
+                        }
+                    });
+                } else
+                {
+
+                    InputStream input2;
+                    try
+                    {
+                        input2 = openDisplayPhoto(Long.parseLong(myId));
+                    } catch (NumberFormatException e)
+                    {
+                        input2 = null;
                     }
-                });
+
+                    if (input2 == null)
+                    {
+                        if (sharedPrefs.getBoolean("ct_darkContactImage", false))
+                        {
+                            input2 = context.getResources().openRawResource(R.drawable.default_avatar_dark);
+                        } else
+                        {
+                            input2 = context.getResources().openRawResource(R.drawable.default_avatar);
+                        }
+                    }
+
+                    Bitmap im;
+
+                    try
+                    {
+                        im = Bitmap.createScaledBitmap(BitmapFactory.decodeStream(input2), MainActivity.contactWidth, MainActivity.contactWidth, true);
+                    } catch (Exception e)
+                    {
+                        if (sharedPrefs.getBoolean("ct_darkContactImage", false))
+                        {
+                            im = Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(R.drawable.default_avatar_dark)), MainActivity.contactWidth, MainActivity.contactWidth, true);
+                        } else
+                        {
+                            im = Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(R.drawable.default_avatar)), MainActivity.contactWidth, MainActivity.contactWidth, true);
+                        }
+                    }
+
+                    final Bitmap image = im;
+
+                    context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            holder.image.setImageBitmap(image);
+                            holder.image.assignContactFromPhone(number, true);
+                        }
+                    });
+                }
             }
 
         }).start();
@@ -145,18 +254,75 @@ public class SearchArrayAdapter  extends ArrayAdapter<String> {
         if (type.equals("2")) // sent
         {
             holder.ellipsis.setVisibility(View.GONE);
-            holder.date.setText(date);
+            holder.date.setText(dateString);
         } else // sent
         {
             holder.downloadButton.setVisibility(View.GONE);
-            holder.date.setText(date + " - " + contactName);
+            holder.date.setText(dateString + " - " + contactName);
 
         }
 
-        if (picture.equals("false"))
+        if (!picture)
             holder.media.setVisibility(View.GONE);
 
         return rowView;
+    }
+
+    public Bitmap drawableToBitmap (Drawable drawable) {
+        if (drawable instanceof BitmapDrawable) {
+            return ((BitmapDrawable)drawable).getBitmap();
+        }
+
+        try
+        {
+            int width = drawable.getIntrinsicWidth();
+            width = width > 0 ? width : 1;
+            int height = drawable.getIntrinsicHeight();
+            height = height > 0 ? height : 1;
+
+            Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+            drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+            drawable.draw(canvas);
+            return bitmap;
+        } catch (Exception e)
+        {
+            if (sharedPrefs.getBoolean("ct_darkContactImage", false))
+            {
+                return BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar_dark);
+            } else
+            {
+                return BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
+            }
+        }
+    }
+
+    public InputStream openDisplayPhoto(long contactId) {
+        Uri contactUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, contactId);
+        Uri photoUri = Uri.withAppendedPath(contactUri, ContactsContract.Contacts.Photo.CONTENT_DIRECTORY);
+        Cursor cursor = context.getContentResolver().query(photoUri,
+                new String[] {ContactsContract.Contacts.Photo.PHOTO}, null, null, null);
+        if (cursor == null) {
+            return null;
+        }
+        try {
+            if (cursor.moveToFirst()) {
+                byte[] data = cursor.getBlob(0);
+                if (data != null) {
+                    return new ByteArrayInputStream(data);
+                }
+            }
+        } finally {
+            cursor.close();
+        }
+        return null;
+    }
+
+    private String getMyPhoneNumber(){
+        TelephonyManager mTelephonyMgr;
+        mTelephonyMgr = (TelephonyManager)
+                context.getSystemService(Context.TELEPHONY_SERVICE);
+        return mTelephonyMgr.getLine1Number();
     }
 
     public Bitmap getFacebookPhoto(String phoneNumber) {

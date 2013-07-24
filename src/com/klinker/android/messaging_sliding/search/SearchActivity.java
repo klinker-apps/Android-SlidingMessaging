@@ -98,7 +98,7 @@ public class SearchActivity extends FragmentActivity {
 
         Uri uri ;
         Cursor c;
-        uri = Uri.parse("content://mms-sms/conversations");
+        uri = Uri.parse("content://sms");
         c = getContentResolver().query(uri, null, null ,null, "date DESC");
         startManagingCursor(c);
 
@@ -107,11 +107,11 @@ public class SearchActivity extends FragmentActivity {
         if(c.moveToFirst()){
             for(int i=0;i<c.getCount();i++){
 
-                if (c.getString(c.getColumnIndexOrThrow("msg_box")) != null)
-                {
+                //if (c.getString(c.getColumnIndexOrThrow("msg_box")) != null)
+                //{
 
-                } else
-                {
+                //} else
+                //{
                     body = c.getString(c.getColumnIndexOrThrow("body"));
 
                     if (body.contains(text))
@@ -125,7 +125,7 @@ public class SearchActivity extends FragmentActivity {
 
                         messages.add(data);
                     }
-                }
+                //}
 
 
                 c.moveToNext();
