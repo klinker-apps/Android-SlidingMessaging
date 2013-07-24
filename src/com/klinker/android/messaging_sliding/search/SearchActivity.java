@@ -67,7 +67,7 @@ public class SearchActivity extends FragmentActivity {
         search.setQueryHint("New Search");
         search.setIconifiedByDefault(false);
         search.setSubmitButtonEnabled(false);
-        search.requestFocusFromTouch();
+        //search.requestFocusFromTouch();
 
         // Show the custom action bar view and hide the normal Home icon and title.
         final ActionBar actionBar = getActionBar();
@@ -118,7 +118,16 @@ public class SearchActivity extends FragmentActivity {
         ListView lv = (ListView) findViewById(R.id.searchList);
         SearchArrayAdapter adapter = new SearchArrayAdapter(this, messages);
         lv.setAdapter(adapter);
-        lv.setDividerHeight(0);
+
+        lv.setDivider(new ColorDrawable(sharedPrefs.getInt("ct_messageDividerColor", getResources().getColor(R.color.light_silver))));
+
+        if (sharedPrefs.getBoolean("ct_messageDividerVisibility", true) && sharedPrefs.getString("run_as", "sliding").equals("sliding"))
+        {
+            lv.setDividerHeight(1);
+        } else
+        {
+            lv.setDividerHeight(0);
+        }
 
     }
 
@@ -130,7 +139,6 @@ public class SearchActivity extends FragmentActivity {
         Cursor c;
         uri = Uri.parse("content://sms");
         c = getContentResolver().query(uri, null, null ,null, "date DESC");
-        startManagingCursor(c);
 
         String body;
 
@@ -166,37 +174,6 @@ public class SearchActivity extends FragmentActivity {
         return messages;
     }
 
-    public ArrayList<String[]> fillMessagesExample()
-    {
-        ArrayList<String[]> messages = new ArrayList<String[]>();
-
-        for(int i = 0; i < 5; i++)
-        {
-            String[] data = new String[5];
-            data[0] = "515-422-4558";
-            data[1] = "Hey whats up?!";
-            data[2] = "12/29/1993";
-            data[3] = "0";
-            data[4] = "false";
-
-            messages.add(data);
-        }
-
-        for(int i = 0; i < 5; i++)
-        {
-            String[] data = new String[5];
-            data[0] = "5159911493";
-            data[1] = "Hey whats up?!";
-            data[2] = "12/29/1993";
-            data[3] = "1";
-            data[4] = "false";
-
-            messages.add(data);
-        }
-
-        return messages;
-    }
-
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
@@ -206,5 +183,11 @@ public class SearchActivity extends FragmentActivity {
 
     private String handleIntent(Intent intent) {
         return intent.getStringExtra("query");
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
     }
 }

@@ -23,6 +23,7 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.telephony.TelephonyManager;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -225,6 +226,14 @@ public class SearchArrayAdapter  extends ArrayAdapter<String> {
             viewHolder.bubble = (ImageView) rowView.findViewById(R.id.msgBubble);
             rowView.findViewById(R.id.media).setVisibility(View.GONE);
 
+            if (sharedPrefs.getString("run_as", "classic").equals("classic")) {
+                int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 64, context.getResources().getDisplayMetrics());
+                viewHolder.image.setMaxWidth(scale);
+                viewHolder.image.setMaxHeight(scale);
+                viewHolder.image.setMinimumHeight(scale);
+                viewHolder.image.setMinimumWidth(scale);
+            }
+
             try {
                 rowView.findViewById(R.id.downloadButton).setVisibility(View.GONE);
             } catch (Exception e) {
@@ -253,7 +262,7 @@ public class SearchArrayAdapter  extends ArrayAdapter<String> {
             viewHolder.date.setAlpha((float) .5);
 
             if (sharedPrefs.getString("run_as", "sliding").equals("hangout")) {
-                rowView.setPadding(10,5,10,5);
+                rowView.setPadding(10, 5, 10, 5);
             }
 
             if (sent) {

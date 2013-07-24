@@ -4140,6 +4140,7 @@ s
                 Intent intent = new Intent(getBaseContext(), SearchActivity.class);
                 intent.putExtra("query", query);
                 startActivity(intent);
+                overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                 return false;
             }
 
