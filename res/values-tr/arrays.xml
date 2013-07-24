@@ -186,16 +186,16 @@
     </string-array>
 
     <string-array name="repetition_array">
-        <item>None</item>
-        <item>Daily</item>
-        <item>Weekly</item>
-        <item>Yearly</item>
+        <item>Yok</item>
+        <item>Günlük</item>
+        <item>Haftalık</item>
+        <item>Yıllık</item>
     </string-array>
 
     <string-array name="backup_repetition_array">
-        <item>None</item>
-        <item>Daily</item>
-        <item>Every 3 Days</item>
-        <item>Weekly</item>
+        <item>Yok</item>
+        <item>Günlük</item>
+        <item>3 Günde Bir</item>
+        <item>Haftalık</item>
     </string-array>
 </resources>
