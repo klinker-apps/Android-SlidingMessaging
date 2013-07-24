@@ -382,6 +382,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                 }
 
                                 final String text = body;
+                                // TODO test with multiple images
                                 final String imageUri = image;
                                 final String[] imagesF = images;
                                 final Bitmap pictureF = picture;
@@ -403,7 +404,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                                 holder.media.setVisibility(View.VISIBLE);
 
                                                 if (pictureF == null) {
-                                                    holder.media.setImageURI(Uri.parse(imageUri));
+                                                    holder.media.setImageURI(Uri.parse(imagesF[0]));
                                                 } else {
                                                     holder.media.setImageBitmap(pictureF);
                                                 }
@@ -518,21 +519,18 @@ public class MessageCursorAdapter extends CursorAdapter {
                         downloadableMessage(holder, id);
                     } else {
                         String images[];
-                        Bitmap picture;
 
                         try {
                             holder.imageUri = Uri.parse(image);
                             images = image.trim().split(" ");
-                            picture = decodeFile(new File(getRealPathFromURI(Uri.parse(images[0].trim()))));
                         } catch (Exception e) {
                             images = null;
-                            picture = null;
                         }
 
                         final String text = body;
-                        final String imageUri = image;
+                        // TODO test with single and multiple images
+                        final String imageUri = images[0];
                         final String[] imagesF = images;
-                        final Bitmap pictureF = picture;
                         final String videoF = video;
                         final String audioF = audio;
 
@@ -543,7 +541,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                             holder.media.setImageResource(android.R.color.transparent);
                         } else if (imageUri != null) {
                             holder.media.setVisibility(View.VISIBLE);
-                            holder.media.setImageBitmap(pictureF);
+                            holder.media.setImageURI(Uri.parse(imageUri));
                             holder.media.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
