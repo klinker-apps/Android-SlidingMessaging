@@ -16,6 +16,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -43,6 +44,7 @@ public class SearchArrayAdapter  extends ArrayAdapter<String> {
     public static String myContactId = "";
     public static String myPhoneNumber;
     public static String myId;
+    public Typeface font;
 
 
 
@@ -60,6 +62,13 @@ public class SearchArrayAdapter  extends ArrayAdapter<String> {
         this.sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         needMyPicture = true;
         myPhoneNumber = getMyPhoneNumber();
+
+        font = null;
+
+        if (sharedPrefs.getBoolean("custom_font", false))
+        {
+            font = Typeface.createFromFile(sharedPrefs.getString("custom_font_path", ""));
+        }
     }
 
     @Override
@@ -173,6 +182,27 @@ public class SearchArrayAdapter  extends ArrayAdapter<String> {
             } catch (Exception e) {
 
             }
+
+            if (sharedPrefs.getBoolean("custom_font", false))
+            {
+                viewHolder.message.setTypeface(font);
+                viewHolder.date.setTypeface(font);
+            }
+
+            try {
+                viewHolder.message.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,2)));
+                viewHolder.date.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,2)) - 4);
+            } catch (Exception e) {
+                viewHolder.message.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,1)));
+                viewHolder.date.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,1)) - 4);
+            }
+
+            if (sharedPrefs.getBoolean("tiny_date", false))
+            {
+                viewHolder.date.setTextSize(10);
+            }
+
+            viewHolder.date.setAlpha((float) .5);
 
             rowView.setTag(viewHolder);
         }
