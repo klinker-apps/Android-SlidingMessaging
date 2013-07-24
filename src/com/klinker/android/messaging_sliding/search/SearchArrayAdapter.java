@@ -22,7 +22,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
-import android.provider.MediaStore;
 import android.telephony.TelephonyManager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -70,6 +69,34 @@ public class SearchArrayAdapter  extends ArrayAdapter<String> {
         {
             font = Typeface.createFromFile(sharedPrefs.getString("custom_font_path", ""));
         }
+
+        String[] mProjection = new String[]
+                {
+                        ContactsContract.Profile._ID
+                };
+
+        Cursor mProfileCursor = context.getContentResolver().query(
+                ContactsContract.Profile.CONTENT_URI,
+                mProjection ,
+                null,
+                null,
+                null);
+
+        try
+        {
+            if (mProfileCursor.moveToFirst())
+            {
+                myContactId = mProfileCursor.getString(mProfileCursor.getColumnIndex(ContactsContract.Profile._ID));
+            }
+        } catch (Exception e)
+        {
+            myContactId = myPhoneNumber;
+        } finally
+        {
+            mProfileCursor.close();
+        }
+
+        myId = myContactId;
 
         InputStream input2;
         try
@@ -174,40 +201,6 @@ public class SearchArrayAdapter  extends ArrayAdapter<String> {
             dateString += " " + DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(sendDate);
         }
 
-        // gets the me contact picture the first time through
-        if (needMyPicture)
-        {
-            String[] mProjection = new String[]
-                    {
-                            ContactsContract.Profile._ID
-                    };
-
-            Cursor mProfileCursor = context.getContentResolver().query(
-                    ContactsContract.Profile.CONTENT_URI,
-                    mProjection ,
-                    null,
-                    null,
-                    null);
-
-            try
-            {
-                if (mProfileCursor.moveToFirst())
-                {
-                    myContactId = mProfileCursor.getString(mProfileCursor.getColumnIndex(ContactsContract.Profile._ID));
-                }
-            } catch (Exception e)
-            {
-                myContactId = myPhoneNumber;
-            } finally
-            {
-                mProfileCursor.close();
-            }
-
-            myId = myContactId;
-
-            needMyPicture = false;
-        }
-
         if (rowView == null) {
             LayoutInflater inflater = context.getLayoutInflater();
 
@@ -264,7 +257,6 @@ public class SearchArrayAdapter  extends ArrayAdapter<String> {
             }
 
             if (sent) {
-                viewHolder.image.setImageBitmap(myImage);
                 viewHolder.message.setTextColor(sharedPrefs.getInt("ct_sentTextColor", context.getResources().getColor(R.color.black)));
                 viewHolder.date.setTextColor(sharedPrefs.getInt("ct_sentTextColor", context.getResources().getColor(R.color.black)));
                 viewHolder.background.setBackgroundColor(sharedPrefs.getInt("ct_sentMessageBackground", context.getResources().getColor(R.color.white)));
@@ -410,39 +402,29 @@ public class SearchArrayAdapter  extends ArrayAdapter<String> {
                         // view has not been recycled, so not fast scrolling and should post image
                         final String contactName = MainActivity.loadGroupContacts(number, context);
 
-                        if(!sentF)
-                        {
-                            final Bitmap picture = Bitmap.createScaledBitmap(getFacebookPhoto(number), MainActivity.contactWidth, MainActivity.contactWidth, true);
+                        final Bitmap picture = Bitmap.createScaledBitmap(getFacebookPhoto(number), MainActivity.contactWidth, MainActivity.contactWidth, true);
 
-                            context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+                        context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 
-                                @Override
-                                public void run() {
-                                    holder.image.setImageBitmap(picture);
-                                    holder.image.assignContactFromPhone(number, true);
+                            @Override
+                            public void run() {
+                                holder.image.setImageBitmap(picture);
+                                holder.image.assignContactFromPhone(number, true);
 
-                                    if (sentF) {
-                                        holder.date.setText(dateStringF);
-                                    } else {
-                                        holder.date.setText(dateStringF + " - " + contactName);
-                                    }
+                                if (sentF) {
+                                    holder.date.setText(dateStringF);
+                                } else {
+                                    holder.date.setText(dateStringF + " - " + contactName);
                                 }
-                            });
-                        } else
-                        {
-                            context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                                @Override
-                                public void run() {
-
-                                }
-                            });
-                        }
+                            }
+                        });
                     }
                 }
 
             }).start();
         } else {
+            holder.image.setImageBitmap(myImage);
+            holder.image.assignContactUri(ContactsContract.Profile.CONTENT_URI);
             holder.date.setText(dateStringF);
         }
 
