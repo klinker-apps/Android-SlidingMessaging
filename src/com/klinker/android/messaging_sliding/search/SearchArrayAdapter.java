@@ -51,6 +51,8 @@ public class SearchArrayAdapter  extends ArrayAdapter<String> {
         public LinearLayout background;
         public ImageView bubble;
 
+        public String number;
+
         public QuickContactBadge image;
     }
 
@@ -338,6 +340,15 @@ public class SearchArrayAdapter  extends ArrayAdapter<String> {
         }
 
         final ViewHolder holder = (ViewHolder) rowView.getTag();
+        holder.number = number;
+
+        if (sharedPrefs.getBoolean("ct_darkContactImage", false))
+        {
+            holder.image.setImageResource(R.drawable.default_avatar_dark);
+        } else
+        {
+            holder.image.setImageResource(R.drawable.default_avatar);
+        }
 
         final boolean sentF = sent;
         final String dateStringF = dateString;
@@ -347,80 +358,89 @@ public class SearchArrayAdapter  extends ArrayAdapter<String> {
             @Override
             public void run()
             {
-                final String contactName = MainActivity.loadGroupContacts(number, context);
+                try {
+                    Thread.sleep(250);
+                } catch (Exception e) {
 
-                if(!sentF)
-                {
-                    final Bitmap picture = Bitmap.createScaledBitmap(getFacebookPhoto(number), MainActivity.contactWidth, MainActivity.contactWidth, true);
+                }
 
-                    context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+                if (number.equals(holder.number)) {
+                    // view has not been recycled, so not fast scrolling and should post image
+                    final String contactName = MainActivity.loadGroupContacts(number, context);
 
-                        @Override
-                        public void run() {
-                            holder.image.setImageBitmap(picture);
-                            holder.image.assignContactFromPhone(number, true);
+                    if(!sentF)
+                    {
+                        final Bitmap picture = Bitmap.createScaledBitmap(getFacebookPhoto(number), MainActivity.contactWidth, MainActivity.contactWidth, true);
 
-                            if (sentF) {
-                                holder.date.setText(dateStringF);
-                            } else {
-                                holder.date.setText(dateStringF + " - " + contactName);
+                        context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                holder.image.setImageBitmap(picture);
+                                holder.image.assignContactFromPhone(number, true);
+
+                                if (sentF) {
+                                    holder.date.setText(dateStringF);
+                                } else {
+                                    holder.date.setText(dateStringF + " - " + contactName);
+                                }
+                            }
+                        });
+                    } else
+                    {
+                        InputStream input2;
+                        try
+                        {
+                            input2 = openDisplayPhoto(Long.parseLong(myId));
+                        } catch (NumberFormatException e)
+                        {
+                            input2 = null;
+                        }
+
+                        if (input2 == null)
+                        {
+                            if (sharedPrefs.getBoolean("ct_darkContactImage", false))
+                            {
+                                input2 = context.getResources().openRawResource(R.drawable.default_avatar_dark);
+                            } else
+                            {
+                                input2 = context.getResources().openRawResource(R.drawable.default_avatar);
                             }
                         }
-                    });
-                } else
-                {
-                    InputStream input2;
-                    try
-                    {
-                        input2 = openDisplayPhoto(Long.parseLong(myId));
-                    } catch (NumberFormatException e)
-                    {
-                        input2 = null;
-                    }
 
-                    if (input2 == null)
-                    {
-                        if (sharedPrefs.getBoolean("ct_darkContactImage", false))
+                        Bitmap im;
+
+                        try
                         {
-                            input2 = context.getResources().openRawResource(R.drawable.default_avatar_dark);
-                        } else
+                            im = Bitmap.createScaledBitmap(BitmapFactory.decodeStream(input2), MainActivity.contactWidth, MainActivity.contactWidth, true);
+                        } catch (Exception e)
                         {
-                            input2 = context.getResources().openRawResource(R.drawable.default_avatar);
-                        }
-                    }
-
-                    Bitmap im;
-
-                    try
-                    {
-                        im = Bitmap.createScaledBitmap(BitmapFactory.decodeStream(input2), MainActivity.contactWidth, MainActivity.contactWidth, true);
-                    } catch (Exception e)
-                    {
-                        if (sharedPrefs.getBoolean("ct_darkContactImage", false))
-                        {
-                            im = Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(R.drawable.default_avatar_dark)), MainActivity.contactWidth, MainActivity.contactWidth, true);
-                        } else
-                        {
-                            im = Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(R.drawable.default_avatar)), MainActivity.contactWidth, MainActivity.contactWidth, true);
-                        }
-                    }
-
-                    final Bitmap image = im;
-
-                    context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            holder.image.setImageBitmap(image);
-                            holder.image.assignContactFromPhone(number, true);
-
-                            if (sentF) {
-                                holder.date.setText(dateStringF);
-                            } else {
-                                holder.date.setText(dateStringF + " - " + contactName);
+                            if (sharedPrefs.getBoolean("ct_darkContactImage", false))
+                            {
+                                im = Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(R.drawable.default_avatar_dark)), MainActivity.contactWidth, MainActivity.contactWidth, true);
+                            } else
+                            {
+                                im = Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(R.drawable.default_avatar)), MainActivity.contactWidth, MainActivity.contactWidth, true);
                             }
                         }
-                    });
+
+                        final Bitmap image = im;
+
+                        context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                holder.image.setImageBitmap(image);
+                                holder.image.assignContactFromPhone(number, true);
+
+                                if (sentF) {
+                                    holder.date.setText(dateStringF);
+                                } else {
+                                    holder.date.setText(dateStringF + " - " + contactName);
+                                }
+                            }
+                        });
+                    }
                 }
             }
 
