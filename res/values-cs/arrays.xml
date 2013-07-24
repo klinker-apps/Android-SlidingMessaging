@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <string-array name="titleColors">
+        <item name="Blue">Blue</item>
+        <item name="Green">Green</item>
+        <item name="Orange">Orange</item>
+        <item name="Red">Red</item>
+        <item name="Purple">Purple</item>
+        <item name="Grey">Grey</item>
+        <item name="DarkGrey">Dark Grey</item>
+        <item name="Black">Pitch Black</item>
+    </string-array>
+    
+    <string-array name="messageOptions">
+        <item name="copy_text">Copy Text</item>
+        <item name="forward">Forward Message</item>
+        <item name="delete_message">Delete Message</item>
+    </string-array>
+    
+    <string-array name="messageOptions2">
+        <item name="copy_text">Copy Text</item>
+        <item name="save_image">Save Image</item>
+        <item name="forward">Forward Message</item>
+        <item name="delete_message">Delete Message</item>
+    </string-array>
+    
+    <string-array name="messageOptions3">
+        <item name="resend">Resend</item>
+        <item name="copy_text">Copy Text</item>
+        <item name="forward">Forward Message</item>
+        <item name="delete_message">Delete Message</item>
+    </string-array>
+    
+    <string-array name="ledColors">
+        <item name="White">White</item>
+        <item name="Blue">Blue</item>
+        <item name="Green">Green</item>
+        <item name="Orange">Orange</item>
+        <item name="Red">Red</item>
+        <item name="Purple">Purple</item>
+    </string-array>
+    
+    <string-array name="vibratePattern">
+        <item name="short">1 Short</item>
+        <item name="long">1 Long</item>
+        <item name="2short">2 Short</item>
+        <item name="2long">2 Long</item>
+        <item name="3short">3 Short</item>
+        <item name="3long">3 Long</item>
+    </string-array>
+
+    <string-array name="smilies">
+        <item name="with">With Nose :-)</item>
+        <item name="without">Without Nose :)</item>
+        <item name="none">None</item>
+        <item name="both">Both</item>
+    </string-array>
+    
+    <string-array name="quickReplyOptions">
+        <item name="reply">Reply</item>
+        <item name="read">Read</item>
+        <item name="call">Call</item>
+        <item name="delete">Delete</item>
+    </string-array>
+    
+    <string-array name="slideToMenu">
+        <item name="fullscreen">Fullscreen Sliding Menu</item>
+        <item name="margins">Margins Only Sliding Menu</item>
+        <item name="none">No Sliding Menu (Must Navigate with ActionBar)</item>
+    </string-array>
+    
+    <string-array name="notificationIcon">
+        <item name="White">White</item>
+        <item name="Blue">Blue</item>
+        <item name="Green">Green</item>
+        <item name="Orange">Orange</item>
+        <item name="Red">Red</item>
+        <item name="Purple">Purple</item>
+        <item name="Icon">App Icon</item>
+    </string-array>
+    
+    <string-array name="textColors">
+        <item name="Default">Default</item>
+        <item name="White">White</item>
+        <item name="Blue">Blue</item>
+        <item name="Green">Green</item>
+        <item name="Orange">Orange</item>
+        <item name="Red">Red</item>
+        <item name="Purple">Purple</item>
+        <item name="Grey">Grey</item>
+        <item name="Black">Black</item>
+    </string-array>
+    
+    <string-array name="deliveryOptions">
+        <item name="none">Nothing on Delivery</item>
+        <item name="popup">Popup on Delivery</item>
+        <item name="toast">Toast on Delivery</item>
+    </string-array>
+    
+    <string-array name="screenTimeout">
+        <item name="1">1 Second</item>
+        <item name="5">5 Seconds</item>
+        <item name="15">15 Seconds</item>
+        <item name="30">30 Seconds</item>
+        <item name="60">1 Minute</item>
+        <item name="180">3 Minutes</item>
+        <item name="300">5 Minutes</item>
+    </string-array>
+    
+    <string-array name="sendAnimation">
+        <item name="left">Slide in from left</item>
+        <item name="right">Slide in from right</item>
+        <item name="up">Slide up from bottom</item>
+        <item name="hangouts">Scale in from bottom</item>
+        <item name="none">No animation</item>
+    </string-array>
+    
+    <string-array name="textAlignment">
+        <item name="split">Split Alignment</item>
+        <item name="right">Right Alignment</item>
+        <item name="left">Left Alignment</item>
+    </string-array>
+
+    <string-array name="textAlignment2">
+        <item name="center">Center Alignment</item>
+        <item name="right">Right Alignment</item>
+        <item name="left">Left Alignment</item>
+    </string-array>
+    
+    <string-array name="selectImage">
+        <item name="select">Select Image</item>
+        <item name="camera">Capture Image</item>
+        <item name="attach_more">Attach More...</item>
+    </string-array>
+    
+    <string-array name="runAs">
+        <item name="card">Card UI</item>
+        <item name="hangout">Hangouts UI</item>
+        <item name="sliding">Classic UI</item>
+    </string-array>
+    
+    <string-array name="cardTheme">
+        <item name="light">Light</item>
+        <item name="dark">Dark</item>
+        <item name="pitch_black">Pitch Black</item>
+    </string-array>
+    
+    <string-array name="repeatingNotification">
+        <item name="none">Never</item>
+        <item name="15">15 Seconds</item>
+        <item name="30">30 Seconds</item>
+        <item name="60">1 Minute</item>
+        <item name="120">2 Minutes</item>
+        <item name="300">5 Minutes</item>
+        <item name="420">7 Minutes</item>
+        <item name="600">10 Minutes</item>
+        <item name="900">15 Minutes</item>
+    </string-array>
+    
+    <string-array name="attach_more_options">
+        <item name="image">Select Image</item>
+        <item name="video">Select Video</item>
+        <item name="audio">Select Audio</item>
+    </string-array>
+
+    <string-array name="notification_icon">
+        <item name="stock">Stock Icon</item>
+        <item name="bubble">Message Bubble</item>
+        <item name="exclamation">Exclamation Point</item>
+        <item name="airplane">Paper Airplane</item>
+        <item name="cloud">Cloud</item>
+    </string-array>
+
+    <string-array name="timeout">
+        <!-- <item name="none">No Timeout</item>
+        <item name="ten_sec">10 Seconds</item> -->
+        <item name="thirty_sec">30 Seconds</item>
+        <item name="one_min">1 Minute</item>
+        <item name="five_min">5 Minutes</item>
+        <item name="ten_min">10 Minutes</item>
+        <item name="thirty_min">30 Minutes</item>
+        <item name="one_hour">1 Hour</item>
+        <item name="five_hour">5 Hours</item>
+    </string-array>
+
+    <string-array name="security_type">
+        <item name="none">No Security</item>
+        <item name="pin">PIN</item>
+        <item name="pattern">Pattern</item>
+        <item name="password">Password</item>
+    </string-array>
+
+    <string-array name="repetition_array">
+        <item>None</item>
+        <item>Daily</item>
+        <item>Weekly</item>
+        <item>Yearly</item>
+    </string-array>
+
+    <string-array name="backup_repetition_array">
+        <item>None</item>
+        <item>Daily</item>
+        <item>Every 3 Days</item>
+        <item>Weekly</item>
+    </string-array>
+
+</resources>
