@@ -164,6 +164,8 @@ public class SearchActivity extends Activity {
 
     }
 
+    
+
     public ArrayList<String[]> fillMessages(String text)
     {
         ArrayList<String[]> messages = new ArrayList<String[]>();

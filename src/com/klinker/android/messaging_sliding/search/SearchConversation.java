@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import android.widget.ListView;
 
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_sliding.MainActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -64,8 +65,18 @@ public class SearchConversation extends Activity {
         searchQuery = getIntent().getStringExtra("search");
         messages = fillList(getIntent().getStringExtra("id"));
 
+        int i = 0;
+
+        while(messages.get(i)[3].equals("1"))
+            i++;
+
+        String contactName = MainActivity.loadGroupContacts(messages.get(i)[0], this);
+
+        actionBar.setTitle(contactName);
+        actionBar.setSubtitle(messages.get(i)[0]);
+
         ListView lv = (ListView) findViewById(R.id.searchList);
-        SearchArrayAdapter adapter = new SearchArrayAdapter(this, messages, searchQuery);
+        ConversationArrayAdapter adapter = new ConversationArrayAdapter(this, messages, searchQuery);
         lv.setAdapter(adapter);
         lv.setStackFromBottom(true);
 
