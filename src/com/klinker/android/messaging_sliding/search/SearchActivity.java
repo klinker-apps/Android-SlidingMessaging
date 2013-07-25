@@ -19,6 +19,7 @@ import android.support.v13.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.*;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -37,7 +38,7 @@ import java.util.Calendar;
 /**
  * Created by luke on 7/23/13.
  */
-public class SearchActivity extends FragmentActivity {
+public class SearchActivity extends Activity {
 
     public String searchQuery;
     public ArrayList<String[]> messages;
@@ -133,6 +134,7 @@ public class SearchActivity extends FragmentActivity {
         // [2] is the date
         // [3] is the type (1 for sent, 0 for recieved)
         // [4] tells if it has a picture (true if it does, false if it doesn't)
+        // [5] is the message id
         // Might think of more i need later, but this is it for now
 
         ListView lv = (ListView) findViewById(R.id.searchList);
@@ -148,6 +150,16 @@ public class SearchActivity extends FragmentActivity {
         {
             lv.setDividerHeight(0);
         }
+
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent clickIntent = new Intent(getBaseContext(), SearchConversation.class);
+                clickIntent.putExtra("id", messages.get(i)[5]);
+                startActivity(clickIntent);
+                overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+            }
+        });
 
     }
 
@@ -174,12 +186,13 @@ public class SearchActivity extends FragmentActivity {
 
                     if (body.toUpperCase().contains(text.toUpperCase()))
                     {
-                        String[] data = new String[5];
+                        String[] data = new String[6];
                         data[0] = c.getString(c.getColumnIndexOrThrow("address"));
                         data[1] = body;
                         data[2] = c.getString(c.getColumnIndexOrThrow("date"));
                         data[3] = c.getString(c.getColumnIndexOrThrow("type"));
                         data[4] = "false";
+                        data[5] = c.getString(c.getColumnIndexOrThrow("_id"));
 
                         messages.add(data);
                     }

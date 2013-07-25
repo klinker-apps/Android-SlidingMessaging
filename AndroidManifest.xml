@@ -345,6 +345,13 @@
                        android:resource="@xml/searchable"/>
         </activity>
 
+        <activity
+                android:name="com.klinker.android.messaging_sliding.search.SearchConversation"
+                android:label="@string/search"
+                android:theme="@style/HangoutsTheme"
+                android:configChanges="orientation|screenSize">
+        </activity>
+
         <service 
             android:name="com.klinker.android.messaging_sliding.quick_reply.QmMarkRead2" >
         </service>
