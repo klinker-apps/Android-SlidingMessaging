@@ -138,7 +138,7 @@ public class SearchActivity extends Activity {
         // Might think of more i need later, but this is it for now
 
         ListView lv = (ListView) findViewById(R.id.searchList);
-        SearchArrayAdapter adapter = new SearchArrayAdapter(this, messages);
+        SearchArrayAdapter adapter = new SearchArrayAdapter(this, messages, searchQuery);
         lv.setAdapter(adapter);
 
         lv.setDivider(new ColorDrawable(sharedPrefs.getInt("ct_messageDividerColor", getResources().getColor(R.color.light_silver))));
@@ -156,6 +156,7 @@ public class SearchActivity extends Activity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent clickIntent = new Intent(getBaseContext(), SearchConversation.class);
                 clickIntent.putExtra("id", messages.get(i)[5]);
+                clickIntent.putExtra("search", searchQuery);
                 startActivity(clickIntent);
                 overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
             }

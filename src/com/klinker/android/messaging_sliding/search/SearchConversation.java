@@ -23,6 +23,7 @@ public class SearchConversation extends Activity {
 
     public SharedPreferences sharedPrefs;
     private ArrayList<String[]> messages;
+    public String searchQuery;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,10 +61,11 @@ public class SearchConversation extends Activity {
             actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.ab_hangouts));
         }
 
+        searchQuery = getIntent().getStringExtra("search");
         messages = fillList(getIntent().getStringExtra("id"));
 
         ListView lv = (ListView) findViewById(R.id.searchList);
-        SearchArrayAdapter adapter = new SearchArrayAdapter(this, messages);
+        SearchArrayAdapter adapter = new SearchArrayAdapter(this, messages, searchQuery);
         lv.setAdapter(adapter);
         lv.setStackFromBottom(true);
 
@@ -186,7 +188,7 @@ public class SearchConversation extends Activity {
             {
                 for (int x = 0; x < 10; x++)
                     c.moveToNext();
-                
+
                 for (int x = i + 11; x > i - 10; x--)
                 {
                     String[] data = new String[6];

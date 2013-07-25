@@ -23,6 +23,7 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.telephony.TelephonyManager;
+import android.text.Html;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -43,6 +44,7 @@ public class SearchArrayAdapter  extends ArrayAdapter<String> {
     public static String myId;
     public Typeface font;
     public Bitmap myImage;
+    public String searchQuery;
 
 
     static class ViewHolder {
@@ -56,11 +58,12 @@ public class SearchArrayAdapter  extends ArrayAdapter<String> {
         public QuickContactBadge image;
     }
 
-    public SearchArrayAdapter(Activity context, ArrayList<String[]> messages) {
+    public SearchArrayAdapter(Activity context, ArrayList<String[]> messages, String text) {
         super(context, R.layout.custom_scheduled);
         this.context = context;
         this.messages = messages;
         this.sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        this.searchQuery = text;
         needMyPicture = true;
         myPhoneNumber = getMyPhoneNumber();
 
@@ -168,6 +171,9 @@ public class SearchArrayAdapter  extends ArrayAdapter<String> {
         String message = messages.get(position)[1];
         final String type = messages.get(position)[3];
         boolean sent;
+
+        if (message.toUpperCase().contains(searchQuery.toUpperCase()))
+            message = changeTextColor(message, searchQuery);
 
         if (getItemViewType(position) == 1) {
             sent = true;
@@ -437,9 +443,32 @@ public class SearchArrayAdapter  extends ArrayAdapter<String> {
             holder.date.setText(dateStringF);
         }
 
-        holder.message.setText(message);
+        holder.message.setText(Html.fromHtml(message));
 
         return rowView;
+    }
+
+    public String changeTextColor(String text, String search)
+    {
+        int index = text.toUpperCase().indexOf(search.toUpperCase());
+
+        String first = text.substring(0, index);
+        String last = text.substring(index + search.length(), text.length());
+
+        search = text.substring(index, index + search.length());
+
+        search = "<font color=#FF0000>" + search + "</font>";
+
+        first = first + search;
+
+        while (last.toUpperCase().contains(search.toUpperCase()))
+        {
+            first = first + last.substring(0, last.toUpperCase().indexOf(search.toUpperCase())) + search;
+
+            last = last.substring(last.toUpperCase().indexOf(search.toUpperCase()) + search.length());
+        }
+
+        return first + last;
     }
 
     public Bitmap drawableToBitmap (Drawable drawable) {
