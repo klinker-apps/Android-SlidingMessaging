@@ -132,12 +132,12 @@ public class SearchConversation extends Activity {
             3.) you can go back 10 messages but you can't go forward 10 messages
             4.) you can go back 10 messages and yo can go forward 10 messages
 
-             */
+            */
 
-            if (i < 10 && maxLength < (i + 10)) // case 1
+            if (i > maxLength - 10 && i < 10) // case 1
             {
-                c.moveToFirst();
-                for(int x = 0; x < maxLength; x++)
+                c.moveToLast();
+                for(int x = maxLength; x > 0; x--)
                 {
                     String[] data = new String[6];
                     data[0] = c.getString(c.getColumnIndexOrThrow("address"));
@@ -145,16 +145,15 @@ public class SearchConversation extends Activity {
                     data[2] = c.getString(c.getColumnIndexOrThrow("date"));
                     data[3] = c.getString(c.getColumnIndexOrThrow("type"));
                     data[4] = "false";
-                    data[5] = messageId;
 
                     messages.add(data);
 
-                    c.moveToNext();
+                    c.moveToPrevious();
                 }
-            } else if (i < 10 && maxLength > (i + 10)) // case 2
+            } else if (i > maxLength - 10 && i > 10) // case 2
             {
-                c.moveToFirst();
-                for (int x = 0; x < i + 10; x++)
+                c.moveToLast();
+                for (int x = maxLength; x > i - 10; x--)
                 {
                     String[] data = new String[6];
                     data[0] = c.getString(c.getColumnIndexOrThrow("address"));
@@ -162,16 +161,15 @@ public class SearchConversation extends Activity {
                     data[2] = c.getString(c.getColumnIndexOrThrow("date"));
                     data[3] = c.getString(c.getColumnIndexOrThrow("type"));
                     data[4] = "false";
-                    data[5] = messageId;
 
                     messages.add(data);
 
-                    c.moveToNext();
+                    c.moveToPrevious();
                 }
-            } else if (i > 10 && maxLength < (i + 10)) // case 3
+            } else if (i < maxLength - 10 && i < 10) // case 3
             {
-                c.move(i - 10);
-                for (int x = i - 10; x < maxLength; x++)
+                c.move(i + 9);
+                for (int x = i + 11; x > 0; x--)
                 {
                     String[] data = new String[6];
                     data[0] = c.getString(c.getColumnIndexOrThrow("address"));
@@ -179,16 +177,17 @@ public class SearchConversation extends Activity {
                     data[2] = c.getString(c.getColumnIndexOrThrow("date"));
                     data[3] = c.getString(c.getColumnIndexOrThrow("type"));
                     data[4] = "false";
-                    data[5] = messageId;
 
                     messages.add(data);
 
-                    c.moveToNext();
+                    c.moveToPrevious();
                 }
-            } else // case 4
+            } else if (i < maxLength - 10 && i > 10) // case 4
             {
-                c.move(i - 10);
-                for (int x = i - 10; x < i + 10; x++)
+                for (int x = 0; x < 10; x++)
+                    c.moveToNext();
+                
+                for (int x = i + 11; x > i - 10; x--)
                 {
                     String[] data = new String[6];
                     data[0] = c.getString(c.getColumnIndexOrThrow("address"));
@@ -196,17 +195,16 @@ public class SearchConversation extends Activity {
                     data[2] = c.getString(c.getColumnIndexOrThrow("date"));
                     data[3] = c.getString(c.getColumnIndexOrThrow("type"));
                     data[4] = "false";
-                    data[5] = messageId;
 
                     messages.add(data);
 
-                    c.moveToNext();
+                    c.moveToPrevious();
                 }
             }
         }
         c.close();
 
-        Collections.reverse(messages);
+        //Collections.reverse(messages);
 
         return messages;
     }
