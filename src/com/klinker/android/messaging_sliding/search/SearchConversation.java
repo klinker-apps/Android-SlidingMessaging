@@ -251,7 +251,7 @@ public class SearchConversation extends Activity implements PullToRefreshAttache
             } else if (i < maxLength - 10 && i < 10) // case 3
             {
                 c.move(i + 9);
-                for (int x = i + 11; x > 0; x--)
+                for (int x = i + 10; x > 0; x--)
                 {
                     String[] data = new String[6];
                     data[0] = c.getString(c.getColumnIndexOrThrow("address"));
@@ -269,7 +269,7 @@ public class SearchConversation extends Activity implements PullToRefreshAttache
                 for (int x = 0; x < 10; x++)
                     c.moveToNext();
 
-                for (int x = i + 11; x > i - 10; x--)
+                for (int x = i + 10; x > i - 10; x--)
                 {
                     String[] data = new String[6];
                     data[0] = c.getString(c.getColumnIndexOrThrow("address"));
