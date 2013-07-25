@@ -448,25 +448,21 @@ public class SearchArrayAdapter  extends ArrayAdapter<String> {
         return rowView;
     }
 
-    public String changeTextColor(String text, String search)
+    public String changeTextColor(String text, String originalSearch)
     {
-        int index = text.toUpperCase().indexOf(search.toUpperCase());
+        int index = text.toUpperCase().indexOf(originalSearch.toUpperCase());
 
         String first = text.substring(0, index);
-        String last = text.substring(index + search.length(), text.length());
+        String last = text.substring(index + originalSearch.length(), text.length());
 
-        search = text.substring(index, index + search.length());
+        String mySearch = text.substring(index, index + originalSearch.length());
 
-        search = "<font color=#FF0000>" + search + "</font>";
+        mySearch = "<font color=#FF0000>" + mySearch + "</font>";
 
-        first = first + search;
+        first = first + mySearch;
 
-        while (last.toUpperCase().contains(search.toUpperCase()))
-        {
-            first = first + last.substring(0, last.toUpperCase().indexOf(search.toUpperCase())) + search;
-
-            last = last.substring(last.toUpperCase().indexOf(search.toUpperCase()) + search.length());
-        }
+        if (last.toUpperCase().contains(originalSearch.toUpperCase()))
+            last = changeTextColor(last, originalSearch);
 
         return first + last;
     }
