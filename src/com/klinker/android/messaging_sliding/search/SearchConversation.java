@@ -120,7 +120,7 @@ public class SearchConversation extends Activity implements PullToRefreshAttache
 
                 messages.clear();
 
-                if(c.moveToFirst()){
+                if(c.moveToLast()){
                     for(i=0;i<c.getCount();i++){
 
                         String[] data = new String[6];
@@ -132,7 +132,7 @@ public class SearchConversation extends Activity implements PullToRefreshAttache
 
                         messages.add(data);
 
-                        c.moveToNext();
+                        c.moveToPrevious();
                     }
                 }
                 c.close();
@@ -143,8 +143,6 @@ public class SearchConversation extends Activity implements PullToRefreshAttache
             @Override
             protected void onPostExecute(Void result) {
                 super.onPostExecute(result);
-
-                Collections.reverse(messages);
 
                 ConversationArrayAdapter adapter = new ConversationArrayAdapter(getActivity(), messages, searchQuery);
                 lv.setAdapter(adapter);
@@ -285,8 +283,6 @@ public class SearchConversation extends Activity implements PullToRefreshAttache
             }
         }
         c.close();
-
-        //Collections.reverse(messages);
 
         return messages;
     }
