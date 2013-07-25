@@ -151,11 +151,19 @@ public class ConversationArrayAdapter  extends ArrayAdapter<String> {
 
     @Override
     public int getItemViewType(int position) {
-        if (messages.get(position)[3].equals("2") || messages.get(position)[3].equals("3") || messages.get(position)[3].equals("4") || messages.get(position)[3].equals("5") || messages.get(position)[3].equals("6")) {
-            return 1;
-        } else {
-            return 0;
+        try
+        {
+            if (messages.get(position)[3].equals("2") || messages.get(position)[3].equals("3") || messages.get(position)[3].equals("4") || messages.get(position)[3].equals("5") || messages.get(position)[3].equals("6")) {
+                return 1;
+            } else {
+                return 0;
+            }
+        } catch (Exception e)
+        {
+
         }
+
+        return 0;
     }
 
     @Override
