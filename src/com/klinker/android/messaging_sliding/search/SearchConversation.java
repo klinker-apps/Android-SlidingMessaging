@@ -106,9 +106,7 @@ public class SearchConversation extends Activity implements PullToRefreshAttache
 
     @Override
     public void onRefreshStarted(View view) {
-        /**
-         * Simulate Refresh with 4 seconds sleep
-         */
+         
         new AsyncTask<Void, Void, Void>() {
 
             @Override
@@ -285,5 +283,11 @@ public class SearchConversation extends Activity implements PullToRefreshAttache
         c.close();
 
         return messages;
+    }
+    
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
     }
 }
