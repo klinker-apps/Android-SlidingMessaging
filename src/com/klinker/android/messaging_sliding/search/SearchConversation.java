@@ -6,8 +6,10 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.ListView;
 
@@ -17,14 +19,22 @@ import com.klinker.android.messaging_sliding.MainActivity;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
+
 /**
  * Created by luke on 7/24/13.
  */
-public class SearchConversation extends Activity {
+public class SearchConversation extends Activity implements PullToRefreshAttacher.OnRefreshListener{
 
     public SharedPreferences sharedPrefs;
     private ArrayList<String[]> messages;
     public String searchQuery;
+    public String threadId = "";
+
+    public PullToRefreshAttacher mPullToRefreshAttacher;
+
+    public ListView lv;
+    public ConversationArrayAdapter adapter;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,8 +85,8 @@ public class SearchConversation extends Activity {
         actionBar.setTitle(contactName);
         actionBar.setSubtitle(messages.get(i)[0]);
 
-        ListView lv = (ListView) findViewById(R.id.searchList);
-        ConversationArrayAdapter adapter = new ConversationArrayAdapter(this, messages, searchQuery);
+        lv = (ListView) findViewById(R.id.searchList);
+        adapter = new ConversationArrayAdapter(this, messages, searchQuery);
         lv.setAdapter(adapter);
         lv.setStackFromBottom(true);
 
@@ -89,6 +99,66 @@ public class SearchConversation extends Activity {
         {
             lv.setDividerHeight(0);
         }
+
+        mPullToRefreshAttacher = new PullToRefreshAttacher(this, sharedPrefs.getBoolean("ct_light_action_bar", false));
+        mPullToRefreshAttacher.setRefreshableView(lv, this);
+    }
+
+    @Override
+    public void onRefreshStarted(View view) {
+        /**
+         * Simulate Refresh with 4 seconds sleep
+         */
+        new AsyncTask<Void, Void, Void>() {
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                Uri uri = Uri.parse("content://sms/conversations/" + threadId);
+                Cursor c = getContentResolver().query(uri, null, null ,null, "date DESC");
+
+                int i;
+
+                messages.clear();
+
+                if(c.moveToFirst()){
+                    for(i=0;i<c.getCount();i++){
+
+                        String[] data = new String[6];
+                        data[0] = c.getString(c.getColumnIndexOrThrow("address"));
+                        data[1] = c.getString(c.getColumnIndexOrThrow("body"));
+                        data[2] = c.getString(c.getColumnIndexOrThrow("date"));
+                        data[3] = c.getString(c.getColumnIndexOrThrow("type"));
+                        data[4] = "false";
+
+                        messages.add(data);
+
+                        c.moveToNext();
+                    }
+                }
+                c.close();
+
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void result) {
+                super.onPostExecute(result);
+
+                Collections.reverse(messages);
+
+                ConversationArrayAdapter adapter = new ConversationArrayAdapter(getActivity(), messages, searchQuery);
+                lv.setAdapter(adapter);
+                lv.setStackFromBottom(true);
+
+                // Notify PullToRefreshAttacher that the refresh has finished
+                mPullToRefreshAttacher.setRefreshComplete();
+            }
+        }.execute();
+    }
+
+    public Activity getActivity()
+    {
+        return this;
     }
 
     public ArrayList<String[]> fillList(String id)
@@ -101,7 +171,6 @@ public class SearchConversation extends Activity {
         c = getContentResolver().query(uri, null, null ,null, "date DESC");
 
         String messageId = "";
-        String threadId = "";
         int i = 0;
 
         if(c.moveToFirst()){
