@@ -32,8 +32,8 @@ import android.util.Log;
 import com.android.mms.MmsConfig;
 import com.android.mms.util.DownloadManager;
 import com.google.android.mms.MmsException;
-import com.google.android.mms.pdu.*;
-import com.google.android.mms.pdu.PduPersister;
+import com.google.android.mms.pdu_alt.*;
+import com.google.android.mms.pdu_alt.PduPersister;
 import com.klinker.android.messaging_sliding.MainActivity;
 
 /**

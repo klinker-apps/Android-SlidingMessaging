@@ -16,8 +16,7 @@ import java.util.Locale;
 import android.content.*;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.os.Handler;
-import com.google.android.mms.pdu.*;
+import com.google.android.mms.pdu_alt.*;
 import com.klinker.android.messaging_donate.R;
 
 import com.android.mms.transaction.HttpUtils;
@@ -25,7 +24,7 @@ import com.android.mms.util.SendingProgressTokenManager;
 import com.google.android.mms.APN;
 import com.google.android.mms.APNHelper;
 import com.google.android.mms.MmsException;
-import com.google.android.mms.pdu.PduPersister;
+import com.google.android.mms.pdu_alt.PduPersister;
 
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -156,7 +155,7 @@ public class MMSMessageReceiver extends BroadcastReceiver {
 		            		break;
 		            	}
 		            	default:
-		            		Log.v("MMS Error", "Non recognized pdu header - " + type);
+		            		Log.v("MMS Error", "Non recognized pdu_alt header - " + type);
 	            	}
                     
 				} catch (MmsException e1) {

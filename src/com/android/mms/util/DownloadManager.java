@@ -34,9 +34,9 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.mms.MmsException;
-import com.google.android.mms.pdu.EncodedStringValue;
-import com.google.android.mms.pdu.NotificationInd;
-import com.google.android.mms.pdu.PduPersister;
+import com.google.android.mms.pdu_alt.EncodedStringValue;
+import com.google.android.mms.pdu_alt.NotificationInd;
+import com.google.android.mms.pdu_alt.PduPersister;
 import com.klinker.android.messaging_sliding.MainActivity;
 
 public class DownloadManager {

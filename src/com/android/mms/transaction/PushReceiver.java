@@ -18,9 +18,9 @@
 package com.android.mms.transaction;
 
 import static android.provider.Telephony.Sms.Intents.WAP_PUSH_RECEIVED_ACTION;
-import static com.google.android.mms.pdu.PduHeaders.MESSAGE_TYPE_DELIVERY_IND;
-import static com.google.android.mms.pdu.PduHeaders.MESSAGE_TYPE_NOTIFICATION_IND;
-import static com.google.android.mms.pdu.PduHeaders.MESSAGE_TYPE_READ_ORIG_IND;
+import static com.google.android.mms.pdu_alt.PduHeaders.MESSAGE_TYPE_DELIVERY_IND;
+import static com.google.android.mms.pdu_alt.PduHeaders.MESSAGE_TYPE_NOTIFICATION_IND;
+import static com.google.android.mms.pdu_alt.PduHeaders.MESSAGE_TYPE_READ_ORIG_IND;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -39,8 +39,8 @@ import android.util.Log;
 import com.android.mms.MmsConfig;
 import com.google.android.mms.ContentType;
 import com.google.android.mms.MmsException;
-import com.google.android.mms.pdu.*;
-import com.google.android.mms.pdu.PduPersister;
+import com.google.android.mms.pdu_alt.*;
+import com.google.android.mms.pdu_alt.PduPersister;
 
 /**
  * Receives Intent.WAP_PUSH_RECEIVED_ACTION intents and starts the
@@ -112,7 +112,7 @@ public class PushReceiver extends BroadcastReceiver {
                         }
 
                         if (!isDuplicateNotification(mContext, nInd)) {
-                            // Save the pdu. If we can start downloading the real pdu immediately,
+                            // Save the pdu_alt. If we can start downloading the real pdu_alt immediately,
                             // don't allow persist() to create a thread for the notificationInd
                             // because it causes UI jank.
                             Uri uri = p.persist(pdu, Inbox.CONTENT_URI,

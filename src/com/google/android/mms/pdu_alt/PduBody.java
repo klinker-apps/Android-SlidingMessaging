@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.google.android.mms.pdu;
+package com.google.android.mms.pdu_alt;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -149,41 +149,41 @@ public class PduBody {
     }
 
     /**
-     * Get pdu part by content id.
+     * Get pdu_alt part by content id.
      *
      * @param cid the value of content id.
-     * @return the pdu part.
+     * @return the pdu_alt part.
      */
     public PduPart getPartByContentId(String cid) {
         return mPartMapByContentId.get(cid);
     }
 
     /**
-     * Get pdu part by Content-Location. Content-Location of part is
+     * Get pdu_alt part by Content-Location. Content-Location of part is
      * the same as filename and name(param of content-type).
      *
      * @param fileName the value of filename.
-     * @return the pdu part.
+     * @return the pdu_alt part.
      */
     public PduPart getPartByContentLocation(String contentLocation) {
         return mPartMapByContentLocation.get(contentLocation);
     }
 
     /**
-     * Get pdu part by name.
+     * Get pdu_alt part by name.
      *
      * @param fileName the value of filename.
-     * @return the pdu part.
+     * @return the pdu_alt part.
      */
     public PduPart getPartByName(String name) {
         return mPartMapByName.get(name);
     }
 
     /**
-     * Get pdu part by filename.
+     * Get pdu_alt part by filename.
      *
      * @param fileName the value of filename.
-     * @return the pdu part.
+     * @return the pdu_alt part.
      */
     public PduPart getPartByFileName(String filename) {
         return mPartMapByFileName.get(filename);

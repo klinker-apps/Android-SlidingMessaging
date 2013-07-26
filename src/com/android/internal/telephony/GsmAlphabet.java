@@ -444,7 +444,7 @@ public class GsmAlphabet {
      *
      * See TS 23.038 6.1.2.1 for SMS Character Packing
      *
-     * @param pdu the raw data from the pdu
+     * @param pdu the raw data from the pdu_alt
      * @param offset the byte offset of
      * @param lengthSeptets string length in septets, not bytes
      * @return String representation or null on decoding exception
@@ -460,7 +460,7 @@ public class GsmAlphabet {
      *
      * See TS 23.038 6.1.2.1 for SMS Character Packing
      *
-     * @param pdu the raw data from the pdu
+     * @param pdu the raw data from the pdu_alt
      * @param offset the byte offset of
      * @param lengthSeptets string length in septets, not bytes
      * @param numPaddingBits the number of padding bits before the start of the

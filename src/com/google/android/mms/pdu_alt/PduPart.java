@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.google.android.mms.pdu;
+package com.google.android.mms.pdu_alt;
 
 import android.annotation.SuppressLint;
 import android.net.Uri;
@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * The pdu part.
+ * The pdu_alt part.
  */
 public class PduPart {
     /**

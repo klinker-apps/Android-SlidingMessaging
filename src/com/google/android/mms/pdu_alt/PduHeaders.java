@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.google.android.mms.pdu;
+package com.google.android.mms.pdu_alt;
 
 import android.annotation.SuppressLint;
 import com.google.android.mms.InvalidHeaderValueException;
@@ -25,7 +25,7 @@ import java.util.HashMap;
 
 public class PduHeaders {
     /**
-     * All pdu header fields.
+     * All pdu_alt header fields.
      */
     public static final int BCC                             = 0x81;
     public static final int CC                              = 0x82;
@@ -337,7 +337,7 @@ public class PduHeaders {
      * Get octet value by header field.
      *
      * @param field the field
-     * @return the octet value of the pdu header
+     * @return the octet value of the pdu_alt header
      *          with specified header field. Return 0 if
      *          the value is not set.
      */
@@ -351,7 +351,7 @@ public class PduHeaders {
     }
 
     /**
-     * Set octet value to pdu header by header field.
+     * Set octet value to pdu_alt header by header field.
      *
      * @param value the value
      * @param field the field
@@ -498,7 +498,7 @@ public class PduHeaders {
      * Get TextString value by header field.
      *
      * @param field the field
-     * @return the TextString value of the pdu header
+     * @return the TextString value of the pdu_alt header
      *          with specified header field
      */
     protected byte[] getTextString(int field) {
@@ -506,11 +506,11 @@ public class PduHeaders {
     }
 
     /**
-     * Set TextString value to pdu header by header field.
+     * Set TextString value to pdu_alt header by header field.
      *
      * @param value the value
      * @param field the field
-     * @return the TextString value of the pdu header
+     * @return the TextString value of the pdu_alt header
      *          with specified header field
      * @throws NullPointerException if the value is null.
      */
@@ -547,7 +547,7 @@ public class PduHeaders {
      * Get EncodedStringValue value by header field.
      *
      * @param field the field
-     * @return the EncodedStringValue value of the pdu header
+     * @return the EncodedStringValue value of the pdu_alt header
      *          with specified header field
      */
     protected EncodedStringValue getEncodedStringValue(int field) {
@@ -558,7 +558,7 @@ public class PduHeaders {
      * Get TO, CC or BCC header value.
      *
      * @param field the field
-     * @return the EncodeStringValue array of the pdu header
+     * @return the EncodeStringValue array of the pdu_alt header
      *          with specified header field
      */
     protected EncodedStringValue[] getEncodedStringValues(int field) {
@@ -573,11 +573,11 @@ public class PduHeaders {
     }
 
     /**
-     * Set EncodedStringValue value to pdu header by header field.
+     * Set EncodedStringValue value to pdu_alt header by header field.
      *
      * @param value the value
      * @param field the field
-     * @return the EncodedStringValue value of the pdu header
+     * @return the EncodedStringValue value of the pdu_alt header
      *          with specified header field
      * @throws NullPointerException if the value is null.
      */
@@ -614,7 +614,7 @@ public class PduHeaders {
      *
      * @param value the value
      * @param field the field
-     * @return the EncodedStringValue value array of the pdu header
+     * @return the EncodedStringValue value array of the pdu_alt header
      *          with specified header field
      * @throws NullPointerException if the value is null.
      */
@@ -680,9 +680,9 @@ public class PduHeaders {
      * Get LongInteger value by header field.
      *
      * @param field the field
-     * @return the LongInteger value of the pdu header
+     * @return the LongInteger value of the pdu_alt header
      *          with specified header field. if return -1, the
-     *          field is not existed in pdu header.
+     *          field is not existed in pdu_alt header.
      */
     protected long getLongInteger(int field) {
         Long longInteger = (Long) mHeaderMap.get(field);
@@ -694,7 +694,7 @@ public class PduHeaders {
     }
 
     /**
-     * Set LongInteger value to pdu header by header field.
+     * Set LongInteger value to pdu_alt header by header field.
      *
      * @param value the value
      * @param field the field

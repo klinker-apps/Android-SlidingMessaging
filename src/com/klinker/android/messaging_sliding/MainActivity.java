@@ -46,11 +46,11 @@ import com.android.mms.ui.ImageAttachmentView;
 import com.google.android.mms.APN;
 import com.google.android.mms.APNHelper;
 import com.google.android.mms.MMSPart;
-import com.google.android.mms.pdu.EncodedStringValue;
-import com.google.android.mms.pdu.PduBody;
-import com.google.android.mms.pdu.PduComposer;
-import com.google.android.mms.pdu.PduPart;
-import com.google.android.mms.pdu.SendReq;
+import com.google.android.mms.pdu_alt.EncodedStringValue;
+import com.google.android.mms.pdu_alt.PduBody;
+import com.google.android.mms.pdu_alt.PduComposer;
+import com.google.android.mms.pdu_alt.PduPart;
+import com.google.android.mms.pdu_alt.SendReq;
 
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences.Editor;

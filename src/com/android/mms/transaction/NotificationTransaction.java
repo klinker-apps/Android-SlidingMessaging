@@ -20,10 +20,10 @@ package com.android.mms.transaction;
 import static com.android.mms.transaction.TransactionState.FAILED;
 import static com.android.mms.transaction.TransactionState.INITIALIZED;
 import static com.android.mms.transaction.TransactionState.SUCCESS;
-import static com.google.android.mms.pdu.PduHeaders.MESSAGE_TYPE_RETRIEVE_CONF;
-import static com.google.android.mms.pdu.PduHeaders.STATUS_DEFERRED;
-import static com.google.android.mms.pdu.PduHeaders.STATUS_RETRIEVED;
-import static com.google.android.mms.pdu.PduHeaders.STATUS_UNRECOGNIZED;
+import static com.google.android.mms.pdu_alt.PduHeaders.MESSAGE_TYPE_RETRIEVE_CONF;
+import static com.google.android.mms.pdu_alt.PduHeaders.STATUS_DEFERRED;
+import static com.google.android.mms.pdu_alt.PduHeaders.STATUS_RETRIEVED;
+import static com.google.android.mms.pdu_alt.PduHeaders.STATUS_UNRECOGNIZED;
 
 import java.io.IOException;
 
@@ -39,8 +39,8 @@ import android.util.Log;
 import com.android.mms.MmsConfig;
 import com.android.mms.util.DownloadManager;
 import com.google.android.mms.MmsException;
-import com.google.android.mms.pdu.*;
-import com.google.android.mms.pdu.PduPersister;
+import com.google.android.mms.pdu_alt.*;
+import com.google.android.mms.pdu_alt.PduPersister;
 
 /**
  * The NotificationTransaction is responsible for handling multimedia
@@ -97,7 +97,7 @@ public class NotificationTransaction extends Transaction implements Runnable {
         super(context, serviceId, connectionSettings);
 
         try {
-            // Save the pdu. If we can start downloading the real pdu immediately, don't allow
+            // Save the pdu_alt. If we can start downloading the real pdu_alt immediately, don't allow
             // persist() to create a thread for the notificationInd because it causes UI jank.
             mUri = PduPersister.getPduPersister(context).persist(
                         ind, Inbox.CONTENT_URI, !allowAutoDownload(),
@@ -113,7 +113,7 @@ public class NotificationTransaction extends Transaction implements Runnable {
 
     /*
      * (non-Javadoc)
-     * @see com.google.android.mms.pdu.Transaction#process()
+     * @see com.google.android.mms.pdu_alt.Transaction#process()
      */
     @Override
     public void process() {
@@ -164,7 +164,7 @@ public class NotificationTransaction extends Transaction implements Runnable {
                 GenericPdu pdu = new PduParser(retrieveConfData).parse();
                 if ((pdu == null) || (pdu.getMessageType() != MESSAGE_TYPE_RETRIEVE_CONF)) {
                     Log.e(TAG, "Invalid M-RETRIEVE.CONF PDU. " +
-                            (pdu != null ? "message type: " + pdu.getMessageType() : "null pdu"));
+                            (pdu != null ? "message type: " + pdu.getMessageType() : "null pdu_alt"));
                     mTransactionState.setState(FAILED);
                     status = STATUS_UNRECOGNIZED;
                 } else {

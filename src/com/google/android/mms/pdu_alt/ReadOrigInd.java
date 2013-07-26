@@ -15,34 +15,22 @@
  * limitations under the License.
  */
 
-package com.google.android.mms.pdu;
+package com.google.android.mms.pdu_alt;
 
 import com.google.android.mms.InvalidHeaderValueException;
 
-public class ReadRecInd extends GenericPdu {
+public class ReadOrigInd extends GenericPdu {
     /**
-     * Constructor, used when composing a M-ReadRec.ind pdu.
+     * Empty constructor.
+     * Since the Pdu corresponding to this class is constructed
+     * by the Proxy-Relay server, this class is only instantiated
+     * by the Pdu Parser.
      *
-     * @param from the from value
-     * @param messageId the message ID value
-     * @param mmsVersion current viersion of mms
-     * @param readStatus the read status value
-     * @param to the to value
-     * @throws InvalidHeaderValueException if parameters are invalid.
-     *         NullPointerException if messageId or to is null.
+     * @throws InvalidHeaderValueException if error occurs.
      */
-    public ReadRecInd(EncodedStringValue from,
-                      byte[] messageId,
-                      int mmsVersion,
-                      int readStatus,
-                      EncodedStringValue[] to) throws InvalidHeaderValueException {
+    public ReadOrigInd() throws InvalidHeaderValueException {
         super();
-        setMessageType(PduHeaders.MESSAGE_TYPE_READ_REC_IND);
-        setFrom(from);
-        setMessageId(messageId);
-        setMmsVersion(mmsVersion);
-        setTo(to);
-        setReadStatus(readStatus);
+        setMessageType(PduHeaders.MESSAGE_TYPE_READ_ORIG_IND);
     }
 
     /**
@@ -50,7 +38,7 @@ public class ReadRecInd extends GenericPdu {
      *
      * @param headers Headers for this PDU.
      */
-    ReadRecInd(PduHeaders headers) {
+    ReadOrigInd(PduHeaders headers) {
         super(headers);
     }
 
@@ -73,6 +61,27 @@ public class ReadRecInd extends GenericPdu {
     }
 
     /**
+     * Get From value.
+     * From-value = Value-length
+     *      (Address-present-token Encoded-string-value | Insert-address-token)
+     *
+     * @return the value
+     */
+    public EncodedStringValue getFrom() {
+       return mPduHeaders.getEncodedStringValue(PduHeaders.FROM);
+    }
+
+    /**
+     * Set From value.
+     *
+     * @param value the value
+     * @throws NullPointerException if the value is null.
+     */
+    public void setFrom(EncodedStringValue value) {
+        mPduHeaders.setEncodedStringValue(value, PduHeaders.FROM);
+    }
+
+    /**
      * Get Message-ID value.
      *
      * @return the value
@@ -92,25 +101,6 @@ public class ReadRecInd extends GenericPdu {
     }
 
     /**
-     * Get To value.
-     *
-     * @return the value
-     */
-    public EncodedStringValue[] getTo() {
-        return mPduHeaders.getEncodedStringValues(PduHeaders.TO);
-    }
-
-    /**
-     * Set To value.
-     *
-     * @param value the value
-     * @throws NullPointerException if the value is null.
-     */
-    public void setTo(EncodedStringValue[] value) {
-        mPduHeaders.setEncodedStringValues(value, PduHeaders.TO);
-    }
-
-    /**
      * Get X-MMS-Read-status value.
      *
      * @return the value
@@ -127,6 +117,25 @@ public class ReadRecInd extends GenericPdu {
      */
     public void setReadStatus(int value) throws InvalidHeaderValueException {
         mPduHeaders.setOctet(value, PduHeaders.READ_STATUS);
+    }
+
+    /**
+     * Get To value.
+     *
+     * @return the value
+     */
+    public EncodedStringValue[] getTo() {
+        return mPduHeaders.getEncodedStringValues(PduHeaders.TO);
+    }
+
+    /**
+     * Set To value.
+     *
+     * @param value the value
+     * @throws NullPointerException if the value is null.
+     */
+    public void setTo(EncodedStringValue[] value) {
+        mPduHeaders.setEncodedStringValues(value, PduHeaders.TO);
     }
 
     /*

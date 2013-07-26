@@ -15,11 +15,10 @@
  * limitations under the License.
  */
 
-package com.google.android.mms.pdu;
+package com.google.android.mms.pdu_alt;
 
 import com.google.android.mms.ContentType;
 import com.google.android.mms.InvalidHeaderValueException;
-import com.google.android.mms.pdu.EncodedStringValue;
 
 import android.annotation.SuppressLint;
 import android.util.Log;
@@ -56,17 +55,17 @@ public class PduParser {
     private static final int THE_LAST_PART = 1;
 
     /**
-     * The pdu data.
+     * The pdu_alt data.
      */
     private ByteArrayInputStream mPduDataStream = null;
 
     /**
-     * Store pdu headers
+     * Store pdu_alt headers
      */
     private PduHeaders mHeaders = null;
 
     /**
-     * Store pdu parts.
+     * Store pdu_alt parts.
      */
     private PduBody mBody = null;
 
@@ -89,16 +88,16 @@ public class PduParser {
     /**
      * Constructor.
      *
-     * @param pduDataStream pdu data to be parsed
+     * @param pduDataStream pdu_alt data to be parsed
      */
     public PduParser(byte[] pduDataStream) {
         mPduDataStream = new ByteArrayInputStream(pduDataStream);
     }
 
     /**
-     * Parse the pdu.
+     * Parse the pdu_alt.
      *
-     * @return the pdu structure if parsing successfully.
+     * @return the pdu_alt structure if parsing successfully.
      *         null if parsing error happened or mandatory fields are not set.
      */
     public GenericPdu parse(){
@@ -222,9 +221,9 @@ public class PduParser {
     }
 
     /**
-     * Parse pdu headers.
+     * Parse pdu_alt headers.
      *
-     * @param pduDataStream pdu data input stream
+     * @param pduDataStream pdu_alt data input stream
      * @return headers in PduHeaders structure, null when parse fail
      */
     @SuppressLint("UseSparseArrays")
@@ -822,9 +821,9 @@ public class PduParser {
     }
 
     /**
-     * Parse pdu parts.
+     * Parse pdu_alt parts.
      *
-     * @param pduDataStream pdu data input stream
+     * @param pduDataStream pdu_alt data input stream
      * @return parts in PduBody structure
      */
     @SuppressLint("UseSparseArrays")
@@ -951,7 +950,7 @@ public class PduParser {
     /**
      * Parse unsigned integer.
      *
-     * @param pduDataStream pdu data input stream
+     * @param pduDataStream pdu_alt data input stream
      * @return the integer, -1 when failed
      */
     protected static int parseUnsignedInt(ByteArrayInputStream pduDataStream) {
@@ -985,7 +984,7 @@ public class PduParser {
     /**
      * Parse value length.
      *
-     * @param pduDataStream pdu data input stream
+     * @param pduDataStream pdu_alt data input stream
      * @return the integer
      */
     protected static int parseValueLength(ByteArrayInputStream pduDataStream) {
@@ -1014,7 +1013,7 @@ public class PduParser {
     /**
      * Parse encoded string value.
      *
-     * @param pduDataStream pdu data input stream
+     * @param pduDataStream pdu_alt data input stream
      * @return the EncodedStringValue
      */
     protected static EncodedStringValue parseEncodedStringValue(ByteArrayInputStream pduDataStream){
@@ -1058,7 +1057,7 @@ public class PduParser {
     /**
      * Parse Text-String or Quoted-String.
      *
-     * @param pduDataStream pdu data input stream
+     * @param pduDataStream pdu_alt data input stream
      * @param stringType TYPE_TEXT_STRING or TYPE_QUOTED_STRING
      * @return the string without End-of-string in byte array
      */
@@ -1216,7 +1215,7 @@ public class PduParser {
     /**
      * Extract a byte value from the input stream.
      *
-     * @param pduDataStream pdu data input stream
+     * @param pduDataStream pdu_alt data input stream
      * @return the byte
      */
     protected static int extractByteValue(ByteArrayInputStream pduDataStream) {
@@ -1229,7 +1228,7 @@ public class PduParser {
     /**
      * Parse Short-Integer.
      *
-     * @param pduDataStream pdu data input stream
+     * @param pduDataStream pdu_alt data input stream
      * @return the byte
      */
     protected static int parseShortInteger(ByteArrayInputStream pduDataStream) {
@@ -1249,7 +1248,7 @@ public class PduParser {
     /**
      * Parse Long-Integer.
      *
-     * @param pduDataStream pdu data input stream
+     * @param pduDataStream pdu_alt data input stream
      * @return long integer
      */
     protected static long parseLongInteger(ByteArrayInputStream pduDataStream) {
@@ -1287,7 +1286,7 @@ public class PduParser {
     /**
      * Parse Integer-Value.
      *
-     * @param pduDataStream pdu data input stream
+     * @param pduDataStream pdu_alt data input stream
      * @return long integer
      */
     protected static long parseIntegerValue(ByteArrayInputStream pduDataStream) {
@@ -1310,7 +1309,7 @@ public class PduParser {
     /**
      * To skip length of the wap value.
      *
-     * @param pduDataStream pdu data input stream
+     * @param pduDataStream pdu_alt data input stream
      * @param length area size
      * @return the values in this area
      */
@@ -1329,7 +1328,7 @@ public class PduParser {
      * Parse content type parameters. For now we just support
      * four parameters used in mms: "type", "start", "name", "charset".
      *
-     * @param pduDataStream pdu data input stream
+     * @param pduDataStream pdu_alt data input stream
      * @param map to store parameters of Content-Type field
      * @param length length of all the parameters
      */
@@ -1512,7 +1511,7 @@ public class PduParser {
     /**
      * Parse content type.
      *
-     * @param pduDataStream pdu data input stream
+     * @param pduDataStream pdu_alt data input stream
      * @param map to store parameters in Content-Type header field
      * @return Content-Type value
      */
@@ -1582,7 +1581,7 @@ public class PduParser {
     /**
      * Parse part's headers.
      *
-     * @param pduDataStream pdu data input stream
+     * @param pduDataStream pdu_alt data input stream
      * @param part to store the header informations of the part
      * @param length length of the headers
      * @return true if parse successfully, false otherwise
@@ -1788,10 +1787,10 @@ public class PduParser {
     }
 
     /**
-     * Check mandatory headers of a pdu.
+     * Check mandatory headers of a pdu_alt.
      *
-     * @param headers pdu headers
-     * @return true if the pdu has all of the mandatory headers, false otherwise.
+     * @param headers pdu_alt headers
+     * @return true if the pdu_alt has all of the mandatory headers, false otherwise.
      */
     protected static boolean checkMandatoryHeader(PduHeaders headers) {
         if (null == headers) {

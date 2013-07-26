@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.google.android.mms.pdu;
+package com.google.android.mms.pdu_alt;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -107,7 +107,7 @@ public class PduComposer {
     private final ContentResolver mResolver;
 
     /**
-     * Header of this pdu.
+     * Header of this pdu_alt.
      */
     private PduHeaders mPduHeader = null;
 
@@ -129,7 +129,7 @@ public class PduComposer {
      * Constructor.
      *
      * @param context the context
-     * @param pdu the pdu to be composed
+     * @param pdu the pdu_alt to be composed
      */
     public PduComposer(Context context, GenericPdu pdu) {
         mPdu = pdu;

@@ -35,8 +35,8 @@ import android.provider.Telephony.MmsSms.PendingMessages;
 import android.util.Log;
 
 import com.android.mms.util.DownloadManager;
-import com.google.android.mms.pdu.PduHeaders;
-import com.google.android.mms.pdu.PduPersister;
+import com.google.android.mms.pdu_alt.PduHeaders;
+import com.google.android.mms.pdu_alt.PduPersister;
 import com.klinker.android.messaging_donate.R;
 
 public class RetryScheduler implements Observer {

@@ -1,9 +1,9 @@
 package com.klinker.android.messaging_sliding.receivers;
 
-import com.google.android.mms.pdu.DeliveryInd;
-import com.google.android.mms.pdu.GenericPdu;
-import com.google.android.mms.pdu.PduHeaders;
-import com.google.android.mms.pdu.PduParser;
+import com.google.android.mms.pdu_alt.DeliveryInd;
+import com.google.android.mms.pdu_alt.GenericPdu;
+import com.google.android.mms.pdu_alt.PduHeaders;
+import com.google.android.mms.pdu_alt.PduParser;
 
 import android.content.BroadcastReceiver;
 import android.content.ContentValues;

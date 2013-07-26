@@ -25,10 +25,10 @@ import android.provider.Telephony.Mms.Sent;
 import android.util.Log;
 
 import com.google.android.mms.MmsException;
-import com.google.android.mms.pdu.EncodedStringValue;
-import com.google.android.mms.pdu.PduComposer;
-import com.google.android.mms.pdu.PduPersister;
-import com.google.android.mms.pdu.ReadRecInd;
+import com.google.android.mms.pdu_alt.EncodedStringValue;
+import com.google.android.mms.pdu_alt.PduComposer;
+import com.google.android.mms.pdu_alt.PduPersister;
+import com.google.android.mms.pdu_alt.ReadRecInd;
 import com.klinker.android.messaging_sliding.MainActivity;
 
 /**

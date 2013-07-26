@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.google.android.mms.pdu;
+package com.google.android.mms.pdu_alt;
 
 import com.google.android.mms.InvalidHeaderValueException;
 
@@ -24,7 +24,7 @@ import com.google.android.mms.InvalidHeaderValueException;
  */
 public class AcknowledgeInd extends GenericPdu {
     /**
-     * Constructor, used when composing a M-Acknowledge.ind pdu.
+     * Constructor, used when composing a M-Acknowledge.ind pdu_alt.
      *
      * @param mmsVersion current viersion of mms
      * @param transactionId the transaction-id value
