@@ -2552,32 +2552,33 @@ s
 	        			int indexName = people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
 	        			int indexNumber = people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
 	        	
-	        			people.moveToFirst();
-	        			do {
-	        				int type = people.getInt(people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
-	        				String customLabel = people.getString(people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.LABEL));
-
-                            try {
-                                if (sharedPrefs.getBoolean("mobile_only", false))
-                                {
-                                    if (type == 2)
-                                    {
-                                        contactNames.add(people.getString(indexName));
-                                        contactNumbers.add(people.getString(indexNumber).replaceAll("[^0-9\\+]", ""));
-                                        contactTypes.add(ContactsContract.CommonDataKinds.Phone.getTypeLabel(context.getResources(), type, customLabel).toString());
-                                    }
-                                } else
-                                {
-                                    contactNames.add(people.getString(indexName));
-                                    contactNumbers.add(people.getString(indexNumber).replaceAll("[^0-9\\+]", ""));
-                                    contactTypes.add(ContactsContract.CommonDataKinds.Phone.getTypeLabel(context.getResources(), type, customLabel).toString());
-                                }
-                            } catch (Exception e) {
-                                contactNames.add(people.getString(indexName));
-                                contactNumbers.add(people.getString(indexName));
-                                contactTypes.add(ContactsContract.CommonDataKinds.Phone.getTypeLabel(context.getResources(), type, customLabel).toString());
-                            }
-	        			} while (people.moveToNext());
+	        			if (people.moveToFirst()) {
+							do {
+								int type = people.getInt(people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
+								String customLabel = people.getString(people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.LABEL));
+	
+								try {
+									if (sharedPrefs.getBoolean("mobile_only", false))
+									{
+										if (type == 2)
+										{
+											contactNames.add(people.getString(indexName));
+											contactNumbers.add(people.getString(indexNumber).replaceAll("[^0-9\\+]", ""));
+											contactTypes.add(ContactsContract.CommonDataKinds.Phone.getTypeLabel(context.getResources(), type, customLabel).toString());
+										}
+									} else
+									{
+										contactNames.add(people.getString(indexName));
+										contactNumbers.add(people.getString(indexNumber).replaceAll("[^0-9\\+]", ""));
+										contactTypes.add(ContactsContract.CommonDataKinds.Phone.getTypeLabel(context.getResources(), type, customLabel).toString());
+									}
+								} catch (Exception e) {
+									contactNames.add(people.getString(indexName));
+									contactNumbers.add(people.getString(indexName));
+									contactTypes.add(ContactsContract.CommonDataKinds.Phone.getTypeLabel(context.getResources(), type, customLabel).toString());
+								}
+							} while (people.moveToNext());
+						}
 	        			people.close();
 	        		} catch (IllegalArgumentException e)
 	        		{
