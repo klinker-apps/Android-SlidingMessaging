@@ -420,9 +420,10 @@ public class PopupChooserActivity extends Activity {
             divider2.setBackgroundColor(themes.get(position).dividerColor);
             divider3.setBackgroundColor(themes.get(position).dividerColor);
 
-            name.setText("Contact Name");
+			// TODO test to make sure this is working
+            name.setText(getActivity().getResouces().getString(R.string.ct_contact_name));
             number.setText("+1-333-555-4444");
-            body.setText("Message Body");
+            body.setText(getActivity().getResouces().getString(R.string.message_body));
             date.setText("8:00 AM");
 			
 			return view;
