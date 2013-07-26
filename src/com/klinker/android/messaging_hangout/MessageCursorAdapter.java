@@ -380,11 +380,10 @@ public class MessageCursorAdapter extends CursorAdapter {
                                     images = null;
                                     picture = null;
                                 } catch (Error e) {
-                                    // TODO test out of memory error by putting this in the code above
                                     try {
                                         holder.imageUri = Uri.parse(image);
                                         images = image.trim().split(" ");
-                                        int scale = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, context.getResources().getDisplayMetrics());
+                                        int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, context.getResources().getDisplayMetrics());
                                         picture = decodeSampledBitmapFromFile(getRealPathFromURI(Uri.parse(images[0])), scale, scale);
                                     } catch (Exception f) {
                                         images = null;
@@ -538,7 +537,6 @@ public class MessageCursorAdapter extends CursorAdapter {
                         }
 
                         final String text = body;
-                        // TODO test with single and multiple images
                         final String imageUri = images[0];
                         final String[] imagesF = images;
                         final String videoF = video;
@@ -2640,7 +2638,7 @@ public class MessageCursorAdapter extends CursorAdapter {
         options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
 
         options.inJustDecodeBounds = false;
-        return BitmapFactory.decodeResource(path, options);
+        return BitmapFactory.decodeFile(path, options);
     }
 
     public InputStream openDisplayPhoto(long contactId) {
