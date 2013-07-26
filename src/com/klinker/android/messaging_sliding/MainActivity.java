@@ -231,7 +231,6 @@ s
 
     public static final String GSM_CHARACTERS_REGEX = "^[A-Za-z0-9 \\r\\n@Ł$ĽčéůěňÇŘřĹĺ\u0394_\u03A6\u0393\u039B\u03A9\u03A0\u03A8\u03A3\u0398\u039EĆćßÉ!\"#$%&'()*+,\\-./:;<=>?ĄÄÖŃÜ§żäöńüŕ^{}\\\\\\[~\\]|\u20AC]*$";
     private static final int REQ_ENTER_PATTERN = 7;
-    public static final String EXTRA_QUERY = "com.klinker.android.messaging_sliding.QUERY";
 
 	@SuppressWarnings("deprecation")
 	@Override

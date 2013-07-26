@@ -46,12 +46,12 @@
         <item name="with">Con nariz :-)</item>
         <item name="without">Sin nariz :)</item>
         <item name="none">Ninguna</item>
-		<item name="both">Ámbas</item>
+		<item name="both">Ambas</item>
     </string-array>
     
     <string-array name="quickReplyOptions">
         <item name="reply">Responder</item>
-        <item name="read">Leer</item>
+        <item name="read">Leído</item>
         <item name="call">Llamar</item>
         <item name="delete">Borrar</item>
     </string-array>
@@ -85,9 +85,9 @@
     </string-array>
     
     <string-array name="deliveryOptions">
-        <item name="none">Nothing on Delivery</item>
-        <item name="popup">Popup en entrega</item>
-        <item name="toast">Toast en entrega</item>
+        <item name="none">No mostrar nada en entrega</item>
+        <item name="popup">Ventana en entrega</item>
+        <item name="toast">Aviso en entrega</item>
     </string-array>
     
     <string-array name="screenTimeout">
@@ -104,7 +104,7 @@
         <item name="left">Deslizar desde la izquierda</item>
         <item name="right">Deslizar desde la derecha</item>
         <item name="up">Deslizar desde abajo</item>
-        <item name="hangouts">Scale in from bottom</item>
+        <item name="hangouts">Escalar desde abajo</item>
         <item name="none">Sin animación</item>
     </string-array>
     
@@ -172,16 +172,23 @@
     </string-array>
 
     <string-array name="repetition_array">
-        <item>None</item>
-        <item>Daily</item>
-        <item>Weekly</item>
-        <item>Yearly</item>
+        <item>Ninguno</item>
+        <item>Diario</item>
+        <item>Semanal</item>
+        <item>Anual</item>
     </string-array>
 
     <string-array name="backup_repetition_array">
-        <item>None</item>
-        <item>Daily</item>
-        <item>Every 3 Days</item>
-        <item>Weekly</item>
+        <item>Ninguno</item>
+        <item>Diario</item>
+        <item>Cada 3 días</item>
+        <item>Semanal</item>
     </string-array>
+	
+	<string-array name="textAlignment2">
+        <item name="center">Alineamiento en el centro</item>
+        <item name="right">Alineamiento a la derecha</item>
+        <item name="left">Alineamiento a la izquierda</item>
+    </string-array>
+	
 </resources>
