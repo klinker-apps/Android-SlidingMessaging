@@ -500,4 +500,6 @@
     <string name="limit_conversations_start">Limit Conversations</string>
     <string name="limit_conversations_start_summary">Loads only 10 conversations at app startup for speed purposes</string>
     <string name="search">Search</string>
+    <string name="message_body">Message Body</string>
+    
 </resources>

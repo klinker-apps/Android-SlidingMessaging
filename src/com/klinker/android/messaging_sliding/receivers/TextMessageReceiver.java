@@ -1100,13 +1100,6 @@ public class TextMessageReceiver extends BroadcastReceiver {
 		        	}, 200);
 		        }
 		        
-		        Intent intent3 = new Intent("com.productigeeky.NOTIFICATION");
-		        intent3.putExtra("title", name);
-		        intent3.putExtra("subtitle", body);
-		        intent3.putExtra("action", Intent.ACTION_SEND);
-		        intent3.putExtra("icon", R.drawable.stat_notify_sms);
-		        context.sendBroadcast(intent3);
-		        
 		        if (sharedPrefs.getBoolean("override", false))
 		        {
 		        	this.abortBroadcast();

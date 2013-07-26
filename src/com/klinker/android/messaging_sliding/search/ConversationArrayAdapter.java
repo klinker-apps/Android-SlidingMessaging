@@ -44,6 +44,7 @@ public class ConversationArrayAdapter  extends ArrayAdapter<String> {
     public static String myId;
     public Typeface font;
     public Bitmap myImage;
+    public Bitmap contactImage;
     public String searchQuery;
 
 
@@ -139,15 +140,30 @@ public class ConversationArrayAdapter  extends ArrayAdapter<String> {
         }
 
         myImage = im;
+
+        int i = 0;
+
+        while(messages.get(i)[3].equals("1"))
+            i++;
+
+        contactImage = Bitmap.createScaledBitmap(getFacebookPhoto(messages.get(i)[0]), MainActivity.contactWidth, MainActivity.contactWidth, true);
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (messages.get(position)[3].equals("2") || messages.get(position)[3].equals("3") || messages.get(position)[3].equals("4") || messages.get(position)[3].equals("5") || messages.get(position)[3].equals("6")) {
-            return 1;
-        } else {
-            return 0;
+        try
+        {
+            if (messages.get(position)[3].equals("2") || messages.get(position)[3].equals("3") || messages.get(position)[3].equals("4") || messages.get(position)[3].equals("5") || messages.get(position)[3].equals("6")) {
+                return 1;
+            } else {
+                return 0;
+            }
+        } catch (Exception e)
+        {
+
         }
+
+        return 0;
     }
 
     @Override
@@ -401,42 +417,13 @@ public class ConversationArrayAdapter  extends ArrayAdapter<String> {
         final boolean sentF = sent;
         final String dateStringF = dateString;
 
+        // needs replaced
         if (!sent) {
-            new Thread(new Runnable() {
 
-                @Override
-                public void run()
-                {
-                    try {
-                        Thread.sleep(250);
-                    } catch (Exception e) {
+            holder.image.setImageBitmap(contactImage);
+            holder.image.assignContactFromPhone(number, true);
+            holder.date.setText(dateStringF);
 
-                    }
-
-                    if (number.equals(holder.number)) {
-                        // view has not been recycled, so not fast scrolling and should post image
-                        final String contactName = MainActivity.loadGroupContacts(number, context);
-
-                        final Bitmap picture = Bitmap.createScaledBitmap(getFacebookPhoto(number), MainActivity.contactWidth, MainActivity.contactWidth, true);
-
-                        context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                holder.image.setImageBitmap(picture);
-                                holder.image.assignContactFromPhone(number, true);
-
-                                if (sentF) {
-                                    holder.date.setText(dateStringF);
-                                } else {
-                                    holder.date.setText(dateStringF);
-                                }
-                            }
-                        });
-                    }
-                }
-
-            }).start();
         } else {
             holder.image.setImageBitmap(myImage);
             holder.image.assignContactUri(ContactsContract.Profile.CONTENT_URI);
