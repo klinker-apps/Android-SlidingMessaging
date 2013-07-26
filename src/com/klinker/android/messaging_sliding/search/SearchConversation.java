@@ -80,7 +80,7 @@ public class SearchConversation extends Activity implements PullToRefreshAttache
         while(messages.get(i)[3].equals("1"))
             i++;
 
-        String contactName = MainActivity.loadGroupContacts(messages.get(i)[0].replace(" ", ""), this);
+        String contactName = MainActivity.loadGroupContacts(messages.get(i)[0].replaceAll(" ", ""), this);
 
         actionBar.setTitle(contactName + " - Search");
         actionBar.setSubtitle(messages.get(i)[0]);
