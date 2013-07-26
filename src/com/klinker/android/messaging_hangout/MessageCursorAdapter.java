@@ -379,10 +379,20 @@ public class MessageCursorAdapter extends CursorAdapter {
                                     e.printStackTrace();
                                     images = null;
                                     picture = null;
+                                } catch (Error e) {
+                                    // TODO test out of memory error by putting this in the code above
+                                    try {
+                                        holder.imageUri = Uri.parse(image);
+                                        images = image.trim().split(" ");
+                                        int scale = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, context.getResources().getDisplayMetrics());
+                                        picture = decodeSampledBitmapFromFile(getRealPathFromURI(Uri.parse(images[0])), scale, scale);
+                                    } catch (Exception f) {
+                                        images = null;
+                                        picture = null;
+                                    }
                                 }
 
                                 final String text = body;
-                                // TODO test with multiple images
                                 final String imageUri = image;
                                 final String[] imagesF = images;
                                 final Bitmap pictureF = picture;
@@ -2602,6 +2612,35 @@ public class MessageCursorAdapter extends CursorAdapter {
                 });
             }
         }
+    }
+    
+    public static int calculateInSampleSize(
+            BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+            final int heightRatio = Math.round((float) height / (float) reqHeight);
+            final int widthRatio = Math.round((float) width / (float) reqWidth);
+
+            inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
+        }
+
+        return inSampleSize;
+    }
+    
+    public static Bitmap decodeSampledBitmapFromFile(String path,
+            int reqWidth, int reqHeight) {
+
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(path, options);
+
+        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+
+        options.inJustDecodeBounds = false;
+        return BitmapFactory.decodeResource(path, options);
     }
 
     public InputStream openDisplayPhoto(long contactId) {
