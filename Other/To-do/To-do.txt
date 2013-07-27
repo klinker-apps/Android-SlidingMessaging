@@ -4,6 +4,7 @@ Version 6.70
 - make cards ui same as others but with cards message adapter (may piss people off to change it all, but it will be a much better user experience in my opinion and a more rounded app), could call it cards 2.0?
     - Use cards 2.0 suggestion in cards UI warning
 - Message Locking
+- Fix search icon size
 - fix popup residual message in some cases
 - fix MMS pictures not opening correctly in he gallery app, even though it shows in the message list
 - Figure out how to judge file size of png images and adjust them accordingly when sending

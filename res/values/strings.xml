@@ -364,7 +364,7 @@
 	<string name="send_with_return">Send Message with Return Key</string>
 	<string name="send_with_return_summary">Message will be sent with the return key instead of adding a return</string>
 	<string name="halo_popup">Multiwindow Popup</string>
-	<string name="halo_popup_summary">For use with custom ROMs with multiwindow functionality only. Will launch full app in multiwindow mode instead of just the popup when notification received</string>
+	<string name="halo_popup_summary">For use with custom ROMs with multiwindow (HALO) functionality only. Will launch full app in multiwindow mode instead of just the popup when notification received</string>
 	<string name="individual_notification_settings">Individual Notification Settings</string>
 	<string name="individual_notification_settings_summary"></string>
 	<string name="add_new_individual">Add New Contact</string>

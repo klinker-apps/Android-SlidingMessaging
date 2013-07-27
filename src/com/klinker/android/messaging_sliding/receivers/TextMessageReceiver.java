@@ -75,10 +75,10 @@ public class TextMessageReceiver extends BroadcastReceiver {
 	         
 	        String body = "";
 	        String address = "";
-	        String name = "";
-	        String id = "";
+	        String name;
+	        String id;
 	        String date = "";
-            String dateReceived = "";
+            String dateReceived;
 	         
 	        if ( extras != null )
 	        {
@@ -207,6 +207,19 @@ public class TextMessageReceiver extends BroadcastReceiver {
 					{
 						intent2 = new Intent(context, QuickReply.class);
 					}
+
+                    if (sharedPrefs.getBoolean("halo_popup", false)) {
+                        intent2 = new Intent(context, com.klinker.android.messaging_donate.MainActivity.class);
+
+                        try
+                        {
+                            intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | 0x00002000);
+                        } catch (Exception e)
+                        {
+                            intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        }
+
+                    }
 					
 					intent2.putExtra("notification", "true");
 					PendingIntent pIntent = PendingIntent.getActivity(context, 0, intent2, 0);
@@ -218,13 +231,6 @@ public class TextMessageReceiver extends BroadcastReceiver {
 							PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
 				            final WakeLock wakeLock = pm.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "TAG");
 				            wakeLock.acquire(Long.parseLong(sharedPrefs.getString("screen_timeout", "5"))*1000);
-							
-//							if (sharedPrefs.getBoolean("unlock_screen", false))
-//							{
-//								KeyguardManager keyguardManager = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
-//					            KeyguardLock keyguardLock =  keyguardManager.newKeyguardLock("TAG");
-//					            keyguardLock.disableKeyguard();
-//							}
 						}
 						
 				        ArrayList<String> prevNotifications = readFromFile2(context);
