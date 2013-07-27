@@ -13,6 +13,8 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -5863,6 +5865,53 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
             return null;
         }
     }
+
+    private void ensureRouteToHost(String url, String proxy) throws IOException {
+        ConnectivityManager connMgr =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        int inetAddr;
+        if (!proxy.equals("")) {
+            String proxyAddr = proxy;
+            inetAddr = lookupHost(proxyAddr);
+            if (inetAddr == -1) {
+                throw new IOException("Cannot establish route for " + url + ": Unknown host");
+            } else {
+                if (!connMgr.requestRouteToHost(
+                        ConnectivityManager.TYPE_MOBILE_MMS, inetAddr)) {
+                    throw new IOException("Cannot establish route to proxy " + inetAddr);
+                }
+            }
+        } else {
+            Uri uri = Uri.parse(url);
+            inetAddr = lookupHost(uri.getHost());
+            if (inetAddr == -1) {
+                throw new IOException("Cannot establish route for " + url + ": Unknown host");
+            } else {
+                if (!connMgr.requestRouteToHost(
+                        ConnectivityManager.TYPE_MOBILE_MMS, inetAddr)) {
+                    throw new IOException("Cannot establish route to " + inetAddr + " for " + url);
+                }
+            }
+        }
+    }
+
+    public static int lookupHost(String hostname) {
+        InetAddress inetAddress;
+        try {
+            inetAddress = InetAddress.getByName(hostname);
+        } catch (UnknownHostException e) {
+            return -1;
+        }
+        byte[] addrBytes;
+        int addr;
+        addrBytes = inetAddress.getAddress();
+        addr = ((addrBytes[3] & 0xff) << 24)
+                | ((addrBytes[2] & 0xff) << 16)
+                | ((addrBytes[1] & 0xff) << 8)
+                |  (addrBytes[0] & 0xff);
+        return addr;
+    }
 	
 	public void sendMMS(final String recipient, final MMSPart[] parts)
 	{
@@ -6039,6 +6088,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 				}
 				
 				try {
+                    ensureRouteToHost(apns.get(0).MMSCenterUrl, apns.get(0).MMSProxy);
 					HttpUtils.httpConnection(context, 4444L, apns.get(0).MMSCenterUrl, bytesToSend, HttpUtils.HTTP_POST_METHOD, !TextUtils.isEmpty(apns.get(0).MMSProxy), apns.get(0).MMSProxy, Integer.parseInt(apns.get(0).MMSPort));
 				
 //					ConnectivityManager mConnMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
