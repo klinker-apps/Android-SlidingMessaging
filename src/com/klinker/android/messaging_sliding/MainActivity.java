@@ -7235,6 +7235,12 @@ s
                                     listView.setAdapter(adapter);
                                     listView.setStackFromBottom(true);
                                     spinner.setVisibility(View.GONE);
+
+                                    listView.setOnSizeChangedListener(new CustomListView.OnSizeChangedListener() {
+                                        public void onSizeChanged(int width, int height, int oldWidth, int oldHeight) {
+                                            smoothScrollToEnd(false, height - oldHeight);
+                                        }
+                                    });
                                 }
 
                             });
@@ -7306,6 +7312,12 @@ s
                 listView.setAdapter(adapter);
                 listView.setStackFromBottom(true);
                 spinner.setVisibility(View.GONE);
+
+                listView.setOnSizeChangedListener(new CustomListView.OnSizeChangedListener() {
+                    public void onSizeChanged(int width, int height, int oldWidth, int oldHeight) {
+                        smoothScrollToEnd(false, height - oldHeight);
+                    }
+                });
 
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -7410,6 +7422,12 @@ s
             listView.setStackFromBottom(true);
             spinner.setVisibility(View.GONE);
 
+            listView.setOnSizeChangedListener(new CustomListView.OnSizeChangedListener() {
+                public void onSizeChanged(int width, int height, int oldWidth, int oldHeight) {
+                    smoothScrollToEnd(false, height - oldHeight);
+                }
+            });
+
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -7487,12 +7505,64 @@ s
                     listView.setStackFromBottom(true);
                     spinner.setVisibility(View.GONE);
 
+                    listView.setOnSizeChangedListener(new CustomListView.OnSizeChangedListener() {
+                        public void onSizeChanged(int width, int height, int oldWidth, int oldHeight) {
+                            smoothScrollToEnd(false, height - oldHeight);
+                        }
+                    });
+
                     listView.setSelection(adapter.getCount() - MainActivity.numToLoad + 20);
 
                     // Notify PullToRefreshAttacher that the refresh has finished
                     mPullToRefreshAttacher.setRefreshComplete();
                 }
             }.execute();
+        }
+
+        private int mLastSmoothScrollPosition;
+
+        private void smoothScrollToEnd(boolean force, int listSizeChange) {
+            int lastItemVisible = listView.getLastVisiblePosition();
+            int lastItemInList = listView.getAdapter().getCount() - 1;
+            if (lastItemVisible < 0 || lastItemInList < 0) {
+                return;
+            }
+
+            View lastChildVisible =
+                    listView.getChildAt(lastItemVisible - listView.getFirstVisiblePosition());
+            int lastVisibleItemBottom = 0;
+            int lastVisibleItemHeight = 0;
+            if (lastChildVisible != null) {
+                lastVisibleItemBottom = lastChildVisible.getBottom();
+                lastVisibleItemHeight = lastChildVisible.getHeight();
+            }
+
+            int listHeight = listView.getHeight();
+            boolean lastItemTooTall = lastVisibleItemHeight > listHeight;
+            boolean willScroll = force ||
+                    ((listSizeChange != 0 || lastItemInList != mLastSmoothScrollPosition) &&
+                            lastVisibleItemBottom + listSizeChange <=
+                                    listHeight - listView.getPaddingBottom());
+            if (willScroll || (lastItemTooTall && lastItemInList == lastItemVisible)) {
+                if (Math.abs(listSizeChange) > 200) {
+                    if (lastItemTooTall) {
+                        listView.setSelectionFromTop(lastItemInList,
+                                listHeight - lastVisibleItemHeight);
+                    } else {
+                        listView.setSelection(lastItemInList);
+                    }
+                } else if (lastItemInList - lastItemVisible > 20) {
+                    listView.setSelection(lastItemInList);
+                } else {
+                    if (lastItemTooTall) {
+                        listView.setSelectionFromTop(lastItemInList,
+                                listHeight - lastVisibleItemHeight);
+                    } else {
+                        listView.smoothScrollToPosition(lastItemInList);
+                    }
+                    mLastSmoothScrollPosition = lastItemInList;
+                }
+            }
         }
 	}
 	

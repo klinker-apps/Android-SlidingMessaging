@@ -5,6 +5,8 @@ import android.util.AttributeSet;
 import android.widget.ListView;
 
 public class CustomListView extends ListView {
+    private OnSizeChangedListener mOnSizeChangedListener;
+
 	public CustomListView (Context context) {
 	    super(context);
 	}
@@ -17,13 +19,26 @@ public class CustomListView extends ListView {
 	    super(context, attrs, defStyle);
 	}
 
-	@Override
-	protected void onSizeChanged(int xNew, int yNew, int xOld, int yOld) {
-	    super.onSizeChanged(xNew, yNew, xOld, yOld);
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
 
-	    setSelection(getCount());
+        if (mOnSizeChangedListener != null) {
+            mOnSizeChangedListener.onSizeChanged(w, h, oldw, oldh);
+        }
+    }
 
-	}
+    /**
+     * Set the listener which will be triggered when the size of
+     * the view is changed.
+     */
+    public void setOnSizeChangedListener(OnSizeChangedListener l) {
+        mOnSizeChangedListener = l;
+    }
+
+    public interface OnSizeChangedListener {
+        void onSizeChanged(int width, int height, int oldWidth, int oldHeight);
+    }
 	
 	
 }
