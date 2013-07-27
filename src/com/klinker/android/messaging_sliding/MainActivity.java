@@ -6423,7 +6423,7 @@ s
 		}
 		
 		ConnectivityManager mConnMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-		final int result = mConnMgr.startUsingNetworkFeature(ConnectivityManager.TYPE_MOBILE, "enableMMS");
+        final int result = mConnMgr.startUsingNetworkFeature(ConnectivityManager.TYPE_MOBILE, "enableMMS");
 		
 		if (result != 0)
 		{
@@ -6437,26 +6437,22 @@ s
 					
 					if (!action.equals(ConnectivityManager.CONNECTIVITY_ACTION))
 					{
-                        Log.v("mms_error", "return 1");
 						return;
 					}
 					
 					@SuppressWarnings("deprecation")
-					NetworkInfo mNetworkInfo = (NetworkInfo) intent.getParcelableExtra(ConnectivityManager.EXTRA_NETWORK_INFO);
+					NetworkInfo mNetworkInfo = intent.getParcelableExtra(ConnectivityManager.EXTRA_NETWORK_INFO);
 					
 					if ((mNetworkInfo == null) || (mNetworkInfo.getType() != ConnectivityManager.TYPE_MOBILE))
 					{
-                        Log.v("mms_error", "return 2");
 						return;
 					}
 					
 					if (!mNetworkInfo.isConnected())
 					{
-                        Log.v("mms_error", "return 3");
 						return;
 					} else
 					{
-                        Log.v("mms_error", "sending message");
 						sendData(recipient, parts);
 						
 						unregisterReceiver(this);

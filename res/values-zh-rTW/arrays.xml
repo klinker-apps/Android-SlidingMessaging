@@ -1,132 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
+<resources>
     
     <string-array name="titleColors">
-        <item name="Blue">藍色</item>
-        <item name="Green">綠色</item>
-        <item name="Orange">橘色</item>
-        <item name="Red">紅色</item>
-        <item name="Purple">紫色</item>
-        <item name="Grey">灰色</item>
-        <item name="Black">黑色</item>
+        <item>藍色</item>
+        <item>綠色</item>
+        <item>橘色</item>
+        <item>紅色</item>
+        <item>紫色</item>
+        <item>灰色</item>
+        <item>黑色</item>
     </string-array>
     
     <string-array name="messageOptions">
-        <item name="copy_text">複制文本</item>
-        <item name="forward">下條信息</item>
-        <item name="delete_message">刪除信息</item>
+        <item>複制文本</item>
+        <item>下條信息</item>
+        <item>刪除信息</item>
     </string-array>
     
     <string-array name="messageOptions2">
-        <item name="copy_text">複制文本</item>
-        <item name="save_image">保存圖像</item>
-        <item name="forward">下條信息</item>
-        <item name="delete_message">刪除信息</item>
+        <item>複制文本</item>
+        <item>保存圖像</item>
+        <item>下條信息</item>
+        <item>刪除信息</item>
     </string-array>
     
     <string-array name="ledColors">
-        <item name="White">白色</item>
-        <item name="Blue">藍色</item>
-        <item name="Green">綠色</item>
-        <item name="Orange">橘色</item>
-        <item name="Red">紅色</item>
-        <item name="Purple">紫色</item>
+        <item>白色</item>
+        <item>藍色</item>
+        <item>綠色</item>
+        <item>橘色</item>
+        <item>紅色</item>
+        <item>紫色</item>
     </string-array>
     
     <string-array name="vibratePattern">
-        <item name="short">1 次短震</item>
-        <item name="long">1 次長震</item>
-        <item name="2short">2 次短震</item>
-        <item name="2long">2 次長震</item>
-        <item name="3short">3 次短震</item>
-        <item name="3long">3 次長震</item>
+        <item>1 次短震</item>
+        <item>1 次長震</item>
+        <item>2 次短震</item>
+        <item>2 次長震</item>
+        <item>3 次短震</item>
+        <item>3 次長震</item>
     </string-array>
     
     <string-array name="smilies">
-        <item name="with">有鼻子 :-)</item>
-        <item name="without">無鼻子 :)</item>
-        <item name="none">全無</item>
-        <item name="both">全有</item>
+        <item>有鼻子 :-)</item>
+        <item>無鼻子 :)</item>
+        <item>全無</item>
+        <item>全有</item>
     </string-array>
     
     <string-array name="quickReplyOptions">
-        <item name="reply">回複</item>
-        <item name="read">閱讀</item>
-        <item name="call">呼叫</item>
-        <item name="delete">刪除</item>
+        <item>回複</item>
+        <item>閱讀</item>
+        <item>呼叫</item>
+        <item>刪除</item>
     </string-array>
     
     <string-array name="slideToMenu">
-        <item name="fullscreen">滑動菜單完全顯示</item>
-        <item name="margins">滑動菜單保留邊緣</item>
-        <item name="none">禁用滑動菜單（僅可通過按鍵切換）</item>
+        <item>滑動菜單完全顯示</item>
+        <item>滑動菜單保留邊緣</item>
+        <item>禁用滑動菜單（僅可通過按鍵切換）</item>
     </string-array>
     
     <string-array name="notificationIcon">
-        <item name="White">白色</item>
-        <item name="Blue">藍色</item>
-        <item name="Green">綠色</item>
-        <item name="Orange">橘色</item>
-        <item name="Red">紅色</item>
-        <item name="Purple">紫色</item>
-        <item name="Icon">圖標</item>
+        <item>白色</item>
+        <item>藍色</item>
+        <item>綠色</item>
+        <item>橘色</item>
+        <item>紅色</item>
+        <item>紫色</item>
+        <item>圖標</item>
     </string-array>
     
     <string-array name="textColors">
-        <item name="Default">默認</item>
-        <item name="White">白色</item>
-        <item name="Blue">藍色</item>
-        <item name="Green">綠色</item>
-        <item name="Orange">橘色</item>
-        <item name="Red">紅色</item>
-        <item name="Purple">紫色</item>
-        <item name="Grey">灰色</item>
-        <item name="Black">黑色</item>
+        <item>默認</item>
+        <item>白色</item>
+        <item>藍色</item>
+        <item>綠色</item>
+        <item>橘色</item>
+        <item>紅色</item>
+        <item>紫色</item>
+        <item>灰色</item>
+        <item>黑色</item>
     </string-array>
     
     <string-array name="deliveryOptions">
-        <item name="none">Nothing on Delivery</item>
-        <item name="popup">彈出交互窗口</item>
-        <item name="toast">臨時顯示窗口</item>
+        <item>Nothing on Delivery</item>
+        <item>彈出交互窗口</item>
+        <item>臨時顯示窗口</item>
     </string-array>
     
     <string-array name="screenTimeout">
-        <item name="1">1 秒</item>
-        <item name="5">5 秒</item>
-        <item name="15">15 秒</item>
-        <item name="30">30 秒</item>
-        <item name="60">1 分鍾</item>
-        <item name="180">3 分鍾</item>
-        <item name="300">5 分鍾</item>
+        <item>1 秒</item>
+        <item>5 秒</item>
+        <item>15 秒</item>
+        <item>30 秒</item>
+        <item>1 分鍾</item>
+        <item>3 分鍾</item>
+        <item>5 分鍾</item>
     </string-array>
     
     <string-array name="sendAnimation">
-        <item name="left">從左側滑入</item>
-        <item name="right">從右側滑入</item>
-        <item name="up">從底部滑入</item>
-        <item name="none">禁用滑入</item>
+        <item>從左側滑入</item>
+        <item>從右側滑入</item>
+        <item>從底部滑入</item>
+        <item>禁用滑入</item>
     </string-array>
     
     <string-array name="textAlignment">
-        <item name="split">兩端對齊</item>
-        <item name="right">右側對齊</item>
-        <item name="left">左側對齊</item>
+        <item>兩端對齊</item>
+        <item>右側對齊</item>
+        <item>左側對齊</item>
     </string-array>
     
     <string-array name="selectImage">
-        <item name="select">選擇圖像</item>
-        <item name="camera">獲取圖像</item>
-        <item name="attach_more">Attach More...</item>
+        <item>選擇圖像</item>
+        <item>獲取圖像</item>
+        <item>Attach More...</item>
     </string-array>
     
     <string-array name="runAs">
-        <item name="card">卡式布局</item>
-        <item name="hangout">Hangouts Layout</item>
-        <item name="sliding">經典布局</item>
+        <item>卡式布局</item>
+        <item>Hangouts Layout</item>
+        <item>經典布局</item>
     </string-array>
     
     <string-array name="cardTheme">
-        <item name="light">明亮</item>
-        <item name="dark">灰暗</item>
+        <item>明亮</item>
+        <item>灰暗</item>
     </string-array>
 </resources>

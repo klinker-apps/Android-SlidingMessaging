@@ -1,85 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
+<resources>
     
     <string-array name="titleColors">
-        <item name="Blue">Blau</item>
-        <item name="Green">Grün</item>
-        <item name="Orange">Orange</item>
-        <item name="Red">Rot</item>
-        <item name="Purple">Lila</item>
-        <item name="Grey">Grau</item>
-        <item name="Black">Tiefes Schwarz</item>
+        <item>Blau</item>
+        <item>Grün</item>
+        <item>Orange</item>
+        <item>Rot</item>
+        <item>Lila</item>
+        <item>Grau</item>
+        <item>Tiefes Schwarz</item>
     </string-array>
     
     <string-array name="messageOptions">
-        <item name="copy_text">Text kopieren</item>
-        <item name="forward">Nachricht weiterleiten</item>
-        <item name="delete_message">Nachricht löschen</item>
+        <item>Text kopieren</item>
+        <item>Nachricht weiterleiten</item>
+        <item>Nachricht löschen</item>
     </string-array>
     
     <string-array name="messageOptions2">
-        <item name="copy_text">Text kopieren</item>
-        <item name="save_image">Bild speichern</item>
-        <item name="forward">Nachricht weiterleiten</item>
-        <item name="delete_message">Nachricht löschen</item>
+        <item>Text kopieren</item>
+        <item>Bild speichern</item>
+        <item>Nachricht weiterleiten</item>
+        <item>Nachricht löschen</item>
     </string-array>
     
     <string-array name="ledColors">
-        <item name="White">Weiß</item>
-        <item name="Blue">Blau</item>
-        <item name="Green">Grün</item>
-        <item name="Orange">Orange</item>
-        <item name="Red">Rot</item>
-        <item name="Purple">Lila</item>
+        <item>Weiß</item>
+        <item>Blau</item>
+        <item>Grün</item>
+        <item>Orange</item>
+        <item>Rot</item>
+        <item>Lila</item>
     </string-array>
     
     <string-array name="vibratePattern">
-        <item name="short">1 Kurz</item>
-        <item name="long">1 Lang</item>
-        <item name="2short">2 Kurz</item>
-        <item name="2long">2 Lang</item>
-        <item name="3short">3 Kurz</item>
-        <item name="3long">3 Lang</item>
+        <item>1 Kurz</item>
+        <item>1 Lang</item>
+        <item>2 Kurz</item>
+        <item>2 Lang</item>
+        <item>3 Kurz</item>
+        <item>3 Lang</item>
     </string-array>
     
     <string-array name="smilies">
-        <item name="with">Mit Nase :-)</item>
-        <item name="without">Ohne Nase :)</item>
-        <item name="none">Keine</item>
+        <item>Mit Nase :-)</item>
+        <item>Ohne Nase :)</item>
+        <item>Keine</item>
     </string-array>
     
     <string-array name="quickReplyOptions">
-        <item name="reply">Antworten</item>
-        <item name="read">Gelesen</item>
-        <item name="call">Anrufen</item>
-        <item name="delete">Delete</item>
+        <item>Antworten</item>
+        <item>Gelesen</item>
+        <item>Anrufen</item>
+        <item>Delete</item>
     </string-array>
     
     <string-array name="slideToMenu">
-        <item name="fullscreen">Vollbild Schnellumschaltung</item>
-        <item name="margins">Schnellumschaltung über die Ränder</item>
-        <item name="none">Keine Schnellumschaltung (Navigation über die ActionBar)</item>
+        <item>Vollbild Schnellumschaltung</item>
+        <item>Schnellumschaltung über die Ränder</item>
+        <item>Keine Schnellumschaltung (Navigation über die ActionBar)</item>
     </string-array>
     
     <string-array name="notificationIcon">
-        <item name="White">Weiß</item>
-        <item name="Blue">Blau</item>
-        <item name="Green">Grün</item>
-        <item name="Orange">Orange</item>
-        <item name="Red">Rot</item>
-        <item name="Purple">Lila</item>
-        <item name="Icon">App Icon</item>
+        <item>Weiß</item>
+        <item>Blau</item>
+        <item>Grün</item>
+        <item>Orange</item>
+        <item>Rot</item>
+        <item>Lila</item>
+        <item>App Icon</item>
     </string-array>
     
     <string-array name="textColors">
-        <item name="Default">Default</item>
-        <item name="White">Weiß</item>
-        <item name="Blue">Blau</item>
-        <item name="Green">Grün</item>
-        <item name="Orange">Orange</item>
-        <item name="Red">Rot</item>
-        <item name="Purple">Lila</item>
-        <item name="Grey">Grey</item>
-        <item name="Black">Schwarz</item>
+        <item>Default</item>
+        <item>Weiß</item>
+        <item>Blau</item>
+        <item>Grün</item>
+        <item>Orange</item>
+        <item>Rot</item>
+        <item>Lila</item>
+        <item>Grey</item>
+        <item>Schwarz</item>
     </string-array>
 </resources>

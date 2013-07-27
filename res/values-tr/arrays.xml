@@ -1,188 +1,188 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
+<resources>
     
     <string-array name="titleColors">
-        <item name="Blue">Mavi</item>
-        <item name="Green">Yeşil</item>
-        <item name="Orange">Turuncu</item>
-        <item name="Red">Kırmızı</item>
-        <item name="Purple">Mor</item>
-        <item name="Grey">Gri</item>
-        <item name="DarkGrey">Koyu Gri</item>
-        <item name="Black">Karanlık</item>
+        <item>Mavi</item>
+        <item>Yeşil</item>
+        <item>Turuncu</item>
+        <item>Kırmızı</item>
+        <item>Mor</item>
+        <item>Gri</item>
+        <item>Koyu Gri</item>
+        <item>Karanlık</item>
     </string-array>
     
     <string-array name="messageOptions">
-        <item name="copy_text">Yazıyı Kopyala</item>
-        <item name="forward">Mesajı İlet</item>
-        <item name="delete_message">Mesajı Sil</item>
+        <item>Yazıyı Kopyala</item>
+        <item>Mesajı İlet</item>
+        <item>Mesajı Sil</item>
     </string-array>
     
     <string-array name="messageOptions2">
-        <item name="copy_text">Yazıyı Kopyala</item>
-        <item name="save_image">Resmi Kaydet</item>
-        <item name="forward">Mesajı İlet</item>
-        <item name="delete_message">Mesajı Sil</item>
+        <item>Yazıyı Kopyala</item>
+        <item>Resmi Kaydet</item>
+        <item>Mesajı İlet</item>
+        <item>Mesajı Sil</item>
     </string-array>
     
     <string-array name="messageOptions3">
-        <item name="resend">Yeniden Gönder</item>
-        <item name="copy_text">Yazıyı Kopyala</item>
-        <item name="forward">Mesajı İlet</item>
-        <item name="delete_message">Mesajı Sil</item>
+        <item>Yeniden Gönder</item>
+        <item>Yazıyı Kopyala</item>
+        <item>Mesajı İlet</item>
+        <item>Mesajı Sil</item>
     </string-array>
     
     <string-array name="ledColors">
-        <item name="White">Beyaz</item>
-        <item name="Blue">Mavi</item>
-        <item name="Green">Yeşil</item>
-        <item name="Orange">Turuncu</item>
-        <item name="Red">Kırmızı</item>
-        <item name="Purple">Mor</item>
+        <item>Beyaz</item>
+        <item>Mavi</item>
+        <item>Yeşil</item>
+        <item>Turuncu</item>
+        <item>Kırmızı</item>
+        <item>Mor</item>
     </string-array>
     
     <string-array name="vibratePattern">
-        <item name="short">1 Kısa</item>
-        <item name="long">1 Uzun</item>
-        <item name="2short">2 Kısa</item>
-        <item name="2long">2 Uzun</item>
-        <item name="3short">3 Kısa</item>
-        <item name="3long">3 Uzun</item>
+        <item>1 Kısa</item>
+        <item>1 Uzun</item>
+        <item>2 Kısa</item>
+        <item>2 Uzun</item>
+        <item>3 Kısa</item>
+        <item>3 Uzun</item>
     </string-array>
-    
+
     <string-array name="smilies">
-        <item name="with">Burunlu :-)</item>
-        <item name="without">Burunsuz :)</item>
-        <item name="none">Hiçbiri</item>
-        <item name="both">Her ikisi</item>
+        <item>Burunlu :-)</item>
+        <item>Burunsuz :)</item>
+        <item>Hiçbiri</item>
+        <item>Her ikisi</item>
     </string-array>
     
     <string-array name="quickReplyOptions">
-        <item name="reply">Cevapla</item>
-        <item name="read">Oku</item>
-        <item name="call">Arama Yap</item>
-        <item name="delete">Sil</item>
+        <item>Cevapla</item>
+        <item>Oku</item>
+        <item>Arama Yap</item>
+        <item>Sil</item>
     </string-array>
     
     <string-array name="slideToMenu">
-        <item name="fullscreen">Tam Ekran</item>
-        <item name="margins">Sadece Kenarlar</item>
-        <item name="none">Kayar Menü Yok(Menü çubuğunu kullanabilirsiniz)</item>
+        <item>Tam Ekran</item>
+        <item>Sadece Kenarlar</item>
+        <item>Kayar Menü Yok(Menü çubuğunu kullanabilirsiniz)</item>
     </string-array>
     
     <string-array name="notificationIcon">
-         <item name="White">Beyaz</item>
-        <item name="Blue">Mavi</item>
-        <item name="Green">Yeşil</item>
-        <item name="Orange">Turuncu</item>
-        <item name="Red">Kırmızı</item>
-        <item name="Purple">Mor</item>
-        <item name="Icon">Uygulama Simgesi</item>
+         <item>Beyaz</item>
+        <item>Mavi</item>
+        <item>Yeşil</item>
+        <item>Turuncu</item>
+        <item>Kırmızı</item>
+        <item>Mor</item>
+        <item>Uygulama Simgesi</item>
     </string-array>
     
     <string-array name="textColors">
-        <item name="Default">Varsayılan</item>
-         <item name="White">Beyaz</item>
-        <item name="Blue">Mavi</item>
-        <item name="Green">Yeşil</item>
-        <item name="Orange">Turuncu</item>
-        <item name="Red">Kırmızı</item>
-        <item name="Purple">Mor</item>
-        <item name="Grey">Gri</item>
-        <item name="Black">Siyah</item>
+        <item>Varsayılan</item>
+         <item>Beyaz</item>
+        <item>Mavi</item>
+        <item>Yeşil</item>
+        <item>Turuncu</item>
+        <item>Kırmızı</item>
+        <item>Mor</item>
+        <item>Gri</item>
+        <item>Siyah</item>
     </string-array>
     
     <string-array name="deliveryOptions">
-        <item name="none">Nothing on Delivery</item>
-        <item name="popup">İletildiğinde uyar</item>
-        <item name="toast">Boş mesaj göndermeye çalıştığında uyar</item>
+        <item>Nothing on Delivery</item>
+        <item>İletildiğinde uyar</item>
+        <item>Boş mesaj göndermeye çalıştığında uyar</item>
     </string-array>
     
     <string-array name="screenTimeout">
-        <item name="1">1 Saniye</item>
-        <item name="5">5 Saniye</item>
-        <item name="15">15 Saniye</item>
-        <item name="30">30 Saniye</item>
-        <item name="60">1 Dakika</item>
-        <item name="180">3 Dakika</item>
-        <item name="300">5 Dakika</item>
+        <item>1 Saniye</item>
+        <item>5 Saniye</item>
+        <item>15 Saniye</item>
+        <item>30 Saniye</item>
+        <item>1 Dakika</item>
+        <item>3 Dakika</item>
+        <item>5 Dakika</item>
     </string-array>
     
     <string-array name="sendAnimation">
-        <item name="left">Soldan kayarak</item>
-        <item name="right">Sağdan kayarak</item>
-        <item name="up">Aşağıdan yukarı doğru kayarak</item>
-        <item name="hangouts">Scale in from bottom</item>
-        <item name="none">Animasyon yok</item>
+        <item>Soldan kayarak</item>
+        <item>Sağdan kayarak</item>
+        <item>Aşağıdan yukarı doğru kayarak</item>
+        <item>Scale in from bottom</item>
+        <item>Animasyon yok</item>
     </string-array>
     
     <string-array name="textAlignment">
-        <item name="split">İkiye böl</item>
-        <item name="right">Sağa yaslı</item>
-        <item name="left">Sola yaslı</item>
+        <item>İkiye böl</item>
+        <item>Sağa yaslı</item>
+        <item>Sola yaslı</item>
     </string-array>
     
     <string-array name="selectImage">
-        <item name="select">Resim Seç</item>
-        <item name="camera">Kamera ile resim çek</item>
-        <item name="attach_more">Daha Fazla ekle...</item>
+        <item>Resim Seç</item>
+        <item>Kamera ile resim çek</item>
+        <item>Daha Fazla ekle...</item>
     </string-array>
     
     <string-array name="runAs">
-        <item name="card">Kart Görünümü</item>
-        <item name="hangout">Hangouts Görünümü</item>
-        <item name="sliding">Klasik Görünüm</item>
+        <item>Kart Görünümü</item>
+        <item>Hangouts Görünümü</item>
+        <item>Klasik Görünüm</item>
     </string-array>
     
     <string-array name="cardTheme">
-        <item name="light">Açık</item>
-        <item name="dark">Siyah</item>
-        <item name="pitch_black">Karanlık</item>
+        <item>Açık</item>
+        <item>Siyah</item>
+        <item>Karanlık</item>
     </string-array>
     
     <string-array name="repeatingNotification">
-        <item name="none">Asla</item>
-        <item name="15">15 Saniye</item>
-        <item name="30">30 Saniye</item>
-        <item name="60">1 Dakika</item>
-        <item name="120">2 Dakika</item>
-        <item name="300">5 Dakika</item>
-        <item name="420">7 Dakika</item>
-        <item name="600">10 Dakika</item>
-        <item name="900">15 Dakika</item>
+        <item>Asla</item>
+        <item>15 Saniye</item>
+        <item>30 Saniye</item>
+        <item>1 Dakika</item>
+        <item>2 Dakika</item>
+        <item>5 Dakika</item>
+        <item>7 Dakika</item>
+        <item>10 Dakika</item>
+        <item>15 Dakika</item>
     </string-array>
 
     <string-array name="attach_more_options">
-        <item name="image">Resim Seç</item>
-        <item name="video">Video Seç</item>
-        <item name="audio">Parçası Ses</item>
+        <item>Resim Seç</item>
+        <item>Video Seç</item>
+        <item>Parçası Ses</item>
     </string-array>
 
     <string-array name="notification_icon">
-        <item name="stock">Şimdiki Simge</item>
-        <item name="bubble">Mesaj Balonu</item>
-        <item name="exclamation">Ünlem İşareti</item>
-        <item name="airplane">Kağıt Uçak</item>
-        <item name="cloud">Bulut</item>
+        <item>Şimdiki Simge</item>
+        <item>Mesaj Balonu</item>
+        <item>Ünlem İşareti</item>
+        <item>Kağıt Uçak</item>
+        <item>Bulut</item>
     </string-array>
 
     <string-array name="timeout">
-        <item name="none">Zaman Aşımı Yok</item>
-        <item name="ten_sec">10 Saniye</item>
-        <item name="thirty_sec">30 Saniye</item>
-        <item name="one_min">1 Dakika</item>
-        <item name="five_min">5 Dakika</item>
-        <item name="ten_min">10 Dakika</item>
-        <item name="thirty_min">30 Dakika</item>
-        <item name="one_hour">1 Saat</item>
-        <item name="five_hour">5 Saat</item>
+        <item>Zaman Aşımı Yok</item>
+        <item>10 Saniye</item>
+        <item>30 Saniye</item>
+        <item>1 Dakika</item>
+        <item>5 Dakika</item>
+        <item>10 Dakika</item>
+        <item>30 Dakika</item>
+        <item>1 Saat</item>
+        <item>5 Saat</item>
     </string-array>
 
     <string-array name="security_type">
-        <item name="none">Güvenlik Kapalı</item>
-        <item name="pin">PIN</item>
-        <item name="pattern">Pattern</item>
-        <item name="password">Parola</item>
+        <item>Güvenlik Kapalı</item>
+        <item>PIN</item>
+        <item>Pattern</item>
+        <item>Parola</item>
     </string-array>
 
     <string-array name="repetition_array">

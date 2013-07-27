@@ -1,174 +1,174 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
+<resources>
     
     <string-array name="titleColors">
-        <item name="Blue">Azul</item>
-        <item name="Green">Verde</item>
-        <item name="Orange">Naranja</item>
-        <item name="Red">Rojo</item>
-        <item name="Purple">Violeta</item>
-        <item name="Grey">Gris</item>
-        <item name="Black">Negro</item>
+        <item>Azul</item>
+        <item>Verde</item>
+        <item>Naranja</item>
+        <item>Rojo</item>
+        <item>Violeta</item>
+        <item>Gris</item>
+        <item>Negro</item>
     </string-array>
     
     <string-array name="messageOptions">
-        <item name="copy_text">Copiar texto</item>
-        <item name="forward">Reenviar mensaje</item>
-        <item name="delete_message">Borrar mensaje</item>
+        <item>Copiar texto</item>
+        <item>Reenviar mensaje</item>
+        <item>Borrar mensaje</item>
     </string-array>
     
     <string-array name="messageOptions2">
-        <item name="copy_text">Copiar texto</item>
-        <item name="save_image">Guardar imagen</item>
-        <item name="forward">Reenviar mensaje</item>
-        <item name="delete_message">Borrar mensaje</item>
+        <item>Copiar texto</item>
+        <item>Guardar imagen</item>
+        <item>Reenviar mensaje</item>
+        <item>Borrar mensaje</item>
     </string-array>
     
     <string-array name="ledColors">
-        <item name="White">Blanco</item>
-        <item name="Blue">Azul</item>
-        <item name="Green">Verde</item>
-        <item name="Orange">Naranja</item>
-        <item name="Red">Rojo</item>
-        <item name="Purple">Violeta</item>
+        <item>Blanco</item>
+        <item>Azul</item>
+        <item>Verde</item>
+        <item>Naranja</item>
+        <item>Rojo</item>
+        <item>Violeta</item>
     </string-array>
     
     <string-array name="vibratePattern">
-        <item name="short">1 Corto</item>
-        <item name="long">1 Largo</item>
-        <item name="2short">2 Corto</item>
-        <item name="2long">2 Largo</item>
-        <item name="3short">3 Corto</item>
-        <item name="3long">3 Largo</item>
+        <item>1 Corto</item>
+        <item>1 Largo</item>
+        <item>2 Corto</item>
+        <item>2 Largo</item>
+        <item>3 Corto</item>
+        <item>3 Largo</item>
     </string-array>
     
     <string-array name="smilies">
-        <item name="with">Con nariz :-)</item>
-        <item name="without">Sin nariz :)</item>
-        <item name="none">Ninguna</item>
-		<item name="both">Ambas</item>
+        <item>Con nariz :-)</item>
+        <item>Sin nariz :)</item>
+        <item>Ninguna</item>
+		<item>Ambas</item>
     </string-array>
     
     <string-array name="quickReplyOptions">
-        <item name="reply">Responder</item>
-        <item name="read">Leído</item>
-        <item name="call">Llamar</item>
-        <item name="delete">Borrar</item>
+        <item>Responder</item>
+        <item>Leído</item>
+        <item>Llamar</item>
+        <item>Borrar</item>
     </string-array>
     
     <string-array name="slideToMenu">
-        <item name="fullscreen">Menú de deslizamiento en pantalla completa</item>
-        <item name="margins">Menú de deslizamiento sólo con márgenes</item>
-        <item name="none">Sin menú de deslizamiento (navega con la barra de acción)</item>
+        <item>Menú de deslizamiento en pantalla completa</item>
+        <item>Menú de deslizamiento sólo con márgenes</item>
+        <item>Sin menú de deslizamiento (navega con la barra de acción)</item>
     </string-array>
     
     <string-array name="notificationIcon">
-        <item name="White">Blanco</item>
-        <item name="Blue">Azul</item>
-        <item name="Green">Verde</item>
-        <item name="Orange">Naranja</item>
-        <item name="Red">Rojo</item>
-        <item name="Purple">Violeta</item>
-        <item name="Icon">Ícono</item>
+        <item>Blanco</item>
+        <item>Azul</item>
+        <item>Verde</item>
+        <item>Naranja</item>
+        <item>Rojo</item>
+        <item>Violeta</item>
+        <item>Ícono</item>
     </string-array>
     
     <string-array name="textColors">
-        <item name="Default">Estándar</item>
-        <item name="White">Blanco</item>
-        <item name="Blue">Azul</item>
-        <item name="Green">Verde</item>
-        <item name="Orange">Naranja</item>
-        <item name="Red">Rojo</item>
-        <item name="Purple">Violeta</item>
-        <item name="Grey">Gris</item>
-        <item name="Black">Negro</item>
+        <item>Estándar</item>
+        <item>Blanco</item>
+        <item>Azul</item>
+        <item>Verde</item>
+        <item>Naranja</item>
+        <item>Rojo</item>
+        <item>Violeta</item>
+        <item>Gris</item>
+        <item>Negro</item>
     </string-array>
     
     <string-array name="deliveryOptions">
-        <item name="none">No mostrar nada en entrega</item>
-        <item name="popup">Ventana en entrega</item>
-        <item name="toast">Aviso en entrega</item>
+        <item>No mostrar nada en entrega</item>
+        <item>Ventana en entrega</item>
+        <item>Aviso en entrega</item>
     </string-array>
     
     <string-array name="screenTimeout">
-        <item name="1">1 Segundo</item>
-        <item name="5">5 Segundos</item>
-        <item name="15">15 Segundos</item>
-        <item name="30">30 Segundos</item>
-        <item name="60">1 Minuto</item>
-        <item name="180">3 Minutos</item>
-        <item name="300">5 Minutos</item>
+        <item>1 Segundo</item>
+        <item>5 Segundos</item>
+        <item>15 Segundos</item>
+        <item>30 Segundos</item>
+        <item>1 Minuto</item>
+        <item>3 Minutos</item>
+        <item>5 Minutos</item>
     </string-array>
     
     <string-array name="sendAnimation">
-        <item name="left">Deslizar desde la izquierda</item>
-        <item name="right">Deslizar desde la derecha</item>
-        <item name="up">Deslizar desde abajo</item>
-        <item name="hangouts">Escalar desde abajo</item>
-        <item name="none">Sin animación</item>
+        <item>Deslizar desde la izquierda</item>
+        <item>Deslizar desde la derecha</item>
+        <item>Deslizar desde abajo</item>
+        <item>Escalar desde abajo</item>
+        <item>Sin animación</item>
     </string-array>
     
     <string-array name="textAlignment">
-        <item name="split">Dividir alineamiento</item>
-        <item name="right">Alineamiento derecho</item>
-        <item name="left">Alineamiento izquierdo</item>
+        <item>Dividir alineamiento</item>
+        <item>Alineamiento derecho</item>
+        <item>Alineamiento izquierdo</item>
     </string-array>
     
     <string-array name="selectImage">
-        <item name="select">Seleccionar imagen</item>
-        <item name="camera">Capturar imagen</item>
-        <item name="attach_more">Adjuntar más...</item>
+        <item>Seleccionar imagen</item>
+        <item>Capturar imagen</item>
+        <item>Adjuntar más...</item>
     </string-array>
     
     <string-array name="runAs">
-        <item name="card">Diseño nuevo</item>
-        <item name="hangout">Diseño hangouts</item>
-        <item name="sliding">Diseño clásico</item>
+        <item>Diseño nuevo</item>
+        <item>Diseño hangouts</item>
+        <item>Diseño clásico</item>
     </string-array>
     
     <string-array name="cardTheme">
-        <item name="light">Claro</item>
-        <item name="dark">Oscuro</item>
-        <item name="pitch_black">Negro tonal</item>
+        <item>Claro</item>
+        <item>Oscuro</item>
+        <item>Negro tonal</item>
     </string-array>
     
     <string-array name="repeatingNotification">
-        <item name="none">Nunca</item>
-        <item name="15">15 Segundos</item>
-        <item name="30">30 Segundos</item>
-        <item name="60">1 Minuto</item>
-        <item name="120">2 Minutos</item>
-        <item name="300">5 Minutos</item>
-        <item name="420">7 Minutos</item>
-        <item name="600">10 Minutos</item>
-        <item name="900">15 Minutos</item>
+        <item>Nunca</item>
+        <item>15 Segundos</item>
+        <item>30 Segundos</item>
+        <item>1 Minuto</item>
+        <item>2 Minutos</item>
+        <item>5 Minutos</item>
+        <item>7 Minutos</item>
+        <item>10 Minutos</item>
+        <item>15 Minutos</item>
     </string-array>
 
     <string-array name="notification_icon">
-        <item name="stock">Ícono estándar</item>
-        <item name="bubble">Burbuja de mensaje</item>
-        <item name="exclamation">Signo de exclamación</item>
-        <item name="airplane">Avión de papel</item>
-        <item name="cloud">Nube</item>
+        <item>Ícono estándar</item>
+        <item>Burbuja de mensaje</item>
+        <item>Signo de exclamación</item>
+        <item>Avión de papel</item>
+        <item>Nube</item>
     </string-array>
 
     <string-array name="timeout">
-        <item name="none">Sin tiempo de espera</item>
-        <item name="ten_sec">10 segundos</item>
-        <item name="thirty_sec">30 segundos</item>
-        <item name="one_min">1 minuto</item>
-        <item name="five_min">5 minutos</item>
-        <item name="ten_min">10 minutos</item>
-        <item name="thirty_min">30 minutos</item>
-        <item name="one_hour">1 hora</item>
-        <item name="five_hour">5 horas</item>
+        <item>Sin tiempo de espera</item>
+        <item>10 segundos</item>
+        <item>30 segundos</item>
+        <item>1 minuto</item>
+        <item>5 minutos</item>
+        <item>10 minutos</item>
+        <item>30 minutos</item>
+        <item>1 hora</item>
+        <item>5 horas</item>
     </string-array>
 
     <string-array name="security_type">
-        <item name="none">Sin seguridad</item>
-        <item name="pin">PIN</item>
-        <item name="pattern">Patrón</item>
-        <item name="password">Contraseña</item>
+        <item>Sin seguridad</item>
+        <item>PIN</item>
+        <item>Patrón</item>
+        <item>Contraseña</item>
     </string-array>
 
     <string-array name="repetition_array">
@@ -186,9 +186,9 @@
     </string-array>
 	
 	<string-array name="textAlignment2">
-        <item name="center">Alineamiento en el centro</item>
-        <item name="right">Alineamiento a la derecha</item>
-        <item name="left">Alineamiento a la izquierda</item>
+        <item>Alineamiento en el centro</item>
+        <item>Alineamiento a la derecha</item>
+        <item>Alineamiento a la izquierda</item>
     </string-array>
 	
 </resources>
