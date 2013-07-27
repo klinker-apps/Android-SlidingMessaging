@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ListPreference
+        android:key="pin_conversation_list"
+        android:title="@string/pin_conversation_list"
+        android:summary="@string/pin_conversation_list_summary"
+        android:defaultValue="1"
+        android:entries="@array/pin_conversation_list"
+        android:entryValues="@array/pin_conversation_list_inserted"
+        />
+
     <ListPreference
         android:key="text_size2"
         android:title="@string/text_size"

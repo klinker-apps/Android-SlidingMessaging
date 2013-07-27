@@ -246,7 +246,23 @@ s
             setTheme(R.style.HangoutsTheme);
         }
 
-		setContentView(R.layout.activity_main);
+        String pinType = sharedPrefs.getString("pin_conversation_list", "1");
+        if (!pinType.equals("1")) {
+            if (pinType.equals("2")) {
+                setContentView(R.layout.activity_main_phone);
+            } else if (pinType.equals("3")) {
+                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    setContentView(R.layout.activity_main_phablet2);
+                } else {
+                    setContentView(R.layout.activity_main_phablet);
+                }
+            } else {
+                setContentView(R.layout.activity_main_tablet);
+            }
+        } else {
+            setContentView(R.layout.activity_main);
+        }
+
 		setTitle(R.string.app_name_in_app);
 
         getWindow().setBackgroundDrawable(null);

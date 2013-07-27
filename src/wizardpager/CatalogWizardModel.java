@@ -52,20 +52,9 @@ public class CatalogWizardModel extends AbstractWizardModel {
         }
 
         String changeLog = "Version " + version + ":\n\n" +
-                "- MMS fixes\n\n" +
-                "Version 6.60:\n" +
-                "- Better in-app notifications for hangouts and classic UIs\n" +
-                "- New emoticons\n" +
-                "- New scale in sending and receiving animation\n" +
-                "- Better support for viewing video and audio MMS messages\n" +
-                "- Option to disable drafts\n" +
-                "- Option to remove numbers from the widget\n" +
-                "- Drag to reorder templates\n" +
-                "- Mark all conversations as read overflow menu option\n" +
-                "- Faster emoji load time when inserting\n" +
-                "- Performance improvements\n" +
-                "- UI improvements\n" +
-                "- Bug fixes\n";
+                "- Option to pin conversation list to left side of screen at all times\n" +
+                "- Fixes to sending animations sometimes not showing\n" +
+                "- Bug fixes\n\n";
                 
         String themeEditor = "The theme editor now fully supports the Hangouts UI and popup, " +
                 "better time than ever to get on board and start making Sliding Messaging look exactly how you want!\n\n" +

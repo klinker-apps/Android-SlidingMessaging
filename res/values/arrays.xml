@@ -414,4 +414,18 @@
         <item>Weekly</item>
     </string-array>
 
+    <string-array name="pin_conversation_list">
+        <item>Default, According to Device Type</item>
+        <item>Never Pin</item>
+        <item>Pin in Landscape Mode</item>
+        <item>Always Pin</item>
+    </string-array>
+
+    <string-array name="pin_conversation_list_inserted">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+
 </resources>

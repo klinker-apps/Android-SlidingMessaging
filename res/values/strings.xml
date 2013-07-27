@@ -501,5 +501,7 @@
     <string name="limit_conversations_start_summary">Loads only 10 conversations at app startup for speed purposes</string>
     <string name="search">Search</string>
     <string name="message_body">Message Body</string>
+    <string name="pin_conversation_list">Pin Conversation List to Screen</string>
+    <string name="pin_conversation_list_summary">Choose when the conversation list should stay on the screen instead of being hidden in the drawer</string>
     
 </resources>

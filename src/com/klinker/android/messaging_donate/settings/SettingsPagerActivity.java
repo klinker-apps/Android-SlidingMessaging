@@ -617,6 +617,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                 getPreferenceScreen().removePreference(findPreference("open_to_first"));
             } else
             {
+                getPreferenceScreen().removePreference(findPreference("pin_conversation_list"));
                 getPreferenceScreen().removePreference(findPreference("contact_pictures2"));
                 getPreferenceScreen().removePreference(findPreference("open_contact_menu"));
                 getPreferenceScreen().removePreference(findPreference("slide_messages"));
