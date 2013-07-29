@@ -6445,7 +6445,10 @@ s
 		}
 		
 		ConnectivityManager mConnMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+		// TODO test this on wifi to see if mobile data is enabled...
+		mConnMgr.setNetworkPreference(ConnectivityManager.TYPE_MOBILE);
         final int result = mConnMgr.startUsingNetworkFeature(ConnectivityManager.TYPE_MOBILE, "enableMMS");
+		// or maybe put it here after ensuring that mobile is on?
 		
 		if (result != 0)
 		{
@@ -6607,9 +6610,6 @@ s
 				try {
                     ensureRouteToHost(apns.get(0).MMSCenterUrl, apns.get(0).MMSProxy);
 					HttpUtils.httpConnection(context, 4444L, apns.get(0).MMSCenterUrl, bytesToSend, HttpUtils.HTTP_POST_METHOD, !TextUtils.isEmpty(apns.get(0).MMSProxy), apns.get(0).MMSProxy, Integer.parseInt(apns.get(0).MMSPort));
-				
-//					ConnectivityManager mConnMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-//					mConnMgr.startUsingNetworkFeature(ConnectivityManager.TYPE_MOBILE, "enableMMS");
 					
 					IntentFilter filter = new IntentFilter();
 					filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
@@ -6629,6 +6629,10 @@ s
 						    
 						    ((MainActivity) context).refreshViewPager3();
 						    context.unregisterReceiver(this);
+							
+							ConnectivityManager mConnMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+							// TODO test this on wifi to see if mobile data is enabled...
+							mConnMgr.setNetworkPreference(ConnectivityManager.TYPE_WIFI);
 						    
 						    if (sharedPrefs.getBoolean("wifi_mms_fix", true))
 							{

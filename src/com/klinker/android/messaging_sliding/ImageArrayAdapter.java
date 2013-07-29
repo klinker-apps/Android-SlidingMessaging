@@ -57,6 +57,9 @@ public class ImageArrayAdapter extends ArrayAdapter<String> {
 			public void onClick(View arg0) {
                 Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_VIEW);
+				// TODO test in new gallery app to see if working
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                intent.putExtra("SingleItemOnly", true);
                 intent.setDataAndType(Uri.parse(images[position]), "image/*");
                 context.startActivity(intent);
 				

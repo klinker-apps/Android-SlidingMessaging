@@ -424,6 +424,9 @@ public class MessageCursorAdapter extends CursorAdapter {
                                                         if (imagesF.length == 1) {
                                                             Intent intent = new Intent();
                                                             intent.setAction(Intent.ACTION_VIEW);
+                                                            // TODO test in new gallery app to see if working
+                                                            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                                            intent.putExtra("SingleItemOnly", true);
                                                             intent.setDataAndType(Uri.parse(imageUri), "image/*");
                                                             context.startActivity(intent);
                                                         } else {
@@ -449,6 +452,8 @@ public class MessageCursorAdapter extends CursorAdapter {
                                                     public void onClick(View view) {
                                                         Intent intent = new Intent();
                                                         intent.setAction(Intent.ACTION_VIEW);
+                                                        // TODO test in new gallery app to see if working
+                                                        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                                                         intent.setDataAndType(Uri.parse(videoF), "video/*");
                                                         context.startActivity(intent);
                                                     }
@@ -556,6 +561,9 @@ public class MessageCursorAdapter extends CursorAdapter {
                                     if (imagesF.length == 1) {
                                         Intent intent = new Intent();
                                         intent.setAction(Intent.ACTION_VIEW);
+                                        // TODO test in new gallery app to see if working
+                                        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                        intent.putExtra("SingleItemOnly", true);
                                         intent.setDataAndType(Uri.parse(imageUri), "image/*");
                                         context.startActivity(intent);
                                     } else {
@@ -581,6 +589,8 @@ public class MessageCursorAdapter extends CursorAdapter {
                                 public void onClick(View view) {
                                     Intent intent = new Intent();
                                     intent.setAction(Intent.ACTION_VIEW);
+                                    // TODO test in new gallery app to see if working
+                                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                                     intent.setDataAndType(Uri.parse(videoF), "video/*");
                                     context.startActivity(intent);
                                 }

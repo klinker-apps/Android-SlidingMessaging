@@ -5,8 +5,10 @@ Version 6.70
 - Message Locking
 - Fix search icon size
 - fix popup residual message in some cases
-- fix MMS pictures not opening correctly in he gallery app, even though it shows in the message list
-- Figure out how to judge file size of png images and adjust them accordingly when sending
+- fix MMS pictures not opening correctly in he gallery app, even though it shows in the message list, look at email from today
+	-intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+	-intent.putExtra("SingleItemOnly", true);
+- Figure out how to judge file size of png images and adjust them accordingly when sending, look into UriImage.getResizedImageData for solution
 - compare loading 15 messages on startup instead of 20
 - look into scheduled SMS bug reported
 

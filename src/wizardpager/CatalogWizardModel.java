@@ -52,14 +52,14 @@ public class CatalogWizardModel extends AbstractWizardModel {
         }
 
         String changeLog = "Version " + version + ":\n\n" +
-                "- Added Cards UI 2.0, based on the original cards UI, but correcting old speed issues, adding full theme-ability, and bringing it more in line with other layouts\n" +
+                "- Added Cards UI 2.0, based on the original cards UI, but correcting old speed issues, adding full theme-ability, and bringing it more in line with other layouts. If you are using the Cards UI currently, it is recommended that you switch.\n" +
                 "- Option to pin conversation list to left side of screen at all times\n" +
                 "- Fixes to sending animations sometimes not showing\n" +
                 "- Minor UI Changes\n" +
                 "- Bug fixes\n\n";
                 
-        String themeEditor = "The theme editor now fully supports the Hangouts UI and popup, " +
-                "better time than ever to get on board and start making Sliding Messaging look exactly how you want!\n\n" +
+        String themeEditor = "The theme editor now fully supports the Cards UI 2.0, making it a " +
+                "better time than ever to get on board and start making Sliding Messaging Pro look exactly how you want!\n\n" +
                 mContext.getString(R.string.theme_support);
 
         String notesPage = mContext.getResources().getString(R.string.changelog_disclaimers)
