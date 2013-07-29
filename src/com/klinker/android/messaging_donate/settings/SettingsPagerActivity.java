@@ -318,7 +318,7 @@ public class SettingsPagerActivity extends FragmentActivity {
 
             final Context context = getActivity();
 
-            Preference templates = (Preference) findPreference("quick_template_settings");
+            Preference templates = findPreference("quick_template_settings");
             templates.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 
                 @Override
@@ -331,7 +331,7 @@ public class SettingsPagerActivity extends FragmentActivity {
 
             });
 
-            Preference scheduledSMS = (Preference) findPreference("scheduled_sms");
+            Preference scheduledSMS = findPreference("scheduled_sms");
             scheduledSMS.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 
                 @Override
@@ -344,7 +344,7 @@ public class SettingsPagerActivity extends FragmentActivity {
 
             });
 
-            Preference deleteAll = (Preference) findPreference("delete_all");
+            Preference deleteAll = findPreference("delete_all");
             deleteAll.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 
                 @Override
@@ -401,7 +401,7 @@ public class SettingsPagerActivity extends FragmentActivity {
             final Context context = getActivity();
             final SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-            if (sharedPrefs.getString("run_as", "sliding").equals("sliding") || sharedPrefs.getString("run_as", "sliding").equals("hangout"))
+            if (sharedPrefs.getString("run_as", "sliding").equals("sliding") || sharedPrefs.getString("run_as", "sliding").equals("hangout") || sharedPrefs.getString("run_as", "sliding").equals("card2"))
             {
                 getPreferenceScreen().removePreference(findPreference("card_theme"));
                 getPreferenceScreen().removePreference(findPreference("font_settings"));
@@ -410,7 +410,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                 getPreferenceScreen().removePreference(findPreference("simple_cards"));
                 getPreferenceScreen().removePreference(findPreference("top_actionbar"));
 
-                Preference titleSettings = (Preference) findPreference("title_prefs");
+                Preference titleSettings = findPreference("title_prefs");
                 titleSettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                     public boolean onPreferenceClick(Preference preference) {
                         Intent intent = new Intent(context, TitleBarSettingsActivity.class);
@@ -420,7 +420,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                     }
                 });
 
-                Preference customThemeSettings = (Preference) findPreference("custom_theme_prefs");
+                Preference customThemeSettings = findPreference("custom_theme_prefs");
                 customThemeSettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                     public boolean onPreferenceClick(Preference preference) {
                         Intent intent = new Intent(context, ThemeChooserActivity.class);
@@ -498,7 +498,8 @@ public class SettingsPagerActivity extends FragmentActivity {
                             if (sharedPrefs.getString("run_as", "classic").equals("card")) {
                                 new AlertDialog.Builder(context)
                                         .setTitle("Note:")
-                                        .setMessage("Cards UI is more of a proof of concept that we feel would look great for a messaging app. Because of how it is implemented, it will be slower on some devices. You have been warned.")
+                                        .setMessage("Cards UI is more of a proof of concept that we feel would look great for a messaging app. Because of how it is implemented, it will be slower on some devices. You have been warned.\n\n" +
+                                                    "Cards UI 2.0 however, does improve on the performance and brings the UI up to speed with the rest of the app. It is suggested that you use that instead.")
                                         .setPositiveButton(context.getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -596,7 +597,7 @@ public class SettingsPagerActivity extends FragmentActivity {
         {
             final SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-            if (sharedPrefs.getString("run_as", "sliding").equals("sliding") || sharedPrefs.getString("run_as", "sliding").equals("hangout"))
+            if (sharedPrefs.getString("run_as", "sliding").equals("sliding") || sharedPrefs.getString("run_as", "sliding").equals("hangout") || sharedPrefs.getString("run_as", "sliding").equals("card2"))
             {
 
             } else
@@ -611,7 +612,7 @@ public class SettingsPagerActivity extends FragmentActivity {
         {
             final SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-            if (sharedPrefs.getString("run_as", "sliding").equals("sliding") || sharedPrefs.getString("run_as", "sliding").equals("hangout"))
+            if (sharedPrefs.getString("run_as", "sliding").equals("sliding") || sharedPrefs.getString("run_as", "sliding").equals("hangout") || sharedPrefs.getString("run_as", "sliding").equals("card2"))
             {
                 getPreferenceScreen().removePreference(findPreference("hide_contact_number"));
                 getPreferenceScreen().removePreference(findPreference("open_to_first"));

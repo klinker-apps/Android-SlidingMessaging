@@ -41,7 +41,7 @@ public class BatchDeleteActivity extends Activity {
 
 		BatchDeleteArrayAdapter.itemsToDelete = new ArrayList<Integer>();
 
-        if (sharedPrefs.getString("run_as", "sliding").equals("sliding") || sharedPrefs.getString("run_as", "sliding").equals("hangout"))
+        if (sharedPrefs.getString("run_as", "sliding").equals("sliding") || sharedPrefs.getString("run_as", "sliding").equals("hangout") || sharedPrefs.getString("run_as", "sliding").equals("card2"))
         {
             setTheme(android.R.style.Theme_Holo);
             getWindow().getDecorView().setBackgroundColor(sharedPrefs.getInt("ct_messageListBackground", getResources().getColor(R.color.light_silver)));

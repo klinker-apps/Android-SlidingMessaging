@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:paddingLeft="17dp"
+              android:paddingRight="17dp"
+              android:paddingTop="8dp"
+              android:orientation="vertical">
+
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/messageBody"
+                    android:background="@color/white">
+
+        <QuickContactBadge
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageContactPicture"
+                android:src="@drawable/default_avatar"
+                android:minHeight="55dp" android:minWidth="55dp"
+                android:scaleType="centerInside" android:adjustViewBounds="true"
+                android:maxWidth="55dp" android:maxHeight="55dp"
+                android:contentDescription="@string/placeholder"
+                android:layout_margin="5dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"/>
+
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/msgBubble"
+                android:layout_alignParentTop="true"
+                android:layout_alignRight="@+id/imageContactPicture"
+                android:src="@drawable/msg_bubble_left"
+                android:contentDescription="@string/placeholder"
+                android:paddingTop="7dp"
+                android:visibility="gone"/>
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_toLeftOf="@+id/imageContactPicture"
+                android:layout_alignParentLeft="true"
+                android:minHeight="64dp"
+                android:id="@+id/linearLayout">
+
+            <ImageView
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:id="@+id/media"
+                    android:layout_gravity="center"
+                    android:src="@android:color/transparent"
+                    android:contentDescription="@string/placeholder"
+                    android:padding="12dp"/>
+
+            <TextView
+                    android:id="@+id/textBody"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="10dp"
+                    android:text="@string/placeholder"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/card_conversation_summary"
+                    android:gravity="right"
+                    android:layout_gravity="left|center_vertical"
+                    />
+
+            <View android:layout_width="match_parent"
+                  android:layout_height="1dp"
+                  android:background="@color/divider"
+                  android:layout_marginLeft="15dp"
+                  android:layout_marginRight="15dp"
+                  android:id="@+id/divider"/>
+
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ellipsis"
+                    android:layout_gravity="left|center_vertical"
+                    android:src="@drawable/ellipsis"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:contentDescription="@string/placeholder"/>
+
+            <TextView
+                    android:id="@+id/textDate"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="6dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="4dp"
+                    android:text="@string/placeholder"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/card_message_text_date_2"/>
+
+        </LinearLayout>
+    </RelativeLayout>
+
+    <View android:layout_width="match_parent"
+          android:layout_height="2dp"
+          android:background="@color/shadow"
+          android:id="@+id/style"/>
+
+</LinearLayout>

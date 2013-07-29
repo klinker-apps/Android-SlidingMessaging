@@ -2212,7 +2212,7 @@ s
 			messageEntry.setTypeface(font);
 		}
 
-        if (sharedPrefs.getString("run_as", "sliding").equals("hangout"))
+        if (sharedPrefs.getString("run_as", "sliding").equals("hangout") || sharedPrefs.getString("run_as", "sliding").equals("card2"))
         {
             emojiButton.setImageResource(R.drawable.ic_emoji_dark);
         }
@@ -3694,7 +3694,7 @@ s
 			contact.setTypeface(font);
 		}
 
-        if (sharedPrefs.getString("run_as", "sliding").equals("hangout"))
+        if (sharedPrefs.getString("run_as", "sliding").equals("hangout") || sharedPrefs.getString("run_as", "sliding").equals("card2"))
         {
             emojiButton.setImageResource(R.drawable.ic_emoji_dark);
         }
@@ -4072,6 +4072,12 @@ s
 		});
         
         mViewPager.setOffscreenPageLimit(1);
+
+        if (sharedPrefs.getString("run_as", "sliding").equals("card2")) {
+            mViewPager.setOffscreenPageLimit(2);
+            int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -26, context.getResources().getDisplayMetrics());
+            mViewPager.setPageMargin(scale);
+        }
 	}
 	
 	public Bitmap drawableToBitmap (Drawable drawable) {

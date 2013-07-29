@@ -1,8 +1,10 @@
 Version 6.70
 
+- add keyboard stuff to cards layout
+- theme chooser for cards 2.0
 - floating notifications extension
-- make cards ui same as others but with cards message adapter (may piss people off to change it all, but it will be a much better user experience in my opinion and a more rounded app), could call it cards 2.0?
-    - Use cards 2.0 suggestion in cards UI warning
+- make cards ui same as others but with cards message adapter
+    - test with contact pictures on and off, test bottom padding on different themes
 - Message Locking
 - Fix search icon size
 - fix popup residual message in some cases
@@ -19,7 +21,6 @@ Luke's ideas for speed/fluidity improvement:
 3) Batch delete of messages inside single conversation
 5) Tasker options
 6) Attach more options for MMS - create slideshow with videos and audio and pictures, attach plain text contact info
-9) search through messages
 10) Pin contact to always be first conversation
 
 - igamer777@gmail.com, nikorezzano@gmail.com

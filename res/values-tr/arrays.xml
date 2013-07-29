@@ -130,6 +130,7 @@
     
     <string-array name="runAs">
         <item>Kart Görünümü</item>
+        <item>Card UI 2.0</item>
         <item>Hangouts Görünümü</item>
         <item>Klasik Görünüm</item>
     </string-array>

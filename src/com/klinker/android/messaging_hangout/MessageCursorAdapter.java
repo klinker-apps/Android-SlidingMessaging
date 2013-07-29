@@ -813,7 +813,20 @@ public class MessageCursorAdapter extends CursorAdapter {
 
         if (cursor.getPosition() == 0)
         {
-            view.setPadding(10,5,10,7);
+            if (sharedPrefs.getString("run_as", "sliding").equals("hangout")) {
+                int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 7, context.getResources().getDisplayMetrics());
+                int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, context.getResources().getDisplayMetrics());
+                int scale3 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, context.getResources().getDisplayMetrics());
+                view.setPadding(scale, scale2, scale, scale3);
+            } else if (sharedPrefs.getString("run_as", "sliding").equals("card2")) {
+                int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 17, context.getResources().getDisplayMetrics());
+                int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, context.getResources().getDisplayMetrics());
+                int scale3 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, context.getResources().getDisplayMetrics());
+                view.setPadding(scale, scale2, scale, scale3);
+            } else {
+                int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, context.getResources().getDisplayMetrics());
+                view.setPadding(0, 0, 0, scale);
+            }
         }
 
         final String dateT = date;
@@ -1753,15 +1766,6 @@ public class MessageCursorAdapter extends CursorAdapter {
 
         });
 
-        if (!sharedPrefs.getString("run_as", "sliding").equals("hangout")) {
-            if (cursor.getPosition() == 0) {
-                int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, context.getResources().getDisplayMetrics());
-                view.setPadding(0, 0, 0, scale);
-            } else {
-                view.setPadding(0, 0, 0, 0);
-            }
-        }
-
         if (MainActivity.animationOn == true && cursor.getPosition() == 0 && threadPosition == 0)
         {
             String animation = sharedPrefs.getString("send_animation", "left");
@@ -1829,25 +1833,28 @@ public class MessageCursorAdapter extends CursorAdapter {
         if (type == 1) {
             if (sharedPrefs.getString("run_as", "sliding").equals("hangout")) {
                 v = mInflater.inflate(R.layout.message_hangout_sent, parent, false);
-            } else {
+            } else if (sharedPrefs.getString("run_as", "sliding").equals("sliding")) {
                 v = mInflater.inflate(R.layout.message_classic_sent, parent, false);
+            } else {
+                v = mInflater.inflate(R.layout.message_card2_sent, parent, false);
             }
 
             holder.text = (TextView) v.findViewById(R.id.textBody);
-
             holder.date = (TextView) v.findViewById(R.id.textDate);
             holder.media = (ImageView) v.findViewById(R.id.media);
             holder.image = (QuickContactBadge) v.findViewById(R.id.imageContactPicture);
             holder.ellipsis = (ImageView) v.findViewById(R.id.ellipsis);
             holder.bubble = (ImageView) v.findViewById(R.id.msgBubble);
-            holder.background = (LinearLayout) v.findViewById(R.id.messageBody);
+            holder.background = v.findViewById(R.id.messageBody);
 
             holder.image.assignContactUri(ContactsContract.Profile.CONTENT_URI);
         } else {
             if (sharedPrefs.getString("run_as", "sliding").equals("hangout")) {
                 v = mInflater.inflate(R.layout.message_hangout_received, parent, false);
-            } else {
+            } else if (sharedPrefs.getString("run_as", "sliding").equals("sliding")) {
                 v = mInflater.inflate(R.layout.message_classic_received, parent, false);
+            } else {
+                v = mInflater.inflate(R.layout.message_card2_received, parent, false);
             }
 
             holder.text = (TextView) v.findViewById(R.id.textBody);
@@ -1856,9 +1863,25 @@ public class MessageCursorAdapter extends CursorAdapter {
             holder.image = (QuickContactBadge) v.findViewById(R.id.imageContactPicture);
             holder.downloadButton = (Button) v.findViewById(R.id.downloadButton);
             holder.bubble = (ImageView) v.findViewById(R.id.msgBubble);
-            holder.background = (LinearLayout) v.findViewById(R.id.messageBody);
+            holder.background = v.findViewById(R.id.messageBody);
 
             holder.image.assignContactFromPhone(inboxNumbers, true);
+        }
+
+        if (sharedPrefs.getString("run_as", "sliding").equals("card2")) {
+            String themeName = sharedPrefs.getString("ct_theme_name", "Light Theme");
+
+            if (themeName.equals("Light Theme") || themeName.equals("Hangouts Theme") || themeName.equals("Light Theme 2.0") || themeName.equals("Light Green Theme") || themeName.equals("Burnt Orange Theme")) {
+
+            } else {
+                v.findViewById(R.id.shadow).setVisibility(View.GONE);
+            }
+
+            if (type == 1) {
+                v.findViewById(R.id.divider).setBackgroundColor(convertToColorInt(convertToARGB(sharedPrefs.getInt("ct_sentTextColor", context.getResources().getColor(R.color.black)))));
+            } else {
+                v.findViewById(R.id.divider).setBackgroundColor(convertToColorInt(convertToARGB(sharedPrefs.getInt("ct_receivedTextColor", context.getResources().getColor(R.color.black)))));
+            }
         }
 
         if (sharedPrefs.getBoolean("custom_font", false))
@@ -2018,7 +2041,13 @@ public class MessageCursorAdapter extends CursorAdapter {
         }
 
         if (sharedPrefs.getString("run_as", "sliding").equals("hangout")) {
-            v.setPadding(10,5,10,5);
+            int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 7, context.getResources().getDisplayMetrics());
+            int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, context.getResources().getDisplayMetrics());
+            v.setPadding(scale, scale2, scale, scale2);
+        } else if (sharedPrefs.getString("run_as", "sliding").equals("card2")) {
+            int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 17, context.getResources().getDisplayMetrics());
+            int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, context.getResources().getDisplayMetrics());
+            v.setPadding(scale, scale2, scale, 0);
         }
 
         v.setTag(holder);
@@ -2045,7 +2074,7 @@ public class MessageCursorAdapter extends CursorAdapter {
         public TextView text;
         public TextView date;
         public QuickContactBadge image;
-        public LinearLayout background;
+        public View background;
         public ImageView media;
         public ImageView ellipsis;
         public Button downloadButton;
@@ -2934,4 +2963,52 @@ public class MessageCursorAdapter extends CursorAdapter {
         }
     };
 
+    public static String convertToARGB(int color) {
+        String alpha = "99";
+        String red = Integer.toHexString(Color.red(color));
+        String green = Integer.toHexString(Color.green(color));
+        String blue = Integer.toHexString(Color.blue(color));
+
+        if (alpha.length() == 1) {
+            alpha = "0" + alpha;
+        }
+
+        if (red.length() == 1) {
+            red = "0" + red;
+        }
+
+        if (green.length() == 1) {
+            green = "0" + green;
+        }
+
+        if (blue.length() == 1) {
+            blue = "0" + blue;
+        }
+
+        return "#" + alpha + red + green + blue;
+    }
+
+    public static int convertToColorInt(String argb) throws NumberFormatException {
+
+        if (argb.startsWith("#")) {
+            argb = argb.replace("#", "");
+        }
+
+        int alpha = -1, red = -1, green = -1, blue = -1;
+
+        if (argb.length() == 8) {
+            alpha = Integer.parseInt(argb.substring(0, 2), 16);
+            red = Integer.parseInt(argb.substring(2, 4), 16);
+            green = Integer.parseInt(argb.substring(4, 6), 16);
+            blue = Integer.parseInt(argb.substring(6, 8), 16);
+        }
+        else if (argb.length() == 6) {
+            alpha = 255;
+            red = Integer.parseInt(argb.substring(0, 2), 16);
+            green = Integer.parseInt(argb.substring(2, 4), 16);
+            blue = Integer.parseInt(argb.substring(4, 6), 16);
+        }
+
+        return Color.argb(alpha, red, green, blue);
+    }
 }

@@ -122,6 +122,7 @@
     
     <string-array name="runAs">
         <item>Diseño nuevo</item>
+        <item>Card UI 2.0</item>
         <item>Diseño hangouts</item>
         <item>Diseño clásico</item>
     </string-array>
