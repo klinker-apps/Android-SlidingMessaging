@@ -1,150 +1,156 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical" >
 
-    <RelativeLayout
-        android:id="@+id/expandedOptions"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/linearLayout1"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="19dp"
-        android:layout_marginRight="19dp"
-        android:background="@drawable/card_background" >
-
-        <ImageButton
-            android:id="@+id/deleteButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:background="@drawable/dark_send_button"
-            android:contentDescription="@string/placeholder"
-            android:padding="5dp"
-            android:src="@drawable/ic_menu_delete_light" />
-
-        <Button
-            android:id="@+id/viewConversationButton"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/deleteButton"
-            android:layout_alignParentTop="true"
-            android:layout_marginBottom="1dp"
-            android:layout_toLeftOf="@+id/readButton"
-            android:layout_toRightOf="@+id/deleteButton"
-            android:background="@drawable/dark_send_button"
-            android:minHeight="20dp"
-            android:text="@string/view_conversation"
-            android:textColor="@color/card_conversation_name" />
-
-        <ImageButton
-            android:id="@+id/readButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/deleteButton"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:background="@drawable/dark_send_button"
-            android:contentDescription="@string/placeholder"
-            android:padding="5dp"
-            android:src="@drawable/ic_menu_done_holo_light" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/sendBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/sendBar"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/expandedOptions"
-        android:layout_marginLeft="19dp"
-        android:layout_marginRight="19dp"
-        android:background="@drawable/card_background"
-        android:paddingBottom="5dp"
-        android:paddingTop="3dp" >
-
-        <ImageButton
-            android:id="@+id/emojiButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/messageEntry"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:background="@drawable/dark_send_button"
-            android:contentDescription="@string/placeholder"
-            android:padding="5dp"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp"
-            android:src="@drawable/emo_im_smirk" />
-
-        <EditText
-            android:id="@+id/messageEntry"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/sendButton"
-            android:layout_toRightOf="@+id/emojiButton"
-            android:background="@null"
-            android:ems="10"
-            android:hint="@string/type_message"
-            android:inputType="textCapSentences|textMultiLine|textShortMessage"
-            android:minHeight="30dp"
-            android:padding="5dp"
-            android:paddingBottom="5dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="3dp"
-            android:textColor="@color/card_conversation_name"
-            android:textColorHint="@color/card_message_text_date"
-            android:textSize="@dimen/contact_name_size"
-            android:textCursorDrawable="@null"/>
-
-        <ImageButton
-            android:id="@+id/sendButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/messageEntry"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:background="@drawable/dark_send_button"
-            android:contentDescription="@string/placeholder"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:src="@drawable/ic_action_send_black" />
-
-        <TextView
-            android:id="@+id/charsRemaining"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/sendButton"
-            android:layout_alignLeft="@+id/sendButton"
-            android:layout_alignParentRight="true"
-            android:gravity="center"
-            android:text="@string/chars"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/card_message_text_date_2"
-            android:textSize="@dimen/chars_remaining" />
-
-    </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:orientation="vertical" >
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/messagePager"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="@null" >
-        </android.support.v4.view.ViewPager>
-    </LinearLayout>
+            android:layout_height="match_parent"
+            android:fillViewport="true">
 
-</RelativeLayout>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical" >
+
+        <RelativeLayout
+                android:id="@+id/expandedOptions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linearLayout1"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="19dp"
+                android:layout_marginRight="19dp"
+                android:background="@drawable/card_background" >
+
+            <ImageButton
+                    android:id="@+id/deleteButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:background="@drawable/dark_send_button"
+                    android:contentDescription="@string/placeholder"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_menu_delete_light" />
+
+            <Button
+                    android:id="@+id/viewConversationButton"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/deleteButton"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginBottom="1dp"
+                    android:layout_toLeftOf="@+id/readButton"
+                    android:layout_toRightOf="@+id/deleteButton"
+                    android:background="@drawable/dark_send_button"
+                    android:minHeight="20dp"
+                    android:text="@string/view_conversation"
+                    android:textColor="@color/card_conversation_name" />
+
+            <ImageButton
+                    android:id="@+id/readButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/deleteButton"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:background="@drawable/dark_send_button"
+                    android:contentDescription="@string/placeholder"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_menu_done_holo_light" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+                android:id="@+id/sendBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/sendBar"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/expandedOptions"
+                android:layout_marginLeft="19dp"
+                android:layout_marginRight="19dp"
+                android:background="@drawable/card_background"
+                android:paddingBottom="5dp"
+                android:paddingTop="3dp" >
+
+            <ImageButton
+                    android:id="@+id/emojiButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/messageEntry"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:background="@drawable/dark_send_button"
+                    android:contentDescription="@string/placeholder"
+                    android:padding="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:src="@drawable/emo_im_smirk" />
+
+            <EditText
+                    android:id="@+id/messageEntry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_toLeftOf="@+id/sendButton"
+                    android:layout_toRightOf="@+id/emojiButton"
+                    android:background="@null"
+                    android:ems="10"
+                    android:hint="@string/type_message"
+                    android:inputType="textCapSentences|textMultiLine|textShortMessage"
+                    android:minHeight="30dp"
+                    android:padding="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="3dp"
+                    android:textColor="@color/card_conversation_name"
+                    android:textColorHint="@color/card_message_text_date"
+                    android:textSize="@dimen/contact_name_size"
+                    android:textCursorDrawable="@null"/>
+
+            <ImageButton
+                    android:id="@+id/sendButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/messageEntry"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:background="@drawable/dark_send_button"
+                    android:contentDescription="@string/placeholder"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:src="@drawable/ic_action_send_black" />
+
+            <TextView
+                    android:id="@+id/charsRemaining"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/sendButton"
+                    android:layout_alignLeft="@+id/sendButton"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center"
+                    android:text="@string/chars"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/card_message_text_date_2"
+                    android:textSize="@dimen/chars_remaining" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+                android:id="@+id/linearLayout1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:orientation="vertical" >
+
+            <android.support.v4.view.ViewPager
+                    android:id="@+id/messagePager"
+                    android:layout_width="match_parent"
+                    android:layout_height="175dp"
+                    android:background="@null" >
+            </android.support.v4.view.ViewPager>
+        </LinearLayout>
+    </RelativeLayout>
+</ScrollView>
