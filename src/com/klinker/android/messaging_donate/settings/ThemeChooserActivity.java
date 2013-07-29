@@ -519,6 +519,8 @@ public class ThemeChooserActivity extends Activity {
                 view = inflater.inflate(R.layout.theme_preview, container, false);
             } else if (sharedPrefs.getString("run_as", "sliding").equals("hangout")) {
                 view = inflater.inflate(R.layout.theme_preview_hangouts, container, false);
+            } else if (sharedPrefs.getString("run_as", "sliding").equals("card2")) {
+                view = inflater.inflate(R.layout.theme_preview_card2, container, false);
             }
 			
 			return refreshTheme();
@@ -526,7 +528,7 @@ public class ThemeChooserActivity extends Activity {
 		
 		public View refreshTheme()
 		{
-            if (sharedPrefs.getString("run_as", "sliding").equals("hangout")) {
+            if (sharedPrefs.getString("run_as", "sliding").equals("hangout") || sharedPrefs.getString("run_as", "sliding").equals("card2")) {
                 TextView receivedMessageText = (TextView) view.findViewById(R.id.textBody);
                 TextView sentMessageText = (TextView) view.findViewById(R.id.textBody2);
                 ImageButton emojiButton = (ImageButton) view.findViewById(R.id.display_emoji);
