@@ -106,6 +106,6 @@
     <View android:layout_width="match_parent"
           android:layout_height="2dp"
           android:background="@color/shadow"
-          android:id="@+id/style"/>
+          android:id="@+id/shadow"/>
 
 </LinearLayout>
