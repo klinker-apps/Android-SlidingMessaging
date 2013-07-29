@@ -2964,7 +2964,7 @@ public class MessageCursorAdapter extends CursorAdapter {
     };
 
     public static String convertToARGB(int color) {
-        String alpha = "99";
+        String alpha = "55";
         String red = Integer.toHexString(Color.red(color));
         String green = Integer.toHexString(Color.green(color));
         String blue = Integer.toHexString(Color.blue(color));

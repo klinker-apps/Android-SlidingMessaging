@@ -503,5 +503,6 @@
     <string name="message_body">Message Body</string>
     <string name="pin_conversation_list">Pin Conversation List to Screen</string>
     <string name="pin_conversation_list_summary">Choose when the conversation list should stay on the screen instead of being hidden in the drawer</string>
+    <string name="load_all_messages">Load All Messages</string>
     
 </resources>

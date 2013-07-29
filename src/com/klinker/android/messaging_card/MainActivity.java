@@ -4708,6 +4708,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 		public Context context;
 		public ArrayList<String> threadIds, inboxNumber, inboxBody, group, count, read;
 		public Cursor query2;
+        public CustomListView messageList;
 		
 		public MessageSectionFragment() {
 			
@@ -4850,7 +4851,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
                                 query2 = CacheService.conversations.get(position);
                             }
 
-                            final CustomListView messageList = (CustomListView) view.findViewById(R.id.messageListView);
+                            messageList = (CustomListView) view.findViewById(R.id.messageListView);
                             final MessageArrayAdapter adapter = new MessageArrayAdapter((Activity) context, findContactNumber(inboxNumber.get(position), context), threadIds.get(position), query2, position);
                             MainActivity.isFastScrolling = false;
                             MainActivity.scrollTo = 0;
@@ -4897,6 +4898,12 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
                                     messageList.setStackFromBottom(true);
                                     messageList.setDividerHeight(7);
                                     messageList.setPadding(0, 0, 0, 0);
+
+                                    messageList.setOnSizeChangedListener(new CustomListView.OnSizeChangedListener() {
+                                        public void onSizeChanged(int width, int height, int oldWidth, int oldHeight) {
+                                            smoothScrollToEnd(false, height - oldHeight);
+                                        }
+                                    });
 
                                     if (!sharedPrefs.getBoolean("display_contact_cards", false))
                                     {
@@ -4945,9 +4952,9 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
                                             }
                                         });
                                         try {
-                                            footer.setText(context.getResources().getString(R.string.load_all));
+                                            footer.setText(context.getResources().getString(R.string.load_all_messages));
                                         } catch (Exception e) {
-                                            footer.setText("Load All Conversations");
+                                            footer.setText("Load All Messages");
                                         }
                                         footer.setTypeface(font);
                                         footer.setBackgroundResource(android.R.color.transparent);
@@ -4965,7 +4972,6 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
                                     }
                                 } catch (Exception e) {
                                     e.printStackTrace();
-                                    // TODO something when wrong attaching button, figure out what.
                                 }
 
 								conversationList.setAdapter(adapter);
@@ -5163,6 +5169,52 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 			
 			return view;
 		}
+
+        private int mLastSmoothScrollPosition;
+
+        private void smoothScrollToEnd(boolean force, int listSizeChange) {
+            int lastItemVisible = messageList.getLastVisiblePosition();
+            int lastItemInList = messageList.getAdapter().getCount() - 1;
+            if (lastItemVisible < 0 || lastItemInList < 0) {
+                return;
+            }
+
+            View lastChildVisible =
+                    messageList.getChildAt(lastItemVisible - messageList.getFirstVisiblePosition());
+            int lastVisibleItemBottom = 0;
+            int lastVisibleItemHeight = 0;
+            if (lastChildVisible != null) {
+                lastVisibleItemBottom = lastChildVisible.getBottom();
+                lastVisibleItemHeight = lastChildVisible.getHeight();
+            }
+
+            int listHeight = messageList.getHeight();
+            boolean lastItemTooTall = lastVisibleItemHeight > listHeight;
+            boolean willScroll = force ||
+                    ((listSizeChange != 0 || lastItemInList != mLastSmoothScrollPosition) &&
+                            lastVisibleItemBottom + listSizeChange <=
+                                    listHeight - messageList.getPaddingBottom());
+            if (willScroll || (lastItemTooTall && lastItemInList == lastItemVisible)) {
+                if (Math.abs(listSizeChange) > 200) {
+                    if (lastItemTooTall) {
+                        messageList.setSelectionFromTop(lastItemInList,
+                                listHeight - lastVisibleItemHeight);
+                    } else {
+                        messageList.setSelection(lastItemInList);
+                    }
+                } else if (lastItemInList - lastItemVisible > 20) {
+                    messageList.setSelection(lastItemInList);
+                } else {
+                    if (lastItemTooTall) {
+                        messageList.setSelectionFromTop(lastItemInList,
+                                listHeight - lastVisibleItemHeight);
+                    } else {
+                        messageList.smoothScrollToPosition(lastItemInList);
+                    }
+                    mLastSmoothScrollPosition = lastItemInList;
+                }
+            }
+        }
 	}
 
     public static String findContactNumber(String id, Context context) {
