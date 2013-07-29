@@ -1,6 +1,5 @@
 Version 6.70
 
-- add keyboard stuff to cards layout
 - theme chooser for cards 2.0
 - floating notifications extension
 - Message Locking
