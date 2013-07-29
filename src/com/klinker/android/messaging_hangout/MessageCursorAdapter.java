@@ -1888,9 +1888,9 @@ public class MessageCursorAdapter extends CursorAdapter {
             }
 
             if (type == 1) {
-                v.findViewById(R.id.divider).setBackgroundColor(convertToColorInt(convertToARGB(sharedPrefs.getInt("ct_sentTextColor", context.getResources().getColor(R.color.black)))));
+                v.findViewById(R.id.divider).setBackgroundColor(convertToColorInt(convertToARGB(sharedPrefs.getInt("ct_sentTextColor", context.getResources().getColor(R.color.black)), "44")));
             } else {
-                v.findViewById(R.id.divider).setBackgroundColor(convertToColorInt(convertToARGB(sharedPrefs.getInt("ct_receivedTextColor", context.getResources().getColor(R.color.black)))));
+                v.findViewById(R.id.divider).setBackgroundColor(convertToColorInt(convertToARGB(sharedPrefs.getInt("ct_receivedTextColor", context.getResources().getColor(R.color.black)), "44")));
             }
         }
 
@@ -1935,11 +1935,9 @@ public class MessageCursorAdapter extends CursorAdapter {
             holder.downloadButton.setVisibility(View.GONE);
         }
 
-        holder.date.setAlpha((float) .5);
-
         if (type == 1) {
             holder.text.setTextColor(sharedPrefs.getInt("ct_sentTextColor", context.getResources().getColor(R.color.black)));
-            holder.date.setTextColor(sharedPrefs.getInt("ct_sentTextColor", context.getResources().getColor(R.color.black)));
+            holder.date.setTextColor(convertToColorInt(convertToARGB(sharedPrefs.getInt("ct_sentTextColor", context.getResources().getColor(R.color.black)), "55")));
             holder.background.setBackgroundColor(sharedPrefs.getInt("ct_sentMessageBackground", context.getResources().getColor(R.color.white)));
             holder.media.setBackgroundColor(sharedPrefs.getInt("ct_sentMessageBackground", context.getResources().getColor(R.color.white)));
             holder.bubble.setColorFilter(sharedPrefs.getInt("ct_sentMessageBackground", context.getResources().getColor(R.color.white)));
@@ -1984,7 +1982,7 @@ public class MessageCursorAdapter extends CursorAdapter {
             }
         } else {
             holder.text.setTextColor(sharedPrefs.getInt("ct_receivedTextColor", context.getResources().getColor(R.color.black)));
-            holder.date.setTextColor(sharedPrefs.getInt("ct_receivedTextColor", context.getResources().getColor(R.color.black)));
+            holder.date.setTextColor(convertToColorInt(convertToARGB(sharedPrefs.getInt("ct_receivedTextColor", context.getResources().getColor(R.color.black)), "55")));
             holder.background.setBackgroundColor(sharedPrefs.getInt("ct_receivedMessageBackground", context.getResources().getColor(R.color.white)));
             holder.media.setBackgroundColor(sharedPrefs.getInt("ct_receivedMessageBackground", context.getResources().getColor(R.color.white)));
             holder.bubble.setColorFilter(sharedPrefs.getInt("ct_receivedMessageBackground", context.getResources().getColor(R.color.white)));
@@ -2973,8 +2971,8 @@ public class MessageCursorAdapter extends CursorAdapter {
         }
     };
 
-    public static String convertToARGB(int color) {
-        String alpha = "44";
+    public static String convertToARGB(int color, String a) {
+        String alpha = a;
         String red = Integer.toHexString(Color.red(color));
         String green = Integer.toHexString(Color.green(color));
         String blue = Integer.toHexString(Color.blue(color));
