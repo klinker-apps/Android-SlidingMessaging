@@ -6445,7 +6445,6 @@ s
 		}
 		
 		ConnectivityManager mConnMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-		// TODO test this on wifi to see if mobile data is enabled...
         final int result = mConnMgr.startUsingNetworkFeature(ConnectivityManager.TYPE_MOBILE, "enableMMS");
         mConnMgr.setNetworkPreference(ConnectivityManager.TYPE_MOBILE);
 		
@@ -6628,6 +6627,9 @@ s
 						    
 						    ((MainActivity) context).refreshViewPager3();
 						    context.unregisterReceiver(this);
+
+                            ConnectivityManager mConnMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+                            mConnMgr.setNetworkPreference(ConnectivityManager.TYPE_WIFI);
 						    
 						    if (sharedPrefs.getBoolean("wifi_mms_fix", true))
 							{
@@ -6664,6 +6666,9 @@ s
 					    Log.v("Reconnect", "" + wifi.reconnect());
                         setMobileDataEnabled(context, currentDataState);
 					}
+
+                    ConnectivityManager mConnMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+                    mConnMgr.setNetworkPreference(ConnectivityManager.TYPE_WIFI);
 					
 					Cursor query = context.getContentResolver().query(Uri.parse("content://mms"), new String[] {"_id"}, null, null, "date desc");
 					query.moveToFirst();
