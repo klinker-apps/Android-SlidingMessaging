@@ -367,12 +367,14 @@ public class ScheduledService extends IntentService {
                 Pattern pattern = Pattern.compile(patternStr);
                 Matcher matcher = pattern.matcher(body2);
 
-                if (matcher.find())
-                {
-                    length = 70;
+                boolean counter = false;
+
+                if (sharedPrefs.getBoolean("split_counter", false)) {
+                    counter = true;
+                    length -= 7;
                 }
 
-                String[] textToSend = MainActivity.splitByLength(body2, length);
+                String[] textToSend = MainActivity.splitByLength(body2, length, counter);
 
                 for (int i = 0; i < textToSend.length; i++)
                 {
@@ -579,7 +581,14 @@ public class ScheduledService extends IntentService {
                     length = 70;
                 }
 
-                String[] textToSend = MainActivity.splitByLength(body2, length);
+                boolean counter = false;
+
+                if (sharedPrefs.getBoolean("split_counter", false)) {
+                    counter = true;
+                    length -= 7;
+                }
+
+                String[] textToSend = MainActivity.splitByLength(body2, length, counter);
 
                 for (int i = 0; i < textToSend.length; i++)
                 {

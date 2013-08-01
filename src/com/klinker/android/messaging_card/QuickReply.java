@@ -1142,8 +1142,15 @@ public class QuickReply extends FragmentActivity {
 				{
 					length = 70;
 				}
-				
-				String[] textToSend = MainActivity.splitByLength(body2, length);
+
+                boolean counter = false;
+
+                if (sharedPrefs.getBoolean("split_counter", false)) {
+                    counter = true;
+                    length -= 7;
+                }
+
+                String[] textToSend = MainActivity.splitByLength(body2, length, counter);
 				
 				for (int i = 0; i < textToSend.length; i++)
 				{
@@ -1367,8 +1374,15 @@ public class QuickReply extends FragmentActivity {
 				{
 					length = 70;
 				}
-				
-				String[] textToSend = MainActivity.splitByLength(body2, length);
+
+                boolean counter = false;
+
+                if (sharedPrefs.getBoolean("split_counter", false)) {
+                    counter = true;
+                    length -= 7;
+                }
+
+                String[] textToSend = MainActivity.splitByLength(body2, length, counter);
 				
 				for (int i = 0; i < textToSend.length; i++)
 				{

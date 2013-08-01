@@ -101,6 +101,14 @@
         android:defaultValue="false"
         />
 
+    <CheckBoxPreference
+        android:key="split_counter"
+        android:title="@string/split_counter"
+        android:summary="@string/split_counter_summary"
+        android:defaultValue="false"
+        android:dependency="split_sms"
+        />
+
     <PreferenceCategory android:key="backup_category"
                         android:title="@string/backup_settings" >
 

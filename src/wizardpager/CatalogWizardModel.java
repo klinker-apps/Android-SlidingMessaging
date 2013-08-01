@@ -55,6 +55,7 @@ public class CatalogWizardModel extends AbstractWizardModel {
                 "- Added Cards UI 2.0, based on the original cards UI, but correcting old speed issues, adding full theme-ability, and bringing it more in line with other layouts. If you are using the Cards UI currently, it is recommended that you switch.\n" +
                 "- Ability to search though messages\n" +
                 "- Option to pin conversation list to left side of screen at all times\n" +
+                "- Option to show message counter on split SMS messages\n" +
                 "- Minor UI Changes\n" +
                 "- Bug fixes\n\n";
                 

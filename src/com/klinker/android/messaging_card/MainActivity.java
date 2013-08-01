@@ -1471,8 +1471,15 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 												{
 													length = 70;
 												}
-												
-												String[] textToSend = splitByLength(body2, length);
+
+                                                boolean counter = false;
+
+                                                if (sharedPrefs.getBoolean("split_counter", false)) {
+                                                    counter = true;
+                                                    length -= 7;
+                                                }
+
+                                                String[] textToSend = splitByLength(body2, length, counter);
 												
 												for (int i = 0; i < textToSend.length; i++)
 												{
@@ -1729,8 +1736,15 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 												{
 													length = 70;
 												}
-												
-												String[] textToSend = splitByLength(body2, length);
+
+                                                boolean counter = false;
+
+                                                if (sharedPrefs.getBoolean("split_counter", false)) {
+                                                    counter = true;
+                                                    length -= 7;
+                                                }
+
+                                                String[] textToSend = splitByLength(body2, length, counter);
 												
 												for (int i = 0; i < textToSend.length; i++)
 												{
@@ -2309,8 +2323,15 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 													{
 														length = 70;
 													}
-													
-													String[] textToSend = splitByLength(body2, length);
+
+                                                    boolean counter = false;
+
+                                                    if (sharedPrefs.getBoolean("split_counter", false)) {
+                                                        counter = true;
+                                                        length -= 7;
+                                                    }
+
+                                                    String[] textToSend = splitByLength(body2, length, counter);
 													
 													for (int i = 0; i < textToSend.length; i++)
 													{
@@ -2536,8 +2557,15 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 													{
 														length = 70;
 													}
-													
-													String[] textToSend = splitByLength(body2, length);
+
+                                                    boolean counter = false;
+
+                                                    if (sharedPrefs.getBoolean("split_counter", false)) {
+                                                        counter = true;
+                                                        length -= 7;
+                                                    }
+
+                                                    String[] textToSend = splitByLength(body2, length, counter);
 													
 													for (int i = 0; i < textToSend.length; i++)
 													{
@@ -6400,7 +6428,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 		    return null;
 		}
 	  	
-	  	public static String[] splitByLength(String s, int chunkSize)
+	  	public static String[] splitByLength(String s, int chunkSize, boolean counter)
 	  	{
 	  		int arraySize = (int) Math.ceil((double) s.length() / chunkSize);
 
@@ -6418,6 +6446,12 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 	  	            returnArray[index++] = s.substring(i, i+chunkSize);
 	  	        }
 	  	    }
+
+            if (counter) {
+                for (int i = 0; i < returnArray.length; i++) {
+                    returnArray[i] = "(" + (i+1) + "/" + returnArray.length + ") " + returnArray[i];
+                }
+            }
 
 	  	    return returnArray;
 	  	}
