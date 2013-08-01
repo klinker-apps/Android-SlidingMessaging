@@ -105,11 +105,13 @@ import com.klinker.android.messaging_donate.receivers.DeliveredReceiver;
 import com.klinker.android.messaging_donate.receivers.DisconnectWifi;
 import com.klinker.android.messaging_donate.receivers.SentReceiver;
 import com.klinker.android.messaging_donate.settings.SettingsPagerActivity;
+import com.klinker.android.messaging_sliding.blacklist.BlacklistContact;
 import com.klinker.android.messaging_sliding.custom_dialogs.CustomListView;
 import com.klinker.android.messaging_sliding.emojis.EmojiAdapter;
 import com.klinker.android.messaging_sliding.emojis.EmojiAdapter2;
 import com.klinker.android.messaging_sliding.emojis.EmojiConverter;
 import com.klinker.android.messaging_sliding.emojis.EmojiConverter2;
+import com.klinker.android.messaging_sliding.notifications.IndividualSetting;
 import com.klinker.android.messaging_sliding.receivers.CacheService;
 import com.klinker.android.messaging_sliding.receivers.NotificationReceiver;
 import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
@@ -228,6 +230,7 @@ s
     private AppMsg appMsg = null;
     private int appMsgConversations = 0;
     private boolean dismissCrouton = true;
+    private boolean dismissNotification = true;
 
     public static boolean limitConversations = true;
 
@@ -467,287 +470,326 @@ s
 			                date = sms.getTimestampMillis() + "";
 			            }
 			        }
-			        
-			        Calendar cal = Calendar.getInstance();
-			        ContentValues values = new ContentValues();
-			        values.put("address", address);
-			        values.put("body", body);
-			        values.put("date", cal.getTimeInMillis() + "");
-			        values.put("read", false);
-			        values.put("date_sent", date);
-			        getContentResolver().insert(Uri.parse("content://sms/inbox"), values);
-			        
-			        if (sharedPrefs.getBoolean("notifications", true))
-			        {
-				        AudioManager am = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
-	
-				        switch (am.getRingerMode()) {
-				            case AudioManager.RINGER_MODE_SILENT:
-				                break;
-				            case AudioManager.RINGER_MODE_VIBRATE:
-				            	if (sharedPrefs.getBoolean("vibrate", true))
-						        {
-						        	Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-						        	
-						        	if (!sharedPrefs.getBoolean("custom_vibrate_pattern", false))
-						        	{
-							        	String vibPat = sharedPrefs.getString("vibrate_pattern", "2short");
-							        	
-							        	if (vibPat.equals("short"))
-							        	{
-							        		long[] pattern = {0L, 400L};
-							        		vibrator.vibrate(pattern, -1);
-							        	} else if (vibPat.equals("long"))
-							        	{
-							        		long[] pattern = {0L, 800L};
-							        		vibrator.vibrate(pattern, -1);
-							        	} else if (vibPat.equals("2short"))
-							        	{
-							        		long[] pattern = {0L, 400L, 100L, 400L};
-							        		vibrator.vibrate(pattern, -1);
-							        	} else if (vibPat.equals("2long"))
-							        	{
-							        		long[] pattern = {0L, 800L, 200L, 800L};
-							        		vibrator.vibrate(pattern, -1);
-							        	} else if (vibPat.equals("3short"))
-							        	{
-							        		long[] pattern = {0L, 400L, 100L, 400L, 100L, 400L};
-							        		vibrator.vibrate(pattern, -1);
-							        	} else if (vibPat.equals("3long"))
-							        	{
-							        		long[] pattern = {0L, 800L, 200L, 800L, 200L, 800L};
-							        		vibrator.vibrate(pattern, -1);
-							        	}
-						        	} else
-						        	{
-						        		try
-						        		{
-							        		String[] vibPat = sharedPrefs.getString("set_custom_vibrate_pattern", "0, 100, 100, 100").split(", ");
-							        		long[] pattern = new long[vibPat.length];
-							        		
-							        		for (int i = 0; i < vibPat.length; i++)
-							        		{
-							        			pattern[i] = Long.parseLong(vibPat[i]);
-							        		}
-							        		
-							        		vibrator.vibrate(pattern, -1);
-						        		} catch (Exception e)
-						        		{
-						        			
-						        		}
-						        	}
-						        }
-				            	
-				                break;
-				            case AudioManager.RINGER_MODE_NORMAL:
-				            	try
-				            	{
-					            	Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-					            	
-					            	try
-							        {
-							        	notification = (Uri.parse(sharedPrefs.getString("ringtone", "null")));
-							        } catch(Exception e)
-							        {
-							        	notification = (RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-							        }
-					            	
-					            	Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
-					            	r.play();
-					            	
-					            	if (sharedPrefs.getBoolean("vibrate", true))
-							        {
-							        	Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-							        	
-							        	if (!sharedPrefs.getBoolean("custom_vibrate_pattern", false))
-							        	{
-								        	String vibPat = sharedPrefs.getString("vibrate_pattern", "2short");
-								        	
-								        	if (vibPat.equals("short"))
-								        	{
-								        		long[] pattern = {0L, 400L};
-								        		vibrator.vibrate(pattern, -1);
-								        	} else if (vibPat.equals("long"))
-								        	{
-								        		long[] pattern = {0L, 800L};
-								        		vibrator.vibrate(pattern, -1);
-								        	} else if (vibPat.equals("2short"))
-								        	{
-								        		long[] pattern = {0L, 400L, 100L, 400L};
-								        		vibrator.vibrate(pattern, -1);
-								        	} else if (vibPat.equals("2long"))
-								        	{
-								        		long[] pattern = {0L, 800L, 200L, 800L};
-								        		vibrator.vibrate(pattern, -1);
-								        	} else if (vibPat.equals("3short"))
-								        	{
-								        		long[] pattern = {0L, 400L, 100L, 400L, 100L, 400L};
-								        		vibrator.vibrate(pattern, -1);
-								        	} else if (vibPat.equals("3long"))
-								        	{
-								        		long[] pattern = {0L, 800L, 200L, 800L, 200L, 800L};
-								        		vibrator.vibrate(pattern, -1);
-								        	}
-							        	} else
-							        	{
-							        		try
-							        		{
-								        		String[] vibPat = sharedPrefs.getString("set_custom_vibrate_pattern", "0, 100, 100, 100").split(", ");
-								        		long[] pattern = new long[vibPat.length];
-								        		
-								        		for (int i = 0; i < vibPat.length; i++)
-								        		{
-								        			pattern[i] = Long.parseLong(vibPat[i]);
-								        		}
-								        		
-								        		vibrator.vibrate(pattern, -1);
-							        		} catch (Exception e)
-							        		{
-							        			
-							        		}
-							        	}
-							        }
-				            	} catch (Exception e)
-				            	{
-				            		
-				            	}
-				            	
-				                break;
-				        }
-			        }
-			        
-			        messageRecieved = true;
-			        notChanged = false;
-			        jump = false;
 
-                    try
+                    ArrayList<BlacklistContact> blacklist = readFromFile6(context);
+                    int blacklistType = 0;
+
+                    for (int i = 0; i < blacklist.size(); i++)
                     {
-                        if (address.replace(" ", "").replace("(", "").replace(")", "").replace("-", "").endsWith(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context).replace(" ", "").replace("(", "").replace(")", "").replace("-", "")))
+                        if (blacklist.get(i).name.equals(address.replace("-", "").replace("(", "").replace(")", "").replace(" ", "").replace("+1", "")))
                         {
-                            animationReceived = 1;
-                            animationThread = mViewPager.getCurrentItem();
-                        } else
+                            blacklistType = blacklist.get(i).type;
+                        }
+                    }
+
+                    if (blacklistType == 2)
+                    {
+                        abortBroadcast();
+                    } else {
+			        
+                        Calendar cal = Calendar.getInstance();
+                        ContentValues values = new ContentValues();
+                        values.put("address", address);
+                        values.put("body", body);
+                        values.put("date", cal.getTimeInMillis() + "");
+                        values.put("read", false);
+                        values.put("date_sent", date);
+                        getContentResolver().insert(Uri.parse("content://sms/inbox"), values);
+
+                        String name = findContactName(address, context);
+                        String id = "0";
+
+                        Uri phoneUri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(address.replaceAll("[^0-9\\+]", "")));
+                        Cursor phonesCursor = context.getContentResolver().query(phoneUri, new String[] {ContactsContract.Contacts._ID}, null, null, null);
+
+                        if(phonesCursor != null && phonesCursor.moveToFirst()) {
+                            id = phonesCursor.getString(0);
+                        }
+
+                        InputStream input = openDisplayPhoto(Long.parseLong(id));
+
+                        if (input == null)
+                        {
+                            input = context.getResources().openRawResource(R.drawable.ic_contact_picture);
+                        }
+
+                        Bitmap contactImage = Bitmap.createScaledBitmap(BitmapFactory.decodeStream(input), 120, 120, true);
+
+                        if (sharedPrefs.getBoolean("notifications", true))
+                        {
+                            NotificationCompat.Builder mBuilder =
+                                    new NotificationCompat.Builder(context)
+                                            .setSmallIcon(R.drawable.stat_notify_sms)
+                                            .setContentTitle(name)
+                                            .setContentText(body)
+                                            .setTicker(name + ": " + body);
+
+                            if (!id.equals("0"))
+                                mBuilder.setLargeIcon(contactImage);
+
+                            setIcon(mBuilder);
+
+                            if(!individualNotification(mBuilder, name, context))
+                            {
+                                if (sharedPrefs.getBoolean("vibrate", true))
+                                {
+                                    if (!sharedPrefs.getBoolean("custom_vibrate_pattern", false))
+                                    {
+                                        String vibPat = sharedPrefs.getString("vibrate_pattern", "2short");
+
+                                        if (vibPat.equals("short"))
+                                        {
+                                            long[] pattern = {0L, 400L};
+                                            mBuilder.setVibrate(pattern);
+                                        } else if (vibPat.equals("long"))
+                                        {
+                                            long[] pattern = {0L, 800L};
+                                            mBuilder.setVibrate(pattern);
+                                        } else if (vibPat.equals("2short"))
+                                        {
+                                            long[] pattern = {0L, 400L, 100L, 400L};
+                                            mBuilder.setVibrate(pattern);
+                                        } else if (vibPat.equals("2long"))
+                                        {
+                                            long[] pattern = {0L, 800L, 200L, 800L};
+                                            mBuilder.setVibrate(pattern);
+                                        } else if (vibPat.equals("3short"))
+                                        {
+                                            long[] pattern = {0L, 400L, 100L, 400L, 100L, 400L};
+                                            mBuilder.setVibrate(pattern);
+                                        } else if (vibPat.equals("3long"))
+                                        {
+                                            long[] pattern = {0L, 800L, 200L, 800L, 200L, 800L};
+                                            mBuilder.setVibrate(pattern);
+                                        }
+                                    } else
+                                    {
+                                        try
+                                        {
+                                            String[] vibPat = sharedPrefs.getString("set_custom_vibrate_pattern", "0, 400, 100, 400").replace("L", "").split(", ");
+                                            long[] pattern = new long[vibPat.length];
+
+                                            for (int i = 0; i < vibPat.length; i++)
+                                            {
+                                                pattern[i] = Long.parseLong(vibPat[i]);
+                                            }
+
+                                            mBuilder.setVibrate(pattern);
+                                        } catch (Exception e)
+                                        {
+
+                                        }
+                                    }
+                                }
+
+                                if (sharedPrefs.getBoolean("led", true))
+                                {
+                                    String ledColor = sharedPrefs.getString("led_color", "white");
+                                    int ledOn = sharedPrefs.getInt("led_on_time", 1000);
+                                    int ledOff = sharedPrefs.getInt("led_off_time", 2000);
+
+                                    if (ledColor.equalsIgnoreCase("white"))
+                                    {
+                                        mBuilder.setLights(0xFFFFFFFF, ledOn, ledOff);
+                                    } else if (ledColor.equalsIgnoreCase("blue"))
+                                    {
+                                        mBuilder.setLights(0xFF0099CC, ledOn, ledOff);
+                                    } else if (ledColor.equalsIgnoreCase("green"))
+                                    {
+                                        mBuilder.setLights(0xFF00FF00, ledOn, ledOff);
+                                    } else if (ledColor.equalsIgnoreCase("orange"))
+                                    {
+                                        mBuilder.setLights(0xFFFF8800, ledOn, ledOff);
+                                    } else if (ledColor.equalsIgnoreCase("red"))
+                                    {
+                                        mBuilder.setLights(0xFFCC0000, ledOn, ledOff);
+                                    } else if (ledColor.equalsIgnoreCase("purple"))
+                                    {
+                                        mBuilder.setLights(0xFFAA66CC, ledOn, ledOff);
+                                    } else
+                                    {
+                                        mBuilder.setLights(0xFFFFFFFF, ledOn, ledOff);
+                                    }
+                                }
+
+                                try
+                                {
+                                    mBuilder.setSound(Uri.parse(sharedPrefs.getString("ringtone", "null")));
+                                } catch(Exception e)
+                                {
+                                    mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+                                }
+                            }
+
+                            Intent resultIntent = new Intent(context, com.klinker.android.messaging_donate.MainActivity.class);
+                            resultIntent.setAction(Intent.ACTION_SENDTO);
+                            resultIntent.putExtra("com.klinker.android.OPEN", address);
+
+                            TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+                            stackBuilder.addParentStack(com.klinker.android.messaging_donate.MainActivity.class);
+                            stackBuilder.addNextIntent(resultIntent);
+                            PendingIntent resultPendingIntent =
+                                    stackBuilder.getPendingIntent(
+                                            0,
+                                            PendingIntent.FLAG_CANCEL_CURRENT
+                                    );
+
+                            mBuilder.setContentIntent(resultPendingIntent);
+                            mBuilder.setAutoCancel(true);
+
+                            NotificationManager mNotificationManager =
+                                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+                            Notification notification = new NotificationCompat.BigTextStyle(mBuilder).bigText(body).build();
+                            Intent deleteIntent = new Intent(context, NotificationReceiver.class);
+                            notification.deleteIntent = PendingIntent.getBroadcast(context, 0, deleteIntent, 0);
+                            mNotificationManager.notify(1, notification);
+                            dismissNotification = false;
+
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    NotificationManager mNotificationManager =
+                                            (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                                    mNotificationManager.cancel(1);
+                                    dismissNotification = true;
+                                }
+                            }, 1000);
+                        }
+
+                        messageRecieved = true;
+                        notChanged = false;
+                        jump = false;
+
+                        try
+                        {
+                            if (address.replace(" ", "").replace("(", "").replace(")", "").replace("-", "").endsWith(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context).replace(" ", "").replace("(", "").replace(")", "").replace("-", "")))
+                            {
+                                animationReceived = 1;
+                                animationThread = mViewPager.getCurrentItem();
+                            } else
+                            {
+                                animationReceived = 2;
+                            }
+                        } catch (Exception e)
                         {
                             animationReceived = 2;
                         }
-                    } catch (Exception e)
-                    {
-                        animationReceived = 2;
+
+                        if (animationReceived == 2) {
+                            if (sharedPrefs.getBoolean("in_app_notifications", true)) {
+                                boolean flag = false;
+                                for (int i = 0; i < appMsgConversations; i++) {
+                                    if (address.replace(" ", "").replace("(", "").replace(")", "").replace("-", "").endsWith(findContactNumber(inboxNumber.get(i), context).replace(" ", "").replace("(", "").replace(")", "").replace("-", ""))) {
+                                        flag = true;
+                                        break;
+                                    }
+                                }
+
+                                if (!flag) {
+                                    appMsgConversations++;
+                                }
+
+                                if (appMsgConversations == 1) {
+                                    appMsg = AppMsg.makeText((Activity) context, appMsgConversations + getString(R.string.new_conversation), AppMsg.STYLE_ALERT);
+                                } else {
+                                    appMsg = AppMsg.makeText((Activity) context, appMsgConversations + getString(R.string.new_conversations), AppMsg.STYLE_ALERT);
+                                }
+
+                                appMsg.show();
+                            }
+                        }
+
+                        dismissCrouton = false;
+
+                        refreshViewPager4(address, body, date);
+
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                dismissCrouton = true;
+                            }
+                        }, 500);
+
+                        if (!sharedPrefs.getBoolean("hide_title_bar", true) || sharedPrefs.getBoolean("always_show_contact_info", false))
+                        {
+                            final ActionBar ab = getActionBar();
+
+                            if (group.get(mViewPager.getCurrentItem()).equals("yes"))
+                            {
+                                ab.setTitle("Group MMS");
+                                ab.setSubtitle(null);
+                            } else
+                            {
+                                new Thread(new Runnable() {
+
+                                    @Override
+                                    public void run() {
+                                        final String title = findContactName(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context), context);
+
+                                        ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                                            @Override
+                                            public void run() {
+                                                ab.setTitle(title);
+                                            }
+
+                                        });
+
+                                    }
+
+                                }).start();
+
+                                Locale sCachedLocale = Locale.getDefault();
+                                int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
+                                Editable editable = new SpannableStringBuilder(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context));
+                                PhoneNumberUtils.formatNumber(editable, sFormatType);
+                                ab.setSubtitle(editable.toString());
+
+                                if (ab.getTitle().equals(ab.getSubtitle()))
+                                {
+                                    ab.setSubtitle(null);
+                                }
+                            }
+                        }
+
+                        if (sharedPrefs.getBoolean("title_contact_image", false))
+                        {
+                            final ActionBar ab = getActionBar();
+
+                            new Thread(new Runnable() {
+
+                                @Override
+                                public void run() {
+                                    final Bitmap image = getFacebookPhoto(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context), context);
+                                    final BitmapDrawable image2 = new BitmapDrawable(image);
+
+                                    ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                                        @Override
+                                        public void run() {
+                                            ab.setIcon(image2);
+                                        }
+
+                                    });
+
+                                }
+
+                            }).start();
+                        }
+
+                        Intent updateWidget = new Intent("com.klinker.android.messaging.UPDATE_WIDGET");
+                        context.sendBroadcast(updateWidget);
+
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                deleteDraft = true;
+                            }
+                        }, 2000);
+
+                        abortBroadcast();
                     }
-
-                    if (animationReceived == 2) {
-                        if (sharedPrefs.getBoolean("in_app_notifications", true)) {
-                            boolean flag = false;
-                            for (int i = 0; i < appMsgConversations; i++) {
-                                 if (address.replace(" ", "").replace("(", "").replace(")", "").replace("-", "").endsWith(findContactNumber(inboxNumber.get(i), context).replace(" ", "").replace("(", "").replace(")", "").replace("-", ""))) {
-                                     flag = true;
-                                     break;
-                                 }
-                            }
-
-                            if (!flag) {
-                                appMsgConversations++;
-                            }
-
-                            if (appMsgConversations == 1) {
-                                appMsg = AppMsg.makeText((Activity) context, appMsgConversations + getString(R.string.new_conversation), AppMsg.STYLE_ALERT);
-                            } else {
-                                appMsg = AppMsg.makeText((Activity) context, appMsgConversations + getString(R.string.new_conversations), AppMsg.STYLE_ALERT);
-                            }
-
-                            appMsg.show();
-                        }
-                    }
-
-                    dismissCrouton = false;
-
-		        	refreshViewPager4(address, body, date);
-
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            dismissCrouton = true;
-                        }
-                    }, 500);
-		        	
-		        	if (!sharedPrefs.getBoolean("hide_title_bar", true) || sharedPrefs.getBoolean("always_show_contact_info", false))
-					{
-						final ActionBar ab = getActionBar();
-						
-						if (group.get(mViewPager.getCurrentItem()).equals("yes"))
-						{
-							ab.setTitle("Group MMS");
-							ab.setSubtitle(null);
-						} else
-						{
-							new Thread(new Runnable() {
-
-								@Override
-								public void run() {
-									final String title = findContactName(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context), context);
-									
-									((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-										
-										@Override
-										public void run() {
-											ab.setTitle(title);
-										}
-								    	
-								    });
-									
-								}
-								
-							}).start();
-							
-							Locale sCachedLocale = Locale.getDefault();
-							int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
-							Editable editable = new SpannableStringBuilder(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context));
-							PhoneNumberUtils.formatNumber(editable, sFormatType);
-							ab.setSubtitle(editable.toString());
-							
-							if (ab.getTitle().equals(ab.getSubtitle()))
-							{
-								ab.setSubtitle(null);
-							}
-						}
-					}
-					
-					if (sharedPrefs.getBoolean("title_contact_image", false))
-			        {
-			        	final ActionBar ab = getActionBar();
-			        	
-			        	new Thread(new Runnable() {
-
-							@Override
-							public void run() {
-								final Bitmap image = getFacebookPhoto(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context), context);
-								final BitmapDrawable image2 = new BitmapDrawable(image);
-								
-								((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-									
-									@Override
-									public void run() {
-										ab.setIcon(image2);
-									}
-							    	
-							    });
-								
-							}
-
-			        	}).start();
-			        }
-					
-					Intent updateWidget = new Intent("com.klinker.android.messaging.UPDATE_WIDGET");
-					context.sendBroadcast(updateWidget);
-
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            deleteDraft = true;
-                        }
-                    }, 2000);
-					
-					abortBroadcast();
 		        }
 		};
 		
@@ -5788,20 +5830,22 @@ s
 			threadTitle = "0";
 			sentMessage = false;
 		}
-		
-		NotificationManager mNotificationManager =
-	            (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-		mNotificationManager.cancel(1);
-		mNotificationManager.cancel(2);
-		writeToFile2(new ArrayList<String>(), this);
-		
-		Intent intent = new Intent("com.klinker.android.messaging.CLEARED_NOTIFICATION");
-	    this.sendBroadcast(intent);
-	    
-	    Intent stopRepeating = new Intent(this, NotificationRepeaterService.class);
-		PendingIntent pStopRepeating = PendingIntent.getService(this, 0, stopRepeating, 0);
-		AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-		alarm.cancel(pStopRepeating);
+
+        if (dismissNotification) {
+            NotificationManager mNotificationManager =
+                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotificationManager.cancel(1);
+            mNotificationManager.cancel(2);
+            writeToFile2(new ArrayList<String>(), this);
+
+            Intent intent = new Intent("com.klinker.android.messaging.CLEARED_NOTIFICATION");
+            this.sendBroadcast(intent);
+
+            Intent stopRepeating = new Intent(this, NotificationRepeaterService.class);
+            PendingIntent pStopRepeating = PendingIntent.getService(this, 0, stopRepeating, 0);
+            AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            alarm.cancel(pStopRepeating);
+        }
 		
 		if (!firstRun)
 		{
@@ -7656,6 +7700,253 @@ s
 
   	    return returnArray;
   	}
+
+    public void setIcon(NotificationCompat.Builder mBuilder)
+    {
+        if (!sharedPrefs.getBoolean("breath", false))
+        {
+            String notIcon = sharedPrefs.getString("notification_icon", "white");
+            int notImage = Integer.parseInt(sharedPrefs.getString("notification_image", "1"));
+
+            switch (notImage)
+            {
+                case 1:
+                    if (notIcon.equals("white"))
+                    {
+                        mBuilder.setSmallIcon(R.drawable.stat_notify_sms);
+                    } else if (notIcon.equals("blue"))
+                    {
+                        mBuilder.setSmallIcon(R.drawable.stat_notify_sms_blue);
+                    } else if (notIcon.equals("green"))
+                    {
+                        mBuilder.setSmallIcon(R.drawable.stat_notify_sms_green);
+                    } else if (notIcon.equals("orange"))
+                    {
+                        mBuilder.setSmallIcon(R.drawable.stat_notify_sms_orange);
+                    } else if (notIcon.equals("purple"))
+                    {
+                        mBuilder.setSmallIcon(R.drawable.stat_notify_sms_purple);
+                    } else if (notIcon.equals("red"))
+                    {
+                        mBuilder.setSmallIcon(R.drawable.stat_notify_sms_red);
+                    } else if (notIcon.equals("icon"))
+                    {
+                        mBuilder.setSmallIcon(R.drawable.stat_notify_sms_icon);
+                    }
+
+                    break;
+                case 2:
+                    if (notIcon.equals("white"))
+                    {
+                        mBuilder.setSmallIcon(R.drawable.stat_notify_bubble);
+                    } else if (notIcon.equals("blue"))
+                    {
+                        mBuilder.setSmallIcon(R.drawable.stat_notify_bubble_blue);
+                    } else if (notIcon.equals("green"))
+                    {
+                        mBuilder.setSmallIcon(R.drawable.stat_notify_bubble_green);
+                    } else if (notIcon.equals("orange"))
+                    {
+                        mBuilder.setSmallIcon(R.drawable.stat_notify_bubble_orange);
+                    } else if (notIcon.equals("purple"))
+                    {
+                        mBuilder.setSmallIcon(R.drawable.stat_notify_bubble_purple);
+                    } else if (notIcon.equals("red"))
+                    {
+                        mBuilder.setSmallIcon(R.drawable.stat_notify_bubble_red);
+                    } else if (notIcon.equals("icon"))
+                    {
+                        mBuilder.setSmallIcon(R.drawable.stat_notify_sms_icon);
+                    }
+
+                    break;
+                case 3:
+                    if (notIcon.equals("white"))
+                    {
+                        mBuilder.setSmallIcon(R.drawable.stat_notify_point);
+                    } else if (notIcon.equals("blue"))
+                    {
+                        mBuilder.setSmallIcon(R.drawable.stat_notify_point_blue);
+                    } else if (notIcon.equals("green"))
+                    {
+                        mBuilder.setSmallIcon(R.drawable.stat_notify_point_green);
+                    } else if (notIcon.equals("orange"))
+                    {
+                        mBuilder.setSmallIcon(R.drawable.stat_notify_point_orange);
+                    } else if (notIcon.equals("purple"))
+                    {
+                        mBuilder.setSmallIcon(R.drawable.stat_notify_point_purple);
+                    } else if (notIcon.equals("red"))
+                    {
+                        mBuilder.setSmallIcon(R.drawable.stat_notify_point_red);
+                    } else if (notIcon.equals("icon"))
+                    {
+                        mBuilder.setSmallIcon(R.drawable.stat_notify_sms_icon);
+                    }
+
+                    break;
+                case 4:
+                    if (notIcon.equals("white"))
+                    {
+                        mBuilder.setSmallIcon(R.drawable.stat_notify_airplane);
+                    } else if (notIcon.equals("blue"))
+                    {
+                        mBuilder.setSmallIcon(R.drawable.stat_notify_airplane_blue);
+                    } else if (notIcon.equals("green"))
+                    {
+                        mBuilder.setSmallIcon(R.drawable.stat_notify_airplane_green);
+                    } else if (notIcon.equals("orange"))
+                    {
+                        mBuilder.setSmallIcon(R.drawable.stat_notify_airplane_orange);
+                    } else if (notIcon.equals("purple"))
+                    {
+                        mBuilder.setSmallIcon(R.drawable.stat_notify_airplane_purple);
+                    } else if (notIcon.equals("red"))
+                    {
+                        mBuilder.setSmallIcon(R.drawable.stat_notify_airplane_red);
+                    } else if (notIcon.equals("icon"))
+                    {
+                        mBuilder.setSmallIcon(R.drawable.stat_notify_sms_icon);
+                    }
+
+                    break;
+                case 5:
+                    if (notIcon.equals("white"))
+                    {
+                        mBuilder.setSmallIcon(R.drawable.stat_notify_cloud);
+                    } else if (notIcon.equals("blue"))
+                    {
+                        mBuilder.setSmallIcon(R.drawable.stat_notify_cloud_blue);
+                    } else if (notIcon.equals("green"))
+                    {
+                        mBuilder.setSmallIcon(R.drawable.stat_notify_cloud_green);
+                    } else if (notIcon.equals("orange"))
+                    {
+                        mBuilder.setSmallIcon(R.drawable.stat_notify_cloud_orange);
+                    } else if (notIcon.equals("purple"))
+                    {
+                        mBuilder.setSmallIcon(R.drawable.stat_notify_cloud_purple);
+                    } else if (notIcon.equals("red"))
+                    {
+                        mBuilder.setSmallIcon(R.drawable.stat_notify_cloud_red);
+                    } else if (notIcon.equals("icon"))
+                    {
+                        mBuilder.setSmallIcon(R.drawable.stat_notify_sms_icon);
+                    }
+                    break;
+            }
+        } else
+        {
+            mBuilder.setSmallIcon(R.drawable.stat_notify_sms_breath);
+        }
+    }
+
+    public boolean individualNotification(NotificationCompat.Builder mBuilder, String name, Context context)
+    {
+        ArrayList<IndividualSetting> individuals = readFromFile5(context);
+
+        for (int i = 0; i < individuals.size(); i++)
+        {
+            if (individuals.get(i).name.equals(name))
+            {
+                mBuilder.setSound(Uri.parse(individuals.get(i).ringtone));
+
+                try
+                {
+                    String[] vibPat = individuals.get(i).vibratePattern.replace("L", "").split(", ");
+                    long[] pattern = new long[vibPat.length];
+
+                    for (int j = 0; j < vibPat.length; j++)
+                    {
+                        pattern[j] = Long.parseLong(vibPat[j]);
+                    }
+
+                    mBuilder.setVibrate(pattern);
+                } catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+
+                mBuilder.setLights(individuals.get(i).color, sharedPrefs.getInt("led_on_time", 1000), sharedPrefs.getInt("led_off_time", 2000));
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private ArrayList<IndividualSetting> readFromFile5(Context context) {
+
+        ArrayList<IndividualSetting> ret = new ArrayList<IndividualSetting>();
+
+        try {
+            InputStream inputStream;
+
+            if (sharedPrefs.getBoolean("save_to_external", true))
+            {
+                inputStream = new FileInputStream(Environment.getExternalStorageDirectory() + "/SlidingMessaging/individualNotifications.txt");
+            } else
+            {
+                inputStream = context.openFileInput("individualNotifications.txt");
+            }
+
+            if ( inputStream != null ) {
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                String receiveString = "";
+
+                while ( (receiveString = bufferedReader.readLine()) != null) {
+                    ret.add(new IndividualSetting(receiveString, Integer.parseInt(bufferedReader.readLine()), bufferedReader.readLine(), bufferedReader.readLine()));
+                }
+
+                inputStream.close();
+            }
+        }
+        catch (FileNotFoundException e) {
+
+        } catch (IOException e) {
+
+        }
+
+        return ret;
+    }
+
+    private ArrayList<BlacklistContact> readFromFile6(Context context) {
+
+        ArrayList<BlacklistContact> ret = new ArrayList<BlacklistContact>();
+
+        try {
+            InputStream inputStream;
+
+            if (sharedPrefs.getBoolean("save_to_external", true))
+            {
+                inputStream = new FileInputStream(Environment.getExternalStorageDirectory() + "/SlidingMessaging/blacklist.txt");
+            } else
+            {
+                inputStream = context.openFileInput("blacklist.txt");
+            }
+
+            if ( inputStream != null ) {
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                String receiveString = "";
+
+                while ( (receiveString = bufferedReader.readLine()) != null) {
+                    ret.add(new BlacklistContact(receiveString, Integer.parseInt(bufferedReader.readLine())));
+                }
+
+                inputStream.close();
+            }
+        }
+        catch (FileNotFoundException e) {
+
+        } catch (IOException e) {
+
+        }
+
+        return ret;
+    }
 
 
 }

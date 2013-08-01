@@ -1,6 +1,11 @@
 Version 6.70
 
 - floating notifications extension
+- Change in app notifications to fire off quick notification instead of manually doing sounds and vibrate
+    - easily manage blacklisting, custom sounds, etc
+    - cause halo to go off as well
+- add option for message counter at the beginning of each split message
+- option for adding certain text to every message at the beginning (delivery reports?)
 - Message Locking
 - fix popup residual message in some cases
 - Figure out how to judge file size of png images and adjust them accordingly when sending, look into UriImage.getResizedImageData for solution
