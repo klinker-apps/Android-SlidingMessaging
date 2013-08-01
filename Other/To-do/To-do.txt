@@ -4,6 +4,7 @@ Version 6.70
 - make hangouts bubbles staggered in conversation list, like the actual hangouts app instead of even on both sides
 - port cards UI 2.0 to search activity
 - Look into option to launch app in a dialog theme for another popup option (kind of like the halo popup, but would work for everyone)
+	- this.setFinishOnTouchOutside(false);
 - option for adding certain text to every message at the beginning (delivery reports?)
 - Message Locking
 - fix popup residual message in some cases
