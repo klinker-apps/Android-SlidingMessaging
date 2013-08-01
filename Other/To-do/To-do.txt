@@ -1,6 +1,9 @@
 Version 6.70
 
 - floating notifications extension
+- make hangouts bubbles staggered in conversation list, like the actual hangouts app instead of even on both sides
+- port cards UI 2.0 to search activity
+- Look into option to launch app in a dialog theme for another popup option (kind of like the halo popup, but would work for everyone)
 - option for adding certain text to every message at the beginning (delivery reports?)
 - Message Locking
 - fix popup residual message in some cases
@@ -32,3 +35,11 @@ Luke's ideas for speed/fluidity improvement:
 	- cancel scheduled button
 	- Dated folders for backups
 	- check to make sure backup exists before deleting
+	
+- Halo Popup app
+	- Simple app like the HALO)))
+	- Allows users to select which apps they would like to launch in halo automatically on new notification
+	- Makes a popup available for any app... Messaging, Hangouts, Facebook, Flacon, really whatever app you want to launch automatically on a notification
+	- Open Source and free on the play store
+	- Apply new Notification Listener APIs (only for Android 4.3 and above, would also get rid of people downloading and rating it low because they don't know what it does...)
+	- Should be simple enough to make, I've already done it all in Sliding Messaging, and sounds like a pretty applicable app to me.
