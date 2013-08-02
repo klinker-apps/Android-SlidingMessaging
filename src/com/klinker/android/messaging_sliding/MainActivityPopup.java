@@ -60,7 +60,7 @@ public class MainActivityPopup extends MainActivity {
     
     @Override
     public void setUpIntentStuff() {
-        // TODO test to make sure working
+        // TODO test to make sure working to open correct conversation through quick send and full app popup
         // Do nothing, just open to the first conversation no matter what is sent into the activity
     }
 
@@ -69,5 +69,19 @@ public class MainActivityPopup extends MainActivity {
         super.onConfigurationChanged(newConfig);
 
         // TODO handle keyboard changes so that padding is set to 0 on bottom when keyboard is shown and 100 when keyboard is hidden
+    }
+    
+    @Override
+    public void onStop() {
+        super.onStop();
+        MainActivity.newMessage = true;
+        com.klinker.android.messaging_donate.MainActivity.group = null;
+        com.klinker.android.messaging_donate.MainActivity.inboxBody = null;
+        com.klinker.android.messaging_donate.MainActivity.inboxDate = null;
+        com.klinker.android.messaging_donate.MainActivity.inboxNumber = null;
+        com.klinker.android.messaging_donate.MainActivity.msgCount = null;
+        com.klinker.android.messaging_donate.MainActivity.msgRead = null;
+        com.klinker.android.messaging_donate.MainActivity.threadIds = null;
+        finish();
     }
 }
