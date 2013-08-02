@@ -66,6 +66,66 @@ public class MainActivityPopup extends MainActivity {
         // TODO test to make sure working to open correct conversation through quick send and full app popup
         // Do nothing, just open to the first conversation no matter what is sent into the activity
     }
+    
+    @Override
+    public void setUpTitleBar() {
+		title = (PagerTitleStrip) findViewById(R.id.pager_title_strip);
+		
+		if (sharedPrefs.getString("page_or_menu2", "2").equals("1"))
+		{
+			title.setTextSpacing(5000);
+		}
+		
+		if (!sharedPrefs.getBoolean("custom_theme", false))
+        {
+        	if (sharedPrefs.getBoolean("title_text_color", false))
+        	{
+        		title.setTextColor(getResources().getColor(R.color.black));
+        	}
+        } else
+        {
+        	title.setTextColor(sharedPrefs.getInt("ct_titleBarTextColor", getResources().getColor(R.color.white)));
+        }
+        
+        if (!sharedPrefs.getBoolean("title_caps", true))
+        {
+        	title.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
+        }
+		
+        if (!sharedPrefs.getBoolean("custom_theme", false))
+        {
+            String titleColor = sharedPrefs.getString("title_color", "blue");
+            
+            if (titleColor.equals("blue"))
+            {
+                title.setBackgroundColor(getResources().getColor(R.color.holo_blue));
+            } else if (titleColor.equals("orange"))
+            {
+                title.setBackgroundColor(getResources().getColor(R.color.holo_orange));
+            } else if (titleColor.equals("red"))
+            {
+                title.setBackgroundColor(getResources().getColor(R.color.holo_red));
+            } else if (titleColor.equals("green"))
+            {
+                title.setBackgroundColor(getResources().getColor(R.color.holo_green));
+            } else if (titleColor.equals("purple"))
+            {
+                title.setBackgroundColor(getResources().getColor(R.color.holo_purple));
+            } else if (titleColor.equals("grey"))
+            {
+                title.setBackgroundColor(getResources().getColor(R.color.grey));
+            } else if (titleColor.equals("black"))
+            {
+                title.setBackgroundColor(getResources().getColor(R.color.pitch_black));
+            } else if (titleColor.equals("darkgrey"))
+            {
+                title.setBackgroundColor(getResources().getColor(R.color.darkgrey));
+            }
+        } else
+        {
+            title.setBackgroundColor(sharedPrefs.getInt("ct_titleBarColor", getResources().getColor(R.color.holo_blue)));
+        }
+	}
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
