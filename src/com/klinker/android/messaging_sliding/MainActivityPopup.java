@@ -145,10 +145,9 @@ public class MainActivityPopup extends MainActivity {
                 public void run() {
                         InputMethodManager keyboard = (InputMethodManager)
                         getSystemService(Context.INPUT_METHOD_SERVICE);
-                        keyboard.showSoftInput(((EditText) findViewById(R.id.messageEntry)), 0);
+                        keyboard.showSoftInput(messageEntry), 0);
                 }
             }, 200);
-            
         }
     }
     
