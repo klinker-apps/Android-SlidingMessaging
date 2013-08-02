@@ -7,6 +7,14 @@
         android:summary="@string/popup_reply_summary"
         android:defaultValue="false"
     />
+    
+    <CheckBoxPreference
+        android:key="full_app_popup"
+        android:title="@string/full_app_popup"
+        android:summary="@string/full_app_popup_summary"
+        android:defaultValue="true"
+        android:dependency="popup_reply"
+    />
 
     <Preference
         android:key="popup_theme"
@@ -61,13 +69,5 @@
  			    android:defaultValue="false"
  			    android:dependency="popup_reply"
  			/>
-
-            <CheckBoxPreference
-                android:key="full_app_popup"
-                android:title="@string/full_app_popup"
-                android:summary="@string/full_app_popup_summary"
-                android:defaultValue="true"
-                android:dependency="popup_reply"
-            />
  	</PreferenceCategory>
 </PreferenceScreen>
