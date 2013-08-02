@@ -11,6 +11,14 @@ public class MainActivityPopup extends MainActivity {
 
     @Override
     public void setUpWindow() {
+        com.klinker.android.messaging_donate.MainActivity.group = null;
+        com.klinker.android.messaging_donate.MainActivity.inboxBody = null;
+        com.klinker.android.messaging_donate.MainActivity.inboxDate = null;
+        com.klinker.android.messaging_donate.MainActivity.inboxNumber = null;
+        com.klinker.android.messaging_donate.MainActivity.msgCount = null;
+        com.klinker.android.messaging_donate.MainActivity.msgRead = null;
+        com.klinker.android.messaging_donate.MainActivity.threadIds = null;
+
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
