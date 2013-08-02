@@ -1,7 +1,6 @@
 Version 6.70
 
 - floating notifications extension
-- make hangouts bubbles staggered in conversation list and search activity, like the actual hangouts app instead of even on both sides
 - port cards UI 2.0 to search activity
 - option for adding certain text to every message at the beginning (delivery reports?)
 - Message Locking
