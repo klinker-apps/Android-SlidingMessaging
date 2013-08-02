@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.v4.view.PagerTitleStrip;
 import android.util.TypedValue;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
@@ -146,7 +147,7 @@ public class MainActivityPopup extends MainActivity {
                 public void run() {
                         InputMethodManager keyboard = (InputMethodManager)
                         getSystemService(Context.INPUT_METHOD_SERVICE);
-                        keyboard.showSoftInput(messageEntry), 0);
+                        keyboard.showSoftInput(messageEntry, 0);
                 }
             }, 200);
         }
