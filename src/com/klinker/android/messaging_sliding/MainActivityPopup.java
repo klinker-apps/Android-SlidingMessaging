@@ -54,8 +54,6 @@ public class MainActivityPopup extends MainActivity {
         int scale1 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());
         int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, getResources().getDisplayMetrics());
         findViewById(R.id.pager).getRootView().setPadding(scale1, scale2, scale1, scale2);
-
-        // TODO implement show keyboard on startup with handler and posting delayed
     }
     
     @Override
@@ -72,7 +70,26 @@ public class MainActivityPopup extends MainActivity {
     }
     
     @Override
+    public void onResume() {
+        super.onResume();
+        
+        // TODO test keyboard popping up
+        if (sharedPrefs.getBoolean("show_keyboard_popup", true)) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                        InputMethodManager keyboard = (InputMethodManager)
+                        getSystemService(Context.INPUT_METHOD_SERVICE);
+                        keyboard.showSoftInput(((EditText) findViewById(R.id.messageEntry)), 0);                 
+                }
+            }, 200);
+            
+        }
+    }
+    
+    @Override
     public void onStop() {
+        // TODO test if conversations updated when returning to full app
         super.onStop();
         MainActivity.newMessage = true;
         com.klinker.android.messaging_donate.MainActivity.group = null;
