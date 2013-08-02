@@ -255,68 +255,7 @@ s
 
         MainActivity.notChanged = true;
 		
-		Intent intent = getIntent();
-		String action = intent.getAction();
-
-        try {
-            if (action != null)
-            {
-                if (action.equals(Intent.ACTION_SENDTO))
-                {
-                    sendTo = true;
-
-                    try
-                    {
-                        if (intent.getDataString().startsWith("smsto:"))
-                        {
-                            sendMessageTo = Uri.decode(intent.getDataString()).substring("smsto:".length()).replace("(", "").replace(")", "").replace("-", "").replace(" ", "");
-                            fromNotification = false;
-                        } else
-                        {
-                            sendMessageTo = Uri.decode(intent.getDataString()).substring("sms:".length()).replace("(", "").replace(")", "").replace("-", "").replace(" ", "");
-                            fromNotification = false;
-                        }
-                    } catch (Exception e)
-                    {
-                        sendMessageTo = intent.getStringExtra("com.klinker.android.OPEN").replace("(", "").replace(")", "").replace("-", "").replace(" ", "");
-                        fromNotification = true;
-                    }
-                } else if (action.equals(Intent.ACTION_SEND))
-                {
-                    Bundle extras = intent.getExtras();
-
-                    if (extras != null)
-                    {
-                        if (extras.containsKey(Intent.EXTRA_TEXT))
-                        {
-                            whatToSend = (String) extras.getCharSequence(Intent.EXTRA_TEXT);
-                        }
-
-                        if (extras.containsKey(Intent.EXTRA_STREAM))
-                        {
-                            sendTo = true;
-                            sendMessageTo = "";
-                            fromNotification = false;
-                            attachedImage2 = intent.getParcelableExtra(Intent.EXTRA_STREAM);
-                        }
-                    }
-                }
-            } else
-            {
-                Bundle extras = intent.getExtras();
-
-                if (extras != null)
-                {
-                    if (extras.containsKey("com.klinker.android.OPEN_THREAD"))
-                    {
-                        sendToThread = extras.getString("com.klinker.android.OPEN_THREAD");
-                        sendToMessage = extras.getString("com.klinker.android.CURRENT_TEXT");
-                    }
-                }
-            }
-        } catch (Exception e) {
-
-        }
+		setUpIntentStuff();
 		
 		if (sharedPrefs.getBoolean("custom_font", false))
 		{
@@ -856,6 +795,71 @@ s
 
         getWindow().setBackgroundDrawable(null);
     }
+	
+	public void setUpIntentStuff() {
+		Intent intent = getIntent();
+		String action = intent.getAction();
+
+        try {
+            if (action != null)
+            {
+                if (action.equals(Intent.ACTION_SENDTO))
+                {
+                    sendTo = true;
+
+                    try
+                    {
+                        if (intent.getDataString().startsWith("smsto:"))
+                        {
+                            sendMessageTo = Uri.decode(intent.getDataString()).substring("smsto:".length()).replace("(", "").replace(")", "").replace("-", "").replace(" ", "");
+                            fromNotification = false;
+                        } else
+                        {
+                            sendMessageTo = Uri.decode(intent.getDataString()).substring("sms:".length()).replace("(", "").replace(")", "").replace("-", "").replace(" ", "");
+                            fromNotification = false;
+                        }
+                    } catch (Exception e)
+                    {
+                        sendMessageTo = intent.getStringExtra("com.klinker.android.OPEN").replace("(", "").replace(")", "").replace("-", "").replace(" ", "");
+                        fromNotification = true;
+                    }
+                } else if (action.equals(Intent.ACTION_SEND))
+                {
+                    Bundle extras = intent.getExtras();
+
+                    if (extras != null)
+                    {
+                        if (extras.containsKey(Intent.EXTRA_TEXT))
+                        {
+                            whatToSend = (String) extras.getCharSequence(Intent.EXTRA_TEXT);
+                        }
+
+                        if (extras.containsKey(Intent.EXTRA_STREAM))
+                        {
+                            sendTo = true;
+                            sendMessageTo = "";
+                            fromNotification = false;
+                            attachedImage2 = intent.getParcelableExtra(Intent.EXTRA_STREAM);
+                        }
+                    }
+                }
+            } else
+            {
+                Bundle extras = intent.getExtras();
+
+                if (extras != null)
+                {
+                    if (extras.containsKey("com.klinker.android.OPEN_THREAD"))
+                    {
+                        sendToThread = extras.getString("com.klinker.android.OPEN_THREAD");
+                        sendToMessage = extras.getString("com.klinker.android.CURRENT_TEXT");
+                    }
+                }
+            }
+        } catch (Exception e) {
+
+        }
+	}
 
 	public void refreshMessages(boolean totalRefresh)
 	{
