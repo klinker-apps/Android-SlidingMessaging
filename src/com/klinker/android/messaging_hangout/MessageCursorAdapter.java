@@ -424,7 +424,6 @@ public class MessageCursorAdapter extends CursorAdapter {
                                                         if (imagesF.length == 1) {
                                                             Intent intent = new Intent();
                                                             intent.setAction(Intent.ACTION_VIEW);
-                                                            // TODO test in new gallery app to see if working
                                                             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                                                             intent.putExtra("SingleItemOnly", true);
                                                             intent.setDataAndType(Uri.parse(imageUri), "image/*");
@@ -452,7 +451,6 @@ public class MessageCursorAdapter extends CursorAdapter {
                                                     public void onClick(View view) {
                                                         Intent intent = new Intent();
                                                         intent.setAction(Intent.ACTION_VIEW);
-                                                        // TODO test in new gallery app to see if working
                                                         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                                                         intent.setDataAndType(Uri.parse(videoF), "video/*");
                                                         context.startActivity(intent);
@@ -561,7 +559,6 @@ public class MessageCursorAdapter extends CursorAdapter {
                                     if (imagesF.length == 1) {
                                         Intent intent = new Intent();
                                         intent.setAction(Intent.ACTION_VIEW);
-                                        // TODO test in new gallery app to see if working
                                         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                                         intent.putExtra("SingleItemOnly", true);
                                         intent.setDataAndType(Uri.parse(imageUri), "image/*");
@@ -589,7 +586,6 @@ public class MessageCursorAdapter extends CursorAdapter {
                                 public void onClick(View view) {
                                     Intent intent = new Intent();
                                     intent.setAction(Intent.ACTION_VIEW);
-                                    // TODO test in new gallery app to see if working
                                     intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                                     intent.setDataAndType(Uri.parse(videoF), "video/*");
                                     context.startActivity(intent);
@@ -824,16 +820,15 @@ public class MessageCursorAdapter extends CursorAdapter {
         if (cursor.getPosition() == 0)
         {
             if (sharedPrefs.getString("run_as", "sliding").equals("hangout")) {
-                // TODO test padding of first object
                 int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 7, context.getResources().getDisplayMetrics());
                 int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, context.getResources().getDisplayMetrics());
                 int scale3 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, context.getResources().getDisplayMetrics());
                 int scale4 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, context.getResources().getDisplayMetrics());
                 
                 if (sent) {
-                    view.setPadding(scale3, scale2, scale, scale3);
+                    view.setPadding(scale4, scale2, scale, scale3);
                 } else {
-                    view.setPadding(scale, scale2, scale3, scale3);
+                    view.setPadding(scale, scale2, scale4, scale3);
                 }
             } else if (sharedPrefs.getString("run_as", "sliding").equals("card2")) {
                 int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 17, context.getResources().getDisplayMetrics());
@@ -846,7 +841,6 @@ public class MessageCursorAdapter extends CursorAdapter {
             }
         } else {
             if (sharedPrefs.getString("run_as", "sliding").equals("hangout")) {
-                // TODO test new padding on hangouts bubbles
                 int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 7, context.getResources().getDisplayMetrics());
                 int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, context.getResources().getDisplayMetrics());
                 int scale3 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, context.getResources().getDisplayMetrics());
@@ -2075,7 +2069,6 @@ public class MessageCursorAdapter extends CursorAdapter {
         }
 
         if (sharedPrefs.getString("run_as", "sliding").equals("hangout")) {
-            // TODO test new padding on hangouts bubbles
             int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 7, context.getResources().getDisplayMetrics());
             int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, context.getResources().getDisplayMetrics());
             int scale3 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, context.getResources().getDisplayMetrics());

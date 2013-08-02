@@ -149,8 +149,6 @@ public class MessageArrayAdapter extends ArrayAdapter<String> {
 	
 	contactPicture = Bitmap.createScaledBitmap(input, scale, scale, true);
   }
-
-    // TODO implement 2 different views
   
   @Override
   public int getCount()
