@@ -134,16 +134,39 @@ public class MainActivityPopup extends MainActivity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
+        
+        final View rootView = findViewById(R.id.pager).getRootView();
+        final int scale1 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());
+        final int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, getResources().getDisplayMetrics());
+        final int scale3 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 75, getResources().getDisplayMetrics());
 
         // TODO test keyboard padding changing dynamically
         if (newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_NO) {
-            int scale1 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());
-            int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, getResources().getDisplayMetrics());
-            findViewById(R.id.pager).getRootView().setPadding(scale1, scale2, scale1, 0);
+            Animation a = new Animation() {
+
+                @Override
+                protected void applyTransformation(float interpolatedTime, Transformation t) {
+                    int padding = (int) (scale2 + (-1 * scale2 * interpolatedTime));
+                    int padding2 = (int) (scale3 + (-1 * scale3 * interpolatedTime));
+                    rootView.setPadding(scale, scale2, scale, padding);
+                }
+            };
+            
+            a.setDuration(300);
+            rootView.startAnimation(a);
         } else if (newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_YES) {
-            int scale1 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());
-            int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, getResources().getDisplayMetrics());
-            findViewById(R.id.pager).getRootView().setPadding(scale1, scale2, scale1, scale2);
+            Animation a = new Animation() {
+
+                @Override
+                protected void applyTransformation(float interpolatedTime, Transformation t) {
+                    int padding = (int) (scale2 * interpolatedTime);
+                    int padding2 = (int) (scale3 * interpolatedTime);
+                    rootView.setPadding(scale, scale2, scale, padding);
+                }
+            };
+            
+            a.setDuration(300);
+            rootView.startAnimation(a);
         }
     }
     
