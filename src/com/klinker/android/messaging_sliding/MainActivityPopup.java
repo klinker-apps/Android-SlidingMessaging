@@ -69,6 +69,7 @@ public class MainActivityPopup extends MainActivity {
     
     @Override
     public void setUpTitleBar() {
+        // TODO test to be sure title bar is always shown on full app popup, but according to settings in regular app
 		title = (PagerTitleStrip) findViewById(R.id.pager_title_strip);
 		
 		if (sharedPrefs.getString("page_or_menu2", "2").equals("1"))
