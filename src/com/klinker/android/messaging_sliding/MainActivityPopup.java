@@ -1,10 +1,15 @@
 package com.klinker.android.messaging_sliding;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.TypedValue;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+
 import com.klinker.android.messaging_donate.R;
 
 public class MainActivityPopup extends MainActivity {
@@ -80,7 +85,7 @@ public class MainActivityPopup extends MainActivity {
                 public void run() {
                         InputMethodManager keyboard = (InputMethodManager)
                         getSystemService(Context.INPUT_METHOD_SERVICE);
-                        keyboard.showSoftInput(((EditText) findViewById(R.id.messageEntry)), 0);                 
+                        keyboard.showSoftInput(((EditText) findViewById(R.id.messageEntry)), 0);
                 }
             }, 200);
             

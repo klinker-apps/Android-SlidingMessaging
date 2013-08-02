@@ -145,8 +145,9 @@ s
     public static SectionsPagerAdapter mSectionsPagerAdapter;
 
     public static String deviceType;
-	
-	public ArrayList<String> inboxNumber, inboxDate, inboxBody;
+    public static boolean newMessage;
+
+    public ArrayList<String> inboxNumber, inboxDate, inboxBody;
 	public ArrayList<String> group;
 	public ArrayList<String> msgCount;
 	public ArrayList<String> msgRead;
@@ -4447,7 +4448,7 @@ s
 	    	multipleAttachments = false;
 	    	AttachMore.data = new ArrayList<MMSPart>();
 
-            boolean newMessage;
+            //boolean newMessage;
 
             if (deviceType.equals("phone") || deviceType.equals("phablet2"))
             {
