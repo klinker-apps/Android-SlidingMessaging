@@ -506,7 +506,7 @@
     <string name="load_all_messages">Load All Messages</string>
     <string name="split_counter">Show Message Counter</string>
     <string name="split_counter_summary">Adds a counter in front of split messages to keep them in correct order. Example: (1/3)</string>
-    <string name="full_app_popup">Full App Popup</string>
-    <string name="full_app_popup_summary">Launches app as a dialog covering your screen in place of the popup when applicable</string>
+    <string name="full_app_popup">Use SlideOver</string>
+    <string name="full_app_popup_summary">Replaces popup with a fully functioning version of the app that shows as a dialog box over other apps instead of taking the entire screen</string>
     
 </resources>
