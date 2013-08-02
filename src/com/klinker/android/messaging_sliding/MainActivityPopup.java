@@ -57,6 +57,12 @@ public class MainActivityPopup extends MainActivity {
 
         // TODO implement show keyboard on startup with handler and posting delayed
     }
+    
+    @Override
+    public void setUpIntentStuff() {
+        // TODO test to make sure working
+        // Do nothing, just open to the first conversation no matter what is sent into the activity
+    }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
