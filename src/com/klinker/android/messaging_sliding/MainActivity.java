@@ -232,6 +232,8 @@ s
     public int appMsgConversations = 0;
     public boolean dismissCrouton = true;
     public boolean dismissNotification = true;
+	
+	public boolean isPopup = false;
 
     public static boolean limitConversations = true;
 
@@ -7013,7 +7015,7 @@ s
 			try {
                 String text = "No Messages";
 
-                if (!sharedPrefs.getBoolean("hide_title_bar", true))
+                if (!sharedPrefs.getBoolean("hide_title_bar", true) && !isPopup)
                 {
                     return "";
                 }
