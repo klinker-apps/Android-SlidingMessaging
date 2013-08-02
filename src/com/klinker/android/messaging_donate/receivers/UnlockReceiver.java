@@ -3,6 +3,7 @@ package com.klinker.android.messaging_donate.receivers;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 
 public class UnlockReceiver extends BroadcastReceiver {
@@ -15,6 +16,7 @@ public class UnlockReceiver extends BroadcastReceiver {
         // TODO fully test new popup with screen off and screen on
         if (intent.getAction() != null && openApp == true)
         {
+            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
             boolean halo = sharedPrefs.getBoolean("halo_popup", false);
             
             final Intent intent3;
