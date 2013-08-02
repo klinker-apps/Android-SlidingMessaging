@@ -24,6 +24,8 @@ public class MainActivityPopup extends MainActivity {
         com.klinker.android.messaging_donate.MainActivity.msgCount = null;
         com.klinker.android.messaging_donate.MainActivity.msgRead = null;
         com.klinker.android.messaging_donate.MainActivity.threadIds = null;
+        
+        isPopup = true;
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
