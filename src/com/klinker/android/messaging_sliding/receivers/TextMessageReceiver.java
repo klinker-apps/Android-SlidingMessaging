@@ -1075,17 +1075,23 @@ public class TextMessageReceiver extends BroadcastReceiver {
 									intent3 = new Intent(context, QuickReply.class);
 								}
 
-                                if (sharedPrefs.getBoolean("full_app_popup", true)) {
-                                    intent3 = new Intent(context, com.klinker.android.messaging_sliding.MainActivityPopup.class);
-                                }
-
-								if (sharedPrefs.getBoolean("halo_popup", false))
+								if (sharedPrefs.getBoolean("halo_popup", false) || sharedPrefs.getBoolean("full_app_popup", true))
 								{
-									intent3 = new Intent(context, com.klinker.android.messaging_donate.MainActivity.class);
+									boolean halo = sharedPrefs.getBoolean("halo_popup", false);
+									
+									if (halo) {
+										intent3 = new Intent(context, com.klinker.android.messaging_donate.MainActivity.class);
+									} else {
+										intent3 = new Intent(context, com.klinker.android.messaging_sliding.MainActivityPopup.class);
+									}
 
 									try
 									{
-										intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | 0x00002000);
+										if (halo) {
+											intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | 0x00002000);
+										} else {
+											intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+										}
 									} catch (Exception e)
 									{
 										intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
