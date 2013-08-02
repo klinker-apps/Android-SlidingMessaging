@@ -824,10 +824,17 @@ public class MessageCursorAdapter extends CursorAdapter {
         if (cursor.getPosition() == 0)
         {
             if (sharedPrefs.getString("run_as", "sliding").equals("hangout")) {
+                // TODO test padding of first object
                 int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 7, context.getResources().getDisplayMetrics());
                 int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, context.getResources().getDisplayMetrics());
                 int scale3 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, context.getResources().getDisplayMetrics());
-                view.setPadding(scale, scale2, scale, scale3);
+                int scale4 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, context.getResources().getDisplayMetrics());
+                
+                if (sent) {
+                    view.setPadding(scale3, scale2, scale, scale3);
+                } else {
+                    view.setPadding(scale, scale2, scale3, scale3);
+                }
             } else if (sharedPrefs.getString("run_as", "sliding").equals("card2")) {
                 int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 17, context.getResources().getDisplayMetrics());
                 int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, context.getResources().getDisplayMetrics());
@@ -836,6 +843,25 @@ public class MessageCursorAdapter extends CursorAdapter {
             } else {
                 int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, context.getResources().getDisplayMetrics());
                 view.setPadding(0, 0, 0, scale);
+            }
+        } else {
+            if (sharedPrefs.getString("run_as", "sliding").equals("hangout")) {
+                // TODO test new padding on hangouts bubbles
+                int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 7, context.getResources().getDisplayMetrics());
+                int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, context.getResources().getDisplayMetrics());
+                int scale3 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, context.getResources().getDisplayMetrics());
+            
+                if (type == 1) {
+                    view.setPadding(scale3, scale2, scale, scale2);
+                } else {
+                    view.setPadding(scale, scale2, scale3, scale2);
+                }
+            } else if (sharedPrefs.getString("run_as", "sliding").equals("card2")) {
+                int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 17, context.getResources().getDisplayMetrics());
+                int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, context.getResources().getDisplayMetrics());
+                view.setPadding(scale, scale2, scale, 0);
+            } else {
+                view.setpadding(0, 0, 0, 0);
             }
         }
 
@@ -2049,9 +2075,16 @@ public class MessageCursorAdapter extends CursorAdapter {
         }
 
         if (sharedPrefs.getString("run_as", "sliding").equals("hangout")) {
+            // TODO test new padding on hangouts bubbles
             int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 7, context.getResources().getDisplayMetrics());
             int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, context.getResources().getDisplayMetrics());
-            v.setPadding(scale, scale2, scale, scale2);
+            int scale3 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, context.getResources().getDisplayMetrics());
+            
+            if (type == 1) {
+                v.setPadding(scale3, scale2, scale, scale2);
+            } else {
+                v.setPadding(scale, scale2, scale3, scale2);
+            }
         } else if (sharedPrefs.getString("run_as", "sliding").equals("card2")) {
             int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 17, context.getResources().getDisplayMetrics());
             int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, context.getResources().getDisplayMetrics());
