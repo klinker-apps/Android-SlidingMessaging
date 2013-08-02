@@ -117,13 +117,6 @@
                 android:configChanges="orientation|screenSize|keyboard|keyboardHidden"
                 android:hardwareAccelerated="true"
                 android:launchMode="singleInstance">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.APP_MESSAGING" />
-            </intent-filter>
         </activity>
         
         <activity
