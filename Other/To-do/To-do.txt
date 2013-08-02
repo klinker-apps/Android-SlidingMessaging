@@ -4,8 +4,9 @@ Version 6.70
 - make hangouts bubbles staggered in conversation list and search activity, like the actual hangouts app instead of even on both sides
 - port cards UI 2.0 to search activity
 - full app popup
-	- override onStop(), set arraylists to null, MainActivity.newMessage to true, and finish()
 	- launch the same as the halo popup, not like normal popup or notifications are dismissed from lockscreen
+	- auto popup keyboard with full app popup
+	- fix keyboard padding with full app popup
 - option for adding certain text to every message at the beginning (delivery reports?)
 - Message Locking
 - fix popup residual message in some cases
