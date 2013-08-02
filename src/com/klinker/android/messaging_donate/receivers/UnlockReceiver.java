@@ -14,7 +14,6 @@ public class UnlockReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(final Context context, Intent intent)
     {
-        // TODO fully test new popup with screen off and screen on
         if (intent.getAction() != null && openApp == true)
         {
             SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);

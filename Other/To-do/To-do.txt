@@ -1,6 +1,7 @@
 Version 6.70
 
 - dynamic settings when changing the full app popup option to disable most other options
+- Add SlideOver settings (with nothing there yet lol)
 - port cards UI 2.0 to search activity and conversation activity
 - floating notifications extension
 - option for adding certain text to every message at the beginning (delivery reports?)
