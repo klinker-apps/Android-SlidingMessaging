@@ -851,7 +851,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                 int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, context.getResources().getDisplayMetrics());
                 int scale3 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, context.getResources().getDisplayMetrics());
             
-                if (type == 1) {
+                if (sent) {
                     view.setPadding(scale3, scale2, scale, scale2);
                 } else {
                     view.setPadding(scale, scale2, scale3, scale2);
@@ -861,7 +861,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                 int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, context.getResources().getDisplayMetrics());
                 view.setPadding(scale, scale2, scale, 0);
             } else {
-                view.setpadding(0, 0, 0, 0);
+                view.setPadding(0, 0, 0, 0);
             }
         }
 

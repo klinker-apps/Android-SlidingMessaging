@@ -7,7 +7,10 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.view.PagerTitleStrip;
 import android.util.TypedValue;
+import android.view.View;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.Transformation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
@@ -148,7 +151,7 @@ public class MainActivityPopup extends MainActivity {
                 protected void applyTransformation(float interpolatedTime, Transformation t) {
                     int padding = (int) (scale2 + (-1 * scale2 * interpolatedTime));
                     int padding2 = (int) (scale3 + (-1 * scale3 * interpolatedTime));
-                    rootView.setPadding(scale, scale2, scale, padding);
+                    rootView.setPadding(scale1, scale2, scale1, padding);
                 }
             };
             
@@ -161,7 +164,7 @@ public class MainActivityPopup extends MainActivity {
                 protected void applyTransformation(float interpolatedTime, Transformation t) {
                     int padding = (int) (scale2 * interpolatedTime);
                     int padding2 = (int) (scale3 * interpolatedTime);
-                    rootView.setPadding(scale, scale2, scale, padding);
+                    rootView.setPadding(scale1, scale2, scale1, padding);
                 }
             };
             
