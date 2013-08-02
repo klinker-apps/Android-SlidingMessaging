@@ -224,13 +224,13 @@ s
     public SoundPool soundPool;
     public int ping;
 
-    private PullToRefreshAttacher mPullToRefreshAttacher;
+    public PullToRefreshAttacher mPullToRefreshAttacher;
     public static int pullToRefreshPosition = -1;
 
-    private AppMsg appMsg = null;
-    private int appMsgConversations = 0;
-    private boolean dismissCrouton = true;
-    private boolean dismissNotification = true;
+    public AppMsg appMsg = null;
+    public int appMsgConversations = 0;
+    public boolean dismissCrouton = true;
+    public boolean dismissNotification = true;
 
     public static boolean limitConversations = true;
 
@@ -242,35 +242,9 @@ s
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+		setUpWindow();
 
-        if (sharedPrefs.getBoolean("ct_light_action_bar", false))
-        {
-            setTheme(R.style.HangoutsTheme);
-        }
-
-        String pinType = sharedPrefs.getString("pin_conversation_list", "1");
-        if (!pinType.equals("1")) {
-            if (pinType.equals("2")) {
-                setContentView(R.layout.activity_main_phone);
-            } else if (pinType.equals("3")) {
-                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-                    setContentView(R.layout.activity_main_phablet2);
-                } else {
-                    setContentView(R.layout.activity_main_phablet);
-                }
-            } else {
-                setContentView(R.layout.activity_main_tablet);
-            }
-        } else {
-            setContentView(R.layout.activity_main);
-        }
-
-		setTitle(R.string.app_name_in_app);
-
-        getWindow().setBackgroundDrawable(null);
-
-        mPullToRefreshAttacher = new PullToRefreshAttacher(this, sharedPrefs.getBoolean("ct_light_action_bar", false));
+        mPullToRefreshAttacher = new PullToRefreshAttacher(this, sharedPrefs.getBoolean("ct_light_action_bar", false), true);
         appMsg = AppMsg.makeText(this, "", AppMsg.STYLE_ALERT);
 
         if (sharedPrefs.getBoolean("limit_conversations_start", true)) {
@@ -715,40 +689,42 @@ s
                         {
                             final ActionBar ab = getActionBar();
 
-                            if (group.get(mViewPager.getCurrentItem()).equals("yes"))
-                            {
-                                ab.setTitle("Group MMS");
-                                ab.setSubtitle(null);
-                            } else
-                            {
-                                new Thread(new Runnable() {
-
-                                    @Override
-                                    public void run() {
-                                        final String title = findContactName(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context), context);
-
-                                        ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                                            @Override
-                                            public void run() {
-                                                ab.setTitle(title);
-                                            }
-
-                                        });
-
-                                    }
-
-                                }).start();
-
-                                Locale sCachedLocale = Locale.getDefault();
-                                int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
-                                Editable editable = new SpannableStringBuilder(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context));
-                                PhoneNumberUtils.formatNumber(editable, sFormatType);
-                                ab.setSubtitle(editable.toString());
-
-                                if (ab.getTitle().equals(ab.getSubtitle()))
+                            if (ab != null) {
+                                if (group.get(mViewPager.getCurrentItem()).equals("yes"))
                                 {
+                                    ab.setTitle("Group MMS");
                                     ab.setSubtitle(null);
+                                } else
+                                {
+                                    new Thread(new Runnable() {
+
+                                        @Override
+                                        public void run() {
+                                            final String title = findContactName(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context), context);
+
+                                            ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                                                @Override
+                                                public void run() {
+                                                    ab.setTitle(title);
+                                                }
+
+                                            });
+
+                                        }
+
+                                    }).start();
+
+                                    Locale sCachedLocale = Locale.getDefault();
+                                    int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
+                                    Editable editable = new SpannableStringBuilder(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context));
+                                    PhoneNumberUtils.formatNumber(editable, sFormatType);
+                                    ab.setSubtitle(editable.toString());
+
+                                    if (ab.getTitle().equals(ab.getSubtitle()))
+                                    {
+                                        ab.setSubtitle(null);
+                                    }
                                 }
                             }
                         }
@@ -757,25 +733,27 @@ s
                         {
                             final ActionBar ab = getActionBar();
 
-                            new Thread(new Runnable() {
+                            if (ab != null) {
+                                new Thread(new Runnable() {
 
-                                @Override
-                                public void run() {
-                                    final Bitmap image = getFacebookPhoto(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context), context);
-                                    final BitmapDrawable image2 = new BitmapDrawable(image);
+                                    @Override
+                                    public void run() {
+                                        final Bitmap image = getFacebookPhoto(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context), context);
+                                        final BitmapDrawable image2 = new BitmapDrawable(image);
 
-                                    ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+                                        ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 
-                                        @Override
-                                        public void run() {
-                                            ab.setIcon(image2);
-                                        }
+                                            @Override
+                                            public void run() {
+                                                ab.setIcon(image2);
+                                            }
 
-                                    });
+                                        });
 
-                                }
+                                    }
 
-                            }).start();
+                                }).start();
+                            }
                         }
 
                         Intent updateWidget = new Intent("com.klinker.android.messaging.UPDATE_WIDGET");
@@ -816,37 +794,68 @@ s
 		
 		final float scale = getResources().getDisplayMetrics().density;
 		MainActivity.contactWidth = (int) (64 * scale + 0.5f);
-		
-		ActionBar ab = getActionBar();
-		ab.setDisplayHomeAsUpEnabled(true);
 
-        if (!sharedPrefs.getBoolean("ct_light_action_bar", false))
-        {
-            ab.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.black)));
+        try {
+            ActionBar ab = getActionBar();
+            ab.setDisplayHomeAsUpEnabled(true);
 
-            if (sharedPrefs.getInt("ct_conversationListBackground", getResources().getColor(R.color.light_silver)) == getResources().getColor(R.color.pitch_black))
+            if (!sharedPrefs.getBoolean("ct_light_action_bar", false))
             {
-                if (!sharedPrefs.getBoolean("hide_title_bar", true))
-                {
-                    ab.setBackgroundDrawable(getResources().getDrawable(R.drawable.pitch_black_action_bar_blue));
-                } else
-                {
-                    ab.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.pitch_black)));
-                }
-            }
-        } else
-        {
-            ab.setBackgroundDrawable(getResources().getDrawable(R.drawable.ab_hangouts));
-        }
+                ab.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.black)));
 
-//        soundPool = new SoundPool(1, AudioManager.STREAM_NOTIFICATION, 0);
-//        ping = soundPool.load(this, R.raw.message_ping, 1);
+                if (sharedPrefs.getInt("ct_conversationListBackground", getResources().getColor(R.color.light_silver)) == getResources().getColor(R.color.pitch_black))
+                {
+                    if (!sharedPrefs.getBoolean("hide_title_bar", true))
+                    {
+                        ab.setBackgroundDrawable(getResources().getDrawable(R.drawable.pitch_black_action_bar_blue));
+                    } else
+                    {
+                        ab.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.pitch_black)));
+                    }
+                }
+            } else
+            {
+                ab.setBackgroundDrawable(getResources().getDrawable(R.drawable.ab_hangouts));
+            }
+        } catch (Exception e) {
+            // no action bar, dialog theme
+        }
 		
 		View v = findViewById(R.id.newMessageGlow);
 		v.setVisibility(View.GONE);
 
 		setUpSendbar();
 	}
+
+    public void setUpWindow() {
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        if (sharedPrefs.getBoolean("ct_light_action_bar", false))
+        {
+            setTheme(R.style.HangoutsTheme);
+        }
+
+        String pinType = sharedPrefs.getString("pin_conversation_list", "1");
+        if (!pinType.equals("1")) {
+            if (pinType.equals("2")) {
+                setContentView(R.layout.activity_main_phone);
+            } else if (pinType.equals("3")) {
+                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    setContentView(R.layout.activity_main_phablet2);
+                } else {
+                    setContentView(R.layout.activity_main_phablet);
+                }
+            } else {
+                setContentView(R.layout.activity_main_tablet);
+            }
+        } else {
+            setContentView(R.layout.activity_main);
+        }
+
+        setTitle(R.string.app_name_in_app);
+
+        getWindow().setBackgroundDrawable(null);
+    }
 
 	public void refreshMessages(boolean totalRefresh)
 	{
@@ -1151,9 +1160,13 @@ s
 
         deviceType = messageEntry.getTag().toString();
 
-        if (deviceType.equals("phablet") || deviceType.equals("tablet"))
-        {
-            getActionBar().setDisplayHomeAsUpEnabled(false);
+        try {
+            if (deviceType.equals("phablet") || deviceType.equals("tablet"))
+            {
+                getActionBar().setDisplayHomeAsUpEnabled(false);
+            }
+        } catch (Exception e) {
+            // no action bar, dialog theme
         }
 		
 		if (!sharedPrefs.getBoolean("keyboard_type", true))
@@ -3837,12 +3850,16 @@ s
                     contact.requestFocus();
                 }
 
-                ActionBar ab = getActionBar();
-                ab.setTitle(R.string.app_name_in_app);
-                ab.setSubtitle(null);
-                ab.setIcon(R.drawable.ic_launcher);
+                try {
+                    ActionBar ab = getActionBar();
+                    ab.setTitle(R.string.app_name_in_app);
+                    ab.setSubtitle(null);
+                    ab.setIcon(R.drawable.ic_launcher);
 
-                ab.setDisplayHomeAsUpEnabled(false);
+                    ab.setDisplayHomeAsUpEnabled(false);
+                } catch (Exception e) {
+                    // no action bar, dialog theme
+                }
 
                 if (menu.isMenuShowing() && !menu.isSecondaryMenuShowing()) {
                     InputMethodManager imm = (InputMethodManager) getSystemService(
@@ -3866,80 +3883,88 @@ s
 
                 invalidateOptionsMenu();
 
-                if (deviceType.equals("phone") || deviceType.equals("phablet2")) {
-                    getActionBar().setDisplayHomeAsUpEnabled(true);
-                }
-
-                if (!sharedPrefs.getBoolean("hide_title_bar", true) || sharedPrefs.getBoolean("always_show_contact_info", false)) {
-                    final ActionBar ab = getActionBar();
-
-                    try {
-                        new Thread(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                if (inboxNumber.size() != 0) {
-                                    final String title = findContactName(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context), context);
-
-                                    ((MainActivity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                                        @Override
-                                        public void run() {
-                                            ab.setTitle(title);
-
-                                            Locale sCachedLocale = Locale.getDefault();
-                                            int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
-                                            Editable editable = new SpannableStringBuilder(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context));
-                                            PhoneNumberUtils.formatNumber(editable, sFormatType);
-                                            ab.setSubtitle(editable.toString());
-
-                                            if (ab.getTitle().equals(ab.getSubtitle())) {
-                                                ab.setSubtitle(null);
-                                            }
-
-                                            if (group.get(mViewPager.getCurrentItem()).equals("yes")) {
-                                                ab.setTitle("Group MMS");
-                                                ab.setSubtitle(null);
-                                            }
-                                        }
-
-                                    });
-                                }
-                            }
-
-                        }).start();
-                    } catch (Exception e) {
-                        ab.setTitle(R.string.app_name_in_app);
-                        ab.setIcon(R.drawable.ic_launcher);
+                try {
+                    if (deviceType.equals("phone") || deviceType.equals("phablet2")) {
+                        getActionBar().setDisplayHomeAsUpEnabled(true);
                     }
+
+                    if (!sharedPrefs.getBoolean("hide_title_bar", true) || sharedPrefs.getBoolean("always_show_contact_info", false)) {
+                        final ActionBar ab = getActionBar();
+
+                        if (ab != null) {
+                            try {
+                                new Thread(new Runnable() {
+
+                                    @Override
+                                    public void run() {
+                                        if (inboxNumber.size() != 0) {
+                                            final String title = findContactName(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context), context);
+
+                                            ((MainActivity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                                                @Override
+                                                public void run() {
+                                                    ab.setTitle(title);
+
+                                                    Locale sCachedLocale = Locale.getDefault();
+                                                    int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
+                                                    Editable editable = new SpannableStringBuilder(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context));
+                                                    PhoneNumberUtils.formatNumber(editable, sFormatType);
+                                                    ab.setSubtitle(editable.toString());
+
+                                                    if (ab.getTitle().equals(ab.getSubtitle())) {
+                                                        ab.setSubtitle(null);
+                                                    }
+
+                                                    if (group.get(mViewPager.getCurrentItem()).equals("yes")) {
+                                                        ab.setTitle("Group MMS");
+                                                        ab.setSubtitle(null);
+                                                    }
+                                                }
+
+                                            });
+                                        }
+                                    }
+
+                                }).start();
+                            } catch (Exception e) {
+                                ab.setTitle(R.string.app_name_in_app);
+                                ab.setIcon(R.drawable.ic_launcher);
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    // no action bar, dialog theme
                 }
 
                 if (sharedPrefs.getBoolean("title_contact_image", false)) {
                     final ActionBar ab = getActionBar();
 
-                    new Thread(new Runnable() {
+                    if (ab != null) {
+                        new Thread(new Runnable() {
 
-                        @Override
-                        public void run() {
-                            if (inboxNumber.size() != 0) {
-                                Bitmap image = getFacebookPhoto(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context), context);
-                                final BitmapDrawable image2 = new BitmapDrawable(image);
+                            @Override
+                            public void run() {
+                                if (inboxNumber.size() != 0) {
+                                    Bitmap image = getFacebookPhoto(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context), context);
+                                    final BitmapDrawable image2 = new BitmapDrawable(image);
 
-                                ((MainActivity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+                                    ((MainActivity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 
-                                    @Override
-                                    public void run() {
-                                        ab.setIcon(image2);
-                                    }
+                                        @Override
+                                        public void run() {
+                                            ab.setIcon(image2);
+                                        }
 
-                                });
+                                    });
+                                }
+
                             }
 
-                        }
+                        }).start();
+                    }
 
-                    }).start();
-
-                    if (threadIds.size() == 0) {
+                    if (threadIds.size() == 0 && ab != null) {
                         ab.setIcon(R.drawable.ic_launcher);
                     }
                 }
@@ -4093,12 +4118,12 @@ s
 
                                 }
 
-                                if (!sharedPrefs.getBoolean("hide_title_bar", true) || sharedPrefs.getBoolean("always_show_contact_info", false)) {
+                                if ((!sharedPrefs.getBoolean("hide_title_bar", true) || sharedPrefs.getBoolean("always_show_contact_info", false)) && ab != null) {
                                     ab.setTitle(titleF);
                                     ab.setSubtitle(subtitleF);
                                 }
 
-                                if (sharedPrefs.getBoolean("title_contact_image", false)) {
+                                if (sharedPrefs.getBoolean("title_contact_image", false) && ab != null) {
                                     ab.setIcon(icon);
                                 }
 
@@ -4200,7 +4225,7 @@ s
 	     return null;
 	 }
 	 
-	 private String getMyPhoneNumber(){
+	 public String getMyPhoneNumber(){
 		    TelephonyManager mTelephonyMgr;
 		    mTelephonyMgr = (TelephonyManager)
 		        getSystemService(Context.TELEPHONY_SERVICE); 
@@ -5965,33 +5990,35 @@ s
 		{
 			final ActionBar ab = getActionBar();
 			final Context context = this;
-			
-			try
-			{
-				ab.setTitle(findContactName(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context), context));
-				
-				Locale sCachedLocale = Locale.getDefault();
-				int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
-				Editable editable = new SpannableStringBuilder(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context));
-				PhoneNumberUtils.formatNumber(editable, sFormatType);
-				ab.setSubtitle(editable.toString());
-				
-				if (ab.getTitle().equals(ab.getSubtitle()))
-				{
-					ab.setSubtitle(null);
-				}
-				
-				if (group.get(mViewPager.getCurrentItem()).equals("yes"))
-				{
-					ab.setTitle("Group MMS");
-					ab.setSubtitle(null);
-				}
-			} catch (Exception e)
-			{
-				ab.setTitle(R.string.app_name_in_app);
-				ab.setSubtitle(null);
-				ab.setIcon(R.drawable.ic_launcher);
-			}
+
+            if (ab != null) {
+                try
+                {
+                    ab.setTitle(findContactName(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context), context));
+
+                    Locale sCachedLocale = Locale.getDefault();
+                    int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
+                    Editable editable = new SpannableStringBuilder(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context));
+                    PhoneNumberUtils.formatNumber(editable, sFormatType);
+                    ab.setSubtitle(editable.toString());
+
+                    if (ab.getTitle().equals(ab.getSubtitle()))
+                    {
+                        ab.setSubtitle(null);
+                    }
+
+                    if (group.get(mViewPager.getCurrentItem()).equals("yes"))
+                    {
+                        ab.setTitle("Group MMS");
+                        ab.setSubtitle(null);
+                    }
+                } catch (Exception e)
+                {
+                    ab.setTitle(R.string.app_name_in_app);
+                    ab.setSubtitle(null);
+                    ab.setIcon(R.drawable.ic_launcher);
+                }
+            }
 		}
         
         if (sharedPrefs.getBoolean("title_contact_image", false))
@@ -7946,7 +7973,7 @@ s
         return ret;
     }
 
-    private ArrayList<BlacklistContact> readFromFile6(Context context) {
+    public ArrayList<BlacklistContact> readFromFile6(Context context) {
 
         ArrayList<BlacklistContact> ret = new ArrayList<BlacklistContact>();
 

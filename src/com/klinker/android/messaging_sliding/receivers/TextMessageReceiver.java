@@ -3,6 +3,7 @@ package com.klinker.android.messaging_sliding.receivers;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.receivers.UnlockReceiver;
 import com.klinker.android.messaging_sliding.MainActivity;
+import com.klinker.android.messaging_sliding.MainActivityPopup;
 import com.klinker.android.messaging_sliding.quick_reply.QmDelete;
 import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead2;
 import com.klinker.android.messaging_sliding.blacklist.BlacklistContact;
@@ -27,8 +28,6 @@ import java.util.Set;
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.app.AlarmManager;
-import android.app.KeyguardManager;
-import android.app.KeyguardManager.KeyguardLock;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -207,6 +206,10 @@ public class TextMessageReceiver extends BroadcastReceiver {
 					{
 						intent2 = new Intent(context, QuickReply.class);
 					}
+
+                    if (sharedPrefs.getBoolean("full_app_popup", true)) {
+                        intent2 = new Intent(context, MainActivityPopup.class);
+                    }
 
                     if (sharedPrefs.getBoolean("halo_popup", false)) {
                         intent2 = new Intent(context, com.klinker.android.messaging_donate.MainActivity.class);
@@ -1072,6 +1075,10 @@ public class TextMessageReceiver extends BroadcastReceiver {
 									intent3 = new Intent(context, QuickReply.class);
 								}
 
+                                if (sharedPrefs.getBoolean("full_app_popup", true)) {
+                                    intent3 = new Intent(context, com.klinker.android.messaging_sliding.MainActivityPopup.class);
+                                }
+
 								if (sharedPrefs.getBoolean("halo_popup", false))
 								{
 									intent3 = new Intent(context, com.klinker.android.messaging_donate.MainActivity.class);
@@ -1096,7 +1103,6 @@ public class TextMessageReceiver extends BroadcastReceiver {
 								} else
 								{
 									intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
                                     context.startActivity(intent3);
 								}
 					        }

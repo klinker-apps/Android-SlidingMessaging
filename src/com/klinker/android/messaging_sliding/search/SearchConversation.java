@@ -100,7 +100,7 @@ public class SearchConversation extends Activity implements PullToRefreshAttache
             lv.setDividerHeight(0);
         }
 
-        mPullToRefreshAttacher = new PullToRefreshAttacher(this, sharedPrefs.getBoolean("ct_light_action_bar", false));
+        mPullToRefreshAttacher = new PullToRefreshAttacher(this, sharedPrefs.getBoolean("ct_light_action_bar", false), true);
         mPullToRefreshAttacher.setRefreshableView(lv, this);
     }
 

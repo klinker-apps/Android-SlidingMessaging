@@ -20,6 +20,18 @@
         <item name="android:actionBarStyle">@style/HangoutsTheme.ActionBarStyle</item>
     </style>
 
+    <style name="HangoutsThemeDialog" parent="@android:Theme.Holo.Light.Dialog">
+        <item name="messageBarContainerStyle">@style/MessageBar.Container</item>
+        <item name="messageBarTextStyle">@style/MessageBar.Message</item>
+        <item name="messageBarButtonStyle">@style/MessageBar.Button</item>
+    </style>
+
+    <style name="AppBaseThemeDialog" parent="android:Theme.Holo.Dialog">
+        <item name="messageBarContainerStyle">@style/MessageBar.Container</item>
+        <item name="messageBarTextStyle">@style/MessageBar.Message</item>
+        <item name="messageBarButtonStyle">@style/MessageBar.Button</item>
+    </style>
+
     <style name="HangoutsTheme.ActionBarStyle" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:titleTextStyle">@style/HangoutsTheme.ActionBar.TitleTextStyle</item>
         <item name="android:subtitleTextStyle">@style/HangoutsTheme.ActionBar.SubtitleTextStyle</item>
