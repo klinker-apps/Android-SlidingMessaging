@@ -26,6 +26,7 @@
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="robj.floating.notifications.DISMISS"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -358,6 +359,10 @@
                 android:theme="@style/HangoutsTheme"
                 android:configChanges="orientation|screenSize">
         </activity>
+
+        <service
+                android:name="com.klinker.android.messaging_sliding.slide_over.SlideOverService" >
+        </service>
 
         <service 
             android:name="com.klinker.android.messaging_sliding.quick_reply.QmMarkRead2" >
