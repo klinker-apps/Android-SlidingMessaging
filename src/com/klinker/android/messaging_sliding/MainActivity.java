@@ -5636,7 +5636,7 @@ s
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
-        if (deviceType.startsWith("phablet"))
+        if (deviceType.startsWith("phablet") && !isPopup)
         {
             recreate();
         }

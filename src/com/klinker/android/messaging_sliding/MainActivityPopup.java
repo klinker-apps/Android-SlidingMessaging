@@ -2,17 +2,14 @@ package com.klinker.android.messaging_sliding;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.view.PagerTitleStrip;
 import android.util.TypedValue;
-import android.view.View;
-import android.view.Window;
-import android.view.animation.Animation;
-import android.view.animation.Transformation;
+import android.view.*;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 
 import com.klinker.android.messaging_donate.R;
 
@@ -39,43 +36,40 @@ public class MainActivityPopup extends MainActivity {
             setTheme(R.style.HangoutsThemeDialog);
         }
 
-        String pinType = sharedPrefs.getString("pin_conversation_list", "1");
-        if (!pinType.equals("1")) {
-            if (pinType.equals("2")) {
-                setContentView(R.layout.activity_main_phone);
-            } else if (pinType.equals("3")) {
-                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-                    setContentView(R.layout.activity_main_phablet2);
-                } else {
-                    setContentView(R.layout.activity_main_phablet);
-                }
-            } else {
-                setContentView(R.layout.activity_main_tablet);
-            }
-        } else {
-            setContentView(R.layout.activity_main);
-        }
+        setContentView(R.layout.activity_main);
 
         setTitle(null);
 
         ColorDrawable background = new ColorDrawable();
-        background.setColor(getResources().getColor(R.color.black));
-        background.setAlpha(20);
+        background.setColor(getResources().getColor(android.R.color.transparent));
         getWindow().setBackgroundDrawable(background);
-        int scale1 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());
-        int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, getResources().getDisplayMetrics());
-        findViewById(R.id.pager).getRootView().setPadding(scale1, scale2, scale1, scale2);
+
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        int height = size.y;
+
+        int scale1, scale2;
+
+        if (width > height) {
+            scale1 = width / 10;
+            scale2 = height / 20;
+        } else {
+            scale1 = width / 20;
+            scale2 = height / 10;
+        }
+
+        getWindow().getDecorView().setPadding(scale1, scale2, scale1, scale2);
     }
     
     @Override
     public void setUpIntentStuff() {
-        // TODO test to make sure working to open correct conversation through quick send and full app popup
         // Do nothing, just open to the first conversation no matter what is sent into the activity
     }
     
     @Override
     public void setUpTitleBar() {
-        // TODO test to be sure title bar is always shown on full app popup, but according to settings in regular app
 		title = (PagerTitleStrip) findViewById(R.id.pager_title_strip);
 		
 		if (sharedPrefs.getString("page_or_menu2", "2").equals("1"))
@@ -137,47 +131,30 @@ public class MainActivityPopup extends MainActivity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        
-        final View rootView = findViewById(R.id.pager).getRootView();
-        final int scale1 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());
-        final int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, getResources().getDisplayMetrics());
-        final int scale3 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 75, getResources().getDisplayMetrics());
 
-        // TODO test keyboard padding changing dynamically
-        if (newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_NO) {
-            Animation a = new Animation() {
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        int height = size.y;
 
-                @Override
-                protected void applyTransformation(float interpolatedTime, Transformation t) {
-                    int padding = (int) (scale2 + (-1 * scale2 * interpolatedTime));
-                    int padding2 = (int) (scale3 + (-1 * scale3 * interpolatedTime));
-                    rootView.setPadding(scale1, scale2, scale1, padding);
-                }
-            };
-            
-            a.setDuration(300);
-            rootView.startAnimation(a);
-        } else if (newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_YES) {
-            Animation a = new Animation() {
+        int scale1, scale2;
 
-                @Override
-                protected void applyTransformation(float interpolatedTime, Transformation t) {
-                    int padding = (int) (scale2 * interpolatedTime);
-                    int padding2 = (int) (scale3 * interpolatedTime);
-                    rootView.setPadding(scale1, scale2, scale1, padding);
-                }
-            };
-            
-            a.setDuration(300);
-            rootView.startAnimation(a);
+        if (width > height) {
+            scale1 = width / 10;
+            scale2 = height / 20;
+        } else {
+            scale1 = width / 20;
+            scale2 = height / 10;
         }
+
+        getWindow().getDecorView().setPadding(scale1, scale2, scale1, scale2);
     }
     
     @Override
     public void onResume() {
         super.onResume();
-        
-        // TODO test keyboard popping up
+
         if (sharedPrefs.getBoolean("show_keyboard_popup", true)) {
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -186,13 +163,12 @@ public class MainActivityPopup extends MainActivity {
                         getSystemService(Context.INPUT_METHOD_SERVICE);
                         keyboard.showSoftInput(messageEntry, 0);
                 }
-            }, 200);
+            }, 500);
         }
     }
     
     @Override
     public void onStop() {
-        // TODO test if conversations updated when returning to full app
         super.onStop();
         MainActivity.newMessage = true;
         com.klinker.android.messaging_donate.MainActivity.group = null;
