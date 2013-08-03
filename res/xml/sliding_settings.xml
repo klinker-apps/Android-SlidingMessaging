@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-         <!--<Preference-->
-             <!--android:key="donate"-->
-             <!--android:title="@string/donate"-->
-             <!--android:summary="@string/donate_summary"-->
-         <!--/>-->
 
     <Preference
         android:key="theme_settings"
@@ -20,6 +15,11 @@
     <Preference
         android:key="popup_settings"
         android:title="@string/popup_settings"
+    />
+
+    <Preference
+        android:key="slideover_settings"
+        android:title="@string/slideover_settings"
     />
 
     <Preference
@@ -41,11 +41,6 @@
             android:key="security_settings"
             android:title="@string/security_settings"
     />
-
-    <!-- <Preference
-            android:key="speed_improvement_settings"
-            android:title="@string/speed_improvement_settings"
-    /> -->
 
     <Preference
         android:key="advanced_settings"

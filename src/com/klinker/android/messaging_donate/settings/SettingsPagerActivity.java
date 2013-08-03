@@ -128,7 +128,7 @@ public class SettingsPagerActivity extends FragmentActivity {
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        public static final int NUM_PAGES = 9;
+        public static final int NUM_PAGES = 10;
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -161,16 +161,16 @@ public class SettingsPagerActivity extends FragmentActivity {
                 case 3:
                     return getResources().getString(R.string.popup_settings);
                 case 4:
-                    return getResources().getString(R.string.text_settings);
+                    return getResources().getString(R.string.slideover_settings);
                 case 5:
-                    return getResources().getString(R.string.conversation_settings);
+                    return getResources().getString(R.string.text_settings);
                 case 6:
-                    return getResources().getString(R.string.mms_settings);
+                    return getResources().getString(R.string.conversation_settings);
                 case 7:
-                    return getResources().getString(R.string.security_settings);
-                //case 8:
-                    //return getResources().getString(R.string.speed_improvement_settings);
+                    return getResources().getString(R.string.mms_settings);
                 case 8:
+                    return getResources().getString(R.string.security_settings);
+                case 9:
                     return getResources().getString(R.string.advanced_settings);
             }
             return null;
@@ -215,26 +215,26 @@ public class SettingsPagerActivity extends FragmentActivity {
                     setUpPopupSettings();
                     break;
                 case 4:
+                    addPreferencesFromResource(R.xml.slideover_settings);
+                    setUpSlideOverSettings();
+                    break;
+                case 5:
                     addPreferencesFromResource(R.xml.sliding_message_settings);
                     setUpMessageSettings();
                     break;
-                case 5:
+                case 6:
                     addPreferencesFromResource(R.xml.sliding_conversation_settings);
                     setUpConversationSettings();
                     break;
-                case 6:
+                case 7:
                     addPreferencesFromResource(R.xml.mms_settings);
                     setUpMmsSettings();
                     break;
-                case 7:
+                case 8:
                     addPreferencesFromResource(R.xml.sliding_security_settings);
                     setUpSecuritySettings();
                     break;
-                //case 8:
-                    //addPreferencesFromResource(R.xml.sliding_speed_improvement_settings);
-                    //setUpSpeedSettings();
-                    //break;
-                case 8:
+                case 9:
                     addPreferencesFromResource(R.xml.sliding_advanced_settings);
                     setUpAdvancedSettings();
                     break;
@@ -268,10 +268,18 @@ public class SettingsPagerActivity extends FragmentActivity {
                 }
             });
 
+            Preference slideoverSettings = (Preference) findPreference("slideover_settings");
+            slideoverSettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                public boolean onPreferenceClick(Preference preference) {
+                    mViewPager.setCurrentItem(4, true);
+                    return true;
+                }
+            });
+
             Preference messageSettings = (Preference) findPreference("message_settings");
             messageSettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference preference) {
-                    mViewPager.setCurrentItem(4, true);
+                    mViewPager.setCurrentItem(5, true);
                     return true;
                 }
             });
@@ -279,7 +287,7 @@ public class SettingsPagerActivity extends FragmentActivity {
             Preference conversationSettings = (Preference) findPreference("conversation_settings");
             conversationSettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference preference) {
-                    mViewPager.setCurrentItem(5, true);
+                    mViewPager.setCurrentItem(6, true);
                     return true;
                 }
             });
@@ -287,7 +295,7 @@ public class SettingsPagerActivity extends FragmentActivity {
             Preference mmsSettings = (Preference) findPreference("mms_settings");
             mmsSettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference preference) {
-                    mViewPager.setCurrentItem(6, true);
+                    mViewPager.setCurrentItem(7, true);
                     return true;
                 }
             });
@@ -295,19 +303,11 @@ public class SettingsPagerActivity extends FragmentActivity {
             Preference securitySettings = (Preference) findPreference("security_settings");
             securitySettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference preference) {
-                    mViewPager.setCurrentItem(7, true);
-                    return true;
-                }
-            });
-/*
-            Preference speedImprovementSettings = (Preference) findPreference("speed_improvement_settings");
-            speedImprovementSettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                public boolean onPreferenceClick(Preference preference) {
                     mViewPager.setCurrentItem(8, true);
                     return true;
                 }
             });
-*/
+
             Preference advancedSettings = (Preference) findPreference("advanced_settings");
             advancedSettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference preference) {
@@ -621,6 +621,10 @@ public class SettingsPagerActivity extends FragmentActivity {
                     return true;
                 }
             });
+        }
+
+        public void setUpSlideOverSettings() {
+
         }
 
         public void setUpMessageSettings()

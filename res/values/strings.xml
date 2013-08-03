@@ -508,5 +508,7 @@
     <string name="split_counter_summary">Adds a counter in front of split messages to keep them in correct order. Example: (1/3)</string>
     <string name="full_app_popup">Use SlideOver</string>
     <string name="full_app_popup_summary">Replaces popup with a fully functioning version of the app that shows as a dialog box over other apps instead of taking the entire screen</string>
+    <string name="slideover_settings">SlideOver Settings</string>
+    <string name="slideover_teaser">More on this for another update... ;)</string>
     
 </resources>
