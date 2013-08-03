@@ -560,20 +560,7 @@ public class SettingsPagerActivity extends FragmentActivity {
             final SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getActivity());
             Preference customPopup = (Preference) findPreference("popup_theme");
 
-            if (!sharedPrefs.getBoolean("use_old_popup", false))
-            {
-                customPopup.setEnabled(true);
-                customPopup.setSelectable(true);
-                customPopup.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                    public boolean onPreferenceClick(Preference preference) {
-                        Intent intent = new Intent(context, PopupChooserActivity.class);
-                        startActivity(intent);
-                        overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
-                        return true;
-                    }
-                });
-            } else
-            {
+            if (sharedPrefs.getBoolean("full_app_popup", true)) {
                 customPopup.setEnabled(false);
                 customPopup.setSelectable(false);
                 customPopup.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -581,10 +568,53 @@ public class SettingsPagerActivity extends FragmentActivity {
                         return true;
                     }
                 });
+                findPreference("enable_view_conversation").setEnabled(false);
+                findPreference("text_alignment2").setEnabled(false);
+                findPreference("use_old_popup").setEnabled(false);
+                findPreference("dark_theme_quick_reply").setEnabled(false);
+                findPreference("halo_popup").setEnabled(false);
+            } else {
+                if (!sharedPrefs.getBoolean("use_old_popup", false))
+                {
+                    customPopup.setEnabled(true);
+                    customPopup.setSelectable(true);
+                    customPopup.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                        public boolean onPreferenceClick(Preference preference) {
+                            Intent intent = new Intent(context, PopupChooserActivity.class);
+                            startActivity(intent);
+                            overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                            return true;
+                        }
+                    });
+                } else
+                {
+                    customPopup.setEnabled(false);
+                    customPopup.setSelectable(false);
+                    customPopup.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                        public boolean onPreferenceClick(Preference preference) {
+                            return true;
+                        }
+                    });
+                }
+
+                findPreference("enable_view_conversation").setEnabled(true);
+                findPreference("text_alignment2").setEnabled(true);
+                findPreference("use_old_popup").setEnabled(true);
+                findPreference("dark_theme_quick_reply").setEnabled(true);
+                findPreference("halo_popup").setEnabled(true);
             }
 
             Preference oldPopup = findPreference("use_old_popup");
             oldPopup.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    setUpPopupSettings();
+                    return true;
+                }
+            });
+
+            Preference slideOver = findPreference("full_app_popup");
+            slideOver.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     setUpPopupSettings();

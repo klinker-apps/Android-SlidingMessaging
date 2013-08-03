@@ -4,6 +4,7 @@ Version 6.70
 - Add SlideOver settings (with nothing there yet lol)
 - port cards UI 2.0 to search activity and conversation activity
 - floating notifications extension
+- system overlays: http://stackoverflow.com/questions/4750814/creating-a-system-overlay-where-the-home-buttons-still-work
 - option for adding certain text to every message at the beginning (delivery reports?)
 - Message Locking
 - Figure out how to judge file size of png images and adjust them accordingly when sending, look into UriImage.getResizedImageData for solution
