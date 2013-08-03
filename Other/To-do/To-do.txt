@@ -1,6 +1,8 @@
 Version 6.70
 
 - Add SlideOver settings (with nothing there yet lol)
+- Add option ot auto close slideover when message is sent
+- remove the overlay when sliding messaging is opened and restore it when sliding messaging closes
 - port cards UI 2.0 to search activity and conversation activity
 - floating notifications extension
 - system overlays: http://stackoverflow.com/questions/4750814/creating-a-system-overlay-where-the-home-buttons-still-work

@@ -1,45 +1,43 @@
-Version 6.60
-- Sent message sounds
-- Investigate MMS apns on stock
-- Message Locking?
-- Make MMS settings page in changelog wizard to easily select carrier
-- in app notifications with crouton
-- remake message array adapter as cursor adapter
-- remake menu array adapter
-- sms backup
-	- different icon in notification
-	- apply for mms
-	- redo cursors for more efficiency
-	- make sure menu page works as expected (closes alarm manager on uncheck, makes SD or Drive is checked when you run it)
-	- implement store to drive (comment out the choices until that is done)
-	- actually delete the messages :) just uncomment the code. it should work just fine
+Version 6.70
+
+- Add SlideOver settings (with nothing there yet lol)
+- port cards UI 2.0 to search activity and conversation activity
+- floating notifications extension
+- system overlays: http://stackoverflow.com/questions/4750814/creating-a-system-overlay-where-the-home-buttons-still-work
+- option for adding certain text to every message at the beginning (delivery reports?)
+- Message Locking
+- Figure out how to judge file size of png images and adjust them accordingly when sending, look into UriImage.getResizedImageData for solution
+- look into scheduled SMS bug reported
+- Update theme editor description
+
+Luke's ideas for speed/fluidity improvement:
+3.) Don't refresh the view pager when a new message is received that isn't from the conversation you are currently viewing. Make a refresh attached in the conversations list to refresh the view pager instead, so it doesnt jump around and the users can continue texting without being interrupted. It will look better and work more fluidly.
+		- not sure how this would affect scrolling through the view pager though. may work, but may never move the threads to the correct position
 
 0) more individual notification options
 3) Batch delete of messages inside single conversation
 5) Tasker options
 6) Attach more options for MMS - create slideshow with videos and audio and pictures, attach plain text contact info
-9) search through messages
 10) Pin contact to always be first conversation
-
-Sliding Messaging Pro is now out of beta with a slew of new features, bug fixes and enhancements in version 6.30! Tell all your friends to check it out! After the end of the month, the free version of Sliding Messaging will be taken down permanantly and the price of Sliding Messaging Pro will go up, so get it now and continue getting all of the updates!
-
-Side Project: Emoji Keyboard
-    - Look and feel just like hangouts emoji keyboard does with 5 catagories, recents and sliding between pages
-    - usable in any app to insert emojis (although not all emojis would show in every app unless support was specifically added in that app or android font)
-    - contact other devs (maybe falcon pro) and talk about supporting in their apps. Would gain visibility for app and also add support for features users have been asking for in falcon
-    - charged at $0.99 or $1.99 and advertise in Sliding Messaging for it
-    - github library with EmojiConverter class and images so other apps can easily adapt and use all 855 icons
 
 - igamer777@gmail.com, nikorezzano@gmail.com
 
-To switch to free version:
-- change folder names
-- change version code
-- change package declaration
-- disable sendto, share from gallery, mms (settings and menu), custom background, custom background2, custom text colors, text opacity, send animations, received animations, animation speed, quick text, widget, individual notifications, blacklist, securtiy settings)
-- change strings (title, mms, custom background, custom background2, custom text colors, send animations, received animations, quick text, individual settings, blacklist, security settings)
-- change packages in .java files
-- comment out custom background and custom background2 on click listener in SettingsActivity
-- change send/received animation defaults in messagearrayadapter and settings xml
-- attach button does nothing in card layout
-- uncomment pro link at top of settings and in settings activity
+
+- sms backup
+	- different icon in notification
+	- apply for mms
+	- redo cursors for more efficiency
+	- make sure menu page works as expected (closes alarm manager on uncheck, makes SD or Drive is checked when you run it)
+	- implement store to drive (comment out the choices until that is done
+	- add notifications to drive backup
+	- cancel scheduled button
+	- Dated folders for backups
+	- check to make sure backup exists before deleting
+	
+- Halo Popup app
+	- Simple app like the HALO)))
+	- Allows users to select which apps they would like to launch in halo automatically on new notification
+	- Makes a popup available for any app... Messaging, Hangouts, Facebook, Flacon, really whatever app you want to launch automatically on a notification
+	- Open Source and free on the play store
+	- Apply new Notification Listener APIs (only for Android 4.3 and above, would also get rid of people downloading and rating it low because they don't know what it does...)
+	- Should be simple enough to make, I've already done it all in Sliding Messaging, and sounds like a pretty applicable app to me.
