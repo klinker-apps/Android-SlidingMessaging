@@ -13,10 +13,7 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Typeface;
+import android.graphics.*;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -51,7 +48,7 @@ public class ConversationArrayAdapter  extends ArrayAdapter<String> {
     static class ViewHolder {
         public TextView date;
         public TextView message;
-        public LinearLayout background;
+        public View background;
         public ImageView bubble;
 
         public String number;
@@ -232,11 +229,32 @@ public class ConversationArrayAdapter  extends ArrayAdapter<String> {
                     rowView = inflater.inflate(R.layout.message_hangout_sent, null);
                 else
                     rowView = inflater.inflate(R.layout.message_hangout_received, null);
-            } else {
+            } else if (sharedPrefs.getString("run_as", "sliding").equals("sliding")) {
                 if (sent)
                     rowView = inflater.inflate(R.layout.message_classic_sent, null);
                 else
                     rowView = inflater.inflate(R.layout.message_classic_received, null);
+            } else {
+                if (sent)
+                    rowView = inflater.inflate(R.layout.message_card2_sent, null);
+                else
+                    rowView = inflater.inflate(R.layout.message_card2_received, null);
+            }
+
+            if (sharedPrefs.getString("run_as", "sliding").equals("card2")) {
+                String themeName = sharedPrefs.getString("ct_theme_name", "Light Theme");
+
+                if (themeName.equals("Light Theme") || themeName.equals("Hangouts Theme") || themeName.equals("Light Theme 2.0") || themeName.equals("Light Green Theme") || themeName.equals("Burnt Orange Theme")) {
+
+                } else {
+                    rowView.findViewById(R.id.shadow).setVisibility(View.GONE);
+                }
+
+                if (sent) {
+                    rowView.findViewById(R.id.divider).setBackgroundColor(convertToColorInt(convertToARGB(sharedPrefs.getInt("ct_sentTextColor", context.getResources().getColor(R.color.black)), "44")));
+                } else {
+                    rowView.findViewById(R.id.divider).setBackgroundColor(convertToColorInt(convertToARGB(sharedPrefs.getInt("ct_receivedTextColor", context.getResources().getColor(R.color.black)), "44")));
+                }
             }
 
             ViewHolder viewHolder = new ViewHolder();
@@ -432,6 +450,24 @@ public class ConversationArrayAdapter  extends ArrayAdapter<String> {
 
         holder.message.setText(Html.fromHtml(message));
 
+        if (sharedPrefs.getString("run_as", "sliding").equals("hangout")) {
+            int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 7, context.getResources().getDisplayMetrics());
+            int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, context.getResources().getDisplayMetrics());
+            int scale3 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, context.getResources().getDisplayMetrics());
+
+            if (sent) {
+                rowView.setPadding(scale3, scale2, scale, scale2);
+            } else {
+                rowView.setPadding(scale, scale2, scale3, scale2);
+            }
+        } else if (sharedPrefs.getString("run_as", "sliding").equals("card2")) {
+            int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 17, context.getResources().getDisplayMetrics());
+            int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, context.getResources().getDisplayMetrics());
+            rowView.setPadding(scale, scale2, scale, 0);
+        } else {
+            rowView.setPadding(0, 0, 0, 0);
+        }
+
         return rowView;
     }
 
@@ -587,5 +623,54 @@ public class ConversationArrayAdapter  extends ArrayAdapter<String> {
                 return BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
             }
         }
+    }
+
+    public static String convertToARGB(int color, String a) {
+        String alpha = a;
+        String red = Integer.toHexString(Color.red(color));
+        String green = Integer.toHexString(Color.green(color));
+        String blue = Integer.toHexString(Color.blue(color));
+
+        if (alpha.length() == 1) {
+            alpha = "0" + alpha;
+        }
+
+        if (red.length() == 1) {
+            red = "0" + red;
+        }
+
+        if (green.length() == 1) {
+            green = "0" + green;
+        }
+
+        if (blue.length() == 1) {
+            blue = "0" + blue;
+        }
+
+        return "#" + alpha + red + green + blue;
+    }
+
+    public static int convertToColorInt(String argb) throws NumberFormatException {
+
+        if (argb.startsWith("#")) {
+            argb = argb.replace("#", "");
+        }
+
+        int alpha = -1, red = -1, green = -1, blue = -1;
+
+        if (argb.length() == 8) {
+            alpha = Integer.parseInt(argb.substring(0, 2), 16);
+            red = Integer.parseInt(argb.substring(2, 4), 16);
+            green = Integer.parseInt(argb.substring(4, 6), 16);
+            blue = Integer.parseInt(argb.substring(6, 8), 16);
+        }
+        else if (argb.length() == 6) {
+            alpha = 255;
+            red = Integer.parseInt(argb.substring(0, 2), 16);
+            green = Integer.parseInt(argb.substring(2, 4), 16);
+            blue = Integer.parseInt(argb.substring(4, 6), 16);
+        }
+
+        return Color.argb(alpha, red, green, blue);
     }
 }
