@@ -96,7 +96,8 @@ public class SlideOverService extends Service {
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
             try {
-                if(e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                double distance = Math.sqrt(Math.pow(e1.getX()- e2.getX(), 2) + Math.pow(e1.getY() -e2.getY(),2));
+                if(distance > SWIPE_MIN_DISTANCE) { // && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
                     if (!isRunning(getApplication()))
                     {
                         Intent intent = new Intent(getBaseContext(), com.klinker.android.messaging_sliding.MainActivityPopup.class);
