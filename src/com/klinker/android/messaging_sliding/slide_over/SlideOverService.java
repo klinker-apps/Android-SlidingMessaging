@@ -31,6 +31,7 @@ public class SlideOverService extends Service {
     private static final int SWIPE_THRESHOLD_VELOCITY = 200;
     private GestureDetector gestureDetector;
     View.OnTouchListener gestureListener;
+    public WindowManager.LayoutParams params;
 
     @Override
     public void onCreate() {
@@ -42,7 +43,7 @@ public class SlideOverService extends Service {
                 R.drawable.halo_bg);
 
 
-        WindowManager.LayoutParams params = new WindowManager.LayoutParams(
+        params = new WindowManager.LayoutParams(
                 halo.getWidth(),
                 halo.getHeight(),
                 WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
@@ -93,6 +94,7 @@ public class SlideOverService extends Service {
     }
 
     class MyGestureDetector extends GestureDetector.SimpleOnGestureListener {
+        // When the event is done and the user has released their finger
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
             try {
@@ -108,6 +110,23 @@ public class SlideOverService extends Service {
             } catch (Exception e) {
                 // nothing
             }
+            return false;
+        }
+
+        // First press of the event, will draw overlay arch from here
+        @Override
+        public boolean onDown(MotionEvent event)
+        {
+            super.onDown(event);
+
+            /*final Bitmap arch = BitmapFactory.decodeResource(getResources(),
+                    R.drawable.halo_bg);
+
+            SlideOverView archView = new SlideOverView(getBaseContext(), arch);
+
+            WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
+            wm.addView(mView, params);*/
+
             return false;
         }
     }
