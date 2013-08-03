@@ -262,7 +262,7 @@ public class ConversationArrayAdapter  extends ArrayAdapter<String> {
             viewHolder.date = (TextView) rowView.findViewById(R.id.textDate);
             viewHolder.message = (TextView) rowView.findViewById(R.id.textBody);
             viewHolder.image = (QuickContactBadge) rowView.findViewById(R.id.imageContactPicture);
-            viewHolder.background = (LinearLayout) rowView.findViewById(R.id.messageBody);
+            viewHolder.background = rowView.findViewById(R.id.messageBody);
             viewHolder.bubble = (ImageView) rowView.findViewById(R.id.msgBubble);
             rowView.findViewById(R.id.media).setVisibility(View.GONE);
 
