@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
 import android.os.IBinder;
+import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -25,6 +26,11 @@ import java.util.List;
 public class SlideOverService extends Service {
 
     SlideOverView mView;
+    private static final int SWIPE_MIN_DISTANCE = 120;
+    private static final int SWIPE_MAX_OFF_PATH = 250;
+    private static final int SWIPE_THRESHOLD_VELOCITY = 200;
+    private GestureDetector gestureDetector;
+    View.OnTouchListener gestureListener;
 
     @Override
     public void onCreate() {
@@ -49,11 +55,17 @@ public class SlideOverService extends Service {
         params.setTitle("Load Average");
         WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
 
-
-
         mView = new SlideOverView(this,halo);
 
-        mView.setOnTouchListener(new View.OnTouchListener() {
+        // Gesture detection
+        gestureDetector = new GestureDetector(this, new MyGestureDetector());
+        gestureListener = new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                return gestureDetector.onTouchEvent(event);
+            }
+        };
+
+        /*mView.setOnTouchListener(new View.OnTouchListener() {
 
 
             @Override
@@ -70,10 +82,33 @@ public class SlideOverService extends Service {
                 }
                 return false;
             }
-        });
+        });*/
+
+        // Do this for each view added to the grid
+        //mView.setOnClickListener(SelectFilterActivity.this);
+        mView.setOnTouchListener(gestureListener);
 
         wm.addView(mView, params);
 
+    }
+
+    class MyGestureDetector extends GestureDetector.SimpleOnGestureListener {
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+            try {
+                if(e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                    if (!isRunning(getApplication()))
+                    {
+                        Intent intent = new Intent(getBaseContext(), com.klinker.android.messaging_sliding.MainActivityPopup.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }
+                }
+            } catch (Exception e) {
+                // nothing
+            }
+            return false;
+        }
     }
 
     public boolean isRunning(Context ctx) {
