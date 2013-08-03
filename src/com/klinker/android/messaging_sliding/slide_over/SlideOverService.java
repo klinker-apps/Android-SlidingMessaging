@@ -101,6 +101,7 @@ public class SlideOverService extends Service {
                     if (!isRunning(getApplication()))
                     {
                         Intent intent = new Intent(getBaseContext(), com.klinker.android.messaging_sliding.MainActivityPopup.class);
+                        intent.putExtra("fromHalo", true);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                     }

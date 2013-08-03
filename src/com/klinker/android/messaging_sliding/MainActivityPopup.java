@@ -15,6 +15,8 @@ import com.klinker.android.messaging_donate.R;
 
 public class MainActivityPopup extends MainActivity {
 
+    public boolean fromHalo = false;
+
     @Override
     public void setUpWindow() {
         com.klinker.android.messaging_donate.MainActivity.group = null;
@@ -65,7 +67,7 @@ public class MainActivityPopup extends MainActivity {
     
     @Override
     public void setUpIntentStuff() {
-        // Do nothing, just open to the first conversation no matter what is sent into the activity
+        fromHalo = getIntent().getBooleanExtra("fromHalo", false);
     }
     
     @Override
@@ -155,7 +157,7 @@ public class MainActivityPopup extends MainActivity {
     public void onResume() {
         super.onResume();
 
-        if (sharedPrefs.getBoolean("show_keyboard_popup", true)) {
+        if (sharedPrefs.getBoolean("show_keyboard_popup", true) && !fromHalo) {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
