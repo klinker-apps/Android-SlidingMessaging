@@ -394,6 +394,19 @@ public class SettingsPagerActivity extends FragmentActivity {
                 }
 
             });
+
+            Preference slideOver = findPreference("slideover_toggle");
+            slideOver.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+
+                @Override
+                public boolean onPreferenceClick(Preference arg0) {
+
+                    Intent service = new Intent(getApplicationContext(), com.klinker.android.messaging_sliding.slide_over.SlideOverService.class);
+                    startService(service);
+                    return false;
+                }
+
+            });
         }
 
         public void setUpThemeSettings()

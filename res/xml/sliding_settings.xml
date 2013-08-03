@@ -62,5 +62,10 @@
         android:title="@string/menu_delete"
     />
 
+    <Preference
+        android:key="slideover_toggle"
+        android:title="Start SlideOver"
+        />
+
 
 </PreferenceScreen>

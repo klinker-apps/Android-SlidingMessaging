@@ -27,8 +27,7 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Intent service = new Intent(this, com.klinker.android.messaging_sliding.slide_over.SlideOverService.class);
-        //startService(service);
+
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
 		sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
