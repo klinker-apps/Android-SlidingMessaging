@@ -156,7 +156,7 @@ public class MainActivity extends FragmentActivity implements
                         flag = true;
                     }
 
-                    if (sharedPrefs.getString("run_as", "sliding").equals("sliding") || sharedPrefs.getString("run_as", "sliding").equals("hangout"))
+                    if (sharedPrefs.getString("run_as", "sliding").equals("sliding") || sharedPrefs.getString("run_as", "sliding").equals("hangout") || sharedPrefs.getString("run_as", "sliding").equals("card2"))
                     {
                         final Intent intent = new Intent(context, com.klinker.android.messaging_sliding.MainActivity.class);
                         intent.setAction(fromIntent.getAction());
