@@ -28,7 +28,7 @@
 
         <item name="android:windowFrame">@null</item>
         <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowAnimationStyle">@android:style/Animation</item>
+        <item name="android:windowAnimationStyle">@style/PopupAnimation</item>
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowActionBar">false</item>
@@ -47,7 +47,7 @@
 
         <item name="android:windowFrame">@null</item>
         <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowAnimationStyle">@android:style/Animation</item>
+        <item name="android:windowAnimationStyle">@style/PopupAnimation</item>
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowActionBar">false</item>
@@ -69,6 +69,10 @@
 
     <style name="HangoutsTheme.ActionBar.SubtitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Subtitle">
         <item name="android:textColor">@color/hangouts_subtitle</item>
+    </style>
+
+    <style name="PopupAnimation" parent="@android:style/Animation">
+        <item name="android:windowEnterAnimation">@anim/activity_slide_up</item>
     </style>
 
 </resources>

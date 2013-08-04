@@ -49,6 +49,7 @@ public class SlideOverView extends ViewGroup {
     }
 
     protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
 
         this.canvas = canvas;
 

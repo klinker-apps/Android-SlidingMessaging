@@ -31,9 +31,12 @@ public class SlideOverService extends Service {
 
     private int pixelsDown;
 
+    public Context mContext;
+
     @Override
     public void onCreate() {
         super.onCreate();
+        mContext = this;
 
         final Bitmap halo = BitmapFactory.decodeResource(getResources(),
                 R.drawable.halo_bg);
@@ -78,7 +81,7 @@ public class SlideOverService extends Service {
             @Override
             public boolean onTouch(View arg0, MotionEvent arg1) {
 
-                if((arg1.getX()<halo.getWidth() & arg1.getY()>0) || needDetection)
+                if((arg1.getX()<halo.getWidth() && arg1.getY()>0) || needDetection)
                 {
                     final int type = arg1.getActionMasked();
 
@@ -126,7 +129,7 @@ public class SlideOverService extends Service {
                                 vibrateNeeded = true;
                             }
 
-                            break;
+                            return true;
 
                         case MotionEvent.ACTION_UP:
 
@@ -160,11 +163,12 @@ public class SlideOverService extends Service {
 
                             needDetection = false;
 
-                            return false;
+                            return true;
                     }
 
                 }
-                return true;
+
+                return false;
             }
         });
 
