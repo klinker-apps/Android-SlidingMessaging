@@ -6447,7 +6447,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 	  	        }
 	  	    }
 
-            if (counter) {
+            if (counter && returnArray.length > 1) {
                 for (int i = 0; i < returnArray.length; i++) {
                     returnArray[i] = "(" + (i+1) + "/" + returnArray.length + ") " + returnArray[i];
                 }

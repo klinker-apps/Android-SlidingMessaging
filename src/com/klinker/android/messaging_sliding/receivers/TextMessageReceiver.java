@@ -1101,7 +1101,14 @@ public class TextMessageReceiver extends BroadcastReceiver {
 
                                     if (pm.isScreenOn())
                                     {
-                                        context.startActivity(intent3);
+                                        final Intent popup = intent3;
+
+                                        new Handler().postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                context.startActivity(popup);
+                                            }
+                                        }, 250);
                                     } else
                                     {
                                         UnlockReceiver.openApp = true;

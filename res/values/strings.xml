@@ -510,5 +510,6 @@
     <string name="full_app_popup_summary">Replaces popup with a fully functioning version of the app that shows as a dialog box over other apps instead of taking the entire screen</string>
     <string name="slideover_settings">SlideOver Settings</string>
     <string name="slideover_teaser">More on this for another update... ;)</string>
+    <string name="slide_over">SlideOver</string>
     
 </resources>
