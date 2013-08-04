@@ -55,11 +55,11 @@ public class MainActivityPopup extends MainActivity {
         int scale1, scale2;
 
         if (width > height) {
-            scale1 = width / 10;
+            scale1 = width / 8;
             scale2 = height / 20;
         } else {
             scale1 = width / 20;
-            scale2 = height / 10;
+            scale2 = height / 8;
         }
 
         getWindow().getDecorView().setPadding(scale1, scale2, scale1, scale2);
@@ -143,11 +143,11 @@ public class MainActivityPopup extends MainActivity {
         int scale1, scale2;
 
         if (width > height) {
-            scale1 = width / 10;
+            scale1 = width / 8;
             scale2 = height / 20;
         } else {
             scale1 = width / 20;
-            scale2 = height / 10;
+            scale2 = height / 8;
         }
 
         getWindow().getDecorView().setPadding(scale1, scale2, scale1, scale2);
