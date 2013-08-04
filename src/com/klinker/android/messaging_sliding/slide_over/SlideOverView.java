@@ -43,7 +43,6 @@ public class SlideOverView extends ViewGroup {
         arcPaint.setAlpha(60);
         arcPaint.setStyle(Paint.Style.STROKE);
 
-
         this.halo = halo;
     }
 
