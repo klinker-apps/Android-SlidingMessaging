@@ -73,6 +73,7 @@
 
     <style name="PopupAnimation" parent="@android:style/Animation">
         <item name="android:windowEnterAnimation">@anim/activity_slide_up</item>
+        <item name="android:windowExitAnimation">@anim/activity_slide_down</item>
     </style>
 
 </resources>
