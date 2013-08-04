@@ -5909,19 +5909,26 @@ s
 		}
 
         if (dismissNotification) {
-            NotificationManager mNotificationManager =
-                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            mNotificationManager.cancel(1);
-            mNotificationManager.cancel(2);
-            writeToFile2(new ArrayList<String>(), this);
+            final Context context = this;
 
-            Intent intent = new Intent("com.klinker.android.messaging.CLEARED_NOTIFICATION");
-            this.sendBroadcast(intent);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    NotificationManager mNotificationManager =
+                            (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                    mNotificationManager.cancel(1);
+                    mNotificationManager.cancel(2);
+                    writeToFile2(new ArrayList<String>(), context);
 
-            Intent stopRepeating = new Intent(this, NotificationRepeaterService.class);
-            PendingIntent pStopRepeating = PendingIntent.getService(this, 0, stopRepeating, 0);
-            AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            alarm.cancel(pStopRepeating);
+                    Intent intent = new Intent("com.klinker.android.messaging.CLEARED_NOTIFICATION");
+                    context.sendBroadcast(intent);
+
+                    Intent stopRepeating = new Intent(context, NotificationRepeaterService.class);
+                    PendingIntent pStopRepeating = PendingIntent.getService(context, 0, stopRepeating, 0);
+                    AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                    alarm.cancel(pStopRepeating);
+                }
+            }, 500);
         }
 		
 		if (!firstRun)

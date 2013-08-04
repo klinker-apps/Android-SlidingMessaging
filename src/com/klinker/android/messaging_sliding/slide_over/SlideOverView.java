@@ -1,14 +1,12 @@
 package com.klinker.android.messaging_sliding.slide_over;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
+import android.graphics.*;
 import android.telephony.SmsManager;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,10 +27,10 @@ public class SlideOverView extends ViewGroup {
     public Paint arcPaint;
     public float radius = 300;
 
-    public int haloX = 0;
-    public int haloY = 0;
+    public float haloX = 10;
+    public float haloY = 10;
 
-    public SlideOverView(Context context,Bitmap halo) {
+    public SlideOverView(Context context, Bitmap halo, float radius) {
         super(context);
 
         arcPaint = new Paint();
@@ -42,6 +40,9 @@ public class SlideOverView extends ViewGroup {
         arcPaint.setStyle(Paint.Style.STROKE);
 
         this.halo = halo;
+        this.radius = radius;
+
+        this.haloX = -1 * (halo.getWidth() / 2);
     }
 
     protected void onDraw(Canvas canvas) {

@@ -44,6 +44,7 @@ public class SlideOverService extends Service {
 
         Display d = ((WindowManager)getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         int height = d.getHeight();
+        int width = d.getWidth();
 
         double heightPercent = 0;
 
@@ -59,11 +60,17 @@ public class SlideOverService extends Service {
                         |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                         |WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
                 PixelFormat.TRANSLUCENT);
-        params.gravity = Gravity.LEFT | Gravity.TOP;
+        //params.gravity = Gravity.LEFT | Gravity.TOP;
 
         final WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
 
-        mView = new SlideOverView(this,halo);
+        int radius;
+        if (width > height)
+            radius = height/3;
+        else
+            radius = width/3;
+
+        mView = new SlideOverView(this, halo, radius);
 
         mView.setOnTouchListener(new View.OnTouchListener() {
             private boolean needDetection = false;
