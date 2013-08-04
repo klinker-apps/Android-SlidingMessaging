@@ -38,7 +38,7 @@ public class SlideOverView extends ViewGroup {
         arcPaint = new Paint();
         arcPaint.setAntiAlias(true);
         arcPaint.setColor(Color.WHITE);
-        arcPaint.setAlpha(75);
+        arcPaint.setAlpha(60);
         arcPaint.setStyle(Paint.Style.STROKE);
 
 

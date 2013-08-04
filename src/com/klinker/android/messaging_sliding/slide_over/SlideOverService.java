@@ -87,13 +87,11 @@ public class SlideOverService extends Service {
                             initY = arg1.getY();
 
                             params = new WindowManager.LayoutParams(
-                                    300,
-                                    300,
                                     WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
                                     WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                                             |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                                             |WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
-                                    PixelFormat.TRANSLUCENT);
+                                    PixelFormat.TRANSPARENT);
                             params.gravity = Gravity.LEFT | Gravity.TOP;
 
                             wm.updateViewLayout(mView, params);
@@ -116,7 +114,12 @@ public class SlideOverService extends Service {
                             }
 
                             if (distance < SWIPE_MIN_DISTANCE)
+                            {
+                                mView.arcPaint.setAlpha(60);
+                                mView.invalidate();
+                                wm.updateViewLayout(mView, params);
                                 vibrateNeeded = true;
+                            }
 
                             break;
 
