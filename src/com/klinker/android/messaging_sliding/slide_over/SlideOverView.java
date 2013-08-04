@@ -25,16 +25,33 @@ import static android.support.v4.app.ActivityCompat.startActivity;
  */
 public class SlideOverView extends ViewGroup {
     Bitmap halo;
+    private Canvas canvas;
+    public Paint arcPaint;
+
+    public int circleX = -10000;
+    public int circleY = -10000;
+    public float radius = 300;
 
     public SlideOverView(Context context,Bitmap halo) {
         super(context);
+
+        arcPaint = new Paint();
+        arcPaint.setAntiAlias(true);
+        arcPaint.setColor(Color.WHITE);
+        arcPaint.setAlpha(75);
+        arcPaint.setStyle(Paint.Style.STROKE);
+
 
         this.halo=halo;
     }
 
     protected void onDraw(Canvas canvas) {
 
-        canvas.drawBitmap(halo,0 , 0, null);
+        this.canvas = canvas;
+
+        canvas.drawCircle(0, 0, radius, arcPaint);
+        //canvas.drawCircle(circleX, circleY, radius - 1, arcPaintInner);
+        canvas.drawBitmap(halo, 0, 0, null);
     }
 
     protected void onLayout(boolean arg0, int arg1, int arg2, int arg3, int arg4) {
@@ -43,4 +60,6 @@ public class SlideOverView extends ViewGroup {
     public boolean onTouchEvent(MotionEvent event) {
         return true;
     }
+
+
 }
