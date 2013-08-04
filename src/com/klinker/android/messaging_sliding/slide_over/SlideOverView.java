@@ -27,10 +27,8 @@ public class SlideOverView extends ViewGroup {
     Bitmap halo;
     private Canvas canvas;
     public Paint arcPaint;
-
-    public int circleX = -10000;
-    public int circleY = -10000;
     public float radius = 300;
+    private int pixelsDown;
 
     public SlideOverView(Context context,Bitmap halo) {
         super(context);
@@ -40,7 +38,6 @@ public class SlideOverView extends ViewGroup {
         arcPaint.setColor(Color.WHITE);
         arcPaint.setAlpha(60);
         arcPaint.setStyle(Paint.Style.STROKE);
-
 
         this.halo=halo;
     }

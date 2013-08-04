@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
 import android.os.IBinder;
 import android.os.Vibrator;
+import android.view.Display;
 import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -28,11 +29,10 @@ public class SlideOverService extends Service {
 
     SlideOverView mView;
     private static final int SWIPE_MIN_DISTANCE = 300;
-    private static final int SWIPE_MAX_OFF_PATH = 250;
-    private static final int SWIPE_THRESHOLD_VELOCITY = 200;
-    private GestureDetector gestureDetector;
-    View.OnTouchListener gestureListener;
+
     public WindowManager.LayoutParams params;
+
+    private int pixelsDown;
 
     @Override
     public void onCreate() {
@@ -41,28 +41,28 @@ public class SlideOverService extends Service {
         final Bitmap halo = BitmapFactory.decodeResource(getResources(),
                 R.drawable.halo_bg);
 
+        Display d = ((WindowManager)getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+        int height = d.getHeight();
+
+        double heightPercent = 0;
+
+        pixelsDown = (int)(height * heightPercent);
 
         params = new WindowManager.LayoutParams(
                 halo.getWidth(),
                 halo.getHeight(),
+                0,
+                pixelsDown,
                 WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                         |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                         |WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
                 PixelFormat.TRANSLUCENT);
         params.gravity = Gravity.LEFT | Gravity.TOP;
-        
+
         final WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
 
         mView = new SlideOverView(this,halo);
-
-        // Gesture detection
-        /*gestureDetector = new GestureDetector(this, new MyGestureDetector());
-        gestureListener = new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
-                return gestureDetector.onTouchEvent(event);
-            }
-        };*/
 
         mView.setOnTouchListener(new View.OnTouchListener() {
             private boolean needDetection = false;
@@ -136,6 +136,8 @@ public class SlideOverService extends Service {
                             params = new WindowManager.LayoutParams(
                                     halo.getWidth(),
                                     halo.getHeight(),
+                                    0,
+                                    pixelsDown,
                                     WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
                                     WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                                             |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
@@ -155,61 +157,8 @@ public class SlideOverService extends Service {
             }
         });
 
-        // Do this for each view added to the grid
-        //mView.setOnClickListener(SelectFilterActivity.this);
-        //mView.setOnTouchListener(gestureListener);
-
         wm.addView(mView, params);
 
-    }
-
-    class MyGestureDetector extends GestureDetector.SimpleOnGestureListener {
-        // When the event is done and the user has released their finger
-
-        double initX = 0;
-        double initY = 0;
-
-        double changeX = 0;
-        double changeY = 0;
-        double distance = 0;
-
-        @Override
-        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-                //double distance = Math.sqrt(Math.pow(e1.getX()- e2.getX(), 2) + Math.pow(e1.getY() -e2.getY(),2));
-                //double distance = Math.sqrt(Math.pow(initX- e2.getX(), 2) + Math.pow(initY -e2.getY(),2));
-            distance += Math.pow(distanceX*distanceX + distanceY*distanceY, 1/2);
-            if(distance > SWIPE_MIN_DISTANCE) {
-                if (!isRunning(getApplication()))
-                {
-                    Intent intent = new Intent(getBaseContext(), com.klinker.android.messaging_sliding.MainActivityPopup.class);
-                    intent.putExtra("fromHalo", true);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                }
-            }
-            return false;
-        }
-
-        // First press of the event, will draw overlay arch from here
-        @Override
-        public boolean onDown(MotionEvent event)
-        {
-            super.onDown(event);
-
-            initX = event.getX();
-            initY = event.getY();
-
-
-            /*final Bitmap arch = BitmapFactory.decodeResource(getResources(),
-                    R.drawable.halo_bg);
-
-            SlideOverView archView = new SlideOverView(getBaseContext(), arch);
-
-            WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
-            wm.addView(mView, params);*/
-
-            return false;
-        }
     }
 
     public boolean isRunning(Context ctx) {
