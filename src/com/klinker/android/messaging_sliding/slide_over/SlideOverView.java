@@ -27,10 +27,8 @@ public class SlideOverView extends ViewGroup {
     Bitmap halo;
     private Canvas canvas;
     public Paint arcPaint;
-
-    public int circleX = -10000;
-    public int circleY = -10000;
     public float radius = 300;
+
     public int haloX = 0;
     public int haloY = 0;
 
