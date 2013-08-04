@@ -26,26 +26,36 @@
         <item name="messageBarButtonStyle">@style/MessageBar.Button</item>
         <item name="android:windowDisablePreview">true</item>
 
-        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowFrame">@null</item>
         <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation</item>
         <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowActionModeOverlay">true</item>
+        <item name="android:windowCloseOnTouchOutside">false</item>
         <item name="android:backgroundDimEnabled">false</item>
+
+        <item name="android:colorBackgroundCacheHint">@null</item>
     </style>
 
-    <style name="AppBaseThemeDialog" parent="android:Theme.Holo">
+    <style name="AppBaseThemeDialog" parent="@android:Theme.Holo">
         <item name="messageBarContainerStyle">@style/MessageBar.Container</item>
         <item name="messageBarTextStyle">@style/MessageBar.Message</item>
         <item name="messageBarButtonStyle">@style/MessageBar.Button</item>
         <item name="android:windowDisablePreview">true</item>
 
-        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowFrame">@null</item>
         <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation</item>
         <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowActionModeOverlay">true</item>
+        <item name="android:windowCloseOnTouchOutside">false</item>
         <item name="android:backgroundDimEnabled">false</item>
+
+        <item name="android:colorBackgroundCacheHint">@null</item>
     </style>
 
     <style name="HangoutsTheme.ActionBarStyle" parent="@android:style/Widget.Holo.Light.ActionBar">

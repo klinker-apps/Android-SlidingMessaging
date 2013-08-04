@@ -1,5 +1,6 @@
 package com.klinker.android.messaging_sliding.slide_over;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Service;
 import android.content.Context;
@@ -75,7 +76,7 @@ public class SlideOverService extends Service {
             @Override
             public boolean onTouch(View arg0, MotionEvent arg1) {
 
-                if((arg1.getX()<halo.getWidth() & arg1.getY()>0 && !isRunning(getApplication())) || needDetection)
+                if((arg1.getX()<halo.getWidth() & arg1.getY()>0) || needDetection)
                 {
                     final int type = arg1.getActionMasked();
 
@@ -128,8 +129,15 @@ public class SlideOverService extends Service {
 
                             if(distance > SWIPE_MIN_DISTANCE)
                             {
+                                if (isRunning(getApplication())) {
+                                    Intent intent = new Intent();
+                                    intent.setAction("com.klinker.android.messaging_donate.KILL_FOR_HALO");
+                                    sendBroadcast(intent);
+                                }
+
                                 Intent intent = new Intent(getBaseContext(), com.klinker.android.messaging_sliding.MainActivityPopup.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.putExtra("fromHalo", true);
                                 startActivity(intent);
                             }
 

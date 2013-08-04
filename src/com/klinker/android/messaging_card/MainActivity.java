@@ -162,6 +162,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 	
 	public BroadcastReceiver receiver;
 	public BroadcastReceiver mmsReceiver;
+    public BroadcastReceiver killReceiver;
 	
 	public DisconnectWifi discon;
 	public WifiInfo currentWifi;
@@ -276,6 +277,13 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 		}
 		
 		getWindow().setBackgroundDrawable(null);
+
+        killReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                ((Activity) context).finish();
+            }
+        };
 		
 		receiver = new BroadcastReceiver() {
 		    @Override
@@ -3953,6 +3961,10 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
         filter.setPriority(3);
         registerReceiver(mmsReceiver, filter);
 
+        filter = new IntentFilter("com.klinker.android.messaging_donate.KILL_FOR_HALO");
+        filter.addCategory(Intent.CATEGORY_DEFAULT);
+        registerReceiver(killReceiver, filter);
+
         drafts = new ArrayList<String>();
         draftNames = new ArrayList<String>();
         draftChanged = new ArrayList<Boolean>();
@@ -4004,6 +4016,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 		super.onPause();
 		unregisterReceiver(receiver);
 		unregisterReceiver(mmsReceiver);
+        unregisterReceiver(killReceiver);
 		
 		ComponentName receiver = new ComponentName(this, SentReceiver.class);
 		ComponentName receiver2 = new ComponentName(this, DeliveredReceiver.class);

@@ -172,6 +172,7 @@ s
 	
 	public BroadcastReceiver receiver;
 	public BroadcastReceiver mmsReceiver;
+    public BroadcastReceiver killReceiver;
 	public DisconnectWifi discon;
 	public WifiInfo currentWifi;
 	public boolean currentWifiState;
@@ -301,6 +302,13 @@ s
 		myPhoneNumber = getMyPhoneNumber();
 		
 		this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+        killReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                ((Activity) context).finish();
+            }
+        };
 		
 		receiver = new BroadcastReceiver() {
 		    @Override
@@ -5383,6 +5391,10 @@ s
         filter.addCategory(Intent.CATEGORY_DEFAULT);
         filter.setPriority(3);
         registerReceiver(mmsReceiver, filter);
+
+        filter = new IntentFilter("com.klinker.android.messaging_donate.KILL_FOR_HALO");
+        filter.addCategory(Intent.CATEGORY_DEFAULT);
+        registerReceiver(killReceiver, filter);
         
         String menuOption = sharedPrefs.getString("page_or_menu2", "2");
         
@@ -5523,6 +5535,7 @@ s
 		{
 			unregisterReceiver(receiver);
 			unregisterReceiver(mmsReceiver);
+            unregisterReceiver(killReceiver);
 		} catch (Exception e)
 		{
 			
