@@ -31,6 +31,8 @@ public class SlideOverView extends ViewGroup {
     public int circleX = -10000;
     public int circleY = -10000;
     public float radius = 300;
+    public int haloX = 0;
+    public int haloY = 0;
 
     public SlideOverView(Context context,Bitmap halo) {
         super(context);
@@ -42,16 +44,16 @@ public class SlideOverView extends ViewGroup {
         arcPaint.setStyle(Paint.Style.STROKE);
 
 
-        this.halo=halo;
+        this.halo = halo;
     }
 
     protected void onDraw(Canvas canvas) {
 
         this.canvas = canvas;
 
-        canvas.drawCircle(0, 0, radius, arcPaint);
+        canvas.drawCircle(haloX + (halo.getWidth() / 2), haloY + (halo.getHeight() / 2), radius, arcPaint);
         //canvas.drawCircle(circleX, circleY, radius - 1, arcPaintInner);
-        canvas.drawBitmap(halo, 0, 0, null);
+        canvas.drawBitmap(halo, haloX, haloY, null);
     }
 
     protected void onLayout(boolean arg0, int arg1, int arg2, int arg3, int arg4) {
