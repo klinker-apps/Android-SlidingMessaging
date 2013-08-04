@@ -1,6 +1,5 @@
 package com.klinker.android.messaging_sliding.slide_over;
 
-import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Service;
 import android.content.Context;
@@ -11,13 +10,10 @@ import android.graphics.PixelFormat;
 import android.os.IBinder;
 import android.os.Vibrator;
 import android.view.Display;
-import android.view.GestureDetector;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import com.klinker.android.messaging_donate.R;
 
@@ -29,7 +25,7 @@ import java.util.List;
 public class SlideOverService extends Service {
 
     SlideOverView mView;
-    private static final int SWIPE_MIN_DISTANCE = 300;
+    private static int SWIPE_MIN_DISTANCE = 300;
 
     public WindowManager.LayoutParams params;
 
@@ -43,8 +39,8 @@ public class SlideOverService extends Service {
                 R.drawable.halo_bg);
 
         Display d = ((WindowManager)getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-        int height = d.getHeight();
-        int width = d.getWidth();
+        final int height = d.getHeight();
+        final int width = d.getWidth();
 
         double heightPercent = 0;
 
@@ -55,22 +51,21 @@ public class SlideOverService extends Service {
                 halo.getHeight(),
                 0,
                 pixelsDown,
-                WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
+                WindowManager.LayoutParams.TYPE_PHONE,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                         |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                         |WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
                 PixelFormat.TRANSLUCENT);
-        //params.gravity = Gravity.LEFT | Gravity.TOP;
+        params.gravity = Gravity.LEFT | Gravity.TOP;
 
         final WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
 
-        int radius;
         if (width > height)
-            radius = height/3;
+            SWIPE_MIN_DISTANCE = height/3;
         else
-            radius = width/3;
+            SWIPE_MIN_DISTANCE = width/3;
 
-        mView = new SlideOverView(this, halo, radius);
+        mView = new SlideOverView(this, halo, SWIPE_MIN_DISTANCE, pixelsDown);
 
         mView.setOnTouchListener(new View.OnTouchListener() {
             private boolean needDetection = false;
@@ -94,7 +89,7 @@ public class SlideOverService extends Service {
                             initY = arg1.getY();
 
                             params = new WindowManager.LayoutParams(
-                                    WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
+                                    WindowManager.LayoutParams.TYPE_PHONE,
                                     WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                                             |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                                             |WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
@@ -103,6 +98,7 @@ public class SlideOverService extends Service {
                             params.gravity = Gravity.LEFT | Gravity.TOP;
                             params.dimAmount=.4f;
 
+                            mView.arcPaint.setAlpha(60);
                             wm.updateViewLayout(mView, params);
                             needDetection = true;
                             return true;
@@ -153,7 +149,7 @@ public class SlideOverService extends Service {
                                     halo.getHeight(),
                                     0,
                                     pixelsDown,
-                                    WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
+                                    WindowManager.LayoutParams.TYPE_PHONE,
                                     WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                                             |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                                             |WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,

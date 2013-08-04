@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.*;
 import android.telephony.SmsManager;
+import android.util.TypedValue;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,12 +26,12 @@ public class SlideOverView extends ViewGroup {
     Bitmap halo;
     private Canvas canvas;
     public Paint arcPaint;
-    public float radius = 300;
+    public float radius;
 
-    public float haloX = 10;
-    public float haloY = 10;
+    public float haloX = 0;
+    public float haloY = 0;
 
-    public SlideOverView(Context context, Bitmap halo, float radius) {
+    public SlideOverView(Context context, Bitmap halo, float radius, int pixelsDown) {
         super(context);
 
         arcPaint = new Paint();
@@ -38,11 +39,13 @@ public class SlideOverView extends ViewGroup {
         arcPaint.setColor(Color.WHITE);
         arcPaint.setAlpha(60);
         arcPaint.setStyle(Paint.Style.STROKE);
+        arcPaint.setStrokeWidth(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, context.getResources().getDisplayMetrics()));
 
         this.halo = halo;
         this.radius = radius;
 
         this.haloX = -1 * (halo.getWidth() / 2);
+        this.haloY = pixelsDown;
     }
 
     protected void onDraw(Canvas canvas) {
