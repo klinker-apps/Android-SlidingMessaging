@@ -50,9 +50,8 @@ public class SlideOverService extends Service {
                         |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                         |WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
                 PixelFormat.TRANSLUCENT);
-
         params.gravity = Gravity.LEFT | Gravity.TOP;
-        params.setTitle("Load Average");
+        
         final WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
 
         mView = new SlideOverView(this,halo);
@@ -90,9 +89,11 @@ public class SlideOverService extends Service {
                                     WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
                                     WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                                             |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
-                                            |WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
-                                    PixelFormat.TRANSPARENT);
+                                            |WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
+                                            |WindowManager.LayoutParams.FLAG_DIM_BEHIND,
+                                    PixelFormat.TRANSLUCENT);
                             params.gravity = Gravity.LEFT | Gravity.TOP;
+                            params.dimAmount=.4f;
 
                             wm.updateViewLayout(mView, params);
                             needDetection = true;
