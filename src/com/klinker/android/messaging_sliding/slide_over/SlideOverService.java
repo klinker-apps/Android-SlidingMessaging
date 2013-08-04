@@ -105,7 +105,7 @@ public class SlideOverService extends Service {
 
                             if (distance > SWIPE_MIN_DISTANCE && vibrateNeeded)
                             {
-                                mView.arcPaint.setAlpha(100);
+                                mView.arcPaint.setAlpha(150);
                                 mView.invalidate();
                                 wm.updateViewLayout(mView, params);
                                 Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
