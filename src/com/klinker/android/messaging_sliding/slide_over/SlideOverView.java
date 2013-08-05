@@ -44,9 +44,6 @@ public class SlideOverView extends ViewGroup {
 
         mContext = context;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
-        Display d = ((WindowManager)mContext.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-        height = d.getHeight();
-        width = d.getWidth();
 
         arcPaint = new Paint();
         arcPaint.setAntiAlias(true);
@@ -61,6 +58,10 @@ public class SlideOverView extends ViewGroup {
 
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+
+        Display d = ((WindowManager)mContext.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+        height = d.getHeight();
+        width = d.getWidth();
 
         this.canvas = canvas;
 

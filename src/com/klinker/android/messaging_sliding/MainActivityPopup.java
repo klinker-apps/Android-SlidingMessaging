@@ -53,17 +53,11 @@ public class MainActivityPopup extends MainActivity {
         int width = size.x;
         int height = size.y;
 
-        int scale1, scale2;
-
         if (width > height) {
-            scale1 = width / 8;
-            scale2 = height / 20;
+            getWindow().getDecorView().setPadding(0,height/12,0,height/12);
         } else {
-            scale1 = width / 20;
-            scale2 = height / 8;
+            getWindow().getDecorView().setPadding(width / 20, height / 8, width / 20, height / 8);
         }
-
-        getWindow().getDecorView().setPadding(scale1, scale2, scale1, scale2);
     }
     
     @Override
@@ -141,22 +135,20 @@ public class MainActivityPopup extends MainActivity {
         int width = size.x;
         int height = size.y;
 
-        int scale1, scale2;
-
         if (width > height) {
-            scale1 = width / 8;
-            scale2 = height / 20;
+            getWindow().getDecorView().setPadding(0,height/12,0,height/12);
         } else {
-            scale1 = width / 20;
-            scale2 = height / 8;
+            getWindow().getDecorView().setPadding(width / 20, height / 8, width / 20, height / 8);
         }
-
-        getWindow().getDecorView().setPadding(scale1, scale2, scale1, scale2);
     }
     
     @Override
     public void onResume() {
         super.onResume();
+
+        if (!fromHalo) {
+            menu.showContent();
+        }
 
         if (sharedPrefs.getBoolean("show_keyboard_popup", true) && !fromHalo) {
             new Handler().postDelayed(new Runnable() {

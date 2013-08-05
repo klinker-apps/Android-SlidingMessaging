@@ -218,27 +218,31 @@ public class SlideOverService extends Service {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         int[] returnArray = {0, 0};
 
+        Display d = ((WindowManager)mContext.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+        int height = d.getHeight();
+        int width = d.getWidth();
+
         if (sharedPrefs.getString("slideover_side", "left").equals("left")) {
             if (sharedPrefs.getString("slideover_alignment", "middle").equals("top")) {
                 returnArray[0] = 0;
                 returnArray[1] = 0;
             } else if (sharedPrefs.getString("slideover_alignment", "middle").equals("middle")) {
                 returnArray[0] = 0;
-                returnArray[1] = (mView.height/2) - (mView.halo.getHeight()/2);
+                returnArray[1] = (height/2) - (mView.halo.getHeight()/2);
             } else {
                 returnArray[0] = 0;
-                returnArray[1] = (mView.height) - (mView.halo.getHeight());
+                returnArray[1] = (height) - (mView.halo.getHeight());
             }
         } else {
             if (sharedPrefs.getString("slideover_alignment", "middle").equals("top")) {
-                returnArray[0] = mView.width - mView.halo.getWidth();
+                returnArray[0] = width - mView.halo.getWidth();
                 returnArray[1] = 0;
             } else if (sharedPrefs.getString("slideover_alignment", "middle").equals("middle")) {
-                returnArray[0] = mView.width - mView.halo.getWidth();
-                returnArray[1] = (mView.height/2) - (mView.halo.getHeight()/2);
+                returnArray[0] = width - mView.halo.getWidth();
+                returnArray[1] = (height/2) - (mView.halo.getHeight()/2);
             } else {
-                returnArray[0] = mView.width - mView.halo.getWidth();
-                returnArray[1] = (mView.height) - (mView.halo.getHeight());
+                returnArray[0] = width - mView.halo.getWidth();
+                returnArray[1] = (height) - (mView.halo.getHeight());
             }
         }
 
