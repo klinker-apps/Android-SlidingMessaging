@@ -10,7 +10,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.support.v4.app.NotificationCompat;
+import android.content.SharedPreferences;
 import com.klinker.android.messaging_sliding.quick_reply.SendMessage;
+import com.klinker.android.messaging_sliding.MainActivityPopup;
 
 public class QuickTextService extends IntentService {
 
@@ -25,6 +27,7 @@ public class QuickTextService extends IntentService {
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 		
 		NotificationCompat.Builder mBuilder =
 		        new NotificationCompat.Builder(this)
@@ -40,6 +43,12 @@ public class QuickTextService extends IntentService {
 		}
 		
 		Intent notifyIntent = new Intent(this, SendMessage.class);
+		
+		if (sharedPrefs.getBoolean("full_app_popup", true)) {
+			notifyIntent = new Intent(this, MainActivityPopup.class);
+			notifyIntent.putExtra("fromHalo", true);
+		}
+		
 		notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		PendingIntent intent2 = PendingIntent.getActivity(this, 2, 
 		            notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
