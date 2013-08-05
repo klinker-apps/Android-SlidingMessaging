@@ -32,6 +32,7 @@ public class MainActivityPopup extends MainActivity {
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
         if (sharedPrefs.getBoolean("ct_light_action_bar", false))
         {

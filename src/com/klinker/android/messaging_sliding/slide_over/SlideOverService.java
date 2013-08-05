@@ -99,7 +99,8 @@ public class SlideOverService extends Service {
                             mView.isTouched = true;
                             mView.arcPaint.setAlpha(60);
                             mView.invalidate();
-                            wm.updateViewLayout(mView, params);
+                            wm.removeViewImmediate(mView);
+                            wm.addView(mView, params);
                             needDetection = true;
                             return true;
 
