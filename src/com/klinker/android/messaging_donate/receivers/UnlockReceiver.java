@@ -43,10 +43,24 @@ public class UnlockReceiver extends BroadcastReceiver {
                 @Override
                 public void run()
                 {
-                    context.startActivity(intent3);
-                    openApp = false;
+                    if (!isRunning(context)) {
+                        context.startActivity(intent3);
+                        openApp = false;
+                    }
                 }
             }, 200);
         }
+    }
+    
+    public boolean isRunning(Context ctx) {
+        ActivityManager activityManager = (ActivityManager) ctx.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> tasks = activityManager.getRunningTasks(1);
+
+        for (ActivityManager.RunningTaskInfo task : tasks) {
+            if (ctx.getPackageName().equalsIgnoreCase(task.baseActivity.getPackageName()))
+                return true;
+        }
+
+        return false;
     }
 }
