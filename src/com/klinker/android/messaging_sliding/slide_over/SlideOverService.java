@@ -46,7 +46,7 @@ public class SlideOverService extends Service {
         params = new WindowManager.LayoutParams(
                 halo.getWidth(),
                 halo.getHeight(),
-                0,
+                (int)(-1 * halo.getWidth() * .25),
                 0,
                 WindowManager.LayoutParams.TYPE_PHONE,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
@@ -147,7 +147,7 @@ public class SlideOverService extends Service {
                             params = new WindowManager.LayoutParams(
                                     halo.getWidth(),
                                     halo.getHeight(),
-                                    0,
+                                    (int)(-1 * halo.getWidth() * .25),
                                     0,
                                     WindowManager.LayoutParams.TYPE_PHONE,
                                     WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE

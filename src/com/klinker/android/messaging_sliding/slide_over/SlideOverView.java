@@ -72,17 +72,24 @@ public class SlideOverView extends ViewGroup {
         }
 
         if (!isTouched) {
-            canvas.drawBitmap(halo, haloX, haloY, null);
+            //canvas.drawBitmap(halo, haloX, haloY, null);
+            if (sharedPrefs.getString("slideover_side", "left").equals("left")) {
+                canvas.drawBitmap(halo, haloX - (int)(halo.getWidth() * .25), haloY, null);
+            } else {
+                canvas.drawBitmap(halo, haloX + (int)(halo.getWidth() * .25), haloY, null);
+            }
         } else {
             int[] point = getPosition();
 
             if (sharedPrefs.getString("slideover_side", "left").equals("left")) {
                 canvas.drawCircle(0, point[1] + (halo.getHeight() / 2), radius, arcPaint);
+                canvas.drawBitmap(halo, point[0] + haloX - (int)(halo.getWidth() * .25), point[1], null);
             } else {
                 canvas.drawCircle(width, point[1] + (halo.getHeight() / 2), radius, arcPaint);
+                canvas.drawBitmap(halo, point[0] + haloX + (int)(halo.getWidth() * .25), point[1], null);
             }
 
-            canvas.drawBitmap(halo, point[0] + haloX, point[1], null);
+
         }
     }
 
