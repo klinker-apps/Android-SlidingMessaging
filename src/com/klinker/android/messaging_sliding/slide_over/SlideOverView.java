@@ -33,6 +33,7 @@ public class SlideOverView extends ViewGroup {
     public float haloY = 0;
 
     public boolean isTouched = false;
+    public boolean animate = false;
 
     public SharedPreferences sharedPrefs;
 
@@ -56,6 +57,7 @@ public class SlideOverView extends ViewGroup {
         this.radius = radius;
     }
 
+
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
@@ -66,31 +68,47 @@ public class SlideOverView extends ViewGroup {
         this.canvas = canvas;
 
         if (sharedPrefs.getString("slideover_side", "left").equals("left")) {
-            this.haloX = -1 * (halo.getWidth() / 2);
+            this.haloX = (-1 * (halo.getWidth() / 2)) - (int)(halo.getWidth() * .25);
         } else {
-            this.haloX = halo.getWidth() / 2;
+            this.haloX = (halo.getWidth() / 2) + (int)(halo.getWidth() * .25);
         }
 
         if (!isTouched) {
-            //canvas.drawBitmap(halo, haloX, haloY, null);
-            if (sharedPrefs.getString("slideover_side", "left").equals("left")) {
-                canvas.drawBitmap(halo, haloX - (int)(halo.getWidth() * .25), haloY, null);
-            } else {
-                canvas.drawBitmap(halo, haloX + (int)(halo.getWidth() * .25), haloY, null);
-            }
+            canvas.drawBitmap(halo, haloX, haloY, null);
         } else {
             int[] point = getPosition();
 
             if (sharedPrefs.getString("slideover_side", "left").equals("left")) {
-                canvas.drawCircle(0, point[1] + (halo.getHeight() / 2), radius, arcPaint);
-                canvas.drawBitmap(halo, point[0] + haloX - (int)(halo.getWidth() * .25), point[1], null);
+                canvas.drawCircle(0 - (int)(halo.getWidth() * .25), point[1] + (halo.getHeight() / 2), radius, arcPaint);
             } else {
-                canvas.drawCircle(width, point[1] + (halo.getHeight() / 2), radius, arcPaint);
-                canvas.drawBitmap(halo, point[0] + haloX + (int)(halo.getWidth() * .25), point[1], null);
+                canvas.drawCircle(width + (int)(halo.getWidth() * .25), point[1] + (halo.getHeight() / 2), radius, arcPaint);
             }
 
-
+            canvas.drawBitmap(halo, point[0] + haloX, point[1], null);
         }
+
+        /*if (animate)
+        {
+            int aniRadius = halo.getWidth();
+            int[] point = getPosition();
+            canvas.save();
+
+            if (sharedPrefs.getString("slideover_side", "left").equals("left")) {
+                for (int i = 0; i < height/3 - aniRadius; i+=3)
+                {
+                    canvas.drawCircle(0 - (int)(halo.getWidth() * .25), point[1] + (halo.getHeight() / 2), aniRadius + i, arcPaint);
+                    //canvas.restore();
+                }
+            } else {
+                for (int i = 0; i < height/3 - aniRadius; i+=3)
+                {
+                    canvas.drawCircle(width + (int)(halo.getWidth() * .25), point[1] + (halo.getHeight() / 2), aniRadius + i, arcPaint);
+                    //canvas.restore();
+                }
+            }
+
+            animate = false;
+        }*/
     }
 
     @Override

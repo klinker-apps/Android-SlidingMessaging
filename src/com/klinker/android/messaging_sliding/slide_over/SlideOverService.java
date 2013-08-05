@@ -46,7 +46,7 @@ public class SlideOverService extends Service {
         params = new WindowManager.LayoutParams(
                 halo.getWidth(),
                 halo.getHeight(),
-                (int)(-1 * halo.getWidth() * .25),
+                0,
                 0,
                 WindowManager.LayoutParams.TYPE_PHONE,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
@@ -78,10 +78,14 @@ public class SlideOverService extends Service {
                 if((arg1.getX() > mView.getX() && arg1.getX() < mView.getX() + halo.getWidth() && arg1.getY() > mView.getY() && arg1.getY() < mView.getY() + halo.getHeight()) || needDetection)
                 {
                     final int type = arg1.getActionMasked();
+                    Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
                     switch (type)
                     {
                         case MotionEvent.ACTION_DOWN:
+
+                            v.vibrate(10);
+
                             int[] position = getPosition();
                             initX = arg1.getX() + position[0];
                             initY = arg1.getY() + position[1];
@@ -112,7 +116,7 @@ public class SlideOverService extends Service {
                                 mView.arcPaint.setAlpha(150);
                                 mView.invalidate();
                                 wm.updateViewLayout(mView, params);
-                                Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+
                                 v.vibrate(25);
 
                                 vibrateNeeded = false;
@@ -147,7 +151,7 @@ public class SlideOverService extends Service {
                             params = new WindowManager.LayoutParams(
                                     halo.getWidth(),
                                     halo.getHeight(),
-                                    (int)(-1 * halo.getWidth() * .25),
+                                    0,
                                     0,
                                     WindowManager.LayoutParams.TYPE_PHONE,
                                     WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
@@ -157,6 +161,7 @@ public class SlideOverService extends Service {
                             setGravity(params);
 
                             mView.isTouched = false;
+                            //mView.animate = true;
                             mView.invalidate();
                             wm.removeViewImmediate(mView);
                             wm.addView(mView, params);
