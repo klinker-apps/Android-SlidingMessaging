@@ -1,6 +1,7 @@
 Version 6.70
 
 - add option for slider to move halo... would just need to change the second 0 in the layoutparams to the number we want and it should work
+- figure out landscape sizing/adjustments (need to change the height and width stored in SlideOverView at least, and change some stuff in the popup activity to size correctly)
 - Add option ot auto close slideover when message is sent
 - floating notifications extension
 - option for adding certain text to every message at the beginning (delivery reports?)
