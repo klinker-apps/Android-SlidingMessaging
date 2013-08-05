@@ -3,14 +3,13 @@ package com.klinker.android.messaging_sliding.slide_over;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.*;
+import android.preference.PreferenceManager;
 import android.telephony.SmsManager;
 import android.util.TypedValue;
-import android.view.Display;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -23,7 +22,9 @@ import static android.support.v4.app.ActivityCompat.startActivity;
  * Created by luke on 8/2/13.
  */
 public class SlideOverView extends ViewGroup {
-    Bitmap halo;
+    public Context mContext;
+
+    public Bitmap halo;
     private Canvas canvas;
     public Paint arcPaint;
     public float radius;
@@ -31,8 +32,21 @@ public class SlideOverView extends ViewGroup {
     public float haloX = 0;
     public float haloY = 0;
 
-    public SlideOverView(Context context, Bitmap halo, float radius, int pixelsDown) {
+    public boolean isTouched = false;
+
+    public SharedPreferences sharedPrefs;
+
+    public int height;
+    public int width;
+
+    public SlideOverView(Context context, Bitmap halo, float radius) {
         super(context);
+
+        mContext = context;
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+        Display d = ((WindowManager)mContext.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+        height = d.getHeight();
+        width = d.getWidth();
 
         arcPaint = new Paint();
         arcPaint.setAntiAlias(true);
@@ -43,9 +57,6 @@ public class SlideOverView extends ViewGroup {
 
         this.halo = halo;
         this.radius = radius;
-
-        this.haloX = -1 * (halo.getWidth() / 2);
-        this.haloY = pixelsDown;
     }
 
     protected void onDraw(Canvas canvas) {
@@ -53,9 +64,25 @@ public class SlideOverView extends ViewGroup {
 
         this.canvas = canvas;
 
-        canvas.drawCircle(haloX + (halo.getWidth() / 2), haloY + (halo.getHeight() / 2), radius, arcPaint);
-        //canvas.drawCircle(circleX, circleY, radius - 1, arcPaintInner);
-        canvas.drawBitmap(halo, haloX, haloY, null);
+        if (sharedPrefs.getString("slideover_side", "left").equals("left")) {
+            this.haloX = -1 * (halo.getWidth() / 2);
+        } else {
+            this.haloX = halo.getWidth() / 2;
+        }
+
+        if (!isTouched) {
+            canvas.drawBitmap(halo, haloX, haloY, null);
+        } else {
+            int[] point = getPosition();
+
+            if (sharedPrefs.getString("slideover_side", "left").equals("left")) {
+                canvas.drawCircle(0, point[1] + (halo.getHeight() / 2), radius, arcPaint);
+            } else {
+                canvas.drawCircle(width, point[1] + (halo.getHeight() / 2), radius, arcPaint);
+            }
+
+            canvas.drawBitmap(halo, point[0] + haloX, point[1], null);
+        }
     }
 
     protected void onLayout(boolean arg0, int arg1, int arg2, int arg3, int arg4) {
@@ -65,5 +92,34 @@ public class SlideOverView extends ViewGroup {
         return true;
     }
 
+    public int[] getPosition()
+    {
+        int[] returnArray = {0, 0};
 
+        if (sharedPrefs.getString("slideover_side", "left").equals("left")) {
+            if (sharedPrefs.getString("slideover_alignment", "middle").equals("top")) {
+                returnArray[0] = 0;
+                returnArray[1] = 0;
+            } else if (sharedPrefs.getString("slideover_alignment", "middle").equals("middle")) {
+                returnArray[0] = 0;
+                returnArray[1] = (height/2) - (halo.getHeight()/2);
+            } else {
+                returnArray[0] = 0;
+                returnArray[1] = (height) - (halo.getHeight());
+            }
+        } else {
+            if (sharedPrefs.getString("slideover_alignment", "middle").equals("top")) {
+                returnArray[0] = width - halo.getWidth();
+                returnArray[1] = 0;
+            } else if (sharedPrefs.getString("slideover_alignment", "middle").equals("middle")) {
+                returnArray[0] = width - halo.getWidth();
+                returnArray[1] = (height/2) - (halo.getHeight()/2);
+            } else {
+                returnArray[0] = width - halo.getWidth();
+                returnArray[1] = (height) - (halo.getHeight());
+            }
+        }
+
+        return returnArray;
+    }
 }

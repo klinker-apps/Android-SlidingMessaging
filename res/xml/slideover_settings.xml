@@ -1,10 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <Preference
-        android:key="slideover_teaser"
-        android:title="@string/slideover_teaser"
-        android:enabled="false"
+    <!--<Preference-->
+        <!--android:key="slideover_teaser"-->
+        <!--android:title="@string/slideover_teaser"-->
+        <!--android:enabled="false"-->
+    <!--/>-->
+
+    <CheckBoxPreference
+        android:key="slideover_enabled"
+        android:title="@string/enable_slideover"
+        android:summary="@string/enable_slideover_summary"
+        android:defaultValue="false"
+    />
+
+    <ListPreference
+        android:key="slideover_side"
+        android:title="@string/slideover_side"
+        android:summary="@string/slideover_side_summary"
+        android:defaultValue="left"
+        android:dependency="slideover_enabled"
+        android:entries="@array/slideover_side"
+        android:entryValues="@array/slideover_side_inserted"
+    />
+
+    <ListPreference
+        android:key="slideover_alignment"
+        android:title="@string/slideover_alignment"
+        android:summary="@string/slideover_alignment_summary"
+        android:defaultValue="middle"
+        android:dependency="slideover_enabled"
+        android:entries="@array/slideover_alignment"
+        android:entryValues="@array/slideover_alignment_inserted"
     />
 
 </PreferenceScreen>

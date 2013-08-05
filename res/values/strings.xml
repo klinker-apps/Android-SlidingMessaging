@@ -511,5 +511,11 @@
     <string name="slideover_settings">SlideOver Settings</string>
     <string name="slideover_teaser">More on this for another update... ;)</string>
     <string name="slide_over">SlideOver</string>
+    <string name="enable_slideover">Enable SlideOver</string>
+    <string name="enable_slideover_summary">Creates a chathead bubble that will allow you to quickly open and close the app on top of any other app</string>
+    <string name="slideover_side">Horizontal Positioning</string>
+    <string name="slideover_side_summary">Move SlideOver to the left or right side of the screen</string>
+    <string name="slideover_alignment">Vertical Positioning</string>
+    <string name="slideover_alignment_summary">Adjust where SlideOver appears on the vertical axis</string>
     
 </resources>

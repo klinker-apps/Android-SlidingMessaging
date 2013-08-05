@@ -2,13 +2,14 @@ package com.klinker.android.messaging_sliding.slide_over;
 
 import android.app.ActivityManager;
 import android.app.Service;
-import android.content.Context;
-import android.content.Intent;
+import android.content.*;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
 import android.os.IBinder;
 import android.os.Vibrator;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -59,7 +60,7 @@ public class SlideOverService extends Service {
                         |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                         |WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
                 PixelFormat.TRANSLUCENT);
-        params.gravity = Gravity.LEFT | Gravity.TOP;
+        setGravity(params);
 
         final WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
 
@@ -68,7 +69,7 @@ public class SlideOverService extends Service {
         else
             SWIPE_MIN_DISTANCE = width/3;
 
-        mView = new SlideOverView(this, halo, SWIPE_MIN_DISTANCE, pixelsDown);
+        mView = new SlideOverView(this, halo, SWIPE_MIN_DISTANCE);
 
         mView.setOnTouchListener(new View.OnTouchListener() {
             private boolean needDetection = false;
@@ -81,27 +82,32 @@ public class SlideOverService extends Service {
             @Override
             public boolean onTouch(View arg0, MotionEvent arg1) {
 
-                if((arg1.getX()<halo.getWidth() && arg1.getY()>0) || needDetection)
+                if((arg1.getX() > mView.getX() && arg1.getX() < mView.getX() + halo.getWidth() && arg1.getY() > mView.getY() && arg1.getY() < mView.getY() + halo.getHeight()) || needDetection)
                 {
                     final int type = arg1.getActionMasked();
 
                     switch (type)
                     {
                         case MotionEvent.ACTION_DOWN:
-                            initX = arg1.getX();
-                            initY = arg1.getY();
+                            int[] position = getPosition();
+                            initX = arg1.getX() + position[0];
+                            initY = arg1.getY() + position[1];
+
+                            Log.v("starting_touch", initX + " " + initY);
 
                             params = new WindowManager.LayoutParams(
+                                    width, height, 0, pixelsDown,
                                     WindowManager.LayoutParams.TYPE_PHONE,
                                     WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                                             |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                                             |WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
                                             |WindowManager.LayoutParams.FLAG_DIM_BEHIND,
                                     PixelFormat.TRANSLUCENT);
-                            params.gravity = Gravity.LEFT | Gravity.TOP;
                             params.dimAmount=.4f;
 
+                            mView.isTouched = true;
                             mView.arcPaint.setAlpha(60);
+                            mView.invalidate();
                             wm.updateViewLayout(mView, params);
                             needDetection = true;
                             return true;
@@ -157,8 +163,10 @@ public class SlideOverService extends Service {
                                             |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                                             |WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
                                     PixelFormat.TRANSLUCENT);
-                            params.gravity = Gravity.LEFT | Gravity.TOP;
+                            setGravity(params);
 
+                            mView.isTouched = false;
+                            mView.invalidate();
                             wm.updateViewLayout(mView, params);
 
                             needDetection = false;
@@ -174,6 +182,75 @@ public class SlideOverService extends Service {
 
         wm.addView(mView, params);
 
+        BroadcastReceiver stopSlideover = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                mView.invalidate();
+                wm.removeViewImmediate(mView);
+                stopSelf();
+                unregisterReceiver(this);
+            }
+        };
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("com.klinker.android.messaging.STOP_HALO");
+        registerReceiver(stopSlideover, filter);
+
+    }
+
+    public void setGravity(WindowManager.LayoutParams lp)
+    {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        if (sharedPrefs.getString("slideover_side", "left").equals("left")) {
+            if (sharedPrefs.getString("slideover_alignment", "middle").equals("top")) {
+                lp.gravity = Gravity.LEFT | Gravity.TOP;
+            } else if (sharedPrefs.getString("slideover_alignment", "middle").equals("middle")) {
+                lp.gravity = Gravity.LEFT | Gravity.CENTER_VERTICAL;
+            } else {
+                lp.gravity = Gravity.LEFT | Gravity.BOTTOM;
+            }
+        } else {
+            if (sharedPrefs.getString("slideover_alignment", "middle").equals("top")) {
+                lp.gravity = Gravity.RIGHT | Gravity.TOP;
+            } else if (sharedPrefs.getString("slideover_alignment", "middle").equals("middle")) {
+                lp.gravity = Gravity.RIGHT | Gravity.CENTER_VERTICAL;
+            } else {
+                lp.gravity = Gravity.RIGHT | Gravity.BOTTOM;
+            }
+        }
+    }
+
+    public int[] getPosition()
+    {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        int[] returnArray = {0, 0};
+
+        if (sharedPrefs.getString("slideover_side", "left").equals("left")) {
+            if (sharedPrefs.getString("slideover_alignment", "middle").equals("top")) {
+                returnArray[0] = 0;
+                returnArray[1] = 0;
+            } else if (sharedPrefs.getString("slideover_alignment", "middle").equals("middle")) {
+                returnArray[0] = 0;
+                returnArray[1] = (mView.height/2) - (mView.halo.getHeight()/2);
+            } else {
+                returnArray[0] = 0;
+                returnArray[1] = (mView.height) - (mView.halo.getHeight());
+            }
+        } else {
+            if (sharedPrefs.getString("slideover_alignment", "middle").equals("top")) {
+                returnArray[0] = mView.width - mView.halo.getWidth();
+                returnArray[1] = 0;
+            } else if (sharedPrefs.getString("slideover_alignment", "middle").equals("middle")) {
+                returnArray[0] = mView.width - mView.halo.getWidth();
+                returnArray[1] = (mView.height/2) - (mView.halo.getHeight()/2);
+            } else {
+                returnArray[0] = mView.width - mView.halo.getWidth();
+                returnArray[1] = (mView.height) - (mView.halo.getHeight());
+            }
+        }
+
+        return returnArray;
     }
 
     public boolean isRunning(Context ctx) {
