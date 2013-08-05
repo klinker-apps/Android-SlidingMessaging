@@ -870,9 +870,9 @@ public class MessageCursorAdapter extends CursorAdapter {
 
         }
 
-        if (mms) {
-            final View rowViewF = view;
+        final View rowViewF = view;
 
+        if (mms) {
             holder.media.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {

@@ -1,5 +1,6 @@
 package com.klinker.android.messaging_sliding.receivers;
 
+import android.preference.PreferenceManager;
 import com.klinker.android.messaging_donate.R;
 
 import android.app.IntentService;
@@ -27,7 +28,7 @@ public class QuickTextService extends IntentService {
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
-		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 		
 		NotificationCompat.Builder mBuilder =
 		        new NotificationCompat.Builder(this)

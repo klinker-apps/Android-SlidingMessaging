@@ -518,6 +518,6 @@
     <string name="slideover_alignment">Vertical Positioning</string>
     <string name="slideover_alignment_summary">Adjust where SlideOver appears on the vertical axis</string>
     <string name="under_development">Please Note:</string>
-    <string name="under_development_summary">SlideOver is still heavily under development. Do not submit requests, or even suggestions, for it at this time.
+    <string name="under_development_summary">SlideOver is still heavily under development. Do not submit requests, or even suggestions, for it at this time.</string>
     
 </resources>

@@ -1,11 +1,14 @@
 package com.klinker.android.messaging_donate.receivers;
 
+import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+
+import java.util.List;
 
 public class UnlockReceiver extends BroadcastReceiver {
 
