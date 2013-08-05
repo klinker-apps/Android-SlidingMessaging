@@ -43,6 +43,7 @@ public class SlideOverService extends Service {
         final int height = d.getHeight();
         final int width = d.getWidth();
 
+        // TODO: test, HALO has an additional flag on it... WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
         params = new WindowManager.LayoutParams(
                 halo.getWidth(),
                 halo.getHeight(),
