@@ -92,7 +92,7 @@ public class SlideOverService extends Service {
                             initY = arg1.getY() + position[1];
 
                             params = new WindowManager.LayoutParams(
-                                    WindowManager.LayoutParams.TYPE_PHONE,
+                                    WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
                                     WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                                             |WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED
                                             |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
