@@ -9,7 +9,6 @@ import android.graphics.PixelFormat;
 import android.os.IBinder;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -30,8 +29,6 @@ public class SlideOverService extends Service {
 
     public WindowManager.LayoutParams params;
 
-    private int pixelsDown;
-
     public Context mContext;
 
     @Override
@@ -46,15 +43,11 @@ public class SlideOverService extends Service {
         final int height = d.getHeight();
         final int width = d.getWidth();
 
-        double heightPercent = 0;
-
-        pixelsDown = (int)(height * heightPercent);
-
         params = new WindowManager.LayoutParams(
                 halo.getWidth(),
                 halo.getHeight(),
                 0,
-                pixelsDown,
+                0,
                 WindowManager.LayoutParams.TYPE_PHONE,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                         |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
@@ -93,10 +86,7 @@ public class SlideOverService extends Service {
                             initX = arg1.getX() + position[0];
                             initY = arg1.getY() + position[1];
 
-                            Log.v("starting_touch", initX + " " + initY);
-
                             params = new WindowManager.LayoutParams(
-                                    width, height, 0, pixelsDown,
                                     WindowManager.LayoutParams.TYPE_PHONE,
                                     WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                                             |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
@@ -104,6 +94,7 @@ public class SlideOverService extends Service {
                                             |WindowManager.LayoutParams.FLAG_DIM_BEHIND,
                                     PixelFormat.TRANSLUCENT);
                             params.dimAmount=.4f;
+                            setGravity(params);
 
                             mView.isTouched = true;
                             mView.arcPaint.setAlpha(60);
@@ -154,10 +145,6 @@ public class SlideOverService extends Service {
                             }
 
                             params = new WindowManager.LayoutParams(
-                                    halo.getWidth(),
-                                    halo.getHeight(),
-                                    0,
-                                    pixelsDown,
                                     WindowManager.LayoutParams.TYPE_PHONE,
                                     WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                                             |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
@@ -166,7 +153,6 @@ public class SlideOverService extends Service {
                             setGravity(params);
 
                             mView.isTouched = false;
-                            mView.invalidate();
                             wm.updateViewLayout(mView, params);
 
                             needDetection = false;
