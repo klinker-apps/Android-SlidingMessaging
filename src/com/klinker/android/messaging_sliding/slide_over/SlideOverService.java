@@ -30,11 +30,16 @@ public class SlideOverService extends Service {
     public WindowManager.LayoutParams params;
 
     public Context mContext;
+    public SharedPreferences sharedPrefs;
+
+    public static double HALO_SLIVER_RATIO = .33;
+    public static double PERCENT_DOWN_SCREEN = 0;
 
     @Override
     public void onCreate() {
         super.onCreate();
         mContext = this;
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
 
         final Bitmap halo = BitmapFactory.decodeResource(getResources(),
                 R.drawable.halo_bg);
@@ -43,19 +48,28 @@ public class SlideOverService extends Service {
         final int height = d.getHeight();
         final int width = d.getWidth();
 
-        // TODO: test, HALO has an additional flag on it... WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+        if (sharedPrefs.getString("slideover_alignment", "middle").equals("top")) {
+            PERCENT_DOWN_SCREEN = 0;
+        } else if (sharedPrefs.getString("slideover_alignment", "middle").equals("middle")) {
+            PERCENT_DOWN_SCREEN = .5;
+        } else if (sharedPrefs.getString("slideover_alignment", "middle").equals("bottom")) {
+            PERCENT_DOWN_SCREEN = 1;
+        }
+
+        PERCENT_DOWN_SCREEN -= PERCENT_DOWN_SCREEN * (halo.getHeight()/(double)height);
+
         params = new WindowManager.LayoutParams(
                 halo.getWidth(),
                 halo.getHeight(),
-                0,
-                0,
+                sharedPrefs.getString("slideover_side", "left").equals("left") ? (int) (-1 * (1 - HALO_SLIVER_RATIO) * halo.getWidth()) : (int) (width - (halo.getWidth() * (HALO_SLIVER_RATIO))),
+                (int)(height * PERCENT_DOWN_SCREEN),
                 WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                         |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                         |WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
                         |WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 PixelFormat.TRANSLUCENT);
-        setGravity(params);
+        params.gravity = Gravity.TOP | Gravity.LEFT;
 
         final WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
 
@@ -153,15 +167,15 @@ public class SlideOverService extends Service {
                             params = new WindowManager.LayoutParams(
                                     halo.getWidth(),
                                     halo.getHeight(),
-                                    0,
-                                    0,
+                                    sharedPrefs.getString("slideover_side", "left").equals("left") ? (int) (-1 * (1 - HALO_SLIVER_RATIO) * halo.getWidth()) : (int) (width - (halo.getWidth() * (HALO_SLIVER_RATIO))),
+                                    (int)(height * PERCENT_DOWN_SCREEN),
                                     WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
                                     WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                                             |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                                             |WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
                                             |WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                                     PixelFormat.TRANSLUCENT);
-                            setGravity(params);
+                            params.gravity = Gravity.TOP | Gravity.LEFT;
 
                             mView.isTouched = false;
                             //mView.animate = true;

@@ -67,24 +67,18 @@ public class SlideOverView extends ViewGroup {
 
         this.canvas = canvas;
 
-        if (sharedPrefs.getString("slideover_side", "left").equals("left")) {
-            this.haloX = (-1 * (halo.getWidth() / 2)) - (int)(halo.getWidth() * .25);
-        } else {
-            this.haloX = (halo.getWidth() / 2) + (int)(halo.getWidth() * .25);
-        }
-
         if (!isTouched) {
-            canvas.drawBitmap(halo, haloX, haloY, null);
+            canvas.drawBitmap(halo, 0, 0, null);
         } else {
             int[] point = getPosition();
 
             if (sharedPrefs.getString("slideover_side", "left").equals("left")) {
-                canvas.drawCircle(0 - (int)(halo.getWidth() * .25), point[1] + (halo.getHeight() / 2), radius, arcPaint);
+                canvas.drawCircle(0 - (int)(halo.getWidth() * SlideOverService.HALO_SLIVER_RATIO), point[1] + (halo.getHeight() / 2), radius, arcPaint);
             } else {
-                canvas.drawCircle(width + (int)(halo.getWidth() * .25), point[1] + (halo.getHeight() / 2), radius, arcPaint);
+                canvas.drawCircle(width + (int)(halo.getWidth() * SlideOverService.HALO_SLIVER_RATIO), point[1] + (halo.getHeight() / 2), radius, arcPaint);
             }
 
-            canvas.drawBitmap(halo, point[0] + haloX, point[1], null);
+            canvas.drawBitmap(halo, point[0], point[1], null);
         }
 
         /*if (animate)
@@ -126,24 +120,24 @@ public class SlideOverView extends ViewGroup {
 
         if (sharedPrefs.getString("slideover_side", "left").equals("left")) {
             if (sharedPrefs.getString("slideover_alignment", "middle").equals("top")) {
-                returnArray[0] = 0;
+                returnArray[0] = (int)(-1 * halo.getWidth() * (1-SlideOverService.HALO_SLIVER_RATIO));
                 returnArray[1] = 0;
             } else if (sharedPrefs.getString("slideover_alignment", "middle").equals("middle")) {
-                returnArray[0] = 0;
+                returnArray[0] = (int)(-1 * halo.getWidth() * (1-SlideOverService.HALO_SLIVER_RATIO));
                 returnArray[1] = (height/2) - (halo.getHeight()/2);
             } else {
-                returnArray[0] = 0;
+                returnArray[0] = (int)(-1 * halo.getWidth() * (1-SlideOverService.HALO_SLIVER_RATIO));
                 returnArray[1] = (height) - (halo.getHeight());
             }
         } else {
             if (sharedPrefs.getString("slideover_alignment", "middle").equals("top")) {
-                returnArray[0] = width - halo.getWidth();
+                returnArray[0] = (int)(width - (halo.getWidth() * SlideOverService.HALO_SLIVER_RATIO));
                 returnArray[1] = 0;
             } else if (sharedPrefs.getString("slideover_alignment", "middle").equals("middle")) {
-                returnArray[0] = width - halo.getWidth();
+                returnArray[0] = (int)(width - (halo.getWidth() * SlideOverService.HALO_SLIVER_RATIO));
                 returnArray[1] = (height/2) - (halo.getHeight()/2);
             } else {
-                returnArray[0] = width - halo.getWidth();
+                returnArray[0] = (int)(width - (halo.getWidth() * SlideOverService.HALO_SLIVER_RATIO));
                 returnArray[1] = (height) - (halo.getHeight());
             }
         }
