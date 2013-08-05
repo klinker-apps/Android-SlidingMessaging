@@ -51,7 +51,6 @@ public class SlideOverService extends Service {
                 0,
                 WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                        |WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED
                         |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                         |WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
                 PixelFormat.TRANSLUCENT);
@@ -95,7 +94,6 @@ public class SlideOverService extends Service {
                             params = new WindowManager.LayoutParams(
                                     WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
                                     WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                                            |WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED
                                             |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                                             |WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
                                             |WindowManager.LayoutParams.FLAG_DIM_BEHIND,
@@ -158,7 +156,6 @@ public class SlideOverService extends Service {
                                     0,
                                     WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
                                     WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                                            |WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED
                                             |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                                             |WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
                                     PixelFormat.TRANSLUCENT);
