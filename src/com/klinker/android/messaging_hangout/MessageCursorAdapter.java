@@ -881,6 +881,14 @@ public class MessageCursorAdapter extends CursorAdapter {
                 }
             });
         }
+        
+        holder.text.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                rowViewF.performLongClick();
+                return true;
+            }
+        });
 
         final String idF = id;
         final boolean mmsF = mms;
