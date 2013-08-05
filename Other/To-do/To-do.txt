@@ -1,7 +1,7 @@
 Version 6.70
 
+- move halo around like pie kinda
 - Add option ot auto close slideover when message is sent
-- remove the overlay when sliding messaging is opened and restore it when sliding messaging closes
 - floating notifications extension
 - option for adding certain text to every message at the beginning (delivery reports?)
 - Message Locking

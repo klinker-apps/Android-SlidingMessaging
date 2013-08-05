@@ -145,6 +145,10 @@ public class SlideOverService extends Service {
                             }
 
                             params = new WindowManager.LayoutParams(
+                                    halo.getWidth(),
+                                    halo.getHeight(),
+                                    0,
+                                    0,
                                     WindowManager.LayoutParams.TYPE_PHONE,
                                     WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                                             |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
@@ -153,7 +157,9 @@ public class SlideOverService extends Service {
                             setGravity(params);
 
                             mView.isTouched = false;
-                            wm.updateViewLayout(mView, params);
+                            mView.invalidate();
+                            wm.removeViewImmediate(mView);
+                            wm.addView(mView, params);
 
                             needDetection = false;
 
