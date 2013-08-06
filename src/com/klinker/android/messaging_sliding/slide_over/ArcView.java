@@ -6,6 +6,7 @@ import android.graphics.*;
 import android.preference.PreferenceManager;
 import android.util.TypedValue;
 import android.view.*;
+import android.widget.Toast;
 
 /**
  * Created by luke on 8/2/13.
@@ -25,7 +26,10 @@ public class ArcView extends ViewGroup {
     public int height;
     public int width;
 
-    public ArcView(Context context, Bitmap halo, float radius, float breakAngle) {
+    public int sliverAdjustment = 0;
+    public double sliverPercent;
+
+    public ArcView(Context context, Bitmap halo, float radius, float breakAngle, double sliverPercent) {
         super(context);
 
         mContext = context;
@@ -49,11 +53,35 @@ public class ArcView extends ViewGroup {
         this.halo = halo;
         this.radius = radius;
         this.breakAngle = breakAngle;
+        this.sliverPercent = sliverPercent;
     }
 
 
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+
+        /*if (sharedPrefs.getString("slideover_side", "left").equals("left")) {
+
+            if (sliverPercent > .5) // move the arc right
+            {
+                sliverPercent -= .5;
+                sliverAdjustment = (int)((halo.getWidth()/2) * sliverPercent);
+            } else // move the arc left
+            {
+                sliverAdjustment = (int)(-1 * ((halo.getWidth()/2) * sliverPercent));
+            }
+
+        } else
+        {
+
+        }
+
+
+        CharSequence text = "" + sliverAdjustment;
+        int duration = Toast.LENGTH_SHORT;
+
+        Toast toast = Toast.makeText(mContext, text, duration);
+        toast.show();*/
 
         int[] point = getPosition();
 

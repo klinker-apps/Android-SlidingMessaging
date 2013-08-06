@@ -96,7 +96,7 @@ public class SlideOverService extends Service {
             SWIPE_MIN_DISTANCE = (int)(width * (sharedPrefs.getInt("slideover_activation", 33)/100.0));
 
         haloView = new HaloView(this, halo);
-        arcView = new ArcView(this, halo, SWIPE_MIN_DISTANCE, ARC_BREAK_POINT);
+        arcView = new ArcView(this, halo, SWIPE_MIN_DISTANCE, ARC_BREAK_POINT, HALO_SLIVER_RATIO);
 
         haloView.setOnTouchListener(new View.OnTouchListener() {
             private boolean needDetection = false;
