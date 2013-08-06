@@ -11,11 +11,19 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.telephony.SmsManager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.*;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.StripAccents;
 import com.klinker.android.messaging_sliding.MainActivity;
+import com.klinker.android.messaging_sliding.emojis.EmojiAdapter;
+import com.klinker.android.messaging_sliding.emojis.EmojiAdapter2;
+import com.klinker.android.messaging_sliding.emojis.EmojiConverter;
+import com.klinker.android.messaging_sliding.emojis.EmojiConverter2;
 import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead2;
 import com.klinker.android.messaging_sliding.receivers.NotificationReceiver;
+import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
 import robj.floating.notifications.Extension;
 
 import java.util.ArrayList;
@@ -25,10 +33,13 @@ import java.util.regex.Pattern;
 
 public class FNAction extends BroadcastReceiver {
 
+    public  SharedPreferences sharedPrefs;
+
 	@Override 
         public void onReceive(final Context context, Intent intent) {
 		final long id = intent.getLongExtra(Extension.ID, -1);
 		int action = intent.getIntExtra(Extension.ACTION, -1);
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
 		switch (action) {
 
@@ -36,14 +47,15 @@ public class FNAction extends BroadcastReceiver {
 				// start main activity popup
 				Intent popup = new Intent(context, com.klinker.android.messaging_sliding.MainActivityPopup.class);
 				context.startActivity(popup);
+                Extension.remove(id, context);
 				break;
 
 			case 1:
 				// create new reply overlay
-				String editTextHint = context.getResources().getString(R.string.reply_to) + " " + MainActivity.findContactName(MainActivity.findContactNumber(id + "", context), context);
-				String previousText = intent.getStringExtra(Extension.MSG);
-				Bitmap image = MainActivity.getFacebookPhoto(MainActivity.findContactNumber(id + "", context), context);
-                Extension.onClickListener imageOnClick = new Extension.onClickListener() {
+				final String editTextHint = context.getResources().getString(R.string.reply_to) + " " + MainActivity.findContactName(MainActivity.findContactNumber(id + "", context), context);
+				final String previousText = intent.getStringExtra(Extension.MSG);
+				final Bitmap image = MainActivity.getFacebookPhoto(MainActivity.findContactNumber(id + "", context), context);
+                final Extension.onClickListener imageOnClick = new Extension.onClickListener() {
 					@Override
 					public void onClick() {
 						Intent intent = new Intent(context, com.klinker.android.messaging_sliding.MainActivity.class);
@@ -52,22 +64,121 @@ public class FNAction extends BroadcastReceiver {
 					}
 				};
 
-				Extension.onClickListener sendOnClick = new Extension.onClickListener() {
+				final Extension.onClickListener sendOnClick = new Extension.onClickListener() {
 					@Override
 					public void onClick(String str) {
+                        Extension.remove(id, context);
 						sendMessage(context, MainActivity.findContactNumber(id + "", context), str);
 					}
 				};
 
+                final Bitmap extraButton = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_emoji_dark);
+
                 Extension.onClickListener extraOnClick = new Extension.onClickListener() {
 					@Override
 					public void onClick(final String str) {
-						// TODO figure out how to get the string from editText in extension
-						// Open emoji dialog here
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setTitle("Insert Emojis");
+                        LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+                        View frame = inflater.inflate(R.layout.emoji_frame, null);
+
+                        final EditText editText = (EditText) frame.findViewById(R.id.emoji_text);
+                        ImageButton peopleButton = (ImageButton) frame.findViewById(R.id.peopleButton);
+                        ImageButton objectsButton = (ImageButton) frame.findViewById(R.id.objectsButton);
+                        ImageButton natureButton = (ImageButton) frame.findViewById(R.id.natureButton);
+                        ImageButton placesButton = (ImageButton) frame.findViewById(R.id.placesButton);
+                        ImageButton symbolsButton = (ImageButton) frame.findViewById(R.id.symbolsButton);
+
+                        final StickyGridHeadersGridView emojiGrid = (StickyGridHeadersGridView) frame.findViewById(R.id.emojiGrid);
+                        Button okButton = (Button) frame.findViewById(R.id.emoji_ok);
+
+                        if (sharedPrefs.getBoolean("emoji_type", true))
+                        {
+                            emojiGrid.setAdapter(new EmojiAdapter2(context));
+                            emojiGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                                public void onItemClick(AdapterView<?> parent, View v, int position, long id)
+                                {
+                                    editText.setText(EmojiConverter2.getSmiledText(context, editText.getText().toString() + EmojiAdapter2.mEmojiTexts[position]));
+                                    editText.setSelection(editText.getText().length());
+                                }
+                            });
+
+                            peopleButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    emojiGrid.setSelection(0);
+                                }
+                            });
+
+                            objectsButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    emojiGrid.setSelection(153 + (2 * 7));
+                                }
+                            });
+
+                            natureButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    emojiGrid.setSelection(153 + 162 + (3 * 7));
+                                }
+                            });
+
+                            placesButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    emojiGrid.setSelection(153 + 162 + 178 + (5 * 7));
+                                }
+                            });
+
+                            symbolsButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    emojiGrid.setSelection(153 + 162 + 178 + 122 + (7 * 7));
+                                }
+                            });
+                        } else
+                        {
+                            emojiGrid.setAdapter(new EmojiAdapter(context));
+                            emojiGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                                public void onItemClick(AdapterView<?> parent, View v, int position, long id)
+                                {
+                                    editText.setText(EmojiConverter.getSmiledText(context, editText.getText().toString() + EmojiAdapter.mEmojiTexts[position]));
+                                    editText.setSelection(editText.getText().length());
+                                }
+                            });
+
+                            peopleButton.setMaxHeight(0);
+                            objectsButton.setMaxHeight(0);
+                            natureButton.setMaxHeight(0);
+                            placesButton.setMaxHeight(0);
+                            symbolsButton.setMaxHeight(0);
+
+                            LinearLayout buttons = (LinearLayout) frame.findViewById(R.id.linearLayout);
+                            buttons.setMinimumHeight(0);
+                            buttons.setVisibility(View.GONE);
+                        }
+
+                        builder.setView(frame);
+                        final AlertDialog dialog = builder.create();
+                        dialog.show();
+
+                        final Extension.onClickListener extraOnClick2 = this;
+
+                        okButton.setOnClickListener(new View.OnClickListener() {
+
+                            @Override
+                            public void onClick(View v) {
+                                Extension.replyOverlay(editTextHint, previousText, image, imageOnClick, sendOnClick, extraOnClick2, true, extraButton, context, false, "");
+
+                                dialog.dismiss();
+                            }
+
+                        });
 					}
 				};
-
-				Bitmap extraButton = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_emoji_dark);
 
 				Extension.replyOverlay(editTextHint, previousText, image, imageOnClick, sendOnClick, extraOnClick, true, extraButton, context, false, "");
 				
@@ -80,11 +191,13 @@ public class FNAction extends BroadcastReceiver {
                                 callIntent.setData(Uri.parse("tel:" + address));
                                 callIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				context.startActivity(callIntent);
+                Extension.remove(id, context);
 				break;
 
 			case 3:
 				// start mark read service
 				context.startService(new Intent(context, com.klinker.android.messaging_sliding.quick_reply.QmMarkRead2.class));
+                Extension.remove(id, context);
 				break;
 
 		}
@@ -92,8 +205,6 @@ public class FNAction extends BroadcastReceiver {
 
     public void sendMessage(final Context context, String number, String body)
     {
-        final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-
         if (sharedPrefs.getBoolean("delivery_reports", false))
         {
             String SENT = "SMS_SENT";
