@@ -5645,7 +5645,7 @@ s
         }
 		
 		if (isPopup) {
-			final Context context = this;
+			//final Context context = this;
 			
 			new Handler().postDelayed(new Runnable() {
 				@Override
