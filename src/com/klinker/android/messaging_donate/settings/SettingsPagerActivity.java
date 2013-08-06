@@ -727,6 +727,28 @@ public class SettingsPagerActivity extends FragmentActivity {
                     return true;
                 }
             });
+
+            Preference breakPoint = findPreference("slideover_break_point");
+            breakPoint.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    Intent service = new Intent();
+                    service.setAction("com.klinker.android.messaging.STOP_HALO");
+                    sendBroadcast(service);
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (sharedPrefs.getBoolean("slideover_enabled", false)) {
+                                Intent service = new Intent(getApplicationContext(), com.klinker.android.messaging_sliding.slide_over.SlideOverService.class);
+                                startService(service);
+                            }
+                        }
+                    }, 500);
+
+                    return true;
+                }
+            });
         }
 
         public void setUpMessageSettings()

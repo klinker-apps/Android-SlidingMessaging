@@ -1,23 +1,11 @@
 package com.klinker.android.messaging_sliding.slide_over;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.graphics.*;
 import android.preference.PreferenceManager;
-import android.telephony.SmsManager;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.*;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.Toast;
-
-import com.klinker.android.messaging_donate.R;
-
-import static android.support.v4.app.ActivityCompat.startActivity;
 
 /**
  * Created by luke on 8/2/13.
@@ -27,17 +15,17 @@ public class ArcView extends ViewGroup {
 
     public Bitmap halo;
 
-    public Paint arcPaint;
+    public Paint newMessagePaint;
+    public Paint conversationsPaint;
     public float radius;
-
-    public boolean isTouched = false;
+    public float breakAngle;
 
     public SharedPreferences sharedPrefs;
 
     public int height;
     public int width;
 
-    public ArcView(Context context, Bitmap halo, float radius) {
+    public ArcView(Context context, Bitmap halo, float radius, float breakAngle) {
         super(context);
 
         mContext = context;
@@ -47,15 +35,19 @@ public class ArcView extends ViewGroup {
         height = d.getHeight();
         width = d.getWidth();
 
-        arcPaint = new Paint();
-        arcPaint.setAntiAlias(true);
-        arcPaint.setColor(Color.WHITE);
-        arcPaint.setAlpha(60);
-        arcPaint.setStyle(Paint.Style.STROKE);
-        arcPaint.setStrokeWidth(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, context.getResources().getDisplayMetrics()));
+        newMessagePaint = new Paint();
+        newMessagePaint.setAntiAlias(true);
+        newMessagePaint.setColor(Color.WHITE);
+        newMessagePaint.setAlpha(60);
+        newMessagePaint.setStyle(Paint.Style.STROKE);
+        newMessagePaint.setStrokeWidth(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, context.getResources().getDisplayMetrics()));
+
+        conversationsPaint = new Paint(newMessagePaint);
+        conversationsPaint.setPathEffect(new DashPathEffect(new float[] {10,20}, 0));
 
         this.halo = halo;
         this.radius = radius;
+        this.breakAngle = breakAngle;
     }
 
 
@@ -64,11 +56,28 @@ public class ArcView extends ViewGroup {
 
         int[] point = getPosition();
 
+        RectF oval = new RectF(-1 * radius, point[1] + (halo.getHeight() / 2) -  radius, radius, point[1] + (halo.getHeight() / 2) + radius);
+
+        Path newMessagePath = new Path();
+        newMessagePath.addArc(oval, breakAngle, -180);
+
+        Path conversationsPath = new Path();
+        conversationsPath.addArc(oval, breakAngle, 180);
+
+        canvas.drawPath(newMessagePath, newMessagePaint);
+        canvas.drawPath(conversationsPath, conversationsPaint);
+
+        /*
+
+        Original Circle Drawing
+
         if (sharedPrefs.getString("slideover_side", "left").equals("left")) {
-            canvas.drawCircle(point[0] + (halo.getHeight()/2), point[1] + (halo.getHeight() / 2), radius, arcPaint);
+            canvas.drawCircle(point[0] + (halo.getHeight()/2), point[1] + (halo.getHeight() / 2), radius, newMessagePaint);
         } else {
-            canvas.drawCircle(point[0] + (halo.getHeight()/2), point[1] + (halo.getHeight() / 2), radius, arcPaint);
+            canvas.drawCircle(point[0] + (halo.getHeight()/2), point[1] + (halo.getHeight() / 2), radius, newMessagePaint);
         }
+
+        */
     }
 
 

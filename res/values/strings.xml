@@ -522,6 +522,8 @@
     <string name="slideover_sliver_summary">Adjust how much of the SlideOver bubble is visible on the screen</string>
     <string name="slideover_activation">Activation Width</string>
     <string name="slideover_activation_summary">Distance on screen that you have to pull to activate SlideOver</string>
+    <string name="slideover_break_point">Arc Break Point</string>
+    <string name="slideover_break_point_summary">Adjust how big the conversation arc is on the screen</string>
     <string name="under_development">Please Note:</string>
     <string name="under_development_summary">SlideOver is still heavily under development. Do not submit requests, or even suggestions, for it at this time.</string>
 
