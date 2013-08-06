@@ -38,7 +38,7 @@ public class FNReceiver extends BroadcastReceiver {
             }
         }
 
-        long id = getOrCreateThreadId(context, new String[]{address});    // TODO get correct threadId
+        long id = getOrCreateThreadId(context, address);
 
         Bitmap image = MainActivity.getFacebookPhoto(address, context);
         image = Bitmap.createScaledBitmap(image, 200, 200, false);
@@ -52,10 +52,10 @@ public class FNReceiver extends BroadcastReceiver {
         // TODO stop notification from coming through if enabled
     }
 
-    private static long getOrCreateThreadId(Context context, String[] numbers)
+    private static long getOrCreateThreadId(Context context, String number)
     {
-        HashSet<String> recipients = new HashSet<String>();
-        recipients.addAll(Arrays.asList(numbers));
+        Set<String> recipients = new HashSet<String>();
+        recipients.add(recipient);
         return Telephony.Threads.getOrCreateThreadId(context, recipients);
     }
 }
