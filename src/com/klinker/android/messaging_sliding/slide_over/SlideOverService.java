@@ -25,13 +25,13 @@ import java.util.List;
 public class SlideOverService extends Service {
 
     SlideOverView mView;
-    private static int SWIPE_MIN_DISTANCE = 300;
 
     public WindowManager.LayoutParams params;
 
     public Context mContext;
     public SharedPreferences sharedPrefs;
 
+    public static int SWIPE_MIN_DISTANCE = 0;
     public static double HALO_SLIVER_RATIO = .33;
     public static double PERCENT_DOWN_SCREEN = 0;
 
@@ -69,9 +69,9 @@ public class SlideOverService extends Service {
         final WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
 
         if (width > height)
-            SWIPE_MIN_DISTANCE = height/3;
+            SWIPE_MIN_DISTANCE = (int)(height * (sharedPrefs.getInt("slideover_activation", 33)/100.0));
         else
-            SWIPE_MIN_DISTANCE = width/3;
+            SWIPE_MIN_DISTANCE = (int)(width * (sharedPrefs.getInt("slideover_activation", 33)/100.0));
 
         mView = new SlideOverView(this, halo, SWIPE_MIN_DISTANCE);
 

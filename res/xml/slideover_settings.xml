@@ -41,6 +41,15 @@
         android:max="100"
         android:dependency="slideover_enabled"
     />
+
+    <com.klinker.android.messaging_sliding.custom_dialogs.SeekBarPreference3
+        android:key="slideover_activation"
+        android:title="@string/slideover_activation"
+        android:summary="@string/slideover_activation_summary"
+        android:defaultValue="33"
+        android:max="100"
+        android:dependency="slideover_enabled"
+    />
     
     <Preference
         android:title="@string/under_development"
