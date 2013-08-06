@@ -49,6 +49,8 @@ public class ArcView extends ViewGroup {
         newMessagePaint.setAlpha(60);
         newMessagePaint.setStyle(Paint.Style.STROKE);
         newMessagePaint.setStrokeWidth(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, context.getResources().getDisplayMetrics()));
+        Typeface tf = Typeface.create("Roboto",Typeface.BOLD);
+        newMessagePaint.setTypeface(tf);
 
         conversationsPaint = new Paint(newMessagePaint);
         float dashLength = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, context.getResources().getDisplayMetrics());
