@@ -38,7 +38,7 @@ public class FNReceiver extends BroadcastReceiver {
             }
         }
 
-        long id = getOrCreateThreadId(context, new String[]{address});
+        long id = getOrCreateThreadId(context, new String[]{address});    // TODO get correct threadId
 
         Bitmap image = MainActivity.getFacebookPhoto(address, context);
         image = Bitmap.createScaledBitmap(image, 200, 200, false);
@@ -48,6 +48,8 @@ public class FNReceiver extends BroadcastReceiver {
         Bitmap actionThree = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_menu_done_holo_dark);
 
         Extension.addOrUpdate(image, body, id, actionOne, actionTwo, actionThree, false, true, false, context);
+
+        // TODO stop notification from coming through if enabled
     }
 
     private static long getOrCreateThreadId(Context context, String[] numbers)

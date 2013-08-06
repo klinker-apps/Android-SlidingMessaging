@@ -41,166 +41,168 @@ public class FNAction extends BroadcastReceiver {
 		int action = intent.getIntExtra(Extension.ACTION, -1);
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
-		switch (action) {
+        if (intent.getAction().equals(Extension.INTENT)) {
+            switch (action) {
 
-			case 0:
-				// start main activity popup
-				Intent popup = new Intent(context, com.klinker.android.messaging_sliding.MainActivityPopup.class);
-				context.startActivity(popup);
-                Extension.remove(id, context);
-				break;
+                case 0:
+                    // start main activity popup
+                    Intent popup = new Intent(context, com.klinker.android.messaging_sliding.MainActivityPopup.class);
+                    context.startActivity(popup);
+                    Extension.remove(id, context);
+                    break;
 
-			case 1:
-				// create new reply overlay
-				final String editTextHint = context.getResources().getString(R.string.reply_to) + " " + MainActivity.findContactName(MainActivity.findContactNumber(id + "", context), context);
-				final String previousText = intent.getStringExtra(Extension.MSG);
-				final Bitmap image = MainActivity.getFacebookPhoto(MainActivity.findContactNumber(id + "", context), context);
-                final Extension.onClickListener imageOnClick = new Extension.onClickListener() {
-					@Override
-					public void onClick() {
-						Intent intent = new Intent(context, com.klinker.android.messaging_sliding.MainActivity.class);
-						intent.putExtra("com.klinker.android.OPEN_THREAD", MainActivity.findContactNumber(id + "", context));
-						context.startActivity(intent);
-					}
-				};
-
-				final Extension.onClickListener sendOnClick = new Extension.onClickListener() {
-					@Override
-					public void onClick(String str) {
-                        Extension.remove(id, context);
-						sendMessage(context, MainActivity.findContactNumber(id + "", context), str);
-					}
-				};
-
-                final Bitmap extraButton = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_emoji_dark);
-
-                Extension.onClickListener extraOnClick = new Extension.onClickListener() {
-					@Override
-					public void onClick(final String str) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                        builder.setTitle("Insert Emojis");
-                        LayoutInflater inflater = ((Activity) context).getLayoutInflater();
-                        View frame = inflater.inflate(R.layout.emoji_frame, null);
-
-                        final EditText editText = (EditText) frame.findViewById(R.id.emoji_text);
-                        ImageButton peopleButton = (ImageButton) frame.findViewById(R.id.peopleButton);
-                        ImageButton objectsButton = (ImageButton) frame.findViewById(R.id.objectsButton);
-                        ImageButton natureButton = (ImageButton) frame.findViewById(R.id.natureButton);
-                        ImageButton placesButton = (ImageButton) frame.findViewById(R.id.placesButton);
-                        ImageButton symbolsButton = (ImageButton) frame.findViewById(R.id.symbolsButton);
-
-                        final StickyGridHeadersGridView emojiGrid = (StickyGridHeadersGridView) frame.findViewById(R.id.emojiGrid);
-                        Button okButton = (Button) frame.findViewById(R.id.emoji_ok);
-
-                        if (sharedPrefs.getBoolean("emoji_type", true))
-                        {
-                            emojiGrid.setAdapter(new EmojiAdapter2(context));
-                            emojiGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-                                public void onItemClick(AdapterView<?> parent, View v, int position, long id)
-                                {
-                                    editText.setText(EmojiConverter2.getSmiledText(context, editText.getText().toString() + EmojiAdapter2.mEmojiTexts[position]));
-                                    editText.setSelection(editText.getText().length());
-                                }
-                            });
-
-                            peopleButton.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    emojiGrid.setSelection(0);
-                                }
-                            });
-
-                            objectsButton.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    emojiGrid.setSelection(153 + (2 * 7));
-                                }
-                            });
-
-                            natureButton.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    emojiGrid.setSelection(153 + 162 + (3 * 7));
-                                }
-                            });
-
-                            placesButton.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    emojiGrid.setSelection(153 + 162 + 178 + (5 * 7));
-                                }
-                            });
-
-                            symbolsButton.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    emojiGrid.setSelection(153 + 162 + 178 + 122 + (7 * 7));
-                                }
-                            });
-                        } else
-                        {
-                            emojiGrid.setAdapter(new EmojiAdapter(context));
-                            emojiGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-                                public void onItemClick(AdapterView<?> parent, View v, int position, long id)
-                                {
-                                    editText.setText(EmojiConverter.getSmiledText(context, editText.getText().toString() + EmojiAdapter.mEmojiTexts[position]));
-                                    editText.setSelection(editText.getText().length());
-                                }
-                            });
-
-                            peopleButton.setMaxHeight(0);
-                            objectsButton.setMaxHeight(0);
-                            natureButton.setMaxHeight(0);
-                            placesButton.setMaxHeight(0);
-                            symbolsButton.setMaxHeight(0);
-
-                            LinearLayout buttons = (LinearLayout) frame.findViewById(R.id.linearLayout);
-                            buttons.setMinimumHeight(0);
-                            buttons.setVisibility(View.GONE);
+                case 1:
+                    // create new reply overlay
+                    final String editTextHint = context.getResources().getString(R.string.reply_to) + " " + MainActivity.findContactName(MainActivity.findContactNumber(id + "", context), context);
+                    final String previousText = intent.getStringExtra(Extension.MSG);  // TODO, get message different way, this does not work
+                    final Bitmap image = MainActivity.getFacebookPhoto(MainActivity.findContactNumber(id + "", context), context);
+                    final Extension.onClickListener imageOnClick = new Extension.onClickListener() {
+                        @Override
+                        public void onClick() {
+                            Intent intent = new Intent(context, com.klinker.android.messaging_sliding.MainActivity.class);
+                            intent.putExtra("com.klinker.android.OPEN_THREAD", MainActivity.findContactNumber(id + "", context));
+                            context.startActivity(intent);
                         }
+                    };
 
-                        builder.setView(frame);
-                        final AlertDialog dialog = builder.create();
-                        dialog.show();
+                    final Extension.onClickListener sendOnClick = new Extension.onClickListener() {
+                        @Override
+                        public void onClick(String str) {
+                            Extension.remove(id, context);
+                            sendMessage(context, MainActivity.findContactNumber(id + "", context), str);
+                        }
+                    };
 
-                        final Extension.onClickListener extraOnClick2 = this;
+                    final Bitmap extraButton = BitmapFactory.decodeResource(context.getResources(), R.drawable.emo_im_smirk);
 
-                        okButton.setOnClickListener(new View.OnClickListener() {
+                    Extension.onClickListener extraOnClick = new Extension.onClickListener() {
+                        @Override
+                        public void onClick(final String str) {
+                            // TODO turn dialog into new activity with dialog theme
+                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                            builder.setTitle("Insert Emojis");
+                            View frame = View.inflate(context, R.layout.emoji_frame, null);
 
-                            @Override
-                            public void onClick(View v) {
-                                Extension.replyOverlay(editTextHint, previousText, image, imageOnClick, sendOnClick, extraOnClick2, true, extraButton, context, false, "");
+                            final EditText editText = (EditText) frame.findViewById(R.id.emoji_text);
+                            ImageButton peopleButton = (ImageButton) frame.findViewById(R.id.peopleButton);
+                            ImageButton objectsButton = (ImageButton) frame.findViewById(R.id.objectsButton);
+                            ImageButton natureButton = (ImageButton) frame.findViewById(R.id.natureButton);
+                            ImageButton placesButton = (ImageButton) frame.findViewById(R.id.placesButton);
+                            ImageButton symbolsButton = (ImageButton) frame.findViewById(R.id.symbolsButton);
 
-                                dialog.dismiss();
+                            final StickyGridHeadersGridView emojiGrid = (StickyGridHeadersGridView) frame.findViewById(R.id.emojiGrid);
+                            Button okButton = (Button) frame.findViewById(R.id.emoji_ok);
+
+                            if (sharedPrefs.getBoolean("emoji_type", true))
+                            {
+                                emojiGrid.setAdapter(new EmojiAdapter2(context));
+                                emojiGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                                    public void onItemClick(AdapterView<?> parent, View v, int position, long id)
+                                    {
+                                        editText.setText(EmojiConverter2.getSmiledText(context, editText.getText().toString() + EmojiAdapter2.mEmojiTexts[position]));
+                                        editText.setSelection(editText.getText().length());
+                                    }
+                                });
+
+                                peopleButton.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        emojiGrid.setSelection(0);
+                                    }
+                                });
+
+                                objectsButton.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        emojiGrid.setSelection(153 + (2 * 7));
+                                    }
+                                });
+
+                                natureButton.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        emojiGrid.setSelection(153 + 162 + (3 * 7));
+                                    }
+                                });
+
+                                placesButton.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        emojiGrid.setSelection(153 + 162 + 178 + (5 * 7));
+                                    }
+                                });
+
+                                symbolsButton.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        emojiGrid.setSelection(153 + 162 + 178 + 122 + (7 * 7));
+                                    }
+                                });
+                            } else
+                            {
+                                emojiGrid.setAdapter(new EmojiAdapter(context));
+                                emojiGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                                    public void onItemClick(AdapterView<?> parent, View v, int position, long id)
+                                    {
+                                        editText.setText(EmojiConverter.getSmiledText(context, editText.getText().toString() + EmojiAdapter.mEmojiTexts[position]));
+                                        editText.setSelection(editText.getText().length());
+                                    }
+                                });
+
+                                peopleButton.setMaxHeight(0);
+                                objectsButton.setMaxHeight(0);
+                                natureButton.setMaxHeight(0);
+                                placesButton.setMaxHeight(0);
+                                symbolsButton.setMaxHeight(0);
+
+                                LinearLayout buttons = (LinearLayout) frame.findViewById(R.id.linearLayout);
+                                buttons.setMinimumHeight(0);
+                                buttons.setVisibility(View.GONE);
                             }
 
-                        });
-					}
-				};
+                            builder.setView(frame);
+                            final AlertDialog dialog = builder.create();
+                            dialog.show();
 
-				Extension.replyOverlay(editTextHint, previousText, image, imageOnClick, sendOnClick, extraOnClick, true, extraButton, context, false, "");
-				
-				break;
+                            final Extension.onClickListener extraOnClick2 = this;
 
-			case 2:
-				// start call intent
-				String address = MainActivity.findContactNumber(id + "", context);
-				Intent callIntent = new Intent(Intent.ACTION_CALL);
-                                callIntent.setData(Uri.parse("tel:" + address));
-                                callIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				context.startActivity(callIntent);
-                Extension.remove(id, context);
-				break;
+                            okButton.setOnClickListener(new View.OnClickListener() {
 
-			case 3:
-				// start mark read service
-				context.startService(new Intent(context, com.klinker.android.messaging_sliding.quick_reply.QmMarkRead2.class));
-                Extension.remove(id, context);
-				break;
+                                @Override
+                                public void onClick(View v) {
+                                    Extension.replyOverlay(editTextHint, previousText, image, imageOnClick, sendOnClick, extraOnClick2, true, extraButton, context, false, "");
 
-		}
+                                    dialog.dismiss();
+                                }
+
+                            });
+                        }
+                    };
+
+                    Extension.replyOverlay(editTextHint, previousText, image, imageOnClick, sendOnClick, extraOnClick, true, extraButton, context, false, "");
+
+                    break;
+
+                case 2:
+                    // start call intent
+                    String address = MainActivity.findContactNumber(id + "", context);
+                    Intent callIntent = new Intent(Intent.ACTION_CALL);
+                                    callIntent.setData(Uri.parse("tel:" + address));
+                                    callIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(callIntent);
+                    Extension.remove(id, context);
+                    break;
+
+                case 3:
+                    // start mark read service
+                    context.startService(new Intent(context, com.klinker.android.messaging_sliding.quick_reply.QmMarkRead2.class));
+                    Extension.remove(id, context);
+                    break;
+
+            }
+        }
 	}
 
     public void sendMessage(final Context context, String number, String body)
