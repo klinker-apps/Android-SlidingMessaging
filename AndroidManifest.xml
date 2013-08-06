@@ -26,6 +26,7 @@
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="robj.floating.notifications.DISMISS"/>
+    <uses-permission android:name="robj.floating.notifications.EXTENSION"/>
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 
     <uses-sdk
@@ -516,6 +517,31 @@
 		        <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
 		    </intent-filter>
 		</activity>
+
+        <receiver android:name="com.klinker.android.messaging_donate.floating_notifications.FNReceiver" >
+            <intent-filter>
+                <action android:name="robj.floating.notifications.isExtension" />
+            </intent-filter>
+            <intent-filter android:priority="99">
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+                <category android:name="android.intent.category.HOME" />
+            </intent-filter>
+
+            <meta-data android:name="label" android:value="@string/app_name" />
+        </receiver>
+
+        <receiver android:name="com.klinker.android.messaging_donate.floating_notifications.FNAction" >
+            <intent-filter android:priority="99">
+                <action android:name="robj.floating.notifications.extension" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name="robj.floating.notifications.EnabledReceiver">
+            <intent-filter>
+                <action android:name="robj.floating.notifications.extension.ENABLED"></action>
+                <action android:name="robj.floating.notifications.extension.DISABLED"></action>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

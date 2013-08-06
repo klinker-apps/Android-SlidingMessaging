@@ -523,5 +523,6 @@
     <string name="slideover_activation_summary">Distance on screen that you have to pull to activate SlideOver</string>
     <string name="under_development">Please Note:</string>
     <string name="under_development_summary">SlideOver is still heavily under development. Do not submit requests, or even suggestions, for it at this time.</string>
+    <string name="reply_to">Reply to</string>
     
 </resources>
