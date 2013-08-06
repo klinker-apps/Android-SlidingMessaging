@@ -40,7 +40,7 @@ public class FNReceiver extends BroadcastReceiver {
             }
         }
 
-        long id = getOrCreateThreadId(context, address);
+        long id = getOrCreateThreadId(context, address); // maybe will just need to set the id to address if this doesnt work...
         
         if (messages.containsKey(id)) {
             String previous = messages.get(id);
@@ -59,8 +59,6 @@ public class FNReceiver extends BroadcastReceiver {
         Bitmap actionThree = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_menu_done_holo_dark);
 
         Extension.addOrUpdate(image, body, id, actionOne, actionTwo, actionThree, false, true, false, context);
-
-        // TODO stop notification from coming through if enabled
     }
 
     private static long getOrCreateThreadId(Context context, String number)
