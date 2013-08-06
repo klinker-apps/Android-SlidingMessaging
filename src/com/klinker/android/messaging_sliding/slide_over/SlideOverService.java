@@ -3,7 +3,6 @@ package com.klinker.android.messaging_sliding.slide_over;
 import android.app.ActivityManager;
 import android.app.Service;
 import android.content.*;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
@@ -25,12 +24,15 @@ import java.util.List;
  */
 public class SlideOverService extends Service {
 
-    SlideOverView mView;
+    public HaloView haloView;
+    public ArcView arcView;
 
-    public WindowManager.LayoutParams params;
+    public WindowManager.LayoutParams haloParams;
+    public WindowManager.LayoutParams arcParams;
 
     public Context mContext;
-    public WindowManager wm;
+    public WindowManager haloWindow;
+    public WindowManager arcWindow;
     public SharedPreferences sharedPrefs;
 
     public static int SWIPE_MIN_DISTANCE = 0;
@@ -55,7 +57,7 @@ public class SlideOverService extends Service {
         PERCENT_DOWN_SCREEN = sharedPrefs.getInt("slideover_vertical", 50)/100.0;
         PERCENT_DOWN_SCREEN -= PERCENT_DOWN_SCREEN * (halo.getHeight()/(double)height);
 
-        params = new WindowManager.LayoutParams(
+        haloParams = new WindowManager.LayoutParams(
                 halo.getWidth(),
                 halo.getHeight(),
                 sharedPrefs.getString("slideover_side", "left").equals("left") ? (int) (-1 * (1 - HALO_SLIVER_RATIO) * halo.getWidth()) : (int) (width - (halo.getWidth() * (HALO_SLIVER_RATIO))),
@@ -66,18 +68,31 @@ public class SlideOverService extends Service {
                         |WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
                         |WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 PixelFormat.TRANSLUCENT);
-        params.gravity = Gravity.TOP | Gravity.LEFT;
+        haloParams.gravity = Gravity.TOP | Gravity.LEFT;
 
-        wm = (WindowManager) getSystemService(WINDOW_SERVICE);
+        arcParams = new WindowManager.LayoutParams(
+                WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                        |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+                        |WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
+                        |WindowManager.LayoutParams.FLAG_DIM_BEHIND,
+                PixelFormat.TRANSLUCENT);
+        arcParams.dimAmount=.4f;
+
+        setGravity(haloParams);
+
+        haloWindow = (WindowManager) getSystemService(WINDOW_SERVICE);
+        arcWindow = (WindowManager) getSystemService(WINDOW_SERVICE);
 
         if (width > height)
             SWIPE_MIN_DISTANCE = (int)(height * (sharedPrefs.getInt("slideover_activation", 33)/100.0));
         else
             SWIPE_MIN_DISTANCE = (int)(width * (sharedPrefs.getInt("slideover_activation", 33)/100.0));
 
-        mView = new SlideOverView(this, halo, SWIPE_MIN_DISTANCE);
+        haloView = new HaloView(this, halo);
+        arcView = new ArcView(this, halo, SWIPE_MIN_DISTANCE);
 
-        mView.setOnTouchListener(new View.OnTouchListener() {
+        haloView.setOnTouchListener(new View.OnTouchListener() {
             private boolean needDetection = false;
             private boolean vibrateNeeded = true;
 
@@ -85,16 +100,15 @@ public class SlideOverService extends Service {
             private float initY;
 
             private double distance = 0;
+
             @Override
             public boolean onTouch(View arg0, MotionEvent arg1) {
 
-                if((arg1.getX() > mView.getX() && arg1.getX() < mView.getX() + halo.getWidth() && arg1.getY() > mView.getY() && arg1.getY() < mView.getY() + halo.getHeight()) || needDetection)
-                {
+                if ((arg1.getX() > haloView.getX() && arg1.getX() < haloView.getX() + halo.getWidth() && arg1.getY() > haloView.getY() && arg1.getY() < haloView.getY() + halo.getHeight()) || needDetection) {
                     final int type = arg1.getActionMasked();
                     Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
-                    switch (type)
-                    {
+                    switch (type) {
                         case MotionEvent.ACTION_DOWN:
 
                             v.vibrate(10);
@@ -103,43 +117,30 @@ public class SlideOverService extends Service {
                             initX = arg1.getX() + position[0];
                             initY = arg1.getY() + position[1];
 
-                            params = new WindowManager.LayoutParams(
-                                    WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
-                                    WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                                            |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
-                                            |WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
-                                            |WindowManager.LayoutParams.FLAG_DIM_BEHIND,
-                                    PixelFormat.TRANSLUCENT);
-                            params.dimAmount=.4f;
-                            setGravity(params);
+                            arcView.arcPaint.setAlpha(60);
 
-                            mView.isTouched = true;
-                            mView.arcPaint.setAlpha(60);
-                            mView.invalidate();
-                            wm.updateViewLayout(mView, params);
+                            arcWindow.addView(arcView, arcParams);
                             needDetection = true;
                             return true;
 
                         case MotionEvent.ACTION_MOVE:
 
-                            distance = Math.sqrt(Math.pow(initX - arg1.getX(), 2) + Math.pow(initY - arg1.getY(),2));
+                            distance = Math.sqrt(Math.pow(initX - arg1.getX(), 2) + Math.pow(initY - arg1.getY(), 2));
 
-                            if (distance > SWIPE_MIN_DISTANCE && vibrateNeeded)
-                            {
-                                mView.arcPaint.setAlpha(150);
-                                mView.invalidate();
-                                wm.updateViewLayout(mView, params);
+                            if (distance > SWIPE_MIN_DISTANCE && vibrateNeeded) {
+                                arcView.arcPaint.setAlpha(150);
+                                arcView.invalidate();
+                                arcWindow.updateViewLayout(arcView, arcParams);
 
                                 v.vibrate(25);
 
                                 vibrateNeeded = false;
                             }
 
-                            if (distance < SWIPE_MIN_DISTANCE)
-                            {
-                                mView.arcPaint.setAlpha(60);
-                                mView.invalidate();
-                                wm.updateViewLayout(mView, params);
+                            if (distance < SWIPE_MIN_DISTANCE) {
+                                arcView.arcPaint.setAlpha(60);
+                                arcView.invalidate();
+                                arcWindow.updateViewLayout(arcView, arcParams);
                                 vibrateNeeded = true;
                             }
 
@@ -147,8 +148,7 @@ public class SlideOverService extends Service {
 
                         case MotionEvent.ACTION_UP:
 
-                            if(distance > SWIPE_MIN_DISTANCE)
-                            {
+                            if (distance > SWIPE_MIN_DISTANCE) {
                                 if (isRunning(getApplication())) {
                                     Intent intent = new Intent();
                                     intent.setAction("com.klinker.android.messaging_donate.KILL_FOR_HALO");
@@ -161,24 +161,9 @@ public class SlideOverService extends Service {
                                 startActivity(intent);
                             }
 
-                            params = new WindowManager.LayoutParams(
-                                    halo.getWidth(),
-                                    halo.getHeight(),
-                                    sharedPrefs.getString("slideover_side", "left").equals("left") ? (int) (-1 * (1 - HALO_SLIVER_RATIO) * halo.getWidth()) : (int) (width - (halo.getWidth() * (HALO_SLIVER_RATIO))),
-                                    (int)(height * PERCENT_DOWN_SCREEN),
-                                    WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
-                                    WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                                            |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
-                                            |WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
-                                            |WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-                                    PixelFormat.TRANSLUCENT);
-                            params.gravity = Gravity.TOP | Gravity.LEFT;
+                            arcView.arcPaint.setAlpha(60);
 
-                            mView.isTouched = false;
-                            mView.arcPaint.setAlpha(60);
-                            mView.invalidate();
-                            wm.removeViewImmediate(mView);
-                            wm.addView(mView, params);
+                            arcWindow.removeViewImmediate(arcView);
 
                             needDetection = true;
 
@@ -191,7 +176,7 @@ public class SlideOverService extends Service {
             }
         });
 
-        wm.addView(mView, params);
+        haloWindow.addView(haloView, haloParams);
 
         IntentFilter filter = new IntentFilter();
         filter.addAction("com.klinker.android.messaging.STOP_HALO");
@@ -235,9 +220,9 @@ public class SlideOverService extends Service {
         int width = d.getWidth();
 
         if (sharedPrefs.getString("slideover_side", "left").equals("left")) {
-            returnArray[0] = (int)(-1 * mView.halo.getWidth() * (1 - SlideOverService.HALO_SLIVER_RATIO));
+            returnArray[0] = (int)(-1 * haloView.halo.getWidth() * (1 - SlideOverService.HALO_SLIVER_RATIO));
         } else {
-            returnArray[0] = (int)(width - (mView.halo.getWidth() * SlideOverService.HALO_SLIVER_RATIO));
+            returnArray[0] = (int)(width - (haloView.halo.getWidth() * SlideOverService.HALO_SLIVER_RATIO));
         }
 
         returnArray[1] = (int)(height * SlideOverService.PERCENT_DOWN_SCREEN);
@@ -278,8 +263,8 @@ public class SlideOverService extends Service {
         @Override
         public void onReceive(Context context, Intent myIntent) {
             stopService(new Intent(context, SlideOverService.class));
-            mView.invalidate();
-            wm.removeViewImmediate(mView);
+            haloView.invalidate();
+            haloWindow.removeViewImmediate(haloView);
             unregisterReceiver(this);
             startService(new Intent(context, SlideOverService.class));
         }
@@ -288,8 +273,8 @@ public class SlideOverService extends Service {
     public BroadcastReceiver stopSlideover = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            mView.invalidate();
-            wm.removeViewImmediate(mView);
+            haloView.invalidate();
+            haloWindow.removeViewImmediate(haloView);
             stopSelf();
             unregisterReceiver(this);
         }
