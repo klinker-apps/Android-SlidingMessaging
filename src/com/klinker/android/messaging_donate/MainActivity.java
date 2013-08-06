@@ -1,5 +1,6 @@
 package com.klinker.android.messaging_donate;
 
+import android.app.ActivityManager;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import android.support.v4.content.Loader;
 import android.view.WindowManager;
 import com.klinker.android.messaging_donate.receivers.UnlockReceiver;
 import com.klinker.android.messaging_sliding.receivers.CacheService;
+import com.klinker.android.messaging_sliding.slide_over.SlideOverService;
 
 import java.util.ArrayList;
 
@@ -32,6 +34,15 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
 		sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
+        if(sharedPrefs.getBoolean("slideover_enabled",false))
+        {
+            if(!isSlideOverRunning())
+            {
+                Intent service = new Intent(getApplicationContext(), com.klinker.android.messaging_sliding.slide_over.SlideOverService.class);
+                startService(service);
+            }
+        }
+
         setContentView(R.layout.loading_screen);
 		
 		NotificationManager mNotificationManager =
@@ -44,6 +55,16 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
             getSupportLoaderManager().initLoader(0, null, this);
         }
 	}
+
+    private boolean isSlideOverRunning() {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (SlideOverService.class.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public void launchActivity()
     {
