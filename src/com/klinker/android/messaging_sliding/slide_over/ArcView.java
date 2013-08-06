@@ -99,7 +99,16 @@ public class ArcView extends ViewGroup {
             canvas.drawPath(conversationsPath, conversationsPaint);
         } else
         {
-            // todo: make the paths and oval for right alignment
+            RectF oval = new RectF(width - radius, point[1] + (halo.getHeight() / 2) -  radius, width + radius, point[1] + (halo.getHeight() / 2) + radius);
+
+            Path newMessagePath = new Path();
+            newMessagePath.addArc(oval, breakAngle - 45, -180);
+
+            Path conversationsPath = new Path();
+            conversationsPath.addArc(oval, breakAngle - 45, 180);
+
+            canvas.drawPath(newMessagePath, newMessagePaint);
+            canvas.drawPath(conversationsPath, conversationsPaint);
         }
 
         /*
