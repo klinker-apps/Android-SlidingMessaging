@@ -114,8 +114,8 @@ public class SlideOverService extends Service {
                             v.vibrate(10);
 
                             int[] position = getPosition();
-                            initX = arg1.getX() + position[0];
-                            initY = arg1.getY() + position[1];
+                            initX = arg1.getX();
+                            initY = arg1.getY();
 
                             arcView.arcPaint.setAlpha(60);
 
