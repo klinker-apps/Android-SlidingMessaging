@@ -16,6 +16,7 @@ import com.klinker.android.messaging_donate.R;
 public class MainActivityPopup extends MainActivity {
 
     public boolean fromHalo = false;
+    public boolean secondaryAction = false;
 
     @Override
     public void setUpWindow() {
@@ -63,6 +64,7 @@ public class MainActivityPopup extends MainActivity {
     @Override
     public void setUpIntentStuff() {
         fromHalo = getIntent().getBooleanExtra("fromHalo", false);
+        secondaryAction = getIntent().getBooleanExtra("secAction", false);
     }
     
     @Override
@@ -148,6 +150,14 @@ public class MainActivityPopup extends MainActivity {
 
         if (!fromHalo) {
             menu.showContent();
+        } else {
+            if (secondaryAction) {
+                if (getIntent().getStringExtra("secondaryType").equals("conversations") {
+                    menu.showMenu();
+                } else {
+                    menu.showSecondaryMenu();
+                }
+            }
         }
 
         if (sharedPrefs.getBoolean("show_keyboard_popup", true) && !fromHalo) {
