@@ -20,9 +20,6 @@ import com.klinker.android.messaging_donate.R;
 
 import java.util.List;
 
-/**
- * Created by luke on 8/2/13.
- */
 public class SlideOverService extends Service {
 
     public HaloView haloView;
@@ -42,7 +39,7 @@ public class SlideOverService extends Service {
     public static float ARC_BREAK_POINT = 0;
 
     public static final int START_ALPHA = 60;
-    public static final int START_ALPHA2 = 150;
+    public static final int START_ALPHA2 = 120;
     public static final int TOUCHED_ALPHA = 230;
 
     @Override
@@ -135,6 +132,7 @@ public class SlideOverService extends Service {
                             initY = arg1.getY();
 
                             arcView.newMessagePaint.setAlpha(START_ALPHA2);
+                            arcView.textPaint.setAlpha(START_ALPHA2);
 
                             arcWindow.addView(arcView, arcParams);
                             needDetection = true;
@@ -160,6 +158,7 @@ public class SlideOverService extends Service {
 
                                     arcView.conversationsPaint.setAlpha(START_ALPHA2);
                                     arcView.newMessagePaint.setAlpha(START_ALPHA2);
+                                    arcView.textPaint.setAlpha(START_ALPHA2);
                                     arcView.invalidate();
                                     arcWindow.updateViewLayout(arcView, arcParams);
 
@@ -175,6 +174,7 @@ public class SlideOverService extends Service {
                                 if (distance > SWIPE_MIN_DISTANCE && vibrateNeeded) {
                                     arcView.conversationsPaint.setAlpha(START_ALPHA2);
                                     arcView.newMessagePaint.setAlpha(START_ALPHA2);
+                                    arcView.textPaint.setAlpha(START_ALPHA2);
                                     arcView.invalidate();
                                     arcWindow.updateViewLayout(arcView, arcParams);
 
@@ -186,6 +186,7 @@ public class SlideOverService extends Service {
                                 if (distance < SWIPE_MIN_DISTANCE) {
                                     arcView.conversationsPaint.setAlpha(START_ALPHA);
                                     arcView.newMessagePaint.setAlpha(START_ALPHA2);
+                                    arcView.textPaint.setAlpha(START_ALPHA2);
                                     arcView.invalidate();
                                     arcWindow.updateViewLayout(arcView, arcParams);
                                     vibrateNeeded = true;
@@ -227,6 +228,7 @@ public class SlideOverService extends Service {
 
                                 if (distance < SWIPE_MIN_DISTANCE) {
                                     arcView.newMessagePaint.setAlpha(START_ALPHA2);
+                                    arcView.textPaint.setAlpha(START_ALPHA2);
                                     arcView.conversationsPaint.setAlpha(START_ALPHA);
                                     arcView.invalidate();
                                     arcWindow.updateViewLayout(arcView, arcParams);
@@ -267,6 +269,7 @@ public class SlideOverService extends Service {
                             }
 
                             arcView.newMessagePaint.setAlpha(START_ALPHA2);
+                            arcView.textPaint.setAlpha(START_ALPHA2);
 
                             arcWindow.removeViewImmediate(arcView);
 
