@@ -49,6 +49,7 @@ public class FNAction extends BroadcastReceiver {
                     Intent popup = new Intent(context, com.klinker.android.messaging_sliding.MainActivityPopup.class);
                     context.startActivity(popup);
                     Extension.remove(id, context);
+                    FNReceiver.messages.remove(id);
                     break;
 
                 case 1:
@@ -62,6 +63,8 @@ public class FNAction extends BroadcastReceiver {
                             Intent intent = new Intent(context, com.klinker.android.messaging_sliding.MainActivity.class);
                             intent.putExtra("com.klinker.android.OPEN_THREAD", MainActivity.findContactNumber(id + "", context));
                             context.startActivity(intent);
+                            FNReceiver.messages.remove(id);
+                            Extension.remove(id, context);
                         }
                     };
 
@@ -69,6 +72,7 @@ public class FNAction extends BroadcastReceiver {
                         @Override
                         public void onClick(String str) {
                             Extension.remove(id, context);
+                            FNReceiver.messages.remove(id);
                             sendMessage(context, MainActivity.findContactNumber(id + "", context), str);
                         }
                     };
@@ -193,12 +197,14 @@ public class FNAction extends BroadcastReceiver {
                                     callIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(callIntent);
                     Extension.remove(id, context);
+                    FNReceiver.messages.remove(id);
                     break;
 
                 case 3:
                     // start mark read service
                     context.startService(new Intent(context, com.klinker.android.messaging_sliding.quick_reply.QmMarkRead2.class));
                     Extension.remove(id, context);
+                    FNReceiver.messages.remove(id);
                     break;
 
             }
