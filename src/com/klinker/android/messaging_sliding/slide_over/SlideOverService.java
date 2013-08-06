@@ -114,7 +114,6 @@ public class SlideOverService extends Service {
                             setGravity(params);
 
                             mView.isTouched = true;
-                            //mView.animate = true;
                             mView.arcPaint.setAlpha(60);
                             mView.invalidate();
                             wm.updateViewLayout(mView, params);
@@ -177,7 +176,6 @@ public class SlideOverService extends Service {
 
                             mView.isTouched = false;
                             mView.arcPaint.setAlpha(60);
-                            //mView.animate = true;
                             mView.invalidate();
                             wm.removeViewImmediate(mView);
                             wm.addView(mView, params);

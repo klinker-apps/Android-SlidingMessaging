@@ -1,4 +1,4 @@
-package com.klinker.android.messaging_donate.floating_notifications;
+/*package com.klinker.android.messaging_donate.floating_notifications;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -77,4 +77,4 @@ public class FNAction extends BroadcastReceiver {
 
 		}
 	}
-}
+}*/
