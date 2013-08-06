@@ -1,7 +1,10 @@
 Version 6.70
 
-- add option for slider to move halo... would just need to change the second 0 in the layoutparams to the number we want and it should work
-- Add option ot auto close slideover when message is sent if coming !fromHalo
+- SLIDEOVER TODO
+    - Add option ot auto close slideover when message is sent if coming !fromHalo
+    - Make secondary option close the app just like the primary one
+    - adjust arcs for sliver? maybe not even nesseisary in my opinion
+    - stop slideover from opening the secondary option when inside sliding messaging
 - floating notifications extension
 - option for adding certain text to every message at the beginning (delivery reports?)
 - Message Locking
