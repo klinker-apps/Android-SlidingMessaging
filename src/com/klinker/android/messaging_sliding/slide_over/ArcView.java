@@ -20,6 +20,7 @@ public class ArcView extends ViewGroup {
 
     public Paint newMessagePaint;
     public Paint conversationsPaint;
+    public Paint textPaint;
     public float radius;
     public float breakAngle;
 
@@ -49,12 +50,16 @@ public class ArcView extends ViewGroup {
         newMessagePaint.setAlpha(60);
         newMessagePaint.setStyle(Paint.Style.STROKE);
         newMessagePaint.setStrokeWidth(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, context.getResources().getDisplayMetrics()));
-        Typeface tf = Typeface.create("Roboto",Typeface.BOLD);
-        newMessagePaint.setTypeface(tf);
 
         conversationsPaint = new Paint(newMessagePaint);
         float dashLength = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, context.getResources().getDisplayMetrics());
         conversationsPaint.setPathEffect(new DashPathEffect(new float[] {dashLength, dashLength*2}, 0));
+        
+        textPaint = new Paint();
+        textPaint.setAntiAlias(true);
+        newMessagePaint.setColor(Color.WHITE);
+        newMessagePaint.setAlpha(60);
+        textPaint.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
 
         this.halo = halo;
         this.radius = radius;
@@ -138,7 +143,7 @@ public class ArcView extends ViewGroup {
                 Path textPath = new Path();
                 textPath.addArc(oval, breakAngle, -180);
 
-                canvas.drawTextOnPath(newConversations.get(i)[0] + " - " + newConversations.get(i)[1], textPath, 0f, 0f, newMessagePaint);
+                canvas.drawTextOnPath(newConversations.get(i)[0] + " - " + newConversations.get(i)[1], textPath, 0f, 0f, textPaint);
             } else
             {
                 RectF oval = new RectF(width - conversationsRadius, point[1] + (halo.getHeight() / 2) -  conversationsRadius, width + conversationsRadius, point[1] + (halo.getHeight() / 2) + conversationsRadius);
@@ -146,7 +151,7 @@ public class ArcView extends ViewGroup {
                 Path textPath = new Path();
                 textPath.addArc(oval, breakAngle - 45, -180);
 
-                canvas.drawTextOnPath(newConversations.get(i)[0] + " - " + newConversations.get(i)[1], textPath, 0f, 0f, newMessagePaint);
+                canvas.drawTextOnPath(newConversations.get(i)[0] + " - " + newConversations.get(i)[1], textPath, 0f, 0f, textPaint);
             }
 
             conversationsRadius += 20;
