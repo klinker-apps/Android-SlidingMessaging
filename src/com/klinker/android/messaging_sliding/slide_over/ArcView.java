@@ -56,16 +56,22 @@ public class ArcView extends ViewGroup {
 
         int[] point = getPosition();
 
-        RectF oval = new RectF(-1 * radius, point[1] + (halo.getHeight() / 2) -  radius, radius, point[1] + (halo.getHeight() / 2) + radius);
+        if (sharedPrefs.getString("slideover_side", "left").equals("left")) {
+            // todo: adjust for sliver size on the left and right of the oval here
+            RectF oval = new RectF(-1 * radius, point[1] + (halo.getHeight() / 2) -  radius, radius, point[1] + (halo.getHeight() / 2) + radius);
 
-        Path newMessagePath = new Path();
-        newMessagePath.addArc(oval, breakAngle, -180);
+            Path newMessagePath = new Path();
+            newMessagePath.addArc(oval, breakAngle, -180);
 
-        Path conversationsPath = new Path();
-        conversationsPath.addArc(oval, breakAngle, 180);
+            Path conversationsPath = new Path();
+            conversationsPath.addArc(oval, breakAngle, 180);
 
-        canvas.drawPath(newMessagePath, newMessagePaint);
-        canvas.drawPath(conversationsPath, conversationsPaint);
+            canvas.drawPath(newMessagePath, newMessagePaint);
+            canvas.drawPath(conversationsPath, conversationsPaint);
+        } else
+        {
+            // todo: make the paths and oval for right alignment
+        }
 
         /*
 

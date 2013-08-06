@@ -230,7 +230,8 @@ public class SlideOverService extends Service {
 
                         case MotionEvent.ACTION_UP:
 
-                            if (distance > SWIPE_MIN_DISTANCE) {
+                            // now will fire a different intent depending on what view you are in
+                            if (distance > SWIPE_MIN_DISTANCE && inFlat) {
                                 if (isRunning(getApplication())) {
                                     Intent intent = new Intent();
                                     intent.setAction("com.klinker.android.messaging_donate.KILL_FOR_HALO");
@@ -241,6 +242,9 @@ public class SlideOverService extends Service {
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 intent.putExtra("fromHalo", true);
                                 startActivity(intent);
+                            } else if (distance > SWIPE_MIN_DISTANCE && inDash)
+                            {
+
                             }
 
                             arcView.newMessagePaint.setAlpha(60);
