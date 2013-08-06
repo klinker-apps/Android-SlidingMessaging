@@ -247,7 +247,12 @@ public class SlideOverService extends Service {
                                 startActivity(intent);
                             } else if (distance > SWIPE_MIN_DISTANCE && inDash)
                             {
-                                // todo: open up to the conversation list, i don't know how
+                                Intent intent = new Intent(getBaseContext(), com.klinker.android.messaging_sliding.MainActivityPopup.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.putExtra("fromHalo", true);
+                                intent.putExtra("secAction", true);
+                                intent.putExtra("secondaryType", sharedPrefs.getString("slideover_secondary_action", "conversations"); 
+                                startActivity(intent);
                             }
 
                             arcView.newMessagePaint.setAlpha(60);
