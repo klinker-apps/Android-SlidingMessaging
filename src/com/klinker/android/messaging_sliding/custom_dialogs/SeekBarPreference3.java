@@ -26,7 +26,7 @@ public class SeekBarPreference3 extends Preference implements OnSeekBarChangeLis
 
     private int mMaxValue      = 1000;
     private int mMinValue      = 100;
-    private int mInterval      = 10;
+    private int mInterval      = 1;
     private int mCurrentValue;
     private String mUnitsLeft  = "";
     private String mUnitsRight = "%";
@@ -56,7 +56,7 @@ public class SeekBarPreference3 extends Preference implements OnSeekBarChangeLis
         mMinValue = attrs.getAttributeIntValue(ROBOBUNNYNS, "min", 0);
 
         mUnitsLeft = getAttributeStringValue(attrs, ROBOBUNNYNS, "unitsLeft", "");
-        String units = getAttributeStringValue(attrs, ROBOBUNNYNS, "units", "");
+        String units = getAttributeStringValue(attrs, ROBOBUNNYNS, "units", "%");
         mUnitsRight = getAttributeStringValue(attrs, ROBOBUNNYNS, "unitsRight", units);
 
         try {

@@ -48,14 +48,9 @@ public class SlideOverService extends Service {
         final int height = d.getHeight();
         final int width = d.getWidth();
 
-        if (sharedPrefs.getString("slideover_alignment", "middle").equals("top")) {
-            PERCENT_DOWN_SCREEN = 0;
-        } else if (sharedPrefs.getString("slideover_alignment", "middle").equals("middle")) {
-            PERCENT_DOWN_SCREEN = .5;
-        } else if (sharedPrefs.getString("slideover_alignment", "middle").equals("bottom")) {
-            PERCENT_DOWN_SCREEN = 1;
-        }
+        HALO_SLIVER_RATIO = sharedPrefs.getInt("slideover_sliver", 33)/100.0;
 
+        PERCENT_DOWN_SCREEN = sharedPrefs.getInt("slideover_vertical", 50)/100.0;
         PERCENT_DOWN_SCREEN -= PERCENT_DOWN_SCREEN * (halo.getHeight()/(double)height);
 
         params = new WindowManager.LayoutParams(
@@ -245,28 +240,12 @@ public class SlideOverService extends Service {
         int width = d.getWidth();
 
         if (sharedPrefs.getString("slideover_side", "left").equals("left")) {
-            if (sharedPrefs.getString("slideover_alignment", "middle").equals("top")) {
-                returnArray[0] = 0;
-                returnArray[1] = 0;
-            } else if (sharedPrefs.getString("slideover_alignment", "middle").equals("middle")) {
-                returnArray[0] = 0;
-                returnArray[1] = (height/2) - (mView.halo.getHeight()/2);
-            } else {
-                returnArray[0] = 0;
-                returnArray[1] = (height) - (mView.halo.getHeight());
-            }
+            returnArray[0] = (int)(-1 * mView.halo.getWidth() * (1 - SlideOverService.HALO_SLIVER_RATIO));
         } else {
-            if (sharedPrefs.getString("slideover_alignment", "middle").equals("top")) {
-                returnArray[0] = width - mView.halo.getWidth();
-                returnArray[1] = 0;
-            } else if (sharedPrefs.getString("slideover_alignment", "middle").equals("middle")) {
-                returnArray[0] = width - mView.halo.getWidth();
-                returnArray[1] = (height/2) - (mView.halo.getHeight()/2);
-            } else {
-                returnArray[0] = width - mView.halo.getWidth();
-                returnArray[1] = (height) - (mView.halo.getHeight());
-            }
+            returnArray[0] = (int)(width - (mView.halo.getWidth() * SlideOverService.HALO_SLIVER_RATIO));
         }
+
+        returnArray[1] = (int)(height * SlideOverService.PERCENT_DOWN_SCREEN);
 
         return returnArray;
     }
