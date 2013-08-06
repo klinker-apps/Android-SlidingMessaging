@@ -55,7 +55,7 @@ public class FNAction extends BroadcastReceiver {
                 case 1:
                     // create new reply overlay
                     final String editTextHint = context.getResources().getString(R.string.reply_to) + " " + MainActivity.findContactName(MainActivity.findContactNumber(id + "", context), context);
-                    final String previousText = intent.getStringExtra(Extension.MSG);  // TODO, get message different way, this does not work
+                    final String previousText = FNReceiver.messages.get(id);
                     final Bitmap image = MainActivity.getFacebookPhoto(MainActivity.findContactNumber(id + "", context), context);
                     final Extension.onClickListener imageOnClick = new Extension.onClickListener() {
                         @Override
