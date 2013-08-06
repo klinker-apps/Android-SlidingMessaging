@@ -48,6 +48,8 @@ public class QuickTextService extends IntentService {
 		if (sharedPrefs.getBoolean("full_app_popup", true)) {
 			notifyIntent = new Intent(this, MainActivityPopup.class);
 			notifyIntent.putExtra("fromHalo", true);
+			notifyIntent.putExtra("secAction", true);
+            notifyIntent.putExtra("secondaryType", "newMessage");
 		}
 		
 		notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
