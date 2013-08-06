@@ -175,7 +175,7 @@ public class SlideOverService extends Service {
                             params.gravity = Gravity.TOP | Gravity.LEFT;
 
                             mView.isTouched = false;
-                            //mView.animate = true;
+                            mView.arcPaint.setAlpha(60);
                             mView.invalidate();
                             wm.removeViewImmediate(mView);
                             wm.addView(mView, params);

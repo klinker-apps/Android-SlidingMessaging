@@ -81,29 +81,6 @@ public class SlideOverView extends ViewGroup {
 
             canvas.drawBitmap(halo, point[0], point[1], null);
         }
-
-        /*if (animate)
-        {
-            int aniRadius = halo.getWidth();
-            int[] point = getPosition();
-            canvas.save();
-
-            if (sharedPrefs.getString("slideover_side", "left").equals("left")) {
-                for (int i = 0; i < height/3 - aniRadius; i+=3)
-                {
-                    canvas.drawCircle(0 - (int)(halo.getWidth() * .25), point[1] + (halo.getHeight() / 2), aniRadius + i, arcPaint);
-                    //canvas.restore();
-                }
-            } else {
-                for (int i = 0; i < height/3 - aniRadius; i+=3)
-                {
-                    canvas.drawCircle(width + (int)(halo.getWidth() * .25), point[1] + (halo.getHeight() / 2), aniRadius + i, arcPaint);
-                    //canvas.restore();
-                }
-            }
-
-            animate = false;
-        }*/
     }
 
     @Override
