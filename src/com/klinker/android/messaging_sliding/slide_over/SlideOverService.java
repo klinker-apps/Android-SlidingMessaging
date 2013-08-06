@@ -251,7 +251,7 @@ public class SlideOverService extends Service {
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 intent.putExtra("fromHalo", true);
                                 intent.putExtra("secAction", true);
-                                intent.putExtra("secondaryType", sharedPrefs.getString("slideover_secondary_action", "conversations"); 
+                                intent.putExtra("secondaryType", sharedPrefs.getString("slideover_secondary_action", "conversations"));
                                 startActivity(intent);
                             }
 
@@ -350,4 +350,12 @@ public class SlideOverService extends Service {
             unregisterReceiver(this);
         }
     };
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        super.onStartCommand(intent, flags, startId);
+        // We want this service to continue running until it is explicitly
+        // stopped, so return sticky.
+        return START_STICKY;
+    }
 }

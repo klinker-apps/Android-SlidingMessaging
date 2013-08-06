@@ -152,7 +152,7 @@ public class MainActivityPopup extends MainActivity {
             menu.showContent();
         } else {
             if (secondaryAction) {
-                if (getIntent().getStringExtra("secondaryType").equals("conversations") {
+                if (getIntent().getStringExtra("secondaryType").equals("conversations")) {
                     menu.showMenu();
                 } else {
                     menu.showSecondaryMenu();
