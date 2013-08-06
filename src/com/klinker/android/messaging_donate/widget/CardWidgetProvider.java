@@ -123,9 +123,7 @@ public class CardWidgetProvider extends AppWidgetProvider {
                 
                 if (sharedPrefs.getBoolean("full_app_popup", true)) {
 			        quickText = new Intent(this, MainActivityPopup.class);
-			        quickText.putExtra("fromHalo", true);
-                    quickText.putExtra("secAction", true);
-                    quickText.putExtra("secondaryType", "newMessage");
+                    quickText.putExtra("fromWidget", true);
 		        }
         
 	            PendingIntent quickPending = PendingIntent.getActivity(this, 0, quickText, 0);

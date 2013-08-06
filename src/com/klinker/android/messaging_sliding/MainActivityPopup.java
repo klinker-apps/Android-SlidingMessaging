@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.view.PagerTitleStrip;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.*;
 import android.view.inputmethod.InputMethodManager;
@@ -16,6 +17,7 @@ import com.klinker.android.messaging_donate.R;
 public class MainActivityPopup extends MainActivity {
 
     public boolean fromHalo = false;
+    public boolean fromWidget = false;
     public boolean secondaryAction = false;
 
     @Override
@@ -65,6 +67,7 @@ public class MainActivityPopup extends MainActivity {
     public void setUpIntentStuff() {
         fromHalo = getIntent().getBooleanExtra("fromHalo", false);
         secondaryAction = getIntent().getBooleanExtra("secAction", false);
+        fromWidget = getIntent().getBooleanExtra("fromWidget", false);
     }
     
     @Override
@@ -148,16 +151,20 @@ public class MainActivityPopup extends MainActivity {
     public void onResume() {
         super.onResume();
 
-        if (!fromHalo) {
-            menu.showContent();
-        } else {
-            if (secondaryAction) {
-                if (getIntent().getStringExtra("secondaryType").equals("conversations")) {
-                    menu.showMenu();
-                } else {
-                    menu.showSecondaryMenu();
+        if (!fromWidget) {
+            if (!fromHalo) {
+                menu.showContent();
+            } else {
+                if (secondaryAction) {
+                    if (getIntent().getStringExtra("secondaryType").equals("conversations")) {
+                        menu.showMenu();
+                    } else {
+                        menu.showSecondaryMenu();
+                    }
                 }
             }
+        } else {
+            menu.showSecondaryMenu();
         }
 
         if (sharedPrefs.getBoolean("show_keyboard_popup", true) && !fromHalo) {
