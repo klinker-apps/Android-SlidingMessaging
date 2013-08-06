@@ -5908,28 +5908,30 @@ s
 			sentMessage = false;
 		}
 
-        if (dismissNotification) {
-            final Context context = this;
-
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    NotificationManager mNotificationManager =
-                            (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                    mNotificationManager.cancel(1);
-                    mNotificationManager.cancel(2);
-                    writeToFile2(new ArrayList<String>(), context);
-
-                    Intent intent = new Intent("com.klinker.android.messaging.CLEARED_NOTIFICATION");
-                    context.sendBroadcast(intent);
-
-                    Intent stopRepeating = new Intent(context, NotificationRepeaterService.class);
-                    PendingIntent pStopRepeating = PendingIntent.getService(context, 0, stopRepeating, 0);
-                    AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                    alarm.cancel(pStopRepeating);
-                }
-            }, 500);
-        }
+		if (!isPopup) {
+			if (dismissNotification) {
+				final Context context = this;
+	
+				new Handler().postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						NotificationManager mNotificationManager =
+								(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+						mNotificationManager.cancel(1);
+						mNotificationManager.cancel(2);
+						writeToFile2(new ArrayList<String>(), context);
+	
+						Intent intent = new Intent("com.klinker.android.messaging.CLEARED_NOTIFICATION");
+						context.sendBroadcast(intent);
+	
+						Intent stopRepeating = new Intent(context, NotificationRepeaterService.class);
+						PendingIntent pStopRepeating = PendingIntent.getService(context, 0, stopRepeating, 0);
+						AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+						alarm.cancel(pStopRepeating);
+					}
+				}, 500);
+			}
+		}
 		
 		if (!firstRun)
 		{
@@ -6274,6 +6276,29 @@ s
 		} catch (Exception e)
 		{
 			
+		}
+		
+		if (isPopup) {
+			final Context context = this;
+			
+			new Handler().postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					NotificationManager mNotificationManager =
+						(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+					mNotificationManager.cancel(1);
+					mNotificationManager.cancel(2);
+					writeToFile2(new ArrayList<String>(), context);
+					
+					Intent intent = new Intent("com.klinker.android.messaging.CLEARED_NOTIFICATION");
+					context.sendBroadcast(intent);
+					
+					Intent stopRepeating = new Intent(context, NotificationRepeaterService.class);
+					PendingIntent pStopRepeating = PendingIntent.getService(context, 0, stopRepeating, 0);
+					AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+					alarm.cancel(pStopRepeating);
+				}
+			}, 500);
 		}
 	}
 	
