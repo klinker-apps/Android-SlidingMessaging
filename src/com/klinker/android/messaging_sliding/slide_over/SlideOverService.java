@@ -14,6 +14,7 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.klinker.android.messaging_donate.R;
 
@@ -100,11 +101,18 @@ public class SlideOverService extends Service {
         haloView.setOnTouchListener(new View.OnTouchListener() {
             private boolean needDetection = false;
             private boolean vibrateNeeded = true;
+            private boolean inDash = false;
+            private boolean inFlat = true;
+            private boolean initial = true;
 
             private float initX;
             private float initY;
 
+            private double xPortion;
+            private double yPortion;
+
             private double distance = 0;
+            private double angle = 0;
 
             @Override
             public boolean onTouch(View arg0, MotionEvent arg1) {
@@ -112,6 +120,7 @@ public class SlideOverService extends Service {
                 if ((arg1.getX() > haloView.getX() && arg1.getX() < haloView.getX() + halo.getWidth() && arg1.getY() > haloView.getY() && arg1.getY() < haloView.getY() + halo.getHeight()) || needDetection) {
                     final int type = arg1.getActionMasked();
                     Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                    boolean switchVibrate = true;
 
                     switch (type) {
                         case MotionEvent.ACTION_DOWN:
@@ -130,23 +139,91 @@ public class SlideOverService extends Service {
 
                         case MotionEvent.ACTION_MOVE:
 
-                            distance = Math.sqrt(Math.pow(initX - arg1.getX(), 2) + Math.pow(initY - arg1.getY(), 2));
+                            xPortion = initX - arg1.getX();
+                            yPortion = initY - arg1.getY();
 
-                            if (distance > SWIPE_MIN_DISTANCE && vibrateNeeded) {
-                                arcView.newMessagePaint.setAlpha(150);
-                                arcView.invalidate();
-                                arcWindow.updateViewLayout(arcView, arcParams);
+                            distance = Math.sqrt(Math.pow(xPortion, 2) + Math.pow(yPortion, 2));
+                            angle = Math.toDegrees(Math.atan(yPortion/xPortion));
 
-                                v.vibrate(25);
+                            if (!(initY > arg1.getY()) && angle > ARC_BREAK_POINT) // in dash area
+                            {
+                                if (inFlat && distance > SWIPE_MIN_DISTANCE)
+                                {
+                                    inFlat = false;
+                                    inDash = true;
 
-                                vibrateNeeded = false;
-                            }
+                                    arcView.conversationsPaint.setAlpha(150);
+                                    arcView.newMessagePaint.setAlpha(60);
+                                    arcView.invalidate();
+                                    arcWindow.updateViewLayout(arcView, arcParams);
 
-                            if (distance < SWIPE_MIN_DISTANCE) {
-                                arcView.newMessagePaint.setAlpha(60);
-                                arcView.invalidate();
-                                arcWindow.updateViewLayout(arcView, arcParams);
-                                vibrateNeeded = true;
+                                    if (!initial)
+                                    {
+                                        v.vibrate(25);
+                                    }else
+                                    {
+                                        initial = false;
+                                    }
+                                }
+
+                                if (distance > SWIPE_MIN_DISTANCE && vibrateNeeded) {
+                                    arcView.conversationsPaint.setAlpha(150);
+                                    arcView.newMessagePaint.setAlpha(60);
+                                    arcView.invalidate();
+                                    arcWindow.updateViewLayout(arcView, arcParams);
+
+                                    v.vibrate(25);
+
+                                    vibrateNeeded = false;
+                                }
+
+                                if (distance < SWIPE_MIN_DISTANCE) {
+                                    arcView.conversationsPaint.setAlpha(60);
+                                    arcView.newMessagePaint.setAlpha(60);
+                                    arcView.invalidate();
+                                    arcWindow.updateViewLayout(arcView, arcParams);
+                                    vibrateNeeded = true;
+                                }
+
+
+                            } else // in flat area
+                            {
+                                if (inDash && distance > SWIPE_MIN_DISTANCE)
+                                {
+                                    inDash = false;
+                                    inFlat = true;
+
+                                    arcView.newMessagePaint.setAlpha(150);
+                                    arcView.conversationsPaint.setAlpha(60);
+                                    arcView.invalidate();
+                                    arcWindow.updateViewLayout(arcView, arcParams);
+
+                                    if (!initial)
+                                    {
+                                        v.vibrate(25);
+                                    }else
+                                    {
+                                        initial = false;
+                                    }
+                                }
+                                if (distance > SWIPE_MIN_DISTANCE && vibrateNeeded) {
+                                    arcView.newMessagePaint.setAlpha(150);
+                                    arcView.conversationsPaint.setAlpha(60);
+                                    arcView.invalidate();
+                                    arcWindow.updateViewLayout(arcView, arcParams);
+
+                                    v.vibrate(25);
+
+                                    vibrateNeeded = false;
+                                }
+
+                                if (distance < SWIPE_MIN_DISTANCE) {
+                                    arcView.newMessagePaint.setAlpha(60);
+                                    arcView.conversationsPaint.setAlpha(60);
+                                    arcView.invalidate();
+                                    arcWindow.updateViewLayout(arcView, arcParams);
+                                    vibrateNeeded = true;
+                                }
                             }
 
                             return true;
