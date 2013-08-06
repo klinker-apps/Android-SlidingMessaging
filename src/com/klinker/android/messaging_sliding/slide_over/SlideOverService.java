@@ -79,8 +79,6 @@ public class SlideOverService extends Service {
                 PixelFormat.TRANSLUCENT);
         arcParams.dimAmount=.4f;
 
-        setGravity(haloParams);
-
         haloWindow = (WindowManager) getSystemService(WINDOW_SERVICE);
         arcWindow = (WindowManager) getSystemService(WINDOW_SERVICE);
 
@@ -185,29 +183,6 @@ public class SlideOverService extends Service {
         filter = new IntentFilter();
         filter.addAction("android.intent.action.CONFIGURATION_CHANGED");
         this.registerReceiver(mBroadcastReceiver, filter);
-    }
-
-    public void setGravity(WindowManager.LayoutParams lp)
-    {
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-
-        if (sharedPrefs.getString("slideover_side", "left").equals("left")) {
-            if (sharedPrefs.getString("slideover_alignment", "middle").equals("top")) {
-                lp.gravity = Gravity.LEFT | Gravity.TOP;
-            } else if (sharedPrefs.getString("slideover_alignment", "middle").equals("middle")) {
-                lp.gravity = Gravity.LEFT | Gravity.CENTER_VERTICAL;
-            } else {
-                lp.gravity = Gravity.LEFT | Gravity.BOTTOM;
-            }
-        } else {
-            if (sharedPrefs.getString("slideover_alignment", "middle").equals("top")) {
-                lp.gravity = Gravity.RIGHT | Gravity.TOP;
-            } else if (sharedPrefs.getString("slideover_alignment", "middle").equals("middle")) {
-                lp.gravity = Gravity.RIGHT | Gravity.CENTER_VERTICAL;
-            } else {
-                lp.gravity = Gravity.RIGHT | Gravity.BOTTOM;
-            }
-        }
     }
 
     public int[] getPosition()
