@@ -16,6 +16,9 @@ import java.util.ArrayList;
 public class ArcView extends ViewGroup {
     public Context mContext;
 
+    public static float TEXT_SIZE;
+    public static float TEXT_GAP;
+
     public Bitmap halo;
 
     public Paint newMessagePaint;
@@ -40,6 +43,9 @@ public class ArcView extends ViewGroup {
         mContext = context;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
 
+        TEXT_SIZE = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 14, context.getResources().getDisplayMetrics());
+        TEXT_GAP = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 2, context.getResources().getDisplayMetrics());
+
         Display d = ((WindowManager)mContext.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         height = d.getHeight();
         width = d.getWidth();
@@ -47,18 +53,20 @@ public class ArcView extends ViewGroup {
         newMessagePaint = new Paint();
         newMessagePaint.setAntiAlias(true);
         newMessagePaint.setColor(Color.WHITE);
-        newMessagePaint.setAlpha(60);
+        newMessagePaint.setAlpha(SlideOverService.START_ALPHA2);
         newMessagePaint.setStyle(Paint.Style.STROKE);
         newMessagePaint.setStrokeWidth(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, context.getResources().getDisplayMetrics()));
 
         conversationsPaint = new Paint(newMessagePaint);
+        conversationsPaint.setAlpha(SlideOverService.START_ALPHA);
         float dashLength = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, context.getResources().getDisplayMetrics());
         conversationsPaint.setPathEffect(new DashPathEffect(new float[] {dashLength, dashLength*2}, 0));
         
         textPaint = new Paint();
         textPaint.setAntiAlias(true);
-        newMessagePaint.setColor(Color.WHITE);
-        newMessagePaint.setAlpha(60);
+        textPaint.setColor(Color.WHITE);
+        textPaint.setAlpha(SlideOverService.START_ALPHA2);
+        textPaint.setTextSize(TEXT_SIZE);
         textPaint.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
 
         this.halo = halo;
@@ -131,7 +139,7 @@ public class ArcView extends ViewGroup {
             canvas.drawPath(conversationsPath, conversationsPaint);
         }
 
-        float conversationsRadius = radius + 20;
+        float conversationsRadius = radius + TEXT_SIZE + TEXT_GAP;
 
         // Draws the new conversations from the arraylist newConversations
         for (int i = 0; i < newConversations.size(); i++)
@@ -154,7 +162,7 @@ public class ArcView extends ViewGroup {
                 canvas.drawTextOnPath(newConversations.get(i)[0] + " - " + newConversations.get(i)[1], textPath, 0f, 0f, textPaint);
             }
 
-            conversationsRadius += 20;
+            conversationsRadius += TEXT_SIZE + TEXT_GAP;
         }
 
         /*

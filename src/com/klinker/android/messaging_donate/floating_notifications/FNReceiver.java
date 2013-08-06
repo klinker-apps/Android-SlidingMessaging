@@ -9,8 +9,7 @@ import android.os.Bundle;
 import android.provider.Telephony;
 import android.telephony.SmsMessage;
 
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.*;
 
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_sliding.MainActivity;
@@ -18,7 +17,7 @@ import robj.floating.notifications.Extension;
 
 public class FNReceiver extends BroadcastReceiver {
 
-    public static Map<Long, String> messages = new Map<Long, String>();
+    public static Map<Long, String> messages = new HashMap<Long, String>();
 
     @Override
     public void onReceive(final Context context, Intent intent) {
@@ -64,7 +63,7 @@ public class FNReceiver extends BroadcastReceiver {
     private static long getOrCreateThreadId(Context context, String number)
     {
         Set<String> recipients = new HashSet<String>();
-        recipients.add(recipient);
+        recipients.add(number);
         return Telephony.Threads.getOrCreateThreadId(context, recipients);
     }
 }

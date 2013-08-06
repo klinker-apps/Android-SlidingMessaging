@@ -41,6 +41,10 @@ public class SlideOverService extends Service {
     public static double PERCENT_DOWN_SCREEN = 0;
     public static float ARC_BREAK_POINT = 0;
 
+    public static final int START_ALPHA = 60;
+    public static final int START_ALPHA2 = 150;
+    public static final int TOUCHED_ALPHA = 230;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -85,7 +89,7 @@ public class SlideOverService extends Service {
                         |WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
                         |WindowManager.LayoutParams.FLAG_DIM_BEHIND,
                 PixelFormat.TRANSLUCENT);
-        arcParams.dimAmount=.4f;
+        arcParams.dimAmount=.7f;
 
         haloWindow = (WindowManager) getSystemService(WINDOW_SERVICE);
         arcWindow = (WindowManager) getSystemService(WINDOW_SERVICE);
@@ -127,11 +131,10 @@ public class SlideOverService extends Service {
 
                             v.vibrate(10);
 
-                            int[] position = getPosition();
                             initX = arg1.getX();
                             initY = arg1.getY();
 
-                            arcView.newMessagePaint.setAlpha(60);
+                            arcView.newMessagePaint.setAlpha(START_ALPHA2);
 
                             arcWindow.addView(arcView, arcParams);
                             needDetection = true;
@@ -155,8 +158,8 @@ public class SlideOverService extends Service {
                                     inFlat = false;
                                     inDash = true;
 
-                                    arcView.conversationsPaint.setAlpha(150);
-                                    arcView.newMessagePaint.setAlpha(60);
+                                    arcView.conversationsPaint.setAlpha(START_ALPHA2);
+                                    arcView.newMessagePaint.setAlpha(START_ALPHA2);
                                     arcView.invalidate();
                                     arcWindow.updateViewLayout(arcView, arcParams);
 
@@ -170,8 +173,8 @@ public class SlideOverService extends Service {
                                 }
 
                                 if (distance > SWIPE_MIN_DISTANCE && vibrateNeeded) {
-                                    arcView.conversationsPaint.setAlpha(150);
-                                    arcView.newMessagePaint.setAlpha(60);
+                                    arcView.conversationsPaint.setAlpha(START_ALPHA2);
+                                    arcView.newMessagePaint.setAlpha(START_ALPHA2);
                                     arcView.invalidate();
                                     arcWindow.updateViewLayout(arcView, arcParams);
 
@@ -181,8 +184,8 @@ public class SlideOverService extends Service {
                                 }
 
                                 if (distance < SWIPE_MIN_DISTANCE) {
-                                    arcView.conversationsPaint.setAlpha(60);
-                                    arcView.newMessagePaint.setAlpha(60);
+                                    arcView.conversationsPaint.setAlpha(START_ALPHA);
+                                    arcView.newMessagePaint.setAlpha(START_ALPHA2);
                                     arcView.invalidate();
                                     arcWindow.updateViewLayout(arcView, arcParams);
                                     vibrateNeeded = true;
@@ -196,8 +199,9 @@ public class SlideOverService extends Service {
                                     inDash = false;
                                     inFlat = true;
 
-                                    arcView.newMessagePaint.setAlpha(150);
-                                    arcView.conversationsPaint.setAlpha(60);
+                                    arcView.newMessagePaint.setAlpha(TOUCHED_ALPHA);
+                                    arcView.textPaint.setAlpha(TOUCHED_ALPHA);
+                                    arcView.conversationsPaint.setAlpha(START_ALPHA);
                                     arcView.invalidate();
                                     arcWindow.updateViewLayout(arcView, arcParams);
 
@@ -210,8 +214,9 @@ public class SlideOverService extends Service {
                                     }
                                 }
                                 if (distance > SWIPE_MIN_DISTANCE && vibrateNeeded) {
-                                    arcView.newMessagePaint.setAlpha(150);
-                                    arcView.conversationsPaint.setAlpha(60);
+                                    arcView.newMessagePaint.setAlpha(TOUCHED_ALPHA);
+                                    arcView.textPaint.setAlpha(TOUCHED_ALPHA);
+                                    arcView.conversationsPaint.setAlpha(START_ALPHA);
                                     arcView.invalidate();
                                     arcWindow.updateViewLayout(arcView, arcParams);
 
@@ -221,8 +226,8 @@ public class SlideOverService extends Service {
                                 }
 
                                 if (distance < SWIPE_MIN_DISTANCE) {
-                                    arcView.newMessagePaint.setAlpha(60);
-                                    arcView.conversationsPaint.setAlpha(60);
+                                    arcView.newMessagePaint.setAlpha(START_ALPHA2);
+                                    arcView.conversationsPaint.setAlpha(START_ALPHA);
                                     arcView.invalidate();
                                     arcWindow.updateViewLayout(arcView, arcParams);
                                     vibrateNeeded = true;
@@ -261,7 +266,7 @@ public class SlideOverService extends Service {
                                 startActivity(intent);
                             }
 
-                            arcView.newMessagePaint.setAlpha(60);
+                            arcView.newMessagePaint.setAlpha(START_ALPHA2);
 
                             arcWindow.removeViewImmediate(arcView);
 

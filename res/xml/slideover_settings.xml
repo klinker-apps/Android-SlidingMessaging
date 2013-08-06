@@ -61,10 +61,10 @@
     />
             
     <ListPreference
-        android:key="slideover_side"
+        android:key="slideover_secondary_action"
         android:title="@string/slideover_secondary_action"
         android:summary="@string/slideover_secondary_action_summary"
-        android:defaultValue="left"
+        android:defaultValue="conversations"
         android:dependency="slideover_enabled"
         android:entries="@array/slideover_secondary_action"
         android:entryValues="@array/slideover_secondary_action_inserted"
