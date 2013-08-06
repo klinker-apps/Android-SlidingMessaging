@@ -870,9 +870,9 @@ public class MessageCursorAdapter extends CursorAdapter {
 
         }
 
-        if (mms) {
-            final View rowViewF = view;
+        final View rowViewF = view;
 
+        if (mms) {
             holder.media.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
@@ -881,6 +881,14 @@ public class MessageCursorAdapter extends CursorAdapter {
                 }
             });
         }
+        
+        holder.text.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                rowViewF.performLongClick();
+                return true;
+            }
+        });
 
         final String idF = id;
         final boolean mmsF = mms;

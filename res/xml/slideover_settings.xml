@@ -24,14 +24,36 @@
         android:entryValues="@array/slideover_side_inserted"
     />
 
-    <ListPreference
-        android:key="slideover_alignment"
+    <com.klinker.android.messaging_sliding.custom_dialogs.SeekBarPreference3
+        android:key="slideover_vertical"
         android:title="@string/slideover_alignment"
         android:summary="@string/slideover_alignment_summary"
-        android:defaultValue="middle"
+        android:defaultValue="50"
+        android:max="100"
         android:dependency="slideover_enabled"
-        android:entries="@array/slideover_alignment"
-        android:entryValues="@array/slideover_alignment_inserted"
+    />
+
+    <com.klinker.android.messaging_sliding.custom_dialogs.SeekBarPreference3
+        android:key="slideover_sliver"
+        android:title="@string/slideover_sliver"
+        android:summary="@string/slideover_sliver_summary"
+        android:defaultValue="33"
+        android:max="100"
+        android:dependency="slideover_enabled"
+    />
+
+    <com.klinker.android.messaging_sliding.custom_dialogs.SeekBarPreference3
+        android:key="slideover_activation"
+        android:title="@string/slideover_activation"
+        android:summary="@string/slideover_activation_summary"
+        android:defaultValue="33"
+        android:max="100"
+        android:dependency="slideover_enabled"
+    />
+    
+    <Preference
+        android:title="@string/under_development"
+        android:summary="@string/under_development_summary"
     />
 
 </PreferenceScreen>

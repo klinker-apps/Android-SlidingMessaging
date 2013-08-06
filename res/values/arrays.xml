@@ -440,16 +440,4 @@
         <item>right</item>
     </string-array>
 
-    <string-array name="slideover_alignment">
-        <item>Top</item>
-        <item>Middle</item>
-        <item>Bottom</item>
-    </string-array>
-
-    <string-array name="slideover_alignment_inserted">
-        <item>top</item>
-        <item>middle</item>
-        <item>bottom</item>
-    </string-array>
-
 </resources>

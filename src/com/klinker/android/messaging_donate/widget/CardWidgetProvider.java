@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.RemoteViews;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_sliding.quick_reply.SendMessage;
+import com.klinker.android.messaging_sliding.MainActivityPopup;
 
 public class CardWidgetProvider extends AppWidgetProvider {
 
@@ -38,25 +39,6 @@ public class CardWidgetProvider extends AppWidgetProvider {
             Intent open = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:"+conversation));
             open.setClass(context, WidgetProxyActivity.class);
             open.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-//            KeyguardManager keyguardManager = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
-//            final KeyguardManager.KeyguardLock keyguardLock =  keyguardManager.newKeyguardLock("TAG");
-//            keyguardLock.disableKeyguard();
-//
-//            new Thread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    try
-//                    {
-//                        Thread.sleep(1000);
-//                    } catch (Exception e)
-//                    {
-//
-//                    }
-//
-//                    keyguardLock.reenableKeyguard();
-//                }
-//            }).start();
             
             context.startActivity(open);
         } else
@@ -138,6 +120,12 @@ public class CardWidgetProvider extends AppWidgetProvider {
 	        	int appWidgetId = appWidgetIds[i];
 	        	
 	            Intent quickText = new Intent(this, SendMessage.class);
+                
+                if (sharedPrefs.getBoolean("full_app_popup", true)) {
+			        quickText = new Intent(this, MainActivityPopup.class);
+			        quickText.putExtra("fromHalo", true);
+		        }
+        
 	            PendingIntent quickPending = PendingIntent.getActivity(this, 0, quickText, 0);
 
                 Intent settings = new Intent(this, CardWidgetSettingsActivity.class);

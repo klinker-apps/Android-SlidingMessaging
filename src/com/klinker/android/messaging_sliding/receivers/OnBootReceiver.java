@@ -56,6 +56,11 @@ public class OnBootReceiver extends BroadcastReceiver {
             context.startService(cacheService);
         }
 
+        if (sharedPrefs.getBoolean("slideover_enabled", false)) {
+            Intent service = new Intent(context, com.klinker.android.messaging_sliding.slide_over.SlideOverService.class);
+            context.startService(service);
+        }
+
         resetAlarms(sharedPrefs, context);
 		
 	}
