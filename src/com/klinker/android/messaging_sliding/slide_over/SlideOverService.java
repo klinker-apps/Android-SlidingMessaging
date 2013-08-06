@@ -3,6 +3,7 @@ package com.klinker.android.messaging_sliding.slide_over;
 import android.app.ActivityManager;
 import android.app.Service;
 import android.content.*;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
@@ -29,6 +30,7 @@ public class SlideOverService extends Service {
     public WindowManager.LayoutParams params;
 
     public Context mContext;
+    public WindowManager wm;
     public SharedPreferences sharedPrefs;
 
     public static int SWIPE_MIN_DISTANCE = 0;
@@ -66,7 +68,7 @@ public class SlideOverService extends Service {
                 PixelFormat.TRANSLUCENT);
         params.gravity = Gravity.TOP | Gravity.LEFT;
 
-        final WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
+        wm = (WindowManager) getSystemService(WINDOW_SERVICE);
 
         if (width > height)
             SWIPE_MIN_DISTANCE = (int)(height * (sharedPrefs.getInt("slideover_activation", 33)/100.0));
@@ -191,20 +193,13 @@ public class SlideOverService extends Service {
 
         wm.addView(mView, params);
 
-        BroadcastReceiver stopSlideover = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                mView.invalidate();
-                wm.removeViewImmediate(mView);
-                stopSelf();
-                unregisterReceiver(this);
-            }
-        };
-
         IntentFilter filter = new IntentFilter();
         filter.addAction("com.klinker.android.messaging.STOP_HALO");
         registerReceiver(stopSlideover, filter);
 
+        filter = new IntentFilter();
+        filter.addAction("android.intent.action.CONFIGURATION_CHANGED");
+        this.registerReceiver(mBroadcastReceiver, filter);
     }
 
     public void setGravity(WindowManager.LayoutParams lp)
@@ -263,8 +258,40 @@ public class SlideOverService extends Service {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        try {
+            unregisterReceiver(stopSlideover);
+            unregisterReceiver(mBroadcastReceiver);
+        } catch (Exception e) {
+
+        }
+    }
+
+    @Override
     public IBinder onBind(Intent arg0) {
-        // TODO Auto-generated method stub
         return null;
     }
+
+    public BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent myIntent) {
+            stopService(new Intent(context, SlideOverService.class));
+            mView.invalidate();
+            wm.removeViewImmediate(mView);
+            unregisterReceiver(this);
+            startService(new Intent(context, SlideOverService.class));
+        }
+    };
+
+    public BroadcastReceiver stopSlideover = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            mView.invalidate();
+            wm.removeViewImmediate(mView);
+            stopSelf();
+            unregisterReceiver(this);
+        }
+    };
 }
