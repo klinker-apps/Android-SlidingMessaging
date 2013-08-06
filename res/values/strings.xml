@@ -526,6 +526,7 @@
     <string name="slideover_break_point_summary">Adjust how big the conversation arc is on the screen</string>
     <string name="under_development">Please Note:</string>
     <string name="under_development_summary">SlideOver is still heavily under development. Do not submit requests, or even suggestions, for it at this time.</string>
-
+    <string name="slideover_secondary_action">Secondary Action</string>
+    <string name="slideover_secondary_action_summary">Choose the action that occurs when you have activated the dashed part of the SlideOver arc</string>
     
 </resources>
