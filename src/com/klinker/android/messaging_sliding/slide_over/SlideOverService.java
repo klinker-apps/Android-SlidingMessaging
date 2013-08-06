@@ -252,7 +252,7 @@ public class SlideOverService extends Service {
                                     intent.setAction("com.klinker.android.messaging_donate.KILL_FOR_HALO");
                                     sendBroadcast(intent);
                                 }
-                                
+
                                 Intent intent = new Intent(getBaseContext(), com.klinker.android.messaging_sliding.MainActivityPopup.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 intent.putExtra("fromHalo", true);

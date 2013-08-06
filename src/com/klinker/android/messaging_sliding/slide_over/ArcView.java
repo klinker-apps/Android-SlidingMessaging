@@ -8,6 +8,8 @@ import android.util.TypedValue;
 import android.view.*;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 /**
  * Created by luke on 8/2/13.
  */
@@ -28,6 +30,8 @@ public class ArcView extends ViewGroup {
 
     public int sliverAdjustment = 0;
     public double sliverPercent;
+
+    public ArrayList<String[]> newConversations;
 
     public ArcView(Context context, Bitmap halo, float radius, float breakAngle, double sliverPercent) {
         super(context);
@@ -54,6 +58,14 @@ public class ArcView extends ViewGroup {
         this.radius = radius;
         this.breakAngle = breakAngle;
         this.sliverPercent = sliverPercent;
+
+        newConversations = new ArrayList<String[]>();
+
+        // manually fill the newConversations arraylist for now
+        newConversations.add(new String[] {"Jacob Klinker", "SlideOver is working well!"});
+        newConversations.add(new String[] {"Brett Deters", "Want to go to Jethros?"});
+        newConversations.add(new String[] {"Matt Swiontek", "Your apartment is great!"});
+
     }
 
 
@@ -85,6 +97,7 @@ public class ArcView extends ViewGroup {
 
         int[] point = getPosition();
 
+        // Draws the arcs that you can interact with
         if (sharedPrefs.getString("slideover_side", "left").equals("left")) {
             // todo: adjust for sliver size on the left and right of the oval here
             RectF oval = new RectF(-1 * radius, point[1] + (halo.getHeight() / 2) -  radius, radius, point[1] + (halo.getHeight() / 2) + radius);
@@ -109,6 +122,32 @@ public class ArcView extends ViewGroup {
 
             canvas.drawPath(newMessagePath, newMessagePaint);
             canvas.drawPath(conversationsPath, conversationsPaint);
+        }
+
+        float conversationsRadius = radius + 20;
+
+        // Draws the new conversations from the arraylist newConversations
+        for (int i = 0; i < newConversations.size(); i++)
+        {
+            if (sharedPrefs.getString("slideover_side", "left").equals("left")) {
+                // todo: adjust for sliver size on the left and right of the oval here
+                RectF oval = new RectF(-1 * conversationsRadius, point[1] + (halo.getHeight() / 2) -  conversationsRadius, conversationsRadius, point[1] + (halo.getHeight() / 2) + conversationsRadius);
+
+                Path textPath = new Path();
+                textPath.addArc(oval, breakAngle, -180);
+
+                canvas.drawTextOnPath(newConversations.get(i)[0] + " - " + newConversations.get(i)[1], textPath, 0f, 0f, newMessagePaint);
+            } else
+            {
+                RectF oval = new RectF(width - conversationsRadius, point[1] + (halo.getHeight() / 2) -  conversationsRadius, width + conversationsRadius, point[1] + (halo.getHeight() / 2) + conversationsRadius);
+
+                Path textPath = new Path();
+                textPath.addArc(oval, breakAngle - 45, -180);
+
+                canvas.drawTextOnPath(newConversations.get(i)[0] + " - " + newConversations.get(i)[1], textPath, 0f, 0f, newMessagePaint);
+            }
+
+            conversationsRadius += 20;
         }
 
         /*
