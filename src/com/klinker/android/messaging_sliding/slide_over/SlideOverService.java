@@ -143,6 +143,9 @@ public class SlideOverService extends Service {
                             yPortion = initY - arg1.getY();
 
                             distance = Math.sqrt(Math.pow(xPortion, 2) + Math.pow(yPortion, 2));
+                            /* todo: check angle for right alignment. even though the arc doesn't show correctly, i dont
+                             think the implementation was firing correctly here... might have a negative or something i didn't
+                             account for on right, cause it just goes to the else every time. distance is correct, but angle isn't.*/
                             angle = Math.toDegrees(Math.atan(yPortion/xPortion));
 
                             if (!(initY > arg1.getY()) && angle > ARC_BREAK_POINT) // in dash area
