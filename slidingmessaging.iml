@@ -23,6 +23,7 @@
     <orderEntry type="module" module-name="ActionBar-PullToRefresh" />
     <orderEntry type="module" module-name="AppMsg" />
     <orderEntry type="module" module-name="library" />
+    <orderEntry type="module" module-name="FloatingNotificationsExtensionLibrary" />
   </component>
 </module>
 

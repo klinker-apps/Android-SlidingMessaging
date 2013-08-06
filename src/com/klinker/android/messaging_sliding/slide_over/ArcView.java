@@ -43,6 +43,10 @@ public class ArcView extends ViewGroup {
         mContext = context;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
 
+        Display d = ((WindowManager)mContext.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+        height = d.getHeight();
+        width = d.getWidth();
+
         arcPaint = new Paint();
         arcPaint.setAntiAlias(true);
         arcPaint.setColor(Color.WHITE);
@@ -57,10 +61,6 @@ public class ArcView extends ViewGroup {
 
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
-        Display d = ((WindowManager)mContext.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-        height = d.getHeight();
-        width = d.getWidth();
 
         int[] point = getPosition();
 
