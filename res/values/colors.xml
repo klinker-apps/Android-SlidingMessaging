@@ -22,8 +22,7 @@
     <color name="emoji_button">#8dbc36</color>
     <color name="shadow">#55c6c6c6</color>
     <color name="divider">#99c6c6c6</color>
-    
-    
+
     <color name="card_message_list_back">#e5e5e5</color>
     <color name="card_message_text_body">#6a6a6a</color>
     <color name="card_message_text_date">#dcdcdc</color>
