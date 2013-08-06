@@ -43,7 +43,8 @@ public class ArcView extends ViewGroup {
         newMessagePaint.setStrokeWidth(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, context.getResources().getDisplayMetrics()));
 
         conversationsPaint = new Paint(newMessagePaint);
-        conversationsPaint.setPathEffect(new DashPathEffect(new float[] {10,20}, 0));
+        float dashLength = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, context.getResources().getDisplayMetrics());
+        conversationsPaint.setPathEffect(new DashPathEffect(new float[] {dashLength, dashLength*2}, 0));
 
         this.halo = halo;
         this.radius = radius;
