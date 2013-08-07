@@ -70,6 +70,7 @@ public class ArcView extends ViewGroup {
         newConversations.add(new String[] {"Brett Deters", "Want to go to Jethros? I think it would be an awesome night for that!"});
         newConversations.add(new String[] {"Matt Swiontek", "Your apartment is great!"});
 
+
         textPaint = new Paint[newConversations.size()];
 
         for(int x = 0; x < newConversations.size(); x++)

@@ -26,6 +26,7 @@ public class SlideOverService extends Service {
     public ArcView arcView;
 
     public WindowManager.LayoutParams haloParams;
+    public WindowManager.LayoutParams haloHiddenParams;
     public WindowManager.LayoutParams arcParams;
 
     public Context mContext;
@@ -72,6 +73,19 @@ public class SlideOverService extends Service {
                 halo.getWidth(),
                 halo.getHeight(),
                 sharedPrefs.getString("slideover_side", "left").equals("left") ? (int) (-1 * (1 - HALO_SLIVER_RATIO) * halo.getWidth()) : (int) (width - (halo.getWidth() * (HALO_SLIVER_RATIO))),
+                (int)(height * PERCENT_DOWN_SCREEN),
+                WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                        |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+                        |WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
+                        |WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                PixelFormat.TRANSLUCENT);
+        haloParams.gravity = Gravity.TOP | Gravity.LEFT;
+
+        haloHiddenParams = new WindowManager.LayoutParams(
+                halo.getWidth(),
+                halo.getHeight(),
+                sharedPrefs.getString("slideover_side", "left").equals("left") ? -1 * halo.getWidth() : width + halo.getWidth(),
                 (int)(height * PERCENT_DOWN_SCREEN),
                 WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
@@ -146,6 +160,7 @@ public class SlideOverService extends Service {
                                 arcView.textPaint[0].setAlpha(START_ALPHA2);
 
                                 arcWindow.addView(arcView, arcParams);
+                                //haloWindow.updateViewLayout(haloView, haloHiddenParams);
                                 needDetection = true;
                                 return true;
 
@@ -254,6 +269,8 @@ public class SlideOverService extends Service {
 
                             case MotionEvent.ACTION_UP:
 
+                                //haloWindow.updateViewLayout(haloView, haloParams);
+
                                 // now will fire a different intent depending on what view you are in
                                 if (distance > SWIPE_MIN_DISTANCE && inFlat) {
                                     if (isRunning(getApplication())) {
@@ -307,6 +324,7 @@ public class SlideOverService extends Service {
                                 arcView.textPaint[0].setAlpha(START_ALPHA2);
 
                                 arcWindow.addView(arcView, arcParams);
+                                //haloWindow.updateViewLayout(haloView, haloHiddenParams);
                                 needDetection = true;
                                 return true;
 
@@ -455,6 +473,8 @@ public class SlideOverService extends Service {
                                 return true;
 
                             case MotionEvent.ACTION_UP:
+
+                                //haloWindow.updateViewLayout(haloView, haloParams);
 
                                 // now will fire a different intent depending on what view you are in
                                 if (distance > SWIPE_MIN_DISTANCE && inFlat) {
