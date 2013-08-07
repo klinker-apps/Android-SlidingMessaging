@@ -24,6 +24,7 @@ import robj.floating.notifications.Extension;
 public class EmojiDialogActivity extends Activity {
 
     public EditText editText;
+    public String message;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,8 @@ public class EmojiDialogActivity extends Activity {
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 		final long id = getIntent().getLongExtra("id", -1);
 		final Context context = this;
+
+        message = getIntent().getStringExtra("message");
 
 		setTitle("Insert Emojis");
         setContentView(R.layout.emoji_frame);
@@ -155,6 +158,7 @@ public class EmojiDialogActivity extends Activity {
                             Intent emojiDialog = new Intent(context, EmojiDialogActivity.class);
                             emojiDialog.putExtra("id", id);
                             emojiDialog.putExtra("message", str);
+                            message = str;
                             emojiDialog.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(emojiDialog);
                     }
@@ -169,8 +173,6 @@ public class EmojiDialogActivity extends Activity {
     @Override
     public void onResume() {
         super.onResume();
-
-        String message = getIntent().getStringExtra("message");
 
         editText.setText(message);
         editText.setSelection(message.length());
