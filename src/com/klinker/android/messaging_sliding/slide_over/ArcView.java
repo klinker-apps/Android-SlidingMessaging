@@ -96,29 +96,6 @@ public class ArcView extends ViewGroup {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        /*if (sharedPrefs.getString("slideover_side", "left").equals("left")) {
-
-            if (sliverPercent > .5) // move the arc right
-            {
-                sliverPercent -= .5;
-                sliverAdjustment = (int)((halo.getWidth()/2) * sliverPercent);
-            } else // move the arc left
-            {
-                sliverAdjustment = (int)(-1 * ((halo.getWidth()/2) * sliverPercent));
-            }
-
-        } else
-        {
-
-        }
-
-
-        CharSequence text = "" + sliverAdjustment;
-        int duration = Toast.LENGTH_SHORT;
-
-        Toast toast = Toast.makeText(mContext, text, duration);
-        toast.show();*/
-
         int[] point = getPosition();
 
         // Draws the arcs that you can interact with
