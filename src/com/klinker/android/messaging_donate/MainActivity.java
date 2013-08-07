@@ -48,6 +48,18 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
 		NotificationManager mNotificationManager =
 	            (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		mNotificationManager.cancel(1);
+        
+        Map<Long, String[]> fnMessages = com.klinker.android.messaging_donate.floating_notifications.FNReceiver.messages;
+        
+        if (fnMessages != null) {
+            if (fnMessages.size() > 0) {
+                Set<Long> keys = fnMessages.keySet();
+                
+                for (Long ii: set) {  
+                    robj.floating.notifications.Extension.remove(ii, this);
+                }  
+            }
+        }
 
         if (sharedPrefs.getBoolean("cache_conversations", true) && CacheService.cached) {
             onLoadFinished(null, CacheService.conversationList);
