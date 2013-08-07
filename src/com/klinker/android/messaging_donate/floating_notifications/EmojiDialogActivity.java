@@ -124,14 +124,14 @@ public class EmojiDialogActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				final String editTextHint = context.getResources().getString(R.string.reply_to) + " " + MainActivity.findContactName(id + "", context);
-                final String previousText = FNReceiver.messages.get(id);
-                final Bitmap image = MainActivity.getFacebookPhoto(id + "", context);
+				final String editTextHint = context.getResources().getString(R.string.reply_to) + " " + MainActivity.findContactName(FNReceiver.messages.get(id)[0], context);
+                final String previousText = FNReceiver.messages.get(id)[1];
+                final Bitmap image = MainActivity.getFacebookPhoto(FNReceiver.messages.get(id)[0], context);
                 final Extension.onClickListener imageOnClick = new Extension.onClickListener() {
                     @Override
                     public void onClick() {
                             Intent intent = new Intent(context, com.klinker.android.messaging_sliding.MainActivity.class);
-                            intent.putExtra("com.klinker.android.OPEN_THREAD", id + "");
+                            intent.putExtra("com.klinker.android.OPEN_THREAD", FNReceiver.messages.get(id)[0]);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(intent);
                             FNReceiver.messages.remove(id);
@@ -145,7 +145,7 @@ public class EmojiDialogActivity extends Activity {
                     public void onClick(String str) {
                             Extension.remove(id, context);
                             FNReceiver.messages.remove(id);
-                            FNAction.sendMessage(context, id + "", str);
+                            FNAction.sendMessage(context, FNReceiver.messages.get(id)[0], str);
                             finish();
                     }
                 };
@@ -165,6 +165,7 @@ public class EmojiDialogActivity extends Activity {
                 };
 
                 Extension.replyOverlay(editTextHint, previousText, image, imageOnClick, sendOnClick, extraOnClick, true, extraButton, context, false, editText.getText().toString());
+                Extension.hideAll(id, context);
 			}
 
 		});
