@@ -5381,6 +5381,9 @@ s
 	public void onResume()
 	{
 		super.onResume();
+
+        Intent clearMessages = new Intent("com.klinker.android.messaging.CLEAR_MESSAGES");
+        getApplicationContext().sendBroadcast(clearMessages);
 		
 		IntentFilter filter = new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
         filter.addCategory(Intent.CATEGORY_DEFAULT);

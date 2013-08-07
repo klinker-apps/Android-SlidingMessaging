@@ -66,19 +66,9 @@ public class ArcView extends ViewGroup {
         newConversations = new ArrayList<String[]>();
 
         // manually fill the newConversations arraylist for now
-        newConversations.add(new String[] {"Jacob Klinker", "SlideOver is working well!"});
-        newConversations.add(new String[] {"Brett Deters", "Want to go to Jethros? I think it would be an awesome night for that!"});
-        newConversations.add(new String[] {"Matt Swiontek", "Your apartment is great!"});
-
-        this.halo = halo;
-        this.radius = radius;
-        this.breakAngle = breakAngle;
-        this.sliverPercent = sliverPercent;
-    }
-
-
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
+        //newConversations.add(new String[] {"Jacob Klinker", "SlideOver is working well!"});
+        //newConversations.add(new String[] {"Brett Deters", "Want to go to Jethros? I think it would be an awesome night for that!"});
+        //newConversations.add(new String[] {"Matt Swiontek", "Your apartment is great!"});
 
         textPaint = new Paint[newConversations.size()];
 
@@ -95,6 +85,16 @@ public class ArcView extends ViewGroup {
             textPaint[i].setTextSize(TEXT_SIZE);
             textPaint[i].setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
         }
+
+        this.halo = halo;
+        this.radius = radius;
+        this.breakAngle = breakAngle;
+        this.sliverPercent = sliverPercent;
+    }
+
+
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
 
         int[] point = getPosition();
 
@@ -175,6 +175,25 @@ public class ArcView extends ViewGroup {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         return false;
+    }
+
+    public void updateTextPaint()
+    {
+        textPaint = new Paint[newConversations.size()];
+
+        for(int x = 0; x < newConversations.size(); x++)
+        {
+            textPaint[x] = new Paint();
+        }
+
+        for(int i = 0; i < newConversations.size(); i++)
+        {
+            textPaint[i].setAntiAlias(true);
+            textPaint[i].setColor(Color.WHITE);
+            textPaint[i].setAlpha(SlideOverService.START_ALPHA2);
+            textPaint[i].setTextSize(TEXT_SIZE);
+            textPaint[i].setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
+        }
     }
 
     public int[] getPosition()

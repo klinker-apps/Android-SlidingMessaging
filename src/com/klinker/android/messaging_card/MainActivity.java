@@ -3922,6 +3922,9 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 	{
 		super.onResume();
 
+        Intent clearMessages = new Intent("com.klinker.android.messaging.CLEAR_MESSAGES");
+        getApplicationContext().sendBroadcast(clearMessages);
+
         if(!sharedPrefs.getString("security_option", "none").equals("none"))
         {
             long currentTime = Calendar.getInstance().getTimeInMillis();
