@@ -439,6 +439,11 @@ public class MMSMessageReceiver extends BroadcastReceiver {
                 context.startService(cacheService);
             }
 			
+			Intent updateHalo = new Intent("com.klinker.android.messaging.UPDATE_HALO");
+			updateHalo.putExtra("name", mmsFrom);
+			updateHalo.putExtra("message", "New Picture Message");
+			context.sendBroadcast(updateHalo);
+			
 			if (sharedPrefs.getBoolean("override_stock", false) && !error)
 			{
 				abortBroadcast();
