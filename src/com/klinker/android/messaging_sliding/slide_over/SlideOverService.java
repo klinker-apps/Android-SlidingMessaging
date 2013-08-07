@@ -42,6 +42,8 @@ public class SlideOverService extends Service {
     public static final int START_ALPHA = 60;
     public static final int START_ALPHA2 = 120;
     public static final int TOUCHED_ALPHA = 230;
+    
+    public static boolean HAPTIC_FEEDBACK = true;
 
     public int numberNewConv;
 
@@ -62,6 +64,8 @@ public class SlideOverService extends Service {
 
         PERCENT_DOWN_SCREEN = sharedPrefs.getInt("slideover_vertical", 50)/100.0;
         PERCENT_DOWN_SCREEN -= PERCENT_DOWN_SCREEN * (halo.getHeight()/(double)height);
+        
+        HAPTIC_FEEDBACK = sharedPrefs.getBoolean("slideover_haptic_feedback", true);
 
         int breakAngle = sharedPrefs.getInt("slideover_break_point", 33);
         float breakAng = 0;
@@ -151,7 +155,8 @@ public class SlideOverService extends Service {
                         switch (type) {
                             case MotionEvent.ACTION_DOWN:
 
-                                v.vibrate(10);
+                                if (HAPTIC_FEEDBACK)
+                                        v.vibrate(10);
 
                                 initX = arg1.getX();
                                 initY = arg1.getY();
@@ -193,7 +198,8 @@ public class SlideOverService extends Service {
 
                                         if (!initial)
                                         {
-                                            v.vibrate(25);
+                                            if (HAPTIC_FEEDBACK)
+                                                v.vibrate(25);
                                         }else
                                         {
                                             initial = false;
@@ -207,7 +213,8 @@ public class SlideOverService extends Service {
                                         arcView.invalidate();
                                         arcWindow.updateViewLayout(arcView, arcParams);
 
-                                        v.vibrate(25);
+                                        if (HAPTIC_FEEDBACK)
+                                            v.vibrate(25);
 
                                         vibrateNeeded = false;
                                     }
@@ -237,7 +244,8 @@ public class SlideOverService extends Service {
 
                                         if (!initial)
                                         {
-                                            v.vibrate(25);
+                                            if (HAPTIC_FEEDBACK)
+                                                v.vibrate(25);
                                         }else
                                         {
                                             initial = false;
@@ -250,7 +258,8 @@ public class SlideOverService extends Service {
                                         arcView.invalidate();
                                         arcWindow.updateViewLayout(arcView, arcParams);
 
-                                        v.vibrate(25);
+                                        if (HAPTIC_FEEDBACK)
+                                            v.vibrate(25);
 
                                         vibrateNeeded = false;
                                     }
@@ -315,7 +324,8 @@ public class SlideOverService extends Service {
                         switch (type) {
                             case MotionEvent.ACTION_DOWN:
 
-                                v.vibrate(10);
+                                if (HAPTIC_FEEDBACK)
+                                    v.vibrate(10);
 
                                 initX = arg1.getX();
                                 initY = arg1.getY();
@@ -363,7 +373,8 @@ public class SlideOverService extends Service {
 
                                         if (!initial)
                                         {
-                                            v.vibrate(25);
+                                            if (HAPTIC_FEEDBACK)
+                                                v.vibrate(25);
                                         }else
                                         {
                                             initial = false;
@@ -377,7 +388,8 @@ public class SlideOverService extends Service {
                                         arcView.invalidate();
                                         arcWindow.updateViewLayout(arcView, arcParams);
 
-                                        v.vibrate(25);
+                                        if (HAPTIC_FEEDBACK)
+                                            v.vibrate(25);
 
                                         vibrateNeeded = false;
                                     }
@@ -418,7 +430,8 @@ public class SlideOverService extends Service {
 
                                         if (!initial)
                                         {
-                                            v.vibrate(25);
+                                            if (HAPTIC_FEEDBACK)
+                                                v.vibrate(25);
                                         }else
                                         {
                                             initial = false;
@@ -431,7 +444,8 @@ public class SlideOverService extends Service {
                                         arcView.invalidate();
                                         arcWindow.updateViewLayout(arcView, arcParams);
 
-                                        v.vibrate(25);
+                                        if (HAPTIC_FEEDBACK)
+                                            v.vibrate(25);
 
                                         vibrateNeeded = false;
                                     }
@@ -454,10 +468,12 @@ public class SlideOverService extends Service {
                                     {
                                         resetZoneAlphas();
 
-                                        if (!fromDash)
-                                            v.vibrate(25);
-                                        else
+                                        if (!fromDash) {
+                                            if (HAPTIC_FEEDBACK)
+                                                v.vibrate(25);
+                                        } else {
                                             fromDash = false;
+                                        }
 
 
                                         if (currentZone != 0)
@@ -491,7 +507,7 @@ public class SlideOverService extends Service {
                                     if (currentZone == 0)
                                         intent.putExtra("openToPage", 0);
                                     else
-                                        intent.putExtra("openToPage", currentZone -1);
+                                        intent.putExtra("openToPage", currentZone - 1);
 
                                     startActivity(intent);
                                 } else if (distance > SWIPE_MIN_DISTANCE && inDash)
