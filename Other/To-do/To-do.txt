@@ -3,12 +3,10 @@ Version 6.70
 - SLIDEOVER TODO
     - fix stupid edge bug (don't have a clue on honestly)
     - animations for new messages
-- fix floating notifications stuff
 - option for adding certain text to every message at the beginning (delivery reports?)
 - Message Locking
 - Figure out how to judge file size of png images and adjust them accordingly when sending, look into UriImage.getResizedImageData for solution
 - look into scheduled SMS bug reported
-- Update theme editor description
 
 Luke's ideas for speed/fluidity improvement:
 3.) Don't refresh the view pager when a new message is received that isn't from the conversation you are currently viewing. Make a refresh attached in the conversations list to refresh the view pager instead, so it doesnt jump around and the users can continue texting without being interrupted. It will look better and work more fluidly.
@@ -22,6 +20,10 @@ Luke's ideas for speed/fluidity improvement:
 
 - igamer777@gmail.com, nikorezzano@gmail.com
 
+FOR UPDATE:
+	- fix floating notifications stuff
+	- update theme editor and description
+	- remove slideover stuff
 
 - sms backup
 	- different icon in notification
