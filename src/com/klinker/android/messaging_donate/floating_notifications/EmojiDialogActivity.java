@@ -22,6 +22,9 @@ import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
 import robj.floating.notifications.Extension;
 
 public class EmojiDialogActivity extends Activity {
+
+    public EditText editText;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -30,13 +33,12 @@ public class EmojiDialogActivity extends Activity {
 
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 		final long id = getIntent().getLongExtra("id", -1);
-        final String message = getIntent().getStringExtra("message");
 		final Context context = this;
 
 		setTitle("Insert Emojis");
         setContentView(R.layout.emoji_frame);
 
-        final EditText editText = (EditText) findViewById(R.id.emoji_text);
+        editText = (EditText) findViewById(R.id.emoji_text);
         ImageButton peopleButton = (ImageButton) findViewById(R.id.peopleButton);
         ImageButton objectsButton = (ImageButton) findViewById(R.id.objectsButton);
         ImageButton natureButton = (ImageButton) findViewById(R.id.natureButton);
@@ -45,9 +47,6 @@ public class EmojiDialogActivity extends Activity {
 
         final StickyGridHeadersGridView emojiGrid = (StickyGridHeadersGridView) findViewById(R.id.emojiGrid);
         Button okButton = (Button) findViewById(R.id.emoji_ok);
-
-        editText.setText(message);
-        editText.setSelection(message.length());
 
         if (sharedPrefs.getBoolean("emoji_type", true))
         {
@@ -166,4 +165,14 @@ public class EmojiDialogActivity extends Activity {
 
 		});
 	}
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        String message = getIntent().getStringExtra("message");
+
+        editText.setText(message);
+        editText.setSelection(message.length());
+    }
 }
