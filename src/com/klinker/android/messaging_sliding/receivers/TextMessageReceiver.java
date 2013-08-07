@@ -225,7 +225,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
                     }
 					
 					intent2.putExtra("notification", "true");
-					PendingIntent pIntent = PendingIntent.getActivity(context, 0, intent2, 0);
+					PendingIntent pIntent = PendingIntent.getActivity(context, 0, intent2, PendingIntent.FLAG_CANCEL_CURRENT);
 			
 					if (sharedPrefs.getBoolean("notifications", true))
 					{
