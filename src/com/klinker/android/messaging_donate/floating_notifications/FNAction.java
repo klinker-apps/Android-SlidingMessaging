@@ -49,14 +49,14 @@ public class FNAction extends BroadcastReceiver {
 
                 case 1:
                     // create new reply overlay
-                    final String editTextHint = context.getResources().getString(R.string.reply_to) + " " + MainActivity.findContactName(id + "", context);
-                    final String previousText = FNReceiver.messages.get(id);
-                    final Bitmap image = MainActivity.getFacebookPhoto(id + "", context);
+                    final String editTextHint = context.getResources().getString(R.string.reply_to) + " " + MainActivity.findContactName(FNReceiver.messages.get(id)[0], context);
+                    final String previousText = FNReceiver.messages.get(id)[1];
+                    final Bitmap image = MainActivity.getFacebookPhoto(FNReceiver.messages.get(id)[0], context);
                     final Extension.onClickListener imageOnClick = new Extension.onClickListener() {
                         @Override
                         public void onClick() {
                             Intent intent = new Intent(context, com.klinker.android.messaging_sliding.MainActivity.class);
-                            intent.putExtra("com.klinker.android.OPEN_THREAD", id + "");
+                            intent.putExtra("com.klinker.android.OPEN_THREAD", FNReceiver.messages.get(id)[0]);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(intent);
                             FNReceiver.messages.remove(id);
@@ -67,7 +67,7 @@ public class FNAction extends BroadcastReceiver {
                     final Extension.onClickListener sendOnClick = new Extension.onClickListener() {
                         @Override
                         public void onClick(String str) {
-                            sendMessage(context, id + "", str);
+                            sendMessage(context, FNReceiver.messages.get(id)[0], str);
                             Extension.remove(id, context);
                             FNReceiver.messages.remove(id);
                         }
@@ -87,12 +87,12 @@ public class FNAction extends BroadcastReceiver {
                     };
 
                     Extension.replyOverlay(editTextHint, previousText, image, imageOnClick, sendOnClick, extraOnClick, true, extraButton, context, false, "");
-
+                    Extension.hideAll(id, context);
                     break;
 
                 case 2:
                     // start call intent
-                    String address = id + "";
+                    String address = FNReceiver.messages.get(id)[0];
                     Intent callIntent = new Intent(Intent.ACTION_CALL);
                     callIntent.setData(Uri.parse("tel:" + address));
                     callIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
