@@ -39,7 +39,7 @@ public class FNReceiver extends BroadcastReceiver {
             }
         }
 
-        long id = getOrCreateThreadId(context, address); // maybe will just need to set the id to address if this doesnt work...
+        long id = Long.parseLong(address.replace("+", "").replace(" ", "").replace("(", "").replace(")", ""));
         
         if (messages.containsKey(id)) {
             String previous = messages.get(id);
@@ -58,12 +58,5 @@ public class FNReceiver extends BroadcastReceiver {
         Bitmap actionThree = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_menu_done_holo_dark);
 
         Extension.addOrUpdate(image, body, id, actionOne, actionTwo, actionThree, false, true, false, context);
-    }
-
-    private static long getOrCreateThreadId(Context context, String number)
-    {
-        Set<String> recipients = new HashSet<String>();
-        recipients.add(number);
-        return Telephony.Threads.getOrCreateThreadId(context, recipients);
     }
 }
