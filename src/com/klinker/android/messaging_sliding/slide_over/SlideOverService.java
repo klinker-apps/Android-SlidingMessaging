@@ -478,7 +478,7 @@ public class SlideOverService extends Service {
 
 
                                         if (currentZone != 0)
-                                            arcView.textPaint[currentZone-1].setAlpha(TOUCHED_ALPHA);
+                                            arcView.textPaint[currentZone - 1].setAlpha(TOUCHED_ALPHA);
 
                                         zoneChange = false;
                                         arcView.invalidate();

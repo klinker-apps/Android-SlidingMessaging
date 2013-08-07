@@ -128,8 +128,9 @@ public class ArcView extends ViewGroup {
 
         float conversationsRadius = radius + TEXT_SIZE + TEXT_GAP;
 
+        int x = 0;
         // Draws the new conversations from the arraylist newConversations
-        for (int i = newConversations.size(); i > 0; i++)
+        for (int i = newConversations.size() - 1; i >= 0; i--)
         {
             if (sharedPrefs.getString("slideover_side", "left").equals("left")) {
                 // todo: adjust for sliver size on the left and right of the oval here
@@ -138,7 +139,7 @@ public class ArcView extends ViewGroup {
                 Path textPath = new Path();
                 textPath.addArc(oval, -88, 90 + breakAngle);
 
-                canvas.drawTextOnPath(newConversations.get(i)[0] + " - " + newConversations.get(i)[1], textPath, 0f, 0f, textPaint[i]);
+                canvas.drawTextOnPath(newConversations.get(i)[0] + " - " + newConversations.get(i)[1], textPath, 0f, 0f, textPaint[x]);
             } else
             {
                 RectF oval = new RectF(width - conversationsRadius, point[1] + (halo.getHeight() / 2) -  conversationsRadius, width + conversationsRadius, point[1] + (halo.getHeight() / 2) + conversationsRadius);
@@ -146,8 +147,10 @@ public class ArcView extends ViewGroup {
                 Path textPath = new Path();
                 textPath.addArc(oval, -180 - breakAngle + 5, breakAngle + 90);
 
-                canvas.drawTextOnPath(newConversations.get(i)[0] + " - " + newConversations.get(i)[1], textPath, 0f, 0f, textPaint[i]);
+                canvas.drawTextOnPath(newConversations.get(i)[0] + " - " + newConversations.get(i)[1], textPath, 0f, 0f, textPaint[x]);
             }
+
+            x++;
 
             conversationsRadius += TEXT_SIZE + TEXT_GAP;
         }
