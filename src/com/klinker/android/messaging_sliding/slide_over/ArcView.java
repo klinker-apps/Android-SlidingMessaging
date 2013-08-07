@@ -78,7 +78,7 @@ public class ArcView extends ViewGroup {
 
         // manually fill the newConversations arraylist for now
         newConversations.add(new String[] {"Jacob Klinker", "SlideOver is working well!"});
-        newConversations.add(new String[] {"Brett Deters", "Want to go to Jethros?"});
+        newConversations.add(new String[] {"Brett Deters", "Want to go to Jethros? I think it would be an awesome night for that!"});
         newConversations.add(new String[] {"Matt Swiontek", "Your apartment is great!"});
 
     }
@@ -149,7 +149,7 @@ public class ArcView extends ViewGroup {
                 RectF oval = new RectF(-1 * conversationsRadius, point[1] + (halo.getHeight() / 2) -  conversationsRadius, conversationsRadius, point[1] + (halo.getHeight() / 2) + conversationsRadius);
 
                 Path textPath = new Path();
-                textPath.addArc(oval, breakAngle, -180);
+                textPath.addArc(oval, -88, 90 + breakAngle);
 
                 canvas.drawTextOnPath(newConversations.get(i)[0] + " - " + newConversations.get(i)[1], textPath, 0f, 0f, textPaint);
             } else
