@@ -126,7 +126,7 @@ public class CardWidgetProvider extends AppWidgetProvider {
                     quickText.putExtra("fromWidget", true);
 		        }
         
-	            PendingIntent quickPending = PendingIntent.getActivity(this, 0, quickText, 0);
+	            PendingIntent quickPending = PendingIntent.getActivity(this, 0, quickText, PendingIntent.FLAG_CANCEL_CURRENT);
 
                 Intent settings = new Intent(this, CardWidgetSettingsActivity.class);
                 PendingIntent settingsPending = PendingIntent.getActivity(this, 0, settings, 0);
