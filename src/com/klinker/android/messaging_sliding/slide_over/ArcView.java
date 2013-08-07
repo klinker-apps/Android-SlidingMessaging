@@ -23,7 +23,7 @@ public class ArcView extends ViewGroup {
 
     public Paint newMessagePaint;
     public Paint conversationsPaint;
-    public Paint textPaint;
+    public Paint[] textPaint;
     public float radius;
     public float breakAngle;
 
@@ -36,6 +36,7 @@ public class ArcView extends ViewGroup {
     public double sliverPercent;
 
     public ArrayList<String[]> newConversations;
+
 
     public ArcView(Context context, Bitmap halo, float radius, float breakAngle, double sliverPercent) {
         super(context);
@@ -61,18 +62,6 @@ public class ArcView extends ViewGroup {
         conversationsPaint.setAlpha(SlideOverService.START_ALPHA);
         float dashLength = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, context.getResources().getDisplayMetrics());
         conversationsPaint.setPathEffect(new DashPathEffect(new float[] {dashLength, dashLength*2}, 0));
-        
-        textPaint = new Paint();
-        textPaint.setAntiAlias(true);
-        textPaint.setColor(Color.WHITE);
-        textPaint.setAlpha(SlideOverService.START_ALPHA2);
-        textPaint.setTextSize(TEXT_SIZE);
-        textPaint.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
-
-        this.halo = halo;
-        this.radius = radius;
-        this.breakAngle = breakAngle;
-        this.sliverPercent = sliverPercent;
 
         newConversations = new ArrayList<String[]>();
 
@@ -81,6 +70,26 @@ public class ArcView extends ViewGroup {
         newConversations.add(new String[] {"Brett Deters", "Want to go to Jethros? I think it would be an awesome night for that!"});
         newConversations.add(new String[] {"Matt Swiontek", "Your apartment is great!"});
 
+        textPaint = new Paint[newConversations.size()];
+
+        for(int x = 0; x < newConversations.size(); x++)
+        {
+            textPaint[x] = new Paint();
+        }
+
+        for(int i = 0; i < newConversations.size(); i++)
+        {
+            textPaint[i].setAntiAlias(true);
+            textPaint[i].setColor(Color.WHITE);
+            textPaint[i].setAlpha(SlideOverService.START_ALPHA2);
+            textPaint[i].setTextSize(TEXT_SIZE);
+            textPaint[i].setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
+        }
+
+        this.halo = halo;
+        this.radius = radius;
+        this.breakAngle = breakAngle;
+        this.sliverPercent = sliverPercent;
     }
 
 
@@ -151,7 +160,7 @@ public class ArcView extends ViewGroup {
                 Path textPath = new Path();
                 textPath.addArc(oval, -88, 90 + breakAngle);
 
-                canvas.drawTextOnPath(newConversations.get(i)[0] + " - " + newConversations.get(i)[1], textPath, 0f, 0f, textPaint);
+                canvas.drawTextOnPath(newConversations.get(i)[0] + " - " + newConversations.get(i)[1], textPath, 0f, 0f, textPaint[i]);
             } else
             {
                 RectF oval = new RectF(width - conversationsRadius, point[1] + (halo.getHeight() / 2) -  conversationsRadius, width + conversationsRadius, point[1] + (halo.getHeight() / 2) + conversationsRadius);
@@ -159,7 +168,7 @@ public class ArcView extends ViewGroup {
                 Path textPath = new Path();
                 textPath.addArc(oval, -180 - breakAngle + 5, breakAngle + 90);
 
-                canvas.drawTextOnPath(newConversations.get(i)[0] + " - " + newConversations.get(i)[1], textPath, 0f, 0f, textPaint);
+                canvas.drawTextOnPath(newConversations.get(i)[0] + " - " + newConversations.get(i)[1], textPath, 0f, 0f, textPaint[i]);
             }
 
             conversationsRadius += TEXT_SIZE + TEXT_GAP;
