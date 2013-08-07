@@ -339,17 +339,6 @@ public class SlideOverService extends Service {
                                 distance = Math.sqrt(Math.pow(xPortion, 2) + Math.pow(yPortion, 2));
                                 angle = Math.toDegrees(Math.atan(yPortion/xPortion));
 
-                                currentZone = getCurrentZone(distance, zoneWidth, SWIPE_MIN_DISTANCE, numberNewConv);
-
-                                if(lastZone != currentZone)
-                                {
-                                    zoneChange = true;
-                                    lastZone = currentZone;
-                                } else
-                                {
-                                    zoneChange = false;
-                                }
-
                                 if (!sharedPrefs.getString("slideover_side", "left").equals("left"))
                                     angle *= -1;
 
@@ -405,6 +394,17 @@ public class SlideOverService extends Service {
 
                                 } else // in flat area
                                 {
+                                    currentZone = getCurrentZone(distance, zoneWidth, SWIPE_MIN_DISTANCE, numberNewConv);
+
+                                    if(lastZone != currentZone)
+                                    {
+                                        zoneChange = true;
+                                        lastZone = currentZone;
+                                    } else
+                                    {
+                                        zoneChange = false;
+                                    }
+
                                     if (inDash && distance > SWIPE_MIN_DISTANCE)
                                     {
                                         inDash = false;
