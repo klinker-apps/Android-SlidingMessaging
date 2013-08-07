@@ -48,6 +48,9 @@ public class QmMarkRead2 extends IntentService {
 
             Intent updateWidget = new Intent("com.klinker.android.messaging.UPDATE_WIDGET");
             sendBroadcast(updateWidget);
+
+            Intent clearMessages = new Intent("com.klinker.android.messaging.CLEAR_MESSAGES");
+            getApplicationContext().sendBroadcast(clearMessages);
             
         	stopSelf();
 		
