@@ -161,12 +161,22 @@ public class MainActivityPopup extends MainActivity {
                     if (getIntent().getStringExtra("secondaryType").equals("conversations")) {
                         menu.showMenu();
                     } else {
-                        menu.showSecondaryMenu();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                menu.showSecondaryMenu();
+                            }
+                        }, 500);
                     }
                 }
             }
         } else {
-            menu.showSecondaryMenu();
+            new Handler().postDelayed(new Runnable() {
+               @Override
+               public void run() {
+                   menu.showSecondaryMenu();
+               }
+            }, 500);
         }
 
         if (sharedPrefs.getBoolean("show_keyboard_popup", true) && !fromHalo) {
