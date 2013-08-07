@@ -109,6 +109,11 @@ public class SlideOverService extends Service {
             private boolean inDash = false;
             private boolean inFlat = true;
             private boolean initial = true;
+            private boolean zoneChange = false;
+
+            private int lastZone = 0;
+            private int currentZone = 0;
+            private int zoneWidth;
 
             private float initX;
             private float initY;
@@ -287,6 +292,8 @@ public class SlideOverService extends Service {
                         }
                     } else // if they have a new message to display
                     {
+                        zoneWidth = (width - SWIPE_MIN_DISTANCE)/(numberNewConv);
+
                         switch (type) {
                             case MotionEvent.ACTION_DOWN:
 
@@ -313,11 +320,26 @@ public class SlideOverService extends Service {
                                 distance = Math.sqrt(Math.pow(xPortion, 2) + Math.pow(yPortion, 2));
                                 angle = Math.toDegrees(Math.atan(yPortion/xPortion));
 
+                                currentZone = getCurrentZone(distance, zoneWidth, SWIPE_MIN_DISTANCE);
+
+                                if(lastZone != currentZone)
+                                {
+                                    zoneChange = true;
+                                    lastZone = currentZone;
+                                } else
+                                {
+                                    zoneChange = false;
+                                }
+
                                 if (!sharedPrefs.getString("slideover_side", "left").equals("left"))
                                     angle *= -1;
 
                                 if ((!(initY > arg1.getY()) && angle > ARC_BREAK_POINT)) // in dash area
                                 {
+                                    resetZoneAlphas();
+                                    lastZone = 0;
+                                    currentZone = 0;
+
                                     if (inFlat && distance > SWIPE_MIN_DISTANCE)
                                     {
                                         inFlat = false;
@@ -394,12 +416,29 @@ public class SlideOverService extends Service {
                                     }
 
                                     if (distance < SWIPE_MIN_DISTANCE) {
+                                        resetZoneAlphas();
+                                        lastZone = 0;
+                                        currentZone = 0;
+
                                         arcView.newMessagePaint.setAlpha(START_ALPHA2);
                                         arcView.textPaint[0].setAlpha(START_ALPHA2);
                                         arcView.conversationsPaint.setAlpha(START_ALPHA);
                                         arcView.invalidate();
                                         arcWindow.updateViewLayout(arcView, arcParams);
                                         vibrateNeeded = true;
+                                    }
+
+                                    if (zoneChange)
+                                    {
+                                        resetZoneAlphas();
+                                        //vibrate
+
+                                        if (currentZone != 0)
+                                            arcView.textPaint[currentZone-1].setAlpha(TOUCHED_ALPHA);
+
+                                        zoneChange = false;
+                                        arcView.invalidate();
+                                        arcWindow.updateViewLayout(arcView, arcParams);
                                     }
                                 }
 
@@ -437,6 +476,7 @@ public class SlideOverService extends Service {
 
                                 arcView.newMessagePaint.setAlpha(START_ALPHA2);
                                 arcView.textPaint[0].setAlpha(START_ALPHA2);
+                                resetZoneAlphas();
 
                                 arcWindow.removeViewImmediate(arcView);
 
@@ -463,24 +503,29 @@ public class SlideOverService extends Service {
         this.registerReceiver(mBroadcastReceiver, filter);
     }
 
-    public int[] getPosition()
+    public int getCurrentZone(double distance, int zoneWidth, int arcLength)
     {
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        int[] returnArray = {0, 0};
+        int extraDist = (int) distance - arcLength;
+        int currZone = 0;
 
-        Display d = ((WindowManager)mContext.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-        int height = d.getHeight();
-        int width = d.getWidth();
-
-        if (sharedPrefs.getString("slideover_side", "left").equals("left")) {
-            returnArray[0] = (int)(-1 * haloView.halo.getWidth() * (1 - SlideOverService.HALO_SLIVER_RATIO));
-        } else {
-            returnArray[0] = (int)(width - (haloView.halo.getWidth() * SlideOverService.HALO_SLIVER_RATIO));
+        while(extraDist > 0)
+        {
+            currZone++;
+            extraDist -= zoneWidth;
         }
 
-        returnArray[1] = (int)(height * SlideOverService.PERCENT_DOWN_SCREEN);
+        return currZone;
+    }
 
-        return returnArray;
+    public void resetZoneAlphas()
+    {
+        for (int i = 0; i < numberNewConv; i++)
+        {
+            arcView.textPaint[i].setAlpha(START_ALPHA2);
+        }
+
+        arcView.invalidate();
+        arcWindow.updateViewLayout(arcView, arcParams);
     }
 
     public boolean isRunning(Context ctx) {
