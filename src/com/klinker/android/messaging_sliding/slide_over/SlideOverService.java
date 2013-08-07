@@ -320,7 +320,7 @@ public class SlideOverService extends Service {
                                 distance = Math.sqrt(Math.pow(xPortion, 2) + Math.pow(yPortion, 2));
                                 angle = Math.toDegrees(Math.atan(yPortion/xPortion));
 
-                                currentZone = getCurrentZone(distance, zoneWidth, SWIPE_MIN_DISTANCE);
+                                currentZone = getCurrentZone(distance, zoneWidth, SWIPE_MIN_DISTANCE, numberNewConv);
 
                                 if(lastZone != currentZone)
                                 {
@@ -474,6 +474,9 @@ public class SlideOverService extends Service {
                                     startActivity(intent);
                                 }
 
+                                if (distance > SWIPE_MIN_DISTANCE)
+                                    arcView.newConversations.clear();
+
                                 arcView.newMessagePaint.setAlpha(START_ALPHA2);
                                 arcView.textPaint[0].setAlpha(START_ALPHA2);
                                 resetZoneAlphas();
@@ -503,12 +506,12 @@ public class SlideOverService extends Service {
         this.registerReceiver(mBroadcastReceiver, filter);
     }
 
-    public int getCurrentZone(double distance, int zoneWidth, int arcLength)
+    public int getCurrentZone(double distance, int zoneWidth, int arcLength, int maxZones)
     {
         int extraDist = (int) distance - arcLength;
         int currZone = 0;
 
-        while(extraDist > 0)
+        while(extraDist > 0 && currZone < maxZones)
         {
             currZone++;
             extraDist -= zoneWidth;
