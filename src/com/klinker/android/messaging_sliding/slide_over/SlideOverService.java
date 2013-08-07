@@ -487,6 +487,12 @@ public class SlideOverService extends Service {
                                     Intent intent = new Intent(getBaseContext(), com.klinker.android.messaging_sliding.MainActivityPopup.class);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     intent.putExtra("fromHalo", true);
+
+                                    if (currentZone == 0)
+                                        intent.putExtra("openToPage", 0);
+                                    else
+                                        intent.putExtra("openToPage", currentZone -1);
+
                                     startActivity(intent);
                                 } else if (distance > SWIPE_MIN_DISTANCE && inDash)
                                 {

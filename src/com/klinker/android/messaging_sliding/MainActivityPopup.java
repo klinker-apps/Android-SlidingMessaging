@@ -19,6 +19,7 @@ public class MainActivityPopup extends MainActivity {
     public boolean fromHalo = false;
     public boolean fromWidget = false;
     public boolean secondaryAction = false;
+    public int openTo = 0;
 
     @Override
     public void setUpWindow() {
@@ -68,6 +69,7 @@ public class MainActivityPopup extends MainActivity {
         fromHalo = getIntent().getBooleanExtra("fromHalo", false);
         secondaryAction = getIntent().getBooleanExtra("secAction", false);
         fromWidget = getIntent().getBooleanExtra("fromWidget", false);
+        openTo = getIntent().getIntExtra("openToPage", 0);
     }
     
     @Override
