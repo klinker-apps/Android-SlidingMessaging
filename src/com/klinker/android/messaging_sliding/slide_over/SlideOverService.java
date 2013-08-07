@@ -121,7 +121,6 @@ public class SlideOverService extends Service {
                 if ((arg1.getX() > haloView.getX() && arg1.getX() < haloView.getX() + halo.getWidth() && arg1.getY() > haloView.getY() && arg1.getY() < haloView.getY() + halo.getHeight()) || needDetection) {
                     final int type = arg1.getActionMasked();
                     Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                    boolean switchVibrate = true;
 
                     switch (type) {
                         case MotionEvent.ACTION_DOWN:
@@ -141,6 +140,7 @@ public class SlideOverService extends Service {
                         case MotionEvent.ACTION_MOVE:
 
                             // FIXME flat part is activated when you put your finger on the very edge of the screen with halo on left
+                            // hmm... ok, can't find a fix for this... don't know what event that could possibly be triggering...
 
                             xPortion = initX - arg1.getX();
                             yPortion = initY - arg1.getY();
@@ -151,7 +151,7 @@ public class SlideOverService extends Service {
                             if (!sharedPrefs.getString("slideover_side", "left").equals("left"))
                                 angle *= -1;
 
-                            if (!(initY > arg1.getY()) && angle > ARC_BREAK_POINT) // in dash area
+                            if ((!(initY > arg1.getY()) && angle > ARC_BREAK_POINT)) // in dash area
                             {
                                 if (inFlat && distance > SWIPE_MIN_DISTANCE)
                                 {
