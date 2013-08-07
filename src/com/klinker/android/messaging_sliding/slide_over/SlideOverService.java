@@ -110,6 +110,7 @@ public class SlideOverService extends Service {
             private boolean inFlat = true;
             private boolean initial = true;
             private boolean zoneChange = false;
+            private boolean fromDash = true;
 
             private int lastZone = 0;
             private int currentZone = 0;
@@ -340,6 +341,8 @@ public class SlideOverService extends Service {
                                     lastZone = 0;
                                     currentZone = 0;
 
+                                    fromDash = true;
+
                                     if (inFlat && distance > SWIPE_MIN_DISTANCE)
                                     {
                                         inFlat = false;
@@ -426,12 +429,18 @@ public class SlideOverService extends Service {
                                         arcView.invalidate();
                                         arcWindow.updateViewLayout(arcView, arcParams);
                                         vibrateNeeded = true;
+                                        fromDash = true;
                                     }
 
                                     if (zoneChange)
                                     {
                                         resetZoneAlphas();
-                                        //vibrate
+
+                                        if (!fromDash)
+                                            v.vibrate(25);
+                                        else
+                                            fromDash = false;
+
 
                                         if (currentZone != 0)
                                             arcView.textPaint[currentZone-1].setAlpha(TOUCHED_ALPHA);
@@ -440,6 +449,7 @@ public class SlideOverService extends Service {
                                         arcView.invalidate();
                                         arcWindow.updateViewLayout(arcView, arcParams);
                                     }
+
                                 }
 
                                 return true;
