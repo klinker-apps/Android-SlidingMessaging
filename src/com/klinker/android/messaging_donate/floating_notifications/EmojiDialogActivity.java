@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.WindowManager;
@@ -133,6 +134,7 @@ public class EmojiDialogActivity extends Activity {
                             context.startActivity(intent);
                             FNReceiver.messages.remove(id);
                             Extension.remove(id, context);
+                            finish();
                     }
                 };
 
@@ -142,6 +144,7 @@ public class EmojiDialogActivity extends Activity {
                             Extension.remove(id, context);
                             FNReceiver.messages.remove(id);
                             FNAction.sendMessage(context, id + "", str);
+                            finish();
                     }
                 };
 
@@ -152,12 +155,12 @@ public class EmojiDialogActivity extends Activity {
                     public void onClick(final String str) {
                             Intent emojiDialog = new Intent(context, EmojiDialogActivity.class);
                             emojiDialog.putExtra("id", id);
+                            emojiDialog.putExtra("message", str);
                             emojiDialog.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(emojiDialog);
                     }
                 };
 
-                finish();
                 Extension.replyOverlay(editTextHint, previousText, image, imageOnClick, sendOnClick, extraOnClick, true, extraButton, context, false, editText.getText().toString());
 			}
 

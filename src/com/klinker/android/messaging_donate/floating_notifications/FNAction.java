@@ -41,6 +41,7 @@ public class FNAction extends BroadcastReceiver {
                 case 0:
                     // start main activity popup
                     Intent popup = new Intent(context, com.klinker.android.messaging_sliding.MainActivityPopup.class);
+                    popup.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(popup);
                     Extension.remove(id, context);
                     FNReceiver.messages.remove(id);
