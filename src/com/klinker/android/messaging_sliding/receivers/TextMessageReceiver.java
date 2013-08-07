@@ -1050,6 +1050,11 @@ public class TextMessageReceiver extends BroadcastReceiver {
 		        
 		        Intent updateWidget = new Intent("com.klinker.android.messaging.UPDATE_WIDGET");
 				context.sendBroadcast(updateWidget);
+				
+				Intent updateHalo = new Intent("com.klinker.android.messaging.UPDATE_HALO");
+				updateHalo.putExtra("name", address);
+				updateHalo.putExtra("message", body);
+				context.sendBroadcast(updateHalo);
 
                 if (sharedPrefs.getBoolean("cache_conversations", false)) {
                     Intent cacheService = new Intent(context, CacheService.class);
