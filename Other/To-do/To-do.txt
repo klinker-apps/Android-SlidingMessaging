@@ -3,9 +3,7 @@ Version 6.70
 - SLIDEOVER TODO
     - fix stupid edge bug (don't have a clue on honestly)
     - animations for new messages
-    - Add option ot auto close slideover when message is sent if coming !fromHalo
-    - adjust arcs for sliver? maybe not even nesseisary in my opinion
-- floating notifications extension
+- fix floating notifications stuff
 - option for adding certain text to every message at the beginning (delivery reports?)
 - Message Locking
 - Figure out how to judge file size of png images and adjust them accordingly when sending, look into UriImage.getResizedImageData for solution
@@ -39,7 +37,7 @@ Luke's ideas for speed/fluidity improvement:
 - Halo Popup app
 	- Simple app like the HALO)))
 	- Allows users to select which apps they would like to launch in halo automatically on new notification
-	- Makes a popup available for any app... Messaging, Hangouts, Facebook, Flacon, really whatever app you want to launch automatically on a notification
+	- Makes a popup available for any app... Messaging, Hangouts, Facebook, Falcon, really whatever app you want to launch automatically on a notification
 	- Open Source and free on the play store
 	- Apply new Notification Listener APIs (only for Android 4.3 and above, would also get rid of people downloading and rating it low because they don't know what it does...)
 	- Should be simple enough to make, I've already done it all in Sliding Messaging, and sounds like a pretty applicable app to me.
