@@ -146,7 +146,11 @@ public class MainActivity extends FragmentActivity implements
 
                     SharedPreferences.Editor prefEdit = sharedPrefs.edit();
                     prefEdit.putString("current_version", version);
-                    prefEdit.putBoolean("background_service", false);
+                    
+                    if (sharedPrefs.getString("run_as", "sliding").equals("card")) {
+                        prefEdit.putString("run_as", "card2");
+                    }
+                    
                     prefEdit.commit();
 
                     boolean flag = false;
