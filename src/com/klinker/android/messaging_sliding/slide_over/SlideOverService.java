@@ -556,6 +556,10 @@ public class SlideOverService extends Service {
         filter = new IntentFilter();
         filter.addAction("android.intent.action.CONFIGURATION_CHANGED");
         this.registerReceiver(mBroadcastReceiver, filter);
+        
+        filter = new IntentFilter();
+        filter.addAction("com.klinker.android.messaging.UPDATE_HALO");
+        this.registerReceiver(newMessageReceiver, filter);
     }
 
     public int getCurrentZone(double distance, int zoneWidth, int arcLength, int maxZones)
@@ -601,6 +605,7 @@ public class SlideOverService extends Service {
 
         try {
             unregisterReceiver(stopSlideover);
+            unregisterReceiver(newMessageReceived);
             unregisterReceiver(mBroadcastReceiver);
         } catch (Exception e) {
 
@@ -630,6 +635,15 @@ public class SlideOverService extends Service {
             haloWindow.removeViewImmediate(haloView);
             stopSelf();
             unregisterReceiver(this);
+        }
+    };
+    
+    public BroadcastReceiver newMessageReceived = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // TODO new message has been received, add to new messages arraylist and update view if necessary
+            
+            Log.v("new_message_to_halo", intent.getStringExtra("name") + ": " + intent.getStringExtra("message"));
         }
     };
 
