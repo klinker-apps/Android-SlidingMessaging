@@ -20,6 +20,8 @@ import com.klinker.android.messaging_sliding.receivers.CacheService;
 import com.klinker.android.messaging_sliding.slide_over.SlideOverService;
 
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Set;
 
 public class MainActivity extends FragmentActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 	
@@ -55,7 +57,7 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
             if (fnMessages.size() > 0) {
                 Set<Long> keys = fnMessages.keySet();
                 
-                for (Long ii: set) {  
+                for (Long ii: keys) {
                     robj.floating.notifications.Extension.remove(ii, this);
                 }  
             }

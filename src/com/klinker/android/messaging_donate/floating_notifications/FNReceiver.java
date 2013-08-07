@@ -17,7 +17,7 @@ import robj.floating.notifications.Extension;
 
 public class FNReceiver extends BroadcastReceiver {
 
-    public static Map<Long, String> messages = new HashMap<Long, String[]>();
+    public static Map<Long, String[]> messages = new HashMap<Long, String[]>();
 
     @Override
     public void onReceive(final Context context, Intent intent) {

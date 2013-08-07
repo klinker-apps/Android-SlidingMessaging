@@ -512,7 +512,6 @@ public class SlideOverService extends Service {
                                     startActivity(intent);
                                 }
 
-                                // TODO - Also clear this out when you open sliding messaging as a regular app. From the messaging_donate main activity
                                 if (distance > SWIPE_MIN_DISTANCE)
                                 {
                                     arcView.newConversations.clear();
@@ -521,7 +520,7 @@ public class SlideOverService extends Service {
                                     haloView.invalidate();
                                     haloWindow.updateViewLayout(haloView, haloParams); 
                                     
-                                    numNewConversations = 0;
+                                    numberNewConv = 0;
                                 }
 
                                 arcView.newMessagePaint.setAlpha(START_ALPHA2);
@@ -666,7 +665,7 @@ public class SlideOverService extends Service {
             haloView.invalidate();
             haloWindow.updateViewLayout(haloView, haloParams);
             
-            numNewConversations = 0;
+            numberNewConv = 0;
         }
     };
 
