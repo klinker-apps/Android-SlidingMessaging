@@ -639,6 +639,7 @@ public class SlideOverService extends Service {
         @Override
         public void onReceive(Context context, Intent intent) {
 
+            // todo - append message to the end of the string if the name already exists
             arcView.newConversations.add(new String[] {intent.getStringExtra("name"), intent.getStringExtra("message")});
 
             numberNewConv = arcView.newConversations.size();
