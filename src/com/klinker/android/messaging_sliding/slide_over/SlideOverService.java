@@ -117,7 +117,7 @@ public class SlideOverService extends Service {
         else
             SWIPE_MIN_DISTANCE = (int)(width * (sharedPrefs.getInt("slideover_activation", 33)/100.0));
 
-        haloView = new HaloView(this, halo);
+        haloView = new HaloView(this);
         arcView = new ArcView(this, halo, SWIPE_MIN_DISTANCE, ARC_BREAK_POINT, HALO_SLIVER_RATIO);
 
         numberNewConv = arcView.newConversations.size();
@@ -514,7 +514,13 @@ public class SlideOverService extends Service {
 
                                 // TODO - Also clear this out when you open sliding messaging as a regular app. From the messaging_donate main activity
                                 if (distance > SWIPE_MIN_DISTANCE)
+                                {
                                     arcView.newConversations.clear();
+
+                                    haloView.setRegularHalo();
+                                    haloView.invalidate();
+                                    haloWindow.updateViewLayout(haloView, haloParams);
+                                }
 
                                 arcView.newMessagePaint.setAlpha(START_ALPHA2);
                                 resetZoneAlphas();
@@ -638,6 +644,12 @@ public class SlideOverService extends Service {
             numberNewConv = arcView.newConversations.size();
 
             arcView.invalidate();
+
+            // set the icon to the red, recieved, icon
+
+            haloView.setRecievedHalo();
+            haloView.invalidate();
+            haloWindow.updateViewLayout(haloView, haloParams);
         }
     };
 
@@ -646,6 +658,10 @@ public class SlideOverService extends Service {
         public void onReceive(Context context, Intent intent) {
 
             arcView.newConversations.clear();
+
+            haloView.setRegularHalo();
+            haloView.invalidate();
+            haloWindow.updateViewLayout(haloView, haloParams);
         }
     };
 

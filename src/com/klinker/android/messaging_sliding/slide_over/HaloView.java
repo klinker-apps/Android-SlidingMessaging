@@ -36,7 +36,7 @@ public class HaloView extends ViewGroup {
     public int height;
     public int width;
 
-    public HaloView(Context context, Bitmap halo) {
+    public HaloView(Context context) {
         super(context);
 
         mContext = context;
@@ -49,9 +49,8 @@ public class HaloView extends ViewGroup {
         arcPaint.setStyle(Paint.Style.STROKE);
         arcPaint.setStrokeWidth(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, context.getResources().getDisplayMetrics()));
 
-        this.halo = halo;
+        setRegularHalo();
     }
-
 
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -70,5 +69,17 @@ public class HaloView extends ViewGroup {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         return false;
+    }
+
+    public void setRegularHalo()
+    {
+        halo = BitmapFactory.decodeResource(getResources(),
+                R.drawable.halo_bg);
+    }
+
+    public void setRecievedHalo()
+    {
+        halo = BitmapFactory.decodeResource(getResources(),
+                R.drawable.halo_new);
     }
 }
