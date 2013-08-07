@@ -17,7 +17,7 @@ import robj.floating.notifications.Extension;
 
 public class FNReceiver extends BroadcastReceiver {
 
-    public static Map<Long, String> messages = new HashMap<Long, String>();
+    public static Map<Long, String> messages = new HashMap<Long, String[]>();
 
     @Override
     public void onReceive(final Context context, Intent intent) {
@@ -38,16 +38,17 @@ public class FNReceiver extends BroadcastReceiver {
                 address = sms.getOriginatingAddress();
             }
         }
-
-        long id = Long.parseLong(address.replace("+", "").replace(" ", "").replace("(", "").replace(")", ""));
+        
+        address = address.replace("+", "").replace(" ", "").replace("(", "").replace(")", "");
+        long id = Long.parseLong(address);
         
         if (messages.containsKey(id)) {
-            String previous = messages.get(id);
+            String previous = messages.get(id)[1];
             previous += "\n\n" + body;
             messages.remove(id);
-            messages.put(id, previous);
+            messages.put(id, new String[] {address, previous});
         } else {
-            messages.put(id, body);
+            messages.put(id, new String[] {address, body});
         }
 
         Bitmap image = MainActivity.getFacebookPhoto(address, context);
