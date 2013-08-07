@@ -140,6 +140,8 @@ public class SlideOverService extends Service {
 
                         case MotionEvent.ACTION_MOVE:
 
+                            // FIXME flat part is activated when you put your finger on the very edge of the screen with halo on left
+
                             xPortion = initX - arg1.getX();
                             yPortion = initY - arg1.getY();
 

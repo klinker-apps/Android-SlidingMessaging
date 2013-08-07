@@ -59,7 +59,7 @@
         android:max="100"
         android:dependency="slideover_enabled"
     />
-            
+
     <ListPreference
         android:key="slideover_secondary_action"
         android:title="@string/slideover_secondary_action"
@@ -69,7 +69,7 @@
         android:entries="@array/slideover_secondary_action"
         android:entryValues="@array/slideover_secondary_action_inserted"
     />
-    
+
     <Preference
         android:title="@string/under_development"
         android:summary="@string/under_development_summary"
