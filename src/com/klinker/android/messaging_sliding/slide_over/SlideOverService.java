@@ -474,8 +474,8 @@ public class SlideOverService extends Service {
                                     startActivity(intent);
                                 }
 
-                                if (distance > SWIPE_MIN_DISTANCE)
-                                    arcView.newConversations.clear();
+                                //if (distance > SWIPE_MIN_DISTANCE)
+                                    //arcView.newConversations.clear();
 
                                 arcView.newMessagePaint.setAlpha(START_ALPHA2);
                                 arcView.textPaint[0].setAlpha(START_ALPHA2);
