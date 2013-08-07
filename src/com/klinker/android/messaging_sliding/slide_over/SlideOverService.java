@@ -42,6 +42,8 @@ public class SlideOverService extends Service {
     public static final int START_ALPHA2 = 120;
     public static final int TOUCHED_ALPHA = 230;
 
+    public int numberNewConv;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -99,6 +101,8 @@ public class SlideOverService extends Service {
         haloView = new HaloView(this, halo);
         arcView = new ArcView(this, halo, SWIPE_MIN_DISTANCE, ARC_BREAK_POINT, HALO_SLIVER_RATIO);
 
+        numberNewConv = arcView.newConversations.size();
+
         haloView.setOnTouchListener(new View.OnTouchListener() {
             private boolean needDetection = false;
             private boolean vibrateNeeded = true;
@@ -122,162 +126,324 @@ public class SlideOverService extends Service {
                     final int type = arg1.getActionMasked();
                     Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
-                    switch (type) {
-                        case MotionEvent.ACTION_DOWN:
+                    if (numberNewConv == 0)
+                    {
+                        switch (type) {
+                            case MotionEvent.ACTION_DOWN:
 
-                            v.vibrate(10);
+                                v.vibrate(10);
 
-                            initX = arg1.getX();
-                            initY = arg1.getY();
+                                initX = arg1.getX();
+                                initY = arg1.getY();
 
-                            arcView.newMessagePaint.setAlpha(START_ALPHA2);
-                            arcView.textPaint.setAlpha(START_ALPHA2);
+                                arcView.newMessagePaint.setAlpha(START_ALPHA2);
+                                arcView.textPaint.setAlpha(START_ALPHA2);
 
-                            arcWindow.addView(arcView, arcParams);
-                            needDetection = true;
-                            return true;
+                                arcWindow.addView(arcView, arcParams);
+                                needDetection = true;
+                                return true;
 
-                        case MotionEvent.ACTION_MOVE:
+                            case MotionEvent.ACTION_MOVE:
 
-                            // FIXME flat part is activated when you put your finger on the very edge of the screen with halo on left
-                            // hmm... ok, can't find a fix for this... don't know what event that could possibly be triggering...
+                                // FIXME flat part is activated when you put your finger on the very edge of the screen with halo on left
+                                // hmm... ok, can't find a fix for this... don't know what event that could possibly be triggering...
 
-                            xPortion = initX - arg1.getX();
-                            yPortion = initY - arg1.getY();
+                                xPortion = initX - arg1.getX();
+                                yPortion = initY - arg1.getY();
 
-                            distance = Math.sqrt(Math.pow(xPortion, 2) + Math.pow(yPortion, 2));
-                            angle = Math.toDegrees(Math.atan(yPortion/xPortion));
+                                distance = Math.sqrt(Math.pow(xPortion, 2) + Math.pow(yPortion, 2));
+                                angle = Math.toDegrees(Math.atan(yPortion/xPortion));
 
-                            if (!sharedPrefs.getString("slideover_side", "left").equals("left"))
-                                angle *= -1;
+                                if (!sharedPrefs.getString("slideover_side", "left").equals("left"))
+                                    angle *= -1;
 
-                            if ((!(initY > arg1.getY()) && angle > ARC_BREAK_POINT)) // in dash area
-                            {
-                                if (inFlat && distance > SWIPE_MIN_DISTANCE)
+                                if ((!(initY > arg1.getY()) && angle > ARC_BREAK_POINT)) // in dash area
                                 {
-                                    inFlat = false;
-                                    inDash = true;
-
-                                    arcView.conversationsPaint.setAlpha(START_ALPHA2 + 20);
-                                    arcView.newMessagePaint.setAlpha(START_ALPHA2);
-                                    arcView.textPaint.setAlpha(START_ALPHA2);
-                                    arcView.invalidate();
-                                    arcWindow.updateViewLayout(arcView, arcParams);
-
-                                    if (!initial)
+                                    if (inFlat && distance > SWIPE_MIN_DISTANCE)
                                     {
+                                        inFlat = false;
+                                        inDash = true;
+
+                                        arcView.conversationsPaint.setAlpha(START_ALPHA2 + 20);
+                                        arcView.newMessagePaint.setAlpha(START_ALPHA2);
+                                        arcView.textPaint.setAlpha(START_ALPHA2);
+                                        arcView.invalidate();
+                                        arcWindow.updateViewLayout(arcView, arcParams);
+
+                                        if (!initial)
+                                        {
+                                            v.vibrate(25);
+                                        }else
+                                        {
+                                            initial = false;
+                                        }
+                                    }
+
+                                    if (distance > SWIPE_MIN_DISTANCE && vibrateNeeded) {
+                                        arcView.conversationsPaint.setAlpha(START_ALPHA2 + 20);
+                                        arcView.newMessagePaint.setAlpha(START_ALPHA2);
+                                        arcView.textPaint.setAlpha(START_ALPHA2);
+                                        arcView.invalidate();
+                                        arcWindow.updateViewLayout(arcView, arcParams);
+
                                         v.vibrate(25);
-                                    }else
+
+                                        vibrateNeeded = false;
+                                    }
+
+                                    if (distance < SWIPE_MIN_DISTANCE) {
+                                        arcView.conversationsPaint.setAlpha(START_ALPHA);
+                                        arcView.newMessagePaint.setAlpha(START_ALPHA2);
+                                        arcView.textPaint.setAlpha(START_ALPHA2);
+                                        arcView.invalidate();
+                                        arcWindow.updateViewLayout(arcView, arcParams);
+                                        vibrateNeeded = true;
+                                    }
+
+
+                                } else // in flat area
+                                {
+                                    if (inDash && distance > SWIPE_MIN_DISTANCE)
                                     {
-                                        initial = false;
+                                        inDash = false;
+                                        inFlat = true;
+
+                                        arcView.newMessagePaint.setAlpha(TOUCHED_ALPHA);
+                                        arcView.textPaint.setAlpha(TOUCHED_ALPHA);
+                                        arcView.conversationsPaint.setAlpha(START_ALPHA);
+                                        arcView.invalidate();
+                                        arcWindow.updateViewLayout(arcView, arcParams);
+
+                                        if (!initial)
+                                        {
+                                            v.vibrate(25);
+                                        }else
+                                        {
+                                            initial = false;
+                                        }
+                                    }
+                                    if (distance > SWIPE_MIN_DISTANCE && vibrateNeeded) {
+                                        arcView.newMessagePaint.setAlpha(TOUCHED_ALPHA);
+                                        arcView.textPaint.setAlpha(TOUCHED_ALPHA);
+                                        arcView.conversationsPaint.setAlpha(START_ALPHA);
+                                        arcView.invalidate();
+                                        arcWindow.updateViewLayout(arcView, arcParams);
+
+                                        v.vibrate(25);
+
+                                        vibrateNeeded = false;
+                                    }
+
+                                    if (distance < SWIPE_MIN_DISTANCE) {
+                                        arcView.newMessagePaint.setAlpha(START_ALPHA2);
+                                        arcView.textPaint.setAlpha(START_ALPHA2);
+                                        arcView.conversationsPaint.setAlpha(START_ALPHA);
+                                        arcView.invalidate();
+                                        arcWindow.updateViewLayout(arcView, arcParams);
+                                        vibrateNeeded = true;
                                     }
                                 }
 
-                                if (distance > SWIPE_MIN_DISTANCE && vibrateNeeded) {
-                                    arcView.conversationsPaint.setAlpha(START_ALPHA2 + 20);
-                                    arcView.newMessagePaint.setAlpha(START_ALPHA2);
-                                    arcView.textPaint.setAlpha(START_ALPHA2);
-                                    arcView.invalidate();
-                                    arcWindow.updateViewLayout(arcView, arcParams);
+                                return true;
 
-                                    v.vibrate(25);
+                            case MotionEvent.ACTION_UP:
 
-                                    vibrateNeeded = false;
-                                }
+                                // now will fire a different intent depending on what view you are in
+                                if (distance > SWIPE_MIN_DISTANCE && inFlat) {
+                                    if (isRunning(getApplication())) {
+                                        Intent intent = new Intent();
+                                        intent.setAction("com.klinker.android.messaging_donate.KILL_FOR_HALO");
+                                        sendBroadcast(intent);
+                                    }
 
-                                if (distance < SWIPE_MIN_DISTANCE) {
-                                    arcView.conversationsPaint.setAlpha(START_ALPHA);
-                                    arcView.newMessagePaint.setAlpha(START_ALPHA2);
-                                    arcView.textPaint.setAlpha(START_ALPHA2);
-                                    arcView.invalidate();
-                                    arcWindow.updateViewLayout(arcView, arcParams);
-                                    vibrateNeeded = true;
-                                }
-
-
-                            } else // in flat area
-                            {
-                                if (inDash && distance > SWIPE_MIN_DISTANCE)
+                                    Intent intent = new Intent(getBaseContext(), com.klinker.android.messaging_sliding.MainActivityPopup.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    intent.putExtra("fromHalo", true);
+                                    startActivity(intent);
+                                } else if (distance > SWIPE_MIN_DISTANCE && inDash)
                                 {
-                                    inDash = false;
-                                    inFlat = true;
+                                    if (isRunning(getApplication())) {
+                                        Intent intent = new Intent();
+                                        intent.setAction("com.klinker.android.messaging_donate.KILL_FOR_HALO");
+                                        sendBroadcast(intent);
+                                    }
 
-                                    arcView.newMessagePaint.setAlpha(TOUCHED_ALPHA);
-                                    arcView.textPaint.setAlpha(TOUCHED_ALPHA);
-                                    arcView.conversationsPaint.setAlpha(START_ALPHA);
-                                    arcView.invalidate();
-                                    arcWindow.updateViewLayout(arcView, arcParams);
+                                    Intent intent = new Intent(getBaseContext(), com.klinker.android.messaging_sliding.MainActivityPopup.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    intent.putExtra("fromHalo", true);
+                                    intent.putExtra("secAction", true);
+                                    intent.putExtra("secondaryType", sharedPrefs.getString("slideover_secondary_action", "conversations"));
+                                    startActivity(intent);
+                                }
 
-                                    if (!initial)
+                                arcView.newMessagePaint.setAlpha(START_ALPHA2);
+                                arcView.textPaint.setAlpha(START_ALPHA2);
+
+                                arcWindow.removeViewImmediate(arcView);
+
+                                needDetection = true;
+
+                                return true;
+                        }
+                    } else // if they have a new message to display
+                    {
+                        switch (type) {
+                            case MotionEvent.ACTION_DOWN:
+
+                                v.vibrate(10);
+
+                                initX = arg1.getX();
+                                initY = arg1.getY();
+
+                                arcView.newMessagePaint.setAlpha(START_ALPHA2);
+                                arcView.textPaint.setAlpha(START_ALPHA2);
+
+                                arcWindow.addView(arcView, arcParams);
+                                needDetection = true;
+                                return true;
+
+                            case MotionEvent.ACTION_MOVE:
+
+                                // FIXME flat part is activated when you put your finger on the very edge of the screen with halo on left
+                                // hmm... ok, can't find a fix for this... don't know what event that could possibly be triggering...
+
+                                xPortion = initX - arg1.getX();
+                                yPortion = initY - arg1.getY();
+
+                                distance = Math.sqrt(Math.pow(xPortion, 2) + Math.pow(yPortion, 2));
+                                angle = Math.toDegrees(Math.atan(yPortion/xPortion));
+
+                                if (!sharedPrefs.getString("slideover_side", "left").equals("left"))
+                                    angle *= -1;
+
+                                if ((!(initY > arg1.getY()) && angle > ARC_BREAK_POINT)) // in dash area
+                                {
+                                    if (inFlat && distance > SWIPE_MIN_DISTANCE)
                                     {
+                                        inFlat = false;
+                                        inDash = true;
+
+                                        arcView.conversationsPaint.setAlpha(START_ALPHA2 + 20);
+                                        arcView.newMessagePaint.setAlpha(START_ALPHA2);
+                                        arcView.textPaint.setAlpha(START_ALPHA2);
+                                        arcView.invalidate();
+                                        arcWindow.updateViewLayout(arcView, arcParams);
+
+                                        if (!initial)
+                                        {
+                                            v.vibrate(25);
+                                        }else
+                                        {
+                                            initial = false;
+                                        }
+                                    }
+
+                                    if (distance > SWIPE_MIN_DISTANCE && vibrateNeeded) {
+                                        arcView.conversationsPaint.setAlpha(START_ALPHA2 + 20);
+                                        arcView.newMessagePaint.setAlpha(START_ALPHA2);
+                                        arcView.textPaint.setAlpha(START_ALPHA2);
+                                        arcView.invalidate();
+                                        arcWindow.updateViewLayout(arcView, arcParams);
+
                                         v.vibrate(25);
-                                    }else
+
+                                        vibrateNeeded = false;
+                                    }
+
+                                    if (distance < SWIPE_MIN_DISTANCE) {
+                                        arcView.conversationsPaint.setAlpha(START_ALPHA);
+                                        arcView.newMessagePaint.setAlpha(START_ALPHA2);
+                                        arcView.textPaint.setAlpha(START_ALPHA2);
+                                        arcView.invalidate();
+                                        arcWindow.updateViewLayout(arcView, arcParams);
+                                        vibrateNeeded = true;
+                                    }
+
+
+                                } else // in flat area
+                                {
+                                    if (inDash && distance > SWIPE_MIN_DISTANCE)
                                     {
-                                        initial = false;
+                                        inDash = false;
+                                        inFlat = true;
+
+                                        arcView.newMessagePaint.setAlpha(TOUCHED_ALPHA);
+                                        arcView.textPaint.setAlpha(TOUCHED_ALPHA);
+                                        arcView.conversationsPaint.setAlpha(START_ALPHA);
+                                        arcView.invalidate();
+                                        arcWindow.updateViewLayout(arcView, arcParams);
+
+                                        if (!initial)
+                                        {
+                                            v.vibrate(25);
+                                        }else
+                                        {
+                                            initial = false;
+                                        }
+                                    }
+                                    if (distance > SWIPE_MIN_DISTANCE && vibrateNeeded) {
+                                        arcView.newMessagePaint.setAlpha(TOUCHED_ALPHA);
+                                        arcView.textPaint.setAlpha(TOUCHED_ALPHA);
+                                        arcView.conversationsPaint.setAlpha(START_ALPHA);
+                                        arcView.invalidate();
+                                        arcWindow.updateViewLayout(arcView, arcParams);
+
+                                        v.vibrate(25);
+
+                                        vibrateNeeded = false;
+                                    }
+
+                                    if (distance < SWIPE_MIN_DISTANCE) {
+                                        arcView.newMessagePaint.setAlpha(START_ALPHA2);
+                                        arcView.textPaint.setAlpha(START_ALPHA2);
+                                        arcView.conversationsPaint.setAlpha(START_ALPHA);
+                                        arcView.invalidate();
+                                        arcWindow.updateViewLayout(arcView, arcParams);
+                                        vibrateNeeded = true;
                                     }
                                 }
-                                if (distance > SWIPE_MIN_DISTANCE && vibrateNeeded) {
-                                    arcView.newMessagePaint.setAlpha(TOUCHED_ALPHA);
-                                    arcView.textPaint.setAlpha(TOUCHED_ALPHA);
-                                    arcView.conversationsPaint.setAlpha(START_ALPHA);
-                                    arcView.invalidate();
-                                    arcWindow.updateViewLayout(arcView, arcParams);
 
-                                    v.vibrate(25);
+                                return true;
 
-                                    vibrateNeeded = false;
+                            case MotionEvent.ACTION_UP:
+
+                                // now will fire a different intent depending on what view you are in
+                                if (distance > SWIPE_MIN_DISTANCE && inFlat) {
+                                    if (isRunning(getApplication())) {
+                                        Intent intent = new Intent();
+                                        intent.setAction("com.klinker.android.messaging_donate.KILL_FOR_HALO");
+                                        sendBroadcast(intent);
+                                    }
+
+                                    Intent intent = new Intent(getBaseContext(), com.klinker.android.messaging_sliding.MainActivityPopup.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    intent.putExtra("fromHalo", true);
+                                    startActivity(intent);
+                                } else if (distance > SWIPE_MIN_DISTANCE && inDash)
+                                {
+                                    if (isRunning(getApplication())) {
+                                        Intent intent = new Intent();
+                                        intent.setAction("com.klinker.android.messaging_donate.KILL_FOR_HALO");
+                                        sendBroadcast(intent);
+                                    }
+
+                                    Intent intent = new Intent(getBaseContext(), com.klinker.android.messaging_sliding.MainActivityPopup.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    intent.putExtra("fromHalo", true);
+                                    intent.putExtra("secAction", true);
+                                    intent.putExtra("secondaryType", sharedPrefs.getString("slideover_secondary_action", "conversations"));
+                                    startActivity(intent);
                                 }
 
-                                if (distance < SWIPE_MIN_DISTANCE) {
-                                    arcView.newMessagePaint.setAlpha(START_ALPHA2);
-                                    arcView.textPaint.setAlpha(START_ALPHA2);
-                                    arcView.conversationsPaint.setAlpha(START_ALPHA);
-                                    arcView.invalidate();
-                                    arcWindow.updateViewLayout(arcView, arcParams);
-                                    vibrateNeeded = true;
-                                }
-                            }
+                                arcView.newMessagePaint.setAlpha(START_ALPHA2);
+                                arcView.textPaint.setAlpha(START_ALPHA2);
 
-                            return true;
+                                arcWindow.removeViewImmediate(arcView);
 
-                        case MotionEvent.ACTION_UP:
+                                needDetection = true;
 
-                            // now will fire a different intent depending on what view you are in
-                            if (distance > SWIPE_MIN_DISTANCE && inFlat) {
-                                if (isRunning(getApplication())) {
-                                    Intent intent = new Intent();
-                                    intent.setAction("com.klinker.android.messaging_donate.KILL_FOR_HALO");
-                                    sendBroadcast(intent);
-                                }
-
-                                Intent intent = new Intent(getBaseContext(), com.klinker.android.messaging_sliding.MainActivityPopup.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                intent.putExtra("fromHalo", true);
-                                startActivity(intent);
-                            } else if (distance > SWIPE_MIN_DISTANCE && inDash)
-                            {
-                                if (isRunning(getApplication())) {
-                                    Intent intent = new Intent();
-                                    intent.setAction("com.klinker.android.messaging_donate.KILL_FOR_HALO");
-                                    sendBroadcast(intent);
-                                }
-
-                                Intent intent = new Intent(getBaseContext(), com.klinker.android.messaging_sliding.MainActivityPopup.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                intent.putExtra("fromHalo", true);
-                                intent.putExtra("secAction", true);
-                                intent.putExtra("secondaryType", sharedPrefs.getString("slideover_secondary_action", "conversations"));
-                                startActivity(intent);
-                            }
-
-                            arcView.newMessagePaint.setAlpha(START_ALPHA2);
-                            arcView.textPaint.setAlpha(START_ALPHA2);
-
-                            arcWindow.removeViewImmediate(arcView);
-
-                            needDetection = true;
-
-                            return true;
+                                return true;
+                        }
                     }
 
                 }
