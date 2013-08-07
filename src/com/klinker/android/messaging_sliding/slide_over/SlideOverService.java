@@ -519,7 +519,9 @@ public class SlideOverService extends Service {
 
                                     haloView.setRegularHalo();
                                     haloView.invalidate();
-                                    haloWindow.updateViewLayout(haloView, haloParams);
+                                    haloWindow.updateViewLayout(haloView, haloParams); 
+                                    
+                                    numNewConversations = 0;
                                 }
 
                                 arcView.newMessagePaint.setAlpha(START_ALPHA2);
@@ -663,6 +665,8 @@ public class SlideOverService extends Service {
             haloView.setRegularHalo();
             haloView.invalidate();
             haloWindow.updateViewLayout(haloView, haloParams);
+            
+            numNewConversations = 0;
         }
     };
 
