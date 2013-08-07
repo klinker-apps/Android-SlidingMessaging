@@ -5,6 +5,7 @@ Version 6.70
     - fix stupid edge bug (don't have a clue on honestly)
     - animations for new messages
     - make new message icon with red exterior instead of white
+    - actually open to the conversation number that i sent in through the intent
     - Add option ot auto close slideover when message is sent if coming !fromHalo
     - adjust arcs for sliver? maybe not even nesseisary in my opinion
 - floating notifications extension
