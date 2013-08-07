@@ -157,7 +157,7 @@ public class ArcView extends ViewGroup {
                 RectF oval = new RectF(width - conversationsRadius, point[1] + (halo.getHeight() / 2) -  conversationsRadius, width + conversationsRadius, point[1] + (halo.getHeight() / 2) + conversationsRadius);
 
                 Path textPath = new Path();
-                textPath.addArc(oval, breakAngle - 45, -180);
+                textPath.addArc(oval, -180 - breakAngle - 5, breakAngle + 90);
 
                 canvas.drawTextOnPath(newConversations.get(i)[0] + " - " + newConversations.get(i)[1], textPath, 0f, 0f, textPaint);
             }
