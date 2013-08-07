@@ -170,12 +170,12 @@ public class MainActivityPopup extends MainActivity {
                     }
                 }
                 
-                openToPage = getIntent().getIntExtra("openToPage", -1);
+                openTo = getIntent().getIntExtra("openToPage", 0);
                 
-                if (openToPage != -1) {
+                //if (openToPage != -1) {
                     menu.showContent();
-                    mViewPager.setCurrentItem(openToPage);
-                }
+                    mViewPager.setCurrentItem(openTo);
+                //}
             }
         } else {
             new Handler().postDelayed(new Runnable() {

@@ -9,6 +9,7 @@ import android.graphics.PixelFormat;
 import android.os.IBinder;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -559,7 +560,7 @@ public class SlideOverService extends Service {
         
         filter = new IntentFilter();
         filter.addAction("com.klinker.android.messaging.UPDATE_HALO");
-        this.registerReceiver(newMessageReceiver, filter);
+        this.registerReceiver(newMessageReceived, filter);
     }
 
     public int getCurrentZone(double distance, int zoneWidth, int arcLength, int maxZones)
@@ -644,6 +645,11 @@ public class SlideOverService extends Service {
             // TODO new message has been received, add to new messages arraylist and update view if necessary
             
             Log.v("new_message_to_halo", intent.getStringExtra("name") + ": " + intent.getStringExtra("message"));
+
+            arcView.newConversations.add(new String[] {intent.getStringExtra("name"), intent.getStringExtra("message")});
+
+            arcView.invalidate();
+            arcWindow.updateViewLayout(arcView, arcParams);
         }
     };
 

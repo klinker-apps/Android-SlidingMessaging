@@ -74,7 +74,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 	         
 	        String body = "";
 	        String address = "";
-	        String name;
+	        String name = "";
 	        String id;
 	        String date = "";
             String dateReceived;

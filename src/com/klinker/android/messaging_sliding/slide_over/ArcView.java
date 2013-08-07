@@ -129,7 +129,7 @@ public class ArcView extends ViewGroup {
         float conversationsRadius = radius + TEXT_SIZE + TEXT_GAP;
 
         // Draws the new conversations from the arraylist newConversations
-        for (int i = 0; i < newConversations.size(); i++)
+        for (int i = newConversations.size(); i > 0; i++)
         {
             if (sharedPrefs.getString("slideover_side", "left").equals("left")) {
                 // todo: adjust for sliver size on the left and right of the oval here
