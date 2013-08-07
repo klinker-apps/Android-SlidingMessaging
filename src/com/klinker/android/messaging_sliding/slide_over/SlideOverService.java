@@ -640,13 +640,13 @@ public class SlideOverService extends Service {
         public void onReceive(Context context, Intent intent) {
 
             arcView.newConversations.add(new String[] {intent.getStringExtra("name"), intent.getStringExtra("message")});
-            arcView.updateTextPaint();
+
             numberNewConv = arcView.newConversations.size();
 
+            arcView.updateTextPaint();
             arcView.invalidate();
 
             // set the icon to the red, recieved, icon
-
             haloView.setRecievedHalo();
             haloView.invalidate();
             haloWindow.updateViewLayout(haloView, haloParams);
