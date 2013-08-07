@@ -649,7 +649,7 @@ public class SlideOverService extends Service {
             arcView.newConversations.add(new String[] {intent.getStringExtra("name"), intent.getStringExtra("message")});
 
             arcView.invalidate();
-            arcWindow.updateViewLayout(arcView, arcParams);
+            //arcWindow.updateViewLayout(arcView, arcParams);
         }
     };
 

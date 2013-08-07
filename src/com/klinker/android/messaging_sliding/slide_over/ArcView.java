@@ -70,6 +70,15 @@ public class ArcView extends ViewGroup {
         newConversations.add(new String[] {"Brett Deters", "Want to go to Jethros? I think it would be an awesome night for that!"});
         newConversations.add(new String[] {"Matt Swiontek", "Your apartment is great!"});
 
+        this.halo = halo;
+        this.radius = radius;
+        this.breakAngle = breakAngle;
+        this.sliverPercent = sliverPercent;
+    }
+
+
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
 
         textPaint = new Paint[newConversations.size()];
 
@@ -86,16 +95,6 @@ public class ArcView extends ViewGroup {
             textPaint[i].setTextSize(TEXT_SIZE);
             textPaint[i].setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
         }
-
-        this.halo = halo;
-        this.radius = radius;
-        this.breakAngle = breakAngle;
-        this.sliverPercent = sliverPercent;
-    }
-
-
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
 
         int[] point = getPosition();
 
