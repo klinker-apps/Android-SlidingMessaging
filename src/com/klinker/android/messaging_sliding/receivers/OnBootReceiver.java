@@ -243,11 +243,15 @@ public class OnBootReceiver extends BroadcastReceiver {
 
         for(int i = 0; i < list.size(); i++)
         {
-            Date sendDate = new Date(Long.parseLong(list.get(i)[1]));
-            if (sendDate.before(new Date()) && list.get(i)[2].equals("None")) // date is earlier than current and no repetition
-            {
-                list.remove(i);
-                i--;
+            try {
+                Date sendDate = new Date(Long.parseLong(list.get(i)[1]));
+                if (sendDate.before(new Date()) && list.get(i)[2].equals("None")) // date is earlier than current and no repetition
+                {
+                    list.remove(i);
+                    i--;
+                }
+            } catch (Exception e) {
+
             }
         }
 

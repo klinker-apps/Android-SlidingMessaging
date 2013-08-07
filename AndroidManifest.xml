@@ -542,6 +542,23 @@
                 <action android:name="robj.floating.notifications.extension.DISABLED"></action>
             </intent-filter>
         </receiver>
-    </application>
 
+        <activity
+                android:name="com.klinker.android.messaging_donate.floating_notifications.EmojiDialogActivity"
+                android:label="@string/slide_over"
+                android:theme="@android:style/Theme.Holo.Dialog"
+                android:configChanges="orientation|screenSize"
+                android:hardwareAccelerated="true"
+                android:launchMode="singleInstance"
+                android:windowSoftInputMode="adjustResize"
+                android:taskAffinity=""
+                android:excludeFromRecents="true"
+                android:noHistory="true"
+                android:exported="true"
+                tools:ignore="ExportedActivity" >
+            <intent-filter>
+                <action android:name="robj.floating.notifications.extension" />
+            </intent-filter>
+        </activity>
+    </application>
 </manifest>
