@@ -168,14 +168,15 @@ public class MainActivityPopup extends MainActivity {
                             }
                         }, 500);
                     }
-                }
-                
-                openTo = getIntent().getIntExtra("openToPage", 0);
-                
-                //if (openToPage != -1) {
+                } else
+                {
+                    openTo = getIntent().getIntExtra("openToPage", 0);
+
                     menu.showContent();
                     mViewPager.setCurrentItem(openTo);
-                //}
+                }
+                
+
             }
         } else {
             new Handler().postDelayed(new Runnable() {
