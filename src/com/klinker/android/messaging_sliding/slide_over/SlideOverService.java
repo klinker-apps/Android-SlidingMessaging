@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -26,10 +27,11 @@ public class SlideOverService extends Service {
 
     public HaloView haloView;
     public ArcView arcView;
+    public UnreadView unreadView;
 
     public WindowManager.LayoutParams haloParams;
     public WindowManager.LayoutParams haloHiddenParams;
-    public WindowManager.LayoutParams haloOutParams;
+    public WindowManager.LayoutParams unreadParams;
     public WindowManager.LayoutParams arcParams;
 
     public Context mContext;
@@ -51,18 +53,34 @@ public class SlideOverService extends Service {
     public int numberNewConv;
 
     // Doesn't work because it doesn't let me update the views from here... don't know any way around that...
-    /*public Thread pullOut = new Thread(new Runnable() {
+    /*public Thread unread = new Thread(new Runnable() {
         @Override
         public void run() {
-            haloWindow.updateViewLayout(haloView, haloOutParams);
+            Looper.prepare();
+
+            final Bitmap halo = BitmapFactory.decodeResource(getResources(),
+                    R.drawable.halo_bg);
+
+            Display d = ((WindowManager)getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+            final int height = d.getHeight();
+            final int width = d.getWidth();
+
+            int vertical = (int)(height * PERCENT_DOWN_SCREEN);
+            int horizontal = sharedPrefs.getString("slideover_side", "left").equals("left") ? (int)(HALO_SLIVER_RATIO * halo.getWidth()) : (int) (width - (halo.getWidth() * (HALO_SLIVER_RATIO)));
+
+            unreadView = new UnreadView(getBaseContext(), vertical, horizontal, "" + numberNewConv);
+
+            WindowManager unreadWindow = (WindowManager) getSystemService(WINDOW_SERVICE);
+            unreadWindow.addView(unreadView, unreadParams);
+
 
             try {
-                Thread.sleep(5000);
+                Thread.sleep(7000);
             } catch (InterruptedException e)
             {
-                haloWindow.updateViewLayout(haloView, haloParams);
+                unreadWindow.removeViewImmediate(unreadView);
             } finally {
-                haloWindow.updateViewLayout(haloView, haloParams);
+                unreadWindow.removeViewImmediate(unreadView);
             }
         }
     });*/
@@ -121,9 +139,9 @@ public class SlideOverService extends Service {
         haloHiddenParams.gravity = Gravity.TOP | Gravity.LEFT;
         haloHiddenParams.windowAnimations = android.R.anim.fade_out;
 
-        haloOutParams = new WindowManager.LayoutParams(
-                halo.getWidth(),
-                halo.getHeight(),
+        unreadParams = new WindowManager.LayoutParams(
+                width,
+                height,
                 sharedPrefs.getString("slideover_side", "left").equals("left") ? 0 : width - halo.getWidth(),
                 (int)(height * PERCENT_DOWN_SCREEN),
                 WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
@@ -132,8 +150,8 @@ public class SlideOverService extends Service {
                         |WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
                         |WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 PixelFormat.TRANSLUCENT);
-        haloOutParams.gravity = Gravity.TOP | Gravity.LEFT;
-        //haloHiddenParams.windowAnimations = android.R.anim.fade_out;
+        unreadParams.gravity = Gravity.TOP | Gravity.LEFT;
+        unreadParams.windowAnimations = android.R.anim.fade_in;
 
         arcParams = new WindowManager.LayoutParams(
                 WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
@@ -190,6 +208,8 @@ public class SlideOverService extends Service {
                     {
                         switch (type) {
                             case MotionEvent.ACTION_DOWN:
+
+                                //unread.stop(new InterruptedException());
 
                                 if (HAPTIC_FEEDBACK)
                                         v.vibrate(10);
@@ -351,6 +371,8 @@ public class SlideOverService extends Service {
 
                         switch (type) {
                             case MotionEvent.ACTION_DOWN:
+
+                                //unread.stop(new InterruptedException());
 
                                 if (HAPTIC_FEEDBACK)
                                     v.vibrate(10);
@@ -711,7 +733,7 @@ public class SlideOverService extends Service {
             haloView.invalidate();
             haloWindow.updateViewLayout(haloView, haloParams);
 
-            //pullOut.start();
+            //unread.start();
         }
     };
 
