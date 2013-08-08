@@ -27,7 +27,6 @@ public class SlideOverService extends Service {
 
     public HaloView haloView;
     public ArcView arcView;
-    public UnreadView unreadView;
 
     public WindowManager.LayoutParams haloParams;
     public WindowManager.LayoutParams haloHiddenParams;
@@ -52,7 +51,7 @@ public class SlideOverService extends Service {
 
     public int numberNewConv;
 
-    // Doesn't work because it doesn't let me update the views from here... don't know any way around that...
+
     /*public Thread unread = new Thread(new Runnable() {
         @Override
         public void run() {
@@ -68,7 +67,7 @@ public class SlideOverService extends Service {
             int vertical = (int)(height * PERCENT_DOWN_SCREEN);
             int horizontal = sharedPrefs.getString("slideover_side", "left").equals("left") ? (int)(HALO_SLIVER_RATIO * halo.getWidth()) : (int) (width - (halo.getWidth() * (HALO_SLIVER_RATIO)));
 
-            unreadView = new UnreadView(getBaseContext(), vertical, horizontal, "" + numberNewConv);
+            UnreadView unreadView = new UnreadView(getBaseContext(), vertical, horizontal, "" + numberNewConv);
 
             WindowManager unreadWindow = (WindowManager) getSystemService(WINDOW_SERVICE);
             unreadWindow.addView(unreadView, unreadParams);
@@ -704,6 +703,8 @@ public class SlideOverService extends Service {
 
             int index;
             boolean exists = false;
+
+            //todo - find a way to get group messages to work better, right now they show up as ever persons message, then when swiping to them, they take you to the wrong conversation
 
             for (index = 0; index < numberNewConv; index++)
             {
