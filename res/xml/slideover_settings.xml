@@ -1,85 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <Preference
-        android:key="slideover_teaser"
-        android:title="@string/slideover_teaser"
-        android:enabled="false"
+    <!--<Preference-->
+        <!--android:key="slideover_teaser"-->
+        <!--android:title="@string/slideover_teaser"-->
+        <!--android:enabled="false"-->
+    <!--/>-->
+
+    <CheckBoxPreference
+        android:key="slideover_enabled"
+        android:title="@string/enable_slideover"
+        android:summary="@string/enable_slideover_summary"
+        android:defaultValue="false"
     />
 
-    <!--<CheckBoxPreference-->
-        <!--android:key="slideover_enabled"-->
-        <!--android:title="@string/enable_slideover"-->
-        <!--android:summary="@string/enable_slideover_summary"-->
-        <!--android:defaultValue="false"-->
-    <!--/>-->
+    <ListPreference
+        android:key="slideover_side"
+        android:title="@string/slideover_side"
+        android:summary="@string/slideover_side_summary"
+        android:defaultValue="left"
+        android:dependency="slideover_enabled"
+        android:entries="@array/slideover_side"
+        android:entryValues="@array/slideover_side_inserted"
+    />
 
-    <!--<ListPreference-->
-        <!--android:key="slideover_side"-->
-        <!--android:title="@string/slideover_side"-->
-        <!--android:summary="@string/slideover_side_summary"-->
-        <!--android:defaultValue="left"-->
-        <!--android:dependency="slideover_enabled"-->
-        <!--android:entries="@array/slideover_side"-->
-        <!--android:entryValues="@array/slideover_side_inserted"-->
-    <!--/>-->
+    <com.klinker.android.messaging_sliding.custom_dialogs.SeekBarPreference3
+        android:key="slideover_vertical"
+        android:title="@string/slideover_alignment"
+        android:summary="@string/slideover_alignment_summary"
+        android:defaultValue="50"
+        android:max="100"
+        android:dependency="slideover_enabled"
+    />
 
-    <!--<com.klinker.android.messaging_sliding.custom_dialogs.SeekBarPreference3-->
-        <!--android:key="slideover_vertical"-->
-        <!--android:title="@string/slideover_alignment"-->
-        <!--android:summary="@string/slideover_alignment_summary"-->
-        <!--android:defaultValue="50"-->
-        <!--android:max="100"-->
-        <!--android:dependency="slideover_enabled"-->
-    <!--/>-->
+    <com.klinker.android.messaging_sliding.custom_dialogs.SeekBarPreference3
+        android:key="slideover_sliver"
+        android:title="@string/slideover_sliver"
+        android:summary="@string/slideover_sliver_summary"
+        android:defaultValue="33"
+        android:max="100"
+        android:dependency="slideover_enabled"
+    />
 
-    <!--<com.klinker.android.messaging_sliding.custom_dialogs.SeekBarPreference3-->
-        <!--android:key="slideover_sliver"-->
-        <!--android:title="@string/slideover_sliver"-->
-        <!--android:summary="@string/slideover_sliver_summary"-->
-        <!--android:defaultValue="33"-->
-        <!--android:max="100"-->
-        <!--android:dependency="slideover_enabled"-->
-    <!--/>-->
+    <com.klinker.android.messaging_sliding.custom_dialogs.SeekBarPreference3
+        android:key="slideover_activation"
+        android:title="@string/slideover_activation"
+        android:summary="@string/slideover_activation_summary"
+        android:defaultValue="33"
+        android:max="100"
+        android:dependency="slideover_enabled"
+    />
 
-    <!--<com.klinker.android.messaging_sliding.custom_dialogs.SeekBarPreference3-->
-        <!--android:key="slideover_activation"-->
-        <!--android:title="@string/slideover_activation"-->
-        <!--android:summary="@string/slideover_activation_summary"-->
-        <!--android:defaultValue="33"-->
-        <!--android:max="100"-->
-        <!--android:dependency="slideover_enabled"-->
-    <!--/>-->
+    <com.klinker.android.messaging_sliding.custom_dialogs.SeekBarPreference3
+        android:key="slideover_break_point"
+        android:title="@string/slideover_break_point"
+        android:summary="@string/slideover_break_point_summary"
+        android:defaultValue="33"
+        android:max="100"
+        android:dependency="slideover_enabled"
+    />
 
-    <!--<com.klinker.android.messaging_sliding.custom_dialogs.SeekBarPreference3-->
-        <!--android:key="slideover_break_point"-->
-        <!--android:title="@string/slideover_break_point"-->
-        <!--android:summary="@string/slideover_break_point_summary"-->
-        <!--android:defaultValue="33"-->
-        <!--android:max="100"-->
-        <!--android:dependency="slideover_enabled"-->
-    <!--/>-->
+    <ListPreference
+        android:key="slideover_secondary_action"
+        android:title="@string/slideover_secondary_action"
+        android:summary="@string/slideover_secondary_action_summary"
+        android:defaultValue="conversations"
+        android:dependency="slideover_enabled"
+        android:entries="@array/slideover_secondary_action"
+        android:entryValues="@array/slideover_secondary_action_inserted"
+    />
 
-    <!--<ListPreference-->
-        <!--android:key="slideover_secondary_action"-->
-        <!--android:title="@string/slideover_secondary_action"-->
-        <!--android:summary="@string/slideover_secondary_action_summary"-->
-        <!--android:defaultValue="conversations"-->
-        <!--android:dependency="slideover_enabled"-->
-        <!--android:entries="@array/slideover_secondary_action"-->
-        <!--android:entryValues="@array/slideover_secondary_action_inserted"-->
-    <!--/>-->
+    <CheckBoxPreference
+        android:key="slideover_haptic_feedback"
+        android:title="@string/slideover_haptic_feedback"
+        android:defaultValue="true"
+        android:dependency="slideover_enabled"
+    />
 
-    <!--<CheckBoxPreference-->
-        <!--android:key="slideover_haptic_feedback"-->
-        <!--android:title="@string/slideover_haptic_feedback"-->
-        <!--android:defaultValue="true"-->
-        <!--android:dependency="slideover_enabled"-->
-    <!--/>-->
-
-    <!--<Preference-->
-        <!--android:title="@string/under_development"-->
-        <!--android:summary="@string/under_development_summary"-->
-    <!--/>-->
+    <Preference
+        android:title="@string/under_development"
+        android:summary="@string/under_development_summary"
+    />
 
 </PreferenceScreen>

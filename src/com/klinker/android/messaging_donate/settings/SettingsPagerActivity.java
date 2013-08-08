@@ -626,129 +626,129 @@ public class SettingsPagerActivity extends FragmentActivity {
         }
 
         public void setUpSlideOverSettings() {
-//            Preference slideOver = findPreference("slideover_enabled");
-//            slideOver.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-//                @Override
-//                public boolean onPreferenceClick(Preference preference) {
-//                    if (sharedPrefs.getBoolean("slideover_enabled", false)) {
-//                        Intent service = new Intent(getApplicationContext(), com.klinker.android.messaging_sliding.slide_over.SlideOverService.class);
-//                        startService(service);
-//                    } else {
-//                        Intent service = new Intent();
-//                        service.setAction("com.klinker.android.messaging.STOP_HALO");
-//                        sendBroadcast(service);
-//                    }
-//
-//                    return false;
-//                }
-//            });
-//
-//            Preference side = findPreference("slideover_side");
-//            side.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-//                @Override
-//                public boolean onPreferenceChange(Preference preference, Object o) {
-//                    Intent service = new Intent();
-//                    service.setAction("com.klinker.android.messaging.STOP_HALO");
-//                    sendBroadcast(service);
-//
-//                    new Handler().postDelayed(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            Intent service = new Intent(getApplicationContext(), com.klinker.android.messaging_sliding.slide_over.SlideOverService.class);
-//                            startService(service);
-//                        }
-//                    }, 500);
-//                    return true;
-//                }
-//            });
-//
-//            Preference sliver = findPreference("slideover_sliver");
-//            sliver.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-//                @Override
-//                public boolean onPreferenceChange(Preference preference, Object o) {
-//                    Intent service = new Intent();
-//                    service.setAction("com.klinker.android.messaging.STOP_HALO");
-//                    sendBroadcast(service);
-//
-//                    new Handler().postDelayed(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            if (sharedPrefs.getBoolean("slideover_enabled", false)) {
-//                                Intent service = new Intent(getApplicationContext(), com.klinker.android.messaging_sliding.slide_over.SlideOverService.class);
-//                                startService(service);
-//                            }
-//                        }
-//                    }, 500);
-//
-//                    return true;
-//                }
-//            });
-//
-//            Preference alignment = findPreference("slideover_vertical");
-//            alignment.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-//                @Override
-//                public boolean onPreferenceChange(Preference preference, Object o) {
-//                    Intent service = new Intent();
-//                    service.setAction("com.klinker.android.messaging.STOP_HALO");
-//                    sendBroadcast(service);
-//
-//                    new Handler().postDelayed(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            if (sharedPrefs.getBoolean("slideover_enabled", false)) {
-//                                Intent service = new Intent(getApplicationContext(), com.klinker.android.messaging_sliding.slide_over.SlideOverService.class);
-//                                startService(service);
-//                            }
-//                        }
-//                    }, 500);
-//
-//                    return true;
-//                }
-//            });
-//
-//            Preference activation = findPreference("slideover_activation");
-//            activation.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-//                @Override
-//                public boolean onPreferenceChange(Preference preference, Object o) {
-//                    Intent service = new Intent();
-//                    service.setAction("com.klinker.android.messaging.STOP_HALO");
-//                    sendBroadcast(service);
-//
-//                    new Handler().postDelayed(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            if (sharedPrefs.getBoolean("slideover_enabled", false)) {
-//                                Intent service = new Intent(getApplicationContext(), com.klinker.android.messaging_sliding.slide_over.SlideOverService.class);
-//                                startService(service);
-//                            }
-//                        }
-//                    }, 500);
-//
-//                    return true;
-//                }
-//            });
-//
-//            Preference breakPoint = findPreference("slideover_break_point");
-//            breakPoint.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-//                @Override
-//                public boolean onPreferenceChange(Preference preference, Object o) {
-//                    Intent service = new Intent();
-//                    service.setAction("com.klinker.android.messaging.STOP_HALO");
-//                    sendBroadcast(service);
-//
-//                    new Handler().postDelayed(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            if (sharedPrefs.getBoolean("slideover_enabled", false)) {
-//                                Intent service = new Intent(getApplicationContext(), com.klinker.android.messaging_sliding.slide_over.SlideOverService.class);
-//                                startService(service);
-//                            }
-//                        }
-//                    }, 500);
-//
-//                    return true;
-//                }
-//            });
+            Preference slideOver = findPreference("slideover_enabled");
+            slideOver.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    if (sharedPrefs.getBoolean("slideover_enabled", false)) {
+                        Intent service = new Intent(getApplicationContext(), com.klinker.android.messaging_sliding.slide_over.SlideOverService.class);
+                        startService(service);
+                    } else {
+                        Intent service = new Intent();
+                        service.setAction("com.klinker.android.messaging.STOP_HALO");
+                        sendBroadcast(service);
+                    }
+
+                    return false;
+                }
+            });
+
+            Preference side = findPreference("slideover_side");
+            side.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    Intent service = new Intent();
+                    service.setAction("com.klinker.android.messaging.STOP_HALO");
+                    sendBroadcast(service);
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent service = new Intent(getApplicationContext(), com.klinker.android.messaging_sliding.slide_over.SlideOverService.class);
+                            startService(service);
+                        }
+                    }, 500);
+                    return true;
+                }
+            });
+
+            Preference sliver = findPreference("slideover_sliver");
+            sliver.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    Intent service = new Intent();
+                    service.setAction("com.klinker.android.messaging.STOP_HALO");
+                    sendBroadcast(service);
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (sharedPrefs.getBoolean("slideover_enabled", false)) {
+                                Intent service = new Intent(getApplicationContext(), com.klinker.android.messaging_sliding.slide_over.SlideOverService.class);
+                                startService(service);
+                            }
+                        }
+                    }, 500);
+
+                    return true;
+                }
+            });
+
+            Preference alignment = findPreference("slideover_vertical");
+            alignment.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    Intent service = new Intent();
+                    service.setAction("com.klinker.android.messaging.STOP_HALO");
+                    sendBroadcast(service);
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (sharedPrefs.getBoolean("slideover_enabled", false)) {
+                                Intent service = new Intent(getApplicationContext(), com.klinker.android.messaging_sliding.slide_over.SlideOverService.class);
+                                startService(service);
+                            }
+                        }
+                    }, 500);
+
+                    return true;
+                }
+            });
+
+            Preference activation = findPreference("slideover_activation");
+            activation.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    Intent service = new Intent();
+                    service.setAction("com.klinker.android.messaging.STOP_HALO");
+                    sendBroadcast(service);
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (sharedPrefs.getBoolean("slideover_enabled", false)) {
+                                Intent service = new Intent(getApplicationContext(), com.klinker.android.messaging_sliding.slide_over.SlideOverService.class);
+                                startService(service);
+                            }
+                        }
+                    }, 500);
+
+                    return true;
+                }
+            });
+
+            Preference breakPoint = findPreference("slideover_break_point");
+            breakPoint.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    Intent service = new Intent();
+                    service.setAction("com.klinker.android.messaging.STOP_HALO");
+                    sendBroadcast(service);
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (sharedPrefs.getBoolean("slideover_enabled", false)) {
+                                Intent service = new Intent(getApplicationContext(), com.klinker.android.messaging_sliding.slide_over.SlideOverService.class);
+                                startService(service);
+                            }
+                        }
+                    }, 500);
+
+                    return true;
+                }
+            });
         }
 
         public void setUpMessageSettings()
