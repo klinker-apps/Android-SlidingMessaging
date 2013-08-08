@@ -45,11 +45,6 @@ public class QuickTextService extends IntentService {
 		
 		Intent notifyIntent = new Intent(this, SendMessage.class);
 		
-		if (sharedPrefs.getBoolean("full_app_popup", true)) {
-			notifyIntent = new Intent(this, MainActivityPopup.class);
-			notifyIntent.putExtra("fromWidget", true);
-		}
-		
 		notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		PendingIntent intent2 = PendingIntent.getActivity(this, 2, 
 		            notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);

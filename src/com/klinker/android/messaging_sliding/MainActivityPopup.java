@@ -153,7 +153,13 @@ public class MainActivityPopup extends MainActivity {
     public void onResume() {
         super.onResume();
 
-        if (!fromWidget) {
+        boolean notification = getIntent().getStringExtra("notification").equals("true");
+
+        if (notification && fromWidget) {
+            notification = false;
+        }
+
+        if (!fromWidget || (!notification && fromWidget)) {
             if (!fromHalo) {
                 menu.showContent();
             } else {

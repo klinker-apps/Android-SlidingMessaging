@@ -209,6 +209,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 
                     if (sharedPrefs.getBoolean("full_app_popup", true)) {
                         intent2 = new Intent(context, MainActivityPopup.class);
+                        intent2.putExtra("fromWidget", false);
                     }
 
                     if (sharedPrefs.getBoolean("halo_popup", false)) {
@@ -221,11 +222,11 @@ public class TextMessageReceiver extends BroadcastReceiver {
                         {
                             intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         }
-
                     }
-					
+
+                    intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					intent2.putExtra("notification", "true");
-					PendingIntent pIntent = PendingIntent.getActivity(context, 0, intent2, PendingIntent.FLAG_CANCEL_CURRENT);
+					PendingIntent pIntent = PendingIntent.getActivity(context, 0, intent2, 0);
 			
 					if (sharedPrefs.getBoolean("notifications", true))
 					{
