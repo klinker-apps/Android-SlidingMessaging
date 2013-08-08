@@ -143,9 +143,9 @@ public class EmojiDialogActivity extends Activity {
                 final Extension.onClickListener sendOnClick = new Extension.onClickListener() {
                     @Override
                     public void onClick(String str) {
+                            FNAction.sendMessage(context, FNReceiver.messages.get(id)[0], str);
                             Extension.remove(id, context);
                             FNReceiver.messages.remove(id);
-                            FNAction.sendMessage(context, FNReceiver.messages.get(id)[0], str);
                             finish();
                     }
                 };
@@ -175,7 +175,11 @@ public class EmojiDialogActivity extends Activity {
     public void onResume() {
         super.onResume();
 
-        editText.setText(message);
-        editText.setSelection(message.length());
+        try {
+            editText.setText(message);
+            editText.setSelection(message.length());
+        } catch (Exception e) {
+
+        }
     }
 }

@@ -120,13 +120,8 @@ public class CardWidgetProvider extends AppWidgetProvider {
 	        	int appWidgetId = appWidgetIds[i];
 	        	
 	            Intent quickText = new Intent(this, SendMessage.class);
-                
-                if (sharedPrefs.getBoolean("full_app_popup", true)) {
-			        quickText = new Intent(this, MainActivityPopup.class);
-                    quickText.putExtra("fromWidget", true);
-		        }
         
-	            PendingIntent quickPending = PendingIntent.getActivity(this, 0, quickText, PendingIntent.FLAG_CANCEL_CURRENT);
+	            PendingIntent quickPending = PendingIntent.getActivity(this, 0, quickText, 0);
 
                 Intent settings = new Intent(this, CardWidgetSettingsActivity.class);
                 PendingIntent settingsPending = PendingIntent.getActivity(this, 0, settings, 0);

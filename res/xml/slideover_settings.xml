@@ -69,7 +69,7 @@
         android:entries="@array/slideover_secondary_action"
         android:entryValues="@array/slideover_secondary_action_inserted"
     />
-    
+
     <CheckBoxPreference
         android:key="slideover_haptic_feedback"
         android:title="@string/slideover_haptic_feedback"

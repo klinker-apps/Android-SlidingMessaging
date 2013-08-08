@@ -33,13 +33,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -5954,6 +5948,18 @@ s
 						PendingIntent pStopRepeating = PendingIntent.getService(context, 0, stopRepeating, 0);
 						AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 						alarm.cancel(pStopRepeating);
+
+                        Map<Long, String[]> fnMessages = com.klinker.android.messaging_donate.floating_notifications.FNReceiver.messages;
+
+                        if (fnMessages != null) {
+                            if (fnMessages.size() > 0) {
+                                Set<Long> keys = fnMessages.keySet();
+
+                                for (Long ii: keys) {
+                                    robj.floating.notifications.Extension.remove(ii, context);
+                                }
+                            }
+                        }
 					}
 				}, 500);
 			}
