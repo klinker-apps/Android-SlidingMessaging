@@ -6,6 +6,7 @@ import android.content.*;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
+import android.os.Handler;
 import android.os.IBinder;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
@@ -28,6 +29,7 @@ public class SlideOverService extends Service {
 
     public WindowManager.LayoutParams haloParams;
     public WindowManager.LayoutParams haloHiddenParams;
+    public WindowManager.LayoutParams haloOutParams;
     public WindowManager.LayoutParams arcParams;
 
     public Context mContext;
@@ -48,12 +50,22 @@ public class SlideOverService extends Service {
 
     public int numberNewConv;
 
-    public Thread pullOut = new Thread(new Runnable() {
+    // Doesn't work because it doesn't let me update the views from here... don't know any way around that...
+    /*public Thread pullOut = new Thread(new Runnable() {
         @Override
         public void run() {
+            haloWindow.updateViewLayout(haloView, haloOutParams);
 
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e)
+            {
+                haloWindow.updateViewLayout(haloView, haloParams);
+            } finally {
+                haloWindow.updateViewLayout(haloView, haloParams);
+            }
         }
-    });
+    });*/
 
     @Override
     public void onCreate() {
@@ -108,6 +120,20 @@ public class SlideOverService extends Service {
                 PixelFormat.TRANSLUCENT);
         haloHiddenParams.gravity = Gravity.TOP | Gravity.LEFT;
         haloHiddenParams.windowAnimations = android.R.anim.fade_out;
+
+        haloOutParams = new WindowManager.LayoutParams(
+                halo.getWidth(),
+                halo.getHeight(),
+                sharedPrefs.getString("slideover_side", "left").equals("left") ? 0 : width - halo.getWidth(),
+                (int)(height * PERCENT_DOWN_SCREEN),
+                WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                        |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+                        |WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
+                        |WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                PixelFormat.TRANSLUCENT);
+        haloOutParams.gravity = Gravity.TOP | Gravity.LEFT;
+        //haloHiddenParams.windowAnimations = android.R.anim.fade_out;
 
         arcParams = new WindowManager.LayoutParams(
                 WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
@@ -644,13 +670,36 @@ public class SlideOverService extends Service {
             unregisterReceiver(this);
         }
     };
+
+    public Handler mHandler = new Handler();
     
     public BroadcastReceiver newMessageReceived = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            // todo - append message to the end of the string if the name already exists
-            arcView.newConversations.add(new String[] {intent.getStringExtra("name"), intent.getStringExtra("message")});
+            String name = intent.getStringExtra("name");
+            String message = intent.getStringExtra("message");
+
+            int index;
+            boolean exists = false;
+
+            for (index = 0; index < numberNewConv; index++)
+            {
+                if (name.equals(arcView.newConversations.get(index)[0]))
+                {
+                    exists = true;
+                    break;
+                }
+            }
+
+            if (!exists)
+                arcView.newConversations.add(new String[] {name, message});
+            else
+            {
+                String oldMessage = arcView.newConversations.get(index)[1];
+                arcView.newConversations.add(new String[] {name, oldMessage + " | " + message});
+                arcView.newConversations.remove(index);
+            }
 
             numberNewConv = arcView.newConversations.size();
 
@@ -661,6 +710,8 @@ public class SlideOverService extends Service {
             haloView.setRecievedHalo();
             haloView.invalidate();
             haloWindow.updateViewLayout(haloView, haloParams);
+
+            //pullOut.start();
         }
     };
 
