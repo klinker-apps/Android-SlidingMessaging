@@ -143,9 +143,9 @@ public class EmojiDialogActivity extends Activity {
                 final Extension.onClickListener sendOnClick = new Extension.onClickListener() {
                     @Override
                     public void onClick(String str) {
+                            FNAction.sendMessage(context, FNReceiver.messages.get(id)[0], str);
                             Extension.remove(id, context);
                             FNReceiver.messages.remove(id);
-                            FNAction.sendMessage(context, FNReceiver.messages.get(id)[0], str);
                             finish();
                     }
                 };
