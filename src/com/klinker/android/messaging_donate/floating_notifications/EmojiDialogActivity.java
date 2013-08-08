@@ -175,7 +175,11 @@ public class EmojiDialogActivity extends Activity {
     public void onResume() {
         super.onResume();
 
-        editText.setText(message);
-        editText.setSelection(message.length());
+        try {
+            editText.setText(message);
+            editText.setSelection(message.length());
+        } catch (Exception e) {
+
+        }
     }
 }

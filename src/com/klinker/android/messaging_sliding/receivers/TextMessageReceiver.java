@@ -210,6 +210,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
                     if (sharedPrefs.getBoolean("full_app_popup", true)) {
                         intent2 = new Intent(context, MainActivityPopup.class);
                         intent2.putExtra("fromWidget", false);
+                        intent2.putExtra("fromNotification", true);
                     }
 
                     if (sharedPrefs.getBoolean("halo_popup", false)) {
