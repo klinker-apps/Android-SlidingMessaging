@@ -28,11 +28,6 @@ Luke's ideas for speed/fluidity improvement:
 
 - igamer777@gmail.com, nikorezzano@gmail.com
 
-FOR UPDATE:
-	- fix floating notifications stuff
-	- update theme editor and description
-	- remove slideover stuff
-
 - sms backup
 	- different icon in notification
 	- apply for mms
