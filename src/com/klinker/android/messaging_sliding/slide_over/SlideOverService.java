@@ -172,9 +172,6 @@ public class SlideOverService extends Service {
 
                             case MotionEvent.ACTION_MOVE:
 
-                                // FIXME flat part is activated when you put your finger on the very edge of the screen with halo on left
-                                // hmm... ok, can't find a fix for this... don't know what event that could possibly be triggering...
-
                                 xPortion = initX - event.getX();
                                 yPortion = initY - event.getY();
 
@@ -330,9 +327,6 @@ public class SlideOverService extends Service {
                                 return true;
 
                             case MotionEvent.ACTION_MOVE:
-
-                                // FIXME flat part is activated when you put your finger on the very edge of the screen with halo on left
-                                // hmm... ok, can't find a fix for this... don't know what event that could possibly be triggering...
 
                                 xPortion = initX - event.getX();
                                 yPortion = initY - event.getY();
