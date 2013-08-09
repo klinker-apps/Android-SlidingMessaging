@@ -19,7 +19,10 @@ public class ArcView extends ViewGroup {
 
     public Paint newMessagePaint;
     public Paint conversationsPaint;
+    public Paint closePaint;
+    public Paint movePaint;
     public Paint[] textPaint;
+
     public float radius;
     public float breakAngle;
 
@@ -58,6 +61,20 @@ public class ArcView extends ViewGroup {
         float dashLength = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, context.getResources().getDisplayMetrics());
         conversationsPaint.setPathEffect(new DashPathEffect(new float[] {dashLength, dashLength*2}, 0));
 
+        closePaint = new Paint();
+        closePaint.setAntiAlias(true);
+        closePaint.setColor(Color.WHITE);
+        closePaint.setAlpha(SlideOverService.START_ALPHA);
+        closePaint.setTextSize(TEXT_SIZE);
+        closePaint.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
+
+        movePaint = new Paint();
+        movePaint.setAntiAlias(true);
+        movePaint.setColor(Color.WHITE);
+        movePaint.setAlpha(SlideOverService.START_ALPHA);
+        movePaint.setTextSize(TEXT_SIZE);
+        movePaint.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
+
         newConversations = new ArrayList<String[]>();
 
         textPaint = new Paint[newConversations.size()];
@@ -85,6 +102,9 @@ public class ArcView extends ViewGroup {
 
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+
+        canvas.drawText("CLOSE", (float)((width * .25) - (closePaint.measureText("CLOSE")/2)) , 40, closePaint);
+        canvas.drawText("MOVE", (float)((width * .75) - (closePaint.measureText("CMOVE")/2)) , 40, movePaint);
 
         int[] point = getPosition();
 

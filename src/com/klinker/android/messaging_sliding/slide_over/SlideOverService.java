@@ -15,7 +15,6 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import com.klinker.android.messaging_donate.R;
 
@@ -147,6 +146,10 @@ public class SlideOverService extends Service {
             private boolean initial = true;
             private boolean zoneChange = false;
             private boolean fromDash = true;
+            private boolean inButtons = false;
+            private boolean topVibrate = true;
+            private boolean inClose = false;
+            private boolean inMove = false;
 
             private int lastZone = 0;
             private int currentZone = 0;
@@ -168,7 +171,7 @@ public class SlideOverService extends Service {
                     final int type = event.getActionMasked();
                     Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
-                    if (numberNewConv == 0) {
+                    if (numberNewConv == 0) { // no messages to display
                         switch (type) {
                             case MotionEvent.ACTION_DOWN:
 
@@ -197,14 +200,66 @@ public class SlideOverService extends Service {
                                 if (!sharedPrefs.getString("slideover_side", "left").equals("left"))
                                     angle *= -1;
 
-                                if ((!(initY > event.getY()) && angle > ARC_BREAK_POINT)) // in dash area
+                                if (event.getRawY() < 100) // in Top Area
                                 {
+                                    inButtons = true;
+
+                                    if (HAPTIC_FEEDBACK && topVibrate) {
+                                        v.vibrate(25);
+                                        vibrateNeeded = true;
+                                        topVibrate = false;
+                                    }
+
+                                    if(event.getRawX() < width/2) // Close Zone
+                                    {
+                                        inClose = true;
+                                        if(HAPTIC_FEEDBACK && inMove)
+                                        {
+                                            v.vibrate(25);
+                                            inMove = false;
+                                        }
+                                        arcView.closePaint.setAlpha(TOUCHED_ALPHA);
+                                        arcView.movePaint.setAlpha(START_ALPHA2);
+                                        arcView.newMessagePaint.setAlpha(START_ALPHA2);
+                                    } else // Move Zone
+                                    {
+                                        inMove = true;
+                                        if(HAPTIC_FEEDBACK && inClose)
+                                        {
+                                            v.vibrate(25);
+                                            inClose = false;
+                                        }
+                                        arcView.closePaint.setAlpha(START_ALPHA2);
+                                        arcView.movePaint.setAlpha(TOUCHED_ALPHA);
+                                        arcView.newMessagePaint.setAlpha(START_ALPHA2);
+                                    }
+
+                                    arcView.invalidate();
+                                    arcWindow.updateViewLayout(arcView, arcParams);
+
+                                } else if ((!(initY > event.getY()) && angle > ARC_BREAK_POINT)) // in dash area
+                                {
+                                    if(inButtons)
+                                    {
+                                        arcView.closePaint.setAlpha(START_ALPHA);
+                                        arcView.movePaint.setAlpha(START_ALPHA);
+
+                                        inButtons = false;
+
+                                        inClose = false;
+                                        inMove = false;
+
+                                        topVibrate = true;
+
+                                    }
+
                                     if (inFlat && distance > SWIPE_MIN_DISTANCE) {
                                         inFlat = false;
                                         inDash = true;
 
                                         arcView.conversationsPaint.setAlpha(START_ALPHA2 + 20);
                                         arcView.newMessagePaint.setAlpha(START_ALPHA2);
+
                                         arcView.invalidate();
                                         arcWindow.updateViewLayout(arcView, arcParams);
 
@@ -241,6 +296,20 @@ public class SlideOverService extends Service {
 
                                 } else // in flat area
                                 {
+                                    if(inButtons)
+                                    {
+                                        arcView.closePaint.setAlpha(START_ALPHA);
+                                        arcView.movePaint.setAlpha(START_ALPHA);
+
+                                        inButtons = false;
+
+                                        inClose = false;
+                                        inMove = false;
+
+                                        topVibrate = true;
+
+                                    }
+
                                     if (inDash && distance > SWIPE_MIN_DISTANCE) {
                                         inDash = false;
                                         inFlat = true;
@@ -353,8 +422,58 @@ public class SlideOverService extends Service {
                                 if (!sharedPrefs.getString("slideover_side", "left").equals("left"))
                                     angle *= -1;
 
-                                if ((!(initY > event.getY()) && angle > ARC_BREAK_POINT)) // in dash area
+                                if (event.getRawY() < 100) // in Top Area
                                 {
+                                    inButtons = true;
+                                    resetZoneAlphas();
+
+                                    if (HAPTIC_FEEDBACK && topVibrate) {
+                                        v.vibrate(25);
+                                        vibrateNeeded = true;
+                                        topVibrate = false;
+                                    }
+
+                                    if(event.getRawX() < width/2) // Close Zone
+                                    {
+                                        inClose = true;
+                                        if(HAPTIC_FEEDBACK && inMove)
+                                        {
+                                            v.vibrate(25);
+                                            inMove = false;
+                                        }
+                                        arcView.closePaint.setAlpha(TOUCHED_ALPHA);
+                                        arcView.movePaint.setAlpha(START_ALPHA2);
+                                        arcView.newMessagePaint.setAlpha(START_ALPHA2);
+                                    } else // Move Zone
+                                    {
+                                        inMove = true;
+                                        if(HAPTIC_FEEDBACK && inClose)
+                                        {
+                                            v.vibrate(25);
+                                            inClose = false;
+                                        }
+                                        arcView.closePaint.setAlpha(START_ALPHA2);
+                                        arcView.movePaint.setAlpha(TOUCHED_ALPHA);
+                                        arcView.newMessagePaint.setAlpha(START_ALPHA2);
+                                    }
+
+                                    arcView.invalidate();
+                                    arcWindow.updateViewLayout(arcView, arcParams);
+
+                                } else if ((!(initY > event.getY()) && angle > ARC_BREAK_POINT)) // in dash area
+                                {
+                                    if(inButtons)
+                                    {
+                                        arcView.closePaint.setAlpha(START_ALPHA);
+                                        arcView.movePaint.setAlpha(START_ALPHA);
+
+                                        inButtons = false;
+
+                                        inClose = false;
+                                        inMove = false;
+
+                                        topVibrate = true;
+                                    }
                                     resetZoneAlphas();
                                     lastZone = 0;
                                     currentZone = 0;
@@ -403,6 +522,19 @@ public class SlideOverService extends Service {
 
                                 } else // in flat area
                                 {
+                                    if(inButtons)
+                                    {
+                                        arcView.closePaint.setAlpha(START_ALPHA);
+                                        arcView.movePaint.setAlpha(START_ALPHA);
+
+                                        inButtons = false;
+
+                                        inClose = false;
+                                        inMove = false;
+
+                                        topVibrate = true;
+
+                                    }
                                     currentZone = getCurrentZone(distance, zoneWidth, SWIPE_MIN_DISTANCE, numberNewConv);
 
                                     if (lastZone != currentZone) {
