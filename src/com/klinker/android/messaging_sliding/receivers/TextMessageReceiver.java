@@ -203,20 +203,24 @@ public class TextMessageReceiver extends BroadcastReceiver {
                     intent2.putExtra("address", origAddress);
                     intent2.putExtra("body", origBody);
                     intent2.putExtra("date", origDate);
+                    int pIntentExtra = PendingIntent.FLAG_UPDATE_CURRENT;
 					
 					if (sharedPrefs.getBoolean("use_old_popup", false))
 					{
 						intent2 = new Intent(context, QuickReply.class);
-					}
+                        pIntentExtra = 0;
+                    }
 
                     if (sharedPrefs.getBoolean("full_app_popup", true)) {
                         intent2 = new Intent(context, MainActivityPopup.class);
                         intent2.putExtra("fromWidget", false);
                         intent2.putExtra("fromNotification", true);
+                        pIntentExtra = 0;
                     }
 
                     if (sharedPrefs.getBoolean("halo_popup", false)) {
                         intent2 = new Intent(context, com.klinker.android.messaging_donate.MainActivity.class);
+                        pIntentExtra = 0;
 
                         try
                         {
@@ -229,7 +233,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 
                     intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					intent2.putExtra("notification", "true");
-					PendingIntent pIntent = PendingIntent.getActivity(context, 0, intent2, 0);
+					PendingIntent pIntent = PendingIntent.getActivity(context, 0, intent2, pIntentExtra);
 			
 					if (sharedPrefs.getBoolean("notifications", true))
 					{
