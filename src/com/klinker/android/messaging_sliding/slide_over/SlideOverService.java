@@ -6,6 +6,7 @@ import android.content.*;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
+import android.os.Handler;
 import android.os.IBinder;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
@@ -24,14 +25,19 @@ public class SlideOverService extends Service {
 
     public HaloView haloView;
     public ArcView arcView;
+    public AnimationView animationView;
 
     public WindowManager.LayoutParams haloParams;
     public WindowManager.LayoutParams haloHiddenParams;
     public WindowManager.LayoutParams arcParams;
+    public WindowManager.LayoutParams animationParams;
 
     public Context mContext;
+
     public WindowManager haloWindow;
     public WindowManager arcWindow;
+    public WindowManager animationWindow;
+
     public SharedPreferences sharedPrefs;
 
     public static int SWIPE_MIN_DISTANCE = 0;
@@ -110,8 +116,17 @@ public class SlideOverService extends Service {
                 PixelFormat.TRANSLUCENT);
         arcParams.dimAmount=.7f;
 
+        animationParams = new WindowManager.LayoutParams(
+                WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                        |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+                        |WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
+                        |WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                PixelFormat.TRANSLUCENT);
+
         haloWindow = (WindowManager) getSystemService(WINDOW_SERVICE);
         arcWindow = (WindowManager) getSystemService(WINDOW_SERVICE);
+        animationWindow = (WindowManager) getSystemService(WINDOW_SERVICE);
 
         if (width > height)
             SWIPE_MIN_DISTANCE = (int)(height * (sharedPrefs.getInt("slideover_activation", 33)/100.0));
@@ -120,6 +135,7 @@ public class SlideOverService extends Service {
 
         haloView = new HaloView(this);
         arcView = new ArcView(this, halo, SWIPE_MIN_DISTANCE, ARC_BREAK_POINT, HALO_SLIVER_RATIO);
+        animationView = new AnimationView(this, halo);
 
         numberNewConv = arcView.newConversations.size();
 
@@ -632,21 +648,41 @@ public class SlideOverService extends Service {
 
             int index;
             boolean exists = false;
+            boolean same = false;
 
-            //todo - find a way to get group messages to work better, right now they show up as ever persons message, then when swiping to them, they take you to the wrong conversation
+            // check for mms messages, group texts really messed things up with the opening to conversations. So now it will remove the old mms notification and throw the new one to the first spot.
+            // Good for group mms. But more than one conversation at once won't work.
+            // They will also eat the normal mms messages notifications
+            // Don't see any way around this though, and i don't think many people will run into this problem, if they do, they won't be able to replicate  it hehe :)
 
             for (index = 0; index < numberNewConv; index++)
             {
-                if (name.equals(arcView.newConversations.get(index)[0]))
+                if (message.equals(arcView.newConversations.get(index)[1]))
                 {
-                    exists = true;
+                    same = true;
                     break;
                 }
             }
 
-            if (!exists)
+            if(same)
+            {
                 arcView.newConversations.add(new String[] {name, message});
-            else
+                arcView.newConversations.remove(index);
+            }else
+            {
+                for (index = 0; index < numberNewConv; index++)
+                {
+                    if (name.equals(arcView.newConversations.get(index)[0]))
+                    {
+                        exists = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!exists && !same)
+                arcView.newConversations.add(new String[] {name, message});
+            else if (!same)
             {
                 String oldMessage = arcView.newConversations.get(index)[1];
                 arcView.newConversations.add(new String[] {name, oldMessage + " | " + message});
@@ -662,6 +698,27 @@ public class SlideOverService extends Service {
             haloView.setRecievedHalo();
             haloView.invalidate();
             haloWindow.updateViewLayout(haloView, haloParams);
+
+
+            // start the animation
+            animationView.circleText = true;
+            animationView.firstText = true;
+            animationView.arcOffset = AnimationView.ORIG_ARC_OFFSET;
+            animationView.name = new String[] {name, message.length() > 50 ? message.substring(0, 50) + "..." : message};
+            animationWindow.addView(animationView, animationParams);
+
+            final NewMessageAnimation animation = new NewMessageAnimation(animationView, (float)(1.5 * (sharedPrefs.getInt("slideover_text_animation_speed", 33)/100.0) + .5));
+            animation.setRunning(true);
+            animation.start();
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    animationView.circleText = false;
+                    animation.setRunning(false);
+                    haloWindow.removeViewImmediate(animationView);
+                }
+            }, 20000);
         }
     };
 

@@ -1,11 +1,11 @@
 package com.klinker.android.messaging_sliding.slide_over;
 
 public abstract class CustomAnimation extends Thread {
-    static final long FPS = 60;
-    private ArcView view;
+    static final long FPS = 120;
+    public AnimationView view;
     private boolean running = false;
 
-    public CustomAnimation(ArcView view) {
+    public CustomAnimation(AnimationView view) {
         this.view = view;
     }
 
