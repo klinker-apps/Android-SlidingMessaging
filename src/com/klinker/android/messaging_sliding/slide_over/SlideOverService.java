@@ -14,6 +14,7 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.klinker.android.messaging_donate.R;
 
@@ -145,14 +146,13 @@ public class SlideOverService extends Service {
             private double angle = 0;
 
             @Override
-            public boolean onTouch(View arg0, MotionEvent arg1) {
+            public boolean onTouch(View view, MotionEvent event) {
 
-                if ((arg1.getX() > haloView.getX() && arg1.getX() < haloView.getX() + halo.getWidth() && arg1.getY() > haloView.getY() && arg1.getY() < haloView.getY() + halo.getHeight()) || needDetection) {
-                    final int type = arg1.getActionMasked();
+                if ((event.getX() > haloView.getX() && event.getX() < haloView.getX() + halo.getWidth() && event.getY() > haloView.getY() && event.getY() < haloView.getY() + halo.getHeight()) || needDetection) {
+                    final int type = event.getActionMasked();
                     Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
-                    if (numberNewConv == 0)
-                    {
+                    if (numberNewConv == 0) {
                         switch (type) {
                             case MotionEvent.ACTION_DOWN:
 
@@ -160,8 +160,8 @@ public class SlideOverService extends Service {
                                     v.vibrate(10);
                                 }
 
-                                initX = arg1.getX();
-                                initY = arg1.getY();
+                                initX = event.getX();
+                                initY = event.getY();
 
                                 arcView.newMessagePaint.setAlpha(START_ALPHA2);
 
@@ -175,19 +175,18 @@ public class SlideOverService extends Service {
                                 // FIXME flat part is activated when you put your finger on the very edge of the screen with halo on left
                                 // hmm... ok, can't find a fix for this... don't know what event that could possibly be triggering...
 
-                                xPortion = initX - arg1.getX();
-                                yPortion = initY - arg1.getY();
+                                xPortion = initX - event.getX();
+                                yPortion = initY - event.getY();
 
                                 distance = Math.sqrt(Math.pow(xPortion, 2) + Math.pow(yPortion, 2));
-                                angle = Math.toDegrees(Math.atan(yPortion/xPortion));
+                                angle = Math.toDegrees(Math.atan(yPortion / xPortion));
 
                                 if (!sharedPrefs.getString("slideover_side", "left").equals("left"))
                                     angle *= -1;
 
-                                if ((!(initY > arg1.getY()) && angle > ARC_BREAK_POINT)) // in dash area
+                                if ((!(initY > event.getY()) && angle > ARC_BREAK_POINT)) // in dash area
                                 {
-                                    if (inFlat && distance > SWIPE_MIN_DISTANCE)
-                                    {
+                                    if (inFlat && distance > SWIPE_MIN_DISTANCE) {
                                         inFlat = false;
                                         inDash = true;
 
@@ -196,13 +195,11 @@ public class SlideOverService extends Service {
                                         arcView.invalidate();
                                         arcWindow.updateViewLayout(arcView, arcParams);
 
-                                        if (!initial)
-                                        {
+                                        if (!initial) {
                                             if (HAPTIC_FEEDBACK) {
                                                 v.vibrate(25);
                                             }
-                                        }else
-                                        {
+                                        } else {
                                             initial = false;
                                         }
                                     }
@@ -231,8 +228,7 @@ public class SlideOverService extends Service {
 
                                 } else // in flat area
                                 {
-                                    if (inDash && distance > SWIPE_MIN_DISTANCE)
-                                    {
+                                    if (inDash && distance > SWIPE_MIN_DISTANCE) {
                                         inDash = false;
                                         inFlat = true;
 
@@ -241,13 +237,11 @@ public class SlideOverService extends Service {
                                         arcView.invalidate();
                                         arcWindow.updateViewLayout(arcView, arcParams);
 
-                                        if (!initial)
-                                        {
+                                        if (!initial) {
                                             if (HAPTIC_FEEDBACK) {
                                                 v.vibrate(25);
                                             }
-                                        }else
-                                        {
+                                        } else {
                                             initial = false;
                                         }
                                     }
@@ -291,8 +285,7 @@ public class SlideOverService extends Service {
                                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     intent.putExtra("fromHalo", true);
                                     startActivity(intent);
-                                } else if (distance > SWIPE_MIN_DISTANCE && inDash)
-                                {
+                                } else if (distance > SWIPE_MIN_DISTANCE && inDash) {
                                     if (isRunning(getApplication())) {
                                         Intent intent = new Intent();
                                         intent.setAction("com.klinker.android.messaging_donate.KILL_FOR_HALO");
@@ -317,7 +310,7 @@ public class SlideOverService extends Service {
                         }
                     } else // if they have a new message to display
                     {
-                        zoneWidth = (width - SWIPE_MIN_DISTANCE)/(numberNewConv);
+                        zoneWidth = (width - SWIPE_MIN_DISTANCE) / (numberNewConv);
 
                         switch (type) {
                             case MotionEvent.ACTION_DOWN:
@@ -326,8 +319,8 @@ public class SlideOverService extends Service {
                                     v.vibrate(10);
                                 }
 
-                                initX = arg1.getX();
-                                initY = arg1.getY();
+                                initX = event.getX();
+                                initY = event.getY();
 
                                 arcView.newMessagePaint.setAlpha(START_ALPHA2);
 
@@ -341,16 +334,16 @@ public class SlideOverService extends Service {
                                 // FIXME flat part is activated when you put your finger on the very edge of the screen with halo on left
                                 // hmm... ok, can't find a fix for this... don't know what event that could possibly be triggering...
 
-                                xPortion = initX - arg1.getX();
-                                yPortion = initY - arg1.getY();
+                                xPortion = initX - event.getX();
+                                yPortion = initY - event.getY();
 
                                 distance = Math.sqrt(Math.pow(xPortion, 2) + Math.pow(yPortion, 2));
-                                angle = Math.toDegrees(Math.atan(yPortion/xPortion));
+                                angle = Math.toDegrees(Math.atan(yPortion / xPortion));
 
                                 if (!sharedPrefs.getString("slideover_side", "left").equals("left"))
                                     angle *= -1;
 
-                                if ((!(initY > arg1.getY()) && angle > ARC_BREAK_POINT)) // in dash area
+                                if ((!(initY > event.getY()) && angle > ARC_BREAK_POINT)) // in dash area
                                 {
                                     resetZoneAlphas();
                                     lastZone = 0;
@@ -358,8 +351,7 @@ public class SlideOverService extends Service {
 
                                     fromDash = true;
 
-                                    if (inFlat && distance > SWIPE_MIN_DISTANCE)
-                                    {
+                                    if (inFlat && distance > SWIPE_MIN_DISTANCE) {
                                         inFlat = false;
                                         inDash = true;
 
@@ -368,13 +360,11 @@ public class SlideOverService extends Service {
                                         arcView.invalidate();
                                         arcWindow.updateViewLayout(arcView, arcParams);
 
-                                        if (!initial)
-                                        {
+                                        if (!initial) {
                                             if (HAPTIC_FEEDBACK) {
                                                 v.vibrate(25);
                                             }
-                                        }else
-                                        {
+                                        } else {
                                             initial = false;
                                         }
                                     }
@@ -405,17 +395,14 @@ public class SlideOverService extends Service {
                                 {
                                     currentZone = getCurrentZone(distance, zoneWidth, SWIPE_MIN_DISTANCE, numberNewConv);
 
-                                    if(lastZone != currentZone)
-                                    {
+                                    if (lastZone != currentZone) {
                                         zoneChange = true;
                                         lastZone = currentZone;
-                                    } else
-                                    {
+                                    } else {
                                         zoneChange = false;
                                     }
 
-                                    if (inDash && distance > SWIPE_MIN_DISTANCE)
-                                    {
+                                    if (inDash && distance > SWIPE_MIN_DISTANCE) {
                                         inDash = false;
                                         inFlat = true;
 
@@ -424,13 +411,11 @@ public class SlideOverService extends Service {
                                         arcView.invalidate();
                                         arcWindow.updateViewLayout(arcView, arcParams);
 
-                                        if (!initial)
-                                        {
+                                        if (!initial) {
                                             if (HAPTIC_FEEDBACK) {
                                                 v.vibrate(25);
                                             }
-                                        }else
-                                        {
+                                        } else {
                                             initial = false;
                                         }
                                     }
@@ -460,8 +445,7 @@ public class SlideOverService extends Service {
                                         fromDash = true;
                                     }
 
-                                    if (zoneChange)
-                                    {
+                                    if (zoneChange) {
                                         resetZoneAlphas();
 
                                         if (!fromDash) {
@@ -507,8 +491,7 @@ public class SlideOverService extends Service {
                                         intent.putExtra("openToPage", currentZone - 1);
 
                                     startActivity(intent);
-                                } else if (distance > SWIPE_MIN_DISTANCE && inDash)
-                                {
+                                } else if (distance > SWIPE_MIN_DISTANCE && inDash) {
                                     if (isRunning(getApplication())) {
                                         Intent intent = new Intent();
                                         intent.setAction("com.klinker.android.messaging_donate.KILL_FOR_HALO");
@@ -523,14 +506,13 @@ public class SlideOverService extends Service {
                                     startActivity(intent);
                                 }
 
-                                if (distance > SWIPE_MIN_DISTANCE)
-                                {
+                                if (distance > SWIPE_MIN_DISTANCE) {
                                     arcView.newConversations.clear();
 
                                     haloView.setRegularHalo();
                                     haloView.invalidate();
-                                    haloWindow.updateViewLayout(haloView, haloParams); 
-                                    
+                                    haloWindow.updateViewLayout(haloView, haloParams);
+
                                     numberNewConv = 0;
                                 }
 
