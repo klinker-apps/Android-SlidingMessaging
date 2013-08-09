@@ -3,6 +3,14 @@ Version 6.70
 - SLIDEOVER TODO
     - fix stupid edge bug (don't have a clue on honestly)
     - animations for new messages
+        - integrate animation view
+        - little faster scrolling text
+        - less time between name and message
+    - Auto close after sending from popup option
+    - slider to adjust top and bottom padding
+    - way to move it around
+    - way to dismiss it
+    - way to dismiss all messages without having to open the app
 - option for adding certain text to every message at the beginning (delivery reports?)
 - Message Locking
 - Figure out how to judge file size of png images and adjust them accordingly when sending, look into UriImage.getResizedImageData for solution
