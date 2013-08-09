@@ -1,4 +1,4 @@
-Version 6.70
+Version 7.00
 
 - SLIDEOVER TODO
     - fix stupid edge bug (don't have a clue on honestly)
@@ -6,8 +6,6 @@ Version 6.70
         - integrate animation view
         - little faster scrolling text
         - less time between name and message
-    - Auto close after sending from popup option
-    - slider to adjust top and bottom padding
     - way to move it around
     - way to dismiss it
     - way to dismiss all messages without having to open the app

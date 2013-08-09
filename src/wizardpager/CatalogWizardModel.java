@@ -52,16 +52,9 @@ public class CatalogWizardModel extends AbstractWizardModel {
         }
 
         String changeLog = "Version " + version + ":\n\n" +
-                "- Quick fix for crashes some were receiveing\n\n" +
-                "Version 6.70:\n\n" +
-                "- Added SlideOver, which replaces the popup - highly recommend trying it out (but as always, can be disabled in settings)!\n" +
-                "- Added Cards UI 2.0, based on the original cards UI, but correcting old speed issues, adding full theme-ability, and bringing it more in line with other layouts. If you are using the Cards UI currently, it is recommended that you switch.\n" +
-                "- Ability to search though messages\n" +
-                "- Added Floating Notifications extension\n" +
-                "- Option to pin conversation list to left side of screen at all times\n" +
-                "- Option to show message counter on split SMS messages\n" +
-                "- Minor UI Changes\n" +
-                "- Bug fixes\n\n";
+                "Introducing the REAL SlideOver feature now... Its a lot like Chatheads for Sliding Messaging! Access the app through the SlideOver popup from anywhere, quickly see and react to new messages and quickly compose new messages using SlideOver!\n\n" +
+                "- TONS of SlideOver customization options\n" +
+                "- Bug fixes\n";
                 
         String themeEditor = "The theme editor now fully supports the Cards UI 2.0, making it a " +
                 "better time than ever to get on board and start making Sliding Messaging Pro look exactly how you want!\n\n" +
