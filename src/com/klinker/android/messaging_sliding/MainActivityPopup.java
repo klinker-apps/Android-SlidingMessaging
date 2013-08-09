@@ -170,7 +170,7 @@ public class MainActivityPopup extends MainActivity {
     public void onResume() {
         super.onResume();
 
-        if (getIntent().getBooleanExtra("fromNotification", false)) {
+        if (!getIntent().getBooleanExtra("fromNotification", false)) {
             if (!fromWidget) {
                 if (!fromHalo) {
                     menu.showContent();
@@ -193,8 +193,6 @@ public class MainActivityPopup extends MainActivity {
                         menu.showContent();
                         mViewPager.setCurrentItem(openTo);
                     }
-
-
                 }
             } else {
                 new Handler().postDelayed(new Runnable() {
@@ -205,30 +203,7 @@ public class MainActivityPopup extends MainActivity {
                 }, 500);
             }
         } else {
-            if (!fromHalo) {
-                menu.showContent();
-            } else {
-                if (secondaryAction) {
-                    if (getIntent().getStringExtra("secondaryType").equals("conversations")) {
-                        menu.showMenu();
-                    } else {
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                menu.showSecondaryMenu();
-                            }
-                        }, 500);
-                    }
-                } else
-                {
-                    openTo = getIntent().getIntExtra("openToPage", 0);
-
-                    menu.showContent();
-                    mViewPager.setCurrentItem(openTo);
-                }
-
-
-            }
+            menu.showContent();
         }
 
         if (sharedPrefs.getBoolean("show_keyboard_popup", true) && !fromHalo) {
