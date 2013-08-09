@@ -29,9 +29,6 @@ public class AnimationView extends ViewGroup {
 
     public boolean circleText = false;
     public Paint textPaint;
-    public Paint circlePaint;
-    public float circleRadius;
-    public float circleStroke;
     public RectF oval;
     public Path textPath;
 
@@ -60,18 +57,8 @@ public class AnimationView extends ViewGroup {
         textPaint.setAlpha(200);
         textPaint.setTextSize(TEXT_SIZE);
         textPaint.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
-        
-        circlePaint = new Paint();
-        circlePaint.setAntiAlias(true);
-        circlePaint.setColor(Color.BLACK);
-        circlePaint.setAlpha(200);
-        circlePaint.setStrokeWidth(TEXT_SIZE);
-        circlePaint.setStyle(Paint.Style.STROKE);
 
         this.halo = halo;
-        
-        circleRadius = (halo.getWidth()/2) + (TEXT_SIZE/2);
-        circleStroke = TEXT_SIZE;
 
         int radius = halo.getWidth();
         int xOffset = (int)(-1 * (1 - SlideOverService.HALO_SLIVER_RATIO) * radius);
@@ -113,8 +100,6 @@ public class AnimationView extends ViewGroup {
         super.onDraw(canvas);
 
         if (circleText) {
-            circlePaint.setStrokeWidth(circleStroke);
-            canvas.drawCircle(oval.centerX(), oval.centerY(), circleRadius, circlePaint);
             canvas.drawTextOnPath(firstText ? name[0] : name[1], textPath, arcOffset, 0f, textPaint);
         }
     }
