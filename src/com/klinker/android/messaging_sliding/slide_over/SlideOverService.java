@@ -30,7 +30,6 @@ public class SlideOverService extends Service {
 
     public WindowManager.LayoutParams haloParams;
     public WindowManager.LayoutParams haloHiddenParams;
-    public WindowManager.LayoutParams unreadParams;
     public WindowManager.LayoutParams arcParams;
 
     public Context mContext;
@@ -50,39 +49,6 @@ public class SlideOverService extends Service {
     public static boolean HAPTIC_FEEDBACK = true;
 
     public int numberNewConv;
-
-
-    /*public Thread unread = new Thread(new Runnable() {
-        @Override
-        public void run() {
-            Looper.prepare();
-
-            final Bitmap halo = BitmapFactory.decodeResource(getResources(),
-                    R.drawable.halo_bg);
-
-            Display d = ((WindowManager)getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-            final int height = d.getHeight();
-            final int width = d.getWidth();
-
-            int vertical = (int)(height * PERCENT_DOWN_SCREEN);
-            int horizontal = sharedPrefs.getString("slideover_side", "left").equals("left") ? (int)(HALO_SLIVER_RATIO * halo.getWidth()) : (int) (width - (halo.getWidth() * (HALO_SLIVER_RATIO)));
-
-            UnreadView unreadView = new UnreadView(getBaseContext(), vertical, horizontal, "" + numberNewConv);
-
-            WindowManager unreadWindow = (WindowManager) getSystemService(WINDOW_SERVICE);
-            unreadWindow.addView(unreadView, unreadParams);
-
-
-            try {
-                Thread.sleep(7000);
-            } catch (InterruptedException e)
-            {
-                unreadWindow.removeViewImmediate(unreadView);
-            } finally {
-                unreadWindow.removeViewImmediate(unreadView);
-            }
-        }
-    });*/
 
     @Override
     public void onCreate() {
@@ -137,20 +103,6 @@ public class SlideOverService extends Service {
                 PixelFormat.TRANSLUCENT);
         haloHiddenParams.gravity = Gravity.TOP | Gravity.LEFT;
         haloHiddenParams.windowAnimations = android.R.anim.fade_out;
-
-        unreadParams = new WindowManager.LayoutParams(
-                width,
-                height,
-                sharedPrefs.getString("slideover_side", "left").equals("left") ? 0 : width - halo.getWidth(),
-                (int)(height * PERCENT_DOWN_SCREEN),
-                WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                        |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
-                        |WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
-                        |WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-                PixelFormat.TRANSLUCENT);
-        unreadParams.gravity = Gravity.TOP | Gravity.LEFT;
-        unreadParams.windowAnimations = android.R.anim.fade_in;
 
         arcParams = new WindowManager.LayoutParams(
                 WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
@@ -207,8 +159,6 @@ public class SlideOverService extends Service {
                     {
                         switch (type) {
                             case MotionEvent.ACTION_DOWN:
-
-                                //unread.stop(new InterruptedException());
 
                                 if (HAPTIC_FEEDBACK)
                                         v.vibrate(10);
@@ -370,8 +320,6 @@ public class SlideOverService extends Service {
 
                         switch (type) {
                             case MotionEvent.ACTION_DOWN:
-
-                                //unread.stop(new InterruptedException());
 
                                 if (HAPTIC_FEEDBACK)
                                     v.vibrate(10);
@@ -691,8 +639,6 @@ public class SlideOverService extends Service {
             unregisterReceiver(this);
         }
     };
-
-    public Handler mHandler = new Handler();
     
     public BroadcastReceiver newMessageReceived = new BroadcastReceiver() {
         @Override
@@ -733,8 +679,6 @@ public class SlideOverService extends Service {
             haloView.setRecievedHalo();
             haloView.invalidate();
             haloWindow.updateViewLayout(haloView, haloParams);
-
-            //unread.start();
         }
     };
 
