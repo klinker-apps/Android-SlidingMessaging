@@ -87,8 +87,13 @@
             android:defaultValue="false"
         />
 
-
-
+        <com.klinker.android.messaging_sliding.custom_dialogs.SeekBarPreference3
+            android:key="slideover_padding"
+            android:title="@string/slideover_padding"
+            android:summary="@string/slideover_padding_summary"
+            android:defaultValue="50"
+            android:max="100"
+        />
     </PreferenceCategory>
 
     <Preference

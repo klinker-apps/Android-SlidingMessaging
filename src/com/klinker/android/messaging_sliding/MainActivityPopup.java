@@ -71,7 +71,8 @@ public class MainActivityPopup extends MainActivity {
         if (width > height) {
             getWindow().getDecorView().setPadding(0,height/12,0,height/12);
         } else {
-            getWindow().getDecorView().setPadding(width / 20, height / 8, width / 20, height / 8);
+            int dividend = (int)(16 * (sharedPrefs.getInt("slideover_padding", 50)/100.0));
+            getWindow().getDecorView().setPadding(width / 20, height / dividend, width / 20, height / dividend);
         }
     }
     
@@ -156,7 +157,8 @@ public class MainActivityPopup extends MainActivity {
         if (width > height) {
             getWindow().getDecorView().setPadding(0,height/12,0,height/12);
         } else {
-            getWindow().getDecorView().setPadding(width / 20, height / 8, width / 20, height / 8);
+            int dividend = (int)(16 * (sharedPrefs.getInt("slideover_padding", 50)/100.0));
+            getWindow().getDecorView().setPadding(width / 20, height / dividend, width / 20, height / dividend);
         }
     }
     
