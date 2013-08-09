@@ -77,6 +77,20 @@
         android:dependency="slideover_enabled"
     />
 
+    <PreferenceCategory
+        android:title="@string/popup_settings">
+
+        <CheckBoxPreference
+            android:key="full_app_popup_close"
+            android:title="@string/full_app_popup_close"
+            android:summary="@string/full_app_popup_close_summary"
+            android:defaultValue="false"
+        />
+
+
+
+    </PreferenceCategory>
+
     <Preference
         android:title="@string/under_development"
         android:summary="@string/under_development_summary"

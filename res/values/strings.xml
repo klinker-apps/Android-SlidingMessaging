@@ -529,5 +529,8 @@
     <string name="slideover_secondary_action">Secondary Action</string>
     <string name="slideover_secondary_action_summary">Choose the action that occurs when you have activated the dashed part of the SlideOver arc</string>
     <string name="slideover_haptic_feedback">Enable Haptic Feedback</string>
+    <string name="full_app_popup_close">Auto-close SlideOver</string>
+    <string name="full_app_popup_close_summary">Closes the popup after you have replied to a message. This does not apply when you have opened SlideOver via the bubble, only from the automatic popup when you receive a new message</string>
+    <string name="slideover_popup_settings">SlideOver Popup Settings</string>
     
 </resources>

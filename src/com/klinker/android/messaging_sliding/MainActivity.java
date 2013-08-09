@@ -2022,6 +2022,11 @@ s
 								        	refreshViewPager4(address2, StripAccents.stripAccents(body), cal.getTimeInMillis() + "");
 								        	mViewPager.setCurrentItem(0);
 								        	mTextView.setVisibility(View.GONE);
+
+                                            if (isPopup && sharedPrefs.getBoolean("full_app_popup_close", false)) {
+                                                Intent intent = new Intent("com.klinker.android.messaging.CLOSE_POPUP");
+                                                sendBroadcast(intent);
+                                            }
 										}
 								    	
 								    });

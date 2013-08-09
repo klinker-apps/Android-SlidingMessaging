@@ -1,6 +1,9 @@
 package com.klinker.android.messaging_sliding;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
@@ -20,6 +23,14 @@ public class MainActivityPopup extends MainActivity {
     public boolean fromWidget = false;
     public boolean secondaryAction = false;
     public int openTo = 0;
+
+    private BroadcastReceiver closeReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            finish();
+            unregisterReceiver(this);
+        }
+    };
 
     @Override
     public void setUpWindow() {
@@ -201,6 +212,12 @@ public class MainActivityPopup extends MainActivity {
                 }
             }, 500);
         }
+
+        if (!fromHalo) {
+            IntentFilter filter = new IntentFilter();
+            filter.addAction("com.klinker.android.messaging.CLOSE_POPUP");
+            registerReceiver(closeReceiver, filter);
+        }
     }
     
     @Override
@@ -214,6 +231,13 @@ public class MainActivityPopup extends MainActivity {
         com.klinker.android.messaging_donate.MainActivity.msgCount = null;
         com.klinker.android.messaging_donate.MainActivity.msgRead = null;
         com.klinker.android.messaging_donate.MainActivity.threadIds = null;
+
+        try {
+            unregisterReceiver(closeReceiver);
+        } catch (Exception e) {
+            // already closed?
+        }
+
         finish();
     }
 }
