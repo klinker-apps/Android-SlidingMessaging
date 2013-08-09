@@ -6,13 +6,9 @@ import android.graphics.*;
 import android.preference.PreferenceManager;
 import android.util.TypedValue;
 import android.view.*;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
-/**
- * Created by luke on 8/2/13.
- */
 public class ArcView extends ViewGroup {
     public Context mContext;
 
@@ -32,7 +28,6 @@ public class ArcView extends ViewGroup {
     public int height;
     public int width;
 
-    public int sliverAdjustment = 0;
     public double sliverPercent;
 
     public ArrayList<String[]> newConversations;
@@ -65,11 +60,6 @@ public class ArcView extends ViewGroup {
 
         newConversations = new ArrayList<String[]>();
 
-        // manually fill the newConversations arraylist for now
-        //newConversations.add(new String[] {"Jacob Klinker", "SlideOver is working well!"});
-        //newConversations.add(new String[] {"Brett Deters", "Want to go to Jethros? I think it would be an awesome night for that!"});
-        //newConversations.add(new String[] {"Matt Swiontek", "Your apartment is great!"});
-
         textPaint = new Paint[newConversations.size()];
 
         for(int x = 0; x < newConversations.size(); x++)
@@ -100,7 +90,6 @@ public class ArcView extends ViewGroup {
 
         // Draws the arcs that you can interact with
         if (sharedPrefs.getString("slideover_side", "left").equals("left")) {
-            // todo: adjust for sliver size on the left and right of the oval here
             RectF oval = new RectF(-1 * radius, point[1] + (halo.getHeight() / 2) -  radius, radius, point[1] + (halo.getHeight() / 2) + radius);
 
             Path newMessagePath = new Path();
@@ -132,7 +121,6 @@ public class ArcView extends ViewGroup {
         for (int i = newConversations.size() - 1; i >= 0; i--)
         {
             if (sharedPrefs.getString("slideover_side", "left").equals("left")) {
-                // todo: adjust for sliver size on the left and right of the oval here
                 RectF oval = new RectF(-1 * conversationsRadius, point[1] + (halo.getHeight() / 2) -  conversationsRadius, conversationsRadius, point[1] + (halo.getHeight() / 2) + conversationsRadius);
 
                 Path textPath = new Path();
@@ -153,18 +141,6 @@ public class ArcView extends ViewGroup {
 
             conversationsRadius += TEXT_SIZE + TEXT_GAP;
         }
-
-        /*
-
-        Original Circle Drawing
-
-        if (sharedPrefs.getString("slideover_side", "left").equals("left")) {
-            canvas.drawCircle(point[0] + (halo.getHeight()/2), point[1] + (halo.getHeight() / 2), radius, newMessagePaint);
-        } else {
-            canvas.drawCircle(point[0] + (halo.getHeight()/2), point[1] + (halo.getHeight() / 2), radius, newMessagePaint);
-        }
-
-        */
     }
 
 

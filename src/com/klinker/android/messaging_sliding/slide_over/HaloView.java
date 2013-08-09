@@ -1,35 +1,20 @@
 package com.klinker.android.messaging_sliding.slide_over;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.graphics.*;
 import android.preference.PreferenceManager;
-import android.telephony.SmsManager;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.*;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.klinker.android.messaging_donate.R;
 
-import static android.support.v4.app.ActivityCompat.startActivity;
-
-/**
- * Created by luke on 8/2/13.
- */
 public class HaloView extends ViewGroup {
     public Context mContext;
 
     public Bitmap halo;
     public Paint arcPaint;
     public float radius;
-
-    public boolean isTouched = false;
 
     public SharedPreferences sharedPrefs;
 
