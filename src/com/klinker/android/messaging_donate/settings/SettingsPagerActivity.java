@@ -630,15 +630,7 @@ public class SettingsPagerActivity extends FragmentActivity {
             slideOver.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    if (sharedPrefs.getBoolean("slideover_enabled", false)) {
-                        Intent service = new Intent(getApplicationContext(), com.klinker.android.messaging_sliding.slide_over.SlideOverService.class);
-                        startService(service);
-                    } else {
-                        Intent service = new Intent();
-                        service.setAction("com.klinker.android.messaging.STOP_HALO");
-                        sendBroadcast(service);
-                    }
-
+                    restartHalo();
                     return false;
                 }
             });
@@ -647,17 +639,7 @@ public class SettingsPagerActivity extends FragmentActivity {
             side.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
-                    Intent service = new Intent();
-                    service.setAction("com.klinker.android.messaging.STOP_HALO");
-                    sendBroadcast(service);
-
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            Intent service = new Intent(getApplicationContext(), com.klinker.android.messaging_sliding.slide_over.SlideOverService.class);
-                            startService(service);
-                        }
-                    }, 500);
+                    restartHalo();
                     return true;
                 }
             });
@@ -666,20 +648,7 @@ public class SettingsPagerActivity extends FragmentActivity {
             sliver.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
-                    Intent service = new Intent();
-                    service.setAction("com.klinker.android.messaging.STOP_HALO");
-                    sendBroadcast(service);
-
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (sharedPrefs.getBoolean("slideover_enabled", false)) {
-                                Intent service = new Intent(getApplicationContext(), com.klinker.android.messaging_sliding.slide_over.SlideOverService.class);
-                                startService(service);
-                            }
-                        }
-                    }, 500);
-
+                    restartHalo();
                     return true;
                 }
             });
@@ -688,20 +657,7 @@ public class SettingsPagerActivity extends FragmentActivity {
             alignment.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
-                    Intent service = new Intent();
-                    service.setAction("com.klinker.android.messaging.STOP_HALO");
-                    sendBroadcast(service);
-
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (sharedPrefs.getBoolean("slideover_enabled", false)) {
-                                Intent service = new Intent(getApplicationContext(), com.klinker.android.messaging_sliding.slide_over.SlideOverService.class);
-                                startService(service);
-                            }
-                        }
-                    }, 500);
-
+                    restartHalo();
                     return true;
                 }
             });
@@ -710,20 +666,7 @@ public class SettingsPagerActivity extends FragmentActivity {
             activation.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
-                    Intent service = new Intent();
-                    service.setAction("com.klinker.android.messaging.STOP_HALO");
-                    sendBroadcast(service);
-
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (sharedPrefs.getBoolean("slideover_enabled", false)) {
-                                Intent service = new Intent(getApplicationContext(), com.klinker.android.messaging_sliding.slide_over.SlideOverService.class);
-                                startService(service);
-                            }
-                        }
-                    }, 500);
-
+                    restartHalo();
                     return true;
                 }
             });
@@ -732,20 +675,16 @@ public class SettingsPagerActivity extends FragmentActivity {
             breakPoint.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
-                    Intent service = new Intent();
-                    service.setAction("com.klinker.android.messaging.STOP_HALO");
-                    sendBroadcast(service);
+                    restartHalo();
+                    return true;
+                }
+            });
 
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (sharedPrefs.getBoolean("slideover_enabled", false)) {
-                                Intent service = new Intent(getApplicationContext(), com.klinker.android.messaging_sliding.slide_over.SlideOverService.class);
-                                startService(service);
-                            }
-                        }
-                    }, 500);
-
+            Preference haptic = findPreference("slideover_haptic_feedback");
+            haptic.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    restartHalo();
                     return true;
                 }
             });
@@ -1642,6 +1581,22 @@ public class SettingsPagerActivity extends FragmentActivity {
 
             return res;
         }
+    }
+
+    public void restartHalo() {
+        Intent service = new Intent();
+        service.setAction("com.klinker.android.messaging.STOP_HALO");
+        sendBroadcast(service);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (sharedPrefs.getBoolean("slideover_enabled", false)) {
+                    Intent service = new Intent(getApplicationContext(), com.klinker.android.messaging_sliding.slide_over.SlideOverService.class);
+                    startService(service);
+                }
+            }
+        }, 500);
     }
 
 }

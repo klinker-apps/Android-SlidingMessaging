@@ -6,9 +6,10 @@ Version 7.00
         - integrate animation view
         - little faster scrolling text
         - less time between name and message
+        - check to make sure animation is not already running before starting it
     - way to move it around
     - way to dismiss it
-    - way to dismiss all messages without having to open the app
+    - way to dismiss all messages without having to open the app  (touch it, double tap it, or long click on it?)
 - option for adding certain text to every message at the beginning (delivery reports?)
 - Message Locking
 - Figure out how to judge file size of png images and adjust them accordingly when sending, look into UriImage.getResizedImageData for solution
