@@ -205,7 +205,30 @@ public class MainActivityPopup extends MainActivity {
                 }, 500);
             }
         } else {
-            menu.showContent();
+            if (!fromHalo) {
+                menu.showContent();
+            } else {
+                if (secondaryAction) {
+                    if (getIntent().getStringExtra("secondaryType").equals("conversations")) {
+                        menu.showMenu();
+                    } else {
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                menu.showSecondaryMenu();
+                            }
+                        }, 500);
+                    }
+                } else
+                {
+                    openTo = getIntent().getIntExtra("openToPage", 0);
+
+                    menu.showContent();
+                    mViewPager.setCurrentItem(openTo);
+                }
+
+
+            }
         }
 
         if (sharedPrefs.getBoolean("show_keyboard_popup", true) && !fromHalo) {
