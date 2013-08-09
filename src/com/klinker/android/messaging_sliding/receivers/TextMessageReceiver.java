@@ -1116,14 +1116,16 @@ public class TextMessageReceiver extends BroadcastReceiver {
 
                                     if (pm.isScreenOn())
                                     {
-                                        final Intent popup = intent3;
+                                        if (!sharedPrefs.getBoolean("full_app_popup", true) || (sharedPrefs.getBoolean("full_app_popup", true) && !sharedPrefs.getBoolean("slideover_popup_lockscreen_only", false))) {
+                                            final Intent popup = intent3;
 
-                                        new Handler().postDelayed(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                context.startActivity(popup);
-                                            }
-                                        }, 250);
+                                            new Handler().postDelayed(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    context.startActivity(popup);
+                                                }
+                                            }, 250);
+                                        }
                                     } else
                                     {
                                         UnlockReceiver.openApp = true;

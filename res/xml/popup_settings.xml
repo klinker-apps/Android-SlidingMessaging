@@ -7,13 +7,21 @@
         android:summary="@string/popup_reply_summary"
         android:defaultValue="false"
     />
-    
+
     <CheckBoxPreference
         android:key="full_app_popup"
         android:title="@string/full_app_popup"
         android:summary="@string/full_app_popup_summary"
         android:defaultValue="true"
         android:dependency="popup_reply"
+    />
+
+    <CheckBoxPreference
+        android:key="slideover_popup_lockscreen_only"
+        android:title="@string/slideover_popup_lockscreen_only"
+        android:summary="@string/slideover_popup_lockscreen_only_summary"
+        android:defaultValue="false"
+        android:dependency="full_app_popup"
     />
 
     <Preference

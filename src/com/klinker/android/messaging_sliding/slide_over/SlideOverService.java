@@ -851,7 +851,7 @@ public class SlideOverService extends Service {
             haloView.invalidate();
             haloWindow.updateViewLayout(haloView, haloParams);
 
-            if (!sharedPrefs.getBoolean("popup_reply", false)) {
+            if (!sharedPrefs.getBoolean("popup_reply", false) || (sharedPrefs.getBoolean("popup_reply", true) && sharedPrefs.getBoolean("slideover_popup_lockscreen_only", false))) {
                 // start the animation
                 animationView.circleText = true;
                 animationView.firstText = true;
