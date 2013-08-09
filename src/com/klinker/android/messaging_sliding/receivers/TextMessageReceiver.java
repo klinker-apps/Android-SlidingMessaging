@@ -112,6 +112,8 @@ public class TextMessageReceiver extends BroadcastReceiver {
 	        		blacklistType = blacklist.get(i).type;
 	        	}
 	        }
+
+            final ArrayList<String> prevNotifications = readFromFile2(context);
 	        
 	        if (blacklistType == 2)
 	        {
@@ -237,8 +239,6 @@ public class TextMessageReceiver extends BroadcastReceiver {
 				            final WakeLock wakeLock = pm.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "TAG");
 				            wakeLock.acquire(Long.parseLong(sharedPrefs.getString("screen_timeout", "5"))*1000);
 						}
-						
-				        ArrayList<String> prevNotifications = readFromFile2(context);
 				        
 				        Intent callIntent = new Intent(Intent.ACTION_CALL);
 				        callIntent.setData(Uri.parse("tel:"+address));
@@ -1090,6 +1090,10 @@ public class TextMessageReceiver extends BroadcastReceiver {
 										intent3 = new Intent(context, com.klinker.android.messaging_donate.MainActivity.class);
 									} else {
 										intent3 = new Intent(context, com.klinker.android.messaging_sliding.MainActivityPopup.class);
+
+                                        if (prevNotifications.size() > 0) {
+                                            intent3.putExtra("multipleNew", true);
+                                        }
 									}
 
 									try

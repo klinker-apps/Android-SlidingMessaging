@@ -22,13 +22,16 @@ public class MainActivityPopup extends MainActivity {
     public boolean fromHalo = false;
     public boolean fromWidget = false;
     public boolean secondaryAction = false;
+    public boolean multipleNew = false;
     public int openTo = 0;
 
     private BroadcastReceiver closeReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            finish();
-            unregisterReceiver(this);
+            if (!multipleNew) {
+                finish();
+                unregisterReceiver(this);
+            }
         }
     };
 
@@ -82,6 +85,7 @@ public class MainActivityPopup extends MainActivity {
         secondaryAction = getIntent().getBooleanExtra("secAction", false);
         fromWidget = getIntent().getBooleanExtra("fromWidget", false);
         openTo = getIntent().getIntExtra("openToPage", 0);
+        multipleNew = getIntent().getBooleanExtra("multipleNew", false);
     }
     
     @Override
