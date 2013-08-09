@@ -307,7 +307,6 @@ public class SlideOverService extends Service {
                                         inMove = false;
 
                                         topVibrate = true;
-
                                     }
 
                                     if (inDash && distance > SWIPE_MIN_DISTANCE) {
@@ -522,6 +521,15 @@ public class SlideOverService extends Service {
 
                                 } else // in flat area
                                 {
+                                    currentZone = getCurrentZone(distance, zoneWidth, SWIPE_MIN_DISTANCE, numberNewConv);
+
+                                    if (lastZone != currentZone) {
+                                        zoneChange = true;
+                                        lastZone = currentZone;
+                                    } else {
+                                        zoneChange = false;
+                                    }
+
                                     if(inButtons)
                                     {
                                         arcView.closePaint.setAlpha(START_ALPHA);
@@ -533,15 +541,7 @@ public class SlideOverService extends Service {
                                         inMove = false;
 
                                         topVibrate = true;
-
-                                    }
-                                    currentZone = getCurrentZone(distance, zoneWidth, SWIPE_MIN_DISTANCE, numberNewConv);
-
-                                    if (lastZone != currentZone) {
                                         zoneChange = true;
-                                        lastZone = currentZone;
-                                    } else {
-                                        zoneChange = false;
                                     }
 
                                     if (inDash && distance > SWIPE_MIN_DISTANCE) {
