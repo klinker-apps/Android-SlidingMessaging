@@ -60,6 +60,14 @@
         android:dependency="slideover_enabled"
     />
 
+    <com.klinker.android.messaging_sliding.custom_dialogs.SeekBarPreference3
+        android:key="slideover_animation_speed"
+        android:title="@string/slideover_animation_speed"
+        android:defaultValue="33"
+        android:max="100"
+        android:dependency="slideover_enabled"
+    />
+
     <ListPreference
         android:key="slideover_secondary_action"
         android:title="@string/slideover_secondary_action"

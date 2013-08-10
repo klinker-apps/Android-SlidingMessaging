@@ -536,5 +536,6 @@
     <string name="slideover_padding_summary">Adjusts the size of the SlideOver popup on screen. Useful if when keyboard is showing your messages get cut off due to lack of space, or if you don\'t want it to take up too much of your screen</string>
     <string name="slideover_popup_lockscreen_only">SlideOver Popup after Lockscreen Only</string>
     <string name="slideover_popup_lockscreen_only_summary">Only show the popup when you have unlocked the device and there is a new message, otherwise let the SlideOver bubble handle new messages</string>
+    <string name="slideover_animation_speed">Animation Speed</string>
     
 </resources>

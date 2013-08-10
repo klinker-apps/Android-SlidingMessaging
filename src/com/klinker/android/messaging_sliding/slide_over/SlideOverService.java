@@ -859,7 +859,7 @@ public class SlideOverService extends Service {
                 animationView.name = new String[] {name, message.length() > 50 ? message.substring(0, 50) + "..." : message};
                 animationWindow.addView(animationView, animationParams);
 
-                final NewMessageAnimation animation = new NewMessageAnimation(animationView, (float)(1.5 * (sharedPrefs.getInt("slideover_text_animation_speed", 33)/100.0) + .5));
+                final NewMessageAnimation animation = new NewMessageAnimation(animationView, (float)(1.5 * (sharedPrefs.getInt("slideover_animation_speed", 33)/100.0) + .5));
                 animation.setRunning(true);
                 animation.start();
 
