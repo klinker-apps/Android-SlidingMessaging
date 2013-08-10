@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
-    	<!--<CheckBoxPreference -->
-        	<!--android:key="enable_mms"-->
-        	<!--android:title="@string/enable_mms"-->
-            <!--android:summary="@string/enable_mms_summary"-->
-        	<!--android:defaultValue="false"-->
-        	<!--android:selectable="true" -->
-        	<!--android:enabled="true" />-->
         
         <CheckBoxPreference 
         	android:key="group_message"
@@ -116,12 +109,6 @@
 <!-- 	       		android:dialogTitle="@string/apn_password" -->
 <!-- 	       		android:dependency="apn_username_password" -->
 <!-- 	        /> -->
-
-	        <!--<Preference-->
-	        	<!--android:key="mms_report"-->
-	        	<!--android:title="@string/mms_report"-->
-	        	<!--android:summary="@string/mms_report_summary"-->
-	        <!--/>-->
 	        
 	        <Preference
 	            android:key="mms_disclaimer"

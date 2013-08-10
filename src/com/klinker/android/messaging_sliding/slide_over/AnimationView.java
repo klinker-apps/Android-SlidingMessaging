@@ -73,7 +73,7 @@ public class AnimationView extends ViewGroup {
         ORIG_ARC_OFFSET = arcOffset;
         textPath = new Path();
 
-        int arcLength = (int)(360 - ((1 - SlideOverService.HALO_SLIVER_RATIO - .1) * 360));;
+        int arcLength = (int)(360 - ((1 - SlideOverService.HALO_SLIVER_RATIO - .1) * 360));
         int arcStart;
 
         if (!sharedPrefs.getString("slideover_side", "left").equals("left")) {

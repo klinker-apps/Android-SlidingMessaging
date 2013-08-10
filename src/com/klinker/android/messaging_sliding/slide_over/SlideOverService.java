@@ -859,7 +859,7 @@ public class SlideOverService extends Service {
                 animationView.name = new String[] {name, message.length() > 50 ? message.substring(0, 50) + "..." : message};
                 animationWindow.addView(animationView, animationParams);
 
-                final NewMessageAnimation animation = new NewMessageAnimation(animationView, (float)(1.5 * (sharedPrefs.getInt("slideover_animation_speed", 33)/100.0) + .5));
+                final NewMessageAnimation animation = new NewMessageAnimation(animationView, (float)(3 * (sharedPrefs.getInt("slideover_animation_speed", 33)/100.0) + 1));
                 animation.setRunning(true);
                 animation.start();
 
@@ -883,7 +883,6 @@ public class SlideOverService extends Service {
 
             haloView.setRegularHalo();
             haloView.invalidate();
-            haloWindow.updateViewLayout(haloView, haloParams);
             
             numberNewConv = 0;
         }

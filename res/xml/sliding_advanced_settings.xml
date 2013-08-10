@@ -22,14 +22,6 @@
         android:dependency="delete_old"
         />
 
-    <!--         <Preference  -->
-    <!--             android:key="mms_limit" -->
-    <!--             android:title="@string/mms_limit" -->
-    <!--             android:summary="@string/mms_limit_summary" -->
-    <!--             android:defaultValue="100" -->
-    <!--             android:dependency="delete_old" -->
-    <!--         />  -->
-
     <CheckBoxPreference
         android:key="mobile_only"
         android:title="@string/mobile_only"
@@ -122,4 +114,12 @@
             android:title="@string/restore"
             />
     </PreferenceCategory>
+
+    <CheckBoxPreference
+        android:key="show_advanced_settings"
+        android:title="@string/show_advanced_settings"
+        android:summary="@string/show_advanced_settings_summary"
+        android:defaultValue="false"
+    />
+
 </PreferenceScreen>

@@ -58,6 +58,8 @@ public class SettingsPagerActivity extends FragmentActivity {
 
     private static final int REQ_CREATE_PATTERN = 3;
 
+    private boolean showAll;
+
     /**
      * The {@link android.support.v4.view.ViewPager} that will host the section contents.
      */
@@ -86,6 +88,7 @@ public class SettingsPagerActivity extends FragmentActivity {
 
         }
 
+        showAll = sharedPrefs.getBoolean("show_advanced_settings", false);
     }
 
     @Override
@@ -517,6 +520,20 @@ public class SettingsPagerActivity extends FragmentActivity {
                     return true;
                 }
             });
+
+            if (!showAll) {
+                try {
+                    getPreferenceScreen().removePreference(findPreference("display_contact_cards"));
+                    getPreferenceScreen().removePreference(findPreference("display_contact_names"));
+                    getPreferenceScreen().removePreference(findPreference("simple_cards"));
+                    getPreferenceScreen().removePreference(findPreference("top_actionbar"));
+                } catch (Exception e) {
+                    // cards UI...
+                }
+
+                getPreferenceScreen().removePreference(findPreference("smiliesType"));
+                getPreferenceScreen().removePreference(findPreference("emoji_type"));
+            }
         }
 
         public void setUpNotificationSettings()
@@ -554,6 +571,18 @@ public class SettingsPagerActivity extends FragmentActivity {
                     return true;
                 }
             });
+
+            if (!showAll) {
+                getPreferenceScreen().removePreference(findPreference("in_app_notifications"));
+                getPreferenceScreen().removePreference(findPreference("breath"));
+                getPreferenceScreen().removePreference(findPreference("custom_vibrate_pattern"));
+                getPreferenceScreen().removePreference(findPreference("set_custom_vibrate_pattern"));
+                getPreferenceScreen().removePreference(findPreference("led_off_time"));
+                getPreferenceScreen().removePreference(findPreference("led_on_time"));
+                getPreferenceScreen().removePreference(findPreference("button_options"));
+                getPreferenceScreen().removePreference(findPreference("secure_notification"));
+                getPreferenceScreen().removePreference(findPreference("screen_timeout"));
+            }
         }
 
         public void setUpPopupSettings()
@@ -623,6 +652,15 @@ public class SettingsPagerActivity extends FragmentActivity {
                     return true;
                 }
             });
+
+            if (!showAll) {
+                getPreferenceScreen().removePreference(findPreference("slideover_popup_lockscreen_only"));
+                getPreferenceScreen().removePreference(findPreference("enable_view_conversation"));
+                getPreferenceScreen().removePreference(findPreference("show_keyboard_popup"));
+                getPreferenceScreen().removePreference(findPreference("text_alignment2"));
+                getPreferenceScreen().removePreference(findPreference("use_old_popup"));
+                getPreferenceScreen().removePreference(findPreference("dark_theme_quick_reply"));
+            }
         }
 
         public void setUpSlideOverSettings() {
@@ -688,6 +726,12 @@ public class SettingsPagerActivity extends FragmentActivity {
                     return true;
                 }
             });
+
+            if (!showAll) {
+                getPreferenceScreen().removePreference(findPreference("slideover_break_point"));
+                getPreferenceScreen().removePreference(findPreference("slideover_secondary_action"));
+                getPreferenceScreen().removePreference(findPreference("slideover_haptic_feedback"));
+            }
         }
 
         public void setUpMessageSettings()
@@ -702,6 +746,11 @@ public class SettingsPagerActivity extends FragmentActivity {
                 getPreferenceScreen().removePreference(findPreference("text_alignment"));
                 getPreferenceScreen().removePreference(findPreference("contact_pictures"));
                 getPreferenceScreen().removePreference(findPreference("auto_insert_draft"));
+            }
+
+            if (!showAll) {
+                getPreferenceScreen().removePreference(findPreference("tiny_date"));
+                getPreferenceScreen().removePreference(findPreference("limit_messages"));
             }
         }
 
@@ -719,6 +768,11 @@ public class SettingsPagerActivity extends FragmentActivity {
                 getPreferenceScreen().removePreference(findPreference("contact_pictures2"));
                 getPreferenceScreen().removePreference(findPreference("open_contact_menu"));
                 getPreferenceScreen().removePreference(findPreference("slide_messages"));
+            }
+
+            if (!showAll) {
+                getPreferenceScreen().removePreference(findPreference("hide_message_counter"));
+                getPreferenceScreen().removePreference(findPreference("limit_conversations_start"));
             }
         }
 
@@ -788,26 +842,10 @@ public class SettingsPagerActivity extends FragmentActivity {
 
             });
 
-//            Preference report = (Preference) findPreference("mms_report");
-//            report.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-//
-//                @Override
-//                public boolean onPreferenceClick(Preference arg0) {
-//                    String uriText =
-//                            "mailto:jklinker1@gmail.com" +
-//                                    "?subject=" + URLEncoder.encode("Sliding Messaging APNs") +
-//                                    "&body=" + URLEncoder.encode("MMSC: " + sharedPrefs.getString("mmsc_url", "") + "\nMMS Proxy: " + sharedPrefs.getString("mms_proxy", "") + "\nMMS Port: " + sharedPrefs.getString("mms_port", "") +
-//                                    "\n\n My carrier is: ________\nMMS is working or not working: ________");
-//
-//                    Uri uri = Uri.parse(uriText);
-//
-//                    Intent sendIntent = new Intent(Intent.ACTION_SENDTO);
-//                    sendIntent.setData(uri);
-//                    startActivity(Intent.createChooser(sendIntent, "Send email"));
-//                    return false;
-//                }
-//
-//            });
+            if (!showAll) {
+                getPreferenceScreen().removePreference(findPreference("wifi_mms_fix"));
+                getPreferenceScreen().removePreference(findPreference("limit_attachment_size"));
+            }
         }
 
         // used for the list preference to determine when it changes and when to call the intents
@@ -1078,30 +1116,22 @@ public class SettingsPagerActivity extends FragmentActivity {
 
             });
 
-//		Preference mmsToStore = (Preference) findPreference("mms_limit");
-//		mmsToStore.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-//
-//			@Override
-//			public boolean onPreferenceClick(Preference arg0) {
-//				if (sharedPrefs.getBoolean("delete_old", false))
-//				{
-//					NumberPickerDialog.OnNumberSetListener mMmsLimitListener =
-//					        new NumberPickerDialog.OnNumberSetListener() {
-//					            public void onNumberSet(int limit) {
-//					            	SharedPreferences.Editor editor = sharedPrefs.edit();
-//
-//					                editor.putInt("mms_limit", limit);
-//					                editor.commit();
-//					            }
-//					    };
-//
-//					new NumberPickerDialog(context2, android.R.style.Theme_Holo_Dialog, mMmsLimitListener, sharedPrefs.getInt("mms_limit", 100), 50, 500, R.string.mms_limit).show();
-//				}
-//
-//				return false;
-//			}
-//
-//		});
+            if (!showAll) {
+                getPreferenceScreen().removePreference(findPreference("strip_unicode"));
+                getPreferenceScreen().removePreference(findPreference("mobile_only"));
+                getPreferenceScreen().removePreference(findPreference("hide_keyboard"));
+                getPreferenceScreen().removePreference(findPreference("override_lang"));
+                getPreferenceScreen().removePreference(findPreference("cache_conversations"));
+                getPreferenceScreen().removePreference(findPreference("num_cache_conversations"));
+            }
+
+            findPreference("show_advanced_settings").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    recreate();
+                    return true;
+                }
+            });
         }
 
         public void giveTestNotification()

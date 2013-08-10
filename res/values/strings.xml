@@ -537,5 +537,7 @@
     <string name="slideover_popup_lockscreen_only">SlideOver Popup after Lockscreen Only</string>
     <string name="slideover_popup_lockscreen_only_summary">Only show the popup when you have unlocked the device and there is a new message, otherwise let the SlideOver bubble handle new messages</string>
     <string name="slideover_animation_speed">Animation Speed</string>
+    <string name="show_advanced_settings">Show All Settings</string>
+    <string name="show_advanced_settings_summary">Enables all hidden settings</string>
     
 </resources>
