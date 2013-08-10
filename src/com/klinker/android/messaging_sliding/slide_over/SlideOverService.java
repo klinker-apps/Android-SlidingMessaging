@@ -359,13 +359,6 @@ public class SlideOverService extends Service {
                                 {
                                     if(inMove) // move button was clicked
                                     {
-                                        /* TODO: needs implementation
-
-                                         probably just remove all other views and put a halo in the middle that the user can drag around.
-                                         then when they are done, set the preferences to the coordinates on the right or left side of the screen
-
-                                        */
-
                                         Intent intent = new Intent(getBaseContext(), com.klinker.android.messaging_sliding.slide_over.SlideOverSettings.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                         startActivity(intent);
@@ -640,7 +633,24 @@ public class SlideOverService extends Service {
                                 haloWindow.updateViewLayout(haloView, haloParams);
 
                                 // now will fire a different intent depending on what view you are in
-                                if (distance > SWIPE_MIN_DISTANCE && inFlat) {
+                                if(inButtons)
+                                {
+                                    if(inMove) // move button was clicked
+                                    {
+                                        Intent intent = new Intent(getBaseContext(), com.klinker.android.messaging_sliding.slide_over.SlideOverSettings.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        startActivity(intent);
+
+                                    } else // close button was clicked
+                                    {
+                                        sharedPrefs.edit().putBoolean("slideover_enabled", false).commit();
+
+                                        Intent service = new Intent();
+                                        service.setAction("com.klinker.android.messaging.STOP_HALO");
+                                        sendBroadcast(service);
+                                    }
+                                }
+                                else if (distance > SWIPE_MIN_DISTANCE && inFlat) {
                                     if (isRunning(getApplication())) {
                                         Intent intent = new Intent();
                                         intent.setAction("com.klinker.android.messaging_donate.KILL_FOR_HALO");
