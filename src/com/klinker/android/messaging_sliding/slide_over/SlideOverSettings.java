@@ -22,7 +22,6 @@ public class SlideOverSettings  extends PreferenceActivity {
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
         addPreferencesFromResource(R.xml.slideover_settings);
         setTitle(R.string.slide_over);
 
