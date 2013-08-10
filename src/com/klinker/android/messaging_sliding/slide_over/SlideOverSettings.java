@@ -34,10 +34,14 @@ public class SlideOverSettings  extends PreferenceActivity {
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+
         addPreferencesFromResource(R.xml.slideover_settings);
         setTitle(R.string.slide_over);
 
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
         setUpWindow();
 
