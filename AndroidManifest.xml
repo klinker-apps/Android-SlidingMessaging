@@ -368,6 +368,21 @@
                 android:configChanges="orientation|screenSize">
         </activity>
 
+        <activity
+                android:name="com.klinker.android.messaging_sliding.slide_over.SlideOverSettings"
+                android:label="@string/slide_over"
+                android:theme="@android:style/Theme.Holo.Light.Dialog"
+                android:configChanges="orientation|screenSize"
+                android:hardwareAccelerated="true"
+                android:launchMode="singleInstance"
+                android:windowSoftInputMode="adjustResize"
+                android:taskAffinity=""
+                android:excludeFromRecents="true"
+                android:noHistory="true"
+                android:exported="true"
+                tools:ignore="ExportedActivity" >
+        </activity>
+
         <service
                 android:name="com.klinker.android.messaging_sliding.slide_over.SlideOverService" >
         </service>

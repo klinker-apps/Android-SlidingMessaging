@@ -200,7 +200,7 @@ public class SlideOverService extends Service {
                                 if (!sharedPrefs.getString("slideover_side", "left").equals("left"))
                                     angle *= -1;
 
-                                if (event.getRawY() < 100) // in Top Area
+                                if (event.getRawY() < 120) // in Top Area
                                 {
                                     inButtons = true;
 
@@ -366,6 +366,10 @@ public class SlideOverService extends Service {
 
                                         */
 
+                                        Intent intent = new Intent(getBaseContext(), com.klinker.android.messaging_sliding.slide_over.SlideOverSettings.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        startActivity(intent);
+
                                     } else // close button was clicked
                                     {
                                         sharedPrefs.edit().putBoolean("slideover_enabled", false).commit();
@@ -441,7 +445,7 @@ public class SlideOverService extends Service {
                                 if (!sharedPrefs.getString("slideover_side", "left").equals("left"))
                                     angle *= -1;
 
-                                if (event.getRawY() < 100) // in Top Area
+                                if (event.getRawY() < 120) // in Top Area
                                 {
                                     inButtons = true;
                                     resetZoneAlphas();
