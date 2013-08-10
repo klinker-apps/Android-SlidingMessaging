@@ -3,6 +3,7 @@ package com.klinker.android.messaging_sliding.slide_over;
 import java.util.Locale;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
@@ -33,17 +34,18 @@ public class SlideOverSettings  extends PreferenceActivity {
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
-        super.onCreate(savedInstanceState);
-        
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+        //setUpWindow();
+        super.onCreate(savedInstanceState);
+
+
 
         addPreferencesFromResource(R.xml.slideover_settings);
         setTitle(R.string.slide_over);
 
 
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-
-        setUpWindow();
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
