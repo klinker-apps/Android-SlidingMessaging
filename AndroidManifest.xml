@@ -119,11 +119,8 @@
                 android:theme="@style/AppBaseThemeDialog"
                 android:configChanges="orientation|screenSize"
                 android:hardwareAccelerated="true"
-                android:launchMode="singleInstance"
                 android:windowSoftInputMode="adjustResize"
-                android:taskAffinity=""
-                android:excludeFromRecents="true"
-                android:noHistory="true"
+                android:launchMode="singleTop"
                 android:exported="true"
                 tools:ignore="ExportedActivity" >
         </activity>

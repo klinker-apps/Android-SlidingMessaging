@@ -39,7 +39,11 @@ public class NewMessageAnimation extends CustomAnimation {
                 public void run() {
                     anim.setRunning(false);
                     view.circleText = false;
-                    manager.removeViewImmediate(view);
+                    try {
+                        manager.removeViewImmediate(view);
+                    } catch (Exception e) {
+
+                    }
                 }
             });
         }

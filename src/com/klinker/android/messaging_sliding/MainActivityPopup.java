@@ -10,7 +10,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.view.PagerTitleStrip;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.*;
 import android.view.inputmethod.InputMethodManager;
@@ -46,6 +45,7 @@ public class MainActivityPopup extends MainActivity {
         com.klinker.android.messaging_donate.MainActivity.threadIds = null;
         
         isPopup = true;
+        attachOnSend = true;
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -227,21 +227,11 @@ public class MainActivityPopup extends MainActivity {
     @Override
     public void onStop() {
         super.onStop();
-        MainActivity.newMessage = true;
-        com.klinker.android.messaging_donate.MainActivity.group = null;
-        com.klinker.android.messaging_donate.MainActivity.inboxBody = null;
-        com.klinker.android.messaging_donate.MainActivity.inboxDate = null;
-        com.klinker.android.messaging_donate.MainActivity.inboxNumber = null;
-        com.klinker.android.messaging_donate.MainActivity.msgCount = null;
-        com.klinker.android.messaging_donate.MainActivity.msgRead = null;
-        com.klinker.android.messaging_donate.MainActivity.threadIds = null;
 
         try {
             unregisterReceiver(closeReceiver);
         } catch (Exception e) {
             // already closed?
         }
-
-        finish();
     }
 }

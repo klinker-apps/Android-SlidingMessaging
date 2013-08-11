@@ -229,6 +229,8 @@ s
     public boolean dismissNotification = true;
 	
 	public boolean isPopup = false;
+    public boolean attachOnSend = false;
+    public boolean popupAttaching = false;
 
     public static boolean limitConversations = true;
 
@@ -1206,6 +1208,18 @@ s
 	        }
 
 	        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if (isPopup) {
+                    if (attachOnSend && s.length() != 0) {
+                        sendButton.setImageResource(R.drawable.ic_action_send_white);
+                        attachOnSend = false;
+                        return;
+                    } else if (!attachOnSend && s.length() == 0) {
+                        sendButton.setImageResource(R.drawable.ic_attach);
+                        attachOnSend = true;
+                        return;
+                    }
+                }
 	        	int length = Integer.parseInt(String.valueOf(s.length()));
 
 	        	if (!sharedPrefs.getString("signature", "").equals(""))
@@ -1287,6 +1301,12 @@ s
 
 			@Override
 			public void onClick(View v) {
+
+                if (isPopup && attachOnSend) {
+                    popupAttaching = true;
+                    menuAttachImage();
+                    return;
+                }
 				
 				Intent updateWidget = new Intent("com.klinker.android.messaging.UPDATE_WIDGET");
 				context.sendBroadcast(updateWidget);
@@ -1339,6 +1359,8 @@ s
 						
 						final String body = body2;
 						final int position2 = mViewPager.getCurrentItem();
+
+                        messageEntry.setText("");
 						
 						new Thread(new Runnable() {
 
@@ -2034,8 +2056,6 @@ s
 							}
 							
 						}).start();
-						
-						messageEntry.setText("");
 					}
 				} else
 				{
@@ -2277,10 +2297,15 @@ s
 				
 			});
 		}
+
+        if (!isPopup) {
+            sendButton.setImageResource(R.drawable.ic_action_send_white);
+        } else {
+            sendButton.setImageResource(R.drawable.ic_attach);
+        }
 		
 		mTextView.setTextColor(sharedPrefs.getInt("ct_sendButtonColor", getResources().getColor(R.color.black)));
 		v.setBackgroundColor(sharedPrefs.getInt("ct_sendbarBackground", getResources().getColor(R.color.white)));
-		sendButton.setImageResource(R.drawable.ic_action_send_white);
 		sendButton.setBackgroundResource(R.drawable.pitch_black_send_button);
 		sendButton.setColorFilter(sharedPrefs.getInt("ct_sendButtonColor", getResources().getColor(R.color.black)));
 		emojiButton.setBackgroundResource(R.drawable.pitch_black_send_button);
@@ -4254,9 +4279,6 @@ s
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.activity_main, menu);
 
-        //SearchView searchView = (SearchView)menu.findItem(R.id.menu_search).getActionView();
-        //searchView.setQueryHint("Search");
-
 		return true;
 	}
 	
@@ -4458,94 +4480,7 @@ s
 
 	    	return true;
 	    case R.id.menu_attach:
-	    	multipleAttachments = false;
-	    	AttachMore.data = new ArrayList<MMSPart>();
-
-            //boolean newMessage;
-
-            if (deviceType.equals("phone") || deviceType.equals("phablet2"))
-            {
-                newMessage = menu.isSecondaryMenuShowing();
-            } else
-            {
-                newMessage = menu.isMenuShowing();
-            }
-	    	
-	    	if (newMessage)
-	    	{
-	    		final Context context = this;
-	    		
-	    		AlertDialog.Builder attachBuilder = new AlertDialog.Builder(this);
-	    		attachBuilder.setItems(R.array.selectImage, new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface arg0, int arg1) {
-						switch (arg1)
-						{
-						case 0:
-							Intent intent = new Intent();
-			                intent.setType("image/*");
-			                intent.setAction(Intent.ACTION_GET_CONTENT);
-			                startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.select_picture)), 2);
-			                
-							break;
-						case 1:
-							Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-							File f = new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/", "photoToSend.png");
-							capturedPhotoUri = Uri.fromFile(f);
-							captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, capturedPhotoUri);
-							startActivityForResult(captureIntent, 4);
-							break;
-						case 2:
-							Intent attachMore = new Intent(context, AttachMore.class);
-							startActivityForResult(attachMore, 6);
-							break;
-						}
-						
-					}
-	    			
-	    		});
-	    		
-	    		attachBuilder.create().show();
-	    	} else
-	    	{
-	    		final Context context = this;
-	    		
-	    		attachedPosition = mViewPager.getCurrentItem();
-	    		
-	    		AlertDialog.Builder attachBuilder = new AlertDialog.Builder(this);
-	    		attachBuilder.setItems(R.array.selectImage, new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface arg0, int arg1) {
-						switch (arg1)
-						{
-						case 0:
-							Intent intent = new Intent();
-			                intent.setType("image/*");
-			                intent.setAction(Intent.ACTION_GET_CONTENT);
-			                startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.select_picture)), 1);
-			                
-							break;
-						case 1:
-							Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-							File f = new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/", "photoToSend.png");
-							capturedPhotoUri = Uri.fromFile(f);
-							captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, capturedPhotoUri);
-							startActivityForResult(captureIntent, 3);
-							break;
-						case 2:
-							Intent attachMore = new Intent(context, AttachMore.class);
-							startActivityForResult(attachMore, 5);
-							break;
-						}
-						
-					}
-	    			
-	    		});
-	    		
-	    		attachBuilder.create().show();
-	    	}
+	        menuAttachImage();
 	    	
 	    	return true;
 	    case R.id.menu_call:
@@ -4751,6 +4686,95 @@ s
 	        return super.onOptionsItemSelected(item);
 	    }
 	}
+
+    public void menuAttachImage() {
+        multipleAttachments = false;
+        AttachMore.data = new ArrayList<MMSPart>();
+
+        if (deviceType.equals("phone") || deviceType.equals("phablet2"))
+        {
+            newMessage = menu.isSecondaryMenuShowing();
+        } else
+        {
+            newMessage = menu.isMenuShowing();
+        }
+
+        if (newMessage)
+        {
+            final Context context = this;
+
+            AlertDialog.Builder attachBuilder = new AlertDialog.Builder(this);
+            attachBuilder.setItems(R.array.selectImage, new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface arg0, int arg1) {
+                    switch (arg1)
+                    {
+                        case 0:
+                            Intent intent = new Intent();
+                            intent.setType("image/*");
+                            intent.setAction(Intent.ACTION_GET_CONTENT);
+                            startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.select_picture)), 2);
+
+                            break;
+                        case 1:
+                            Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                            File f = new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/", "photoToSend.png");
+                            capturedPhotoUri = Uri.fromFile(f);
+                            captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, capturedPhotoUri);
+                            startActivityForResult(captureIntent, 4);
+                            break;
+                        case 2:
+                            Intent attachMore = new Intent(context, AttachMore.class);
+                            startActivityForResult(attachMore, 6);
+                            break;
+                    }
+
+                }
+
+            });
+
+            attachBuilder.create().show();
+        } else
+        {
+            final Context context = this;
+
+            attachedPosition = mViewPager.getCurrentItem();
+
+            AlertDialog.Builder attachBuilder = new AlertDialog.Builder(this);
+            attachBuilder.setItems(R.array.selectImage, new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface arg0, int arg1) {
+                    switch (arg1)
+                    {
+                        case 0:
+                            Intent intent = new Intent();
+                            intent.setType("image/*");
+                            intent.setAction(Intent.ACTION_GET_CONTENT);
+                            startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.select_picture)), 1);
+
+                            break;
+                        case 1:
+                            Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                            File f = new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/", "photoToSend.png");
+                            capturedPhotoUri = Uri.fromFile(f);
+                            captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, capturedPhotoUri);
+                            startActivityForResult(captureIntent, 3);
+                            break;
+                        case 2:
+                            Intent attachMore = new Intent(context, AttachMore.class);
+                            startActivityForResult(attachMore, 5);
+                            break;
+                    }
+
+                }
+
+            });
+
+            attachBuilder.create().show();
+        }
+    }
 	
 	public void deleteSMS(Context context, String threadId) {
 	    try {
@@ -4761,7 +4785,10 @@ s
 	}
 	
 	@SuppressWarnings("deprecation")
-	protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) { 
+	protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
+        popupAttaching = false;
+        attachOnSend = false;
+        sendButton.setImageResource(R.drawable.ic_action_send_white);
         
         if (requestCode == 1)
         {
@@ -5667,6 +5694,19 @@ s
 					alarm.cancel(pStopRepeating);
 				}
 			}, 500);
+
+            if (!popupAttaching) {
+                MainActivity.newMessage = true;
+                com.klinker.android.messaging_donate.MainActivity.group = null;
+                com.klinker.android.messaging_donate.MainActivity.inboxBody = null;
+                com.klinker.android.messaging_donate.MainActivity.inboxDate = null;
+                com.klinker.android.messaging_donate.MainActivity.inboxNumber = null;
+                com.klinker.android.messaging_donate.MainActivity.msgCount = null;
+                com.klinker.android.messaging_donate.MainActivity.msgRead = null;
+                com.klinker.android.messaging_donate.MainActivity.threadIds = null;
+
+                finish();
+            }
 		}
 	}
 
