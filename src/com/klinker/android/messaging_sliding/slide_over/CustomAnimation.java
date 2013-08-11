@@ -6,6 +6,7 @@ public abstract class CustomAnimation extends Thread {
     private boolean running = false;
 
     public CustomAnimation(AnimationView view) {
+        super();
         this.view = view;
     }
 
@@ -28,8 +29,6 @@ public abstract class CustomAnimation extends Thread {
             try {
                 if (sleepTime > 0)
                     sleep(sleepTime);
-                else
-                    sleep(10);
             } catch (Exception e) {}
         }
     }
