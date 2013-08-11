@@ -6,6 +6,7 @@ public abstract class CustomAnimation extends Thread {
     private boolean running = false;
 
     public CustomAnimation(AnimationView view) {
+        super();
         this.view = view;
     }
 
