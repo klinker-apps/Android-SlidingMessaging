@@ -1,11 +1,5 @@
 Version 7.00
 
-- SLIDEOVER TODO
-    - animations for new messages
-        - integrate animation view
-        - little faster scrolling text
-        - less time between name and message
-        - check to make sure animation is not already running before starting it
 - option for adding certain text to every message at the beginning (delivery reports?)
 - Message Locking
 - Figure out how to judge file size of png images and adjust them accordingly when sending, look into UriImage.getResizedImageData for solution
