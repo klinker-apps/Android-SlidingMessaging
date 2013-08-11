@@ -855,26 +855,28 @@ public class SlideOverService extends Service {
             haloView.invalidate();
             haloWindow.updateViewLayout(haloView, haloParams);
 
-            if (!sharedPrefs.getBoolean("popup_reply", false) || (sharedPrefs.getBoolean("popup_reply", true) && sharedPrefs.getBoolean("slideover_popup_lockscreen_only", false))) {
-                // start the animation
-                animationView.circleText = true;
-                animationView.firstText = true;
-                animationView.arcOffset = AnimationView.ORIG_ARC_OFFSET;
-                animationView.name = new String[] {name, message.length() > 50 ? message.substring(0, 50) + "..." : message};
-                animationWindow.addView(animationView, animationParams);
+            if (!animationView.circleText) {
+                if (!sharedPrefs.getBoolean("popup_reply", false) || (sharedPrefs.getBoolean("popup_reply", true) && sharedPrefs.getBoolean("slideover_popup_lockscreen_only", false))) {
+                    // start the animation
+                    animationView.circleText = true;
+                    animationView.firstText = true;
+                    animationView.arcOffset = AnimationView.ORIG_ARC_OFFSET;
+                    animationView.name = new String[] {name, message.length() > 50 ? message.substring(0, 50) + "..." : message};
+                    animationWindow.addView(animationView, animationParams);
 
-                final NewMessageAnimation animation = new NewMessageAnimation(animationView, (float)(3 * (sharedPrefs.getInt("slideover_animation_speed", 33)/100.0) + 1));
-                animation.setRunning(true);
-                animation.start();
+                    final NewMessageAnimation animation = new NewMessageAnimation(animationView, (float)(3 * (sharedPrefs.getInt("slideover_animation_speed", 33)/100.0) + 1));
+                    animation.setRunning(true);
+                    animation.start();
 
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        animationView.circleText = false;
-                        animation.setRunning(false);
-                        haloWindow.removeViewImmediate(animationView);
-                    }
-                }, 20000);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            animationView.circleText = false;
+                            animation.setRunning(false);
+                            haloWindow.removeViewImmediate(animationView);
+                        }
+                    }, 20000);
+                }
             }
         }
     };
