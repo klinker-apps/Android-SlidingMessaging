@@ -103,8 +103,14 @@ public class ArcView extends ViewGroup {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        canvas.drawText("CLOSE", (float)((width * .25) - (closePaint.measureText("CLOSE")/2)) , 60, closePaint);
-        canvas.drawText("SETTINGS", (float)((width * .75) - (closePaint.measureText("SETTINGS")/2)) , 60, movePaint);
+        if(SlideOverService.PERCENT_DOWN_SCREEN > .5) {
+            canvas.drawText("CLOSE", (float)((width * .25) - (closePaint.measureText("CLOSE")/2)) , 60, closePaint);
+            canvas.drawText("SETTINGS", (float)((width * .75) - (closePaint.measureText("SETTINGS")/2)) , 60, movePaint);
+        } else
+        {
+            canvas.drawText("CLOSE", (float)((width * .25) - (closePaint.measureText("CLOSE")/2)) , height - 70, closePaint);
+            canvas.drawText("SETTINGS", (float)((width * .75) - (closePaint.measureText("SETTINGS")/2)) , height - 70, movePaint);
+        }
 
         int[] point = getPosition();
 

@@ -200,7 +200,9 @@ public class SlideOverService extends Service {
                                 if (!sharedPrefs.getString("slideover_side", "left").equals("left"))
                                     angle *= -1;
 
-                                if (event.getRawY() < 120) // in Top Area
+                                float rawY = event.getRawY();
+
+                                if ((rawY < 120 && PERCENT_DOWN_SCREEN > .5) || (rawY > height - 120 && PERCENT_DOWN_SCREEN < .5)) // in Top Area
                                 {
                                     inButtons = true;
 
@@ -221,6 +223,7 @@ public class SlideOverService extends Service {
                                         arcView.closePaint.setAlpha(TOUCHED_ALPHA);
                                         arcView.movePaint.setAlpha(START_ALPHA2);
                                         arcView.newMessagePaint.setAlpha(START_ALPHA2);
+                                        arcView.conversationsPaint.setAlpha(START_ALPHA);
                                     } else // Move Zone
                                     {
                                         inMove = true;
@@ -232,6 +235,7 @@ public class SlideOverService extends Service {
                                         arcView.closePaint.setAlpha(START_ALPHA2);
                                         arcView.movePaint.setAlpha(TOUCHED_ALPHA);
                                         arcView.newMessagePaint.setAlpha(START_ALPHA2);
+                                        arcView.conversationsPaint.setAlpha(START_ALPHA);
                                     }
 
                                     arcView.invalidate();
