@@ -1,13 +1,15 @@
 package com.klinker.android.messaging_sliding.slide_over;
 
+import android.view.View;
+
 public abstract class CustomAnimation extends Thread {
     static final long FPS = 60;
-    public AnimationView view;
+    public View view;
     private boolean running = false;
 
-    public CustomAnimation(AnimationView view) {
+    public CustomAnimation(View v) {
         super();
-        this.view = view;
+        view = v;
     }
 
     public void setRunning(boolean run) {

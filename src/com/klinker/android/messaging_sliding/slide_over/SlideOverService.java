@@ -677,7 +677,8 @@ public class SlideOverService extends Service {
                                 {
                                     arcView.newConversations.clear();
 
-                                    haloView.setRegularHalo();
+                                    haloView.haloNewAlpha = 0;
+                                    haloView.haloAlpha = 255;
                                     haloView.invalidate();
                                     haloWindow.updateViewLayout(haloView, haloParams);
 
@@ -740,7 +741,8 @@ public class SlideOverService extends Service {
                                 if (distance > SWIPE_MIN_DISTANCE) {
                                     arcView.newConversations.clear();
 
-                                    haloView.setRegularHalo();
+                                    haloView.haloNewAlpha = 0;
+                                    haloView.haloAlpha = 255;
                                     haloView.invalidate();
                                     haloWindow.updateViewLayout(haloView, haloParams);
 
@@ -916,9 +918,15 @@ public class SlideOverService extends Service {
             arcView.invalidate();
 
             // set the icon to the red, recieved, icon
-            haloView.setRecievedHalo();
-            haloView.invalidate();
-            haloWindow.updateViewLayout(haloView, haloParams);
+            if (!haloView.animating) {
+                haloView.haloNewAlpha = 0;
+                haloView.haloAlpha = 255;
+                haloView.animating = true;
+
+                HaloFadeAnimation animation = new HaloFadeAnimation(haloView, true);
+                animation.setRunning(true);
+                animation.start();
+            }
 
             if (!animationView.circleText) {
                 if (!sharedPrefs.getBoolean("popup_reply", false) || (sharedPrefs.getBoolean("popup_reply", true) && sharedPrefs.getBoolean("slideover_popup_lockscreen_only", false))) {
@@ -929,7 +937,7 @@ public class SlideOverService extends Service {
                     animationView.name = new String[] {name, message.length() > 50 ? message.substring(0, 50) + "..." : message};
                     animationWindow.addView(animationView, animationParams);
 
-                    final NewMessageAnimation animation = new NewMessageAnimation(animationView, (float)(3 * (sharedPrefs.getInt("slideover_animation_speed", 33)/100.0) + 1), haloWindow);
+                    NewMessageAnimation animation = new NewMessageAnimation(animationView, (float)(3 * (sharedPrefs.getInt("slideover_animation_speed", 33)/100.0) + 1), haloWindow);
                     animation.setRunning(true);
                     animation.start();
                 }
@@ -943,7 +951,8 @@ public class SlideOverService extends Service {
 
             arcView.newConversations.clear();
 
-            haloView.setRegularHalo();
+            haloView.haloNewAlpha = 0;
+            haloView.haloAlpha = 255;
             haloView.invalidate();
             
             numberNewConv = 0;

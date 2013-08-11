@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.*;
 import android.preference.PreferenceManager;
-import android.util.TypedValue;
 import android.view.*;
 
 import com.klinker.android.messaging_donate.R;
@@ -13,8 +12,14 @@ public class HaloView extends ViewGroup {
     public Context mContext;
 
     public Bitmap halo;
-    public Paint arcPaint;
-    public float radius;
+    public Bitmap haloNew;
+
+    public Paint haloPaint;
+    public Paint haloNewPaint;
+    public int haloAlpha = 255;
+    public int haloNewAlpha = 0;
+
+    public boolean animating = false;
 
     public SharedPreferences sharedPrefs;
 
@@ -27,14 +32,17 @@ public class HaloView extends ViewGroup {
         mContext = context;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
 
-        arcPaint = new Paint();
-        arcPaint.setAntiAlias(true);
-        arcPaint.setColor(Color.WHITE);
-        arcPaint.setAlpha(60);
-        arcPaint.setStyle(Paint.Style.STROKE);
-        arcPaint.setStrokeWidth(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, context.getResources().getDisplayMetrics()));
+        halo = BitmapFactory.decodeResource(getResources(),
+                R.drawable.halo_bg);
 
-        setRegularHalo();
+        haloNew = BitmapFactory.decodeResource(getResources(),
+                R.drawable.halo_new);
+
+        haloPaint = new Paint();
+        haloPaint.setAlpha(haloAlpha);
+
+        haloNewPaint = new Paint();
+        haloNewPaint.setAlpha(haloNewAlpha);
     }
 
     protected void onDraw(Canvas canvas) {
@@ -44,7 +52,15 @@ public class HaloView extends ViewGroup {
         height = d.getHeight();
         width = d.getWidth();
 
-        canvas.drawBitmap(halo, 0, 0, null);
+        if (haloAlpha != 0) {
+            haloPaint.setAlpha(haloAlpha);
+            canvas.drawBitmap(halo, 0, 0, haloPaint);
+        }
+
+        if (haloNewAlpha != 0) {
+            haloNewPaint.setAlpha(haloNewAlpha);
+            canvas.drawBitmap(haloNew, 0, 0, haloNewPaint);
+        }
     }
 
     @Override
@@ -54,17 +70,5 @@ public class HaloView extends ViewGroup {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         return false;
-    }
-
-    public void setRegularHalo()
-    {
-        halo = BitmapFactory.decodeResource(getResources(),
-                R.drawable.halo_bg);
-    }
-
-    public void setRecievedHalo()
-    {
-        halo = BitmapFactory.decodeResource(getResources(),
-                R.drawable.halo_new);
     }
 }

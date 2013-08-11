@@ -8,10 +8,11 @@ public class NewMessageAnimation extends CustomAnimation {
 
     private float speed;
     private WindowManager manager;
+    private AnimationView view;
 
     public NewMessageAnimation(AnimationView v, float speed, WindowManager manager) {
         super(v);
-
+        this.view = v;
         this.speed = speed;
         this.manager = manager;
     }

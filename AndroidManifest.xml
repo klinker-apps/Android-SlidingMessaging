@@ -120,7 +120,7 @@
                 android:configChanges="orientation|screenSize"
                 android:hardwareAccelerated="true"
                 android:windowSoftInputMode="adjustResize"
-                android:launchMode="singleTop"
+                android:launchMode="singleInstance"
                 android:exported="true"
                 tools:ignore="ExportedActivity" >
         </activity>
