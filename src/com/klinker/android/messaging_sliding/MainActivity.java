@@ -231,6 +231,7 @@ s
 	public boolean isPopup = false;
     public boolean attachOnSend = false;
     public boolean popupAttaching = false;
+    public boolean unlockDevice = false;
 
     public static boolean limitConversations = true;
 
@@ -5673,7 +5674,7 @@ s
             context.startService(cacheService);
         }
 		
-		if (isPopup) {
+		if (isPopup && !unlockDevice) {
 			//final Context context = this;
 			
 			new Handler().postDelayed(new Runnable() {
@@ -5708,6 +5709,8 @@ s
                 finish();
             }
 		}
+
+        unlockDevice = false;
 	}
 
     @Override

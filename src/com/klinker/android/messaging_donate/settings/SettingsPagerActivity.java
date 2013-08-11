@@ -599,11 +599,16 @@ public class SettingsPagerActivity extends FragmentActivity {
                         return true;
                     }
                 });
-                findPreference("enable_view_conversation").setEnabled(false);
-                findPreference("text_alignment2").setEnabled(false);
-                findPreference("use_old_popup").setEnabled(false);
-                findPreference("dark_theme_quick_reply").setEnabled(false);
-                findPreference("halo_popup").setEnabled(false);
+
+                try {
+                    findPreference("halo_popup").setEnabled(false);
+                    findPreference("enable_view_conversation").setEnabled(false);
+                    findPreference("text_alignment2").setEnabled(false);
+                    findPreference("use_old_popup").setEnabled(false);
+                    findPreference("dark_theme_quick_reply").setEnabled(false);
+                } catch (Exception e) {
+
+                }
             } else {
                 if (!sharedPrefs.getBoolean("use_old_popup", false))
                 {
@@ -628,21 +633,29 @@ public class SettingsPagerActivity extends FragmentActivity {
                     });
                 }
 
-                findPreference("enable_view_conversation").setEnabled(true);
-                findPreference("text_alignment2").setEnabled(true);
-                findPreference("use_old_popup").setEnabled(true);
-                findPreference("dark_theme_quick_reply").setEnabled(true);
-                findPreference("halo_popup").setEnabled(true);
+                try {
+                    findPreference("halo_popup").setEnabled(true);
+                    findPreference("enable_view_conversation").setEnabled(true);
+                    findPreference("text_alignment2").setEnabled(true);
+                    findPreference("use_old_popup").setEnabled(true);
+                    findPreference("dark_theme_quick_reply").setEnabled(true);
+                } catch (Exception e) {
+
+                }
             }
 
-            Preference oldPopup = findPreference("use_old_popup");
-            oldPopup.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    setUpPopupSettings();
-                    return true;
-                }
-            });
+            try {
+                Preference oldPopup = findPreference("use_old_popup");
+                oldPopup.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(Preference preference) {
+                        setUpPopupSettings();
+                        return true;
+                    }
+                });
+            } catch (Exception e) {
+
+            }
 
             Preference slideOver = findPreference("full_app_popup");
             slideOver.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -654,12 +667,16 @@ public class SettingsPagerActivity extends FragmentActivity {
             });
 
             if (!showAll) {
-                getPreferenceScreen().removePreference(findPreference("slideover_popup_lockscreen_only"));
-                getPreferenceScreen().removePreference(findPreference("enable_view_conversation"));
-                getPreferenceScreen().removePreference(findPreference("show_keyboard_popup"));
-                getPreferenceScreen().removePreference(findPreference("text_alignment2"));
-                getPreferenceScreen().removePreference(findPreference("use_old_popup"));
-                getPreferenceScreen().removePreference(findPreference("dark_theme_quick_reply"));
+                try {
+                    getPreferenceScreen().removePreference(findPreference("slideover_popup_lockscreen_only"));
+                    getPreferenceScreen().removePreference(findPreference("enable_view_conversation"));
+                    getPreferenceScreen().removePreference(findPreference("show_keyboard_popup"));
+                    getPreferenceScreen().removePreference(findPreference("text_alignment2"));
+                    getPreferenceScreen().removePreference(findPreference("use_old_popup"));
+                    getPreferenceScreen().removePreference(findPreference("dark_theme_quick_reply"));
+                } catch (Exception e) {
+
+                }
             }
         }
 

@@ -7,7 +7,6 @@ import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.view.PagerTitleStrip;
@@ -54,6 +53,7 @@ public class MainActivityPopup extends MainActivity {
         {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+            unlockDevice = true;
         }
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
