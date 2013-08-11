@@ -370,21 +370,7 @@ public class SlideOverService extends Service {
                                 // now will fire a different intent depending on what view you are in
                                 if(inButtons)
                                 {
-                                    if(inClear) // clear button clicked
-                                    {
-                                        arcView.newConversations.clear();
-
-                                        haloView.setRegularHalo();
-                                        haloView.invalidate();
-                                        haloWindow.updateViewLayout(haloView, haloParams);
-
-                                        NotificationManager mNotificationManager =
-                                                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                                        mNotificationManager.cancel(1);
-                                        mNotificationManager.cancel(2);
-
-                                        numberNewConv = 0;
-                                    } else if(inMove) // move button was clicked
+                                    if(inMove) // move button was clicked
                                     {
                                         Intent intent = new Intent(getBaseContext(), com.klinker.android.messaging_sliding.slide_over.SlideOverSettings.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -696,6 +682,12 @@ public class SlideOverService extends Service {
                                     haloWindow.updateViewLayout(haloView, haloParams);
 
                                     numberNewConv = 0;
+
+                                    NotificationManager mNotificationManager =
+                                            (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                                    mNotificationManager.cancel(1);
+                                    mNotificationManager.cancel(2);
+
                                 } else if(inButtons)
                                 {
                                     if(inMove) // move button was clicked
