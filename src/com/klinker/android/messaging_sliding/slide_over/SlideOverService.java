@@ -150,6 +150,7 @@ public class SlideOverService extends Service {
             private boolean topVibrate = true;
             private boolean inClose = false;
             private boolean inMove = false;
+            private boolean inClear = false;
 
             private int lastZone = 0;
             private int currentZone = 0;
@@ -201,8 +202,9 @@ public class SlideOverService extends Service {
                                     angle *= -1;
 
                                 float rawY = event.getRawY();
+                                float rawX = event.getRawX();
 
-                                if ((rawY < 120 && PERCENT_DOWN_SCREEN > .5) || (rawY > height - 120 && PERCENT_DOWN_SCREEN < .5)) // in Top Area
+                                if ((rawY < 120 && PERCENT_DOWN_SCREEN > .5) || (rawY > height - 120 && PERCENT_DOWN_SCREEN < .5)) // in Button Area
                                 {
                                     inButtons = true;
 
@@ -219,6 +221,7 @@ public class SlideOverService extends Service {
                                         {
                                             v.vibrate(25);
                                             inMove = false;
+                                            inClear = false;
                                         }
                                         arcView.closePaint.setAlpha(TOUCHED_ALPHA);
                                         arcView.movePaint.setAlpha(START_ALPHA2);
@@ -231,6 +234,7 @@ public class SlideOverService extends Service {
                                         {
                                             v.vibrate(25);
                                             inClose = false;
+                                            inClear = false;
                                         }
                                         arcView.closePaint.setAlpha(START_ALPHA2);
                                         arcView.movePaint.setAlpha(TOUCHED_ALPHA);
@@ -247,11 +251,13 @@ public class SlideOverService extends Service {
                                     {
                                         arcView.closePaint.setAlpha(START_ALPHA);
                                         arcView.movePaint.setAlpha(START_ALPHA);
+                                        arcView.clearPaint.setAlpha(START_ALPHA);
 
                                         inButtons = false;
 
                                         inClose = false;
                                         inMove = false;
+                                        inClear = false;
 
                                         topVibrate = true;
 
@@ -304,11 +310,13 @@ public class SlideOverService extends Service {
                                     {
                                         arcView.closePaint.setAlpha(START_ALPHA);
                                         arcView.movePaint.setAlpha(START_ALPHA);
+                                        arcView.clearPaint.setAlpha(START_ALPHA);
 
                                         inButtons = false;
 
                                         inClose = false;
                                         inMove = false;
+                                        inClear = false;
 
                                         topVibrate = true;
                                     }
@@ -361,7 +369,16 @@ public class SlideOverService extends Service {
                                 // now will fire a different intent depending on what view you are in
                                 if(inButtons)
                                 {
-                                    if(inMove) // move button was clicked
+                                    if(inClear) // clear button clicked
+                                    {
+                                        arcView.newConversations.clear();
+
+                                        haloView.setRegularHalo();
+                                        haloView.invalidate();
+                                        haloWindow.updateViewLayout(haloView, haloParams);
+
+                                        numberNewConv = 0;
+                                    } else if(inMove) // move button was clicked
                                     {
                                         Intent intent = new Intent(getBaseContext(), com.klinker.android.messaging_sliding.slide_over.SlideOverSettings.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -442,10 +459,12 @@ public class SlideOverService extends Service {
                                 if (!sharedPrefs.getString("slideover_side", "left").equals("left"))
                                     angle *= -1;
 
-                                if (event.getRawY() < 120) // in Top Area
+                                float rawY = event.getRawY();
+                                float rawX = event.getRawX();
+
+                                if ((rawY < 120 && PERCENT_DOWN_SCREEN > .5) || (rawY > height - 120 && PERCENT_DOWN_SCREEN < .5)) // in Button Area
                                 {
                                     inButtons = true;
-                                    resetZoneAlphas();
 
                                     if (HAPTIC_FEEDBACK && topVibrate) {
                                         v.vibrate(25);
@@ -453,32 +472,53 @@ public class SlideOverService extends Service {
                                         topVibrate = false;
                                     }
 
-                                    if(event.getRawX() < width/2) // Close Zone
+                                    if(rawX < width/3) // Clear Zone
                                     {
-                                        inClose = true;
-                                        if(HAPTIC_FEEDBACK && inMove)
+                                        inClear = true;
+                                        if(HAPTIC_FEEDBACK && (inMove || inClose))
                                         {
                                             v.vibrate(25);
                                             inMove = false;
+                                            inClose = false;
+                                        }
+                                        arcView.clearPaint.setAlpha(TOUCHED_ALPHA);
+                                        arcView.closePaint.setAlpha(START_ALPHA2);
+                                        arcView.movePaint.setAlpha(START_ALPHA2);
+                                        arcView.newMessagePaint.setAlpha(START_ALPHA2);
+                                        arcView.conversationsPaint.setAlpha(START_ALPHA);
+                                    }else if(rawX > width * .33 && rawX < width * .67) // Close Zone
+                                    {
+                                        inClose = true;
+                                        if(HAPTIC_FEEDBACK && (inMove || inClear))
+                                        {
+                                            v.vibrate(25);
+                                            inMove = false;
+                                            inClear = false;
                                         }
                                         arcView.closePaint.setAlpha(TOUCHED_ALPHA);
                                         arcView.movePaint.setAlpha(START_ALPHA2);
+                                        arcView.clearPaint.setAlpha(START_ALPHA2);
                                         arcView.newMessagePaint.setAlpha(START_ALPHA2);
+                                        arcView.conversationsPaint.setAlpha(START_ALPHA);
                                     } else // Move Zone
                                     {
                                         inMove = true;
-                                        if(HAPTIC_FEEDBACK && inClose)
+                                        if(HAPTIC_FEEDBACK && (inClose || inClear))
                                         {
                                             v.vibrate(25);
                                             inClose = false;
+                                            inClear = false;
                                         }
                                         arcView.closePaint.setAlpha(START_ALPHA2);
                                         arcView.movePaint.setAlpha(TOUCHED_ALPHA);
+                                        arcView.clearPaint.setAlpha(START_ALPHA2);
                                         arcView.newMessagePaint.setAlpha(START_ALPHA2);
+                                        arcView.conversationsPaint.setAlpha(START_ALPHA);
                                     }
 
                                     arcView.invalidate();
                                     arcWindow.updateViewLayout(arcView, arcParams);
+
 
                                 } else if ((!(initY > event.getY()) && angle > ARC_BREAK_POINT)) // in dash area
                                 {
@@ -486,11 +526,13 @@ public class SlideOverService extends Service {
                                     {
                                         arcView.closePaint.setAlpha(START_ALPHA);
                                         arcView.movePaint.setAlpha(START_ALPHA);
+                                        arcView.clearPaint.setAlpha(START_ALPHA);
 
                                         inButtons = false;
 
                                         inClose = false;
                                         inMove = false;
+                                        inClear = false;
 
                                         topVibrate = true;
                                     }
@@ -555,11 +597,13 @@ public class SlideOverService extends Service {
                                     {
                                         arcView.closePaint.setAlpha(START_ALPHA);
                                         arcView.movePaint.setAlpha(START_ALPHA);
+                                        arcView.clearPaint.setAlpha(START_ALPHA);
 
                                         inButtons = false;
 
                                         inClose = false;
                                         inMove = false;
+                                        inClear = false;
 
                                         topVibrate = true;
                                         zoneChange = true;
@@ -637,7 +681,16 @@ public class SlideOverService extends Service {
                                 haloWindow.updateViewLayout(haloView, haloParams);
 
                                 // now will fire a different intent depending on what view you are in
-                                if(inButtons)
+                                if(inClear) // clear button clicked
+                                {
+                                    arcView.newConversations.clear();
+
+                                    haloView.setRegularHalo();
+                                    haloView.invalidate();
+                                    haloWindow.updateViewLayout(haloView, haloParams);
+
+                                    numberNewConv = 0;
+                                } else if(inButtons)
                                 {
                                     if(inMove) // move button was clicked
                                     {

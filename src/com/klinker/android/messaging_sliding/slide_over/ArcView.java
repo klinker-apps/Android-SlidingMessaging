@@ -7,6 +7,8 @@ import android.preference.PreferenceManager;
 import android.util.TypedValue;
 import android.view.*;
 
+import com.klinker.android.messaging_donate.R;
+
 import java.util.ArrayList;
 
 public class ArcView extends ViewGroup {
@@ -16,11 +18,13 @@ public class ArcView extends ViewGroup {
     public static float TEXT_GAP;
 
     public Bitmap halo;
+    public Bitmap clear;
 
     public Paint newMessagePaint;
     public Paint conversationsPaint;
     public Paint closePaint;
     public Paint movePaint;
+    public Paint clearPaint;
     public Paint[] textPaint;
 
     public float radius;
@@ -68,12 +72,9 @@ public class ArcView extends ViewGroup {
         closePaint.setTextSize(TEXT_SIZE);
         closePaint.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
 
-        movePaint = new Paint();
-        movePaint.setAntiAlias(true);
-        movePaint.setColor(Color.WHITE);
-        movePaint.setAlpha(SlideOverService.START_ALPHA);
-        movePaint.setTextSize(TEXT_SIZE);
-        movePaint.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
+        movePaint = new Paint(closePaint);
+
+        clearPaint = new Paint(closePaint);
 
         newConversations = new ArrayList<String[]>();
 
@@ -97,19 +98,39 @@ public class ArcView extends ViewGroup {
         this.radius = radius;
         this.breakAngle = breakAngle;
         this.sliverPercent = sliverPercent;
+
+        clear = BitmapFactory.decodeResource(getResources(),
+                R.drawable.ic_cancel);
+
+
     }
 
 
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        if(SlideOverService.PERCENT_DOWN_SCREEN > .5) {
-            canvas.drawText("CLOSE", (float)((width * .25) - (closePaint.measureText("CLOSE")/2)) , 60, closePaint);
-            canvas.drawText("SETTINGS", (float)((width * .75) - (closePaint.measureText("SETTINGS")/2)) , 60, movePaint);
+        if (newConversations.size() > 0) {
+            if(SlideOverService.PERCENT_DOWN_SCREEN > .5) {
+                canvas.drawText("CLEAR", (float)((width * .25) - (closePaint.measureText("CLEAR")/2)) , 60, clearPaint);
+                canvas.drawText("CLOSE", (float)((width * .5) - (closePaint.measureText("CLOSE")/2)), 60, closePaint);
+                canvas.drawText("SETTINGS", (float)((width * .75) - (closePaint.measureText("SETTINGS")/2)) , 60, movePaint);
+            } else
+            {
+
+                canvas.drawText("CLEAR", (float)((width * .25) - (closePaint.measureText("CLEAR")/2)) , height - 60, clearPaint);
+                canvas.drawText("CLOSE", (float)((width * .5) - (closePaint.measureText("CLOSE")/2)) , height - 60, closePaint);
+                canvas.drawText("SETTINGS", (float)((width * .75) - (closePaint.measureText("SETTINGS")/2)) , height - 60, movePaint);
+            }
         } else
         {
-            canvas.drawText("CLOSE", (float)((width * .25) - (closePaint.measureText("CLOSE")/2)) , height - 70, closePaint);
-            canvas.drawText("SETTINGS", (float)((width * .75) - (closePaint.measureText("SETTINGS")/2)) , height - 70, movePaint);
+            if(SlideOverService.PERCENT_DOWN_SCREEN > .5) {
+                canvas.drawText("CLOSE", (float)((width * .25) - (closePaint.measureText("CLOSE")/2)) , 60, closePaint);
+                canvas.drawText("SETTINGS", (float)((width * .75) - (closePaint.measureText("SETTINGS")/2)) , 60, movePaint);
+            } else
+            {
+                canvas.drawText("CLOSE", (float)((width * .25) - (closePaint.measureText("CLOSE")/2)) , height - 70, closePaint);
+                canvas.drawText("SETTINGS", (float)((width * .75) - (closePaint.measureText("SETTINGS")/2)) , height - 70, movePaint);
+            }
         }
 
         int[] point = getPosition();
