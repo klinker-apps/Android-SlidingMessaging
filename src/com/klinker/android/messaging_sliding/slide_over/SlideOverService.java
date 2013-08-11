@@ -1,6 +1,7 @@
 package com.klinker.android.messaging_sliding.slide_over;
 
 import android.app.ActivityManager;
+import android.app.NotificationManager;
 import android.app.Service;
 import android.content.*;
 import android.graphics.Bitmap;
@@ -376,6 +377,11 @@ public class SlideOverService extends Service {
                                         haloView.setRegularHalo();
                                         haloView.invalidate();
                                         haloWindow.updateViewLayout(haloView, haloParams);
+
+                                        NotificationManager mNotificationManager =
+                                                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                                        mNotificationManager.cancel(1);
+                                        mNotificationManager.cancel(2);
 
                                         numberNewConv = 0;
                                     } else if(inMove) // move button was clicked

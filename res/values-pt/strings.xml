@@ -269,7 +269,7 @@
     <string name="mms_port">MMS Port</string>
     <string name="apn_error_title">APN Error</string>
     <string name="apn_error_button">Ir para definições MMS</string>
-    <string name="apn_error_1">Há um erro nas definições do APN, ou ainda não o configurou, ou são incompatíveis, ou está ligado à Wifi e não selecionou a opção 'alternativa Wifi' nas definições MMS.</string>
+    <string name="apn_error_1">Há um erro nas definições do APN, ou ainda não o configurou, ou são incompatíveis, ou está ligado à Wifi e não selecionou a opção \'alternativa Wifi\' nas definições MMS.</string>
     <string name="apn_error_2">A Google restringe o acesso às APNs definidas no sistema por motivos de segurança. Por este motivo, precisa de definir os valores manualmente</string>
     <string name="apn_error_3">para poder enviar MMS. Pode encontrar as definições APN do seu operador móvel acedendo a Definições -> Wifi e Redes Móveis -> </string>
     <string name="apn_error_4">Mais… -> Redes Móveis -> Ponto de acesso Nomes e selecionando o APN que deseja usar, copie os valores \"MMSC\", \"MMS Proxy\", e \"MMS Port\" </string>
