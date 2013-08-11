@@ -1,14 +1,19 @@
-Version 6.70
+Version 7.00
 
-- Add SlideOver settings (with nothing there yet lol)
-- port cards UI 2.0 to search activity and conversation activity
-- floating notifications extension
-- system overlays: http://stackoverflow.com/questions/4750814/creating-a-system-overlay-where-the-home-buttons-still-work
+- SLIDEOVER TODO
+    - fix stupid edge bug (don't have a clue on honestly)
+    - animations for new messages
+        - integrate animation view
+        - little faster scrolling text
+        - less time between name and message
+        - check to make sure animation is not already running before starting it
+    - way to move it around
+    - way to dismiss it
+    - way to dismiss all messages without having to open the app  (touch it, double tap it, or long click on it?)
 - option for adding certain text to every message at the beginning (delivery reports?)
 - Message Locking
 - Figure out how to judge file size of png images and adjust them accordingly when sending, look into UriImage.getResizedImageData for solution
 - look into scheduled SMS bug reported
-- Update theme editor description
 
 Luke's ideas for speed/fluidity improvement:
 3.) Don't refresh the view pager when a new message is received that isn't from the conversation you are currently viewing. Make a refresh attached in the conversations list to refresh the view pager instead, so it doesnt jump around and the users can continue texting without being interrupted. It will look better and work more fluidly.
@@ -22,7 +27,6 @@ Luke's ideas for speed/fluidity improvement:
 
 - igamer777@gmail.com, nikorezzano@gmail.com
 
-
 - sms backup
 	- different icon in notification
 	- apply for mms
@@ -33,11 +37,3 @@ Luke's ideas for speed/fluidity improvement:
 	- cancel scheduled button
 	- Dated folders for backups
 	- check to make sure backup exists before deleting
-	
-- Halo Popup app
-	- Simple app like the HALO)))
-	- Allows users to select which apps they would like to launch in halo automatically on new notification
-	- Makes a popup available for any app... Messaging, Hangouts, Facebook, Flacon, really whatever app you want to launch automatically on a notification
-	- Open Source and free on the play store
-	- Apply new Notification Listener APIs (only for Android 4.3 and above, would also get rid of people downloading and rating it low because they don't know what it does...)
-	- Should be simple enough to make, I've already done it all in Sliding Messaging, and sounds like a pretty applicable app to me.
