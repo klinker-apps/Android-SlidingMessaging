@@ -375,7 +375,7 @@ s
 
                         Bitmap contactImage = Bitmap.createScaledBitmap(BitmapFactory.decodeStream(input), 120, 120, true);
 
-                        if (sharedPrefs.getBoolean("notifications", true))
+                        if (sharedPrefs.getBoolean("in_app_notifications", true))
                         {
                             NotificationCompat.Builder mBuilder =
                                     new NotificationCompat.Builder(context)

@@ -2007,6 +2007,8 @@ public class MessageCursorAdapter extends CursorAdapter {
                     holder.text.setTextColor(context.getResources().getColor(R.color.grey));
                     holder.date.setTextColor(context.getResources().getColor(R.color.grey));
                 }
+
+                holder.background.setBackgroundColor(convertToColorInt(convertToARGB(sharedPrefs.getInt("ct_sentMessageBackground", context.getResources().getColor(R.color.black)), sharedPrefs.getInt("text_opacity", 100) + "")));
             }
         } else {
             holder.text.setTextColor(sharedPrefs.getInt("ct_receivedTextColor", context.getResources().getColor(R.color.black)));
@@ -2052,6 +2054,8 @@ public class MessageCursorAdapter extends CursorAdapter {
                     holder.text.setTextColor(context.getResources().getColor(R.color.grey));
                     holder.date.setTextColor(context.getResources().getColor(R.color.grey));
                 }
+
+                holder.background.setBackgroundColor(convertToColorInt(convertToARGB(sharedPrefs.getInt("ct_receivedMessageBackground", context.getResources().getColor(R.color.black)), sharedPrefs.getInt("text_opacity", 100) + "")));
             }
         }
 
@@ -3007,6 +3011,11 @@ public class MessageCursorAdapter extends CursorAdapter {
 
     public static String convertToARGB(int color, String a) {
         String alpha = a;
+
+        if (alpha.length() > 2) {
+            alpha = "FF";
+        }
+
         String red = Integer.toHexString(Color.red(color));
         String green = Integer.toHexString(Color.green(color));
         String blue = Integer.toHexString(Color.blue(color));
