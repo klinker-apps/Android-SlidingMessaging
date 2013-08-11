@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.view.PagerTitleStrip;
@@ -48,6 +49,12 @@ public class MainActivityPopup extends MainActivity {
         attachOnSend = true;
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        if (sharedPrefs.getBoolean("unlock_screen", false))
+        {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+        }
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
@@ -217,11 +224,9 @@ public class MainActivityPopup extends MainActivity {
             }, 500);
         }
 
-        if (!fromHalo) {
-            IntentFilter filter = new IntentFilter();
-            filter.addAction("com.klinker.android.messaging.CLOSE_POPUP");
-            registerReceiver(closeReceiver, filter);
-        }
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("com.klinker.android.messaging.CLOSE_POPUP");
+        registerReceiver(closeReceiver, filter);
     }
     
     @Override

@@ -1114,9 +1114,9 @@ public class TextMessageReceiver extends BroadcastReceiver {
 
                                     PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
 
-                                    if (pm.isScreenOn())
+                                    if (pm.isScreenOn() || sharedPrefs.getBoolean("unlock_screen", false))
                                     {
-                                        if (!sharedPrefs.getBoolean("full_app_popup", true) || (sharedPrefs.getBoolean("full_app_popup", true) && !sharedPrefs.getBoolean("slideover_popup_lockscreen_only", false))) {
+                                        if (!sharedPrefs.getBoolean("full_app_popup", true) || (sharedPrefs.getBoolean("full_app_popup", true) && !sharedPrefs.getBoolean("slideover_popup_lockscreen_only", false)) || sharedPrefs.getBoolean("unlock_screen", false)) {
                                             final Intent popup = intent3;
 
                                             new Handler().postDelayed(new Runnable() {
