@@ -34,6 +34,8 @@ public class SlideOverService extends Service {
 
     public Context mContext;
 
+    public Vibrator v;
+
     public WindowManager haloWindow;
     public WindowManager arcWindow;
     public WindowManager animationWindow;
@@ -105,6 +107,100 @@ public class SlideOverService extends Service {
 
         ARC_BREAK_POINT = breakAng * .9f;
 
+        setParams(halo, height, width);
+
+        if (width > height)
+            SWIPE_MIN_DISTANCE = (int)(height * (sharedPrefs.getInt("slideover_activation", 33)/100.0));
+        else
+            SWIPE_MIN_DISTANCE = (int)(width * (sharedPrefs.getInt("slideover_activation", 33)/100.0));
+
+        haloView = new HaloView(this);
+        arcView = new ArcView(this, halo, SWIPE_MIN_DISTANCE, ARC_BREAK_POINT, HALO_SLIVER_RATIO);
+        animationView = new AnimationView(this, halo);
+
+        numberNewConv = arcView.newConversations.size();
+
+        haloView.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+
+                if ((event.getX() > haloView.getX() && event.getX() < haloView.getX() + halo.getWidth() && event.getY() > haloView.getY() && event.getY() < haloView.getY() + halo.getHeight()) || needDetection) {
+                    final int type = event.getActionMasked();
+                    v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+
+                    if (numberNewConv == 0) { // no messages to display
+                        switch (type) {
+                            case MotionEvent.ACTION_DOWN:
+
+                                onDown(event);
+
+                                return true;
+
+                            case MotionEvent.ACTION_MOVE:
+
+                                noMessagesMove(event, height, width);
+
+                                return true;
+
+                            case MotionEvent.ACTION_UP:
+
+                                noMessagesUp();
+
+                                return true;
+                        }
+                    } else // if they have a new message to display
+                    {
+                        zoneWidth = (width - SWIPE_MIN_DISTANCE) / (numberNewConv);
+
+                        switch (type) {
+                            case MotionEvent.ACTION_DOWN:
+
+                                onDown(event);
+
+                                return true;
+
+                            case MotionEvent.ACTION_MOVE:
+
+                                messagesMove(event, height, width, zoneWidth);
+
+                                return true;
+
+                            case MotionEvent.ACTION_UP:
+
+                                messagesUp();
+
+                                return true;
+                        }
+                    }
+
+                }
+
+                return false;
+            }
+        });
+
+        haloWindow.addView(haloView, haloParams);
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("com.klinker.android.messaging.STOP_HALO");
+        registerReceiver(stopSlideover, filter);
+
+        filter = new IntentFilter();
+        filter.addAction("android.intent.action.CONFIGURATION_CHANGED");
+        this.registerReceiver(mBroadcastReceiver, filter);
+        
+        filter = new IntentFilter();
+        filter.addAction("com.klinker.android.messaging.UPDATE_HALO");
+        this.registerReceiver(newMessageReceived, filter);
+
+        filter = new IntentFilter();
+        filter.addAction("com.klinker.android.messaging.CLEAR_MESSAGES");
+        this.registerReceiver(clearMessages, filter);
+    }
+
+    public void setParams(Bitmap halo, int height, int width)
+    {
         haloParams = new WindowManager.LayoutParams(
                 halo.getWidth(),
                 halo.getHeight(),
@@ -153,637 +249,444 @@ public class SlideOverService extends Service {
         haloWindow = (WindowManager) getSystemService(WINDOW_SERVICE);
         arcWindow = (WindowManager) getSystemService(WINDOW_SERVICE);
         animationWindow = (WindowManager) getSystemService(WINDOW_SERVICE);
+    }
 
-        if (width > height)
-            SWIPE_MIN_DISTANCE = (int)(height * (sharedPrefs.getInt("slideover_activation", 33)/100.0));
-        else
-            SWIPE_MIN_DISTANCE = (int)(width * (sharedPrefs.getInt("slideover_activation", 33)/100.0));
+    public void onDown(MotionEvent event)
+    {
+        if (HAPTIC_FEEDBACK) {
+            v.vibrate(10);
+        }
 
-        haloView = new HaloView(this);
-        arcView = new ArcView(this, halo, SWIPE_MIN_DISTANCE, ARC_BREAK_POINT, HALO_SLIVER_RATIO);
-        animationView = new AnimationView(this, halo);
+        initX = event.getX();
+        initY = event.getY();
 
-        numberNewConv = arcView.newConversations.size();
+        arcView.newMessagePaint.setAlpha(START_ALPHA2);
 
-        haloView.setOnTouchListener(new View.OnTouchListener() {
+        arcWindow.addView(arcView, arcParams);
+        haloWindow.updateViewLayout(haloView, haloHiddenParams);
+        needDetection = true;
+    }
 
-            @Override
-            public boolean onTouch(View view, MotionEvent event) {
+    public void messagesMove(MotionEvent event, int height, int width, int zoneWidth)
+    {
+        initalMoveSetup(event);
 
-                if ((event.getX() > haloView.getX() && event.getX() < haloView.getX() + halo.getWidth() && event.getY() > haloView.getY() && event.getY() < haloView.getY() + halo.getHeight()) || needDetection) {
-                    final int type = event.getActionMasked();
-                    Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        float rawY = event.getRawY();
+        float rawX = event.getRawX();
 
-                    if (numberNewConv == 0) { // no messages to display
-                        switch (type) {
-                            case MotionEvent.ACTION_DOWN:
+        if ((rawY < 120 && PERCENT_DOWN_SCREEN > .5) || (rawY > height - 120 && PERCENT_DOWN_SCREEN < .5)) // in Button Area
+        {
+            inButtons = true;
 
-                                if (HAPTIC_FEEDBACK) {
-                                    v.vibrate(10);
-                                }
+            if (HAPTIC_FEEDBACK && topVibrate) {
+                v.vibrate(25);
+                vibrateNeeded = true;
+                topVibrate = false;
+            }
 
-                                initX = event.getX();
-                                initY = event.getY();
+            if(rawX < width/3) // Clear Zone
+            {
+                inClear = true;
+                if(HAPTIC_FEEDBACK && (inMove || inClose))
+                {
+                    v.vibrate(25);
+                    inMove = false;
+                    inClose = false;
+                }
+                arcView.clearPaint.setAlpha(TOUCHED_ALPHA);
+                arcView.closePaint.setAlpha(START_ALPHA2);
+                arcView.movePaint.setAlpha(START_ALPHA2);
+                arcView.newMessagePaint.setAlpha(START_ALPHA2);
+                arcView.conversationsPaint.setAlpha(START_ALPHA);
 
-                                arcView.newMessagePaint.setAlpha(START_ALPHA2);
+            }else if(rawX > width * .33 && rawX < width * .67) // Close Zone
+            {
+                inClose();
 
-                                arcWindow.addView(arcView, arcParams);
-                                haloWindow.updateViewLayout(haloView, haloHiddenParams);
-                                needDetection = true;
-                                return true;
+                arcView.clearPaint.setAlpha(START_ALPHA2);
 
-                            case MotionEvent.ACTION_MOVE:
+            } else // Move Zone
+            {
+                inMove();
 
-                                xPortion = initX - event.getX();
-                                yPortion = initY - event.getY();
+                arcView.clearPaint.setAlpha(START_ALPHA2);
+            }
 
-                                distance = Math.sqrt(Math.pow(xPortion, 2) + Math.pow(yPortion, 2));
-                                angle = Math.toDegrees(Math.atan(yPortion / xPortion));
+            arcView.invalidate();
+            arcWindow.updateViewLayout(arcView, arcParams);
 
-                                if (!sharedPrefs.getString("slideover_side", "left").equals("left"))
-                                    angle *= -1;
 
-                                float rawY = event.getRawY();
-                                float rawX = event.getRawX();
+        } else if ((!(initY > event.getY()) && angle > ARC_BREAK_POINT)) // in dash area
+        {
+            checkInButtons();
 
-                                if ((rawY < 120 && PERCENT_DOWN_SCREEN > .5) || (rawY > height - 120 && PERCENT_DOWN_SCREEN < .5)) // in Button Area
-                                {
-                                    inButtons = true;
+            resetZoneAlphas();
+            lastZone = 0;
+            currentZone = 0;
 
-                                    if (HAPTIC_FEEDBACK && topVibrate) {
-                                        v.vibrate(25);
-                                        vibrateNeeded = true;
-                                        topVibrate = false;
-                                    }
+            fromDash = true;
 
-                                    if(rawX < width/2) // Close Zone
-                                    {
-                                        inClose = true;
-                                        if(HAPTIC_FEEDBACK && inMove)
-                                        {
-                                            v.vibrate(25);
-                                            inMove = false;
-                                            inClear = false;
-                                        }
-                                        arcView.closePaint.setAlpha(TOUCHED_ALPHA);
-                                        arcView.movePaint.setAlpha(START_ALPHA2);
-                                        arcView.newMessagePaint.setAlpha(START_ALPHA2);
-                                        arcView.conversationsPaint.setAlpha(START_ALPHA);
-                                    } else // Move Zone
-                                    {
-                                        inMove = true;
-                                        if(HAPTIC_FEEDBACK && inClose)
-                                        {
-                                            v.vibrate(25);
-                                            inClose = false;
-                                            inClear = false;
-                                        }
-                                        arcView.closePaint.setAlpha(START_ALPHA2);
-                                        arcView.movePaint.setAlpha(TOUCHED_ALPHA);
-                                        arcView.newMessagePaint.setAlpha(START_ALPHA2);
-                                        arcView.conversationsPaint.setAlpha(START_ALPHA);
-                                    }
+            inDash();
 
-                                    arcView.invalidate();
-                                    arcWindow.updateViewLayout(arcView, arcParams);
+        } else // in flat area
+        {
+            currentZone = getCurrentZone(distance, zoneWidth, SWIPE_MIN_DISTANCE, numberNewConv);
 
-                                } else if ((!(initY > event.getY()) && angle > ARC_BREAK_POINT)) // in dash area
-                                {
-                                    if(inButtons)
-                                    {
-                                        arcView.closePaint.setAlpha(START_ALPHA);
-                                        arcView.movePaint.setAlpha(START_ALPHA);
-                                        arcView.clearPaint.setAlpha(START_ALPHA);
+            if (lastZone != currentZone) {
+                zoneChange = true;
+                lastZone = currentZone;
+            } else {
+                zoneChange = false;
+            }
 
-                                        inButtons = false;
+            checkInButtons();
 
-                                        inClose = false;
-                                        inMove = false;
-                                        inClear = false;
+            inFlat();
 
-                                        topVibrate = true;
+            if(distance < SWIPE_MIN_DISTANCE)
+                fromDash = true;
 
-                                    }
+            if (zoneChange) {
+                resetZoneAlphas();
 
-                                    if (inFlat && distance > SWIPE_MIN_DISTANCE) {
-                                        inFlat = false;
-                                        inDash = true;
-
-                                        arcView.conversationsPaint.setAlpha(START_ALPHA2 + 20);
-                                        arcView.newMessagePaint.setAlpha(START_ALPHA2);
-
-                                        arcView.invalidate();
-                                        arcWindow.updateViewLayout(arcView, arcParams);
-
-                                        if (!initial) {
-                                            if (HAPTIC_FEEDBACK) {
-                                                v.vibrate(25);
-                                            }
-                                        } else {
-                                            initial = false;
-                                        }
-                                    }
-
-                                    if (distance > SWIPE_MIN_DISTANCE && vibrateNeeded) {
-                                        arcView.conversationsPaint.setAlpha(START_ALPHA2 + 20);
-                                        arcView.newMessagePaint.setAlpha(START_ALPHA2);
-                                        arcView.invalidate();
-                                        arcWindow.updateViewLayout(arcView, arcParams);
-
-                                        if (HAPTIC_FEEDBACK) {
-                                            v.vibrate(25);
-                                        }
-
-                                        vibrateNeeded = false;
-                                    }
-
-                                    if (distance < SWIPE_MIN_DISTANCE) {
-                                        arcView.conversationsPaint.setAlpha(START_ALPHA);
-                                        arcView.newMessagePaint.setAlpha(START_ALPHA2);
-                                        arcView.invalidate();
-                                        arcWindow.updateViewLayout(arcView, arcParams);
-                                        vibrateNeeded = true;
-                                    }
-
-
-                                } else // in flat area
-                                {
-                                    if(inButtons)
-                                    {
-                                        arcView.closePaint.setAlpha(START_ALPHA);
-                                        arcView.movePaint.setAlpha(START_ALPHA);
-                                        arcView.clearPaint.setAlpha(START_ALPHA);
-
-                                        inButtons = false;
-
-                                        inClose = false;
-                                        inMove = false;
-                                        inClear = false;
-
-                                        topVibrate = true;
-                                    }
-
-                                    if (inDash && distance > SWIPE_MIN_DISTANCE) {
-                                        inDash = false;
-                                        inFlat = true;
-
-                                        arcView.newMessagePaint.setAlpha(TOUCHED_ALPHA);
-                                        arcView.conversationsPaint.setAlpha(START_ALPHA);
-                                        arcView.invalidate();
-                                        arcWindow.updateViewLayout(arcView, arcParams);
-
-                                        if (!initial) {
-                                            if (HAPTIC_FEEDBACK) {
-                                                v.vibrate(25);
-                                            }
-                                        } else {
-                                            initial = false;
-                                        }
-                                    }
-                                    if (distance > SWIPE_MIN_DISTANCE && vibrateNeeded) {
-                                        arcView.newMessagePaint.setAlpha(TOUCHED_ALPHA);
-                                        arcView.conversationsPaint.setAlpha(START_ALPHA);
-                                        arcView.invalidate();
-                                        arcWindow.updateViewLayout(arcView, arcParams);
-
-                                        if (HAPTIC_FEEDBACK) {
-                                            v.vibrate(25);
-                                        }
-
-                                        vibrateNeeded = false;
-                                    }
-
-                                    if (distance < SWIPE_MIN_DISTANCE) {
-                                        arcView.newMessagePaint.setAlpha(START_ALPHA2);
-                                        arcView.conversationsPaint.setAlpha(START_ALPHA);
-                                        arcView.invalidate();
-                                        arcWindow.updateViewLayout(arcView, arcParams);
-                                        vibrateNeeded = true;
-                                    }
-                                }
-
-                                return true;
-
-                            case MotionEvent.ACTION_UP:
-
-                                haloWindow.updateViewLayout(haloView, haloParams);
-
-                                // now will fire a different intent depending on what view you are in
-                                if(inButtons)
-                                {
-                                    if(inMove) // move button was clicked
-                                    {
-                                        Intent intent = new Intent(getBaseContext(), com.klinker.android.messaging_sliding.slide_over.SlideOverSettings.class);
-                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        startActivity(intent);
-
-                                    } else // close button was clicked
-                                    {
-                                        sharedPrefs.edit().putBoolean("slideover_enabled", false).commit();
-
-                                        Intent service = new Intent();
-                                        service.setAction("com.klinker.android.messaging.STOP_HALO");
-                                        sendBroadcast(service);
-                                    }
-                                }
-                                else if (distance > SWIPE_MIN_DISTANCE && inFlat) {
-                                    if (isRunning(getApplication())) {
-                                        Intent intent = new Intent();
-                                        intent.setAction("com.klinker.android.messaging_donate.KILL_FOR_HALO");
-                                        sendBroadcast(intent);
-                                    }
-
-                                    Intent intent = new Intent(getBaseContext(), com.klinker.android.messaging_sliding.MainActivityPopup.class);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    intent.putExtra("fromHalo", true);
-                                    startActivity(intent);
-                                } else if (distance > SWIPE_MIN_DISTANCE && inDash) {
-                                    if (isRunning(getApplication())) {
-                                        Intent intent = new Intent();
-                                        intent.setAction("com.klinker.android.messaging_donate.KILL_FOR_HALO");
-                                        sendBroadcast(intent);
-                                    }
-
-                                    Intent intent = new Intent(getBaseContext(), com.klinker.android.messaging_sliding.MainActivityPopup.class);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    intent.putExtra("fromHalo", true);
-                                    intent.putExtra("secAction", true);
-                                    intent.putExtra("secondaryType", sharedPrefs.getString("slideover_secondary_action", "conversations"));
-                                    startActivity(intent);
-                                }
-
-                                arcView.newMessagePaint.setAlpha(START_ALPHA2);
-
-                                arcWindow.removeViewImmediate(arcView);
-
-                                needDetection = true;
-
-                                return true;
-                        }
-                    } else // if they have a new message to display
-                    {
-                        zoneWidth = (width - SWIPE_MIN_DISTANCE) / (numberNewConv);
-
-                        switch (type) {
-                            case MotionEvent.ACTION_DOWN:
-
-                                if (HAPTIC_FEEDBACK) {
-                                    v.vibrate(10);
-                                }
-
-                                initX = event.getX();
-                                initY = event.getY();
-
-                                arcView.newMessagePaint.setAlpha(START_ALPHA2);
-
-                                arcWindow.addView(arcView, arcParams);
-                                haloWindow.updateViewLayout(haloView, haloHiddenParams);
-                                needDetection = true;
-                                return true;
-
-                            case MotionEvent.ACTION_MOVE:
-
-                                xPortion = initX - event.getX();
-                                yPortion = initY - event.getY();
-
-                                distance = Math.sqrt(Math.pow(xPortion, 2) + Math.pow(yPortion, 2));
-                                angle = Math.toDegrees(Math.atan(yPortion / xPortion));
-
-                                if (!sharedPrefs.getString("slideover_side", "left").equals("left"))
-                                    angle *= -1;
-
-                                float rawY = event.getRawY();
-                                float rawX = event.getRawX();
-
-                                if ((rawY < 120 && PERCENT_DOWN_SCREEN > .5) || (rawY > height - 120 && PERCENT_DOWN_SCREEN < .5)) // in Button Area
-                                {
-                                    inButtons = true;
-
-                                    if (HAPTIC_FEEDBACK && topVibrate) {
-                                        v.vibrate(25);
-                                        vibrateNeeded = true;
-                                        topVibrate = false;
-                                    }
-
-                                    if(rawX < width/3) // Clear Zone
-                                    {
-                                        inClear = true;
-                                        if(HAPTIC_FEEDBACK && (inMove || inClose))
-                                        {
-                                            v.vibrate(25);
-                                            inMove = false;
-                                            inClose = false;
-                                        }
-                                        arcView.clearPaint.setAlpha(TOUCHED_ALPHA);
-                                        arcView.closePaint.setAlpha(START_ALPHA2);
-                                        arcView.movePaint.setAlpha(START_ALPHA2);
-                                        arcView.newMessagePaint.setAlpha(START_ALPHA2);
-                                        arcView.conversationsPaint.setAlpha(START_ALPHA);
-                                    }else if(rawX > width * .33 && rawX < width * .67) // Close Zone
-                                    {
-                                        inClose = true;
-                                        if(HAPTIC_FEEDBACK && (inMove || inClear))
-                                        {
-                                            v.vibrate(25);
-                                            inMove = false;
-                                            inClear = false;
-                                        }
-                                        arcView.closePaint.setAlpha(TOUCHED_ALPHA);
-                                        arcView.movePaint.setAlpha(START_ALPHA2);
-                                        arcView.clearPaint.setAlpha(START_ALPHA2);
-                                        arcView.newMessagePaint.setAlpha(START_ALPHA2);
-                                        arcView.conversationsPaint.setAlpha(START_ALPHA);
-                                    } else // Move Zone
-                                    {
-                                        inMove = true;
-                                        if(HAPTIC_FEEDBACK && (inClose || inClear))
-                                        {
-                                            v.vibrate(25);
-                                            inClose = false;
-                                            inClear = false;
-                                        }
-                                        arcView.closePaint.setAlpha(START_ALPHA2);
-                                        arcView.movePaint.setAlpha(TOUCHED_ALPHA);
-                                        arcView.clearPaint.setAlpha(START_ALPHA2);
-                                        arcView.newMessagePaint.setAlpha(START_ALPHA2);
-                                        arcView.conversationsPaint.setAlpha(START_ALPHA);
-                                    }
-
-                                    arcView.invalidate();
-                                    arcWindow.updateViewLayout(arcView, arcParams);
-
-
-                                } else if ((!(initY > event.getY()) && angle > ARC_BREAK_POINT)) // in dash area
-                                {
-                                    if(inButtons)
-                                    {
-                                        arcView.closePaint.setAlpha(START_ALPHA);
-                                        arcView.movePaint.setAlpha(START_ALPHA);
-                                        arcView.clearPaint.setAlpha(START_ALPHA);
-
-                                        inButtons = false;
-
-                                        inClose = false;
-                                        inMove = false;
-                                        inClear = false;
-
-                                        topVibrate = true;
-                                    }
-                                    resetZoneAlphas();
-                                    lastZone = 0;
-                                    currentZone = 0;
-
-                                    fromDash = true;
-
-                                    if (inFlat && distance > SWIPE_MIN_DISTANCE) {
-                                        inFlat = false;
-                                        inDash = true;
-
-                                        arcView.conversationsPaint.setAlpha(START_ALPHA2 + 20);
-                                        arcView.newMessagePaint.setAlpha(START_ALPHA2);
-                                        arcView.invalidate();
-                                        arcWindow.updateViewLayout(arcView, arcParams);
-
-                                        if (!initial) {
-                                            if (HAPTIC_FEEDBACK) {
-                                                v.vibrate(25);
-                                            }
-                                        } else {
-                                            initial = false;
-                                        }
-                                    }
-
-                                    if (distance > SWIPE_MIN_DISTANCE && vibrateNeeded) {
-                                        arcView.conversationsPaint.setAlpha(START_ALPHA2 + 20);
-                                        arcView.newMessagePaint.setAlpha(START_ALPHA2);
-                                        arcView.invalidate();
-                                        arcWindow.updateViewLayout(arcView, arcParams);
-
-                                        if (HAPTIC_FEEDBACK) {
-                                            v.vibrate(25);
-                                        }
-
-                                        vibrateNeeded = false;
-                                    }
-
-                                    if (distance < SWIPE_MIN_DISTANCE) {
-                                        arcView.conversationsPaint.setAlpha(START_ALPHA);
-                                        arcView.newMessagePaint.setAlpha(START_ALPHA2);
-                                        arcView.invalidate();
-                                        arcWindow.updateViewLayout(arcView, arcParams);
-                                        vibrateNeeded = true;
-                                    }
-
-
-                                } else // in flat area
-                                {
-                                    currentZone = getCurrentZone(distance, zoneWidth, SWIPE_MIN_DISTANCE, numberNewConv);
-
-                                    if (lastZone != currentZone) {
-                                        zoneChange = true;
-                                        lastZone = currentZone;
-                                    } else {
-                                        zoneChange = false;
-                                    }
-
-                                    if(inButtons)
-                                    {
-                                        arcView.closePaint.setAlpha(START_ALPHA);
-                                        arcView.movePaint.setAlpha(START_ALPHA);
-                                        arcView.clearPaint.setAlpha(START_ALPHA);
-
-                                        inButtons = false;
-
-                                        inClose = false;
-                                        inMove = false;
-                                        inClear = false;
-
-                                        topVibrate = true;
-                                        zoneChange = true;
-                                    }
-
-                                    if (inDash && distance > SWIPE_MIN_DISTANCE) {
-                                        inDash = false;
-                                        inFlat = true;
-
-                                        arcView.newMessagePaint.setAlpha(TOUCHED_ALPHA);
-                                        arcView.conversationsPaint.setAlpha(START_ALPHA);
-                                        arcView.invalidate();
-                                        arcWindow.updateViewLayout(arcView, arcParams);
-
-                                        if (!initial) {
-                                            if (HAPTIC_FEEDBACK) {
-                                                v.vibrate(25);
-                                            }
-                                        } else {
-                                            initial = false;
-                                        }
-                                    }
-                                    if (distance > SWIPE_MIN_DISTANCE && vibrateNeeded) {
-                                        arcView.newMessagePaint.setAlpha(TOUCHED_ALPHA);
-                                        arcView.conversationsPaint.setAlpha(START_ALPHA);
-                                        arcView.invalidate();
-                                        arcWindow.updateViewLayout(arcView, arcParams);
-
-                                        if (HAPTIC_FEEDBACK) {
-                                            v.vibrate(25);
-                                        }
-
-                                        vibrateNeeded = false;
-                                    }
-
-                                    if (distance < SWIPE_MIN_DISTANCE) {
-                                        resetZoneAlphas();
-                                        lastZone = 0;
-                                        currentZone = 0;
-
-                                        arcView.newMessagePaint.setAlpha(START_ALPHA2);
-                                        arcView.conversationsPaint.setAlpha(START_ALPHA);
-                                        arcView.invalidate();
-                                        arcWindow.updateViewLayout(arcView, arcParams);
-                                        vibrateNeeded = true;
-                                        fromDash = true;
-                                    }
-
-                                    if (zoneChange) {
-                                        resetZoneAlphas();
-
-                                        if (!fromDash) {
-                                            if (HAPTIC_FEEDBACK) {
-                                                v.vibrate(25);
-                                            }
-                                        } else {
-                                            fromDash = false;
-                                        }
-
-
-                                        if (currentZone != 0)
-                                            arcView.textPaint[currentZone - 1].setAlpha(TOUCHED_ALPHA);
-
-                                        zoneChange = false;
-                                        arcView.invalidate();
-                                        arcWindow.updateViewLayout(arcView, arcParams);
-                                    }
-
-                                }
-
-                                return true;
-
-                            case MotionEvent.ACTION_UP:
-
-                                haloWindow.updateViewLayout(haloView, haloParams);
-
-                                // now will fire a different intent depending on what view you are in
-                                if(inClear) // clear button clicked
-                                {
-                                    arcView.newConversations.clear();
-
-                                    haloView.haloNewAlpha = 0;
-                                    haloView.haloAlpha = 255;
-                                    haloView.invalidate();
-                                    haloWindow.updateViewLayout(haloView, haloParams);
-
-                                    numberNewConv = 0;
-
-                                    NotificationManager mNotificationManager =
-                                            (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                                    mNotificationManager.cancel(1);
-                                    mNotificationManager.cancel(2);
-
-                                } else if(inButtons)
-                                {
-                                    if(inMove) // move button was clicked
-                                    {
-                                        Intent intent = new Intent(getBaseContext(), com.klinker.android.messaging_sliding.slide_over.SlideOverSettings.class);
-                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        startActivity(intent);
-
-                                    } else // close button was clicked
-                                    {
-                                        sharedPrefs.edit().putBoolean("slideover_enabled", false).commit();
-
-                                        Intent service = new Intent();
-                                        service.setAction("com.klinker.android.messaging.STOP_HALO");
-                                        sendBroadcast(service);
-                                    }
-                                }
-                                else if (distance > SWIPE_MIN_DISTANCE && inFlat) {
-                                    if (isRunning(getApplication())) {
-                                        Intent intent = new Intent();
-                                        intent.setAction("com.klinker.android.messaging_donate.KILL_FOR_HALO");
-                                        sendBroadcast(intent);
-                                    }
-
-                                    Intent intent = new Intent(getBaseContext(), com.klinker.android.messaging_sliding.MainActivityPopup.class);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    intent.putExtra("fromHalo", true);
-
-                                    if (currentZone == 0)
-                                        intent.putExtra("openToPage", 0);
-                                    else
-                                        intent.putExtra("openToPage", currentZone - 1);
-
-                                    startActivity(intent);
-                                } else if (distance > SWIPE_MIN_DISTANCE && inDash) {
-                                    if (isRunning(getApplication())) {
-                                        Intent intent = new Intent();
-                                        intent.setAction("com.klinker.android.messaging_donate.KILL_FOR_HALO");
-                                        sendBroadcast(intent);
-                                    }
-
-                                    Intent intent = new Intent(getBaseContext(), com.klinker.android.messaging_sliding.MainActivityPopup.class);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    intent.putExtra("fromHalo", true);
-                                    intent.putExtra("secAction", true);
-                                    intent.putExtra("secondaryType", sharedPrefs.getString("slideover_secondary_action", "conversations"));
-                                    startActivity(intent);
-                                }
-
-                                if (distance > SWIPE_MIN_DISTANCE) {
-                                    arcView.newConversations.clear();
-
-                                    haloView.haloNewAlpha = 0;
-                                    haloView.haloAlpha = 255;
-                                    haloView.invalidate();
-                                    haloWindow.updateViewLayout(haloView, haloParams);
-
-                                    numberNewConv = 0;
-                                }
-
-                                arcView.newMessagePaint.setAlpha(START_ALPHA2);
-                                resetZoneAlphas();
-
-                                arcWindow.removeViewImmediate(arcView);
-
-                                needDetection = true;
-
-                                return true;
-                        }
+                if (!fromDash) {
+                    if (HAPTIC_FEEDBACK) {
+                        v.vibrate(25);
                     }
-
+                } else {
+                    fromDash = false;
                 }
 
-                return false;
+
+                if (currentZone != 0)
+                    arcView.textPaint[currentZone - 1].setAlpha(TOUCHED_ALPHA);
+
+                zoneChange = false;
+                arcView.invalidate();
+                arcWindow.updateViewLayout(arcView, arcParams);
             }
-        });
 
-        haloWindow.addView(haloView, haloParams);
+        }
+    }
 
-        IntentFilter filter = new IntentFilter();
-        filter.addAction("com.klinker.android.messaging.STOP_HALO");
-        registerReceiver(stopSlideover, filter);
+    public void noMessagesMove(MotionEvent event, int height, int width)
+    {
+        initalMoveSetup(event);
 
-        filter = new IntentFilter();
-        filter.addAction("android.intent.action.CONFIGURATION_CHANGED");
-        this.registerReceiver(mBroadcastReceiver, filter);
-        
-        filter = new IntentFilter();
-        filter.addAction("com.klinker.android.messaging.UPDATE_HALO");
-        this.registerReceiver(newMessageReceived, filter);
+        float rawY = event.getRawY();
+        float rawX = event.getRawX();
 
-        filter = new IntentFilter();
-        filter.addAction("com.klinker.android.messaging.CLEAR_MESSAGES");
-        this.registerReceiver(clearMessages, filter);
+        if ((rawY < 120 && PERCENT_DOWN_SCREEN > .5) || (rawY > height - 120 && PERCENT_DOWN_SCREEN < .5)) // in Button Area
+        {
+            inButtons = true;
+
+            if (HAPTIC_FEEDBACK && topVibrate) {
+                v.vibrate(25);
+                vibrateNeeded = true;
+                topVibrate = false;
+            }
+
+            if(rawX < width/2) // Close Zone
+            {
+                inClose();
+
+            } else // Move Zone
+            {
+                inMove();
+            }
+
+            arcView.invalidate();
+            arcWindow.updateViewLayout(arcView, arcParams);
+
+        } else if ((!(initY > event.getY()) && angle > ARC_BREAK_POINT)) // in dash area
+        {
+            checkInButtons();
+            inDash();
+
+        } else // in flat area
+        {
+            checkInButtons();
+            inFlat();
+        }
+    }
+
+    public void messagesUp()
+    {
+        haloWindow.updateViewLayout(haloView, haloParams);
+
+        // now will fire a different intent depending on what view you are in
+        if(inClear) // clear button clicked
+        {
+            arcView.newConversations.clear();
+
+            haloView.haloNewAlpha = 0;
+            haloView.haloAlpha = 255;
+            haloView.invalidate();
+            haloWindow.updateViewLayout(haloView, haloParams);
+
+            numberNewConv = 0;
+
+            NotificationManager mNotificationManager =
+                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotificationManager.cancel(1);
+            mNotificationManager.cancel(2);
+
+        } else if(inButtons)
+        {
+            finishButtons();
+        }
+        else if (distance > SWIPE_MIN_DISTANCE && inFlat) {
+            Intent intent = finishFlat();
+
+            if (currentZone == 0)
+                intent.putExtra("openToPage", 0);
+            else
+                intent.putExtra("openToPage", currentZone - 1);
+
+            startActivity(intent);
+        } else if (distance > SWIPE_MIN_DISTANCE && inDash) {
+            finishDash();
+        }
+
+        if (distance > SWIPE_MIN_DISTANCE) {
+            arcView.newConversations.clear();
+
+            haloView.haloNewAlpha = 0;
+            haloView.haloAlpha = 255;
+            haloView.invalidate();
+            haloWindow.updateViewLayout(haloView, haloParams);
+
+            numberNewConv = 0;
+        }
+
+        arcView.newMessagePaint.setAlpha(START_ALPHA2);
+        resetZoneAlphas();
+
+        arcWindow.removeViewImmediate(arcView);
+
+        needDetection = true;
+    }
+
+    public void noMessagesUp()
+    {
+        haloWindow.updateViewLayout(haloView, haloParams);
+
+        // now will fire a different intent depending on what view you are in
+        if(inButtons)
+        {
+            finishButtons();
+        }
+        else if (distance > SWIPE_MIN_DISTANCE && inFlat) {
+            Intent intent = finishFlat();
+            startActivity(intent);
+        } else if (distance > SWIPE_MIN_DISTANCE && inDash) {
+            finishDash();
+        }
+
+        arcView.newMessagePaint.setAlpha(START_ALPHA2);
+
+        arcWindow.removeViewImmediate(arcView);
+
+        needDetection = true;
+    }
+
+    public void initalMoveSetup(MotionEvent event)
+    {
+        xPortion = initX - event.getX();
+        yPortion = initY - event.getY();
+
+        distance = Math.sqrt(Math.pow(xPortion, 2) + Math.pow(yPortion, 2));
+        angle = Math.toDegrees(Math.atan(yPortion / xPortion));
+
+        if (!sharedPrefs.getString("slideover_side", "left").equals("left"))
+            angle *= -1;
+    }
+
+    public void inClose()
+    {
+        inClose = true;
+        if(HAPTIC_FEEDBACK && (inMove || inClear))
+        {
+            v.vibrate(25);
+            inMove = false;
+            inClear = false;
+        }
+        arcView.closePaint.setAlpha(TOUCHED_ALPHA);
+        arcView.movePaint.setAlpha(START_ALPHA2);
+        arcView.clearPaint.setAlpha(START_ALPHA2);
+        arcView.newMessagePaint.setAlpha(START_ALPHA2);
+        arcView.conversationsPaint.setAlpha(START_ALPHA);
+    }
+
+    public void inMove()
+    {
+        inMove = true;
+        if(HAPTIC_FEEDBACK && (inClose || inClear))
+        {
+            v.vibrate(25);
+            inClose = false;
+            inClear = false;
+        }
+        arcView.closePaint.setAlpha(START_ALPHA2);
+        arcView.movePaint.setAlpha(TOUCHED_ALPHA);
+        arcView.newMessagePaint.setAlpha(START_ALPHA2);
+        arcView.conversationsPaint.setAlpha(START_ALPHA);
+    }
+
+    public void inDash()
+    {
+        if (inFlat && distance > SWIPE_MIN_DISTANCE) {
+            inFlat = false;
+            inDash = true;
+
+            arcView.conversationsPaint.setAlpha(START_ALPHA2 + 20);
+            arcView.newMessagePaint.setAlpha(START_ALPHA2);
+
+            arcView.invalidate();
+            arcWindow.updateViewLayout(arcView, arcParams);
+
+            if (!initial) {
+                if (HAPTIC_FEEDBACK) {
+                    v.vibrate(25);
+                }
+            } else {
+                initial = false;
+            }
+        }
+
+        if (distance > SWIPE_MIN_DISTANCE && vibrateNeeded) {
+            arcView.conversationsPaint.setAlpha(START_ALPHA2 + 20);
+            arcView.newMessagePaint.setAlpha(START_ALPHA2);
+            arcView.invalidate();
+            arcWindow.updateViewLayout(arcView, arcParams);
+
+            if (HAPTIC_FEEDBACK) {
+                v.vibrate(25);
+            }
+
+            vibrateNeeded = false;
+        }
+
+        if (distance < SWIPE_MIN_DISTANCE) {
+            arcView.conversationsPaint.setAlpha(START_ALPHA);
+            arcView.newMessagePaint.setAlpha(START_ALPHA2);
+            arcView.invalidate();
+            arcWindow.updateViewLayout(arcView, arcParams);
+            vibrateNeeded = true;
+        }
+    }
+
+    public void inFlat()
+    {
+        if (inDash && distance > SWIPE_MIN_DISTANCE) {
+            inDash = false;
+            inFlat = true;
+
+            arcView.newMessagePaint.setAlpha(TOUCHED_ALPHA);
+            arcView.conversationsPaint.setAlpha(START_ALPHA);
+            arcView.invalidate();
+
+            arcWindow.updateViewLayout(arcView, arcParams);
+
+            if (!initial) {
+                if (HAPTIC_FEEDBACK) {
+                    v.vibrate(25);
+                }
+            } else {
+                initial = false;
+            }
+        }
+        if (distance > SWIPE_MIN_DISTANCE && vibrateNeeded) {
+            arcView.newMessagePaint.setAlpha(TOUCHED_ALPHA);
+            arcView.conversationsPaint.setAlpha(START_ALPHA);
+            arcView.invalidate();
+            arcWindow.updateViewLayout(arcView, arcParams);
+
+            if (HAPTIC_FEEDBACK) {
+                v.vibrate(25);
+            }
+
+            vibrateNeeded = false;
+        }
+
+        if (distance < SWIPE_MIN_DISTANCE) {
+            resetZoneAlphas();
+            lastZone = 0;
+            currentZone = 0;
+
+            arcView.newMessagePaint.setAlpha(START_ALPHA2);
+            arcView.conversationsPaint.setAlpha(START_ALPHA);
+            arcView.invalidate();
+            arcWindow.updateViewLayout(arcView, arcParams);
+            vibrateNeeded = true;
+        }
+    }
+
+    public void finishButtons()
+    {
+        if(inMove) // move button was clicked
+        {
+            Intent intent = new Intent(getBaseContext(), com.klinker.android.messaging_sliding.slide_over.SlideOverSettings.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+
+        } else // close button was clicked
+        {
+            sharedPrefs.edit().putBoolean("slideover_enabled", false).commit();
+
+            Intent service = new Intent();
+            service.setAction("com.klinker.android.messaging.STOP_HALO");
+            sendBroadcast(service);
+        }
+    }
+
+    public Intent finishFlat()
+    {
+        if (isRunning(getApplication())) {
+            Intent intent = new Intent();
+            intent.setAction("com.klinker.android.messaging_donate.KILL_FOR_HALO");
+            sendBroadcast(intent);
+        }
+
+        Intent intent = new Intent(getBaseContext(), com.klinker.android.messaging_sliding.MainActivityPopup.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("fromHalo", true);
+
+        return intent;
+    }
+
+    public void finishDash()
+    {
+        if (isRunning(getApplication())) {
+            Intent intent = new Intent();
+            intent.setAction("com.klinker.android.messaging_donate.KILL_FOR_HALO");
+            sendBroadcast(intent);
+        }
+
+        Intent intent = new Intent(getBaseContext(), com.klinker.android.messaging_sliding.MainActivityPopup.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("fromHalo", true);
+        intent.putExtra("secAction", true);
+        intent.putExtra("secondaryType", sharedPrefs.getString("slideover_secondary_action", "conversations"));
+        startActivity(intent);
+    }
+
+    public void checkInButtons()
+    {
+        if(inButtons)
+        {
+            arcView.closePaint.setAlpha(START_ALPHA);
+            arcView.movePaint.setAlpha(START_ALPHA);
+            arcView.clearPaint.setAlpha(START_ALPHA);
+
+            inButtons = false;
+
+            inClose = false;
+            inMove = false;
+            inClear = false;
+
+            topVibrate = true;
+        }
     }
 
     public int getCurrentZone(double distance, int zoneWidth, int arcLength, int maxZones)
