@@ -510,7 +510,9 @@
                        android:resource="@xml/unread_widget" />
         </receiver>
 
-        <receiver android:name="com.klinker.android.messaging_donate.widget.SlideoverWidget" >
+        <receiver android:name="com.klinker.android.messaging_donate.widget.SlideoverWidget"
+                android:label="@string/slideover_settings"
+                android:icon="@drawable/halo_bg">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
