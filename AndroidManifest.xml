@@ -509,6 +509,15 @@
             <meta-data android:name="android.appwidget.provider"
                        android:resource="@xml/unread_widget" />
         </receiver>
+
+        <receiver android:name="com.klinker.android.messaging_donate.widget.SlideoverWidget" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data android:name="android.appwidget.provider"
+                       android:resource="@xml/halo_widget" />
+        </receiver>
 		
         <service android:name=".widget.CardWidgetService"
 			android:permission="android.permission.BIND_REMOTEVIEWS" />

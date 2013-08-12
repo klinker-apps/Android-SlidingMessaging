@@ -1,0 +1,12 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/LinearLayout01"
+              android:layout_height="wrap_content"
+              android:layout_width="wrap_content"
+              android:orientation="horizontal" >
+    <ImageButton android:id="@+id/button"
+                 android:background="@drawable/halo_bg"
+                 android:layout_height="wrap_content"
+                 android:layout_width="wrap_content">
+
+     </ImageButton>
+</LinearLayout>
