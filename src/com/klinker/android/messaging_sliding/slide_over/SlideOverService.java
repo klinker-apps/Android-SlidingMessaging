@@ -94,31 +94,7 @@ public class SlideOverService extends Service {
         final int height = d.getHeight();
         final int width = d.getWidth();
 
-        HALO_SLIVER_RATIO = sharedPrefs.getInt("slideover_sliver", 33)/100.0;
-
-        PERCENT_DOWN_SCREEN = sharedPrefs.getInt("slideover_vertical", 50)/100.0;
-        PERCENT_DOWN_SCREEN -= PERCENT_DOWN_SCREEN * (halo.getHeight()/(double)height);
-        
-        HAPTIC_FEEDBACK = sharedPrefs.getBoolean("slideover_haptic_feedback", true);
-
-        int breakAngle = sharedPrefs.getInt("slideover_break_point", 33);
-        float breakAng = 0;
-        breakAng += breakAngle;
-
-        ARC_BREAK_POINT = breakAng * .9f;
-
-        setParams(halo, height, width);
-
-        if (width > height)
-            SWIPE_MIN_DISTANCE = (int)(height * (sharedPrefs.getInt("slideover_activation", 33)/100.0));
-        else
-            SWIPE_MIN_DISTANCE = (int)(width * (sharedPrefs.getInt("slideover_activation", 33)/100.0));
-
-        haloView = new HaloView(this);
-        arcView = new ArcView(this, halo, SWIPE_MIN_DISTANCE, ARC_BREAK_POINT, HALO_SLIVER_RATIO);
-        animationView = new AnimationView(this, halo);
-
-        numberNewConv = arcView.newConversations.size();
+        initialSetup(halo, height, width);
 
         haloView.setOnTouchListener(new View.OnTouchListener() {
 
@@ -134,19 +110,16 @@ public class SlideOverService extends Service {
                             case MotionEvent.ACTION_DOWN:
 
                                 onDown(event);
-
                                 return true;
 
                             case MotionEvent.ACTION_MOVE:
 
                                 noMessagesMove(event, height, width);
-
                                 return true;
 
                             case MotionEvent.ACTION_UP:
 
                                 noMessagesUp();
-
                                 return true;
                         }
                     } else // if they have a new message to display
@@ -157,19 +130,16 @@ public class SlideOverService extends Service {
                             case MotionEvent.ACTION_DOWN:
 
                                 onDown(event);
-
                                 return true;
 
                             case MotionEvent.ACTION_MOVE:
 
                                 messagesMove(event, height, width, zoneWidth);
-
                                 return true;
 
                             case MotionEvent.ACTION_UP:
 
                                 messagesUp();
-
                                 return true;
                         }
                     }
@@ -197,6 +167,35 @@ public class SlideOverService extends Service {
         filter = new IntentFilter();
         filter.addAction("com.klinker.android.messaging.CLEAR_MESSAGES");
         this.registerReceiver(clearMessages, filter);
+    }
+
+    public void initialSetup(Bitmap halo, int height, int width)
+    {
+        HALO_SLIVER_RATIO = sharedPrefs.getInt("slideover_sliver", 33)/100.0;
+
+        PERCENT_DOWN_SCREEN = sharedPrefs.getInt("slideover_vertical", 50)/100.0;
+        PERCENT_DOWN_SCREEN -= PERCENT_DOWN_SCREEN * (halo.getHeight()/(double)height);
+
+        HAPTIC_FEEDBACK = sharedPrefs.getBoolean("slideover_haptic_feedback", true);
+
+        int breakAngle = sharedPrefs.getInt("slideover_break_point", 33);
+        float breakAng = 0;
+        breakAng += breakAngle;
+
+        ARC_BREAK_POINT = breakAng * .9f;
+
+        setParams(halo, height, width);
+
+        if (width > height)
+            SWIPE_MIN_DISTANCE = (int)(height * (sharedPrefs.getInt("slideover_activation", 33)/100.0));
+        else
+            SWIPE_MIN_DISTANCE = (int)(width * (sharedPrefs.getInt("slideover_activation", 33)/100.0));
+
+        haloView = new HaloView(this);
+        arcView = new ArcView(this, halo, SWIPE_MIN_DISTANCE, ARC_BREAK_POINT, HALO_SLIVER_RATIO);
+        animationView = new AnimationView(this, halo);
+
+        numberNewConv = arcView.newConversations.size();
     }
 
     public void setParams(Bitmap halo, int height, int width)
