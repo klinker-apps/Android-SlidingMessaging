@@ -539,5 +539,8 @@
     <string name="slideover_animation_speed">Animation Speed</string>
     <string name="show_advanced_settings">Show All Settings</string>
     <string name="show_advanced_settings_summary">Enables all hidden settings</string>
+    <string name="slideover_close">CLOSE</string>
+    <string name="slideover_clear">CLEAR</string>
+    <string name="slideover_settings">SETTINGS</string>
     
 </resources>

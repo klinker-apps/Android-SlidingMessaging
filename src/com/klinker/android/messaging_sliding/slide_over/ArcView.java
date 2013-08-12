@@ -111,25 +111,24 @@ public class ArcView extends ViewGroup {
 
         if (newConversations.size() > 0) {
             if(SlideOverService.PERCENT_DOWN_SCREEN > .5) {
-                canvas.drawText("CLEAR", (float)((width * .25) - (closePaint.measureText("CLEAR")/2)) , 60, clearPaint);
-                canvas.drawText("CLOSE", (float)((width * .5) - (closePaint.measureText("CLOSE")/2)), 60, closePaint);
-                canvas.drawText("SETTINGS", (float)((width * .75) - (closePaint.measureText("SETTINGS")/2)) , 60, movePaint);
+                canvas.drawText(getResources().getString(R.string.slideover_clear), (float)((width * .25) - (closePaint.measureText(getResources().getString(R.string.slideover_clear))/2)) , 60, clearPaint);
+                canvas.drawText(getResources().getString(R.string.slideover_close), (float)((width * .5) - (closePaint.measureText(getResources().getString(R.string.slideover_close))/2)), 60, closePaint);
+                canvas.drawText(getResources().getString(R.string.slideover_settings), (float)((width * .75) - (closePaint.measureText(getResources().getString(R.string.slideover_settings))/2)) , 60, movePaint);
             } else
             {
-
-                canvas.drawText("CLEAR", (float)((width * .25) - (closePaint.measureText("CLEAR")/2)) , height - 60, clearPaint);
-                canvas.drawText("CLOSE", (float)((width * .5) - (closePaint.measureText("CLOSE")/2)) , height - 60, closePaint);
-                canvas.drawText("SETTINGS", (float)((width * .75) - (closePaint.measureText("SETTINGS")/2)) , height - 60, movePaint);
+                canvas.drawText(getResources().getString(R.string.slideover_clear), (float)((width * .25) - (closePaint.measureText(getResources().getString(R.string.slideover_clear))/2)) , height - 60, clearPaint);
+                canvas.drawText(getResources().getString(R.string.slideover_close), (float)((width * .5) - (closePaint.measureText(getResources().getString(R.string.slideover_close))/2)) , height - 60, closePaint);
+                canvas.drawText(getResources().getString(R.string.slideover_settings), (float)((width * .75) - (closePaint.measureText(getResources().getString(R.string.slideover_settings))/2)) , height - 60, movePaint);
             }
         } else
         {
             if(SlideOverService.PERCENT_DOWN_SCREEN > .5) {
-                canvas.drawText("CLOSE", (float)((width * .25) - (closePaint.measureText("CLOSE")/2)) , 60, closePaint);
-                canvas.drawText("SETTINGS", (float)((width * .75) - (closePaint.measureText("SETTINGS")/2)) , 60, movePaint);
+                canvas.drawText(getResources().getString(R.string.slideover_close), (float)((width * .25) - (closePaint.measureText(getResources().getString(R.string.slideover_close))/2)) , 60, closePaint);
+                canvas.drawText(getResources().getString(R.string.slideover_settings), (float)((width * .75) - (closePaint.measureText(getResources().getString(R.string.slideover_settings))/2)) , 60, movePaint);
             } else
             {
-                canvas.drawText("CLOSE", (float)((width * .25) - (closePaint.measureText("CLOSE")/2)) , height - 70, closePaint);
-                canvas.drawText("SETTINGS", (float)((width * .75) - (closePaint.measureText("SETTINGS")/2)) , height - 70, movePaint);
+                canvas.drawText(getResources().getString(R.string.slideover_close), (float)((width * .25) - (closePaint.measureText(getResources().getString(R.string.slideover_close))/2)) , height - 70, closePaint);
+                canvas.drawText(getResources().getString(R.string.slideover_settings), (float)((width * .75) - (closePaint.measureText(getResources().getString(R.string.slideover_settings))/2)) , height - 70, movePaint);
             }
         }
 
