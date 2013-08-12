@@ -53,6 +53,32 @@ public class SlideOverService extends Service {
 
     public int numberNewConv;
 
+    private boolean needDetection = false;
+    private boolean vibrateNeeded = true;
+    private boolean inDash = false;
+    private boolean inFlat = true;
+    private boolean initial = true;
+    private boolean zoneChange = false;
+    private boolean fromDash = true;
+    private boolean inButtons = false;
+    private boolean topVibrate = true;
+    private boolean inClose = false;
+    private boolean inMove = false;
+    private boolean inClear = false;
+
+    private int lastZone = 0;
+    private int currentZone = 0;
+    private int zoneWidth;
+
+    private float initX;
+    private float initY;
+
+    private double xPortion;
+    private double yPortion;
+
+    private double distance = 0;
+    private double angle = 0;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -140,31 +166,6 @@ public class SlideOverService extends Service {
         numberNewConv = arcView.newConversations.size();
 
         haloView.setOnTouchListener(new View.OnTouchListener() {
-            private boolean needDetection = false;
-            private boolean vibrateNeeded = true;
-            private boolean inDash = false;
-            private boolean inFlat = true;
-            private boolean initial = true;
-            private boolean zoneChange = false;
-            private boolean fromDash = true;
-            private boolean inButtons = false;
-            private boolean topVibrate = true;
-            private boolean inClose = false;
-            private boolean inMove = false;
-            private boolean inClear = false;
-
-            private int lastZone = 0;
-            private int currentZone = 0;
-            private int zoneWidth;
-
-            private float initX;
-            private float initY;
-
-            private double xPortion;
-            private double yPortion;
-
-            private double distance = 0;
-            private double angle = 0;
 
             @Override
             public boolean onTouch(View view, MotionEvent event) {
@@ -215,7 +216,7 @@ public class SlideOverService extends Service {
                                         topVibrate = false;
                                     }
 
-                                    if(event.getRawX() < width/2) // Close Zone
+                                    if(rawX < width/2) // Close Zone
                                     {
                                         inClose = true;
                                         if(HAPTIC_FEEDBACK && inMove)

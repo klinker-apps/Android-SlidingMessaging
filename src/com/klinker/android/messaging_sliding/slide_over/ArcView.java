@@ -39,7 +39,6 @@ public class ArcView extends ViewGroup {
 
     public ArrayList<String[]> newConversations;
 
-
     public ArcView(Context context, Bitmap halo, float radius, float breakAngle, double sliverPercent) {
         super(context);
 
@@ -60,9 +59,10 @@ public class ArcView extends ViewGroup {
         newMessagePaint.setStyle(Paint.Style.STROKE);
         newMessagePaint.setStrokeWidth(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, context.getResources().getDisplayMetrics()));
 
+        float dashLength = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, context.getResources().getDisplayMetrics());
+
         conversationsPaint = new Paint(newMessagePaint);
         conversationsPaint.setAlpha(SlideOverService.START_ALPHA);
-        float dashLength = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, context.getResources().getDisplayMetrics());
         conversationsPaint.setPathEffect(new DashPathEffect(new float[] {dashLength, dashLength*2}, 0));
 
         closePaint = new Paint();
@@ -73,7 +73,6 @@ public class ArcView extends ViewGroup {
         closePaint.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
 
         movePaint = new Paint(closePaint);
-
         clearPaint = new Paint(closePaint);
 
         newConversations = new ArrayList<String[]>();
@@ -82,27 +81,18 @@ public class ArcView extends ViewGroup {
 
         for(int x = 0; x < newConversations.size(); x++)
         {
-            textPaint[x] = new Paint();
+            textPaint[x] = new Paint(closePaint);
         }
 
         for(int i = 0; i < newConversations.size(); i++)
         {
-            textPaint[i].setAntiAlias(true);
-            textPaint[i].setColor(Color.WHITE);
             textPaint[i].setAlpha(SlideOverService.START_ALPHA2);
-            textPaint[i].setTextSize(TEXT_SIZE);
-            textPaint[i].setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
         }
 
         this.halo = halo;
         this.radius = radius;
         this.breakAngle = breakAngle;
         this.sliverPercent = sliverPercent;
-
-        clear = BitmapFactory.decodeResource(getResources(),
-                R.drawable.ic_cancel);
-
-
     }
 
 
