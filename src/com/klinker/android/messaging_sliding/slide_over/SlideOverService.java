@@ -103,7 +103,6 @@ public class SlideOverService extends Service {
 
                 if ((event.getX() > haloView.getX() && event.getX() < haloView.getX() + halo.getWidth() && event.getY() > haloView.getY() && event.getY() < haloView.getY() + halo.getHeight()) || needDetection) {
                     final int type = event.getActionMasked();
-                    v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
                     if (numberNewConv == 0) { // no messages to display
                         switch (type) {
@@ -171,17 +170,16 @@ public class SlideOverService extends Service {
 
     public void initialSetup(Bitmap halo, int height, int width)
     {
-        HALO_SLIVER_RATIO = sharedPrefs.getInt("slideover_sliver", 33)/100.0;
-
-        PERCENT_DOWN_SCREEN = sharedPrefs.getInt("slideover_vertical", 50)/100.0;
-        PERCENT_DOWN_SCREEN -= PERCENT_DOWN_SCREEN * (halo.getHeight()/(double)height);
-
-        HAPTIC_FEEDBACK = sharedPrefs.getBoolean("slideover_haptic_feedback", true);
+        v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
         int breakAngle = sharedPrefs.getInt("slideover_break_point", 33);
         float breakAng = 0;
         breakAng += breakAngle;
 
+        HALO_SLIVER_RATIO = sharedPrefs.getInt("slideover_sliver", 33)/100.0;
+        PERCENT_DOWN_SCREEN = sharedPrefs.getInt("slideover_vertical", 50)/100.0;
+        PERCENT_DOWN_SCREEN -= PERCENT_DOWN_SCREEN * (halo.getHeight()/(double)height);
+        HAPTIC_FEEDBACK = sharedPrefs.getBoolean("slideover_haptic_feedback", true);
         ARC_BREAK_POINT = breakAng * .9f;
 
         setParams(halo, height, width);
