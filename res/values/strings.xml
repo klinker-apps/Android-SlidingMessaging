@@ -541,6 +541,6 @@
     <string name="show_advanced_settings_summary">Enables all hidden settings</string>
     <string name="slideover_close">CLOSE</string>
     <string name="slideover_clear">CLEAR</string>
-    <string name="slideover_settings">SETTINGS</string>
+    <string name="slideover_settings_overlay">SETTINGS</string>
     
 </resources>

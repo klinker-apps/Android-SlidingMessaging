@@ -103,22 +103,22 @@ public class ArcView extends ViewGroup {
             if(SlideOverService.PERCENT_DOWN_SCREEN > .5) {
                 canvas.drawText(getResources().getString(R.string.slideover_clear), (float)((width * .25) - (closePaint.measureText(getResources().getString(R.string.slideover_clear))/2)) , 60, clearPaint);
                 canvas.drawText(getResources().getString(R.string.slideover_close), (float)((width * .5) - (closePaint.measureText(getResources().getString(R.string.slideover_close))/2)), 60, closePaint);
-                canvas.drawText(getResources().getString(R.string.slideover_settings), (float)((width * .75) - (closePaint.measureText(getResources().getString(R.string.slideover_settings))/2)) , 60, movePaint);
+                canvas.drawText(getResources().getString(R.string.slideover_settings_overlay), (float)((width * .75) - (closePaint.measureText(getResources().getString(R.string.slideover_settings_overlay))/2)) , 60, movePaint);
             } else
             {
                 canvas.drawText(getResources().getString(R.string.slideover_clear), (float)((width * .25) - (closePaint.measureText(getResources().getString(R.string.slideover_clear))/2)) , height - 60, clearPaint);
                 canvas.drawText(getResources().getString(R.string.slideover_close), (float)((width * .5) - (closePaint.measureText(getResources().getString(R.string.slideover_close))/2)) , height - 60, closePaint);
-                canvas.drawText(getResources().getString(R.string.slideover_settings), (float)((width * .75) - (closePaint.measureText(getResources().getString(R.string.slideover_settings))/2)) , height - 60, movePaint);
+                canvas.drawText(getResources().getString(R.string.slideover_settings_overlay), (float)((width * .75) - (closePaint.measureText(getResources().getString(R.string.slideover_settings_overlay))/2)) , height - 60, movePaint);
             }
         } else
         {
             if(SlideOverService.PERCENT_DOWN_SCREEN > .5) {
                 canvas.drawText(getResources().getString(R.string.slideover_close), (float)((width * .25) - (closePaint.measureText(getResources().getString(R.string.slideover_close))/2)) , 60, closePaint);
-                canvas.drawText(getResources().getString(R.string.slideover_settings), (float)((width * .75) - (closePaint.measureText(getResources().getString(R.string.slideover_settings))/2)) , 60, movePaint);
+                canvas.drawText(getResources().getString(R.string.slideover_settings_overlay), (float)((width * .75) - (closePaint.measureText(getResources().getString(R.string.slideover_settings_overlay))/2)) , 60, movePaint);
             } else
             {
                 canvas.drawText(getResources().getString(R.string.slideover_close), (float)((width * .25) - (closePaint.measureText(getResources().getString(R.string.slideover_close))/2)) , height - 70, closePaint);
-                canvas.drawText(getResources().getString(R.string.slideover_settings), (float)((width * .75) - (closePaint.measureText(getResources().getString(R.string.slideover_settings))/2)) , height - 70, movePaint);
+                canvas.drawText(getResources().getString(R.string.slideover_settings_overlay), (float)((width * .75) - (closePaint.measureText(getResources().getString(R.string.slideover_settings_overlay))/2)) , height - 70, movePaint);
             }
         }
 
