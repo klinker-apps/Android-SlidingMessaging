@@ -563,10 +563,10 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
 
                 if (sharedPrefs.getBoolean("hour_format", false))
                 {
-                    dateDisplay.setText(DateFormat.getDateInstance(DateFormat.SHORT, Locale.GERMAN).format(setDate));
+                    dateDisplay.setText(DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.GERMAN).format(setDate));
                 } else
                 {
-                    dateDisplay.setText(DateFormat.getDateInstance(DateFormat.SHORT, Locale.US).format(setDate));
+                    dateDisplay.setText(DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.US).format(setDate));
                 }
             } else
             {
@@ -574,10 +574,10 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
 
                 if (sharedPrefs.getBoolean("hour_format", false))
                 {
-                    dateDisplay.setText(DateFormat.getDateInstance(DateFormat.SHORT, Locale.GERMAN).format(setDate));
+                    dateDisplay.setText(DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.GERMAN).format(setDate));
                 } else
                 {
-                    dateDisplay.setText(DateFormat.getDateInstance(DateFormat.SHORT, Locale.US).format(setDate));
+                    dateDisplay.setText(DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.US).format(setDate));
                 }
             }
                 //dateDisplay.setText((month + 1) + "/" + day + "/" + year);
