@@ -1,5 +1,7 @@
 Version 7.00
 
+- optimize the speed array adapter with zero user customizations.
+    - choose a default theme that looks good and make some layout files for it so we don't have to recustomize anything in the array adapter.
 - option for adding certain text to every message at the beginning (delivery reports?)
 - Message Locking
 - Figure out how to judge file size of png images and adjust them accordingly when sending, look into UriImage.getResizedImageData for solution
