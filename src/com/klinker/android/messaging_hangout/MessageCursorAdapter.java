@@ -80,6 +80,38 @@ public class MessageCursorAdapter extends CursorAdapter {
     public boolean currentWifiState;
     public boolean currentDataState;
 
+    // shared prefs values
+
+    public final boolean darkContactImage;
+    public final boolean customFont;
+    public final boolean showOriginalTimestamp;
+    public final boolean deliveryReports;
+    public final boolean hourFormat;
+    public final boolean stripUnicode;
+    public final boolean contactPictures;
+    public final boolean tinyDate;
+    public final boolean customTheme;
+    public final boolean emojiType;
+    public final boolean smiliesType;
+    public final String textSize;
+    public final String runAs;
+    public final String signature;
+    public final String ringTone;
+    public final String deliveryOptions;
+    public final String sendingAnimation;
+    public final String recieveAnimation;
+    public final String themeName;
+    public final String sentTextColor;
+    public final String textAlignment;
+    public final String smilies;
+    public final int ctRecievedTextColor;
+    public final int ctSentTextColor;
+    public final int ctConversationListBackground;
+    public final int ctSentMessageBackground;
+    public final int ctRecievedMessageBackground;
+    public final int animationSpeed;
+    public final int textOpacity;
+
     public MessageCursorAdapter(Activity context, String myId, String inboxNumbers, String ids, Cursor query, int threadPosition) {
         super(context, query, 0);
         this.context = context;
@@ -94,6 +126,40 @@ public class MessageCursorAdapter extends CursorAdapter {
 
         Bitmap input;
 
+        // Getting all the nessisary shared prefs so we don't have to make calls to them every time
+        // I am only doing this for preferences with more than one call or that get called for every object
+        // I thought it would be much more efficient to set them all up at the beginning.
+
+        darkContactImage = sharedPrefs.getBoolean("ct_darkContactImage", false);
+        customFont = sharedPrefs.getBoolean("custom_font", false);
+        showOriginalTimestamp = sharedPrefs.getBoolean("show_original_timestamp", false);
+        deliveryReports = sharedPrefs.getBoolean("delivery_reports", false);
+        hourFormat = sharedPrefs.getBoolean("hour_format", false);
+        stripUnicode = sharedPrefs.getBoolean("strip_unicode", false);
+        contactPictures = sharedPrefs.getBoolean("contact_pictures", true);
+        tinyDate = sharedPrefs.getBoolean("tiny_date", false);
+        customTheme = sharedPrefs.getBoolean("custom_theme", false);
+        emojiType = sharedPrefs.getBoolean("emoji_type", true);
+        smiliesType = sharedPrefs.getBoolean("smiliesType", true);
+        textSize = sharedPrefs.getString("text_size", "14");
+        runAs = sharedPrefs.getString("run_as", "sliding");
+        signature = sharedPrefs.getString("signature", "");
+        ringTone = sharedPrefs.getString("ringtone", "null");
+        deliveryOptions= sharedPrefs.getString("delivery_options", "2");
+        sendingAnimation = sharedPrefs.getString("send_animation", "left");
+        recieveAnimation = sharedPrefs.getString("receive_animation", "right");
+        themeName = sharedPrefs.getString("ct_theme_name", "Light Theme");
+        sentTextColor = sharedPrefs.getString("sent_text_color", "default");
+        textAlignment = sharedPrefs.getString("text_alignment", "split");
+        smilies = sharedPrefs.getString("smilies", "with");
+        ctRecievedTextColor = sharedPrefs.getInt("ct_receivedTextColor", context.getResources().getColor(R.color.black));
+        ctSentTextColor = sharedPrefs.getInt("ct_sentTextColor", context.getResources().getColor(R.color.black));
+        ctConversationListBackground = sharedPrefs.getInt("ct_conversationListBackground", context.getResources().getColor(R.color.light_silver));
+        ctSentMessageBackground = sharedPrefs.getInt("ct_sentMessageBackground", context.getResources().getColor(R.color.white));
+        ctRecievedMessageBackground = sharedPrefs.getInt("ct_receivedMessageBackground", context.getResources().getColor(R.color.white));
+        animationSpeed = sharedPrefs.getInt("animation_speed", 300);
+        textOpacity = sharedPrefs.getInt("text_opacity", 100);
+
         try
         {
             input = getFacebookPhoto(inboxNumbers);
@@ -104,7 +170,7 @@ public class MessageCursorAdapter extends CursorAdapter {
 
         if (input == null)
         {
-            if (sharedPrefs.getBoolean("ct_darkContactImage", false))
+            if (darkContactImage)
             {
                 input = drawableToBitmap(context.getResources().getDrawable(R.drawable.default_avatar_dark));
             } else
@@ -127,7 +193,7 @@ public class MessageCursorAdapter extends CursorAdapter {
 
         if (input2 == null)
         {
-            if (sharedPrefs.getBoolean("ct_darkContactImage", false))
+            if (darkContactImage)
             {
                 input2 = context.getResources().openRawResource(R.drawable.default_avatar_dark);
             } else
@@ -143,7 +209,7 @@ public class MessageCursorAdapter extends CursorAdapter {
             im = Bitmap.createScaledBitmap(BitmapFactory.decodeStream(input2), MainActivity.contactWidth, MainActivity.contactWidth, true);
         } catch (Exception e)
         {
-            if (sharedPrefs.getBoolean("ct_darkContactImage", false))
+            if (darkContactImage)
             {
                 im = Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(R.drawable.default_avatar_dark)), MainActivity.contactWidth, MainActivity.contactWidth, true);
             } else
@@ -156,11 +222,11 @@ public class MessageCursorAdapter extends CursorAdapter {
 
         paint = new Paint();
         float densityMultiplier = context.getResources().getDisplayMetrics().density;
-        float scaledPx = Integer.parseInt(sharedPrefs.getString("text_size", "14")) * densityMultiplier;
+        float scaledPx = Integer.parseInt(textSize) * densityMultiplier;
         paint.setTextSize(scaledPx);
         font = null;
 
-        if (sharedPrefs.getBoolean("custom_font", false))
+        if (customFont)
         {
             font = Typeface.createFromFile(sharedPrefs.getString("custom_font_path", ""));
             paint.setTypeface(font);
@@ -237,7 +303,7 @@ public class MessageCursorAdapter extends CursorAdapter {
 
         String dateType = "date";
 
-        if (sharedPrefs.getBoolean("show_original_timestamp", false))
+        if (showOriginalTimestamp)
         {
             dateType = "date_sent";
         }
@@ -644,7 +710,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                     mms = false;
                     image = null;
 
-                    if (sharedPrefs.getBoolean("delivery_reports", false)) {
+                    if (deliveryReports) {
                         status = cursor.getString(cursor.getColumnIndex("status"));
 
                         if (status.equals("64") || status.equals("128"))
@@ -731,7 +797,7 @@ public class MessageCursorAdapter extends CursorAdapter {
 
         if (getZeroTimeDate(date2).equals(getZeroTimeDate(currentDate)))
         {
-            if (sharedPrefs.getBoolean("hour_format", false))
+            if (hourFormat)
             {
                 holder.date.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(date2));
             } else
@@ -740,7 +806,7 @@ public class MessageCursorAdapter extends CursorAdapter {
             }
         } else
         {
-            if (sharedPrefs.getBoolean("hour_format", false))
+            if (hourFormat)
             {
                 holder.date.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2));
             } else
@@ -757,7 +823,7 @@ public class MessageCursorAdapter extends CursorAdapter {
             {
                 holder.ellipsis.setVisibility(View.VISIBLE);
                 holder.ellipsis.setBackgroundResource(R.drawable.ellipsis);
-                holder.ellipsis.setColorFilter(sharedPrefs.getInt("ct_receivedTextColor", context.getResources().getColor(R.color.black)));
+                holder.ellipsis.setColorFilter(ctRecievedTextColor);
                 AnimationDrawable ellipsis = (AnimationDrawable) holder.ellipsis.getBackground();
                 ellipsis.start();
             } catch (Exception e)
@@ -776,7 +842,7 @@ public class MessageCursorAdapter extends CursorAdapter {
 
             }
 
-            if (sent && sharedPrefs.getBoolean("delivery_reports", false) && !error && status.equals("0"))
+            if (sent && deliveryReports && !error && status.equals("0"))
             {
                 String text = "<html><body><img src=\"ic_sent.png\"/> " + holder.date.getText().toString() + "</body></html>";
                 holder.date.setText(Html.fromHtml(text, imgGetterSent, null));
@@ -819,7 +885,7 @@ public class MessageCursorAdapter extends CursorAdapter {
 
         if (cursor.getPosition() == 0)
         {
-            if (sharedPrefs.getString("run_as", "sliding").equals("hangout")) {
+            if (runAs.equals("hangout")) {
                 int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 7, context.getResources().getDisplayMetrics());
                 int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, context.getResources().getDisplayMetrics());
                 int scale3 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, context.getResources().getDisplayMetrics());
@@ -830,7 +896,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                 } else {
                     view.setPadding(scale, scale2, scale4, scale3);
                 }
-            } else if (sharedPrefs.getString("run_as", "sliding").equals("card2")) {
+            } else if (runAs.equals("card2")) {
                 int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 17, context.getResources().getDisplayMetrics());
                 int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, context.getResources().getDisplayMetrics());
                 int scale3 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, context.getResources().getDisplayMetrics());
@@ -840,7 +906,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                 view.setPadding(0, 0, 0, scale);
             }
         } else {
-            if (sharedPrefs.getString("run_as", "sliding").equals("hangout")) {
+            if (runAs.equals("hangout")) {
                 int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 7, context.getResources().getDisplayMetrics());
                 int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, context.getResources().getDisplayMetrics());
                 int scale3 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, context.getResources().getDisplayMetrics());
@@ -850,7 +916,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                 } else {
                     view.setPadding(scale, scale2, scale3, scale2);
                 }
-            } else if (sharedPrefs.getString("run_as", "sliding").equals("card2")) {
+            } else if (runAs.equals("card2")) {
                 int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 17, context.getResources().getDisplayMetrics());
                 int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, context.getResources().getDisplayMetrics());
                 view.setPadding(scale, scale2, scale, 0);
@@ -913,7 +979,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                 String dateSent = query.getString(query.getColumnIndex("date_sent")), dateReceived = query.getString(query.getColumnIndex("date"));
                                 Date date1 = new Date(Long.parseLong(dateSent)), date2 = new Date(Long.parseLong(dateReceived));
 
-                                if (sharedPrefs.getBoolean("hour_format", false))
+                                if (hourFormat)
                                 {
                                     dateSent = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(date1) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date1);
                                     dateReceived = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2);
@@ -937,7 +1003,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                 String dateReceived = query.getString(query.getColumnIndex("date"));
                                 Date date2 = new Date(Long.parseLong(dateReceived));
 
-                                if (sharedPrefs.getBoolean("hour_format", false))
+                                if (hourFormat)
                                 {
                                     dateReceived = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2);
                                 } else
@@ -974,7 +1040,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                 String dateReceived = query.getString(query.getColumnIndex("date"));
                                 Date date2 = new Date(Long.parseLong(dateReceived));
 
-                                if (sharedPrefs.getBoolean("hour_format", false))
+                                if (hourFormat)
                                 {
                                     dateReceived = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2);
                                 } else
@@ -1003,7 +1069,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                 String dateReceived = query.getString(query.getColumnIndex("date"));
                                 Date date2 = new Date(Long.parseLong(dateReceived));
 
-                                if (sharedPrefs.getBoolean("hour_format", false))
+                                if (hourFormat)
                                 {
                                     dateReceived = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2);
                                 } else
@@ -1143,9 +1209,9 @@ public class MessageCursorAdapter extends CursorAdapter {
                                         {
                                             ((MainActivity)context).attachedImage2 = holder.imageUri;
 
-                                            ((MainActivity)context).imageAttachBackground2.setBackgroundColor(sharedPrefs.getInt("ct_conversationListBackground", context.getResources().getColor(R.color.light_silver)));
+                                            ((MainActivity)context).imageAttachBackground2.setBackgroundColor(ctConversationListBackground);
                                             Drawable attachBack = context.getResources().getDrawable(R.drawable.attachment_editor_bg);
-                                            attachBack.setColorFilter(sharedPrefs.getInt("ct_sentMessageBackground", context.getResources().getColor(R.color.white)), PorterDuff.Mode.MULTIPLY);
+                                            attachBack.setColorFilter(ctSentMessageBackground, PorterDuff.Mode.MULTIPLY);
                                             ((MainActivity)context).imageAttach2.setBackgroundDrawable(attachBack);
                                             ((MainActivity)context).imageAttachBackground2.setVisibility(View.VISIBLE);
                                             ((MainActivity)context).imageAttach2.setVisibility(true);
@@ -1265,9 +1331,9 @@ public class MessageCursorAdapter extends CursorAdapter {
 
                                         String body2 = ((TextView) arg0.findViewById(R.id.textBody)).getText().toString();
 
-                                        if (!sharedPrefs.getString("signature", "").equals(""))
+                                        if (!signature.equals(""))
                                         {
-                                            body2 += "\n" + sharedPrefs.getString("signature", "");
+                                            body2 += "\n" + signature;
                                         }
 
                                         final String body = body2;
@@ -1277,7 +1343,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                             @Override
                                             public void run() {
 
-                                                if (sharedPrefs.getBoolean("delivery_reports", false))
+                                                if (deliveryReports)
                                                 {
                                                     if (inboxNumbers.replaceAll("[^0-9]", "").equals(""))
                                                     {
@@ -1347,7 +1413,7 @@ public class MessageCursorAdapter extends CursorAdapter {
 
                                                                             try
                                                                             {
-                                                                                mBuilder.setSound(Uri.parse(sharedPrefs.getString("ringtone", "null")));
+                                                                                mBuilder.setSound(Uri.parse(ringTone));
                                                                             } catch(Exception e)
                                                                             {
                                                                                 mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
@@ -1420,7 +1486,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                                             @Override
                                                             public void onReceive(Context arg0, Intent arg1) {
                                                                 try {
-                                                                    if (sharedPrefs.getString("delivery_options", "2").equals("1"))
+                                                                    if (deliveryOptions.equals("1"))
                                                                     {
                                                                         switch (getResultCode())
                                                                         {
@@ -1474,7 +1540,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                                                         switch (getResultCode())
                                                                         {
                                                                             case Activity.RESULT_OK:
-                                                                                if (sharedPrefs.getString("delivery_options", "2").equals("2"))
+                                                                                if (deliveryOptions.equals("2"))
                                                                                 {
                                                                                     Toast.makeText(context, R.string.message_delivered, Toast.LENGTH_LONG).show();
                                                                                 }
@@ -1492,7 +1558,7 @@ public class MessageCursorAdapter extends CursorAdapter {
 
                                                                                 break;
                                                                             case Activity.RESULT_CANCELED:
-                                                                                if (sharedPrefs.getString("delivery_options", "2").equals("2"))
+                                                                                if (deliveryOptions.equals("2"))
                                                                                 {
                                                                                     Toast.makeText(context, R.string.message_not_delivered, Toast.LENGTH_LONG).show();
                                                                                 }
@@ -1523,7 +1589,7 @@ public class MessageCursorAdapter extends CursorAdapter {
 
                                                         String body2 = body;
 
-                                                        if (sharedPrefs.getBoolean("strip_unicode", false))
+                                                        if (stripUnicode)
                                                         {
                                                             body2 = StripAccents.stripAccents(body2);
                                                         }
@@ -1607,7 +1673,7 @@ public class MessageCursorAdapter extends CursorAdapter {
 
                                                                             try
                                                                             {
-                                                                                mBuilder.setSound(Uri.parse(sharedPrefs.getString("ringtone", "null")));
+                                                                                mBuilder.setSound(Uri.parse(ringTone));
                                                                             } catch(Exception e)
                                                                             {
                                                                                 mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
@@ -1679,7 +1745,7 @@ public class MessageCursorAdapter extends CursorAdapter {
 
                                                         String body2 = body;
 
-                                                        if (sharedPrefs.getBoolean("strip_unicode", false))
+                                                        if (stripUnicode)
                                                         {
                                                             body2 = StripAccents.stripAccents(body2);
                                                         }
@@ -1806,26 +1872,24 @@ public class MessageCursorAdapter extends CursorAdapter {
 
         if (MainActivity.animationOn == true && cursor.getPosition() == 0 && threadPosition == 0)
         {
-            String animation = sharedPrefs.getString("send_animation", "left");
-
-            if (animation.equals("left"))
+            if (sendingAnimation.equals("left"))
             {
                 Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
-                anim.setDuration(sharedPrefs.getInt("animation_speed", 300));
+                anim.setDuration(animationSpeed);
                 view.startAnimation(anim);
-            } else if (animation.equals("right"))
+            } else if (sendingAnimation.equals("right"))
             {
                 Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_left);
-                anim.setDuration(sharedPrefs.getInt("animation_speed", 300));
+                anim.setDuration(animationSpeed);
                 view.startAnimation(anim);
-            } else if (animation.equals("up"))
+            } else if (sendingAnimation.equals("up"))
             {
                 Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_up);
-                anim.setDuration(sharedPrefs.getInt("animation_speed", 300));
+                anim.setDuration(animationSpeed);
                 view.startAnimation(anim);
-            } else if (animation.equals("hangouts")) {
+            } else if (sendingAnimation.equals("hangouts")) {
                 Animation anim = AnimationUtils.loadAnimation(context, R.anim.hangouts_in);
-                anim.setDuration(sharedPrefs.getInt("animation_speed", 300));
+                anim.setDuration(animationSpeed);
                 view.startAnimation(anim);
             }
 
@@ -1834,26 +1898,24 @@ public class MessageCursorAdapter extends CursorAdapter {
 
         if (MainActivity.animationReceived == 1 && cursor.getPosition() == 0 && MainActivity.animationThread == threadPosition)
         {
-            String animation = sharedPrefs.getString("receive_animation", "right");
-
-            if (animation.equals("left"))
+            if (recieveAnimation.equals("left"))
             {
                 Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
-                anim.setDuration(sharedPrefs.getInt("animation_speed", 300));
+                anim.setDuration(animationSpeed);
                 view.startAnimation(anim);
-            } else if (animation.equals("right"))
+            } else if (recieveAnimation.equals("right"))
             {
                 Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_left);
-                anim.setDuration(sharedPrefs.getInt("animation_speed", 300));
+                anim.setDuration(animationSpeed);
                 view.startAnimation(anim);
-            } else if (animation.equals("up"))
+            } else if (recieveAnimation.equals("up"))
             {
                 Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_up);
-                anim.setDuration(sharedPrefs.getInt("animation_speed", 300));
+                anim.setDuration(animationSpeed);
                 view.startAnimation(anim);
-            } else if (animation.equals("hangouts")) {
+            } else if (recieveAnimation.equals("hangouts")) {
                 Animation anim = AnimationUtils.loadAnimation(context, R.anim.hangouts_in);
-                anim.setDuration(sharedPrefs.getInt("animation_speed", 300));
+                anim.setDuration(animationSpeed);
                 view.startAnimation(anim);
             }
 
@@ -1869,9 +1931,9 @@ public class MessageCursorAdapter extends CursorAdapter {
         int type = getItemViewType(cursor);
 
         if (type == 1) {
-            if (sharedPrefs.getString("run_as", "sliding").equals("hangout")) {
+            if (runAs.equals("hangout")) {
                 v = mInflater.inflate(R.layout.message_hangout_sent, parent, false);
-            } else if (sharedPrefs.getString("run_as", "sliding").equals("sliding")) {
+            } else if (runAs.equals("sliding")) {
                 v = mInflater.inflate(R.layout.message_classic_sent, parent, false);
             } else {
                 v = mInflater.inflate(R.layout.message_card2_sent, parent, false);
@@ -1887,9 +1949,9 @@ public class MessageCursorAdapter extends CursorAdapter {
 
             holder.image.assignContactUri(ContactsContract.Profile.CONTENT_URI);
         } else {
-            if (sharedPrefs.getString("run_as", "sliding").equals("hangout")) {
+            if (runAs.equals("hangout")) {
                 v = mInflater.inflate(R.layout.message_hangout_received, parent, false);
-            } else if (sharedPrefs.getString("run_as", "sliding").equals("sliding")) {
+            } else if (runAs.equals("sliding")) {
                 v = mInflater.inflate(R.layout.message_classic_received, parent, false);
             } else {
                 v = mInflater.inflate(R.layout.message_card2_received, parent, false);
@@ -1906,8 +1968,7 @@ public class MessageCursorAdapter extends CursorAdapter {
             holder.image.assignContactFromPhone(inboxNumbers, true);
         }
 
-        if (sharedPrefs.getString("run_as", "sliding").equals("card2")) {
-            String themeName = sharedPrefs.getString("ct_theme_name", "Light Theme");
+        if (runAs.equals("card2")) {
 
             if (themeName.equals("Light Theme") || themeName.equals("Hangouts Theme") || themeName.equals("Light Theme 2.0") || themeName.equals("Light Green Theme") || themeName.equals("Burnt Orange Theme")) {
 
@@ -1916,19 +1977,19 @@ public class MessageCursorAdapter extends CursorAdapter {
             }
 
             if (type == 1) {
-                v.findViewById(R.id.divider).setBackgroundColor(convertToColorInt(convertToARGB(sharedPrefs.getInt("ct_sentTextColor", context.getResources().getColor(R.color.black)), "44")));
+                v.findViewById(R.id.divider).setBackgroundColor(convertToColorInt(convertToARGB(ctSentTextColor, "44")));
             } else {
-                v.findViewById(R.id.divider).setBackgroundColor(convertToColorInt(convertToARGB(sharedPrefs.getInt("ct_receivedTextColor", context.getResources().getColor(R.color.black)), "44")));
+                v.findViewById(R.id.divider).setBackgroundColor(convertToColorInt(convertToARGB(ctRecievedTextColor, "44")));
             }
         }
 
-        if (sharedPrefs.getBoolean("custom_font", false))
+        if (customFont)
         {
             holder.text.setTypeface(font);
             holder.date.setTypeface(font);
         }
 
-        if (sharedPrefs.getBoolean("contact_pictures", true))
+        if (contactPictures)
         {
             if (type == 0)
             {
@@ -1944,14 +2005,14 @@ public class MessageCursorAdapter extends CursorAdapter {
         }
 
         try {
-            holder.text.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,2)));
-            holder.date.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,2)) - 4);
+            holder.text.setTextSize(Integer.parseInt(textSize.substring(0,2)));
+            holder.date.setTextSize(Integer.parseInt(textSize.substring(0,2)) - 4);
         } catch (Exception e) {
-            holder.text.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,1)));
-            holder.date.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,1)) - 4);
+            holder.text.setTextSize(Integer.parseInt(textSize.substring(0,1)));
+            holder.date.setTextSize(Integer.parseInt(textSize.substring(0,1)) - 4);
         }
 
-        if (sharedPrefs.getBoolean("tiny_date", false))
+        if (tinyDate)
         {
             holder.date.setTextSize(10);
         }
@@ -1964,104 +2025,100 @@ public class MessageCursorAdapter extends CursorAdapter {
         }
 
         if (type == 1) {
-            holder.text.setTextColor(sharedPrefs.getInt("ct_sentTextColor", context.getResources().getColor(R.color.black)));
-            holder.date.setTextColor(convertToColorInt(convertToARGB(sharedPrefs.getInt("ct_sentTextColor", context.getResources().getColor(R.color.black)), "55")));
-            holder.background.setBackgroundColor(sharedPrefs.getInt("ct_sentMessageBackground", context.getResources().getColor(R.color.white)));
-            holder.media.setBackgroundColor(sharedPrefs.getInt("ct_sentMessageBackground", context.getResources().getColor(R.color.white)));
-            holder.bubble.setColorFilter(sharedPrefs.getInt("ct_sentMessageBackground", context.getResources().getColor(R.color.white)));
+            holder.text.setTextColor(ctSentTextColor);
+            holder.date.setTextColor(convertToColorInt(convertToARGB(ctSentTextColor, "55")));
+            holder.background.setBackgroundColor(ctSentMessageBackground);
+            holder.media.setBackgroundColor(ctSentMessageBackground);
+            holder.bubble.setColorFilter(ctSentMessageBackground);
 
-            if (!sharedPrefs.getBoolean("custom_theme", false))
+            if (!customTheme)
             {
-                String color = sharedPrefs.getString("sent_text_color", "default");
-
-                if (color.equals("blue"))
+                if (sentTextColor.equals("blue"))
                 {
                     holder.text.setTextColor(context.getResources().getColor(R.color.holo_blue));
                     holder.date.setTextColor(context.getResources().getColor(R.color.holo_blue));
-                } else if (color.equals("white"))
+                } else if (sentTextColor.equals("white"))
                 {
                     holder.text.setTextColor(context.getResources().getColor(R.color.white));
                     holder.date.setTextColor(context.getResources().getColor(R.color.white));
-                } else if (color.equals("green"))
+                } else if (sentTextColor.equals("green"))
                 {
                     holder.text.setTextColor(context.getResources().getColor(R.color.holo_green));
                     holder.date.setTextColor(context.getResources().getColor(R.color.holo_green));
-                } else if (color.equals("orange"))
+                } else if (sentTextColor.equals("orange"))
                 {
                     holder.text.setTextColor(context.getResources().getColor(R.color.holo_orange));
                     holder.date.setTextColor(context.getResources().getColor(R.color.holo_orange));
-                } else if (color.equals("red"))
+                } else if (sentTextColor.equals("red"))
                 {
                     holder.text.setTextColor(context.getResources().getColor(R.color.holo_red));
                     holder.date.setTextColor(context.getResources().getColor(R.color.holo_red));
-                } else if (color.equals("purple"))
+                } else if (sentTextColor.equals("purple"))
                 {
                     holder.text.setTextColor(context.getResources().getColor(R.color.holo_purple));
                     holder.date.setTextColor(context.getResources().getColor(R.color.holo_purple));
-                } else if (color.equals("black"))
+                } else if (sentTextColor.equals("black"))
                 {
                     holder.text.setTextColor(context.getResources().getColor(R.color.pitch_black));
                     holder.date.setTextColor(context.getResources().getColor(R.color.pitch_black));
-                } else if (color.equals("grey"))
+                } else if (sentTextColor.equals("grey"))
                 {
                     holder.text.setTextColor(context.getResources().getColor(R.color.grey));
                     holder.date.setTextColor(context.getResources().getColor(R.color.grey));
                 }
 
-                holder.background.setBackgroundColor(convertToColorInt(convertToARGB(sharedPrefs.getInt("ct_sentMessageBackground", context.getResources().getColor(R.color.black)), sharedPrefs.getInt("text_opacity", 100) + "")));
+                holder.background.setBackgroundColor(convertToColorInt(convertToARGB(ctSentMessageBackground, textOpacity + "")));
             }
         } else {
-            holder.text.setTextColor(sharedPrefs.getInt("ct_receivedTextColor", context.getResources().getColor(R.color.black)));
-            holder.date.setTextColor(convertToColorInt(convertToARGB(sharedPrefs.getInt("ct_receivedTextColor", context.getResources().getColor(R.color.black)), "55")));
-            holder.background.setBackgroundColor(sharedPrefs.getInt("ct_receivedMessageBackground", context.getResources().getColor(R.color.white)));
-            holder.media.setBackgroundColor(sharedPrefs.getInt("ct_receivedMessageBackground", context.getResources().getColor(R.color.white)));
-            holder.bubble.setColorFilter(sharedPrefs.getInt("ct_receivedMessageBackground", context.getResources().getColor(R.color.white)));
+            holder.text.setTextColor(ctRecievedTextColor);
+            holder.date.setTextColor(convertToColorInt(convertToARGB(ctRecievedTextColor, "55")));
+            holder.background.setBackgroundColor(ctRecievedMessageBackground);
+            holder.media.setBackgroundColor(ctRecievedMessageBackground);
+            holder.bubble.setColorFilter(ctRecievedMessageBackground);
 
-            if (!sharedPrefs.getBoolean("custom_theme", false))
+            if (!customTheme)
             {
-                String color = sharedPrefs.getString("received_text_color", "default");
-
-                if (color.equals("blue"))
+                if (sentTextColor.equals("blue"))
                 {
                     holder.text.setTextColor(context.getResources().getColor(R.color.holo_blue));
                     holder.date.setTextColor(context.getResources().getColor(R.color.holo_blue));
-                } else if (color.equals("white"))
+                } else if (sentTextColor.equals("white"))
                 {
                     holder.text.setTextColor(context.getResources().getColor(R.color.white));
                     holder.date.setTextColor(context.getResources().getColor(R.color.white));
-                } else if (color.equals("green"))
+                } else if (sentTextColor.equals("green"))
                 {
                     holder.text.setTextColor(context.getResources().getColor(R.color.holo_green));
                     holder.date.setTextColor(context.getResources().getColor(R.color.holo_green));
-                } else if (color.equals("orange"))
+                } else if (sentTextColor.equals("orange"))
                 {
                     holder.text.setTextColor(context.getResources().getColor(R.color.holo_orange));
                     holder.date.setTextColor(context.getResources().getColor(R.color.holo_orange));
-                } else if (color.equals("red"))
+                } else if (sentTextColor.equals("red"))
                 {
                     holder.text.setTextColor(context.getResources().getColor(R.color.holo_red));
                     holder.date.setTextColor(context.getResources().getColor(R.color.holo_red));
-                } else if (color.equals("purple"))
+                } else if (sentTextColor.equals("purple"))
                 {
                     holder.text.setTextColor(context.getResources().getColor(R.color.holo_purple));
                     holder.date.setTextColor(context.getResources().getColor(R.color.holo_purple));
-                } else if (color.equals("black"))
+                } else if (sentTextColor.equals("black"))
                 {
                     holder.text.setTextColor(context.getResources().getColor(R.color.pitch_black));
                     holder.date.setTextColor(context.getResources().getColor(R.color.pitch_black));
-                } else if (color.equals("grey"))
+                } else if (sentTextColor.equals("grey"))
                 {
                     holder.text.setTextColor(context.getResources().getColor(R.color.grey));
                     holder.date.setTextColor(context.getResources().getColor(R.color.grey));
                 }
 
-                holder.background.setBackgroundColor(convertToColorInt(convertToARGB(sharedPrefs.getInt("ct_receivedMessageBackground", context.getResources().getColor(R.color.black)), sharedPrefs.getInt("text_opacity", 100) + "")));
+                holder.background.setBackgroundColor(convertToColorInt(convertToARGB(ctRecievedMessageBackground, textOpacity + "")));
             }
         }
 
-        if (!sharedPrefs.getString("text_alignment", "split").equals("split"))
+        if (!textAlignment.equals("split"))
         {
-            if (sharedPrefs.getString("text_alignment", "split").equals("right"))
+            if (textAlignment.equals("right"))
             {
                 holder.text.setGravity(Gravity.RIGHT);
                 holder.date.setGravity(Gravity.RIGHT);
@@ -2070,7 +2127,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                 holder.text.setGravity(Gravity.LEFT);
                 holder.date.setGravity(Gravity.LEFT);
             }
-        } else if (!sharedPrefs.getBoolean("contact_pictures", true)) {
+        } else if (!contactPictures) {
             if (type == 0) {
                 holder.text.setGravity(Gravity.LEFT);
                 holder.date.setGravity(Gravity.LEFT);
@@ -2080,7 +2137,7 @@ public class MessageCursorAdapter extends CursorAdapter {
             }
         }
 
-        if (sharedPrefs.getString("run_as", "sliding").equals("hangout")) {
+        if (runAs.equals("hangout")) {
             int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 7, context.getResources().getDisplayMetrics());
             int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, context.getResources().getDisplayMetrics());
             int scale3 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, context.getResources().getDisplayMetrics());
@@ -2090,7 +2147,7 @@ public class MessageCursorAdapter extends CursorAdapter {
             } else {
                 v.setPadding(scale, scale2, scale3, scale2);
             }
-        } else if (sharedPrefs.getString("run_as", "sliding").equals("card2")) {
+        } else if (runAs.equals("card2")) {
             int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 17, context.getResources().getDisplayMetrics());
             int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, context.getResources().getDisplayMetrics());
             v.setPadding(scale, scale2, scale, 0);
@@ -2129,7 +2186,7 @@ public class MessageCursorAdapter extends CursorAdapter {
     }
 
     public void setMessageText(final TextView textView, final String body) {
-        if (sharedPrefs.getString("smilies", "with").equals("with"))
+        if (smilies.equals("with"))
         {
             String patternStr = "[^\\x20-\\x7E\\n]";
             Pattern pattern = Pattern.compile(patternStr);
@@ -2145,16 +2202,16 @@ public class MessageCursorAdapter extends CursorAdapter {
                     public void run() {
                         final Spannable text;
 
-                        if (sharedPrefs.getBoolean("emoji_type", true))
+                        if (emojiType)
                         {
-                            if (sharedPrefs.getBoolean("smiliesType", true)) {
+                            if (smiliesType) {
                                 text = EmojiConverter2.getSmiledText(context, EmoticonConverter2New.getSmiledText(context, body));
                             } else {
                                 text = EmojiConverter2.getSmiledText(context, EmoticonConverter2.getSmiledText(context, body));
                             }
                         } else
                         {
-                            if (sharedPrefs.getBoolean("smiliesType", true)) {
+                            if (smiliesType) {
                                 text = EmojiConverter.getSmiledText(context, EmoticonConverter2New.getSmiledText(context, body));
                             } else {
                                 text = EmojiConverter.getSmiledText(context, EmoticonConverter2.getSmiledText(context, body));
@@ -2175,7 +2232,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                 }).start();
             } else
             {
-                if (sharedPrefs.getBoolean("smiliesType", true)) {
+                if (smiliesType) {
                     textView.setText(EmoticonConverter2New.getSmiledText(context, body));
                 } else {
                     textView.setText(EmoticonConverter2.getSmiledText(context, body));
@@ -2183,7 +2240,7 @@ public class MessageCursorAdapter extends CursorAdapter {
 
                 Linkify.addLinks(textView, Linkify.ALL);
             }
-        } else if (sharedPrefs.getString("smilies", "with").equals("without"))
+        } else if (smilies.equals("without"))
         {
             String patternStr = "[^\\x20-\\x7E\\n]";
             Pattern pattern = Pattern.compile(patternStr);
@@ -2199,16 +2256,16 @@ public class MessageCursorAdapter extends CursorAdapter {
                     public void run() {
                         final Spannable text;
 
-                        if (sharedPrefs.getBoolean("emoji_type", true))
+                        if (emojiType)
                         {
-                            if (sharedPrefs.getBoolean("smiliesType", true)) {
+                            if (smiliesType) {
                                 text = EmojiConverter2.getSmiledText(context, EmoticonConverterNew.getSmiledText(context, body));
                             } else {
                                 text = EmojiConverter2.getSmiledText(context, EmoticonConverter.getSmiledText(context, body));
                             }
                         } else
                         {
-                            if (sharedPrefs.getBoolean("smiliesType", true)) {
+                            if (smiliesType) {
                                 text = EmojiConverter.getSmiledText(context, EmoticonConverterNew.getSmiledText(context, body));
                             } else {
                                 text = EmojiConverter.getSmiledText(context, EmoticonConverter.getSmiledText(context, body));
@@ -2229,7 +2286,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                 }).start();
             } else
             {
-                if (sharedPrefs.getBoolean("smiliesType", true)) {
+                if (smiliesType) {
                     textView.setText(EmoticonConverterNew.getSmiledText(context, body));
                 } else {
                     textView.setText(EmoticonConverter.getSmiledText(context, body));
@@ -2237,7 +2294,7 @@ public class MessageCursorAdapter extends CursorAdapter {
 
                 Linkify.addLinks(textView, Linkify.ALL);
             }
-        } else if (sharedPrefs.getString("smilies", "with").equals("none"))
+        } else if (smilies.equals("none"))
         {
             String patternStr = "[^\\x20-\\x7E\\n]";
             Pattern pattern = Pattern.compile(patternStr);
@@ -2253,7 +2310,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                     public void run() {
                         final Spannable text;
 
-                        if (sharedPrefs.getBoolean("emoji_type", true))
+                        if (emojiType)
                         {
                             text = EmojiConverter2.getSmiledText(context, body);
                         } else
@@ -2278,7 +2335,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                 textView.setText(body);
                 Linkify.addLinks(textView, Linkify.ALL);
             }
-        } else if (sharedPrefs.getString("smilies", "with").equals("both"))
+        } else if (smilies.equals("both"))
         {
             String patternStr = "[^\\x20-\\x7E\\n]";
             Pattern pattern = Pattern.compile(patternStr);
@@ -2294,16 +2351,16 @@ public class MessageCursorAdapter extends CursorAdapter {
                     public void run() {
                         final Spannable text;
 
-                        if (sharedPrefs.getBoolean("emoji_type", true))
+                        if (emojiType)
                         {
-                            if (sharedPrefs.getBoolean("smiliesType", true)) {
+                            if (smiliesType) {
                                 text = EmojiConverter2.getSmiledText(context, EmoticonConverter3New.getSmiledText(context, body));
                             } else {
                                 text = EmojiConverter2.getSmiledText(context, EmoticonConverter3.getSmiledText(context, body));
                             }
                         } else
                         {
-                            if (sharedPrefs.getBoolean("smiliesType", true)) {
+                            if (smiliesType) {
                                 text = EmojiConverter.getSmiledText(context, EmoticonConverter3New.getSmiledText(context, body));
                             } else {
                                 text = EmojiConverter.getSmiledText(context, EmoticonConverter3.getSmiledText(context, body));
@@ -2324,7 +2381,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                 }).start();
             } else
             {
-                if (sharedPrefs.getBoolean("smiliesType", true)) {
+                if (smiliesType) {
                     textView.setText(EmoticonConverter3New.getSmiledText(context, body));
                 } else {
                     textView.setText(EmoticonConverter3.getSmiledText(context, body));
@@ -2359,11 +2416,11 @@ public class MessageCursorAdapter extends CursorAdapter {
             holder.text.setText("");
             holder.text.setGravity(Gravity.CENTER);
 
-            holder.text.setTextColor(sharedPrefs.getInt("ct_receivedTextColor", context.getResources().getColor(R.color.black)));
-            holder.date.setTextColor(sharedPrefs.getInt("ct_receivedTextColor", context.getResources().getColor(R.color.black)));
-            holder.background.setBackgroundColor(sharedPrefs.getInt("ct_receivedMessageBackground", context.getResources().getColor(R.color.white)));
-            holder.media.setBackgroundColor(sharedPrefs.getInt("ct_receivedMessageBackground", context.getResources().getColor(R.color.white)));
-            holder.bubble.setColorFilter(sharedPrefs.getInt("ct_receivedMessageBackground", context.getResources().getColor(R.color.white)));
+            holder.text.setTextColor(ctRecievedTextColor);
+            holder.date.setTextColor(ctRecievedTextColor);
+            holder.background.setBackgroundColor(ctRecievedMessageBackground);
+            holder.media.setBackgroundColor(ctRecievedMessageBackground);
+            holder.bubble.setColorFilter(ctRecievedMessageBackground);
             holder.date.setText("");
 
             boolean error2 = false;
@@ -2756,7 +2813,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                 else {
                     Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
 
-                    if (sharedPrefs.getBoolean("ct_darkContactImage", false))
+                    if (darkContactImage)
                     {
                         defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar_dark);
                     }
@@ -2774,7 +2831,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                 } else {
                     Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
 
-                    if (sharedPrefs.getBoolean("ct_darkContactImage", false))
+                    if (darkContactImage)
                     {
                         defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar_dark);
                     }
@@ -2784,7 +2841,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                 }
                 Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
 
-                if (sharedPrefs.getBoolean("ct_darkContactImage", false))
+                if (darkContactImage)
                 {
                     defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar_dark);
                 }
@@ -2793,7 +2850,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                 return defaultPhoto;
             } catch (Exception e)
             {
-                if (sharedPrefs.getBoolean("ct_darkContactImage", false))
+                if (darkContactImage)
                 {
                     contact.close();
                     return BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar_dark);
@@ -2805,7 +2862,7 @@ public class MessageCursorAdapter extends CursorAdapter {
             }
         } catch (Exception e)
         {
-            if (sharedPrefs.getBoolean("ct_darkContactImage", false))
+            if (darkContactImage)
             {
                 return BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar_dark);
             } else
@@ -2844,7 +2901,7 @@ public class MessageCursorAdapter extends CursorAdapter {
             return bitmap;
         } catch (Exception e)
         {
-            if (sharedPrefs.getBoolean("ct_darkContactImage", false))
+            if (darkContactImage)
             {
                 return BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar_dark);
             } else
