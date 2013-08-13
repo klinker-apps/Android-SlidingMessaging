@@ -7484,9 +7484,16 @@ s
                                 @Override
                                 public void run() {
 
-                                    com.klinker.android.messaging_hangout.MessageCursorAdapter adapter = new com.klinker.android.messaging_hangout.MessageCursorAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), messageQuery, position);
+                                    if(sharedPrefs.getString("run_as", "sliding").equals("speed"))
+                                    {
+                                        com.klinker.android.messaging_hangout.MessageSpeedCursorAdapter adapter = new com.klinker.android.messaging_hangout.MessageSpeedCursorAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), messageQuery, position);
+                                        listView.setAdapter(adapter);
+                                    } else
+                                    {
+                                        com.klinker.android.messaging_hangout.MessageCursorAdapter adapter = new com.klinker.android.messaging_hangout.MessageCursorAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), messageQuery, position);
 
-                                    listView.setAdapter(adapter);
+                                        listView.setAdapter(adapter);
+                                    }
                                     listView.setStackFromBottom(true);
                                     spinner.setVisibility(View.GONE);
 
