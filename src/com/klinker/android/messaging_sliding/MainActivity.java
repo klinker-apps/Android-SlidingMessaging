@@ -246,9 +246,42 @@ public class MainActivity extends FragmentActivity {
     public boolean customFont;
     public boolean hideTitleBar;
     public boolean alwaysShowContactInfo;
-    public String runAs;
     public boolean titleContactImages;
     public boolean titleCaps;
+    public boolean darkContactImage;
+    public boolean showOriginalTimestamp;
+    public boolean deliveryReports;
+    public boolean stripUnicode;
+    public boolean customTheme;
+    public boolean emojiType;
+    public boolean quickText;
+    public boolean overrideLang;
+    public boolean inAppNotifications;
+    public boolean titleTextColor;
+    public boolean enableDrafts;
+    public boolean customBackground;
+    public boolean messageDividerVisible;
+    public boolean slideMessages;
+    public boolean autoInsertDrafts;
+    public boolean limitAttachmentSize;
+    public boolean openContactMenu;
+    public boolean cacheConversations;
+    public boolean customBackground2;
+    public boolean limitMessages;
+    public String  textSize;
+    public String runAs;
+    public String signature;
+    public String ringTone;
+    public String deliveryOptions;
+    public String customFontPath;
+    public int ctConversationListBackground;
+    public int ctSentMessageBackground;
+    public int ctMessageListBackground;
+    public int ctConversationDividerColor;
+    public int ctSendButtonColor;
+    public int ctSendBarBackground;
+    public int emojiButtonColor;
+    public int draftTextColor;
 
 
     @SuppressWarnings("deprecation")
@@ -267,8 +300,42 @@ public class MainActivity extends FragmentActivity {
         runAs = sharedPrefs.getString("run_as", "sliding");
         titleContactImages = sharedPrefs.getBoolean("title_contact_image", false);
         titleCaps = sharedPrefs.getBoolean("title_caps", true);
+        darkContactImage = sharedPrefs.getBoolean("ct_darkContactImage", false);
+        showOriginalTimestamp = sharedPrefs.getBoolean("show_original_timestamp", false);
+        deliveryReports = sharedPrefs.getBoolean("delivery_reports", false);
+        stripUnicode = sharedPrefs.getBoolean("strip_unicode", false);
+        customTheme = sharedPrefs.getBoolean("custom_theme", false);
+        emojiType = sharedPrefs.getBoolean("emoji_type", true);
+        quickText = sharedPrefs.getBoolean("quick_text", false);
+        overrideLang = sharedPrefs.getBoolean("override_lang", false);
+        inAppNotifications = sharedPrefs.getBoolean("in_app_notifications", true);
+        titleTextColor = sharedPrefs.getBoolean("title_text_color", false);
+        enableDrafts = sharedPrefs.getBoolean("enable_drafts", true);
+        customBackground = sharedPrefs.getBoolean("custom_background", false);
+        messageDividerVisible = sharedPrefs.getBoolean("ct_messageDividerVisibility", true);
+        slideMessages= sharedPrefs.getBoolean("slide_messages", false);
+        autoInsertDrafts = sharedPrefs.getBoolean("auto_insert_draft", false);
+        limitAttachmentSize = sharedPrefs.getBoolean("limit_attachment_size", true);
+        openContactMenu = sharedPrefs.getBoolean("open_contact_menu", false);
+        cacheConversations= sharedPrefs.getBoolean("cache_conversations", false);
+        customBackground2 = sharedPrefs.getBoolean("custom_background2", false);
+        limitMessages = sharedPrefs.getBoolean("limit_messages", true);
+        textSize = sharedPrefs.getString("text_size", "14");
+        signature = sharedPrefs.getString("signature", "");
+        ringTone = sharedPrefs.getString("ringtone", "null");
+        deliveryOptions= sharedPrefs.getString("delivery_options", "2");
+        customFontPath = sharedPrefs.getString("custom_font_path", null);
+        ctConversationListBackground = sharedPrefs.getInt("ct_conversationListBackground", getResources().getColor(R.color.light_silver));
+        ctSentMessageBackground = sharedPrefs.getInt("ct_sentMessageBackground", getResources().getColor(R.color.white));
+        ctMessageListBackground = sharedPrefs.getInt("ct_messageListBackground", getResources().getColor(R.color.light_silver));
+        ctConversationDividerColor = sharedPrefs.getInt("ct_conversationDividerColor", getResources().getColor(R.color.white));
+        ctSendButtonColor = sharedPrefs.getInt("ct_sentButtonColor", getResources().getColor(R.color.black));
+        ctSendBarBackground = sharedPrefs.getInt("ct_sendbarBackground", getResources().getColor(R.color.white));
+        emojiButtonColor = sharedPrefs.getInt("ct_emojiButtonColor", getResources().getColor(R.color.emoji_button));
+        draftTextColor = sharedPrefs.getInt("ct_draftTextColor", ctSendButtonColor);
 
-        if(runAs.equals("speed"))
+
+        /*if(runAs.equals("speed"))
         {
             speed = true;
             lightActionBar = true;
@@ -278,7 +345,7 @@ public class MainActivity extends FragmentActivity {
             alwaysShowContactInfo = false;
             titleCaps = false;
             titleContactImages = false;
-        }
+        }*/
 
         setUpWindow();
 
@@ -299,7 +366,7 @@ public class MainActivity extends FragmentActivity {
         {
             try
             {
-                font = Typeface.createFromFile(sharedPrefs.getString("custom_font_path", null));
+                font = Typeface.createFromFile(customFontPath);
             } catch (Exception e)
             {
                 Editor edit = sharedPrefs.edit();
@@ -308,7 +375,7 @@ public class MainActivity extends FragmentActivity {
             }
         }
 
-        if (sharedPrefs.getBoolean("quick_text", false))
+        if (quickText)
         {
             Intent mIntent = new Intent(this, QuickTextService.class);
             this.startService(mIntent);
@@ -319,7 +386,7 @@ public class MainActivity extends FragmentActivity {
             mNotificationManager.cancel(3);
         }
 
-        if (sharedPrefs.getBoolean("override_lang", false))
+        if (overrideLang)
         {
             String languageToLoad  = "en";
             Locale locale = new Locale(languageToLoad);
@@ -412,7 +479,7 @@ public class MainActivity extends FragmentActivity {
 
                     Bitmap contactImage = Bitmap.createScaledBitmap(BitmapFactory.decodeStream(input), 120, 120, true);
 
-                    if (sharedPrefs.getBoolean("in_app_notifications", true))
+                    if (inAppNotifications)
                     {
                         NotificationCompat.Builder mBuilder =
                                 new NotificationCompat.Builder(context)
@@ -511,7 +578,7 @@ public class MainActivity extends FragmentActivity {
 
                             try
                             {
-                                mBuilder.setSound(Uri.parse(sharedPrefs.getString("ringtone", "null")));
+                                mBuilder.setSound(Uri.parse(ringTone));
                             } catch(Exception e)
                             {
                                 mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
@@ -574,7 +641,7 @@ public class MainActivity extends FragmentActivity {
                     }
 
                     if (animationReceived == 2) {
-                        if (sharedPrefs.getBoolean("in_app_notifications", true)) {
+                        if (inAppNotifications) {
                             boolean flag = false;
                             for (int i = 0; i < appMsgConversations; i++) {
                                 if (address.replace(" ", "").replace("(", "").replace(")", "").replace("-", "").endsWith(findContactNumber(inboxNumber.get(i), context).replace(" ", "").replace("(", "").replace(")", "").replace("-", ""))) {
@@ -726,7 +793,7 @@ public class MainActivity extends FragmentActivity {
             {
                 ab.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.black)));
 
-                if (sharedPrefs.getInt("ct_conversationListBackground", getResources().getColor(R.color.light_silver)) == getResources().getColor(R.color.pitch_black))
+                if (ctConversationListBackground == getResources().getColor(R.color.pitch_black))
                 {
                     if (!hideTitleBar)
                     {
@@ -851,9 +918,9 @@ public class MainActivity extends FragmentActivity {
             title.setTextSpacing(5000);
         }
 
-        if (!sharedPrefs.getBoolean("custom_theme", false))
+        if (!customTheme)
         {
-            if (sharedPrefs.getBoolean("title_text_color", false))
+            if (titleTextColor)
             {
                 title.setTextColor(getResources().getColor(R.color.black));
             }
@@ -862,14 +929,14 @@ public class MainActivity extends FragmentActivity {
             title.setTextColor(sharedPrefs.getInt("ct_titleBarTextColor", getResources().getColor(R.color.white)));
         }
 
-        if (!sharedPrefs.getBoolean("title_caps", true))
+        if (!titleCaps)
         {
             title.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
         }
 
         if (hideTitleBar)
         {
-            if (!sharedPrefs.getBoolean("custom_theme", false))
+            if (!customTheme)
             {
                 String titleColor = sharedPrefs.getString("title_color", "blue");
 
@@ -998,7 +1065,7 @@ public class MainActivity extends FragmentActivity {
             title.setVisibility(View.GONE);
             emojiButton.setVisibility(View.GONE);
 
-            getWindow().getDecorView().setBackgroundColor(sharedPrefs.getInt("ct_messageListBackground", getResources().getColor(R.color.light_silver)));
+            getWindow().getDecorView().setBackgroundColor(ctMessageListBackground);
         }
 
         if (refreshMyContact)
@@ -1258,9 +1325,9 @@ public class MainActivity extends FragmentActivity {
                 }
                 int length = Integer.parseInt(String.valueOf(s.length()));
 
-                if (!sharedPrefs.getString("signature", "").equals(""))
+                if (!signature.equals(""))
                 {
-                    length += ("\n" + sharedPrefs.getString("signature", "")).length();
+                    length += ("\n" + signature).length();
                 }
 
                 String patternStr = "[^" + MainActivity.GSM_CHARACTERS_REGEX + "]";
@@ -1269,7 +1336,7 @@ public class MainActivity extends FragmentActivity {
 
                 int size = 160;
 
-                if (matcher.find() && !sharedPrefs.getBoolean("strip_unicode", false))
+                if (matcher.find() && !stripUnicode)
                 {
                     size = 70;
                 }
@@ -1388,9 +1455,9 @@ public class MainActivity extends FragmentActivity {
 
                         String body2 = messageEntry.getText().toString();
 
-                        if (!sharedPrefs.getString("signature", "").equals(""))
+                        if (!signature.equals(""))
                         {
-                            body2 += "\n" + sharedPrefs.getString("signature", "");
+                            body2 += "\n" + signature;
                         }
 
                         final String body = body2;
@@ -1403,7 +1470,7 @@ public class MainActivity extends FragmentActivity {
                             @Override
                             public void run() {
 
-                                if (sharedPrefs.getBoolean("delivery_reports", false))
+                                if (deliveryReports)
                                 {
                                     if (!findContactNumber(inboxNumber.get(position2), context).replaceAll("[^0-9]", "").equals(""))
                                     {
@@ -1493,7 +1560,7 @@ public class MainActivity extends FragmentActivity {
 
                                                             try
                                                             {
-                                                                mBuilder.setSound(Uri.parse(sharedPrefs.getString("ringtone", "null")));
+                                                                mBuilder.setSound(Uri.parse(ringTone));
                                                             } catch(Exception e)
                                                             {
                                                                 mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
@@ -1590,7 +1657,7 @@ public class MainActivity extends FragmentActivity {
                                             @Override
                                             public void onReceive(Context arg0, Intent arg1) {
                                                 try {
-                                                    if (sharedPrefs.getString("delivery_options", "2").equals("1"))
+                                                    if (deliveryOptions.equals("1"))
                                                     {
                                                         switch (getResultCode())
                                                         {
@@ -1668,7 +1735,7 @@ public class MainActivity extends FragmentActivity {
                                                         switch (getResultCode())
                                                         {
                                                             case Activity.RESULT_OK:
-                                                                if (sharedPrefs.getString("delivery_options", "2").equals("2"))
+                                                                if (deliveryOptions.equals("2"))
                                                                 {
                                                                     Toast.makeText(context, R.string.message_delivered, Toast.LENGTH_LONG).show();
                                                                 }
@@ -1688,7 +1755,7 @@ public class MainActivity extends FragmentActivity {
 
                                                                 break;
                                                             case Activity.RESULT_CANCELED:
-                                                                if (sharedPrefs.getString("delivery_options", "2").equals("2"))
+                                                                if (deliveryOptions.equals("2"))
                                                                 {
                                                                     Toast.makeText(context, R.string.message_not_delivered, Toast.LENGTH_LONG).show();
                                                                 }
@@ -1722,7 +1789,7 @@ public class MainActivity extends FragmentActivity {
 
                                         String body2 = body;
 
-                                        if (sharedPrefs.getBoolean("strip_unicode", false))
+                                        if (stripUnicode)
                                         {
                                             body2 = StripAccents.stripAccents(body2);
                                         }
@@ -1865,7 +1932,7 @@ public class MainActivity extends FragmentActivity {
 
                                                             try
                                                             {
-                                                                mBuilder.setSound(Uri.parse(sharedPrefs.getString("ringtone", "null")));
+                                                                mBuilder.setSound(Uri.parse(ringTone));
                                                             } catch(Exception e)
                                                             {
                                                                 mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
@@ -1961,7 +2028,7 @@ public class MainActivity extends FragmentActivity {
 
                                         String body2 = body;
 
-                                        if (sharedPrefs.getBoolean("strip_unicode", false))
+                                        if (stripUnicode)
                                         {
                                             body2 = StripAccents.stripAccents(body2);
                                         }
@@ -2031,7 +2098,7 @@ public class MainActivity extends FragmentActivity {
                                 String address = findContactNumber(inboxNumber.get(position2), context);
                                 String body2 = body;
 
-                                if (sharedPrefs.getBoolean("strip_unicode", false))
+                                if (stripUnicode)
                                 {
                                     body2 = StripAccents.stripAccents(body2);
                                 }
@@ -2053,7 +2120,7 @@ public class MainActivity extends FragmentActivity {
 
                                         @Override
                                         public void run() {
-                                            if (sharedPrefs.getBoolean("enable_drafts", true)) {
+                                            if (enableDrafts) {
                                                 if (fromDraft)
                                                 {
                                                     try {
@@ -2205,9 +2272,9 @@ public class MainActivity extends FragmentActivity {
         });
 
         try {
-            messageEntry.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,2)));
+            messageEntry.setTextSize(Integer.parseInt(textSize.substring(0,2)));
         } catch (Exception e) {
-            messageEntry.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,1)));
+            messageEntry.setTextSize(Integer.parseInt(textSize.substring(0,1)));
         }
 
 
@@ -2238,7 +2305,7 @@ public class MainActivity extends FragmentActivity {
                     final StickyGridHeadersGridView emojiGrid = (StickyGridHeadersGridView) frame.findViewById(R.id.emojiGrid);
                     Button okButton = (Button) frame.findViewById(R.id.emoji_ok);
 
-                    if (sharedPrefs.getBoolean("emoji_type", true))
+                    if (emojiType)
                     {
                         emojiGrid.setAdapter(new EmojiAdapter2(context));
                         emojiGrid.setOnItemClickListener(new OnItemClickListener() {
@@ -2315,7 +2382,7 @@ public class MainActivity extends FragmentActivity {
 
                         @Override
                         public void onClick(View v) {
-                            if (sharedPrefs.getBoolean("emoji_type", true))
+                            if (emojiType)
                             {
                                 messageEntry.setText(EmojiConverter2.getSmiledText(context, messageEntry.getText().toString() + editText.getText().toString()));
                                 messageEntry.setSelection(messageEntry.getText().length());
@@ -2347,7 +2414,7 @@ public class MainActivity extends FragmentActivity {
         emojiButton.setBackgroundResource(R.drawable.pitch_black_send_button);
         emojiButton.setColorFilter(sharedPrefs.getInt("ct_emojiButtonColor", getResources().getColor(R.color.emoji_button)));
         messageEntry.setTextColor(sharedPrefs.getInt("ct_draftTextColor", sharedPrefs.getInt("ct_sendButtonColor", getResources().getColor(R.color.black))));
-        imageAttachBackground.setBackgroundColor(sharedPrefs.getInt("ct_messageListBackground", context.getResources().getColor(R.color.light_silver)));
+        imageAttachBackground.setBackgroundColor(ctMessageListBackground);
         Drawable attachBack = getResources().getDrawable(R.drawable.attachment_editor_bg);
         attachBack.setColorFilter(sharedPrefs.getInt("ct_sentMessageBackground", context.getResources().getColor(R.color.white)), Mode.MULTIPLY);
         imageAttach.setBackgroundDrawable(attachBack);
@@ -2391,7 +2458,7 @@ public class MainActivity extends FragmentActivity {
             }
             newFragment.setListAdapter(new MenuArrayAdapter(this, inboxBody, inboxDate, inboxNumber, MainActivity.mViewPager, threadIds, group, msgCount, msgRead));
 
-            if (sharedPrefs.getBoolean("custom_background", false))
+            if (customBackground)
             {
                 try
                 {
@@ -2408,12 +2475,12 @@ public class MainActivity extends FragmentActivity {
                 }
             } else
             {
-                newFragment.getView().setBackgroundColor(sharedPrefs.getInt("ct_conversationListBackground", getResources().getColor(R.color.light_silver)));
+                newFragment.getView().setBackgroundColor(ctConversationListBackground);
             }
 
-            newFragment.getListView().setDivider(new ColorDrawable(sharedPrefs.getInt("ct_conversationDividerColor", getResources().getColor(R.color.white))));
+            newFragment.getListView().setDivider(new ColorDrawable(ctConversationDividerColor));
 
-            if (sharedPrefs.getBoolean("ct_messageDividerVisibility", true))
+            if (messageDividerVisible)
             {
                 newFragment.getListView().setDividerHeight(1);
             } else
@@ -2439,7 +2506,7 @@ public class MainActivity extends FragmentActivity {
                 menuLayout.addFooterView(footer);
             }
 
-            if (sharedPrefs.getBoolean("custom_background", false))
+            if (customBackground)
             {
                 try
                 {
@@ -2456,7 +2523,7 @@ public class MainActivity extends FragmentActivity {
                 }
             } else
             {
-                menuLayout.setBackgroundColor(sharedPrefs.getInt("ct_conversationListBackground", getResources().getColor(R.color.light_silver)));
+                menuLayout.setBackgroundColor(ctConversationListBackground);
             }
 
             final Activity activity = this;
@@ -2466,9 +2533,9 @@ public class MainActivity extends FragmentActivity {
                 public void run() {
                     menuAdapter = new MenuArrayAdapter(activity, inboxBody, inboxDate, inboxNumber, mViewPager, threadIds, group, msgCount, msgRead);
                     menuLayout.setAdapter(menuAdapter);
-                    menuLayout.setDivider(new ColorDrawable(sharedPrefs.getInt("ct_conversationDividerColor", getResources().getColor(R.color.white))));
+                    menuLayout.setDivider(new ColorDrawable(ctConversationDividerColor));
 
-                    if (sharedPrefs.getBoolean("ct_messageDividerVisibility", true))
+                    if (messageDividerVisible)
                     {
                         menuLayout.setDividerHeight(1);
                     } else
@@ -2501,9 +2568,9 @@ public class MainActivity extends FragmentActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 int length = Integer.parseInt(String.valueOf(s.length()));
 
-                if (!sharedPrefs.getString("signature", "").equals(""))
+                if (!signature.equals(""))
                 {
-                    length += ("\n" + sharedPrefs.getString("signature", "")).length();
+                    length += ("\n" + signature).length();
                 }
 
                 String patternStr = "[^" + MainActivity.GSM_CHARACTERS_REGEX + "]";
@@ -2512,7 +2579,7 @@ public class MainActivity extends FragmentActivity {
 
                 int size = 160;
 
-                if (matcher.find() && !sharedPrefs.getBoolean("strip_unicode", false))
+                if (matcher.find() && !stripUnicode)
                 {
                     size = 70;
                 }
@@ -2578,7 +2645,7 @@ public class MainActivity extends FragmentActivity {
         final EditText contact = (EditText) newMessageView.findViewById(R.id.contactEntry);
 
         final ListPopupWindow lpw = new ListPopupWindow(this);
-        lpw.setBackgroundDrawable(new ColorDrawable(sharedPrefs.getInt("ct_conversationListBackground", getResources().getColor(R.color.light_silver))));
+        lpw.setBackgroundDrawable(new ColorDrawable(ctConversationListBackground));
 
         lpw.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
@@ -2932,9 +2999,9 @@ public class MainActivity extends FragmentActivity {
                         {
                             String body2 = mEditText.getText().toString();
 
-                            if (!sharedPrefs.getString("signature", "").equals(""))
+                            if (!signature.equals(""))
                             {
-                                body2 += "\n" + sharedPrefs.getString("signature", "");
+                                body2 += "\n" + signature;
                             }
 
                             final String body = body2;
@@ -2947,7 +3014,7 @@ public class MainActivity extends FragmentActivity {
                                 public void run() {
                                     try
                                     {
-                                        if(sharedPrefs.getBoolean("delivery_reports", false))
+                                        if(deliveryReports)
                                         {
                                             String SENT = "SMS_SENT";
                                             String DELIVERED = "SMS_DELIVERED";
@@ -3026,7 +3093,7 @@ public class MainActivity extends FragmentActivity {
 
                                                                 try
                                                                 {
-                                                                    mBuilder.setSound(Uri.parse(sharedPrefs.getString("ringtone", "null")));
+                                                                    mBuilder.setSound(Uri.parse(ringTone));
                                                                 } catch(Exception e)
                                                                 {
                                                                     mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
@@ -3123,7 +3190,7 @@ public class MainActivity extends FragmentActivity {
                                                 @Override
                                                 public void onReceive(Context arg0, Intent arg1) {
                                                     try {
-                                                        if (sharedPrefs.getString("delivery_options", "2").equals("1"))
+                                                        if (deliveryOptions.equals("1"))
                                                         {
                                                             switch (getResultCode())
                                                             {
@@ -3183,7 +3250,7 @@ public class MainActivity extends FragmentActivity {
                                                             switch (getResultCode())
                                                             {
                                                                 case Activity.RESULT_OK:
-                                                                    if (sharedPrefs.getString("delivery_options", "2").equals("2"))
+                                                                    if (deliveryOptions.equals("2"))
                                                                     {
                                                                         Toast.makeText(context, R.string.message_delivered, Toast.LENGTH_LONG).show();
                                                                     }
@@ -3203,7 +3270,7 @@ public class MainActivity extends FragmentActivity {
 
                                                                     break;
                                                                 case Activity.RESULT_CANCELED:
-                                                                    if (sharedPrefs.getString("delivery_options", "2").equals("2"))
+                                                                    if (deliveryOptions.equals("2"))
                                                                     {
                                                                         Toast.makeText(context, R.string.message_not_delivered, Toast.LENGTH_LONG).show();
                                                                     }
@@ -3237,7 +3304,7 @@ public class MainActivity extends FragmentActivity {
 
                                             String body2 = body;
 
-                                            if (sharedPrefs.getBoolean("strip_unicode", false))
+                                            if (stripUnicode)
                                             {
                                                 body2 = StripAccents.stripAccents(body2);
                                             }
@@ -3376,7 +3443,7 @@ public class MainActivity extends FragmentActivity {
 
                                                                 try
                                                                 {
-                                                                    mBuilder.setSound(Uri.parse(sharedPrefs.getString("ringtone", "null")));
+                                                                    mBuilder.setSound(Uri.parse(ringTone));
                                                                 } catch(Exception e)
                                                                 {
                                                                     mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
@@ -3472,7 +3539,7 @@ public class MainActivity extends FragmentActivity {
 
                                             String body2 = body;
 
-                                            if (sharedPrefs.getBoolean("strip_unicode", false))
+                                            if (stripUnicode)
                                             {
                                                 body2 = StripAccents.stripAccents(body2);
                                             }
@@ -3543,7 +3610,7 @@ public class MainActivity extends FragmentActivity {
                                     String address2 = address;
                                     String body2 = body;
 
-                                    if (sharedPrefs.getBoolean("strip_unicode", false))
+                                    if (stripUnicode)
                                     {
                                         body2 = StripAccents.stripAccents(body2);
                                     }
@@ -3722,7 +3789,7 @@ public class MainActivity extends FragmentActivity {
                     final GridView emojiGrid = (GridView) frame.findViewById(R.id.emojiGrid);
                     Button okButton = (Button) frame.findViewById(R.id.emoji_ok);
 
-                    if (sharedPrefs.getBoolean("emoji_type", true))
+                    if (emojiType)
                     {
                         emojiGrid.setAdapter(new EmojiAdapter2(context));
                         emojiGrid.setOnItemClickListener(new OnItemClickListener() {
@@ -3799,7 +3866,7 @@ public class MainActivity extends FragmentActivity {
 
                         @Override
                         public void onClick(View v) {
-                            if (sharedPrefs.getBoolean("emoji_type", true))
+                            if (emojiType)
                             {
                                 mEditText.setText(EmojiConverter2.getSmiledText(context, mEditText.getText().toString() + editText.getText().toString()));
                                 mEditText.setSelection(mEditText.getText().length());
@@ -3821,30 +3888,30 @@ public class MainActivity extends FragmentActivity {
         ListView searchView = (ListView) newMessageView.findViewById(R.id.contactSearch);
 
         try {
-            mEditText.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0, 2)));
+            mEditText.setTextSize(Integer.parseInt(textSize.substring(0, 2)));
         } catch (Exception e) {
-            mEditText.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0, 1)));
+            mEditText.setTextSize(Integer.parseInt(textSize.substring(0, 1)));
         }
 
         View v1 = newMessageView.findViewById(R.id.view1);
         View v2 = newMessageView.findViewById(R.id.sentBackground);
 
-        mTextView.setTextColor(sharedPrefs.getInt("ct_sentButtonColor", getResources().getColor(R.color.black)));
-        v1.setBackgroundColor(sharedPrefs.getInt("ct_sendbarBackground", getResources().getColor(R.color.white)));
-        v2.setBackgroundColor(sharedPrefs.getInt("ct_sendbarBackground", getResources().getColor(R.color.white)));
+        mTextView.setTextColor(ctSendButtonColor);
+        v1.setBackgroundColor(ctSendBarBackground);
+        v2.setBackgroundColor(ctSendBarBackground);
         sendButton.setBackgroundResource(R.drawable.pitch_black_send_button);
         sendButton.setImageResource(R.drawable.ic_action_send_white);
-        sendButton.setColorFilter(sharedPrefs.getInt("ct_sendButtonColor", getResources().getColor(R.color.black)));
-        searchView.setBackgroundColor(sharedPrefs.getInt("ct_conversationListBackground", getResources().getColor(R.color.light_silver)));
+        sendButton.setColorFilter(ctSendButtonColor);
+        searchView.setBackgroundColor(ctConversationListBackground);
         emojiButton.setBackgroundResource(R.drawable.pitch_black_send_button);
-        emojiButton.setColorFilter(sharedPrefs.getInt("ct_emojiButtonColor", getResources().getColor(R.color.emoji_button)));
-        mEditText.setTextColor(sharedPrefs.getInt("ct_draftTextColor", sharedPrefs.getInt("ct_sendButtonColor", getResources().getColor(R.color.black))));
-        contact.setTextColor(sharedPrefs.getInt("ct_draftTextColor", sharedPrefs.getInt("ct_sendButtonColor", getResources().getColor(R.color.black))));
-        contactLister.setColorFilter(sharedPrefs.getInt("ct_sendButtonColor", getResources().getColor(R.color.black)));
+        emojiButton.setColorFilter(emojiButtonColor);
+        mEditText.setTextColor(draftTextColor);
+        contact.setTextColor(draftTextColor);
+        contactLister.setColorFilter(ctSendButtonColor);
 
-        imageAttachBackground2.setBackgroundColor(sharedPrefs.getInt("ct_messageListBackground", context.getResources().getColor(R.color.light_silver)));
+        imageAttachBackground2.setBackgroundColor(ctMessageListBackground);
         Drawable attachBack = getResources().getDrawable(R.drawable.attachment_editor_bg);
-        attachBack.setColorFilter(sharedPrefs.getInt("ct_sentMessageBackground", context.getResources().getColor(R.color.white)), Mode.MULTIPLY);
+        attachBack.setColorFilter(ctSentMessageBackground, Mode.MULTIPLY);
         imageAttach2.setBackgroundDrawable(attachBack);
         imageAttachBackground2.setVisibility(View.GONE);
         imageAttach2.setVisibility(false);
@@ -3861,7 +3928,7 @@ public class MainActivity extends FragmentActivity {
             emojiButton.setImageResource(R.drawable.ic_emoji_dark);
         }
 
-        if (sharedPrefs.getBoolean("custom_background", false))
+        if (customBackground)
         {
             try
             {
@@ -3893,7 +3960,7 @@ public class MainActivity extends FragmentActivity {
 
         menu.setShadowWidthRes(R.dimen.shadow_width);
 
-        if (!sharedPrefs.getBoolean("slide_messages", false))
+        if (!slideMessages)
         {
             if (deviceType.equals("phone") || deviceType.equals("phablet2"))
             {
@@ -4134,7 +4201,7 @@ public class MainActivity extends FragmentActivity {
                         int where = -1;
                         int index = -1;
 
-                        if (sharedPrefs.getBoolean("enable_drafts", true)) {
+                        if (enableDrafts) {
                             try {
                                 for (int i = 0; i < draftNames.size(); i++)
                                 {
@@ -4190,8 +4257,8 @@ public class MainActivity extends FragmentActivity {
                             public void run() {
                                 try {
                                     View row = menuLayout.getChildAt(mViewPager.getCurrentItem());
-                                    if (!sharedPrefs.getBoolean("custom_background", false)) {
-                                        row.setBackgroundColor(sharedPrefs.getInt("ct_conversationListBackground", context.getResources().getColor(R.color.light_silver)));
+                                    if (!customBackground) {
+                                        row.setBackgroundColor(ctConversationListBackground);
                                     }
                                 } catch (Exception e) {
 
@@ -4206,7 +4273,7 @@ public class MainActivity extends FragmentActivity {
                                     ab.setIcon(icon);
                                 }
 
-                                if (sharedPrefs.getBoolean("enable_drafts", true)) {
+                                if (enableDrafts) {
                                     if (deleteDraft) {
                                         if (!messageEntry.getText().equals("")) {
                                             messageEntry.setText("");
@@ -4215,7 +4282,7 @@ public class MainActivity extends FragmentActivity {
                                         fromDraft = false;
 
                                         if (indexF != -1) {
-                                            if (sharedPrefs.getBoolean("auto_insert_draft", false)) {
+                                            if (autoInsertDrafts) {
                                                 fromDraft = true;
                                                 messageEntry.setText(drafts.get(indexF));
                                                 messageEntry.setSelection(drafts.get(indexF).length());
@@ -4273,7 +4340,7 @@ public class MainActivity extends FragmentActivity {
             return bitmap;
         } catch (Exception e)
         {
-            if (sharedPrefs.getBoolean("ct_darkContactImage", false))
+            if (darkContactImage)
             {
                 return BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_contact_dark);
             } else
@@ -4833,9 +4900,9 @@ public class MainActivity extends FragmentActivity {
                 attachedImage = selectedImage;
                 fromCamera = false;
 
-                imageAttachBackground.setBackgroundColor(sharedPrefs.getInt("ct_messageListBackground", getResources().getColor(R.color.light_silver)));
+                imageAttachBackground.setBackgroundColor(ctMessageListBackground);
                 Drawable attachBack = getResources().getDrawable(R.drawable.attachment_editor_bg);
-                attachBack.setColorFilter(sharedPrefs.getInt("ct_sentMessageBackground", getResources().getColor(R.color.white)), Mode.MULTIPLY);
+                attachBack.setColorFilter(ctSentMessageBackground, Mode.MULTIPLY);
                 imageAttach.setBackgroundDrawable(attachBack);
                 imageAttachBackground.setVisibility(View.VISIBLE);
                 imageAttach.setVisibility(true);
@@ -4901,9 +4968,9 @@ public class MainActivity extends FragmentActivity {
                 attachedImage2 = selectedImage;
                 fromCamera = false;
 
-                imageAttachBackground2.setBackgroundColor(sharedPrefs.getInt("ct_conversationListBackground", getResources().getColor(R.color.light_silver)));
+                imageAttachBackground2.setBackgroundColor(ctConversationListBackground);
                 Drawable attachBack = getResources().getDrawable(R.drawable.attachment_editor_bg);
-                attachBack.setColorFilter(sharedPrefs.getInt("ct_sentMessageBackground", getResources().getColor(R.color.white)), Mode.MULTIPLY);
+                attachBack.setColorFilter(ctSentMessageBackground, Mode.MULTIPLY);
                 imageAttach2.setBackgroundDrawable(attachBack);
                 imageAttachBackground2.setVisibility(View.VISIBLE);
                 imageAttach2.setVisibility(true);
@@ -4974,9 +5041,9 @@ public class MainActivity extends FragmentActivity {
                 attachedImage = Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/", "photoToSend.png"));
                 fromCamera = true;
 
-                imageAttachBackground.setBackgroundColor(sharedPrefs.getInt("ct_conversationListBackground", getResources().getColor(R.color.light_silver)));
+                imageAttachBackground.setBackgroundColor(ctConversationListBackground);
                 Drawable attachBack = getResources().getDrawable(R.drawable.attachment_editor_bg);
-                attachBack.setColorFilter(sharedPrefs.getInt("ct_sentMessageBackground", getResources().getColor(R.color.white)), Mode.MULTIPLY);
+                attachBack.setColorFilter(ctSentMessageBackground, Mode.MULTIPLY);
                 imageAttach.setBackgroundDrawable(attachBack);
                 imageAttachBackground.setVisibility(View.VISIBLE);
                 imageAttach.setVisibility(true);
@@ -5046,9 +5113,9 @@ public class MainActivity extends FragmentActivity {
                 attachedImage2 = Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/", "photoToSend.png"));
                 fromCamera = true;
 
-                imageAttachBackground2.setBackgroundColor(sharedPrefs.getInt("ct_conversationListBackground", getResources().getColor(R.color.light_silver)));
+                imageAttachBackground2.setBackgroundColor(ctConversationListBackground);
                 Drawable attachBack = getResources().getDrawable(R.drawable.attachment_editor_bg);
-                attachBack.setColorFilter(sharedPrefs.getInt("ct_sentMessageBackground", getResources().getColor(R.color.white)), Mode.MULTIPLY);
+                attachBack.setColorFilter(ctSentMessageBackground, Mode.MULTIPLY);
                 imageAttach2.setBackgroundDrawable(attachBack);
                 imageAttachBackground2.setVisibility(View.VISIBLE);
                 imageAttach2.setVisibility(true);
@@ -5116,9 +5183,9 @@ public class MainActivity extends FragmentActivity {
             {
                 multipleAttachments = true;
 
-                imageAttachBackground.setBackgroundColor(sharedPrefs.getInt("ct_conversationListBackground", getResources().getColor(R.color.light_silver)));
+                imageAttachBackground.setBackgroundColor(ctConversationListBackground);
                 Drawable attachBack = getResources().getDrawable(R.drawable.attachment_editor_bg);
-                attachBack.setColorFilter(sharedPrefs.getInt("ct_sentMessageBackground", getResources().getColor(R.color.white)), Mode.MULTIPLY);
+                attachBack.setColorFilter(ctSentMessageBackground, Mode.MULTIPLY);
                 imageAttach.setBackgroundDrawable(attachBack);
                 imageAttachBackground.setVisibility(View.VISIBLE);
                 imageAttach.setVisibility(true);
@@ -5183,9 +5250,9 @@ public class MainActivity extends FragmentActivity {
             {
                 multipleAttachments = true;
 
-                imageAttachBackground2.setBackgroundColor(sharedPrefs.getInt("ct_conversationListBackground", getResources().getColor(R.color.light_silver)));
+                imageAttachBackground2.setBackgroundColor(ctConversationListBackground);
                 Drawable attachBack = getResources().getDrawable(R.drawable.attachment_editor_bg);
-                attachBack.setColorFilter(sharedPrefs.getInt("ct_sentMessageBackground", getResources().getColor(R.color.white)), Mode.MULTIPLY);
+                attachBack.setColorFilter(ctSentMessageBackground, Mode.MULTIPLY);
                 imageAttach2.setBackgroundDrawable(attachBack);
                 imageAttachBackground2.setVisibility(View.VISIBLE);
                 imageAttach2.setVisibility(true);
@@ -5349,7 +5416,7 @@ public class MainActivity extends FragmentActivity {
             //The new size we want to scale to
             int REQUIRED_SIZE=300;
 
-            if (!sharedPrefs.getBoolean("limit_attachment_size", true))
+            if (!limitAttachmentSize)
             {
                 REQUIRED_SIZE = 500;
             }
@@ -5401,7 +5468,7 @@ public class MainActivity extends FragmentActivity {
         {
             if (menu.isSecondaryMenuShowing())
             {
-                if (!sharedPrefs.getBoolean("open_contact_menu", false))
+                if (!openContactMenu)
                 {
                     menu.showContent();
                 } else
@@ -5410,10 +5477,10 @@ public class MainActivity extends FragmentActivity {
                 }
             } else
             {
-                if (menu.isMenuShowing() && !sharedPrefs.getBoolean("open_contact_menu", false))
+                if (menu.isMenuShowing() && !openContactMenu)
                 {
                     menu.showContent();
-                } else if (!menu.isMenuShowing() && sharedPrefs.getBoolean("open_contact_menu", false))
+                } else if (!menu.isMenuShowing() && openContactMenu)
                 {
                     menu.showMenu();
                 } else
@@ -5525,7 +5592,7 @@ public class MainActivity extends FragmentActivity {
             }
         }
 
-        if (sharedPrefs.getBoolean("enable_drafts", true)) {
+        if (enableDrafts) {
             try {
                 drafts = new ArrayList<String>();
                 draftNames = new ArrayList<String>();
@@ -5567,7 +5634,7 @@ public class MainActivity extends FragmentActivity {
 
             if (index != -1)
             {
-                if (sharedPrefs.getBoolean("auto_insert_draft", false))
+                if (autoInsertDrafts)
                 {
                     fromDraft = true;
                     messageEntry.setText(drafts.get(index));
@@ -5629,7 +5696,7 @@ public class MainActivity extends FragmentActivity {
 
         final Context context = this;
 
-        if (sharedPrefs.getBoolean("enable_drafts", true)) {
+        if (enableDrafts) {
             if (messageEntry.getText().toString().length() != 0) {
                 draftChanged.add(true);
                 draftNames.add(threadIds.get(mViewPager.getCurrentItem()));
@@ -5704,7 +5771,7 @@ public class MainActivity extends FragmentActivity {
             }).start();
         }
 
-        if (sharedPrefs.getBoolean("cache_conversations", false)) {
+        if (cacheConversations) {
             Intent cacheService = new Intent(context, CacheService.class);
             context.startService(cacheService);
         }
@@ -5786,7 +5853,7 @@ public class MainActivity extends FragmentActivity {
             createMenu();
             firstRun = false;
 
-            if (sharedPrefs.getBoolean("open_contact_menu", false) && (deviceType.equals("phone") || deviceType.equals("phablet2")))
+            if (openContactMenu && (deviceType.equals("phone") || deviceType.equals("phablet2")))
             {
                 menu.showMenu();
             }
@@ -5842,9 +5909,9 @@ public class MainActivity extends FragmentActivity {
 
                         if (attachedImage2 != null)
                         {
-                            imageAttachBackground2.setBackgroundColor(sharedPrefs.getInt("ct_conversationListBackground", getResources().getColor(R.color.light_silver)));
+                            imageAttachBackground2.setBackgroundColor(ctConversationListBackground);
                             Drawable attachBack = getResources().getDrawable(R.drawable.attachment_editor_bg);
-                            attachBack.setColorFilter(sharedPrefs.getInt("ct_sentMessageBackground", getResources().getColor(R.color.white)), Mode.MULTIPLY);
+                            attachBack.setColorFilter(ctSentMessageBackground, Mode.MULTIPLY);
                             imageAttach2.setBackgroundDrawable(attachBack);
                             imageAttachBackground2.setVisibility(View.VISIBLE);
                             imageAttach2.setVisibility(true);
@@ -5942,7 +6009,7 @@ public class MainActivity extends FragmentActivity {
                 menu.showContent();
             } else
             {
-                if (sharedPrefs.getBoolean("open_contact_menu", false) && (imageAttach.getVisibility() != View.VISIBLE && imageAttach2.getVisibility() != View.VISIBLE) && (deviceType.equals("phone") || deviceType.equals("phablet2")))
+                if (openContactMenu && (imageAttach.getVisibility() != View.VISIBLE && imageAttach2.getVisibility() != View.VISIBLE) && (deviceType.equals("phone") || deviceType.equals("phablet2")))
                 {
                     menu.showMenu();
                 } else if (imageAttach.getVisibility() == View.VISIBLE)
@@ -5987,9 +6054,9 @@ public class MainActivity extends FragmentActivity {
 
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-        mViewPager.setBackgroundColor(sharedPrefs.getInt("ct_messageListBackground", getResources().getColor(R.color.light_silver)));
+        mViewPager.setBackgroundColor(ctMessageListBackground);
 
-        if (sharedPrefs.getBoolean("custom_background2", false))
+        if (customBackground2)
         {
             try
             {
@@ -7367,7 +7434,7 @@ public class MainActivity extends FragmentActivity {
 
             try
             {
-                if (!sharedPrefs.getBoolean("cache_conversations", false) || !CacheService.cached || !MainActivity.notChanged || !(position < sharedPrefs.getInt("num_cache_conversations", 5))) {
+                if (!cacheConversations || !CacheService.cached || !MainActivity.notChanged || !(position < sharedPrefs.getInt("num_cache_conversations", 5))) {
                     messageQuery.close();
                 }
             } catch (Exception e)
@@ -7416,7 +7483,7 @@ public class MainActivity extends FragmentActivity {
 
                 groupList.setTextColor(sharedPrefs.getInt("ct_titleBarTextColor", getResources().getColor(R.color.white)));
 
-                if (!sharedPrefs.getBoolean("custom_theme", false))
+                if (!customTheme)
                 {
                     String titleColor = sharedPrefs.getString("title_color", "blue");
 
@@ -7466,7 +7533,7 @@ public class MainActivity extends FragmentActivity {
                 spinner.setVisibility(View.GONE);
             }
 
-            if (sharedPrefs.getBoolean("cache_conversations", false) && CacheService.cached && MainActivity.notChanged && position < sharedPrefs.getInt("num_cache_conversations", 5)) {
+            if (cacheConversations && CacheService.cached && MainActivity.notChanged && position < sharedPrefs.getInt("num_cache_conversations", 5)) {
                 MainActivity.threadedLoad = false;
             }
 
@@ -7494,12 +7561,12 @@ public class MainActivity extends FragmentActivity {
                             String[] projection2;
                             String proj = "_id body date type read msg_box";
 
-                            if (sharedPrefs.getBoolean("show_original_timestamp", false))
+                            if (showOriginalTimestamp)
                             {
                                 proj += " date_sent";
                             }
 
-                            if (sharedPrefs.getBoolean("delivery_reports", false)) {
+                            if (deliveryReports) {
                                 proj += " status";
                             }
 
@@ -7507,7 +7574,7 @@ public class MainActivity extends FragmentActivity {
 
                             String sortOrder = "normalized_date desc";
 
-                            if (sharedPrefs.getBoolean("limit_messages", true))
+                            if (limitMessages)
                             {
                                 sortOrder += " limit " + MainActivity.numToLoad;
                             }
@@ -7579,12 +7646,12 @@ public class MainActivity extends FragmentActivity {
                 String[] projection2;
                 String proj = "_id body date type read msg_box";
 
-                if (sharedPrefs.getBoolean("show_original_timestamp", false))
+                if (showOriginalTimestamp)
                 {
                     proj += " date_sent";
                 }
 
-                if (sharedPrefs.getBoolean("delivery_reports", false)) {
+                if (deliveryReports) {
                     proj += " status";
                 }
 
@@ -7592,12 +7659,12 @@ public class MainActivity extends FragmentActivity {
 
                 String sortOrder = "normalized_date desc";
 
-                if (sharedPrefs.getBoolean("limit_messages", true))
+                if (limitMessages)
                 {
                     sortOrder += " limit " + MainActivity.numToLoad;
                 }
 
-                if (!sharedPrefs.getBoolean("cache_conversations", false) || !CacheService.cached || !MainActivity.notChanged || !(position < sharedPrefs.getInt("num_cache_conversations", 5))) {
+                if (!cacheConversations || !CacheService.cached || !MainActivity.notChanged || !(position < sharedPrefs.getInt("num_cache_conversations", 5))) {
                     messageQuery = contentResolver.query(uri3, projection2, null, null, sortOrder);
                 } else {
                     messageQuery = CacheService.conversations.get(position);
@@ -7625,7 +7692,7 @@ public class MainActivity extends FragmentActivity {
 
             listView.setDivider(new ColorDrawable(sharedPrefs.getInt("ct_messageDividerColor", context.getResources().getColor(R.color.light_silver))));
 
-            if (sharedPrefs.getBoolean("ct_messageDividerVisibility", true) && runAs.equals("sliding"))
+            if (messageDividerVisible && runAs.equals("sliding"))
             {
                 listView.setDividerHeight(1);
             } else
@@ -7681,12 +7748,12 @@ public class MainActivity extends FragmentActivity {
             String[] projection2;
             String proj = "_id body date type read msg_box";
 
-            if (sharedPrefs.getBoolean("show_original_timestamp", false))
+            if (showOriginalTimestamp)
             {
                 proj += " date_sent";
             }
 
-            if (sharedPrefs.getBoolean("delivery_reports", false)) {
+            if (deliveryReports) {
                 proj += " status";
             }
 
@@ -7694,7 +7761,7 @@ public class MainActivity extends FragmentActivity {
 
             String sortOrder = "normalized_date desc";
 
-            if (sharedPrefs.getBoolean("limit_messages", true))
+            if (limitMessages)
             {
                 sortOrder += " limit " + MainActivity.numToLoad;
             }
@@ -7759,12 +7826,12 @@ public class MainActivity extends FragmentActivity {
                     String[] projection2;
                     String proj = "_id body date type read msg_box";
 
-                    if (sharedPrefs.getBoolean("show_original_timestamp", false))
+                    if (showOriginalTimestamp)
                     {
                         proj += " date_sent";
                     }
 
-                    if (sharedPrefs.getBoolean("delivery_reports", false)) {
+                    if (deliveryReports) {
                         proj += " status";
                     }
 
@@ -7772,7 +7839,7 @@ public class MainActivity extends FragmentActivity {
 
                     String sortOrder = "normalized_date desc";
 
-                    if (sharedPrefs.getBoolean("limit_messages", true))
+                    if (limitMessages)
                     {
                         sortOrder += " limit " + MainActivity.numToLoad;
                     }
