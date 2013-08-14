@@ -836,9 +836,11 @@ public class SlideOverService extends Service {
                     animationView.firstText = true;
                     animationView.arcOffset = AnimationView.ORIG_ARC_OFFSET;
                     animationView.name = new String[] {name, message.length() > 50 ? message.substring(0, 50) + "..." : message};
+                    animationView.circleLength = 0;
+                    animationView.circleStart = animationView.originalCircleStart;
                     animationWindow.addView(animationView, animationParams);
 
-                    NewMessageAnimation animation = new NewMessageAnimation(animationView, (float)(3 * (sharedPrefs.getInt("slideover_animation_speed", 33)/100.0) + 1), haloWindow);
+                    NewMessageAnimation animation = new NewMessageAnimation(animationView, ((float)(3 * (sharedPrefs.getInt("slideover_animation_speed", 33)/100.0) + 1))/2, haloWindow);
                     animation.setRunning(true);
                     animation.start();
                 }

@@ -2,13 +2,7 @@ package com.klinker.android.messaging_sliding.slide_over;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Path;
-import android.graphics.RectF;
-import android.graphics.Typeface;
+import android.graphics.*;
 import android.preference.PreferenceManager;
 import android.util.TypedValue;
 import android.view.Display;
@@ -31,6 +25,14 @@ public class AnimationView extends ViewGroup {
     public Paint textPaint;
     public RectF oval;
     public Path textPath;
+
+    public Paint circlePaint;
+    public float circleRadius;
+    public RectF oval2;
+    public float circleStart;
+    public float circleLength;
+    public float maxCircleLength;
+    public float originalCircleStart;
 
     public int height;
     public int width;
@@ -58,7 +60,16 @@ public class AnimationView extends ViewGroup {
         textPaint.setTextSize(TEXT_SIZE);
         textPaint.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
 
+        circlePaint = new Paint();
+        circlePaint.setAntiAlias(true);
+        circlePaint.setColor(Color.BLACK);
+        circlePaint.setAlpha(70);
+        circlePaint.setStyle(Paint.Style.STROKE);
+
         this.halo = halo;
+
+        circleRadius = (halo.getWidth()) + (TEXT_SIZE/2) - (float)(halo.getWidth()*.02);
+        circlePaint.setStrokeWidth(TEXT_SIZE + (float)((halo.getWidth()*.08)));
 
         int radius = halo.getWidth();
         int xOffset = (int)(-1 * (1 - SlideOverService.HALO_SLIVER_RATIO) * radius);
@@ -69,28 +80,45 @@ public class AnimationView extends ViewGroup {
         }
 
         oval = new RectF(xOffset, yOffset, xOffset + radius, yOffset + radius);
+        oval2 = new RectF(xOffset + (float)(halo.getWidth()*.02) - (TEXT_SIZE/2), yOffset + (float)(halo.getWidth()*.02) - (TEXT_SIZE/2), xOffset + circleRadius, yOffset + circleRadius);
         arcOffset = (float)(3.14 * radius * (SlideOverService.HALO_SLIVER_RATIO + .1));
         ORIG_ARC_OFFSET = arcOffset;
         textPath = new Path();
 
         int arcLength = (int)(360 - ((1 - SlideOverService.HALO_SLIVER_RATIO - .1) * 360));
+        maxCircleLength =  -1 * arcLength;
+        circleLength = 0;
         int arcStart;
 
         if (!sharedPrefs.getString("slideover_side", "left").equals("left")) {
             arcStart = (int)(0 + ((1 - SlideOverService.HALO_SLIVER_RATIO - .1)*180));
+            circleStart = arcStart * -1;
 
             if (SlideOverService.HALO_SLIVER_RATIO >= .80) {
                 arcLength = 340;
                 arcStart = 0;
+
+                circleStart = 0;
+            } else if (SlideOverService.HALO_SLIVER_RATIO <= .25) {
+                circleStart = -90;
+                maxCircleLength = -180;
             }
         } else {
             arcStart = (int)(180 + ((1 - SlideOverService.HALO_SLIVER_RATIO - .1)*180));
+            circleStart = arcStart * -1;
 
             if (SlideOverService.HALO_SLIVER_RATIO >= .80) {
                 arcLength = 340;
                 arcStart = 180;
+
+                circleStart = 180;
+            } else if (SlideOverService.HALO_SLIVER_RATIO <= .25) {
+                circleStart = 90;
+                maxCircleLength = -180;
             }
         }
+
+        originalCircleStart = circleStart;
 
         textPath.addArc(oval, arcStart, arcLength);
     }
@@ -100,6 +128,7 @@ public class AnimationView extends ViewGroup {
         super.onDraw(canvas);
 
         if (circleText) {
+            canvas.drawArc(oval2, circleStart, circleLength, false, circlePaint);
             canvas.drawTextOnPath(firstText ? name[0] : name[1], textPath, arcOffset, 0f, textPaint);
         }
     }

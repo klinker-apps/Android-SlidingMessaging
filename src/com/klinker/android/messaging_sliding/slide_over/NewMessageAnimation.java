@@ -2,6 +2,7 @@ package com.klinker.android.messaging_sliding.slide_over;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.WindowManager;
 
 public class NewMessageAnimation extends CustomAnimation {
@@ -9,30 +10,49 @@ public class NewMessageAnimation extends CustomAnimation {
     private float speed;
     private WindowManager manager;
     private AnimationView view;
+    private int step;
 
     public NewMessageAnimation(AnimationView v, float speed, WindowManager manager) {
         super(v);
         this.view = v;
         this.speed = speed;
         this.manager = manager;
+        this.step = 0;
     }
 
     @Override
     public void updateView() {
-        view.arcOffset -= speed;
+        if (step == 0) {
+            view.circleLength -= (speed * 2);
 
-        float nextText;
+            if (view.circleLength <= view.maxCircleLength) {
+                step++;
+            }
+        } else if (step == 1) {
+            view.arcOffset -= speed;
 
-        if (view.firstText) {
-            nextText = (-1 * view.textPaint.measureText(view.name[0]));
+            float nextText;
+
+            if (view.firstText) {
+                nextText = (-1 * view.textPaint.measureText(view.name[0]));
+            } else {
+                nextText = (-1 * view.textPaint.measureText(view.name[1]));
+            }
+
+            if (view.firstText && view.arcOffset <= nextText) {
+                view.firstText = false;
+                view.arcOffset = AnimationView.ORIG_ARC_OFFSET;
+            } else if (!view.firstText && view.arcOffset <= nextText) {
+                step++;
+            }
+        } else if (step == 2) {
+            view.circleLength += (speed * 2);
+            view.circleStart -= (speed * 2);
+
+            if (view.circleLength >= 0) {
+                step++;
+            }
         } else {
-            nextText = (-1 * view.textPaint.measureText(view.name[1]));
-        }
-
-        if (view.firstText && view.arcOffset <= nextText) {
-            view.firstText = false;
-            view.arcOffset = AnimationView.ORIG_ARC_OFFSET;
-        } else if (!view.firstText && view.arcOffset <= nextText) {
             final NewMessageAnimation anim = this;
 
             new Handler(Looper.getMainLooper()).post(new Runnable() {
