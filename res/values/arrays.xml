@@ -301,7 +301,7 @@
         <item>Card UI 2.0</item>
         <item>Hangouts UI</item>
         <item>Classic UI</item>
-        <item>Speed UI (No Customization)</item>
+        <!--<item>Speed UI (No Customization)</item>-->
     </string-array>
     
     <string-array name="runAsInserted">
@@ -309,7 +309,7 @@
         <item>card2</item>
         <item>hangout</item>
         <item>sliding</item>
-        <item>speed</item>
+        <!--<item>speed</item>-->
     </string-array>
     
     <string-array name="cardTheme">
