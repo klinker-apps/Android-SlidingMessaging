@@ -292,6 +292,8 @@ public class MainActivity extends FragmentActivity {
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         // setting up the shared prefs again
+        // definitely made a difference though! way smooth :)
+        
         lightActionBar = sharedPrefs.getBoolean("ct_light_action_bar", false);
         limitConversationsAtStart = sharedPrefs.getBoolean("limit_conversations_start", true);
         customFont = sharedPrefs.getBoolean("custom_font", false);
