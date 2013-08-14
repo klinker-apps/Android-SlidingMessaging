@@ -131,12 +131,10 @@ public class MessageCursorAdapter extends CursorAdapter {
         // I thought it would be much more efficient to set them all up at the beginning.
 
         darkContactImage = sharedPrefs.getBoolean("ct_darkContactImage", false);
-        customFont = sharedPrefs.getBoolean("custom_font", false);
         showOriginalTimestamp = sharedPrefs.getBoolean("show_original_timestamp", false);
         deliveryReports = sharedPrefs.getBoolean("delivery_reports", false);
         hourFormat = sharedPrefs.getBoolean("hour_format", false);
         stripUnicode = sharedPrefs.getBoolean("strip_unicode", false);
-        contactPictures = sharedPrefs.getBoolean("contact_pictures", true);
         tinyDate = sharedPrefs.getBoolean("tiny_date", false);
         customTheme = sharedPrefs.getBoolean("custom_theme", false);
         emojiType = sharedPrefs.getBoolean("emoji_type", true);
@@ -159,6 +157,16 @@ public class MessageCursorAdapter extends CursorAdapter {
         ctRecievedMessageBackground = sharedPrefs.getInt("ct_receivedMessageBackground", context.getResources().getColor(R.color.white));
         animationSpeed = sharedPrefs.getInt("animation_speed", 300);
         textOpacity = sharedPrefs.getInt("text_opacity", 100);
+
+        if(sharedPrefs.getBoolean("override_speed", false))
+        {
+            contactPictures = false;
+            customFont = false;
+        } else
+        {
+            contactPictures = sharedPrefs.getBoolean("contact_pictures", true);
+            customFont = sharedPrefs.getBoolean("custom_font", false);
+        }
 
         try
         {
