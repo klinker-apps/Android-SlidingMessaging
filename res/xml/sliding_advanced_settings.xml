@@ -2,6 +2,13 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <CheckBoxPreference
+            android:key="override_speed"
+            android:title="@string/override_speed"
+            android:summary="@string/override_speed_summary"
+            android:defaultValue="false"
+            />
+
+    <CheckBoxPreference
         android:key="strip_unicode"
         android:title="@string/strip_unicode"
         android:summary="@string/strip_unicode_summary"
