@@ -249,6 +249,7 @@ public class MainActivity extends FragmentActivity {
     public String runAs;
     public boolean titleContactImages;
     public boolean titleCaps;
+    
 
     @SuppressWarnings("deprecation")
     @Override
