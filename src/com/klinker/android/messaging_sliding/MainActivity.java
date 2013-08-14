@@ -268,12 +268,31 @@ public class MainActivity extends FragmentActivity {
     public boolean cacheConversations;
     public boolean customBackground2;
     public boolean limitMessages;
+    public boolean vibrate;
+    public boolean customVibratePattern;
+    public boolean led;
+    public boolean pageorMenu2;
+    public boolean keyboardType;
+    public boolean sendAsMMS;
+    public boolean sendWithReturn;
+    public boolean hideKeyboard;
+    public boolean messageSounds;
+    public boolean splitSMS;
+    public boolean splitCounter;
+    public boolean fullAppPopupClose;
+    public boolean sendWithStock;
+    public boolean emoji;
+    public boolean mobileOnly;
+    public boolean groupMessage;
     public String  textSize;
     public String runAs;
     public String signature;
     public String ringTone;
     public String deliveryOptions;
     public String customFontPath;
+    public String pinType;
+    public String securityOption;
+    public String customBackgroundLocation;
     public int ctConversationListBackground;
     public int ctSentMessageBackground;
     public int ctMessageListBackground;
@@ -282,6 +301,12 @@ public class MainActivity extends FragmentActivity {
     public int ctSendBarBackground;
     public int emojiButtonColor;
     public int draftTextColor;
+    public int titleBarTextColor;
+    public int titleBarColor;
+    public int mmsAfter;
+    public int ctNameTextColor;
+    public int numOfCachedConversations;
+    public int messageDividerColor;
 
 
     @SuppressWarnings("deprecation")
@@ -293,7 +318,7 @@ public class MainActivity extends FragmentActivity {
 
         // setting up the shared prefs again
         // definitely made a difference though! way smooth :)
-        
+
         lightActionBar = sharedPrefs.getBoolean("ct_light_action_bar", false);
         limitConversationsAtStart = sharedPrefs.getBoolean("limit_conversations_start", true);
         customFont = sharedPrefs.getBoolean("custom_font", false);
@@ -322,11 +347,30 @@ public class MainActivity extends FragmentActivity {
         cacheConversations= sharedPrefs.getBoolean("cache_conversations", false);
         customBackground2 = sharedPrefs.getBoolean("custom_background2", false);
         limitMessages = sharedPrefs.getBoolean("limit_messages", true);
+        customVibratePattern = sharedPrefs.getBoolean("custom_vibrate_pattern", false);
+        vibrate = sharedPrefs.getBoolean("vibrate", true);
+        led = sharedPrefs.getBoolean("led", true);
+        keyboardType = sharedPrefs.getBoolean("keyboard_type", true);
+        pageorMenu2 = sharedPrefs.getString("page_or_menu2", "2").equals("1");
+        sendAsMMS = sharedPrefs.getBoolean("send_as_mms", false);
+        sendWithReturn = sharedPrefs.getBoolean("send_with_return", false);
+        hideKeyboard = sharedPrefs.getBoolean("hide_keyboard", false);
+        messageSounds = sharedPrefs.getBoolean("message_sounds", false);
+        splitSMS = sharedPrefs.getBoolean("split_sms", false);
+        splitCounter = sharedPrefs.getBoolean("split_counter", false);
+        fullAppPopupClose = sharedPrefs.getBoolean("full_app_popup_close", false);
+        sendWithStock = sharedPrefs.getBoolean("send_with_stock", false);
+        emoji = sharedPrefs.getBoolean("emoji", false);
+        mobileOnly = sharedPrefs.getBoolean("mobile_only", false);
+        groupMessage = sharedPrefs.getBoolean("group_message", false);
         textSize = sharedPrefs.getString("text_size", "14");
         signature = sharedPrefs.getString("signature", "");
         ringTone = sharedPrefs.getString("ringtone", "null");
         deliveryOptions= sharedPrefs.getString("delivery_options", "2");
         customFontPath = sharedPrefs.getString("custom_font_path", null);
+        pinType = sharedPrefs.getString("pin_conversation_list", "1");
+        securityOption = sharedPrefs.getString("security_option", "none");
+        customBackgroundLocation = sharedPrefs.getString("custom_background_location", "");
         ctConversationListBackground = sharedPrefs.getInt("ct_conversationListBackground", getResources().getColor(R.color.light_silver));
         ctSentMessageBackground = sharedPrefs.getInt("ct_sentMessageBackground", getResources().getColor(R.color.white));
         ctMessageListBackground = sharedPrefs.getInt("ct_messageListBackground", getResources().getColor(R.color.light_silver));
@@ -335,6 +379,12 @@ public class MainActivity extends FragmentActivity {
         ctSendBarBackground = sharedPrefs.getInt("ct_sendbarBackground", getResources().getColor(R.color.white));
         emojiButtonColor = sharedPrefs.getInt("ct_emojiButtonColor", getResources().getColor(R.color.emoji_button));
         draftTextColor = sharedPrefs.getInt("ct_draftTextColor", ctSendButtonColor);
+        titleBarTextColor = sharedPrefs.getInt("ct_titleBarTextColor", getResources().getColor(R.color.white));
+        titleBarColor = sharedPrefs.getInt("ct_titleBarColor", getResources().getColor(R.color.holo_blue));
+        mmsAfter = sharedPrefs.getInt("mms_after", 4);
+        ctNameTextColor = sharedPrefs.getInt("ct_nameTextColor", getResources().getColor(R.color.black));
+        numOfCachedConversations = sharedPrefs.getInt("num_cache_conversations", 5);
+        messageDividerColor = sharedPrefs.getInt("ct_messageDividerColor", getResources().getColor(R.color.light_silver));
 
 
         /*if(runAs.equals("speed"))
@@ -497,9 +547,9 @@ public class MainActivity extends FragmentActivity {
 
                         if(!individualNotification(mBuilder, name, context))
                         {
-                            if (sharedPrefs.getBoolean("vibrate", true))
+                            if (vibrate)
                             {
-                                if (!sharedPrefs.getBoolean("custom_vibrate_pattern", false))
+                                if (!customVibratePattern)
                                 {
                                     String vibPat = sharedPrefs.getString("vibrate_pattern", "2short");
 
@@ -548,7 +598,7 @@ public class MainActivity extends FragmentActivity {
                                 }
                             }
 
-                            if (sharedPrefs.getBoolean("led", true))
+                            if (led)
                             {
                                 String ledColor = sharedPrefs.getString("led_color", "white");
                                 int ledOn = sharedPrefs.getInt("led_on_time", 1000);
@@ -825,7 +875,6 @@ public class MainActivity extends FragmentActivity {
             setTheme(R.style.HangoutsTheme);
         }
 
-        String pinType = sharedPrefs.getString("pin_conversation_list", "1");
         if (!pinType.equals("1")) {
             if (pinType.equals("2")) {
                 setContentView(R.layout.activity_main_phone);
@@ -915,7 +964,7 @@ public class MainActivity extends FragmentActivity {
     public void setUpTitleBar() {
         title = (PagerTitleStrip) findViewById(R.id.pager_title_strip);
 
-        if (sharedPrefs.getString("page_or_menu2", "2").equals("1"))
+        if (pageorMenu2)
         {
             title.setTextSpacing(5000);
         }
@@ -928,7 +977,7 @@ public class MainActivity extends FragmentActivity {
             }
         } else
         {
-            title.setTextColor(sharedPrefs.getInt("ct_titleBarTextColor", getResources().getColor(R.color.white)));
+            title.setTextColor(titleBarTextColor);
         }
 
         if (!titleCaps)
@@ -969,7 +1018,7 @@ public class MainActivity extends FragmentActivity {
                 }
             } else
             {
-                title.setBackgroundColor(sharedPrefs.getInt("ct_titleBarColor", getResources().getColor(R.color.holo_blue)));
+                title.setBackgroundColor(titleBarColor);
             }
         } else
         {
@@ -1289,7 +1338,7 @@ public class MainActivity extends FragmentActivity {
             // no action bar, dialog theme
         }
 
-        if (!sharedPrefs.getBoolean("keyboard_type", true))
+        if (!keyboardType)
         {
             messageEntry.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
             messageEntry.setImeOptions(EditorInfo.IME_ACTION_NONE);
@@ -1297,7 +1346,7 @@ public class MainActivity extends FragmentActivity {
 
         if (deviceType.equals("phablet") || deviceType.equals("tablet"))
         {
-            if (!sharedPrefs.getBoolean("keyboard_type", true))
+            if (!keyboardType)
             {
                 messageEntry.setImeOptions(EditorInfo.IME_ACTION_NONE | EditorInfo.IME_FLAG_NO_EXTRACT_UI);
             } else
@@ -1373,12 +1422,12 @@ public class MainActivity extends FragmentActivity {
                     mTextView.setVisibility(View.GONE);
                 }
 
-                if (sharedPrefs.getBoolean("send_as_mms", false) && pages >= sharedPrefs.getInt("mms_after", 4))
+                if (sendAsMMS && pages >= mmsAfter)
                 {
                     mTextView.setVisibility(View.GONE);
                 }
 
-                if (sharedPrefs.getBoolean("send_with_return", false))
+                if (sendWithReturn)
                 {
                     if (messageEntry.getText().toString().endsWith("\n"))
                     {
@@ -1391,7 +1440,7 @@ public class MainActivity extends FragmentActivity {
             }
 
             public void afterTextChanged(Editable s) {
-                if (sharedPrefs.getBoolean("enable_drafts", true)) {
+                if (enableDrafts) {
                     if (newDraft.equals(""))
                     {
                         newDraft = threadIds.get(mViewPager.getCurrentItem());
@@ -1419,7 +1468,7 @@ public class MainActivity extends FragmentActivity {
                 boolean sendMmsFromLength = false;
                 String[] counter = mTextView.getText().toString().split("/");
 
-                if (Integer.parseInt(counter[0]) >= sharedPrefs.getInt("mms_after", 4) && sharedPrefs.getBoolean("send_as_mms", false))
+                if (Integer.parseInt(counter[0]) >= mmsAfter && sendAsMMS)
                 {
                     sendMmsFromLength = true;
                 }
@@ -1433,7 +1482,7 @@ public class MainActivity extends FragmentActivity {
                     {
                         MainActivity.animationOn = true;
 
-                        if (sharedPrefs.getBoolean("hide_keyboard", false))
+                        if (hideKeyboard)
                         {
                             new Thread(new Runnable() {
 
@@ -1506,7 +1555,7 @@ public class MainActivity extends FragmentActivity {
 
                                                             query.close();
 
-                                                            if (sharedPrefs.getBoolean("message_sounds", false)) {
+                                                            if (messageSounds) {
                                                                 AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
                                                                 float actualVolume = (float) audioManager
                                                                         .getStreamVolume(AudioManager.STREAM_NOTIFICATION);
@@ -1798,7 +1847,7 @@ public class MainActivity extends FragmentActivity {
 
                                         SmsManager smsManager = SmsManager.getDefault();
 
-                                        if (sharedPrefs.getBoolean("split_sms", false))
+                                        if (splitSMS)
                                         {
                                             int length = 160;
 
@@ -1813,7 +1862,7 @@ public class MainActivity extends FragmentActivity {
 
                                             boolean counter = false;
 
-                                            if (sharedPrefs.getBoolean("split_counter", false)) {
+                                            if (splitCounter) {
                                                 counter = true;
                                                 length -= 7;
                                             }
@@ -2037,7 +2086,7 @@ public class MainActivity extends FragmentActivity {
 
                                         SmsManager smsManager = SmsManager.getDefault();
 
-                                        if (sharedPrefs.getBoolean("split_sms", false))
+                                        if (splitSMS)
                                         {
                                             int length = 160;
 
@@ -2052,7 +2101,7 @@ public class MainActivity extends FragmentActivity {
 
                                             boolean counter = false;
 
-                                            if (sharedPrefs.getBoolean("split_counter", false)) {
+                                            if (splitCounter) {
                                                 counter = true;
                                                 length -= 7;
                                             }
@@ -2150,7 +2199,7 @@ public class MainActivity extends FragmentActivity {
                                             mViewPager.setCurrentItem(0);
                                             mTextView.setVisibility(View.GONE);
 
-                                            if (isPopup && sharedPrefs.getBoolean("full_app_popup_close", false)) {
+                                            if (isPopup && fullAppPopupClose) {
                                                 Intent intent = new Intent("com.klinker.android.messaging.CLOSE_POPUP");
                                                 sendBroadcast(intent);
                                             }
@@ -2191,7 +2240,7 @@ public class MainActivity extends FragmentActivity {
 
                     String[] to = ("insert-address-token " + findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context)).split(" ");
 
-                    if (!sharedPrefs.getBoolean("send_with_stock", false))
+                    if (!sendWithStock)
                     {
                         if (multipleAttachments == false)
                         {
@@ -2280,7 +2329,7 @@ public class MainActivity extends FragmentActivity {
         }
 
 
-        if (!sharedPrefs.getBoolean("emoji", false))
+        if (!emoji)
         {
             emojiButton.setVisibility(View.GONE);
             LayoutParams params = (RelativeLayout.LayoutParams)messageEntry.getLayoutParams();
@@ -2409,16 +2458,16 @@ public class MainActivity extends FragmentActivity {
             sendButton.setImageResource(R.drawable.ic_attach);
         }
 
-        mTextView.setTextColor(sharedPrefs.getInt("ct_sendButtonColor", getResources().getColor(R.color.black)));
-        v.setBackgroundColor(sharedPrefs.getInt("ct_sendbarBackground", getResources().getColor(R.color.white)));
+        mTextView.setTextColor(ctSendButtonColor);
+        v.setBackgroundColor(ctSendBarBackground);
         sendButton.setBackgroundResource(R.drawable.pitch_black_send_button);
-        sendButton.setColorFilter(sharedPrefs.getInt("ct_sendButtonColor", getResources().getColor(R.color.black)));
+        sendButton.setColorFilter(ctSendButtonColor);
         emojiButton.setBackgroundResource(R.drawable.pitch_black_send_button);
-        emojiButton.setColorFilter(sharedPrefs.getInt("ct_emojiButtonColor", getResources().getColor(R.color.emoji_button)));
-        messageEntry.setTextColor(sharedPrefs.getInt("ct_draftTextColor", sharedPrefs.getInt("ct_sendButtonColor", getResources().getColor(R.color.black))));
+        emojiButton.setColorFilter(emojiButtonColor);
+        messageEntry.setTextColor(draftTextColor);
         imageAttachBackground.setBackgroundColor(ctMessageListBackground);
         Drawable attachBack = getResources().getDrawable(R.drawable.attachment_editor_bg);
-        attachBack.setColorFilter(sharedPrefs.getInt("ct_sentMessageBackground", context.getResources().getColor(R.color.white)), Mode.MULTIPLY);
+        attachBack.setColorFilter(ctSentMessageBackground, Mode.MULTIPLY);
         imageAttach.setBackgroundDrawable(attachBack);
         imageAttachBackground.setVisibility(View.GONE);
         imageAttach.setVisibility(false);
@@ -2455,7 +2504,7 @@ public class MainActivity extends FragmentActivity {
                 footer.setText(getResources().getString(R.string.load_all));
                 footer.setTypeface(font);
                 footer.setBackgroundResource(android.R.color.transparent);
-                footer.setTextColor(sharedPrefs.getInt("ct_nameTextColor", getResources().getColor(R.color.black)));
+                footer.setTextColor(ctNameTextColor);
                 menuLayout.addFooterView(footer);
             }
             newFragment.setListAdapter(new MenuArrayAdapter(this, inboxBody, inboxDate, inboxNumber, MainActivity.mViewPager, threadIds, group, msgCount, msgRead));
@@ -2467,7 +2516,7 @@ public class MainActivity extends FragmentActivity {
                     BitmapFactory.Options options = new BitmapFactory.Options();
 
                     options.inSampleSize = 2;
-                    Bitmap myBitmap = BitmapFactory.decodeFile(Uri.parse(sharedPrefs.getString("custom_background_location", "")).getPath(),options);
+                    Bitmap myBitmap = BitmapFactory.decodeFile(Uri.parse(customBackgroundLocation).getPath(),options);
                     this.getResources();
                     Drawable d = new BitmapDrawable(Resources.getSystem(),myBitmap);
                     newFragment.getView().setBackgroundDrawable(d);
@@ -2504,7 +2553,7 @@ public class MainActivity extends FragmentActivity {
                 footer.setText(getResources().getString(R.string.load_all));
                 footer.setTypeface(font);
                 footer.setBackgroundResource(android.R.color.transparent);
-                footer.setTextColor(sharedPrefs.getInt("ct_nameTextColor", getResources().getColor(R.color.black)));
+                footer.setTextColor(ctNameTextColor);
                 menuLayout.addFooterView(footer);
             }
 
@@ -2515,7 +2564,7 @@ public class MainActivity extends FragmentActivity {
                     BitmapFactory.Options options = new BitmapFactory.Options();
 
                     options.inSampleSize = 2;
-                    Bitmap myBitmap = BitmapFactory.decodeFile(Uri.parse(sharedPrefs.getString("custom_background_location", "")).getPath(),options);
+                    Bitmap myBitmap = BitmapFactory.decodeFile(Uri.parse(customBackgroundLocation).getPath(),options);
                     this.getResources();
                     Drawable d = new BitmapDrawable(Resources.getSystem(),myBitmap);
                     menuLayout.setBackgroundDrawable(d);
@@ -2616,12 +2665,12 @@ public class MainActivity extends FragmentActivity {
                     mTextView.setVisibility(View.GONE);
                 }
 
-                if (sharedPrefs.getBoolean("send_as_mms", false) && pages >= sharedPrefs.getInt("mms_after", 4))
+                if (sendAsMMS && pages >= mmsAfter)
                 {
                     mTextView.setVisibility(View.GONE);
                 }
 
-                if (sharedPrefs.getBoolean("send_with_return", false))
+                if (sendWithReturn)
                 {
                     if (mEditText.getText().toString().endsWith("\n"))
                     {
@@ -2637,7 +2686,7 @@ public class MainActivity extends FragmentActivity {
             }
         });
 
-        if (!sharedPrefs.getBoolean("keyboard_type", true))
+        if (!keyboardType)
         {
             mEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
             mEditText.setImeOptions(EditorInfo.IME_ACTION_NONE);
@@ -2730,7 +2779,7 @@ public class MainActivity extends FragmentActivity {
                         int type = people.getInt(people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
                         String customLabel = people.getString(people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.LABEL));
 
-                        if (sharedPrefs.getBoolean("mobile_only", false))
+                        if (mobileOnly)
                         {
                             if (type == 2)
                             {
@@ -2792,7 +2841,7 @@ public class MainActivity extends FragmentActivity {
                                 String customLabel = people.getString(people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.LABEL));
 
                                 try {
-                                    if (sharedPrefs.getBoolean("mobile_only", false))
+                                    if (mobileOnly)
                                     {
                                         if (type == 2)
                                         {
@@ -2962,7 +3011,7 @@ public class MainActivity extends FragmentActivity {
                 {
                     MainActivity.animationOn = true;
 
-                    if (sharedPrefs.getBoolean("hide_keyboard", false))
+                    if (hideKeyboard)
                     {
                         new Thread(new Runnable() {
 
@@ -2990,12 +3039,12 @@ public class MainActivity extends FragmentActivity {
                     boolean sendMmsFromLength = false;
                     String[] counter = mTextView.getText().toString().split("/");
 
-                    if (Integer.parseInt(counter[0]) >= sharedPrefs.getInt("mms_after", 4) && sharedPrefs.getBoolean("send_as_mms", false))
+                    if (Integer.parseInt(counter[0]) >= mmsAfter && sendAsMMS)
                     {
                         sendMmsFromLength = true;
                     }
 
-                    if ((imageAttach2.getVisibility() == View.GONE) && (sendMmsFromLength == false) && (contactLength == 1 || (contactLength > 1 && sharedPrefs.getBoolean("group_message", false) == false)))
+                    if ((imageAttach2.getVisibility() == View.GONE) && (sendMmsFromLength == false) && (contactLength == 1 || (contactLength > 1 && !groupMessage)))
                     {
                         for (int i = 0; i < contacts.length; i++)
                         {
@@ -3313,7 +3362,7 @@ public class MainActivity extends FragmentActivity {
 
                                             SmsManager smsManager = SmsManager.getDefault();
 
-                                            if (sharedPrefs.getBoolean("split_sms", false))
+                                            if (splitSMS)
                                             {
                                                 int length = 160;
 
@@ -3328,7 +3377,7 @@ public class MainActivity extends FragmentActivity {
 
                                                 boolean counter = false;
 
-                                                if (sharedPrefs.getBoolean("split_counter", false)) {
+                                                if (splitCounter) {
                                                     counter = true;
                                                     length -= 7;
                                                 }
@@ -3548,7 +3597,7 @@ public class MainActivity extends FragmentActivity {
 
                                             SmsManager smsManager = SmsManager.getDefault();
 
-                                            if (sharedPrefs.getBoolean("split_sms", false))
+                                            if (splitSMS)
                                             {
                                                 int length = 160;
 
@@ -3563,7 +3612,7 @@ public class MainActivity extends FragmentActivity {
 
                                                 boolean counter = false;
 
-                                                if (sharedPrefs.getBoolean("split_counter", false)) {
+                                                if (splitCounter) {
                                                     counter = true;
                                                     length -= 7;
                                                 }
@@ -3674,7 +3723,7 @@ public class MainActivity extends FragmentActivity {
 
                         String[] to = ("insert-address-token; " + contact.getText().toString()).split("; ");
 
-                        if (!sharedPrefs.getBoolean("send_with_stock", false))
+                        if (!sendWithStock)
                         {
                             if (multipleAttachments == false)
                             {
@@ -3764,7 +3813,7 @@ public class MainActivity extends FragmentActivity {
 
         ImageButton emojiButton = (ImageButton) newMessageView.findViewById(R.id.display_emoji);
 
-        if (!sharedPrefs.getBoolean("emoji", false))
+        if (!emoji)
         {
             emojiButton.setVisibility(View.GONE);
             LayoutParams params = (RelativeLayout.LayoutParams)mEditText.getLayoutParams();
@@ -3937,7 +3986,7 @@ public class MainActivity extends FragmentActivity {
                 BitmapFactory.Options options = new BitmapFactory.Options();
 
                 options.inSampleSize = 2;
-                Bitmap myBitmap = BitmapFactory.decodeFile(Uri.parse(sharedPrefs.getString("custom_background_location", "")).getPath(),options);
+                Bitmap myBitmap = BitmapFactory.decodeFile(Uri.parse(customBackgroundLocation).getPath(),options);
                 this.getResources();
                 Drawable d = new BitmapDrawable(Resources.getSystem(),myBitmap);
                 searchView.setBackgroundDrawable(d);
@@ -5566,7 +5615,7 @@ public class MainActivity extends FragmentActivity {
         Intent updateWidget = new Intent("com.klinker.android.messaging.UPDATE_WIDGET");
         sendBroadcast(updateWidget);
 
-        if(!sharedPrefs.getString("security_option", "none").equals("none"))
+        if(!securityOption.equals("none"))
         {
             long currentTime = Calendar.getInstance().getTimeInMillis();
             long lastTime = sharedPrefs.getLong("last_time", 0);
@@ -6065,7 +6114,7 @@ public class MainActivity extends FragmentActivity {
                 BitmapFactory.Options options = new BitmapFactory.Options();
 
                 options.inSampleSize = 2;
-                Bitmap myBitmap = BitmapFactory.decodeFile(Uri.parse(sharedPrefs.getString("custom_background2_location", "")).getPath(),options);
+                Bitmap myBitmap = BitmapFactory.decodeFile(Uri.parse(customBackgroundLocation).getPath(),options);
                 Drawable d = new BitmapDrawable(Resources.getSystem(),myBitmap);
                 mViewPager.setBackgroundDrawable(d);
             } catch (Exception e)
@@ -7436,7 +7485,7 @@ public class MainActivity extends FragmentActivity {
 
             try
             {
-                if (!cacheConversations || !CacheService.cached || !MainActivity.notChanged || !(position < sharedPrefs.getInt("num_cache_conversations", 5))) {
+                if (!cacheConversations || !CacheService.cached || !MainActivity.notChanged || !(position < numOfCachedConversations)) {
                     messageQuery.close();
                 }
             } catch (Exception e)
@@ -7483,7 +7532,7 @@ public class MainActivity extends FragmentActivity {
 
                 }).start();
 
-                groupList.setTextColor(sharedPrefs.getInt("ct_titleBarTextColor", getResources().getColor(R.color.white)));
+                groupList.setTextColor(titleBarTextColor);
 
                 if (!customTheme)
                 {
@@ -7516,7 +7565,7 @@ public class MainActivity extends FragmentActivity {
                     }
                 } else
                 {
-                    groupList.setBackgroundColor(sharedPrefs.getInt("ct_titleBarColor", context.getResources().getColor(R.color.holo_blue)));
+                    groupList.setBackgroundColor(titleBarColor);
                 }
             } else
             {
@@ -7535,7 +7584,7 @@ public class MainActivity extends FragmentActivity {
                 spinner.setVisibility(View.GONE);
             }
 
-            if (cacheConversations && CacheService.cached && MainActivity.notChanged && position < sharedPrefs.getInt("num_cache_conversations", 5)) {
+            if (cacheConversations && CacheService.cached && MainActivity.notChanged && position < numOfCachedConversations) {
                 MainActivity.threadedLoad = false;
             }
 
@@ -7666,7 +7715,7 @@ public class MainActivity extends FragmentActivity {
                     sortOrder += " limit " + MainActivity.numToLoad;
                 }
 
-                if (!cacheConversations || !CacheService.cached || !MainActivity.notChanged || !(position < sharedPrefs.getInt("num_cache_conversations", 5))) {
+                if (!cacheConversations || !CacheService.cached || !MainActivity.notChanged || !(position < numOfCachedConversations)) {
                     messageQuery = contentResolver.query(uri3, projection2, null, null, sortOrder);
                 } else {
                     messageQuery = CacheService.conversations.get(position);
@@ -7692,7 +7741,7 @@ public class MainActivity extends FragmentActivity {
                 }, 100L);
             }
 
-            listView.setDivider(new ColorDrawable(sharedPrefs.getInt("ct_messageDividerColor", context.getResources().getColor(R.color.light_silver))));
+            listView.setDivider(new ColorDrawable(messageDividerColor));
 
             if (messageDividerVisible && runAs.equals("sliding"))
             {
