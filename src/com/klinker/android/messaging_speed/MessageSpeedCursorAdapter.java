@@ -1,4 +1,4 @@
-package com.klinker.android.messaging_hangout;
+package com.klinker.android.messaging_speed;
 
 import android.annotation.SuppressLint;
 import android.app.*;
@@ -82,35 +82,13 @@ public class MessageSpeedCursorAdapter extends CursorAdapter {
 
     // shared prefs values
 
-    public final boolean darkContactImage;
-    public final boolean customFont;
-    public final boolean showOriginalTimestamp;
-    public final boolean deliveryReports;
     public final boolean hourFormat;
     public final boolean stripUnicode;
     public final boolean contactPictures;
-    public final boolean tinyDate;
-    public final boolean customTheme;
-    public final boolean emojiType;
-    public final boolean smiliesType;
-    public final String textSize;
-    public final String runAs;
     public final String signature;
     public final String ringTone;
     public final String deliveryOptions;
-    public final String sendingAnimation;
-    public final String recieveAnimation;
-    public final String themeName;
-    public final String sentTextColor;
-    public final String textAlignment;
-    public final String smilies;
-    public final int ctRecievedTextColor;
-    public final int ctSentTextColor;
-    public final int ctConversationListBackground;
-    public final int ctSentMessageBackground;
-    public final int ctRecievedMessageBackground;
-    public final int animationSpeed;
-    public final int textOpacity;
+
 
     public MessageSpeedCursorAdapter(Activity context, String myId, String inboxNumbers, String ids, Cursor query, int threadPosition) {
         super(context, query, 0);
@@ -130,35 +108,12 @@ public class MessageSpeedCursorAdapter extends CursorAdapter {
         // I am only doing this for preferences with more than one call or that get called for every object
         // I thought it would be much more efficient to set them all up at the beginning.
 
-        darkContactImage = sharedPrefs.getBoolean("ct_darkContactImage", false);
-        customFont = sharedPrefs.getBoolean("custom_font", false);
-        showOriginalTimestamp = sharedPrefs.getBoolean("show_original_timestamp", false);
-        deliveryReports = sharedPrefs.getBoolean("delivery_reports", false);
         hourFormat = sharedPrefs.getBoolean("hour_format", false);
         stripUnicode = sharedPrefs.getBoolean("strip_unicode", false);
-        contactPictures = sharedPrefs.getBoolean("contact_pictures", true);
-        tinyDate = sharedPrefs.getBoolean("tiny_date", false);
-        customTheme = sharedPrefs.getBoolean("custom_theme", false);
-        emojiType = sharedPrefs.getBoolean("emoji_type", true);
-        smiliesType = sharedPrefs.getBoolean("smiliesType", true);
-        textSize = sharedPrefs.getString("text_size", "14");
-        runAs = sharedPrefs.getString("run_as", "sliding");
+        contactPictures = false;
         signature = sharedPrefs.getString("signature", "");
         ringTone = sharedPrefs.getString("ringtone", "null");
-        deliveryOptions= sharedPrefs.getString("delivery_options", "2");
-        sendingAnimation = sharedPrefs.getString("send_animation", "left");
-        recieveAnimation = sharedPrefs.getString("receive_animation", "right");
-        themeName = sharedPrefs.getString("ct_theme_name", "Light Theme");
-        sentTextColor = sharedPrefs.getString("sent_text_color", "default");
-        textAlignment = sharedPrefs.getString("text_alignment", "split");
-        smilies = sharedPrefs.getString("smilies", "with");
-        ctRecievedTextColor = sharedPrefs.getInt("ct_receivedTextColor", context.getResources().getColor(R.color.black));
-        ctSentTextColor = sharedPrefs.getInt("ct_sentTextColor", context.getResources().getColor(R.color.black));
-        ctConversationListBackground = sharedPrefs.getInt("ct_conversationListBackground", context.getResources().getColor(R.color.light_silver));
-        ctSentMessageBackground = sharedPrefs.getInt("ct_sentMessageBackground", context.getResources().getColor(R.color.white));
-        ctRecievedMessageBackground = sharedPrefs.getInt("ct_receivedMessageBackground", context.getResources().getColor(R.color.white));
-        animationSpeed = sharedPrefs.getInt("animation_speed", 300);
-        textOpacity = sharedPrefs.getInt("text_opacity", 100);
+        deliveryOptions = sharedPrefs.getString("delivery_options", "2");
 
         try
         {
@@ -170,13 +125,7 @@ public class MessageSpeedCursorAdapter extends CursorAdapter {
 
         if (input == null)
         {
-            if (darkContactImage)
-            {
-                input = drawableToBitmap(context.getResources().getDrawable(R.drawable.default_avatar_dark));
-            } else
-            {
-                input = drawableToBitmap(context.getResources().getDrawable(R.drawable.default_avatar));
-            }
+            input = drawableToBitmap(context.getResources().getDrawable(R.drawable.default_avatar));
         }
 
         contactImage = Bitmap.createScaledBitmap(input, MainActivity.contactWidth, MainActivity.contactWidth, true);
@@ -193,13 +142,7 @@ public class MessageSpeedCursorAdapter extends CursorAdapter {
 
         if (input2 == null)
         {
-            if (darkContactImage)
-            {
-                input2 = context.getResources().openRawResource(R.drawable.default_avatar_dark);
-            } else
-            {
-                input2 = context.getResources().openRawResource(R.drawable.default_avatar);
-            }
+            input2 = context.getResources().openRawResource(R.drawable.default_avatar);
         }
 
         Bitmap im;
@@ -209,28 +152,16 @@ public class MessageSpeedCursorAdapter extends CursorAdapter {
             im = Bitmap.createScaledBitmap(BitmapFactory.decodeStream(input2), MainActivity.contactWidth, MainActivity.contactWidth, true);
         } catch (Exception e)
         {
-            if (darkContactImage)
-            {
-                im = Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(R.drawable.default_avatar_dark)), MainActivity.contactWidth, MainActivity.contactWidth, true);
-            } else
-            {
-                im = Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(R.drawable.default_avatar)), MainActivity.contactWidth, MainActivity.contactWidth, true);
-            }
+            im = Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(R.drawable.default_avatar)), MainActivity.contactWidth, MainActivity.contactWidth, true);
         }
 
         myImage = im;
 
         paint = new Paint();
         float densityMultiplier = context.getResources().getDisplayMetrics().density;
-        float scaledPx = Integer.parseInt(textSize) * densityMultiplier;
+        float scaledPx = 14 * densityMultiplier;
         paint.setTextSize(scaledPx);
         font = null;
-
-        if (customFont)
-        {
-            font = Typeface.createFromFile(sharedPrefs.getString("custom_font_path", ""));
-            paint.setTypeface(font);
-        }
     }
 
     private int getItemViewType(Cursor query) {
@@ -303,11 +234,6 @@ public class MessageSpeedCursorAdapter extends CursorAdapter {
 
         String dateType = "date";
 
-        if (showOriginalTimestamp)
-        {
-            dateType = "date_sent";
-        }
-
         try
         {
             String s = cursor.getString(cursor.getColumnIndex("msg_box"));
@@ -323,18 +249,20 @@ public class MessageSpeedCursorAdapter extends CursorAdapter {
 
                 String[] numbers = number.split(" ");
 
-                if (cursor.getInt(cursor.getColumnIndex("msg_box")) == 4)
+                int msgBox = cursor.getInt(cursor.getColumnIndex("msg_box"));
+
+                if (msgBox == 4)
                 {
                     sending = true;
                     sent = true;
-                } else if (cursor.getInt(cursor.getColumnIndex("msg_box")) == 5)
+                } else if (msgBox == 5)
                 {
                     error = true;
                     sent = true;
-                } else if (cursor.getInt(cursor.getColumnIndex("msg_box")) == 1)
+                } else if (msgBox == 1)
                 {
                     sent = false;
-                } else if (cursor.getInt(cursor.getColumnIndex("msg_box")) == 2)
+                } else if (msgBox == 2)
                 {
                     sent = true;
                 }
@@ -710,15 +638,6 @@ public class MessageSpeedCursorAdapter extends CursorAdapter {
                     mms = false;
                     image = null;
 
-                    if (deliveryReports) {
-                        status = cursor.getString(cursor.getColumnIndex("status"));
-
-                        if (status.equals("64") || status.equals("128"))
-                        {
-                            error = true;
-                        }
-                    }
-
                     if (cursor.getInt(cursor.getColumnIndex("read")) == 0)
                     {
                         String SmsMessageId = cursor.getString(cursor.getColumnIndex("_id"));
@@ -819,34 +738,11 @@ public class MessageSpeedCursorAdapter extends CursorAdapter {
         {
             holder.date.setVisibility(View.GONE);
 
-            try
-            {
-                holder.ellipsis.setVisibility(View.VISIBLE);
-                holder.ellipsis.setBackgroundResource(R.drawable.ellipsis);
-                holder.ellipsis.setColorFilter(ctRecievedTextColor);
-                AnimationDrawable ellipsis = (AnimationDrawable) holder.ellipsis.getBackground();
-                ellipsis.start();
-            } catch (Exception e)
-            {
-
-            }
         } else
         {
             holder.date.setVisibility(View.VISIBLE);
 
-            try
-            {
-                holder.ellipsis.setVisibility(View.GONE);
-            } catch (Exception e)
-            {
-
-            }
-
-            if (sent && deliveryReports && !error && status.equals("0"))
-            {
-                String text = "<html><body><img src=\"ic_sent.png\"/> " + holder.date.getText().toString() + "</body></html>";
-                holder.date.setText(Html.fromHtml(text, imgGetterSent, null));
-            } else if (error) {
+            if (error) {
                 String text = "<html><body><img src=\"ic_error.png\"/> ERROR</body></html>";
                 holder.date.setText(Html.fromHtml(text, imgGetterFail, null));
             }
@@ -885,44 +781,14 @@ public class MessageSpeedCursorAdapter extends CursorAdapter {
 
         if (cursor.getPosition() == 0)
         {
-            if (runAs.equals("hangout")) {
-                int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 7, context.getResources().getDisplayMetrics());
-                int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, context.getResources().getDisplayMetrics());
-                int scale3 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, context.getResources().getDisplayMetrics());
-                int scale4 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, context.getResources().getDisplayMetrics());
 
-                if (sent) {
-                    view.setPadding(scale4, scale2, scale, scale3);
-                } else {
-                    view.setPadding(scale, scale2, scale4, scale3);
-                }
-            } else if (runAs.equals("card2")) {
-                int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 17, context.getResources().getDisplayMetrics());
-                int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, context.getResources().getDisplayMetrics());
-                int scale3 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, context.getResources().getDisplayMetrics());
-                view.setPadding(scale, scale2, scale, scale3);
-            } else {
-                int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, context.getResources().getDisplayMetrics());
-                view.setPadding(0, 0, 0, scale);
-            }
+            int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, context.getResources().getDisplayMetrics());
+            view.setPadding(0, 0, 0, scale);
+
         } else {
-            if (runAs.equals("hangout")) {
-                int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 7, context.getResources().getDisplayMetrics());
-                int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, context.getResources().getDisplayMetrics());
-                int scale3 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, context.getResources().getDisplayMetrics());
 
-                if (sent) {
-                    view.setPadding(scale3, scale2, scale, scale2);
-                } else {
-                    view.setPadding(scale, scale2, scale3, scale2);
-                }
-            } else if (runAs.equals("card2")) {
-                int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 17, context.getResources().getDisplayMetrics());
-                int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, context.getResources().getDisplayMetrics());
-                view.setPadding(scale, scale2, scale, 0);
-            } else {
-                view.setPadding(0, 0, 0, 0);
-            }
+            view.setPadding(0, 0, 0, 0);
+
         }
 
         final String dateT = date;
@@ -1209,9 +1075,7 @@ public class MessageSpeedCursorAdapter extends CursorAdapter {
                                         {
                                             ((MainActivity)context).attachedImage2 = holder.imageUri;
 
-                                            ((MainActivity)context).imageAttachBackground2.setBackgroundColor(ctConversationListBackground);
                                             Drawable attachBack = context.getResources().getDrawable(R.drawable.attachment_editor_bg);
-                                            attachBack.setColorFilter(ctSentMessageBackground, PorterDuff.Mode.MULTIPLY);
                                             ((MainActivity)context).imageAttach2.setBackgroundDrawable(attachBack);
                                             ((MainActivity)context).imageAttachBackground2.setVisibility(View.VISIBLE);
                                             ((MainActivity)context).imageAttach2.setVisibility(true);
@@ -1343,272 +1207,7 @@ public class MessageSpeedCursorAdapter extends CursorAdapter {
                                             @Override
                                             public void run() {
 
-                                                if (deliveryReports)
-                                                {
-                                                    if (inboxNumbers.replaceAll("[^0-9]", "").equals(""))
-                                                    {
-                                                        String SENT = "SMS_SENT";
-                                                        String DELIVERED = "SMS_DELIVERED";
 
-                                                        PendingIntent sentPI = PendingIntent.getBroadcast(context, 0,
-                                                                new Intent(SENT), 0);
-
-                                                        PendingIntent deliveredPI = PendingIntent.getBroadcast(context, 0,
-                                                                new Intent(DELIVERED), 0);
-
-                                                        //---when the SMS has been sent---
-                                                        context.registerReceiver(new BroadcastReceiver(){
-                                                            @Override
-                                                            public void onReceive(Context arg0, Intent arg1) {
-                                                                try {
-                                                                    switch (getResultCode())
-                                                                    {
-                                                                        case Activity.RESULT_OK:
-                                                                            Cursor query = context.getContentResolver().query(Uri.parse("content://sms/outbox"), null, null, null, null);
-
-                                                                            if (query.moveToFirst())
-                                                                            {
-                                                                                String id = query.getString(query.getColumnIndex("_id"));
-                                                                                ContentValues values = new ContentValues();
-                                                                                values.put("type", "2");
-                                                                                context.getContentResolver().update(Uri.parse("content://sms/outbox"), values, "_id=" + id, null);
-                                                                                ((MainActivity) context).refreshViewPager3();
-                                                                            }
-
-                                                                            break;
-                                                                        case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-                                                                            query = context.getContentResolver().query(Uri.parse("content://sms/outbox"), null, null, null, null);
-
-                                                                            if (query.moveToFirst())
-                                                                            {
-                                                                                String id = query.getString(query.getColumnIndex("_id"));
-                                                                                ContentValues values = new ContentValues();
-                                                                                values.put("type", "5");
-                                                                                context.getContentResolver().update(Uri.parse("content://sms/outbox"), values, "_id=" + id, null);
-                                                                                ((MainActivity) context).refreshViewPager3();
-                                                                            }
-
-                                                                            NotificationCompat.Builder mBuilder =
-                                                                                    new NotificationCompat.Builder(context)
-                                                                                            .setSmallIcon(R.drawable.ic_alert)
-                                                                                            .setContentTitle("Error")
-                                                                                            .setContentText("Could not send message");
-
-                                                                            Intent resultIntent = new Intent(context, MainActivity.class);
-
-                                                                            TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-                                                                            stackBuilder.addParentStack(MainActivity.class);
-                                                                            stackBuilder.addNextIntent(resultIntent);
-                                                                            PendingIntent resultPendingIntent =
-                                                                                    stackBuilder.getPendingIntent(
-                                                                                            0,
-                                                                                            PendingIntent.FLAG_UPDATE_CURRENT
-                                                                                    );
-
-                                                                            mBuilder.setContentIntent(resultPendingIntent);
-                                                                            mBuilder.setAutoCancel(true);
-                                                                            long[] pattern = {0L, 400L, 100L, 400L};
-                                                                            mBuilder.setVibrate(pattern);
-                                                                            mBuilder.setLights(0xFFffffff, 1000, 2000);
-
-                                                                            try
-                                                                            {
-                                                                                mBuilder.setSound(Uri.parse(ringTone));
-                                                                            } catch(Exception e)
-                                                                            {
-                                                                                mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-                                                                            }
-
-                                                                            NotificationManager mNotificationManager =
-                                                                                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
-                                                                            Notification notification = mBuilder.build();
-                                                                            Intent deleteIntent = new Intent(context, NotificationReceiver.class);
-                                                                            notification.deleteIntent = PendingIntent.getBroadcast(context, 0, deleteIntent, 0);
-                                                                            mNotificationManager.notify(1, notification);
-                                                                            break;
-                                                                        case SmsManager.RESULT_ERROR_NO_SERVICE:
-                                                                            query = context.getContentResolver().query(Uri.parse("content://sms/outbox"), null, null, null, null);
-
-                                                                            if (query.moveToFirst())
-                                                                            {
-                                                                                String id = query.getString(query.getColumnIndex("_id"));
-                                                                                ContentValues values = new ContentValues();
-                                                                                values.put("type", "5");
-                                                                                context.getContentResolver().update(Uri.parse("content://sms/outbox"), values, "_id=" + id, null);
-                                                                                ((MainActivity) context).refreshViewPager3();
-                                                                            }
-
-                                                                            Toast.makeText(context, "No service",
-                                                                                    Toast.LENGTH_SHORT).show();
-                                                                            break;
-                                                                        case SmsManager.RESULT_ERROR_NULL_PDU:
-                                                                            query = context.getContentResolver().query(Uri.parse("content://sms/outbox"), null, null, null, null);
-
-                                                                            if (query.moveToFirst())
-                                                                            {
-                                                                                String id = query.getString(query.getColumnIndex("_id"));
-                                                                                ContentValues values = new ContentValues();
-                                                                                values.put("type", "5");
-                                                                                context.getContentResolver().update(Uri.parse("content://sms/outbox"), values, "_id=" + id, null);
-                                                                                ((MainActivity) context).refreshViewPager3();
-                                                                            }
-
-                                                                            Toast.makeText(context, "Null PDU",
-                                                                                    Toast.LENGTH_SHORT).show();
-                                                                            break;
-                                                                        case SmsManager.RESULT_ERROR_RADIO_OFF:
-                                                                            query = context.getContentResolver().query(Uri.parse("content://sms/outbox"), null, null, null, null);
-
-                                                                            if (query.moveToFirst())
-                                                                            {
-                                                                                String id = query.getString(query.getColumnIndex("_id"));
-                                                                                ContentValues values = new ContentValues();
-                                                                                values.put("type", "5");
-                                                                                context.getContentResolver().update(Uri.parse("content://sms/outbox"), values, "_id=" + id, null);
-                                                                                ((MainActivity) context).refreshViewPager3();
-                                                                            }
-
-                                                                            Toast.makeText(context, "Radio off",
-                                                                                    Toast.LENGTH_SHORT).show();
-                                                                            break;
-                                                                    }
-
-                                                                    context.unregisterReceiver(this);
-                                                                } catch (Exception e) {
-
-                                                                }
-                                                            }
-                                                        }, new IntentFilter(SENT));
-
-                                                        //---when the SMS has been delivered---
-                                                        context.registerReceiver(new BroadcastReceiver(){
-                                                            @Override
-                                                            public void onReceive(Context arg0, Intent arg1) {
-                                                                try {
-                                                                    if (deliveryOptions.equals("1"))
-                                                                    {
-                                                                        switch (getResultCode())
-                                                                        {
-                                                                            case Activity.RESULT_OK:
-                                                                                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                                                                                builder.setMessage(R.string.message_delivered)
-                                                                                        .setPositiveButton(R.string.dismiss, new DialogInterface.OnClickListener() {
-                                                                                            public void onClick(DialogInterface dialog, int id) {
-                                                                                                dialog.dismiss();
-                                                                                            }
-                                                                                        });
-
-                                                                                builder.create().show();
-
-                                                                                Cursor query = context.getContentResolver().query(Uri.parse("content://sms/sent"), null, null, null, "date desc");
-
-                                                                                if (query.moveToFirst())
-                                                                                {
-                                                                                    String id = query.getString(query.getColumnIndex("_id"));
-                                                                                    ContentValues values = new ContentValues();
-                                                                                    values.put("status", "0");
-                                                                                    context.getContentResolver().update(Uri.parse("content://sms/sent"), values, "_id=" + id, null);
-                                                                                    ((MainActivity) context).refreshViewPager3();
-                                                                                }
-                                                                                break;
-                                                                            case Activity.RESULT_CANCELED:
-                                                                                AlertDialog.Builder builder2 = new AlertDialog.Builder(context);
-                                                                                builder2.setMessage(R.string.message_not_delivered)
-                                                                                        .setPositiveButton(R.string.dismiss, new DialogInterface.OnClickListener() {
-                                                                                            public void onClick(DialogInterface dialog, int id) {
-                                                                                                dialog.dismiss();
-                                                                                            }
-                                                                                        });
-
-                                                                                builder2.create().show();
-
-                                                                                Cursor query2 = context.getContentResolver().query(Uri.parse("content://sms/sent"), null, null, null, "date desc");
-
-                                                                                if (query2.moveToFirst())
-                                                                                {
-                                                                                    String id = query2.getString(query2.getColumnIndex("_id"));
-                                                                                    ContentValues values = new ContentValues();
-                                                                                    values.put("status", "64");
-                                                                                    context.getContentResolver().update(Uri.parse("content://sms/sent"), values, "_id=" + id, null);
-                                                                                    ((MainActivity) context).refreshViewPager3();
-                                                                                }
-                                                                                break;
-                                                                        }
-                                                                    } else
-                                                                    {
-                                                                        switch (getResultCode())
-                                                                        {
-                                                                            case Activity.RESULT_OK:
-                                                                                if (deliveryOptions.equals("2"))
-                                                                                {
-                                                                                    Toast.makeText(context, R.string.message_delivered, Toast.LENGTH_LONG).show();
-                                                                                }
-
-                                                                                Cursor query = context.getContentResolver().query(Uri.parse("content://sms/sent"), null, null, null, "date desc");
-
-                                                                                if (query.moveToFirst())
-                                                                                {
-                                                                                    String id = query.getString(query.getColumnIndex("_id"));
-                                                                                    ContentValues values = new ContentValues();
-                                                                                    values.put("status", "0");
-                                                                                    context.getContentResolver().update(Uri.parse("content://sms/sent"), values, "_id=" + id, null);
-                                                                                    ((MainActivity) context).refreshViewPager3();
-                                                                                }
-
-                                                                                break;
-                                                                            case Activity.RESULT_CANCELED:
-                                                                                if (deliveryOptions.equals("2"))
-                                                                                {
-                                                                                    Toast.makeText(context, R.string.message_not_delivered, Toast.LENGTH_LONG).show();
-                                                                                }
-
-                                                                                Cursor query2 = context.getContentResolver().query(Uri.parse("content://sms/sent"), null, null, null, "date desc");
-
-                                                                                if (query2.moveToFirst())
-                                                                                {
-                                                                                    String id = query2.getString(query2.getColumnIndex("_id"));
-                                                                                    ContentValues values = new ContentValues();
-                                                                                    values.put("status", "64");
-                                                                                    context.getContentResolver().update(Uri.parse("content://sms/sent"), values, "_id=" + id, null);
-                                                                                    ((MainActivity) context).refreshViewPager3();
-                                                                                }
-                                                                                break;
-                                                                        }
-                                                                    }
-
-                                                                    context.unregisterReceiver(this);
-                                                                } catch (Exception e) {
-
-                                                                }
-                                                            }
-                                                        }, new IntentFilter(DELIVERED));
-
-                                                        ArrayList<PendingIntent> sPI = new ArrayList<PendingIntent>();
-                                                        ArrayList<PendingIntent> dPI = new ArrayList<PendingIntent>();
-
-                                                        String body2 = body;
-
-                                                        if (stripUnicode)
-                                                        {
-                                                            body2 = StripAccents.stripAccents(body2);
-                                                        }
-
-                                                        SmsManager smsManager = SmsManager.getDefault();
-                                                        ArrayList<String> parts = smsManager.divideMessage(body2);
-
-                                                        for (int i = 0; i < parts.size(); i++)
-                                                        {
-                                                            sPI.add(sentPI);
-                                                            dPI.add(deliveredPI);
-                                                        }
-
-                                                        smsManager.sendMultipartTextMessage(inboxNumbers, null, parts, sPI, dPI);
-                                                    } else
-                                                    {
-                                                    }
-                                                } else
-                                                {
                                                     if (!inboxNumbers.replaceAll("[^0-9]", "").equals(""))
                                                     {
                                                         String SENT = "SMS_SENT";
@@ -1762,7 +1361,7 @@ public class MessageSpeedCursorAdapter extends CursorAdapter {
                                                     } else
                                                     {
                                                     }
-                                                }
+
 
                                                 String address = inboxNumbers;
 
@@ -1872,52 +1471,20 @@ public class MessageSpeedCursorAdapter extends CursorAdapter {
 
         if (MainActivity.animationOn == true && cursor.getPosition() == 0 && threadPosition == 0)
         {
-            if (sendingAnimation.equals("left"))
-            {
-                Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
-                anim.setDuration(animationSpeed);
-                view.startAnimation(anim);
-            } else if (sendingAnimation.equals("right"))
-            {
-                Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_left);
-                anim.setDuration(animationSpeed);
-                view.startAnimation(anim);
-            } else if (sendingAnimation.equals("up"))
-            {
-                Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_up);
-                anim.setDuration(animationSpeed);
-                view.startAnimation(anim);
-            } else if (sendingAnimation.equals("hangouts")) {
-                Animation anim = AnimationUtils.loadAnimation(context, R.anim.hangouts_in);
-                anim.setDuration(animationSpeed);
-                view.startAnimation(anim);
-            }
+
+            Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_up);
+            anim.setDuration(300);
+            view.startAnimation(anim);
 
             MainActivity.animationOn = false;
         }
 
         if (MainActivity.animationReceived == 1 && cursor.getPosition() == 0 && MainActivity.animationThread == threadPosition)
         {
-            if (recieveAnimation.equals("left"))
-            {
-                Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
-                anim.setDuration(animationSpeed);
-                view.startAnimation(anim);
-            } else if (recieveAnimation.equals("right"))
-            {
-                Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_left);
-                anim.setDuration(animationSpeed);
-                view.startAnimation(anim);
-            } else if (recieveAnimation.equals("up"))
-            {
-                Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_up);
-                anim.setDuration(animationSpeed);
-                view.startAnimation(anim);
-            } else if (recieveAnimation.equals("hangouts")) {
-                Animation anim = AnimationUtils.loadAnimation(context, R.anim.hangouts_in);
-                anim.setDuration(animationSpeed);
-                view.startAnimation(anim);
-            }
+
+            Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_up);
+            anim.setDuration(300);
+            view.startAnimation(anim);
 
             MainActivity.animationReceived = 0;
         }
@@ -1931,13 +1498,7 @@ public class MessageSpeedCursorAdapter extends CursorAdapter {
         int type = getItemViewType(cursor);
 
         if (type == 1) {
-            if (runAs.equals("hangout")) {
-                v = mInflater.inflate(R.layout.message_hangout_sent, parent, false);
-            } else if (runAs.equals("sliding")) {
-                v = mInflater.inflate(R.layout.message_classic_sent, parent, false);
-            } else {
-                v = mInflater.inflate(R.layout.message_card2_sent, parent, false);
-            }
+            v = mInflater.inflate(R.layout.message_speed_sent, parent, false);
 
             holder.text = (TextView) v.findViewById(R.id.textBody);
             holder.date = (TextView) v.findViewById(R.id.textDate);
@@ -1949,13 +1510,8 @@ public class MessageSpeedCursorAdapter extends CursorAdapter {
 
             holder.image.assignContactUri(ContactsContract.Profile.CONTENT_URI);
         } else {
-            if (runAs.equals("hangout")) {
-                v = mInflater.inflate(R.layout.message_hangout_received, parent, false);
-            } else if (runAs.equals("sliding")) {
-                v = mInflater.inflate(R.layout.message_classic_received, parent, false);
-            } else {
-                v = mInflater.inflate(R.layout.message_card2_received, parent, false);
-            }
+
+            v = mInflater.inflate(R.layout.message_speed_recieved, parent, false);
 
             holder.text = (TextView) v.findViewById(R.id.textBody);
             holder.date = (TextView) v.findViewById(R.id.textDate);
@@ -1966,27 +1522,6 @@ public class MessageSpeedCursorAdapter extends CursorAdapter {
             holder.background = v.findViewById(R.id.messageBody);
 
             holder.image.assignContactFromPhone(inboxNumbers, true);
-        }
-
-        if (runAs.equals("card2")) {
-
-            if (themeName.equals("Light Theme") || themeName.equals("Hangouts Theme") || themeName.equals("Light Theme 2.0") || themeName.equals("Light Green Theme") || themeName.equals("Burnt Orange Theme")) {
-
-            } else {
-                v.findViewById(R.id.shadow).setVisibility(View.GONE);
-            }
-
-            if (type == 1) {
-                v.findViewById(R.id.divider).setBackgroundColor(convertToColorInt(convertToARGB(ctSentTextColor, "44")));
-            } else {
-                v.findViewById(R.id.divider).setBackgroundColor(convertToColorInt(convertToARGB(ctRecievedTextColor, "44")));
-            }
-        }
-
-        if (customFont)
-        {
-            holder.text.setTypeface(font);
-            holder.date.setTypeface(font);
         }
 
         if (contactPictures)
@@ -2004,18 +1539,10 @@ public class MessageSpeedCursorAdapter extends CursorAdapter {
             holder.image.setMinimumWidth(0);
         }
 
-        try {
-            holder.text.setTextSize(Integer.parseInt(textSize.substring(0,2)));
-            holder.date.setTextSize(Integer.parseInt(textSize.substring(0,2)) - 4);
-        } catch (Exception e) {
-            holder.text.setTextSize(Integer.parseInt(textSize.substring(0,1)));
-            holder.date.setTextSize(Integer.parseInt(textSize.substring(0,1)) - 4);
-        }
 
-        if (tinyDate)
-        {
-            holder.date.setTextSize(10);
-        }
+        holder.text.setTextSize(14);
+        holder.date.setTextSize(10);
+
 
         holder.text.setText("");
         holder.date.setText("");
@@ -2025,132 +1552,15 @@ public class MessageSpeedCursorAdapter extends CursorAdapter {
         }
 
         if (type == 1) {
-            holder.text.setTextColor(ctSentTextColor);
-            holder.date.setTextColor(convertToColorInt(convertToARGB(ctSentTextColor, "55")));
-            holder.background.setBackgroundColor(ctSentMessageBackground);
-            holder.media.setBackgroundColor(ctSentMessageBackground);
-            holder.bubble.setColorFilter(ctSentMessageBackground);
 
-            if (!customTheme)
-            {
-                if (sentTextColor.equals("blue"))
-                {
-                    holder.text.setTextColor(context.getResources().getColor(R.color.holo_blue));
-                    holder.date.setTextColor(context.getResources().getColor(R.color.holo_blue));
-                } else if (sentTextColor.equals("white"))
-                {
-                    holder.text.setTextColor(context.getResources().getColor(R.color.white));
-                    holder.date.setTextColor(context.getResources().getColor(R.color.white));
-                } else if (sentTextColor.equals("green"))
-                {
-                    holder.text.setTextColor(context.getResources().getColor(R.color.holo_green));
-                    holder.date.setTextColor(context.getResources().getColor(R.color.holo_green));
-                } else if (sentTextColor.equals("orange"))
-                {
-                    holder.text.setTextColor(context.getResources().getColor(R.color.holo_orange));
-                    holder.date.setTextColor(context.getResources().getColor(R.color.holo_orange));
-                } else if (sentTextColor.equals("red"))
-                {
-                    holder.text.setTextColor(context.getResources().getColor(R.color.holo_red));
-                    holder.date.setTextColor(context.getResources().getColor(R.color.holo_red));
-                } else if (sentTextColor.equals("purple"))
-                {
-                    holder.text.setTextColor(context.getResources().getColor(R.color.holo_purple));
-                    holder.date.setTextColor(context.getResources().getColor(R.color.holo_purple));
-                } else if (sentTextColor.equals("black"))
-                {
-                    holder.text.setTextColor(context.getResources().getColor(R.color.pitch_black));
-                    holder.date.setTextColor(context.getResources().getColor(R.color.pitch_black));
-                } else if (sentTextColor.equals("grey"))
-                {
-                    holder.text.setTextColor(context.getResources().getColor(R.color.grey));
-                    holder.date.setTextColor(context.getResources().getColor(R.color.grey));
-                }
+            holder.text.setTextColor(context.getResources().getColor(R.color.grey));
+            holder.date.setTextColor(context.getResources().getColor(R.color.grey));
 
-                holder.background.setBackgroundColor(convertToColorInt(convertToARGB(ctSentMessageBackground, textOpacity + "")));
-            }
         } else {
-            holder.text.setTextColor(ctRecievedTextColor);
-            holder.date.setTextColor(convertToColorInt(convertToARGB(ctRecievedTextColor, "55")));
-            holder.background.setBackgroundColor(ctRecievedMessageBackground);
-            holder.media.setBackgroundColor(ctRecievedMessageBackground);
-            holder.bubble.setColorFilter(ctRecievedMessageBackground);
 
-            if (!customTheme)
-            {
-                if (sentTextColor.equals("blue"))
-                {
-                    holder.text.setTextColor(context.getResources().getColor(R.color.holo_blue));
-                    holder.date.setTextColor(context.getResources().getColor(R.color.holo_blue));
-                } else if (sentTextColor.equals("white"))
-                {
-                    holder.text.setTextColor(context.getResources().getColor(R.color.white));
-                    holder.date.setTextColor(context.getResources().getColor(R.color.white));
-                } else if (sentTextColor.equals("green"))
-                {
-                    holder.text.setTextColor(context.getResources().getColor(R.color.holo_green));
-                    holder.date.setTextColor(context.getResources().getColor(R.color.holo_green));
-                } else if (sentTextColor.equals("orange"))
-                {
-                    holder.text.setTextColor(context.getResources().getColor(R.color.holo_orange));
-                    holder.date.setTextColor(context.getResources().getColor(R.color.holo_orange));
-                } else if (sentTextColor.equals("red"))
-                {
-                    holder.text.setTextColor(context.getResources().getColor(R.color.holo_red));
-                    holder.date.setTextColor(context.getResources().getColor(R.color.holo_red));
-                } else if (sentTextColor.equals("purple"))
-                {
-                    holder.text.setTextColor(context.getResources().getColor(R.color.holo_purple));
-                    holder.date.setTextColor(context.getResources().getColor(R.color.holo_purple));
-                } else if (sentTextColor.equals("black"))
-                {
-                    holder.text.setTextColor(context.getResources().getColor(R.color.pitch_black));
-                    holder.date.setTextColor(context.getResources().getColor(R.color.pitch_black));
-                } else if (sentTextColor.equals("grey"))
-                {
-                    holder.text.setTextColor(context.getResources().getColor(R.color.grey));
-                    holder.date.setTextColor(context.getResources().getColor(R.color.grey));
-                }
+            holder.text.setTextColor(context.getResources().getColor(R.color.grey));
+            holder.date.setTextColor(context.getResources().getColor(R.color.grey));
 
-                holder.background.setBackgroundColor(convertToColorInt(convertToARGB(ctRecievedMessageBackground, textOpacity + "")));
-            }
-        }
-
-        if (!textAlignment.equals("split"))
-        {
-            if (textAlignment.equals("right"))
-            {
-                holder.text.setGravity(Gravity.RIGHT);
-                holder.date.setGravity(Gravity.RIGHT);
-            } else
-            {
-                holder.text.setGravity(Gravity.LEFT);
-                holder.date.setGravity(Gravity.LEFT);
-            }
-        } else if (!contactPictures) {
-            if (type == 0) {
-                holder.text.setGravity(Gravity.LEFT);
-                holder.date.setGravity(Gravity.LEFT);
-            } else {
-                holder.text.setGravity(Gravity.RIGHT);
-                holder.date.setGravity(Gravity.RIGHT);
-            }
-        }
-
-        if (runAs.equals("hangout")) {
-            int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 7, context.getResources().getDisplayMetrics());
-            int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, context.getResources().getDisplayMetrics());
-            int scale3 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, context.getResources().getDisplayMetrics());
-
-            if (type == 1) {
-                v.setPadding(scale3, scale2, scale, scale2);
-            } else {
-                v.setPadding(scale, scale2, scale3, scale2);
-            }
-        } else if (runAs.equals("card2")) {
-            int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 17, context.getResources().getDisplayMetrics());
-            int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, context.getResources().getDisplayMetrics());
-            v.setPadding(scale, scale2, scale, 0);
         }
 
         v.setTag(holder);
@@ -2186,8 +1596,7 @@ public class MessageSpeedCursorAdapter extends CursorAdapter {
     }
 
     public void setMessageText(final TextView textView, final String body) {
-        if (smilies.equals("with"))
-        {
+
             String patternStr = "[^\\x20-\\x7E\\n]";
             Pattern pattern = Pattern.compile(patternStr);
             Matcher matcher = pattern.matcher(body);
@@ -2202,21 +1611,7 @@ public class MessageSpeedCursorAdapter extends CursorAdapter {
                     public void run() {
                         final Spannable text;
 
-                        if (emojiType)
-                        {
-                            if (smiliesType) {
-                                text = EmojiConverter2.getSmiledText(context, EmoticonConverter2New.getSmiledText(context, body));
-                            } else {
-                                text = EmojiConverter2.getSmiledText(context, EmoticonConverter2.getSmiledText(context, body));
-                            }
-                        } else
-                        {
-                            if (smiliesType) {
-                                text = EmojiConverter.getSmiledText(context, EmoticonConverter2New.getSmiledText(context, body));
-                            } else {
-                                text = EmojiConverter.getSmiledText(context, EmoticonConverter2.getSmiledText(context, body));
-                            }
-                        }
+                        text = EmojiConverter2.getSmiledText(context, EmoticonConverter2New.getSmiledText(context, body));
 
                         context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 
@@ -2232,164 +1627,12 @@ public class MessageSpeedCursorAdapter extends CursorAdapter {
                 }).start();
             } else
             {
-                if (smiliesType) {
-                    textView.setText(EmoticonConverter2New.getSmiledText(context, body));
-                } else {
-                    textView.setText(EmoticonConverter2.getSmiledText(context, body));
-                }
+                textView.setText(EmoticonConverter2New.getSmiledText(context, body));
 
                 Linkify.addLinks(textView, Linkify.ALL);
             }
-        } else if (smilies.equals("without"))
-        {
-            String patternStr = "[^\\x20-\\x7E\\n]";
-            Pattern pattern = Pattern.compile(patternStr);
-            Matcher matcher = pattern.matcher(body);
 
-            if (matcher.find())
-            {
-                textView.setText(body);
 
-                new Thread(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        final Spannable text;
-
-                        if (emojiType)
-                        {
-                            if (smiliesType) {
-                                text = EmojiConverter2.getSmiledText(context, EmoticonConverterNew.getSmiledText(context, body));
-                            } else {
-                                text = EmojiConverter2.getSmiledText(context, EmoticonConverter.getSmiledText(context, body));
-                            }
-                        } else
-                        {
-                            if (smiliesType) {
-                                text = EmojiConverter.getSmiledText(context, EmoticonConverterNew.getSmiledText(context, body));
-                            } else {
-                                text = EmojiConverter.getSmiledText(context, EmoticonConverter.getSmiledText(context, body));
-                            }
-                        }
-
-                        context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                textView.setText(text);
-                                Linkify.addLinks(textView, Linkify.ALL);
-                            }
-
-                        });
-                    }
-
-                }).start();
-            } else
-            {
-                if (smiliesType) {
-                    textView.setText(EmoticonConverterNew.getSmiledText(context, body));
-                } else {
-                    textView.setText(EmoticonConverter.getSmiledText(context, body));
-                }
-
-                Linkify.addLinks(textView, Linkify.ALL);
-            }
-        } else if (smilies.equals("none"))
-        {
-            String patternStr = "[^\\x20-\\x7E\\n]";
-            Pattern pattern = Pattern.compile(patternStr);
-            Matcher matcher = pattern.matcher(body);
-
-            if (matcher.find())
-            {
-                textView.setText(body);
-
-                new Thread(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        final Spannable text;
-
-                        if (emojiType)
-                        {
-                            text = EmojiConverter2.getSmiledText(context, body);
-                        } else
-                        {
-                            text = EmojiConverter.getSmiledText(context, body);
-                        }
-
-                        context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                textView.setText(text);
-                                Linkify.addLinks(textView, Linkify.ALL);
-                            }
-
-                        });
-                    }
-
-                }).start();
-            } else
-            {
-                textView.setText(body);
-                Linkify.addLinks(textView, Linkify.ALL);
-            }
-        } else if (smilies.equals("both"))
-        {
-            String patternStr = "[^\\x20-\\x7E\\n]";
-            Pattern pattern = Pattern.compile(patternStr);
-            Matcher matcher = pattern.matcher(body);
-
-            if (matcher.find())
-            {
-                textView.setText(body);
-
-                new Thread(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        final Spannable text;
-
-                        if (emojiType)
-                        {
-                            if (smiliesType) {
-                                text = EmojiConverter2.getSmiledText(context, EmoticonConverter3New.getSmiledText(context, body));
-                            } else {
-                                text = EmojiConverter2.getSmiledText(context, EmoticonConverter3.getSmiledText(context, body));
-                            }
-                        } else
-                        {
-                            if (smiliesType) {
-                                text = EmojiConverter.getSmiledText(context, EmoticonConverter3New.getSmiledText(context, body));
-                            } else {
-                                text = EmojiConverter.getSmiledText(context, EmoticonConverter3.getSmiledText(context, body));
-                            }
-                        }
-
-                        context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                textView.setText(text);
-                                Linkify.addLinks(textView, Linkify.ALL);
-                            }
-
-                        });
-                    }
-
-                }).start();
-            } else
-            {
-                if (smiliesType) {
-                    textView.setText(EmoticonConverter3New.getSmiledText(context, body));
-                } else {
-                    textView.setText(EmoticonConverter3.getSmiledText(context, body));
-                }
-
-                Linkify.addLinks(textView, Linkify.ALL);
-            }
-        }
     }
 
     public void downloadableMessage(final ViewHolder holder, String id) {
@@ -2416,11 +1659,6 @@ public class MessageSpeedCursorAdapter extends CursorAdapter {
             holder.text.setText("");
             holder.text.setGravity(Gravity.CENTER);
 
-            holder.text.setTextColor(ctRecievedTextColor);
-            holder.date.setTextColor(ctRecievedTextColor);
-            holder.background.setBackgroundColor(ctRecievedMessageBackground);
-            holder.media.setBackgroundColor(ctRecievedMessageBackground);
-            holder.bubble.setColorFilter(ctRecievedMessageBackground);
             holder.date.setText("");
 
             boolean error2 = false;
@@ -2813,11 +2051,6 @@ public class MessageSpeedCursorAdapter extends CursorAdapter {
                 else {
                     Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
 
-                    if (darkContactImage)
-                    {
-                        defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar_dark);
-                    }
-
                     contact.close();
                     return defaultPhoto;
                 }
@@ -2831,44 +2064,22 @@ public class MessageSpeedCursorAdapter extends CursorAdapter {
                 } else {
                     Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
 
-                    if (darkContactImage)
-                    {
-                        defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar_dark);
-                    }
-
                     contact.close();
                     return defaultPhoto;
                 }
                 Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
 
-                if (darkContactImage)
-                {
-                    defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar_dark);
-                }
-
                 contact.close();
                 return defaultPhoto;
             } catch (Exception e)
             {
-                if (darkContactImage)
-                {
-                    contact.close();
-                    return BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar_dark);
-                } else
-                {
-                    contact.close();
-                    return BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
-                }
+                contact.close();
+                return BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
+
             }
         } catch (Exception e)
         {
-            if (darkContactImage)
-            {
-                return BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar_dark);
-            } else
-            {
-                return BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
-            }
+            return BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
         }
     }
 
@@ -2901,13 +2112,7 @@ public class MessageSpeedCursorAdapter extends CursorAdapter {
             return bitmap;
         } catch (Exception e)
         {
-            if (darkContactImage)
-            {
-                return BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar_dark);
-            } else
-            {
-                return BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
-            }
+            return BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
         }
     }
 
