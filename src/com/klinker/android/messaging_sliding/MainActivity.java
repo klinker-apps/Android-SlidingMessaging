@@ -445,7 +445,7 @@ public class MainActivity extends FragmentActivity {
             ctSentMessageBackground = sharedPrefs.getInt("ct_sentMessageBackground", getResources().getColor(R.color.white));
             ctMessageListBackground = sharedPrefs.getInt("ct_messageListBackground", getResources().getColor(R.color.light_silver));
             ctConversationDividerColor = sharedPrefs.getInt("ct_conversationDividerColor", getResources().getColor(R.color.white));
-            ctSendButtonColor = sharedPrefs.getInt("ct_sentButtonColor", getResources().getColor(R.color.black));
+            ctSendButtonColor = sharedPrefs.getInt("ct_sendButtonColor", getResources().getColor(R.color.black));
             ctSendBarBackground = sharedPrefs.getInt("ct_sendbarBackground", getResources().getColor(R.color.white));
             emojiButtonColor = sharedPrefs.getInt("ct_emojiButtonColor", getResources().getColor(R.color.emoji_button));
             draftTextColor = sharedPrefs.getInt("ct_draftTextColor", ctSendButtonColor);

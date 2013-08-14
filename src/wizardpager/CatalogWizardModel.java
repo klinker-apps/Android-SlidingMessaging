@@ -54,6 +54,7 @@ public class CatalogWizardModel extends AbstractWizardModel {
         String changeLog = "Version " + version + ":\n\n" +
                 "Introducing the REAL SlideOver feature now... Its a lot like HALO (or chatheads) for everyone! Access the app through the SlideOver popup from anywhere, quickly see and react to new messages and quickly compose new messages using SlideOver!\n\n" +
                 "- TONS of SlideOver customization options\n" +
+                "- Cleaned up settings by not displaying everything unless you check the \"Show All Settings\" option in advanced settings\n" +
                 "- Option to use most performance based layout under Advanced Settings \n" +
                 "- Bug fixes\n\n" +
                 "And of course, huge credit to the guys on the Paranoid Android team for inspiration behind SlideOver!";
@@ -61,19 +62,6 @@ public class CatalogWizardModel extends AbstractWizardModel {
         String themeEditor = "The theme editor now fully supports the Cards UI 2.0, making it a " +
                 "better time than ever to get on board and start making Sliding Messaging Pro look exactly how you want!\n\n" +
                 mContext.getString(R.string.theme_support);
-
-        String notesPage = mContext.getResources().getString(R.string.changelog_disclaimers)
-                        + "\n\n" +
-                        mContext.getResources().getString(R.string.override_stock_disclaimer)
-                        + "\n\n" +
-                        mContext.getResources().getString(R.string.twitter_link);
-
-        /*
-        String goPro = mContext.getString(R.string.go_pro1) + "\n" +
-                mContext.getString(R.string.go_pro2) +
-                mContext.getString(R.string.go_pro3) +
-                mContext.getString(R.string.go_pro4);
-                */
 
         String goSMS = mContext.getString(R.string.go_sms_body);
 
