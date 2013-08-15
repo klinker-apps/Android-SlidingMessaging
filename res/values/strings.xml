@@ -543,6 +543,6 @@
     <string name="slideover_clear">CLEAR</string>
     <string name="slideover_settings_overlay">SETTINGS</string>
     <string name="override_speed">Override for Preformance</string>
-    <string name="override_speed_summary">Override some custom app settings for the most optimized/quickest behavior.</string>
+    <string name="override_speed_summary">Override some custom app settings for the most optimized/quickest behavior</string>
     
 </resources>
