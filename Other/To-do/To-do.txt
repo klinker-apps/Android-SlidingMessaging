@@ -10,10 +10,12 @@ Luke's ideas for speed/fluidity improvement:
 		- not sure how this would affect scrolling through the view pager though. may work, but may never move the threads to the correct position
 
 0) more individual notification options
-3) Batch delete of messages inside single conversation
-5) Tasker options
-6) Attach more options for MMS - create slideshow with videos and audio and pictures, attach plain text contact info
-10) Pin contact to always be first conversation
+1) Batch delete of messages inside single conversation
+2) Tasker options
+3) Attach more options for MMS - create slideshow with videos and audio and pictures, attach plain text contact info
+4) Pin contact to always be first conversation
+5) Auto call when phone is placed to the ear (proximity sensor)
+
 
 - igamer777@gmail.com, nikorezzano@gmail.com
 
