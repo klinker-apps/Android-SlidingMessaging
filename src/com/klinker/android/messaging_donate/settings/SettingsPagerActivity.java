@@ -5,6 +5,7 @@ import android.app.*;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.*;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -407,6 +408,28 @@ public class SettingsPagerActivity extends FragmentActivity {
                 public boolean onPreferenceClick(Preference arg0) {
                     Intent intent = new Intent(context, com.klinker.android.messaging_sliding.developer_tips.MainActivity.class);
                     startActivity(intent);
+                    overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                    return false;
+                }
+
+            });
+
+            Preference changelog = findPreference("changelog");
+            changelog.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+
+                @Override
+                public boolean onPreferenceClick(Preference arg0) {
+                    String version = "";
+
+                    try {
+                        version = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
+                    } catch (PackageManager.NameNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
+                    Intent wizardintent = new Intent(getApplicationContext(), wizardpager.MainActivity.class);
+                    wizardintent.putExtra("version", version);
+                    startActivity(wizardintent);
                     overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                     return false;
                 }
