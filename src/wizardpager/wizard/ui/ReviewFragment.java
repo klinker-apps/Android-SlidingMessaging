@@ -72,6 +72,8 @@ public class ReviewFragment extends ListFragment implements ModelCallbacks {
                        + "\n\n" +
                        getResources().getString(R.string.override_stock_disclaimer)
                        + "\n\n" +
+                       getResources().getString(R.string.lag_disclaimer)
+                       + "\n\n" +
                        getResources().getString(R.string.twitter_link));
         Linkify.addLinks(message, Linkify.ALL);
 

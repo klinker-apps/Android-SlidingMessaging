@@ -67,6 +67,23 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
   private final ViewPager pager;
   private static final String FILENAME = "newMessages.txt";
   private SharedPreferences sharedPrefs;
+
+    public boolean customFont;
+    public String customFontPath;
+    public boolean customTheme;
+    public int ctSummaryTextColor;
+    public String textSize2;
+    public boolean contactPictures2;
+    public boolean ctDarkContactPics;
+    public boolean hideMessageCounter;
+    public int ctMessageCounterColor;
+    public String smilies;
+    public boolean emojiType;
+    public boolean smiliesType;
+    public boolean hourFormat;
+    public boolean customBackground;
+    public int ctUnreadConversationColor;
+    public int ctConversationListBackground;
   
   static class ViewHolder {
 	    public TextView text;
@@ -88,6 +105,24 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
     this.read = read;
     this.pager = pager;
     this.sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+      // shared prefs again!
+    customFont = sharedPrefs.getBoolean("custom_font", false);
+    customFontPath = sharedPrefs.getString("custom_font_path", null);
+    customTheme = sharedPrefs.getBoolean("custom_theme", false);
+      ctSummaryTextColor = sharedPrefs.getInt("ct_summaryTextColor", context.getResources().getColor(R.color.black));
+      textSize2 = sharedPrefs.getString("text_size2", 14 + "");
+      contactPictures2 = sharedPrefs.getBoolean("contact_pictures2", true);
+      ctDarkContactPics = sharedPrefs.getBoolean("ct_darkContactImage", false);
+      hideMessageCounter = sharedPrefs.getBoolean("hide_message_counter", false);
+      ctMessageCounterColor = sharedPrefs.getInt("ct_messageCounterColor", context.getResources().getColor(R.color.messageCounterLight));
+      smilies = sharedPrefs.getString("smilies", "with");
+      emojiType = sharedPrefs.getBoolean("emoji_type", true);
+      smiliesType = sharedPrefs.getBoolean("smiliesType", true);
+      hourFormat = sharedPrefs.getBoolean("hour_format", false);
+      customBackground =sharedPrefs.getBoolean("custom_background", false);
+      ctUnreadConversationColor = sharedPrefs.getInt("ct_unreadConversationColor", sharedPrefs.getInt("ct_receivedMessageBackground", context.getResources().getColor(R.color.white)));
+      ctConversationListBackground = sharedPrefs.getInt("ct_conversationListBackground", context.getResources().getColor(R.color.light_silver));
   }
   
   @Override
@@ -122,15 +157,15 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 		  viewHolder.text4 = (TextView) contactView.findViewById(R.id.contactDate2);
 		  viewHolder.image = (QuickContactBadge) contactView.findViewById(R.id.quickContactBadge3);
 		  
-		  if (sharedPrefs.getBoolean("custom_font", false))
+		  if (customFont)
 	      {
-	    	  viewHolder.text.setTypeface(Typeface.createFromFile(sharedPrefs.getString("custom_font_path", "")));
-	    	  viewHolder.text2.setTypeface(Typeface.createFromFile(sharedPrefs.getString("custom_font_path", "")));
-	    	  viewHolder.text3.setTypeface(Typeface.createFromFile(sharedPrefs.getString("custom_font_path", "")));
-	    	  viewHolder.text4.setTypeface(Typeface.createFromFile(sharedPrefs.getString("custom_font_path", "")));
+	    	  viewHolder.text.setTypeface(Typeface.createFromFile(customFontPath));
+	    	  viewHolder.text2.setTypeface(Typeface.createFromFile(customFontPath));
+	    	  viewHolder.text3.setTypeface(Typeface.createFromFile(customFontPath));
+	    	  viewHolder.text4.setTypeface(Typeface.createFromFile(customFontPath));
 	      }
 
-          if (!sharedPrefs.getBoolean("custom_theme", false))
+          if (!customTheme)
           {
               String color = sharedPrefs.getString("menu_text_color", "default");
 
@@ -176,9 +211,9 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
                   viewHolder.text4.setTextColor(context.getResources().getColor(R.color.grey));
               }  else
               {
-                  viewHolder.text2.setTextColor(sharedPrefs.getInt("ct_summaryTextColor", context.getResources().getColor(R.color.black)));
-                  viewHolder.text3.setTextColor(sharedPrefs.getInt("ct_summaryTextColor", context.getResources().getColor(R.color.black)));
-                  viewHolder.text4.setTextColor(sharedPrefs.getInt("ct_summaryTextColor", context.getResources().getColor(R.color.black)));
+                  viewHolder.text2.setTextColor(ctSummaryTextColor);
+                  viewHolder.text3.setTextColor(ctSummaryTextColor);
+                  viewHolder.text4.setTextColor(ctSummaryTextColor);
               }
 
               color = sharedPrefs.getString("name_text_color", "default");
@@ -214,17 +249,17 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
           } else
           {
               viewHolder.text.setTextColor(sharedPrefs.getInt("ct_nameTextColor", context.getResources().getColor(R.color.black)));
-              viewHolder.text2.setTextColor(sharedPrefs.getInt("ct_summaryTextColor", context.getResources().getColor(R.color.black)));
-              viewHolder.text3.setTextColor(sharedPrefs.getInt("ct_summaryTextColor", context.getResources().getColor(R.color.black)));
-              viewHolder.text4.setTextColor(sharedPrefs.getInt("ct_summaryTextColor", context.getResources().getColor(R.color.black)));
+              viewHolder.text2.setTextColor(ctSummaryTextColor);
+              viewHolder.text3.setTextColor(ctSummaryTextColor);
+              viewHolder.text4.setTextColor(ctSummaryTextColor);
           }
 
-          viewHolder.text.setTextSize((float)Integer.parseInt(sharedPrefs.getString("text_size2", 14 + "")));
-          viewHolder.text2.setTextSize((float)Integer.parseInt(sharedPrefs.getString("text_size2", 14 + "")));
-          viewHolder.text3.setTextSize((float)(Integer.parseInt(sharedPrefs.getString("text_size2", 14 + "")) - 2));
-          viewHolder.text4.setTextSize((float)(Integer.parseInt(sharedPrefs.getString("text_size2", 14 + "")) - 2));
+          viewHolder.text.setTextSize((float)Integer.parseInt(textSize2));
+          viewHolder.text2.setTextSize((float)Integer.parseInt(textSize2));
+          viewHolder.text3.setTextSize((float)(Integer.parseInt(textSize2) - 2));
+          viewHolder.text4.setTextSize((float)(Integer.parseInt(textSize2) - 2));
 
-          if (!sharedPrefs.getBoolean("contact_pictures2", true))
+          if (!contactPictures2)
           {
               viewHolder.image.setVisibility(View.GONE);
               RelativeLayout.LayoutParams params1 = (RelativeLayout.LayoutParams) viewHolder.text.getLayoutParams();
@@ -240,7 +275,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 	  
 	  final ViewHolder holder = (ViewHolder) contactView.getTag();
       
-      if (sharedPrefs.getBoolean("ct_darkContactImage", false))
+      if (ctDarkContactPics)
       {
           holder.image.setImageResource(R.drawable.ic_contact_dark);
       } else {
@@ -257,13 +292,13 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
             Spanned text;
             String names = "";
 
-            if (!sharedPrefs.getBoolean("hide_message_counter", false))
+            if (!hideMessageCounter)
             {
                 if (group.get(position).equals("yes"))
                 {
                     if (Integer.parseInt(count.get(position)) > 1)
                     {
-                        text = Html.fromHtml("Group MMS   <font color=#" + CustomTheme.convertToARGB(sharedPrefs.getInt("ct_messageCounterColor", context.getResources().getColor(R.color.messageCounterLight))).substring(3) + "><b>" + count.get(position) + "</b></color>");
+                        text = Html.fromHtml("Group MMS   <font color=#" + CustomTheme.convertToARGB(ctMessageCounterColor).substring(3) + "><b>" + count.get(position) + "</b></color>");
                     } else
                     {
                         text = Html.fromHtml("Group MMS");
@@ -276,7 +311,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 
                     if (Integer.parseInt(count.get(position)) > 1)
                     {
-                        text = Html.fromHtml(contactName + "   <font color=#" + CustomTheme.convertToARGB(sharedPrefs.getInt("ct_messageCounterColor", context.getResources().getColor(R.color.messageCounterLight))).substring(3) + "><b>" + count.get(position) + "</b></color>");
+                        text = Html.fromHtml(contactName + "   <font color=#" + CustomTheme.convertToARGB(ctMessageCounterColor).substring(3) + "><b>" + count.get(position) + "</b></color>");
                     } else
                     {
                         text = Html.fromHtml(contactName);
@@ -303,7 +338,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 				public void run() {
                     holder.image.assignContactFromPhone(number, true);
 
-					if (sharedPrefs.getBoolean("contact_pictures2", true))
+					if (contactPictures2)
 					{
                         if (group.get(position).equals("no"))
                         {
@@ -312,7 +347,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
                                 holder.image.setImageBitmap(Bitmap.createScaledBitmap(image, MainActivity.contactWidth, MainActivity.contactWidth, true));
                               } catch (Exception e)
                               {
-                                if (sharedPrefs.getBoolean("ct_darkContactImage", false))
+                                if (ctDarkContactPics)
                                 {
                                     holder.image.setImageBitmap(Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(R.drawable.ic_contact_dark)), MainActivity.contactWidth, MainActivity.contactWidth, true));
                                 } else
@@ -322,7 +357,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
                               }
                         } else
                         {
-                            if (sharedPrefs.getBoolean("ct_darkContactImage", false))
+                            if (ctDarkContactPics)
                             {
                                 holder.image.setImageBitmap(Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(R.drawable.ic_contact_dark)), MainActivity.contactWidth, MainActivity.contactWidth, true));
                             } else
@@ -348,7 +383,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 
 	  }).start();
 
-      if (sharedPrefs.getString("smilies", "with").equals("with"))
+      if (smilies.equals("with"))
       {
           String patternStr = "[^\\x20-\\x7E]";
           Pattern pattern = Pattern.compile(patternStr);
@@ -356,16 +391,16 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 
           if (matcher.find())
           {
-              if (sharedPrefs.getBoolean("emoji_type", true))
+              if (emojiType)
               {
-                  if (sharedPrefs.getBoolean("smiliesType", true)) {
+                  if (smiliesType) {
                       holder.text2.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter2New.getSmiledText(context, body.get(position))));
                   } else {
                       holder.text2.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter2.getSmiledText(context, body.get(position))));
                   }
               } else
               {
-                  if (sharedPrefs.getBoolean("smiliesType", true)) {
+                  if (smiliesType) {
                       holder.text2.setText(EmojiConverter.getSmiledText(context, EmoticonConverter2New.getSmiledText(context, body.get(position))));
                   } else {
                       holder.text2.setText(EmojiConverter.getSmiledText(context, EmoticonConverter2.getSmiledText(context, body.get(position))));
@@ -373,13 +408,13 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
               }
           } else
           {
-              if (sharedPrefs.getBoolean("smiliesType", true)) {
+              if (smiliesType) {
                   holder.text2.setText(EmoticonConverter2New.getSmiledText(context, body.get(position)));
               } else {
                   holder.text2.setText(EmoticonConverter2.getSmiledText(context, body.get(position)));
               }
           }
-      } else if (sharedPrefs.getString("smilies", "with").equals("without"))
+      } else if (smilies.equals("without"))
       {
           String patternStr = "[^\\x20-\\x7E]";
           Pattern pattern = Pattern.compile(patternStr);
@@ -387,16 +422,16 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 
           if (matcher.find())
           {
-              if (sharedPrefs.getBoolean("emoji_type", true))
+              if (emojiType)
               {
-                  if (sharedPrefs.getBoolean("smiliesType", true)) {
+                  if (smiliesType) {
                       holder.text2.setText(EmojiConverter2.getSmiledText(context, EmoticonConverterNew.getSmiledText(context, body.get(position))));
                   } else {
                       holder.text2.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter.getSmiledText(context, body.get(position))));
                   }
               } else
               {
-                  if (sharedPrefs.getBoolean("smiliesType", true)) {
+                  if (smiliesType) {
                       holder.text2.setText(EmojiConverter.getSmiledText(context, EmoticonConverterNew.getSmiledText(context, body.get(position))));
                   } else {
                       holder.text2.setText(EmojiConverter.getSmiledText(context, EmoticonConverter.getSmiledText(context, body.get(position))));
@@ -404,13 +439,13 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
               }
           } else
           {
-              if (sharedPrefs.getBoolean("smiliesType", true)) {
+              if (smiliesType) {
                   holder.text2.setText(EmoticonConverterNew.getSmiledText(context, body.get(position)));
               } else {
                   holder.text2.setText(EmoticonConverter.getSmiledText(context, body.get(position)));
               }
           }
-      } else if (sharedPrefs.getString("smilies", "with").equals("none"))
+      } else if (smilies.equals("none"))
       {
           String patternStr = "[^\\x20-\\x7E]";
           Pattern pattern = Pattern.compile(patternStr);
@@ -418,7 +453,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 
           if (matcher.find())
           {
-              if (sharedPrefs.getBoolean("emoji_type", true))
+              if (emojiType)
               {
                   holder.text2.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter2.getSmiledText(context, body.get(position))));
               } else
@@ -429,7 +464,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
           {
               holder.text2.setText(body.get(position));
           }
-      } else if (sharedPrefs.getString("smilies", "with").equals("both"))
+      } else if (smilies.equals("both"))
       {
           String patternStr = "[^\\x20-\\x7E]";
           Pattern pattern = Pattern.compile(patternStr);
@@ -437,16 +472,16 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 
           if (matcher.find())
           {
-              if (sharedPrefs.getBoolean("emoji_type", true))
+              if (emojiType)
               {
-                  if (sharedPrefs.getBoolean("smiliesType", true)) {
+                  if (smiliesType) {
                       holder.text2.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter3New.getSmiledText(context, body.get(position))));
                   } else {
                       holder.text2.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter3.getSmiledText(context, body.get(position))));
                   }
               } else
               {
-                  if (sharedPrefs.getBoolean("smiliesType", true)) {
+                  if (smiliesType) {
                       holder.text2.setText(EmojiConverter.getSmiledText(context, EmoticonConverter3New.getSmiledText(context, body.get(position))));
                   } else {
                       holder.text2.setText(EmojiConverter.getSmiledText(context, EmoticonConverter3.getSmiledText(context, body.get(position))));
@@ -454,7 +489,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
               }
           } else
           {
-              if (sharedPrefs.getBoolean("smiliesType", true)) {
+              if (smiliesType) {
                   holder.text2.setText(EmoticonConverter3New.getSmiledText(context, body.get(position)));
               } else {
                   holder.text2.setText(EmoticonConverter3.getSmiledText(context, body.get(position)));
@@ -472,7 +507,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 
 	  }
 
-	  if (sharedPrefs.getBoolean("hour_format", false))
+	  if (hourFormat)
 	  {
 		  holder.text3.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(date2));
 	  } else
@@ -482,6 +517,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 
 	  holder.text4.setText(DateFormat.getDateInstance(DateFormat.SHORT).format(date2));
 
+      if (MainActivity.deviceType.equals("phablet") || MainActivity.deviceType.equals("tablet"))
       if (MainActivity.deviceType.equals("phablet") || MainActivity.deviceType.equals("tablet"))
       {
           holder.text3.setText("");
@@ -494,9 +530,9 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 	  {
 		  if (position != 0)
 		  {
-			  if (!sharedPrefs.getBoolean("custom_background", false))
+			  if (!customBackground)
 		        {
-				  contactView.setBackgroundColor(sharedPrefs.getInt("ct_unreadConversationColor", sharedPrefs.getInt("ct_receivedMessageBackground", context.getResources().getColor(R.color.white))));
+				  contactView.setBackgroundColor(ctUnreadConversationColor);
 		        }
 
 			  read.set(position, "1");
@@ -504,9 +540,9 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 		  {
 			  if (!MainActivity.sentMessage)
 			  {
-				  if (!sharedPrefs.getBoolean("custom_background", false))
+				  if (!customBackground)
 			        {
-					  contactView.setBackgroundColor(sharedPrefs.getInt("ct_unreadConversationColor", sharedPrefs.getInt("ct_receivedMessageBackground", context.getResources().getColor(R.color.white))));
+					  contactView.setBackgroundColor(ctUnreadConversationColor);
 			        }
 
 				  read.set(position, "1");
@@ -528,9 +564,9 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 			    read.set(position, "1");
 			    MainActivity.menu.showContent();
 
-		        if (!sharedPrefs.getBoolean("custom_background", false))
+		        if (!customBackground)
 		        {
-		        	contactView2.setBackgroundColor(sharedPrefs.getInt("ct_conversationListBackground", context.getResources().getColor(R.color.light_silver)));
+		        	contactView2.setBackgroundColor(ctConversationListBackground);
 		        }
 
 		        new Thread(new Runnable() {
@@ -673,7 +709,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
                 else {
                     Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_picture);
 
-                    if (sharedPrefs.getBoolean("ct_darkContactImage", false))
+                    if (ctDarkContactPics)
                     {
                         defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_dark);
                     }
@@ -691,7 +727,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
                 } else {
                     Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_picture);
 
-                    if (sharedPrefs.getBoolean("ct_darkContactImage", false))
+                    if (ctDarkContactPics)
                     {
                         defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_dark);
                     }
@@ -701,7 +737,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
                 }
                 Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_picture);
 
-                if (sharedPrefs.getBoolean("ct_darkContactImage", false))
+                if (ctDarkContactPics)
                 {
                     defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_dark);
                 }
@@ -710,7 +746,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
                 return defaultPhoto;
             } catch (Exception e)
             {
-                if (sharedPrefs.getBoolean("ct_darkContactImage", false))
+                if (ctDarkContactPics)
                 {
                     contact.close();
                     return BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_dark);
@@ -722,7 +758,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
             }
         } catch (Exception e)
         {
-            if (sharedPrefs.getBoolean("ct_darkContactImage", false))
+            if (ctDarkContactPics)
             {
                 return BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_dark);
             } else
