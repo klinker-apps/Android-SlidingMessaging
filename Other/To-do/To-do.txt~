@@ -1,15 +1,8 @@
 Version 7.00
 
-- SLIDEOVER TODO
-    - fix stupid edge bug (don't have a clue on honestly)
-    - animations for new messages
-        - integrate animation view
-        - little faster scrolling text
-        - less time between name and message
-        - check to make sure animation is not already running before starting it
-    - way to move it around
-    - way to dismiss it
-    - way to dismiss all messages without having to open the app  (touch it, double tap it, or long click on it?)
+- Slideover beta errors:
+	- notification clearing bug from Neil andersen
+	- text color bug from russell freesland and trey kenyon
 - option for adding certain text to every message at the beginning (delivery reports?)
 - Message Locking
 - Figure out how to judge file size of png images and adjust them accordingly when sending, look into UriImage.getResizedImageData for solution
