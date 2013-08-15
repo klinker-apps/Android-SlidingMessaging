@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:ellipsize="end"
-                android:maxLines="80"
+                android:maxLines="200"
                 android:text="Message"/>
     </LinearLayout>
 
