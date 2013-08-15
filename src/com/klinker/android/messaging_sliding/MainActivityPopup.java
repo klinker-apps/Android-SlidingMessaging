@@ -1,5 +1,8 @@
 package com.klinker.android.messaging_sliding;
 
+import android.app.AlarmManager;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +18,9 @@ import android.view.*;
 import android.view.inputmethod.InputMethodManager;
 
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
+
+import java.util.ArrayList;
 
 public class MainActivityPopup extends MainActivity {
 
@@ -243,5 +249,31 @@ public class MainActivityPopup extends MainActivity {
         } catch (Exception e) {
             // already closed?
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        final Context context = this;
+
+        // be sure that notifications are always dismissed after closing slideover
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                NotificationManager mNotificationManager =
+                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                mNotificationManager.cancel(1);
+                mNotificationManager.cancel(2);
+
+                Intent intent = new Intent("com.klinker.android.messaging.CLEARED_NOTIFICATION");
+                context.sendBroadcast(intent);
+
+                Intent stopRepeating = new Intent(context, NotificationRepeaterService.class);
+                PendingIntent pStopRepeating = PendingIntent.getService(context, 0, stopRepeating, 0);
+                AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                alarm.cancel(pStopRepeating);
+            }
+        }, 500);
     }
 }

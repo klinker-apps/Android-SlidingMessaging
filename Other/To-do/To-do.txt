@@ -1,7 +1,6 @@
 Version 7.00
 
 - Slideover beta errors:
-	- notification clearing bug from Neil andersen
 	- text color bug from russell freesland and trey kenyon
 - option for adding certain text to every message at the beginning (delivery reports?)
 - Message Locking
