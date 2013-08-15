@@ -375,7 +375,7 @@
                 android:name="com.klinker.android.messaging_sliding.developer_tips.MainActivity"
                 android:label="@string/developer_tips"
                 android:excludeFromRecents="true"
-                android:theme="@style/WizardTheme"
+                android:theme="@android:style/Theme.Holo.Light.DarkActionBar"
                 android:windowSoftInputMode="adjustResize"
                 android:configChanges="orientation|screenSize">
         </activity>
