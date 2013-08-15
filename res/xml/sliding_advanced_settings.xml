@@ -69,6 +69,8 @@
         android:title="@string/cache_conversations"
         android:summary="@string/cache_conversations_summary"
         android:defaultValue="false"
+        android:selectable="false"
+        android:enabled="false"
         />
 
     <Preference

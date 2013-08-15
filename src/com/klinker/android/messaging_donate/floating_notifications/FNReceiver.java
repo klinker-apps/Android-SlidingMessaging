@@ -40,7 +40,13 @@ public class FNReceiver extends BroadcastReceiver {
         }
         
         address = address.replace("+", "").replace(" ", "").replace("(", "").replace(")", "");
-        long id = Long.parseLong(address);
+        long id;
+
+        try {
+            id = Long.parseLong(address);
+        } catch (Exception e) {
+            id = 0;
+        }
         
         if (messages.containsKey(id)) {
             String previous = messages.get(id)[1];

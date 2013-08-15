@@ -2778,7 +2778,12 @@ public class MessageCursorAdapter extends CursorAdapter {
         options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
 
         options.inJustDecodeBounds = false;
-        return BitmapFactory.decodeFile(path, options);
+        try {
+            return BitmapFactory.decodeFile(path, options);
+        } catch (Exception e) {
+            options.inSampleSize *= 2;
+            return BitmapFactory.decodeFile(path, options);
+        }
     }
 
     public InputStream openDisplayPhoto(long contactId) {

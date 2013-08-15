@@ -470,7 +470,7 @@
     <string name="message_sounds_summary">Will play sound when message has sent</string>
     <string name="ct_light_action_bar">Light Action Bar</string>
     <string name="cache_conversations">Cache Conversations</string>
-    <string name="cache_conversations_summary">Caches conversations in the background to allow for faster loading times, has potential to affect battery life. This feature is still experimental.</string>
+    <string name="cache_conversations_summary">Caches conversations in the background to allow for faster loading times, has potential to affect battery life. This feature is still experimental. UPDATE: Disabled for now, caused too many crashes</string>
     <string name="num_cache_conversations">Number of Cached Conversations</string>
     <string name="num_cache_conversations_summary">Sets the number of conversations to be cached and quickly loaded at application startup and in the background</string>
     <string name="changelog">Change Log</string>
