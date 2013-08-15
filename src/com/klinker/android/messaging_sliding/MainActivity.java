@@ -293,6 +293,7 @@ public class MainActivity extends FragmentActivity {
     public String pinType;
     public String securityOption;
     public String customBackgroundLocation;
+    public String customBackground2Location;
     public int ctConversationListBackground;
     public int ctSentMessageBackground;
     public int ctMessageListBackground;
@@ -373,6 +374,7 @@ public class MainActivity extends FragmentActivity {
             pinType = sharedPrefs.getString("pin_conversation_list", "1");
             securityOption = sharedPrefs.getString("security_option", "none");
             customBackgroundLocation = "";
+            customBackgroundLocation = "";
             ctConversationListBackground = sharedPrefs.getInt("ct_conversationListBackground", getResources().getColor(R.color.light_silver));
             ctSentMessageBackground = sharedPrefs.getInt("ct_sentMessageBackground", getResources().getColor(R.color.white));
             ctMessageListBackground = sharedPrefs.getInt("ct_messageListBackground", getResources().getColor(R.color.light_silver));
@@ -440,6 +442,7 @@ public class MainActivity extends FragmentActivity {
             customFontPath = sharedPrefs.getString("custom_font_path", null);
             pinType = sharedPrefs.getString("pin_conversation_list", "1");
             securityOption = sharedPrefs.getString("security_option", "none");
+            customBackground2Location = sharedPrefs.getString("custom_background2_location", "");
             customBackgroundLocation = sharedPrefs.getString("custom_background_location", "");
             ctConversationListBackground = sharedPrefs.getInt("ct_conversationListBackground", getResources().getColor(R.color.light_silver));
             ctSentMessageBackground = sharedPrefs.getInt("ct_sentMessageBackground", getResources().getColor(R.color.white));
@@ -6172,7 +6175,7 @@ public class MainActivity extends FragmentActivity {
                 BitmapFactory.Options options = new BitmapFactory.Options();
 
                 options.inSampleSize = 2;
-                Bitmap myBitmap = BitmapFactory.decodeFile(Uri.parse(customBackgroundLocation).getPath(),options);
+                Bitmap myBitmap = BitmapFactory.decodeFile(Uri.parse(customBackground2Location).getPath(),options);
                 Drawable d = new BitmapDrawable(Resources.getSystem(),myBitmap);
                 mViewPager.setBackgroundDrawable(d);
             } catch (Exception e)

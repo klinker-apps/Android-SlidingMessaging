@@ -107,9 +107,9 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
     this.sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
       // shared prefs again!
-    customFont = sharedPrefs.getBoolean("custom_font", false);
-    customFontPath = sharedPrefs.getString("custom_font_path", null);
-    customTheme = sharedPrefs.getBoolean("custom_theme", false);
+      customFont = sharedPrefs.getBoolean("custom_font", false);
+      customFontPath = sharedPrefs.getString("custom_font_path", null);
+      customTheme = sharedPrefs.getBoolean("custom_theme", false);
       ctSummaryTextColor = sharedPrefs.getInt("ct_summaryTextColor", context.getResources().getColor(R.color.black));
       textSize2 = sharedPrefs.getString("text_size2", 14 + "");
       contactPictures2 = sharedPrefs.getBoolean("contact_pictures2", true);
