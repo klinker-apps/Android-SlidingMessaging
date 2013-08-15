@@ -23,6 +23,9 @@ public class MainActivity extends Activity {
 
         setContentView(R.layout.developer_tips);
 
+        getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getActionBar().setCustomView(R.layout.centered_action_bar);
+
         // init CardView
         mCardView = (CardUI) findViewById(R.id.cardsview);
         mCardView.setSwipeable(false);
