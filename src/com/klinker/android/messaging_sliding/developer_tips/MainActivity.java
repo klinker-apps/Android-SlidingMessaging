@@ -31,6 +31,21 @@ public class MainActivity extends Activity {
         MyCard tipOne = new MyCard(getResources().getString(R.string.tip_speed_title), getResources().getString(R.string.tip_speed));
         MyCard tipTwo = new MyCard(getResources().getString(R.string.tip_incoming_mms_title), getResources().getString(R.string.tip_incoming_mms));
 
+        // Send them to the google+ post if it is clicked on
+        tipOne.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://plus.google.com/u/0/117432358268488452276/posts/WyfpFR8YNnT")));
+            }
+        });
+
+        tipTwo.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://plus.google.com/u/0/117432358268488452276/posts/DKHXNkidBXz")));
+            }
+        });
+
         // add 3 cards to stack
         mCardView.addCard(tipOne);
         mCardView.addCard(tipTwo);
