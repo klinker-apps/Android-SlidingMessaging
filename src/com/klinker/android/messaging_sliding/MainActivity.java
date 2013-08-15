@@ -331,7 +331,7 @@ public class MainActivity extends FragmentActivity {
             titleContactImages = false;
             titleCaps = false;
             darkContactImage = false;
-            showOriginalTimestamp = false;
+            showOriginalTimestamp = sharedPrefs.getBoolean("show_original_timestamp", false);
             deliveryReports = false;
             stripUnicode = false;
             customTheme = sharedPrefs.getBoolean("custom_theme", false);
