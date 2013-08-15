@@ -2,65 +2,80 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <Preference
-        android:key="theme_settings"
-        android:title="@string/theme_settings"
-    />
+    <PreferenceCategory android:key="settings_catagory"
+                        android:title="@string/settings_category" >
 
-    <Preference
-        android:key="notification_settings"
-        android:title="@string/sliding_notification_settings"
-    />
+        <Preference
+            android:key="theme_settings"
+            android:title="@string/theme_settings"
+            />
 
-    <Preference
-        android:key="popup_settings"
-        android:title="@string/popup_settings"
-    />
+        <Preference
+            android:key="notification_settings"
+            android:title="@string/sliding_notification_settings"
+            />
 
-    <Preference
-        android:key="slideover_settings"
-        android:title="@string/slideover_settings"
-    />
+        <Preference
+            android:key="popup_settings"
+            android:title="@string/popup_settings"
+            />
 
-    <Preference
-        android:key="message_settings"
-        android:title="@string/text_settings"
-    />
+        <Preference
+            android:key="slideover_settings"
+            android:title="@string/slideover_settings"
+            />
 
-    <Preference
-        android:key="conversation_settings"
-        android:title="@string/conversation_settings"
-    />
+        <Preference
+            android:key="message_settings"
+            android:title="@string/text_settings"
+            />
 
-    <Preference
-        android:key="mms_settings"
-        android:title="@string/mms_settings"
-    />
+        <Preference
+            android:key="conversation_settings"
+            android:title="@string/conversation_settings"
+            />
 
-    <Preference
-            android:key="security_settings"
-            android:title="@string/security_settings"
-    />
+        <Preference
+            android:key="mms_settings"
+            android:title="@string/mms_settings"
+            />
 
-    <Preference
-        android:key="advanced_settings"
-        android:title="@string/advanced_settings"
-    />
+        <Preference
+                android:key="security_settings"
+                android:title="@string/security_settings"
+            />
 
-    <Preference
+        <Preference
+            android:key="advanced_settings"
+            android:title="@string/advanced_settings"
+            />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:key="other_catagory"
+                        android:title="@string/other_category" >
+
+        <Preference
             android:key="quick_template_settings"
             android:title="@string/quick_templates"
             />
 
-    <Preference
+        <Preference
             android:key="scheduled_sms"
             android:title="@string/scheduled_sms"
             />
 
-    <Preference
-        android:key="delete_all"
-        android:title="@string/menu_delete"
-    />
+        <Preference
+            android:key="delete_all"
+            android:title="@string/menu_delete"
+            />
+
+        <Preference
+            android:key="developer_tips"
+            android:title="@string/developer_tips"
+            />
+
+    </PreferenceCategory>
 
 
 </PreferenceScreen>
