@@ -399,6 +399,19 @@ public class SettingsPagerActivity extends FragmentActivity {
                 }
 
             });
+
+            Preference devTips = findPreference("developer_tips");
+            devTips.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+
+                @Override
+                public boolean onPreferenceClick(Preference arg0) {
+                    Intent intent = new Intent(context, com.klinker.android.messaging_sliding.developer_tips.MainActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                    return false;
+                }
+
+            });
         }
 
         public void setUpThemeSettings()

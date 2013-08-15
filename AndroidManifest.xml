@@ -371,6 +371,15 @@
                   android:taskAffinity="">
         </activity>
 
+        <activity
+                android:name="com.klinker.android.messaging_sliding.developer_tips.MainActivity"
+                android:label="@string/developer_tips"
+                android:excludeFromRecents="true"
+                android:theme="@style/WizardTheme"
+                android:windowSoftInputMode="adjustResize"
+                android:configChanges="orientation|screenSize">
+        </activity>
+
         <service
                 android:name="com.klinker.android.messaging_sliding.slide_over.SlideOverService" >
         </service>
