@@ -56,7 +56,7 @@ public class CatalogWizardModel extends AbstractWizardModel {
                 "- TONS of SlideOver customization options\n" +
                 "- Cleaned up settings by not displaying everything unless you check the \"Show All Settings\" option in advanced settings\n" +
                 "- Option to use most performance based layout under Advanced Settings \n" +
-                "- More speed optimizations" +
+                "- More speed optimizations\n" +
                 "- Disabled caching conversations as it caused too many crashes\n" +
                 "- Bug fixes\n\n" +
                 "And of course, huge credit to the guys on the Paranoid Android team for inspiration behind SlideOver!";
