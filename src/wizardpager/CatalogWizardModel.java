@@ -58,6 +58,7 @@ public class CatalogWizardModel extends AbstractWizardModel {
                 "- Option to use most performance based layout under Advanced Settings \n" +
                 "- More speed optimizations\n" +
                 "- Added a Developer Tips section under the main settings page\n" +
+                "- Added link to Changelog under the main settings page\n" +
                 "- Disabled caching conversations as it caused too many crashes\n" +
                 "- Bug fixes\n\n" +
                 "And of course, huge credit to the guys on the Paranoid Android team for inspiration behind SlideOver!";
