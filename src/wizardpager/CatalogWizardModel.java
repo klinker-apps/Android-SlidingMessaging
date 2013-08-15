@@ -55,6 +55,7 @@ public class CatalogWizardModel extends AbstractWizardModel {
                 "Introducing the REAL SlideOver feature now... Its a lot like HALO (or chatheads) for everyone! Access the app through the SlideOver popup from anywhere, quickly see and react to new messages and quickly compose new messages using SlideOver!\n\n" +
                 "- TONS of SlideOver customization options\n" +
                 "- Option to use most performance based layout under Advanced Settings \n" +
+                "- More speed optimizations" +
                 "- Bug fixes\n\n" +
                 "And of course, huge credit to the guys on the Paranoid Android team for inspiration behind SlideOver!";
                 
