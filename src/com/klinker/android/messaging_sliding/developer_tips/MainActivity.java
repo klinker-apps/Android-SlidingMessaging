@@ -28,8 +28,8 @@ public class MainActivity extends Activity {
         mCardView.setSwipeable(false);
 
         // Create the cards
-        MyCard tipOne = new MyCard("Dev. Tip #1 (Speed and Sluggishness):", getResources().getString(R.string.tip_speed));
-        MyCard tipTwo = new MyCard("Dev. Tip #2 (Incoming MMS):", getResources().getString(R.string.tip_incoming_mms));
+        MyCard tipOne = new MyCard(getResources().getString(R.string.tip_speed_title), getResources().getString(R.string.tip_speed));
+        MyCard tipTwo = new MyCard(getResources().getString(R.string.tip_incoming_mms_title), getResources().getString(R.string.tip_incoming_mms));
 
         // add 3 cards to stack
         mCardView.addCard(tipOne);
