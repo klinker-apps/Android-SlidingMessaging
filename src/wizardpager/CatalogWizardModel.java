@@ -61,7 +61,7 @@ public class CatalogWizardModel extends AbstractWizardModel {
                 "- Added link to Changelog under the main settings page\n" +
                 "- Disabled caching conversations as it caused too many crashes\n" +
                 "- Bug fixes\n\n" +
-                "And of course, huge credit to the guys on the Paranoid Android team for inspiration behind SlideOver!";
+                "And of course, huge credit to the guys on the Paranoid Android team for the inspiration behind SlideOver!";
                 
         String themeEditor = "The theme editor now fully supports the Cards UI 2.0, making it a " +
                 "better time than ever to get on board and start making Sliding Messaging Pro look exactly how you want!\n\n" +
