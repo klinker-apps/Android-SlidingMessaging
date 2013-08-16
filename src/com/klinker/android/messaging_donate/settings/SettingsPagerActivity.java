@@ -784,6 +784,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                 getPreferenceScreen().removePreference(findPreference("slideover_break_point"));
                 getPreferenceScreen().removePreference(findPreference("slideover_secondary_action"));
                 getPreferenceScreen().removePreference(findPreference("slideover_haptic_feedback"));
+                getPreferenceScreen().removePreference(findPreference("slideover_hide_notifications"));
             }
         }
 
