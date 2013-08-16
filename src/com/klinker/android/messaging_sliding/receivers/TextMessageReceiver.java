@@ -635,7 +635,6 @@ public class TextMessageReceiver extends BroadcastReceiver {
 						        Intent deleteIntent = new Intent(context, NotificationReceiver.class); 
 						        notification.deleteIntent = PendingIntent.getBroadcast(context, 0, deleteIntent, 0);
 
-
                                 mNotificationManager.notify(1, notification);
 						        
 						        ArrayList<String> newNotifications = new ArrayList<String>();
