@@ -106,6 +106,7 @@ import com.klinker.android.messaging_sliding.emojis.EmojiAdapter2;
 import com.klinker.android.messaging_sliding.emojis.EmojiConverter;
 import com.klinker.android.messaging_sliding.emojis.EmojiConverter2;
 import com.klinker.android.messaging_sliding.notifications.IndividualSetting;
+import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead2;
 import com.klinker.android.messaging_sliding.receivers.CacheService;
 import com.klinker.android.messaging_sliding.receivers.NotificationReceiver;
 import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
@@ -4885,43 +4886,7 @@ public class MainActivity extends FragmentActivity {
                     @Override
                     public void run() {
 
-                        String[] projection = new String[]{"_id"};
-                        Uri uri = Uri.parse("content://mms-sms/conversations/?simple=true");
-                        Cursor cursor = context1.getContentResolver().query(uri, projection, null, null, null);
-
-                        try{
-
-                            cursor.moveToFirst();
-
-                            do {
-
-                                String SmsMessageId = cursor.getString(cursor.getColumnIndex("_id"));
-                                ContentValues values = new ContentValues();
-                                values.put("read", true);
-                                context1.getContentResolver().update(Uri.parse("content://sms/inbox"), values, "_id=" + SmsMessageId, null);
-
-                            } while (cursor.moveToNext());
-
-                            cursor.close();
-
-                            ((Activity) context1).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                                @Override
-                                public void run() {
-                                    ((MainActivity)context1).refreshViewPager(true);
-
-                                    Intent updateWidget = new Intent("com.klinker.android.messaging.UPDATE_WIDGET");
-                                    context1.sendBroadcast(updateWidget);
-                                }
-
-                            });
-                        }catch(Exception e)
-                        {
-                            e.printStackTrace();
-                        } finally
-                        {
-                            cursor.close();
-                        }
+                        startService(new Intent(getBaseContext(), QmMarkRead2.class));
                     }
 
                 }).start();

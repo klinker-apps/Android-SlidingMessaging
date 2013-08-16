@@ -22,6 +22,7 @@ import android.view.WindowManager;
 
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_sliding.MainActivity;
+import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead2;
 
 import java.util.List;
 
@@ -667,43 +668,7 @@ public class SlideOverService extends Service {
                 @Override
                 public void run() {
 
-                    String[] projection = new String[]{"_id"};
-                    Uri uri = Uri.parse("content://mms-sms/conversations/?simple=true");
-                    Cursor cursor = context1.getContentResolver().query(uri, projection, null, null, null);
-
-                    try{
-
-                        cursor.moveToFirst();
-
-                        do {
-
-                            String SmsMessageId = cursor.getString(cursor.getColumnIndex("_id"));
-                            ContentValues values = new ContentValues();
-                            values.put("read", true);
-                            context1.getContentResolver().update(Uri.parse("content://sms/inbox"), values, "_id=" + SmsMessageId, null);
-
-                        } while (cursor.moveToNext());
-
-                        cursor.close();
-
-                        ((Activity) context1).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                ((MainActivity)context1).refreshViewPager(true);
-
-                                Intent updateWidget = new Intent("com.klinker.android.messaging.UPDATE_WIDGET");
-                                context1.sendBroadcast(updateWidget);
-                            }
-
-                        });
-                    }catch(Exception e)
-                    {
-                        e.printStackTrace();
-                    } finally
-                    {
-                        cursor.close();
-                    }
+                    startService(new Intent(getBaseContext(), QmMarkRead2.class));
                 }
 
             }).start();
