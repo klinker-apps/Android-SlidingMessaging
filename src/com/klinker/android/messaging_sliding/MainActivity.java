@@ -110,6 +110,7 @@ import com.klinker.android.messaging_sliding.receivers.CacheService;
 import com.klinker.android.messaging_sliding.receivers.NotificationReceiver;
 import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
 import com.klinker.android.messaging_sliding.receivers.QuickTextService;
+import com.klinker.android.messaging_sliding.scheduled.NewScheduledSms;
 import com.klinker.android.messaging_sliding.search.SearchActivity;
 import com.klinker.android.messaging_sliding.security.PasswordActivity;
 import com.klinker.android.messaging_sliding.security.PinActivity;
@@ -135,6 +136,12 @@ public class MainActivity extends FragmentActivity {
      /**
      * The {@link ViewPager} that will host the section contents.
      */
+
+    public final static String EXTRA_NUMBER = "com.klinker.android.messaging_sliding.NUMBER";
+    public final static String EXTRA_DATE = "com.klinker.android.messaging_sliding.DATE";
+    public final static String EXTRA_REPEAT = "com.klinker.android.messaging_sliding.REPEAT";
+    public final static String EXTRA_MESSAGE = "com.klinker.android.messaging_sliding.MESSAGE";
+
     public static ViewPager mViewPager;
     public static SectionsPagerAdapter mSectionsPagerAdapter;
 
@@ -4530,41 +4537,44 @@ public class MainActivity extends FragmentActivity {
             {
                 menu.getItem(0).setVisible(false);
                 menu.getItem(1).setVisible(false);
-                menu.getItem(2).setVisible(true);
+                menu.getItem(2).setVisible(false);
                 menu.getItem(3).setVisible(true);
                 menu.getItem(4).setVisible(true);
-                menu.getItem(5).setVisible(false);
+                menu.getItem(5).setVisible(true);
                 menu.getItem(6).setVisible(false);
-                menu.getItem(7).setVisible(true);
-                menu.getItem(8).setVisible(false);
+                menu.getItem(7).setVisible(false);
+                menu.getItem(8).setVisible(true);
+                menu.getItem(9).setVisible(false);
 
                 if (MainActivity.menu.isSecondaryMenuShowing()) // on new message
                 {
                     menu.getItem(0).setVisible(false);
                     menu.getItem(1).setVisible(true);
-                    menu.getItem(2).setVisible(false);
+                    menu.getItem(2).setVisible(true);
                     menu.getItem(3).setVisible(false);
                     menu.getItem(4).setVisible(false);
-                    menu.getItem(5).setVisible(true);
-                    menu.getItem(6).setVisible(false);
+                    menu.getItem(5).setVisible(false);
+                    menu.getItem(6).setVisible(true);
                     menu.getItem(7).setVisible(false);
                     menu.getItem(8).setVisible(false);
+                    menu.getItem(9).setVisible(false);
                 }
             } else // in ViewPager
             {
                 menu.getItem(0).setVisible(true);
-                menu.getItem(1).setVisible(true);
-                menu.getItem(2).setVisible(false);
-                menu.getItem(3).setVisible(true);
-                menu.getItem(4).setVisible(false);
-                menu.getItem(5).setVisible(true);
+                menu.getItem(1).setVisible(false);
+                menu.getItem(2).setVisible(true);
+                menu.getItem(3).setVisible(false);
+                menu.getItem(4).setVisible(true);
+                menu.getItem(5).setVisible(false);
                 menu.getItem(6).setVisible(true);
                 menu.getItem(7).setVisible(true);
                 menu.getItem(8).setVisible(true);
+                menu.getItem(9).setVisible(true);
 
                 if (group.get(mViewPager.getCurrentItem()).equals("yes")) // if there is a group message
                 {
-                    menu.getItem(8).setVisible(false);
+                    menu.getItem(9).setVisible(false);
                 }
             }
         } else
@@ -4572,23 +4582,23 @@ public class MainActivity extends FragmentActivity {
             if (inboxNumber.size() == 0 || MainActivity.menu.isMenuShowing())
             {
                 menu.getItem(0).setVisible(false);
-                menu.getItem(3).setVisible(false);
                 menu.getItem(4).setVisible(false);
-                menu.getItem(6).setVisible(false);
+                menu.getItem(5).setVisible(false);
                 menu.getItem(7).setVisible(false);
                 menu.getItem(8).setVisible(false);
+                menu.getItem(9).setVisible(false);
             } else
             {
                 menu.getItem(0).setVisible(true);
-                menu.getItem(3).setVisible(true);
                 menu.getItem(4).setVisible(true);
-                menu.getItem(6).setVisible(true);
+                menu.getItem(5).setVisible(true);
                 menu.getItem(7).setVisible(true);
                 menu.getItem(8).setVisible(true);
+                menu.getItem(9).setVisible(true);
 
                 if (group.get(mViewPager.getCurrentItem()).equals("yes"))
                 {
-                    menu.getItem(8).setVisible(false);
+                    menu.getItem(9).setVisible(false);
                 }
             }
         }
@@ -4599,34 +4609,42 @@ public class MainActivity extends FragmentActivity {
             callButton.setColorFilter(getResources().getColor(R.color.hangouts_ab_icon), Mode.MULTIPLY);
             menu.getItem(0).setIcon(callButton);
 
+            Drawable scheduledButton = getResources().getDrawable(R.drawable.ic_scheduled);
+            scheduledButton.setColorFilter(getResources().getColor(R.color.hangouts_ab_icon), Mode.MULTIPLY);
+            menu.getItem(1).setIcon(scheduledButton);
+
             Drawable attachButton = getResources().getDrawable(R.drawable.ic_attach);
             attachButton.setColorFilter(getResources().getColor(R.color.hangouts_ab_icon), Mode.MULTIPLY);
-            menu.getItem(1).setIcon(attachButton);
+            menu.getItem(2).setIcon(attachButton);
 
             Drawable searchButton = getResources().getDrawable(R.drawable.ic_search);
             searchButton.setColorFilter(getResources().getColor(R.color.hangouts_ab_icon), Mode.MULTIPLY);
-            menu.getItem(2).setIcon(searchButton);
+            menu.getItem(3).setIcon(searchButton);
 
             Drawable replyButton = getResources().getDrawable(R.drawable.ic_reply);
             replyButton.setColorFilter(getResources().getColor(R.color.hangouts_ab_icon), Mode.MULTIPLY);
-            menu.getItem(3).setIcon(replyButton);
+            menu.getItem(4).setIcon(replyButton);
         } else
         {
             Drawable callButton = getResources().getDrawable(R.drawable.ic_menu_call);
             callButton.setColorFilter(getResources().getColor(R.color.white), Mode.MULTIPLY);
             menu.getItem(0).setIcon(callButton);
 
+            Drawable scheduledButton = getResources().getDrawable(R.drawable.ic_scheduled);
+            scheduledButton.setColorFilter(getResources().getColor(R.color.white), Mode.MULTIPLY);
+            menu.getItem(1).setIcon(scheduledButton);
+
             Drawable attachButton = getResources().getDrawable(R.drawable.ic_attach);
             attachButton.setColorFilter(getResources().getColor(R.color.white), Mode.MULTIPLY);
-            menu.getItem(1).setIcon(attachButton);
+            menu.getItem(2).setIcon(attachButton);
 
             Drawable searchButton = getResources().getDrawable(R.drawable.ic_search);
             searchButton.setColorFilter(getResources().getColor(R.color.white), Mode.MULTIPLY);
-            menu.getItem(2).setIcon(searchButton);
+            menu.getItem(3).setIcon(searchButton);
 
             Drawable replyButton = getResources().getDrawable(R.drawable.ic_reply);
             replyButton.setColorFilter(getResources().getColor(R.color.white), Mode.MULTIPLY);
-            menu.getItem(3).setIcon(replyButton);
+            menu.getItem(4).setIcon(replyButton);
         }
 
         return true;
@@ -4650,6 +4668,18 @@ public class MainActivity extends FragmentActivity {
             case R.id.menu_settings:
                 startActivity(new Intent(this, SettingsPagerActivity.class));
                 finish();
+                overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                return true;
+            case R.id.menu_scheduled:
+                Intent scheduled = new Intent(this, NewScheduledSms.class);
+
+                scheduled.putExtra(EXTRA_NUMBER, "");
+                scheduled.putExtra(EXTRA_DATE, "");
+                scheduled.putExtra(EXTRA_REPEAT, "0");
+                scheduled.putExtra(EXTRA_MESSAGE, "");
+
+                startActivity(scheduled);
+                
                 overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                 return true;
             case R.id.menu_about:
