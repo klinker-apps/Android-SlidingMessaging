@@ -16,6 +16,7 @@ import java.util.Locale;
 import android.content.*;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Handler;
 import com.google.android.mms.pdu_alt.*;
 import com.klinker.android.messaging_donate.R;
 
@@ -604,8 +605,20 @@ public class MMSMessageReceiver extends BroadcastReceiver {
 	        	mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
 	        }
 	        
-	        NotificationManager mNotificationManager =
+	        final NotificationManager mNotificationManager =
 	            (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+            if (sharedPrefs.getBoolean("slideover_enabled", false) && sharedPrefs.getBoolean("slideover_hide_notifications", false)) {
+                mBuilder.setTicker(null);
+                mBuilder.setSmallIcon(android.R.color.transparent);
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mNotificationManager.cancel(2);
+                    }
+                }, 1000);
+            }
 	        
 	        Notification notification;
 	        

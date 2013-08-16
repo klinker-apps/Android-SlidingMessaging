@@ -421,15 +421,27 @@ public class TextMessageReceiver extends BroadcastReceiver {
 							        }
 						        }
 						        
-						        NotificationManager mNotificationManager =
+						        final  NotificationManager mNotificationManager =
 						            (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-						        
-						        Notification notification = new NotificationCompat.BigTextStyle(mBuilder).bigText(body).build();
-						        Intent deleteIntent = new Intent(context, NotificationReceiver.class); 
-						        notification.deleteIntent = PendingIntent.getBroadcast(context, 0, deleteIntent, 0);
-						        mNotificationManager.notify(1, notification);
-						        
-						        ArrayList<String> newNotifications = new ArrayList<String>();
+
+                                if (sharedPrefs.getBoolean("slideover_enabled", false) && sharedPrefs.getBoolean("slideover_hide_notifications", false)) {
+                                    mBuilder.setTicker(null);
+                                    mBuilder.setSmallIcon(android.R.color.transparent);
+
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            mNotificationManager.cancel(1);
+                                        }
+                                    }, 1000);
+                                }
+
+                                Notification notification = new NotificationCompat.BigTextStyle(mBuilder).bigText(body).build();
+                                Intent deleteIntent = new Intent(context, NotificationReceiver.class);
+                                notification.deleteIntent = PendingIntent.getBroadcast(context, 0, deleteIntent, 0);
+                                mNotificationManager.notify(1, notification);
+
+                                ArrayList<String> newNotifications = new ArrayList<String>();
 						        newNotifications.add(name + ": " + body);
 						        writeToFile2(newNotifications, context);
 					        } else if (prevNotifications.size() == 1 && prevNotifications.get(0).startsWith(name))
@@ -600,8 +612,20 @@ public class TextMessageReceiver extends BroadcastReceiver {
 							        }
 						        }
 						        
-						        NotificationManager mNotificationManager =
+						        final NotificationManager mNotificationManager =
 						            (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+                                if (sharedPrefs.getBoolean("slideover_enabled", false) && sharedPrefs.getBoolean("slideover_hide_notifications", false)) {
+                                    mBuilder.setTicker(null);
+                                    mBuilder.setSmallIcon(android.R.color.transparent);
+
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            mNotificationManager.cancel(1);
+                                        }
+                                    }, 1000);
+                                }
 						        
 						        Notification notification = new NotificationCompat.BigTextStyle(mBuilder).bigText(body).build();
 						        Intent deleteIntent = new Intent(context, NotificationReceiver.class); 
@@ -760,7 +784,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 							        }
 						        }
 						        
-						        NotificationManager mNotificationManager =
+						        final NotificationManager mNotificationManager =
 						            (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 						        
 						        NotificationCompat.InboxStyle notification2 = new NotificationCompat.InboxStyle(mBuilder);
@@ -773,6 +797,18 @@ public class TextMessageReceiver extends BroadcastReceiver {
 						        }
 						        
 						        notification2.setSummaryText(prevNotifications.size() + " New Messages");
+
+                                if (sharedPrefs.getBoolean("slideover_enabled", false) && sharedPrefs.getBoolean("slideover_hide_notifications", false)) {
+                                    mBuilder.setTicker(null);
+                                    mBuilder.setSmallIcon(android.R.color.transparent);
+
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            mNotificationManager.cancel(1);
+                                        }
+                                    }, 1000);
+                                }
 						        
 						        Notification notification = notification2.build();
 						        Intent deleteIntent = new Intent(context, NotificationReceiver.class); 
@@ -897,8 +933,20 @@ public class TextMessageReceiver extends BroadcastReceiver {
 						        	mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
 						        }
 						        
-						        NotificationManager mNotificationManager =
+						        final NotificationManager mNotificationManager =
 						            (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+                                if (sharedPrefs.getBoolean("slideover_enabled", false) && sharedPrefs.getBoolean("slideover_hide_notifications", false)) {
+                                    mBuilder.setTicker(null);
+                                    mBuilder.setSmallIcon(android.R.color.transparent);
+
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            mNotificationManager.cancel(1);
+                                        }
+                                    }, 1000);
+                                }
 						        
 						        Notification notification = new NotificationCompat.BigTextStyle(mBuilder).build();
 						        Intent deleteIntent = new Intent(context, NotificationReceiver.class); 
@@ -1022,7 +1070,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 						        	mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
 						        }
 						        
-						        NotificationManager mNotificationManager =
+						        final NotificationManager mNotificationManager =
 						            (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 						        
 						        NotificationCompat.InboxStyle notification2 = new NotificationCompat.InboxStyle(mBuilder);
@@ -1030,6 +1078,18 @@ public class TextMessageReceiver extends BroadcastReceiver {
 						        prevNotifications.add(name + ": " + body);
 						        
 						        notification2.setSummaryText(prevNotifications.size() + " New Messages");
+
+                                if (sharedPrefs.getBoolean("slideover_enabled", false) && sharedPrefs.getBoolean("slideover_hide_notifications", false)) {
+                                    mBuilder.setTicker(null);
+                                    mBuilder.setSmallIcon(android.R.color.transparent);
+
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            mNotificationManager.cancel(1);
+                                        }
+                                    }, 1000);
+                                }
 						        
 						        Notification notification = notification2.build();
 						        Intent deleteIntent = new Intent(context, NotificationReceiver.class); 

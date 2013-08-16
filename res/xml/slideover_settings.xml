@@ -74,6 +74,14 @@
     />
 
     <CheckBoxPreference
+        android:key="slideover_hide_notifications"
+        android:summary="@string/slideover_hide_notifications_summary"
+        android:title="@string/slideover_hide_notifications"
+        android:defaultValue="false"
+        android:dependency="slideover_enabled"
+    />
+
+    <CheckBoxPreference
         android:key="slideover_haptic_feedback"
         android:title="@string/slideover_haptic_feedback"
         android:defaultValue="true"
