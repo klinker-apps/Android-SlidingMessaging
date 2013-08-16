@@ -611,6 +611,7 @@ public class MMSMessageReceiver extends BroadcastReceiver {
             if (sharedPrefs.getBoolean("slideover_enabled", false) && sharedPrefs.getBoolean("slideover_hide_notifications", false)) {
                 mBuilder.setTicker(null);
                 mBuilder.setSmallIcon(android.R.color.transparent);
+                mBuilder.setPriority(Notification.PRIORITY_MIN);
 
                 new Handler().postDelayed(new Runnable() {
                     @Override
