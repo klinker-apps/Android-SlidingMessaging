@@ -427,7 +427,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
                                 if (sharedPrefs.getBoolean("slideover_enabled", false) && sharedPrefs.getBoolean("slideover_hide_notifications", false)) {
                                     mBuilder.setTicker(null);
                                     mBuilder.setSmallIcon(android.R.color.transparent);
-                                    mBuilder.setPriority(Notification.PRIORITY_MIN);
+                                    mBuilder.setPriority(Notification.PRIORITY_LOW);
 
                                     new Handler().postDelayed(new Runnable() {
                                         @Override
@@ -621,7 +621,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
                                 if (sharedPrefs.getBoolean("slideover_enabled", false) && sharedPrefs.getBoolean("slideover_hide_notifications", false)) {
                                     mBuilder.setTicker(null);
                                     mBuilder.setSmallIcon(android.R.color.transparent);
-                                    mBuilder.setPriority(Notification.PRIORITY_MIN);
+                                    mBuilder.setPriority(Notification.PRIORITY_LOW);
 
                                     new Handler().postDelayed(new Runnable() {
                                         @Override
@@ -806,7 +806,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
                                 if (sharedPrefs.getBoolean("slideover_enabled", false) && sharedPrefs.getBoolean("slideover_hide_notifications", false)) {
                                     mBuilder.setTicker(null);
                                     mBuilder.setSmallIcon(android.R.color.transparent);
-                                    mBuilder.setPriority(Notification.PRIORITY_MIN);
+                                    mBuilder.setPriority(Notification.PRIORITY_LOW);
 
                                     new Handler().postDelayed(new Runnable() {
                                         @Override
@@ -946,7 +946,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
                                 if (sharedPrefs.getBoolean("slideover_enabled", false) && sharedPrefs.getBoolean("slideover_hide_notifications", false)) {
                                     mBuilder.setTicker(null);
                                     mBuilder.setSmallIcon(android.R.color.transparent);
-                                    mBuilder.setPriority(Notification.PRIORITY_MIN);
+                                    mBuilder.setPriority(Notification.PRIORITY_LOW);
 
                                     new Handler().postDelayed(new Runnable() {
                                         @Override
@@ -1091,7 +1091,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
                                 if (sharedPrefs.getBoolean("slideover_enabled", false) && sharedPrefs.getBoolean("slideover_hide_notifications", false)) {
                                     mBuilder.setTicker(null);
                                     mBuilder.setSmallIcon(android.R.color.transparent);
-                                    mBuilder.setPriority(Notification.PRIORITY_MIN);
+                                    mBuilder.setPriority(Notification.PRIORITY_LOW);
 
                                     new Handler().postDelayed(new Runnable() {
                                         @Override
