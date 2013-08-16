@@ -4679,7 +4679,7 @@ public class MainActivity extends FragmentActivity {
                 scheduled.putExtra(EXTRA_MESSAGE, "");
 
                 startActivity(scheduled);
-                
+
                 overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                 return true;
             case R.id.menu_about:

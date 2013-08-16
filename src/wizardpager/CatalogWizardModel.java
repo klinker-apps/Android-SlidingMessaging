@@ -60,6 +60,7 @@ public class CatalogWizardModel extends AbstractWizardModel {
                 "- Added a Developer Tips section under the main settings page\n" +
                 "- Added link to Changelog under the main settings page\n" +
                 "- Disabled caching conversations as it caused too many crashes\n" +
+                "- Added Scheduled SMS option to the Compose Message slide out menu\n" +
                 "- Bug fixes\n\n" +
                 "And of course, huge credit to the guys on the Paranoid Android team for the inspiration behind SlideOver!";
                 
