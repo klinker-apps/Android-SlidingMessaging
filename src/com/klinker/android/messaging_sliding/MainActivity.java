@@ -4881,15 +4881,7 @@ public class MainActivity extends FragmentActivity {
             case R.id.menu_mark_all_read:
                 final Context context1 = this;
 
-                new Thread(new Runnable(){
-
-                    @Override
-                    public void run() {
-
-                        startService(new Intent(getBaseContext(), QmMarkRead2.class));
-                    }
-
-                }).start();
+                startService(new Intent(getBaseContext(), QmMarkRead2.class));
 
                 return true;
             default:

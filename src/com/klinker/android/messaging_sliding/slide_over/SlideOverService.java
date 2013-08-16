@@ -661,17 +661,7 @@ public class SlideOverService extends Service {
     {
         if (sharedPrefs.getString("slideover_secondary_action", "conversations").equals("markRead"))
         {
-            final Context context1 = this;
-
-            new Thread(new Runnable(){
-
-                @Override
-                public void run() {
-
-                    startService(new Intent(getBaseContext(), QmMarkRead2.class));
-                }
-
-            }).start();
+            startService(new Intent(getBaseContext(), QmMarkRead2.class));
         }else {
             if (isRunning(getApplication())) {
                 Intent intent = new Intent();
