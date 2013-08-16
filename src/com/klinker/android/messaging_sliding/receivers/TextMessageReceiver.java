@@ -436,10 +436,17 @@ public class TextMessageReceiver extends BroadcastReceiver {
                                     }, 1000);
                                 }
 
+
+
                                 Notification notification = new NotificationCompat.BigTextStyle(mBuilder).bigText(body).build();
                                 Intent deleteIntent = new Intent(context, NotificationReceiver.class);
                                 notification.deleteIntent = PendingIntent.getBroadcast(context, 0, deleteIntent, 0);
-                                mNotificationManager.notify(1, notification);
+
+                                if (sharedPrefs.getBoolean("slideover_enabled", false) && sharedPrefs.getBoolean("slideover_hide_notifications", false)) {
+                                } else {
+                                    mNotificationManager.notify(1, notification);
+                                }
+
 
                                 ArrayList<String> newNotifications = new ArrayList<String>();
 						        newNotifications.add(name + ": " + body);
@@ -630,7 +637,12 @@ public class TextMessageReceiver extends BroadcastReceiver {
 						        Notification notification = new NotificationCompat.BigTextStyle(mBuilder).bigText(body).build();
 						        Intent deleteIntent = new Intent(context, NotificationReceiver.class); 
 						        notification.deleteIntent = PendingIntent.getBroadcast(context, 0, deleteIntent, 0);
-						        mNotificationManager.notify(1, notification);
+
+
+                                if (sharedPrefs.getBoolean("slideover_enabled", false) && sharedPrefs.getBoolean("slideover_hide_notifications", false)) {
+                                } else {
+                                    mNotificationManager.notify(1, notification);
+                                }
 						        
 						        ArrayList<String> newNotifications = new ArrayList<String>();
 						        newNotifications.add(name + ": " + body);
@@ -813,7 +825,11 @@ public class TextMessageReceiver extends BroadcastReceiver {
 						        Notification notification = notification2.build();
 						        Intent deleteIntent = new Intent(context, NotificationReceiver.class); 
 						        notification.deleteIntent = PendingIntent.getBroadcast(context, 0, deleteIntent, 0);
-						        mNotificationManager.notify(1, notification);
+
+                                if (sharedPrefs.getBoolean("slideover_enabled", false) && sharedPrefs.getBoolean("slideover_hide_notifications", false)) {
+                                } else {
+                                    mNotificationManager.notify(1, notification);
+                                }
 						        
 						        writeToFile2(prevNotifications, context);
 					        }
@@ -951,7 +967,11 @@ public class TextMessageReceiver extends BroadcastReceiver {
 						        Notification notification = new NotificationCompat.BigTextStyle(mBuilder).build();
 						        Intent deleteIntent = new Intent(context, NotificationReceiver.class); 
 						        notification.deleteIntent = PendingIntent.getBroadcast(context, 0, deleteIntent, 0);
-						        mNotificationManager.notify(1, notification);
+
+                                if (sharedPrefs.getBoolean("slideover_enabled", false) && sharedPrefs.getBoolean("slideover_hide_notifications", false)) {
+                                } else {
+                                    mNotificationManager.notify(1, notification);
+                                }
 						        
 						        ArrayList<String> newNotifications = new ArrayList<String>();
 						        newNotifications.add(name + ": " + body);
@@ -1094,7 +1114,11 @@ public class TextMessageReceiver extends BroadcastReceiver {
 						        Notification notification = notification2.build();
 						        Intent deleteIntent = new Intent(context, NotificationReceiver.class); 
 						        notification.deleteIntent = PendingIntent.getBroadcast(context, 0, deleteIntent, 0);
-						        mNotificationManager.notify(1, notification);
+
+                                if (sharedPrefs.getBoolean("slideover_enabled", false) && sharedPrefs.getBoolean("slideover_hide_notifications", false)) {
+                                } else {
+                                    mNotificationManager.notify(1, notification);
+                                }
 						        
 						        writeToFile2(prevNotifications, context);
 					        }
