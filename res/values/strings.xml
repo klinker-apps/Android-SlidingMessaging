@@ -236,7 +236,7 @@
 	<string name="remind_me_later">Remind Me Next Time</string>
 	<string name="dont_bother">Don\'t Bother Me Again</string>
 	<string name="changelog_title">Change Log:</string>
-	<string name="changelog_disclaimers">Sliding Messaging Pro is now out of the beta stages!\n\nCDMA Users, remember to check the \"Split SMS\" option in Advanced Settings to send long messages.\n\n</string>
+	<string name="changelog_disclaimers">Sliding Messaging Pro is now out of the beta stages!\n\nCDMA Users, remember to check the \"Split SMS\" option in Advanced Settings to send long messages.</string>
 	<string name="led">LED Light on Notification</string>
 	<string name="default_theme_prefs">Default Theme Settings</string>
 	<string name="breath">Notification Breath Animation</string>

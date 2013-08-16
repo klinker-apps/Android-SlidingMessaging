@@ -1,12 +1,15 @@
 package com.klinker.android.messaging_sliding.slide_over;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.*;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Vibrator;
@@ -18,6 +21,7 @@ import android.view.View;
 import android.view.WindowManager;
 
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_sliding.MainActivity;
 
 import java.util.List;
 
@@ -654,18 +658,69 @@ public class SlideOverService extends Service {
 
     public void finishDash()
     {
-        if (isRunning(getApplication())) {
-            Intent intent = new Intent();
-            intent.setAction("com.klinker.android.messaging_donate.KILL_FOR_HALO");
-            sendBroadcast(intent);
-        }
+        if (sharedPrefs.getString("slideover_secondary_action", "conversations").equals("markRead"))
+        {
+            final Context context1 = this;
 
-        Intent intent = new Intent(getBaseContext(), com.klinker.android.messaging_sliding.MainActivityPopup.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra("fromHalo", true);
-        intent.putExtra("secAction", true);
-        intent.putExtra("secondaryType", sharedPrefs.getString("slideover_secondary_action", "conversations"));
-        startActivity(intent);
+            new Thread(new Runnable(){
+
+                @Override
+                public void run() {
+
+                    String[] projection = new String[]{"_id"};
+                    Uri uri = Uri.parse("content://mms-sms/conversations/?simple=true");
+                    Cursor cursor = context1.getContentResolver().query(uri, projection, null, null, null);
+
+                    try{
+
+                        cursor.moveToFirst();
+
+                        do {
+
+                            String SmsMessageId = cursor.getString(cursor.getColumnIndex("_id"));
+                            ContentValues values = new ContentValues();
+                            values.put("read", true);
+                            context1.getContentResolver().update(Uri.parse("content://sms/inbox"), values, "_id=" + SmsMessageId, null);
+
+                        } while (cursor.moveToNext());
+
+                        cursor.close();
+
+                        ((Activity) context1).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                ((MainActivity)context1).refreshViewPager(true);
+
+                                Intent updateWidget = new Intent("com.klinker.android.messaging.UPDATE_WIDGET");
+                                context1.sendBroadcast(updateWidget);
+                            }
+
+                        });
+                    }catch(Exception e)
+                    {
+                        e.printStackTrace();
+                    } finally
+                    {
+                        cursor.close();
+                    }
+                }
+
+            }).start();
+        }else {
+            if (isRunning(getApplication())) {
+                Intent intent = new Intent();
+                intent.setAction("com.klinker.android.messaging_donate.KILL_FOR_HALO");
+                sendBroadcast(intent);
+            }
+
+            Intent intent = new Intent(getBaseContext(), com.klinker.android.messaging_sliding.MainActivityPopup.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("fromHalo", true);
+            intent.putExtra("secAction", true);
+            intent.putExtra("secondaryType", sharedPrefs.getString("slideover_secondary_action", "conversations"));
+            startActivity(intent);
+        }
     }
 
     public void checkInButtons()

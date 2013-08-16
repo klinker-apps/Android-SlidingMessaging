@@ -445,11 +445,13 @@
     <string-array name="slideover_secondary_action">
         <item>Open Conversation List</item>
         <item>Compose New Message</item>
+        <item>Mark All Messages as Read</item>
     </string-array>
     
     <string-array name="slideover_secondary_action_inserted">
         <item>conversations</item>
         <item>newMessage</item>
+        <item>markRead</item>
     </string-array>
 
 </resources>
