@@ -582,14 +582,22 @@
 
         I have emailed this out so many times that I think it is just time to put it in here for everyone to see.\n\n
 
-        So here is how you should set up downloading MMS messages:\n\n1.) check the receive through stock option.\n\n
+        So here is how you should set up downloading MMS messages:\n\n
+
+        1.) check the receive through stock option.\n\n
 
         This option makes it so that it doesn\'t matter what other settings you have, your message will use the stock apps services to download.
         It doesn\'t matter if you have override stock checked or not. This lets the stock app handle all downloads so you don\'t have to worry about APN\'s
-        or a WiFi fix that so many people hate us for.\n\n2.) In the stock messaging app, check the auto download option.\n\n
+        or a WiFi fix that so many people hate us for.\n\n
+
+        2.) In the stock messaging app, check the auto download option.\n\n
 
         This is just what it sounds, it will automatically download your messages for you when the carrier receives them. It isn\'t slower than having to push
         the download button, and there really are no downsides to this.\n\n
+
+        3.) Un-check the auto-download button in Sliding Messaging\n\n
+
+        This will make sure that you aren't getting double notifications.\n\n
 
         So there you go, this is really the best way to handle downloading MMS and it will work flawlessly every time, just like the stock one should.
         It will still throw the Sliding Messaging notification as well, so no problems there.\n\n
