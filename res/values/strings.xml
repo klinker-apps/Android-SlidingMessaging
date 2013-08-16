@@ -652,7 +652,10 @@
     <string name="tip_notification_listener_title">Dev. Tip #5 (Notification Listening)</string>
     <string name="tip_notification_listener">
         I\'ve had multiple requests to take advantage of the new APIs introduced in Android 4.3 that allow for listening to when notifications are posted and dismissed and taking advantage of that
-        for marking a message as read. Any users who is on Android 4.3 can now do this by going into their system settings, security, and clicking the \"Notification Access\" option (or simply by clicking on this tip).
+        for marking a message as read.\n\n
+
+        Any users who is on Android 4.3 can now do this by going into their system settings, security, and clicking the \"Notification Access\" option (or simply by clicking on this tip).\n\n
+
         You will then be taken to a list of all apps which have added this ability and simply enable Sliding Messaging with the check box. From now on, whenever you swipe away the notification it will mark your message
         as read, eliminating the need for the \"Read\" button on the notification!
     </string>
