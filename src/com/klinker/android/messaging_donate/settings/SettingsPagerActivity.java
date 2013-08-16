@@ -83,7 +83,7 @@ public class SettingsPagerActivity extends FragmentActivity {
 
         try {
             if (getIntent().getBooleanExtra("mms", false)) {
-                mViewPager.setCurrentItem(6, true);
+                mViewPager.setCurrentItem(7, true);
             }
         } catch (Exception e) {
 
