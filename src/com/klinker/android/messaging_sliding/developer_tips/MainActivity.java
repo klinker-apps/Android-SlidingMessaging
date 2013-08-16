@@ -34,6 +34,7 @@ public class MainActivity extends Activity {
         MyCard tipOne = new MyCard(getResources().getString(R.string.tip_speed_title), getResources().getString(R.string.tip_speed));
         MyCard tipTwo = new MyCard(getResources().getString(R.string.tip_incoming_mms_title), getResources().getString(R.string.tip_incoming_mms));
         MyCard tipThree = new MyCard(getResources().getString(R.string.tip_slideover_title), getResources().getString(R.string.tip_slideover));
+        MyCard tipFour = new MyCard(getResources().getString(R.string.tip_contacts_title), getResources().getString(R.string.tip_contacts));
 
         // Send them to the google+ post if it is clicked on
         tipOne.setOnClickListener(new OnClickListener() {
@@ -53,7 +54,14 @@ public class MainActivity extends Activity {
         tipThree.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://plus.google.com/u/0/115475218377622129917/posts/h6eBQ8ZQfM2")));
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://plus.google.com/u/0/117432358268488452276/posts/PfuWZsNW3PG")));
+            }
+        });
+
+        tipFour.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://plus.google.com/u/0/117432358268488452276/posts/LqBQmEJ29qS")));
             }
         });
 
@@ -61,6 +69,7 @@ public class MainActivity extends Activity {
         mCardView.addCard(tipOne);
         mCardView.addCard(tipTwo);
         mCardView.addCard(tipThree);
+        mCardView.addCard(tipFour);
 
         // draw cards
         mCardView.refresh();
