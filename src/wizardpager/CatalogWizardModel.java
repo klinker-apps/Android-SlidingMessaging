@@ -57,6 +57,7 @@ public class CatalogWizardModel extends AbstractWizardModel {
                 "- Cleaned up settings by not displaying everything unless you check the \"Show All Settings\" option in advanced settings\n" +
                 "- Option to use most performance based layout under Advanced Settings \n" +
                 "- More speed optimizations\n" +
+                "- Ability to mark a message as read by dismissing the notification for Android 4.3+ users\n" +
                 "- Added a Developer Tips section under the main settings page\n" +
                 "- Added link to Changelog under the main settings page\n" +
                 "- Disabled caching conversations as it caused too many crashes\n" +
