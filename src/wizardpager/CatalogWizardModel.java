@@ -52,18 +52,9 @@ public class CatalogWizardModel extends AbstractWizardModel {
         }
 
         String changeLog = "Version " + version + ":\n\n" +
-                "Introducing the REAL SlideOver feature now... Its a lot like HALO (or chatheads) for everyone! Access the app through the SlideOver popup from anywhere, quickly see and react to new messages and quickly compose new messages using SlideOver!\n\n" +
-                "- TONS of SlideOver customization options\n" +
-                "- Cleaned up settings by not displaying everything unless you check the \"Show All Settings\" option in advanced settings\n" +
-                "- Option to use most performance based layout under Advanced Settings \n" +
-                "- More speed optimizations\n" +
-                "- Ability to mark a message as read by dismissing the notification for Android 4.3+ users\n" +
-                "- Added a Developer Tips section under the main settings page\n" +
-                "- Added link to Changelog under the main settings page\n" +
-                "- Disabled caching conversations as it caused too many crashes\n" +
-                "- Added Scheduled SMS option to the Compose Message slide out menu\n" +
-                "- Bug fixes\n\n" +
-                "And of course, huge credit to the guys on the Paranoid Android team for the inspiration behind SlideOver!";
+                "- Redone share box to match current theme\n" +
+                "- Minor UI changes\n" +
+                "- Bug fixes";
                 
         String themeEditor = "The theme editor now fully supports the Cards UI 2.0, making it a " +
                 "better time than ever to get on board and start making Sliding Messaging Pro look exactly how you want!\n\n" +
