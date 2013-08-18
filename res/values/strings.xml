@@ -542,7 +542,7 @@
     <string name="slideover_close">CLOSE</string>
     <string name="slideover_clear">CLEAR</string>
     <string name="slideover_settings_overlay">SETTINGS</string>
-    <string name="override_speed">Override for Preformance</string>
+    <string name="override_speed">Override for Performance</string>
     <string name="override_speed_summary">Override some custom app settings for the most optimized/quickest behavior</string>
     <string name="lag_disclaimer">Please check the new section under setting \'Developer Tips\' for speed and MMS issues before leaving a bad review or sending us an angry email. It should be able to solve some of your problems.</string>
     <string name="settings_category">Settings Links</string>
