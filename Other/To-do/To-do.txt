@@ -1,5 +1,6 @@
 Version 7.00
 
+- google voice stuff
 - option for adding certain text to every message at the beginning (delivery reports?)
 - Message Locking
 - Figure out how to judge file size of png images and adjust them accordingly when sending, look into UriImage.getResizedImageData for solution

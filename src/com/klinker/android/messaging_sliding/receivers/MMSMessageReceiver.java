@@ -17,6 +17,7 @@ import android.content.*;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Handler;
+import android.os.Looper;
 import com.google.android.mms.pdu_alt.*;
 import com.klinker.android.messaging_donate.R;
 
@@ -616,6 +617,8 @@ public class MMSMessageReceiver extends BroadcastReceiver {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        Looper.prepare();
+
                         mNotificationManager.cancel(2);
                     }
                 }, 1000);

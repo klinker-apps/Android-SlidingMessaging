@@ -53,9 +53,16 @@ import com.klinker.android.messaging_sliding.receivers.NotificationReceiver;
 
 public class SendMessage extends Activity {
 	
-	public ArrayList<String> contactNames, contactNumbers, contactIds, contactTypes;
+	public ArrayList<String> contactNames, contactNumbers, contactTypes;
 	public boolean firstContactSearch = true;
 	public String inputText;
+
+    public String runAs;
+    public int ctConversationListBackground;
+    public int ctSendButtonColor;
+    public int ctSendBarBackground;
+    public int emojiButtonColor;
+    public int draftTextColor;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -79,6 +86,13 @@ public class SendMessage extends Activity {
 		}
 		
 		final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        runAs = sharedPrefs.getString("run_as", "sliding");
+        ctConversationListBackground = sharedPrefs.getInt("ct_conversationListBackground", getResources().getColor(R.color.light_silver));
+        ctSendButtonColor = sharedPrefs.getInt("ct_sentButtonColor", getResources().getColor(R.color.black));
+        ctSendBarBackground = sharedPrefs.getInt("ct_sendbarBackground", getResources().getColor(R.color.white));
+        emojiButtonColor = sharedPrefs.getInt("ct_emojiButtonColor", getResources().getColor(R.color.emoji_button));
+        draftTextColor = sharedPrefs.getInt("ct_draftTextColor", ctSendButtonColor);
 		
 		if (sharedPrefs.getBoolean("dark_theme_quick_reply", true))
 		{
@@ -1064,26 +1078,22 @@ public class SendMessage extends Activity {
 		
 		View v1 = newMessageView.findViewById(R.id.view1);
 		View v2 = newMessageView.findViewById(R.id.sentBackground);
-		
-		if (sharedPrefs.getBoolean("dark_theme_quick_reply", true))
-		{
-			mTextView.setBackgroundColor(getResources().getColor(R.color.black));
-			v1.setBackgroundColor(getResources().getColor(R.color.black));
-			v2.setBackgroundColor(getResources().getColor(R.color.black));
-			sendButton.setBackgroundResource(R.drawable.dark_send_button);
-			sendButton.setImageResource(R.drawable.ic_action_send_white);
-			searchView.setBackgroundColor(getResources().getColor(R.color.dark_silver));
-			emojiButton.setBackgroundColor(getResources().getColor(R.color.black));
-		} else
-		{
-			mTextView.setBackgroundColor(getResources().getColor(R.color.white));
-			v1.setBackgroundColor(getResources().getColor(R.color.white));
-			v2.setBackgroundColor(getResources().getColor(R.color.white));
-			sendButton.setBackgroundResource(R.drawable.light_send_button);
-			sendButton.setImageResource(R.drawable.ic_action_send_black);
-			searchView.setBackgroundColor(getResources().getColor(R.color.light_silver));
-			emojiButton.setBackgroundColor(getResources().getColor(R.color.white));
-		}
+
+        mTextView.setTextColor(ctSendButtonColor);
+        v1.setBackgroundColor(ctSendBarBackground);
+        v2.setBackgroundColor(ctSendBarBackground);
+        sendButton.setBackgroundResource(R.drawable.pitch_black_send_button);
+        sendButton.setImageResource(R.drawable.ic_action_send_white);
+        sendButton.setColorFilter(ctSendButtonColor);
+        searchView.setBackgroundColor(ctConversationListBackground);
+        emojiButton.setBackgroundResource(R.drawable.pitch_black_send_button);
+        emojiButton.setColorFilter(emojiButtonColor);
+        mEditText.setTextColor(draftTextColor);
+
+        if (runAs.equals("hangout") || runAs.equals("card2") || runAs.equals("speed"))
+        {
+            emojiButton.setImageResource(R.drawable.ic_emoji_dark);
+        }
 		
 		if (sharedPrefs.getBoolean("custom_font", false))
 		{

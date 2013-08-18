@@ -461,7 +461,7 @@
     <string name="backup_settings_title">Create new backup?</string>
     <string name="backup_settings_summary">This will override all previous backups.</string>
     <string name="receive_through_stock">Receive through Stock</string>
-    <string name="receive_through_stock_summary">Does not allow Sliding Messaging to save MMS messages, allowing your stock app to do so instead, even if you have check the \"Override Stock Messaging\" option.</string>
+    <string name="receive_through_stock_summary">Does not allow Sliding Messaging to save MMS messages, allowing your stock app to do so instead, even if you have checked the \"Override Stock Messaging\" option.</string>
     <string name="draft_found">Draft found</string>
     <string name="apply_draft">Apply?</string>
     <string name="auto_insert_draft">Auto Insert Drafts</string>

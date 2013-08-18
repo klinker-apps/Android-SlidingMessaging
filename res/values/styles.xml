@@ -35,9 +35,6 @@
     <style name="SettingsTheme" parent="android:Theme">
         
     </style>
-    
-    <style name="QuickSendTheme" parent="@android:Theme.Dialog"> 
-    </style>
 
     <!-- Wizard Pager -->
     <style name="WizardTheme" parent="android:Theme.Holo.Light.DarkActionBar">
