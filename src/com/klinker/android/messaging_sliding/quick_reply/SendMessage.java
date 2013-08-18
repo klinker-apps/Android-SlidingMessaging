@@ -89,18 +89,10 @@ public class SendMessage extends Activity {
 
         runAs = sharedPrefs.getString("run_as", "sliding");
         ctConversationListBackground = sharedPrefs.getInt("ct_conversationListBackground", getResources().getColor(R.color.light_silver));
-        ctSendButtonColor = sharedPrefs.getInt("ct_sentButtonColor", getResources().getColor(R.color.black));
+        ctSendButtonColor = sharedPrefs.getInt("ct_sendButtonColor", getResources().getColor(R.color.black));
         ctSendBarBackground = sharedPrefs.getInt("ct_sendbarBackground", getResources().getColor(R.color.white));
         emojiButtonColor = sharedPrefs.getInt("ct_emojiButtonColor", getResources().getColor(R.color.emoji_button));
         draftTextColor = sharedPrefs.getInt("ct_draftTextColor", ctSendButtonColor);
-		
-		if (sharedPrefs.getBoolean("dark_theme_quick_reply", true))
-		{
-			setTheme(android.R.style.Theme_Holo_Dialog);
-		} else
-		{
-			setTheme(android.R.style.Theme_Holo_Light_Dialog);
-		}
 		
 		LayoutInflater inflater2 = (LayoutInflater) this
 		        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -1079,7 +1071,7 @@ public class SendMessage extends Activity {
 		View v1 = newMessageView.findViewById(R.id.view1);
 		View v2 = newMessageView.findViewById(R.id.sentBackground);
 
-        mTextView.setTextColor(ctSendButtonColor);
+        mTextView.setTextColor(draftTextColor);
         v1.setBackgroundColor(ctSendBarBackground);
         v2.setBackgroundColor(ctSendBarBackground);
         sendButton.setBackgroundResource(R.drawable.pitch_black_send_button);
@@ -1089,6 +1081,7 @@ public class SendMessage extends Activity {
         emojiButton.setBackgroundResource(R.drawable.pitch_black_send_button);
         emojiButton.setColorFilter(emojiButtonColor);
         mEditText.setTextColor(draftTextColor);
+        contact.setTextColor(draftTextColor);
 
         if (runAs.equals("hangout") || runAs.equals("card2") || runAs.equals("speed"))
         {

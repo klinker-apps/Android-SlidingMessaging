@@ -40,24 +40,24 @@ public class ContactSearchArrayAdapter2 extends ArrayAdapter<String> {
 	    if (rowView == null) {
 	      LayoutInflater inflater = context.getLayoutInflater();
 	      rowView = inflater.inflate(R.layout.contact_search, null);
-	      
-	      rowView.setBackgroundColor(context.getResources().getColor(R.color.black));
-	      
-	      ViewHolder viewHolder = new ViewHolder();
-	      viewHolder.text = (TextView) rowView.findViewById(R.id.conversationCount);
-	      viewHolder.text2 = (TextView) rowView.findViewById(R.id.receivedMessage);
-	      viewHolder.text3 = (TextView) rowView.findViewById(R.id.receivedDate);
-	      
-	      viewHolder.text.setTextColor(context.getResources().getColor(R.color.white));
-	      viewHolder.text2.setTextColor(context.getResources().getColor(R.color.white));
-	      viewHolder.text3.setTextColor(context.getResources().getColor(R.color.white));
-	      
-	      if (sharedPrefs.getBoolean("custom_font", false))
-	      {
-	    	  viewHolder.text.setTypeface(Typeface.createFromFile(sharedPrefs.getString("custom_font_path", "")));
-	    	  viewHolder.text2.setTypeface(Typeface.createFromFile(sharedPrefs.getString("custom_font_path", "")));
-	    	  viewHolder.text3.setTypeface(Typeface.createFromFile(sharedPrefs.getString("custom_font_path", "")));
-	      }
+
+            rowView.setBackgroundColor(sharedPrefs.getInt("ct_sentMessageBackground", context.getResources().getColor(R.color.white)));
+
+            ViewHolder viewHolder = new ViewHolder();
+            viewHolder.text = (TextView) rowView.findViewById(R.id.conversationCount);
+            viewHolder.text2 = (TextView) rowView.findViewById(R.id.receivedMessage);
+            viewHolder.text3 = (TextView) rowView.findViewById(R.id.receivedDate);
+
+            viewHolder.text.setTextColor(sharedPrefs.getInt("ct_sentTextColor", context.getResources().getColor(R.color.black)));
+            viewHolder.text2.setTextColor(sharedPrefs.getInt("ct_sentTextColor", context.getResources().getColor(R.color.black)));
+            viewHolder.text3.setTextColor(sharedPrefs.getInt("ct_sentTextColor", context.getResources().getColor(R.color.black)));
+
+            if (sharedPrefs.getBoolean("custom_font", false))
+            {
+                viewHolder.text.setTypeface(Typeface.createFromFile(sharedPrefs.getString("custom_font_path", "")));
+                viewHolder.text2.setTypeface(Typeface.createFromFile(sharedPrefs.getString("custom_font_path", "")));
+                viewHolder.text3.setTypeface(Typeface.createFromFile(sharedPrefs.getString("custom_font_path", "")));
+            }
 	      
 	      rowView.setTag(viewHolder);
 	    }
