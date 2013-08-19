@@ -55,6 +55,7 @@ public class CatalogWizardModel extends AbstractWizardModel {
                 "- Ability to lock messages\n" +
                 "- Redone share box to match current theme\n" +
                 "- Minor UI changes\n" +
+                "- Added tablet support\n" +
                 "- Bug fixes";
                 
         String themeEditor = "The theme editor now fully supports the Cards UI 2.0, making it a " +

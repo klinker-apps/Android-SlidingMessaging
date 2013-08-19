@@ -1,7 +1,6 @@
 Version 7.25
 
 Jake:
-    - dont delete locked messages in conversation array adapter or delete old service
     - redo batch delete stuff to adapt to theme and allow for it in conversations
     - refactor classes to use static sending class
     - google voice sending support
