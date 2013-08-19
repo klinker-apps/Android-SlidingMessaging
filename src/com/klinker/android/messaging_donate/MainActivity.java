@@ -112,7 +112,7 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
                 flag = true;
             }
 
-            if (sharedPrefs.getString("run_as", "sliding").equals("sliding") || sharedPrefs.getString("run_as", "sliding").equals("hangout")  || sharedPrefs.getString("run_as", "sliding").equals("card2") || sharedPrefs.getString("run_as","sliding").equals("speed"))
+            if (sharedPrefs.getString("run_as", "sliding").equals("sliding") || sharedPrefs.getString("run_as", "sliding").equals("hangout")  || sharedPrefs.getString("run_as", "sliding").equals("card2"))
             {
                 final Intent intent = new Intent(this, com.klinker.android.messaging_sliding.MainActivity.class);
                 intent.setAction(fromIntent.getAction());

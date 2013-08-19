@@ -1,19 +1,23 @@
-Version 7.00
+Version 7.25
 
-- option for adding certain text to every message at the beginning (delivery reports?)
-- Message Locking
-- Figure out how to judge file size of png images and adjust them accordingly when sending, look into UriImage.getResizedImageData for solution
-- look into scheduled SMS bug reported
+Jake:
+    - Lock Messages
+    - redo batch delete stuff to adapt to theme and allow for it in conversations
+    - refactor classes to use static sending class
+    - google voice sending support
+    - google voice receiving support
+    - Figure out how to judge file size of png images and adjust them accordingly when sending, look into UriImage.getResizedImageData for solution
+    - delayed sending for certain times
+Luke:
+    - look into scheduled SMS bug reported
+    - remove messaging_speed stuff? not sure if you still wanted to do that or not, but if not then get rid of it
 
-Luke's ideas for speed/fluidity improvement:
-3.) Don't refresh the view pager when a new message is received that isn't from the conversation you are currently viewing. Make a refresh attached in the conversations list to refresh the view pager instead, so it doesnt jump around and the users can continue texting without being interrupted. It will look better and work more fluidly.
-		- not sure how this would affect scrolling through the view pager though. may work, but may never move the threads to the correct position
-
-0) more individual notification options
-3) Batch delete of messages inside single conversation
-5) Tasker options
-6) Attach more options for MMS - create slideshow with videos and audio and pictures, attach plain text contact info
-10) Pin contact to always be first conversation
+1) more individual notification options
+2) option for adding certain text to every message at the beginning (delivery reports?)
+3) Tasker options
+4) Attach more options for MMS - create slideshow with videos and audio and pictures, attach plain text contact info
+5) Pin contact to always be first conversation
+6) Auto call when phone is placed to the ear (proximity sensor)
 
 - igamer777@gmail.com, nikorezzano@gmail.com
 
@@ -27,3 +31,7 @@ Luke's ideas for speed/fluidity improvement:
 	- cancel scheduled button
 	- Dated folders for backups
 	- check to make sure backup exists before deleting
+
+Luke's ideas for speed/fluidity improvement:
+3.) Don't refresh the view pager when a new message is received that isn't from the conversation you are currently viewing. Make a refresh attached in the conversations list to refresh the view pager instead, so it doesnt jump around and the users can continue texting without being interrupted. It will look better and work more fluidly.
+        - not sure how this would affect scrolling through the view pager though. may work, but may never move the threads to the correct position
