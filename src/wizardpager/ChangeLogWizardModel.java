@@ -63,8 +63,6 @@ public class ChangeLogWizardModel extends AbstractWizardModel {
 
         String goSMS = mContext.getString(R.string.go_sms_body);
 
-        String mmsSetupMessage = mContext.getString(R.string.mms_setup_message);
-
         try
         {
             PackageManager pm = mContext.getPackageManager();
@@ -83,12 +81,6 @@ public class ChangeLogWizardModel extends AbstractWizardModel {
         {
             haveGoSMS = false;
             extraPageCount--;
-        }
-
-        if (sharedPrefs.getString("mmsc_url", "").equals(""))
-        {
-            needMMS = true;
-            extraPageCount++;
         }
 
 
@@ -118,108 +110,24 @@ public class ChangeLogWizardModel extends AbstractWizardModel {
                                     .setRequired(false));
 
 
-                } else if (needMMS)
-                {
-                    return new PageList(
-                            new MessagePage(this, mContext.getString(R.string.changelog_title))
-                                    .setMessage(changeLog)
-                                    .setRequired(false),
-
-                            new SingleFixedChoicePage(this, mContext.getString(R.string.need_mms_setup))
-                                    .setChoices("AT&T","AT&T #2","Bell Canada","Fido Canada",
-                                            "Free Mobile France","Network Norway","Net10","O2",
-                                            "Rogers","Straight Talk AT&T","Tele2","Telus",
-                                            "T-Mobile US","T-Mobile Polish","Virgin Mobile Canada",
-                                            "Verizon Wireless","Verizon Wireless #2","Vodafone UK",
-                                            "Vodafone AU","Not on list")
-                                    .setMessage(mmsSetupMessage)
-                                    .setRequired(true));
                 }
 
             case 2:
 
-                if (needTheme && haveGoSMS)
-                {
-                    return new PageList(
-                            new MessagePage(this, mContext.getString(R.string.changelog_title))
-                                    .setMessage(changeLog)
-                                    .setRequired(false),
-
-                            new LinkPage(this, mContext.getString(R.string.theme_support_title))
-                                    .setExtra(themeEditor, "market://details?id=com.klinker.android.messaging_theme")
-                                    .setRequired(false),
-
-                            new MessagePage(this, mContext.getString(R.string.go_sms_title))
-                                    .setMessage(goSMS)
-                                    .setRequired(false));
-                } else if (needTheme && needMMS)
-                {
-                    return new PageList(
-                            new MessagePage(this, mContext.getString(R.string.changelog_title))
-                                    .setMessage(changeLog)
-                                    .setRequired(false),
-
-                            new LinkPage(this, mContext.getString(R.string.theme_support_title))
-                                    .setExtra(themeEditor, "market://details?id=com.klinker.android.messaging_theme")
-                                    .setRequired(false),
-
-                            new SingleFixedChoicePage(this, mContext.getString(R.string.need_mms_setup))
-                                    .setChoices("AT&T","AT&T #2","Bell Canada","Fido Canada",
-                                            "Free Mobile France","Network Norway","Net10","O2",
-                                            "Rogers","Straight Talk AT&T","Tele2","Telus",
-                                            "T-Mobile US","T-Mobile Polish","Virgin Mobile Canada",
-                                            "Verizon Wireless","Verizon Wireless #2","Vodafone UK",
-                                            "Vodafone AU","Not on list")
-                                    .setMessage(mmsSetupMessage)
-                                    .setRequired(true));
-
-                } else if (needMMS && haveGoSMS)
-                {
-                    return new PageList(
-                            new MessagePage(this, mContext.getString(R.string.changelog_title))
-                                    .setMessage(changeLog)
-                                    .setRequired(false),
-
-                            new MessagePage(this, mContext.getString(R.string.go_sms_title))
-                                    .setMessage(goSMS)
-                                    .setRequired(false),
-
-                            new SingleFixedChoicePage(this, mContext.getString(R.string.need_mms_setup))
-                                    .setChoices("AT&T","AT&T #2","Bell Canada","Fido Canada",
-                                            "Free Mobile France","Network Norway","Net10","O2",
-                                            "Rogers","Straight Talk AT&T","Tele2","Telus",
-                                            "T-Mobile US","T-Mobile Polish","Virgin Mobile Canada",
-                                            "Verizon Wireless","Verizon Wireless #2","Vodafone UK",
-                                            "Vodafone AU","Not on list")
-                                    .setMessage(mmsSetupMessage)
-                                    .setRequired(true));
-                }
-
-            case 3:
 
                 return new PageList(
-
                         new MessagePage(this, mContext.getString(R.string.changelog_title))
                                 .setMessage(changeLog)
-                                .setRequired(false),
-
-                        new MessagePage(this, mContext.getString(R.string.go_sms_title))
-                                .setMessage(goSMS)
                                 .setRequired(false),
 
                         new LinkPage(this, mContext.getString(R.string.theme_support_title))
                                 .setExtra(themeEditor, "market://details?id=com.klinker.android.messaging_theme")
                                 .setRequired(false),
 
-                        new SingleFixedChoicePage(this, mContext.getString(R.string.need_mms_setup))
-                                .setChoices("AT&T","AT&T #2","Bell Canada","Fido Canada",
-                                        "Free Mobile France","Network Norway","Net10","O2",
-                                        "Rogers","Straight Talk AT&T","Tele2","Telus",
-                                        "T-Mobile US","T-Mobile Polish","Virgin Mobile Canada",
-                                        "Verizon Wireless","Verizon Wireless #2","Vodafone UK",
-                                        "Vodafone AU","Not on list")
-                                .setMessage(mmsSetupMessage)
-                                .setRequired(true));
+                        new MessagePage(this, mContext.getString(R.string.go_sms_title))
+                                .setMessage(goSMS)
+                                .setRequired(false));
+
 
             default:
                 return new PageList(

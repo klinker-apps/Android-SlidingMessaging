@@ -97,9 +97,9 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
             e.printStackTrace();
         }
 
-        if (true)//(!sharedPrefs.getString("current_version", "0").equals(version))
+        if (!sharedPrefs.getString("current_version", "0").equals(version))
         {
-            if(true)//(sharedPrefs.getString("current_version", "0").equals("0"))
+            if(sharedPrefs.getString("current_version", "0").equals("0"))
             {
                 Intent initialSetupIntent = new Intent(getApplicationContext(), InitialSetupMain.class);
                 initialSetupIntent.setAction(fromIntent.getAction());

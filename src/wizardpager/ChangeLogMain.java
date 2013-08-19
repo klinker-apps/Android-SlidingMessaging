@@ -120,16 +120,6 @@ public class ChangeLogMain extends FragmentActivity implements
             @Override
             public void onClick(View view) {
                 if (mPager.getCurrentItem() == mCurrentPageSequence.size()) {
-                    String carrier;
-
-                    try {
-                        carrier = mWizardModel.findByKey(context.getString(R.string.need_mms_setup)).getData().getString(Page.SIMPLE_DATA_KEY);
-                    } catch (Exception e)
-                    {
-                        carrier = "";
-                    }
-
-                    setAPN(carrier);
 
                     SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
@@ -206,151 +196,6 @@ public class ChangeLogMain extends FragmentActivity implements
                         mPager.setCurrentItem(mPager.getCurrentItem() + 1);
                     }
                 }
-            }
-
-            public void setAPN(String carrier)
-            {
-                if(carrier.equals("Not on list"))
-                {
-                    Context context = getApplicationContext();
-                    CharSequence text = "Configure APN's manually at Settings->MMS Settings";
-                    int duration = Toast.LENGTH_LONG;
-
-                    Toast toast = Toast.makeText(context, text, duration);
-                    toast.show();
-                } else if (!carrier.equals(""))
-                {
-                    SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(context);
-
-                    SharedPreferences.Editor editor = sharedPrefs.edit();
-
-                    if (carrier.equals("AT&T"))
-                    {
-                        editor.putString("mmsc_url","http://mmsc.cingular.com");
-                        editor.putString("mms_proxy","wireless.cingular.com");
-                        editor.putString("mms_port","80");
-
-                    } else if (carrier.equals("AT&T #2"))
-                    {
-                        editor.putString("mmsc_url","http://mmsc.mobile.att.net");
-                        editor.putString("mms_proxy","proxy.mobile.att.net");
-                        editor.putString("mms_port","80");
-                    } else if (carrier.equals("Bell Canada"))
-                    {
-                        editor.putString("mmsc_url","http://mms.bell.ca/mms/wapenc");
-                        editor.putString("mms_proxy","web.wireless.bell.ca");
-                        editor.putString("mms_port","80");
-                    } else if (carrier.equals("Free Mobile France"))
-                    {
-                        editor.putString("mmsc_url","http://212.27.40.225");
-                        editor.putString("mms_proxy","212.27.40.225");
-                        editor.putString("mms_port","80");
-                    } else if (carrier.equals("Network Norway"))
-                    {
-                        editor.putString("mmsc_url","http://mms.nwn.no");
-                        editor.putString("mms_proxy","188.149.250.10");
-                        editor.putString("mms_port","80");
-                    } else if (carrier.equals("Net10"))
-                    {
-                        editor.putString("mmsc_url","http://mms-tf.net");
-                        editor.putString("mms_proxy","mms3.tracfone.com");
-                        editor.putString("mms_port","80");
-                    } else if (carrier.equals("O2"))
-                    {
-                        editor.putString("mmsc_url","http://mmsc.mms.02.co.uk:8002");
-                        editor.putString("mms_proxy","193.113.200.195");
-                        editor.putString("mms_port","8080");
-                    } else if (carrier.equals("Rogers"))
-                    {
-                        editor.putString("mmsc_url","http://mms.gprs.rogers.com");
-                        editor.putString("mms_proxy","10.128.1.69");
-                        editor.putString("mms_port","8080");
-                    } else if (carrier.equals("Straight Talk AT&T"))
-                    {
-                        editor.putString("mmsc_url","http://mmsc.cingular.com");
-                        editor.putString("mms_proxy","66.209.11.33");
-                        editor.putString("mms_port","80");
-                    } else if (carrier.equals("Tele2"))
-                    {
-                        editor.putString("mmsc_url","http://mmsc.tele2.se");
-                        editor.putString("mms_proxy","130.244.202.30");
-                        editor.putString("mms_port","8080");
-                    } else if (carrier.equals("Telus"))
-                    {
-                        editor.putString("mmsc_url","http://aliasredirect.net/proxy/mmsc");
-                        editor.putString("mms_proxy","74.49.0.18");
-                        editor.putString("mms_port","80");
-                    } else if (carrier.equals("T-Mobile US"))
-                    {
-                        editor.putString("mmsc_url","http://mms.msg.eng.t-mobile.com/mms/wapenc");
-                        editor.putString("mms_proxy","216.155.165.50");
-                        editor.putString("mms_port","8080");
-                    } else if (carrier.equals("T-Mobile Polish"))
-                    {
-                        editor.putString("mmsc_url","http://mms/servlets/mms");
-                        editor.putString("mms_proxy","213.158.194.226");
-                        editor.putString("mms_port","8080");
-                    } else if (carrier.equals("Virgin Mobile Canada"))
-                    {
-                        editor.putString("mmsc_url","http://mms.bell.ca/mms/wapenc");
-                        editor.putString("mms_proxy","web.wireless.bell.ca");
-                        editor.putString("mms_port","80");
-                    } else if (carrier.equals("Verizon Wireless"))
-                    {
-                        String phoneNumber = getMyPhoneNumber().replace("+", "").replace("-","").replace(")","").replace("(", "").replace(" ", "");
-
-                        if (phoneNumber.startsWith("+1"))
-                        {
-                            phoneNumber = phoneNumber.substring(2);
-                        } else if (phoneNumber.startsWith("1") && phoneNumber.length() == 11)
-                        {
-                            phoneNumber = phoneNumber.substring(1);
-                        }
-
-                        editor.putString("mmsc_url","http://mms.vtext.com/servlets/mms?X-VZW-MDN=" + phoneNumber);
-                        editor.putString("mms_proxy","null");
-                        editor.putString("mms_port","8080");
-                    } else if (carrier.equals("Verizon Wireless #2"))
-                    {
-                        String phoneNumber = getMyPhoneNumber().replace("+", "").replace("-","").replace(")","").replace("(", "").replace(" ", "");
-
-                        if (phoneNumber.startsWith("+1"))
-                        {
-                            phoneNumber = phoneNumber.substring(2);
-                        } else if (phoneNumber.startsWith("1") && phoneNumber.length() == 11)
-                        {
-                            phoneNumber = phoneNumber.substring(1);
-                        }
-
-                        editor.putString("mmsc_url","http://mms.vtext.com/servlets/mms?X-VZW-MDN=" + phoneNumber);
-                        editor.putString("mms_proxy","null");
-                        editor.putString("mms_port","80");
-                    } else if (carrier.equals("Vodafone AU"))
-                    {
-                        editor.putString("mmsc_url","http://pxt.vodafone.net.au/pxtsend");
-                        editor.putString("mms_proxy","10.202.2.60");
-                        editor.putString("mms_port","8080");
-                    } else if (carrier.equals("Vodafone UK"))
-                    {
-                        editor.putString("mmsc_url","http://mms.vodafone.co.uk/servlets/mms");
-                        editor.putString("mms_proxy","212.183.137.012");
-                        editor.putString("mms_port","8799");
-                    } else // fido canada... skipped it earlier haha
-                    {
-                        editor.putString("mmsc_url","http://mms.fido.ca");
-                        editor.putString("mms_proxy","205.151.11.13");
-                        editor.putString("mms_port","80");
-                    }
-
-                    editor.commit();
-                }
-            }
-
-            private String getMyPhoneNumber(){
-                TelephonyManager mTelephonyMgr;
-                mTelephonyMgr = (TelephonyManager)
-                        context.getSystemService(Context.TELEPHONY_SERVICE);
-                return mTelephonyMgr.getLine1Number();
             }
         });
 
@@ -512,13 +357,6 @@ public class ChangeLogMain extends FragmentActivity implements
             } catch (Exception e)
             {
                 extraPageCount--;
-            }
-
-            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-
-            if (sharedPrefs.getString("mmsc_url", "").equals(""))
-            {
-                extraPageCount++;
             }
 
             return 2 + extraPageCount;

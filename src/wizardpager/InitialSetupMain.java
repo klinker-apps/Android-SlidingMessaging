@@ -28,6 +28,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -117,18 +118,71 @@ public class InitialSetupMain extends FragmentActivity implements
         final Context context = this;
 
         mNextButton.setOnClickListener(new View.OnClickListener() {
+
+            private SharedPreferences sharedPrefs;
+            private SharedPreferences.Editor editor;
             @Override
             public void onClick(View view) {
+
                 if (mPager.getCurrentItem() == mCurrentPageSequence.size() - 1) {
-                    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+                    sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+                    editor = sharedPrefs.edit();
 
                     String version = "1.0";
-
                     SharedPreferences.Editor prefEdit = sharedPrefs.edit();
                     prefEdit.putString("current_version", version);
-                    prefEdit.putBoolean("cache_conversations", false);
                     prefEdit.commit();
 
+                    // Sets the carrier for MMS
+                    String carrier;
+
+                    try {
+                        carrier = mWizardModel.findByKey(context.getString(R.string.need_mms_setup)).getData().getString(Page.SIMPLE_DATA_KEY);
+                    } catch (Exception e)
+                    {
+                        carrier = "";
+                    }
+
+                    setAPN(carrier);
+
+                    // Sets the display layout
+                    String display;
+
+                    try {
+                        display = mWizardModel.findByKey(context.getString(R.string.run_as)).getData().getString(Page.SIMPLE_DATA_KEY);
+                    } catch (Exception e)
+                    {
+                        display = "";
+                    }
+
+                    setDisplay(display);
+
+                    // Sets up the emojis
+                    String emojis;
+
+                    try {
+                        emojis = mWizardModel.findByKey(context.getString(R.string.emojis)).getData().getString(Page.SIMPLE_DATA_KEY);
+                    } catch (Exception e)
+                    {
+                        emojis = "";
+                    }
+
+                    setEmojis(emojis);
+
+                    // Enables SlideOver
+                    String slideOver;
+
+                    try {
+                        slideOver = mWizardModel.findByKey(context.getString(R.string.enable_slideover)).getData().getString(Page.SIMPLE_DATA_KEY);
+                    } catch (Exception e)
+                    {
+                        slideOver = "";
+                    }
+
+                    setSlideOver(slideOver);
+
+                    // Launch the regular changelog intent
                     boolean flag = false;
 
                     if (fromIntent.getStringExtra("com.klinker.android.OPEN") != null)
@@ -166,6 +220,59 @@ public class InitialSetupMain extends FragmentActivity implements
                 }
             }
 
+            public void setDisplay(String display)
+            {
+                if (display.equals("Hangouts UI"))
+                    editor.putString("run_as", "hangout");
+                else if (display.equals("Classic UI"))
+                    editor.putString("run_as", "sliding");
+                else
+                    editor.putString("run_as", "card2");
+
+                editor.commit();
+            }
+
+            public void setEmojis(String emojis)
+            {
+                if (emojis.equals("No Emojis"))
+                    editor.putBoolean("emoji", false);
+                else if (emojis.equals("Android Style"))
+                {
+                    editor.putBoolean("emoji", true);
+                    editor.putBoolean("emoji_type", true);
+                } else
+                {
+                    editor.putBoolean("emoji", true);
+                    editor.putBoolean("emoji_type", false);
+                }
+
+                editor.commit();
+            }
+
+            public void setSlideOver(String slideOver)
+            {
+                if (slideOver.equals("Yes"))
+                    editor.putBoolean("slideover_enabled", true);
+                else
+                    editor.putBoolean("slideover_enabled", false);
+
+                editor.commit();
+
+                Intent service = new Intent();
+                service.setAction("com.klinker.android.messaging.STOP_HALO");
+                sendBroadcast(service);
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (sharedPrefs.getBoolean("slideover_enabled", false)) {
+                            Intent service = new Intent(getApplicationContext(), com.klinker.android.messaging_sliding.slide_over.SlideOverService.class);
+                            startService(service);
+                        }
+                    }
+                }, 500);
+            }
+
             public void setAPN(String carrier)
             {
                 if(carrier.equals("Not on list"))
@@ -178,9 +285,6 @@ public class InitialSetupMain extends FragmentActivity implements
                     toast.show();
                 } else if (!carrier.equals(""))
                 {
-                    SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(context);
-
-                    SharedPreferences.Editor editor = sharedPrefs.edit();
 
                     if (carrier.equals("AT&T"))
                     {
@@ -453,7 +557,7 @@ public class InitialSetupMain extends FragmentActivity implements
         @Override
         public int getCount() {
 
-            return 1;
+            return 5;
         }
 
         public void setCutOffPage(int cutOffPage) {
