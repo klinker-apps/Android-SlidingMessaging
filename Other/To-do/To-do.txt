@@ -10,7 +10,6 @@ Jake:
     - delayed sending for certain times
 Luke:
     - look into scheduled SMS bug reported
-    - remove messaging_speed stuff? not sure if you still wanted to do that or not, but if not then get rid of it
 
 1) more individual notification options
 2) option for adding certain text to every message at the beginning (delivery reports?)
