@@ -23,15 +23,12 @@ import wizardpager.wizard.ui.PageFragmentCallbacks;
 import wizardpager.wizard.ui.ReviewFragment;
 import wizardpager.wizard.ui.StepPagerStrip;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -48,7 +45,7 @@ import com.klinker.android.messaging_donate.R;
 
 import java.util.List;
 
-public class MainActivity extends FragmentActivity implements
+public class ChangeLogMain extends FragmentActivity implements
         PageFragmentCallbacks,
         ReviewFragment.Callbacks,
         ModelCallbacks {
@@ -74,7 +71,7 @@ public class MainActivity extends FragmentActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wizard_main);
 
-        mWizardModel = new CatalogWizardModel(getBaseContext());
+        mWizardModel = new ChangeLogWizardModel(getBaseContext());
         fromIntent = getIntent();
         version = fromIntent.getStringExtra("version");
         mWizardModel.version = version;

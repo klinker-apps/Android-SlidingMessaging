@@ -41,8 +41,7 @@ import java.util.*;
 
 import group.pals.android.lib.ui.lockpattern.LockPatternActivity;
 import group.pals.android.lib.ui.lockpattern.prefs.SecurityPrefs;
-
-import javax.net.ssl.HandshakeCompletedListener;
+import wizardpager.ChangeLogMain;
 
 public class SettingsPagerActivity extends FragmentActivity {
 
@@ -427,7 +426,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                         e.printStackTrace();
                     }
 
-                    Intent wizardintent = new Intent(getApplicationContext(), wizardpager.MainActivity.class);
+                    Intent wizardintent = new Intent(getApplicationContext(), ChangeLogMain.class);
                     wizardintent.putExtra("version", version);
                     startActivity(wizardintent);
                     overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);

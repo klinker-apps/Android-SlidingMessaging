@@ -123,6 +123,7 @@ import net.simonvt.messagebar.messagebar.MessageBar;
 
 import group.pals.android.lib.ui.lockpattern.LockPatternActivity;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
+import wizardpager.ChangeLogMain;
 
 public class MainActivity extends FragmentActivity {
 
@@ -4693,7 +4694,7 @@ public class MainActivity extends FragmentActivity {
                         "\n\n" + this.getResources().getString(R.string.about_expanded) + "\n\n© 2013 Jacob Klinker and Luke Klinker")
                         .setPositiveButton(this.getResources().getString(R.string.changelog), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                Intent wizardintent = new Intent(getApplicationContext(), wizardpager.MainActivity.class);
+                                Intent wizardintent = new Intent(getApplicationContext(), ChangeLogMain.class);
                                 wizardintent.putExtra("version", version);
                                 startActivity(wizardintent);
                             }

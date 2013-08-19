@@ -23,6 +23,9 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
+import wizardpager.ChangeLogMain;
+import wizardpager.InitialSetupMain;
+
 public class MainActivity extends FragmentActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 	
 	public SharedPreferences sharedPrefs;
@@ -94,13 +97,23 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
             e.printStackTrace();
         }
 
-        if (!sharedPrefs.getString("current_version", "0").equals(version))
+        if (true)//(!sharedPrefs.getString("current_version", "0").equals(version))
         {
-            Intent wizardintent = new Intent(getApplicationContext(), wizardpager.MainActivity.class);
-            wizardintent.setAction(fromIntent.getAction());
-            wizardintent.setData(fromIntent.getData());
-            wizardintent.putExtra("version", version);
-            startActivity(wizardintent);
+            if(true)//(sharedPrefs.getString("current_version", "0").equals("0"))
+            {
+                Intent initialSetupIntent = new Intent(getApplicationContext(), InitialSetupMain.class);
+                initialSetupIntent.setAction(fromIntent.getAction());
+                initialSetupIntent.setData(fromIntent.getData());
+                startActivity(initialSetupIntent);
+            } else
+            {
+                Intent changeLogIntent = new Intent(getApplicationContext(), ChangeLogMain.class);
+                changeLogIntent.setAction(fromIntent.getAction());
+                changeLogIntent.setData(fromIntent.getData());
+                changeLogIntent.putExtra("version", version);
+                startActivity(changeLogIntent);
+            }
+
             finish();
             overridePendingTransition(0, 0);
         } else

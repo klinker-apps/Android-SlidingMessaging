@@ -134,6 +134,7 @@ import com.klinker.android.messaging_sliding.templates.TemplateArrayAdapter;
 
 import group.pals.android.lib.ui.lockpattern.LockPatternActivity;
 import group.pals.android.lib.ui.lockpattern.prefs.SecurityPrefs;
+import wizardpager.ChangeLogMain;
 
 public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuItemClickListener {
 
@@ -4210,7 +4211,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 					           "\n\n" + this.getResources().getString(R.string.about_expanded) + "\n\n� 2013 Jacob Klinker and Luke Klinker")
                     .setPositiveButton(this.getResources().getString(R.string.changelog), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            Intent wizardintent = new Intent(getApplicationContext(), wizardpager.MainActivity.class);
+                            Intent wizardintent = new Intent(getApplicationContext(), ChangeLogMain.class);
                             wizardintent.putExtra("version", version);
                             startActivity(wizardintent);
                         }

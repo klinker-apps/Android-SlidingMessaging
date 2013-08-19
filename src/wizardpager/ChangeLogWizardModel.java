@@ -27,9 +27,9 @@ import wizardpager.wizard.model.MessagePage;
 import wizardpager.wizard.model.PageList;
 import wizardpager.wizard.model.SingleFixedChoicePage;
 
-public class CatalogWizardModel extends AbstractWizardModel {
+public class ChangeLogWizardModel extends AbstractWizardModel {
 
-    public CatalogWizardModel(Context context) {
+    public ChangeLogWizardModel(Context context) {
         super(context);
     }
 
