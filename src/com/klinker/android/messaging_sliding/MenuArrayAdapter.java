@@ -1,5 +1,7 @@
 package com.klinker.android.messaging_sliding;
 
+import android.content.*;
+import android.os.RemoteException;
 import android.text.Spanned;
 import android.widget.RelativeLayout;
 import com.klinker.android.messaging_donate.R;
@@ -25,12 +27,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.ContentResolver;
-import android.content.ContentUris;
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -641,10 +637,15 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 
 
 				public void deleteSMS(Context context, String id) {
-				    try {
-				        context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/"), "thread_id=?", new String[]{id});
-				    } catch (Exception e) {
-				    }
+                    ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
+                    ops.add(ContentProviderOperation.newDelete(Uri.parse("content://mms-sms/conversations/" + id + "/"))
+                                    .withSelection("locked=?", new String[]{"0"})
+                                    .build());
+                    try {
+                        context.getContentResolver().applyBatch("mms-sms", ops);
+                    } catch (RemoteException e) {
+                    } catch (OperationApplicationException e) {
+                    }
 				}});
 				builder.setNegativeButton(context.getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
 			           public void onClick(DialogInterface dialog, int id) {

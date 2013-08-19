@@ -1190,6 +1190,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                         ContentValues values = new ContentValues();
                                         values.put("locked", lockedF ? false : true);
                                         contentResolver.update(Uri.parse("content://sms/inbox"), values, "_id=" + idF, null);
+                                        ((MainActivity) context).refreshViewPager(true);
                                         break;
                                     default:
                                         break;
@@ -1339,6 +1340,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                         ContentValues values = new ContentValues();
                                         values.put("locked", lockedF ? false : true);
                                         contentResolver.update(Uri.parse("content://" + (mmsF ? "mms" : "sms") + "/inbox"), values, "_id=" + idF, null);
+                                        ((MainActivity) context).refreshViewPager(true);
                                         break;
                                     default:
                                         break;
@@ -1892,6 +1894,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                     ContentValues values = new ContentValues();
                                     values.put("locked", lockedF ? false : true);
                                     contentResolver.update(Uri.parse("content://" + (mmsF ? "mms" : "sms") + "/inbox"), values, "_id=" + idF, null);
+                                    ((MainActivity) context).refreshViewPager(true);
                                     break;
                                 default:
                                     break;
@@ -3116,9 +3119,9 @@ public class MessageCursorAdapter extends CursorAdapter {
                     .getIntrinsicHeight());
 
             if (source.startsWith("sent")) {
-                drawable.setColorFilter(ctSentTextColor, PorterDuff.Mode.MULTIPLY);
+                drawable.setColorFilter(convertToColorInt(convertToARGB(ctSentTextColor, "55")), PorterDuff.Mode.MULTIPLY);
             } else {
-                drawable.setColorFilter(ctRecievedTextColor, PorterDuff.Mode.MULTIPLY);
+                drawable.setColorFilter(convertToColorInt(convertToARGB(ctRecievedTextColor, "55")), PorterDuff.Mode.MULTIPLY);
             }
 
             return drawable;

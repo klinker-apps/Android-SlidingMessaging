@@ -43,7 +43,7 @@ public class DeleteOldService extends IntentService {
 			for (int i = 0; i < threads.size(); i++)
 			{
 				Cursor deleter = contentResolver.query(Uri.parse("content://sms/conversations/" + threads.get(i)), 
-						                               new String[]{"_id", "date"}, 
+						                               new String[]{"_id", "date", "locked"},
 						                               null, 
 						                               null, 
 						                               "date asc");
@@ -55,8 +55,11 @@ public class DeleteOldService extends IntentService {
 					do
 					{
 						String id = deleter.getString(deleter.getColumnIndex("_id"));
-						
-						contentResolver.delete(Uri.parse("content://sms/" + id), null, null);
+
+                        if (deleter.getInt(deleter.getColumnIndex("locked")) == 0) {
+						    contentResolver.delete(Uri.parse("content://sms/" + id), null, null);
+                        }
+
 						index--;
 					} while (deleter.moveToNext() && index > sharedPrefs.getInt("sms_limit", 500));
 				}
@@ -64,57 +67,5 @@ public class DeleteOldService extends IntentService {
 			}
 			
 			stopSelf();
-			
-//			new Thread(new Runnable() {
-//
-//				@Override
-//				public void run() {
-//					ArrayList<String> threads = new ArrayList<String>();
-//					
-//					Cursor query = contentResolver.query(Uri.parse("content://mms/conversations/?simple=true"), 
-//							                                  null, 
-//							                                  null, 
-//							                                  null, 
-//							                                  null);
-//					
-//					Log.v("query", query + "");
-//					
-//					if (query.moveToFirst())
-//					{
-//						do
-//						{
-//							if (Integer.parseInt(query.getString(query.getColumnIndex("msg_count"))) > sharedPrefs.getInt("mms_limit", 100))
-//							{
-//								threads.add(query.getString(query.getColumnIndex("thread_id")));
-//							}
-//						} while (query.moveToNext());
-//					}
-//					
-//					for (int i = 0; i < threads.size(); i++)
-//					{
-//						Cursor deleter = contentResolver.query(Uri.parse("content://mms/conversations/" + threads.get(i)), 
-//								                               new String[]{"_id", "date"}, 
-//								                               null, 
-//								                               null, 
-//								                               "date asc");
-//						
-//						int index = deleter.getCount();
-//						
-//						if (deleter.moveToFirst())
-//						{
-//							do
-//							{
-//								String id = deleter.getString(deleter.getColumnIndex("_id"));
-//								
-//								contentResolver.delete(Uri.parse("content://mms/" + id), null, null);
-//								index--;
-//							} while (deleter.moveToNext() && index > sharedPrefs.getInt("mms_limit", 100));
-//						}
-//						
-//					}
-//					
-//				}
-//				
-//			}).start();
 	}
 }
