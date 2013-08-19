@@ -50,6 +50,13 @@
         <item>Delete Message</item>
         <item>Lock Message</item>
     </string-array>
+
+    <string-array name="messageOptionsUnlock">
+        <item>Copy Text</item>
+        <item>Forward Message</item>
+        <item>Delete Message</item>
+        <item>Unlock Message</item>
+    </string-array>
     
     <string-array name="messageOptions2">
         <item>Copy Text</item>
@@ -58,6 +65,14 @@
         <item>Delete Message</item>
         <item>Lock Message</item>
     </string-array>
+
+    <string-array name="messageOptions2Unlock">
+        <item>Copy Text</item>
+        <item>Save Image</item>
+        <item>Forward Message</item>
+        <item>Delete Message</item>
+        <item>Unlock Message</item>
+    </string-array>
     
     <string-array name="messageOptions3">
         <item>Resend</item>
@@ -65,6 +80,14 @@
         <item>Forward Message</item>
         <item>Delete Message</item>
         <item>Lock Message</item>
+    </string-array>
+
+    <string-array name="messageOptions3Unlock">
+        <item>Resend</item>
+        <item>Copy Text</item>
+        <item>Forward Message</item>
+        <item>Delete Message</item>
+        <item>Unlock Message</item>
     </string-array>
     
     <string-array name="loadMessages">
