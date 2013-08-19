@@ -54,7 +54,7 @@ public class CatalogWizardModel extends AbstractWizardModel {
         String changeLog = "Version " + version + ":\n\n" +
                 "- Ability to lock messages\n" +
                 "- Redone share box to match current theme\n" +
-                "- Minor UI changes\n" +
+                "- UI changes to Hangouts UI and batch delete\n" +
                 "- Added tablet support\n" +
                 "- Bug fixes";
                 

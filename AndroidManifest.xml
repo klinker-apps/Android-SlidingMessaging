@@ -219,7 +219,7 @@
         </activity>
         
         <activity
-            android:name="com.klinker.android.messaging_card.batch_delete.BatchDeleteActivity"
+            android:name="com.klinker.android.messaging_sliding.batch_delete.BatchDeleteAllActivity"
             android:excludeFromRecents="true"
             android:theme="@style/CardTheme" >
         </activity>

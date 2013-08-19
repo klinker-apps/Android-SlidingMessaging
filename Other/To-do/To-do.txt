@@ -1,7 +1,7 @@
 Version 7.25
 
 Jake:
-    - redo batch delete stuff to adapt to theme and allow for it in conversations
+    - batch delete for single conversation
     - refactor classes to use static sending class
     - google voice sending support
     - google voice receiving support

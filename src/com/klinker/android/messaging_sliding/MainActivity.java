@@ -15,7 +15,7 @@ import android.view.*;
 import android.widget.*;
 import com.devspark.appmsg.AppMsg;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
-import com.klinker.android.messaging_card.batch_delete.BatchDeleteActivity;
+import com.klinker.android.messaging_sliding.batch_delete.BatchDeleteAllActivity;
 import com.klinker.android.messaging_donate.*;
 
 import java.io.BufferedReader;
@@ -2593,14 +2593,14 @@ public class MainActivity extends FragmentActivity {
                 newFragment.getView().setBackgroundColor(ctConversationListBackground);
             }
 
-            newFragment.getListView().setDivider(new ColorDrawable(ctConversationDividerColor));
+            menuLayout.setDivider(new ColorDrawable(ctConversationDividerColor));
 
             if (messageDividerVisible)
             {
-                newFragment.getListView().setDividerHeight(1);
+                menuLayout.setDividerHeight(1);
             } else
             {
-                newFragment.getListView().setDividerHeight(0);
+                menuLayout.setDividerHeight(0);
             }
         } else
         {
@@ -4737,9 +4737,11 @@ public class MainActivity extends FragmentActivity {
                 }
                 return true;
             case R.id.menu_delete:
-                Intent intent = new Intent(this, BatchDeleteActivity.class);
+                Intent intent = new Intent(this, BatchDeleteAllActivity.class);
                 intent.putExtra("threadIds", threadIds);
                 intent.putExtra("inboxNumber", inboxNumber);
+                intent.putExtra("inboxBody", inboxBody);
+                intent.putExtra("group", group);
                 startActivity(intent);
                 overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
 

@@ -39,7 +39,7 @@ import com.google.android.mms.pdu_alt.PduBody;
 import com.google.android.mms.pdu_alt.PduComposer;
 import com.google.android.mms.pdu_alt.PduPart;
 import com.google.android.mms.pdu_alt.SendReq;
-import com.klinker.android.messaging_card.batch_delete.BatchDeleteActivity;
+import com.klinker.android.messaging_sliding.batch_delete.BatchDeleteAllActivity;
 import com.klinker.android.messaging_card.group.GroupActivity;
 import com.klinker.android.messaging_donate.*;
 import com.klinker.android.messaging_donate.R;
@@ -4188,7 +4188,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
             overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
 			return true;
 		case R.id.menu_delete:
-			Intent intent = new Intent(this, BatchDeleteActivity.class);
+			Intent intent = new Intent(this, BatchDeleteAllActivity.class);
 			intent.putExtra("threadIds", threadIds);
 			intent.putExtra("inboxNumber", inboxNumber);
 			startActivity(intent);
@@ -4600,7 +4600,7 @@ public class MainActivity extends FragmentActivity implements PopupMenu.OnMenuIt
 
 					@Override
 					public void onClick(View arg0) {
-						Intent intent = new Intent(context, BatchDeleteActivity.class);
+						Intent intent = new Intent(context, BatchDeleteAllActivity.class);
 						intent.putExtra("threadIds", threadIds);
 						intent.putExtra("inboxNumber", inboxNumber);
 						startActivity(intent);
