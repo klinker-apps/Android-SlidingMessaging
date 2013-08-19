@@ -15,6 +15,7 @@
         <item>Copiar texto</item>
         <item>Reenviar mensaje</item>
         <item>Borrar mensaje</item>
+        <item>Lock Message</item>
     </string-array>
     
     <string-array name="messageOptions2">
@@ -22,6 +23,7 @@
         <item>Guardar imagen</item>
         <item>Reenviar mensaje</item>
         <item>Borrar mensaje</item>
+        <item>Lock Message</item>
     </string-array>
     
     <string-array name="ledColors">

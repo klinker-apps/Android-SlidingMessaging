@@ -15,6 +15,7 @@
         <item>Text kopieren</item>
         <item>Nachricht weiterleiten</item>
         <item>Nachricht löschen</item>
+        <item>Lock Message</item>
     </string-array>
     
     <string-array name="messageOptions2">
@@ -22,6 +23,7 @@
         <item>Bild speichern</item>
         <item>Nachricht weiterleiten</item>
         <item>Nachricht löschen</item>
+        <item>Lock Message</item>
     </string-array>
     
     <string-array name="ledColors">

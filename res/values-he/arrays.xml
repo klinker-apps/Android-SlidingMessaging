@@ -14,12 +14,14 @@
     <item>העתק טקסט</item>
     <item>העבר הודעה</item>
     <item>מחק הודעה</item>
+    <item>Lock Message</item>
   </string-array>
   <string-array name="messageOptions2">
     <item>העתק טקסט</item>
     <item>שמור תמונה</item>
     <item>העבר הודעה</item>
     <item>מחק הודעה</item>
+    <item>Lock Message</item>
   </string-array>
   <string-array name="ledColors">
     <item>לבן</item>

@@ -16,6 +16,7 @@
         <item>Copier le Texte</item>
         <item>Transférer...</item>
         <item>Supprimer le Message</item>
+        <item>Lock Message</item>
     </string-array>
     
     <string-array name="messageOptions2">
@@ -23,6 +24,7 @@
         <item>Sauver Image</item>
         <item>Transférer...</item>
         <item>Supprimer le Message</item>
+        <item>Lock Message</item>
     </string-array>
     
     <string-array name="messageOptions3">
@@ -30,6 +32,7 @@
         <item>Copier le Texte</item>
         <item>Transférer...</item>
         <item>Supprimer le Message</item>
+        <item>Lock Message</item>
     </string-array>
     
     <string-array name="ledColors">

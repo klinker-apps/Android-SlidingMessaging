@@ -15,6 +15,7 @@
         <item>複制文本</item>
         <item>下條信息</item>
         <item>刪除信息</item>
+        <item>Lock Message</item>
     </string-array>
     
     <string-array name="messageOptions2">
@@ -22,6 +23,7 @@
         <item>保存圖像</item>
         <item>下條信息</item>
         <item>刪除信息</item>
+        <item>Lock Message</item>
     </string-array>
     
     <string-array name="ledColors">

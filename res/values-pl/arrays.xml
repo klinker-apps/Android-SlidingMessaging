@@ -15,6 +15,7 @@
         <item>Kopiuj Tekst</item>
         <item>Prześlij dalej</item>
         <item>Skasuj Wiadomość</item>
+        <item>Lock Message</item>
     </string-array>
     
     <string-array name="messageOptions2">
@@ -22,6 +23,7 @@
         <item>Zapisz Zdjęcie</item>
         <item>Prześlij Dalej</item>
         <item>Skasuj Wiadomość</item>
+        <item>Lock Message</item>
     </string-array>
     
     <string-array name="ledColors">

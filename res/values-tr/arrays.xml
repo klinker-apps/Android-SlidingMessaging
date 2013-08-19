@@ -16,6 +16,7 @@
         <item>Yazıyı Kopyala</item>
         <item>Mesajı İlet</item>
         <item>Mesajı Sil</item>
+        <item>Lock Message</item>
     </string-array>
     
     <string-array name="messageOptions2">
@@ -23,6 +24,7 @@
         <item>Resmi Kaydet</item>
         <item>Mesajı İlet</item>
         <item>Mesajı Sil</item>
+        <item>Lock Message</item>
     </string-array>
     
     <string-array name="messageOptions3">
@@ -30,6 +32,7 @@
         <item>Yazıyı Kopyala</item>
         <item>Mesajı İlet</item>
         <item>Mesajı Sil</item>
+        <item>Lock Message</item>
     </string-array>
     
     <string-array name="ledColors">
