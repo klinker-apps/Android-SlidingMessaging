@@ -1338,7 +1338,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                     case 4:
                                         ContentValues values = new ContentValues();
                                         values.put("locked", lockedF ? false : true);
-                                        contentResolver.update(Uri.parse("content://sms/inbox"), values, "_id=" + idF, null);
+                                        contentResolver.update(Uri.parse("content://" + (mmsF ? "mms" : "sms") + "/inbox"), values, "_id=" + idF, null);
                                         break;
                                     default:
                                         break;
@@ -1891,7 +1891,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                 case 4:
                                     ContentValues values = new ContentValues();
                                     values.put("locked", lockedF ? false : true);
-                                    contentResolver.update(Uri.parse("content://sms/inbox"), values, "_id=" + idF, null);
+                                    contentResolver.update(Uri.parse("content://" + (mmsF ? "mms" : "sms") + "/inbox"), values, "_id=" + idF, null);
                                     break;
                                 default:
                                     break;
