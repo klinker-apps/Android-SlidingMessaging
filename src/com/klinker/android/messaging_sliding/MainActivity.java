@@ -7658,7 +7658,7 @@ public class MainActivity extends FragmentActivity {
 
                             Uri uri3 = Uri.parse("content://mms-sms/conversations/" + threadIds.get(position) + "/");
                             String[] projection2;
-                            String proj = "_id body date type read msg_box";
+                            String proj = "_id body date type read msg_box locked";
 
                             if (showOriginalTimestamp)
                             {
@@ -7743,7 +7743,7 @@ public class MainActivity extends FragmentActivity {
 
                 Uri uri3 = Uri.parse("content://mms-sms/conversations/" + threadIds.get(position) + "/");
                 String[] projection2;
-                String proj = "_id body date type read msg_box";
+                String proj = "_id body date type read msg_box locked";
 
                 if (showOriginalTimestamp)
                 {
@@ -7845,7 +7845,7 @@ public class MainActivity extends FragmentActivity {
         {
             Uri uri3 = Uri.parse("content://mms-sms/conversations/" + threadIds.get(position) + "/");
             String[] projection2;
-            String proj = "_id body date type read msg_box";
+            String proj = "_id body date type read msg_box locked";
 
             if (showOriginalTimestamp)
             {
@@ -7923,7 +7923,7 @@ public class MainActivity extends FragmentActivity {
 
                     Uri uri3 = Uri.parse("content://mms-sms/conversations/" + threadIds.get(position) + "/");
                     String[] projection2;
-                    String proj = "_id body date type read msg_box";
+                    String proj = "_id body date type read msg_box locked";
 
                     if (showOriginalTimestamp)
                     {

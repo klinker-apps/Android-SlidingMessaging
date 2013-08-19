@@ -310,6 +310,7 @@ public class MessageCursorAdapter extends CursorAdapter {
         boolean group = false;
         String sender = "";
         String status = "-1";
+        boolean locked = false;
 
         String dateType = "date";
 
@@ -367,6 +368,10 @@ public class MessageCursorAdapter extends CursorAdapter {
                             contentResolver.update(Uri.parse("content://mms/inbox"), values, "_id=" + SmsMessageId, null);
                         }
                     }).start();
+                }
+
+                if (cursor.getInt(cursor.getColumnIndex("locked")) == 1) {
+                    locked = true;
                 }
 
                 final String selectionPart = "mid=" + cursor.getString(cursor.getColumnIndex("_id"));
@@ -687,6 +692,10 @@ public class MessageCursorAdapter extends CursorAdapter {
             } else {
                 String type = cursor.getString(cursor.getColumnIndex("type"));
 
+                if (cursor.getInt(cursor.getColumnIndex("locked")) == 1) {
+                    locked = true;
+                }
+
                 if (type.equals("1"))
                 {
                     sent = false;
@@ -862,6 +871,11 @@ public class MessageCursorAdapter extends CursorAdapter {
             }
         }
 
+        if (locked) {
+            String text = "<html><body><img src=\"" + (sent ? "sent" : "received") + "\"/> " + holder.date.getText().toString() + "</body></html>";
+            holder.date.setText(Html.fromHtml(text, imgGetterLocked, null));
+        }
+
         if (group == true && sent == false)
         {
             final String senderF = sender;
@@ -969,6 +983,7 @@ public class MessageCursorAdapter extends CursorAdapter {
         final String idF = id;
         final boolean mmsF = mms;
         final boolean sentF = sent;
+        final boolean lockedF = locked;
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1171,6 +1186,11 @@ public class MessageCursorAdapter extends CursorAdapter {
 
                                         dialog2.show();
                                         break;
+                                    case 3:
+                                        ContentValues values = new ContentValues();
+                                        values.put("locked", lockedF ? false : true);
+                                        contentResolver.update(Uri.parse("content://sms/inbox"), values, "_id=" + idF, null);
+                                        break;
                                     default:
                                         break;
                                 }
@@ -1314,6 +1334,11 @@ public class MessageCursorAdapter extends CursorAdapter {
                                         AlertDialog dialog2 = builder.create();
 
                                         dialog2.show();
+                                        break;
+                                    case 4:
+                                        ContentValues values = new ContentValues();
+                                        values.put("locked", lockedF ? false : true);
+                                        contentResolver.update(Uri.parse("content://sms/inbox"), values, "_id=" + idF, null);
                                         break;
                                     default:
                                         break;
@@ -1862,6 +1887,11 @@ public class MessageCursorAdapter extends CursorAdapter {
                                     AlertDialog dialog2 = builder.create();
 
                                     dialog2.show();
+                                    break;
+                                case 4:
+                                    ContentValues values = new ContentValues();
+                                    values.put("locked", lockedF ? false : true);
+                                    contentResolver.update(Uri.parse("content://sms/inbox"), values, "_id=" + idF, null);
                                     break;
                                 default:
                                     break;
