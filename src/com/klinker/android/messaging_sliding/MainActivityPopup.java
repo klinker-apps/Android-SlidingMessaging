@@ -52,6 +52,8 @@ public class MainActivityPopup extends MainActivity {
         
         isPopup = true;
         attachOnSend = true;
+        customBackground = false;
+        customBackground2 = false;
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 

@@ -659,7 +659,7 @@
         You will then be taken to a list of all apps which have added this ability and simply enable Sliding Messaging with the check box. From now on, whenever you swipe away the notification it will mark your message
         as read, eliminating the need for the \"Read\" button on the notification!
     </string>
-    
+
     <string name="initial_setup">Initial Setup:</string>
     <string name="initial_setup_message">Thanks for purchasing Sliding Messaging Pro!\n\n
 
