@@ -3056,9 +3056,7 @@ public class MessageCursorAdapter extends CursorAdapter {
     Html.ImageGetter imgGetterSent = new Html.ImageGetter() {
         @Override
         public Drawable getDrawable(String source) {
-            Drawable drawable = null;
-
-            drawable = context.getResources().getDrawable(R.drawable.ic_sent);
+            Drawable drawable = context.getResources().getDrawable(R.drawable.ic_sent);
 
             drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable
                     .getIntrinsicHeight());
@@ -3070,12 +3068,28 @@ public class MessageCursorAdapter extends CursorAdapter {
     Html.ImageGetter imgGetterFail = new Html.ImageGetter() {
         @Override
         public Drawable getDrawable(String source) {
-            Drawable drawable = null;
-
-            drawable = context.getResources().getDrawable(R.drawable.ic_failed);
+            Drawable drawable = context.getResources().getDrawable(R.drawable.ic_failed);
 
             drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable
                     .getIntrinsicHeight());
+
+            return drawable;
+        }
+    };
+
+    Html.ImageGetter imgGetterLocked = new Html.ImageGetter() {
+        @Override
+        public Drawable getDrawable(String source) {
+            Drawable drawable = context.getResources().getDrawable(R.drawable.ic_locked);
+
+            drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable
+                    .getIntrinsicHeight());
+
+            if (source.startsWith("sent")) {
+                drawable.setColorFilter(ctSentTextColor, PorterDuff.Mode.MULTIPLY);
+            } else {
+                drawable.setColorFilter(ctRecievedTextColor, PorterDuff.Mode.MULTIPLY);
+            }
 
             return drawable;
         }

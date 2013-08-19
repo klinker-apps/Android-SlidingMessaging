@@ -2242,21 +2242,6 @@ public class MessageSpeedCursorAdapter extends CursorAdapter {
         return res;
     }
 
-
-    Html.ImageGetter imgGetterSent = new Html.ImageGetter() {
-        @Override
-        public Drawable getDrawable(String source) {
-            Drawable drawable = null;
-
-            drawable = context.getResources().getDrawable(R.drawable.ic_sent);
-
-            drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable
-                    .getIntrinsicHeight());
-
-            return drawable;
-        }
-    };
-
     Html.ImageGetter imgGetterFail = new Html.ImageGetter() {
         @Override
         public Drawable getDrawable(String source) {
@@ -2270,58 +2255,4 @@ public class MessageSpeedCursorAdapter extends CursorAdapter {
             return drawable;
         }
     };
-
-    public static String convertToARGB(int color, String a) {
-        String alpha = a;
-
-        if (alpha.length() > 2) {
-            alpha = "FF";
-        }
-
-        String red = Integer.toHexString(Color.red(color));
-        String green = Integer.toHexString(Color.green(color));
-        String blue = Integer.toHexString(Color.blue(color));
-
-        if (alpha.length() == 1) {
-            alpha = "0" + alpha;
-        }
-
-        if (red.length() == 1) {
-            red = "0" + red;
-        }
-
-        if (green.length() == 1) {
-            green = "0" + green;
-        }
-
-        if (blue.length() == 1) {
-            blue = "0" + blue;
-        }
-
-        return "#" + alpha + red + green + blue;
-    }
-
-    public static int convertToColorInt(String argb) throws NumberFormatException {
-
-        if (argb.startsWith("#")) {
-            argb = argb.replace("#", "");
-        }
-
-        int alpha = -1, red = -1, green = -1, blue = -1;
-
-        if (argb.length() == 8) {
-            alpha = Integer.parseInt(argb.substring(0, 2), 16);
-            red = Integer.parseInt(argb.substring(2, 4), 16);
-            green = Integer.parseInt(argb.substring(4, 6), 16);
-            blue = Integer.parseInt(argb.substring(6, 8), 16);
-        }
-        else if (argb.length() == 6) {
-            alpha = 255;
-            red = Integer.parseInt(argb.substring(0, 2), 16);
-            green = Integer.parseInt(argb.substring(2, 4), 16);
-            blue = Integer.parseInt(argb.substring(4, 6), 16);
-        }
-
-        return Color.argb(alpha, red, green, blue);
-    }
 }
