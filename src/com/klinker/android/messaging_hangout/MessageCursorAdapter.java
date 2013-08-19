@@ -1133,7 +1133,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                 {
                     if (!mmsF || sizeT > 1)
                     {
-                        builder2.setItems(R.array.messageOptions, new DialogInterface.OnClickListener() {
+                        builder2.setItems(lockedF ? R.array.messageOptionsUnlock : R.array.messageOptions, new DialogInterface.OnClickListener() {
 
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -1204,7 +1204,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                         dialog.show();
                     } else
                     {
-                        builder2.setItems(R.array.messageOptions2, new DialogInterface.OnClickListener() {
+                        builder2.setItems(lockedF ? R.array.messageOptions2Unlock : R.array.messageOptions2, new DialogInterface.OnClickListener() {
 
                             @SuppressWarnings("deprecation")
                             @Override
@@ -1355,7 +1355,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                     }
                 } else
                 {
-                    builder2.setItems(R.array.messageOptions3, new DialogInterface.OnClickListener() {
+                    builder2.setItems(lockedF ? R.array.messageOptions3Unlock : R.array.messageOptions3, new DialogInterface.OnClickListener() {
 
                         @Override
                         public void onClick(DialogInterface dialog, int which) {

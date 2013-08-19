@@ -1,4 +1,4 @@
-package com.klinker.android.messaging_card.batch_delete;
+package com.klinker.android.messaging_sliding.batch_delete;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -6,17 +6,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 import com.haarman.listviewanimations.itemmanipulation.OnDismissCallback;
-import com.haarman.listviewanimations.itemmanipulation.SwipeDismissAdapter;
 import com.haarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
 import com.klinker.android.messaging_donate.R;
 
@@ -24,11 +23,11 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
-public class BatchDeleteActivity extends Activity {
+public class BatchDeleteAllActivity extends Activity {
 	
-	public ArrayList<String> threadIds, inboxNumber;
+	public ArrayList<String> threadIds, inboxNumber, inboxBody, inboxGroup;
 
-    public BatchDeleteArrayAdapter mAdapter;
+    public BatchDeleteAllArrayAdapter mAdapter;
 
     public final Context context = this;
 	
@@ -39,49 +38,37 @@ public class BatchDeleteActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.batch_delete);
 
-		BatchDeleteArrayAdapter.itemsToDelete = new ArrayList<Integer>();
+		BatchDeleteAllArrayAdapter.itemsToDelete = new ArrayList<Integer>();
 
-        if (sharedPrefs.getString("run_as", "sliding").equals("sliding") || sharedPrefs.getString("run_as", "sliding").equals("hangout") || sharedPrefs.getString("run_as", "sliding").equals("card2"))
+        if (sharedPrefs.getBoolean("ct_light_action_bar", false))
         {
-            setTheme(android.R.style.Theme_Holo);
-            getWindow().getDecorView().setBackgroundColor(sharedPrefs.getInt("ct_messageListBackground", getResources().getColor(R.color.light_silver)));
-        } else if (sharedPrefs.getString("run_as", "sliding").equals("card"))
-        {
-            if (sharedPrefs.getString("card_theme", "Light").equals("Light"))
-            {
-                getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.card_message_list_back));
-                setTheme(android.R.style.Theme_Holo_Light);
-            } else if (sharedPrefs.getString("card_theme", "Light").equals("Dark"))
-            {
-                getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.card_dark_message_list_back));
-                setTheme(android.R.style.Theme_Holo);
-            } else if (sharedPrefs.getString("card_theme", "Light").equals("Pitch Black"))
-            {
-                getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.card_black_message_list_back));
-                setTheme(android.R.style.Theme_Holo);
-            }
+            setTheme(R.style.HangoutsTheme);
         }
+
+        getWindow().setBackgroundDrawable(new ColorDrawable(sharedPrefs.getInt("ct_conversationListBackground", getResources().getColor(R.color.light_silver))));
 		
 		Intent intent = getIntent();
 		Bundle b = intent.getExtras();
 		threadIds = b.getStringArrayList("threadIds");
 		inboxNumber = b.getStringArrayList("inboxNumber");
+        inboxBody = b.getStringArrayList("inboxBody");
+        inboxGroup = b.getStringArrayList("group");
 		
 		ListView contactList = (ListView) findViewById(R.id.messageListView);
-		BatchDeleteArrayAdapter adapter = new BatchDeleteArrayAdapter(this, inboxNumber);
-		contactList.setAdapter(adapter);
-		contactList.setDividerHeight((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -10, getResources().getDisplayMetrics()));
+        contactList.setDivider(new ColorDrawable(sharedPrefs.getInt("ct_conversationDividerColor", getResources().getColor(R.color.white))));
+
+        if (sharedPrefs.getBoolean("ct_messageDividerVisibility", true)) {
+            contactList.setDividerHeight(1);
+        } else {
+            contactList.setDividerHeight(0);
+        }
 
         // Animation for the list view
-        mAdapter = new BatchDeleteArrayAdapter(this, inboxNumber);
+        mAdapter = new BatchDeleteAllArrayAdapter(this, inboxBody, inboxNumber, inboxGroup);
 
-        SwipeDismissAdapter swipeDismissAdapter = new SwipeDismissAdapter(mAdapter, new MyOnDismissCallback(mAdapter));
-        swipeDismissAdapter.setListView(contactList);
-
-        SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(swipeDismissAdapter);
+        SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(mAdapter);
         swingBottomInAnimationAdapter.setListView(contactList);
         contactList.setAdapter(swingBottomInAnimationAdapter);
-
 
 		Button deleteButton = (Button) findViewById(R.id.doneButton);
 		
@@ -101,7 +88,7 @@ public class BatchDeleteActivity extends Activity {
 
 						@Override
 						public void run() {
-							ArrayList<Integer> positions = BatchDeleteArrayAdapter.itemsToDelete;
+							ArrayList<Integer> positions = BatchDeleteAllArrayAdapter.itemsToDelete;
 							
 							for (int i = 0; i < positions.size(); i++)
 							{
@@ -235,9 +222,9 @@ public class BatchDeleteActivity extends Activity {
 
     private class MyOnDismissCallback implements OnDismissCallback {
 
-        private BatchDeleteArrayAdapter mAdapter;
+        private BatchDeleteAllArrayAdapter mAdapter;
 
-        public MyOnDismissCallback(BatchDeleteArrayAdapter adapter) {
+        public MyOnDismissCallback(BatchDeleteAllArrayAdapter adapter) {
             mAdapter = adapter;
         }
 
@@ -252,7 +239,7 @@ public class BatchDeleteActivity extends Activity {
 
                 @Override
                 public void run() {
-                    ArrayList<Integer> positions = BatchDeleteArrayAdapter.itemsToDelete;
+                    ArrayList<Integer> positions = BatchDeleteAllArrayAdapter.itemsToDelete;
 
                     for (int i = 0; i < positions.size(); i++)
                     {
