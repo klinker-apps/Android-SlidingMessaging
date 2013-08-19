@@ -246,8 +246,6 @@ public class MainActivity extends FragmentActivity {
     public static final String GSM_CHARACTERS_REGEX = "^[A-Za-z0-9 \\r\\n@Ł$ĽčéůěňÇŘřĹĺ\u0394_\u03A6\u0393\u039B\u03A9\u03A0\u03A8\u03A3\u0398\u039EĆćßÉ!\"#$%&'()*+,\\-./:;<=>?ĄÄÖŃÜ§żäöńüŕ^{}\\\\\\[~\\]|\u20AC]*$";
     private static final int REQ_ENTER_PATTERN = 7;
 
-    public boolean speed;
-
     // shared prefs values
     public boolean lightActionBar;
     public boolean limitConversationsAtStart;
@@ -324,9 +322,6 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-
-        // setting up the shared prefs again
-        // definitely made a difference though! way smooth :)
 
         if(sharedPrefs.getBoolean("override_speed", false))
         {
@@ -1060,7 +1055,7 @@ public class MainActivity extends FragmentActivity {
             {
                 String titleColor = sharedPrefs.getString("title_color", "blue");
 
-                if (titleColor.equals("blue") || speed)
+                if (titleColor.equals("blue"))
                 {
                     title.setBackgroundColor(getResources().getColor(R.color.holo_blue));
                 } else if (titleColor.equals("orange"))
@@ -2547,7 +2542,7 @@ public class MainActivity extends FragmentActivity {
             messageEntry.setTypeface(font);
         }
 
-        if (runAs.equals("hangout") || runAs.equals("card2") || runAs.equals("speed"))
+        if (runAs.equals("hangout") || runAs.equals("card2"))
         {
             emojiButton.setImageResource(R.drawable.ic_emoji_dark);
         }
@@ -4043,7 +4038,7 @@ public class MainActivity extends FragmentActivity {
             contact.setTypeface(font);
         }
 
-        if (runAs.equals("hangout") || runAs.equals("card2") || runAs.equals("speed"))
+        if (runAs.equals("hangout") || runAs.equals("card2"))
         {
             emojiButton.setImageResource(R.drawable.ic_emoji_dark);
         }
@@ -7586,7 +7581,7 @@ public class MainActivity extends FragmentActivity {
                 {
                     String titleColor = sharedPrefs.getString("title_color", "blue");
 
-                    if (titleColor.equals("blue") || speed)
+                    if (titleColor.equals("blue"))
                     {
                         groupList.setBackgroundColor(getResources().getColor(R.color.holo_blue));
                     } else if (titleColor.equals("orange"))
@@ -7685,16 +7680,10 @@ public class MainActivity extends FragmentActivity {
                                 @Override
                                 public void run() {
 
-                                    if(runAs.equals("speed"))
-                                    {
-                                        com.klinker.android.messaging_speed.MessageSpeedCursorAdapter adapter = new com.klinker.android.messaging_speed.MessageSpeedCursorAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), messageQuery, position);
-                                        listView.setAdapter(adapter);
-                                    } else
-                                    {
-                                        com.klinker.android.messaging_hangout.MessageCursorAdapter adapter = new com.klinker.android.messaging_hangout.MessageCursorAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), messageQuery, position);
+                                    com.klinker.android.messaging_hangout.MessageCursorAdapter adapter = new com.klinker.android.messaging_hangout.MessageCursorAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), messageQuery, position);
 
-                                        listView.setAdapter(adapter);
-                                    }
+                                    listView.setAdapter(adapter);
+
                                     listView.setStackFromBottom(true);
                                     spinner.setVisibility(View.GONE);
 
