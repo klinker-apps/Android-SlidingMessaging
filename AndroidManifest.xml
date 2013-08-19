@@ -30,6 +30,8 @@
     <uses-permission android:name="robj.floating.notifications.DISMISS"/>
     <uses-permission android:name="robj.floating.notifications.EXTENSION"/>
 
+    <uses-feature android:name="android.hardware.telephony" android:required="false" />
+
     <uses-sdk
         android:minSdkVersion="14"
         android:targetSdkVersion="18" />
