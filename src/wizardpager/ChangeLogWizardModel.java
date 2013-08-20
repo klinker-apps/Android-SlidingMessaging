@@ -37,9 +37,6 @@ public class ChangeLogWizardModel extends AbstractWizardModel {
         protected PageList onNewRootPageList() {
         boolean needTheme = false;
         boolean haveGoSMS = true;
-        boolean needMMS = false;
-
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
 
         int extraPageCount = 1;
 
@@ -53,6 +50,7 @@ public class ChangeLogWizardModel extends AbstractWizardModel {
 
         String changeLog = "Version " + version + ":\n\n" +
                 "- Ability to lock messages\n" +
+                "- Batch delete certain messages in single conversation\n" +
                 "- Redone share box to match current theme\n" +
                 "- UI changes to Hangouts UI and batch delete\n" +
                 "- Added tablet support\n" +
