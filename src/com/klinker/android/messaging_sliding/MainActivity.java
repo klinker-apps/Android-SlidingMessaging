@@ -99,6 +99,7 @@ import com.klinker.android.messaging_donate.receivers.DeliveredReceiver;
 import com.klinker.android.messaging_donate.receivers.DisconnectWifi;
 import com.klinker.android.messaging_donate.receivers.SentReceiver;
 import com.klinker.android.messaging_donate.settings.SettingsPagerActivity;
+import com.klinker.android.messaging_sliding.batch_delete.BatchDeleteConversationActivity;
 import com.klinker.android.messaging_sliding.blacklist.BlacklistContact;
 import com.klinker.android.messaging_sliding.custom_dialogs.CustomListView;
 import com.klinker.android.messaging_sliding.emojis.EmojiAdapter;
@@ -4563,7 +4564,7 @@ public class MainActivity extends FragmentActivity {
                 menu.getItem(2).setVisible(true);
                 menu.getItem(3).setVisible(false);
                 menu.getItem(4).setVisible(true);
-                menu.getItem(5).setVisible(false);
+                menu.getItem(5).setVisible(true);
                 menu.getItem(6).setVisible(true);
                 menu.getItem(7).setVisible(true);
                 menu.getItem(8).setVisible(true);
@@ -4571,6 +4572,7 @@ public class MainActivity extends FragmentActivity {
 
                 if (group.get(mViewPager.getCurrentItem()).equals("yes")) // if there is a group message
                 {
+                    menu.getItem(0).setVisible(false);
                     menu.getItem(9).setVisible(false);
                 }
             }
@@ -4595,6 +4597,7 @@ public class MainActivity extends FragmentActivity {
 
                 if (group.get(mViewPager.getCurrentItem()).equals("yes"))
                 {
+                    menu.getItem(0).setVisible(false);
                     menu.getItem(9).setVisible(false);
                 }
             }
@@ -4738,13 +4741,20 @@ public class MainActivity extends FragmentActivity {
                 }
                 return true;
             case R.id.menu_delete:
-                Intent intent = new Intent(this, BatchDeleteAllActivity.class);
-                intent.putExtra("threadIds", threadIds);
-                intent.putExtra("inboxNumber", inboxNumber);
-                intent.putExtra("inboxBody", inboxBody);
-                intent.putExtra("group", group);
-                startActivity(intent);
-                overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                if (menu.isMenuShowing()) {
+                    Intent intent = new Intent(this, BatchDeleteAllActivity.class);
+                    intent.putExtra("threadIds", threadIds);
+                    intent.putExtra("inboxNumber", inboxNumber);
+                    intent.putExtra("inboxBody", inboxBody);
+                    intent.putExtra("group", group);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                } else {
+                    Intent intent = new Intent(this, BatchDeleteConversationActivity.class);
+                    intent.putExtra("threadId", threadIds.get(mViewPager.getCurrentItem()));
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                }
 
                 return true;
             case R.id.menu_template:

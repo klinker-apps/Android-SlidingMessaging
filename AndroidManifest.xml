@@ -223,6 +223,12 @@
             android:excludeFromRecents="true"
             android:theme="@style/CardTheme" >
         </activity>
+
+        <activity
+                android:name="com.klinker.android.messaging_sliding.batch_delete.BatchDeleteConversationActivity"
+                android:excludeFromRecents="true"
+                android:theme="@style/CardTheme" >
+        </activity>
         
         <activity 
             android:name="com.klinker.android.messaging_sliding.templates.TemplateActivity"

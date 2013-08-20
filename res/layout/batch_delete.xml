@@ -4,10 +4,7 @@
     android:layout_height="match_parent"
     android:contentDescription="@string/placeholder"
     android:orientation="vertical"
-    android:paddingBottom="8dp"
-    android:paddingLeft="17dp"
-    android:paddingRight="17dp"
-    android:paddingTop="10dp" >
+        >
 
     <ListView
         android:id="@+id/messageListView"
@@ -18,7 +15,8 @@
         android:cacheColorHint="@color/card_message_list_back"
         android:divider="@null"
         android:fadingEdgeLength="0dp"
-        android:requiresFadingEdge="vertical" >
+        android:requiresFadingEdge="vertical"
+        android:listSelector="@android:color/transparent">
 
     </ListView>
 
