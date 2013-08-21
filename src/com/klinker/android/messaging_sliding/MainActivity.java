@@ -104,6 +104,7 @@ import group.pals.android.lib.ui.lockpattern.prefs.SecurityPrefs;
 import net.simonvt.messagebar.messagebar.MessageBar;
 
 import group.pals.android.lib.ui.lockpattern.LockPatternActivity;
+import robj.floating.notifications.Extension;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 import wizardpager.ChangeLogMain;
 
@@ -226,6 +227,8 @@ public class MainActivity extends FragmentActivity {
 
     public static final String GSM_CHARACTERS_REGEX = "^[A-Za-z0-9 \\r\\n@Ł$ĽčéůěňÇŘřĹĺ\u0394_\u03A6\u0393\u039B\u03A9\u03A0\u03A8\u03A3\u0398\u039EĆćßÉ!\"#$%&'()*+,\\-./:;<=>?ĄÄÖŃÜ§żäöńüŕ^{}\\\\\\[~\\]|\u20AC]*$";
     private static final int REQ_ENTER_PATTERN = 7;
+
+    public Button okButton;
 
     // shared prefs values
     public boolean lightActionBar;
@@ -453,6 +456,42 @@ public class MainActivity extends FragmentActivity {
             try {
                 final RelativeLayout layout = (RelativeLayout) findViewById(R.id.rootView);
 
+                final View conversationSwipe = getLayoutInflater().inflate(R.layout.conversation_swipe, null);
+                final View newMessageSwipe = getLayoutInflater().inflate(R.layout.new_message_swipe, null);
+                final View messagesSwipe = getLayoutInflater().inflate(R.layout.messages_swipe, null);
+
+                layout.addView(conversationSwipe);
+
+                okButton = (Button) findViewById(R.id.ok);
+                okButton.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        layout.removeView(conversationSwipe);
+                        layout.addView(newMessageSwipe);
+
+                        okButton = (Button) findViewById(R.id.ok);
+                        okButton.setOnClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                layout.removeView(newMessageSwipe);
+                                layout.addView(messagesSwipe);
+
+                                okButton = (Button) findViewById(R.id.ok);
+                                okButton.setOnClickListener(new OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        layout.removeView(messagesSwipe);
+                                    }
+                                });
+                            }
+                        });
+
+                    }
+                });
+
+
+
+                /*
                 final ImageView imageView1 = new ImageView(this);
                 imageView1.setBackgroundResource(R.drawable.conversation_list_swipe);
 
@@ -497,7 +536,7 @@ public class MainActivity extends FragmentActivity {
                         layout.removeView(tv2);
                         return false;
                     }
-                });
+                }); */
             } catch (ClassCastException e)
             {
 

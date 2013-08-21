@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@drawable/message_swipe"
+                android:paddingRight="30dp"
+                android:paddingBottom="30dp"
+                android:paddingLeft="30dp"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/relLayout" >
+
+    <Button android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="@string/ok"
+            android:id="@+id/ok" />
+
+    <TextView android:id="@+id/conversation_swipe_text"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Swipe in the middle to go between messages"
+              android:textColor="@color/white"
+              android:gravity="center_horizontal"
+              android:layout_above="@+id/ok"
+              android:paddingBottom="30dp"
+              android:textSize="25dp"/>
+
+</RelativeLayout>
