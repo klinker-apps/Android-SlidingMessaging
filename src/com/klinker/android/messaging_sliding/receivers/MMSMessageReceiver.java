@@ -56,6 +56,7 @@ import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.util.Log;
 import com.klinker.android.messaging_sliding.MainActivity;
+import com.klinker.android.send_message.Transaction;
 
 public class MMSMessageReceiver extends BroadcastReceiver {
     public static String lastReceivedNumber = "";
@@ -250,8 +251,8 @@ public class MMSMessageReceiver extends BroadcastReceiver {
                                 currentWifi = wifi.getConnectionInfo();
                                 currentWifiState = wifi.isWifiEnabled();
                                 wifi.disconnect();
-                                currentDataState = MainActivity.isMobileDataEnabled(context);
-                                MainActivity.setMobileDataEnabled(context, true);
+                                currentDataState = Transaction.isMobileDataEnabled(context);
+                                Transaction.setMobileDataEnabled(context, true);
                             }
 							
 							Cursor locationQuery = context.getContentResolver().query(Uri.parse("content://mms/"), new String[] {"ct_l", "thread_id", "_id"}, null, null, "date desc");
@@ -350,7 +351,7 @@ public class MMSMessageReceiver extends BroadcastReceiver {
                                     wifi.setWifiEnabled(false);
                                     wifi.setWifiEnabled(currentWifiState);
                                     Log.v("Reconnect", "" + wifi.reconnect());
-                                    MainActivity.setMobileDataEnabled(context, currentDataState);
+                                    Transaction.setMobileDataEnabled(context, currentDataState);
                                 }
 							}
 							

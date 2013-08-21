@@ -38,7 +38,8 @@ import com.klinker.android.messaging_donate.R;
 
 public class AttachMore  extends Activity {
 	
-	public static ArrayList<MMSPart> data = new ArrayList<MMSPart>();;
+	public static ArrayList<MMSPart> data = new ArrayList<MMSPart>();
+    public static ArrayList<Bitmap> images = new ArrayList<Bitmap>();
 	public ListView list;
     public SharedPreferences sharedPrefs;
 	
@@ -185,6 +186,7 @@ public class AttachMore  extends Activity {
             {  
                 Uri image = imageReturnedIntent.getData();
                 Bitmap b = decodeFile2(new File(getPath(image)));
+                images.add(b);
 				ByteArrayOutputStream stream = new ByteArrayOutputStream();
 				b.compress(Bitmap.CompressFormat.PNG, 100, stream);
 				byte[] byteArray = stream.toByteArray();

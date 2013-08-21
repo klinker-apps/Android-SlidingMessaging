@@ -7,17 +7,10 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.telephony.SmsManager;
-import android.view.View;
-import android.widget.*;
 import com.klinker.android.messaging_donate.R;
-import com.klinker.android.messaging_donate.StripAccents;
+import com.klinker.android.send_message.StripAccents;
 import com.klinker.android.messaging_sliding.MainActivity;
-import com.klinker.android.messaging_sliding.emojis.EmojiAdapter;
-import com.klinker.android.messaging_sliding.emojis.EmojiAdapter2;
-import com.klinker.android.messaging_sliding.emojis.EmojiConverter;
-import com.klinker.android.messaging_sliding.emojis.EmojiConverter2;
 import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead2;
-import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
 import robj.floating.notifications.Extension;
 
 import java.util.ArrayList;

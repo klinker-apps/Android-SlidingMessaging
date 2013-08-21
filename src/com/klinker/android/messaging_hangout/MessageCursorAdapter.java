@@ -46,12 +46,13 @@ import com.google.android.mms.pdu_alt.PduParser;
 import com.google.android.mms.pdu_alt.PduPersister;
 import com.google.android.mms.pdu_alt.RetrieveConf;
 import com.klinker.android.messaging_donate.R;
-import com.klinker.android.messaging_donate.StripAccents;
-import com.klinker.android.messaging_donate.receivers.DisconnectWifi;
+import com.klinker.android.send_message.StripAccents;
+import com.klinker.android.send_message.DisconnectWifi;
 import com.klinker.android.messaging_sliding.ImageViewer;
 import com.klinker.android.messaging_sliding.MainActivity;
 import com.klinker.android.messaging_sliding.emojis.*;
 import com.klinker.android.messaging_sliding.receivers.NotificationReceiver;
+import com.klinker.android.send_message.Transaction;
 
 import java.io.*;
 import java.text.DateFormat;
@@ -2502,8 +2503,8 @@ public class MessageCursorAdapter extends CursorAdapter {
                             wifi.disconnect();
                             discon = new DisconnectWifi();
                             context.registerReceiver(discon, new IntentFilter(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION));
-                            currentDataState = MainActivity.isMobileDataEnabled(context);
-                            MainActivity.setMobileDataEnabled(context, true);
+                            currentDataState = Transaction.isMobileDataEnabled(context);
+                            Transaction.setMobileDataEnabled(context, true);
                         }
 
                         ConnectivityManager mConnMgr =  (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -2646,7 +2647,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                                     wifi.setWifiEnabled(false);
                                                     wifi.setWifiEnabled(currentWifiState);
                                                     Log.v("Reconnect", "" + wifi.reconnect());
-                                                    MainActivity.setMobileDataEnabled(context, currentDataState);
+                                                    Transaction.setMobileDataEnabled(context, currentDataState);
                                                 }
 
                                             }
@@ -2772,7 +2773,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                         wifi.setWifiEnabled(false);
                                         wifi.setWifiEnabled(currentWifiState);
                                         Log.v("Reconnect", "" + wifi.reconnect());
-                                        MainActivity.setMobileDataEnabled(context, currentDataState);
+                                        Transaction.setMobileDataEnabled(context, currentDataState);
                                     }
 
                                 }

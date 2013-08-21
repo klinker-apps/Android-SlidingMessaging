@@ -10,11 +10,11 @@ import com.google.android.mms.APNHelper;
 import com.google.android.mms.pdu_alt.PduParser;
 import com.google.android.mms.pdu_alt.PduPersister;
 import com.google.android.mms.pdu_alt.RetrieveConf;
-import com.klinker.android.messaging_donate.receivers.DisconnectWifi;
+import com.klinker.android.send_message.DisconnectWifi;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_sliding.emojis.*;
 import com.klinker.android.messaging_sliding.receivers.NotificationReceiver;
-import com.klinker.android.messaging_donate.StripAccents;
+import com.klinker.android.send_message.StripAccents;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -93,6 +93,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.klinker.android.send_message.Transaction;
 
 public class MessageArrayAdapter extends ArrayAdapter<String> {
   private final Activity context;
@@ -474,8 +475,8 @@ public class MessageArrayAdapter extends ArrayAdapter<String> {
                               wifi.disconnect();
                               discon = new DisconnectWifi();
                               context.registerReceiver(discon, new IntentFilter(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION));
-                              currentDataState = com.klinker.android.messaging_sliding.MainActivity.isMobileDataEnabled(context);
-                              com.klinker.android.messaging_sliding.MainActivity.setMobileDataEnabled(context, true);
+                              currentDataState = Transaction.isMobileDataEnabled(context);
+                              Transaction.setMobileDataEnabled(context, true);
                           }
 
                           ConnectivityManager mConnMgr =  (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -618,7 +619,7 @@ public class MessageArrayAdapter extends ArrayAdapter<String> {
                                                       wifi.setWifiEnabled(false);
                                                       wifi.setWifiEnabled(currentWifiState);
                                                       Log.v("Reconnect", "" + wifi.reconnect());
-                                                      com.klinker.android.messaging_sliding.MainActivity.setMobileDataEnabled(context, currentDataState);
+                                                      Transaction.setMobileDataEnabled(context, currentDataState);
                                                   }
 
                                               }
@@ -744,7 +745,7 @@ public class MessageArrayAdapter extends ArrayAdapter<String> {
                                           wifi.setWifiEnabled(false);
                                           wifi.setWifiEnabled(currentWifiState);
                                           Log.v("Reconnect", "" + wifi.reconnect());
-                                          com.klinker.android.messaging_sliding.MainActivity.setMobileDataEnabled(context, currentDataState);
+                                          Transaction.setMobileDataEnabled((Context)context, currentDataState);
                                       }
 
                                   }

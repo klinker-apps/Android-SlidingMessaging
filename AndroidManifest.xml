@@ -484,16 +484,16 @@
             </intent-filter> 
         </receiver>
         
-        <receiver android:name=".receivers.SentReceiver" >
-            <intent-filter android:priority="-10"> 
-                <action android:name="SMS_SENT" />
+        <receiver android:name="com.klinker.android.send_message.SentReceiver" >
+            <intent-filter>
+                <action android:name="com.klinker.android.send_message.SMS_SENT" />
                 <category android:name="android.intent.category.HOME" />
             </intent-filter> 
         </receiver>
         
-        <receiver android:name=".receivers.DeliveredReceiver" >
-            <intent-filter android:priority="-10"> 
-                <action android:name="SMS_DELIVERED" />
+        <receiver android:name="com.klinker.android.send_message.DeliveredReceiver" >
+            <intent-filter>
+                <action android:name="com.klinker.android.send_message.SMS_DELIVERED" />
                 <category android:name="android.intent.category.HOME" />
             </intent-filter> 
         </receiver>

@@ -9,10 +9,9 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.telephony.SmsManager;
-import android.widget.Toast;
 import com.klinker.android.messaging_card.MainActivity;
 import com.klinker.android.messaging_donate.R;
-import com.klinker.android.messaging_donate.StripAccents;
+import com.klinker.android.send_message.StripAccents;
 import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead2;
 import com.klinker.android.messaging_sliding.receivers.NotificationReceiver;
 

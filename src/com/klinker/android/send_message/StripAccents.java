@@ -1,4 +1,4 @@
-package com.klinker.android.messaging_donate;
+package com.klinker.android.send_message;
 
 public class StripAccents {
 	

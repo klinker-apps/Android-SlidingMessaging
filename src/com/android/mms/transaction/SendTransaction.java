@@ -36,7 +36,7 @@ import com.google.android.mms.pdu_alt.PduPersister;
 import com.klinker.android.messaging_sliding.MainActivity;
 
 /**
- * The SendTransaction is responsible for sending multimedia messages
+ * The Transaction is responsible for sending multimedia messages
  * (M-Send.req) to the MMSC server.  It:
  *
  * <ul>
@@ -49,7 +49,7 @@ import com.klinker.android.messaging_sliding.MainActivity;
  * </ul>
  */
 public class SendTransaction extends Transaction implements Runnable {
-    private static final String TAG = "SendTransaction";
+    private static final String TAG = "Transaction";
 
     private Thread mThread;
     private final Uri mSendReqURI;
@@ -70,7 +70,7 @@ public class SendTransaction extends Transaction implements Runnable {
      */
     @Override
     public void process() {
-        mThread = new Thread(this, "SendTransaction");
+        mThread = new Thread(this, "Transaction");
         mThread.start();
     }
 
