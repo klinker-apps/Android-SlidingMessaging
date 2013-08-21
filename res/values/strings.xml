@@ -666,5 +666,7 @@
     It may seem like there is a lot going on at first, but lets walk you though some initial setup, then you will be able to configure everything else on your own from the settings menu.</string>
     <string name="emojis">Emojis:</string>
     <string name="unlock_message">Unlock Message</string>
+    <string name="disable_backgrounds">Disable custom backgrounds</string>
+    <string name="disable_backgrounds_summary">Check option if a white box appears around your SlideOver popup when using a custom background.</string>
 
 </resources>

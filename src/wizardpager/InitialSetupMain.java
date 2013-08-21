@@ -193,6 +193,7 @@ public class InitialSetupMain extends FragmentActivity implements
                     final Intent intent = new Intent(context, ChangeLogMain.class);
                     intent.setAction(fromIntent.getAction());
                     intent.setData(fromIntent.getData());
+                    intent.putExtra("initial_run", true);
 
                     try
                     {

@@ -98,6 +98,13 @@
             android:defaultValue="false"
         />
 
+        <CheckBoxPreference
+            android:key="disable_backgrounds"
+            android:title="@string/disable_backgrounds"
+            android:summary="@string/disable_backgrounds_summary"
+            android:defaultValue="true"
+        />
+
         <com.klinker.android.messaging_sliding.custom_dialogs.SeekBarPreference3
             android:key="slideover_padding"
             android:title="@string/slideover_padding"
