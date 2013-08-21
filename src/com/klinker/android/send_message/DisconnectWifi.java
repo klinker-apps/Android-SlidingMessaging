@@ -1,4 +1,4 @@
-package com.klinker.android.messaging_donate.receivers;
+package com.klinker.android.send_message;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

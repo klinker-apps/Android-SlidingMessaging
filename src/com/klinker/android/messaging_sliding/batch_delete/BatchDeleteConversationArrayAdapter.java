@@ -8,7 +8,6 @@ import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.net.wifi.WifiInfo;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
@@ -20,11 +19,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.*;
 import com.klinker.android.messaging_donate.R;
-import com.klinker.android.messaging_donate.receivers.DisconnectWifi;
 import com.klinker.android.messaging_sliding.ImageViewer;
 import com.klinker.android.messaging_sliding.MainActivity;
 
@@ -438,27 +434,6 @@ public class BatchDeleteConversationArrayAdapter extends CursorAdapter {
                                                     holder.media.setImageBitmap(pictureF);
                                                 }
 
-                                                holder.media.setOnClickListener(new View.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(View view) {
-                                                        if (imagesF.length == 1) {
-                                                            Intent intent = new Intent();
-                                                            intent.setAction(Intent.ACTION_VIEW);
-                                                            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                                                            intent.putExtra("SingleItemOnly", true);
-                                                            intent.setDataAndType(Uri.parse(imageUri), "image/*");
-                                                            context.startActivity(intent);
-                                                        } else {
-                                                            Intent intent = new Intent();
-                                                            intent.setClass(context, ImageViewer.class);
-                                                            Bundle b = new Bundle();
-                                                            b.putString("image", imageUri);
-                                                            intent.putExtra("bundle", b);
-                                                            context.startActivity(intent);
-                                                        }
-                                                    }
-                                                });
-
                                                 if (imagesF.length > 1) {
                                                     holder.date.setText(holder.date.getText().toString() + " - Multiple Attachments");
                                                 }
@@ -466,29 +441,10 @@ public class BatchDeleteConversationArrayAdapter extends CursorAdapter {
                                                 holder.media.setVisibility(View.VISIBLE);
                                                 holder.media.setImageResource(R.drawable.ic_video_play);
                                                 holder.media.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-                                                holder.media.setOnClickListener(new View.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(View view) {
-                                                        Intent intent = new Intent();
-                                                        intent.setAction(Intent.ACTION_VIEW);
-                                                        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                                                        intent.setDataAndType(Uri.parse(videoF), "video/*");
-                                                        context.startActivity(intent);
-                                                    }
-                                                });
                                             } else if (audioF != null) {
                                                 holder.media.setVisibility(View.VISIBLE);
                                                 holder.media.setImageResource(R.drawable.ic_video_play);
                                                 holder.media.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-                                                holder.media.setOnClickListener(new View.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(View view) {
-                                                        Intent intent = new Intent();
-                                                        intent.setAction(Intent.ACTION_VIEW);
-                                                        intent.setDataAndType(Uri.parse(audioF), "audio/*");
-                                                        context.startActivity(intent);
-                                                    }
-                                                });
                                             }
                                         }
                                     });

@@ -39,13 +39,13 @@ import com.google.android.mms.pdu_alt.PduBody;
 import com.google.android.mms.pdu_alt.PduComposer;
 import com.google.android.mms.pdu_alt.PduPart;
 import com.google.android.mms.pdu_alt.SendReq;
+import com.klinker.android.send_message.StripAccents;
 import com.klinker.android.messaging_sliding.batch_delete.BatchDeleteAllActivity;
 import com.klinker.android.messaging_card.group.GroupActivity;
-import com.klinker.android.messaging_donate.*;
 import com.klinker.android.messaging_donate.R;
-import com.klinker.android.messaging_donate.receivers.DeliveredReceiver;
-import com.klinker.android.messaging_donate.receivers.DisconnectWifi;
-import com.klinker.android.messaging_donate.receivers.SentReceiver;
+import com.klinker.android.send_message.DeliveredReceiver;
+import com.klinker.android.send_message.DisconnectWifi;
+import com.klinker.android.send_message.SentReceiver;
 import com.klinker.android.messaging_donate.settings.SettingsPagerActivity;
 import com.klinker.android.messaging_sliding.*;
 

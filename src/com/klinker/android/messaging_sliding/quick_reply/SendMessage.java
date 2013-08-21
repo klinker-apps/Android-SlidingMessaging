@@ -41,7 +41,7 @@ import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.RelativeLayout.LayoutParams;
-import com.klinker.android.messaging_donate.StripAccents;
+import com.klinker.android.send_message.StripAccents;
 import com.klinker.android.messaging_sliding.ContactSearchArrayAdapter2;
 import com.klinker.android.messaging_sliding.MainActivity;
 import com.klinker.android.messaging_sliding.emojis.EmojiAdapter;

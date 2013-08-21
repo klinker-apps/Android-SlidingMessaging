@@ -160,15 +160,6 @@
         android:defaultValue="false"
         />
 
-    <ListPreference
-        android:key="delivery_options"
-        android:title="@string/delivery_options"
-        android:summary="@string/delivery_options_summary"
-        android:defaultValue="2"
-        android:entries="@array/deliveryOptions"
-        android:entryValues="@array/deliveryOptionsInserted"
-        />
-
     <CheckBoxPreference
         android:key="secure_notification"
         android:title="@string/secure_notification"

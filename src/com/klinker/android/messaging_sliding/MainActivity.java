@@ -3,32 +3,36 @@ package com.klinker.android.messaging_sliding;
 import android.app.*;
 import android.app.Fragment;
 import android.content.*;
+import android.content.ClipboardManager;
 import android.graphics.*;
 import android.media.*;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.*;
+import android.provider.Telephony;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.*;
 import android.support.v4.app.TaskStackBuilder;
 import android.content.Loader;
 import android.support.v4.view.ViewPager;
+import android.text.*;
+import android.util.Log;
 import android.view.*;
 import android.widget.*;
+import com.android.mms.transaction.HttpUtils;
 import com.devspark.appmsg.AppMsg;
+import com.google.android.mms.APN;
+import com.google.android.mms.APNHelper;
+import com.google.android.mms.pdu_alt.*;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import com.klinker.android.send_message.*;
+import com.klinker.android.send_message.Message;
 import com.klinker.android.messaging_sliding.batch_delete.BatchDeleteAllActivity;
 import com.klinker.android.messaging_donate.*;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.InetAddress;
@@ -37,20 +41,11 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.android.mms.transaction.HttpUtils;
 import com.android.mms.ui.ImageAttachmentView;
-import com.google.android.mms.APN;
-import com.google.android.mms.APNHelper;
 import com.google.android.mms.MMSPart;
-import com.google.android.mms.pdu_alt.EncodedStringValue;
-import com.google.android.mms.pdu_alt.PduBody;
-import com.google.android.mms.pdu_alt.PduComposer;
-import com.google.android.mms.pdu_alt.PduPart;
-import com.google.android.mms.pdu_alt.SendReq;
 
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences.Editor;
-import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -60,29 +55,18 @@ import android.graphics.PorterDuff.Mode;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.PhoneLookup;
 import android.provider.ContactsContract.Profile;
 import android.provider.MediaStore;
-import android.provider.Telephony;
 import android.support.v4.view.PagerTitleStrip;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
 import android.telephony.TelephonyManager;
-import android.text.Editable;
-import android.text.InputType;
-import android.text.SpannableStringBuilder;
-import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View.OnClickListener;
 import android.view.animation.AccelerateInterpolator;
@@ -95,9 +79,6 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.RelativeLayout.LayoutParams;
-import com.klinker.android.messaging_donate.receivers.DeliveredReceiver;
-import com.klinker.android.messaging_donate.receivers.DisconnectWifi;
-import com.klinker.android.messaging_donate.receivers.SentReceiver;
 import com.klinker.android.messaging_donate.settings.SettingsPagerActivity;
 import com.klinker.android.messaging_sliding.batch_delete.BatchDeleteConversationActivity;
 import com.klinker.android.messaging_sliding.blacklist.BlacklistContact;
@@ -151,6 +132,10 @@ public class MainActivity extends FragmentActivity {
     public static String deviceType;
     public static boolean newMessage;
 
+    public static Settings sendSettings;
+    public Transaction sendTransaction;
+    public BroadcastReceiver refreshReceiver;
+
     public ArrayList<String> inboxNumber, inboxDate, inboxBody;
     public ArrayList<String> group;
     public ArrayList<String> msgCount;
@@ -177,10 +162,6 @@ public class MainActivity extends FragmentActivity {
     public BroadcastReceiver receiver;
     public BroadcastReceiver mmsReceiver;
     public BroadcastReceiver killReceiver;
-    public DisconnectWifi discon;
-    public WifiInfo currentWifi;
-    public boolean currentWifiState;
-    public boolean currentDataState;
 
     public static int contactWidth;
     public boolean jump = true;
@@ -227,8 +208,6 @@ public class MainActivity extends FragmentActivity {
     public boolean multipleAttachments = false;
 
     public Typeface font;
-    public SoundPool soundPool;
-    public int ping;
 
     public PullToRefreshAttacher mPullToRefreshAttacher;
     public static int pullToRefreshPosition = -1;
@@ -443,7 +422,7 @@ public class MainActivity extends FragmentActivity {
             textSize = sharedPrefs.getString("text_size", "14");
             signature = sharedPrefs.getString("signature", "");
             ringTone = sharedPrefs.getString("ringtone", "null");
-            deliveryOptions= sharedPrefs.getString("delivery_options", "2");
+            deliveryOptions = sharedPrefs.getString("delivery_options", "2");
             customFontPath = sharedPrefs.getString("custom_font_path", null);
             pinType = sharedPrefs.getString("pin_conversation_list", "1");
             securityOption = sharedPrefs.getString("security_option", "none");
@@ -466,6 +445,7 @@ public class MainActivity extends FragmentActivity {
         }
 
         setUpWindow();
+        setUpSendSettings();
 
         Intent fromIntent = getIntent();
         if(fromIntent.getBooleanExtra("initial_run", false))
@@ -957,6 +937,13 @@ public class MainActivity extends FragmentActivity {
 
         };
 
+        refreshReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                refreshViewPager3();
+            }
+        };
+
         final float scale = getResources().getDisplayMetrics().density;
         MainActivity.contactWidth = (int) (64 * scale + 0.5f);
 
@@ -990,6 +977,26 @@ public class MainActivity extends FragmentActivity {
         v.setVisibility(View.GONE);
 
         setUpSendbar();
+    }
+
+    public void setUpSendSettings() {
+        sendSettings = new Settings();
+
+        sendSettings.setMmsc(sharedPrefs.getString("mmsc_url", ""));
+        sendSettings.setProxy(sharedPrefs.getString("mms_proxy", ""));
+        sendSettings.setPort(sharedPrefs.getString("mms_port", ""));
+        sendSettings.setGroup(groupMessage);
+        sendSettings.setWifiMmsFix(sharedPrefs.getBoolean("wifi_mms_fix", true));
+        sendSettings.setPreferVoice(false);
+        sendSettings.setDeliveryReports(deliveryReports);
+        sendSettings.setSplit(splitSMS);
+        sendSettings.setSplitCounter(splitCounter);
+        sendSettings.setStripUnicode(stripUnicode);
+        sendSettings.setSignature(signature);
+        sendSettings.setSendLongAsMms(sharedPrefs.getBoolean("send_as_mms", false));
+        sendSettings.setSendLongAsMmsAfter(sharedPrefs.getInt("mms_after", 4));
+
+        sendTransaction = new Transaction(this, sendSettings);
     }
 
     public void setUpWindow() {
@@ -1545,7 +1552,7 @@ public class MainActivity extends FragmentActivity {
                     mTextView.setVisibility(View.GONE);
                 }
 
-                if (sendAsMMS && pages >= mmsAfter)
+                if (sendAsMMS && pages > mmsAfter)
                 {
                     mTextView.setVisibility(View.GONE);
                 }
@@ -1585,861 +1592,123 @@ public class MainActivity extends FragmentActivity {
                     return;
                 }
 
-                Intent updateWidget = new Intent("com.klinker.android.messaging.UPDATE_WIDGET");
-                context.sendBroadcast(updateWidget);
+                // TODO send through stock
 
-                boolean sendMmsFromLength = false;
-                String[] counter = mTextView.getText().toString().split("/");
+                if (messageEntry.getText().toString().equals("") && imageAttach.getVisibility() == View.GONE) {
+                    messageEntry.setError("Nothing to send");
+                } else {
+                    MainActivity.animationOn = true;
+                    final boolean image;
 
-                if (Integer.parseInt(counter[0]) >= mmsAfter && sendAsMMS)
-                {
-                    sendMmsFromLength = true;
-                }
+                    if (imageAttach.getVisibility() == View.VISIBLE) {
+                        MainActivity.animationOn = false;
+                        image = true;
+                        imageAttach.setVisibility(false);
+                        imageAttachBackground.setVisibility(View.GONE);
+                    } else {
+                        image = false;
+                    }
 
-                if (group.get(mViewPager.getCurrentItem()).equals("no") && imageAttach.getVisibility() == View.GONE && sendMmsFromLength == false)
-                {
-                    if (messageEntry.getText().toString().equals(""))
+                    final String text = messageEntry.getText().toString();
+                    messageEntry.setText("");
+                    mTextView.setVisibility(View.GONE);
+
+                    if (hideKeyboard)
                     {
-                        messageEntry.setError("Nothing to send");
-                    } else
-                    {
-                        MainActivity.animationOn = true;
-
-                        if (hideKeyboard)
-                        {
-                            new Thread(new Runnable() {
-
-                                @Override
-                                public void run() {
-                                    try {
-                                        Thread.sleep(2000);
-                                    } catch (InterruptedException e) {
-                                        e.printStackTrace();
-                                    } finally
-                                    {
-                                        InputMethodManager keyboard = (InputMethodManager)
-                                                getSystemService(Context.INPUT_METHOD_SERVICE);
-                                        keyboard.hideSoftInputFromWindow(messageEntry.getWindowToken(), 0);
-                                    }
-
-                                }
-
-                            }).start();
-                        }
-
-                        String body2 = messageEntry.getText().toString();
-
-                        if (!signature.equals(""))
-                        {
-                            body2 += "\n" + signature;
-                        }
-
-                        final String body = body2;
-                        final int position2 = mViewPager.getCurrentItem();
-
-                        messageEntry.setText("");
-
                         new Thread(new Runnable() {
 
                             @Override
                             public void run() {
-
-                                if (deliveryReports)
+                                try {
+                                    Thread.sleep(2000);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                } finally
                                 {
-                                    if (!findContactNumber(inboxNumber.get(position2), context).replaceAll("[^0-9]", "").equals(""))
-                                    {
-                                        String SENT = "SMS_SENT";
-                                        String DELIVERED = "SMS_DELIVERED";
-
-                                        PendingIntent sentPI = PendingIntent.getBroadcast(context, 0,
-                                                new Intent(SENT), 0);
-
-                                        PendingIntent deliveredPI = PendingIntent.getBroadcast(context, 0,
-                                                new Intent(DELIVERED), 0);
-
-                                        //---when the SMS has been sent---
-                                        context.registerReceiver(new BroadcastReceiver(){
-                                            @Override
-                                            public void onReceive(Context arg0, Intent arg1) {
-                                                try {
-                                                    switch (getResultCode())
-                                                    {
-                                                        case Activity.RESULT_OK:
-                                                            Cursor query = context.getContentResolver().query(Uri.parse("content://sms/outbox"), null, null, null, null);
-
-                                                            if (query.moveToFirst())
-                                                            {
-                                                                String id = query.getString(query.getColumnIndex("_id"));
-                                                                ContentValues values = new ContentValues();
-                                                                values.put("type", "2");
-                                                                context.getContentResolver().update(Uri.parse("content://sms/outbox"), values, "_id=" + id, null);
-                                                                ((MainActivity) context).refreshViewPager3();
-                                                            }
-
-                                                            query.close();
-
-                                                            if (messageSounds) {
-                                                                AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
-                                                                float actualVolume = (float) audioManager
-                                                                        .getStreamVolume(AudioManager.STREAM_NOTIFICATION);
-                                                                float maxVolume = (float) audioManager
-                                                                        .getStreamMaxVolume(AudioManager.STREAM_NOTIFICATION);
-                                                                float volume = actualVolume / maxVolume;
-                                                                soundPool.play(ping, volume, volume, 1, 0, 1f);
-                                                            }
-
-                                                            break;
-                                                        case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-                                                            try
-                                                            {
-                                                                wait(500);
-                                                            } catch (Exception e)
-                                                            {
-
-                                                            }
-
-                                                            query = context.getContentResolver().query(Uri.parse("content://sms/outbox"), null, null, null, null);
-
-                                                            if (query.moveToFirst())
-                                                            {
-                                                                String id = query.getString(query.getColumnIndex("_id"));
-                                                                ContentValues values = new ContentValues();
-                                                                values.put("type", "5");
-                                                                context.getContentResolver().update(Uri.parse("content://sms/outbox"), values, "_id=" + id, null);
-                                                                ((MainActivity) context).refreshViewPager3();
-                                                            }
-
-                                                            NotificationCompat.Builder mBuilder =
-                                                                    new NotificationCompat.Builder(context)
-                                                                            .setSmallIcon(R.drawable.ic_alert)
-                                                                            .setContentTitle("Error")
-                                                                            .setContentText("Could not send message");
-
-                                                            Intent resultIntent = new Intent(context, MainActivity.class);
-
-                                                            TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-                                                            stackBuilder.addParentStack(MainActivity.class);
-                                                            stackBuilder.addNextIntent(resultIntent);
-                                                            PendingIntent resultPendingIntent =
-                                                                    stackBuilder.getPendingIntent(
-                                                                            0,
-                                                                            PendingIntent.FLAG_UPDATE_CURRENT
-                                                                    );
-
-                                                            mBuilder.setContentIntent(resultPendingIntent);
-                                                            mBuilder.setAutoCancel(true);
-                                                            long[] pattern = {0L, 400L, 100L, 400L};
-                                                            mBuilder.setVibrate(pattern);
-                                                            mBuilder.setLights(0xFFffffff, 1000, 2000);
-
-                                                            try
-                                                            {
-                                                                mBuilder.setSound(Uri.parse(ringTone));
-                                                            } catch(Exception e)
-                                                            {
-                                                                mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-                                                            }
-
-                                                            NotificationManager mNotificationManager =
-                                                                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
-                                                            Notification notification = mBuilder.build();
-                                                            Intent deleteIntent = new Intent(context, NotificationReceiver.class);
-                                                            notification.deleteIntent = PendingIntent.getBroadcast(context, 0, deleteIntent, 0);
-                                                            mNotificationManager.notify(1, notification);
-                                                            break;
-                                                        case SmsManager.RESULT_ERROR_NO_SERVICE:
-                                                            try
-                                                            {
-                                                                wait(500);
-                                                            } catch (Exception e)
-                                                            {
-
-                                                            }
-
-                                                            query = context.getContentResolver().query(Uri.parse("content://sms/outbox"), null, null, null, null);
-
-                                                            if (query.moveToFirst())
-                                                            {
-                                                                String id = query.getString(query.getColumnIndex("_id"));
-                                                                ContentValues values = new ContentValues();
-                                                                values.put("type", "5");
-                                                                context.getContentResolver().update(Uri.parse("content://sms/outbox"), values, "_id=" + id, null);
-                                                                ((MainActivity) context).refreshViewPager3();
-                                                            }
-
-                                                            Toast.makeText(context, "No service",
-                                                                    Toast.LENGTH_SHORT).show();
-                                                            break;
-                                                        case SmsManager.RESULT_ERROR_NULL_PDU:
-                                                            try
-                                                            {
-                                                                wait(500);
-                                                            } catch (Exception e)
-                                                            {
-
-                                                            }
-
-                                                            query = context.getContentResolver().query(Uri.parse("content://sms/outbox"), null, null, null, null);
-
-                                                            if (query.moveToFirst())
-                                                            {
-                                                                String id = query.getString(query.getColumnIndex("_id"));
-                                                                ContentValues values = new ContentValues();
-                                                                values.put("type", "5");
-                                                                context.getContentResolver().update(Uri.parse("content://sms/outbox"), values, "_id=" + id, null);
-                                                                ((MainActivity) context).refreshViewPager3();
-                                                            }
-
-                                                            Toast.makeText(context, "Null PDU",
-                                                                    Toast.LENGTH_SHORT).show();
-                                                            break;
-                                                        case SmsManager.RESULT_ERROR_RADIO_OFF:
-                                                            try
-                                                            {
-                                                                wait(500);
-                                                            } catch (Exception e)
-                                                            {
-
-                                                            }
-
-                                                            query = context.getContentResolver().query(Uri.parse("content://sms/outbox"), null, null, null, null);
-
-                                                            if (query.moveToFirst())
-                                                            {
-                                                                String id = query.getString(query.getColumnIndex("_id"));
-                                                                ContentValues values = new ContentValues();
-                                                                values.put("type", "5");
-                                                                context.getContentResolver().update(Uri.parse("content://sms/outbox"), values, "_id=" + id, null);
-                                                                ((MainActivity) context).refreshViewPager3();
-                                                            }
-
-                                                            Toast.makeText(context, "Radio off",
-                                                                    Toast.LENGTH_SHORT).show();
-                                                            break;
-                                                    }
-
-                                                    context.unregisterReceiver(this);
-                                                } catch (Exception e) {
-
-                                                }
-                                            }
-                                        }, new IntentFilter(SENT));
-
-                                        //---when the SMS has been delivered---
-                                        context.registerReceiver(new BroadcastReceiver(){
-                                            @Override
-                                            public void onReceive(Context arg0, Intent arg1) {
-                                                try {
-                                                    if (deliveryOptions.equals("1"))
-                                                    {
-                                                        switch (getResultCode())
-                                                        {
-                                                            case Activity.RESULT_OK:
-                                                                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-
-                                                                try
-                                                                {
-                                                                    builder.setTitle(loadGroupContacts(findContactNumber(inboxNumber.get(position2), context), context));
-                                                                } catch (Exception e)
-                                                                {
-
-                                                                }
-
-                                                                builder.setMessage(R.string.message_delivered)
-                                                                        .setPositiveButton(R.string.dismiss, new DialogInterface.OnClickListener() {
-                                                                            public void onClick(DialogInterface dialog, int id) {
-                                                                                dialog.dismiss();
-                                                                            }
-                                                                        });
-
-                                                                builder.create().show();
-
-                                                                Cursor query = context.getContentResolver().query(Uri.parse("content://sms/sent"), null, null, null, "date desc");
-
-                                                                if (query.moveToFirst())
-                                                                {
-                                                                    String id = query.getString(query.getColumnIndex("_id"));
-                                                                    ContentValues values = new ContentValues();
-                                                                    values.put("status", "0");
-                                                                    context.getContentResolver().update(Uri.parse("content://sms/sent"), values, "_id=" + id, null);
-                                                                    ((MainActivity) context).refreshViewPager3();
-                                                                }
-
-                                                                query.close();
-
-                                                                break;
-                                                            case Activity.RESULT_CANCELED:
-                                                                AlertDialog.Builder builder2 = new AlertDialog.Builder(context);
-
-                                                                try
-                                                                {
-                                                                    builder2.setTitle(loadGroupContacts(findContactNumber(inboxNumber.get(position2), context), context));
-                                                                } catch (Exception e)
-                                                                {
-
-                                                                }
-
-                                                                builder2.setMessage(R.string.message_not_delivered)
-                                                                        .setPositiveButton(R.string.dismiss, new DialogInterface.OnClickListener() {
-                                                                            public void onClick(DialogInterface dialog, int id) {
-                                                                                dialog.dismiss();
-                                                                            }
-                                                                        });
-
-                                                                builder2.create().show();
-
-                                                                Cursor query2 = context.getContentResolver().query(Uri.parse("content://sms/sent"), null, null, null, "date desc");
-
-                                                                if (query2.moveToFirst())
-                                                                {
-                                                                    String id = query2.getString(query2.getColumnIndex("_id"));
-                                                                    ContentValues values = new ContentValues();
-                                                                    values.put("status", "64");
-                                                                    context.getContentResolver().update(Uri.parse("content://sms/sent"), values, "_id=" + id, null);
-                                                                    ((MainActivity) context).refreshViewPager3();
-                                                                }
-
-                                                                query2.close();
-
-                                                                break;
-                                                        }
-                                                    } else
-                                                    {
-                                                        switch (getResultCode())
-                                                        {
-                                                            case Activity.RESULT_OK:
-                                                                if (deliveryOptions.equals("2"))
-                                                                {
-                                                                    Toast.makeText(context, R.string.message_delivered, Toast.LENGTH_LONG).show();
-                                                                }
-
-                                                                Cursor query = context.getContentResolver().query(Uri.parse("content://sms/sent"), null, null, null, "date desc");
-
-                                                                if (query.moveToFirst())
-                                                                {
-                                                                    String id = query.getString(query.getColumnIndex("_id"));
-                                                                    ContentValues values = new ContentValues();
-                                                                    values.put("status", "0");
-                                                                    context.getContentResolver().update(Uri.parse("content://sms/sent"), values, "_id=" + id, null);
-                                                                    ((MainActivity) context).refreshViewPager3();
-                                                                }
-
-                                                                query.close();
-
-                                                                break;
-                                                            case Activity.RESULT_CANCELED:
-                                                                if (deliveryOptions.equals("2"))
-                                                                {
-                                                                    Toast.makeText(context, R.string.message_not_delivered, Toast.LENGTH_LONG).show();
-                                                                }
-
-                                                                Cursor query2 = context.getContentResolver().query(Uri.parse("content://sms/sent"), null, null, null, "date desc");
-
-                                                                if (query2.moveToFirst())
-                                                                {
-                                                                    String id = query2.getString(query2.getColumnIndex("_id"));
-                                                                    ContentValues values = new ContentValues();
-                                                                    values.put("status", "64");
-                                                                    context.getContentResolver().update(Uri.parse("content://sms/sent"), values, "_id=" + id, null);
-                                                                    ((MainActivity) context).refreshViewPager3();
-                                                                }
-
-                                                                query2.close();
-
-                                                                break;
-                                                        }
-                                                    }
-
-                                                    context.unregisterReceiver(this);
-                                                } catch (Exception e) {
-
-                                                }
-                                            }
-                                        }, new IntentFilter(DELIVERED));
-
-                                        ArrayList<PendingIntent> sPI = new ArrayList<PendingIntent>();
-                                        ArrayList<PendingIntent> dPI = new ArrayList<PendingIntent>();
-
-                                        String body2 = body;
-
-                                        if (stripUnicode)
-                                        {
-                                            body2 = StripAccents.stripAccents(body2);
-                                        }
-
-                                        SmsManager smsManager = SmsManager.getDefault();
-
-                                        if (splitSMS)
-                                        {
-                                            int length = 160;
-
-                                            String patternStr = "[^\\x20-\\x7E]";
-                                            Pattern pattern = Pattern.compile(patternStr);
-                                            Matcher matcher = pattern.matcher(body2);
-
-                                            if (matcher.find())
-                                            {
-                                                length = 70;
-                                            }
-
-                                            boolean counter = false;
-
-                                            if (splitCounter) {
-                                                counter = true;
-                                                length -= 7;
-                                            }
-
-                                            String[] textToSend = splitByLength(body2, length, counter);
-
-                                            for (int i = 0; i < textToSend.length; i++)
-                                            {
-                                                ArrayList<String> parts = smsManager.divideMessage(textToSend[i]);
-
-                                                for (int j = 0; j < parts.size(); j++)
-                                                {
-                                                    sPI.add(sentPI);
-                                                    dPI.add(deliveredPI);
-                                                }
-
-                                                smsManager.sendMultipartTextMessage(findContactNumber(inboxNumber.get(position2), context), null, parts, sPI, dPI);
-                                            }
-                                        } else
-                                        {
-                                            ArrayList<String> parts = smsManager.divideMessage(body2);
-
-                                            for (int i = 0; i < parts.size(); i++)
-                                            {
-                                                sPI.add(sentPI);
-                                                dPI.add(deliveredPI);
-                                            }
-
-                                            try {
-                                                smsManager.sendMultipartTextMessage(findContactNumber(inboxNumber.get(position2), context), null, parts, sPI, dPI);
-                                            } catch (Exception e) {
-                                                getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                                                    @Override
-                                                    public void run() {
-                                                        Toast.makeText(context, "Error, check the \"Split SMS\" option in advanced settings and retry.", Toast.LENGTH_LONG).show();
-                                                    }
-
-                                                });
-                                            }
-                                        }
-                                    } else
-                                    {
-                                    }
-                                } else
-                                {
-                                    if (!findContactNumber(inboxNumber.get(position2), context).replaceAll("[^0-9]", "").equals(""))
-                                    {
-                                        String SENT = "SMS_SENT";
-
-                                        PendingIntent sentPI = PendingIntent.getBroadcast(context, 0,
-                                                new Intent(SENT), 0);
-
-                                        //---when the SMS has been sent---
-                                        context.registerReceiver(new BroadcastReceiver(){
-                                            @Override
-                                            public void onReceive(Context arg0, Intent arg1) {
-                                                try {
-                                                    switch (getResultCode())
-                                                    {
-                                                        case Activity.RESULT_OK:
-                                                            Cursor query = context.getContentResolver().query(Uri.parse("content://sms/outbox"), null, null, null, null);
-
-                                                            if (query.moveToFirst())
-                                                            {
-                                                                String id = query.getString(query.getColumnIndex("_id"));
-                                                                ContentValues values = new ContentValues();
-                                                                values.put("type", "2");
-                                                                context.getContentResolver().update(Uri.parse("content://sms/outbox"), values, "_id=" + id, null);
-                                                                ((MainActivity) context).refreshViewPager3();
-                                                            }
-
-                                                            query.close();
-
-                                                            break;
-                                                        case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-                                                            try
-                                                            {
-                                                                wait(500);
-                                                            } catch (Exception e)
-                                                            {
-
-                                                            }
-
-                                                            query = context.getContentResolver().query(Uri.parse("content://sms/outbox"), null, null, null, null);
-
-                                                            if (query.moveToFirst())
-                                                            {
-                                                                String id = query.getString(query.getColumnIndex("_id"));
-                                                                ContentValues values = new ContentValues();
-                                                                values.put("type", "5");
-                                                                context.getContentResolver().update(Uri.parse("content://sms/outbox"), values, "_id=" + id, null);
-                                                                ((MainActivity) context).refreshViewPager3();
-                                                            }
-
-                                                            NotificationCompat.Builder mBuilder =
-                                                                    new NotificationCompat.Builder(context)
-                                                                            .setSmallIcon(R.drawable.ic_alert)
-                                                                            .setContentTitle("Error")
-                                                                            .setContentText("Could not send message");
-
-                                                            Intent resultIntent = new Intent(context, MainActivity.class);
-
-                                                            TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-                                                            stackBuilder.addParentStack(MainActivity.class);
-                                                            stackBuilder.addNextIntent(resultIntent);
-                                                            PendingIntent resultPendingIntent =
-                                                                    stackBuilder.getPendingIntent(
-                                                                            0,
-                                                                            PendingIntent.FLAG_UPDATE_CURRENT
-                                                                    );
-
-                                                            mBuilder.setContentIntent(resultPendingIntent);
-                                                            mBuilder.setAutoCancel(true);
-                                                            long[] pattern = {0L, 400L, 100L, 400L};
-                                                            mBuilder.setVibrate(pattern);
-                                                            mBuilder.setLights(0xFFffffff, 1000, 2000);
-
-                                                            try
-                                                            {
-                                                                mBuilder.setSound(Uri.parse(ringTone));
-                                                            } catch(Exception e)
-                                                            {
-                                                                mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-                                                            }
-
-                                                            NotificationManager mNotificationManager =
-                                                                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
-                                                            Notification notification = mBuilder.build();
-                                                            Intent deleteIntent = new Intent(context, NotificationReceiver.class);
-                                                            notification.deleteIntent = PendingIntent.getBroadcast(context, 0, deleteIntent, 0);
-                                                            mNotificationManager.notify(1, notification);
-                                                            break;
-                                                        case SmsManager.RESULT_ERROR_NO_SERVICE:
-                                                            try
-                                                            {
-                                                                wait(500);
-                                                            } catch (Exception e)
-                                                            {
-
-                                                            }
-
-                                                            query = context.getContentResolver().query(Uri.parse("content://sms/outbox"), null, null, null, null);
-
-                                                            if (query.moveToFirst())
-                                                            {
-                                                                String id = query.getString(query.getColumnIndex("_id"));
-                                                                ContentValues values = new ContentValues();
-                                                                values.put("type", "5");
-                                                                context.getContentResolver().update(Uri.parse("content://sms/outbox"), values, "_id=" + id, null);
-                                                                ((MainActivity) context).refreshViewPager3();
-                                                            }
-
-                                                            Toast.makeText(context, "No service",
-                                                                    Toast.LENGTH_SHORT).show();
-                                                            break;
-                                                        case SmsManager.RESULT_ERROR_NULL_PDU:
-                                                            try
-                                                            {
-                                                                wait(500);
-                                                            } catch (Exception e)
-                                                            {
-
-                                                            }
-
-                                                            query = context.getContentResolver().query(Uri.parse("content://sms/outbox"), null, null, null, null);
-
-                                                            if (query.moveToFirst())
-                                                            {
-                                                                String id = query.getString(query.getColumnIndex("_id"));
-                                                                ContentValues values = new ContentValues();
-                                                                values.put("type", "5");
-                                                                context.getContentResolver().update(Uri.parse("content://sms/outbox"), values, "_id=" + id, null);
-                                                                ((MainActivity) context).refreshViewPager3();
-                                                            }
-
-                                                            Toast.makeText(context, "Null PDU",
-                                                                    Toast.LENGTH_SHORT).show();
-                                                            break;
-                                                        case SmsManager.RESULT_ERROR_RADIO_OFF:
-                                                            try
-                                                            {
-                                                                wait(500);
-                                                            } catch (Exception e)
-                                                            {
-
-                                                            }
-
-                                                            query = context.getContentResolver().query(Uri.parse("content://sms/outbox"), null, null, null, null);
-
-                                                            if (query.moveToFirst())
-                                                            {
-                                                                String id = query.getString(query.getColumnIndex("_id"));
-                                                                ContentValues values = new ContentValues();
-                                                                values.put("type", "5");
-                                                                context.getContentResolver().update(Uri.parse("content://sms/outbox"), values, "_id=" + id, null);
-                                                                ((MainActivity) context).refreshViewPager3();
-                                                            }
-
-                                                            Toast.makeText(context, "Radio off",
-                                                                    Toast.LENGTH_SHORT).show();
-                                                            break;
-                                                    }
-
-                                                    context.unregisterReceiver(this);
-                                                } catch (Exception e) {
-
-                                                }
-                                            }
-                                        }, new IntentFilter(SENT));
-
-                                        ArrayList<PendingIntent> sPI = new ArrayList<PendingIntent>();
-
-                                        String body2 = body;
-
-                                        if (stripUnicode)
-                                        {
-                                            body2 = StripAccents.stripAccents(body2);
-                                        }
-
-                                        SmsManager smsManager = SmsManager.getDefault();
-
-                                        if (splitSMS)
-                                        {
-                                            int length = 160;
-
-                                            String patternStr = "[^\\x20-\\x7E]";
-                                            Pattern pattern = Pattern.compile(patternStr);
-                                            Matcher matcher = pattern.matcher(body2);
-
-                                            if (matcher.find())
-                                            {
-                                                length = 70;
-                                            }
-
-                                            boolean counter = false;
-
-                                            if (splitCounter) {
-                                                counter = true;
-                                                length -= 7;
-                                            }
-
-                                            String[] textToSend = splitByLength(body2, length, counter);
-
-                                            for (int i = 0; i < textToSend.length; i++)
-                                            {
-                                                ArrayList<String> parts = smsManager.divideMessage(textToSend[i]);
-
-                                                for (int j = 0; j < parts.size(); j++)
-                                                {
-                                                    sPI.add(sentPI);
-                                                }
-
-                                                smsManager.sendMultipartTextMessage(findContactNumber(inboxNumber.get(position2), context), null, parts, sPI, null);
-                                            }
-                                        } else
-                                        {
-                                            ArrayList<String> parts = smsManager.divideMessage(body2);
-
-                                            for (int i = 0; i < parts.size(); i++)
-                                            {
-                                                sPI.add(sentPI);
-                                            }
-
-                                            try {
-                                                smsManager.sendMultipartTextMessage(findContactNumber(inboxNumber.get(position2), context), null, parts, sPI, null);
-                                            } catch (Exception e) {
-                                                getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                                                    @Override
-                                                    public void run() {
-                                                        Toast.makeText(context, "Error, check the \"Split SMS\" option in advanced settings and retry.", Toast.LENGTH_LONG).show();
-                                                    }
-
-                                                });
-                                            }
-                                        }
-                                    } else
-                                    {
-                                    }
+                                    InputMethodManager keyboard = (InputMethodManager)
+                                            getSystemService(Context.INPUT_METHOD_SERVICE);
+                                    keyboard.hideSoftInputFromWindow(messageEntry.getWindowToken(), 0);
                                 }
 
-                                String address = findContactNumber(inboxNumber.get(position2), context);
-                                String body2 = body;
-
-                                if (stripUnicode)
-                                {
-                                    body2 = StripAccents.stripAccents(body2);
-                                }
-
-                                if (!address.replaceAll("[^0-9]", "").equals(""))
-                                {
-                                    final Calendar cal = Calendar.getInstance();
-                                    ContentValues values = new ContentValues();
-                                    values.put("address", address);
-                                    values.put("body", body2);
-                                    values.put("date", cal.getTimeInMillis() + "");
-                                    values.put("read", true);
-                                    values.put("thread_id", threadIds.get(mViewPager.getCurrentItem()));
-                                    context.getContentResolver().insert(Uri.parse("content://sms/outbox"), values);
-
-                                    final String address2 = address;
-
-                                    ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                                        @Override
-                                        public void run() {
-                                            if (enableDrafts) {
-                                                if (fromDraft)
-                                                {
-                                                    try {
-                                                        for (int i = 0; i < draftNames.size(); i++)
-                                                        {
-                                                            if (draftNames.get(i).equals(threadIds.get(mViewPager.getCurrentItem())))
-                                                            {
-                                                                draftsToDelete.add(draftNames.get(i));
-                                                                draftNames.remove(i);
-                                                                drafts.remove(i);
-                                                                draftChanged.remove(i);
-                                                                break;
-                                                            }
-                                                        }
-                                                    } catch (Exception e) {
-
-                                                    }
-                                                }
-                                            }
-
-                                            MainActivity.sentMessage = true;
-                                            MainActivity.threadedLoad = false;
-                                            MainActivity.notChanged = false;
-                                            refreshViewPager4(address2, StripAccents.stripAccents(body), cal.getTimeInMillis() + "");
-                                            mViewPager.setCurrentItem(0);
-                                            mTextView.setVisibility(View.GONE);
-
-                                            if (isPopup && fullAppPopupClose) {
-                                                Intent intent = new Intent("com.klinker.android.messaging.CLOSE_POPUP");
-                                                sendBroadcast(intent);
-                                            }
-                                        }
-
-                                    });
-                                }
                             }
 
                         }).start();
                     }
-                } else
-                {
-                    Bitmap b;
-                    byte[] byteArray;
 
-                    try
-                    {
-                        if (!fromCamera)
-                        {
-                            b = decodeFile2(new File(getPath(attachedImage)));
-                            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                            b.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                            byteArray = stream.toByteArray();
-                        } else
-                        {
-                            b = decodeFile2(new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/", "photoToSend.png"));
-                            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                            b.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                            byteArray = stream.toByteArray();
-                        }
-                    } catch (Exception e)
-                    {
-                        byteArray = null;
-                    }
+                    Intent updateWidget = new Intent("com.klinker.android.messaging.UPDATE_WIDGET");
+                    context.sendBroadcast(updateWidget);
 
-                    String body = messageEntry.getText().toString();
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            final Message message = new Message(text, findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context).replace(";", ""));
 
-                    String[] to = ("insert-address-token " + findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context)).split(" ");
+                            if (image) {
+                                ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
 
-                    if (!sendWithStock)
-                    {
-                        if (multipleAttachments == false)
-                        {
-                            insert(context, to, "", byteArray, body);
-
-                            MMSPart[] parts = new MMSPart[2];
-
-                            if (imageAttach.getVisibility() == View.VISIBLE)
-                            {
-                                parts[0] = new MMSPart();
-                                parts[0].Name = "Image";
-                                parts[0].MimeType = "image/png";
-                                parts[0].Data = byteArray;
-
-                                if (!body.equals(""))
-                                {
-                                    parts[1] = new MMSPart();
-                                    parts[1].Name = "Text";
-                                    parts[1].MimeType = "text/plain";
-                                    parts[1].Data = body.getBytes();
+                                if (!multipleAttachments) {
+                                    if (!fromCamera) {
+                                        bitmaps.add(decodeFile2(new File(getPath(attachedImage))));
+                                    } else {
+                                        bitmaps.add(decodeFile2(new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/", "photoToSend.png")));
+                                    }
+                                } else {
+                                    bitmaps = AttachMore.images;
+                                    AttachMore.images = new ArrayList<Bitmap>();
+                                    AttachMore.data = new ArrayList<MMSPart>();
                                 }
-                            } else
-                            {
-                                parts[0] = new MMSPart();
-                                parts[0].Name = "Text";
-                                parts[0].MimeType = "text/plain";
-                                parts[0].Data = body.getBytes();
+
+                                Bitmap[] images = new Bitmap[bitmaps.size()];
+
+                                for (int i = 0; i < bitmaps.size(); i++) {
+                                    images[i] = bitmaps.get(i);
+                                }
+
+                                message.setImages(images);
                             }
 
-                            sendMMS(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context), parts);
-                        } else
-                        {
-                            ArrayList<byte[]> bytes = new ArrayList<byte[]>();
-                            ArrayList<String> mimes = new ArrayList<String>();
+                            sendTransaction.sendNewMessage(message, threadIds.get(mViewPager.getCurrentItem()));
 
-                            for (int i = 0; i < AttachMore.data.size(); i++)
-                            {
-                                bytes.add(AttachMore.data.get(i).Data);
-                                mimes.add(AttachMore.data.get(i).MimeType);
-                            }
+                            ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 
-                            insert(context, to, "", bytes, mimes, body);
+                                @Override
+                                public void run() {
+                                    if (enableDrafts) {
+                                        if (fromDraft)
+                                        {
+                                            try {
+                                                for (int i = 0; i < draftNames.size(); i++)
+                                                {
+                                                    if (draftNames.get(i).equals(threadIds.get(mViewPager.getCurrentItem())))
+                                                    {
+                                                        draftsToDelete.add(draftNames.get(i));
+                                                        draftNames.remove(i);
+                                                        drafts.remove(i);
+                                                        draftChanged.remove(i);
+                                                        break;
+                                                    }
+                                                }
+                                            } catch (Exception e) {
 
-                            MMSPart part = new MMSPart();
-                            part.Name = "Text";
-                            part.MimeType = "text/plain";
-                            part.Data = body.getBytes();
-                            AttachMore.data.add(part);
+                                            }
+                                        }
+                                    }
 
-                            sendMMS(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context), AttachMore.data.toArray(new MMSPart[AttachMore.data.size()]));
+                                    MainActivity.sentMessage = true;
+                                    MainActivity.threadedLoad = false;
+                                    MainActivity.notChanged = false;
+                                    refreshViewPager4(message.getAddresses()[0], StripAccents.stripAccents(message.getText()), Calendar.getInstance().getTimeInMillis() + "");
+                                    mViewPager.setCurrentItem(0);
 
-                            AttachMore.data = new ArrayList<MMSPart>();
+                                    if (isPopup && fullAppPopupClose) {
+                                        Intent intent = new Intent("com.klinker.android.messaging.CLOSE_POPUP");
+                                        sendBroadcast(intent);
+                                    }
+                                }
+
+                            });
                         }
-                    } else
-                    {
-                        if (multipleAttachments == false)
-                        {
-                            Intent sendIntent = new Intent(Intent.ACTION_SEND);
-                            sendIntent.putExtra("address", findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context).replace(" ", ";"));
-                            sendIntent.putExtra("sms_body", body);
-                            sendIntent.putExtra(Intent.EXTRA_STREAM, attachedImage);
-                            sendIntent.setType("image/png");
-                            startActivity(sendIntent);
-
-                            com.klinker.android.messaging_sliding.MainActivity.messageRecieved = true;
-                        } else
-                        {
-                            Toast.makeText(context, "Cannot send multiple images through stock", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    messageEntry.setText("");
-                    imageAttach.setVisibility(false);
-                    imageAttachBackground.setVisibility(View.GONE);
-
-                    refreshViewPager4(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context), StripAccents.stripAccents(body), "0");
+                    }).start();
                 }
             }
 
@@ -2788,7 +2057,7 @@ public class MainActivity extends FragmentActivity {
                     mTextView.setVisibility(View.GONE);
                 }
 
-                if (sendAsMMS && pages >= mmsAfter)
+                if (sendAsMMS && pages > mmsAfter)
                 {
                     mTextView.setVisibility(View.GONE);
                 }
@@ -5683,6 +4952,9 @@ public class MainActivity extends FragmentActivity {
         filter.setPriority(3);
         registerReceiver(receiver, filter);
 
+        filter = new IntentFilter("com.klinker.android.send_message.REFRESH");
+        registerReceiver(refreshReceiver, filter);
+
         filter = new IntentFilter("com.klinker.android.messaging.NEW_MMS");
         filter.addCategory(Intent.CATEGORY_DEFAULT);
         filter.setPriority(3);
@@ -5830,24 +5102,13 @@ public class MainActivity extends FragmentActivity {
         try
         {
             unregisterReceiver(receiver);
+            unregisterReceiver(refreshReceiver);
             unregisterReceiver(mmsReceiver);
             unregisterReceiver(killReceiver);
         } catch (Exception e)
         {
 
         }
-
-        ComponentName receiver = new ComponentName(this, SentReceiver.class);
-        ComponentName receiver2 = new ComponentName(this, DeliveredReceiver.class);
-        PackageManager pm = this.getPackageManager();
-
-        pm.setComponentEnabledSetting(receiver,
-                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                PackageManager.DONT_KILL_APP);
-
-        pm.setComponentEnabledSetting(receiver2,
-                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                PackageManager.DONT_KILL_APP);
     }
 
     @Override
@@ -5985,6 +5246,14 @@ public class MainActivity extends FragmentActivity {
 
         if (deviceType.startsWith("phablet") && !isPopup)
         {
+            com.klinker.android.messaging_donate.MainActivity.threadIds = threadIds;
+            com.klinker.android.messaging_donate.MainActivity.msgCount = msgCount;
+            com.klinker.android.messaging_donate.MainActivity.msgRead = msgRead;
+            com.klinker.android.messaging_donate.MainActivity.group = group;
+            com.klinker.android.messaging_donate.MainActivity.inboxNumber = inboxNumber;
+            com.klinker.android.messaging_donate.MainActivity.inboxBody  = inboxBody;
+            com.klinker.android.messaging_donate.MainActivity.inboxDate = inboxDate;
+
             recreate();
         }
     }
@@ -5994,22 +5263,6 @@ public class MainActivity extends FragmentActivity {
     public void onStart()
     {
         super.onStart();
-
-        try {
-            ComponentName receiver = new ComponentName(this, SentReceiver.class);
-            ComponentName receiver2 = new ComponentName(this, DeliveredReceiver.class);
-            PackageManager pm = this.getPackageManager();
-
-            pm.setComponentEnabledSetting(receiver,
-                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                    PackageManager.DONT_KILL_APP);
-
-            pm.setComponentEnabledSetting(receiver2,
-                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                    PackageManager.DONT_KILL_APP);
-        } catch (Exception e) {
-
-        }
 
         if (firstRun)
         {
@@ -6031,21 +5284,7 @@ public class MainActivity extends FragmentActivity {
                     {
                         if (findContactNumber(inboxNumber.get(i), this).replace("-","").replace("+", "").equals(sendMessageTo.replace("-", "").replace("+1", "")))
                         {
-                            mViewPager.setCurrentItem(i);
-                            menu.showContent();
-                            flag = true;
-                            break;
-                        }
-                    }
-
-                    if (flag == false)
-                    {
-                        String name = findContactName(sendMessageTo, this);
-
-                        for (int i = 0; i < inboxNumber.size(); i++)
-                        {
-                            if (findContactName(findContactNumber(inboxNumber.get(i), this), this).equals(name))
-                            {
+                            if (i < 10 || (!limitConversations && i > 10)) {
                                 mViewPager.setCurrentItem(i);
                                 menu.showContent();
                                 flag = true;
@@ -6054,7 +5293,25 @@ public class MainActivity extends FragmentActivity {
                         }
                     }
 
-                    if (flag == false)
+                    if (!flag)
+                    {
+                        String name = findContactName(sendMessageTo, this);
+
+                        for (int i = 0; i < inboxNumber.size(); i++)
+                        {
+                            if (findContactName(findContactNumber(inboxNumber.get(i), this), this).equals(name))
+                            {
+                                if (i < 10 || (!limitConversations && i > 10)) {
+                                    mViewPager.setCurrentItem(i);
+                                    menu.showContent();
+                                    flag = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    if (!flag)
                     {
                         View newMessage;
 
@@ -6646,571 +5903,6 @@ public class MainActivity extends FragmentActivity {
                 }
             }, 500);
         }
-    }
-
-    public static Uri insert(Context context, String[] to, String subject, byte[] imageBytes, String text)
-    {
-        try
-        {
-            Uri destUri = Uri.parse("content://mms");
-
-            // Get thread id
-            Set<String> recipients = new HashSet<String>();
-            recipients.addAll(Arrays.asList(to));
-            long thread_id = Telephony.Threads.getOrCreateThreadId(context, recipients);
-
-            // Create a dummy sms
-            ContentValues dummyValues = new ContentValues();
-            dummyValues.put("thread_id", thread_id);
-            dummyValues.put("body", "Dummy SMS body.");
-            Uri dummySms = context.getContentResolver().insert(Uri.parse("content://sms/sent"), dummyValues);
-
-            // Create a new message entry
-            long now = System.currentTimeMillis();
-            ContentValues mmsValues = new ContentValues();
-            mmsValues.put("thread_id", thread_id);
-            mmsValues.put("date", now/1000L);
-            mmsValues.put("msg_box", 4);
-            //mmsValues.put("m_id", System.currentTimeMillis());
-            mmsValues.put("read", true);
-            mmsValues.put("sub", subject);
-            mmsValues.put("sub_cs", 106);
-            mmsValues.put("ct_t", "application/vnd.wap.multipart.related");
-
-            if (imageBytes != null)
-            {
-                mmsValues.put("exp", imageBytes.length);
-            } else
-            {
-                mmsValues.put("exp", 0);
-            }
-
-            mmsValues.put("m_cls", "personal");
-            mmsValues.put("m_type", 128); // 132 (RETRIEVE CONF) 130 (NOTIF IND) 128 (SEND REQ)
-            mmsValues.put("v", 19);
-            mmsValues.put("pri", 129);
-            mmsValues.put("tr_id", "T"+ Long.toHexString(now));
-            mmsValues.put("resp_st", 128);
-
-            // Insert message
-            Uri res = context.getContentResolver().insert(destUri, mmsValues);
-            String messageId = res.getLastPathSegment().trim();
-
-            // Create part
-            if (imageBytes != null)
-            {
-                createPartImage(context, messageId, imageBytes, "image/png");
-            }
-
-            createPartText(context, messageId, text);
-
-            // Create addresses
-            for (String addr : to)
-            {
-                createAddr(context, messageId, addr);
-            }
-
-            //res = Uri.parse(destUri + "/" + messageId);
-
-            // Delete dummy sms
-            context.getContentResolver().delete(dummySms, null, null);
-
-            return res;
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    public static Uri insert(Context context, String[] to, String subject, ArrayList<byte[]> imageBytes, ArrayList<String> mimeTypes, String text)
-    {
-        try
-        {
-            Uri destUri = Uri.parse("content://mms");
-
-            // Get thread id
-            Set<String> recipients = new HashSet<String>();
-            recipients.addAll(Arrays.asList(to));
-            long thread_id = Telephony.Threads.getOrCreateThreadId(context, recipients);
-
-            // Create a dummy sms
-            ContentValues dummyValues = new ContentValues();
-            dummyValues.put("thread_id", thread_id);
-            dummyValues.put("body", "Dummy SMS body.");
-            Uri dummySms = context.getContentResolver().insert(Uri.parse("content://sms/sent"), dummyValues);
-
-            // Create a new message entry
-            long now = System.currentTimeMillis();
-            ContentValues mmsValues = new ContentValues();
-            mmsValues.put("thread_id", thread_id);
-            mmsValues.put("date", now/1000L);
-            mmsValues.put("msg_box", 4);
-            //mmsValues.put("m_id", System.currentTimeMillis());
-            mmsValues.put("read", true);
-            mmsValues.put("sub", subject);
-            mmsValues.put("sub_cs", 106);
-            mmsValues.put("ct_t", "application/vnd.wap.multipart.related");
-
-            if (imageBytes != null)
-            {
-                mmsValues.put("exp", imageBytes.get(0).length);
-            } else
-            {
-                mmsValues.put("exp", 0);
-            }
-
-            mmsValues.put("m_cls", "personal");
-            mmsValues.put("m_type", 128); // 132 (RETRIEVE CONF) 130 (NOTIF IND) 128 (SEND REQ)
-            mmsValues.put("v", 19);
-            mmsValues.put("pri", 129);
-            mmsValues.put("tr_id", "T"+ Long.toHexString(now));
-            mmsValues.put("resp_st", 128);
-
-            // Insert message
-            Uri res = context.getContentResolver().insert(destUri, mmsValues);
-            String messageId = res.getLastPathSegment().trim();
-
-            // Create part
-            for (int i = 0; i < imageBytes.size(); i++)
-            {
-                createPartImage(context, messageId, imageBytes.get(i), mimeTypes.get(i));
-            }
-
-            createPartText(context, messageId, text);
-
-            // Create addresses
-            for (String addr : to)
-            {
-                createAddr(context, messageId, addr);
-            }
-
-            //res = Uri.parse(destUri + "/" + messageId);
-
-            // Delete dummy sms
-            context.getContentResolver().delete(dummySms, null, null);
-
-            return res;
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    private static Uri createPartImage(Context context, String id, byte[] imageBytes, String mimeType) throws Exception
-    {
-        ContentValues mmsPartValue = new ContentValues();
-        mmsPartValue.put("mid", id);
-        mmsPartValue.put("ct", mimeType);
-        mmsPartValue.put("cid", "<" + System.currentTimeMillis() + ">");
-        Uri partUri = Uri.parse("content://mms/" + id + "/part");
-        Uri res = context.getContentResolver().insert(partUri, mmsPartValue);
-
-        // Add data to part
-        OutputStream os = context.getContentResolver().openOutputStream(res);
-        ByteArrayInputStream is = new ByteArrayInputStream(imageBytes);
-        byte[] buffer = new byte[256];
-        for (int len=0; (len=is.read(buffer)) != -1;)
-        {
-            os.write(buffer, 0, len);
-        }
-        os.close();
-        is.close();
-
-        return res;
-    }
-
-    private static Uri createPartText(Context context, String id, String text) throws Exception
-    {
-        ContentValues mmsPartValue = new ContentValues();
-        mmsPartValue.put("mid", id);
-        mmsPartValue.put("ct", "text/plain");
-        mmsPartValue.put("cid", "<" + System.currentTimeMillis() + ">");
-        mmsPartValue.put("text", text);
-        Uri partUri = Uri.parse("content://mms/" + id + "/part");
-        Uri res = context.getContentResolver().insert(partUri, mmsPartValue);
-
-        return res;
-    }
-
-    private static Uri createAddr(Context context, String id, String addr) throws Exception
-    {
-        ContentValues addrValues = new ContentValues();
-        addrValues.put("address", addr);
-        addrValues.put("charset", "106");
-        addrValues.put("type", 151); // TO
-        Uri addrUri = Uri.parse("content://mms/"+ id +"/addr");
-        Uri res = context.getContentResolver().insert(addrUri, addrValues);
-
-        return res;
-    }
-
-    public static void setMobileDataEnabled(Context context, boolean enabled) {
-        try {
-            final ConnectivityManager conman = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-            final Class conmanClass = Class.forName(conman.getClass().getName());
-            final Field iConnectivityManagerField = conmanClass.getDeclaredField("mService");
-            iConnectivityManagerField.setAccessible(true);
-            final Object iConnectivityManager = iConnectivityManagerField.get(conman);
-            final Class iConnectivityManagerClass = Class.forName(iConnectivityManager.getClass().getName());
-            final Method setMobileDataEnabledMethod = iConnectivityManagerClass.getDeclaredMethod("setMobileDataEnabled", Boolean.TYPE);
-            setMobileDataEnabledMethod.setAccessible(true);
-
-            setMobileDataEnabledMethod.invoke(iConnectivityManager, enabled);
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-
-    }
-
-    public static Boolean isMobileDataEnabled(Context context){
-        Object connectivityService = context.getSystemService(CONNECTIVITY_SERVICE);
-        ConnectivityManager cm = (ConnectivityManager) connectivityService;
-
-        try {
-            Class<?> c = Class.forName(cm.getClass().getName());
-            Method m = c.getDeclaredMethod("getMobileDataEnabled");
-            m.setAccessible(true);
-            return (Boolean)m.invoke(cm);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    private void ensureRouteToHost(String url, String proxy) throws IOException {
-        ConnectivityManager connMgr =
-                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        int inetAddr;
-        if (!proxy.equals("")) {
-            String proxyAddr = proxy;
-            inetAddr = lookupHost(proxyAddr);
-            if (inetAddr == -1) {
-                throw new IOException("Cannot establish route for " + url + ": Unknown host");
-            } else {
-                if (!connMgr.requestRouteToHost(
-                        ConnectivityManager.TYPE_MOBILE_MMS, inetAddr)) {
-                    throw new IOException("Cannot establish route to proxy " + inetAddr);
-                }
-            }
-        } else {
-            Uri uri = Uri.parse(url);
-            inetAddr = lookupHost(uri.getHost());
-            if (inetAddr == -1) {
-                throw new IOException("Cannot establish route for " + url + ": Unknown host");
-            } else {
-                if (!connMgr.requestRouteToHost(
-                        ConnectivityManager.TYPE_MOBILE_MMS, inetAddr)) {
-                    throw new IOException("Cannot establish route to " + inetAddr + " for " + url);
-                }
-            }
-        }
-    }
-
-    public static int lookupHost(String hostname) {
-        InetAddress inetAddress;
-        try {
-            inetAddress = InetAddress.getByName(hostname);
-        } catch (UnknownHostException e) {
-            return -1;
-        }
-        byte[] addrBytes;
-        int addr;
-        addrBytes = inetAddress.getAddress();
-        addr = ((addrBytes[3] & 0xff) << 24)
-                | ((addrBytes[2] & 0xff) << 16)
-                | ((addrBytes[1] & 0xff) << 8)
-                |  (addrBytes[0] & 0xff);
-        return addr;
-    }
-
-    public void sendMMS(final String recipient, final MMSPart[] parts)
-    {
-        if (sharedPrefs.getBoolean("wifi_mms_fix", true))
-        {
-            WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-            currentWifi = wifi.getConnectionInfo();
-            currentWifiState = wifi.isWifiEnabled();
-            wifi.disconnect();
-            discon = new DisconnectWifi();
-            registerReceiver(discon, new IntentFilter(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION));
-            currentDataState = isMobileDataEnabled(this);
-            setMobileDataEnabled(this, true);
-        }
-
-        ConnectivityManager mConnMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-        final int result = mConnMgr.startUsingNetworkFeature(ConnectivityManager.TYPE_MOBILE, "enableMMS");
-
-        if (result != 0)
-        {
-            IntentFilter filter = new IntentFilter();
-            filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-            BroadcastReceiver receiver = new BroadcastReceiver() {
-
-                @Override
-                public void onReceive(Context context, Intent intent) {
-                    String action = intent.getAction();
-
-                    if (!action.equals(ConnectivityManager.CONNECTIVITY_ACTION))
-                    {
-                        return;
-                    }
-
-                    @SuppressWarnings("deprecation")
-                    NetworkInfo mNetworkInfo = intent.getParcelableExtra(ConnectivityManager.EXTRA_NETWORK_INFO);
-
-                    if ((mNetworkInfo == null) || (mNetworkInfo.getType() != ConnectivityManager.TYPE_MOBILE))
-                    {
-                        return;
-                    }
-
-                    if (!mNetworkInfo.isConnected())
-                    {
-                        return;
-                    } else
-                    {
-                        sendData(recipient, parts);
-
-                        unregisterReceiver(this);
-                    }
-
-                }
-
-            };
-
-            registerReceiver(receiver, filter);
-        } else
-        {
-            sendData(recipient, parts);
-        }
-    }
-
-    public void sendData(final String recipient, final MMSPart[] parts)
-    {
-        final Context context = this;
-
-        new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-
-                final SendReq sendRequest = new SendReq();
-
-                String[] recipients = recipient.replace(";", "").split(" ");
-
-                for (int i = 0; i < recipients.length; i++)
-                {
-                    final EncodedStringValue[] phoneNumbers = EncodedStringValue.extract(recipients[i]);
-
-                    if (phoneNumbers != null && phoneNumbers.length > 0)
-                    {
-                        sendRequest.addTo(phoneNumbers[0]);
-                    }
-                }
-
-                final PduBody pduBody = new PduBody();
-
-                if (parts != null)
-                {
-                    for (MMSPart part : parts)
-                    {
-                        if (part != null)
-                        {
-                            try
-                            {
-                                final PduPart partPdu = new PduPart();
-                                partPdu.setName(part.Name.getBytes());
-                                partPdu.setContentType(part.MimeType.getBytes());
-                                partPdu.setData(part.Data);
-                                pduBody.addPart(partPdu);
-                            } catch (Exception e)
-                            {
-
-                            }
-                        }
-                    }
-                }
-
-                sendRequest.setBody(pduBody);
-
-                final PduComposer composer = new PduComposer(context, sendRequest);
-                final byte[] bytesToSend = composer.make();
-
-                List<APN> apns = new ArrayList<APN>();
-
-                try
-                {
-                    APNHelper helper = new APNHelper(context);
-                    apns = helper.getMMSApns();
-
-                    final APN apn = apns.get(0);
-
-                    ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                            builder.setTitle("System APNs");
-                            builder.setMessage("MMSC Url: " + apn.MMSCenterUrl + "\n" +
-                                    "MMS Proxy: " + apn.MMSProxy + "\n" +
-                                    "MMS Port: " + apn.MMSPort + "\n");
-                            builder.create().show();
-                        }
-                    });
-
-                } catch (Exception e)
-                {
-                    APN apn = new APN(sharedPrefs.getString("mmsc_url", ""), sharedPrefs.getString("mms_port", ""), sharedPrefs.getString("mms_proxy", ""));
-                    apns.add(apn);
-
-                    String mmscUrl = apns.get(0).MMSCenterUrl != null ? apns.get(0).MMSCenterUrl.trim() : null;
-                    apns.get(0).MMSCenterUrl = mmscUrl;
-
-                    try
-                    {
-                        if (sharedPrefs.getBoolean("apn_username_password", false))
-                        {
-                            if (!sharedPrefs.getString("apn_username", "").equals("") && !sharedPrefs.getString("apn_username", "").equals(""))
-                            {
-                                String mmsc = apns.get(0).MMSCenterUrl;
-                                String[] parts = mmsc.split("://");
-                                String newMmsc = parts[0] + "://";
-
-                                newMmsc += sharedPrefs.getString("apn_username", "") + ":" + sharedPrefs.getString("apn_password", "") + "@";
-
-                                for (int i = 1; i < parts.length; i++)
-                                {
-                                    newMmsc += parts[i];
-                                }
-
-                                apns.set(0, new APN(newMmsc, apns.get(0).MMSPort, apns.get(0).MMSProxy));
-                            }
-                        }
-                    } catch (Exception f)
-                    {
-                        ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                Toast.makeText(context, "There may be an error in your username and password settings.", Toast.LENGTH_LONG).show();
-                            }
-                        });
-                    }
-                }
-
-                try {
-                    ensureRouteToHost(apns.get(0).MMSCenterUrl, apns.get(0).MMSProxy);
-                    HttpUtils.httpConnection(context, 4444L, apns.get(0).MMSCenterUrl, bytesToSend, HttpUtils.HTTP_POST_METHOD, !TextUtils.isEmpty(apns.get(0).MMSProxy), apns.get(0).MMSProxy, Integer.parseInt(apns.get(0).MMSPort));
-
-                    IntentFilter filter = new IntentFilter();
-                    filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-                    BroadcastReceiver receiver = new BroadcastReceiver() {
-
-                        @Override
-                        public void onReceive(Context context, Intent intent) {
-                            Cursor query = context.getContentResolver().query(Uri.parse("content://mms"), new String[] {"_id"}, null, null, "date desc");
-                            query.moveToFirst();
-                            String id = query.getString(query.getColumnIndex("_id"));
-                            query.close();
-
-                            ContentValues values = new ContentValues();
-                            values.put("msg_box", 2);
-                            String where = "_id" + " = '" + id + "'";
-                            context.getContentResolver().update(Uri.parse("content://mms"), values, where, null);
-
-                            ((MainActivity) context).refreshViewPager3();
-                            context.unregisterReceiver(this);
-
-                            if (sharedPrefs.getBoolean("wifi_mms_fix", true))
-                            {
-                                try {
-                                    context.unregisterReceiver(discon);
-                                } catch (Exception e) {
-
-                                }
-
-                                WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-                                wifi.setWifiEnabled(false);
-                                wifi.setWifiEnabled(currentWifiState);
-                                Log.v("Reconnect", "" + wifi.reconnect());
-                                setMobileDataEnabled(context, currentDataState);
-                            }
-                        }
-
-                    };
-
-                    registerReceiver(receiver, filter);
-                } catch (Exception e) {
-
-                    if (sharedPrefs.getBoolean("wifi_mms_fix", true))
-                    {
-                        try {
-                            context.unregisterReceiver(discon);
-                        } catch (Exception f) {
-
-                        }
-
-                        WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-                        wifi.setWifiEnabled(false);
-                        wifi.setWifiEnabled(currentWifiState);
-                        Log.v("Reconnect", "" + wifi.reconnect());
-                        setMobileDataEnabled(context, currentDataState);
-                    }
-
-                    Cursor query = context.getContentResolver().query(Uri.parse("content://mms"), new String[] {"_id"}, null, null, "date desc");
-                    query.moveToFirst();
-                    String id = query.getString(query.getColumnIndex("_id"));
-                    query.close();
-
-                    ContentValues values = new ContentValues();
-                    values.put("msg_box", 5);
-                    String where = "_id" + " = '" + id + "'";
-                    context.getContentResolver().update(Uri.parse("content://mms"), values, where, null);
-
-                    ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            ((MainActivity) context).refreshViewPager3();
-
-                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                            builder.setTitle(R.string.apn_error_title);
-                            builder.setMessage(context.getResources().getString(R.string.apn_error_1) + " " +
-                                    context.getResources().getString(R.string.apn_error_2) + " " +
-                                    context.getResources().getString(R.string.apn_error_3) + " " +
-                                    context.getResources().getString(R.string.apn_error_4) + " " +
-                                    context.getResources().getString(R.string.apn_error_5) +
-                                    context.getResources().getString(R.string.apn_error_6));
-                            builder.setNeutralButton(context.getResources().getString(R.string.apn_error_button), new DialogInterface.OnClickListener() {
-
-                                @Override
-                                public void onClick(DialogInterface dialog,
-                                                    int which) {
-                                    Intent intent = new Intent(context, SettingsPagerActivity.class);
-                                    intent.putExtra("mms", true);
-                                    context.startActivity(intent);
-
-                                }
-
-                            });
-
-                            builder.create().show();
-                        }
-
-                    });
-                }
-
-            }
-
-        }).start();
-
     }
 
     private void writeToFile2(ArrayList<String> data, Context context) {
@@ -8412,5 +7104,589 @@ public class MainActivity extends FragmentActivity {
         return ret;
     }
 
+    public static Uri insert(Context context, String[] to, String subject, byte[] imageBytes, String text)
+    {
+        try
+        {
+            Uri destUri = Uri.parse("content://mms");
 
+            // Get thread id
+            Set<String> recipients = new HashSet<String>();
+            recipients.addAll(Arrays.asList(to));
+            long thread_id = Telephony.Threads.getOrCreateThreadId(context, recipients);
+
+            // Create a dummy sms
+            ContentValues dummyValues = new ContentValues();
+            dummyValues.put("thread_id", thread_id);
+            dummyValues.put("body", "Dummy SMS body.");
+            Uri dummySms = context.getContentResolver().insert(Uri.parse("content://sms/sent"), dummyValues);
+
+            // Create a new message entry
+            long now = System.currentTimeMillis();
+            ContentValues mmsValues = new ContentValues();
+            mmsValues.put("thread_id", thread_id);
+            mmsValues.put("date", now/1000L);
+            mmsValues.put("msg_box", 4);
+            //mmsValues.put("m_id", System.currentTimeMillis());
+            mmsValues.put("read", true);
+            mmsValues.put("sub", subject);
+            mmsValues.put("sub_cs", 106);
+            mmsValues.put("ct_t", "application/vnd.wap.multipart.related");
+
+            if (imageBytes != null)
+            {
+                mmsValues.put("exp", imageBytes.length);
+            } else
+            {
+                mmsValues.put("exp", 0);
+            }
+
+            mmsValues.put("m_cls", "personal");
+            mmsValues.put("m_type", 128); // 132 (RETRIEVE CONF) 130 (NOTIF IND) 128 (SEND REQ)
+            mmsValues.put("v", 19);
+            mmsValues.put("pri", 129);
+            mmsValues.put("tr_id", "T"+ Long.toHexString(now));
+            mmsValues.put("resp_st", 128);
+
+            // Insert message
+            Uri res = context.getContentResolver().insert(destUri, mmsValues);
+            String messageId = res.getLastPathSegment().trim();
+
+            // Create part
+            if (imageBytes != null)
+            {
+                createPartImage(context, messageId, imageBytes, "image/png");
+            }
+
+            createPartText(context, messageId, text);
+
+            // Create addresses
+            for (String addr : to)
+            {
+                createAddr(context, messageId, addr);
+            }
+
+            //res = Uri.parse(destUri + "/" + messageId);
+
+            // Delete dummy sms
+            context.getContentResolver().delete(dummySms, null, null);
+
+            return res;
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static Uri insert(Context context, String[] to, String subject, ArrayList<byte[]> imageBytes, ArrayList<String> mimeTypes, String text)
+    {
+        try
+        {
+            Uri destUri = Uri.parse("content://mms");
+
+            // Get thread id
+            Set<String> recipients = new HashSet<String>();
+            recipients.addAll(Arrays.asList(to));
+            long thread_id = Telephony.Threads.getOrCreateThreadId(context, recipients);
+
+            // Create a dummy sms
+            ContentValues dummyValues = new ContentValues();
+            dummyValues.put("thread_id", thread_id);
+            dummyValues.put("body", "Dummy SMS body.");
+            Uri dummySms = context.getContentResolver().insert(Uri.parse("content://sms/sent"), dummyValues);
+
+            // Create a new message entry
+            long now = System.currentTimeMillis();
+            ContentValues mmsValues = new ContentValues();
+            mmsValues.put("thread_id", thread_id);
+            mmsValues.put("date", now/1000L);
+            mmsValues.put("msg_box", 4);
+            //mmsValues.put("m_id", System.currentTimeMillis());
+            mmsValues.put("read", true);
+            mmsValues.put("sub", subject);
+            mmsValues.put("sub_cs", 106);
+            mmsValues.put("ct_t", "application/vnd.wap.multipart.related");
+
+            if (imageBytes != null)
+            {
+                mmsValues.put("exp", imageBytes.get(0).length);
+            } else
+            {
+                mmsValues.put("exp", 0);
+            }
+
+            mmsValues.put("m_cls", "personal");
+            mmsValues.put("m_type", 128); // 132 (RETRIEVE CONF) 130 (NOTIF IND) 128 (SEND REQ)
+            mmsValues.put("v", 19);
+            mmsValues.put("pri", 129);
+            mmsValues.put("tr_id", "T"+ Long.toHexString(now));
+            mmsValues.put("resp_st", 128);
+
+            // Insert message
+            Uri res = context.getContentResolver().insert(destUri, mmsValues);
+            String messageId = res.getLastPathSegment().trim();
+
+            // Create part
+            for (int i = 0; i < imageBytes.size(); i++)
+            {
+                createPartImage(context, messageId, imageBytes.get(i), mimeTypes.get(i));
+            }
+
+            createPartText(context, messageId, text);
+
+            // Create addresses
+            for (String addr : to)
+            {
+                createAddr(context, messageId, addr);
+            }
+
+            //res = Uri.parse(destUri + "/" + messageId);
+
+            // Delete dummy sms
+            context.getContentResolver().delete(dummySms, null, null);
+
+            return res;
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    private static Uri createPartImage(Context context, String id, byte[] imageBytes, String mimeType) throws Exception
+    {
+        ContentValues mmsPartValue = new ContentValues();
+        mmsPartValue.put("mid", id);
+        mmsPartValue.put("ct", mimeType);
+        mmsPartValue.put("cid", "<" + System.currentTimeMillis() + ">");
+        Uri partUri = Uri.parse("content://mms/" + id + "/part");
+        Uri res = context.getContentResolver().insert(partUri, mmsPartValue);
+
+        // Add data to part
+        OutputStream os = context.getContentResolver().openOutputStream(res);
+        ByteArrayInputStream is = new ByteArrayInputStream(imageBytes);
+        byte[] buffer = new byte[256];
+        for (int len=0; (len=is.read(buffer)) != -1;)
+        {
+            os.write(buffer, 0, len);
+        }
+        os.close();
+        is.close();
+
+        return res;
+    }
+
+    private static Uri createPartText(Context context, String id, String text) throws Exception
+    {
+        ContentValues mmsPartValue = new ContentValues();
+        mmsPartValue.put("mid", id);
+        mmsPartValue.put("ct", "text/plain");
+        mmsPartValue.put("cid", "<" + System.currentTimeMillis() + ">");
+        mmsPartValue.put("text", text);
+        Uri partUri = Uri.parse("content://mms/" + id + "/part");
+        Uri res = context.getContentResolver().insert(partUri, mmsPartValue);
+
+        return res;
+    }
+
+    private static Uri createAddr(Context context, String id, String addr) throws Exception
+    {
+        ContentValues addrValues = new ContentValues();
+        addrValues.put("address", addr);
+        addrValues.put("charset", "106");
+        addrValues.put("type", 151); // TO
+        Uri addrUri = Uri.parse("content://mms/"+ id +"/addr");
+        Uri res = context.getContentResolver().insert(addrUri, addrValues);
+
+        return res;
+    }
+
+    private void setMobileDataEnabled(Context context, boolean enabled) {
+        try {
+            final ConnectivityManager conman = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            final Class conmanClass = Class.forName(conman.getClass().getName());
+            final Field iConnectivityManagerField = conmanClass.getDeclaredField("mService");
+            iConnectivityManagerField.setAccessible(true);
+            final Object iConnectivityManager = iConnectivityManagerField.get(conman);
+            final Class iConnectivityManagerClass = Class.forName(iConnectivityManager.getClass().getName());
+            final Method setMobileDataEnabledMethod = iConnectivityManagerClass.getDeclaredMethod("setMobileDataEnabled", Boolean.TYPE);
+            setMobileDataEnabledMethod.setAccessible(true);
+
+            setMobileDataEnabledMethod.invoke(iConnectivityManager, enabled);
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static Boolean isMobileDataEnabled(Context context){
+        Object connectivityService = context.getSystemService(CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) connectivityService;
+
+        try {
+            Class<?> c = Class.forName(cm.getClass().getName());
+            Method m = c.getDeclaredMethod("getMobileDataEnabled");
+            m.setAccessible(true);
+            return (Boolean)m.invoke(cm);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private void ensureRouteToHost(String url, String proxy) throws IOException {
+        ConnectivityManager connMgr =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        int inetAddr;
+        if (!proxy.equals("")) {
+            String proxyAddr = proxy;
+            inetAddr = lookupHost(proxyAddr);
+            if (inetAddr == -1) {
+                throw new IOException("Cannot establish route for " + url + ": Unknown host");
+            } else {
+                if (!connMgr.requestRouteToHost(
+                        ConnectivityManager.TYPE_MOBILE_MMS, inetAddr)) {
+                    throw new IOException("Cannot establish route to proxy " + inetAddr);
+                }
+            }
+        } else {
+            Uri uri = Uri.parse(url);
+            inetAddr = lookupHost(uri.getHost());
+            if (inetAddr == -1) {
+                throw new IOException("Cannot establish route for " + url + ": Unknown host");
+            } else {
+                if (!connMgr.requestRouteToHost(
+                        ConnectivityManager.TYPE_MOBILE_MMS, inetAddr)) {
+                    throw new IOException("Cannot establish route to " + inetAddr + " for " + url);
+                }
+            }
+        }
+    }
+
+    public static int lookupHost(String hostname) {
+        InetAddress inetAddress;
+        try {
+            inetAddress = InetAddress.getByName(hostname);
+        } catch (UnknownHostException e) {
+            return -1;
+        }
+        byte[] addrBytes;
+        int addr;
+        addrBytes = inetAddress.getAddress();
+        addr = ((addrBytes[3] & 0xff) << 24)
+                | ((addrBytes[2] & 0xff) << 16)
+                | ((addrBytes[1] & 0xff) << 8)
+                |  (addrBytes[0] & 0xff);
+        return addr;
+    }
+
+    public WifiInfo currentWifi;
+    public boolean currentWifiState;
+    public DisconnectWifi discon;
+    public boolean currentDataState;
+
+    public void sendMMS(final String recipient, final MMSPart[] parts)
+    {
+        if (sharedPrefs.getBoolean("wifi_mms_fix", true))
+        {
+            WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+            currentWifiState = wifi.isWifiEnabled();
+            currentWifi = wifi.getConnectionInfo();
+            wifi.disconnect();
+            discon = new DisconnectWifi();
+            registerReceiver(discon, new IntentFilter(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION));
+            currentDataState = isMobileDataEnabled(this);
+            setMobileDataEnabled(this, true);
+        }
+
+        ConnectivityManager mConnMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        final int result = mConnMgr.startUsingNetworkFeature(ConnectivityManager.TYPE_MOBILE, "enableMMS");
+
+        if (result != 0)
+        {
+            IntentFilter filter = new IntentFilter();
+            filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+            BroadcastReceiver receiver = new BroadcastReceiver() {
+
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    String action = intent.getAction();
+
+                    if (!action.equals(ConnectivityManager.CONNECTIVITY_ACTION))
+                    {
+                        return;
+                    }
+
+                    @SuppressWarnings("deprecation")
+                    NetworkInfo mNetworkInfo = intent.getParcelableExtra(ConnectivityManager.EXTRA_NETWORK_INFO);
+
+                    if ((mNetworkInfo == null) || (mNetworkInfo.getType() != ConnectivityManager.TYPE_MOBILE))
+                    {
+                        return;
+                    }
+
+                    if (!mNetworkInfo.isConnected())
+                    {
+                        return;
+                    } else
+                    {
+                        sendData(recipient, parts);
+
+                        unregisterReceiver(this);
+                    }
+
+                }
+
+            };
+
+            registerReceiver(receiver, filter);
+        } else
+        {
+            sendData(recipient, parts);
+        }
+    }
+
+    public void sendData(final String recipient, final MMSPart[] parts)
+    {
+        final Context context = this;
+
+        new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+
+                final SendReq sendRequest = new SendReq();
+
+                String[] recipients = recipient.replace(";", "").split(" ");
+
+                for (int i = 0; i < recipients.length; i++) {
+                    Log.v("recipients", i + ": " + recipients[i]);
+                }
+
+                for (int i = 0; i < parts.length; i++) {
+                    try {
+                        Log.v("mms_parts", i + ": " + parts[i].Name + ", " + parts[i].MimeType + ", " + parts[i].Data.length);
+                    } catch (Exception e) {
+
+                    }
+                }
+
+                for (int i = 0; i < recipients.length; i++)
+                {
+                    final EncodedStringValue[] phoneNumbers = EncodedStringValue.extract(recipients[i]);
+
+                    if (phoneNumbers != null && phoneNumbers.length > 0)
+                    {
+                        sendRequest.addTo(phoneNumbers[0]);
+                    }
+                }
+
+                final PduBody pduBody = new PduBody();
+
+                if (parts != null)
+                {
+                    for (MMSPart part : parts)
+                    {
+                        if (part != null)
+                        {
+                            try
+                            {
+                                final PduPart partPdu = new PduPart();
+                                partPdu.setName(part.Name.getBytes());
+                                partPdu.setContentType(part.MimeType.getBytes());
+                                partPdu.setData(part.Data);
+                                pduBody.addPart(partPdu);
+                            } catch (Exception e)
+                            {
+
+                            }
+                        }
+                    }
+                }
+
+                sendRequest.setBody(pduBody);
+
+                final PduComposer composer = new PduComposer(context, sendRequest);
+                final byte[] bytesToSend = composer.make();
+
+                List<APN> apns = new ArrayList<APN>();
+
+                try
+                {
+                    APNHelper helper = new APNHelper(context);
+                    apns = helper.getMMSApns();
+
+                    final APN apn = apns.get(0);
+
+                    ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                            builder.setTitle("System APNs");
+                            builder.setMessage("MMSC Url: " + apn.MMSCenterUrl + "\n" +
+                                    "MMS Proxy: " + apn.MMSProxy + "\n" +
+                                    "MMS Port: " + apn.MMSPort + "\n");
+                            builder.create().show();
+                        }
+                    });
+
+                } catch (Exception e)
+                {
+                    APN apn = new APN(sharedPrefs.getString("mmsc_url", ""), sharedPrefs.getString("mms_port", ""), sharedPrefs.getString("mms_proxy", ""));
+                    apns.add(apn);
+
+                    String mmscUrl = apns.get(0).MMSCenterUrl != null ? apns.get(0).MMSCenterUrl.trim() : null;
+                    apns.get(0).MMSCenterUrl = mmscUrl;
+
+                    try
+                    {
+                        if (sharedPrefs.getBoolean("apn_username_password", false))
+                        {
+                            if (!sharedPrefs.getString("apn_username", "").equals("") && !sharedPrefs.getString("apn_username", "").equals(""))
+                            {
+                                String mmsc = apns.get(0).MMSCenterUrl;
+                                String[] parts = mmsc.split("://");
+                                String newMmsc = parts[0] + "://";
+
+                                newMmsc += sharedPrefs.getString("apn_username", "") + ":" + sharedPrefs.getString("apn_password", "") + "@";
+
+                                for (int i = 1; i < parts.length; i++)
+                                {
+                                    newMmsc += parts[i];
+                                }
+
+                                apns.set(0, new APN(newMmsc, apns.get(0).MMSPort, apns.get(0).MMSProxy));
+                            }
+                        }
+                    } catch (Exception f)
+                    {
+                        ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                Toast.makeText(context, "There may be an error in your username and password settings.", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                }
+
+                try {
+                    Log.v("apns_to_use", apns.get(0).MMSCenterUrl + " " + apns.get(0).MMSPort + " " + apns.get(0).MMSProxy);
+                    ensureRouteToHost(apns.get(0).MMSCenterUrl, apns.get(0).MMSProxy);
+                    HttpUtils.httpConnection(context, 4444L, apns.get(0).MMSCenterUrl, bytesToSend, HttpUtils.HTTP_POST_METHOD, !TextUtils.isEmpty(apns.get(0).MMSProxy), apns.get(0).MMSProxy, Integer.parseInt(apns.get(0).MMSPort));
+
+//					ConnectivityManager mConnMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+//					mConnMgr.startUsingNetworkFeature(ConnectivityManager.TYPE_MOBILE, "enableMMS");
+
+                    IntentFilter filter = new IntentFilter();
+                    filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+                    BroadcastReceiver receiver = new BroadcastReceiver() {
+
+                        @Override
+                        public void onReceive(Context context, Intent intent) {
+                            Cursor query = context.getContentResolver().query(Uri.parse("content://mms"), new String[] {"_id"}, null, null, "date desc");
+                            query.moveToFirst();
+                            String id = query.getString(query.getColumnIndex("_id"));
+                            query.close();
+
+                            ContentValues values = new ContentValues();
+                            values.put("msg_box", 2);
+                            String where = "_id" + " = '" + id + "'";
+                            context.getContentResolver().update(Uri.parse("content://mms"), values, where, null);
+
+                            ((MainActivity) context).refreshViewPager3();
+                            context.unregisterReceiver(this);
+                            if (sharedPrefs.getBoolean("wifi_mms_fix", true))
+                            {
+                                try {
+                                    context.unregisterReceiver(discon);
+                                } catch (Exception e) {
+
+                                }
+
+                                WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+                                wifi.setWifiEnabled(false);
+                                wifi.setWifiEnabled(currentWifiState);
+                                wifi.reconnect();
+                                setMobileDataEnabled(context, currentDataState);
+                            }
+                        }
+
+                    };
+
+                    registerReceiver(receiver, filter);
+                } catch (Exception e) {
+                    e.printStackTrace();
+
+                    if (sharedPrefs.getBoolean("wifi_mms_fix", true))
+                    {
+                        try {
+                            context.unregisterReceiver(discon);
+                        } catch (Exception f) {
+
+                        }
+
+                        WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+                        wifi.setWifiEnabled(false);
+                        wifi.setWifiEnabled(currentWifiState);
+                        wifi.reconnect();
+                        setMobileDataEnabled(context, currentDataState);
+                    }
+
+                    Cursor query = context.getContentResolver().query(Uri.parse("content://mms"), new String[] {"_id"}, null, null, "date desc");
+                    query.moveToFirst();
+                    String id = query.getString(query.getColumnIndex("_id"));
+                    query.close();
+
+                    ContentValues values = new ContentValues();
+                    values.put("msg_box", 5);
+                    String where = "_id" + " = '" + id + "'";
+                    context.getContentResolver().update(Uri.parse("content://mms"), values, where, null);
+
+                    ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            ((MainActivity) context).refreshViewPager3();
+
+                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                            builder.setTitle(R.string.apn_error_title);
+                            builder.setMessage(context.getResources().getString(R.string.apn_error_1) + " " +
+                                    context.getResources().getString(R.string.apn_error_2) + " " +
+                                    context.getResources().getString(R.string.apn_error_3) + " " +
+                                    context.getResources().getString(R.string.apn_error_4) + " " +
+                                    context.getResources().getString(R.string.apn_error_5) +
+                                    context.getResources().getString(R.string.apn_error_6));
+                            builder.setNeutralButton(context.getResources().getString(R.string.apn_error_button), new DialogInterface.OnClickListener() {
+
+                                @Override
+                                public void onClick(DialogInterface dialog,
+                                                    int which) {
+                                    Intent intent = new Intent(context, SettingsPagerActivity.class);
+                                    intent.putExtra("mms", true);
+                                    context.startActivity(intent);
+
+                                }
+
+                            });
+
+                            builder.create().show();
+                        }
+
+                    });
+                }
+
+            }
+
+        }).start();
+
+    }
 }

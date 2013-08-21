@@ -113,7 +113,7 @@ public class TransactionSettings {
      * @param mmscUrl The MMSC URL
      * @param proxyAddr The proxy address
      * @param proxyPort The port used by the proxy address
-     * immediately start a SendTransaction upon completion of a NotificationTransaction,
+     * immediately start a Transaction upon completion of a NotificationTransaction,
      * false otherwise.
      */
     public TransactionSettings(String mmscUrl, String proxyAddr, int proxyPort) {

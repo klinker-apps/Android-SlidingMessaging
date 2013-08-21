@@ -15,7 +15,7 @@ import android.app.*;
 import android.view.*;
 import android.widget.*;
 import com.klinker.android.messaging_donate.R;
-import com.klinker.android.messaging_donate.StripAccents;
+import com.klinker.android.send_message.StripAccents;
 
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
