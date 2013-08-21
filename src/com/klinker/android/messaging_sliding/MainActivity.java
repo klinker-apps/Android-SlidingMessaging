@@ -453,7 +453,7 @@ public class MainActivity extends FragmentActivity {
         Intent fromIntent = getIntent();
         if(fromIntent.getBooleanExtra("initial_run", false))
         {
-            try {
+            try { // try catch so if they change to landscape, which uses a linear layout instead, everything won't force close
                 final RelativeLayout layout = (RelativeLayout) findViewById(R.id.rootView);
 
                 final View conversationSwipe = getLayoutInflater().inflate(R.layout.conversation_swipe, null);
@@ -489,54 +489,6 @@ public class MainActivity extends FragmentActivity {
                     }
                 });
 
-
-
-                /*
-                final ImageView imageView1 = new ImageView(this);
-                imageView1.setBackgroundResource(R.drawable.conversation_list_swipe);
-
-                final ImageView imageView2 = new ImageView(this);
-                imageView2.setBackgroundResource(R.drawable.new_message_swipe);
-
-                final TextView tv1 = new TextView(this);
-                tv1.setText("Swipe from the left for the conversations list");
-                tv1.setTextColor(getResources().getColor(R.color.white));
-
-                final TextView tv2 = new TextView(this);
-                tv2.setText("Swipe from the right for a new message");
-                tv2.setTextColor(getResources().getColor(R.color.white));
-
-                final RelativeLayout.LayoutParams imageParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                imageParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-                imageParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-
-                final RelativeLayout.LayoutParams textParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                textParams.addRule(RelativeLayout.ALIGN_PARENT_END);
-                textParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-
-                layout.addView(imageView1, imageParams);
-                layout.addView(tv1);
-
-                imageView1.setOnTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        layout.removeView(imageView1);
-                        layout.removeView(tv1);
-
-                        layout.addView(imageView2, imageParams);
-                        layout.addView(tv2, textParams);
-                        return false;
-                    }
-                });
-
-                imageView2.setOnTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        layout.removeView(imageView2);
-                        layout.removeView(tv2);
-                        return false;
-                    }
-                }); */
             } catch (ClassCastException e)
             {
 
