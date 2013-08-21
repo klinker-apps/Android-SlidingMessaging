@@ -488,15 +488,15 @@ public class MainActivity extends FragmentActivity {
                 tv2.setTextColor(getResources().getColor(R.color.white));
 
                 final RelativeLayout.LayoutParams imageParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                imageParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-                imageParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+                imageParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                imageParams.addRule(RelativeLayout.CENTER_IN_PARENT);
 
                 final RelativeLayout.LayoutParams textParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                textParams.addRule(RelativeLayout.ALIGN_BOTTOM);
-                textParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+                textParams.addRule(RelativeLayout.ALIGN_PARENT_END);
+                textParams.addRule(RelativeLayout.CENTER_IN_PARENT);
 
                 layout.addView(imageView1, imageParams);
-                layout.addView(tv1, textParams);
+                layout.addView(tv1);
 
                 imageView1.setOnTouchListener(new View.OnTouchListener() {
                     @Override
