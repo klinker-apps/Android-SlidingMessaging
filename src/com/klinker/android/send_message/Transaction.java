@@ -70,7 +70,7 @@ public class Transaction {
 
     public void sendNewMessage(final Message message, final String threadId) {
 
-        if (message.getImages().length != 0 || (settings.getSendLongAsMms() && getNumPages(message.getText()) > settings.getSendLongAsMmsAfter() && !settings.getPreferVoice()) || (message.getAddresses().length > 1 && settings.getGroup())) {
+        if (message.getImages().length != 0 || (settings.getSendLongAsMms() && getNumPages(settings, message.getText()) > settings.getSendLongAsMmsAfter() && !settings.getPreferVoice()) || (message.getAddresses().length > 1 && settings.getGroup())) {
             sendMmsMessage(message.getText(), message.getAddresses(), message.getImages(), threadId);
         } else {
             if (settings.getPreferVoice()) {
@@ -262,7 +262,7 @@ public class Transaction {
 
     }
 
-    private int getNumPages(String text) {
+    public static int getNumPages(Settings settings, String text) {
         int length = text.length();
 
         if (!settings.getSignature().equals("")) {

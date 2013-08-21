@@ -225,7 +225,7 @@ public class MainActivity extends FragmentActivity {
 
     public static boolean limitConversations = true;
 
-    public static final String GSM_CHARACTERS_REGEX = "^[A-Za-z0-9 \\r\\n@Ł$ĽčéůěňÇŘřĹĺ\u0394_\u03A6\u0393\u039B\u03A9\u03A0\u03A8\u03A3\u0398\u039EĆćßÉ!\"#$%&'()*+,\\-./:;<=>?ĄÄÖŃÜ§żäöńüŕ^{}\\\\\\[~\\]|\u20AC]*$";
+    public static final String GSM_CHARACTERS_REGEX = "^[A-Za-z0-9 \\r\\n@?$??é???Ç????\u0394_\u03A6\u0393\u039B\u03A9\u03A0\u03A8\u03A3\u0398\u039E??ßÉ!\"#$%&'()*+,\\-./:;<=>??ÄÖ?Ü§?äö?ü?^{}\\\\\\[~\\]|\u20AC]*$";
     private static final int REQ_ENTER_PATTERN = 7;
 
     public Button okButton;
@@ -1658,7 +1658,28 @@ public class MainActivity extends FragmentActivity {
                                 message.setImages(images);
                             }
 
-                            sendTransaction.sendNewMessage(message, threadIds.get(mViewPager.getCurrentItem()));
+                            if (!sendWithStock) {
+                                sendTransaction.sendNewMessage(message, threadIds.get(mViewPager.getCurrentItem()));
+                            } else {
+                                if (message.getImages().length != 0 || (sendSettings.getSendLongAsMms() && Transaction.getNumPages(sendSettings, message.getText()) > sendSettings.getSendLongAsMmsAfter() && !sendSettings.getPreferVoice()) || (message.getAddresses().length > 1 && sendSettings.getGroup())) {
+                                    if (multipleAttachments == false)
+                                    {
+                                        Intent sendIntent = new Intent(Intent.ACTION_SEND);
+                                        sendIntent.putExtra("address", findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context).replace(";", ""));
+                                        sendIntent.putExtra("sms_body", text);
+                                        sendIntent.putExtra(Intent.EXTRA_STREAM, attachedImage);
+                                        sendIntent.setType("image/png");
+                                        startActivity(sendIntent);
+
+                                        com.klinker.android.messaging_sliding.MainActivity.messageRecieved = true;
+                                    } else
+                                    {
+                                        Toast.makeText(context, "Cannot send multiple images through stock", Toast.LENGTH_SHORT).show();
+                                    }
+                                } else {
+                                    sendTransaction.sendNewMessage(message, threadIds.get(mViewPager.getCurrentItem()));
+                                }
+                            }
 
                             ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 
