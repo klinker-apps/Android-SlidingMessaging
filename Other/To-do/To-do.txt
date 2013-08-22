@@ -2,14 +2,12 @@ Version 7.25
 
 Jake:
     - make all sending requests go through andorid-smsmms library
-    - remove original cards ui
-    - change layouts to allow for an emoji view pager
     - google voice sending support
     - google voice receiving support
     - Figure out how to judge file size of png images and adjust them accordingly when sending, look into UriImage.getResizedImageData for solution
     - delayed sending for certain times
 Luke:
-    - add description of what slideover is to the initial setup page so that people know whether they want to enable or not.
+    - emoji keyboard
     - look into scheduled SMS bug reported
 
 1) more individual notification options
