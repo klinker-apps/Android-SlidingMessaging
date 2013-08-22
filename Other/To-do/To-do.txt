@@ -1,13 +1,14 @@
 Version 7.25
 
 Jake:
-    - batch delete for single conversation
-    - refactor classes to use static sending class
+    - make sure that locked messages are respected when using batch delete of conversations and delete all in settings (create a dialog to select deleting locked or not as radio buttons and ok beneath)
+    - make all sending requests go through andorid-smsmms library
     - google voice sending support
     - google voice receiving support
     - Figure out how to judge file size of png images and adjust them accordingly when sending, look into UriImage.getResizedImageData for solution
     - delayed sending for certain times
 Luke:
+    - add description of what slideover is to the initial setup page so that people know whether they want to enable or not.
     - look into scheduled SMS bug reported
 
 1) more individual notification options
