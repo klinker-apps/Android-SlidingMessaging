@@ -27,6 +27,7 @@
     <orderEntry type="module" module-name="ListViewAnimations" />
     <orderEntry type="module" module-name="MessageBar" />
     <orderEntry type="module" module-name="SlidingMenu" />
+    <orderEntry type="module" module-name="PagerSlidingTabStrip" />
   </component>
 </module>
 

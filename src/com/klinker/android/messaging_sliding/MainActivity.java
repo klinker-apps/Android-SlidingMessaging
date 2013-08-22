@@ -7,6 +7,7 @@ import android.content.ClipboardManager;
 import android.graphics.*;
 import android.media.*;
 import android.os.*;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.*;
 import android.support.v4.app.TaskStackBuilder;
@@ -15,6 +16,8 @@ import android.support.v4.view.ViewPager;
 import android.text.*;
 import android.view.*;
 import android.widget.*;
+
+import com.astuetz.viewpager.extensions.PagerSlidingTabStrip;
 import com.devspark.appmsg.AppMsg;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.klinker.android.messaging_sliding.batch_delete.BatchDeleteAllActivity;
@@ -66,6 +69,7 @@ import com.klinker.android.messaging_donate.settings.SettingsPagerActivity;
 import com.klinker.android.messaging_sliding.batch_delete.BatchDeleteConversationActivity;
 import com.klinker.android.messaging_sliding.blacklist.BlacklistContact;
 import com.klinker.android.messaging_sliding.custom_dialogs.CustomListView;
+import com.klinker.android.messaging_sliding.emoji_pager.PeopleFragment;
 import com.klinker.android.messaging_sliding.emojis.EmojiAdapter;
 import com.klinker.android.messaging_sliding.emojis.EmojiAdapter2;
 import com.klinker.android.messaging_sliding.emojis.EmojiConverter;
@@ -1764,6 +1768,26 @@ public class MainActivity extends FragmentActivity {
 
                 @Override
                 public void onClick(View arg0) {
+
+                    ViewPager vp = (ViewPager) findViewById(R.id.emojiKeyboard);
+                    PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+
+                    tabs.setIndicatorColor(titleBarColor);
+
+                    MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager());
+                    vp.setAdapter(adapter);
+
+                    if (vp.getVisibility() == View.GONE)
+                    {
+                        vp.setVisibility(View.VISIBLE);
+                        tabs.setVisibility(View.VISIBLE);
+                        tabs.setViewPager(vp);
+                    } else
+                    {
+                        vp.setVisibility(View.GONE);
+                        tabs.setVisibility(ViewStub.GONE);
+                    }
+                    /*
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setTitle("Insert Emojis");
                     LayoutInflater inflater = ((Activity) context).getLayoutInflater();
@@ -1869,7 +1893,7 @@ public class MainActivity extends FragmentActivity {
                             dialog.dismiss();
                         }
 
-                    });
+                    }); */
                 }
 
             });
@@ -1905,6 +1929,32 @@ public class MainActivity extends FragmentActivity {
         {
             emojiButton.setImageResource(R.drawable.ic_emoji_dark);
         }
+    }
+
+    public class MyPagerAdapter extends FragmentPagerAdapter {
+
+        private final String[] TITLES = { "Categories", "Home", "Top Paid", "Top Free", "Top Grossing", "Top New Paid",
+                "Top New Free", "Trending" };
+
+        public MyPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return TITLES[position];
+        }
+
+        @Override
+        public int getCount() {
+            return TITLES.length;
+        }
+
+        @Override
+        public PeopleFragment getItem(int position) {
+            return PeopleFragment.newInstance(position);
+        }
+
     }
 
     @SuppressWarnings("deprecation")
@@ -4295,7 +4345,14 @@ public class MainActivity extends FragmentActivity {
 
     @Override
     public void onBackPressed() {
-        if (deviceType.equals("phone") || deviceType.equals("phablet2"))
+        ViewPager vp = (ViewPager) findViewById(R.id.emojiKeyboard);
+        if (vp.getVisibility() == View.VISIBLE)
+        {
+            vp.setVisibility(View.GONE);
+
+            PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+            tabs.setVisibility(View.GONE);
+        } else if (deviceType.equals("phone") || deviceType.equals("phablet2"))
         {
             if (menu.isSecondaryMenuShowing())
             {
