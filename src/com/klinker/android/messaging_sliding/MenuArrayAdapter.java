@@ -688,6 +688,16 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
                         });
                     } else {
                         deleteLocked(context, id);
+
+                        ((Activity)context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                ((MainActivity)context).refreshViewPager(true);
+                                progDialog.dismiss();
+                            }
+
+                        });
                     }
 				}
 

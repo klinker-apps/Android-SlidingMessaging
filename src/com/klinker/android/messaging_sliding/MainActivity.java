@@ -3522,8 +3522,6 @@ public class MainActivity extends FragmentActivity {
 
                 return true;
             case R.id.menu_mark_all_read:
-                final Context context1 = this;
-
                 startService(new Intent(getBaseContext(), QmMarkRead2.class));
 
                 return true;
@@ -3679,6 +3677,16 @@ public class MainActivity extends FragmentActivity {
             });
         } else {
             deleteLocked(context, id);
+
+            ((Activity)context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                @Override
+                public void run() {
+                    ((MainActivity)context).refreshViewPager(true);
+                    progDialog.dismiss();
+                }
+
+            });
         }
     }
 
