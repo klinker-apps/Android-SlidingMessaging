@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference
+        android:key="developer_tips"
+        android:title="@string/developer_tips"
+        />
+
+    <Preference
+        android:key="changelog"
+        android:title="@string/changelog"
+        />
+
+    <Preference
+        android:key="initial_how_to"
+        android:title="@string/initial_how_to"
+        />
+
+    <Preference
+        android:key="google_plus_page"
+        android:title="@string/google_plus_page"
+        />
+
+    <Preference
+        android:key="xda_thread"
+        android:title="@string/xda_thread"
+        />
+
+    <Preference
+        android:key="contact_us"
+        android:title="@string/contact_us"
+        android:summary="@string/contact_us_summary"
+        />
+
+</PreferenceScreen>

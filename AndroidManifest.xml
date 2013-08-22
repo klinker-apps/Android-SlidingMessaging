@@ -170,6 +170,12 @@
         </activity>
 
         <activity
+                android:name=".settings.GetHelpSettingsActivity"
+                android:label="@string/get_help"
+                android:theme="@style/SettingsTheme" >
+        </activity>
+
+        <activity
             android:name="com.klinker.android.messaging_sliding.theme.CustomFontSettingsActivity"
             android:label="@string/ct_custom_font"
             android:theme="@style/SettingsTheme" >

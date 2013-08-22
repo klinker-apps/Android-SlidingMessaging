@@ -5,7 +5,6 @@ import android.app.*;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.*;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -35,14 +34,12 @@ import com.klinker.android.messaging_sliding.scheduled.ScheduledSms;
 import com.klinker.android.messaging_sliding.security.SetPasswordActivity;
 import com.klinker.android.messaging_sliding.security.SetPinActivity;
 import com.klinker.android.messaging_sliding.templates.TemplateActivity;
-//import group.pals.android.lib.ui.lockpattern.LockPatternActivity;
 
 import java.io.*;
 import java.util.*;
 
 import group.pals.android.lib.ui.lockpattern.LockPatternActivity;
 import group.pals.android.lib.ui.lockpattern.prefs.SecurityPrefs;
-import wizardpager.ChangeLogMain;
 
 public class SettingsPagerActivity extends FragmentActivity {
 
@@ -401,35 +398,13 @@ public class SettingsPagerActivity extends FragmentActivity {
 
             });
 
-            Preference devTips = findPreference("developer_tips");
-            devTips.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            Preference getHelp = findPreference("get_help");
+            getHelp.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 
                 @Override
                 public boolean onPreferenceClick(Preference arg0) {
-                    Intent intent = new Intent(context, com.klinker.android.messaging_sliding.developer_tips.MainActivity.class);
+                    Intent intent = new Intent(context, GetHelpSettingsActivity.class);
                     startActivity(intent);
-                    overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
-                    return false;
-                }
-
-            });
-
-            Preference changelog = findPreference("changelog");
-            changelog.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-
-                @Override
-                public boolean onPreferenceClick(Preference arg0) {
-                    String version = "";
-
-                    try {
-                        version = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
-                    } catch (PackageManager.NameNotFoundException e) {
-                        e.printStackTrace();
-                    }
-
-                    Intent wizardintent = new Intent(getApplicationContext(), ChangeLogMain.class);
-                    wizardintent.putExtra("version", version);
-                    startActivity(wizardintent);
                     overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                     return false;
                 }

@@ -50,7 +50,7 @@ public class InitialSetupWizardModel extends AbstractWizardModel {
                         .setMessage("")
                         .setRequired(true),
 
-                new SingleFixedChoicePage(this, mContext.getString(R.string.enable_slideover))
+                new SingleFixedChoicePage(this, mContext.getString(R.string.enable_slideover) + mContext.getString(R.string.slideover_summary))
                         .setChoices("Yes", "No")
                         .setMessage("SlideOver is our Facebook Chatheads and Paranoid Android Halo implementation. Try it out :)\n\nThe idea behind it is that the most used app on your phone, messaging, is always accessable.")
                         .setRequired(true),

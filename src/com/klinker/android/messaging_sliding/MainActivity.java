@@ -441,38 +441,44 @@ public class MainActivity extends FragmentActivity {
         if(fromIntent.getBooleanExtra("initial_run", false))
         {
             try { // try catch so if they change to landscape, which uses a linear layout instead, everything won't force close
-                final RelativeLayout layout = (RelativeLayout) findViewById(R.id.rootView);
+
+                final WindowManager.LayoutParams arcParams = new WindowManager.LayoutParams(
+                        WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
+                        WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                                |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
+                        PixelFormat.TRANSLUCENT);
+
+                final WindowManager arcWindow = (WindowManager) getSystemService(WINDOW_SERVICE);
 
                 final View conversationSwipe = getLayoutInflater().inflate(R.layout.conversation_swipe, null);
                 final View newMessageSwipe = getLayoutInflater().inflate(R.layout.new_message_swipe, null);
                 final View messagesSwipe = getLayoutInflater().inflate(R.layout.messages_swipe, null);
 
-                layout.addView(conversationSwipe);
+                arcWindow.addView(conversationSwipe, arcParams);
 
-                okButton = (Button) findViewById(R.id.ok);
-                okButton.setOnClickListener(new OnClickListener() {
+                conversationSwipe.setOnTouchListener(new View.OnTouchListener() {
                     @Override
-                    public void onClick(View v) {
-                        layout.removeView(conversationSwipe);
-                        layout.addView(newMessageSwipe);
+                    public boolean onTouch(View view, MotionEvent event) {
+                        arcWindow.removeViewImmediate(conversationSwipe);
+                        arcWindow.addView(newMessageSwipe, arcParams);
+                        return false;
+                    }
+                });
 
-                        okButton = (Button) findViewById(R.id.ok);
-                        okButton.setOnClickListener(new OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                layout.removeView(newMessageSwipe);
-                                layout.addView(messagesSwipe);
+                newMessageSwipe.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View view, MotionEvent event) {
+                        arcWindow.removeViewImmediate(newMessageSwipe);
+                        arcWindow.addView(messagesSwipe, arcParams);
+                        return false;
+                    }
+                });
 
-                                okButton = (Button) findViewById(R.id.ok);
-                                okButton.setOnClickListener(new OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        layout.removeView(messagesSwipe);
-                                    }
-                                });
-                            }
-                        });
-
+                messagesSwipe.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View view, MotionEvent event) {
+                        arcWindow.removeViewImmediate(messagesSwipe);
+                        return false;
                     }
                 });
 

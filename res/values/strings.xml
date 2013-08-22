@@ -670,5 +670,12 @@
     <string name="disable_backgrounds_summary">Check option if a white box appears around your SlideOver popup when using a custom background.</string>
     <string name="locked_messages">Locked Messages in Conversation</string>
     <string name="locked_messages_summary">There are locked messages in this conversation, do you want to delete them?</string>
+    <string name="slideover_summary">It\'s our Facebook ChatHeads and Paranoid Android Halo implementation. The idea behind it is that the most used app on your phone, messaging, is always accessible.</string>
+    <string name="get_help">Get Help!</string>
+    <string name="initial_how_to">Initial How-To</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="contact_us_summary">If you can\'t find what you are looking for in any of the sections above, email us before giving a one star review. It never hurts to ask for help!</string>
+    <string name="google_plus_page">Google Plus Community</string>
+    <string name="xda_thread">XDA Developers Thread</string>
 
 </resources>
