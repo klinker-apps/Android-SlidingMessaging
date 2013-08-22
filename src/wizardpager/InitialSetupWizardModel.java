@@ -43,16 +43,14 @@ public class InitialSetupWizardModel extends AbstractWizardModel {
 
                 new SingleFixedChoicePage(this, mContext.getString(R.string.run_as))
                         .setChoices("Hangouts UI", "Classic UI", "Cards UI")
-                        .setMessage("")
-                        .setRequired(true),
-                new SingleFixedChoicePage(this, mContext.getString(R.string.emojis))
-                        .setChoices("No Emojis", "Android Style", "iOS Style")
-                        .setMessage("")
                         .setRequired(true),
 
-                new SingleFixedChoicePage(this, mContext.getString(R.string.enable_slideover) + mContext.getString(R.string.slideover_summary))
-                        .setChoices("Yes", "No")
-                        .setMessage("SlideOver is our Facebook Chatheads and Paranoid Android Halo implementation. Try it out :)\n\nThe idea behind it is that the most used app on your phone, messaging, is always accessable.")
+                new SingleFixedChoicePage(this, mContext.getString(R.string.emojis))
+                        .setChoices("No Emojis", "Android Style", "iOS Style")
+                        .setRequired(true),
+
+                new SingleFixedChoicePage(this, mContext.getString(R.string.enable_slideover))
+                        .setChoices("Yes - The most used app, messaging, is always accessible.", "No")
                         .setRequired(true),
 
                 new SingleFixedChoicePage(this, mContext.getString(R.string.need_mms_setup))
@@ -62,7 +60,6 @@ public class InitialSetupWizardModel extends AbstractWizardModel {
                         "T-Mobile US","T-Mobile Polish","Virgin Mobile Canada",
                         "Verizon Wireless","Verizon Wireless #2","Vodafone UK",
                         "Vodafone AU","Not on list")
-                    .setMessage(mContext.getString(R.string.mms_setup_message))
                     .setRequired(true));
 
     }
