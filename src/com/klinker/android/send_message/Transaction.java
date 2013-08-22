@@ -198,10 +198,10 @@ public class Transaction {
             address += addresses[i] + " ";
         }
 
-        address.trim();
+        address = address.trim();
 
         if (image.length <= 1) {
-            insert(("insert-address-token " + addresses).split(" "), "", image.length != 0 ? Message.bitmapToByteArray(image[0]) : null, text, threadId);
+            insert(("insert-address-token " + address).split(" "), "", image.length != 0 ? Message.bitmapToByteArray(image[0]) : null, text, threadId);
 
             MMSPart[] parts = new MMSPart[2];
 
@@ -246,7 +246,7 @@ public class Transaction {
                 data.add(part);
             }
 
-            insert(("insert-address-token " + addresses).split(" "), "", bytes, mimes, text, threadId);
+            insert(("insert-address-token " + address).split(" "), "", bytes, mimes, text, threadId);
 
             MMSPart part = new MMSPart();
             part.Name = "Text";
@@ -671,18 +671,6 @@ public class Transaction {
 
     public void sendData(final String[] recipients, final MMSPart[] parts)
     {
-        for (int i = 0; i < recipients.length; i++) {
-            Log.v("recipients", i + ": " + recipients[i]);
-        }
-
-        for (int i = 0; i < parts.length; i++) {
-            try {
-                Log.v("mms_parts", i + ": " + parts[i].Name + ", " + parts[i].MimeType + ", " + parts[i].Data.length);
-            } catch (Exception e) {
-
-            }
-        }
-
         new Thread(new Runnable() {
 
             @Override
