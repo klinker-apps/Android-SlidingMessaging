@@ -441,7 +441,6 @@ public class MainActivity extends FragmentActivity {
         if(fromIntent.getBooleanExtra("initial_run", false))
         {
             try { // try catch so if they change to landscape, which uses a linear layout instead, everything won't force close
-                //final RelativeLayout layout = (RelativeLayout) findViewById(R.id.rootView);
 
                 final WindowManager.LayoutParams arcParams = new WindowManager.LayoutParams(
                         WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
@@ -482,33 +481,6 @@ public class MainActivity extends FragmentActivity {
                         return false;
                     }
                 });
-
-                /*okButton = (Button) findViewById(R.id.ok);
-                okButton.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        arcWindow.removeView(conversationSwipe);
-                        arcWindow.addView(newMessageSwipe, arcParams);
-
-                        okButton = (Button) findViewById(R.id.ok);
-                        okButton.setOnClickListener(new OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                arcWindow.removeView(newMessageSwipe);
-                                arcWindow.addView(messagesSwipe, arcParams);
-
-                                okButton = (Button) findViewById(R.id.ok);
-                                okButton.setOnClickListener(new OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        arcWindow.removeView(messagesSwipe);
-                                    }
-                                });
-                            }
-                        });
-
-                    }
-                });*/
 
             } catch (ClassCastException e)
             {
