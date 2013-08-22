@@ -1,8 +1,10 @@
 package com.klinker.android.messaging_sliding;
 
 import android.content.*;
+import android.os.Looper;
 import android.os.RemoteException;
 import android.text.Spanned;
+import android.util.Log;
 import android.widget.RelativeLayout;
 import com.klinker.android.messaging_donate.R;
 
@@ -606,11 +608,12 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 				Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
 		        vibrator.vibrate(25);
 
+                final ProgressDialog progDialog = new ProgressDialog(context);;
+
 				AlertDialog.Builder builder = new AlertDialog.Builder(context);
 				builder.setMessage(context.getResources().getString(R.string.delete_messages) + "\n\n" + context.getResources().getString(R.string.conversation) + ": " + MainActivity.findContactName(MainActivity.findContactNumber(numbers.get(position), context), context));
 				builder.setPositiveButton(context.getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
-			               final ProgressDialog progDialog = new ProgressDialog(context);
 			               progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 			               progDialog.setMessage(context.getResources().getString(R.string.deleting));
 			               progDialog.show();
@@ -619,34 +622,95 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 
 								@Override
 								public void run() {
-									deleteSMS(context, threadIds.get(position));
-
-									context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-										@Override
-										public void run() {
-											((MainActivity)context).refreshViewPager(true);
-											progDialog.dismiss();
-										}
-
-								    });
+                                    Looper.prepare();
+                                    deleteSMS(context, threadIds.get(position));
 								}
 
 			               }).start();
 			           }
 
 
-				public void deleteSMS(Context context, String id) {
+				public void deleteSMS(final Context context, final String id) {
+                    if (checkLocked(context, id)) {
+                        ((Activity)context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                new AlertDialog.Builder(context)
+                                        .setTitle(R.string.locked_messages)
+                                        .setMessage(R.string.locked_messages_summary)
+                                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                new Thread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        deleteLocked(context, id);
+
+                                                        ((Activity)context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                                                            @Override
+                                                            public void run() {
+                                                                ((MainActivity)context).refreshViewPager(true);
+                                                                progDialog.dismiss();
+                                                            }
+
+                                                        });
+                                                    }
+                                                }).start();
+                                            }
+                                        })
+                                        .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                new Thread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        dontDeleteLocked(context, id);
+
+                                                        ((Activity)context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                                                            @Override
+                                                            public void run() {
+                                                                ((MainActivity)context).refreshViewPager(true);
+                                                                progDialog.dismiss();
+                                                            }
+
+                                                        });
+                                                    }
+                                                }).start();
+                                            }
+                                        })
+                                        .create()
+                                        .show();
+                            }
+
+                        });
+                    } else {
+                        deleteLocked(context, id);
+                    }
+				}
+
+                public boolean checkLocked(Context context, String id) {
+                    return context.getContentResolver().query(Uri.parse("content://mms-sms/locked/" + id + "/"), new String[]{"_id"}, null, null, null).moveToFirst();
+                }
+
+                public void deleteLocked(Context context, String id) {
+                    context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/" + id + "/"), null, null);
+                    context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/"), "_id=?", new String[] {id});
+                }
+
+                public void dontDeleteLocked(Context context, String id) {
                     ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
                     ops.add(ContentProviderOperation.newDelete(Uri.parse("content://mms-sms/conversations/" + id + "/"))
-                                    .withSelection("locked=?", new String[]{"0"})
-                                    .build());
+                            .withSelection("locked=?", new String[]{"0"})
+                            .build());
                     try {
                         context.getContentResolver().applyBatch("mms-sms", ops);
                     } catch (RemoteException e) {
                     } catch (OperationApplicationException e) {
                     }
-				}});
+                }});
 				builder.setNegativeButton(context.getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
 			           public void onClick(DialogInterface dialog, int id) {
 			               dialog.dismiss();

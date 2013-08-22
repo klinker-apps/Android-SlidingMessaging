@@ -88,9 +88,9 @@ import com.klinker.android.send_message.Transaction;
 import com.klinker.android.send_message.Message;
 import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
 import group.pals.android.lib.ui.lockpattern.prefs.SecurityPrefs;
-import net.simonvt.messagebar.messagebar.MessageBar;
 
 import group.pals.android.lib.ui.lockpattern.LockPatternActivity;
+import net.simonvt.messagebar.MessageBar;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 import wizardpager.ChangeLogMain;
 
@@ -3513,20 +3513,8 @@ public class MainActivity extends FragmentActivity {
 
                             @Override
                             public void run() {
-                                deleteSMS(context, threadIds.get(mViewPager.getCurrentItem()));
-
-                                ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                                    @Override
-                                    public void run() {
-                                        ((MainActivity)context).refreshViewPager(true);
-                                        progDialog.dismiss();
-
-                                        Intent updateWidget = new Intent("com.klinker.android.messaging.UPDATE_WIDGET");
-                                        context.sendBroadcast(updateWidget);
-                                    }
-
-                                });
+                                Looper.prepare();
+                                deleteSMS(context, threadIds.get(mViewPager.getCurrentItem()), progDialog);
                             }
 
                         }).start();
@@ -3642,11 +3630,85 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
-    public void deleteSMS(Context context, String threadId) {
+    public void deleteSMS(final Context context, final String id, final ProgressDialog progDialog) {
+        if (checkLocked(context, id)) {
+            ((Activity)context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                @Override
+                public void run() {
+                    new AlertDialog.Builder(context)
+                            .setTitle(R.string.locked_messages)
+                            .setMessage(R.string.locked_messages_summary)
+                            .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    new Thread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            deleteLocked(context, id);
+
+                                            ((Activity)context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                                                @Override
+                                                public void run() {
+                                                    ((MainActivity)context).refreshViewPager(true);
+                                                    progDialog.dismiss();
+                                                }
+
+                                            });
+                                        }
+                                    }).start();
+                                }
+                            })
+                            .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    new Thread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            dontDeleteLocked(context, id);
+
+                                            ((Activity)context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                                                @Override
+                                                public void run() {
+                                                    ((MainActivity)context).refreshViewPager(true);
+                                                    progDialog.dismiss();
+                                                }
+
+                                            });
+                                        }
+                                    }).start();
+                                }
+                            })
+                            .create()
+                            .show();
+                }
+
+            });
+        } else {
+            deleteLocked(context, id);
+        }
+    }
+
+    public boolean checkLocked(Context context, String id) {
+        return context.getContentResolver().query(Uri.parse("content://mms-sms/locked/" + id + "/"), new String[]{"_id"}, null, null, null).moveToFirst();
+    }
+
+    public void deleteLocked(Context context, String id) {
+        context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/" + id + "/"), null, null);
+        context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/"), "_id=?", new String[] {id});
+    }
+
+    public void dontDeleteLocked(Context context, String id) {
+        ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
+        ops.add(ContentProviderOperation.newDelete(Uri.parse("content://mms-sms/conversations/" + id + "/"))
+                .withSelection("locked=?", new String[]{"0"})
+                .build());
         try {
-            context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/" + threadId + "/"), null, null);
-        } catch (Exception e) {
-            Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+            context.getContentResolver().applyBatch("mms-sms", ops);
+        } catch (RemoteException e) {
+        } catch (OperationApplicationException e) {
         }
     }
 

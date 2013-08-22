@@ -1,7 +1,6 @@
 Version 7.25
 
 Jake:
-    - make sure that locked messages are respected when using batch delete of conversations and delete all in settings (create a dialog to select deleting locked or not as radio buttons and ok beneath)
     - make all sending requests go through andorid-smsmms library
     - remove original cards ui
     - change layouts to allow for an emoji view pager

@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.RemoteException;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
@@ -1475,9 +1476,95 @@ public class SettingsPagerActivity extends FragmentActivity {
             try {
                 for (int i = 0; i < threadIds.size(); i++)
                 {
-                    context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/" + threadIds.get(i) + "/"), null, null);
+                    deleteThread(context, threadIds.get(i));
                 }
             } catch (Exception e) {
+            }
+        }
+
+        public Boolean deleteLocked = null;
+        public boolean showingDialog = false;
+
+        public void deleteThread(final Context context, final String id) {
+            if (checkLocked(context, id)) {
+                while (showingDialog) {
+                    try {
+                        Thread.sleep(250);
+                    } catch (Exception e) {
+
+                    }
+                }
+
+                if (deleteLocked == null) {
+                    showingDialog = true;
+                    ((Activity)context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            new AlertDialog.Builder(context)
+                                    .setTitle(R.string.locked_messages)
+                                    .setMessage(R.string.locked_messages_summary)
+                                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            new Thread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    deleteLocked = true;
+                                                    showingDialog = false;
+                                                    deleteLocked(context, id);
+                                                }
+                                            }).start();
+                                        }
+                                    })
+                                    .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            new Thread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    deleteLocked = false;
+                                                    showingDialog = false;
+                                                    dontDeleteLocked(context, id);
+                                                }
+                                            }).start();
+                                        }
+                                    })
+                                    .create()
+                                    .show();
+                        }
+
+                    });
+                } else {
+                    if (deleteLocked) {
+                        deleteLocked(context, id);
+                    } else {
+                        dontDeleteLocked(context, id);
+                    }
+                }
+            } else {
+                deleteLocked(context, id);
+            }
+        }
+
+        public boolean checkLocked(Context context, String id) {
+            return context.getContentResolver().query(Uri.parse("content://mms-sms/locked/" + id + "/"), new String[]{"_id"}, null, null, null).moveToFirst();
+        }
+
+        public void deleteLocked(Context context, String id) {
+            context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/" + id + "/"), null, null);
+            context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/"), "_id=?", new String[] {id});
+        }
+
+        public void dontDeleteLocked(Context context, String id) {
+            ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
+            ops.add(ContentProviderOperation.newDelete(Uri.parse("content://mms-sms/conversations/" + id + "/"))
+                    .withSelection("locked=?", new String[]{"0"})
+                    .build());
+            try {
+                context.getContentResolver().applyBatch("mms-sms", ops);
+            } catch (RemoteException e) {
+            } catch (OperationApplicationException e) {
             }
         }
 
