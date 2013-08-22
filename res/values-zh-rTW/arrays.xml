@@ -122,8 +122,7 @@
     </string-array>
     
     <string-array name="runAs">
-        <item>卡式布局</item>
-        <item>Card UI 2.0</item>
+        <item>Card UI</item>
         <item>Hangouts UI</item>
         <item>經典布局</item>
     </string-array>

@@ -9,7 +9,6 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.telephony.SmsManager;
-import com.klinker.android.messaging_card.MainActivity;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.send_message.StripAccents;
 import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead2;
@@ -20,9 +19,6 @@ import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by Luke on 6/19/13.
- */
 public class ScheduledService extends IntentService {
 
     SharedPreferences sharedPrefs;
@@ -373,7 +369,7 @@ public class ScheduledService extends IntentService {
                     length -= 7;
                 }
 
-                String[] textToSend = MainActivity.splitByLength(body2, length, counter);
+                String[] textToSend = com.klinker.android.messaging_sliding.MainActivity.splitByLength(body2, length, counter);
 
                 for (int i = 0; i < textToSend.length; i++)
                 {
@@ -587,7 +583,7 @@ public class ScheduledService extends IntentService {
                     length -= 7;
                 }
 
-                String[] textToSend = MainActivity.splitByLength(body2, length, counter);
+                String[] textToSend = com.klinker.android.messaging_sliding.MainActivity.splitByLength(body2, length, counter);
 
                 for (int i = 0; i < textToSend.length; i++)
                 {

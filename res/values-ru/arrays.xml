@@ -107,8 +107,7 @@
     <item>Attach More...</item>
   </string-array>
   <string-array name="runAs">
-    <item>Карточный</item>
-    <item>Card UI 2.0</item>
+    <item>Card UI</item>
     <item>Стиль Hangouts</item>
     <item>Классический</item>
   </string-array>

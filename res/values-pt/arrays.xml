@@ -139,7 +139,6 @@
     
     <string-array name="runAs">
         <item>Card UI</item>
-        <item>Card UI 2.0</item>
         <item>Hangouts UI</item>
         <item>Classic UI</item>
     </string-array>

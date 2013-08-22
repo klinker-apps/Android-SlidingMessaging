@@ -417,131 +417,64 @@ public class SettingsPagerActivity extends FragmentActivity {
             final Context context = getActivity();
             final SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-            if (sharedPrefs.getString("run_as", "sliding").equals("sliding") || sharedPrefs.getString("run_as", "sliding").equals("hangout") || sharedPrefs.getString("run_as", "sliding").equals("card2"))
-            {
-                getPreferenceScreen().removePreference(findPreference("card_theme"));
-                getPreferenceScreen().removePreference(findPreference("font_settings"));
-                getPreferenceScreen().removePreference(findPreference("display_contact_cards"));
-                getPreferenceScreen().removePreference(findPreference("display_contact_names"));
-                getPreferenceScreen().removePreference(findPreference("simple_cards"));
-                getPreferenceScreen().removePreference(findPreference("top_actionbar"));
+            Preference titleSettings = findPreference("title_prefs");
+            titleSettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                public boolean onPreferenceClick(Preference preference) {
+                    Intent intent = new Intent(context, TitleBarSettingsActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                    return true;
+                }
+            });
 
-                Preference titleSettings = findPreference("title_prefs");
-                titleSettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                    public boolean onPreferenceClick(Preference preference) {
-                        Intent intent = new Intent(context, TitleBarSettingsActivity.class);
-                        startActivity(intent);
-                        overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
-                        return true;
-                    }
-                });
-
-                Preference customThemeSettings = findPreference("custom_theme_prefs");
-                customThemeSettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                    public boolean onPreferenceClick(Preference preference) {
-                        Intent intent = new Intent(context, ThemeChooserActivity.class);
-                        startActivity(intent);
-                        overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
-
-                        return true;
-                    }
-                });
-
-                Preference customBackground = (Preference) findPreference("custom_background");
-                customBackground.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-
-                    @Override
-                    public boolean onPreferenceClick(Preference arg0) {
-                        if (sharedPrefs.getBoolean("custom_background", false))
-                        {
-                            Intent intent = new Intent();
-                            intent.setType("image/*");
-                            intent.setAction(Intent.ACTION_GET_CONTENT);
-                            startActivityForResult(Intent.createChooser(intent, "Select Menu Background Picture"), 1);
-                        }
-
-                        return true;
-                    }
-
-                });
-
-                Preference customBackground2 = (Preference) findPreference("custom_background2");
-                customBackground2.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-
-                    @Override
-                    public boolean onPreferenceClick(Preference arg0) {
-                        if (sharedPrefs.getBoolean("custom_background2", false))
-                        {
-                            Intent intent = new Intent();
-                            intent.setType("image/*");
-                            intent.setAction(Intent.ACTION_GET_CONTENT);
-                            startActivityForResult(Intent.createChooser(intent, "Select Message Background Picture"), 2);
-                        }
-
-                        return true;
-                    }
-
-                });
-            } else
-            {
-                getPreferenceScreen().removePreference(findPreference("custom_theme_prefs"));
-                getPreferenceScreen().removePreference(findPreference("title_prefs"));
-                getPreferenceScreen().removePreference(findPreference("page_or_menu2"));
-                getPreferenceScreen().removePreference(findPreference("custom_background"));
-                getPreferenceScreen().removePreference(findPreference("custom_background2"));
-
-                Preference customFont = (Preference) findPreference("font_settings");
-                customFont.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-
-                    @Override
-                    public boolean onPreferenceClick(Preference arg0) {
-                        Intent intent3 = new Intent(context, com.klinker.android.messaging_sliding.theme.CustomFontSettingsActivity.class);
-                        startActivity(intent3);
-                        overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
-
-                        return true;
-                    }
-
-                });
-            }
-
-            findPreference("run_as").setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object o) {
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (sharedPrefs.getString("run_as", "classic").equals("card")) {
-                                new AlertDialog.Builder(context)
-                                        .setTitle("Note:")
-                                        .setMessage("Cards UI is more of a proof of concept that we feel would look great for a messaging app. Because of how it is implemented, it will be slower on some devices. You have been warned.\n\n" +
-                                                    "Cards UI 2.0 however, does improve on the performance and brings the UI up to speed with the rest of the app. It is suggested that you use that instead.")
-                                        .setPositiveButton(context.getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialogInterface, int i) {
-
-                                            }
-                                        })
-                                        .create()
-                                        .show();
-                            }
-                        }
-                    }, 200);
+            Preference customThemeSettings = findPreference("custom_theme_prefs");
+            customThemeSettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                public boolean onPreferenceClick(Preference preference) {
+                    Intent intent = new Intent(context, ThemeChooserActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
 
                     return true;
                 }
             });
 
-            if (!showAll) {
-                try {
-                    getPreferenceScreen().removePreference(findPreference("display_contact_cards"));
-                    getPreferenceScreen().removePreference(findPreference("display_contact_names"));
-                    getPreferenceScreen().removePreference(findPreference("simple_cards"));
-                    getPreferenceScreen().removePreference(findPreference("top_actionbar"));
-                } catch (Exception e) {
-                    // cards UI...
+            Preference customBackground = findPreference("custom_background");
+            customBackground.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+
+                @Override
+                public boolean onPreferenceClick(Preference arg0) {
+                    if (sharedPrefs.getBoolean("custom_background", false))
+                    {
+                        Intent intent = new Intent();
+                        intent.setType("image/*");
+                        intent.setAction(Intent.ACTION_GET_CONTENT);
+                        startActivityForResult(Intent.createChooser(intent, "Select Menu Background Picture"), 1);
+                    }
+
+                    return true;
                 }
 
+            });
+
+            Preference customBackground2 = findPreference("custom_background2");
+            customBackground2.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+
+                @Override
+                public boolean onPreferenceClick(Preference arg0) {
+                    if (sharedPrefs.getBoolean("custom_background2", false))
+                    {
+                        Intent intent = new Intent();
+                        intent.setType("image/*");
+                        intent.setAction(Intent.ACTION_GET_CONTENT);
+                        startActivityForResult(Intent.createChooser(intent, "Select Message Background Picture"), 2);
+                    }
+
+                    return true;
+                }
+
+            });
+
+            if (!showAll) {
                 getPreferenceScreen().removePreference(findPreference("smiliesType"));
                 getPreferenceScreen().removePreference(findPreference("emoji_type"));
             }

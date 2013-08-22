@@ -1150,7 +1150,7 @@ public class QuickReply extends FragmentActivity {
                     length -= 7;
                 }
 
-                String[] textToSend = MainActivity.splitByLength(body2, length, counter);
+                String[] textToSend = com.klinker.android.messaging_sliding.MainActivity.splitByLength(body2, length, counter);
 				
 				for (int i = 0; i < textToSend.length; i++)
 				{
@@ -1382,7 +1382,7 @@ public class QuickReply extends FragmentActivity {
                     length -= 7;
                 }
 
-                String[] textToSend = MainActivity.splitByLength(body2, length, counter);
+                String[] textToSend = com.klinker.android.messaging_sliding.MainActivity.splitByLength(body2, length, counter);
 				
 				for (int i = 0; i < textToSend.length; i++)
 				{

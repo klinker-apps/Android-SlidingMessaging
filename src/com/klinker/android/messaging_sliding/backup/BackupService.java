@@ -194,7 +194,7 @@ public class BackupService extends IntentService {
                                 date += " " + (DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(myDate));
                             }
 
-                            String name = com.klinker.android.messaging_card.MainActivity.findContactName(phone, this);
+                            String name = com.klinker.android.messaging_sliding.MainActivity.findContactName(phone, this);
 
                             name = name.replace(" ", "_");
 

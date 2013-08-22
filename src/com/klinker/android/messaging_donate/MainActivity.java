@@ -125,49 +125,25 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
                 flag = true;
             }
 
-            if (sharedPrefs.getString("run_as", "sliding").equals("sliding") || sharedPrefs.getString("run_as", "sliding").equals("hangout")  || sharedPrefs.getString("run_as", "sliding").equals("card2"))
+            final Intent intent = new Intent(this, com.klinker.android.messaging_sliding.MainActivity.class);
+            intent.setAction(fromIntent.getAction());
+            intent.setData(fromIntent.getData());
+
+            try
             {
-                final Intent intent = new Intent(this, com.klinker.android.messaging_sliding.MainActivity.class);
-                intent.setAction(fromIntent.getAction());
-                intent.setData(fromIntent.getData());
-
-                try
-                {
-                    intent.putExtras(fromIntent.getExtras());
-                } catch (Exception e)
-                {
-
-                }
-
-                if (flag)
-                {
-                    intent.putExtra("com.klinker.android.OPEN", intent.getStringExtra("com.klinker.android.OPEN"));
-                }
-
-                startActivity(intent);
-                finish();
-            } else if (sharedPrefs.getString("run_as", "sliding").equals("card"))
+                intent.putExtras(fromIntent.getExtras());
+            } catch (Exception e)
             {
-                final Intent intent = new Intent(this, com.klinker.android.messaging_card.MainActivity.class);
-                intent.setAction(fromIntent.getAction());
-                intent.setData(fromIntent.getData());
 
-                try
-                {
-                    intent.putExtras(fromIntent.getExtras());
-                } catch (Exception e)
-                {
-
-                }
-
-                if (flag)
-                {
-                    intent.putExtra("com.klinker.android.OPEN", intent.getStringExtra("com.klinker.android.OPEN"));
-                }
-
-                startActivity(intent);
-                finish();
             }
+
+            if (flag)
+            {
+                intent.putExtra("com.klinker.android.OPEN", intent.getStringExtra("com.klinker.android.OPEN"));
+            }
+
+            startActivity(intent);
+            finish();
         }
     }
 

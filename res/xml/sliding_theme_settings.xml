@@ -43,46 +43,6 @@
         />
 
     <ListPreference
-        android:key="card_theme"
-        android:title="@string/theme"
-        android:defaultValue="Light"
-        android:entries="@array/cardTheme"
-        android:entryValues="@array/cardThemeInserted"
-        />
-
-    <Preference
-        android:key="font_settings"
-        android:title="@string/ct_custom_font"
-        />
-
-    <CheckBoxPreference
-        android:key="display_contact_cards"
-        android:title="@string/display_contact_cards"
-        android:summary="@string/display_contact_cards_summary"
-        android:defaultValue="false"
-        />
-
-    <CheckBoxPreference
-        android:key="display_contact_names"
-        android:title="@string/display_contact_names"
-        android:defaultValue="false"
-        />
-
-    <CheckBoxPreference
-        android:key="simple_cards"
-        android:title="@string/simple_cards"
-        android:summary="@string/simple_cards_summary"
-        android:defaultValue="true"
-        />
-
-    <CheckBoxPreference
-        android:key="top_actionbar"
-        android:title="@string/top_actionbar"
-        android:summary="@string/top_actionbar_summary"
-        android:defaultValue="false"
-        />
-
-    <ListPreference
         android:key="smilies"
         android:title="@string/smilies"
         android:summary="@string/smilies_summary"

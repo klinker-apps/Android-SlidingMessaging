@@ -99,51 +99,26 @@ public class PinActivity extends FragmentActivity {
                         flag = true;
                     }
 
-                    if (sharedPrefs.getString("run_as", "sliding").equals("sliding") || sharedPrefs.getString("run_as", "sliding").equals("hangout"))
+                    final Intent intent = new Intent(context, com.klinker.android.messaging_sliding.MainActivity.class);
+                    intent.setAction(fromIntent.getAction());
+                    intent.setData(fromIntent.getData());
+
+                    try
                     {
-                        final Intent intent = new Intent(context, com.klinker.android.messaging_sliding.MainActivity.class);
-                        intent.setAction(fromIntent.getAction());
-                        intent.setData(fromIntent.getData());
-
-                        try
-                        {
-                            intent.putExtras(fromIntent.getExtras());
-                        } catch (Exception e)
-                        {
-
-                        }
-
-                        if (flag)
-                        {
-                            intent.putExtra("com.klinker.android.OPEN", intent.getStringExtra("com.klinker.android.OPEN"));
-                        }
-
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                        startActivity(intent);
-                        finish();
-                    } else if (sharedPrefs.getString("run_as", "sliding").equals("card"))
+                        intent.putExtras(fromIntent.getExtras());
+                    } catch (Exception e)
                     {
-                        final Intent intent = new Intent(context, com.klinker.android.messaging_card.MainActivity.class);
-                        intent.setAction(fromIntent.getAction());
-                        intent.setData(fromIntent.getData());
 
-                        try
-                        {
-                            intent.putExtras(fromIntent.getExtras());
-                        } catch (Exception e)
-                        {
-
-                        }
-
-                        if (flag)
-                        {
-                            intent.putExtra("com.klinker.android.OPEN", intent.getStringExtra("com.klinker.android.OPEN"));
-                        }
-
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                        startActivity(intent);
-                        finish();
                     }
+
+                    if (flag)
+                    {
+                        intent.putExtra("com.klinker.android.OPEN", intent.getStringExtra("com.klinker.android.OPEN"));
+                    }
+
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    startActivity(intent);
+                    finish();
 
                     openActivity();
                 } else
@@ -290,51 +265,26 @@ public class PinActivity extends FragmentActivity {
             flag = true;
         }
 
-        if (sharedPrefs.getString("run_as", "sliding").equals("sliding") || sharedPrefs.getString("run_as", "sliding").equals("hangout"))
+        final Intent intent = new Intent(context, com.klinker.android.messaging_sliding.MainActivity.class);
+        intent.setAction(fromIntent.getAction());
+        intent.setData(fromIntent.getData());
+
+        try
         {
-            final Intent intent = new Intent(context, com.klinker.android.messaging_sliding.MainActivity.class);
-            intent.setAction(fromIntent.getAction());
-            intent.setData(fromIntent.getData());
-
-            try
-            {
-                intent.putExtras(fromIntent.getExtras());
-            } catch (Exception e)
-            {
-
-            }
-
-            if (flag)
-            {
-                intent.putExtra("com.klinker.android.OPEN", intent.getStringExtra("com.klinker.android.OPEN"));
-            }
-
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            startActivity(intent);
-            finish();
-        } else if (sharedPrefs.getString("run_as", "sliding").equals("card"))
+            intent.putExtras(fromIntent.getExtras());
+        } catch (Exception e)
         {
-            final Intent intent = new Intent(context, com.klinker.android.messaging_card.MainActivity.class);
-            intent.setAction(fromIntent.getAction());
-            intent.setData(fromIntent.getData());
 
-            try
-            {
-                intent.putExtras(fromIntent.getExtras());
-            } catch (Exception e)
-            {
-
-            }
-
-            if (flag)
-            {
-                intent.putExtra("com.klinker.android.OPEN", intent.getStringExtra("com.klinker.android.OPEN"));
-            }
-
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            startActivity(intent);
-            finish();
         }
+
+        if (flag)
+        {
+            intent.putExtra("com.klinker.android.OPEN", intent.getStringExtra("com.klinker.android.OPEN"));
+        }
+
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(intent);
+        finish();
     }
 
     public void incorrectPassword()
