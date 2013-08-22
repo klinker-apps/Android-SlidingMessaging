@@ -6,37 +6,21 @@ import android.content.*;
 import android.content.ClipboardManager;
 import android.graphics.*;
 import android.media.*;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.os.*;
-import android.provider.Telephony;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.*;
 import android.support.v4.app.TaskStackBuilder;
 import android.content.Loader;
 import android.support.v4.view.ViewPager;
 import android.text.*;
-import android.util.Log;
 import android.view.*;
 import android.widget.*;
-import com.android.mms.transaction.HttpUtils;
 import com.devspark.appmsg.AppMsg;
-import com.google.android.mms.APN;
-import com.google.android.mms.APNHelper;
-import com.google.android.mms.pdu_alt.*;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
-import com.klinker.android.send_message.*;
-import com.klinker.android.send_message.Message;
 import com.klinker.android.messaging_sliding.batch_delete.BatchDeleteAllActivity;
 import com.klinker.android.messaging_donate.*;
 
 import java.io.*;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -64,7 +48,6 @@ import android.provider.ContactsContract.Profile;
 import android.provider.MediaStore;
 import android.support.v4.view.PagerTitleStrip;
 import android.telephony.PhoneNumberUtils;
-import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
 import android.telephony.TelephonyManager;
 import android.util.TypedValue;
@@ -99,12 +82,15 @@ import com.klinker.android.messaging_sliding.security.PasswordActivity;
 import com.klinker.android.messaging_sliding.security.PinActivity;
 import com.klinker.android.messaging_sliding.templates.TemplateActivity;
 import com.klinker.android.messaging_sliding.templates.TemplateArrayAdapter;
+import com.klinker.android.send_message.Settings;
+import com.klinker.android.send_message.StripAccents;
+import com.klinker.android.send_message.Transaction;
+import com.klinker.android.send_message.Message;
 import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
 import group.pals.android.lib.ui.lockpattern.prefs.SecurityPrefs;
 import net.simonvt.messagebar.messagebar.MessageBar;
 
 import group.pals.android.lib.ui.lockpattern.LockPatternActivity;
-import robj.floating.notifications.Extension;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 import wizardpager.ChangeLogMain;
 
@@ -136,6 +122,7 @@ public class MainActivity extends FragmentActivity {
     public static Settings sendSettings;
     public Transaction sendTransaction;
     public BroadcastReceiver refreshReceiver;
+    public BroadcastReceiver mmsError;
 
     public ArrayList<String> inboxNumber, inboxDate, inboxBody;
     public ArrayList<String> group;
@@ -932,6 +919,34 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onReceive(Context context, Intent intent) {
                 refreshViewPager3();
+            }
+        };
+
+        mmsError = new BroadcastReceiver() {
+            @Override
+            public void onReceive(final Context context, Intent intent) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle(R.string.apn_error_title);
+                builder.setMessage(context.getResources().getString(R.string.apn_error_1) + " " +
+                        context.getResources().getString(R.string.apn_error_2) + " " +
+                        context.getResources().getString(R.string.apn_error_3) + " " +
+                        context.getResources().getString(R.string.apn_error_4) + " " +
+                        context.getResources().getString(R.string.apn_error_5) +
+                        context.getResources().getString(R.string.apn_error_6));
+                builder.setNeutralButton(context.getResources().getString(R.string.apn_error_button), new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog,
+                                        int which) {
+                        Intent intent = new Intent(context, SettingsPagerActivity.class);
+                        intent.putExtra("mms", true);
+                        context.startActivity(intent);
+
+                    }
+
+                });
+
+                builder.create().show();
             }
         };
 
@@ -4270,6 +4285,9 @@ public class MainActivity extends FragmentActivity {
         filter = new IntentFilter("com.klinker.android.send_message.REFRESH");
         registerReceiver(refreshReceiver, filter);
 
+        filter = new IntentFilter("com.klinker.android.send_message.MMS_ERROR");
+        registerReceiver(mmsError, filter);
+
         filter = new IntentFilter("com.klinker.android.messaging.NEW_MMS");
         filter.addCategory(Intent.CATEGORY_DEFAULT);
         filter.setPriority(3);
@@ -4418,6 +4436,7 @@ public class MainActivity extends FragmentActivity {
         {
             unregisterReceiver(receiver);
             unregisterReceiver(refreshReceiver);
+            unregisterReceiver(mmsError);
             unregisterReceiver(mmsReceiver);
             unregisterReceiver(killReceiver);
         } catch (Exception e)
@@ -6417,591 +6436,5 @@ public class MainActivity extends FragmentActivity {
         }
 
         return ret;
-    }
-
-    public static Uri insert(Context context, String[] to, String subject, byte[] imageBytes, String text)
-    {
-        try
-        {
-            Uri destUri = Uri.parse("content://mms");
-
-            // Get thread id
-            Set<String> recipients = new HashSet<String>();
-            recipients.addAll(Arrays.asList(to));
-            long thread_id = Telephony.Threads.getOrCreateThreadId(context, recipients);
-
-            // Create a dummy sms
-            ContentValues dummyValues = new ContentValues();
-            dummyValues.put("thread_id", thread_id);
-            dummyValues.put("body", "Dummy SMS body.");
-            Uri dummySms = context.getContentResolver().insert(Uri.parse("content://sms/sent"), dummyValues);
-
-            // Create a new message entry
-            long now = System.currentTimeMillis();
-            ContentValues mmsValues = new ContentValues();
-            mmsValues.put("thread_id", thread_id);
-            mmsValues.put("date", now/1000L);
-            mmsValues.put("msg_box", 4);
-            //mmsValues.put("m_id", System.currentTimeMillis());
-            mmsValues.put("read", true);
-            mmsValues.put("sub", subject);
-            mmsValues.put("sub_cs", 106);
-            mmsValues.put("ct_t", "application/vnd.wap.multipart.related");
-
-            if (imageBytes != null)
-            {
-                mmsValues.put("exp", imageBytes.length);
-            } else
-            {
-                mmsValues.put("exp", 0);
-            }
-
-            mmsValues.put("m_cls", "personal");
-            mmsValues.put("m_type", 128); // 132 (RETRIEVE CONF) 130 (NOTIF IND) 128 (SEND REQ)
-            mmsValues.put("v", 19);
-            mmsValues.put("pri", 129);
-            mmsValues.put("tr_id", "T"+ Long.toHexString(now));
-            mmsValues.put("resp_st", 128);
-
-            // Insert message
-            Uri res = context.getContentResolver().insert(destUri, mmsValues);
-            String messageId = res.getLastPathSegment().trim();
-
-            // Create part
-            if (imageBytes != null)
-            {
-                createPartImage(context, messageId, imageBytes, "image/png");
-            }
-
-            createPartText(context, messageId, text);
-
-            // Create addresses
-            for (String addr : to)
-            {
-                createAddr(context, messageId, addr);
-            }
-
-            //res = Uri.parse(destUri + "/" + messageId);
-
-            // Delete dummy sms
-            context.getContentResolver().delete(dummySms, null, null);
-
-            return res;
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    public static Uri insert(Context context, String[] to, String subject, ArrayList<byte[]> imageBytes, ArrayList<String> mimeTypes, String text)
-    {
-        try
-        {
-            Uri destUri = Uri.parse("content://mms");
-
-            // Get thread id
-            Set<String> recipients = new HashSet<String>();
-            recipients.addAll(Arrays.asList(to));
-            long thread_id = Telephony.Threads.getOrCreateThreadId(context, recipients);
-
-            // Create a dummy sms
-            ContentValues dummyValues = new ContentValues();
-            dummyValues.put("thread_id", thread_id);
-            dummyValues.put("body", "Dummy SMS body.");
-            Uri dummySms = context.getContentResolver().insert(Uri.parse("content://sms/sent"), dummyValues);
-
-            // Create a new message entry
-            long now = System.currentTimeMillis();
-            ContentValues mmsValues = new ContentValues();
-            mmsValues.put("thread_id", thread_id);
-            mmsValues.put("date", now/1000L);
-            mmsValues.put("msg_box", 4);
-            //mmsValues.put("m_id", System.currentTimeMillis());
-            mmsValues.put("read", true);
-            mmsValues.put("sub", subject);
-            mmsValues.put("sub_cs", 106);
-            mmsValues.put("ct_t", "application/vnd.wap.multipart.related");
-
-            if (imageBytes != null)
-            {
-                mmsValues.put("exp", imageBytes.get(0).length);
-            } else
-            {
-                mmsValues.put("exp", 0);
-            }
-
-            mmsValues.put("m_cls", "personal");
-            mmsValues.put("m_type", 128); // 132 (RETRIEVE CONF) 130 (NOTIF IND) 128 (SEND REQ)
-            mmsValues.put("v", 19);
-            mmsValues.put("pri", 129);
-            mmsValues.put("tr_id", "T"+ Long.toHexString(now));
-            mmsValues.put("resp_st", 128);
-
-            // Insert message
-            Uri res = context.getContentResolver().insert(destUri, mmsValues);
-            String messageId = res.getLastPathSegment().trim();
-
-            // Create part
-            for (int i = 0; i < imageBytes.size(); i++)
-            {
-                createPartImage(context, messageId, imageBytes.get(i), mimeTypes.get(i));
-            }
-
-            createPartText(context, messageId, text);
-
-            // Create addresses
-            for (String addr : to)
-            {
-                createAddr(context, messageId, addr);
-            }
-
-            //res = Uri.parse(destUri + "/" + messageId);
-
-            // Delete dummy sms
-            context.getContentResolver().delete(dummySms, null, null);
-
-            return res;
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    private static Uri createPartImage(Context context, String id, byte[] imageBytes, String mimeType) throws Exception
-    {
-        ContentValues mmsPartValue = new ContentValues();
-        mmsPartValue.put("mid", id);
-        mmsPartValue.put("ct", mimeType);
-        mmsPartValue.put("cid", "<" + System.currentTimeMillis() + ">");
-        Uri partUri = Uri.parse("content://mms/" + id + "/part");
-        Uri res = context.getContentResolver().insert(partUri, mmsPartValue);
-
-        // Add data to part
-        OutputStream os = context.getContentResolver().openOutputStream(res);
-        ByteArrayInputStream is = new ByteArrayInputStream(imageBytes);
-        byte[] buffer = new byte[256];
-        for (int len=0; (len=is.read(buffer)) != -1;)
-        {
-            os.write(buffer, 0, len);
-        }
-        os.close();
-        is.close();
-
-        return res;
-    }
-
-    private static Uri createPartText(Context context, String id, String text) throws Exception
-    {
-        ContentValues mmsPartValue = new ContentValues();
-        mmsPartValue.put("mid", id);
-        mmsPartValue.put("ct", "text/plain");
-        mmsPartValue.put("cid", "<" + System.currentTimeMillis() + ">");
-        mmsPartValue.put("text", text);
-        Uri partUri = Uri.parse("content://mms/" + id + "/part");
-        Uri res = context.getContentResolver().insert(partUri, mmsPartValue);
-
-        return res;
-    }
-
-    private static Uri createAddr(Context context, String id, String addr) throws Exception
-    {
-        ContentValues addrValues = new ContentValues();
-        addrValues.put("address", addr);
-        addrValues.put("charset", "106");
-        addrValues.put("type", 151); // TO
-        Uri addrUri = Uri.parse("content://mms/"+ id +"/addr");
-        Uri res = context.getContentResolver().insert(addrUri, addrValues);
-
-        return res;
-    }
-
-    private void setMobileDataEnabled(Context context, boolean enabled) {
-        try {
-            final ConnectivityManager conman = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-            final Class conmanClass = Class.forName(conman.getClass().getName());
-            final Field iConnectivityManagerField = conmanClass.getDeclaredField("mService");
-            iConnectivityManagerField.setAccessible(true);
-            final Object iConnectivityManager = iConnectivityManagerField.get(conman);
-            final Class iConnectivityManagerClass = Class.forName(iConnectivityManager.getClass().getName());
-            final Method setMobileDataEnabledMethod = iConnectivityManagerClass.getDeclaredMethod("setMobileDataEnabled", Boolean.TYPE);
-            setMobileDataEnabledMethod.setAccessible(true);
-
-            setMobileDataEnabledMethod.invoke(iConnectivityManager, enabled);
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-
-    }
-
-    public static Boolean isMobileDataEnabled(Context context){
-        Object connectivityService = context.getSystemService(CONNECTIVITY_SERVICE);
-        ConnectivityManager cm = (ConnectivityManager) connectivityService;
-
-        try {
-            Class<?> c = Class.forName(cm.getClass().getName());
-            Method m = c.getDeclaredMethod("getMobileDataEnabled");
-            m.setAccessible(true);
-            return (Boolean)m.invoke(cm);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    private void ensureRouteToHost(String url, String proxy) throws IOException {
-        ConnectivityManager connMgr =
-                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        int inetAddr;
-        if (!proxy.equals("")) {
-            String proxyAddr = proxy;
-            inetAddr = lookupHost(proxyAddr);
-            if (inetAddr == -1) {
-                throw new IOException("Cannot establish route for " + url + ": Unknown host");
-            } else {
-                if (!connMgr.requestRouteToHost(
-                        ConnectivityManager.TYPE_MOBILE_MMS, inetAddr)) {
-                    throw new IOException("Cannot establish route to proxy " + inetAddr);
-                }
-            }
-        } else {
-            Uri uri = Uri.parse(url);
-            inetAddr = lookupHost(uri.getHost());
-            if (inetAddr == -1) {
-                throw new IOException("Cannot establish route for " + url + ": Unknown host");
-            } else {
-                if (!connMgr.requestRouteToHost(
-                        ConnectivityManager.TYPE_MOBILE_MMS, inetAddr)) {
-                    throw new IOException("Cannot establish route to " + inetAddr + " for " + url);
-                }
-            }
-        }
-    }
-
-    public static int lookupHost(String hostname) {
-        InetAddress inetAddress;
-        try {
-            inetAddress = InetAddress.getByName(hostname);
-        } catch (UnknownHostException e) {
-            return -1;
-        }
-        byte[] addrBytes;
-        int addr;
-        addrBytes = inetAddress.getAddress();
-        addr = ((addrBytes[3] & 0xff) << 24)
-                | ((addrBytes[2] & 0xff) << 16)
-                | ((addrBytes[1] & 0xff) << 8)
-                |  (addrBytes[0] & 0xff);
-        return addr;
-    }
-
-    public WifiInfo currentWifi;
-    public boolean currentWifiState;
-    public DisconnectWifi discon;
-    public boolean currentDataState;
-
-    public void sendMMS(final String recipient, final MMSPart[] parts)
-    {
-        if (sharedPrefs.getBoolean("wifi_mms_fix", true))
-        {
-            WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-            currentWifiState = wifi.isWifiEnabled();
-            currentWifi = wifi.getConnectionInfo();
-            wifi.disconnect();
-            discon = new DisconnectWifi();
-            registerReceiver(discon, new IntentFilter(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION));
-            currentDataState = isMobileDataEnabled(this);
-            setMobileDataEnabled(this, true);
-        }
-
-        ConnectivityManager mConnMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-        final int result = mConnMgr.startUsingNetworkFeature(ConnectivityManager.TYPE_MOBILE, "enableMMS");
-
-        if (result != 0)
-        {
-            IntentFilter filter = new IntentFilter();
-            filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-            BroadcastReceiver receiver = new BroadcastReceiver() {
-
-                @Override
-                public void onReceive(Context context, Intent intent) {
-                    String action = intent.getAction();
-
-                    if (!action.equals(ConnectivityManager.CONNECTIVITY_ACTION))
-                    {
-                        return;
-                    }
-
-                    @SuppressWarnings("deprecation")
-                    NetworkInfo mNetworkInfo = intent.getParcelableExtra(ConnectivityManager.EXTRA_NETWORK_INFO);
-
-                    if ((mNetworkInfo == null) || (mNetworkInfo.getType() != ConnectivityManager.TYPE_MOBILE))
-                    {
-                        return;
-                    }
-
-                    if (!mNetworkInfo.isConnected())
-                    {
-                        return;
-                    } else
-                    {
-                        sendData(recipient, parts);
-
-                        unregisterReceiver(this);
-                    }
-
-                }
-
-            };
-
-            registerReceiver(receiver, filter);
-        } else
-        {
-            sendData(recipient, parts);
-        }
-    }
-
-    public void sendData(final String recipient, final MMSPart[] parts)
-    {
-        final Context context = this;
-
-        new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-
-                final SendReq sendRequest = new SendReq();
-
-                String[] recipients = recipient.replace(";", "").split(" ");
-
-                for (int i = 0; i < recipients.length; i++) {
-                    Log.v("recipients", i + ": " + recipients[i]);
-                }
-
-                for (int i = 0; i < parts.length; i++) {
-                    try {
-                        Log.v("mms_parts", i + ": " + parts[i].Name + ", " + parts[i].MimeType + ", " + parts[i].Data.length);
-                    } catch (Exception e) {
-
-                    }
-                }
-
-                for (int i = 0; i < recipients.length; i++)
-                {
-                    final EncodedStringValue[] phoneNumbers = EncodedStringValue.extract(recipients[i]);
-
-                    if (phoneNumbers != null && phoneNumbers.length > 0)
-                    {
-                        sendRequest.addTo(phoneNumbers[0]);
-                    }
-                }
-
-                final PduBody pduBody = new PduBody();
-
-                if (parts != null)
-                {
-                    for (MMSPart part : parts)
-                    {
-                        if (part != null)
-                        {
-                            try
-                            {
-                                final PduPart partPdu = new PduPart();
-                                partPdu.setName(part.Name.getBytes());
-                                partPdu.setContentType(part.MimeType.getBytes());
-                                partPdu.setData(part.Data);
-                                pduBody.addPart(partPdu);
-                            } catch (Exception e)
-                            {
-
-                            }
-                        }
-                    }
-                }
-
-                sendRequest.setBody(pduBody);
-
-                final PduComposer composer = new PduComposer(context, sendRequest);
-                final byte[] bytesToSend = composer.make();
-
-                List<APN> apns = new ArrayList<APN>();
-
-                try
-                {
-                    APNHelper helper = new APNHelper(context);
-                    apns = helper.getMMSApns();
-
-                    final APN apn = apns.get(0);
-
-                    ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                            builder.setTitle("System APNs");
-                            builder.setMessage("MMSC Url: " + apn.MMSCenterUrl + "\n" +
-                                    "MMS Proxy: " + apn.MMSProxy + "\n" +
-                                    "MMS Port: " + apn.MMSPort + "\n");
-                            builder.create().show();
-                        }
-                    });
-
-                } catch (Exception e)
-                {
-                    APN apn = new APN(sharedPrefs.getString("mmsc_url", ""), sharedPrefs.getString("mms_port", ""), sharedPrefs.getString("mms_proxy", ""));
-                    apns.add(apn);
-
-                    String mmscUrl = apns.get(0).MMSCenterUrl != null ? apns.get(0).MMSCenterUrl.trim() : null;
-                    apns.get(0).MMSCenterUrl = mmscUrl;
-
-                    try
-                    {
-                        if (sharedPrefs.getBoolean("apn_username_password", false))
-                        {
-                            if (!sharedPrefs.getString("apn_username", "").equals("") && !sharedPrefs.getString("apn_username", "").equals(""))
-                            {
-                                String mmsc = apns.get(0).MMSCenterUrl;
-                                String[] parts = mmsc.split("://");
-                                String newMmsc = parts[0] + "://";
-
-                                newMmsc += sharedPrefs.getString("apn_username", "") + ":" + sharedPrefs.getString("apn_password", "") + "@";
-
-                                for (int i = 1; i < parts.length; i++)
-                                {
-                                    newMmsc += parts[i];
-                                }
-
-                                apns.set(0, new APN(newMmsc, apns.get(0).MMSPort, apns.get(0).MMSProxy));
-                            }
-                        }
-                    } catch (Exception f)
-                    {
-                        ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                Toast.makeText(context, "There may be an error in your username and password settings.", Toast.LENGTH_LONG).show();
-                            }
-                        });
-                    }
-                }
-
-                try {
-                    Log.v("apns_to_use", apns.get(0).MMSCenterUrl + " " + apns.get(0).MMSPort + " " + apns.get(0).MMSProxy);
-                    ensureRouteToHost(apns.get(0).MMSCenterUrl, apns.get(0).MMSProxy);
-                    HttpUtils.httpConnection(context, 4444L, apns.get(0).MMSCenterUrl, bytesToSend, HttpUtils.HTTP_POST_METHOD, !TextUtils.isEmpty(apns.get(0).MMSProxy), apns.get(0).MMSProxy, Integer.parseInt(apns.get(0).MMSPort));
-
-//					ConnectivityManager mConnMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-//					mConnMgr.startUsingNetworkFeature(ConnectivityManager.TYPE_MOBILE, "enableMMS");
-
-                    IntentFilter filter = new IntentFilter();
-                    filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-                    BroadcastReceiver receiver = new BroadcastReceiver() {
-
-                        @Override
-                        public void onReceive(Context context, Intent intent) {
-                            Cursor query = context.getContentResolver().query(Uri.parse("content://mms"), new String[] {"_id"}, null, null, "date desc");
-                            query.moveToFirst();
-                            String id = query.getString(query.getColumnIndex("_id"));
-                            query.close();
-
-                            ContentValues values = new ContentValues();
-                            values.put("msg_box", 2);
-                            String where = "_id" + " = '" + id + "'";
-                            context.getContentResolver().update(Uri.parse("content://mms"), values, where, null);
-
-                            ((MainActivity) context).refreshViewPager3();
-                            context.unregisterReceiver(this);
-                            if (sharedPrefs.getBoolean("wifi_mms_fix", true))
-                            {
-                                try {
-                                    context.unregisterReceiver(discon);
-                                } catch (Exception e) {
-
-                                }
-
-                                WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-                                wifi.setWifiEnabled(false);
-                                wifi.setWifiEnabled(currentWifiState);
-                                wifi.reconnect();
-                                setMobileDataEnabled(context, currentDataState);
-                            }
-                        }
-
-                    };
-
-                    registerReceiver(receiver, filter);
-                } catch (Exception e) {
-                    e.printStackTrace();
-
-                    if (sharedPrefs.getBoolean("wifi_mms_fix", true))
-                    {
-                        try {
-                            context.unregisterReceiver(discon);
-                        } catch (Exception f) {
-
-                        }
-
-                        WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-                        wifi.setWifiEnabled(false);
-                        wifi.setWifiEnabled(currentWifiState);
-                        wifi.reconnect();
-                        setMobileDataEnabled(context, currentDataState);
-                    }
-
-                    Cursor query = context.getContentResolver().query(Uri.parse("content://mms"), new String[] {"_id"}, null, null, "date desc");
-                    query.moveToFirst();
-                    String id = query.getString(query.getColumnIndex("_id"));
-                    query.close();
-
-                    ContentValues values = new ContentValues();
-                    values.put("msg_box", 5);
-                    String where = "_id" + " = '" + id + "'";
-                    context.getContentResolver().update(Uri.parse("content://mms"), values, where, null);
-
-                    ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            ((MainActivity) context).refreshViewPager3();
-
-                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                            builder.setTitle(R.string.apn_error_title);
-                            builder.setMessage(context.getResources().getString(R.string.apn_error_1) + " " +
-                                    context.getResources().getString(R.string.apn_error_2) + " " +
-                                    context.getResources().getString(R.string.apn_error_3) + " " +
-                                    context.getResources().getString(R.string.apn_error_4) + " " +
-                                    context.getResources().getString(R.string.apn_error_5) +
-                                    context.getResources().getString(R.string.apn_error_6));
-                            builder.setNeutralButton(context.getResources().getString(R.string.apn_error_button), new DialogInterface.OnClickListener() {
-
-                                @Override
-                                public void onClick(DialogInterface dialog,
-                                                    int which) {
-                                    Intent intent = new Intent(context, SettingsPagerActivity.class);
-                                    intent.putExtra("mms", true);
-                                    context.startActivity(intent);
-
-                                }
-
-                            });
-
-                            builder.create().show();
-                        }
-
-                    });
-                }
-
-            }
-
-        }).start();
-
     }
 }

@@ -133,7 +133,6 @@ public class ChangeLogMain extends FragmentActivity implements
 
                     SharedPreferences.Editor prefEdit = sharedPrefs.edit();
                     prefEdit.putString("current_version", version);
-                    prefEdit.putBoolean("cache_conversations", false);
                     prefEdit.commit();
 
                     boolean flag = false;
