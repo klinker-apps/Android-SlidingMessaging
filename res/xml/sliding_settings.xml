@@ -71,13 +71,8 @@
             />
 
         <Preference
-            android:key="developer_tips"
-            android:title="@string/developer_tips"
-            />
-
-        <Preference
-            android:key="changelog"
-            android:title="@string/changelog"
+            android:key="get_help"
+            android:title="@string/get_help"
             />
 
     </PreferenceCategory>
