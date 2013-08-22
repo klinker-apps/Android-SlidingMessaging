@@ -6,23 +6,17 @@
               android:background="@drawable/conversation_list_swipe"
               android:paddingRight="30dp"
               android:paddingBottom="30dp"
-              android:paddingLeft="30dp"
-              android:gravity="center_horizontal">
+              android:paddingLeft="30dp" >
 
-    <Button android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:text="@string/ok"
-            android:id="@+id/ok" />
 
     <TextView android:id="@+id/conversation_swipe_text"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:text="Swipe from the left for the conversations list"
               android:textColor="@color/white"
-              android:layout_above="@+id/ok"
-              android:paddingBottom="30dp"
-              android:textSize="25dp"/>
+              android:layout_alignParentBottom="true"
+              android:paddingBottom="50dp"
+              android:textSize="25dp"
+              android:gravity="left"/>
 
 </RelativeLayout>
