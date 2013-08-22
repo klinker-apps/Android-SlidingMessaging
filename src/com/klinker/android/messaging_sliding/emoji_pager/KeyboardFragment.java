@@ -52,11 +52,23 @@ public class KeyboardFragment extends Fragment {
         else
             emojiGrid.setAdapter(new OtherEmojiAdapter2(getActivity()));
 
+        final int tabNum = position;
+
         emojiGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             public void onItemClick(AdapterView<?> parent, View v, int position, long id)
             {
-                MainActivity.insertEmoji(EmojiAdapter2.mEmojiTexts[position]);
+                if(tabNum == 0)
+                    MainActivity.insertEmoji(EmojiAdapter2.mEmojiTexts[position]);
+                else if (tabNum == 1)
+                    MainActivity.insertEmoji(EmojiAdapter2.mEmojiTexts[position + 153]);
+                else if (tabNum == 2)
+                    MainActivity.insertEmoji(EmojiAdapter2.mEmojiTexts[position + 315]);
+                else if (tabNum == 3)
+                    MainActivity.insertEmoji(EmojiAdapter2.mEmojiTexts[position + 493]);
+                else
+                    MainActivity.insertEmoji(EmojiAdapter2.mEmojiTexts[position + 615]);
+
             }
         });
 
