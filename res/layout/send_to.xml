@@ -20,7 +20,8 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:ems="10"
-        android:hint="@string/contact_entry" >
+        android:hint="@string/contact_entry"
+        android:textCursorDrawable="@null">
 
         <requestFocus />
     </EditText>
@@ -78,7 +79,8 @@
         android:minHeight="50dp"
         android:minLines="2"
         android:singleLine="true"
-        android:textSize="@dimen/type_message" />
+        android:textSize="@dimen/type_message"
+        android:textCursorDrawable="@null"/>
 
     <ImageButton
         android:id="@+id/sendButton"
