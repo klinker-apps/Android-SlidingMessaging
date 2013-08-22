@@ -69,7 +69,7 @@ import com.klinker.android.messaging_donate.settings.SettingsPagerActivity;
 import com.klinker.android.messaging_sliding.batch_delete.BatchDeleteConversationActivity;
 import com.klinker.android.messaging_sliding.blacklist.BlacklistContact;
 import com.klinker.android.messaging_sliding.custom_dialogs.CustomListView;
-import com.klinker.android.messaging_sliding.emoji_pager.PeopleFragment;
+import com.klinker.android.messaging_sliding.emoji_pager.KeyboardFragment;
 import com.klinker.android.messaging_sliding.emojis.EmojiAdapter;
 import com.klinker.android.messaging_sliding.emojis.EmojiAdapter2;
 import com.klinker.android.messaging_sliding.emojis.EmojiConverter;
@@ -90,7 +90,7 @@ import com.klinker.android.send_message.Settings;
 import com.klinker.android.send_message.StripAccents;
 import com.klinker.android.send_message.Transaction;
 import com.klinker.android.send_message.Message;
-import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
+
 import group.pals.android.lib.ui.lockpattern.prefs.SecurityPrefs;
 
 import group.pals.android.lib.ui.lockpattern.LockPatternActivity;
@@ -1944,8 +1944,8 @@ public class MainActivity extends FragmentActivity {
         }
 
         @Override
-        public PeopleFragment getItem(int position) {
-            return PeopleFragment.newInstance(position);
+        public KeyboardFragment getItem(int position) {
+            return KeyboardFragment.newInstance(position);
         }
 
     }
