@@ -15,17 +15,18 @@
     </content>
     <orderEntry type="jdk" jdkName="Android 4.3 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="libs" level="project" />
-    <orderEntry type="module" module-name="ColorPickerPreference" />
-    <orderEntry type="module" module-name="ListViewAnimations" />
-    <orderEntry type="module" module-name="SlidingMenu" />
-    <orderEntry type="module" module-name="code" />
+    <orderEntry type="library" exported="" name="libs" level="project" />
     <orderEntry type="module" module-name="ActionBar-PullToRefresh" />
-    <orderEntry type="module" module-name="AppMsg" />
-    <orderEntry type="module" module-name="library" />
-    <orderEntry type="module" module-name="FloatingNotificationsExtensionLibrary" />
-    <orderEntry type="module" module-name="CardsUILib" />
+    <orderEntry type="module" module-name="android-lockpattern" />
     <orderEntry type="module" module-name="android-smsmms" />
+    <orderEntry type="module" module-name="AppMsg" />
+    <orderEntry type="module" module-name="CardsUILib" />
+    <orderEntry type="module" module-name="ColorPickerPreference" />
+    <orderEntry type="module" module-name="drag-sort-listview" />
+    <orderEntry type="module" module-name="fn-extensions-library" />
+    <orderEntry type="module" module-name="ListViewAnimations" />
+    <orderEntry type="module" module-name="MessageBar" />
+    <orderEntry type="module" module-name="SlidingMenu" />
   </component>
 </module>
 
