@@ -668,5 +668,6 @@
     <string name="unlock_message">Unlock Message</string>
     <string name="disable_backgrounds">Disable custom backgrounds</string>
     <string name="disable_backgrounds_summary">Check option if a white box appears around your SlideOver popup when using a custom background.</string>
+    <string name="slideover_summary">It\'s our Facebook ChatHeads and Paranoid Android Halo implementation. The idea behind it is that the most used app on your phone, messaging, is always accessible.</string>
 
 </resources>
