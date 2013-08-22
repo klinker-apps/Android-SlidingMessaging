@@ -3,6 +3,8 @@ Version 7.25
 Jake:
     - make sure that locked messages are respected when using batch delete of conversations and delete all in settings (create a dialog to select deleting locked or not as radio buttons and ok beneath)
     - make all sending requests go through andorid-smsmms library
+    - remove original cards ui
+    - change layouts to allow for an emoji view pager
     - google voice sending support
     - google voice receiving support
     - Figure out how to judge file size of png images and adjust them accordingly when sending, look into UriImage.getResizedImageData for solution
