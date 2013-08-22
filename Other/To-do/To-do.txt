@@ -1,7 +1,6 @@
 Version 7.25
 
 Jake:
-    - make all sending requests go through andorid-smsmms library
     - google voice sending support
     - google voice receiving support
     - Figure out how to judge file size of png images and adjust them accordingly when sending, look into UriImage.getResizedImageData for solution
