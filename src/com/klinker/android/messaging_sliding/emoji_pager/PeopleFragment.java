@@ -7,11 +7,20 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.FrameLayout.LayoutParams;
+import android.widget.GridLayout;
+import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_sliding.MainActivity;
+import com.klinker.android.messaging_sliding.emojis.EmojiAdapter2;
+import com.klinker.android.messaging_sliding.emojis.EmojiConverter2;
+import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
 
 public class PeopleFragment extends Fragment {
 
@@ -37,9 +46,33 @@ public class PeopleFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+        final GridView emojiGrid = new GridView(getActivity());
 
-        FrameLayout fl = new FrameLayout(getActivity());
+        emojiGrid.setColumnWidth((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, getResources().getDisplayMetrics()));
+        emojiGrid.setNumColumns(GridView.AUTO_FIT);
+
+        if(position == 0)
+            emojiGrid.setAdapter(new PeopleEmojiAdapter2(getActivity()));
+        else if (position == 1)
+            emojiGrid.setAdapter(new ThingsEmojiAdapter2(getActivity()));
+        else if (position == 2)
+            emojiGrid.setAdapter(new NatureEmojiAdapter2(getActivity()));
+        else if (position == 3)
+            emojiGrid.setAdapter(new TransEmojiAdapter2(getActivity()));
+        else
+            emojiGrid.setAdapter(new OtherEmojiAdapter2(getActivity()));
+
+        emojiGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id)
+            {
+                MainActivity.insertEmoji(EmojiAdapter2.mEmojiTexts[position]);
+            }
+        });
+
+        return emojiGrid;
+
+        /*FrameLayout fl = new FrameLayout(getActivity());
         fl.setLayoutParams(params);
 
         final int margin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, getResources()
@@ -53,7 +86,7 @@ public class PeopleFragment extends Fragment {
         v.setText("CARD " + (position + 1));
 
         fl.addView(v);
-        return fl;
+        return fl;*/
     }
 
 }

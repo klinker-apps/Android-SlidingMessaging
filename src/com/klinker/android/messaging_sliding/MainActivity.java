@@ -123,6 +123,8 @@ public class MainActivity extends FragmentActivity {
     public static String deviceType;
     public static boolean newMessage;
 
+    public static Context statCont;
+
     public static Settings sendSettings;
     public Transaction sendTransaction;
     public BroadcastReceiver refreshReceiver;
@@ -181,7 +183,7 @@ public class MainActivity extends FragmentActivity {
 
     public SharedPreferences sharedPrefs;
 
-    public EditText messageEntry;
+    public static EditText messageEntry;
     public TextView mTextView;
     public ImageButton sendButton;
     public ImageButton emojiButton;
@@ -295,6 +297,8 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        statCont = this;
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -1916,10 +1920,14 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
+    public static void insertEmoji(String emoji)
+    {
+        messageEntry.append(EmojiConverter2.getSmiledText(statCont, emoji));
+    }
+
     public class MyPagerAdapter extends FragmentPagerAdapter {
 
-        private final String[] TITLES = { "Categories", "Home", "Top Paid", "Top Free", "Top Grossing", "Top New Paid",
-                "Top New Free", "Trending" };
+        private final String[] TITLES = { "People", "Objects", "Nature", "Places", "Symbols" };
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
