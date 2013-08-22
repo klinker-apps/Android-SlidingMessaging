@@ -992,22 +992,7 @@ public class MainActivity extends FragmentActivity {
     }
 
     public void setUpSendSettings() {
-        sendSettings = new Settings();
-
-        sendSettings.setMmsc(sharedPrefs.getString("mmsc_url", ""));
-        sendSettings.setProxy(sharedPrefs.getString("mms_proxy", ""));
-        sendSettings.setPort(sharedPrefs.getString("mms_port", ""));
-        sendSettings.setGroup(groupMessage);
-        sendSettings.setWifiMmsFix(sharedPrefs.getBoolean("wifi_mms_fix", true));
-        sendSettings.setPreferVoice(false);
-        sendSettings.setDeliveryReports(deliveryReports);
-        sendSettings.setSplit(splitSMS);
-        sendSettings.setSplitCounter(splitCounter);
-        sendSettings.setStripUnicode(stripUnicode);
-        sendSettings.setSignature(signature);
-        sendSettings.setSendLongAsMms(sharedPrefs.getBoolean("send_as_mms", false));
-        sendSettings.setSendLongAsMmsAfter(sharedPrefs.getInt("mms_after", 4));
-
+        sendSettings = SendUtil.getSendSettings(this);
         sendTransaction = new Transaction(this, sendSettings);
     }
 

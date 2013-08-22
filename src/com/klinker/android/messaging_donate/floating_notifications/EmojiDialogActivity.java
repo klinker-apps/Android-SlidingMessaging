@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.*;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_donate.SendUtil;
 import com.klinker.android.messaging_sliding.MainActivity;
 import com.klinker.android.messaging_sliding.emojis.EmojiAdapter;
 import com.klinker.android.messaging_sliding.emojis.EmojiAdapter2;
@@ -143,7 +144,7 @@ public class EmojiDialogActivity extends Activity {
                 final Extension.onClickListener sendOnClick = new Extension.onClickListener() {
                     @Override
                     public void onClick(String str) {
-                            FNAction.sendMessage(context, FNReceiver.messages.get(id)[0], str);
+                            SendUtil.sendMessage(context, FNReceiver.messages.get(id)[0], str);
                             Extension.remove(id, context);
                             FNReceiver.messages.remove(id);
                             finish();
