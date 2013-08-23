@@ -50,35 +50,35 @@ public class KeyboardFragment extends Fragment {
         emojiGrid.setColumnWidth((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, getResources().getDisplayMetrics()));
         emojiGrid.setNumColumns(GridView.AUTO_FIT);
 
-            if(position == 0)
-                emojiGrid.setAdapter(new PeopleEmojiAdapter(getActivity()));
-            else if (position == 1)
-                emojiGrid.setAdapter(new ThingsEmojiAdapter(getActivity()));
-            else if (position == 2)
-                emojiGrid.setAdapter(new NatureEmojiAdapter(getActivity()));
-            else if (position == 3)
-                emojiGrid.setAdapter(new TransEmojiAdapter(getActivity()));
-            else
-                emojiGrid.setAdapter(new OtherEmojiAdapter(getActivity()));
+        if(position == 0)
+            emojiGrid.setAdapter(new PeopleEmojiAdapter(getActivity()));
+        else if (position == 1)
+            emojiGrid.setAdapter(new ThingsEmojiAdapter(getActivity()));
+        else if (position == 2)
+            emojiGrid.setAdapter(new NatureEmojiAdapter(getActivity()));
+        else if (position == 3)
+            emojiGrid.setAdapter(new TransEmojiAdapter(getActivity()));
+        else
+            emojiGrid.setAdapter(new OtherEmojiAdapter(getActivity()));
 
-            final int tabNum = position;
+        final int tabNum = position;
 
-            emojiGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        emojiGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-                public void onItemClick(AdapterView<?> parent, View v, int position, long id)
-                {
-                    if(tabNum == 0)
-                        MainActivity.insertEmoji(EmojiAdapter2.mEmojiTexts[position]);
-                    else if (tabNum == 1)
-                        MainActivity.insertEmoji(EmojiAdapter2.mEmojiTexts[position + 153]);
-                    else if (tabNum == 2)
-                        MainActivity.insertEmoji(EmojiAdapter2.mEmojiTexts[position + 315]);
-                    else if (tabNum == 3)
-                        MainActivity.insertEmoji(EmojiAdapter2.mEmojiTexts[position + 493]);
-                    else
-                        MainActivity.insertEmoji(EmojiAdapter2.mEmojiTexts[position+ 615]);
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id)
+            {
+                if(tabNum == 0)
+                    MainActivity.insertEmoji(EmojiAdapter2.mEmojiTexts[position]);
+                else if (tabNum == 1)
+                    MainActivity.insertEmoji(EmojiAdapter2.mEmojiTexts[position + 153]);
+                else if (tabNum == 2)
+                    MainActivity.insertEmoji(EmojiAdapter2.mEmojiTexts[position + 315]);
+                else if (tabNum == 3)
+                    MainActivity.insertEmoji(EmojiAdapter2.mEmojiTexts[position + 493]);
+                else
+                    MainActivity.insertEmoji(EmojiAdapter2.mEmojiTexts[position+ 615]);
             }
-       });
+        });
 
 
         return emojiGrid;
