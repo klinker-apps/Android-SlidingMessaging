@@ -2659,8 +2659,6 @@ public class MainActivity extends FragmentActivity {
                             contactEntry.setOnTouchListener(new View.OnTouchListener() {
                                 @Override
                                 public boolean onTouch(View v, MotionEvent event) {
-                                    contactEntry.requestFocus();
-
                                     ViewPager vp = (ViewPager) findViewById(R.id.emojiKeyboard_new_message);
                                     PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs_new_message);
 
