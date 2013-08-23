@@ -6,8 +6,6 @@ Jake:
     - Figure out how to judge file size of png images and adjust them accordingly when sending, look into UriImage.getResizedImageData for solution
     - delayed sending for certain times
 Luke:
-    - emoji keyboard
-    - look into scheduled SMS bug reported
 
 1) more individual notification options
 2) option for adding certain text to every message at the beginning (delivery reports?)
