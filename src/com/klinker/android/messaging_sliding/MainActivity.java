@@ -4493,8 +4493,6 @@ public class MainActivity extends FragmentActivity {
 
     @Override
     public void onBackPressed() {
-        ViewPager vp1 = (ViewPager) findViewById(R.id.emojiKeyboard);
-        ViewPager vp2 = (ViewPager) findViewById(R.id.emojiKeyboard_new_message);
         if (emojiOpen || emoji2Open)
         {
             if (menu.isSecondaryMenuShowing())
