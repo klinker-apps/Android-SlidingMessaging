@@ -2645,6 +2645,8 @@ public class MainActivity extends FragmentActivity {
 
                         if (vp.getVisibility() == View.GONE)
                         {
+                            messageEntry2.requestFocus();
+
                             vp.setVisibility(View.VISIBLE);
                             tabs.setVisibility(View.VISIBLE);
                             tabs.setViewPager(vp);
