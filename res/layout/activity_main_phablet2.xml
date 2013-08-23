@@ -100,77 +100,76 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/view1">
 
-            <LinearLayout android:orientation="horizontal"
-                          android:layout_height="wrap_content"
-                          android:layout_width="match_parent">
+            <ImageButton
+                    android:id="@+id/display_emoji"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/dark_send_button"
+                    android:contentDescription="@string/emoji"
+                    android:minHeight="0dp"
+                    android:minWidth="0dp"
+                    android:paddingLeft="7dp"
+                    android:paddingRight="7dp"
+                    android:src="@drawable/emo_im_smirk"
+                    android:layout_alignBottom="@+id/sendButton"
+                    android:layout_alignParentTop="true"
+                    android:scaleType="fitCenter"/>
 
-                <ImageButton
-                        android:id="@+id/display_emoji"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:background="@drawable/dark_send_button"
-                        android:contentDescription="@string/emoji"
-                        android:minHeight="0dp"
-                        android:minWidth="0dp"
-                        android:paddingLeft="5dp"
-                        android:paddingRight="5dp"
-                        android:src="@drawable/emo_im_smirk" />
+            <EditText
+                    android:id="@+id/messageEntry"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/type_message"
+                    android:inputType="textCapSentences|textMultiLine|textShortMessage"
+                    android:maxLines="5"
+                    android:minHeight="50dp"
+                    android:minLines="2"
+                    android:textSize="@dimen/type_message"
+                    android:textCursorDrawable="@null"
+                    android:tag="phablet2"
+                    android:layout_toLeftOf="@+id/sendButton"
+                    android:layout_toRightOf="@+id/display_emoji">
+                <requestFocus/>
+            </EditText>
 
-                <EditText
-                        android:id="@+id/messageEntry"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/type_message"
-                        android:inputType="textCapSentences|textMultiLine|textShortMessage"
-                        android:maxLines="5"
-                        android:minHeight="50dp"
-                        android:minLines="2"
-                        android:textSize="@dimen/type_message"
-                        android:textCursorDrawable="@null"
-                        android:tag="phablet2" >
-                    <requestFocus/>
-                </EditText>
+            <ImageButton
+                    android:id="@+id/sendButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/send_button"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:src="@drawable/ic_action_send_black"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignBottom="@+id/messageEntry"
+                    android:scaleType="fitCenter"/>
 
-                <RelativeLayout android:layout_width="wrap_content"
-                                android:layout_height="match_parent" >
+            <TextView
+                    android:id="@+id/charsRemaining2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/chars"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/light_grey"
+                    android:textSize="@dimen/chars_remaining"
+                    android:layout_alignBottom="@+id/sendButton"
+                    android:layout_alignParentRight="true"
+                    android:layout_toRightOf="@+id/messageEntry"
+                    android:gravity="center"/>
 
-                    <ImageButton
-                            android:id="@+id/sendButton"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:contentDescription="@string/send_button"
-                            android:paddingLeft="10dp"
-                            android:paddingRight="10dp"
-                            android:src="@drawable/ic_action_send_black" />
-
-                    <TextView
-                            android:id="@+id/charsRemaining2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/chars"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:textColor="@color/light_grey"
-                            android:textSize="@dimen/chars_remaining"
-                            android:layout_alignParentBottom="true"
-                            android:layout_centerHorizontal="true"/>
-
-                    <TextView
-                            android:id="@+id/mmsText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/mms"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:textColor="@color/light_grey"
-                            android:textSize="@dimen/chars_remaining"
-                            android:layout_alignParentTop="true"
-                            android:layout_centerHorizontal="true"
-                            android:visibility="gone"/>
-
-                </RelativeLayout>
-
-            </LinearLayout>
+            <TextView
+                    android:id="@+id/mmsText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/mms"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/light_grey"
+                    android:textSize="@dimen/chars_remaining"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:visibility="gone"/>
         </RelativeLayout>
 
         <!--<com.astuetz.viewpager.extensions.PagerSlidingTabStrip-->
