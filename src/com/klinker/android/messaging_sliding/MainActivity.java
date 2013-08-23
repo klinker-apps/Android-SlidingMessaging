@@ -2910,6 +2910,12 @@ public class MainActivity extends FragmentActivity {
                 vp.setVisibility(View.GONE);
                 tabs.setVisibility(View.GONE);
 
+                ViewPager vp2 = (ViewPager) findViewById(R.id.emojiKeyboard_new_message);
+                PagerSlidingTabStrip tabs2 = (PagerSlidingTabStrip) findViewById(R.id.tabs_new_message);
+
+                vp2.setVisibility(View.GONE);
+                tabs2.setVisibility(View.GONE);
+
                 if (menu.isSecondaryMenuShowing()) {
                     contact.requestFocus();
                 }
