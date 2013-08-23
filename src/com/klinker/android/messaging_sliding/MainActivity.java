@@ -1788,7 +1788,7 @@ public class MainActivity extends FragmentActivity {
                                     getSystemService(Context.INPUT_METHOD_SERVICE);
                             keyboard.hideSoftInputFromWindow(messageEntry.getWindowToken(), 0);
 
-                            messageEntry.setOnTouchListener(new View.OnTouchListener() {
+                            /*messageEntry.setOnTouchListener(new View.OnTouchListener() {
                                 @Override
                                 public boolean onTouch(View v, MotionEvent event) {
                                     if(emojiOpen)
@@ -1804,7 +1804,7 @@ public class MainActivity extends FragmentActivity {
 
                                     return false;
                                 }
-                            });
+                            });*/
                         } else
                         {
                             emojiOpen = false;
@@ -2666,7 +2666,7 @@ public class MainActivity extends FragmentActivity {
                             keyboard.hideSoftInputFromWindow(messageEntry2.getWindowToken(), 0);
 
                             final EditText contactEntry = (EditText) findViewById(R.id.contactEntry);
-                            contactEntry.setOnTouchListener(new View.OnTouchListener() {
+                            /*contactEntry.setOnTouchListener(new View.OnTouchListener() {
                                 @Override
                                 public boolean onTouch(View v, MotionEvent event) {
                                     ViewPager vp = (ViewPager) findViewById(R.id.emojiKeyboard_new_message);
@@ -2693,7 +2693,7 @@ public class MainActivity extends FragmentActivity {
                                     }
                                     return false;
                                 }
-                            });
+                            });*/
                         } else
                         {
                             emoji2Open = false;
