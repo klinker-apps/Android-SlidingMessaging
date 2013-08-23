@@ -677,5 +677,7 @@
     <string name="contact_us_summary">If you can\'t find what you are looking for in any of the sections above, email us before giving a one star review. It never hurts to ask for help!</string>
     <string name="google_plus_page">Google Plus Community</string>
     <string name="xda_thread">XDA Developers Thread</string>
+    <string name="emoji_keyboard">Use Emoji Keyboard</string>
+    <string name="emoji_keyboard_summary">NOTE: Android emojis only.</string>
 
 </resources>

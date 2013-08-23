@@ -68,4 +68,13 @@
         android:title="@string/emoji_type"
         android:defaultValue="true"
         />
+
+    <CheckBoxPreference
+        android:key="emoji_keyboard"
+        android:title="@string/emoji_keyboard"
+        android:summary="@string/emoji_keyboard_summary"
+        android:defaultValue="true"
+        android:dependency="emoji_type"
+        />
+
 </PreferenceScreen>

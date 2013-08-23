@@ -90,6 +90,7 @@ import com.klinker.android.send_message.Settings;
 import com.klinker.android.send_message.StripAccents;
 import com.klinker.android.send_message.Transaction;
 import com.klinker.android.send_message.Message;
+import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
 
 import group.pals.android.lib.ui.lockpattern.prefs.SecurityPrefs;
 
@@ -267,6 +268,7 @@ public class MainActivity extends FragmentActivity {
     public boolean emoji;
     public boolean mobileOnly;
     public boolean groupMessage;
+    public boolean emojiKeyboard;
     public String  textSize;
     public String runAs;
     public String signature;
@@ -371,6 +373,7 @@ public class MainActivity extends FragmentActivity {
             ctNameTextColor = sharedPrefs.getInt("ct_nameTextColor", getResources().getColor(R.color.black));
             numOfCachedConversations = 5;
             messageDividerColor = sharedPrefs.getInt("ct_messageDividerColor", getResources().getColor(R.color.light_silver));
+            emojiKeyboard = sharedPrefs.getBoolean("emoji_keyboard", true);
         } else
         {
             lightActionBar = sharedPrefs.getBoolean("ct_light_action_bar", false);
@@ -440,6 +443,7 @@ public class MainActivity extends FragmentActivity {
             ctNameTextColor = sharedPrefs.getInt("ct_nameTextColor", getResources().getColor(R.color.black));
             numOfCachedConversations = sharedPrefs.getInt("num_cache_conversations", 5);
             messageDividerColor = sharedPrefs.getInt("ct_messageDividerColor", getResources().getColor(R.color.light_silver));
+            emojiKeyboard = sharedPrefs.getBoolean("emoji_keyboard", true);
         }
 
         setUpWindow();
@@ -1745,6 +1749,7 @@ public class MainActivity extends FragmentActivity {
         }
 
 
+
         if (!emoji)
         {
             emojiButton.setVisibility(View.GONE);
@@ -1758,131 +1763,153 @@ public class MainActivity extends FragmentActivity {
                 @Override
                 public void onClick(View arg0) {
 
-                    ViewPager vp = (ViewPager) findViewById(R.id.emojiKeyboard);
-                    PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
-
-                    tabs.setIndicatorColor(titleBarColor);
-
-                    MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager());
-                    vp.setAdapter(adapter);
-
-                    if (vp.getVisibility() == View.GONE)
+                    if(emojiKeyboard)
                     {
-                        vp.setVisibility(View.VISIBLE);
-                        tabs.setVisibility(View.VISIBLE);
-                        tabs.setViewPager(vp);
-                    } else
-                    {
-                        vp.setVisibility(View.GONE);
-                        tabs.setVisibility(ViewStub.GONE);
-                    }
-                    /*
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setTitle("Insert Emojis");
-                    LayoutInflater inflater = ((Activity) context).getLayoutInflater();
-                    View frame = inflater.inflate(R.layout.emoji_frame, null);
+                        ViewPager vp = (ViewPager) findViewById(R.id.emojiKeyboard);
+                        PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+                        vp.setBackgroundColor(ctConversationListBackground);
+                        tabs.setBackgroundColor(ctConversationListBackground);
 
-                    final EditText editText = (EditText) frame.findViewById(R.id.emoji_text);
-                    ImageButton peopleButton = (ImageButton) frame.findViewById(R.id.peopleButton);
-                    ImageButton objectsButton = (ImageButton) frame.findViewById(R.id.objectsButton);
-                    ImageButton natureButton = (ImageButton) frame.findViewById(R.id.natureButton);
-                    ImageButton placesButton = (ImageButton) frame.findViewById(R.id.placesButton);
-                    ImageButton symbolsButton = (ImageButton) frame.findViewById(R.id.symbolsButton);
+                        tabs.setIndicatorColor(titleBarColor);
 
-                    final StickyGridHeadersGridView emojiGrid = (StickyGridHeadersGridView) frame.findViewById(R.id.emojiGrid);
-                    Button okButton = (Button) frame.findViewById(R.id.emoji_ok);
+                        MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager());
+                        vp.setAdapter(adapter);
 
-                    if (emojiType)
-                    {
-                        emojiGrid.setAdapter(new EmojiAdapter2(context));
-                        emojiGrid.setOnItemClickListener(new OnItemClickListener() {
+                        if (vp.getVisibility() == View.GONE)
+                        {
+                            vp.setVisibility(View.VISIBLE);
+                            tabs.setVisibility(View.VISIBLE);
+                            tabs.setViewPager(vp);
 
-                            public void onItemClick(AdapterView<?> parent, View v, int position, long id)
-                            {
-                                editText.setText(EmojiConverter2.getSmiledText(context, editText.getText().toString() + EmojiAdapter2.mEmojiTexts[position]));
-                                editText.setSelection(editText.getText().length());
-                            }
-                        });
+                            InputMethodManager keyboard = (InputMethodManager)
+                                    getSystemService(Context.INPUT_METHOD_SERVICE);
+                            keyboard.hideSoftInputFromWindow(messageEntry.getWindowToken(), 0);
 
-                        peopleButton.setOnClickListener(new OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                emojiGrid.setSelection(0);
-                            }
-                        });
+                            messageEntry.setOnTouchListener(new View.OnTouchListener() {
+                                @Override
+                                public boolean onTouch(View v, MotionEvent event) {
+                                    ViewPager vp = (ViewPager) findViewById(R.id.emojiKeyboard);
+                                    PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
 
-                        objectsButton.setOnClickListener(new OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                emojiGrid.setSelection(153 + (2 * 7));
-                            }
-                        });
+                                    vp.setVisibility(View.GONE);
+                                    tabs.setVisibility(View.GONE);
+                                    return false;
+                                }
+                            });
+                        } else
+                        {
+                            vp.setVisibility(View.GONE);
+                            tabs.setVisibility(ViewStub.GONE);
+                        }
+                    } else {
 
-                        natureButton.setOnClickListener(new OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                emojiGrid.setSelection(153 + 162 + (3 * 7));
-                            }
-                        });
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setTitle("Insert Emojis");
+                        LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+                        View frame = inflater.inflate(R.layout.emoji_frame, null);
 
-                        placesButton.setOnClickListener(new OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                emojiGrid.setSelection(153 + 162 + 178 + (5 * 7));
-                            }
-                        });
+                        final EditText editText = (EditText) frame.findViewById(R.id.emoji_text);
+                        ImageButton peopleButton = (ImageButton) frame.findViewById(R.id.peopleButton);
+                        ImageButton objectsButton = (ImageButton) frame.findViewById(R.id.objectsButton);
+                        ImageButton natureButton = (ImageButton) frame.findViewById(R.id.natureButton);
+                        ImageButton placesButton = (ImageButton) frame.findViewById(R.id.placesButton);
+                        ImageButton symbolsButton = (ImageButton) frame.findViewById(R.id.symbolsButton);
 
-                        symbolsButton.setOnClickListener(new OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                emojiGrid.setSelection(153 + 162 + 178 + 122 + (7 * 7));
-                            }
-                        });
-                    } else
-                    {
-                        emojiGrid.setAdapter(new EmojiAdapter(context));
-                        emojiGrid.setOnItemClickListener(new OnItemClickListener() {
+                        final StickyGridHeadersGridView emojiGrid = (StickyGridHeadersGridView) frame.findViewById(R.id.emojiGrid);
+                        Button okButton = (Button) frame.findViewById(R.id.emoji_ok);
 
-                            public void onItemClick(AdapterView<?> parent, View v, int position, long id)
-                            {
-                                editText.setText(EmojiConverter.getSmiledText(context, editText.getText().toString() + EmojiAdapter.mEmojiTexts[position]));
-                                editText.setSelection(editText.getText().length());
-                            }
-                        });
+                        if (emojiType)
+                        {
+                            emojiGrid.setAdapter(new EmojiAdapter2(context));
+                            emojiGrid.setOnItemClickListener(new OnItemClickListener() {
 
-                        peopleButton.setMaxHeight(0);
-                        objectsButton.setMaxHeight(0);
-                        natureButton.setMaxHeight(0);
-                        placesButton.setMaxHeight(0);
-                        symbolsButton.setMaxHeight(0);
+                                public void onItemClick(AdapterView<?> parent, View v, int position, long id)
+                                {
+                                    editText.setText(EmojiConverter2.getSmiledText(context, editText.getText().toString() + EmojiAdapter2.mEmojiTexts[position]));
+                                    editText.setSelection(editText.getText().length());
+                                }
+                            });
 
-                        LinearLayout buttons = (LinearLayout) frame.findViewById(R.id.linearLayout);
-                        buttons.setMinimumHeight(0);
-                        buttons.setVisibility(View.GONE);
-                    }
+                            peopleButton.setOnClickListener(new OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    emojiGrid.setSelection(0);
+                                }
+                            });
 
-                    builder.setView(frame);
-                    final AlertDialog dialog = builder.create();
-                    dialog.show();
+                            objectsButton.setOnClickListener(new OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    emojiGrid.setSelection(153 + (2 * 7));
+                                }
+                            });
 
-                    okButton.setOnClickListener(new OnClickListener() {
+                            natureButton.setOnClickListener(new OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    emojiGrid.setSelection(153 + 162 + (3 * 7));
+                                }
+                            });
 
-                        @Override
-                        public void onClick(View v) {
-                            if (emojiType)
-                            {
-                                messageEntry.setText(EmojiConverter2.getSmiledText(context, messageEntry.getText().toString() + editText.getText().toString()));
-                                messageEntry.setSelection(messageEntry.getText().length());
-                            } else
-                            {
-                                messageEntry.setText(EmojiConverter.getSmiledText(context, messageEntry.getText().toString() + editText.getText().toString()));
-                                messageEntry.setSelection(messageEntry.getText().length());
-                            }
+                            placesButton.setOnClickListener(new OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    emojiGrid.setSelection(153 + 162 + 178 + (5 * 7));
+                                }
+                            });
 
-                            dialog.dismiss();
+                            symbolsButton.setOnClickListener(new OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    emojiGrid.setSelection(153 + 162 + 178 + 122 + (7 * 7));
+                                }
+                            });
+                        } else
+                        {
+                            emojiGrid.setAdapter(new EmojiAdapter(context));
+                            emojiGrid.setOnItemClickListener(new OnItemClickListener() {
+
+                                public void onItemClick(AdapterView<?> parent, View v, int position, long id)
+                                {
+                                    editText.setText(EmojiConverter.getSmiledText(context, editText.getText().toString() + EmojiAdapter.mEmojiTexts[position]));
+                                    editText.setSelection(editText.getText().length());
+                                }
+                            });
+
+                            peopleButton.setMaxHeight(0);
+                            objectsButton.setMaxHeight(0);
+                            natureButton.setMaxHeight(0);
+                            placesButton.setMaxHeight(0);
+                            symbolsButton.setMaxHeight(0);
+
+                            LinearLayout buttons = (LinearLayout) frame.findViewById(R.id.linearLayout);
+                            buttons.setMinimumHeight(0);
+                            buttons.setVisibility(View.GONE);
                         }
 
-                    }); */
+                        builder.setView(frame);
+                        final AlertDialog dialog = builder.create();
+                        dialog.show();
+
+                        okButton.setOnClickListener(new OnClickListener() {
+
+                            @Override
+                            public void onClick(View v) {
+                                if (emojiType)
+                                {
+                                    messageEntry.setText(EmojiConverter2.getSmiledText(context, messageEntry.getText().toString() + editText.getText().toString()));
+                                    messageEntry.setSelection(messageEntry.getText().length());
+                                } else
+                                {
+                                    messageEntry.setText(EmojiConverter.getSmiledText(context, messageEntry.getText().toString() + editText.getText().toString()));
+                                    messageEntry.setSelection(messageEntry.getText().length());
+                                }
+
+                                dialog.dismiss();
+                            }
+
+                        });
+                    }
                 }
 
             });
@@ -1922,7 +1949,12 @@ public class MainActivity extends FragmentActivity {
 
     public static void insertEmoji(String emoji)
     {
-        messageEntry.append(EmojiConverter2.getSmiledText(statCont, emoji));
+        if(menu.isSecondaryMenuShowing())
+        {
+            //TODO - insert int message entry 2 box... don't know how haha
+        } else {
+            messageEntry.append(EmojiConverter2.getSmiledText(statCont, emoji));
+        }
     }
 
     public class MyPagerAdapter extends FragmentPagerAdapter {
@@ -2596,112 +2628,136 @@ public class MainActivity extends FragmentActivity {
 
                 @Override
                 public void onClick(View arg0) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setTitle("Insert Emojis");
-                    LayoutInflater inflater = ((Activity) context).getLayoutInflater();
-                    View frame = inflater.inflate(R.layout.emoji_frame, null);
-
-                    final EditText editText = (EditText) frame.findViewById(R.id.emoji_text);
-                    ImageButton peopleButton = (ImageButton) frame.findViewById(R.id.peopleButton);
-                    ImageButton objectsButton = (ImageButton) frame.findViewById(R.id.objectsButton);
-                    ImageButton natureButton = (ImageButton) frame.findViewById(R.id.natureButton);
-                    ImageButton placesButton = (ImageButton) frame.findViewById(R.id.placesButton);
-                    ImageButton symbolsButton = (ImageButton) frame.findViewById(R.id.symbolsButton);
-
-                    final GridView emojiGrid = (GridView) frame.findViewById(R.id.emojiGrid);
-                    Button okButton = (Button) frame.findViewById(R.id.emoji_ok);
-
-                    if (emojiType)
+                    if(emojiKeyboard)
                     {
-                        emojiGrid.setAdapter(new EmojiAdapter2(context));
-                        emojiGrid.setOnItemClickListener(new OnItemClickListener() {
+                        ViewPager vp = (ViewPager) findViewById(R.id.emojiKeyboard_new_message);
+                        vp.setBackgroundColor(ctConversationListBackground);
+                        PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs_new_message);
+                        tabs.setBackgroundColor(ctConversationListBackground);
 
-                            public void onItemClick(AdapterView<?> parent, View v, int position, long id)
-                            {
-                                editText.setText(EmojiConverter2.getSmiledText(context, editText.getText().toString() + EmojiAdapter2.mEmojiTexts[position]));
-                                editText.setSelection(editText.getText().length());
-                            }
-                        });
+                        tabs.setIndicatorColor(titleBarColor);
 
-                        peopleButton.setOnClickListener(new OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                emojiGrid.setSelection(0);
-                            }
-                        });
+                        MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager());
+                        vp.setAdapter(adapter);
 
-                        objectsButton.setOnClickListener(new OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                emojiGrid.setSelection(153 + (2 * 7));
-                            }
-                        });
+                        if (vp.getVisibility() == View.GONE)
+                        {
+                            vp.setVisibility(View.VISIBLE);
+                            tabs.setVisibility(View.VISIBLE);
+                            tabs.setViewPager(vp);
+                        } else
+                        {
+                            vp.setVisibility(View.GONE);
+                            tabs.setVisibility(ViewStub.GONE);
+                        }
+                    } else {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setTitle("Insert Emojis");
+                        LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+                        View frame = inflater.inflate(R.layout.emoji_frame, null);
 
-                        natureButton.setOnClickListener(new OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                emojiGrid.setSelection(153 + 162 + (3 * 7));
-                            }
-                        });
+                        final EditText editText = (EditText) frame.findViewById(R.id.emoji_text);
+                        ImageButton peopleButton = (ImageButton) frame.findViewById(R.id.peopleButton);
+                        ImageButton objectsButton = (ImageButton) frame.findViewById(R.id.objectsButton);
+                        ImageButton natureButton = (ImageButton) frame.findViewById(R.id.natureButton);
+                        ImageButton placesButton = (ImageButton) frame.findViewById(R.id.placesButton);
+                        ImageButton symbolsButton = (ImageButton) frame.findViewById(R.id.symbolsButton);
 
-                        placesButton.setOnClickListener(new OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                emojiGrid.setSelection(153 + 162 + 178 + (5 * 7));
-                            }
-                        });
+                        final GridView emojiGrid = (GridView) frame.findViewById(R.id.emojiGrid);
+                        Button okButton = (Button) frame.findViewById(R.id.emoji_ok);
 
-                        symbolsButton.setOnClickListener(new OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                emojiGrid.setSelection(153 + 162 + 178 + 122 + (7 * 7));
-                            }
-                        });
-                    } else
-                    {
-                        emojiGrid.setAdapter(new EmojiAdapter(context));
-                        emojiGrid.setOnItemClickListener(new OnItemClickListener() {
+                        if (emojiType)
+                        {
+                            emojiGrid.setAdapter(new EmojiAdapter2(context));
+                            emojiGrid.setOnItemClickListener(new OnItemClickListener() {
 
-                            public void onItemClick(AdapterView<?> parent, View v, int position, long id)
-                            {
-                                editText.setText(EmojiConverter.getSmiledText(context, editText.getText().toString() + EmojiAdapter.mEmojiTexts[position]));
-                                editText.setSelection(editText.getText().length());
-                            }
-                        });
+                                public void onItemClick(AdapterView<?> parent, View v, int position, long id)
+                                {
+                                    editText.setText(EmojiConverter2.getSmiledText(context, editText.getText().toString() + EmojiAdapter2.mEmojiTexts[position]));
+                                    editText.setSelection(editText.getText().length());
+                                }
+                            });
 
-                        peopleButton.setMaxHeight(0);
-                        objectsButton.setMaxHeight(0);
-                        natureButton.setMaxHeight(0);
-                        placesButton.setMaxHeight(0);
-                        symbolsButton.setMaxHeight(0);
+                            peopleButton.setOnClickListener(new OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    emojiGrid.setSelection(0);
+                                }
+                            });
 
-                        LinearLayout buttons = (LinearLayout) frame.findViewById(R.id.linearLayout);
-                        buttons.setMinimumHeight(0);
-                        buttons.setVisibility(View.GONE);
-                    }
+                            objectsButton.setOnClickListener(new OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    emojiGrid.setSelection(153 + (2 * 7));
+                                }
+                            });
 
-                    builder.setView(frame);
-                    final AlertDialog dialog = builder.create();
-                    dialog.show();
+                            natureButton.setOnClickListener(new OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    emojiGrid.setSelection(153 + 162 + (3 * 7));
+                                }
+                            });
 
-                    okButton.setOnClickListener(new OnClickListener() {
+                            placesButton.setOnClickListener(new OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    emojiGrid.setSelection(153 + 162 + 178 + (5 * 7));
+                                }
+                            });
 
-                        @Override
-                        public void onClick(View v) {
-                            if (emojiType)
-                            {
-                                mEditText.setText(EmojiConverter2.getSmiledText(context, mEditText.getText().toString() + editText.getText().toString()));
-                                mEditText.setSelection(mEditText.getText().length());
-                            } else
-                            {
-                                mEditText.setText(EmojiConverter.getSmiledText(context, mEditText.getText().toString() + editText.getText().toString()));
-                                mEditText.setSelection(mEditText.getText().length());
-                            }
+                            symbolsButton.setOnClickListener(new OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    emojiGrid.setSelection(153 + 162 + 178 + 122 + (7 * 7));
+                                }
+                            });
+                        } else
+                        {
+                            emojiGrid.setAdapter(new EmojiAdapter(context));
+                            emojiGrid.setOnItemClickListener(new OnItemClickListener() {
 
-                            dialog.dismiss();
+                                public void onItemClick(AdapterView<?> parent, View v, int position, long id)
+                                {
+                                    editText.setText(EmojiConverter.getSmiledText(context, editText.getText().toString() + EmojiAdapter.mEmojiTexts[position]));
+                                    editText.setSelection(editText.getText().length());
+                                }
+                            });
+
+                            peopleButton.setMaxHeight(0);
+                            objectsButton.setMaxHeight(0);
+                            natureButton.setMaxHeight(0);
+                            placesButton.setMaxHeight(0);
+                            symbolsButton.setMaxHeight(0);
+
+                            LinearLayout buttons = (LinearLayout) frame.findViewById(R.id.linearLayout);
+                            buttons.setMinimumHeight(0);
+                            buttons.setVisibility(View.GONE);
                         }
 
-                    });
+                        builder.setView(frame);
+                        final AlertDialog dialog = builder.create();
+                        dialog.show();
+
+                        okButton.setOnClickListener(new OnClickListener() {
+
+                            @Override
+                            public void onClick(View v) {
+                                if (emojiType)
+                                {
+                                    mEditText.setText(EmojiConverter2.getSmiledText(context, mEditText.getText().toString() + editText.getText().toString()));
+                                    mEditText.setSelection(mEditText.getText().length());
+                                } else
+                                {
+                                    mEditText.setText(EmojiConverter.getSmiledText(context, mEditText.getText().toString() + editText.getText().toString()));
+                                    mEditText.setSelection(mEditText.getText().length());
+                                }
+
+                                dialog.dismiss();
+                            }
+
+                        });
+                    }
                 }
 
             });

@@ -1,4 +1,4 @@
-package com.klinker.android.messaging_sliding.emoji_pager;
+package com.klinker.android.messaging_sliding.emoji_pager.android;
 
 import android.app.Activity;
 import android.content.Context;
@@ -17,11 +17,11 @@ import android.widget.TextView;
 import com.klinker.android.messaging_donate.R;
 import com.tonicartos.widget.stickygridheaders.StickyGridHeadersBaseAdapter;
 
-public class OtherEmojiAdapter2 extends BaseAdapter {
+public class OtherEmojiAdapter extends BaseAdapter {
 
     private Context context;
 
-    public OtherEmojiAdapter2(Context context)
+    public OtherEmojiAdapter(Context context)
     {
         this.context = context;
     }
