@@ -49,6 +49,7 @@ public class ChangeLogWizardModel extends AbstractWizardModel {
         }
 
         String changeLog = "Version " + version + ":\n\n" +
+                "- Beautiful new emoji keyboard for Android emojis. This same keyboard can be used in any app on your phone by downloading our new Emoji Keyboard! <INSERT LINK TO PLAY STORE HERE>\n" +
                 "- Ability to lock messages\n" +
                 "- Batch delete certain messages in single conversation\n" +
                 "- Redone share box to match current theme\n" +
@@ -57,7 +58,8 @@ public class ChangeLogWizardModel extends AbstractWizardModel {
                 "- Bug fixes\n\n" +
                 "- For interested developers: I completely recreated the back-end sending process and published as a library to Github. Any developer interested in using it, improving it, or whatever else, check it out! " +
                 "There is support for sending SMS, MMS, and Google Voice messages all packaged into one easy class to use - this is something Google has neglected for much too long, so with this anyone can easily send " +
-                "any type of message from within their application. Think of it as the missing MMS APIs if you want and save yourself the trouble of countless hours digging through their source code trying to figure out what is going on.";
+                "any type of message from within their application. Think of it as the missing MMS APIs if you want and save yourself the trouble of countless hours digging through their source code trying to figure out what is going on." +
+                " <INSERT LINK TO GITHUB PROJECT HERE>";
                 
         String themeEditor = "The theme editor now fully supports the Cards UI 2.0, making it a " +
                 "better time than ever to get on board and start making Sliding Messaging Pro look exactly how you want!\n\n" +

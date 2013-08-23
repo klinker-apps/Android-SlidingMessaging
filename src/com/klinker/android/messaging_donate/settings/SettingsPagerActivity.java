@@ -477,6 +477,7 @@ public class SettingsPagerActivity extends FragmentActivity {
             if (!showAll) {
                 getPreferenceScreen().removePreference(findPreference("smiliesType"));
                 getPreferenceScreen().removePreference(findPreference("emoji_type"));
+                getPreferenceScreen().removePreference(findPreference("emoji_keyboard"));
             }
         }
 
