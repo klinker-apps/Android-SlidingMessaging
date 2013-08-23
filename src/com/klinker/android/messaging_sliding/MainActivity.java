@@ -226,6 +226,12 @@ public class MainActivity extends FragmentActivity {
 
     public boolean emojiOpen = false;
     public boolean emoji2Open = false;
+    public ViewPager vp;
+    public PagerSlidingTabStrip tabs;
+    public LinearLayout messageScreen;
+    public LinearLayout messageScreen2;
+    public LayoutParams SlidingTabParams;
+    public LayoutParams viewPagerParams;
 
     // shared prefs values
     public boolean lightActionBar;
@@ -451,6 +457,29 @@ public class MainActivity extends FragmentActivity {
 
         setUpWindow();
         setUpSendSettings();
+
+        if (emojiKeyboard && emoji)
+        {
+            vp = new ViewPager(this);
+            tabs = new PagerSlidingTabStrip(this);
+            vp.setBackgroundColor(getResources().getColor(R.color.light_silver));
+            tabs.setBackgroundColor(getResources().getColor(R.color.light_silver));
+
+            vp.setId(View.generateViewId());
+
+            SlidingTabParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, getResources().getDisplayMetrics()));
+            viewPagerParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, getResources().getDisplayMetrics()));
+
+            tabs.setIndicatorColor(titleBarColor);
+
+            MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager());
+            vp.setAdapter(adapter);
+
+            tabs.setViewPager(vp);
+
+            messageScreen = (LinearLayout) findViewById(R.id.messageScreen);
+            messageScreen2 = (LinearLayout) findViewById(R.id.messageScreen2);
+        }
 
         Intent fromIntent = getIntent();
         if(fromIntent.getBooleanExtra("initial_run", false))
@@ -1767,22 +1796,13 @@ public class MainActivity extends FragmentActivity {
 
                     if(emojiKeyboard && emojiType)
                     {
-                        ViewPager vp = (ViewPager) findViewById(R.id.emojiKeyboard);
-                        PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
-                        vp.setBackgroundColor(getResources().getColor(R.color.light_silver));
-                        tabs.setBackgroundColor(getResources().getColor(R.color.light_silver));
-
-                        tabs.setIndicatorColor(titleBarColor);
-
-                        MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager());
-                        vp.setAdapter(adapter);
-
-                        if (vp.getVisibility() == View.GONE)
+                        if (!emojiOpen)
                         {
                             emojiOpen = true;
-                            vp.setVisibility(View.VISIBLE);
-                            tabs.setVisibility(View.VISIBLE);
-                            tabs.setViewPager(vp);
+
+                            messageScreen.addView(tabs, SlidingTabParams);
+                            messageScreen.addView(vp, viewPagerParams);
+
 
                             InputMethodManager keyboard = (InputMethodManager)
                                     getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -1793,11 +1813,8 @@ public class MainActivity extends FragmentActivity {
                                 public boolean onTouch(View v, MotionEvent event) {
                                     if(emojiOpen)
                                     {
-                                        ViewPager vp = (ViewPager) findViewById(R.id.emojiKeyboard);
-                                        PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
-
-                                        vp.setVisibility(View.GONE);
-                                        tabs.setVisibility(View.GONE);
+                                        messageScreen.removeView(tabs);
+                                        messageScreen.removeView(vp);
 
                                         emojiOpen = false;
                                     }
@@ -1808,8 +1825,9 @@ public class MainActivity extends FragmentActivity {
                         } else
                         {
                             emojiOpen = false;
-                            vp.setVisibility(View.GONE);
-                            tabs.setVisibility(ViewStub.GONE);
+
+                            messageScreen.removeView(tabs);
+                            messageScreen.removeView(vp);
                         }
                     } else {
 
@@ -2642,24 +2660,15 @@ public class MainActivity extends FragmentActivity {
                 public void onClick(View arg0) {
                     if(emojiKeyboard && emojiType)
                     {
-                        ViewPager vp = (ViewPager) findViewById(R.id.emojiKeyboard_new_message);
-                        vp.setBackgroundColor(getResources().getColor(R.color.light_silver));
-                        PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs_new_message);
-                        tabs.setBackgroundColor(getResources().getColor(R.color.light_silver));
-
-                        tabs.setIndicatorColor(titleBarColor);
-
-                        MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager());
-                        vp.setAdapter(adapter);
-
-                        if (vp.getVisibility() == View.GONE)
+                        if (!emoji2Open)
                         {
+                            messageScreen2 = (LinearLayout) findViewById(R.id.messageScreen2);
+
+                            messageScreen2.addView(tabs, SlidingTabParams);
+                            messageScreen2.addView(vp, viewPagerParams);
+
                             emoji2Open = true;
                             messageEntry2.requestFocus();
-
-                            vp.setVisibility(View.VISIBLE);
-                            tabs.setVisibility(View.VISIBLE);
-                            tabs.setViewPager(vp);
 
                             InputMethodManager keyboard = (InputMethodManager)
                                     getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -2669,11 +2678,10 @@ public class MainActivity extends FragmentActivity {
                             contactEntry.setOnTouchListener(new View.OnTouchListener() {
                                 @Override
                                 public boolean onTouch(View v, MotionEvent event) {
-                                    ViewPager vp = (ViewPager) findViewById(R.id.emojiKeyboard_new_message);
-                                    PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs_new_message);
+                                    messageScreen2.removeView(tabs);
+                                    messageScreen2.removeView(vp);
 
-                                    vp.setVisibility(View.GONE);
-                                    tabs.setVisibility(View.GONE);
+                                    emoji2Open = false;
                                     return false;
                                 }
                             });
@@ -2683,11 +2691,8 @@ public class MainActivity extends FragmentActivity {
                                 public boolean onTouch(View v, MotionEvent event) {
                                     if(emoji2Open)
                                     {
-                                        ViewPager vp = (ViewPager) findViewById(R.id.emojiKeyboard_new_message);
-                                        PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs_new_message);
-
-                                        vp.setVisibility(View.GONE);
-                                        tabs.setVisibility(View.GONE);
+                                        messageScreen2.removeView(tabs);
+                                        messageScreen2.removeView(vp);
 
                                         emoji2Open = false;
                                     }
@@ -2697,8 +2702,8 @@ public class MainActivity extends FragmentActivity {
                         } else
                         {
                             emoji2Open = false;
-                            vp.setVisibility(View.GONE);
-                            tabs.setVisibility(ViewStub.GONE);
+                            messageScreen2.removeView(tabs);
+                            messageScreen2.removeView(vp);
                         }
                     } else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -2920,21 +2925,23 @@ public class MainActivity extends FragmentActivity {
             public void onOpened() {
                 invalidateOptionsMenu();
 
-                ViewPager vp = (ViewPager) findViewById(R.id.emojiKeyboard);
-                PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+                if(emojiOpen)
+                {
+                    messageScreen = (LinearLayout) findViewById(R.id.messageScreen);
 
-                vp.setVisibility(View.GONE);
-                tabs.setVisibility(View.GONE);
+                    messageScreen.removeView(tabs);
+                    messageScreen.removeView(vp);
+                    emojiOpen = false;
+                }
 
-                emojiOpen = false;
+                if(emoji2Open)
+                {
+                    messageScreen2 = (LinearLayout) findViewById(R.id.messageScreen2);
 
-                ViewPager vp2 = (ViewPager) findViewById(R.id.emojiKeyboard_new_message);
-                PagerSlidingTabStrip tabs2 = (PagerSlidingTabStrip) findViewById(R.id.tabs_new_message);
-
-                vp2.setVisibility(View.GONE);
-                tabs2.setVisibility(View.GONE);
-
-                emoji2Open = false;
+                    messageScreen2.removeView(tabs);
+                    messageScreen2.removeView(vp);
+                    emoji2Open = false;
+                }
 
                 if (menu.isSecondaryMenuShowing()) {
                     contact.requestFocus();
@@ -2973,11 +2980,23 @@ public class MainActivity extends FragmentActivity {
 
                 invalidateOptionsMenu();
 
-                ViewPager vp = (ViewPager) findViewById(R.id.emojiKeyboard_new_message);
-                PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs_new_message);
+                if(emojiOpen)
+                {
+                    messageScreen = (LinearLayout) findViewById(R.id.messageScreen);
 
-                vp.setVisibility(View.GONE);
-                tabs.setVisibility(View.GONE);
+                    messageScreen.removeView(tabs);
+                    messageScreen.removeView(vp);
+                    emojiOpen = false;
+                }
+
+                if(emoji2Open)
+                {
+                    messageScreen2 = (LinearLayout) findViewById(R.id.messageScreen2);
+
+                    messageScreen2.removeView(tabs);
+                    messageScreen2.removeView(vp);
+                    emoji2Open = false;
+                }
 
                 try {
                     if (deviceType.equals("phone") || deviceType.equals("phablet2")) {
@@ -4476,20 +4495,28 @@ public class MainActivity extends FragmentActivity {
     public void onBackPressed() {
         ViewPager vp1 = (ViewPager) findViewById(R.id.emojiKeyboard);
         ViewPager vp2 = (ViewPager) findViewById(R.id.emojiKeyboard_new_message);
-        if (vp1.getVisibility() == View.VISIBLE ||vp2.getVisibility() == View.VISIBLE)
+        if (emojiOpen || emoji2Open)
         {
             if (menu.isSecondaryMenuShowing())
             {
-                emoji2Open = false;
-                vp2.setVisibility(View.GONE);
-                PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs_new_message);
-                tabs.setVisibility(View.GONE);
+                if(emoji2Open)
+                {
+                    messageScreen2 = (LinearLayout) findViewById(R.id.messageScreen2);
+
+                    emoji2Open = false;
+                    messageScreen2.removeView(tabs);
+                    messageScreen2.removeView(vp);
+                }
 
             } else {
-                emojiOpen = false;
-                vp1.setVisibility(View.GONE);
-                PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
-                tabs.setVisibility(View.GONE);
+                if(emojiOpen)
+                {
+                    messageScreen = (LinearLayout) findViewById(R.id.messageScreen);
+
+                    emojiOpen = false;
+                    messageScreen.removeView(tabs);
+                    messageScreen.removeView(vp);
+                }
             }
         } else if (deviceType.equals("phone") || deviceType.equals("phablet2"))
         {
