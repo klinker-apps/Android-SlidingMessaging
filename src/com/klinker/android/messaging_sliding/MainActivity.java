@@ -1752,8 +1752,6 @@ public class MainActivity extends FragmentActivity {
             messageEntry.setTextSize(Integer.parseInt(textSize.substring(0,1)));
         }
 
-
-
         if (!emoji)
         {
             emojiButton.setVisibility(View.GONE);
@@ -1972,7 +1970,7 @@ public class MainActivity extends FragmentActivity {
 
     public class MyPagerAdapter extends FragmentPagerAdapter {
 
-        private final String[] TITLES = { "People", "Objects", "Nature", "Places", "Symbols" };
+        private final String[] TITLES = { getString(R.string.people), getString(R.string.things), getString(R.string.nature), getString(R.string.places), getString(R.string.symbols) };
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
