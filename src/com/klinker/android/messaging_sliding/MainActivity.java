@@ -223,7 +223,8 @@ public class MainActivity extends FragmentActivity {
     public static final String GSM_CHARACTERS_REGEX = "^[A-Za-z0-9 \\r\\n@?$??é???Ç????\u0394_\u03A6\u0393\u039B\u03A9\u03A0\u03A8\u03A3\u0398\u039E??ßÉ!\"#$%&'()*+,\\-./:;<=>??ÄÖ?Ü§?äö?ü?^{}\\\\\\[~\\]|\u20AC]*$";
     private static final int REQ_ENTER_PATTERN = 7;
 
-    public Button okButton;
+    public boolean emojiOpen = false;
+    public boolean emoji2Open = false;
 
     // shared prefs values
     public boolean lightActionBar;
@@ -1778,6 +1779,7 @@ public class MainActivity extends FragmentActivity {
 
                         if (vp.getVisibility() == View.GONE)
                         {
+                            emojiOpen = true;
                             vp.setVisibility(View.VISIBLE);
                             tabs.setVisibility(View.VISIBLE);
                             tabs.setViewPager(vp);
@@ -1789,16 +1791,23 @@ public class MainActivity extends FragmentActivity {
                             messageEntry.setOnTouchListener(new View.OnTouchListener() {
                                 @Override
                                 public boolean onTouch(View v, MotionEvent event) {
-                                    ViewPager vp = (ViewPager) findViewById(R.id.emojiKeyboard);
-                                    PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+                                    if(emojiOpen)
+                                    {
+                                        ViewPager vp = (ViewPager) findViewById(R.id.emojiKeyboard);
+                                        PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
 
-                                    vp.setVisibility(View.GONE);
-                                    tabs.setVisibility(View.GONE);
+                                        vp.setVisibility(View.GONE);
+                                        tabs.setVisibility(View.GONE);
+
+                                        emojiOpen = false;
+                                    }
+
                                     return false;
                                 }
                             });
                         } else
                         {
+                            emojiOpen = false;
                             vp.setVisibility(View.GONE);
                             tabs.setVisibility(ViewStub.GONE);
                         }
@@ -2645,6 +2654,7 @@ public class MainActivity extends FragmentActivity {
 
                         if (vp.getVisibility() == View.GONE)
                         {
+                            emoji2Open = true;
                             messageEntry2.requestFocus();
 
                             vp.setVisibility(View.VISIBLE);
@@ -2671,16 +2681,22 @@ public class MainActivity extends FragmentActivity {
                             messageEntry2.setOnTouchListener(new View.OnTouchListener() {
                                 @Override
                                 public boolean onTouch(View v, MotionEvent event) {
-                                    ViewPager vp = (ViewPager) findViewById(R.id.emojiKeyboard_new_message);
-                                    PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs_new_message);
+                                    if(emoji2Open)
+                                    {
+                                        ViewPager vp = (ViewPager) findViewById(R.id.emojiKeyboard_new_message);
+                                        PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs_new_message);
 
-                                    vp.setVisibility(View.GONE);
-                                    tabs.setVisibility(View.GONE);
+                                        vp.setVisibility(View.GONE);
+                                        tabs.setVisibility(View.GONE);
+
+                                        emoji2Open = false;
+                                    }
                                     return false;
                                 }
                             });
                         } else
                         {
+                            emoji2Open = false;
                             vp.setVisibility(View.GONE);
                             tabs.setVisibility(ViewStub.GONE);
                         }
@@ -2910,11 +2926,15 @@ public class MainActivity extends FragmentActivity {
                 vp.setVisibility(View.GONE);
                 tabs.setVisibility(View.GONE);
 
+                emojiOpen = false;
+
                 ViewPager vp2 = (ViewPager) findViewById(R.id.emojiKeyboard_new_message);
                 PagerSlidingTabStrip tabs2 = (PagerSlidingTabStrip) findViewById(R.id.tabs_new_message);
 
                 vp2.setVisibility(View.GONE);
                 tabs2.setVisibility(View.GONE);
+
+                emoji2Open = false;
 
                 if (menu.isSecondaryMenuShowing()) {
                     contact.requestFocus();
@@ -4460,11 +4480,13 @@ public class MainActivity extends FragmentActivity {
         {
             if (menu.isSecondaryMenuShowing())
             {
+                emoji2Open = false;
                 vp2.setVisibility(View.GONE);
                 PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs_new_message);
                 tabs.setVisibility(View.GONE);
 
             } else {
+                emojiOpen = false;
                 vp1.setVisibility(View.GONE);
                 PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
                 tabs.setVisibility(View.GONE);
