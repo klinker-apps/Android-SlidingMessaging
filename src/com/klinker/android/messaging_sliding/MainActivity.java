@@ -2655,6 +2655,21 @@ public class MainActivity extends FragmentActivity {
                                     getSystemService(Context.INPUT_METHOD_SERVICE);
                             keyboard.hideSoftInputFromWindow(messageEntry2.getWindowToken(), 0);
 
+                            final EditText contactEntry = (EditText) findViewById(R.id.contactEntry);
+                            contactEntry.setOnTouchListener(new View.OnTouchListener() {
+                                @Override
+                                public boolean onTouch(View v, MotionEvent event) {
+                                    contactEntry.requestFocus();
+
+                                    ViewPager vp = (ViewPager) findViewById(R.id.emojiKeyboard_new_message);
+                                    PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs_new_message);
+
+                                    vp.setVisibility(View.GONE);
+                                    tabs.setVisibility(View.GONE);
+                                    return false;
+                                }
+                            });
+
                             messageEntry2.setOnTouchListener(new View.OnTouchListener() {
                                 @Override
                                 public boolean onTouch(View v, MotionEvent event) {
