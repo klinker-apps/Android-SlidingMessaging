@@ -1764,7 +1764,7 @@ public class MainActivity extends FragmentActivity {
                 @Override
                 public void onClick(View arg0) {
 
-                    if(emojiKeyboard)
+                    if(emojiKeyboard && emojiType)
                     {
                         ViewPager vp = (ViewPager) findViewById(R.id.emojiKeyboard);
                         PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
@@ -2631,7 +2631,7 @@ public class MainActivity extends FragmentActivity {
 
                 @Override
                 public void onClick(View arg0) {
-                    if(emojiKeyboard)
+                    if(emojiKeyboard && emojiType)
                     {
                         ViewPager vp = (ViewPager) findViewById(R.id.emojiKeyboard_new_message);
                         vp.setBackgroundColor(getResources().getColor(R.color.light_silver));
@@ -2891,6 +2891,12 @@ public class MainActivity extends FragmentActivity {
             public void onOpened() {
                 invalidateOptionsMenu();
 
+                ViewPager vp = (ViewPager) findViewById(R.id.emojiKeyboard);
+                PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+
+                vp.setVisibility(View.GONE);
+                tabs.setVisibility(View.GONE);
+
                 if (menu.isSecondaryMenuShowing()) {
                     contact.requestFocus();
                 }
@@ -2927,6 +2933,12 @@ public class MainActivity extends FragmentActivity {
             public void onClosed() {
 
                 invalidateOptionsMenu();
+
+                ViewPager vp = (ViewPager) findViewById(R.id.emojiKeyboard_new_message);
+                PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs_new_message);
+
+                vp.setVisibility(View.GONE);
+                tabs.setVisibility(View.GONE);
 
                 try {
                     if (deviceType.equals("phone") || deviceType.equals("phablet2")) {
@@ -4423,13 +4435,21 @@ public class MainActivity extends FragmentActivity {
 
     @Override
     public void onBackPressed() {
-        ViewPager vp = (ViewPager) findViewById(R.id.emojiKeyboard);
-        if (vp.getVisibility() == View.VISIBLE)
+        ViewPager vp1 = (ViewPager) findViewById(R.id.emojiKeyboard);
+        ViewPager vp2 = (ViewPager) findViewById(R.id.emojiKeyboard_new_message);
+        if (vp1.getVisibility() == View.VISIBLE ||vp2.getVisibility() == View.VISIBLE)
         {
-            vp.setVisibility(View.GONE);
+            if (menu.isSecondaryMenuShowing())
+            {
+                vp2.setVisibility(View.GONE);
+                PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs_new_message);
+                tabs.setVisibility(View.GONE);
 
-            PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
-            tabs.setVisibility(View.GONE);
+            } else {
+                vp1.setVisibility(View.GONE);
+                PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+                tabs.setVisibility(View.GONE);
+            }
         } else if (deviceType.equals("phone") || deviceType.equals("phablet2"))
         {
             if (menu.isSecondaryMenuShowing())
