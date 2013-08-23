@@ -184,7 +184,8 @@ public class MainActivity extends FragmentActivity {
 
     public SharedPreferences sharedPrefs;
 
-    public static EditText messageEntry;
+    public EditText messageEntry;
+    public static EditText messageEntry1;
     public static EditText messageEntry2;
     public TextView mTextView;
     public ImageButton sendButton;
@@ -1462,6 +1463,7 @@ public class MainActivity extends FragmentActivity {
     {
         mTextView = (TextView) findViewById(R.id.charsRemaining2);
         messageEntry = (EditText) findViewById(R.id.messageEntry);
+        messageEntry1 = (EditText) findViewById(R.id.messageEntry);
         sendButton = (ImageButton) findViewById(R.id.sendButton);
         emojiButton = (ImageButton) findViewById(R.id.display_emoji);
         v = findViewById(R.id.view1);
@@ -1786,9 +1788,9 @@ public class MainActivity extends FragmentActivity {
 
                             InputMethodManager keyboard = (InputMethodManager)
                                     getSystemService(Context.INPUT_METHOD_SERVICE);
-                            keyboard.hideSoftInputFromWindow(messageEntry.getWindowToken(), 0);
+                            keyboard.hideSoftInputFromWindow(messageEntry1.getWindowToken(), 0);
 
-                            /*messageEntry.setOnTouchListener(new View.OnTouchListener() {
+                            messageEntry1.setOnTouchListener(new View.OnTouchListener() {
                                 @Override
                                 public boolean onTouch(View v, MotionEvent event) {
                                     if(emojiOpen)
@@ -1804,7 +1806,7 @@ public class MainActivity extends FragmentActivity {
 
                                     return false;
                                 }
-                            });*/
+                            });
                         } else
                         {
                             emojiOpen = false;
@@ -1964,7 +1966,7 @@ public class MainActivity extends FragmentActivity {
             //TODO - insert int message entry 2 box... don't know how haha
             messageEntry2.append(EmojiConverter2.getSmiledText(statCont, emoji));
         } else {
-            messageEntry.append(EmojiConverter2.getSmiledText(statCont, emoji));
+            messageEntry1.append(EmojiConverter2.getSmiledText(statCont, emoji));
         }
     }
 
@@ -2666,7 +2668,7 @@ public class MainActivity extends FragmentActivity {
                             keyboard.hideSoftInputFromWindow(messageEntry2.getWindowToken(), 0);
 
                             final EditText contactEntry = (EditText) findViewById(R.id.contactEntry);
-                            /*contactEntry.setOnTouchListener(new View.OnTouchListener() {
+                            contactEntry.setOnTouchListener(new View.OnTouchListener() {
                                 @Override
                                 public boolean onTouch(View v, MotionEvent event) {
                                     ViewPager vp = (ViewPager) findViewById(R.id.emojiKeyboard_new_message);
@@ -2693,7 +2695,7 @@ public class MainActivity extends FragmentActivity {
                                     }
                                     return false;
                                 }
-                            });*/
+                            });
                         } else
                         {
                             emoji2Open = false;
