@@ -185,6 +185,7 @@ public class MainActivity extends FragmentActivity {
     public SharedPreferences sharedPrefs;
 
     public static EditText messageEntry;
+    public static EditText messageEntry2;
     public TextView mTextView;
     public ImageButton sendButton;
     public ImageButton emojiButton;
@@ -1767,8 +1768,8 @@ public class MainActivity extends FragmentActivity {
                     {
                         ViewPager vp = (ViewPager) findViewById(R.id.emojiKeyboard);
                         PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
-                        vp.setBackgroundColor(ctConversationListBackground);
-                        tabs.setBackgroundColor(ctConversationListBackground);
+                        vp.setBackgroundColor(getResources().getColor(R.color.light_silver));
+                        tabs.setBackgroundColor(getResources().getColor(R.color.light_silver));
 
                         tabs.setIndicatorColor(titleBarColor);
 
@@ -1952,6 +1953,7 @@ public class MainActivity extends FragmentActivity {
         if(menu.isSecondaryMenuShowing())
         {
             //TODO - insert int message entry 2 box... don't know how haha
+            messageEntry2.append(EmojiConverter2.getSmiledText(statCont, emoji));
         } else {
             messageEntry.append(EmojiConverter2.getSmiledText(statCont, emoji));
         }
@@ -2102,6 +2104,7 @@ public class MainActivity extends FragmentActivity {
 
         final TextView mTextView = (TextView) newMessageView.findViewById(R.id.charsRemaining2);
         final EditText mEditText = (EditText) newMessageView.findViewById(R.id.messageEntry2);
+        messageEntry2 = (EditText) newMessageView.findViewById(R.id.messageEntry2);
         final ImageButton sendButton = (ImageButton) newMessageView.findViewById(R.id.sendButton);
         imageAttachBackground2 = newMessageView.findViewById(R.id.image_attachment_view_background);
         imageAttach2 = (ImageAttachmentView) newMessageView.findViewById(R.id.image_attachment_view);
@@ -2631,9 +2634,9 @@ public class MainActivity extends FragmentActivity {
                     if(emojiKeyboard)
                     {
                         ViewPager vp = (ViewPager) findViewById(R.id.emojiKeyboard_new_message);
-                        vp.setBackgroundColor(ctConversationListBackground);
+                        vp.setBackgroundColor(getResources().getColor(R.color.light_silver));
                         PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs_new_message);
-                        tabs.setBackgroundColor(ctConversationListBackground);
+                        tabs.setBackgroundColor(getResources().getColor(R.color.light_silver));
 
                         tabs.setIndicatorColor(titleBarColor);
 
@@ -2645,6 +2648,22 @@ public class MainActivity extends FragmentActivity {
                             vp.setVisibility(View.VISIBLE);
                             tabs.setVisibility(View.VISIBLE);
                             tabs.setViewPager(vp);
+
+                            InputMethodManager keyboard = (InputMethodManager)
+                                    getSystemService(Context.INPUT_METHOD_SERVICE);
+                            keyboard.hideSoftInputFromWindow(messageEntry2.getWindowToken(), 0);
+
+                            messageEntry2.setOnTouchListener(new View.OnTouchListener() {
+                                @Override
+                                public boolean onTouch(View v, MotionEvent event) {
+                                    ViewPager vp = (ViewPager) findViewById(R.id.emojiKeyboard_new_message);
+                                    PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs_new_message);
+
+                                    vp.setVisibility(View.GONE);
+                                    tabs.setVisibility(View.GONE);
+                                    return false;
+                                }
+                            });
                         } else
                         {
                             vp.setVisibility(View.GONE);
