@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference
+            android:key="emoji_keyboard"
+            android:title="Sliding Emoji Keyboard"
+            />
+
+    <Preference
+            android:key="emoji_unlock"
+            android:title="Sliding Emoji Keyboard Unlock"
+            />
+
+    <Preference
+            android:key="halo_pop"
+            android:title="HaloPop"
+            />
+
+    <Preference
+            android:key="theme_engine"
+            android:title="Sliding Messaging Theme Engine"
+            />
+
+</PreferenceScreen>
