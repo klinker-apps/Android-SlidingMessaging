@@ -473,7 +473,7 @@ public class MainActivity extends FragmentActivity {
             vp.setBackgroundColor(getResources().getColor(R.color.light_silver));
             tabs.setBackgroundColor(getResources().getColor(R.color.light_silver));
 
-            vp.setId(View.generateViewId());
+            vp.setId(555555);
 
             Display d = ((WindowManager)getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
             int keyboardHeight = (int) (d.getHeight()/3.0);
@@ -1795,9 +1795,6 @@ public class MainActivity extends FragmentActivity {
         if (!emoji)
         {
             emojiButton.setVisibility(View.GONE);
-            LayoutParams params = (RelativeLayout.LayoutParams)messageEntry.getLayoutParams();
-            params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-            messageEntry.setLayoutParams(params);
         } else
         {
             emojiButton.setOnClickListener(new OnClickListener() {
@@ -2659,9 +2656,6 @@ public class MainActivity extends FragmentActivity {
         if (!emoji)
         {
             emojiButton.setVisibility(View.GONE);
-            LayoutParams params = (RelativeLayout.LayoutParams)mEditText.getLayoutParams();
-            params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-            mEditText.setLayoutParams(params);
         } else
         {
             emojiButton.setOnClickListener(new OnClickListener() {
