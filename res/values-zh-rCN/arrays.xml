@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
+
     <string-array name="titleColors">
         <item>蓝色</item>
         <item>绿色</item>
@@ -8,24 +8,56 @@
         <item>红色</item>
         <item>紫色</item>
         <item>灰色</item>
+        <item>深灰色</item>
         <item>黑色</item>
     </string-array>
     
     <string-array name="messageOptions">
         <item>复制文本</item>
-        <item>下条信息</item>
+        <item>转发信息</item>
         <item>删除信息</item>
-        <item>Lock Message</item>
+        <item>锁定信息</item>
     </string-array>
     
+    <string-array name="messageOptionsUnlock">
+        <item>复制文本</item>
+        <item>转发信息</item>
+        <item>删除信息</item>
+        <item>解锁信息</item>
+    </string-array>
+
     <string-array name="messageOptions2">
         <item>复制文本</item>
         <item>保存图像</item>
-        <item>下条信息</item>
+        <item>转发信息</item>
         <item>删除信息</item>
-        <item>Lock Message</item>
+        <item>锁定信息</item>
+    </string-array>
+
+    <string-array name="messageOptions2Unlock">
+        <item>复制文本</item>
+        <item>保存图像</item>
+        <item>转发信息</item>
+        <item>删除信息</item>
+        <item>解锁信息</item>
+    </string-array>
+
+    <string-array name="messageOptions3">
+        <item>重新发送</item>
+        <item>复制文本</item>
+        <item>转发信息</item>
+        <item>删除信息</item>
+        <item>锁定信息</item>
     </string-array>
     
+    <string-array name="messageOptions3Unlock">
+        <item>重新发送</item>
+        <item>复制文本</item>
+        <item>转发信息</item>
+        <item>删除信息</item>
+        <item>解锁信息</item>
+    </string-array>
+
     <string-array name="ledColors">
         <item>白色</item>
         <item>蓝色</item>
@@ -43,27 +75,27 @@
         <item>3 次短震</item>
         <item>3 次长震</item>
     </string-array>
-    
+
     <string-array name="smilies">
         <item>有鼻子 :-)</item>
         <item>无鼻子 :)</item>
         <item>全无</item>
         <item>全有</item>
     </string-array>
-    
+
     <string-array name="quickReplyOptions">
         <item>回复</item>
         <item>阅读</item>
         <item>呼叫</item>
         <item>删除</item>
     </string-array>
-    
+
     <string-array name="slideToMenu">
         <item>滑动菜单完全显示</item>
         <item>滑动菜单保留边缘</item>
         <item>禁用滑动菜单（仅可通过按键切换）</item>
     </string-array>
-    
+
     <string-array name="notificationIcon">
         <item>白色</item>
         <item>蓝色</item>
@@ -87,7 +119,7 @@
     </string-array>
     
     <string-array name="deliveryOptions">
-        <item>Nothing on Delivery</item>
+        <item>什么都不做</item>
         <item>弹出交互窗口</item>
         <item>临时显示窗口</item>
     </string-array>
@@ -106,6 +138,7 @@
         <item>从左侧滑入</item>
         <item>从右侧滑入</item>
         <item>从底部滑入</item>
+        <item>从底部缩小</item>
         <item>禁用滑入</item>
     </string-array>
     
@@ -114,96 +147,104 @@
         <item>右侧对齐</item>
         <item>左侧对齐</item>
     </string-array>
-    
+
+    <string-array name="textAlignment2">
+        <item>居中对齐</item>
+        <item>右侧对齐</item>
+        <item>左侧对齐</item>
+    </string-array>
+
     <string-array name="selectImage">
         <item>选择图像</item>
         <item>获取图像</item>
-        <item>Attach More...</item>
+        <item>更多...</item>
     </string-array>
     
     <string-array name="runAs">
-        <item>Card UI</item>
-        <item>Hangouts UI</item>
-        <item>经典布局</item>
+        <item>卡片风格</item>
+        <item>谷歌群聊风格</item>
+        <item>经典风格</item>
     </string-array>
-    
+
     <string-array name="cardTheme">
-        <item>明亮</item>
-        <item>灰暗</item>
+        <item>暗色</item>
+        <item>深色</item>
+        <item>黑色</item>
     </string-array>
 
     <string-array name="repeatingNotification">
-        <item>Never</item>
-        <item>15 Seconds</item>
-        <item>30 Seconds</item>
-        <item>1 Minute</item>
-        <item>2 Minutes</item>
-        <item>5 Minutes</item>
-        <item>7 Minutes</item>
-        <item>10 Minutes</item>
-        <item>15 Minutes</item>
+        <item>从不</item>
+        <item>15 秒</item>
+        <item>30 秒</item>
+        <item>1 分钟</item>
+        <item>2 分钟</item>
+        <item>5 分钟</item>
+        <item>7 分钟</item>
+        <item>10 分钟</item>
+        <item>15 分钟</item>
     </string-array>
 
     <string-array name="attach_more_options">
-        <item>Select Image</item>
-        <item>Select Video</item>
-        <item>Select Audio</item>
+        <item>选择图片</item>
+        <item>选择视频</item>
+        <item>选择声音</item>
     </string-array>
 
     <string-array name="notification_icon">
-        <item>Stock Icon</item>
-        <item>Message Bubble</item>
-        <item>Exclamation Point</item>
-        <item>Paper Airplane</item>
-        <item>Cloud</item>
+        <item>原生</item>
+        <item>气泡</item>
+        <item>感叹号</item>
+        <item>纸飞机</item>
+        <item>云朵</item>
     </string-array>
 
     <string-array name="timeout">
-        <item>30 Seconds</item>
-        <item>1 Minute</item>
-        <item>5 Minutes</item>
-        <item>10 Minutes</item>
-        <item>30 Minutes</item>
-        <item>1 Hour</item>
-        <item>5 Hours</item>
+        <item>30 秒</item>
+        <item>1 分钟</item>
+        <item>5 分钟</item>
+        <item>10 分钟</item>
+        <item>30 分钟</item>
+        <item>1 小时</item>
+        <item>5 小时</item>
     </string-array>
 
     <string-array name="security_type">
-        <item>No Security</item>
+        <item>无</item>
         <item>PIN</item>
-        <item>Pattern</item>
-        <item>Password</item>
+        <item>图案</item>
+        <item>密码</item>
     </string-array>
 
     <string-array name="repetition_array">
-        <item>None</item>
-        <item>Daily</item>
-        <item>Weekly</item>
-        <item>Yearly</item>
+        <item>无</item>
+        <item>每天</item>
+        <item>每周</item>
+        <item>每年</item>
     </string-array>
 
     <string-array name="backup_repetition_array">
-        <item>None</item>
-        <item>Daily</item>
-        <item>Every 3 Days</item>
-        <item>Weekly</item>
+        <item>无</item>
+        <item>每天</item>
+        <item>每3天</item>
+        <item>每周</item>
     </string-array>
 
     <string-array name="pin_conversation_list">
-        <item>Default, According to Device Type</item>
-        <item>Never Pin</item>
-        <item>Pin in Landscape Mode</item>
-        <item>Always Pin</item>
+        <item>默认, 根据您的设备</item>
+        <item>从不</item>
+        <item>仅水平视图</item>
+        <item>总是</item>
     </string-array>
 
     <string-array name="slideover_side">
-        <item>Left</item>
-        <item>Right</item>
+        <item>左侧</item>
+        <item>右侧</item>
     </string-array>
 
     <string-array name="slideover_secondary_action">
-        <item>Open Conversation List</item>
-        <item>Compose New Message</item>
-        <item>Mark All Messages as Read</item>
+        <item>打开会话列表</item>
+        <item>撰写新信息</item>
+        <item>标记所有为已读</item>
     </string-array>
+
 </resources>

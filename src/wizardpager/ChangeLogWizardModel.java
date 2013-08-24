@@ -49,7 +49,7 @@ public class ChangeLogWizardModel extends AbstractWizardModel {
         }
 
         String changeLog = "Version " + version + ":\n\n" +
-                "- Beautiful new emoji keyboard for Android emojis. This same keyboard can be used in any app on your phone by downloading our new Emoji Keyboard! http://goo.gl/9DxvSf\n" +
+                "- Beautiful new emoji keyboard for Android emojis. This same keyboard can be used in any app on your phone by downloading our new Emoji Keyboard! http://goo.gl/D8jmTD\n" +
                 "- Ability to lock messages\n" +
                 "- Batch delete certain messages in single conversation\n" +
                 "- Redone share box to match current theme\n" +
