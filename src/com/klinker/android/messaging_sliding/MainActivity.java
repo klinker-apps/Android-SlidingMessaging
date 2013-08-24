@@ -1982,7 +1982,6 @@ public class MainActivity extends FragmentActivity {
     {
         if(menu.isSecondaryMenuShowing())
         {
-            //TODO - insert int message entry 2 box... don't know how haha
             messageEntry2.append(EmojiConverter2.getSmiledText(statCont, emoji));
         } else {
             messageEntry1.append(EmojiConverter2.getSmiledText(statCont, emoji));
