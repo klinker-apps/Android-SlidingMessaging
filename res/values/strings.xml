@@ -679,5 +679,6 @@
     <string name="xda_thread">XDA Developers Thread</string>
     <string name="emoji_keyboard">Use Emoji Keyboard</string>
     <string name="emoji_keyboard_summary">NOTE: Android emojis only.</string>
+    <string name="other_apps">Our Other Apps</string>
 
 </resources>

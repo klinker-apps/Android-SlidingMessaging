@@ -411,6 +411,19 @@ public class SettingsPagerActivity extends FragmentActivity {
                 }
 
             });
+
+            Preference otherApps = findPreference("other_apps");
+            otherApps.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+
+                @Override
+                public boolean onPreferenceClick(Preference arg0) {
+                    Intent intent = new Intent(context, OtherAppsSettingsActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                    return false;
+                }
+
+            });
         }
 
         public void setUpThemeSettings()

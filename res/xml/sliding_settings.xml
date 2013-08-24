@@ -75,6 +75,11 @@
             android:title="@string/get_help"
             />
 
+        <Preference
+            android:key="other_apps"
+            android:title="@string/other_apps"
+            />
+
     </PreferenceCategory>
 
 
