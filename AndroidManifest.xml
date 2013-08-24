@@ -202,7 +202,7 @@
         </activity>
         
         <activity
-            android:name=".settings.ThemeChooserActivity"
+            android:name="com.klinker.android.messaging_sliding.theme.ThemeChooserActivity"
             android:label="@string/theme_chooser_prefs"
             android:theme="@style/SettingsTheme" >
         </activity>

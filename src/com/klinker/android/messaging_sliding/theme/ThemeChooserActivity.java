@@ -1,4 +1,4 @@
-package com.klinker.android.messaging_donate.settings;
+package com.klinker.android.messaging_sliding.theme;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -40,10 +40,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.RelativeLayout.LayoutParams;
-import com.klinker.android.messaging_sliding.theme.CustomFontSettingsActivity;
-import com.klinker.android.messaging_sliding.theme.CustomTheme;
-import com.klinker.android.messaging_sliding.theme.CustomThemeActivity;
-import com.klinker.android.messaging_sliding.theme.DefaultThemeActivity;
 
 public class ThemeChooserActivity extends Activity {
 	/**

@@ -38,6 +38,7 @@ import com.klinker.android.messaging_sliding.templates.TemplateActivity;
 import java.io.*;
 import java.util.*;
 
+import com.klinker.android.messaging_sliding.theme.ThemeChooserActivity;
 import group.pals.android.lib.ui.lockpattern.LockPatternActivity;
 import group.pals.android.lib.ui.lockpattern.prefs.SecurityPrefs;
 

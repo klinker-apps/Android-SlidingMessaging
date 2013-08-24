@@ -57,7 +57,7 @@ public class ChangeLogWizardModel extends AbstractWizardModel {
                 "- Added tablet support\n" +
                 "- Bug fixes\n\n" +
                 "- For interested developers: I completely recreated the back-end sending process and published as a library to Github. Any developer interested in using it, improving it, or whatever else, check it out! " +
-                "There is support for sending SMS, MMS, and Google Voice messages all packaged into one easy class to use - this is something Google has neglected for much too long, so with this anyone can easily send " +
+                "There is support for sending SMS and MMS all packaged into one easy class to use - this is something Google has neglected for much too long, so with this anyone can easily send " +
                 "any type of message from within their application. Think of it as the missing MMS APIs if you want and save yourself the trouble of countless hours digging through their source code trying to figure out what is going on." +
                 " <INSERT LINK TO GITHUB PROJECT HERE>";
                 
