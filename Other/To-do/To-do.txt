@@ -1,13 +1,11 @@
 Version 7.50
 
 Jake:
-    - make resending in cursor adapter use new library
     - google voice sending support
     - google voice receiving support
     - Figure out how to judge file size of png images and adjust them accordingly when sending, look into UriImage.getResizedImageData for solution
     - delayed sending for certain times
 Luke:
-    - Add select all for batch delete
     - Message details for MMS messages
 
 1) more individual notification options
