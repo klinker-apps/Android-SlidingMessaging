@@ -3,6 +3,7 @@ package com.klinker.android.messaging_donate;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.preference.PreferenceManager;
 import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead2;
 import com.klinker.android.send_message.Message;
@@ -37,6 +38,26 @@ public class SendUtil {
         Transaction sendTransaction = new Transaction(context, getSendSettings(context));
 
         final Message message = new Message(body, number);
+
+        sendTransaction.sendNewMessage(message, null);
+
+        Intent mrIntent = new Intent();
+        mrIntent.setClass(context, QmMarkRead2.class);
+        mrIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        mrIntent.putExtra("body", body);
+        mrIntent.putExtra("date", Calendar.getInstance().getTimeInMillis() + "");
+        mrIntent.putExtra("address", number);
+        context.startService(mrIntent);
+
+        com.klinker.android.messaging_sliding.MainActivity.messageRecieved = true;
+    }
+
+    public static void sendMessage(Context context, String[] number, String body, Bitmap[] images)
+    {
+        Transaction sendTransaction = new Transaction(context, getSendSettings(context));
+
+        final Message message = new Message(body, number);
+        message.setImages(images);
 
         sendTransaction.sendNewMessage(message, null);
 
