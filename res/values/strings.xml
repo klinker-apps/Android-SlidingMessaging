@@ -684,5 +684,6 @@
     <string name="trial_expired_message">Hope you have enjoyed your trial!\n\nThe trial of Sliding Messaging Pro has now expired and if you wish to continue using the app, please upgrade to the full version. You will be able to continue using the free version as of now, but with extremely limited functionality.</string>
     <string name="upgrade_to_pro">Upgrade to Sliding Messaging Pro!</string>
     <string name="select_all">Select All</string>
+    <string name="select_none">Select None</string>
 
 </resources>

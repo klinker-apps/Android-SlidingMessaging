@@ -187,6 +187,36 @@ public class BatchDeleteAllActivity extends Activity {
 			}
 			
 		});
+
+        final Button selectAll = (Button) findViewById(R.id.selectAllButton);
+        selectAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (!BatchDeleteAllArrayAdapter.checkedAll)
+                {
+                    BatchDeleteAllArrayAdapter.itemsToDelete.clear();
+                    BatchDeleteAllArrayAdapter.checkedAll = true;
+
+                    mAdapter.notifyDataSetChanged();
+
+                    for (int i = 0; i < threadIds.size(); i++)
+                        BatchDeleteAllArrayAdapter.itemsToDelete.add(i);
+
+                    selectAll.setText(getResources().getString(R.string.select_none));
+
+                } else
+                {
+                    BatchDeleteAllArrayAdapter.itemsToDelete.clear();
+                    BatchDeleteAllArrayAdapter.checkedAll = false;
+
+                    mAdapter.notifyDataSetChanged();
+
+                    selectAll.setText(getResources().getString(R.string.select_all));
+                }
+
+            }
+        });
 	}
 
     @Override

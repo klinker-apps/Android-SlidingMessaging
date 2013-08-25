@@ -34,7 +34,7 @@ import java.util.Locale;
 public class BatchDeleteConversationArrayAdapter extends CursorAdapter {
 
     public static ArrayList<String> itemsToDelete = new ArrayList<String>();
-    public static boolean checkedAll;
+    public static boolean checkedAll = false;
 
     private final Activity context;
     private final String myId;

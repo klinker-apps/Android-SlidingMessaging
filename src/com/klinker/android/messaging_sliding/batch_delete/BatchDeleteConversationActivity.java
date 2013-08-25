@@ -112,7 +112,7 @@ public class BatchDeleteConversationActivity extends Activity implements android
 
         });
 
-        Button selectAll = (Button) findViewById(R.id.selectAllButton);
+        final Button selectAll = (Button) findViewById(R.id.selectAllButton);
         selectAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -143,12 +143,17 @@ public class BatchDeleteConversationActivity extends Activity implements android
                     } while(selectAllQuery.moveToNext());
 
                     selectAllQuery.close();
+
+
+                    selectAll.setText(getResources().getString(R.string.select_none));
                 } else
                 {
                     BatchDeleteConversationArrayAdapter.itemsToDelete.clear();
                     BatchDeleteConversationArrayAdapter.checkedAll = false;
 
                     adapter.notifyDataSetChanged();
+
+                    selectAll.setText(getResources().getString(R.string.select_all));
                 }
 
             }
