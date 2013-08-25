@@ -10,7 +10,7 @@
         android:id="@+id/messageListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/doneButton"
+        android:layout_above="@+id/buttons"
         android:layout_alignParentTop="true"
         android:cacheColorHint="@color/card_message_list_back"
         android:divider="@null"
@@ -20,13 +20,31 @@
 
     </ListView>
 
-    <Button
-        android:id="@+id/doneButton"
+    <LinearLayout
+        android:id="@+id/buttons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:text="@string/delete" />
+        android:layout_alignParentRight="true" >
+
+        <Button
+                android:id="@+id/doneButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/delete" />
+
+        <Button
+                android:id="@+id/selectAllButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/select_all" />
+
+        </LinearLayout>
+
+
+
 
 </RelativeLayout>

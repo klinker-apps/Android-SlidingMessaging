@@ -37,6 +37,7 @@ import java.util.ArrayList;
 
 public class BatchDeleteAllArrayAdapter extends ArrayAdapter<String> {
     public static ArrayList<Integer> itemsToDelete = new ArrayList<Integer>();;
+    public static boolean checkedAll = false;
 
     private final Activity context;
     private final ArrayList<String> body;

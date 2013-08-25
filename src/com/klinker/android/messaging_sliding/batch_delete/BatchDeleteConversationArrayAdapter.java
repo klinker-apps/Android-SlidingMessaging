@@ -34,6 +34,7 @@ import java.util.Locale;
 public class BatchDeleteConversationArrayAdapter extends CursorAdapter {
 
     public static ArrayList<String> itemsToDelete = new ArrayList<String>();
+    public static boolean checkedAll = false;
 
     private final Activity context;
     private final String myId;
@@ -263,6 +264,7 @@ public class BatchDeleteConversationArrayAdapter extends CursorAdapter {
     public void bindView(final View view, Context mContext, final Cursor cursor) {
         final ViewHolder holder = (ViewHolder) view.getTag();
         holder.media.setVisibility(View.GONE);
+
 
         boolean sent = false;
         String image;
@@ -635,6 +637,21 @@ public class BatchDeleteConversationArrayAdapter extends CursorAdapter {
         } catch (Exception e)
         {
             e.printStackTrace();
+        }
+
+        if (checkedAll)
+        {
+            holder.background.setBackgroundColor(context.getResources().getColor(R.color.holo_blue));
+            holder.bubble.setColorFilter(context.getResources().getColor(R.color.holo_blue));
+        } else
+        {
+            if (sent) {
+                holder.background.setBackgroundColor(ctSentMessageBackground);
+                holder.bubble.setColorFilter(ctSentMessageBackground);
+            } else {
+                holder.background.setBackgroundColor(ctRecievedMessageBackground);
+                holder.bubble.setColorFilter(ctRecievedMessageBackground);
+            }
         }
 
         if (group && !sent)
