@@ -2,11 +2,15 @@ package com.klinker.android.messaging_sliding.batch_delete;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
+import android.database.CharArrayBuffer;
+import android.database.ContentObserver;
 import android.database.Cursor;
+import android.database.DataSetObserver;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,6 +27,8 @@ import java.util.ArrayList;
 public class BatchDeleteConversationActivity extends Activity implements android.app.LoaderManager.LoaderCallbacks<Cursor> {
 
     public String threadId;
+
+    public BatchDeleteConversationArrayAdapter adapter;
 
     public ListView list;
 
@@ -106,6 +112,48 @@ public class BatchDeleteConversationActivity extends Activity implements android
 
         });
 
+        Button selectAll = (Button) findViewById(R.id.selectAllButton);
+        selectAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (!BatchDeleteConversationArrayAdapter.checkedAll)
+                {
+                    BatchDeleteConversationArrayAdapter.itemsToDelete.clear();
+                    BatchDeleteConversationArrayAdapter.checkedAll = true;
+
+                    adapter.notifyDataSetChanged();
+
+                    Uri uri3 = Uri.parse("content://mms-sms/conversations/" + threadId + "/");
+                    String[] projection2;
+
+                    String proj = "_id body date type msg_box";
+
+                    projection2 = proj.split(" ");
+
+                    String sortOrder = "normalized_date desc";
+
+                    Cursor selectAllQuery = getContentResolver().query(uri3, projection2, null, null, sortOrder);
+
+                    selectAllQuery.moveToFirst();
+
+                    do
+                    {
+                        BatchDeleteConversationArrayAdapter.itemsToDelete.add(selectAllQuery.getString(selectAllQuery.getColumnIndex("_id")));
+                    } while(selectAllQuery.moveToNext());
+
+                    selectAllQuery.close();
+                } else
+                {
+                    BatchDeleteConversationArrayAdapter.itemsToDelete.clear();
+                    BatchDeleteConversationArrayAdapter.checkedAll = false;
+
+                    adapter.notifyDataSetChanged();
+                }
+
+            }
+        });
+
         getLoaderManager().restartLoader(Integer.parseInt(threadId), null, this);
     }
 
@@ -134,7 +182,7 @@ public class BatchDeleteConversationActivity extends Activity implements android
     @Override
     public void onLoadFinished(android.content.Loader<Cursor> loader, final Cursor query)
     {
-        BatchDeleteConversationArrayAdapter adapter = new BatchDeleteConversationArrayAdapter((Activity) context, MainActivity.myContactId, MainActivity.findContactNumber(threadId, context), threadId, query, 1);
+        adapter = new BatchDeleteConversationArrayAdapter((Activity) context, MainActivity.myContactId, MainActivity.findContactNumber(threadId, context), threadId, query, 1);
 
         list.setAdapter(adapter);
         list.setStackFromBottom(true);
