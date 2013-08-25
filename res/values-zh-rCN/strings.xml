@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Messaging Pro</string>
+    <string name="app_name">滑动</string>
+    <string name="app_name_in_app">信息</string>
     <string name="menu_settings">设置</string>
     <string name="send_button">发送</string>
-    <string name="type_message">输入信息</string>
+    <string name="type_message">输入内容</string>
     <string name="chars">1/160</string>
     <string name="placeholder">占位符</string>
     <string name="contact_entry">发送至</string>
@@ -12,18 +13,18 @@
     <string name="menu_new_message">新信息</string>
     <string name="quick_reply">快速回复</string>
     <string name="dark_theme">灰暗主题</string>
-    <string name="dark_theme_summary">勾选启用灰暗主题</string>
+    <string name="dark_theme_summary">勾选以启用灰暗主题</string>
     <string name="text_size">文本尺寸</string>
     <string name="text_size_summary">选择信息文本尺寸</string>
     <string name="notifications">通知提示</string>
-    <string name="notifications_summary">勾选启用通知提示</string>
+    <string name="notifications_summary">勾选以启用通知提示</string>
     <string name="ringtone">铃声设置</string>
-    <string name="ringtone_summary">选择收信播放铃声</string>
+    <string name="ringtone_summary">选择通知铃声</string>
     <string name="page_or_menu">滑动菜单</string>
     <string name="page_or_menu_summary">选择会话列表与新信息切换方式</string>
     <string name="theme">主题设置</string>
     <string name="dark_theme_quick_reply">快速回复灰暗主题</string>
-    <string name="dark_theme_quick_reply_summary">勾选启用快速回复灰暗主题（仅 Jellybean）</string>
+    <string name="dark_theme_quick_reply_summary">勾选启用快速回复灰暗主题</string>
     <string name="menu_about">关于</string>
     <string name="delete_message">您是否确认想要删除此短信？</string>
     <string name="delete_messages">您是否确认想要删除这些短信？</string>
@@ -40,44 +41,42 @@
     <string name="draft_saved">草稿已复制至剪切板</string>
     <string name="hour_format">24 小时时间戳</string>
     <string name="hide_title_bar">显示标题栏</string>
-    <string name="hide_title_bar_summary">勾选显示标题栏</string>
+    <string name="hide_title_bar_summary">勾选以显示标题栏</string>
     <string name="strip_unicode">去除 Unicode 编码</string>
     <string name="strip_unicode_summary">在短信信息中使用“?”代替不支持的字符</string>
     <string name="other">其他设置</string>
     <string name="ok">确认</string>
     <string name="emoji">启用表情符号</string>
     <string name="donate">Pro 版本</string>
+    <string name="donate_summary">获得更多的功能特性并及时的升级</string>
     <string name="load_messages">载入短信</string>
     <string name="load_messages_summary">设置初始载入短信数量</string>
     <string name="load_all">载入所有</string>
     <string name="limit_messages">信息限制</string>
     <string name="limit_messages_summary">限制初始短信载入数量</string>
-    <string name="pull_to_refresh">滑动载入更多短信</string>
+    <string name="pull_to_refresh">下拉以载入更多短信</string>
     <string name="vibrate">震动提醒</string>
     <string name="override">代替原生短信</string>
-    <string name="override_summary">将信息保存至收件箱、中断其他短信应用广播并阻止通知显示，仅当您已卸载原生短信时启用</string>
+    <string name="override_summary">信息将保存至收件箱、中断其他短信应用广播并阻止通知显示，可能会影响呼吸灯闪烁</string>
     <string name="open_contact_menu">信息列表</string>
-    <string name="open_contact_menu_summary">当应用启动时候自动滑出左侧列表</string>
-    <string name="limit_conversations">载入会话</string>
-    <string name="limit_conversations_summary">设置初始会话载入数量</string>
+    <string name="open_contact_menu_summary">当应用启动时候自动滑出左侧信息列表</string>
     <string name="contact_pictures">显示联系人头像</string>
     <string name="date_format">日期格式</string>
     <string name="date_format_summary">设置日期显示格式</string>
     <string name="secure_notification">安全通知</string>
-    <string name="secure_notification_summary">发信人以及信息文本不显示在通知内</string>
+    <string name="secure_notification_summary">发信人以及信息文本将不会显示在通知中</string>
     <string name="enable_view_conversation">会话预览</string>
-    <string name="enable_view_conversation_summary">在快速回复对话框底部显示会话预览按键</string>
+    <string name="enable_view_conversation_summary">在快速回复对话框底部显示会话预览和删除按钮</string>
     <string name="enable_mms">启用彩信</string>
-    <string name="enable_mms_summary">目前尚未完整支持</string>
-    <string name="mobile_only">号码显示</string>
+    <string name="mobile_only">仅显示号码</string>
     <string name="mobile_only_summary">当搜索时仅显示信息发送号码</string>
     <string name="led_color">LED 指示灯</string>
     <string name="led_color_summary">选择 LED 指示灯显示颜色</string>
     <string name="vibrate_pattern">震动模式</string>
     <string name="vibrate_pattern_summary">设置收到新短信时的震动模式</string>
     <string name="menu_call">拨打电话</string>
-    <string name="keyboard_type">表情按键</string>
-    <string name="keyboard_type_summary">在键盘中显示表情按键</string>
+    <string name="keyboard_type">表情按钮</string>
+    <string name="keyboard_type_summary">在键盘中显示表情按钮</string>
     <string name="override_lang">忽视系统语言</string>
     <string name="override_lang_summary">设置显示语言为英语</string>
     <string name="save_image">图像已保存</string>
@@ -87,19 +86,19 @@
     <string name="unlock_screen_summary">当收到新短信时候解锁设备</string>
     <string name="signature">设置签名</string>
     <string name="smilies">表情显示</string>
-    <string name="smilies_summary">启用表情显示</string>
+    <string name="smilies_summary">设置表情该如何显示</string>
     <string name="send_to">发送至</string>
-    <string name="button_options">通知按键</string>
-    <string name="button_options_summary">设置通知显示按键</string>
+    <string name="button_options">通知按钮</string>
+    <string name="button_options_summary">选择显示在通知上的快捷按钮（大多数手机最多只能显示3个）</string>
     <string name="slide_messages">滑动闭合</string>
     <string name="slide_messages_summary">当打开新会话时完全闭合短信会话列表</string>
     <string name="disable_sliding">禁用滑动菜单</string>
-    <string name="disable_sliding_summary">禁用左右滑动菜单并更改为仅通过顶部按键打开</string>
-    <string name="show_keyboard">显示键盘</string>
-    <string name="show_keyboard_summary">当应用启动时候自动显示键盘</string>
+    <string name="disable_sliding_summary">禁用左右滑动菜单并更改为仅通过顶部按钮打开</string>
+    <string name="show_keyboard">隐藏键盘</string>
+    <string name="show_keyboard_summary">当信息发送后自动隐藏键盘</string>
     <string name="notification_icon">通知图标颜色</string>
     <string name="new_message">新短信</string>
-    <string name="title_caps">字母大写</string>
+    <string name="title_caps">标题栏字母大写</string>
     <string name="title_caps_summary">勾选后标题栏将使用大写字母显示</string>
     <string name="advanced_theme">高级主题设置</string>
     <string name="advanced_notifications">高级通知设置</string>
@@ -109,49 +108,49 @@
     <string name="title_contact_image">标题栏联系人头像</string>
     <string name="title_contact_image_summary">在操作栏中显示当前会话联系人头像</string>
     <string name="pitch_black_theme">黑色主题</string>
-    <string name="custom_background">自定义背景菜单</string>
-    <string name="custom_background_summary">设置滑动菜单自定义背景</string>
-    <string name="custom_background2">自定义短信菜单</string>
-    <string name="custom_background2_summary">设置短信会话自定义背景</string>
+    <string name="custom_background">自定义菜单背景</string>
+    <string name="custom_background_summary">自定义滑动菜单的背景</string>
+    <string name="custom_background2">自定义短信背景</string>
+    <string name="custom_background2_summary">自定义短信会话的背景</string>
     <string name="menu_delete">删除所有会话</string>
     <string name="delete_all">警告：此操作将删除所有短信会话！\n\n您是否确认想要继续操作？</string>
     <string name="text_settings">信息设置</string>
     <string name="sent_text_color">发送信息文本颜色</string>
-    <string name="sent_text_color_summary">发送接收信息文本字体颜色</string>
+    <string name="sent_text_color_summary">选择发出信息的文本字体颜色</string>
     <string name="received_text_color">接收信息文本颜色</string>
-    <string name="received_text_color_summary">设置接收信息文本字体颜色</string>
-    <string name="menu_text_color">菜单文本</string>
-    <string name="menu_text_color_summary">设置菜单文本字体颜色</string>
+    <string name="received_text_color_summary">选择接收信息的文本字体颜色</string>
+    <string name="menu_text_color">菜单文本颜色</string>
+    <string name="menu_text_color_summary">选择菜单的文本字体颜色</string>
     <string name="text_opacity">信息透明</string>
     <string name="text_opacity_summary">设置信息透明度（允许显示自定义背景）</string>
+    <string name="conversation">会话</string>
     <string name="version">版本</string>
-    <string name="extension_title">Sliding Messaging</string>
+    <string name="extension_title">滑动短信</string>
     <string name="extension_description">在您的锁屏界面中显示新信息</string>
     <string name="emoji_type">Android 风格表情文字</string>
     <string name="notification_settings">通知设置</string>
-    <string name="about_expanded">感谢 jfeinstein10 创建于 GitHub 的 SlidingMenu 库以及所有翻译者</string>
+    <string name="about_expanded">感谢 jfeinstein10 创建于 GitHub 的 SlidingMenu 库，attenzione 的 ColorPickerPreference 库，nhaarman 的 LostViewAnimations 库，Roman Nurik 的 Wizard Pager 库，Hai Bison 托管于 Google Code 的 Lock Pattern 库，Paranoid 项目组在 SlideOver 功能中给予的灵感和其他精彩的工作，并致谢所有翻译者</string>
     <string name="download">下载彩信</string>
     <string name="none"></string>
     <string name="message_delivered">信息已发送</string>
     <string name="message_not_delivered">信息未发送</string>
     <string name="dismiss">退信</string>
     <string name="delivery_options">发送报告</string>
-    <string name="delivery_options_summary">显示短信送达报告</string>
+    <string name="delivery_options_summary">选择发送报告的显示方式</string>
     <string name="image_viewer">彩信图像</string>
     <string name="multiple_attachments">多选附件</string>
-    
     <string name="delete_conversation">删除会话</string>
     <string name="save_images">图像已保存</string>
     <string name="persistent">始终显示拓展信息</string>
-    <string name="persistent_summary">勾选该选项始终检查新信息数量，即使数量为零</string>
+    <string name="persistent_summary">勾选该选项以便始终检查新信息数量，即使数量为零</string>
     <string name="screen_timeout">屏幕超时</string>
     <string name="always_show_contact_info">动作栏显示联系人信息</string>
-    <string name="always_show_contact_info_summary">强制显示联系人信息于自动栏中，即使标题栏已启用显示</string>
+    <string name="always_show_contact_info_summary">强制显示联系人信息于动作栏中，即使标题栏已启用显示</string>
     <string name="deleting">正在删除…</string>
     <string name="send_animation">发送动画</string>
-    <string name="send_animation_summary">选择发送信息后所显示的动画</string>
+    <string name="send_animation_summary">选择发送信息时所显示的动画效果</string>
     <string name="receive_animation">接收动画</string>
-    <string name="receive_animation_summary">选择接收信息后所显示的动画</string>
+    <string name="receive_animation_summary">选择接收信息时所显示的动画效果</string>
     <string name="animation_speed">动画速度（毫秒）</string>
     <string name="sending">正在发送…</string>
     <string name="new_messages">撰写新信息</string>
@@ -159,22 +158,22 @@
     <string name="pref_messages_to_save">保存输入信息</string>
     <string name="delete_old">删除陈旧信息</string>
     <string name="sms_limit">短信保留上限</string>
-    <string name="sms_limit_summary">设置短信保留数量</string>
+    <string name="sms_limit_summary">设置短信保留的数量</string>
     <string name="mms_limit">彩信保留上限</string>
-    <string name="mms_limit_summary">设置彩信保留数量</string>
+    <string name="mms_limit_summary">设置彩信保留的数量</string>
     <string name="cancel">取消</string>
     <string name="conversation_settings">会话列表设置</string>
-    <string name="name_text_color">称呼文字颜色</string>
-    <string name="name_text_color_summary">选择联系人姓名文本显示颜色</string>
-    <string name="quick_text">快速信息通知</string>
-    <string name="quick_text_summary">创建允许您直接发送信息至联系人的通知</string>
+    <string name="name_text_color">联系人文字颜色</string>
+    <string name="name_text_color_summary">选择联系人姓名文本显示的颜色</string>
+    <string name="quick_text">常驻通知</string>
+    <string name="quick_text_summary">在通知栏中创建一个允许您快速发送信息的通知</string>
 	<string name="quick_text_notification">快速信息</string>
 	<string name="quick_text_notification_summary">点击打开快速信息窗口</string>
 	<string name="background_service">保留后台服务</string>
-	<string name="background_service_summary">测试功能：帮助加快初次启动速度，但可能导致过多电耗</string>
-	<string name="background_service_dialog">若您只希望 Sliding Messaging 运行，请勾选“代替原生短信”选项。若您发现勾选后导致 Sliding Messaging 强制关闭，您只需要卸载 Sliding Messaging 并重新安装即可。</string>
-	<string name="title_text_color">暗色文字颜色</string>
-	<string name="caching">正在缓存数据（缓存使用时间取决于您信息的数量）</string>
+	<string name="background_service_summary">测试功能：帮助加快初次启动速度，不会影响电池使用时间</string>
+	<string name="background_service_dialog">请务必勾选“代替原生短信”选项以保证此功能正常工作。若您发现勾选后导致滑动短信强制关闭，您只需要卸载滑动短信并重新安装即可。</string>
+	<string name="title_text_color">灰暗主题文字颜色</string>
+	<string name="caching">正在缓存数据（时间长短取决于您信息的数量）</string>
 	<string name="custom_theme_prefs">自定义主题设置</string>
 	<string name="ct_title_bar_color">标题栏颜色</string>
 	<string name="ct_title_bar_text_color">标题栏文字颜色</string>
@@ -190,7 +189,7 @@
 	<string name="ct_message_divider">启用信息分隔线</string>
 	<string name="ct_message_divider_color">信息分隔线颜色</string>
 	<string name="ct_send_button_color">发送按钮颜色</string>
-	<string name="ct_contact_image_color">暗色联系人图片</string>
+	<string name="ct_contact_image_color">灰暗主题联系人图片</string>
 	<string name="ct_counter_text_color">信息计数颜色</string>
 	<string name="ct_custom_font">自定义字体</string>
 	<string name="ct_theme_name">主题名称</string>
@@ -203,7 +202,7 @@
 	<string name="menu_delete_theme">删除主题</string>
 	<string name="menu_get_more_themes">获取更多主题</string>
 	<string name="menu_instructions">帮助信息</string>
-	<string name="menu_add_theme">行健主题</string>
+	<string name="menu_add_theme">新建主题</string>
 	<string name="theme_chooser_prefs">选择主题</string>
 	<string name="select_theme">选择主题</string>
 	<string name="save_theme">保存主题</string>
@@ -211,7 +210,7 @@
 	<string name="toast_theme_saved">主题已保存</string>
 	<string name="cannot_delete">无法删除默认主题</string>
 	<string name="popup_help1">您可以在此获取主题编辑器：</string>
-	<string name="popup_link"><a href="market://details?id=com.klinker.android.messaging_theme">Google Play Store</a></string>
+	<string name="popup_link"><a href="market://details?id=com.klinker.android.messaging_theme">Play Store</a></string>
 	<string name="popup_help2">- 您有以下两种方式编辑当前主题：</string>
 	<string name="popup_help3">1) 选择一个预设主题，在其基础上修改（您可以通过菜单 -> 编辑主题编辑该预设主题）</string>
 	<string name="popup_help4">2) 进入菜单 -> 新建主题以创建一个新的主题并编辑该主题</string>
@@ -231,7 +230,7 @@
 	<string name="default_font_summary">系统默认字体</string>
 	<string name="font_set">字体已保存</string>
 	<string name="find_fonts">正在查找 SD 卡中的字体文件…</string>
-	<string name="theme_support_title">Sliding Messaging Theme Engine</string>
+	<string name="theme_support_title">滑动短信主题引擎</string>
 	<string name="theme_support">Sliding Messaging 现已支持完全自由定制使用主题！\n\功能简介：\n - 拥有 16 款不同的主题可供选择\n - 选取任意颜色或使用 holo 预设\n - 编辑大量以往尚未主体化的元素\n - 在线分享获取他人设计全新主题\n - 从设备外部存储选择自定义字体\n\n进入设置 -> 自定义主题设置 -> 菜单 -> 帮助信息可获取更多关于全新的主题编辑器相关信息。</string>
 	<string name="get_it_now">立即获取</string>
 	<string name="remind_me_later">下次提醒</string>
@@ -240,7 +239,7 @@
 	<string name="changelog_disclaimers">请注意，如果您遇到了启动速度过慢等问题，请尝试在设置中勾选“保留后台服务”选项\n\n与以往一样，Sliding Messaging 仍处于 Beta 阶段，所有功能都在不断改变以及优化 - 随着 Android 的不断发展。</string>
 	<string name="led">LED 灯通知</string>
 	<string name="default_theme_prefs">默认主题设置</string>
-	<string name="breath">渐变通知动画</string>
+	<string name="breath">渐变通知栏图标</string>
 	<string name="breath_summary">启用该选项后通知图标将在通知栏中使用渐变效果显示，仅可用于白色图标</string>
 	<string name="go_sms_title">已安装 Go 短信</string>
 	<string name="go_sms_body">Sliding Messaging 发现您已安装了 GO 短信。需注意的是 Go SMS 默认将拦截其他短信通知，这意味着您可能不会收到任何由 Sliding Messaging 发出的通知。您可以进入 GO 短信设置 -> 高级设置 -> 接收设置中取消勾选“屏蔽其他东西应用通知”。</string>
@@ -251,7 +250,9 @@
 	<string name="replace">替换</string>
 	<string name="remove">移除</string>
 	<string name="menu_attach">附件</string>
-	<string name="select_picture">选择需发送图片</string>
+	<string name="select_picture">选择需发送的图片</string>
+    <string name="select_video">选择需发送的视频</string>
+    <string name="select_audio">选择需发送的声音</string>
 	<string name="group_message">群组信息</string>
 	<string name="group_message_summary">可自动将发送给多位联系人的信息转换为彩信群发信息，建议 Android 4.2 及更高版本</string>
 	<string name="mms">彩信</string>
@@ -305,12 +306,10 @@
 	<string name="ct_emoji_button_color">颜文字按钮颜色</string>
 	<string name="ct_conversation_divider_color">会话列表分隔线颜色</string>
 	<string name="run_as">选择显示布局</string>
-	<string name="people">联系人</string>
 	<string name="messages">信息</string>
 	<string name="message">信息</string>
 	<string name="conversation_list">会话列表</string>
 	<string name="conversations">会话</string>
-	<string name="conversation">会话</string>
 	<string name="delete">删除</string>
 	<string name="all">全选</string>
 	<string name="new_conversation">新会话</string>
@@ -324,322 +323,308 @@
 	<string name="open_to_first">打开最新会话</string>
 	<string name="simple_cards">绘制简易卡片</string>
 	<string name="simple_cards_summary">绘制无下部阴影卡片并有助于提升性能</string>
-    <string name="conversation_gesture">Conversation Fling</string>
-    <string name="conversation_gesture_summary">Quickly fling from the left side of screen to open conversation list</string>
-    <string name="new_message_gesture">New Message Fling</string>
-    <string name="new_message_gesture_summary">Quickly fling from the right side of screen to compose a new message</string>
-    <string name="gesture_distance">Gesture Distance</string>
-    <string name="gesture_distance_summary">Distance from side of screen you must start your fling from to activate gesture (by % of screen space)</string>
-    <string name="gesture_summary">Instructions:</string>
-    <string name="gesture_summary_description">To activate these gestures, start a quick swipe on the side of your screen toward the middle. To quickly move between pages, start your swipe in the middle and move toward either side.</string>
-    <string name="gesture_length">Gesture Length</string>
-    <string name="gesture_length_summary">Represents the distance you must move your finger from start to end to activate fling</string>
-    <string name="gesture_speed">Gesture Speed</string>
-    <string name="gesture_speed_summary">Represents the speed you must move your finger to activate fling</string>
-    <string name="gesture_settings">Gesture Settings</string>
-    <string name="auto_download_mms">Automatically Download MMS</string>
-    <string name="led_on_time">LED Flash On Time</string>
-    <string name="led_off_time">LED Flash Off Time</string>
-    <string name="repeating_notification">Repeating Notification Time</string>
-    <string name="repeating_notification_summary">Select how often you want to be reminded of a new message</string>
-    <string name="wifi_mms_fix">WiFi MMS Fix</string>
-    <string name="wifi_mms_fix_summary">Workaround: Will temporaraly disable WiFi when sending MMS and then attempt to restore connection once complete.</string>
-    <string name="hide_contact_number">Hide Contact Phone Number</string>
-    <string name="hide_contact_number_summary">Hides the phone number of each contact in the conversation list</string>
-    <string name="view_conversation">View Conversation</string>
-    <string name="popup_settings">Popup Settings</string>
-    <string name="use_old_popup">Use Old Popup</string>
-    <string name="widget_settings">Widget Settings</string>
-    <string name="widget_dark_theme">Use Dark Contact Cards</string>
-    <string name="widget_background">Enable Widget Background</string>
-    <string name="widget_background_summary">Shows background behind widget</string>
-    <string name="show_keyboard_popup">Show Keyboard on Start</string>
-    <string name="show_keyboard_popup_summary">Shows the keyboard when the popup is on screen automatically</string>
-    <string name="batch">Batch</string>
-    <string name="batch_delete">Batch Delete</string>
-    <string name="add_new">Add New Quick Template</string>
-    <string name="quick_templates">Manage Quick Templates</string>
-    <string name="delete_template">Delete Template?</string>
-    <string name="insert_template">Insert Template</string>
-    <string name="add_templates">Add more quick templates in Settings -> Manage Quick Templates</string>
-    <string name="send_with_return">Send Message with Return Key</string>
-    <string name="send_with_return_summary">Message will be sent with the return key instead of adding a return</string>
-    <string name="halo_popup">Multiwindow Popup</string>
-    <string name="halo_popup_summary">For use with custom ROMs with multiwindow (HALO) functionality only. Will launch full app in multiwindow mode instead of just the popup when notification received</string>
-    <string name="individual_notification_settings">Individual Notification Settings</string>
+    <string name="conversation_gesture">一掷千金</string>
+    <string name="conversation_gesture_summary">快速从屏幕左侧边缘划出以打开会话列表</string>
+    <string name="new_message_gesture">撰写新信息</string>
+    <string name="new_message_gesture_summary">快速从屏幕右侧边缘划出以打开撰写新信息页面</string>
+    <string name="gesture_distance">手势起点</string>
+    <string name="gesture_distance_summary">从屏幕边缘算起，何处可作为滑动的有效起点 (以屏幕百分比为计)</string>
+    <string name="gesture_summary">请注意：</string>
+    <string name="gesture_summary_description">要使用这些手势，您只需快速从屏幕边缘想屏幕中央滑动，要在不同页面之间快速切换，你需要从屏幕中央往屏幕两侧滑动</string>
+    <string name="gesture_length">手势长度</string>
+    <string name="gesture_length_summary">从屏幕边缘算起，指尖必须划过的最短距离</string>
+    <string name="gesture_speed">手势速度</string>
+    <string name="gesture_speed_summary">指定您要激活一掷千金功能所需要的滑动速度</string>
+    <string name="gesture_settings">手势设置</string>
+    <string name="auto_download_mms">自动下载彩信</string>
+    <string name="led_on_time">LED 灯亮起的时间</string>
+    <string name="led_off_time">LED 灯熄灭的时间</string>
+    <string name="repeating_notification">重复通知的间隔</string>
+    <string name="repeating_notification_summary">当有新信息时，你希望多久被通知一次</string>
+    <string name="wifi_mms_fix">Wifi 彩信补丁</string>
+    <string name="wifi_mms_fix_summary">功能：当发送彩信时临时关机 Wifi 连接，一旦发送完成会自动尝试恢复连接。</string>
+    <string name="hide_contact_number">隐藏联系人号码</string>
+    <string name="hide_contact_number_summary">隐藏会话列表中的联系人电话号码</string>
+    <string name="view_conversation">阅读信息</string>
+    <string name="popup_settings">弹出窗口设置</string>
+    <string name="use_old_popup">使用旧样式的弹出窗口</string>
+    <string name="widget_settings">桌面组件设置</string>
+    <string name="widget_dark_theme">使用深色的联系人卡片</string>
+    <string name="widget_background">启用主题背景</string>
+    <string name="widget_background_summary">背景将被显示在桌面组件之后</string>
+    <string name="show_keyboard_popup">显示键盘</string>
+    <string name="show_keyboard_popup_summary">当窗口弹出时自动打开键盘</string>
+    <string name="batch">批量</string>
+    <string name="batch_delete">批量删除</string>
+    <string name="add_new">新建创速回复模板</string>
+    <string name="quick_templates">管理快速回复模板</string>
+    <string name="delete_template">确认删除模板？</string>
+    <string name="insert_template">插入模板</string>
+    <string name="add_templates">进入 系统设置 -> 管理快速回复模板 中添加更多更多模板</string>
+    <string name="send_with_return">使用回车键发送信息</string>
+    <string name="send_with_return_summary">按下回车键后，不会另起一行，而是将信息发出</string>
+    <string name="halo_popup">多窗口弹出</string>
+    <string name="halo_popup_summary">仅限使用支持多窗口（如Halo）的系统有效，当收到通知时，程序将会被全部加载而不只是弹出窗口</string>
+    <string name="individual_notification_settings">个性化通知设置</string>
     <string name="individual_notification_settings_summary"></string>
-    <string name="add_new_individual">Add New Contact</string>
-    <string name="find_contact">Pick Contact</string>
-    <string name="experimental">Experimental</string>
-    <string name="delete_contact_settings">Delete individual notification settings?</string>
-    <string name="temp_led_color_summary">Choose flashing LED color. Be aware your LED may not support all colors</string>
-    <string name="tiny_date">Tiny Date</string>
-    <string name="tiny_date_summary">Displays date as a tiny font size instead of slightly smaller then message text size</string>
-    <string name="contact_name_or_number">Contact Name or Number</string>
-    <string name="save_blacklist">Save Blacklist Contact</string>
-    <string name="black_list_1">Hide notifications but still save messages from this contact</string>
-    <string name="black_list_2">Hide notifications and don\'t save messages from this contact</string>
-    <string name="delete_blacklist_contact">Delete blacklist contact?</string>
-    <string name="blacklist_settings">Blacklist Settings</string>
-    <string name="save_to_external">Save To External SD</string>
-    <string name="save_to_external_summary">Saves some data such as individual notifications and blacklist settings to the external SD card instead of internally</string>
-    <string name="split_sms">Split SMS Messages</string>
-    <string name="split_sms_summary">Will split messages into compatible lengths. For use if you have trouble sending long messages with your carrier</string>
-    <string name="top_actionbar">Action Bar on Top</string>
-    <string name="top_actionbar_summary">Will move action bar to top of screen on card layout</string>
-    <string name="attach_more">Attach More</string>
-    <string name="remove_attachment">Remove this media from message?</string>
-    <string name="show_original_timestamp">Show Original Timestamp</string>
-    <string name="people">People</string>
-    <string name="things">Objects</string>
+    <string name="add_new_individual">添加联系人</string>
+    <string name="find_contact">选取联系人</string>
+    <string name="experimental">测试功能</string>
+    <string name="delete_contact_settings">确认删除此个性通知设置吗?</string>
+    <string name="temp_led_color_summary">选择 LED 灯的闪烁颜色。请注意，您的 LED 灯可能不支持所有颜色</string>
+    <string name="tiny_date">迷你日期</string>
+    <string name="tiny_date_summary">以迷你字体显示日期，而不是比信息文本字体略小</string>
+    <string name="contact_name_or_number">联系人姓名或电话</string>
+    <string name="save_blacklist">保存黑名单</string>
+    <string name="black_list_1">隐藏通知，但是仍然保存此联系人的信息</string>
+    <string name="black_list_2">隐藏通知，并且不保存此联系人的信息</string>
+    <string name="delete_blacklist_contact">确认从黑名单中删除此联系人吗？</string>
+    <string name="blacklist_settings">黑名单设置</string>
+    <string name="save_to_external">保存至外部 SD 卡</string>
+    <string name="save_to_external_summary">将一些数据，如个性化通知设置和黑名单设置保存至外部 SD 卡，而不是内部</string>
+    <string name="split_sms">分割信息</string>
+    <string name="split_sms_summary">将信息分割成合适的长度，如果您的运营商不支持长信息发送</string>
+    <string name="top_actionbar">顶部的动作栏</string>
+    <string name="top_actionbar_summary">勾选以便在卡片布局中顶部显示动作栏</string>
+    <string name="attach_more">更多</string>
+    <string name="remove_attachment">确认从信息中删除此项目么？</string>
+    <string name="show_original_timestamp">显示原始时间戳</string>
+    <string name="people">联系人</string>
+    <string name="things">对象</string>
     <string name="nature">Nature</string>
-    <string name="places">Places</string>
-    <string name="symbols">Symbols</string>
-    <string name="limit_number_conversations">Limit Conversations Initially Loaded</string>
-    <string name="limit_number_conversations_summary">Loads 15 conversations on app startup instead of all to decrease load time</string>
-    <string name="limit_attachment_size">Limit Attachment Size</string>
-    <string name="limit_attachment_size_summary">Compresses Images to be sent more easily over your mobile data connection. If disabled, pictures will be sent at higher resolutions. Please be aware many carriers do not support sending at higher resolutions and you may get errors.</string>
-    <string name="send_with_stock">Send through Stock</string>
-    <string name="send_with_stock_summary">Sends MMS messages through the stock messaging app, useful if you have problems configuring Sliding Messaging to send</string>
-    <string name="ct_unread_conversation_color">Unread Conversation Color</string>
-    <string name="copy_sender_address">Copy Sender Address</string>
-    <string name="delete_conversation_message">Delete current conversation?</string>
-    <string name="sliding_notification_settings">Notification Settings</string>
-    <string name="theme_settings">Theme Settings</string>
-    <string name="notification_image">Notification Icon</string>
-    <string name="test_notification">Test Notification</string>
-    <string name="test_notification_summary">The test notification will be shown when you turn off the screen.</string>
-    <string name="next">Next</string>
-    <string name="prev">Previous</string>
-    <string name="finish">Finish</string>
+    <string name="places">地点</string>
+    <string name="symbols">符号</string>
+    <string name="limit_number_conversations">限制默认载入的信息数目</string>
+    <string name="limit_number_conversations_summary">不再如所有信息，仅再如15个信息以便减少程序加载时间</string>
+    <string name="limit_attachment_size">限制附件大小</string>
+    <string name="limit_attachment_size_summary">压缩图片以便更好地在移动网络中传输。如果被禁用，图片将会以较高的分辨率发送。请知悉，许多运营商不支持大分辨率图片的发送并会返回错误。</string>
+    <string name="send_with_stock">使用原生短信程序发送</string>
+    <string name="send_with_stock_summary">使用系统默认的短信程序发送彩信，如果你无法正确的设置滑动短信，这将会变得很有用</string>
+    <string name="ct_unread_conversation_color">未读信息文本颜色</string>
+    <string name="copy_sender_address">复制联系人号码</string>
+    <string name="delete_conversation_message">确认删除当前的会话吗？</string>
+    <string name="sliding_notification_settings">通知设置</string>
+    <string name="theme_settings">主题设置</string>
+    <string name="notification_image">通知图标</string>
+    <string name="test_notification">测试通知</string>
+    <string name="test_notification_summary">当屏幕关闭后，测试的通知将递达</string>
+    <string name="next">下一条</string>
+    <string name="prev">前一条</string>
+    <string name="finish">结束</string>
     <string name="review">Review</string>
-    <string name="notes">Notes</string>
-    <string name="override_stock_disclaimer">If you are having problems with messages not being saved, or you have disabled all other messaging apps on your device except Sliding Messaging, be sure to check the \"Override Stock Messaging\" option in Advanced Settings.</string>
-    <string name="unlock">Unlock</string>
-    <string name="close">Close</string>
-    <string name="passwordTitle">Enter Password:</string>
-    <string name="popup_theme">Custom Popup Theme Settings</string>
-    <string name="popup_theme_summary">Only applicable when using the new popup</string>
-    <string name="cp_theme_name">Popup Theme Name</string>
-    <string name="cp_messageBackground">Message Background Color</string>
-    <string name="cp_sendBarBackground">Send Bar Background</string>
-    <string name="cp_dividerColor">Divider Color</string>
-    <string name="cp_nameTextColor">Name Text Color</string>
-    <string name="cp_numberTextColor">Number Text Color</string>
-    <string name="cp_dateTextColor">Date Text Color</string>
-    <string name="cp_messageTextColor">Message Text Color</string>
-    <string name="cp_draftTextColor">Draft Text Color</string>
-    <string name="cp_buttonColor">Button Color</string>
-    <string name="cp_emojiButtonColor">Emoji Button Color</string>
-    <string name="security_settings">Security Settings</string>
-    <string name="security">Password Protection</string>
-    <string name="security_summary">Check to enable security at startup.</string>
-    <string name="timeout_settings">Timeout Duration</string>
-    <string name="timeout_settings_summary">Length of time between password lockouts</string>
-    <string name="set_password">Set Password</string>
-    <string name="auto_unlock">Auto-Unlock</string>
-    <string name="auto_unlock_summary">Attempt to automatically unlock the app after the set number of characters has been reached.</string>
-    <string name="loading_conversations">Loading Conversations…</string>
-    <string name="dark_background">Use Black Background</string>
-    <string name="widget_done">Done</string>
-    <string name="done">Done</string>
-    <string name="discard">Discard</string>
-    <string name="widget_title_dark_theme">Use Dark Title Card</string>
-    <string name="type">Type:</string>
-    <string name="from">From:</string>
-    <string name="to">To:</string>
-    <string name="sent">Sent:</string>
-    <string name="received">Received:</string>
-    <string name="status">Status:</string>
-    <string name="message_details">Message Details</string>
-    <string name="twitter_link">Follow the app on Twitter for updates and future innovations! \nhttp://www.twitter.com/SlidingSMS</string>
-    <string name="date_picker">Choose a Date</string>
-    <string name="time_picker">Choose a Time</string>
-    <string name="scheduled_sms">Scheduled SMS</string>
-    <string name="repetition">Repetition:</string>
-    <string name="add_new_sms">New Scheduled SMS</string>
-    <string name="delete_scheduled_sms">Delete Scheduled SMS?</string>
-    <string name="backup_settings_title">Create new backup?</string>
-    <string name="backup_settings_summary">This will override all previous backups.</string>
-    <string name="receive_through_stock">Receive through Stock</string>
-    <string name="receive_through_stock_summary">Does not allow Sliding Messaging to save MMS messages, allowing your stock app to do so instead, even if you have checked the \"Override Stock Messaging\" option.</string>
-    <string name="draft_found">Draft found</string>
-    <string name="apply_draft">Apply?</string>
-    <string name="auto_insert_draft">Auto Insert Drafts</string>
-    <string name="auto_insert_draft_summary">Will automatically insert draft into message entry box if present. If disabled, you will get a popup box to choose whether or not to insert each draft</string>
-    <string name="message_sounds">Message Sounds</string>
-    <string name="message_sounds_summary">Will play sound when message has sent</string>
-    <string name="ct_light_action_bar">Light Action Bar</string>
-    <string name="cache_conversations">Cache Conversations</string>
-    <string name="cache_conversations_summary">Caches conversations in the background to allow for faster loading times, has potential to affect battery life. This feature is still experimental. UPDATE: Disabled for now, caused too many crashes</string>
-    <string name="num_cache_conversations">Number of Cached Conversations</string>
-    <string name="num_cache_conversations_summary">Sets the number of conversations to be cached and quickly loaded at application startup and in the background</string>
-    <string name="changelog">Change Log</string>
-    <string name="tweet_us">Tweet Us!</string>
-    <string name="speed_improvement_settings">Message Backup</string>
-    <string name="use_backup">Backup/Delete Messages</string>
-    <string name="use_backup_summary">PLEASE READ: Enabling this will greatly increase the speed of Sliding Messaging, it will also backup all your SMS messages to an external service for safekeeping and delete them from the SMS database. You will not be able to see these messages in Sliding Messaging or any other messaging app.</string>
-    <string name="sd_backup">Backup to SD card</string>
-    <string name="drive_backup">Backup to Google Drive</string>
-    <string name="run_backup">Run backup/delete now</string>
-    <string name="schedule_backup">Schedule backup/delete</string>
-    <string name="schedule_backup_summary">WARNING: May backup and delete unread messages if scheduled before they are seen.</string>
-    <string name="only_read">Delete read messages only</string>
-    <string name="dont_delete_previous">Don\'t delete previous day</string>
-    <string name="dont_delete_previous_summary">Keep the last day in the manifest so that you have only those messages after the backup and delete</string>
-    <string name="delete_after_backup">Delete messages after backup</string>
-    <string name="delete_after_backup_summary">RECOMMENDED: this will delete all messages after backup is complete to increase speed and fluidity of Sliding Messaging.\nWARNING: it will also delete MMS which are not backed up through this utility.</string>
-    <string name="enable_drafts">Enable Drafts</string>
-    <string name="in_app_notifications">In App Notifications</string>
-    <string name="in_app_notifications_summary">Will display a small notification bar at the top of the screen when a new message has been received</string>
-    <string name="mark_all_read">Mark All Read</string>
-    <string name="show_number_widget">Show phone number</string>
-    <string name="need_mms_setup">Initial MMS Setup:</string>
-    <string name="mms_setup_message">Please select carrier from the drop-down menu or configure APN settings manually.</string>
-    <string name="mms_manual_setup">Manual Setup</string>
-    <string name="holo_style_smiles">Holo Style Smilies</string>
-    <string name="limit_conversations_start">Limit Conversations</string>
-    <string name="limit_conversations_start_summary">Loads only 10 conversations at app startup for speed purposes</string>
-    <string name="search">Search</string>
-    <string name="message_body">Message Body</string>
-    <string name="pin_conversation_list">Pin Conversation List to Screen</string>
-    <string name="pin_conversation_list_summary">Choose when the conversation list should stay on the screen instead of being hidden in the drawer</string>
-    <string name="load_all_messages">Load All Messages</string>
-    <string name="split_counter">Show Message Counter</string>
-    <string name="split_counter_summary">Adds a counter in front of split messages to keep them in correct order. Example: (1/3)</string>
-    <string name="full_app_popup">Use SlideOver for Popup</string>
-    <string name="full_app_popup_summary">Replaces popup with a fully functioning version of the app that shows as a dialog box over other apps instead of taking the entire screen</string>
-    <string name="slideover_settings">SlideOver Settings</string>
-    <string name="slideover_teaser">More on this for another update... ;)</string>
-    <string name="reply_to">Reply to</string>
-    <string name="slide_over">SlideOver</string>
-    <string name="enable_slideover">Enable SlideOver</string>
-    <string name="enable_slideover_summary">Creates a chathead bubble that will allow you to quickly open and close the app on top of any other app</string>
-    <string name="slideover_side">Horizontal Positioning</string>
-    <string name="slideover_side_summary">Move SlideOver to the left or right side of the screen</string>
-    <string name="slideover_alignment">Vertical Positioning</string>
-    <string name="slideover_alignment_summary">Adjust where SlideOver appears on the vertical axis</string>
-    <string name="slideover_sliver">Sliver Width</string>
-    <string name="slideover_sliver_summary">Adjust how much of the SlideOver bubble is visible on the screen</string>
-    <string name="slideover_activation">Activation Width</string>
-    <string name="slideover_activation_summary">Distance on screen that you have to pull to activate SlideOver</string>
-    <string name="slideover_break_point">Arc Break Point</string>
-    <string name="slideover_break_point_summary">Adjust how big the conversation arc is on the screen</string>
-    <string name="under_development">Please Note:</string>
-    <string name="under_development_summary">SlideOver is still heavily under development. Do not submit requests, or even suggestions, for it at this time.</string>
-    <string name="slideover_secondary_action">Secondary Action</string>
-    <string name="slideover_secondary_action_summary">Choose the action that occurs when you have activated the dashed part of the SlideOver arc</string>
-    <string name="slideover_haptic_feedback">Enable Haptic Feedback</string>
-    <string name="full_app_popup_close">Auto-close SlideOver</string>
-    <string name="full_app_popup_close_summary">Closes the popup after you have replied to a message</string>
-    <string name="slideover_popup_settings">SlideOver Popup Settings</string>
-    <string name="slideover_padding">SlideOver Size</string>
-    <string name="slideover_padding_summary">Adjusts the size of the SlideOver popup on screen. Useful if when keyboard is showing your messages get cut off due to lack of space, or if you don\'t want it to take up too much of your screen</string>
-    <string name="slideover_popup_lockscreen_only">SlideOver Popup after Lockscreen Only</string>
-    <string name="slideover_popup_lockscreen_only_summary">Only show the popup when you have unlocked the device and there is a new message, otherwise let the SlideOver bubble handle new messages</string>
-    <string name="slideover_animation_speed">Animation Speed</string>
-    <string name="show_advanced_settings">Show All Settings</string>
-    <string name="show_advanced_settings_summary">Enables all hidden settings</string>
-    <string name="slideover_close">CLOSE</string>
-    <string name="slideover_clear">CLEAR</string>
-    <string name="slideover_settings_overlay">SETTINGS</string>
-    <string name="override_speed">Override for Performance</string>
-    <string name="override_speed_summary">Override some custom app settings for the most optimized/quickest behavior</string>
-    <string name="lag_disclaimer">Please check the new section under setting \'Developer Tips\' for speed and MMS issues before leaving a bad review or sending us an angry email. It should be able to solve some of your problems.</string>
-    <string name="settings_category">Settings Links</string>
-    <string name="other_category">Other Tools</string>
-    <string name="developer_tips">Developer Tips</string>
-    <string name="tip_speed_title">Dev. Tip #1 (Speed and Sluggishness):</string>
+    <string name="notes">备注</string>
+    <string name="override_stock_disclaimer">如果您遇到信息不能保存的困难，或者您禁用了除滑动短信以外所有的信息程序，请务必在 高级设置 中勾选 “代替原生短信”</string>
+    <string name="unlock">解锁</string>
+    <string name="close">关闭</string>
+    <string name="passwordTitle">输入密码：</string>
+    <string name="popup_theme">自定义弹出窗口主题设置</string>
+    <string name="popup_theme_summary">只有您选用新的弹出窗口时此处的设置才会有效</string>
+    <string name="cp_theme_name">弹出窗口主题名称</string>
+    <string name="cp_messageBackground">信息背景颜色</string>
+    <string name="cp_sendBarBackground">发送栏背景颜色</string>
+    <string name="cp_dividerColor">信息分割线颜色</string>
+    <string name="cp_nameTextColor">姓名文字颜色</string>
+    <string name="cp_numberTextColor">数字文字颜色</string>
+    <string name="cp_dateTextColor">日期文字颜色</string>
+    <string name="cp_messageTextColor">信息内容文字颜色</string>
+    <string name="cp_draftTextColor">草稿文字颜色</string>
+    <string name="cp_buttonColor">按钮颜色</string>
+    <string name="cp_emojiButtonColor">表情按钮颜色</string>
+    <string name="security_settings">安全设置</string>
+    <string name="security">密码保护</string>
+    <string name="security_summary">勾选已启用启动密码保护</string>
+    <string name="timeout_settings">超时设置</string>
+    <string name="timeout_settings_summary">密码锁定时间的长短</string>
+    <string name="set_password">设置密码</string>
+    <string name="auto_unlock">自动解锁</string>
+    <string name="auto_unlock_summary">当键入的内容达到密码的长度时尝试自动解锁。</string>
+    <string name="loading_conversations">正在载入会话...</string>
+    <string name="dark_background">使用暗色背景</string>
+    <string name="widget_done">完成</string>
+    <string name="done">完成</string>
+    <string name="discard">放弃</string>
+    <string name="widget_title_dark_theme">使用暗色的标题卡片</string>
+    <string name="type">类型：</string>
+    <string name="from">来自：</string>
+    <string name="to">至：</string>
+    <string name="sent">已发送：</string>
+    <string name="received">已接收：</string>
+    <string name="status">状态：</string>
+    <string name="message_details">信息详情</string>
+    <string name="twitter_link">在 Twitter 上关注我以便获取更新和新变化！\nhttp://www.twitter.com/SlidingSMS</string>
+    <string name="date_picker">选择日期</string>
+    <string name="time_picker">选择时间</string>
+    <string name="scheduled_sms">定时信息</string>
+    <string name="repetition">重复：</string>
+    <string name="add_new_sms">新建定时信息</string>
+    <string name="delete_scheduled_sms">确认删除此定时信息吗？</string>
+    <string name="backup_settings_title">确认创建新的备份吗？</string>
+    <string name="backup_settings_summary">这将会覆盖所有先前的备份。</string>
+    <string name="receive_through_stock">使用原生短信接收</string>
+    <string name="receive_through_stock_summary">不允许滑动短信保存彩信，而通过系统原生短信程序去完成，即使您勾选了 “代替原生短信” 选项。</string>
+    <string name="draft_found">发现草稿</string>
+    <string name="apply_draft">恢复？</string>
+    <string name="auto_insert_draft">自动插入草稿</string>
+    <string name="auto_insert_draft_summary">如果发现草稿，将会自动添加到输入框中。如果禁用此选项，将会弹出一个确认框以便由您自己决定</string>
+    <string name="message_sounds">信息发出提示音</string>
+    <string name="message_sounds_summary">信息发出后将会播放一段提示音</string>
+    <string name="ct_light_action_bar">暗色动作栏</string>
+    <string name="cache_conversations">缓存会话列表</string>
+    <string name="cache_conversations_summary">在后台缓存会话列表可以得到更快的加载速度，但会显著的增加电量开销。这项功能仍然是测试性的。更新：请暂时禁用此选项，问题太多</string>
+    <string name="num_cache_conversations">缓存会话列表数目</string>
+    <string name="num_cache_conversations_summary">设置需要缓存的会话列表数目多少，当程序在后台和启动时可藉此快速加载。</string>
+    <string name="changelog">更新日志</string>
+    <string name="tweet_us">关注我们！</string>
+    <string name="speed_improvement_settings">信息备份</string>
+    <string name="use_backup">备份/删除 信息</string>
+    <string name="use_backup_summary">请知悉：启用此功能会显著的提高滑动短信的运行速度，同时会备份您所有的信息至外部以得到妥善的保存，但会从系统短信数据库中删除这些内容。这样您再也不能在滑动短信和其他任何短信程序看到这些信息。</string>
+    <string name="sd_backup">保存至 SD 卡</string>
+    <string name="drive_backup">保存至 Google Drive</string>
+    <string name="run_backup">立即运行</string>
+    <string name="schedule_backup">计划任务</string>
+    <string name="schedule_backup_summary">警告：即使有未读的信息，可能会被备份和删除。</string>
+    <string name="only_read">仅删除已读信息</string>
+    <string name="dont_delete_previous">不要删除前天的信息</string>
+    <string name="dont_delete_previous_summary">确保您执行备份/删除之后，仍然可以看到前天的信息</string>
+    <string name="delete_after_backup">备份之后删除信息</string>
+    <string name="delete_after_backup_summary">推荐：这意味着备份完成之后所有的信息都会被删除，以便增加滑动短信的速度和流畅性。\n警告：浙江同时删除没有使用此工具备份的信息。\</string>
+    <string name="enable_drafts">启用草稿</string>
+    <string name="in_app_notifications">程序内通知</string>
+    <string name="in_app_notifications_summary">当收到信的信息时，将会在屏幕上端显示一个较小的通知栏</string>
+    <string name="mark_all_read">标记所有为已读</string>
+    <string name="show_number_widget">显示电话号码</string>
+    <string name="need_mms_setup">初始化彩信设置：</string>
+    <string name="mms_setup_message">请在下拉菜单中选择运营商或者手动设置APN。</string>
+    <string name="mms_manual_setup">手动设置</string>
+    <string name="holo_style_smiles">Holo 风格的表情</string>
+    <string name="limit_conversations_start">限制会话列表</string>
+    <string name="limit_conversations_start_summary">程序启动时仅载入10个会话鉴于速度方面的考虑</string>
+    <string name="search">搜索</string>
+    <string name="message_body">信息内容</string>
+    <string name="pin_conversation_list">固定限制会话列表</string>
+    <string name="pin_conversation_list_summary">选择会话列表何时会显示在屏幕上，而不是隐藏在抽屉里</string>
+    <string name="load_all_messages">载入所有信息</string>
+    <string name="split_counter">显示信息计数</string>
+    <string name="split_counter_summary">在被分割的长信息前添加序号以便正确排序。例如：（1/3）</string>
+    <string name="full_app_popup">使用 指尖短信 取代弹出窗口</string>
+    <string name="full_app_popup_summary">在其他程序至上显示一个会话窗口以替代弹出窗口，而不是占据整个屏幕</string>
+    <string name="slideover_settings">指尖短信 设置</string>
+    <string name="slideover_teaser">以后的更新中会有更多此方面的内容... ;)</string>
+    <string name="reply_to">回复至</string>
+    <string name="slide_over">指尖短信</string>
+    <string name="enable_slideover">启用 指尖短信</string>
+    <string name="enable_slideover_summary">在其它程序之上创建一个可快速打开和关闭的聊天气泡</string>
+    <string name="slideover_side">水平位置</string>
+    <string name="slideover_side_summary">在屏幕左侧和右侧之间调整</string>
+    <string name="slideover_alignment">垂直位置</string>
+    <string name="slideover_alignment_summary">调整指尖短信在垂直方向上的显示位置</string>
+    <string name="slideover_sliver">银圈宽度</string>
+    <string name="slideover_sliver_summary">调整屏幕边缘上，气泡可见区域的大小</string>
+    <string name="slideover_activation">弧线宽度</string>
+    <string name="slideover_activation_summary">显示一条弧线，您需要拉住气泡划过此距离以激活指尖短信的功能</string>
+    <string name="slideover_break_point">弧断点</string>
+    <string name="slideover_break_point_summary">调整弧线下半部分的虚线长度</string>
+    <string name="under_development">请知悉：</string>
+    <string name="under_development_summary">指尖短信仍然处于紧张的开发阶段，此阶段烦请不要提交需求，甚至是建议，至少目前是这样。</string>
+    <string name="slideover_secondary_action">扩展动作</string>
+    <string name="slideover_secondary_action_summary">选择当您激活弧线下半部分虚线部分时所调用的动作</string>
+    <string name="slideover_haptic_feedback">启用触觉反馈</string>
+    <string name="full_app_popup_close">自动关闭指尖短信</string>
+    <string name="full_app_popup_close_summary">回复短信之后自动关闭弹出窗口</string>
+    <string name="slideover_popup_settings">指尖短信弹出窗口设置</string>
+    <string name="slideover_padding">指尖短信大小</string>
+    <string name="slideover_padding_summary">调整指尖短信弹出窗口的大小，在因为键盘先时候，您的信息因为屏幕空间不足而被挤兑时，这将会变得很有用。或者您仅仅是不愿让其占用过多的屏幕空间</string>
+    <string name="slideover_popup_lockscreen_only">仅在屏幕解锁后弹出指尖短信窗口</string>
+    <string name="slideover_popup_lockscreen_only_summary">仅在您的设备已解锁并且有新信息时才弹出窗口，否则由指尖短信处理新的信息</string>
+    <string name="slideover_animation_speed">动画速度</string>
+    <string name="show_advanced_settings">显示所有设置选项</string>
+    <string name="show_advanced_settings_summary">使所有隐藏的设置项可见</string>
+    <string name="slideover_close">关闭</string>
+    <string name="slideover_clear">清除</string>
+    <string name="slideover_settings_overlay">设定</string>
+    <string name="override_speed">优先考虑性能</string>
+    <string name="override_speed_summary">无视一些自定义设定以便获得最佳的/最快速的表现</string>
+    <string name="lag_disclaimer">在您给出负面评价和向我们发出愤怒的邮件之前，请参阅设置菜单中的新条目 ‘开发者提示’ 以获取速度和彩信方面问题的信息，这应该能帮助您解决一些问题。</string>
+    <string name="settings_category">设置链接</string>
+    <string name="other_category">其他工具</string>
+    <string name="developer_tips">开发者提示</string>
+    <string name="tip_speed_title">Dev. Tip #1 (速度和卡顿)：</string>
     <string name="tip_speed">
-        With the latest update, we have made a few great strides toward a completely lag free app. But obviously this is a difficult task
-        because of the style and what we are trying to do with the app. It is very memory intensive and uses a lot of resources to load so many messages at once.
-        Many more than any other messaging app has to do. That is why it can be a little more sluggish than most if you have a ton of messages.\n\n
+        在最近的更新中，我们在向构建一个完全不卡顿的程序上又得到了一些很大的进步。但究于我们的程序要做的事情，这很显然这是一个很困难的工作。在短时间内载入这么多信息时是一件内存密集型的事情，并会占用很多的资源。
+        相比于其他短信程序来说要多得多，这也是为什么会比其他大多数短信称需要缓慢的多。\n\n
 
-        As for my speed tip, you have 2 options really. Both are compromises, but that is what you are gonna have to deal with in an app like this:\n\n
+        对于速度方面来说，其实我有两点都很折衷的建议，但是对于这样的程序，我也只能这样做了。\n\n
 
-        1.) DELETE MESSAGES! This is what we have been preaching since the beginning. IT WILL HELP YOU :) this is my first suggestion.\n\n
+        1.) 删除一些信息！这也是我们从一开始一直建议的。这一定会帮到你 :) 这是我的第一条建议。\n\n
 
-        I understand that some people may not want to do this though, because they like to keep them for their records. There are backup solutions out there for this purpose. Use them.
-        Deleting messages makes a huge difference if you have a ton of them. For reference, the app works flawlessly, zero lag, on my nexus 4 with around 2000 messages that I have now.
-        I can\'t test more than that right now obviously, but if you are someone that keeps 10000 on your phone or some ungodly amount like this, obviously this is going to have a
-        severely negative effect with our app.\n\n
+        我理解很多人可能不愿意去这样做，因为大家都想将其当作回忆保存起来。能实现这个目标的备份方案有很多。善用它们，如果你有非常多的信息，删除其中一些信息，这将会有显著的区别。例如，在我的Nexus 4上存储着大约2000条信息，据我所知，程序完美的，零延迟的运行着。很显然我们不能做更多的测试，但是如果你在手机中保存着10000条信息或者远多于此，这很显然会给本程序带来相当的消极影响。\n\n
 
-        Like i said, this is my first suggestion to everyone.\n\n
+        就像我所说的，这是我给大家的第一条建议。\n\n
 
-        2.) Check the \"override for performance\" option under advanced settings and set your theme to cards 2.0.\n\n
+        2.) 检查位于 高级设置 中的 “优先考虑性能” 选项是否启用，并将将主题设为 卡片风格 2.0\n\n
 
-        This is more of a workaround, but it is, from my experience, a set of default settings that are the most optimized and work the best on any phone.
-        It does take away some of the customization. But your themes and stuff, for the most part, will work. I just took out some of the extra, unnecessary things.
-        This option is a compromise. If you aren\'t willing to clear out your inbox, try it out. It will work better, I know this for a fact, but it will also take
-        away some of your settings, know that.\n\n
+        这更多的是一个变通的做法，但是实际上，从我的经验讲，是一组可以在大多数手机上可以发挥最大效能的默认设定。
+        的确，这将会忽略一些自定义设置。但是您的主题和其他大多数设定都将很好的正常工作。我只是取消了一些额外的，不必需的东西。
+        这亦是一个这种的方案，如果您不愿意清空您的收件箱，那就试试这个吧，这比其效果更好，当然事实是，这也会忽略您的一些设定，请知悉只一点。\n\n
 
-        I honestly don\'t want to hear about lag or stuttering that much any more. We have given you the tools to fix it. If you choose not to use them, then so be it.
-        But they are there and that is how this is gonna work :)
+        我真的再也不希望去听到关于缓慢和卡顿方面的东西了。我们已经提供可用于改善这一点的工具，如果你决定不去使用它们，那就这样吧。
+        俗话说，你见或者不见，他就在那里 :)
     </string>
-    <string name="tip_incoming_mms_title">Dev. Tip #2 (Incoming MMS):</string>
+    <string name="tip_incoming_mms_title">Dev. Tip #2 (收取彩信):</string>
     <string name="tip_incoming_mms">
-        This tip is definitely more of a workaround, but I am tired of people telling us that they can\'t get MMS to download.
-        Sending is a whole \'nother issue, but downloading will work on every phone, every time, if you know how to set it up.\n\n
+        这是一点彻彻底底折衷建议，但是我厌倦了那些不停的告诉我他们无法收取彩信的人。发送时完完全全另外一个问题，但是收取无论何时，在任何一部手机上都不会是问题。如果你知道如何去设置的话。\n\n
 
-        I have emailed this out so many times that I think it is just time to put it in here for everyone to see.\n\n
+        我收取了非常多的咨询此方面问题的邮件，以至于我想是时候在这里写些东西让大家参阅了。\n\n
 
-        So here is how you should set up downloading MMS messages:\n\n
+        那么，下面就是你该去设置的以便收取彩信：\n\n
 
-        1.) check the receive through stock option.\n\n
+        1.) 检查 “使用系统邮件程序收取彩信” 选项\n\n
 
-        This option makes it so that it doesn\'t matter what other settings you have, your message will use the stock apps services to download.
-        It doesn\'t matter if you have override stock checked or not. This lets the stock app handle all downloads so you don\'t have to worry about APN\'s
-        or a WiFi fix that so many people hate us for.\n\n
+        这个选项让您不必操心您的设置，您的彩信将会使用系统自带的短信程序来下载。
+        “代替原生短信” 是否启用再次没有影响。系统短信程序将会处理一切，所以你不必去操心关于 APN 或者是 Wifi 补丁之类的许多人厌恶的事情。\n\n
 
-        2.) In the stock messaging app, check the auto download option.\n\n
+        2.) 在系统原生短信程序中，勾选自动下载选项。\n\n
 
-        This is just what it sounds, it will automatically download your messages for you when the carrier receives them. It isn\'t slower than having to push
-        the download button, and there really are no downsides to this.\n\n
+        如其所闻，当您的运营商收到彩信时，它将会自动为你下载下来。这不比你自己去按下载按钮来的慢，事实上这样做一点坏处都没有。\n\n
 
-        3.) Un-check the auto-download button in Sliding Messaging\n\n
+        3.) 在滑动短信设置菜单中取消勾选自动下载选项。
 
-        This will make sure that you aren\'t getting double notifications.\n\n
+        这样做是为了确保您不会收到两次提醒。\n\n
 
-        So there you go, this is really the best way to handle downloading MMS and it will work flawlessly every time, just like the stock one should.
-        It will still throw the Sliding Messaging notification as well, so no problems there.\n\n
+        好了，这就是解决下载彩信问题的最佳方案，并且每次都完美的有效，就如同原生程序本该做的那样。
+        这仍然会触发滑动短信的通知，所以这没有任何问题。\n\n
 
-        EVERYTHING WILL WORK HOW IT SHOULD, EVERY TIME\n\n
+        “好母山羊不是每次都能生出好羊羔”。\n\n
 
-        So now we will have no more problems with downloading MMS! :)
+        至此，我们在收取彩信过程中再也没有任何问题！ :)
     </string>
-    <string name="tip_slideover_title">Dev. Tip #3 (SlideOver Features)</string>
+    <string name="tip_slideover_title">Dev. Tip #3 (指尖短信 特性)</string>
     <string name="tip_slideover">
-        Settings Overview (be aware some of these are only accessible by checking the \"Show All Settings\" option in advanced settings):\n\n
+        设置概览（请知悉，有些内容，只有您勾选了 “显示所有设置选项” 才可以访问）：\n\n
 
-        1) Horizontal Positioning determines whether the bubble is on the right or left of the screen\n
-        2) Vertical Positioning sets how far from the top of the screen the bubble is\n
-        3) Sliver Widths changes the amount of bubble you see, lower the sliver width, the less you will see on the edge of the screen\n
-        4) Activation Width is the percent of the screen that the arc covers to activate the popup\n
-        5) Arc Break Point will adjust the length of the dashed line on the bottom half of the arc\n
-        6) Secondary action lets you select what happens when you are in the dashed area, either opening to the conversation list or creating a new message\n
-        7) Enable haptic feedback, that one is self explanatory. vibrate on or off\n
-        8) Auto-close SlideOver will close it when you have replied to a new message, very convenient for exiting quickly and getting back to what you were doing\n
-        9) SlideOver Side changes the padding on the top and bottom of the popup window, making it smaller or much larger. Be careful of setting values to small though, then it wont show at all\n\n\n
+        1) 水平位置决定了气泡是在屏幕左侧还是右侧\n
+        2) 垂直位置决定气泡距离屏幕顶部有多远\n
+        3) 银圈宽度决定了你可以看见的气泡多少，银圈宽度越小，气泡就越趋于隐藏在屏幕外侧\n
+        4) 激活宽度是指当您点击气泡后，气泡放大后形成的弧占屏幕的百分比\n
+        5) 弧断点大小将会调整在弧线下半部分的虚线长短\n
+        6) 扩展动作允许你选择一个预定在弧线虚线部分释放后的动作，要么打开会话列表或者撰写新的信息。\n
+        7) 启用触觉反馈，正如其文面意义，弧线在开启和关闭时都会震动。\n
+        8) 启用自动关闭滑动短信，当您回复某条信息之后，指尖短信弹出窗口将会自动关闭，以便您轻松的返回到其他程序。\n
+        9) 指尖短信边距决定了弹出窗口的上下内边距的大小。请注意，不要将此值设置的过小，否则根本就不会显示\n\n\n
 
+        现在，我们来讨论指尖短信的主要特性：\n\n
 
-        Now, as for the main features of SlideOver:\n\n
-
-        1) There is the new popup which everyone can take advantage of to see an entire conversation when a new message comes in, MMS support for that conversation, etc. Lots better than the old popups\n
-        2) The bubble allows you a \"chatheads\", yet extremely minimal interface, which you can allows use to pull up the app from anywhere at any time,
-        whether or not you have new messages or just want to compose a new one\n
-        3) When you do have new messages, you can quickly see a preview of each message and depending on how far you slide your finger from the bubble, it will
-        highlight a different conversation which will then allow you to quickly access that conversation. That way, you can allows quickly tell how many new
-        messages you have and decide which you actually want to respond to first, or at all\n
-        4) There are 3 buttons at the top of the window when SlideOver has been activated and the arc is shown on screen to easily allow you to clear all of the notifications,
-        close slideover all together and get the bubble out of the way, or go to settings to move it around or whatever you want to do with it
+        1) 一个全新的，当新信息递达时，每个人都能感觉到优越性的会话弹出窗口，并且支持彩信，等等。比老式的弹出窗口好多了。\n
+        2) 气泡提供了一个 \"chatheads\"，并且界面极其简约，允许你在任何时间从任何位置调用程序，无论你是收到新的信息还是想撰写新的信息。\n
+        3) 当您确实有新消息时，取决于您的指尖从气泡滑过的距离，你可以快速预览每条信息，每次都会高亮一个会话以便您可以快速访问那个会话。这样，你可以迅速的知道有多少条新信息并且决定优先回复那一条，或者回复所有的信息。\n
     </string>
-    <string name="tip_contacts_title">Dev. Tip #4 (Contact Syncing)</string>
+    <string name="tip_contacts_title">Dev. Tip #4 (联系人同步)</string>
     <string name="tip_contacts">
-        I get a lot of questions as to \"why I can\'t see my contact pictures\" or \"some of my contacts don\'t show up in the app?!\"\n\n
+        我收到很多朋友的请求，譬如“为什么我看不到联系人头像？”，或者“为什么有些联系人不在程序中显示？”！\n\n
 
-        There is good reason for this, it is because we only pull pictures and contacts from your google account. The reason behind this is 1) it is easier for us, and 2) it is
-        quicker because we only have one place to look for pictures, decreasing loading times.\n\nAs for the solution, there are many
-        apps out there that will accomplish this task for you quickly and easily. I recommend:\n\n
+        这很好解释，因为我们仅仅从谷歌账户中拉取联系人图片。至于这么做是基于以下几点原因 1) 这样做简单多了 2) 这样会很快，因为我们仅仅从一个地方寻找图片，以减少加载时间。\n\n
+
+        作为解决方案，有许多软件帮你轻松的解决此问题。我推荐：\n\n
 
         1.) Haxsync\n\n
 
@@ -647,25 +632,36 @@
 
         3.) Ubersync\n\n
 
-        All these programs work well and will get you the contact pictures that you want so dearly :)</string>
-    <string name="slideover_hide_notifications">Hide Status Bar Notifications</string>
-    <string name="slideover_hide_notifications_summary">Use only SlideOver to handle notifications, hiding them from the status bar</string>
-    <string name="tip_notification_listener_title">Dev. Tip #5 (Notification Listening)</string>
+        所有这些程序都可以很好扥工作，帮你找到亟需的联系人图片 :)</string>
+    <string name="slideover_hide_notifications">隐藏通知栏通知</string>
+    <string name="slideover_hide_notifications_summary">仅适用“指尖短信"来处理通知，而不在通知栏中显示</string>
+    <string name="tip_notification_listener_title">Dev. Tip #5 (监听通知栏)</string>
     <string name="tip_notification_listener">
-        I\'ve had multiple requests to take advantage of the new APIs introduced in Android 4.3 that allow for listening to when notifications are posted and dismissed and taking advantage of that
-        for marking a message as read.\n\n
+        我收到了很多朋友的请求，希望我去使用 Android 4.3 中的新添加的用于监听通知栏状态的新 API，藉此自动标记信息为已读。\n\n
 
-        Any users who is on Android 4.3 can now do this by going into their system settings, security, and clicking the \"Notification Access\" option (or simply by clicking on this tip).\n\n
+        现在任何使用 Android 4.3 的用户都可以在 设置 -> 安全 中，点击“访问通知 ”选项（或者仅仅点击此处的提示）。\n\n
 
-        You will then be taken to a list of all apps which have added this ability and simply enable Sliding Messaging with the check box. From now on, whenever you swipe away the notification it will mark your message
-        as read, eliminating the need for the \"Read\" button on the notification!
+        您将会看到所有添加了此项新特性的程序列表，您只需勾选以启用滑动短信即可。从现在起，无论何时您滑动忽略了信息通知，信息都将自动被标记为已读，无需点击通知中“已读”按钮！
     </string>
 
-    <string name="initial_setup">Initial Setup:</string>
-    <string name="initial_setup_message">Thanks for purchasing Sliding Messaging Pro!\n\n
+    <string name="initial_setup">初始设置：</string>
+    <string name="initial_setup_message">感谢您购买滑动短信增强版！\n\n
 
-        It may seem like there is a lot going on at first, but lets walk you though some initial setup, then you will be able to configure everything else on your own from the settings menu.</string>
+        也许初次使用时，感觉有太多的内容需要适应，但是您只需进行一些基本的初始化的设置后，其他的您就可以随时在设置菜单中按需取舍。</string>
     <string name="emojis">Emojis:</string>
-    <string name="unlock_message">Unlock Message</string>
+    <string name="unlock_message">解锁信息</string>
+    <string name="disable_backgrounds">禁用自定义背景</string>
+    <string name="disable_backgrounds_summary">如果你启用了自定义背景，且指尖短信周围出现白色方块。请启用此选项。</string>
+    <string name="locked_messages">会话中存在已锁定的信息</string>
+    <string name="locked_messages_summary">此会话中包含已锁定的信息，你想要删除它们吗</string>
+    <string name="slideover_summary">It\'s our Facebook ChatHeads and Paranoid Android Halo implementation. The idea behind it is that the most used app on your phone, messaging, is always accessible.这个是 Facebook Chatheads 和 Paranoid Android Halo 的结合产物，这个理念在于，你手机中最常使用的程序，短信，应该是随手可以访问的。</string>
+    <string name="get_help">获取帮助！</string>
+    <string name="initial_how_to">初始化指南</string>
+    <string name="contact_us">联系我们</string>
+    <string name="contact_us_summary">如果您在上述板块都无法找到需要的内容，再给出1星评价前，请向我们发送邮件咨询，随时记得提问是永远不会错的！</string>
+    <string name="google_plus_page">Google Plus Community</string>
+    <string name="xda_thread">XDA Developers Thread</string>
+    <string name="emoji_keyboard">使用 Emoji 键盘</string>
+    <string name="emoji_keyboard_summary">注意: 仅适用 Android emojis。</string>
 
 </resources>

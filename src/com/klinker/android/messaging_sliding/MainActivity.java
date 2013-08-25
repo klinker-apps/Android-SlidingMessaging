@@ -118,6 +118,8 @@ public class MainActivity extends FragmentActivity {
     public final static String EXTRA_REPEAT = "com.klinker.android.messaging_sliding.REPEAT";
     public final static String EXTRA_MESSAGE = "com.klinker.android.messaging_sliding.MESSAGE";
 
+    private boolean unlocked = false;
+
     public static ViewPager mViewPager;
     public static SectionsPagerAdapter mSectionsPagerAdapter;
 
@@ -309,6 +311,12 @@ public class MainActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (getPackageName().equals("com.klinker.android.messaging_donate")) {
+            unlocked = true;
+        } else {
+            unlocked = checkUnlocked();
+        }
+
         statCont = this;
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -465,7 +473,7 @@ public class MainActivity extends FragmentActivity {
             vp.setBackgroundColor(getResources().getColor(R.color.light_silver));
             tabs.setBackgroundColor(getResources().getColor(R.color.light_silver));
 
-            vp.setId(View.generateViewId());
+            vp.setId(555555);
 
             Display d = ((WindowManager)getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
             int keyboardHeight = (int) (d.getHeight()/3.0);
@@ -1787,9 +1795,6 @@ public class MainActivity extends FragmentActivity {
         if (!emoji)
         {
             emojiButton.setVisibility(View.GONE);
-            LayoutParams params = (RelativeLayout.LayoutParams)messageEntry.getLayoutParams();
-            params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-            messageEntry.setLayoutParams(params);
         } else
         {
             emojiButton.setOnClickListener(new OnClickListener() {
@@ -2651,9 +2656,6 @@ public class MainActivity extends FragmentActivity {
         if (!emoji)
         {
             emojiButton.setVisibility(View.GONE);
-            LayoutParams params = (RelativeLayout.LayoutParams)mEditText.getLayoutParams();
-            params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-            mEditText.setLayoutParams(params);
         } else
         {
             emojiButton.setOnClickListener(new OnClickListener() {
@@ -6727,5 +6729,49 @@ public class MainActivity extends FragmentActivity {
         }
 
         return ret;
+    }
+
+    public static final int TRIAL_LENGTH = 20;
+
+    private boolean checkUnlocked() {
+        boolean unlocked = true;
+
+        File sdCard = Environment.getExternalStorageDirectory();
+        File dir = new File (sdCard.getAbsolutePath() + "/Android/data/com.klinker.android/");
+        dir.mkdirs();
+        File file = new File(dir, "messaging_expires.txt");
+
+        if (file.exists()) {
+            try {
+                BufferedReader reader = new BufferedReader(new FileReader(file));
+                String s = reader.readLine();
+                long date = Long.parseLong(s);
+
+                if (Calendar.getInstance().getTimeInMillis() > date) {
+                    return false;
+                } else {
+                    return true;
+                }
+            } catch (Exception e) {
+
+            }
+        } else {
+            try {
+                FileOutputStream f = new FileOutputStream(file);
+                PrintWriter pw = new PrintWriter(f);
+
+                pw.println(Calendar.getInstance().getTimeInMillis() + (TRIAL_LENGTH * 24 * 60 * 60 * 1000));
+
+                pw.flush();
+                pw.close();
+                f.close();
+
+                return true;
+            } catch (Exception e) {
+
+            }
+        }
+
+        return unlocked;
     }
 }
