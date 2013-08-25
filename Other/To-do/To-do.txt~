@@ -1,16 +1,15 @@
 Version 7.25
 
 Jake:
-    - Lock Messages
-    - redo batch delete stuff to adapt to theme and allow for it in conversations
-    - refactor classes to use static sending class
+    - recreate settings activity after restoring previous backup
+    - make resending in cursor adapter use new library
     - google voice sending support
     - google voice receiving support
     - Figure out how to judge file size of png images and adjust them accordingly when sending, look into UriImage.getResizedImageData for solution
     - delayed sending for certain times
 Luke:
-    - look into scheduled SMS bug reported
-    - remove messaging_speed stuff? not sure if you still wanted to do that or not, but if not then get rid of it
+    - Add select all for batch delete
+    - Message details for MMS messages
 
 1) more individual notification options
 2) option for adding certain text to every message at the beginning (delivery reports?)
