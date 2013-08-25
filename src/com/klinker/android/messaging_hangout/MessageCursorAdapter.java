@@ -9,7 +9,6 @@ import android.graphics.*;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.RingtoneManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -22,9 +21,6 @@ import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.provider.Telephony;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.TaskStackBuilder;
-import android.telephony.SmsManager;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.TextUtils;
@@ -457,7 +453,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                 try {
                                     holder.imageUri = Uri.parse(image);
                                     images = image.trim().split(" ");
-                                    picture = BitmapFactory.decodeFile(getRealPathFromURI(Uri.parse(images[0])));
+                                    picture = SendUtil.getThumbnail(context, Uri.parse(images[0]));
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                     images = null;
@@ -466,8 +462,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                     try {
                                         holder.imageUri = Uri.parse(image);
                                         images = image.trim().split(" ");
-                                        int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, context.getResources().getDisplayMetrics());
-                                        picture = decodeSampledBitmapFromFile(getRealPathFromURI(Uri.parse(images[0])), scale, scale);
+                                        picture = SendUtil.getThumbnail(context, Uri.parse(images[0]));
                                     } catch (Exception f) {
                                         images = null;
                                         picture = null;
@@ -2362,40 +2357,6 @@ public class MessageCursorAdapter extends CursorAdapter {
 
                 });
             }
-        }
-    }
-    
-    public static int calculateInSampleSize(
-            BitmapFactory.Options options, int reqWidth, int reqHeight) {
-        final int height = options.outHeight;
-        final int width = options.outWidth;
-        int inSampleSize = 1;
-
-        if (height > reqHeight || width > reqWidth) {
-            final int heightRatio = Math.round((float) height / (float) reqHeight);
-            final int widthRatio = Math.round((float) width / (float) reqWidth);
-
-            inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
-        }
-
-        return inSampleSize;
-    }
-    
-    public static Bitmap decodeSampledBitmapFromFile(String path,
-            int reqWidth, int reqHeight) {
-
-        final BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(path, options);
-
-        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
-
-        options.inJustDecodeBounds = false;
-        try {
-            return BitmapFactory.decodeFile(path, options);
-        } catch (Exception e) {
-            options.inSampleSize *= 2;
-            return BitmapFactory.decodeFile(path, options);
         }
     }
 

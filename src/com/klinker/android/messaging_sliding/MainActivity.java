@@ -1718,9 +1718,17 @@ public class MainActivity extends FragmentActivity {
 
                                 if (!multipleAttachments) {
                                     if (!fromCamera) {
-                                        bitmaps.add(decodeFile2(new File(getPath(attachedImage))));
+                                        try {
+                                            bitmaps.add(SendUtil.getImage(context, attachedImage));
+                                        } catch (Exception e) {
+                                            bitmaps.add(decodeFile2(new File(getPath(attachedImage))));
+                                        }
                                     } else {
-                                        bitmaps.add(decodeFile2(new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/", "photoToSend.png")));
+                                        try {
+                                            bitmaps.add(SendUtil.getImage(context, Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/", "photoToSend.png"))));
+                                        } catch (Exception e) {
+                                            bitmaps.add(decodeFile2(new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/", "photoToSend.png")));
+                                        }
                                     }
                                 } else {
                                     bitmaps = AttachMore.images;
@@ -2610,9 +2618,17 @@ public class MainActivity extends FragmentActivity {
 
                                 if (!multipleAttachments) {
                                     if (!fromCamera) {
-                                        bitmaps.add(decodeFile2(new File(getPath(attachedImage2))));
+                                        try {
+                                            bitmaps.add(SendUtil.getImage(context, attachedImage2));
+                                        } catch (Exception e) {
+                                            bitmaps.add(decodeFile2(new File(getPath(attachedImage2))));
+                                        }
                                     } else {
-                                        bitmaps.add(decodeFile2(new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/", "photoToSend.png")));
+                                        try {
+                                            bitmaps.add(SendUtil.getImage(context, Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/", "photoToSend.png"))));
+                                        } catch (Exception e) {
+                                            bitmaps.add(decodeFile2(new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/", "photoToSend.png")));
+                                        }
                                     }
                                 } else {
                                     bitmaps = AttachMore.images;
@@ -3961,7 +3977,7 @@ public class MainActivity extends FragmentActivity {
 
                 try
                 {
-                    imageAttach.setImage("send_image", decodeFile(new File(getPath(selectedImage))));
+                    imageAttach.setImage("send_image", SendUtil.getThumbnail(this, selectedImage));
                 } catch (Exception e)
                 {
                     Toast.makeText(this, "Error loading image", Toast.LENGTH_SHORT).show();
@@ -4029,7 +4045,7 @@ public class MainActivity extends FragmentActivity {
 
                 try
                 {
-                    imageAttach2.setImage("send_image", decodeFile(new File(getPath(selectedImage))));
+                    imageAttach2.setImage("send_image", SendUtil.getThumbnail(this, selectedImage));
                 } catch (Exception e)
                 {
                     Toast.makeText(this, "Error loading image", Toast.LENGTH_SHORT).show();
@@ -4102,9 +4118,7 @@ public class MainActivity extends FragmentActivity {
 
                 try
                 {
-                    Bitmap image = android.provider.MediaStore.Images.Media.getBitmap(getContentResolver(), capturedPhotoUri);
-                    File f = new File(capturedPhotoUri.getPath());
-                    image = decodeFile(f);
+                    Bitmap image = SendUtil.getImage(this, capturedPhotoUri);
                     imageAttach.setImage("send_image", image);
                 } catch (Exception e)
                 {
@@ -4174,9 +4188,7 @@ public class MainActivity extends FragmentActivity {
 
                 try
                 {
-                    Bitmap image = android.provider.MediaStore.Images.Media.getBitmap(getContentResolver(), capturedPhotoUri);
-                    File f = new File(capturedPhotoUri.getPath());
-                    image = decodeFile(f);
+                    Bitmap image = SendUtil.getImage(this, capturedPhotoUri);
                     imageAttach2.setImage("send_image", image);
                 } catch (Exception e)
                 {
