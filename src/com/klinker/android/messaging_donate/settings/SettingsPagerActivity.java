@@ -1033,6 +1033,8 @@ public class SettingsPagerActivity extends FragmentActivity {
 
                     Toast.makeText(context, context.getResources().getString(R.string.restore_success), Toast.LENGTH_LONG).show();
 
+                    recreate();
+
                     return false;
                 }
 

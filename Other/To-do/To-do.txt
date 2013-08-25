@@ -1,7 +1,6 @@
-Version 7.25
+Version 7.50
 
 Jake:
-    - recreate settings activity after restoring previous backup
     - make resending in cursor adapter use new library
     - google voice sending support
     - google voice receiving support
