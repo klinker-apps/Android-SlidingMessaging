@@ -1,19 +1,17 @@
 package com.klinker.android.messaging_sliding.receivers;
 
-import android.preference.PreferenceManager;
-import com.klinker.android.messaging_donate.R;
-
 import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
-import android.support.v4.app.NotificationCompat;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
+import android.preference.PreferenceManager;
+import android.support.v4.app.NotificationCompat;
+import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_sliding.quick_reply.SendMessage;
-import com.klinker.android.messaging_sliding.MainActivityPopup;
 
 public class QuickTextService extends IntentService {
 

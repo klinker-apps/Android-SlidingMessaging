@@ -16,10 +16,6 @@
 
 package wizardpager.wizard.ui;
 
-import com.klinker.android.messaging_donate.R;
-
-import wizardpager.wizard.model.LinkPage;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -31,6 +27,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import com.klinker.android.messaging_donate.R;
+import wizardpager.wizard.model.LinkPage;
 
 public class LinkFragment extends Fragment {
     private static final String ARG_KEY = "key";

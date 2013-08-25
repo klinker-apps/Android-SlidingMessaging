@@ -16,10 +16,9 @@
 
 package wizardpager.wizard.model;
 
-import wizardpager.wizard.ui.SingleChoiceFragment;
-
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import wizardpager.wizard.ui.SingleChoiceFragment;
 
 import java.util.ArrayList;
 import java.util.List;

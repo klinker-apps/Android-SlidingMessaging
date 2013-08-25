@@ -1,6 +1,5 @@
 package com.klinker.android.messaging_sliding.emoji_pager.android;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,14 +7,11 @@ import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
 import com.klinker.android.messaging_donate.R;
-import com.tonicartos.widget.stickygridheaders.StickyGridHeadersBaseAdapter;
 
 public class PeopleEmojiAdapter extends BaseAdapter {
 

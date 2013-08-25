@@ -1,12 +1,5 @@
 package com.klinker.android.messaging_sliding;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
-
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -31,10 +24,12 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import com.google.android.mms.MMSPart;
 import com.klinker.android.messaging_donate.IOUtil;
 import com.klinker.android.messaging_donate.R;
+
+import java.io.*;
+import java.util.ArrayList;
 
 public class AttachMore  extends Activity {
 	

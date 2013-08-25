@@ -1,7 +1,5 @@
 package com.klinker.android.messaging_sliding.theme;
 
-import java.util.Locale;
-
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -9,6 +7,8 @@ import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import com.klinker.android.messaging_donate.R;
+
+import java.util.Locale;
 
 public class DefaultThemeActivity extends PreferenceActivity {
 	public SharedPreferences sharedPrefs;

@@ -2,8 +2,6 @@ package com.klinker.android.messaging_donate.settings;
 
 import android.annotation.SuppressLint;
 import android.app.*;
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.*;
 import android.database.Cursor;
 import android.media.RingtoneManager;
@@ -16,10 +14,11 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-import android.support.v4.app.*;
 import android.support.v13.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager;
-import android.view.*;
+import android.view.MenuItem;
 import android.widget.Toast;
 import com.klinker.android.messaging_card.theme.PopupChooserActivity;
 import com.klinker.android.messaging_donate.R;
@@ -34,13 +33,14 @@ import com.klinker.android.messaging_sliding.scheduled.ScheduledSms;
 import com.klinker.android.messaging_sliding.security.SetPasswordActivity;
 import com.klinker.android.messaging_sliding.security.SetPinActivity;
 import com.klinker.android.messaging_sliding.templates.TemplateActivity;
-
-import java.io.*;
-import java.util.*;
-
 import com.klinker.android.messaging_sliding.theme.ThemeChooserActivity;
 import group.pals.android.lib.ui.lockpattern.LockPatternActivity;
 import group.pals.android.lib.ui.lockpattern.prefs.SecurityPrefs;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Map;
 
 public class SettingsPagerActivity extends FragmentActivity {
 

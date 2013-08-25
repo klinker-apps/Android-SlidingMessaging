@@ -1,7 +1,5 @@
 package com.klinker.android.messaging_sliding.custom_dialogs;
 
-import com.klinker.android.messaging_donate.R;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.preference.Preference;
@@ -15,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
+import com.klinker.android.messaging_donate.R;
 
 public class SeekBarPreference extends Preference implements OnSeekBarChangeListener {
 	

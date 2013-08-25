@@ -1,6 +1,6 @@
 package com.klinker.android.messaging_sliding.batch_delete;
 
-import android.app.*;
+import android.app.Activity;
 import android.content.*;
 import android.database.Cursor;
 import android.graphics.*;
@@ -26,7 +26,10 @@ import com.klinker.android.messaging_sliding.MainActivity;
 
 import java.io.*;
 import java.text.DateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class BatchDeleteConversationArrayAdapter extends CursorAdapter {
 

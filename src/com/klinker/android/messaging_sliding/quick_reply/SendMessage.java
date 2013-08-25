@@ -1,48 +1,30 @@
 package com.klinker.android.messaging_sliding.quick_reply;
 
-import android.widget.*;
-import com.klinker.android.messaging_donate.R;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
-import android.content.ContentValues;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Typeface;
-import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.TaskStackBuilder;
-import android.telephony.SmsManager;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.RelativeLayout.LayoutParams;
+import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.SendUtil;
-import com.klinker.android.send_message.StripAccents;
 import com.klinker.android.messaging_sliding.ContactSearchArrayAdapter2;
 import com.klinker.android.messaging_sliding.MainActivity;
 import com.klinker.android.messaging_sliding.emojis.EmojiAdapter;
@@ -50,7 +32,10 @@ import com.klinker.android.messaging_sliding.emojis.EmojiAdapter2;
 import com.klinker.android.messaging_sliding.emojis.EmojiConverter;
 import com.klinker.android.messaging_sliding.emojis.EmojiConverter2;
 import com.klinker.android.messaging_sliding.receivers.CacheService;
-import com.klinker.android.messaging_sliding.receivers.NotificationReceiver;
+
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SendMessage extends Activity {
 	

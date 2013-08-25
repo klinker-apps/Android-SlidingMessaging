@@ -1,10 +1,5 @@
 package com.klinker.android.messaging_sliding.theme;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.PrintWriter;
-import java.util.Locale;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -12,13 +7,17 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.Preference;
+import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
-import android.preference.Preference.OnPreferenceClickListener;
 import android.widget.Toast;
-
 import com.klinker.android.messaging_donate.R;
 import net.margaritov.preference.colorpicker.ColorPickerPreference;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
+import java.util.Locale;
 
 public class CustomThemeActivity extends PreferenceActivity {
 	public SharedPreferences sharedPrefs;

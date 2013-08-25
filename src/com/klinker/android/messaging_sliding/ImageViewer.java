@@ -1,13 +1,5 @@
 package com.klinker.android.messaging_sliding;
 
-import com.klinker.android.messaging_donate.R;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Random;
-
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
@@ -23,6 +15,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.Toast;
+import com.klinker.android.messaging_donate.R;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Random;
 
 public class ImageViewer extends Activity {
 	

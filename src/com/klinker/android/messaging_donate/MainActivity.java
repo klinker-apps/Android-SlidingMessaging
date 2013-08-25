@@ -18,13 +18,12 @@ import android.view.WindowManager;
 import com.klinker.android.messaging_donate.receivers.UnlockReceiver;
 import com.klinker.android.messaging_sliding.receivers.CacheService;
 import com.klinker.android.messaging_sliding.slide_over.SlideOverService;
+import wizardpager.ChangeLogMain;
+import wizardpager.InitialSetupMain;
 
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
-
-import wizardpager.ChangeLogMain;
-import wizardpager.InitialSetupMain;
 
 public class MainActivity extends FragmentActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 	

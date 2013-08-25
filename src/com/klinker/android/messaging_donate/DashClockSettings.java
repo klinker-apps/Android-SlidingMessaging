@@ -1,15 +1,13 @@
 package com.klinker.android.messaging_donate;
 
-import com.klinker.android.messaging_donate.R;
-
-import java.util.Locale;
-
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+
+import java.util.Locale;
 
 public class DashClockSettings extends PreferenceActivity {
 	

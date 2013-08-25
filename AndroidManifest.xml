@@ -145,7 +145,7 @@
         </activity>
 
         <activity
-            android:name=".settings.SettingsPagerActivity"
+            android:name="com.klinker.android.messaging_donate.settings.SettingsPagerActivity"
             android:label="@string/menu_settings"
             android:theme="@style/SettingsTheme"
             android:excludeFromRecents="true"
@@ -153,19 +153,19 @@
         </activity>
         
         <activity
-            android:name=".settings.TitleBarSettingsActivity"
+            android:name="com.klinker.android.messaging_donate.settings.TitleBarSettingsActivity"
             android:label="@string/title_bar_settings"
             android:theme="@style/SettingsTheme" >
         </activity>
 
         <activity
-                android:name=".settings.GetHelpSettingsActivity"
+                android:name="com.klinker.android.messaging_donate.settings.GetHelpSettingsActivity"
                 android:label="@string/get_help"
                 android:theme="@style/SettingsTheme" >
         </activity>
 
         <activity
-                android:name=".settings.OtherAppsSettingsActivity"
+                android:name="com.klinker.android.messaging_donate.settings.OtherAppsSettingsActivity"
                 android:label="@string/other_apps"
                 android:theme="@style/SettingsTheme" >
         </activity>
@@ -265,7 +265,7 @@
         </activity>
 
         <activity
-            android:name=".widget.WidgetProxyActivity" >
+            android:name="com.klinker.android.messaging_donate.widget.WidgetProxyActivity" >
         </activity>
         
         <activity 
@@ -416,11 +416,11 @@
         </service>
         
         <service
-            android:name=".widget.CardWidgetProvider$CardWidgetService2" >
+            android:name="com.klinker.android.messaging_donate.widget.CardWidgetProvider$CardWidgetService2" >
         </service>
 
         <service
-            android:name=".widget.CardWidgetProvider2$CardWidgetService3" >
+            android:name="com.klinker.android.messaging_donate.widget.CardWidgetProvider2$CardWidgetService3" >
         </service>
 
         <service
@@ -435,7 +435,7 @@
             android:name="com.klinker.android.messaging_sliding.receivers.CacheService" >
         </service>
 
-        <service android:name=".receivers.NotificationListener"
+        <service android:name="com.klinker.android.messaging_donate.receivers.NotificationListener"
                  android:label="@string/app_name"
                  android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
             <intent-filter>
@@ -443,7 +443,7 @@
             </intent-filter>
         </service>
         
-        <service android:name=".MessageDashClockExtension"
+        <service android:name="com.klinker.android.messaging_donate.MessageDashClockExtension"
      		android:icon="@drawable/ic_launcher"
      		android:label="@string/extension_title"
      		android:permission="com.google.android.apps.dashclock.permission.READ_EXTENSION_DATA" >
@@ -458,7 +458,7 @@
 		</service>
 		
         <activity
-            android:name=".DashClockSettings"
+            android:name="com.klinker.android.messaging_donate.DashClockSettings"
             android:label="@string/app_name"
             android:theme="@style/SettingsTheme"
             android:exported="true" />
@@ -497,7 +497,7 @@
             
         </receiver>
 
-        <receiver android:name=".receivers.UnlockReceiver"
+        <receiver android:name="com.klinker.android.messaging_donate.receivers.UnlockReceiver"
                   android:enabled="true" >
             <intent-filter android:enabled="true" android:exported="false">
                 <action android:name="android.intent.action.USER_PRESENT" />
@@ -512,7 +512,7 @@
         </receiver>
         
         
-        <receiver android:name=".widget.CardWidgetProvider" >
+        <receiver android:name="com.klinker.android.messaging_donate.widget.CardWidgetProvider" >
 		    <intent-filter>
 		        <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
 		    </intent-filter>
@@ -525,7 +525,7 @@
 		               android:resource="@xml/card_widget" />
 		</receiver>
 
-        <receiver android:name=".widget.CardWidgetProvider2" >
+        <receiver android:name="com.klinker.android.messaging_donate.widget.CardWidgetProvider2" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -549,10 +549,10 @@
                        android:resource="@xml/halo_widget" />
         </receiver>
 		
-        <service android:name=".widget.CardWidgetService"
+        <service android:name="com.klinker.android.messaging_donate.widget.CardWidgetService"
 			android:permission="android.permission.BIND_REMOTEVIEWS" />
         
-        <activity android:name=".widget.CardWidgetSettingsActivity"
+        <activity android:name="com.klinker.android.messaging_donate.widget.CardWidgetSettingsActivity"
                 android:theme="@android:style/Theme.Holo"
                 android:allowTaskReparenting="false"
                 android:taskAffinity="">

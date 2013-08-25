@@ -1,57 +1,47 @@
 package com.klinker.android.messaging_sliding;
 
-import android.content.*;
-import android.os.Looper;
-import android.os.RemoteException;
-import android.text.Spanned;
-import android.util.Log;
-import android.widget.RelativeLayout;
-import com.klinker.android.messaging_donate.R;
-
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.sql.Date;
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Locale;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import com.klinker.android.messaging_sliding.emojis.*;
-import com.klinker.android.messaging_sliding.theme.CustomTheme;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.*;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Typeface;
-import android.graphics.Bitmap.Config;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Looper;
+import android.os.RemoteException;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
-import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.PhoneLookup;
 import android.support.v4.view.ViewPager;
 import android.text.Html;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.QuickContactBadge;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_sliding.emojis.*;
+import com.klinker.android.messaging_sliding.theme.CustomTheme;
+
+import java.io.*;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MenuArrayAdapter extends ArrayAdapter<String> {
   private final Activity context;
@@ -651,7 +641,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 
                                                             @Override
                                                             public void run() {
-                                                                ((MainActivity)context).refreshViewPager(true);
+                                                                ((MainActivity)context).refreshViewPager();
                                                                 progDialog.dismiss();
                                                             }
 
@@ -672,7 +662,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 
                                                             @Override
                                                             public void run() {
-                                                                ((MainActivity)context).refreshViewPager(true);
+                                                                ((MainActivity)context).refreshViewPager();
                                                                 progDialog.dismiss();
                                                             }
 
@@ -693,7 +683,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 
                             @Override
                             public void run() {
-                                ((MainActivity)context).refreshViewPager(true);
+                                ((MainActivity)context).refreshViewPager();
                                 progDialog.dismiss();
                             }
 

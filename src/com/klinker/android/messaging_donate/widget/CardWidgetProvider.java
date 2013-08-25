@@ -15,7 +15,6 @@ import android.view.View;
 import android.widget.RemoteViews;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_sliding.quick_reply.SendMessage;
-import com.klinker.android.messaging_sliding.MainActivityPopup;
 
 public class CardWidgetProvider extends AppWidgetProvider {
 

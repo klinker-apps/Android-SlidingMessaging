@@ -1,9 +1,5 @@
 package com.klinker.android.messaging_donate.widget;
 
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.*;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -16,6 +12,10 @@ import android.provider.ContactsContract.PhoneLookup;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 import com.klinker.android.messaging_donate.R;
+
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CardWidgetService extends RemoteViewsService {
     @Override

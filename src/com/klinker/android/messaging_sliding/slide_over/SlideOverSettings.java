@@ -12,7 +12,6 @@ import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.klinker.android.messaging_donate.R;
 
 public class SlideOverSettings  extends PreferenceActivity {

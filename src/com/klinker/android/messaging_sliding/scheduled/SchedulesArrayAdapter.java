@@ -1,10 +1,5 @@
 package com.klinker.android.messaging_sliding.scheduled;
 
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
-
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -13,9 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_sliding.MainActivity;
+
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class SchedulesArrayAdapter  extends ArrayAdapter<String> {
     private final Activity context;

@@ -1,42 +1,8 @@
 package com.klinker.android.messaging_sliding.receivers;
 
-import com.klinker.android.messaging_donate.R;
-import com.klinker.android.messaging_donate.receivers.UnlockReceiver;
-import com.klinker.android.messaging_sliding.MainActivity;
-import com.klinker.android.messaging_sliding.MainActivityPopup;
-import com.klinker.android.messaging_sliding.quick_reply.QmDelete;
-import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead2;
-import com.klinker.android.messaging_sliding.blacklist.BlacklistContact;
-import com.klinker.android.messaging_sliding.notifications.IndividualSetting;
-
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
-
 import android.annotation.SuppressLint;
-import android.app.ActivityManager;
-import android.app.AlarmManager;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
-import android.content.ContentUris;
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.app.*;
+import android.content.*;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -57,7 +23,18 @@ import android.telephony.PhoneNumberUtils;
 import android.telephony.SmsMessage;
 import android.text.Editable;
 import android.text.SpannableStringBuilder;
+import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_donate.receivers.UnlockReceiver;
+import com.klinker.android.messaging_sliding.MainActivity;
+import com.klinker.android.messaging_sliding.MainActivityPopup;
+import com.klinker.android.messaging_sliding.blacklist.BlacklistContact;
+import com.klinker.android.messaging_sliding.notifications.IndividualSetting;
+import com.klinker.android.messaging_sliding.quick_reply.QmDelete;
+import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead2;
 import com.klinker.android.messaging_sliding.quick_reply.QuickReply;
+
+import java.io.*;
+import java.util.*;
 
 @SuppressWarnings("deprecation")
 public class TextMessageReceiver extends BroadcastReceiver {

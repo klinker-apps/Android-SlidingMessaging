@@ -1,7 +1,5 @@
 package com.klinker.android.messaging_donate.widget;
 
-import java.util.Locale;
-
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
@@ -11,6 +9,8 @@ import android.telephony.PhoneNumberUtils;
 import android.text.Editable;
 import android.text.SpannableStringBuilder;
 import com.klinker.android.messaging_donate.R;
+
+import java.util.Locale;
 
 public class WidgetItem {
 	public String name;

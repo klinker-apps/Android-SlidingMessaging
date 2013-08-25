@@ -19,10 +19,6 @@ package wizardpager.wizard.ui;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.text.Html;
-import android.text.TextUtils;
-import android.text.method.LinkMovementMethod;
-import android.text.method.MovementMethod;
 import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,7 +36,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.regex.Pattern;
 
 public class ReviewFragment extends ListFragment implements ModelCallbacks {
     private Callbacks mCallbacks;

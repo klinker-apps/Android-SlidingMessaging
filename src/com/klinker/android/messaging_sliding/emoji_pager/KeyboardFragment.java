@@ -2,7 +2,6 @@ package com.klinker.android.messaging_sliding.emoji_pager;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -10,14 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-
 import com.klinker.android.messaging_sliding.MainActivity;
-import com.klinker.android.messaging_sliding.emoji_pager.android.NatureEmojiAdapter;
-import com.klinker.android.messaging_sliding.emoji_pager.android.OtherEmojiAdapter;
-import com.klinker.android.messaging_sliding.emoji_pager.android.PeopleEmojiAdapter;
-import com.klinker.android.messaging_sliding.emoji_pager.android.ThingsEmojiAdapter;
-import com.klinker.android.messaging_sliding.emoji_pager.android.TransEmojiAdapter;
-import com.klinker.android.messaging_sliding.emojis.EmojiAdapter;
+import com.klinker.android.messaging_sliding.emoji_pager.android.*;
 import com.klinker.android.messaging_sliding.emojis.EmojiAdapter2;
 
 public class KeyboardFragment extends Fragment {

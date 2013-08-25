@@ -1,20 +1,16 @@
 package com.klinker.android.messaging_sliding.templates;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.TextView;
-
 import com.klinker.android.messaging_donate.R;
+
+import java.util.ArrayList;
 
 public class TemplateArrayAdapter  extends ArrayAdapter<String> {
 	  private final Activity context;

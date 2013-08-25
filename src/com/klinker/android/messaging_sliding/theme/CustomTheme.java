@@ -1,11 +1,10 @@
 package com.klinker.android.messaging_sliding.theme;
 
-import java.util.ArrayList;
-
-import com.klinker.android.messaging_donate.R;
-
 import android.content.Context;
 import android.graphics.Color;
+import com.klinker.android.messaging_donate.R;
+
+import java.util.ArrayList;
 
 public class CustomTheme {
 	public String name;

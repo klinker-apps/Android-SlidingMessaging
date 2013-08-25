@@ -1,16 +1,5 @@
 package com.klinker.android.messaging_sliding.theme;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Locale;
-
-import com.klinker.android.messaging_donate.R;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -27,19 +16,14 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.method.LinkMovementMethod;
 import android.util.TypedValue;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.view.*;
+import android.widget.*;
 import android.widget.RelativeLayout.LayoutParams;
+import com.klinker.android.messaging_donate.R;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Locale;
 
 public class ThemeChooserActivity extends Activity {
 	/**

@@ -12,14 +12,11 @@ import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ListView;
-
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_sliding.MainActivity;
+import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 
 import java.util.ArrayList;
-import java.util.Collections;
-
-import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 
 /**
  * Created by luke on 7/24/13.

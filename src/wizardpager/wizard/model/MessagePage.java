@@ -16,10 +16,9 @@
 
 package wizardpager.wizard.model;
 
-import wizardpager.wizard.ui.MessageFragment;
-
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import wizardpager.wizard.ui.MessageFragment;
 
 import java.util.ArrayList;
 

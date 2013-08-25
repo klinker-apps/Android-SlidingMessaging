@@ -16,10 +16,8 @@
 
 package wizardpager.wizard.model;
 
-import wizardpager.wizard.ui.MultipleChoiceFragment;
-
-
 import android.support.v4.app.Fragment;
+import wizardpager.wizard.ui.MultipleChoiceFragment;
 
 import java.util.ArrayList;
 

@@ -1,22 +1,15 @@
 package com.klinker.android.messaging_donate;
 
-import com.klinker.android.messaging_donate.R;
-
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-
 import com.google.android.apps.dashclock.api.DashClockExtension;
 import com.google.android.apps.dashclock.api.ExtensionData;
+
+import java.io.*;
+import java.util.ArrayList;
 
 public class MessageDashClockExtension extends DashClockExtension {
 

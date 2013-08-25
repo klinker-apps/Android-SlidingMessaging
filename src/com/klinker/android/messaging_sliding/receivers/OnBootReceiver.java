@@ -1,17 +1,5 @@
 package com.klinker.android.messaging_sliding.receivers;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -22,6 +10,11 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import com.klinker.android.messaging_sliding.DeleteOldService;
 import com.klinker.android.messaging_sliding.scheduled.ScheduledService;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class OnBootReceiver extends BroadcastReceiver {
 

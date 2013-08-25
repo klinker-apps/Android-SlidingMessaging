@@ -1,11 +1,5 @@
 package com.klinker.android.messaging_sliding.theme;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Locale;
-
-import com.klinker.android.messaging_donate.R;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -18,9 +12,14 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.Toast;
+import com.klinker.android.messaging_donate.R;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Locale;
 
 public class CustomFontSettingsActivity extends Activity {
 	

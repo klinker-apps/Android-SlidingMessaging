@@ -16,8 +16,6 @@
 
 package com.klinker.android.messaging_sliding.custom_dialogs;
 
-import com.klinker.android.messaging_donate.R;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -26,6 +24,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.NumberPicker;
+import com.klinker.android.messaging_donate.R;
 
 /**
  * A dialog that prompts the user for the message deletion limits.

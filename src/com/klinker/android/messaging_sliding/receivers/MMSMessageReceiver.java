@@ -1,38 +1,7 @@
 package com.klinker.android.messaging_sliding.receivers;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Locale;
-
+import android.app.*;
 import android.content.*;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
-import android.os.Handler;
-import android.os.Looper;
-import com.google.android.mms.pdu_alt.*;
-import com.klinker.android.messaging_donate.R;
-
-import com.android.mms.transaction.HttpUtils;
-import com.android.mms.util.SendingProgressTokenManager;
-import com.google.android.mms.APN;
-import com.google.android.mms.APNHelper;
-import com.google.android.mms.MmsException;
-import com.google.android.mms.pdu_alt.PduPersister;
-
-import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SqliteWrapper;
@@ -40,12 +9,16 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
-import android.provider.MediaStore;
 import android.provider.ContactsContract.PhoneLookup;
+import android.provider.MediaStore;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Mms.Inbox;
 import android.support.v4.app.NotificationCompat;
@@ -55,8 +28,21 @@ import android.text.Editable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.util.Log;
+import com.android.mms.transaction.HttpUtils;
+import com.android.mms.util.SendingProgressTokenManager;
+import com.google.android.mms.APN;
+import com.google.android.mms.APNHelper;
+import com.google.android.mms.MmsException;
+import com.google.android.mms.pdu_alt.*;
+import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_sliding.MainActivity;
 import com.klinker.android.send_message.Transaction;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
 
 public class MMSMessageReceiver extends BroadcastReceiver {
     public static String lastReceivedNumber = "";

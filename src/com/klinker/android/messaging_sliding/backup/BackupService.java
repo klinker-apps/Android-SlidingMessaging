@@ -2,7 +2,6 @@ package com.klinker.android.messaging_sliding.backup;
 
 import android.app.IntentService;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -12,11 +11,8 @@ import android.net.Uri;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
-import android.telephony.SmsManager;
 import android.widget.Toast;
-
 import com.klinker.android.messaging_donate.R;
-import com.klinker.android.messaging_sliding.scheduled.ScheduledSms;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -26,8 +22,6 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
 
 /**
  * Created by luke on 7/1/13.

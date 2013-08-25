@@ -2,38 +2,23 @@ package com.klinker.android.messaging_sliding.search;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v13.app.FragmentStatePagerAdapter;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.ViewPager;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.klinker.android.messaging_donate.R;
-import com.klinker.android.messaging_sliding.MainActivity;
-import com.klinker.android.messaging_sliding.scheduled.SchedulesArrayAdapter;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 /**
  * Created by luke on 7/23/13.

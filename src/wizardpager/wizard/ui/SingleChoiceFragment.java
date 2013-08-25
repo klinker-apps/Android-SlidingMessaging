@@ -16,10 +16,6 @@
 
 package wizardpager.wizard.ui;
 
-import com.klinker.android.messaging_donate.R;
-import wizardpager.wizard.model.Page;
-import wizardpager.wizard.model.SingleFixedChoicePage;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
@@ -30,6 +26,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import com.klinker.android.messaging_donate.R;
+import wizardpager.wizard.model.Page;
+import wizardpager.wizard.model.SingleFixedChoicePage;
 
 import java.util.ArrayList;
 import java.util.List;

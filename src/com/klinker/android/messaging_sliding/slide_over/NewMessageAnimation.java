@@ -2,7 +2,6 @@ package com.klinker.android.messaging_sliding.slide_over;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.WindowManager;
 
 public class NewMessageAnimation extends CustomAnimation {

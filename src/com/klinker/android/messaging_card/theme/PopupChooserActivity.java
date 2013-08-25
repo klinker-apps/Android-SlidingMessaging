@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import com.klinker.android.messaging_donate.R;

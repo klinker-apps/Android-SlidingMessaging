@@ -1,24 +1,16 @@
 package com.klinker.android.messaging_sliding.scheduled;
 
-import android.app.*;
-import android.content.*;
-import android.database.Cursor;
-import android.media.RingtoneManager;
-import android.net.Uri;
+import android.app.IntentService;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.TaskStackBuilder;
-import android.telephony.SmsManager;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.SendUtil;
-import com.klinker.android.send_message.StripAccents;
-import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead2;
-import com.klinker.android.messaging_sliding.receivers.NotificationReceiver;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class ScheduledService extends IntentService {
 

@@ -14,13 +14,12 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.view.PagerTitleStrip;
 import android.util.TypedValue;
-import android.view.*;
+import android.view.Display;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
-
-import java.util.ArrayList;
 
 public class MainActivityPopup extends MainActivity {
 

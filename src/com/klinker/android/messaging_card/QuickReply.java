@@ -1,32 +1,7 @@
 package com.klinker.android.messaging_card;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStreamWriter;
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import android.app.*;
-import android.view.*;
-import android.widget.*;
-import com.klinker.android.messaging_donate.R;
-import com.klinker.android.messaging_donate.SendUtil;
-import com.klinker.android.send_message.Message;
-import com.klinker.android.send_message.Settings;
-
-import android.content.BroadcastReceiver;
-import android.content.ContentResolver;
-import android.content.ContentUris;
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.SharedPreferences;
+import android.content.*;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -54,16 +29,29 @@ import android.text.InputType;
 import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
 import android.text.method.ScrollingMovementMethod;
+import android.view.*;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.RelativeLayout.LayoutParams;
+import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_donate.SendUtil;
 import com.klinker.android.messaging_sliding.emojis.*;
-import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead2;
 import com.klinker.android.messaging_sliding.receivers.CacheService;
 import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
-import com.klinker.android.send_message.Transaction;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class QuickReply extends FragmentActivity {
 

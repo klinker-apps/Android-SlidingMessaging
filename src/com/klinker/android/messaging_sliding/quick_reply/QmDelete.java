@@ -1,9 +1,5 @@
 package com.klinker.android.messaging_sliding.quick_reply;
 
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-
 import android.app.AlarmManager;
 import android.app.IntentService;
 import android.app.NotificationManager;
@@ -13,6 +9,10 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
+
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 
 public class QmDelete extends IntentService {
 

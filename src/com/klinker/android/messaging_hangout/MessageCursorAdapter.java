@@ -46,12 +46,12 @@ import com.google.android.mms.pdu_alt.PduParser;
 import com.google.android.mms.pdu_alt.PduPersister;
 import com.google.android.mms.pdu_alt.RetrieveConf;
 import com.klinker.android.messaging_donate.R;
-import com.klinker.android.send_message.StripAccents;
-import com.klinker.android.send_message.DisconnectWifi;
 import com.klinker.android.messaging_sliding.ImageViewer;
 import com.klinker.android.messaging_sliding.MainActivity;
 import com.klinker.android.messaging_sliding.emojis.*;
 import com.klinker.android.messaging_sliding.receivers.NotificationReceiver;
+import com.klinker.android.send_message.DisconnectWifi;
+import com.klinker.android.send_message.StripAccents;
 import com.klinker.android.send_message.Transaction;
 
 import java.io.*;
@@ -1169,7 +1169,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                                 String threadId = threadIds;
 
                                                 deleteSMS(context, threadId, idF);
-                                                ((MainActivity) context).refreshViewPager(true);
+                                                ((MainActivity) context).refreshViewPager();
                                             }
 
                                             public void deleteSMS(Context context, String threadId, String messageId) {
@@ -1191,7 +1191,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                         ContentValues values = new ContentValues();
                                         values.put("locked", lockedF ? false : true);
                                         contentResolver.update(Uri.parse("content://sms/inbox"), values, "_id=" + idF, null);
-                                        ((MainActivity) context).refreshViewPager(true);
+                                        ((MainActivity) context).refreshViewPager();
                                         break;
                                     default:
                                         break;
@@ -1319,7 +1319,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                                 String threadId = threadIds;
 
                                                 deleteSMS(context, threadId, idF);
-                                                ((MainActivity) context).refreshViewPager(true);
+                                                ((MainActivity) context).refreshViewPager();
                                             }
 
                                             public void deleteSMS(Context context, String threadId, String messageId) {
@@ -1341,7 +1341,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                         ContentValues values = new ContentValues();
                                         values.put("locked", lockedF ? false : true);
                                         contentResolver.update(Uri.parse("content://" + (mmsF ? "mms" : "sms") + "/inbox"), values, "_id=" + idF, null);
-                                        ((MainActivity) context).refreshViewPager(true);
+                                        ((MainActivity) context).refreshViewPager();
                                         break;
                                     default:
                                         break;
@@ -1873,7 +1873,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                             String threadId = threadIds;
 
                                             deleteSMS(context, threadId, idF);
-                                            ((MainActivity) context).refreshViewPager(true);
+                                            ((MainActivity) context).refreshViewPager();
                                         }
 
                                         public void deleteSMS(Context context, String threadId, String messageId) {
@@ -1895,7 +1895,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                     ContentValues values = new ContentValues();
                                     values.put("locked", lockedF ? false : true);
                                     contentResolver.update(Uri.parse("content://" + (mmsF ? "mms" : "sms") + "/inbox"), values, "_id=" + idF, null);
-                                    ((MainActivity) context).refreshViewPager(true);
+                                    ((MainActivity) context).refreshViewPager();
                                     break;
                                 default:
                                     break;

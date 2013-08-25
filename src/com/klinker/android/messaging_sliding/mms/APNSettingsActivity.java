@@ -1,12 +1,11 @@
 package com.klinker.android.messaging_sliding.mms;
 
-import java.util.ArrayList;
-
-import com.klinker.android.messaging_donate.R;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.ListView;
+import com.klinker.android.messaging_donate.R;
+
+import java.util.ArrayList;
 
 public class APNSettingsActivity extends Activity {
 	

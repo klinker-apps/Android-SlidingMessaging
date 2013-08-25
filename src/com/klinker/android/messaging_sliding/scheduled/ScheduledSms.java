@@ -1,17 +1,5 @@
 package com.klinker.android.messaging_sliding.scheduled;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
-
 import android.app.*;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -24,9 +12,16 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.*;
+import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.Button;
+import android.widget.ListView;
 import com.klinker.android.messaging_donate.R;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class ScheduledSms extends Activity {
 

@@ -1,27 +1,17 @@
 package com.klinker.android.messaging_sliding.slide_over;
 
-import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.*;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
-import android.net.Uri;
-import android.os.Handler;
 import android.os.IBinder;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
-import android.view.Display;
-import android.view.Gravity;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.WindowManager;
-
+import android.view.*;
 import com.klinker.android.messaging_donate.R;
-import com.klinker.android.messaging_sliding.MainActivity;
 import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead2;
 
 import java.util.List;

@@ -1,13 +1,5 @@
 package com.klinker.android.messaging_sliding.emojis;
 
-import com.klinker.android.messaging_donate.R;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,6 +10,13 @@ import android.text.Spannable;
 import android.text.Spannable.Factory;
 import android.text.style.ImageSpan;
 import android.util.TypedValue;
+import com.klinker.android.messaging_donate.R;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class EmojiConverter2 {
 	private static final Factory spannableFactory = Spannable.Factory

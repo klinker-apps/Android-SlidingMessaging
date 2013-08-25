@@ -1,17 +1,16 @@
 package com.klinker.android.messaging_sliding.batch_delete;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.util.ArrayList;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.*;
+import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Bitmap.Config;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -26,9 +25,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.*;
-
+import android.widget.ArrayAdapter;
+import android.widget.QuickContactBadge;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import com.klinker.android.messaging_donate.R;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.util.ArrayList;
 
 public class BatchDeleteAllArrayAdapter extends ArrayAdapter<String> {
     public static ArrayList<Integer> itemsToDelete = new ArrayList<Integer>();;

@@ -1,12 +1,5 @@
 package com.klinker.android.messaging_sliding.search;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
-
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -26,10 +19,19 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
-
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.QuickContactBadge;
+import android.widget.TextView;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_sliding.MainActivity;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class ConversationArrayAdapter  extends ArrayAdapter<String> {
     private final Activity context;

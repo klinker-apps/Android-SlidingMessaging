@@ -1,9 +1,5 @@
 package com.klinker.android.messaging_sliding;
 
-import com.klinker.android.messaging_donate.R;
-
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -13,6 +9,9 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import com.klinker.android.messaging_donate.R;
+
+import java.util.ArrayList;
 
 public class ImageArrayAdapter extends ArrayAdapter<String> {
 	  private final Activity context;

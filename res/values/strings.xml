@@ -680,5 +680,8 @@
     <string name="emoji_keyboard">Use Emoji Keyboard</string>
     <string name="emoji_keyboard_summary">NOTE: Android emojis only.</string>
     <string name="other_apps">Our Other Apps</string>
+    <string name="trial_expired">Trial Expired</string>
+    <string name="trial_expired_message">Hope you have enjoyed your trial!\n\nThe trial of Sliding Messaging Pro has now expired and if you wish to continue using the app, please upgrade to the full version. You will be able to continue using the free version as of now, but with extremely limited functionality.</string>
+    <string name="upgrade_to_pro">Upgrade to Sliding Messaging Pro!</string>
 
 </resources>

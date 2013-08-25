@@ -1,13 +1,8 @@
 package com.klinker.android.messaging_donate.settings;
 
-import com.klinker.android.messaging_donate.R;
-
-import java.util.Locale;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.net.Uri;
@@ -15,9 +10,9 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
-import com.klinker.android.messaging_sliding.developer_tips.MainActivity;
+import com.klinker.android.messaging_donate.R;
 
-import wizardpager.ChangeLogMain;
+import java.util.Locale;
 
 public class OtherAppsSettingsActivity extends PreferenceActivity {
 

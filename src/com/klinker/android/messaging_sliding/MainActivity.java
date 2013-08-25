@@ -1,71 +1,62 @@
 package com.klinker.android.messaging_sliding;
 
+import android.annotation.SuppressLint;
 import android.app.*;
 import android.app.Fragment;
 import android.content.*;
-import android.content.ClipboardManager;
-import android.graphics.*;
-import android.media.*;
-import android.os.*;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.ListFragment;
-import android.support.v4.app.*;
-import android.support.v4.app.TaskStackBuilder;
-import android.content.Loader;
-import android.support.v4.view.ViewPager;
-import android.text.*;
-import android.view.*;
-import android.widget.*;
-
-import com.astuetz.viewpager.extensions.PagerSlidingTabStrip;
-import com.devspark.appmsg.AppMsg;
-import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
-import com.klinker.android.messaging_sliding.batch_delete.BatchDeleteAllActivity;
-import com.klinker.android.messaging_donate.*;
-
-import java.io.*;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import com.android.mms.ui.ImageAttachmentView;
-import com.google.android.mms.MMSPart;
-
-import android.annotation.SuppressLint;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.*;
 import android.graphics.Bitmap.Config;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.ExifInterface;
+import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.*;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.PhoneLookup;
 import android.provider.ContactsContract.Profile;
 import android.provider.MediaStore;
+import android.support.v4.app.*;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.ListFragment;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.view.PagerTitleStrip;
+import android.support.v4.view.ViewPager;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.SmsMessage;
 import android.telephony.TelephonyManager;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.SpannableStringBuilder;
+import android.text.TextWatcher;
 import android.util.TypedValue;
+import android.view.*;
 import android.view.View.OnClickListener;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
+import android.view.animation.*;
 import android.view.animation.Animation.AnimationListener;
-import android.view.animation.AnimationSet;
-import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.RelativeLayout.LayoutParams;
+import com.android.mms.ui.ImageAttachmentView;
+import com.astuetz.viewpager.extensions.PagerSlidingTabStrip;
+import com.devspark.appmsg.AppMsg;
+import com.google.android.mms.MMSPart;
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_donate.SendUtil;
 import com.klinker.android.messaging_donate.settings.SettingsPagerActivity;
+import com.klinker.android.messaging_sliding.batch_delete.BatchDeleteAllActivity;
 import com.klinker.android.messaging_sliding.batch_delete.BatchDeleteConversationActivity;
 import com.klinker.android.messaging_sliding.blacklist.BlacklistContact;
 import com.klinker.android.messaging_sliding.custom_dialogs.CustomListView;
@@ -86,18 +77,21 @@ import com.klinker.android.messaging_sliding.security.PasswordActivity;
 import com.klinker.android.messaging_sliding.security.PinActivity;
 import com.klinker.android.messaging_sliding.templates.TemplateActivity;
 import com.klinker.android.messaging_sliding.templates.TemplateArrayAdapter;
+import com.klinker.android.send_message.Message;
 import com.klinker.android.send_message.Settings;
 import com.klinker.android.send_message.StripAccents;
 import com.klinker.android.send_message.Transaction;
-import com.klinker.android.send_message.Message;
 import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
-
-import group.pals.android.lib.ui.lockpattern.prefs.SecurityPrefs;
-
 import group.pals.android.lib.ui.lockpattern.LockPatternActivity;
+import group.pals.android.lib.ui.lockpattern.prefs.SecurityPrefs;
 import net.simonvt.messagebar.MessageBar;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 import wizardpager.ChangeLogMain;
+
+import java.io.*;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MainActivity extends FragmentActivity {
 
@@ -961,7 +955,7 @@ public class MainActivity extends FragmentActivity {
             public void onReceive(Context arg0, Intent arg1) {
                 String currentThread = threadIds.get(mViewPager.getCurrentItem());
 
-                refreshViewPager(true);
+                refreshViewPager();
 
                 for (int i = 0; i < threadIds.size(); i++)
                 {
@@ -1044,6 +1038,10 @@ public class MainActivity extends FragmentActivity {
         v.setVisibility(View.GONE);
 
         setUpSendbar();
+
+        if (!unlocked) {
+            showUnlockFullDialog();
+        }
     }
 
     public void setUpSendSettings() {
@@ -1208,7 +1206,23 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
-    public void refreshMessages(boolean totalRefresh)
+    public void showUnlockFullDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.trial_expired)
+                .setMessage(R.string.trial_expired_message)
+                .setPositiveButton(R.string.upgrade_to_pro, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setData(Uri.parse("https://play.google.com/store/apps/details?id=com.klinker.android.messaging_donate"));
+                        startActivity(intent);
+                    }
+                })
+                .create()
+                .show();
+    }
+
+    public void refreshMessages()
     {
         inboxNumber = new ArrayList<String>();
         inboxDate = new ArrayList<String>();
@@ -1639,6 +1653,11 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
 
+                if (!unlocked) {
+                    messageEntry.setError(getString(R.string.trial_expired));
+                    return;
+                }
+
                 if (isPopup && attachOnSend) {
                     popupAttaching = true;
                     menuAttachImage();
@@ -2032,7 +2051,7 @@ public class MainActivity extends FragmentActivity {
                     public void onClick(View view) {
                         menuLayout.removeFooterView(footer);
                         limitConversations = false;
-                        refreshViewPager(true);
+                        refreshViewPager();
                     }
                 });
                 footer.setText(getResources().getString(R.string.load_all));
@@ -2081,7 +2100,7 @@ public class MainActivity extends FragmentActivity {
                     public void onClick(View view) {
                         menuLayout.removeFooterView(footer);
                         limitConversations = false;
-                        refreshViewPager(true);
+                        refreshViewPager();
                     }
                 });
                 footer.setText(getResources().getString(R.string.load_all));
@@ -2639,7 +2658,7 @@ public class MainActivity extends FragmentActivity {
                                 public void run() {
                                     contact.setText("");
                                     menu.showContent();
-                                    refreshViewPager(true);
+                                    refreshViewPager();
                                     mViewPager.setCurrentItem(0);
                                 }
 
@@ -3849,7 +3868,7 @@ public class MainActivity extends FragmentActivity {
 
                                                 @Override
                                                 public void run() {
-                                                    ((MainActivity)context).refreshViewPager(true);
+                                                    ((MainActivity)context).refreshViewPager();
                                                     progDialog.dismiss();
                                                 }
 
@@ -3870,7 +3889,7 @@ public class MainActivity extends FragmentActivity {
 
                                                 @Override
                                                 public void run() {
-                                                    ((MainActivity)context).refreshViewPager(true);
+                                                    ((MainActivity)context).refreshViewPager();
                                                     progDialog.dismiss();
                                                 }
 
@@ -3891,7 +3910,7 @@ public class MainActivity extends FragmentActivity {
 
                 @Override
                 public void run() {
-                    ((MainActivity)context).refreshViewPager(true);
+                    ((MainActivity)context).refreshViewPager();
                     progDialog.dismiss();
                 }
 
@@ -4893,7 +4912,7 @@ public class MainActivity extends FragmentActivity {
 
         if (firstRun)
         {
-            refreshViewPager(false);
+            refreshViewPager();
             createMenu();
             firstRun = false;
 
@@ -5048,7 +5067,7 @@ public class MainActivity extends FragmentActivity {
         {
             if (messageRecieved == true)
             {
-                refreshViewPager(false);
+                refreshViewPager();
                 messageRecieved = false;
             }
 
@@ -5084,7 +5103,7 @@ public class MainActivity extends FragmentActivity {
     }
 
     @SuppressWarnings("deprecation")
-    public void refreshViewPager(boolean totalRefresh)
+    public void refreshViewPager()
     {
         pullToRefreshPosition = -1;
         String threadTitle = "0";
@@ -5095,7 +5114,7 @@ public class MainActivity extends FragmentActivity {
             threadTitle = findContactName(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), this), this);
         }
 
-        refreshMessages(totalRefresh);
+        refreshMessages();
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(
                 getFragmentManager());
@@ -5497,7 +5516,7 @@ public class MainActivity extends FragmentActivity {
             }
         } else
         {
-            refreshViewPager(true);
+            refreshViewPager();
         }
 
         try
@@ -6731,7 +6750,7 @@ public class MainActivity extends FragmentActivity {
         return ret;
     }
 
-    public static final int TRIAL_LENGTH = 20;
+    public static final int TRIAL_LENGTH = 15;
 
     private boolean checkUnlocked() {
         boolean unlocked = true;

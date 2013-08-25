@@ -1,7 +1,5 @@
 package com.klinker.android.messaging_donate.widget;
 
-import java.util.Locale;
-
 import android.app.ActionBar;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
@@ -12,11 +10,13 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
-import android.view.*;
-import android.widget.Button;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.RemoteViews;
-import android.widget.Toast;
 import com.klinker.android.messaging_donate.R;
+
+import java.util.Locale;
 
 public class CardWidgetSettingsActivity  extends PreferenceActivity {
 	

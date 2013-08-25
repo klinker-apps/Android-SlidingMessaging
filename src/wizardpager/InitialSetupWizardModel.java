@@ -17,12 +17,8 @@
 package wizardpager;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.preference.PreferenceManager;
 import com.klinker.android.messaging_donate.R;
 import wizardpager.wizard.model.AbstractWizardModel;
-import wizardpager.wizard.model.LinkPage;
 import wizardpager.wizard.model.MessagePage;
 import wizardpager.wizard.model.PageList;
 import wizardpager.wizard.model.SingleFixedChoicePage;

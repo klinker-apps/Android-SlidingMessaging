@@ -17,10 +17,6 @@
 
 package com.android.mms.ui;
 
-import java.util.Map;
-
-import com.klinker.android.messaging_donate.R;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -30,6 +26,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import com.klinker.android.messaging_donate.R;
+
+import java.util.Map;
 
 /**
  * This class provides an embedded editor/viewer of picture attachment.

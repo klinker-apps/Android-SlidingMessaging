@@ -1,7 +1,5 @@
 package com.klinker.android.messaging_sliding.mms;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -14,8 +12,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.klinker.android.messaging_donate.R;
+
+import java.util.ArrayList;
 
 public class APNArrayAdapter  extends ArrayAdapter<String> {
 	  private final Activity context;

@@ -1,16 +1,5 @@
 package com.klinker.android.messaging_sliding.notifications;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.Locale;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -26,12 +15,15 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.AdapterView.OnItemLongClickListener;
-
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_sliding.templates.TemplateArrayAdapter;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Locale;
 
 public class NotificationsSettingsActivity extends Activity {
 	

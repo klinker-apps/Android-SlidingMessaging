@@ -15,9 +15,6 @@ import com.klinker.android.messaging_donate.R;
 
 import java.util.Calendar;
 
-/**
- * Created by Luke on 6/2/13.
- */
 public class PinActivity extends FragmentActivity {
     private SharedPreferences sharedPrefs;
 

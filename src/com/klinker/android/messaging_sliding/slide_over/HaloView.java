@@ -2,10 +2,15 @@ package com.klinker.android.messaging_sliding.slide_over;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.*;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.preference.PreferenceManager;
-import android.view.*;
-
+import android.view.Display;
+import android.view.MotionEvent;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import com.klinker.android.messaging_donate.R;
 
 public class HaloView extends ViewGroup {

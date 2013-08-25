@@ -6,14 +6,13 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.provider.Telephony;
 import android.telephony.SmsMessage;
-
-import java.util.*;
-
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_sliding.MainActivity;
 import robj.floating.notifications.Extension;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class FNReceiver extends BroadcastReceiver {
 

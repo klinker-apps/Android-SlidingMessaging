@@ -5,8 +5,10 @@ import android.content.SharedPreferences;
 import android.graphics.*;
 import android.preference.PreferenceManager;
 import android.util.TypedValue;
-import android.view.*;
-
+import android.view.Display;
+import android.view.MotionEvent;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import com.klinker.android.messaging_donate.R;
 
 import java.util.ArrayList;
