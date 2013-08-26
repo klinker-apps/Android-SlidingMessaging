@@ -46,12 +46,6 @@ public class ChangeLogWizardModel extends AbstractWizardModel {
         }
 
         String changeLog = "Version " + version + ":\n\n" +
-                "- Beautiful new emoji keyboard for Android emojis. This same keyboard can be used in any app on your phone by downloading our new Emoji Keyboard! http://goo.gl/D8jmTD\n" +
-                "- Ability to lock messages\n" +
-                "- Batch delete certain messages in single conversation\n" +
-                "- Redone share box to match current theme\n" +
-                "- UI changes to Hangouts UI and batch delete\n" +
-                "- Added tablet support\n" +
                 "- Bug fixes\n\n" +
                 "- For interested developers: I completely recreated the back-end sending process and published it as a library to Github. Any developer interested in using it, improving it, or whatever else, check it out! " +
                 "There is support for sending SMS and MMS messages all packaged into one easy class to use - this is something Google has neglected for much too long, so with this anyone can easily send " +
