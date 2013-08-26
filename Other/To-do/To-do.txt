@@ -1,7 +1,7 @@
 Version 7.50
 
 Jake:
-    - look into same type of delay for receiving mms as implemented on failed sending mms (mms receiver and download button)
+    - content observer in cursor adapters to refresh them instead of recreating entire view pager, then just notify data set changed (refresh entire view pager only when sending a new message)
     - google voice sending support
     - google voice receiving support
     - Figure out how to judge file size of png images and adjust them accordingly when sending, look into UriImage.getResizedImageData for solution

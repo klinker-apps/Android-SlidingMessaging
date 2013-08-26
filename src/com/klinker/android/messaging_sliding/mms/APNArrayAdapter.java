@@ -110,18 +110,22 @@ public class APNArrayAdapter  extends ArrayAdapter<String> {
 					
 					if (holder.text.getText().equals("Verizon Wireless") || holder.text.getText().equals("Verizon Wireless #2 (Try this if first doesn't work for you)"))
 					{
-						String phoneNumber = getMyPhoneNumber().replace("+", "").replace("-","").replace(")","").replace("(", "").replace(" ", "");
-						
-						if (phoneNumber.startsWith("+1"))
-						{
-							phoneNumber = phoneNumber.substring(2);
-						} else if (phoneNumber.startsWith("1") && phoneNumber.length() == 11)
-						{
-							phoneNumber = phoneNumber.substring(1);
-						}
-						
-						editor.putString("mmsc_url", apns[0].replace("**********", phoneNumber));
-						editor.putString("mms_proxy", apns[1].replace("null", ""));
+                        try {
+                            String phoneNumber = getMyPhoneNumber().replace("+", "").replace("-","").replace(")","").replace("(", "").replace(" ", "");
+
+                            if (phoneNumber.startsWith("+1"))
+                            {
+                                phoneNumber = phoneNumber.substring(2);
+                            } else if (phoneNumber.startsWith("1") && phoneNumber.length() == 11)
+                            {
+                                phoneNumber = phoneNumber.substring(1);
+                            }
+
+                            editor.putString("mmsc_url", apns[0].replace("**********", phoneNumber));
+                            editor.putString("mms_proxy", apns[1].replace("null", ""));
+                        } catch (Exception e) {
+                            // tablet? no phone number then.
+                        }
 					}
 					
 					editor.commit();

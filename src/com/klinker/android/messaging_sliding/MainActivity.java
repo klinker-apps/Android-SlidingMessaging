@@ -651,21 +651,27 @@ public class MainActivity extends FragmentActivity {
                     String name = findContactName(address, context);
                     String id = "0";
 
-                    Uri phoneUri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(address.replaceAll("[^0-9\\+]", "")));
-                    Cursor phonesCursor = context.getContentResolver().query(phoneUri, new String[] {ContactsContract.Contacts._ID}, null, null, null);
+                    Bitmap contactImage = BitmapFactory.decodeResource(getResources(), R.drawable.ic_contact_picture);
 
-                    if(phonesCursor != null && phonesCursor.moveToFirst()) {
-                        id = phonesCursor.getString(0);
+                    try {
+                        Uri phoneUri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(address.replaceAll("[^0-9\\+]", "")));
+                        Cursor phonesCursor = context.getContentResolver().query(phoneUri, new String[] {ContactsContract.Contacts._ID}, null, null, null);
+
+                        if(phonesCursor != null && phonesCursor.moveToFirst()) {
+                            id = phonesCursor.getString(0);
+                        }
+
+                        InputStream input = openDisplayPhoto(Long.parseLong(id));
+
+                        if (input == null)
+                        {
+                            input = context.getResources().openRawResource(R.drawable.ic_contact_picture);
+                        }
+
+                        contactImage = Bitmap.createScaledBitmap(BitmapFactory.decodeStream(input), 120, 120, true);
+                    } catch (Exception e) {
+
                     }
-
-                    InputStream input = openDisplayPhoto(Long.parseLong(id));
-
-                    if (input == null)
-                    {
-                        input = context.getResources().openRawResource(R.drawable.ic_contact_picture);
-                    }
-
-                    Bitmap contactImage = Bitmap.createScaledBitmap(BitmapFactory.decodeStream(input), 120, 120, true);
 
                     if (inAppNotifications)
                     {

@@ -357,34 +357,42 @@ public class InitialSetupMain extends FragmentActivity implements
                         editor.putString("mms_port","80");
                     } else if (carrier.equals("Verizon Wireless"))
                     {
-                        String phoneNumber = getMyPhoneNumber().replace("+", "").replace("-","").replace(")","").replace("(", "").replace(" ", "");
+                        try {
+                            String phoneNumber = getMyPhoneNumber().replace("+", "").replace("-","").replace(")","").replace("(", "").replace(" ", "");
 
-                        if (phoneNumber.startsWith("+1"))
-                        {
-                            phoneNumber = phoneNumber.substring(2);
-                        } else if (phoneNumber.startsWith("1") && phoneNumber.length() == 11)
-                        {
-                            phoneNumber = phoneNumber.substring(1);
+                            if (phoneNumber.startsWith("+1"))
+                            {
+                                phoneNumber = phoneNumber.substring(2);
+                            } else if (phoneNumber.startsWith("1") && phoneNumber.length() == 11)
+                            {
+                                phoneNumber = phoneNumber.substring(1);
+                            }
+
+                            editor.putString("mmsc_url","http://mms.vtext.com/servlets/mms?X-VZW-MDN=" + phoneNumber);
+                            editor.putString("mms_proxy","null");
+                            editor.putString("mms_port","8080");
+                        } catch (Exception e) {
+                            // mostlikely a tablet user without a phone number...
                         }
-
-                        editor.putString("mmsc_url","http://mms.vtext.com/servlets/mms?X-VZW-MDN=" + phoneNumber);
-                        editor.putString("mms_proxy","null");
-                        editor.putString("mms_port","8080");
                     } else if (carrier.equals("Verizon Wireless #2"))
                     {
-                        String phoneNumber = getMyPhoneNumber().replace("+", "").replace("-","").replace(")","").replace("(", "").replace(" ", "");
+                        try {
+                            String phoneNumber = getMyPhoneNumber().replace("+", "").replace("-","").replace(")","").replace("(", "").replace(" ", "");
 
-                        if (phoneNumber.startsWith("+1"))
-                        {
-                            phoneNumber = phoneNumber.substring(2);
-                        } else if (phoneNumber.startsWith("1") && phoneNumber.length() == 11)
-                        {
-                            phoneNumber = phoneNumber.substring(1);
+                            if (phoneNumber.startsWith("+1"))
+                            {
+                                phoneNumber = phoneNumber.substring(2);
+                            } else if (phoneNumber.startsWith("1") && phoneNumber.length() == 11)
+                            {
+                                phoneNumber = phoneNumber.substring(1);
+                            }
+
+                            editor.putString("mmsc_url","http://mms.vtext.com/servlets/mms?X-VZW-MDN=" + phoneNumber);
+                            editor.putString("mms_proxy","null");
+                            editor.putString("mms_port","80");
+                        } catch (Exception e) {
+                            // mostlikely a tablet user without a phone number...
                         }
-
-                        editor.putString("mmsc_url","http://mms.vtext.com/servlets/mms?X-VZW-MDN=" + phoneNumber);
-                        editor.putString("mms_proxy","null");
-                        editor.putString("mms_port","80");
                     } else if (carrier.equals("Vodafone AU"))
                     {
                         editor.putString("mmsc_url","http://pxt.vodafone.net.au/pxtsend");
