@@ -5075,6 +5075,19 @@ public class MainActivity extends FragmentActivity {
 
                 }
             }
+
+            long threadId = getIntent().getLongExtra("thread_id", 0);
+            if (threadId > 0) {
+                for (int i = 0; i < threadIds.size(); i++) {
+                    if ((threadId + "").equals(threadIds.get(i))) {
+                        if ((i < 10 && limitConversations) || !limitConversations) {
+                            mViewPager.setCurrentItem(i);
+                        }
+
+                        break;
+                    }
+                }
+            }
         } else
         {
             if (messageRecieved == true)
@@ -5130,6 +5143,8 @@ public class MainActivity extends FragmentActivity {
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(
                 getFragmentManager());
+
+        mSectionsPagerAdapter.notifyDataSetChanged();
 
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
@@ -5399,6 +5414,8 @@ public class MainActivity extends FragmentActivity {
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(
                 getFragmentManager());
+
+        mSectionsPagerAdapter.notifyDataSetChanged();
 
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);

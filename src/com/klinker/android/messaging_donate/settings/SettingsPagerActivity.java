@@ -489,9 +489,13 @@ public class SettingsPagerActivity extends FragmentActivity {
             });
 
             if (!showAll) {
-                getPreferenceScreen().removePreference(findPreference("smiliesType"));
-                getPreferenceScreen().removePreference(findPreference("emoji_type"));
-                getPreferenceScreen().removePreference(findPreference("emoji_keyboard"));
+                try {
+                    getPreferenceScreen().removePreference(findPreference("smiliesType"));
+                    getPreferenceScreen().removePreference(findPreference("emoji_keyboard"));
+                    getPreferenceScreen().removePreference(findPreference("emoji_type"));
+                } catch (Exception e) {
+
+                }
             }
         }
 
