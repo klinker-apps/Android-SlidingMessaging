@@ -2161,51 +2161,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                                     }
                                                 }
 
-                                                try {
-                                                    byte[] resp = HttpUtils.httpConnection(
-                                                            context, SendingProgressTokenManager.NO_TOKEN,
-                                                            downloadLocation, null, HttpUtils.HTTP_GET_METHOD,
-                                                            !TextUtils.isEmpty(apns.get(0).MMSProxy),
-                                                            apns.get(0).MMSProxy,
-                                                            Integer.parseInt(apns.get(0).MMSPort));
-
-                                                    boolean groupMMS = false;
-
-                                                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1 && sharedPrefs.getBoolean("group_message", false))
-                                                    {
-                                                        groupMMS = true;
-                                                    }
-
-                                                    RetrieveConf retrieveConf = (RetrieveConf) new PduParser(resp).parse();
-                                                    PduPersister persister = PduPersister.getPduPersister(context);
-                                                    Uri msgUri = persister.persist(retrieveConf, Telephony.Mms.Inbox.CONTENT_URI, true,
-                                                            groupMMS, null);
-
-                                                    ContentValues values = new ContentValues(1);
-                                                    values.put(Telephony.Mms.DATE, System.currentTimeMillis() / 1000L);
-                                                    SqliteWrapper.update(context, context.getContentResolver(),
-                                                            msgUri, values, null, null);
-                                                    SqliteWrapper.delete(context, context.getContentResolver(),
-                                                            Uri.parse("content://mms/"), "thread_id=? and _id=?", new String[] {threadIds, msgId});
-
-                                                    ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                                                        @Override
-                                                        public void run() {
-                                                            ((MainActivity) context).refreshViewPager3();
-                                                        }
-                                                    });
-                                                } catch (Exception e) {
-                                                    e.printStackTrace();
-
-                                                    ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                                                        @Override
-                                                        public void run() {
-                                                            holder.downloadButton.setVisibility(View.VISIBLE);
-                                                        }
-                                                    });
-                                                }
+                                                tryDownloading(apns.get(0), downloadLocation, false, threadIds, msgId, holder);
 
                                                 if (sharedPrefs.getBoolean("wifi_mms_fix", true))
                                                 {
@@ -2287,51 +2243,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                         }
                                     }
 
-                                    try {
-                                        byte[] resp = HttpUtils.httpConnection(
-                                                context, SendingProgressTokenManager.NO_TOKEN,
-                                                downloadLocation, null, HttpUtils.HTTP_GET_METHOD,
-                                                !TextUtils.isEmpty(apns.get(0).MMSProxy),
-                                                apns.get(0).MMSProxy,
-                                                Integer.parseInt(apns.get(0).MMSPort));
-
-                                        boolean groupMMS = false;
-
-                                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1 && sharedPrefs.getBoolean("group_message", false))
-                                        {
-                                            groupMMS = true;
-                                        }
-
-                                        RetrieveConf retrieveConf = (RetrieveConf) new PduParser(resp).parse();
-                                        PduPersister persister = PduPersister.getPduPersister(context);
-                                        Uri msgUri = persister.persist(retrieveConf, Telephony.Mms.Inbox.CONTENT_URI, true,
-                                                groupMMS, null);
-
-                                        ContentValues values = new ContentValues(1);
-                                        values.put(Telephony.Mms.DATE, System.currentTimeMillis() / 1000L);
-                                        SqliteWrapper.update(context, context.getContentResolver(),
-                                                msgUri, values, null, null);
-                                        SqliteWrapper.delete(context, context.getContentResolver(),
-                                                Uri.parse("content://mms/"), "thread_id=? and _id=?", new String[] {threadIds, msgId});
-
-                                        ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                                            @Override
-                                            public void run() {
-                                                ((MainActivity) context).refreshViewPager3();
-                                            }
-                                        });
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-
-                                        ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                                            @Override
-                                            public void run() {
-                                                holder.downloadButton.setVisibility(View.VISIBLE);
-                                            }
-                                        });
-                                    }
+                                    tryDownloading(apns.get(0), downloadLocation, false, threadIds, msgId, holder);
 
                                     if (sharedPrefs.getBoolean("wifi_mms_fix", true))
                                     {
@@ -2355,6 +2267,62 @@ public class MessageCursorAdapter extends CursorAdapter {
 
                     }
 
+                });
+            }
+        }
+    }
+
+    public void tryDownloading(APN apns, String downloadLocation, boolean retrying, String threadId, String msgId, final ViewHolder holder) {
+        try {
+            byte[] resp = HttpUtils.httpConnection(
+                    context, SendingProgressTokenManager.NO_TOKEN,
+                    downloadLocation, null, HttpUtils.HTTP_GET_METHOD,
+                    !TextUtils.isEmpty(apns.MMSProxy),
+                    apns.MMSProxy,
+                    Integer.parseInt(apns.MMSPort));
+
+            boolean groupMMS = false;
+
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1 && sharedPrefs.getBoolean("group_message", false))
+            {
+                groupMMS = true;
+            }
+
+            RetrieveConf retrieveConf = (RetrieveConf) new PduParser(resp).parse();
+            PduPersister persister = PduPersister.getPduPersister(context);
+            Uri msgUri = persister.persist(retrieveConf, Telephony.Mms.Inbox.CONTENT_URI, true,
+                    groupMMS, null);
+
+            ContentValues values = new ContentValues(1);
+            values.put(Telephony.Mms.DATE, System.currentTimeMillis() / 1000L);
+            SqliteWrapper.update(context, context.getContentResolver(),
+                    msgUri, values, null, null);
+            SqliteWrapper.delete(context, context.getContentResolver(),
+                    Uri.parse("content://mms/"), "thread_id=? and _id=?", new String[] {threadIds, msgId});
+
+            ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                @Override
+                public void run() {
+                    ((MainActivity) context).refreshViewPager3();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            if (!retrying) {
+                try {
+                    Thread.sleep(3000);
+                } catch (Exception f) {
+                    tryDownloading(apns, downloadLocation, true, threadId, msgId, holder);
+                }
+            } else {
+                ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        holder.downloadButton.setVisibility(View.VISIBLE);
+                    }
                 });
             }
         }

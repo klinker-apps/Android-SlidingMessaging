@@ -299,47 +299,7 @@ public class MMSMessageReceiver extends BroadcastReceiver {
 								}
 							}
 							
-							
-							byte[] resp;
-							try {
-								resp = HttpUtils.httpConnection(
-								        context, SendingProgressTokenManager.NO_TOKEN,
-								        downloadLocation, null, HttpUtils.HTTP_GET_METHOD,
-								        !TextUtils.isEmpty(apns.get(0).MMSProxy),
-								        apns.get(0).MMSProxy,
-								        Integer.parseInt(apns.get(0).MMSPort));
-								
-								RetrieveConf retrieveConf = (RetrieveConf) new PduParser(resp).parse();
-								PduPersister persister = PduPersister.getPduPersister(context);
-								Uri msgUri = persister.persist(retrieveConf, Inbox.CONTENT_URI, true,
-				                        true, null);
-								ContentValues values = new ContentValues(1);
-				                values.put(Mms.DATE, System.currentTimeMillis() / 1000L);
-				                SqliteWrapper.update(context, context.getContentResolver(),
-				                        msgUri, values, null, null);
-				                SqliteWrapper.delete(context, context.getContentResolver(),
-				                		Uri.parse("content://mms/"), "thread_id=? and _id=?", new String[] {threadId, msgId});
-							} catch (Exception e)
-							{
-                                e.printStackTrace();
-
-								if (sharedPrefs.getBoolean("secure_notification", false))
-								{
-									makeNotification("New Picture Message", "", null);
-								} else
-								{
-									makeNotification("New Picture Message", phoneNumber, null);
-								}
-
-                                if (sharedPrefs.getBoolean("wifi_mms_fix", true))
-                                {
-                                    WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-                                    wifi.setWifiEnabled(false);
-                                    wifi.setWifiEnabled(currentWifiState);
-                                    Log.v("Reconnect", "" + wifi.reconnect());
-                                    Transaction.setMobileDataEnabled(context, currentDataState);
-                                }
-							}
+							tryDownloading(apns.get(0), downloadLocation, false, threadId, msgId);
 							
 							try {
 								Thread.sleep(1000);
@@ -442,6 +402,55 @@ public class MMSMessageReceiver extends BroadcastReceiver {
 			}
 		}
 	}
+
+    public void tryDownloading(APN apns, String downloadLocation, boolean retrying, String threadId, String msgId) {
+        try {
+            byte[] resp = HttpUtils.httpConnection(
+                    context, SendingProgressTokenManager.NO_TOKEN,
+                    downloadLocation, null, HttpUtils.HTTP_GET_METHOD,
+                    !TextUtils.isEmpty(apns.MMSProxy),
+                    apns.MMSProxy,
+                    Integer.parseInt(apns.MMSPort));
+
+            RetrieveConf retrieveConf = (RetrieveConf) new PduParser(resp).parse();
+            PduPersister persister = PduPersister.getPduPersister(context);
+            Uri msgUri = persister.persist(retrieveConf, Inbox.CONTENT_URI, true,
+                    true, null);
+            ContentValues values = new ContentValues(1);
+            values.put(Mms.DATE, System.currentTimeMillis() / 1000L);
+            SqliteWrapper.update(context, context.getContentResolver(),
+                    msgUri, values, null, null);
+            SqliteWrapper.delete(context, context.getContentResolver(),
+                    Uri.parse("content://mms/"), "thread_id=? and _id=?", new String[] {threadId, msgId});
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            if (!retrying) {
+                try {
+                    Thread.sleep(3000);
+                } catch (Exception f) {
+                    tryDownloading(apns, downloadLocation, true, threadId, msgId);
+                }
+            } else {
+                if (sharedPrefs.getBoolean("secure_notification", false))
+                {
+                    makeNotification("New Picture Message", "", null);
+                } else
+                {
+                    makeNotification("New Picture Message", phoneNumber, null);
+                }
+
+                if (sharedPrefs.getBoolean("wifi_mms_fix", true))
+                {
+                    WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+                    wifi.setWifiEnabled(false);
+                    wifi.setWifiEnabled(currentWifiState);
+                    Log.v("Reconnect", "" + wifi.reconnect());
+                    Transaction.setMobileDataEnabled(context, currentDataState);
+                }
+            }
+        }
+    }
 	
 	private void makeNotification(String title, String text, Bitmap image)
 	{
