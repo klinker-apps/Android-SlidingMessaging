@@ -2,6 +2,7 @@ package com.klinker.android.messaging_sliding;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_donate.SendUtil;
 
 import java.util.ArrayList;
 
@@ -47,8 +49,17 @@ public class ImageArrayAdapter extends ArrayAdapter<String> {
 	    }
 
 	    ViewHolder holder = (ViewHolder) rowView.getTag();
-	    
-	    holder.image.setImageURI(Uri.parse(images[position]));
+
+          try {
+	        holder.image.setImageURI(Uri.parse(images[position]));
+          } catch (Exception e) {
+              try {
+                Bitmap image = SendUtil.getThumbnail(context, Uri.parse(images[position]));
+                holder.image.setImageBitmap(image);
+              } catch (Exception f) {
+
+              }
+          }
 	    
 	    holder.image.setOnClickListener(new OnClickListener() {
 
@@ -56,7 +67,6 @@ public class ImageArrayAdapter extends ArrayAdapter<String> {
 			public void onClick(View arg0) {
                 Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_VIEW);
-				// TODO test in new gallery app to see if working
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 intent.putExtra("SingleItemOnly", true);
                 intent.setDataAndType(Uri.parse(images[position]), "image/*");
