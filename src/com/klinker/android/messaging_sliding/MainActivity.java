@@ -6251,27 +6251,6 @@ public class MainActivity extends FragmentActivity {
             return view;
         }
 
-        public InputStream openDisplayPhoto(long contactId) {
-            Uri contactUri = ContentUris.withAppendedId(Contacts.CONTENT_URI, contactId);
-            Uri photoUri = Uri.withAppendedPath(contactUri, Contacts.Photo.CONTENT_DIRECTORY);
-            Cursor cursor = getActivity().getContentResolver().query(photoUri,
-                    new String[] {Contacts.Photo.PHOTO}, null, null, null);
-            if (cursor == null) {
-                return null;
-            }
-            try {
-                if (cursor.moveToFirst()) {
-                    byte[] data = cursor.getBlob(0);
-                    if (data != null) {
-                        return new ByteArrayInputStream(data);
-                    }
-                }
-            } finally {
-                cursor.close();
-            }
-            return null;
-        }
-
         @Override
         public android.content.Loader<Cursor> onCreateLoader(int loaderID, Bundle bundle)
         {
@@ -6508,34 +6487,6 @@ public class MainActivity extends FragmentActivity {
         {
             return BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_picture);
         }
-    }
-
-    public static String[] splitByLength(String s, int chunkSize, boolean counter)
-    {
-        int arraySize = (int) Math.ceil((double) s.length() / chunkSize);
-
-        String[] returnArray = new String[arraySize];
-
-        int index = 0;
-        for(int i = 0; i < s.length(); i = i+chunkSize)
-        {
-            if(s.length() - i < chunkSize)
-            {
-                returnArray[index++] = s.substring(i);
-            }
-            else
-            {
-                returnArray[index++] = s.substring(i, i+chunkSize);
-            }
-        }
-
-        if (counter && returnArray.length > 1) {
-            for (int i = 0; i < returnArray.length; i++) {
-                returnArray[i] = "(" + (i+1) + "/" + returnArray.length + ") " + returnArray[i];
-            }
-        }
-
-        return returnArray;
     }
 
     public void setIcon(NotificationCompat.Builder mBuilder)
