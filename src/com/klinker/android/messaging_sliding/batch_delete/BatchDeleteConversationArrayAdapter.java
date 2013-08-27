@@ -136,6 +136,22 @@ public class BatchDeleteConversationArrayAdapter extends CursorAdapter {
             customFont = sharedPrefs.getBoolean("custom_font", false);
         }
 
+        Uri uri = Uri.parse("content://sms/conversations/" + threadIds);
+        Cursor c = context.getContentResolver().query(uri, null, null ,null, "date DESC");
+
+        if(c.moveToFirst())
+        {
+            do {
+                if(c.getString(c.getColumnIndex("type")).equals("1"))
+                {
+                    inboxNumbers = c.getString(c.getColumnIndex("address"));
+                    break;
+                }
+            } while (c.moveToNext());
+        }
+
+        c.close();
+
         try
         {
             input = getFacebookPhoto(inboxNumbers);
@@ -1210,6 +1226,7 @@ public class BatchDeleteConversationArrayAdapter extends CursorAdapter {
                     contact.close();
                 }
                 else {
+
                     Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
 
                     if (darkContactImage)

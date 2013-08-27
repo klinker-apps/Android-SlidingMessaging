@@ -18,7 +18,6 @@
     <orderEntry type="library" exported="" name="libs" level="project" />
     <orderEntry type="module" module-name="ActionBar-PullToRefresh" />
     <orderEntry type="module" module-name="android-lockpattern" />
-    <orderEntry type="module" module-name="android-smsmms" />
     <orderEntry type="module" module-name="AppMsg" />
     <orderEntry type="module" module-name="CardsUILib" />
     <orderEntry type="module" module-name="ColorPickerPreference" />
@@ -28,6 +27,7 @@
     <orderEntry type="module" module-name="MessageBar" />
     <orderEntry type="module" module-name="SlidingMenu" />
     <orderEntry type="module" module-name="PagerSlidingTabStrip" />
+    <orderEntry type="module" module-name="android-smsmms" />
   </component>
 </module>
 
