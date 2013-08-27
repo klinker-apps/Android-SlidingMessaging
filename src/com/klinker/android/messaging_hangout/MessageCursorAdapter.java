@@ -1375,7 +1375,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                         @Override
                                         public void run() {
 
-                                            if (mmsF) {
+                                            if (mmsF && holder.imageUri != null) {
                                                 int size = holder.imageUri.toString().trim().split(" ").length;
                                                 Bitmap[] bitmaps = new Bitmap[size];
 

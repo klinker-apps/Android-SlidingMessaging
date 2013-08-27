@@ -5198,12 +5198,9 @@ public class MainActivity extends FragmentActivity {
 
         mSectionsPagerAdapter.notifyDataSetChanged();
 
-        if (mViewPager == null) {
-            mViewPager = (ViewPager) findViewById(R.id.pager);
-            mViewPager.setBackgroundColor(ctMessageListBackground);
-        }
-
+        mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.setBackgroundColor(ctMessageListBackground);
 
         if (customBackground2)
         {
