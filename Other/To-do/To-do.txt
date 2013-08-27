@@ -1,7 +1,6 @@
 Version 7.50
 
 Jake:
-    - content observer in cursor adapters to refresh them instead of recreating entire view pager, then just notify data set changed (refresh entire view pager only when sending a new message)
     - google voice sending support
     - google voice receiving support
     - Figure out how to judge file size of png images and adjust them accordingly when sending, look into UriImage.getResizedImageData for solution
@@ -10,6 +9,7 @@ Luke:
     - Message details for MMS messages
     - add wizard pager page for emoji keyboard
     - add link in wizard pager (or maybe settings) to rate the app and show us some love with 5 stars
+    - update text on final wizard pager screen and take out the irrelevant info
 
 1) more individual notification options
 2) option for adding certain text to every message at the beginning (delivery reports?)
