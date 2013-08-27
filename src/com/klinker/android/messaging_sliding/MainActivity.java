@@ -38,6 +38,7 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.*;
 import android.view.View.OnClickListener;
@@ -860,7 +861,7 @@ public class MainActivity extends FragmentActivity {
 
                     dismissCrouton = false;
 
-                    refreshViewPager4(address, body, date);
+                    refreshViewPager4(findRecipientId(address, context), body, date);
 
                     new Handler().postDelayed(new Runnable() {
                         @Override
@@ -1393,6 +1394,49 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
+    public static String findRecipientId(String number, Context context) {
+        try {
+            String[] ids = number.split(" ");
+            String numbers = "";
+
+            Cursor id = context.getContentResolver().query(Uri.parse("content://mms-sms/canonical-addresses"), new String[] {"_id", "address"}, null, null, null);
+
+            for (int i = 0; i < ids.length; i++)
+            {
+                try
+                {
+                    if (ids[i] != null && (!ids[i].equals("") || !ids[i].equals(" ")))
+                    {
+                        if (id.moveToFirst())
+                        {
+                            do {
+                                if (id.getString(id.getColumnIndex("address")).endsWith(number.replace("+1", "").replace(" ", "").replace("-", "").replace(")", "").replace("(", ""))) {
+                                    numbers += id.getString(id.getColumnIndex("_id"));
+                                }
+                            } while (id.moveToNext());
+                        } else
+                        {
+                            numbers += ids[i] + " ";
+                        }
+
+                        id.close();
+                    } else
+                    {
+
+                    }
+                } catch (Exception e)
+                {
+                    numbers += "0 ";
+                }
+            }
+
+            return numbers;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return number;
+        }
+    }
+
     public static String findContactName(String number, Context context)
     {
         String name = "";
@@ -1714,6 +1758,8 @@ public class MainActivity extends FragmentActivity {
                     Intent updateWidget = new Intent("com.klinker.android.messaging.UPDATE_WIDGET");
                     context.sendBroadcast(updateWidget);
 
+                    final String recipientId = inboxNumber.get(mViewPager.getCurrentItem());
+
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -1802,7 +1848,7 @@ public class MainActivity extends FragmentActivity {
                                     MainActivity.sentMessage = true;
                                     MainActivity.threadedLoad = false;
                                     MainActivity.notChanged = false;
-                                    refreshViewPager4(message.getAddresses()[0], StripAccents.stripAccents(message.getText()), Calendar.getInstance().getTimeInMillis() + "");
+                                    refreshViewPager4(recipientId, StripAccents.stripAccents(message.getText()), Calendar.getInstance().getTimeInMillis() + "");
                                     mViewPager.setCurrentItem(0);
 
                                     if (isPopup && fullAppPopupClose) {
@@ -5152,9 +5198,12 @@ public class MainActivity extends FragmentActivity {
 
         mSectionsPagerAdapter.notifyDataSetChanged();
 
-        mViewPager = (ViewPager) findViewById(R.id.pager);
+        if (mViewPager == null) {
+            mViewPager = (ViewPager) findViewById(R.id.pager);
+            mViewPager.setBackgroundColor(ctMessageListBackground);
+        }
+
         mViewPager.setAdapter(mSectionsPagerAdapter);
-        mViewPager.setBackgroundColor(ctMessageListBackground);
 
         if (customBackground2)
         {
@@ -5413,6 +5462,16 @@ public class MainActivity extends FragmentActivity {
 
     public void refreshViewPager3()
     {
+        if (MainActivity.animationOn) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    refreshViewPager3();
+                }
+            }, 1000);
+            return;
+        }
+
         pullToRefreshPosition = -1;
         MainActivity.notChanged = false;
         MainActivity.threadedLoad = false;
@@ -5423,7 +5482,6 @@ public class MainActivity extends FragmentActivity {
 
         mSectionsPagerAdapter.notifyDataSetChanged();
 
-        mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setCurrentItem(position);
 
@@ -5439,17 +5497,16 @@ public class MainActivity extends FragmentActivity {
     public void refreshViewPager4(String number, String body, String date)
     {
         pullToRefreshPosition = -1;
-        number = number.replace("(", "").replace(")", "").replace("-", "").replace(" ", "").replace("+1", "");
         MainActivity.notChanged = false;
         MainActivity.threadedLoad = false;
         int position = mViewPager.getCurrentItem();
-        String currentNumber = inboxNumber.get(position);
+        String currentNumber = inboxNumber.get(mViewPager.getCurrentItem());
 
         boolean flag = false;
 
         for (int i = 0; i < inboxNumber.size(); i++)
         {
-            if (number.endsWith(findContactNumber(inboxNumber.get(i), this)))
+            if (number.equals(inboxNumber.get(i)))
             {
                 inboxBody.add(0, body);
                 inboxDate.add(0, date);
@@ -5485,8 +5542,6 @@ public class MainActivity extends FragmentActivity {
             }
 
             mSectionsPagerAdapter.notifyDataSetChanged();
-
-            mViewPager = (ViewPager) findViewById(R.id.pager);
             mViewPager.setAdapter(mSectionsPagerAdapter);
 
             for (int i = 0; i < inboxNumber.size(); i++)
@@ -6371,7 +6426,6 @@ public class MainActivity extends FragmentActivity {
                 @Override
                 protected void onPostExecute(Void result) {
                     super.onPostExecute(result);
-
                     com.klinker.android.messaging_hangout.MessageCursorAdapter adapter = new com.klinker.android.messaging_hangout.MessageCursorAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), query, position);
 
                     listView.setAdapter(adapter);
