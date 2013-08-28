@@ -1,6 +1,5 @@
 package com.klinker.android.messaging_donate.settings;
 
-import android.Manifest;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.accounts.AccountManagerCallback;
@@ -11,7 +10,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,7 +64,7 @@ public class GoogleVoiceFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Account account = accountAdapter.getItem(position);
 
-                final String previousAccount = settings.getString("account", null);
+                final String previousAccount = settings.getString("voice_account", null);
                 new Thread() {
                     @Override
                     public void run() {
@@ -75,7 +73,7 @@ public class GoogleVoiceFragment extends Fragment {
                 }.start();
 
                 if (account == NULL) {
-                    settings.edit().remove("account").remove("rnrse").commit();
+                    settings.edit().remove("voice_account").remove("voice_rnrse").commit();
                     return;
                 }
 
@@ -85,7 +83,7 @@ public class GoogleVoiceFragment extends Fragment {
             }
         });
 
-        String selectedAccount = settings.getString("account", null);
+        String selectedAccount = settings.getString("voice_account", null);
 
         NULL = new Account(getString(R.string.disable), "com.google");
         accountAdapter.add(NULL);
@@ -107,38 +105,30 @@ public class GoogleVoiceFragment extends Fragment {
             return;
 
         try {
-            // grab the auth token
             Bundle bundle = AccountManager.get(context).getAuthToken(new Account(account, "com.google"), "grandcentral", true, null, null).getResult();
             String authToken = bundle.getString(AccountManager.KEY_AUTHTOKEN);
             AccountManager.get(context).invalidateAuthToken("com.google", authToken);
-            Log.i(LOGTAG, "Token invalidated.");
-        }
-        catch (Exception e) {
-            Log.e(LOGTAG, "error invalidating token", e);
+        } catch (Exception e) {
+
         }
     }
-
-    private static final String LOGTAG = "VoicePlusSetup";
 
     void getToken(final Account account, final int position) {
         AccountManager am = AccountManager.get(context);
         if (am == null)
             return;
+
         am.getAuthToken(account, "grandcentral", null, context, new AccountManagerCallback<Bundle>() {
             @Override
             public void run(AccountManagerFuture<Bundle> future) {
                 try {
-                    Bundle bundle = future.getResult();
-                    final String authToken = bundle.getString(AccountManager.KEY_AUTHTOKEN);
                     settings.edit()
-                            .putString("account", account.name)
+                            .putString("voice_account", account.name)
                             .commit();
 
                     lv.setItemChecked(position, true);
                     lv.requestLayout();
-                    Log.i(LOGTAG, "Token retrieved.");
-                }
-                catch (Exception ex) {
+                } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             }
