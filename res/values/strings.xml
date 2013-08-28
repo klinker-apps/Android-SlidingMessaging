@@ -129,7 +129,7 @@
     <string name="extension_description">Displays new messages to your lockscreen</string>
     <string name="emoji_type">Android Style Emojis</string>
     <string name="notification_settings">Notification Settings</string>
-    <string name="about_expanded">Credit to jfeinstein10 on GitHub for SlidingMenu library, attenzione on GitHub for ColorPickerPreference library, nhaarman on Github for ListViewAnimations library, Roman Nurik for his Wizard Pager, chrisbanes on Github for the ActionBar-PullToRefresh libary, Hai Bison on Google Code for the Lock Pattern library, the entire Paranoid Android team for the inspiration behind SlideOver and all of the amazing work that they do, and to all of the translators.</string>
+    <string name="about_expanded">Credit to jfeinstein10 on GitHub for SlidingMenu library, attenzione on GitHub for ColorPickerPreference library, nhaarman on Github for ListViewAnimations library, Roman Nurik for his Wizard Pager, chrisbanes on Github for the ActionBar-PullToRefresh libary, Hai Bison on Google Code for the Lock Pattern library, the entire Paranoid Android team for the inspiration behind SlideOver and all of the amazing work that they do, koush for Cyanogenmod\'s Voice+ allowing for Google Voice support, and to all of the translators.</string>
     <string name="download">Download</string>
     <string name="none"></string>
     <string name="message_delivered">Message Delivered</string>
@@ -685,5 +685,8 @@
     <string name="upgrade_to_pro">Upgrade to Sliding Messaging Pro!</string>
     <string name="select_all">Select All</string>
     <string name="select_none">Select None</string>
+    <string name="disable">Disable</string>
+    <string name="account">Select Account to Use:</string>
+    <string name="google_voice_settings">Google Voice Settings</string>
 
 </resources>

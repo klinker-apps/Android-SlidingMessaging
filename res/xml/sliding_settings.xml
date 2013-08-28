@@ -41,6 +41,11 @@
             />
 
         <Preference
+            android:key="google_voice_settings"
+            android:title="@string/google_voice_settings"
+            />
+
+        <Preference
             android:key="security_settings"
             android:title="@string/security_settings"
             />

@@ -132,7 +132,7 @@ public class SettingsPagerActivity extends FragmentActivity {
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        public static final int NUM_PAGES = 10;
+        public static final int NUM_PAGES = 11;
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -141,11 +141,16 @@ public class SettingsPagerActivity extends FragmentActivity {
         @Override
         public Fragment getItem(int position) {
 
-            PreferenceFragment fragment = new PrefFragment();
-            Bundle args = new Bundle();
-            args.putInt("position", position);
-            fragment.setArguments(args);
-            return fragment;
+            if (position != 8) {
+                PreferenceFragment fragment = new PrefFragment();
+                Bundle args = new Bundle();
+                args.putInt("position", position);
+                fragment.setArguments(args);
+                return fragment;
+            } else {
+                GoogleVoiceFragment fragment = new GoogleVoiceFragment();
+                return fragment;
+            }
         }
 
         @Override
@@ -173,8 +178,10 @@ public class SettingsPagerActivity extends FragmentActivity {
                 case 7:
                     return getResources().getString(R.string.mms_settings);
                 case 8:
-                    return getResources().getString(R.string.security_settings);
+                    return getResources().getString(R.string.google_voice_settings);
                 case 9:
+                    return getResources().getString(R.string.security_settings);
+                case 10:
                     return getResources().getString(R.string.advanced_settings);
             }
             return null;
@@ -234,11 +241,11 @@ public class SettingsPagerActivity extends FragmentActivity {
                     addPreferencesFromResource(R.xml.mms_settings);
                     setUpMmsSettings();
                     break;
-                case 8:
+                case 9:
                     addPreferencesFromResource(R.xml.sliding_security_settings);
                     setUpSecuritySettings();
                     break;
-                case 9:
+                case 10:
                     addPreferencesFromResource(R.xml.sliding_advanced_settings);
                     setUpAdvancedSettings();
                     break;
@@ -304,10 +311,18 @@ public class SettingsPagerActivity extends FragmentActivity {
                 }
             });
 
+            Preference voiceSettings = (Preference) findPreference("google_voice_settings");
+            voiceSettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                public boolean onPreferenceClick(Preference preference) {
+                    mViewPager.setCurrentItem(8, true);
+                    return true;
+                }
+            });
+
             Preference securitySettings = (Preference) findPreference("security_settings");
             securitySettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference preference) {
-                    mViewPager.setCurrentItem(8, true);
+                    mViewPager.setCurrentItem(9, true);
                     return true;
                 }
             });
@@ -315,7 +330,7 @@ public class SettingsPagerActivity extends FragmentActivity {
             Preference advancedSettings = (Preference) findPreference("advanced_settings");
             advancedSettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference preference) {
-                    mViewPager.setCurrentItem(9, true);
+                    mViewPager.setCurrentItem(10, true);
                     return true;
                 }
             });
