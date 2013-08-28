@@ -1,12 +1,11 @@
 package com.klinker.android.messaging_donate;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.*;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.util.TypedValue;
 import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead2;
 import com.klinker.android.send_message.Message;
@@ -79,7 +78,7 @@ public class SendUtil {
     }
 
     public static Settings getSendSettings(Context context) {
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         Settings sendSettings = new Settings();
 
         sendSettings.setMmsc(sharedPrefs.getString("mmsc_url", ""));
@@ -98,7 +97,16 @@ public class SendUtil {
         sendSettings.setAccount(sharedPrefs.getString("voice_account", null));
         sendSettings.setRnrSe(sharedPrefs.getString("voice_rnrse", null));
 
-        // TODO register receiver for voice_rnrse if it is null and voice_account is not null so that it can be saved and reused for later
+        if (sendSettings.getAccount() != null && sendSettings.getRnrSe() == null) {
+            BroadcastReceiver receiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    sharedPrefs.edit().putString("voice_rnrse", intent.getStringExtra("_rnr_se")).commit();
+                }
+            };
+
+            context.registerReceiver(receiver, new IntentFilter("com.klinker.android.send_message.RNRSE"));
+        }
 
         return sendSettings;
     }

@@ -127,6 +127,7 @@ public class MainActivity extends FragmentActivity {
     public Transaction sendTransaction;
     public BroadcastReceiver refreshReceiver;
     public BroadcastReceiver mmsError;
+    public BroadcastReceiver voiceError;
 
     public ArrayList<String> inboxNumber, inboxDate, inboxBody;
     public ArrayList<String> group;
@@ -1002,6 +1003,28 @@ public class MainActivity extends FragmentActivity {
                                         int which) {
                         Intent intent = new Intent(context, SettingsPagerActivity.class);
                         intent.putExtra("mms", true);
+                        context.startActivity(intent);
+
+                    }
+
+                });
+
+                builder.create().show();
+            }
+        };
+
+        voiceError = new BroadcastReceiver() {
+            @Override
+            public void onReceive(final Context context, Intent intent) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle(R.string.google_voice_failed_title);
+                builder.setMessage(context.getResources().getString(R.string.google_voice_failed));
+                builder.setNeutralButton(context.getResources().getString(R.string.google_voice_sign_up), new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog,
+                                        int which) {
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/voice/"));
                         context.startActivity(intent);
 
                     }
@@ -4664,6 +4687,9 @@ public class MainActivity extends FragmentActivity {
         filter = new IntentFilter("com.klinker.android.send_message.MMS_ERROR");
         registerReceiver(mmsError, filter);
 
+        filter = new IntentFilter("com.klinker.android.send_message.VOICE_FAILED");
+        registerReceiver(voiceError, filter);
+
         filter = new IntentFilter("com.klinker.android.messaging.NEW_MMS");
         filter.addCategory(Intent.CATEGORY_DEFAULT);
         filter.setPriority(3);
@@ -4808,15 +4834,14 @@ public class MainActivity extends FragmentActivity {
     {
         super.onPause();
 
-        try
-        {
+        try {
             unregisterReceiver(receiver);
             unregisterReceiver(refreshReceiver);
             unregisterReceiver(mmsError);
+            unregisterReceiver(voiceError);
             unregisterReceiver(mmsReceiver);
             unregisterReceiver(killReceiver);
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
 
         }
     }
