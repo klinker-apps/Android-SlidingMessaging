@@ -299,7 +299,7 @@ public class MMSMessageReceiver extends BroadcastReceiver {
 								}
 							}
 							
-							tryDownloading(apns.get(0), downloadLocation, false, threadId, msgId);
+							tryDownloading(apns.get(0), downloadLocation, 0, threadId, msgId);
 							
 							try {
 								Thread.sleep(1000);
@@ -403,7 +403,7 @@ public class MMSMessageReceiver extends BroadcastReceiver {
 		}
 	}
 
-    public void tryDownloading(APN apns, String downloadLocation, boolean retrying, String threadId, String msgId) {
+    public void tryDownloading(APN apns, String downloadLocation, int retryNumber, String threadId, String msgId) {
         try {
             byte[] resp = HttpUtils.httpConnection(
                     context, SendingProgressTokenManager.NO_TOKEN,
@@ -425,12 +425,14 @@ public class MMSMessageReceiver extends BroadcastReceiver {
         } catch (Exception e) {
             e.printStackTrace();
 
-            if (!retrying) {
+            if (retryNumber < Transaction.NUM_RETRIES) {
                 try {
                     Thread.sleep(3000);
                 } catch (Exception f) {
-                    tryDownloading(apns, downloadLocation, true, threadId, msgId);
+
                 }
+
+                tryDownloading(apns, downloadLocation, retryNumber++, threadId, msgId);
             } else {
                 if (sharedPrefs.getBoolean("secure_notification", false))
                 {

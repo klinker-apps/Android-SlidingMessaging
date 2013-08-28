@@ -2160,7 +2160,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                                     }
                                                 }
 
-                                                tryDownloading(apns.get(0), downloadLocation, false, threadIds, msgId, holder);
+                                                tryDownloading(apns.get(0), downloadLocation, 0, threadIds, msgId, holder);
 
                                                 if (sharedPrefs.getBoolean("wifi_mms_fix", true))
                                                 {
@@ -2242,7 +2242,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                         }
                                     }
 
-                                    tryDownloading(apns.get(0), downloadLocation, false, threadIds, msgId, holder);
+                                    tryDownloading(apns.get(0), downloadLocation, 0, threadIds, msgId, holder);
 
                                     if (sharedPrefs.getBoolean("wifi_mms_fix", true))
                                     {
@@ -2271,7 +2271,7 @@ public class MessageCursorAdapter extends CursorAdapter {
         }
     }
 
-    public void tryDownloading(APN apns, String downloadLocation, boolean retrying, String threadId, String msgId, final ViewHolder holder) {
+    public void tryDownloading(APN apns, String downloadLocation, int numberRetries, String threadId, String msgId, final ViewHolder holder) {
         try {
             byte[] resp = HttpUtils.httpConnection(
                     context, SendingProgressTokenManager.NO_TOKEN,
@@ -2309,12 +2309,14 @@ public class MessageCursorAdapter extends CursorAdapter {
         } catch (Exception e) {
             e.printStackTrace();
 
-            if (!retrying) {
+            if (numberRetries < Transaction.NUM_RETRIES) {
                 try {
                     Thread.sleep(3000);
                 } catch (Exception f) {
-                    tryDownloading(apns, downloadLocation, true, threadId, msgId, holder);
+
                 }
+
+                tryDownloading(apns, downloadLocation, numberRetries++, threadId, msgId, holder);
             } else {
                 ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 
