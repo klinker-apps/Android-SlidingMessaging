@@ -1392,8 +1392,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                                 SendUtil.sendMessage(context, inboxNumbers, body);
                                             }
 
-                                            Cursor deleter = (mmsF) ? context.getContentResolver().query(Uri.parse("content://sms/failed"), new String[] {"_id"}, null, null, null) :
-                                                    context.getContentResolver().query(Uri.parse("content://mms/failed"), new String[] {"_id"}, null, null, null);
+                                            Cursor deleter = context.getContentResolver().query(Uri.parse("content://sms/failed"), new String[] {"_id"}, null, null, null);
 
                                             if (deleter.moveToFirst())
                                             {

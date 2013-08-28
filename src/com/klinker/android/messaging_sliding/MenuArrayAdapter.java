@@ -696,8 +696,12 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
                 }
 
                 public void deleteLocked(Context context, String id) {
-                    context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/" + id + "/"), null, null);
-                    context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/"), "_id=?", new String[] {id});
+                    try {
+                        context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/" + id + "/"), null, null);
+                        context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/"), "_id=?", new String[] {id});
+                    } catch (Exception e) {
+
+                    }
                 }
 
                 public void dontDeleteLocked(Context context, String id) {

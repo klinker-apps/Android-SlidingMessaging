@@ -610,7 +610,11 @@ public class MMSMessageReceiver extends BroadcastReceiver {
                 mBuilder.setSmallIcon(android.R.color.transparent);
                 mBuilder.setPriority(Notification.PRIORITY_LOW);
 
-                Looper.prepare();
+                try {
+                    Looper.prepare();
+                } catch (Exception e) {
+
+                }
 
                 new Handler().postDelayed(new Runnable() {
                     @Override
