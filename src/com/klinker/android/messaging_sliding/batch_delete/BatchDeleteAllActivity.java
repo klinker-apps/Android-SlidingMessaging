@@ -217,7 +217,11 @@ public class BatchDeleteAllActivity extends Activity {
     }
 
     public boolean checkLocked(Context context, String id) {
-        return context.getContentResolver().query(Uri.parse("content://mms-sms/locked/" + id + "/"), new String[]{"_id"}, null, null, null).moveToFirst();
+        try {
+            return context.getContentResolver().query(Uri.parse("content://mms-sms/locked/" + id + "/"), new String[]{"_id"}, null, null, null).moveToFirst();
+        } catch (Exception e) {
+            return true;
+        }
     }
 
     public void deleteLocked(Context context, String id) {

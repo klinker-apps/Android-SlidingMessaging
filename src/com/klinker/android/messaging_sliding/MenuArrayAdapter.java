@@ -692,7 +692,12 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 				}
 
                 public boolean checkLocked(Context context, String id) {
-                    return context.getContentResolver().query(Uri.parse("content://mms-sms/locked/" + id + "/"), new String[]{"_id"}, null, null, null).moveToFirst();
+                    try {
+                        return context.getContentResolver().query(Uri.parse("content://mms-sms/locked/" + id + "/"), new String[]{"_id"}, null, null, null).moveToFirst();
+                    } catch (Exception e) {
+                        // if failed, then say there are some locked to be careful
+                        return true;
+                    }
                 }
 
                 public void deleteLocked(Context context, String id) {

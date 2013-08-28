@@ -2988,7 +2988,17 @@ public class MainActivity extends FragmentActivity {
                 searchView.setBackgroundDrawable(d);
             } catch (Exception e)
             {
+                try {
+                    BitmapFactory.Options options = new BitmapFactory.Options();
 
+                    options.inSampleSize = 4;
+                    Bitmap myBitmap = BitmapFactory.decodeFile(Uri.parse(customBackgroundLocation).getPath(),options);
+                    this.getResources();
+                    Drawable d = new BitmapDrawable(Resources.getSystem(),myBitmap);
+                    searchView.setBackgroundDrawable(d);
+                } catch (Exception f) {
+
+                }
             }
         }
 
@@ -4010,7 +4020,11 @@ public class MainActivity extends FragmentActivity {
     }
 
     public boolean checkLocked(Context context, String id) {
-        return context.getContentResolver().query(Uri.parse("content://mms-sms/locked/" + id + "/"), new String[]{"_id"}, null, null, null).moveToFirst();
+        try {
+            return context.getContentResolver().query(Uri.parse("content://mms-sms/locked/" + id + "/"), new String[]{"_id"}, null, null, null).moveToFirst();
+        } catch (Exception e) {
+            return true;
+        }
     }
 
     public void deleteLocked(Context context, String id) {
@@ -5239,7 +5253,16 @@ public class MainActivity extends FragmentActivity {
                 mViewPager.setBackgroundDrawable(d);
             } catch (Exception e)
             {
+                try {
+                    BitmapFactory.Options options = new BitmapFactory.Options();
 
+                    options.inSampleSize = 4;
+                    Bitmap myBitmap = BitmapFactory.decodeFile(Uri.parse(customBackground2Location).getPath(),options);
+                    Drawable d = new BitmapDrawable(Resources.getSystem(),myBitmap);
+                    mViewPager.setBackgroundDrawable(d);
+                } catch (Exception f) {
+
+                }
             }
         }
 
