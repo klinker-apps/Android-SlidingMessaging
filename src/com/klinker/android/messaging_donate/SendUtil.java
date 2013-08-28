@@ -87,7 +87,7 @@ public class SendUtil {
         sendSettings.setPort(sharedPrefs.getString("mms_port", ""));
         sendSettings.setGroup(sharedPrefs.getBoolean("group_message", false));
         sendSettings.setWifiMmsFix(sharedPrefs.getBoolean("wifi_mms_fix", true));
-        sendSettings.setPreferVoice(sharedPrefs.getBoolean("prefer_voice", false));
+        sendSettings.setPreferVoice(sharedPrefs.getString("voice_account", null) != null);
         sendSettings.setDeliveryReports(sharedPrefs.getBoolean("delivery_reports", false));
         sendSettings.setSplit(sharedPrefs.getBoolean("split_sms", false));
         sendSettings.setSplitCounter(sharedPrefs.getBoolean("split_counter", false));
@@ -95,6 +95,11 @@ public class SendUtil {
         sendSettings.setSignature(sharedPrefs.getString("signature", ""));
         sendSettings.setSendLongAsMms(sharedPrefs.getBoolean("send_as_mms", false));
         sendSettings.setSendLongAsMmsAfter(sharedPrefs.getInt("mms_after", 4));
+        sendSettings.setAccount(sharedPrefs.getString("voice_account", null));
+        sendSettings.setRnrSe(sharedPrefs.getString("voice_rnrse", null));
+
+        // TODO register receiver for voice_rnrse if it is null and voice_account is not null so that it can be saved and reused for later
+
         return sendSettings;
     }
 
