@@ -7,7 +7,6 @@ Jake:
     - delayed sending for certain times
 Luke:
     - Message details for MMS messages
-    - add wizard pager page for emoji keyboard
     - add link in wizard pager (or maybe settings) to rate the app and show us some love with 5 stars
     - update text on final wizard pager screen and take out the irrelevant info
     - Disable notification vibrations while in call

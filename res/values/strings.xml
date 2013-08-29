@@ -236,8 +236,15 @@
 	<string name="remind_me_later">Remind Me Next Time</string>
 	<string name="dont_bother">Don\'t Bother Me Again</string>
 	<string name="changelog_title">Change Log:</string>
-	<string name="changelog_disclaimers">Sliding Messaging Pro is now out of the beta stages!\n\nCDMA Users, remember to check the \"Split SMS\" option in Advanced Settings to send long messages.</string>
-	<string name="led">LED Light on Notification</string>
+	<string name="changelog_disclaimers">Do you like Sliding Messaging? We would love it if you could give us a rating! 5 star ratings warm our hearts :)\n
+        http://goo.gl/zH4eBo \n\n
+
+        Reminders:\n\n
+
+        - CDMA Users, remember to check the \"Split SMS\" option in Advanced Settings to send long messages. \n\n
+        - If you are having problems with messages not being saved, or you have disabled all other messaging apps on your device except Sliding Messaging, be sure to check the \"Override Stock Messaging\" option in Advanced Settings.\n\n
+	    - Please check the new section under setting \'Developer Tips\' for speed and MMS issues before leaving a bad review or sending us an angry email. It should be able to solve some of your problems.\n</string>
+    <string name="led">LED Light on Notification</string>
 	<string name="default_theme_prefs">Default Theme Settings</string>
 	<string name="breath">Notification Breath Animation</string>
 	<string name="breath_summary">Will cause the icon displayed on the status bar to flash on and off. Only applies to white stock icon</string>
@@ -413,7 +420,7 @@
     <string name="finish">Finish</string>
     <string name="review">Review</string>
     <string name="notes">Notes</string>
-    <string name="override_stock_disclaimer">If you are having problems with messages not being saved, or you have disabled all other messaging apps on your device except Sliding Messaging, be sure to check the \"Override Stock Messaging\" option in Advanced Settings.</string>
+    <string name="override_stock_disclaimer"></string>
     <string name="unlock">Unlock</string>
     <string name="close">Close</string>
     <string name="passwordTitle">Enter Password:</string>
