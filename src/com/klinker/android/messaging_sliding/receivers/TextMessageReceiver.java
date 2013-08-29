@@ -314,7 +314,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 						        
 						        if(!individualNotification(mBuilder, name, context))
 						        {
-							        if (sharedPrefs.getBoolean("vibrate", true))
+							        if (sharedPrefs.getBoolean("vibrate", true) && alert)
 							        {
 							        	if (!sharedPrefs.getBoolean("custom_vibrate_pattern", false))
 							        	{
@@ -394,14 +394,17 @@ public class TextMessageReceiver extends BroadcastReceiver {
 								        	mBuilder.setLights(0xFFFFFFFF, ledOn, ledOff);
 								        }
 							        }
-							        
-							        try
-							        {
-							        	mBuilder.setSound(Uri.parse(sharedPrefs.getString("ringtone", "null")));
-							        } catch(Exception e)
-							        {
-							        	mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-							        }
+
+                                    if(alert)
+                                    {
+                                        try
+                                        {
+                                            mBuilder.setSound(Uri.parse(sharedPrefs.getString("ringtone", "null")));
+                                        } catch(Exception e)
+                                        {
+                                            mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+                                        }
+                                    }
 						        }
 						        
 						        final  NotificationManager mNotificationManager =
@@ -508,7 +511,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 						        
 						        if(!individualNotification(mBuilder, name, context))
 						        {
-							        if (sharedPrefs.getBoolean("vibrate", true))
+							        if (sharedPrefs.getBoolean("vibrate", true) && alert)
 							        {
 							        	if (!sharedPrefs.getBoolean("custom_vibrate_pattern", false))
 							        	{
@@ -588,14 +591,17 @@ public class TextMessageReceiver extends BroadcastReceiver {
 								        	mBuilder.setLights(0xFFFFFFFF, ledOn, ledOff);
 								        }
 							        }
-							        
-							        try
-							        {
-							        	mBuilder.setSound(Uri.parse(sharedPrefs.getString("ringtone", "null")));
-							        } catch(Exception e)
-							        {
-							        	mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-							        }
+
+                                    if(alert)
+                                    {
+                                        try
+                                        {
+                                            mBuilder.setSound(Uri.parse(sharedPrefs.getString("ringtone", "null")));
+                                        } catch(Exception e)
+                                        {
+                                            mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+                                        }
+                                    }
 						        }
 						        
 						        final NotificationManager mNotificationManager =
@@ -682,7 +688,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 						        
 						        if(!individualNotification(mBuilder, name, context))
 						        {
-							        if (sharedPrefs.getBoolean("vibrate", true))
+							        if (sharedPrefs.getBoolean("vibrate", true) && alert)
 							        {
 							        	if (!sharedPrefs.getBoolean("custom_vibrate_pattern", false))
 							        	{
@@ -762,14 +768,17 @@ public class TextMessageReceiver extends BroadcastReceiver {
 								        	mBuilder.setLights(0xFFFFFFFF, ledOn, ledOff);
 								        }
 							        }
-							        
-							        try
-							        {
-							        	mBuilder.setSound(Uri.parse(sharedPrefs.getString("ringtone", "null")));
-							        } catch(Exception e)
-							        {
-							        	mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-							        }
+
+                                    if(alert)
+                                    {
+                                        try
+                                        {
+                                            mBuilder.setSound(Uri.parse(sharedPrefs.getString("ringtone", "null")));
+                                        } catch(Exception e)
+                                        {
+                                            mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+                                        }
+                                    }
 						        }
 						        
 						        final NotificationManager mNotificationManager =
@@ -834,7 +843,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 						        mBuilder.setContentIntent(resultPendingIntent);
 						        mBuilder.setAutoCancel(true);
 						        
-						        if (sharedPrefs.getBoolean("vibrate", true))
+						        if (sharedPrefs.getBoolean("vibrate", true) && alert)
 						        {
 						        	if (!sharedPrefs.getBoolean("custom_vibrate_pattern", false))
 						        	{
@@ -914,14 +923,17 @@ public class TextMessageReceiver extends BroadcastReceiver {
 							        	mBuilder.setLights(0xFFFFFFFF, ledOn, ledOff);
 							        }
 						        }
-						        
-						        try
-						        {
-						        	mBuilder.setSound(Uri.parse(sharedPrefs.getString("ringtone", "null")));
-						        } catch(Exception e)
-						        {
-						        	mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-						        }
+
+                                if(alert)
+                                {
+                                    try
+                                    {
+                                        mBuilder.setSound(Uri.parse(sharedPrefs.getString("ringtone", "null")));
+                                    } catch(Exception e)
+                                    {
+                                        mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+                                    }
+                                }
 						        
 						        final NotificationManager mNotificationManager =
 						            (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -973,7 +985,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 						        mBuilder.setContentIntent(resultPendingIntent);
 						        mBuilder.setAutoCancel(true);
 						        
-						        if (sharedPrefs.getBoolean("vibrate", true))
+						        if (sharedPrefs.getBoolean("vibrate", true) && alert)
 						        {
 						        	if (!sharedPrefs.getBoolean("custom_vibrate_pattern", false))
 						        	{
@@ -1053,14 +1065,17 @@ public class TextMessageReceiver extends BroadcastReceiver {
 							        	mBuilder.setLights(0xFFFFFFFF, ledOn, ledOff);
 							        }
 						        }
-						        
-						        try
-						        {
-						        	mBuilder.setSound(Uri.parse(sharedPrefs.getString("ringtone", "null")));
-						        } catch(Exception e)
-						        {
-						        	mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-						        }
+
+                                if(alert)
+                                {
+                                    try
+                                    {
+                                        mBuilder.setSound(Uri.parse(sharedPrefs.getString("ringtone", "null")));
+                                    } catch(Exception e)
+                                    {
+                                        mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+                                    }
+                                }
 						        
 						        final NotificationManager mNotificationManager =
 						            (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -1355,7 +1370,8 @@ public class TextMessageReceiver extends BroadcastReceiver {
 		{
 			if (individuals.get(i).name.equals(name))
 			{
-				mBuilder.setSound(Uri.parse(individuals.get(i).ringtone));
+                if(alert)
+				    mBuilder.setSound(Uri.parse(individuals.get(i).ringtone));
 				
 				try
 				{
@@ -1366,8 +1382,8 @@ public class TextMessageReceiver extends BroadcastReceiver {
 	        		{
 	        			pattern[j] = Long.parseLong(vibPat[j]);
 	        		}
-	        		
-	        		mBuilder.setVibrate(pattern);
+	        		if(alert)
+	        		    mBuilder.setVibrate(pattern);
 				} catch (Exception e)
 				{
 					e.printStackTrace();
