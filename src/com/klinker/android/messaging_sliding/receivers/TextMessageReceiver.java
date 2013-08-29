@@ -6,6 +6,7 @@ import android.content.*;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.AudioManager;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -41,6 +42,8 @@ public class TextMessageReceiver extends BroadcastReceiver {
 	public static final String SMS_EXTRA_NAME = "pdus";
 	private static final String FILENAME = "newMessages.txt";
 	public SharedPreferences sharedPrefs;
+
+    private boolean alert = true;
 	
 	@SuppressLint("Wakelock")
 	public void onReceive(final Context context, Intent intent)
@@ -78,6 +81,9 @@ public class TextMessageReceiver extends BroadcastReceiver {
             final String origAddress = address;
 	        
 	        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+            if(!sharedPrefs.getBoolean("alert_in_call", true) && isCallActive(context))
+                alert = false;
 	        
 	        ArrayList<BlacklistContact> blacklist = readFromFile5(context);
 	        int blacklistType = 0;
@@ -1589,4 +1595,14 @@ public class TextMessageReceiver extends BroadcastReceiver {
 
 			      return ret;
 				}
+
+    public static boolean isCallActive(Context context){
+        AudioManager manager = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
+        if(manager.getMode()==AudioManager.MODE_IN_CALL){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 }

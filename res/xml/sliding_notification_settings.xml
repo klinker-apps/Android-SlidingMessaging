@@ -190,4 +190,12 @@
         android:defaultValue="false"
         android:dependency="wake_screen"
         />
+
+    <CheckBoxPreference
+        android:key="alert_in_call"
+        android:title="@string/alert_in_call"
+        android:summary="@string/alert_in_call_summary"
+        android:defaultValue="true"
+        android:dependency="notifications"
+        />
 </PreferenceScreen>
