@@ -28,6 +28,7 @@
     <orderEntry type="module" module-name="SlidingMenu" />
     <orderEntry type="module" module-name="PagerSlidingTabStrip" />
     <orderEntry type="module" module-name="android-smsmms" />
+    <orderEntry type="module" module-name="ion1" />
   </component>
 </module>
 
