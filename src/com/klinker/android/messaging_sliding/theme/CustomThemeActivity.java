@@ -50,6 +50,12 @@ public class CustomThemeActivity extends PreferenceActivity {
 		}
 		
 		final Context context = this;
+
+        if(sharedPrefs.getString("run_as", "sliding").equals("card+"))
+        {
+            Preference messageDivider = (Preference) findPreference("ct_messageDividerColor");
+            messageDivider.setEnabled(false);
+        }
 		
 		Preference saveTheme = (Preference) findPreference("save_theme");
 		saveTheme.setOnPreferenceClickListener(new OnPreferenceClickListener() {

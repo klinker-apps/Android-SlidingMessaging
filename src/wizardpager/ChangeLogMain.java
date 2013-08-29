@@ -328,6 +328,15 @@ public class ChangeLogMain extends FragmentActivity implements
             try
             {
                 PackageManager pm = getBaseContext().getPackageManager();
+                pm.getPackageInfo("com.klinker.android.emoji_keyboard_trial", PackageManager.GET_ACTIVITIES);
+            } catch (Exception e)
+            {
+                extraPageCount++;
+            }
+
+            try
+            {
+                PackageManager pm = getBaseContext().getPackageManager();
                 pm.getPackageInfo("com.jb.gosms", PackageManager.GET_ACTIVITIES);
             } catch (Exception e)
             {

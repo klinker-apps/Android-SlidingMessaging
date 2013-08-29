@@ -65,16 +65,9 @@ public class ReviewFragment extends ListFragment implements ModelCallbacks {
         TextView message = (TextView) rootView.findViewById(android.R.id.message);
         message.setText(getResources().getString(R.string.changelog_disclaimers)
                        + "\n\n" +
-                       getResources().getString(R.string.override_stock_disclaimer)
-                       + "\n\n" +
-                       getResources().getString(R.string.lag_disclaimer)
-                       + "\n\n" +
                        getResources().getString(R.string.twitter_link));
         Linkify.addLinks(message, Linkify.ALL);
 
-        //ListView listView = (ListView) rootView.findViewById(android.R.id.list);
-        //setListAdapter(mReviewAdapter);
-        //listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         return rootView;
     }
 

@@ -38,7 +38,6 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.*;
 import android.view.View.OnClickListener;
@@ -237,7 +236,7 @@ public class MainActivity extends FragmentActivity {
     public boolean lightActionBar;
     public boolean limitConversationsAtStart;
     public boolean customFont;
-    public boolean hideTitleBar;
+    public boolean useTitleBar;
     public boolean alwaysShowContactInfo;
     public boolean titleContactImages;
     public boolean titleCaps;
@@ -326,7 +325,7 @@ public class MainActivity extends FragmentActivity {
             lightActionBar = sharedPrefs.getBoolean("ct_light_action_bar", false);
             limitConversationsAtStart = true;
             customFont = false;
-            hideTitleBar = true;
+            useTitleBar = true;
             alwaysShowContactInfo = false;
             runAs = sharedPrefs.getString("run_as", "sliding");
             titleContactImages = false;
@@ -398,7 +397,7 @@ public class MainActivity extends FragmentActivity {
             lightActionBar = sharedPrefs.getBoolean("ct_light_action_bar", false);
             limitConversationsAtStart = sharedPrefs.getBoolean("limit_conversations_start", true);
             customFont = sharedPrefs.getBoolean("custom_font", false);
-            hideTitleBar = sharedPrefs.getBoolean("hide_title_bar", true);
+            useTitleBar = sharedPrefs.getBoolean("hide_title_bar", true);
             alwaysShowContactInfo = sharedPrefs.getBoolean("always_show_contact_info", false);
             runAs = sharedPrefs.getString("run_as", "sliding");
             titleContactImages = sharedPrefs.getBoolean("title_contact_image", false);
@@ -879,7 +878,7 @@ public class MainActivity extends FragmentActivity {
                         }
                     }, 500);
 
-                    if (!hideTitleBar || alwaysShowContactInfo)
+                    if (!useTitleBar || alwaysShowContactInfo)
                     {
                         final ActionBar ab = getActionBar();
 
@@ -1056,7 +1055,7 @@ public class MainActivity extends FragmentActivity {
 
                 if (ctConversationListBackground == getResources().getColor(R.color.pitch_black))
                 {
-                    if (!hideTitleBar)
+                    if (!useTitleBar)
                     {
                         ab.setBackgroundDrawable(getResources().getDrawable(R.drawable.pitch_black_action_bar_blue));
                     } else
@@ -1203,7 +1202,7 @@ public class MainActivity extends FragmentActivity {
             title.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
         }
 
-        if (hideTitleBar)
+        if (useTitleBar)
         {
             if (!customTheme)
             {
@@ -1338,7 +1337,7 @@ public class MainActivity extends FragmentActivity {
             sendButton.setVisibility(View.VISIBLE);
             v.setVisibility(View.VISIBLE);
 
-            if (hideTitleBar)
+            if (useTitleBar)
             {
                 title.setVisibility(View.VISIBLE);
             }
@@ -2122,7 +2121,7 @@ public class MainActivity extends FragmentActivity {
             messageEntry.setTypeface(font);
         }
 
-        if (runAs.equals("hangout") || runAs.equals("card2"))
+        if (runAs.equals("hangout") || runAs.equals("card2") || runAs.equals("card+"))
         {
             emojiButton.setImageResource(R.drawable.ic_emoji_dark);
         }
@@ -3050,7 +3049,7 @@ public class MainActivity extends FragmentActivity {
             contact.setTypeface(font);
         }
 
-        if (runAs.equals("hangout") || runAs.equals("card2"))
+        if (runAs.equals("hangout") || runAs.equals("card2") || runAs.equals("card+"))
         {
             emojiButton.setImageResource(R.drawable.ic_emoji_dark);
         }
@@ -3211,7 +3210,7 @@ public class MainActivity extends FragmentActivity {
                         getActionBar().setDisplayHomeAsUpEnabled(true);
                     }
 
-                    if (!hideTitleBar || alwaysShowContactInfo) {
+                    if (!useTitleBar || alwaysShowContactInfo) {
                         final ActionBar ab = getActionBar();
 
                         if (ab != null) {
@@ -3339,7 +3338,7 @@ public class MainActivity extends FragmentActivity {
                         String title = "";
                         String subtitle = "";
 
-                        if (!hideTitleBar || alwaysShowContactInfo)
+                        if (!useTitleBar || alwaysShowContactInfo)
                         {
                             if (group.get(mViewPager.getCurrentItem()).equals("yes"))
                             {
@@ -3441,7 +3440,7 @@ public class MainActivity extends FragmentActivity {
 
                                 }
 
-                                if ((!hideTitleBar || alwaysShowContactInfo) && ab != null) {
+                                if ((!useTitleBar || alwaysShowContactInfo) && ab != null) {
                                     ab.setTitle(titleF);
                                     ab.setSubtitle(subtitleF);
                                 }
@@ -3491,7 +3490,7 @@ public class MainActivity extends FragmentActivity {
 
         mViewPager.setOffscreenPageLimit(1);
 
-        if (runAs.equals("card2")) {
+        if (runAs.equals("card2") || runAs.equals("card+")) {
             mViewPager.setOffscreenPageLimit(2);
             int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -26, context.getResources().getDisplayMetrics());
             mViewPager.setPageMargin(scale);
@@ -5479,37 +5478,40 @@ public class MainActivity extends FragmentActivity {
             }).start();
         }
 
-        if (!hideTitleBar || alwaysShowContactInfo)
+        if(!runAs.equals("card+"))
         {
-            final ActionBar ab = getActionBar();
-            final Context context = this;
+            if (!useTitleBar || alwaysShowContactInfo)
+            {
+                final ActionBar ab = getActionBar();
+                final Context context = this;
 
-            if (ab != null) {
-                try
-                {
-                    ab.setTitle(findContactName(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context), context));
-
-                    Locale sCachedLocale = Locale.getDefault();
-                    int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
-                    Editable editable = new SpannableStringBuilder(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context));
-                    PhoneNumberUtils.formatNumber(editable, sFormatType);
-                    ab.setSubtitle(editable.toString());
-
-                    if (ab.getTitle().equals(ab.getSubtitle()))
+                if (ab != null) {
+                    try
                     {
-                        ab.setSubtitle(null);
-                    }
+                        ab.setTitle(findContactName(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context), context));
 
-                    if (group.get(mViewPager.getCurrentItem()).equals("yes"))
+                        Locale sCachedLocale = Locale.getDefault();
+                        int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
+                        Editable editable = new SpannableStringBuilder(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context));
+                        PhoneNumberUtils.formatNumber(editable, sFormatType);
+                        ab.setSubtitle(editable.toString());
+
+                        if (ab.getTitle().equals(ab.getSubtitle()))
+                        {
+                            ab.setSubtitle(null);
+                        }
+
+                        if (group.get(mViewPager.getCurrentItem()).equals("yes"))
+                        {
+                            ab.setTitle("Group MMS");
+                            ab.setSubtitle(null);
+                        }
+                    } catch (Exception e)
                     {
-                        ab.setTitle("Group MMS");
+                        ab.setTitle(R.string.app_name_in_app);
                         ab.setSubtitle(null);
+                        ab.setIcon(R.drawable.ic_launcher);
                     }
-                } catch (Exception e)
-                {
-                    ab.setTitle(R.string.app_name_in_app);
-                    ab.setSubtitle(null);
-                    ab.setIcon(R.drawable.ic_launcher);
                 }
             }
         }
@@ -5968,7 +5970,7 @@ public class MainActivity extends FragmentActivity {
             try {
                 String text = "No Messages";
 
-                if (!hideTitleBar && !isPopup)
+                if (!useTitleBar && !isPopup)
                 {
                     return "";
                 }
@@ -6174,6 +6176,30 @@ public class MainActivity extends FragmentActivity {
                                  Bundle savedInstanceState) {
 
             view = inflater.inflate(R.layout.message_frame, container, false);
+
+            if(runAs.equals("card+"))
+            {
+                final int margin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 18, getResources()
+                        .getDisplayMetrics());
+                final int marginTop = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, getResources()
+                        .getDisplayMetrics());
+
+                //View header = new View(context);
+                //header.setMinimumHeight(marginTop);
+                //header.setBackgroundColor(getResources().getColor(R.color.light_silver));
+
+                CustomListView list = (CustomListView) view.findViewById(R.id.fontListView);
+
+                //list.setFooterDividersEnabled(false);
+                //list.setHeaderDividersEnabled(true);
+                list.setBackgroundResource(R.drawable.background_card);
+                list.setBackgroundColor(ctSentMessageBackground);
+                list.setOverScrollMode(View.OVER_SCROLL_NEVER);
+                //list.addHeaderView(header);
+                //list.addFooterView(header);
+
+                view.findViewById(R.id.messageBackground).setPadding(margin, marginTop, margin, 0);
+            }
 
             mPullToRefreshAttacher = ((MainActivity) getActivity()).getPullToRefreshAttacher();
 
@@ -6415,8 +6441,10 @@ public class MainActivity extends FragmentActivity {
             if (messageDividerVisible && runAs.equals("sliding"))
             {
                 listView.setDividerHeight(1);
-            } else
+            } else if (runAs.equals("card+") && messageDividerVisible)
             {
+                listView.setDivider(getResources().getDrawable(R.drawable.card_plus_divider));
+            } else {
                 listView.setDividerHeight(0);
             }
 

@@ -501,6 +501,8 @@ public class ThemeChooserActivity extends Activity {
                 view = inflater.inflate(R.layout.theme_preview_hangouts, container, false);
             } else if (sharedPrefs.getString("run_as", "sliding").equals("card2")) {
                 view = inflater.inflate(R.layout.theme_preview_card2, container, false);
+            } else if (sharedPrefs.getString("run_as", "sliding").equals("card+")) {
+                view = inflater.inflate(R.layout.theme_preview_card_plus, container, false);
             }
 			
 			return refreshTheme();
@@ -508,7 +510,7 @@ public class ThemeChooserActivity extends Activity {
 		
 		public View refreshTheme()
 		{
-            if (sharedPrefs.getString("run_as", "sliding").equals("hangout") || sharedPrefs.getString("run_as", "sliding").equals("card2")) {
+            if (sharedPrefs.getString("run_as", "sliding").equals("hangout") || sharedPrefs.getString("run_as", "sliding").equals("card2") || sharedPrefs.getString("run_as", "sliding").equals("card+")) {
                 TextView receivedMessageText = (TextView) view.findViewById(R.id.textBody);
                 TextView sentMessageText = (TextView) view.findViewById(R.id.textBody2);
                 ImageButton emojiButton = (ImageButton) view.findViewById(R.id.display_emoji);
@@ -557,6 +559,12 @@ public class ThemeChooserActivity extends Activity {
                 emojiButton.setColorFilter(ThemeChooserActivity.themes.get(position).emojiButtonColor);
                 sentTriangle.setColorFilter(ThemeChooserActivity.themes.get(position).sentMessageBackground);
                 receivedTriangle.setColorFilter(ThemeChooserActivity.themes.get(position).receivedMessageBackground);
+
+                if(sharedPrefs.getString("run_as", "sliding").equals("card+"))
+                {
+                    sentBackground.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+                    receivedBackground.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+                }
 
                 if (ThemeChooserActivity.themes.get(position).darkContactImage)
                 {
