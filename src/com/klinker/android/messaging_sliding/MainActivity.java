@@ -5527,8 +5527,12 @@ public class MainActivity extends FragmentActivity {
 
         mSectionsPagerAdapter.notifyDataSetChanged();
 
-        mViewPager.setAdapter(mSectionsPagerAdapter);
-        mViewPager.setCurrentItem(position);
+        try {
+            mViewPager.setAdapter(mSectionsPagerAdapter);
+            mViewPager.setCurrentItem(position);
+        } catch (Exception e) {
+            // probably the activity has already finished and trying to refresh at that exact moment
+        }
 
         try
         {

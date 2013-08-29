@@ -113,7 +113,7 @@ public class SendUtil {
 
     public static Bitmap getThumbnail(Context context, Uri uri) throws IOException {
 
-        int THUMBNAIL_SIZE = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, context.getResources().getDisplayMetrics());
+        int THUMBNAIL_SIZE = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, context.getResources().getDisplayMetrics());
 
         InputStream input = context.getContentResolver().openInputStream(uri);
 
