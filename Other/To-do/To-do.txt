@@ -5,7 +5,6 @@ Jake:
     - delayed sending for certain times
 Luke:
     - Message details for MMS messages
-    - Disable notification vibrations while in call
     - Option to auto close halo pop up on send. not slideover, halo.
 
 1) more individual notification options
