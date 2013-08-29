@@ -73,7 +73,7 @@ public class GoogleVoiceFragment extends Fragment {
                 }.start();
 
                 if (account == NULL) {
-                    settings.edit().remove("voice_account").remove("voice_rnrse").commit();
+                    settings.edit().remove("voice_account").remove("voice_rnrse").remove("voice_enabled").commit();
                     return;
                 }
 
@@ -124,6 +124,7 @@ public class GoogleVoiceFragment extends Fragment {
                 try {
                     settings.edit()
                             .putString("voice_account", account.name)
+                            .putBoolean("voice_enabled", true)
                             .commit();
 
                     lv.setItemChecked(position, true);

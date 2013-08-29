@@ -163,7 +163,7 @@
                         android:textCursorDrawable="@null"
                         android:tag="phablet"
                         android:layout_toLeftOf="@+id/sendButton"
-                        android:layout_toRightOf="@+id/display_emoji"
+                        android:layout_toRightOf="@+id/voiceButton"
                         android:imeOptions="flagNoExtractUi">
                     <requestFocus/>
                 </EditText>
@@ -205,21 +205,23 @@
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
                         android:visibility="gone"/>
+
+                <ImageButton
+                        android:layout_width="36dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/voiceButton"
+                        android:layout_alignParentTop="true"
+                        android:layout_toRightOf="@+id/display_emoji"
+                        android:layout_alignBottom="@+id/display_emoji"
+                        android:background="@drawable/dark_send_button"
+                        android:src="@drawable/voice_enabled"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitCenter"
+                        android:alpha=".5"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        />
             </RelativeLayout>
-
-            <!--<com.astuetz.viewpager.extensions.PagerSlidingTabStrip-->
-                    <!--android:id="@+id/tabs"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="48dip"-->
-                    <!--android:visibility="gone"/>-->
-
-            <!--<android.support.v4.view.ViewPager-->
-                    <!--android:id="@+id/emojiKeyboard"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="200dp"-->
-                    <!--android:visibility="gone">-->
-
-            <!--</android.support.v4.view.ViewPager>-->
         </LinearLayout>
     </RelativeLayout>
 </LinearLayout>

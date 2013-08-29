@@ -187,6 +187,8 @@ public class MainActivity extends FragmentActivity {
     public TextView mTextView;
     public ImageButton sendButton;
     public ImageButton emojiButton;
+    public ImageButton voiceButton;
+    public ImageButton voiceButton2;
     public View v;
     public PagerTitleStrip title;
     public View imageAttachBackground;
@@ -299,6 +301,8 @@ public class MainActivity extends FragmentActivity {
     public int ctNameTextColor;
     public int numOfCachedConversations;
     public int messageDividerColor;
+    public String voiceAccount;
+    public boolean voiceEnabled;
 
 
     @SuppressWarnings("deprecation")
@@ -386,6 +390,8 @@ public class MainActivity extends FragmentActivity {
             numOfCachedConversations = 5;
             messageDividerColor = sharedPrefs.getInt("ct_messageDividerColor", getResources().getColor(R.color.light_silver));
             emojiKeyboard = sharedPrefs.getBoolean("emoji_keyboard", true);
+            voiceAccount = sharedPrefs.getString("voice_account", null);
+            voiceEnabled = sharedPrefs.getBoolean("voice_enabled", false);
         } else
         {
             lightActionBar = sharedPrefs.getBoolean("ct_light_action_bar", false);
@@ -456,6 +462,8 @@ public class MainActivity extends FragmentActivity {
             numOfCachedConversations = sharedPrefs.getInt("num_cache_conversations", 5);
             messageDividerColor = sharedPrefs.getInt("ct_messageDividerColor", getResources().getColor(R.color.light_silver));
             emojiKeyboard = sharedPrefs.getBoolean("emoji_keyboard", true);
+            voiceAccount = sharedPrefs.getString("voice_account", null);
+            voiceEnabled = sharedPrefs.getBoolean("voice_enabled", false);
         }
 
         setUpWindow();
@@ -1340,6 +1348,7 @@ public class MainActivity extends FragmentActivity {
             v.setVisibility(View.GONE);
             title.setVisibility(View.GONE);
             emojiButton.setVisibility(View.GONE);
+            voiceButton.setVisibility(View.GONE);
 
             getWindow().getDecorView().setBackgroundColor(ctMessageListBackground);
         }
@@ -1592,6 +1601,8 @@ public class MainActivity extends FragmentActivity {
         messageEntry1 = (EditText) findViewById(R.id.messageEntry);
         sendButton = (ImageButton) findViewById(R.id.sendButton);
         emojiButton = (ImageButton) findViewById(R.id.display_emoji);
+        voiceButton = (ImageButton) findViewById(R.id.voiceButton);
+
         v = findViewById(R.id.view1);
         imageAttachBackground = findViewById(R.id.image_attachment_view_background2);
         imageAttach = (ImageAttachmentView) findViewById(R.id.image_attachment_view);
@@ -2052,6 +2063,37 @@ public class MainActivity extends FragmentActivity {
             });
         }
 
+        if (voiceAccount != null) {
+            if (voiceEnabled) {
+                voiceButton.setImageResource(R.drawable.voice_enabled);
+            } else {
+                voiceButton.setImageResource(R.drawable.voice_disabled);
+            }
+
+            voiceButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (voiceEnabled) {
+                        voiceEnabled = false;
+                        sharedPrefs.edit().putBoolean("voice_enabled", false).commit();
+                        voiceButton2.setImageResource(R.drawable.voice_disabled);
+                        voiceButton.setImageResource(R.drawable.voice_disabled);
+                        sendSettings.setPreferVoice(false);
+                        sendTransaction.settings = sendSettings;
+                    } else {
+                        voiceEnabled = true;
+                        sharedPrefs.edit().putBoolean("voice_enabled", true).commit();
+                        voiceButton2.setImageResource(R.drawable.voice_enabled);
+                        voiceButton.setImageResource(R.drawable.voice_enabled);
+                        sendSettings.setPreferVoice(true);
+                        sendTransaction.settings = sendSettings;
+                    }
+                }
+            });
+        } else {
+            voiceButton.setVisibility(View.GONE);
+        }
+
         if (!isPopup) {
             sendButton.setImageResource(R.drawable.ic_action_send_white);
         } else {
@@ -2064,6 +2106,7 @@ public class MainActivity extends FragmentActivity {
         sendButton.setColorFilter(ctSendButtonColor);
         emojiButton.setBackgroundResource(R.drawable.pitch_black_send_button);
         emojiButton.setColorFilter(emojiButtonColor);
+        voiceButton.setColorFilter(emojiButtonColor);
         messageEntry.setTextColor(draftTextColor);
         imageAttachBackground.setBackgroundColor(ctMessageListBackground);
         Drawable attachBack = getResources().getDrawable(R.drawable.attachment_editor_bg);
@@ -2081,6 +2124,10 @@ public class MainActivity extends FragmentActivity {
         if (runAs.equals("hangout") || runAs.equals("card2") || runAs.equals("card+"))
         {
             emojiButton.setImageResource(R.drawable.ic_emoji_dark);
+        }
+
+        if (runAs.equals("sliding")) {
+            voiceButton.setAlpha(255);
         }
     }
 
@@ -2761,6 +2808,7 @@ public class MainActivity extends FragmentActivity {
         });
 
         ImageButton emojiButton = (ImageButton) newMessageView.findViewById(R.id.display_emoji);
+        voiceButton2 = (ImageButton) newMessageView.findViewById(R.id.voiceButton);
 
         if (!emoji)
         {
@@ -2931,6 +2979,37 @@ public class MainActivity extends FragmentActivity {
             });
         }
 
+        if (voiceAccount != null) {
+            if (voiceEnabled) {
+                voiceButton2.setImageResource(R.drawable.voice_enabled);
+            } else {
+                voiceButton2.setImageResource(R.drawable.voice_disabled);
+            }
+
+            voiceButton2.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (voiceEnabled) {
+                        voiceEnabled = false;
+                        sharedPrefs.edit().putBoolean("voice_enabled", false).commit();
+                        voiceButton2.setImageResource(R.drawable.voice_disabled);
+                        voiceButton.setImageResource(R.drawable.voice_disabled);
+                        sendSettings.setPreferVoice(false);
+                        sendTransaction.settings = sendSettings;
+                    } else {
+                        voiceEnabled = true;
+                        sharedPrefs.edit().putBoolean("voice_enabled", true).commit();
+                        voiceButton2.setImageResource(R.drawable.voice_enabled);
+                        voiceButton.setImageResource(R.drawable.voice_enabled);
+                        sendSettings.setPreferVoice(true);
+                        sendTransaction.settings = sendSettings;
+                    }
+                }
+            });
+        } else {
+            voiceButton2.setVisibility(View.GONE);
+        }
+
         ListView searchView = (ListView) newMessageView.findViewById(R.id.contactSearch);
 
         try {
@@ -2951,6 +3030,7 @@ public class MainActivity extends FragmentActivity {
         searchView.setBackgroundColor(ctConversationListBackground);
         emojiButton.setBackgroundResource(R.drawable.pitch_black_send_button);
         emojiButton.setColorFilter(emojiButtonColor);
+        voiceButton2.setColorFilter(emojiButtonColor);
         mEditText.setTextColor(draftTextColor);
         contact.setTextColor(draftTextColor);
         contactLister.setColorFilter(ctSendButtonColor);
@@ -2972,6 +3052,10 @@ public class MainActivity extends FragmentActivity {
         if (runAs.equals("hangout") || runAs.equals("card2") || runAs.equals("card+"))
         {
             emojiButton.setImageResource(R.drawable.ic_emoji_dark);
+        }
+
+        if (runAs.equals("sliding")) {
+            voiceButton2.setAlpha(255);
         }
 
         if (customBackground)
@@ -5557,7 +5641,7 @@ public class MainActivity extends FragmentActivity {
 
         for (int i = 0; i < inboxNumber.size(); i++)
         {
-            if (number.equals(inboxNumber.get(i)))
+            if (number.equals(inboxNumber.get(i)) || inboxNumber.get(i).endsWith(number) || number.endsWith(inboxNumber.get(i)))
             {
                 inboxBody.add(0, body);
                 inboxDate.add(0, date);
@@ -5593,6 +5677,7 @@ public class MainActivity extends FragmentActivity {
             }
 
             mSectionsPagerAdapter.notifyDataSetChanged();
+            mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
             mViewPager.setAdapter(mSectionsPagerAdapter);
 
             for (int i = 0; i < inboxNumber.size(); i++)
