@@ -6094,9 +6094,9 @@ public class MainActivity extends FragmentActivity {
 
             if(runAs.equals("card+"))
             {
-                final int margin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 17, getResources()
+                final int margin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 18, getResources()
                         .getDisplayMetrics());
-                final int marginTop = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, getResources()
+                final int marginTop = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, getResources()
                         .getDisplayMetrics());
 
                 //View header = new View(context);
@@ -6356,7 +6356,7 @@ public class MainActivity extends FragmentActivity {
             if (messageDividerVisible && runAs.equals("sliding"))
             {
                 listView.setDividerHeight(1);
-            } else if (runAs.equals("card+"))
+            } else if (runAs.equals("card+") && messageDividerVisible)
             {
                 listView.setDivider(getResources().getDrawable(R.drawable.card_plus_divider));
             } else {
