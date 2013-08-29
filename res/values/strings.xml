@@ -692,5 +692,7 @@
     <string name="google_voice_failed_title">Error Sending Google Voice Message</string>
     <string name="google_voice_sign_up">Sign Me Up!</string>
     <string name="card_background">Also the message card for the Card+ UI.</string>
+    <string name="need_emoji_title">Emoji Keyboard:</string>
+    <string name="need_emoji_summary">Like our new emoji keyboard? Use it with any app with our new Sliding Emoji Keyboard project!</string>
 
 </resources>
