@@ -1,15 +1,15 @@
-Version 7.25
+Version 7.50
 
 Jake:
-    - recreate settings activity after restoring previous backup
-    - make resending in cursor adapter use new library
     - google voice sending support
     - google voice receiving support
     - Figure out how to judge file size of png images and adjust them accordingly when sending, look into UriImage.getResizedImageData for solution
     - delayed sending for certain times
 Luke:
-    - Add select all for batch delete
     - Message details for MMS messages
+    - add wizard pager page for emoji keyboard
+    - add link in wizard pager (or maybe settings) to rate the app and show us some love with 5 stars
+    - update text on final wizard pager screen and take out the irrelevant info
 
 1) more individual notification options
 2) option for adding certain text to every message at the beginning (delivery reports?)
