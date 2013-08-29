@@ -106,8 +106,8 @@ public class MessageCursorAdapter extends CursorAdapter {
     public final int ctRecievedTextColor;
     public final int ctSentTextColor;
     public final int ctConversationListBackground;
-    public final int ctSentMessageBackground;
-    public final int ctRecievedMessageBackground;
+    public int ctSentMessageBackground;
+    public int ctRecievedMessageBackground;
     public final int animationSpeed;
     public final int textOpacity;
 
@@ -157,6 +157,12 @@ public class MessageCursorAdapter extends CursorAdapter {
         ctRecievedMessageBackground = sharedPrefs.getInt("ct_receivedMessageBackground", context.getResources().getColor(R.color.white));
         animationSpeed = sharedPrefs.getInt("animation_speed", 300);
         textOpacity = sharedPrefs.getInt("text_opacity", 100);
+
+        if(runAs.equals("card+"))
+        {
+            ctRecievedMessageBackground = context.getResources().getColor(android.R.color.transparent);
+            ctSentMessageBackground = context.getResources().getColor(android.R.color.transparent);
+        }
 
         if(sharedPrefs.getBoolean("override_speed", false))
         {
@@ -917,7 +923,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                 } else {
                     view.setPadding(scale, scale2, scale4, scale3);
                 }
-            } else if (runAs.equals("card2")) {
+            } else if (runAs.equals("card2") || runAs.equals("card+")) {
                 int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 17, context.getResources().getDisplayMetrics());
                 int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, context.getResources().getDisplayMetrics());
                 int scale3 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, context.getResources().getDisplayMetrics());
@@ -937,7 +943,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                 } else {
                     view.setPadding(scale, scale2, scale3, scale2);
                 }
-            } else if (runAs.equals("card2")) {
+            } else if (runAs.equals("card2") || runAs.equals("card+")) {
                 int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 17, context.getResources().getDisplayMetrics());
                 int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, context.getResources().getDisplayMetrics());
                 view.setPadding(scale, scale2, scale, 0);
@@ -1583,7 +1589,7 @@ public class MessageCursorAdapter extends CursorAdapter {
             holder.image.assignContactFromPhone(inboxNumbers, true);
         }
 
-        if (runAs.equals("card2")) {
+        if (runAs.equals("card2") || runAs.equals("card+")) {
 
             if (themeName.equals("Light Theme") || themeName.equals("Hangouts Theme") || themeName.equals("Light Theme 2.0") || themeName.equals("Light Green Theme") || themeName.equals("Burnt Orange Theme")) {
 
@@ -1762,7 +1768,7 @@ public class MessageCursorAdapter extends CursorAdapter {
             } else {
                 v.setPadding(scale, scale2, scale3, scale2);
             }
-        } else if (runAs.equals("card2")) {
+        } else if (runAs.equals("card2") || runAs.equals("card+")) {
             int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 17, context.getResources().getDisplayMetrics());
             int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, context.getResources().getDisplayMetrics());
             v.setPadding(scale, scale2, scale, 0);

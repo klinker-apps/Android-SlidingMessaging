@@ -459,6 +459,11 @@ public class MainActivity extends FragmentActivity {
             emojiKeyboard = sharedPrefs.getBoolean("emoji_keyboard", true);
         }
 
+        if(runAs.equals("card+"))
+        {
+            ctSentMessageBackground = getResources().getColor(android.R.color.transparent);
+        }
+
         setUpWindow();
         setUpSendSettings();
 
@@ -2079,7 +2084,7 @@ public class MainActivity extends FragmentActivity {
             messageEntry.setTypeface(font);
         }
 
-        if (runAs.equals("hangout") || runAs.equals("card2"))
+        if (runAs.equals("hangout") || runAs.equals("card2") || runAs.equals("card+"))
         {
             emojiButton.setImageResource(R.drawable.ic_emoji_dark);
         }
@@ -2970,7 +2975,7 @@ public class MainActivity extends FragmentActivity {
             contact.setTypeface(font);
         }
 
-        if (runAs.equals("hangout") || runAs.equals("card2"))
+        if (runAs.equals("hangout") || runAs.equals("card2") || runAs.equals("card+"))
         {
             emojiButton.setImageResource(R.drawable.ic_emoji_dark);
         }
@@ -3411,6 +3416,12 @@ public class MainActivity extends FragmentActivity {
             mViewPager.setOffscreenPageLimit(2);
             int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -26, context.getResources().getDisplayMetrics());
             mViewPager.setPageMargin(scale);
+        } else if(runAs.equals("card+"))
+        {
+            mViewPager.setOffscreenPageLimit(2);
+            int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -26, context.getResources().getDisplayMetrics());
+            mViewPager.setPageMargin(scale);
+            //mViewPager.setBackgroundResource(R.drawable.background_card);
         }
     }
 
@@ -6089,6 +6100,14 @@ public class MainActivity extends FragmentActivity {
                                  Bundle savedInstanceState) {
 
             view = inflater.inflate(R.layout.message_frame, container, false);
+
+            if(runAs.equals("card+"))
+            {
+                view.findViewById(R.id.fontListView).setBackgroundResource(R.drawable.background_card);
+                final int margin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 17, getResources()
+                        .getDisplayMetrics());
+                view.findViewById(R.id.messageBackground).setPadding(margin, 5, margin, 2);
+            }
 
             mPullToRefreshAttacher = ((MainActivity) getActivity()).getPullToRefreshAttacher();
 
