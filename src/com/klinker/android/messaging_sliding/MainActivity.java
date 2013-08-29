@@ -6106,7 +6106,7 @@ public class MainActivity extends FragmentActivity {
                 CustomListView list = (CustomListView) view.findViewById(R.id.fontListView);
 
                 //list.setFooterDividersEnabled(false);
-                //list.setHeaderDividersEnabled(false);
+                //list.setHeaderDividersEnabled(true);
                 list.setBackgroundResource(R.drawable.background_card);
                 list.setBackgroundColor(ctSentMessageBackground);
                 list.setOverScrollMode(View.OVER_SCROLL_NEVER);
