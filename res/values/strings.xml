@@ -699,5 +699,7 @@
     <string name="card_background">Also the message card for the Card+ UI.</string>
     <string name="need_emoji_title">Emoji Keyboard:</string>
     <string name="need_emoji_summary">Like our new emoji keyboard? Use it with any app with our new Sliding Emoji Keyboard project!</string>
+    <string name="rate_it">Rate Sliding Messaging!</string>
+    <string name="rate_it_summary">5 stars reviews keep us motivated to work hard and add new features!</string>
 
 </resources>

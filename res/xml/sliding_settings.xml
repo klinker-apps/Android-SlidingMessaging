@@ -85,6 +85,12 @@
             android:title="@string/other_apps"
             />
 
+        <Preference
+            android:key="rate_it"
+            android:title="@string/rate_it"
+            android:summary="@string/rate_it_summary"
+            />
+
     </PreferenceCategory>
 
 

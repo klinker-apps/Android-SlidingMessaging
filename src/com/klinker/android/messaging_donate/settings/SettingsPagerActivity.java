@@ -439,6 +439,26 @@ public class SettingsPagerActivity extends FragmentActivity {
                 }
 
             });
+
+            Preference rateIt = findPreference("rate_it");
+            rateIt.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+
+                @Override
+                public boolean onPreferenceClick(Preference arg0) {
+
+                    Uri uri = Uri.parse("market://details?id=" + context.getPackageName());
+                    Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+                    try {
+                        startActivity(goToMarket);
+                    } catch (ActivityNotFoundException e) {
+                        Toast.makeText(context, "Couldn't launch the market", Toast.LENGTH_LONG).show();
+                    }
+
+                    return false;
+                }
+
+            });
+
         }
 
         public void setUpThemeSettings()
