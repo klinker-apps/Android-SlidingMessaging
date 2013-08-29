@@ -86,7 +86,7 @@ public class SendUtil {
         sendSettings.setPort(sharedPrefs.getString("mms_port", ""));
         sendSettings.setGroup(sharedPrefs.getBoolean("group_message", false));
         sendSettings.setWifiMmsFix(sharedPrefs.getBoolean("wifi_mms_fix", true));
-        sendSettings.setPreferVoice(sharedPrefs.getString("voice_account", null) != null);
+        sendSettings.setPreferVoice(sharedPrefs.getBoolean("voice_enabled", false));
         sendSettings.setDeliveryReports(sharedPrefs.getBoolean("delivery_reports", false));
         sendSettings.setSplit(sharedPrefs.getBoolean("split_sms", false));
         sendSettings.setSplitCounter(sharedPrefs.getBoolean("split_counter", false));
