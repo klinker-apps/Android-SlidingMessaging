@@ -691,5 +691,6 @@
     <string name="google_voice_failed">Do you have data or WiFi enabled and is your Google account set up for Google Voice? If not, you must set that up online first.</string>
     <string name="google_voice_failed_title">Error Sending Google Voice Message</string>
     <string name="google_voice_sign_up">Sign Me Up!</string>
+    <string name="card_background">Also the message card for the Card+ UI.</string>
 
 </resources>

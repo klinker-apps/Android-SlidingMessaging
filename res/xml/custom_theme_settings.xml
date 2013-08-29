@@ -34,6 +34,7 @@
     <net.margaritov.preference.colorpicker.ColorPickerPreference
     	android:key="ct_sentMessageBackground"
     	android:title="@string/ct_sent_message_background"
+        android:summary="@string/card_background"
     	android:defaultValue="@color/white"
 	/>
     
