@@ -7,8 +7,6 @@ Jake:
     - delayed sending for certain times
 Luke:
     - Message details for MMS messages
-    - add link in wizard pager (or maybe settings) to rate the app and show us some love with 5 stars
-    - update text on final wizard pager screen and take out the irrelevant info
     - Disable notification vibrations while in call
     - Option to auto close halo pop up on send. not slideover, halo.
 
@@ -37,3 +35,5 @@ Luke:
 Luke's ideas for speed/fluidity improvement:
 3.) Don't refresh the view pager when a new message is received that isn't from the conversation you are currently viewing. Make a refresh attached in the conversations list to refresh the view pager instead, so it doesnt jump around and the users can continue texting without being interrupted. It will look better and work more fluidly.
         - not sure how this would affect scrolling through the view pager though. may work, but may never move the threads to the correct position
+
+Make an NFC bikelock hehe
