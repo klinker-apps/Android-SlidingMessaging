@@ -1602,6 +1602,9 @@ public class MessageCursorAdapter extends CursorAdapter {
             } else {
                 v.findViewById(R.id.divider).setBackgroundColor(convertToColorInt(convertToARGB(ctRecievedTextColor, "44")));
             }
+
+            if(runAs.equals("card+"))
+                v.findViewById(R.id.divider).setVisibility(View.GONE);
         }
 
         if (customFont)
