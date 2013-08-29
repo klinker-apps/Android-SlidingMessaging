@@ -458,16 +458,6 @@ public class MainActivity extends FragmentActivity {
             emojiKeyboard = sharedPrefs.getBoolean("emoji_keyboard", true);
         }
 
-        if(runAs.equals("card+"))
-        {
-            ctSentMessageBackground = getResources().getColor(android.R.color.transparent);
-            useTitleBar = false;
-            alwaysShowContactInfo = false;
-
-            messageDividerVisible = true;
-            messageDividerColor = getResources().getColor(R.color.light_silver);
-        }
-
         setUpWindow();
         setUpSendSettings();
 
@@ -880,48 +870,45 @@ public class MainActivity extends FragmentActivity {
                         }
                     }, 500);
 
-                    if(!runAs.equals("card+"))
+                    if (!useTitleBar || alwaysShowContactInfo)
                     {
-                        if (!useTitleBar || alwaysShowContactInfo)
-                        {
-                            final ActionBar ab = getActionBar();
+                        final ActionBar ab = getActionBar();
 
-                            if (ab != null) {
-                                if (group.get(mViewPager.getCurrentItem()).equals("yes"))
-                                {
-                                    ab.setTitle("Group MMS");
-                                    ab.setSubtitle(null);
-                                } else
-                                {
-                                    new Thread(new Runnable() {
+                        if (ab != null) {
+                            if (group.get(mViewPager.getCurrentItem()).equals("yes"))
+                            {
+                                ab.setTitle("Group MMS");
+                                ab.setSubtitle(null);
+                            } else
+                            {
+                                new Thread(new Runnable() {
 
-                                        @Override
-                                        public void run() {
-                                            final String title = findContactName(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context), context);
+                                    @Override
+                                    public void run() {
+                                        final String title = findContactName(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context), context);
 
-                                            ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+                                        ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 
-                                                @Override
-                                                public void run() {
-                                                    ab.setTitle(title);
-                                                }
+                                            @Override
+                                            public void run() {
+                                                ab.setTitle(title);
+                                            }
 
-                                            });
+                                        });
 
-                                        }
-
-                                    }).start();
-
-                                    Locale sCachedLocale = Locale.getDefault();
-                                    int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
-                                    Editable editable = new SpannableStringBuilder(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context));
-                                    PhoneNumberUtils.formatNumber(editable, sFormatType);
-                                    ab.setSubtitle(editable.toString());
-
-                                    if (ab.getTitle().equals(ab.getSubtitle()))
-                                    {
-                                        ab.setSubtitle(null);
                                     }
+
+                                }).start();
+
+                                Locale sCachedLocale = Locale.getDefault();
+                                int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
+                                Editable editable = new SpannableStringBuilder(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context));
+                                PhoneNumberUtils.formatNumber(editable, sFormatType);
+                                ab.setSubtitle(editable.toString());
+
+                                if (ab.getTitle().equals(ab.getSubtitle()))
+                                {
+                                    ab.setSubtitle(null);
                                 }
                             }
                         }
@@ -3139,51 +3126,48 @@ public class MainActivity extends FragmentActivity {
                         getActionBar().setDisplayHomeAsUpEnabled(true);
                     }
 
-                    if (!runAs.equals("card+"))
-                    {
-                        if (!useTitleBar || alwaysShowContactInfo) {
-                            final ActionBar ab = getActionBar();
+                    if (!useTitleBar || alwaysShowContactInfo) {
+                        final ActionBar ab = getActionBar();
 
-                            if (ab != null) {
-                                try {
-                                    new Thread(new Runnable() {
+                        if (ab != null) {
+                            try {
+                                new Thread(new Runnable() {
 
-                                        @Override
-                                        public void run() {
-                                            if (inboxNumber.size() != 0) {
-                                                final String title = findContactName(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context), context);
+                                    @Override
+                                    public void run() {
+                                        if (inboxNumber.size() != 0) {
+                                            final String title = findContactName(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context), context);
 
-                                                ((MainActivity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+                                            ((MainActivity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 
-                                                    @Override
-                                                    public void run() {
-                                                        ab.setTitle(title);
+                                                @Override
+                                                public void run() {
+                                                    ab.setTitle(title);
 
-                                                        Locale sCachedLocale = Locale.getDefault();
-                                                        int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
-                                                        Editable editable = new SpannableStringBuilder(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context));
-                                                        PhoneNumberUtils.formatNumber(editable, sFormatType);
-                                                        ab.setSubtitle(editable.toString());
+                                                    Locale sCachedLocale = Locale.getDefault();
+                                                    int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
+                                                    Editable editable = new SpannableStringBuilder(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context));
+                                                    PhoneNumberUtils.formatNumber(editable, sFormatType);
+                                                    ab.setSubtitle(editable.toString());
 
-                                                        if (ab.getTitle().equals(ab.getSubtitle())) {
-                                                            ab.setSubtitle(null);
-                                                        }
-
-                                                        if (group.get(mViewPager.getCurrentItem()).equals("yes")) {
-                                                            ab.setTitle("Group MMS");
-                                                            ab.setSubtitle(null);
-                                                        }
+                                                    if (ab.getTitle().equals(ab.getSubtitle())) {
+                                                        ab.setSubtitle(null);
                                                     }
 
-                                                });
-                                            }
-                                        }
+                                                    if (group.get(mViewPager.getCurrentItem()).equals("yes")) {
+                                                        ab.setTitle("Group MMS");
+                                                        ab.setSubtitle(null);
+                                                    }
+                                                }
 
-                                    }).start();
-                                } catch (Exception e) {
-                                    ab.setTitle(R.string.app_name_in_app);
-                                    ab.setIcon(R.drawable.ic_launcher);
-                                }
+                                            });
+                                        }
+                                    }
+
+                                }).start();
+                            } catch (Exception e) {
+                                ab.setTitle(R.string.app_name_in_app);
+                                ab.setIcon(R.drawable.ic_launcher);
                             }
                         }
                     }
@@ -3270,28 +3254,25 @@ public class MainActivity extends FragmentActivity {
                         String title = "";
                         String subtitle = "";
 
-                        if(!runAs.equals("card+"))
+                        if (!useTitleBar || alwaysShowContactInfo)
                         {
-                            if (!useTitleBar || alwaysShowContactInfo)
+                            if (group.get(mViewPager.getCurrentItem()).equals("yes"))
                             {
-                                if (group.get(mViewPager.getCurrentItem()).equals("yes"))
+                                title = "Group MMS";
+                                subtitle = null;
+                            } else
+                            {
+                                title = findContactName(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context), context);
+
+                                Locale sCachedLocale = Locale.getDefault();
+                                int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
+                                Editable editable = new SpannableStringBuilder(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context));
+                                PhoneNumberUtils.formatNumber(editable, sFormatType);
+                                subtitle = editable.toString();
+
+                                if (title.equals(subtitle))
                                 {
-                                    title = "Group MMS";
                                     subtitle = null;
-                                } else
-                                {
-                                    title = findContactName(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context), context);
-
-                                    Locale sCachedLocale = Locale.getDefault();
-                                    int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
-                                    Editable editable = new SpannableStringBuilder(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context));
-                                    PhoneNumberUtils.formatNumber(editable, sFormatType);
-                                    subtitle = editable.toString();
-
-                                    if (title.equals(subtitle))
-                                    {
-                                        subtitle = null;
-                                    }
                                 }
                             }
                         }
@@ -3375,12 +3356,9 @@ public class MainActivity extends FragmentActivity {
 
                                 }
 
-                                if (!runAs.equals("card+"))
-                                {
-                                    if ((!useTitleBar || alwaysShowContactInfo) && ab != null) {
-                                        ab.setTitle(titleF);
-                                        ab.setSubtitle(subtitleF);
-                                    }
+                                if ((!useTitleBar || alwaysShowContactInfo) && ab != null) {
+                                    ab.setTitle(titleF);
+                                    ab.setSubtitle(subtitleF);
                                 }
 
                                 if (titleContactImages && ab != null) {
@@ -6130,10 +6108,12 @@ public class MainActivity extends FragmentActivity {
                 //list.setFooterDividersEnabled(false);
                 //list.setHeaderDividersEnabled(false);
                 list.setBackgroundResource(R.drawable.background_card);
+                list.setBackgroundColor(ctSentMessageBackground);
+                list.setOverScrollMode(View.OVER_SCROLL_NEVER);
                 //list.addHeaderView(header);
                 //list.addFooterView(header);
 
-                view.findViewById(R.id.messageBackground).setPadding(margin, 0, margin, 0);
+                view.findViewById(R.id.messageBackground).setPadding(margin, marginTop, margin, 0);
             }
 
             mPullToRefreshAttacher = ((MainActivity) getActivity()).getPullToRefreshAttacher();
