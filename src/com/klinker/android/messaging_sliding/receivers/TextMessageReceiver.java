@@ -21,6 +21,7 @@ import android.provider.ContactsContract.PhoneLookup;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.telephony.PhoneNumberUtils;
+import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
 import android.text.Editable;
 import android.text.SpannableStringBuilder;
@@ -83,7 +84,9 @@ public class TextMessageReceiver extends BroadcastReceiver {
 	        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
             if(!sharedPrefs.getBoolean("alert_in_call", true) && isCallActive(context))
+            {
                 alert = false;
+            }
 	        
 	        ArrayList<BlacklistContact> blacklist = readFromFile5(context);
 	        int blacklistType = 0;
