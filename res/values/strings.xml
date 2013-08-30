@@ -702,5 +702,7 @@
     <string name="rate_it">Rate Sliding Messaging!</string>
     <string name="rate_it_summary">5 stars reviews keep us motivated to work hard and add new features!</string>
     <string name="fn_extension_description">Expands Floating Notifications by allowing to send Emojis</string>
+    <string name="alert_in_call">Alert in calls</string>
+    <string name="alert_in_call_summary">Vibrate and ring while in the middle of a call.</string>
 
 </resources>
