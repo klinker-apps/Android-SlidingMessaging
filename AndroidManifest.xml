@@ -579,6 +579,8 @@
             </intent-filter>
 
             <meta-data android:name="label" android:value="@string/app_name" />
+            <meta-data android:name="desc" android:value="@string/fn_extension_description" />
+            <meta-data android:name="id" android:value="0" />
         </receiver>
 
         <receiver android:name="com.klinker.android.messaging_donate.floating_notifications.FNAction" >

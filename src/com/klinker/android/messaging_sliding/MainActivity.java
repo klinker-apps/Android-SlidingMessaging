@@ -5677,9 +5677,13 @@ public class MainActivity extends FragmentActivity {
                 newFragment.setListAdapter(new MenuArrayAdapter(this, inboxBody, inboxDate, inboxNumber, MainActivity.mViewPager, threadIds, group, msgCount, msgRead));
             }
 
-            mSectionsPagerAdapter.notifyDataSetChanged();
-            mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
-            mViewPager.setAdapter(mSectionsPagerAdapter);
+            try {
+                mSectionsPagerAdapter.notifyDataSetChanged();
+                mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
+                mViewPager.setAdapter(mSectionsPagerAdapter);
+            } catch (Exception e) {
+                // fragment most likely outside of activity now or something
+            }
 
             for (int i = 0; i < inboxNumber.size(); i++)
             {

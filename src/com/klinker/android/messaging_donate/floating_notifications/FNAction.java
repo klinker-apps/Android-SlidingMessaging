@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.SendUtil;
 import com.klinker.android.messaging_sliding.MainActivity;
@@ -70,6 +71,7 @@ public class FNAction extends BroadcastReceiver {
                             emojiDialog.putExtra("id", id);
                             emojiDialog.putExtra("message", str);
                             emojiDialog.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            Log.v("Extension", "starting emoji dialog");
                             context.startActivity(emojiDialog);
                         }
                     };
