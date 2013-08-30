@@ -130,10 +130,6 @@ public class ChangeLogMain extends FragmentActivity implements
                     SharedPreferences.Editor prefEdit = sharedPrefs.edit();
                     prefEdit.putString("current_version", version);
 
-                    if (sharedPrefs.getString("voice_account", null) != null) {
-                        prefEdit.putBoolean("voice_enabled", true);
-                    }
-
                     prefEdit.commit();
 
                     boolean flag = false;
