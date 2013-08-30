@@ -110,6 +110,7 @@ public class MessageCursorAdapter extends CursorAdapter {
     public int ctRecievedMessageBackground;
     public final int animationSpeed;
     public final int textOpacity;
+    public final boolean lookForVoice;
 
     public MessageCursorAdapter(Activity context, String myId, String inboxNumbers, String ids, Cursor query, int threadPosition) {
         super(context, query, 0);
@@ -157,6 +158,7 @@ public class MessageCursorAdapter extends CursorAdapter {
         ctRecievedMessageBackground = sharedPrefs.getInt("ct_receivedMessageBackground", context.getResources().getColor(R.color.white));
         animationSpeed = sharedPrefs.getInt("animation_speed", 300);
         textOpacity = sharedPrefs.getInt("text_opacity", 100);
+        lookForVoice = sharedPrefs.getString("voice_account", null) != null;
 
         if(runAs.equals("card+"))
         {
@@ -316,6 +318,7 @@ public class MessageCursorAdapter extends CursorAdapter {
         String sender = "";
         String status = "-1";
         boolean locked = false;
+        boolean voice = false;
 
         String dateType = "date";
 
@@ -733,12 +736,14 @@ public class MessageCursorAdapter extends CursorAdapter {
                     mms = false;
                     image = null;
 
-                    if (deliveryReports) {
+                    if (deliveryReports || lookForVoice) {
                         status = cursor.getString(cursor.getColumnIndex("status"));
 
                         if (status.equals("64") || status.equals("128"))
                         {
                             error = true;
+                        } else if (status.equals("2")) {
+                            voice = true;
                         }
                     }
 
@@ -872,6 +877,11 @@ public class MessageCursorAdapter extends CursorAdapter {
             } else if (error) {
                 String text = "<html><body><img src=\"ic_error.png\"/> ERROR</body></html>";
                 holder.date.setText(Html.fromHtml(text, imgGetterFail, null));
+            }
+
+            if (voice) {
+                String text = "<html><body><img src=\"voice_enabled.png\"/> " + holder.date.getText().toString() + "</body></html>";
+                holder.date.setText(Html.fromHtml(text, imgGetterVoice, null));
             }
         }
 
@@ -2644,6 +2654,20 @@ public class MessageCursorAdapter extends CursorAdapter {
             } else {
                 drawable.setColorFilter(convertToColorInt(convertToARGB(ctRecievedTextColor, "55")), PorterDuff.Mode.MULTIPLY);
             }
+
+            return drawable;
+        }
+    };
+
+    Html.ImageGetter imgGetterVoice = new Html.ImageGetter() {
+        @Override
+        public Drawable getDrawable(String source) {
+            Drawable drawable = context.getResources().getDrawable(R.drawable.voice_message);
+
+            drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable
+                    .getIntrinsicHeight());
+
+            drawable.setColorFilter(convertToColorInt(convertToARGB(ctSentTextColor, "55")), PorterDuff.Mode.MULTIPLY);
 
             return drawable;
         }

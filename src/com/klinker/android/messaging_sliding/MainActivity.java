@@ -38,6 +38,7 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.*;
 import android.view.View.OnClickListener;
@@ -4107,7 +4108,7 @@ public class MainActivity extends FragmentActivity {
         try {
             return context.getContentResolver().query(Uri.parse("content://mms-sms/locked/" + id + "/"), new String[]{"_id"}, null, null, null).moveToFirst();
         } catch (Exception e) {
-            return true;
+            return false;
         }
     }
 
@@ -5642,7 +5643,7 @@ public class MainActivity extends FragmentActivity {
 
         for (int i = 0; i < inboxNumber.size(); i++)
         {
-            if (number.equals(inboxNumber.get(i)) || inboxNumber.get(i).endsWith(number) || number.endsWith(inboxNumber.get(i)))
+            if (number.equals(inboxNumber.get(i)))
             {
                 inboxBody.add(0, body);
                 inboxDate.add(0, date);
@@ -6402,7 +6403,7 @@ public class MainActivity extends FragmentActivity {
                     proj += " date_sent";
                 }
 
-                if (deliveryReports) {
+                if (deliveryReports || voiceAccount != null) {
                     proj += " status";
                 }
 
@@ -6485,7 +6486,7 @@ public class MainActivity extends FragmentActivity {
                 proj += " date_sent";
             }
 
-            if (deliveryReports) {
+            if (deliveryReports || voiceAccount != null) {
                 proj += " status";
             }
 
@@ -6563,7 +6564,7 @@ public class MainActivity extends FragmentActivity {
                         proj += " date_sent";
                     }
 
-                    if (deliveryReports) {
+                    if (deliveryReports || voiceAccount != null) {
                         proj += " status";
                     }
 

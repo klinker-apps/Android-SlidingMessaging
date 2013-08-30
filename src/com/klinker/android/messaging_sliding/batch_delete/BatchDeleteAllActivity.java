@@ -220,7 +220,7 @@ public class BatchDeleteAllActivity extends Activity {
         try {
             return context.getContentResolver().query(Uri.parse("content://mms-sms/locked/" + id + "/"), new String[]{"_id"}, null, null, null).moveToFirst();
         } catch (Exception e) {
-            return true;
+            return false;
         }
     }
 
