@@ -1,7 +1,6 @@
 Version 7.50
 
 Jake:
-    - discuss dependencies in android-smsmms library readme
     - google voice receiving support
     - delayed sending for certain times
 Luke:
