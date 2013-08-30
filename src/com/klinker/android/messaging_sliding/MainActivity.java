@@ -496,6 +496,7 @@ public class MainActivity extends FragmentActivity {
         }
 
         Intent fromIntent = getIntent();
+        fromIntent.getFlags();
         if(fromIntent.getBooleanExtra("initial_run", false))
         {
             try { // try catch so if they change to landscape, which uses a linear layout instead, everything won't force close
