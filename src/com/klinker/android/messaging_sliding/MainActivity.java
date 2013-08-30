@@ -6199,7 +6199,7 @@ public class MainActivity extends FragmentActivity {
                 //list.addHeaderView(header);
                 //list.addFooterView(header);
 
-                view.findViewById(R.id.messageBackground).setPadding(margin, marginTop, margin, 0);
+                view.findViewById(R.id.messageBackground).setPadding(margin, marginTop, margin, marginTop);
             }
 
             mPullToRefreshAttacher = ((MainActivity) getActivity()).getPullToRefreshAttacher();
