@@ -88,7 +88,7 @@ public class MessageCursorAdapter extends CursorAdapter {
     public final boolean stripUnicode;
     public final boolean contactPictures;
     public final boolean tinyDate;
-    public final boolean customTheme;
+    public boolean customTheme;
     public final boolean emojiType;
     public final boolean smiliesType;
     public final String textSize;
@@ -160,6 +160,7 @@ public class MessageCursorAdapter extends CursorAdapter {
 
         if(runAs.equals("card+"))
         {
+            customTheme = true;
             ctRecievedMessageBackground = context.getResources().getColor(android.R.color.transparent);
             ctSentMessageBackground = context.getResources().getColor(android.R.color.transparent);
         }
@@ -1604,7 +1605,10 @@ public class MessageCursorAdapter extends CursorAdapter {
             }
 
             if(runAs.equals("card+"))
+            {
                 v.findViewById(R.id.divider).setVisibility(View.GONE);
+                v.findViewById(R.id.shadow).setVisibility(View.GONE);
+            }
         }
 
         if (customFont)
