@@ -63,6 +63,6 @@ public class FNReceiver extends BroadcastReceiver {
         Bitmap actionTwo = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_menu_call);
         Bitmap actionThree = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_menu_done_holo_dark);
 
-        Extension.addOrUpdate(image, body, id, actionOne, actionTwo, actionThree, false, true, false, context);
+        Extension.addOrUpdate(image, body, id, 0, actionOne, actionTwo, actionThree, false, true, false, context);
     }
 }
