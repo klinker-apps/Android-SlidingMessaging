@@ -851,7 +851,7 @@ public class MessageCursorAdapter extends CursorAdapter {
             {
                 holder.ellipsis.setVisibility(View.VISIBLE);
                 holder.ellipsis.setBackgroundResource(R.drawable.ellipsis);
-                holder.ellipsis.setColorFilter(ctRecievedTextColor);
+                holder.ellipsis.setColorFilter(ctSentTextColor);
                 AnimationDrawable ellipsis = (AnimationDrawable) holder.ellipsis.getBackground();
                 ellipsis.start();
             } catch (Exception e)
