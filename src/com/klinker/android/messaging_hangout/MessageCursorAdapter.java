@@ -1668,6 +1668,7 @@ public class MessageCursorAdapter extends CursorAdapter {
             holder.background.setBackgroundColor(ctSentMessageBackground);
             holder.media.setBackgroundColor(ctSentMessageBackground);
             holder.bubble.setColorFilter(ctSentMessageBackground);
+            holder.ellipsis.setColorFilter(ctSentTextColor);
 
             if (!customTheme)
             {
