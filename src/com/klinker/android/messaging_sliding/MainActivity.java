@@ -2204,7 +2204,7 @@ public class MainActivity extends FragmentActivity {
                     this.getResources();
                     Drawable d = new BitmapDrawable(Resources.getSystem(),myBitmap);
                     newFragment.getView().setBackgroundDrawable(d);
-                } catch (Exception e)
+                } catch (Error e)
                 {
 
                 }
@@ -2252,7 +2252,7 @@ public class MainActivity extends FragmentActivity {
                     this.getResources();
                     Drawable d = new BitmapDrawable(Resources.getSystem(),myBitmap);
                     menuLayout.setBackgroundDrawable(d);
-                } catch (Exception e)
+                } catch (Error e)
                 {
 
                 }
