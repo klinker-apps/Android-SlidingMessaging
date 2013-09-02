@@ -549,7 +549,7 @@
     <string name="slideover_clear">CLEAR</string>
     <string name="slideover_settings_overlay">SETTINGS</string>
     <string name="override_speed">Override for Performance</string>
-    <string name="override_speed_summary">Override some custom app settings for the most optimized/quickest behavior</string>
+    <string name="override_speed_summary">Override some custom app settings for the most optimized/quickest behavior.\nNOTE: Disables some settings, including contact pictures.</string>
     <string name="settings_category">Settings Links</string>
     <string name="other_category">Other Tools</string>
     <string name="developer_tips">Developer Tips</string>
