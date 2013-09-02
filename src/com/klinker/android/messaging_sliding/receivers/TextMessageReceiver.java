@@ -108,6 +108,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 	        {
 		        if (sharedPrefs.getBoolean("override", false))
 		        {
+10)
 		        	ContentValues values = new ContentValues();
 			        values.put("address", address);
 			        values.put("body", body);

@@ -1738,6 +1738,9 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
 
+                final String recipientId = inboxNumber.get(mViewPager.getCurrentItem());
+                final int currentItem = mViewPager.getCurrentItem();
+
                 if (!unlocked) {
                     messageEntry.setError(getString(R.string.trial_expired));
                     return;
@@ -1793,12 +1796,10 @@ public class MainActivity extends FragmentActivity {
                     Intent updateWidget = new Intent("com.klinker.android.messaging.UPDATE_WIDGET");
                     context.sendBroadcast(updateWidget);
 
-                    final String recipientId = inboxNumber.get(mViewPager.getCurrentItem());
-
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            final Message message = new Message(text, findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context).replace(";", ""));
+                            final Message message = new Message(text, findContactNumber(recipientId, context).replace(";", ""));
 
                             if (image) {
                                 ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
@@ -1833,13 +1834,13 @@ public class MainActivity extends FragmentActivity {
                             }
 
                             if (!sendWithStock) {
-                                sendTransaction.sendNewMessage(message, threadIds.get(mViewPager.getCurrentItem()));
+                                sendTransaction.sendNewMessage(message, threadIds.get(currentItem));
                             } else {
                                 if (message.getImages().length != 0 || (sendSettings.getSendLongAsMms() && Transaction.getNumPages(sendSettings, message.getText()) > sendSettings.getSendLongAsMmsAfter() && !sendSettings.getPreferVoice()) || (message.getAddresses().length > 1 && sendSettings.getGroup())) {
                                     if (multipleAttachments == false)
                                     {
                                         Intent sendIntent = new Intent(Intent.ACTION_SEND);
-                                        sendIntent.putExtra("address", findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context).replace(";", ""));
+                                        sendIntent.putExtra("address", findContactNumber(recipientId, context).replace(";", ""));
                                         sendIntent.putExtra("sms_body", text);
                                         sendIntent.putExtra(Intent.EXTRA_STREAM, attachedImage);
                                         sendIntent.setType("image/png");
@@ -1851,7 +1852,7 @@ public class MainActivity extends FragmentActivity {
                                         Toast.makeText(context, "Cannot send multiple images through stock", Toast.LENGTH_SHORT).show();
                                     }
                                 } else {
-                                    sendTransaction.sendNewMessage(message, threadIds.get(mViewPager.getCurrentItem()));
+                                    sendTransaction.sendNewMessage(message, threadIds.get(currentItem));
                                 }
                             }
 
@@ -1865,7 +1866,7 @@ public class MainActivity extends FragmentActivity {
                                             try {
                                                 for (int i = 0; i < draftNames.size(); i++)
                                                 {
-                                                    if (draftNames.get(i).equals(threadIds.get(mViewPager.getCurrentItem())))
+                                                    if (draftNames.get(i).equals(threadIds.get(currentItem)))
                                                     {
                                                         draftsToDelete.add(draftNames.get(i));
                                                         draftNames.remove(i);
