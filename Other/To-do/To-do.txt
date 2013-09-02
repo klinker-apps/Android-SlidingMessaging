@@ -12,7 +12,6 @@ Luke:
     - Experiment with margins for card+ ui
     - make sure the user makes it to the new message tab after sending a new message
     - insert emojis to cursor position
-    - option to disable the date in the conversation list
     - open from a locked lockscreen correctly
 
 1) more individual notification options
