@@ -500,10 +500,14 @@ public class MessageCursorAdapter extends CursorAdapter {
                                             } else if (imageUri != null) {
                                                 holder.media.setVisibility(View.VISIBLE);
 
-                                                if (pictureF == null) {
-                                                    holder.media.setImageURI(Uri.parse(imagesF[0]));
-                                                } else {
-                                                    holder.media.setImageBitmap(pictureF);
+                                                try {
+                                                    if (pictureF == null) {
+                                                        holder.media.setImageURI(Uri.parse(imagesF[0]));
+                                                    } else {
+                                                        holder.media.setImageBitmap(pictureF);
+                                                    }
+                                                } catch (Exception e) {
+                                                    holder.media.setVisibility(View.GONE);
                                                 }
 
                                                 holder.media.setOnClickListener(new View.OnClickListener() {
@@ -851,7 +855,7 @@ public class MessageCursorAdapter extends CursorAdapter {
             {
                 holder.ellipsis.setVisibility(View.VISIBLE);
                 holder.ellipsis.setBackgroundResource(R.drawable.ellipsis);
-                holder.ellipsis.setColorFilter(ctRecievedTextColor);
+                holder.ellipsis.setColorFilter(ctSentTextColor);
                 AnimationDrawable ellipsis = (AnimationDrawable) holder.ellipsis.getBackground();
                 ellipsis.start();
             } catch (Exception e)
@@ -1182,7 +1186,12 @@ public class MessageCursorAdapter extends CursorAdapter {
                                                 String threadId = threadIds;
 
                                                 deleteSMS(context, threadId, idF);
-                                                ((MainActivity) context).refreshViewPager();
+
+                                                try {
+                                                    ((MainActivity) context).refreshViewPager();
+                                                } catch (Exception e) {
+
+                                                }
                                             }
 
                                             public void deleteSMS(Context context, String threadId, String messageId) {
@@ -1202,7 +1211,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                         break;
                                     case 3:
                                         ContentValues values = new ContentValues();
-                                        values.put("locked", lockedF ? false : true);
+                                        values.put("locked", !lockedF);
                                         contentResolver.update(Uri.parse("content://sms/inbox"), values, "_id=" + idF, null);
                                         ((MainActivity) context).refreshViewPager();
                                         break;
@@ -1668,6 +1677,7 @@ public class MessageCursorAdapter extends CursorAdapter {
             holder.background.setBackgroundColor(ctSentMessageBackground);
             holder.media.setBackgroundColor(ctSentMessageBackground);
             holder.bubble.setColorFilter(ctSentMessageBackground);
+            holder.ellipsis.setColorFilter(ctSentTextColor);
 
             if (!customTheme)
             {

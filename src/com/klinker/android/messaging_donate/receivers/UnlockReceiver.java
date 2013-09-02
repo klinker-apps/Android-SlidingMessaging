@@ -35,7 +35,7 @@ public class UnlockReceiver extends BroadcastReceiver {
                 if (halo) {
                     intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | 0x00002000);
                 } else {
-                    intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 }
             } catch (Exception e)
             {

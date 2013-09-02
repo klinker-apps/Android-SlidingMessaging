@@ -298,8 +298,12 @@ public class MMSMessageReceiver extends BroadcastReceiver {
 									
 								}
 							}
-							
-							tryDownloading(apns.get(0), downloadLocation, 0, threadId, msgId);
+
+                            try {
+							    tryDownloading(apns.get(0), downloadLocation, 0, threadId, msgId);
+                            } catch (Exception e) {
+
+                            }
 							
 							try {
 								Thread.sleep(1000);

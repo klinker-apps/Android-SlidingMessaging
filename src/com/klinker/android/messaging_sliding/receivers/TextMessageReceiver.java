@@ -201,6 +201,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
                         intent2 = new Intent(context, MainActivityPopup.class);
                         intent2.putExtra("fromWidget", false);
                         intent2.putExtra("fromNotification", true);
+                        intent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         pIntentExtra = 0;
                     }
 
@@ -1177,7 +1178,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 										if (halo) {
 											intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | 0x00002000);
 										} else {
-											intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+											intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 										}
 									} catch (Exception e)
 									{

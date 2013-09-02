@@ -2205,7 +2205,7 @@ public class MainActivity extends FragmentActivity {
                     this.getResources();
                     Drawable d = new BitmapDrawable(Resources.getSystem(),myBitmap);
                     newFragment.getView().setBackgroundDrawable(d);
-                } catch (Exception e)
+                } catch (Error e)
                 {
 
                 }
@@ -2253,7 +2253,7 @@ public class MainActivity extends FragmentActivity {
                     this.getResources();
                     Drawable d = new BitmapDrawable(Resources.getSystem(),myBitmap);
                     menuLayout.setBackgroundDrawable(d);
-                } catch (Exception e)
+                } catch (Error e)
                 {
 
                 }
@@ -3072,7 +3072,7 @@ public class MainActivity extends FragmentActivity {
                 this.getResources();
                 Drawable d = new BitmapDrawable(Resources.getSystem(),myBitmap);
                 searchView.setBackgroundDrawable(d);
-            } catch (Exception e)
+            } catch (Error e)
             {
                 try {
                     BitmapFactory.Options options = new BitmapFactory.Options();
@@ -3082,7 +3082,7 @@ public class MainActivity extends FragmentActivity {
                     this.getResources();
                     Drawable d = new BitmapDrawable(Resources.getSystem(),myBitmap);
                     searchView.setBackgroundDrawable(d);
-                } catch (Exception f) {
+                } catch (Error f) {
 
                 }
             }
@@ -5337,7 +5337,7 @@ public class MainActivity extends FragmentActivity {
                 Bitmap myBitmap = BitmapFactory.decodeFile(Uri.parse(customBackground2Location).getPath(),options);
                 Drawable d = new BitmapDrawable(Resources.getSystem(),myBitmap);
                 mViewPager.setBackgroundDrawable(d);
-            } catch (Exception e)
+            } catch (Error e)
             {
                 try {
                     BitmapFactory.Options options = new BitmapFactory.Options();
@@ -5346,7 +5346,7 @@ public class MainActivity extends FragmentActivity {
                     Bitmap myBitmap = BitmapFactory.decodeFile(Uri.parse(customBackground2Location).getPath(),options);
                     Drawable d = new BitmapDrawable(Resources.getSystem(),myBitmap);
                     mViewPager.setBackgroundDrawable(d);
-                } catch (Exception f) {
+                } catch (Error f) {
 
                 }
             }
