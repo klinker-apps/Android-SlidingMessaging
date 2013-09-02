@@ -64,6 +64,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
     public boolean contactPictures2;
     public boolean ctDarkContactPics;
     public boolean hideMessageCounter;
+    public boolean hideDate;
     public int ctMessageCounterColor;
     public String smilies;
     public boolean emojiType;
@@ -103,6 +104,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
       contactPictures2 = sharedPrefs.getBoolean("contact_pictures2", true);
       ctDarkContactPics = sharedPrefs.getBoolean("ct_darkContactImage", false);
       hideMessageCounter = sharedPrefs.getBoolean("hide_message_counter", false);
+      hideDate = sharedPrefs.getBoolean("hide_date_conversations", false);
       ctMessageCounterColor = sharedPrefs.getInt("ct_messageCounterColor", context.getResources().getColor(R.color.messageCounterLight));
       smilies = sharedPrefs.getString("smilies", "with");
       emojiType = sharedPrefs.getBoolean("emoji_type", true);
@@ -144,6 +146,13 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 		  viewHolder.text3 = (TextView) contactView.findViewById(R.id.contactDate);
 		  viewHolder.text4 = (TextView) contactView.findViewById(R.id.contactDate2);
 		  viewHolder.image = (QuickContactBadge) contactView.findViewById(R.id.quickContactBadge3);
+
+
+          if (hideDate)
+          {
+              viewHolder.text3.setVisibility(View.INVISIBLE);
+              viewHolder.text4.setVisibility(View.INVISIBLE);
+          }
 		  
 		  if (customFont)
 	      {

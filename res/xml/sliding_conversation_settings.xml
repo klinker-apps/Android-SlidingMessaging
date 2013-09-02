@@ -33,6 +33,12 @@
         />
 
     <CheckBoxPreference
+        android:key="hide_date_conversations"
+        android:title="@string/hide_date"
+        android:defaultValue="false"
+        />
+
+    <CheckBoxPreference
         android:key="open_contact_menu"
         android:title="@string/open_contact_menu"
         android:summary="@string/open_contact_menu_summary"
