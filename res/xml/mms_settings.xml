@@ -1,32 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
-        
-        <CheckBoxPreference 
-        	android:key="group_message"
-        	android:title="@string/group_message"
-        	android:summary="@string/group_message_summary"
-        	android:defaultValue="false" />
-        
+
+    <PreferenceCategory android:title="@string/general_mms_category" >
         <CheckBoxPreference
-            android:key="send_as_mms"
-            android:title="@string/send_as_mms"
-            android:summary="@string/send_as_mms_summary"
+            android:key="group_message"
+            android:title="@string/group_message"
+            android:summary="@string/group_message_summary"
             android:defaultValue="false" />
-        
-        <Preference 
-            android:key="mms_after"
-            android:title="@string/mms_after"
-            android:summary="@string/mms_after_summary"
-            android:defaultValue="4"
-            android:dependency="send_as_mms" />
-        
-        <CheckBoxPreference 
+
+        <CheckBoxPreference
             android:key="auto_download_mms"
             android:title="@string/auto_download_mms"
             android:defaultValue="false"
         />
-        
-        <CheckBoxPreference 
+
+        <CheckBoxPreference
             android:key="wifi_mms_fix"
             android:title="@string/wifi_mms_fix"
             android:summary="@string/wifi_mms_fix_summary"
@@ -41,6 +29,23 @@
         />
 
         <CheckBoxPreference
+            android:key="send_as_mms"
+            android:title="@string/send_as_mms"
+            android:summary="@string/send_as_mms_summary"
+            android:defaultValue="false" />
+
+        <Preference
+            android:key="mms_after"
+            android:title="@string/mms_after"
+            android:summary="@string/mms_after_summary"
+            android:defaultValue="4"
+            android:dependency="send_as_mms" />
+        
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/mms_through_stock_category" >
+
+        <CheckBoxPreference
             android:key="send_with_stock"
             android:title="@string/send_with_stock"
             android:summary="@string/send_with_stock_summary"
@@ -53,45 +58,47 @@
             android:summary="@string/receive_through_stock_summary"
             android:defaultValue="false"
         />
+
+    </PreferenceCategory>
         
-        <PreferenceCategory
-        android:title="@string/apn_settings"
-        android:key="apn_category" >
-        	
-            <Preference 
-                android:key="preset_apns"
-                android:title="@string/preset_apns"
-                android:summary="@string/preset_apns_summary"
-            />
-        
-	        <EditTextPreference
-	            android:key="mmsc_url"
-	            android:title="@string/mmsc_url"
-	            android:dialogTitle="@string/mmsc_url"
-	            android:defaultValue=""
-	        />
-	        
-	        <EditTextPreference
-	            android:key="mms_proxy"
-	            android:title="@string/mms_proxy"
-	            android:dialogTitle="@string/mms_proxy"
-	            android:defaultValue=""
-	        />
-	        
-	        <EditTextPreference
-	            android:key="mms_port"
-	            android:title="@string/mms_port"
-	            android:dialogTitle="@string/mms_port"
-	            android:defaultValue=""
-	        />
-	        
+    <PreferenceCategory
+    android:title="@string/apn_settings"
+    android:key="apn_category" >
+
+        <Preference
+            android:key="preset_apns"
+            android:title="@string/preset_apns"
+            android:summary="@string/preset_apns_summary"
+        />
+
+        <EditTextPreference
+            android:key="mmsc_url"
+            android:title="@string/mmsc_url"
+            android:dialogTitle="@string/mmsc_url"
+            android:defaultValue=""
+        />
+
+        <EditTextPreference
+            android:key="mms_proxy"
+            android:title="@string/mms_proxy"
+            android:dialogTitle="@string/mms_proxy"
+            android:defaultValue=""
+        />
+
+        <EditTextPreference
+            android:key="mms_port"
+            android:title="@string/mms_port"
+            android:dialogTitle="@string/mms_port"
+            android:defaultValue=""
+        />
+
 <!-- 	        <CheckBoxPreference  -->
 <!-- 	            android:key="apn_username_password" -->
 <!-- 	            android:title="@string/apn_username_password" -->
 <!-- 	            android:summary="@string/apn_username_password_summary" -->
 <!-- 	            android:defaultValue="false" -->
 <!-- 	        /> -->
-	        
+
 <!-- 	        <EditTextPreference  -->
 <!-- 	       		android:key="apn_username" -->
 <!-- 	       		android:title="@string/apn_username" -->
@@ -100,7 +107,7 @@
 <!-- 	       		android:dialogTitle="@string/apn_username" -->
 <!-- 	       		android:dependency="apn_username_password" -->
 <!-- 	        /> -->
-	        
+
 <!-- 	        <EditTextPreference  -->
 <!-- 	       		android:key="apn_password" -->
 <!-- 	       		android:title="@string/apn_password" -->
@@ -109,18 +116,18 @@
 <!-- 	       		android:dialogTitle="@string/apn_password" -->
 <!-- 	       		android:dependency="apn_username_password" -->
 <!-- 	        /> -->
-	        
-	        <Preference
-	            android:key="mms_disclaimer"
-	            android:title="@string/mms_disclaimer" 
-	            android:summary="@string/mms_disclaimer_summary"
-	        />
-	        
-	        <Preference
-	            android:key="get_apn_help"
-	            android:title="@string/get_apn_help"
-	        />
-	        
-	    </PreferenceCategory>
+
+        <Preference
+            android:key="mms_disclaimer"
+            android:title="@string/mms_disclaimer"
+            android:summary="@string/mms_disclaimer_summary"
+        />
+
+        <Preference
+            android:key="get_apn_help"
+            android:title="@string/get_apn_help"
+        />
+
+    </PreferenceCategory>
 
 </PreferenceScreen>

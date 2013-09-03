@@ -64,7 +64,7 @@
             android:summary="@string/hide_contact_number_summary"
             android:defaultValue="false"
             />
-    
+
         <CheckBoxPreference
             android:key="open_to_first"
             android:title="@string/open_to_first"
