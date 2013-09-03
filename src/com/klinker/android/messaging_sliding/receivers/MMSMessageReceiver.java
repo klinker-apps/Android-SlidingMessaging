@@ -409,6 +409,7 @@ public class MMSMessageReceiver extends BroadcastReceiver {
 
     public void tryDownloading(APN apns, String downloadLocation, int retryNumber, String threadId, String msgId) {
         try {
+            Transaction.ensureRouteToHost(context, apns.MMSCenterUrl, apns.MMSProxy);
             byte[] resp = HttpUtils.httpConnection(
                     context, SendingProgressTokenManager.NO_TOKEN,
                     downloadLocation, null, HttpUtils.HTTP_GET_METHOD,
@@ -436,7 +437,7 @@ public class MMSMessageReceiver extends BroadcastReceiver {
 
                 }
 
-                tryDownloading(apns, downloadLocation, retryNumber++, threadId, msgId);
+                tryDownloading(apns, downloadLocation, retryNumber + 1, threadId, msgId);
             } else {
                 if (sharedPrefs.getBoolean("secure_notification", false))
                 {
