@@ -428,14 +428,18 @@ public class SlideOverService extends Service {
             finishButtons();
         }
         else if (distance > SWIPE_MIN_DISTANCE && inFlat) {
-            Intent intent = finishFlat();
+            try {
+                Intent intent = finishFlat();
 
-            if (currentZone == 0)
-                intent.putExtra("openToPage", 0);
-            else
-                intent.putExtra("openToPage", currentZone - 1);
+                if (currentZone == 0)
+                    intent.putExtra("openToPage", 0);
+                else
+                    intent.putExtra("openToPage", currentZone - 1);
 
-            startActivity(intent);
+                startActivity(intent);
+            } catch (Exception e) {
+                // already open and intent is null
+            }
         } else if (distance > SWIPE_MIN_DISTANCE && inDash) {
             finishDash();
         }
@@ -469,8 +473,12 @@ public class SlideOverService extends Service {
             finishButtons();
         }
         else if (distance > SWIPE_MIN_DISTANCE && inFlat) {
-            Intent intent = finishFlat();
-            startActivity(intent);
+            try {
+                Intent intent = finishFlat();
+                startActivity(intent);
+            } catch (Exception e) {
+                // already open and intent is null
+            }
         } else if (distance > SWIPE_MIN_DISTANCE && inDash) {
             finishDash();
         }
@@ -638,13 +646,13 @@ public class SlideOverService extends Service {
             Intent intent = new Intent();
             intent.setAction("com.klinker.android.messaging_donate.KILL_FOR_HALO");
             sendBroadcast(intent);
+            return null;
+        } else {
+            Intent intent = new Intent(getBaseContext(), com.klinker.android.messaging_sliding.MainActivityPopup.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("fromHalo", true);
+            return intent;
         }
-
-        Intent intent = new Intent(getBaseContext(), com.klinker.android.messaging_sliding.MainActivityPopup.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra("fromHalo", true);
-
-        return intent;
     }
 
     public void finishDash()
@@ -657,14 +665,14 @@ public class SlideOverService extends Service {
                 Intent intent = new Intent();
                 intent.setAction("com.klinker.android.messaging_donate.KILL_FOR_HALO");
                 sendBroadcast(intent);
+            } else {
+                Intent intent = new Intent(getBaseContext(), com.klinker.android.messaging_sliding.MainActivityPopup.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("fromHalo", true);
+                intent.putExtra("secAction", true);
+                intent.putExtra("secondaryType", sharedPrefs.getString("slideover_secondary_action", "conversations"));
+                startActivity(intent);
             }
-
-            Intent intent = new Intent(getBaseContext(), com.klinker.android.messaging_sliding.MainActivityPopup.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.putExtra("fromHalo", true);
-            intent.putExtra("secAction", true);
-            intent.putExtra("secondaryType", sharedPrefs.getString("slideover_secondary_action", "conversations"));
-            startActivity(intent);
         }
     }
 
