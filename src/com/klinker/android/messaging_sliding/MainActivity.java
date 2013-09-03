@@ -3120,6 +3120,9 @@ public class MainActivity extends FragmentActivity {
         menu.setFadeDegree(0.35f);
         menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
 
+        menu.getContent().setBackgroundDrawable(null);
+        getWindow().setBackgroundDrawable(null);
+
         if (deviceType.equals("phone") || deviceType.equals("phablet2"))
         {
             menu.setMenu(menuLayout);
@@ -5325,7 +5328,7 @@ public class MainActivity extends FragmentActivity {
 
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-        mViewPager.setBackgroundColor(ctMessageListBackground);
+        mViewPager.setBackgroundDrawable(null);
 
         if (customBackground2)
         {
@@ -6183,6 +6186,7 @@ public class MainActivity extends FragmentActivity {
                                  Bundle savedInstanceState) {
 
             view = inflater.inflate(R.layout.message_frame, container, false);
+            container.setBackgroundColor(ctMessageListBackground);
 
             if(runAs.equals("card+"))
             {
