@@ -1,80 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <ListPreference
-        android:key="run_as"
-        android:title="@string/run_as"
-        android:defaultValue="sliding"
-        android:entries="@array/runAs"
-        android:entryValues="@array/runAsInserted"
+
+    <PreferenceCategory android:key="look_style_category"
+        android:title="@string/look_style_category" >
+
+        <ListPreference
+            android:key="run_as"
+            android:title="@string/run_as"
+            android:defaultValue="sliding"
+            android:entries="@array/runAs"
+            android:entryValues="@array/runAsInserted"
+            />
+
+        <Preference
+            android:key="custom_theme_prefs"
+            android:title="@string/custom_theme_prefs" >
+        </Preference>
+
+        <Preference
+            android:key="title_prefs"
+            android:title="@string/title_bar_settings" >
+        </Preference>
+
+        <CheckBoxPreference
+            android:key="custom_background"
+            android:title="@string/custom_background"
+            android:summary="@string/custom_background_summary"
+            android:defaultValue="false"
+            />
+
+        <CheckBoxPreference
+            android:key="custom_background2"
+            android:title="@string/custom_background2"
+            android:summary="@string/custom_background2_summary"
+            android:defaultValue="false"
+            />
+
+        <ListPreference
+            android:key="page_or_menu2"
+            android:title="@string/page_or_menu"
+            android:summary="@string/page_or_menu_summary"
+            android:defaultValue="2"
+            android:entries="@array/slideToMenu"
+            android:entryValues="@array/slideToMenuInserted"
+            />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:key="smilies_category"
+        android:title="@string/smilies_category" >
+
+        <ListPreference
+            android:key="smilies"
+            android:title="@string/smilies"
+            android:summary="@string/smilies_summary"
+            android:defaultValue="with"
+            android:entries="@array/smilies"
+            android:entryValues="@array/smiliesInserted"
+            />
+
+        <CheckBoxPreference
+            android:key="smiliesType"
+            android:title="@string/holo_style_smiles"
+            android:defaultValue="true"
         />
 
-    <Preference
-        android:key="custom_theme_prefs"
-        android:title="@string/custom_theme_prefs" >
-    </Preference>
+    </PreferenceCategory>
 
-    <Preference
-        android:key="title_prefs"
-        android:title="@string/title_bar_settings" >
-    </Preference>
+    <PreferenceCategory android:key="emoji_category"
+        android:title="@string/emoji_category">
 
-    <ListPreference
-        android:key="page_or_menu2"
-        android:title="@string/page_or_menu"
-        android:summary="@string/page_or_menu_summary"
-        android:defaultValue="2"
-        android:entries="@array/slideToMenu"
-        android:entryValues="@array/slideToMenuInserted"
-        />
+        <CheckBoxPreference
+            android:key="emoji"
+            android:title="@string/emoji"
+            android:defaultValue="false"
+            />
 
-    <CheckBoxPreference
-        android:key="custom_background"
-        android:title="@string/custom_background"
-        android:summary="@string/custom_background_summary"
-        android:defaultValue="false"
-        />
+        <CheckBoxPreference
+            android:key="emoji_type"
+            android:title="@string/emoji_type"
+            android:defaultValue="true"
+            android:dependency="emoji"
+            />
 
-    <CheckBoxPreference
-        android:key="custom_background2"
-        android:title="@string/custom_background2"
-        android:summary="@string/custom_background2_summary"
-        android:defaultValue="false"
-        />
-
-    <ListPreference
-        android:key="smilies"
-        android:title="@string/smilies"
-        android:summary="@string/smilies_summary"
-        android:defaultValue="with"
-        android:entries="@array/smilies"
-        android:entryValues="@array/smiliesInserted"
-        />
-
-    <CheckBoxPreference
-        android:key="smiliesType"
-        android:title="@string/holo_style_smiles"
-        android:defaultValue="true"
-    />
-
-    <CheckBoxPreference
-        android:key="emoji"
-        android:title="@string/emoji"
-        android:defaultValue="false"
-        />
-
-    <CheckBoxPreference
-        android:key="emoji_type"
-        android:title="@string/emoji_type"
-        android:defaultValue="true"
-        />
-
-    <CheckBoxPreference
-        android:key="emoji_keyboard"
-        android:title="@string/emoji_keyboard"
-        android:summary="@string/emoji_keyboard_summary"
-        android:defaultValue="true"
-        android:dependency="emoji_type"
-        />
+        <CheckBoxPreference
+            android:key="emoji_keyboard"
+            android:title="@string/emoji_keyboard"
+            android:summary="@string/emoji_keyboard_summary"
+            android:defaultValue="true"
+            android:dependency="emoji_type"
+            />
+    </PreferenceCategory>
 
 </PreferenceScreen>

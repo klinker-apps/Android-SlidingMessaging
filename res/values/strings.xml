@@ -713,5 +713,29 @@
     <string name="positioning">SlideOver Positioning</string>
     <string name="slideover_theme_settings">SlideOver Theming</string>
     <string name="slideover_popup_settings">SlideOver Popup</string>
+    <string name="look_style_category">Look and Style Settings</string>
+    <string name="smilies_category">Smilies Settings</string>
+    <string name="emoji_category">Emoji Settings</string>
+    <string name="general_notification_category">General Notification Settings</string>
+    <string name="notification_look_category">Notification Look Settings</string>
+    <string name="notification_led_category">Notification LED Settings</string>
+    <string name="notification_vibrate_category">Notification Vibrate Settings</string>
+    <string name="notification_wake_category">Notification Wake Settings</string>
+    <string name="notification_other_category">Other Notification Settings</string>
+    <string name="slideover_popup_category">SlideOver Popup Settings</string>
+    <string name="card_popup_category">Card Popup Settings</string>
+    <string name="old_popup_category">Old Style Popup Settings</string>
+    <string name="experimental_popup_category">Experimental Halo Popup Settings</string>
+    <string name="general_slideover_category">General SlideOver Settings</string>
+    <string name="message_theme_category">Messages Theme Settings</string>
+    <string name="general_messages_category">General Message Settings</string>
+    <string name="message_animation_category">Animation Settings</string>
+    <string name="conversation_theme_category">Conversation Theme Settings</string>
+    <string name="general_conversation_category">General Conversations Settings</string>
+    <string name="mms_through_stock_category">MMS Through Stock Settings</string>
+    <string name="general_mms_category">General MMS Settings</string>
+    <string name="optimization_category">Optimization Settings</string>
+    <string name="advanced_theme_category">Advanced Theme and Style Settings</string>
+    <string name="advanced_other_category">Other Advanced Settings</string>
 
 </resources>

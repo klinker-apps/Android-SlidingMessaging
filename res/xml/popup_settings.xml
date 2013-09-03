@@ -9,66 +9,77 @@
     />
 
     <CheckBoxPreference
-        android:key="full_app_popup"
-        android:title="@string/full_app_popup"
-        android:summary="@string/full_app_popup_summary"
+        android:key="show_keyboard_popup"
+        android:title="@string/show_keyboard_popup"
+        android:summary="@string/show_keyboard_popup_summary"
         android:defaultValue="true"
-        android:dependency="popup_reply"
-    />
+        android:dependency="popup_reply" />
 
-    <CheckBoxPreference
-        android:key="slideover_popup_lockscreen_only"
-        android:title="@string/slideover_popup_lockscreen_only"
-        android:summary="@string/slideover_popup_lockscreen_only_summary"
-        android:defaultValue="false"
-        android:dependency="full_app_popup"
-    />
+    <PreferenceCategory android:key="slideover_popup_category"
+        android:title="@string/slideover_popup_category" >
 
-    <Preference
-        android:key="popup_theme"
-        android:title="@string/popup_theme"
-        android:summary="@string/popup_theme_summary"
-    />
-	
-	<CheckBoxPreference 
-    	android:key="enable_view_conversation"
-    	android:title="@string/enable_view_conversation"
-    	android:summary="@string/enable_view_conversation_summary"
-    	android:defaultValue="false"
-    />
-	
-	<CheckBoxPreference
-	    android:key="show_keyboard_popup"
-	    android:title="@string/show_keyboard_popup"
-	    android:summary="@string/show_keyboard_popup_summary"
-	    android:defaultValue="true"
-	/>
+        <CheckBoxPreference
+            android:key="full_app_popup"
+            android:title="@string/full_app_popup"
+            android:summary="@string/full_app_popup_summary"
+            android:defaultValue="true"
+            android:dependency="popup_reply"
+        />
 
-    <ListPreference
-        android:key="text_alignment2"
-        android:title="@string/text_alignment"
-        android:defaultValue="center"
-        android:entries="@array/textAlignment2"
-        android:entryValues="@array/textAlignmentInserted"
-    />
+        <CheckBoxPreference
+            android:key="slideover_popup_lockscreen_only"
+            android:title="@string/slideover_popup_lockscreen_only"
+            android:summary="@string/slideover_popup_lockscreen_only_summary"
+            android:defaultValue="false"
+            android:dependency="full_app_popup"
+        />
 
-	<CheckBoxPreference
-	    android:key="use_old_popup"
-	    android:title="@string/use_old_popup"
-	    android:defaultValue="false"
-	/>
+    </PreferenceCategory>
 
-    <CheckBoxPreference
-        android:key="dark_theme_quick_reply"
-        android:title="@string/dark_theme_quick_reply"
-        android:summary="@string/dark_theme_quick_reply_summary"
-        android:defaultValue="true"
-        android:dependency="use_old_popup"
-    />
+    <PreferenceCategory android:key="card_popup_category"
+        android:title="@string/card_popup_category" >
+        <Preference
+            android:key="popup_theme"
+            android:title="@string/popup_theme"
+            android:summary="@string/popup_theme_summary"
+        />
+
+        <CheckBoxPreference
+            android:key="enable_view_conversation"
+            android:title="@string/enable_view_conversation"
+            android:summary="@string/enable_view_conversation_summary"
+            android:defaultValue="false"
+        />
+
+        <ListPreference
+            android:key="text_alignment2"
+            android:title="@string/text_alignment"
+            android:defaultValue="center"
+            android:entries="@array/textAlignment2"
+            android:entryValues="@array/textAlignmentInserted"
+        />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:key="old_popup_category"
+        android:title="@string/old_popup_category" >
+        <CheckBoxPreference
+            android:key="use_old_popup"
+            android:title="@string/use_old_popup"
+            android:defaultValue="false"
+        />
+
+        <CheckBoxPreference
+            android:key="dark_theme_quick_reply"
+            android:title="@string/dark_theme_quick_reply"
+            android:summary="@string/dark_theme_quick_reply_summary"
+            android:defaultValue="true"
+            android:dependency="use_old_popup"
+        />
+    </PreferenceCategory>
 	
  	<PreferenceCategory
          android:title="@string/experimental"
-         android:key="experimental_category" >
+         android:key="experimental_popup_category" >
 
  			<CheckBoxPreference
  			    android:key="halo_popup"
@@ -83,7 +94,7 @@
                 android:title="@string/close_halo_after_send"
                 android:summary="@string/close_halo_after_send_summary"
                 android:defaultValue="false"
-                android:dependency="popup_reply"
+                android:dependency="halo_popup"
             />
  	</PreferenceCategory>
 </PreferenceScreen>
