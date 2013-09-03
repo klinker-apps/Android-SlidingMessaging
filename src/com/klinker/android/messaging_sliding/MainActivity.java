@@ -3134,8 +3134,8 @@ public class MainActivity extends FragmentActivity {
         menu.setFadeDegree(0.35f);
         menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
 
-        menu.getContent().setBackgroundDrawable(null);
-        getWindow().setBackgroundDrawable(null);
+        menu.getContent().setBackgroundDrawable(new ColorDrawable(ctMessageListBackground));
+        getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
 
         if (deviceType.equals("phone") || deviceType.equals("phablet2"))
         {
@@ -6200,7 +6200,7 @@ public class MainActivity extends FragmentActivity {
                                  Bundle savedInstanceState) {
 
             view = inflater.inflate(R.layout.message_frame, container, false);
-            container.setBackgroundColor(ctMessageListBackground);
+            //container.setBackgroundColor(ctMessageListBackground);
 
             if(runAs.equals("card+"))
             {
