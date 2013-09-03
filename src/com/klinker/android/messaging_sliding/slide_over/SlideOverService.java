@@ -649,7 +649,7 @@ public class SlideOverService extends Service {
             return null;
         } else {
             Intent intent = new Intent(getBaseContext(), com.klinker.android.messaging_sliding.MainActivityPopup.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             intent.putExtra("fromHalo", true);
             return intent;
         }
@@ -667,7 +667,7 @@ public class SlideOverService extends Service {
                 sendBroadcast(intent);
             } else {
                 Intent intent = new Intent(getBaseContext(), com.klinker.android.messaging_sliding.MainActivityPopup.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent.putExtra("fromHalo", true);
                 intent.putExtra("secAction", true);
                 intent.putExtra("secondaryType", sharedPrefs.getString("slideover_secondary_action", "conversations"));
