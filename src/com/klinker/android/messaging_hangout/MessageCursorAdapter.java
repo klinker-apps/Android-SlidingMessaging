@@ -2319,6 +2319,7 @@ public class MessageCursorAdapter extends CursorAdapter {
 
     public void tryDownloading(APN apns, String downloadLocation, int numberRetries, String threadId, String msgId, final ViewHolder holder) {
         try {
+            Transaction.ensureRouteToHost(context, apns.MMSCenterUrl, apns.MMSProxy);
             byte[] resp = HttpUtils.httpConnection(
                     context, SendingProgressTokenManager.NO_TOKEN,
                     downloadLocation, null, HttpUtils.HTTP_GET_METHOD,
@@ -2362,7 +2363,7 @@ public class MessageCursorAdapter extends CursorAdapter {
 
                 }
 
-                tryDownloading(apns, downloadLocation, numberRetries++, threadId, msgId, holder);
+                tryDownloading(apns, downloadLocation, numberRetries + 1, threadId, msgId, holder);
             } else {
                 ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 

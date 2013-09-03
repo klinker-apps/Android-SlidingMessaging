@@ -1905,8 +1905,9 @@ public class MainActivity extends FragmentActivity {
                     }).start();
                 }
 
-                if (haloPopup && closeHaloAfterSend)
+                if (haloPopup && closeHaloAfterSend) {
                     finish();
+                }
             }
 
         });
