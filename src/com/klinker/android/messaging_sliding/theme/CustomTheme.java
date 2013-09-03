@@ -449,7 +449,7 @@ public class CustomTheme {
             hyperLinkColor = Integer.parseInt(data2.get(22));
         } catch (Exception e)
         {
-
+            hyperLinkColor = convertToColorInt("#33B5E5");
         }
 		
 		return new CustomTheme(data2.get(0),
