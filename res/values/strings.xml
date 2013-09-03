@@ -713,5 +713,14 @@
     <string name="positioning">SlideOver Positioning</string>
     <string name="slideover_theme_settings">SlideOver Theming</string>
     <string name="slideover_popup_settings">SlideOver Popup</string>
+    <string name="look_style_category">Look and Style Settings</string>
+    <string name="smilies_category">Smilies Settings</string>
+    <string name="emoji_category">Emoji Settings</string>
+    <string name="general_notification_category">General Notification Settings</string>
+    <string name="notification_look_category">Notification Look Settings</string>
+    <string name="notification_led_category">Notification LED Settings</string>
+    <string name="notification_vibrate_category">Notification Vibrate Settings</string>
+    <string name="notification_wake_category">Notification Wake Settings</string>
+    <string name="notification_other_category">Other Notification Settings</string>
 
 </resources>
