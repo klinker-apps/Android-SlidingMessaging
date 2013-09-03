@@ -212,6 +212,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
                         try
                         {
                             intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | 0x00002000);
+                            intent2.putExtra("halo_popup", true);
                         } catch (Exception e)
                         {
                             intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -1177,6 +1178,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 									{
 										if (halo) {
 											intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | 0x00002000);
+                                            intent3.putExtra("halo_popup", true);
 										} else {
 											intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 										}

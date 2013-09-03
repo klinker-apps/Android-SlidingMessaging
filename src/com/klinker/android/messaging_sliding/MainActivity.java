@@ -304,6 +304,8 @@ public class MainActivity extends FragmentActivity {
     public int messageDividerColor;
     public String voiceAccount;
     public boolean voiceEnabled;
+    public boolean haloPopup = false;
+    public boolean closeHaloAfterSend;
 
 
     @SuppressWarnings("deprecation")
@@ -393,6 +395,7 @@ public class MainActivity extends FragmentActivity {
             emojiKeyboard = sharedPrefs.getBoolean("emoji_keyboard", true);
             voiceAccount = sharedPrefs.getString("voice_account", null);
             voiceEnabled = sharedPrefs.getBoolean("voice_enabled", false);
+            closeHaloAfterSend = sharedPrefs.getBoolean("close_halo_after_send", false);
         } else
         {
             lightActionBar = sharedPrefs.getBoolean("ct_light_action_bar", false);
@@ -465,6 +468,7 @@ public class MainActivity extends FragmentActivity {
             emojiKeyboard = sharedPrefs.getBoolean("emoji_keyboard", true);
             voiceAccount = sharedPrefs.getString("voice_account", null);
             voiceEnabled = sharedPrefs.getBoolean("voice_enabled", false);
+            closeHaloAfterSend = sharedPrefs.getBoolean("close_halo_after_send", false);
         }
 
         setUpWindow();
@@ -498,6 +502,10 @@ public class MainActivity extends FragmentActivity {
 
         Intent fromIntent = getIntent();
         fromIntent.getFlags();
+
+        if(fromIntent.getBooleanExtra("halo_popup", false))
+            haloPopup = true;
+
         if(fromIntent.getBooleanExtra("initial_run", false))
         {
             try { // try catch so if they change to landscape, which uses a linear layout instead, everything won't force close
@@ -1895,6 +1903,9 @@ public class MainActivity extends FragmentActivity {
                         }
                     }).start();
                 }
+
+                if (haloPopup && closeHaloAfterSend)
+                    finish();
             }
 
         });
@@ -2804,6 +2815,9 @@ public class MainActivity extends FragmentActivity {
                         }
                     }).start();
                 }
+
+                if (haloPopup && closeHaloAfterSend)
+                    finish();
             }
 
         });
