@@ -706,5 +706,7 @@
     <string name="alert_in_call_summary">Vibrate and ring while in the middle of a call.</string>
     <string name="hide_date">Hide Date</string>
     <string name="hyper_link_color">Hyperlink Color</string>
+    <string name="close_halo_after_send">Close halo popup after sending the message</string>
+    <string name="close_halo_after_send_summary">Does not affect regular halo usage.</string>
 
 </resources>
