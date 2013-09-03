@@ -201,6 +201,7 @@ public class ThemeChooserActivity extends Activity {
 		editor.putInt("ct_conversationDividerColor", ThemeChooserActivity.themes.get(mViewPager.getCurrentItem()).conversationDividerColor);
         editor.putInt("ct_unreadConversationColor", ThemeChooserActivity.themes.get(mViewPager.getCurrentItem()).unreadConversationColor);
         editor.putBoolean("ct_light_action_bar", ThemeChooserActivity.themes.get(mViewPager.getCurrentItem()).lightAb);
+        editor.putInt("hyper_link_color",  ThemeChooserActivity.themes.get(mViewPager.getCurrentItem()).hyperLinkColor);
 		editor.commit();
 		
 		if (toast)

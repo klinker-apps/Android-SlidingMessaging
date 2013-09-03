@@ -135,6 +135,12 @@
         android:title="@string/ct_light_action_bar"
         android:defaultValue="false"
         />
+
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+        android:key="hyper_link_color"
+        android:title="@string/hyper_link_color"
+        android:defaultValue="@color/holo_blue"
+        />
     
     <Preference
         android:key="save_theme"

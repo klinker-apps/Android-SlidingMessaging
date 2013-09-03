@@ -6197,7 +6197,7 @@ public class MainActivity extends FragmentActivity {
 
                 //View header = new View(context);
                 //header.setMinimumHeight(marginTop);
-                //header.setBackgroundColor(getResources().getColor(R.color.light_silver));
+                //header.setBackgroundColor(ctMessageListBackground);
 
                 CustomListView list = (CustomListView) view.findViewById(R.id.fontListView);
 

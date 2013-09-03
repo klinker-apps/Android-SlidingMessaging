@@ -30,6 +30,7 @@ public class CustomTheme {
 	public int conversationDividerColor;
     public int unreadConversationColor;
     public boolean lightAb;
+    public int hyperLinkColor;
 	
 	public CustomTheme(String name, Context context)
 	{
@@ -58,6 +59,7 @@ public class CustomTheme {
 			conversationDividerColor = convertToColorInt("22ffffff");
             unreadConversationColor = receivedMessageBackground;
             lightAb = false;
+            hyperLinkColor = getColor(context, R.color.holo_blue);
 		} else if (name.equals("Dark"))
 		{
 			this.name = "Dark Theme";
@@ -83,6 +85,7 @@ public class CustomTheme {
 			conversationDividerColor = convertToColorInt("22ffffff");
             unreadConversationColor = receivedMessageBackground;
             lightAb = false;
+            hyperLinkColor = getColor(context, R.color.holo_blue);
 		} else if (name.equals("Pitch Black"))
 		{
 			this.name = "Pitch Black Theme";
@@ -108,6 +111,7 @@ public class CustomTheme {
 			conversationDividerColor = convertToColorInt("22ffffff");
             unreadConversationColor = receivedMessageBackground;
             lightAb = false;
+            hyperLinkColor = getColor(context, R.color.holo_blue);
 		} else if (name.equals("Dark Blue"))
 		{
 			this.name = "Dark Blue Theme";
@@ -133,6 +137,7 @@ public class CustomTheme {
 			conversationDividerColor = convertToColorInt("22ffffff");
             unreadConversationColor = receivedMessageBackground;
             lightAb = false;
+            hyperLinkColor = getColor(context, R.color.holo_blue);
 		} else if (name.equals("Burnt Orange"))
 		{
 			this.name = "Burnt Orange Theme";
@@ -158,6 +163,7 @@ public class CustomTheme {
 			conversationDividerColor = convertToColorInt("22ffffff");
             unreadConversationColor = receivedMessageBackground;
             lightAb = false;
+            hyperLinkColor = getColor(context, R.color.holo_blue);
 		} else if (name.equals("Light Green"))
 		{
 			this.name = "Light Green Theme";
@@ -183,6 +189,7 @@ public class CustomTheme {
 			conversationDividerColor = convertToColorInt("22ffffff");
             unreadConversationColor = receivedMessageBackground;
             lightAb = false;
+            hyperLinkColor = getColor(context, R.color.holo_blue);
 		} else if (name.equals("Holo Purple"))
 		{
 			this.name = "Holo Purple Theme";
@@ -208,6 +215,7 @@ public class CustomTheme {
 			conversationDividerColor = convertToColorInt("22ffffff");
             unreadConversationColor = receivedMessageBackground;
             lightAb = false;
+            hyperLinkColor = getColor(context, R.color.holo_blue);
 		} else if (name.equals("Bright Red"))
 		{
 			this.name = "Bright Red Theme";
@@ -233,6 +241,7 @@ public class CustomTheme {
 			conversationDividerColor = convertToColorInt("22ffffff");
             unreadConversationColor = receivedMessageBackground;
             lightAb = false;
+            hyperLinkColor = getColor(context, R.color.holo_blue);
 		} else if (name.equals("Hangouts"))
         {
             this.name = "Hangouts Theme";
@@ -258,6 +267,7 @@ public class CustomTheme {
             conversationDividerColor = convertToColorInt("adadad");
             unreadConversationColor = receivedMessageBackground;
             lightAb = true;
+            hyperLinkColor = getColor(context, R.color.holo_blue);
         } else if (name.equals("Light 2.0"))
         {
             this.name = "Light Theme 2.0";
@@ -283,6 +293,7 @@ public class CustomTheme {
             conversationDividerColor = convertToColorInt("adadad");
             unreadConversationColor = receivedMessageBackground;
             lightAb = true;
+            hyperLinkColor = getColor(context, R.color.holo_blue);
         }
 	}
 	
@@ -307,7 +318,8 @@ public class CustomTheme {
 			           int emojiButtonColor,
 			           int conversationDividerColor,
                        int unreadConversationColor,
-                       boolean lightAb)
+                       boolean lightAb,
+                       int hyperLinkColor)
 	{
 		this.name = name;
 		this.custom = true;
@@ -332,6 +344,7 @@ public class CustomTheme {
 		this.conversationDividerColor = conversationDividerColor;
         this.unreadConversationColor = unreadConversationColor;
         this.lightAb = lightAb;
+        this.hyperLinkColor = hyperLinkColor;
 	}
 	
 	public String toString()
@@ -357,7 +370,8 @@ public class CustomTheme {
 			   this.emojiButtonColor + "\n" +
 			   this.conversationDividerColor + "\n" +
                this.unreadConversationColor + "\n" +
-               this.lightAb;
+               this.lightAb + "\n" +
+               this.hyperLinkColor;
 			   
 	}
 	
@@ -428,6 +442,15 @@ public class CustomTheme {
         {
 
         }
+
+        int hyperLinkColor = 0;
+        try
+        {
+            hyperLinkColor = Integer.parseInt(data2.get(22));
+        } catch (Exception e)
+        {
+
+        }
 		
 		return new CustomTheme(data2.get(0),
 							   Integer.parseInt(data2.get(1)),
@@ -450,7 +473,8 @@ public class CustomTheme {
 					           emojiButtonColor,
 					           conversationDividerColor,
                                unreadConversationColor,
-                               lightActionBar);
+                               lightActionBar,
+                               hyperLinkColor);
 	}
 	
 	public static String convertToARGB(int color) {

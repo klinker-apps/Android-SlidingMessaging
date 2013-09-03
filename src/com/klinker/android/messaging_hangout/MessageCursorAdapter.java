@@ -111,6 +111,7 @@ public class MessageCursorAdapter extends CursorAdapter {
     public final int animationSpeed;
     public final int textOpacity;
     public final boolean lookForVoice;
+    public final int linkColor;
 
     public MessageCursorAdapter(Activity context, String myId, String inboxNumbers, String ids, Cursor query, int threadPosition) {
         super(context, query, 0);
@@ -159,6 +160,7 @@ public class MessageCursorAdapter extends CursorAdapter {
         animationSpeed = sharedPrefs.getInt("animation_speed", 300);
         textOpacity = sharedPrefs.getInt("text_opacity", 100);
         lookForVoice = sharedPrefs.getString("voice_account", null) != null;
+        linkColor = sharedPrefs.getInt("hyper_link_color", context.getResources().getColor(R.color.holo_blue));
 
         if(runAs.equals("card+"))
         {
@@ -1665,6 +1667,7 @@ public class MessageCursorAdapter extends CursorAdapter {
         }
 
         holder.text.setText("");
+        holder.text.setLinkTextColor(linkColor);
         holder.date.setText("");
 
         if (type == 0) {

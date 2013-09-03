@@ -6,13 +6,7 @@ Jake:
 Luke:
     - Message details for MMS messages
     - Option to auto close halo pop up on send. not slideover, halo.
-    - look into emojis mixups
     - hyperlink colors
-    - Add more warnings to override for performance
-    - Experiment with margins for card+ ui
-    - make sure the user makes it to the new message tab after sending a new message
-    - insert emojis to cursor position
-    - open from a locked lockscreen correctly
 
 1) more individual notification options
 2) option for adding certain text to every message at the beginning (delivery reports?)
