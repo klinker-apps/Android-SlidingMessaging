@@ -54,6 +54,7 @@ public class ChangeLogWizardModel extends AbstractWizardModel {
                 "- Option to disable the date in the conversations list panel\n" +
                 "- Option to theme the hyperlinks for anyone with the theme engine\n" +
                 "- Option to close Halo after sending a message (not for SlideOver)\n" +
+                "- Revamp of settings menu\n" +
                 "- Bug fixes\n\n" +
                 "- For interested developers: I completely recreated the back-end sending process and published it as a library to Github. Any developer interested in using it, improving it, or whatever else, check it out! " +
                 "There is support for sending SMS, MMS, and Google Voice messages all packaged into one easy class to use - this is something Google has neglected for much too long, so with this anyone can easily send " +

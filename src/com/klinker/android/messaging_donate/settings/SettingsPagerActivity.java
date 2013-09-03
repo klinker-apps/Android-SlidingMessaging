@@ -1164,13 +1164,13 @@ public class SettingsPagerActivity extends FragmentActivity {
 //                getPreferenceScreen().removePreference(findPreference("num_cache_conversations"));
             }*/
 
-            findPreference("show_advanced_settings").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            /*findPreference("show_advanced_settings").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     recreate();
                     return true;
                 }
-            });
+            });*/
         }
 
         public void giveTestNotification()
