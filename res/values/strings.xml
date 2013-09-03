@@ -722,5 +722,9 @@
     <string name="notification_vibrate_category">Notification Vibrate Settings</string>
     <string name="notification_wake_category">Notification Wake Settings</string>
     <string name="notification_other_category">Other Notification Settings</string>
+    <string name="slideover_popup_category">SlideOver Popup Settings</string>
+    <string name="card_popup_category">Card Popup Settings</string>
+    <string name="old_popup_category">Old Style Popup Settings</string>
+    <string name="experimental_popup_category">Experimental Halo Popup Settings</string>
 
 </resources>
