@@ -124,7 +124,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 			        bundle.putString("date", date);
 			        bundle.putString("address", address);
 			        
-			        String origin = address.replaceAll("[^0-9\\+]", "");
+			        String origin = address.replace("(", "").replace(")", "").replace("-", "").replace(" ", "");
 					
 			        try
 			        {
