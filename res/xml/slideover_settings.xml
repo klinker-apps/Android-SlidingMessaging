@@ -2,14 +2,15 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <CheckBoxPreference
-        android:key="slideover_enabled"
-        android:title="@string/enable_slideover"
-        android:summary="@string/enable_slideover_summary"
-        android:defaultValue="false"
-    />
+    <PreferenceCategory android:title="@string/general_slideover_category" >
+        <CheckBoxPreference
+            android:key="slideover_enabled"
+            android:title="@string/enable_slideover"
+            android:summary="@string/enable_slideover_summary"
+            android:defaultValue="false"
+        />
 
-    <ListPreference
+        <ListPreference
             android:key="slideover_secondary_action"
             android:title="@string/slideover_secondary_action"
             android:summary="@string/slideover_secondary_action_summary"
@@ -19,7 +20,7 @@
             android:entryValues="@array/slideover_secondary_action_inserted"
             />
 
-    <CheckBoxPreference
+        <CheckBoxPreference
             android:key="slideover_hide_notifications"
             android:summary="@string/slideover_hide_notifications_summary"
             android:title="@string/slideover_hide_notifications"
@@ -27,12 +28,13 @@
             android:dependency="slideover_enabled"
             />
 
-    <CheckBoxPreference
+        <CheckBoxPreference
             android:key="slideover_haptic_feedback"
             android:title="@string/slideover_haptic_feedback"
             android:defaultValue="true"
             android:dependency="slideover_enabled"
             />
+    </PreferenceCategory>
 
     <PreferenceCategory
         android:title="@string/positioning">
@@ -92,12 +94,14 @@
                 android:key="slideover_color"
                 android:title="@string/slideover_color"
                 android:defaultValue="@color/white"
+                android:dependency="slideover_enabled"
                 />
 
         <net.margaritov.preference.colorpicker.ColorPickerPreference
                 android:key="slideover_unread_color"
                 android:title="@string/slideover_unread_color"
                 android:defaultValue="@color/holo_red"
+                android:dependency="slideover_enabled"
                 />
 
         <com.klinker.android.messaging_sliding.custom_dialogs.SeekBarPreference3
@@ -111,7 +115,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/slideover_popup_settings">
+        android:title="@string/slideover_popup_category">
 
         <CheckBoxPreference
             android:key="full_app_popup_close"
@@ -125,7 +129,7 @@
             android:title="@string/disable_backgrounds"
             android:summary="@string/disable_backgrounds_summary"
             android:defaultValue="true"
-        />
+            />
 
         <com.klinker.android.messaging_sliding.custom_dialogs.SeekBarPreference3
             android:key="slideover_padding"
@@ -133,7 +137,8 @@
             android:summary="@string/slideover_padding_summary"
             android:defaultValue="50"
             android:max="100"
-        />
+            />
+
     </PreferenceCategory>
 
     <Preference

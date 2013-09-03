@@ -726,5 +726,6 @@
     <string name="card_popup_category">Card Popup Settings</string>
     <string name="old_popup_category">Old Style Popup Settings</string>
     <string name="experimental_popup_category">Experimental Halo Popup Settings</string>
+    <string name="general_slideover_category">General SlideOver Settings</string>
 
 </resources>
