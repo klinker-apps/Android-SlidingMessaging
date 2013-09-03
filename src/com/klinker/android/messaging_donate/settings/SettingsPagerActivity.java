@@ -58,7 +58,7 @@ public class SettingsPagerActivity extends FragmentActivity {
 
     private static final int REQ_CREATE_PATTERN = 3;
 
-    private boolean showAll;
+    //private boolean showAll;
 
     /**
      * The {@link android.support.v4.view.ViewPager} that will host the section contents.
@@ -88,7 +88,7 @@ public class SettingsPagerActivity extends FragmentActivity {
 
         }
 
-        showAll = sharedPrefs.getBoolean("show_advanced_settings", false);
+        //showAll = sharedPrefs.getBoolean("show_advanced_settings", false);
     }
 
     @Override
@@ -524,7 +524,7 @@ public class SettingsPagerActivity extends FragmentActivity {
 
             });
 
-            if (!showAll) {
+            /*if (!showAll) {
                 try {
                     getPreferenceScreen().removePreference(findPreference("smiliesType"));
                     getPreferenceScreen().removePreference(findPreference("emoji_keyboard"));
@@ -532,7 +532,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                 } catch (Exception e) {
 
                 }
-            }
+            }*/
         }
 
         public void setUpNotificationSettings()
@@ -571,7 +571,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                 }
             });
 
-            if (!showAll) {
+            /*if (!showAll) {
                 getPreferenceScreen().removePreference(findPreference("in_app_notifications"));
                 getPreferenceScreen().removePreference(findPreference("breath"));
                 getPreferenceScreen().removePreference(findPreference("custom_vibrate_pattern"));
@@ -581,7 +581,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                 getPreferenceScreen().removePreference(findPreference("button_options"));
                 getPreferenceScreen().removePreference(findPreference("secure_notification"));
                 getPreferenceScreen().removePreference(findPreference("screen_timeout"));
-            }
+            }*/
         }
 
         public void setUpPopupSettings()
@@ -665,7 +665,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                 }
             });
 
-            if (!showAll) {
+            /*if (!showAll) {
                 try {
                     getPreferenceScreen().removePreference(findPreference("slideover_popup_lockscreen_only"));
                     getPreferenceScreen().removePreference(findPreference("enable_view_conversation"));
@@ -676,7 +676,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                 } catch (Exception e) {
 
                 }
-            }
+            }*/
         }
 
         public void setUpSlideOverSettings() {
@@ -763,12 +763,12 @@ public class SettingsPagerActivity extends FragmentActivity {
                 }
             });
 
-            if (!showAll) {
+            /*if (!showAll) {
                 getPreferenceScreen().removePreference(findPreference("slideover_break_point"));
                 getPreferenceScreen().removePreference(findPreference("slideover_secondary_action"));
                 getPreferenceScreen().removePreference(findPreference("slideover_haptic_feedback"));
                 getPreferenceScreen().removePreference(findPreference("slideover_hide_notifications"));
-            }
+            }*/
         }
 
         public void setUpMessageSettings()
@@ -785,10 +785,10 @@ public class SettingsPagerActivity extends FragmentActivity {
                 getPreferenceScreen().removePreference(findPreference("auto_insert_draft"));
             }
 
-            if (!showAll) {
+            /*if (!showAll) {
                 getPreferenceScreen().removePreference(findPreference("tiny_date"));
                 getPreferenceScreen().removePreference(findPreference("limit_messages"));
-            }
+            }*/
         }
 
         public void setUpConversationSettings()
@@ -807,10 +807,10 @@ public class SettingsPagerActivity extends FragmentActivity {
                 getPreferenceScreen().removePreference(findPreference("slide_messages"));
             }
 
-            if (!showAll) {
+            /*if (!showAll) {
                 getPreferenceScreen().removePreference(findPreference("hide_message_counter"));
                 getPreferenceScreen().removePreference(findPreference("limit_conversations_start"));
-            }
+            }*/
         }
 
         public void setUpMmsSettings()
@@ -879,10 +879,10 @@ public class SettingsPagerActivity extends FragmentActivity {
 
             });
 
-            if (!showAll) {
+            /*if (!showAll) {
                 getPreferenceScreen().removePreference(findPreference("wifi_mms_fix"));
                 getPreferenceScreen().removePreference(findPreference("limit_attachment_size"));
-            }
+            }*/
         }
 
         // used for the list preference to determine when it changes and when to call the intents
@@ -1155,14 +1155,14 @@ public class SettingsPagerActivity extends FragmentActivity {
 //
 //            });
 
-            if (!showAll) {
+            /*if (!showAll) {
                 getPreferenceScreen().removePreference(findPreference("strip_unicode"));
                 getPreferenceScreen().removePreference(findPreference("mobile_only"));
                 getPreferenceScreen().removePreference(findPreference("hide_keyboard"));
                 getPreferenceScreen().removePreference(findPreference("override_lang"));
 //                getPreferenceScreen().removePreference(findPreference("cache_conversations"));
 //                getPreferenceScreen().removePreference(findPreference("num_cache_conversations"));
-            }
+            }*/
 
             findPreference("show_advanced_settings").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
