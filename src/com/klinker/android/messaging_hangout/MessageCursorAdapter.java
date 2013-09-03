@@ -2196,7 +2196,17 @@ public class MessageCursorAdapter extends CursorAdapter {
                                                     }
                                                 }
 
-                                                tryDownloading(apns.get(0), downloadLocation, 0, threadIds, msgId, holder);
+                                                try {
+                                                    tryDownloading(apns.get(0), downloadLocation, 0, threadIds, msgId, holder);
+                                                } catch (Exception e) {
+                                                    ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                                                        @Override
+                                                        public void run() {
+                                                            Toast.makeText(context, "Error with APNs", Toast.LENGTH_LONG).show();
+                                                        }
+                                                    });
+                                                }
 
                                                 if (sharedPrefs.getBoolean("wifi_mms_fix", true))
                                                 {
