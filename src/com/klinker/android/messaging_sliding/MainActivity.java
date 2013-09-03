@@ -1111,8 +1111,6 @@ public class MainActivity extends FragmentActivity {
         }
 
         setTitle(R.string.app_name_in_app);
-
-        getWindow().setBackgroundDrawable(null);
     }
 
     public void setUpIntentStuff() {
