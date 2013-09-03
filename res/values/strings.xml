@@ -705,5 +705,6 @@
     <string name="alert_in_call">Alert in calls</string>
     <string name="alert_in_call_summary">Vibrate and ring while in the middle of a call.</string>
     <string name="hide_date">Hide Date</string>
+    <string name="hyper_link_color">Hyperlink Color</string>
 
 </resources>

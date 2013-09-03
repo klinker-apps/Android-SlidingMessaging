@@ -7,7 +7,6 @@ Luke:
     - Message details for MMS messages
     - Option to auto close halo pop up on send. not slideover, halo.
     - hyperlink colors
-    - open from a locked lockscreen correctly
 
 1) more individual notification options
 2) option for adding certain text to every message at the beginning (delivery reports?)
