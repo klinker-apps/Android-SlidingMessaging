@@ -64,22 +64,22 @@
         android:defaultValue="false"
         />
 
-    <CheckBoxPreference
-        android:key="cache_conversations"
-        android:title="@string/cache_conversations"
-        android:summary="@string/cache_conversations_summary"
-        android:defaultValue="false"
-        android:selectable="false"
-        android:enabled="false"
-        />
+    <!--<CheckBoxPreference-->
+        <!--android:key="cache_conversations"-->
+        <!--android:title="@string/cache_conversations"-->
+        <!--android:summary="@string/cache_conversations_summary"-->
+        <!--android:defaultValue="false"-->
+        <!--android:selectable="false"-->
+        <!--android:enabled="false"-->
+        <!--/>-->
 
-    <Preference
-        android:key="num_cache_conversations"
-        android:title="@string/num_cache_conversations"
-        android:summary="@string/num_cache_conversations_summary"
-        android:defaultValue="5"
-        android:dependency="cache_conversations"
-        />
+    <!--<Preference-->
+        <!--android:key="num_cache_conversations"-->
+        <!--android:title="@string/num_cache_conversations"-->
+        <!--android:summary="@string/num_cache_conversations_summary"-->
+        <!--android:defaultValue="5"-->
+        <!--android:dependency="cache_conversations"-->
+        <!--/>-->
 
     <CheckBoxPreference
         android:key="override"

@@ -36,6 +36,7 @@ import com.klinker.android.messaging_sliding.templates.TemplateActivity;
 import com.klinker.android.messaging_sliding.theme.ThemeChooserActivity;
 import group.pals.android.lib.ui.lockpattern.LockPatternActivity;
 import group.pals.android.lib.ui.lockpattern.prefs.SecurityPrefs;
+import net.margaritov.preference.colorpicker.ColorPickerPreference;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -742,6 +743,26 @@ public class SettingsPagerActivity extends FragmentActivity {
                 }
             });
 
+            ColorPickerPreference haloColor = (ColorPickerPreference) findPreference("slideover_color");
+            haloColor.setAlphaSliderEnabled(true);
+            haloColor.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    restartHalo();
+                    return true;
+                }
+            });
+
+            ColorPickerPreference haloUnreadColor = (ColorPickerPreference) findPreference("slideover_unread_color");
+            haloUnreadColor.setAlphaSliderEnabled(true);
+            haloUnreadColor.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    restartHalo();
+                    return true;
+                }
+            });
+
             if (!showAll) {
                 getPreferenceScreen().removePreference(findPreference("slideover_break_point"));
                 getPreferenceScreen().removePreference(findPreference("slideover_secondary_action"));
@@ -1104,43 +1125,43 @@ public class SettingsPagerActivity extends FragmentActivity {
 
             });
 
-            Preference numCacheConversations = findPreference("num_cache_conversations");
-            numCacheConversations.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-
-                @Override
-                public boolean onPreferenceClick(Preference arg0) {
-                    if (sharedPrefs.getBoolean("cache_conversations", false))
-                    {
-                        NumberPickerDialog.OnNumberSetListener numCacheListener =
-                                new NumberPickerDialog.OnNumberSetListener() {
-                                    public void onNumberSet(int limit) {
-                                        SharedPreferences.Editor editor = sharedPrefs.edit();
-
-                                        editor.putInt("num_cache_conversations", limit);
-                                        editor.commit();
-
-                                        if (sharedPrefs.getBoolean("cache_conversations", false)) {
-                                            Intent cacheService = new Intent(context, CacheService.class);
-                                            context.startService(cacheService);
-                                        }
-                                    }
-                                };
-
-                        new NumberPickerDialog(context, numCacheListener, sharedPrefs.getInt("num_cache_conversations", 5), 0, 15, R.string.num_cache_conversations).show();
-                    }
-
-                    return false;
-                }
-
-            });
+//            Preference numCacheConversations = findPreference("num_cache_conversations");
+//            numCacheConversations.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+//
+//                @Override
+//                public boolean onPreferenceClick(Preference arg0) {
+//                    if (sharedPrefs.getBoolean("cache_conversations", false))
+//                    {
+//                        NumberPickerDialog.OnNumberSetListener numCacheListener =
+//                                new NumberPickerDialog.OnNumberSetListener() {
+//                                    public void onNumberSet(int limit) {
+//                                        SharedPreferences.Editor editor = sharedPrefs.edit();
+//
+//                                        editor.putInt("num_cache_conversations", limit);
+//                                        editor.commit();
+//
+//                                        if (sharedPrefs.getBoolean("cache_conversations", false)) {
+//                                            Intent cacheService = new Intent(context, CacheService.class);
+//                                            context.startService(cacheService);
+//                                        }
+//                                    }
+//                                };
+//
+//                        new NumberPickerDialog(context, numCacheListener, sharedPrefs.getInt("num_cache_conversations", 5), 0, 15, R.string.num_cache_conversations).show();
+//                    }
+//
+//                    return false;
+//                }
+//
+//            });
 
             if (!showAll) {
                 getPreferenceScreen().removePreference(findPreference("strip_unicode"));
                 getPreferenceScreen().removePreference(findPreference("mobile_only"));
                 getPreferenceScreen().removePreference(findPreference("hide_keyboard"));
                 getPreferenceScreen().removePreference(findPreference("override_lang"));
-                getPreferenceScreen().removePreference(findPreference("cache_conversations"));
-                getPreferenceScreen().removePreference(findPreference("num_cache_conversations"));
+//                getPreferenceScreen().removePreference(findPreference("cache_conversations"));
+//                getPreferenceScreen().removePreference(findPreference("num_cache_conversations"));
             }
 
             findPreference("show_advanced_settings").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {

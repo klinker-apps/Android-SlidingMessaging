@@ -707,6 +707,11 @@
     <string name="hide_date">Hide Date</string>
     <string name="hyper_link_color">Hyperlink Color</string>
     <string name="close_halo_after_send">Close halo popup after sending the message</string>
-    <string name="close_halo_after_send_summary">Does not affect regular halo usage.</string>
+    <string name="close_halo_after_send_summary">Does not affect regular halo usage</string>
+    <string name="slideover_color">Normal Bubble Color</string>
+    <string name="slideover_unread_color">Unread Bubble Color</string>
+    <string name="positioning">SlideOver Positioning</string>
+    <string name="slideover_theme_settings">SlideOver Theming</string>
+    <string name="slideover_popup_settings">SlideOver Popup</string>
 
 </resources>

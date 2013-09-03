@@ -2,10 +2,7 @@ package com.klinker.android.messaging_sliding.slide_over;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Paint;
+import android.graphics.*;
 import android.preference.PreferenceManager;
 import android.view.Display;
 import android.view.MotionEvent;
@@ -17,12 +14,14 @@ public class HaloView extends ViewGroup {
     public Context mContext;
 
     public Bitmap halo;
-    public Bitmap haloNew;
 
     public Paint haloPaint;
     public Paint haloNewPaint;
     public int haloAlpha = 255;
     public int haloNewAlpha = 0;
+
+    public int haloColor;
+    public int haloUnreadColor;
 
     public boolean animating = false;
 
@@ -40,14 +39,14 @@ public class HaloView extends ViewGroup {
         halo = BitmapFactory.decodeResource(getResources(),
                 R.drawable.halo_bg);
 
-        haloNew = BitmapFactory.decodeResource(getResources(),
-                R.drawable.halo_new);
-
         haloPaint = new Paint();
         haloPaint.setAlpha(haloAlpha);
 
         haloNewPaint = new Paint();
         haloNewPaint.setAlpha(haloNewAlpha);
+
+        haloColor = sharedPrefs.getInt("slideover_color", context.getResources().getColor(R.color.white));
+        haloUnreadColor = sharedPrefs.getInt("slideover_unread_color", context.getResources().getColor(R.color.holo_red));
     }
 
     protected void onDraw(Canvas canvas) {
@@ -59,12 +58,14 @@ public class HaloView extends ViewGroup {
 
         if (haloAlpha != 0) {
             haloPaint.setAlpha(haloAlpha);
+            haloPaint.setColorFilter(new PorterDuffColorFilter(haloColor, PorterDuff.Mode.MULTIPLY));
             canvas.drawBitmap(halo, 0, 0, haloPaint);
         }
 
         if (haloNewAlpha != 0) {
             haloNewPaint.setAlpha(haloNewAlpha);
-            canvas.drawBitmap(haloNew, 0, 0, haloNewPaint);
+            haloNewPaint.setColorFilter(new PorterDuffColorFilter(haloUnreadColor, PorterDuff.Mode.MULTIPLY));
+            canvas.drawBitmap(halo, 0, 0, haloNewPaint);
         }
     }
 
