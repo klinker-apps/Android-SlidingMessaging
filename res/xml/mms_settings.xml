@@ -40,7 +40,7 @@
             android:summary="@string/mms_after_summary"
             android:defaultValue="4"
             android:dependency="send_as_mms" />
-        
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/mms_through_stock_category" >

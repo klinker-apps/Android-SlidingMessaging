@@ -734,5 +734,8 @@
     <string name="general_conversation_category">General Conversations Settings</string>
     <string name="mms_through_stock_category">MMS Through Stock Settings</string>
     <string name="general_mms_category">General MMS Settings</string>
+    <string name="optimization_category">Optimization Settings</string>
+    <string name="advanced_theme_category">Advanced Theme and Style Settings</string>
+    <string name="advanced_other_category">Other Advanced Settings</string>
 
 </resources>
