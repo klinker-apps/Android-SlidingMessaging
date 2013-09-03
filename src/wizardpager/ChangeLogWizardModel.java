@@ -49,7 +49,7 @@ public class ChangeLogWizardModel extends AbstractWizardModel {
         String changeLog = "Version " + version + ":\n\n" +
                 "- Support for sending Google Voice messages (no receiving, YET)\n" +
                 "- New Card+ UI added\n" +
-                "- Color options for SlideOver, can now be fully themed\n" +
+                "- Color options for SlideOver, the bubble can now be fully themed\n" +
                 "- Option to disable vibrate and ringtone for incoming messages while in a call\n" +
                 "- Option to disable the date in the conversations list panel\n" +
                 "- Option to theme the hyperlinks for anyone with the theme engine\n" +
