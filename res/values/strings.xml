@@ -727,5 +727,8 @@
     <string name="old_popup_category">Old Style Popup Settings</string>
     <string name="experimental_popup_category">Experimental Halo Popup Settings</string>
     <string name="general_slideover_category">General SlideOver Settings</string>
+    <string name="message_theme_category">Messages Theme Settings</string>
+    <string name="general_messages_category">General Message Settings</string>
+    <string name="message_animation_category">Animation Settings</string>
 
 </resources>

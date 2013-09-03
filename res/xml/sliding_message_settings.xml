@@ -1,105 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <ListPreference
-        android:key="text_size"
-        android:title="@string/text_size"
-        android:summary="@string/text_size_summary"
-        android:defaultValue="14"
-        android:entries="@array/textSize"
-        android:entryValues="@array/textSize"
-        />
 
-    <CheckBoxPreference
-        android:key="tiny_date"
-        android:title="@string/tiny_date"
-        android:summary="@string/tiny_date_summary"
-        android:defaultValue="false"
-        />
+    <PreferenceCategory android:title="@string/message_theme_category" >
 
-    <CheckBoxPreference
-        android:key="show_original_timestamp"
-        android:title="@string/show_original_timestamp"
-        android:defaultValue="false"
-        />
+        <CheckBoxPreference
+            android:key="contact_pictures"
+            android:title="@string/contact_pictures"
+            android:defaultValue="true"
+            />
 
-    <CheckBoxPreference
-        android:key="hour_format"
-        android:title="@string/hour_format"
-        android:defaultValue="false"
-        />
+        <ListPreference
+            android:key="text_alignment"
+            android:title="@string/text_alignment"
+            android:summary="@string/text_alignment_summary"
+            android:defaultValue="split"
+            android:entries="@array/textAlignment"
+            android:entryValues="@array/textAlignmentInserted"
+            />
 
-    <EditTextPreference
-        android:key="signature"
-        android:title="@string/signature"
-        android:dialogTitle="@string/signature"
-        android:defaultValue=""
-        />
+        <ListPreference
+            android:key="text_size"
+            android:title="@string/text_size"
+            android:summary="@string/text_size_summary"
+            android:defaultValue="14"
+            android:entries="@array/textSize"
+            android:entryValues="@array/textSize"
+            />
 
-    <ListPreference
-        android:key="text_alignment"
-        android:title="@string/text_alignment"
-        android:summary="@string/text_alignment_summary"
-        android:defaultValue="split"
-        android:entries="@array/textAlignment"
-        android:entryValues="@array/textAlignmentInserted"
-        />
+        <CheckBoxPreference
+            android:key="tiny_date"
+            android:title="@string/tiny_date"
+            android:summary="@string/tiny_date_summary"
+            android:defaultValue="false"
+            />
 
-    <ListPreference
-        android:key="send_animation"
-        android:title="@string/send_animation"
-        android:summary="@string/send_animation_summary"
-        android:defaultValue="left"
-        android:entries="@array/sendAnimation"
-        android:entryValues="@array/sendAnimationInserted"
-        />
+        <CheckBoxPreference
+            android:key="show_original_timestamp"
+            android:title="@string/show_original_timestamp"
+            android:defaultValue="false"
+            />
 
-    <ListPreference
-        android:key="receive_animation"
-        android:title="@string/receive_animation"
-        android:summary="@string/receive_animation_summary"
-        android:defaultValue="right"
-        android:entries="@array/sendAnimation"
-        android:entryValues="@array/sendAnimationInserted"
-        />
+        <CheckBoxPreference
+            android:key="hour_format"
+            android:title="@string/hour_format"
+            android:defaultValue="false"
+            />
 
-    <com.klinker.android.messaging_sliding.custom_dialogs.SeekBarPreference2
-        android:key="animation_speed"
-        android:title="@string/animation_speed"
-        android:defaultValue="300"
-        android:max="1000"
-        />
+    </PreferenceCategory>
 
-    <!--<CheckBoxPreference-->
+    <PreferenceCategory android:title="@string/message_animation_category" >
+
+        <ListPreference
+            android:key="send_animation"
+            android:title="@string/send_animation"
+            android:summary="@string/send_animation_summary"
+            android:defaultValue="left"
+            android:entries="@array/sendAnimation"
+            android:entryValues="@array/sendAnimationInserted"
+            />
+
+        <ListPreference
+            android:key="receive_animation"
+            android:title="@string/receive_animation"
+            android:summary="@string/receive_animation_summary"
+            android:defaultValue="right"
+            android:entries="@array/sendAnimation"
+            android:entryValues="@array/sendAnimationInserted"
+            />
+
+        <com.klinker.android.messaging_sliding.custom_dialogs.SeekBarPreference2
+            android:key="animation_speed"
+            android:title="@string/animation_speed"
+            android:defaultValue="300"
+            android:max="1000"
+            />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/general_messages_category" >
+
+        <EditTextPreference
+            android:key="signature"
+            android:title="@string/signature"
+            android:dialogTitle="@string/signature"
+            android:defaultValue=""
+            />
+
+        <CheckBoxPreference
+            android:key="enable_drafts"
+            android:title="@string/enable_drafts"
+            android:defaultValue="true"/>
+
+        <CheckBoxPreference
+            android:key="auto_insert_draft"
+            android:title="@string/auto_insert_draft"
+            android:summary="@string/auto_insert_draft_summary"
+            android:defaultValue="false"
+            android:dependency="enable_drafts"
+            />
+
+        <CheckBoxPreference
+            android:key="limit_messages"
+            android:title="@string/limit_messages"
+            android:summary="@string/limit_messages_summary"
+            android:defaultValue="true"
+            />
+
+        <!--<CheckBoxPreference-->
         <!--android:key="message_sounds"-->
         <!--android:title="@string/message_sounds"-->
         <!--android:summary="@string/message_sounds_summary"-->
         <!--android:defaultValue="false"-->
         <!--/>-->
 
-    <CheckBoxPreference
-        android:key="contact_pictures"
-        android:title="@string/contact_pictures"
-        android:defaultValue="true"
-        />
+    </PreferenceCategory>
 
-    <CheckBoxPreference
-        android:key="enable_drafts"
-        android:title="@string/enable_drafts"
-        android:defaultValue="true"/>
-
-    <CheckBoxPreference
-        android:key="auto_insert_draft"
-        android:title="@string/auto_insert_draft"
-        android:summary="@string/auto_insert_draft_summary"
-        android:defaultValue="false"
-        android:dependency="enable_drafts"
-        />
-
-    <CheckBoxPreference
-        android:key="limit_messages"
-        android:title="@string/limit_messages"
-        android:summary="@string/limit_messages_summary"
-        android:defaultValue="true"
-        />
 </PreferenceScreen>
