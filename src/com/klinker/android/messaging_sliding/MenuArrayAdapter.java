@@ -650,6 +650,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 
                                                             @Override
                                                             public void run() {
+                                                                ((MainActivity)context).mSectionsPagerAdapter.notifyDataSetChanged();
                                                                 ((MainActivity)context).refreshViewPager();
                                                                 progDialog.dismiss();
                                                             }
@@ -671,6 +672,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 
                                                             @Override
                                                             public void run() {
+                                                                ((MainActivity)context).mSectionsPagerAdapter.notifyDataSetChanged();
                                                                 ((MainActivity)context).refreshViewPager();
                                                                 progDialog.dismiss();
                                                             }
@@ -692,6 +694,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 
                             @Override
                             public void run() {
+                                ((MainActivity)context).mSectionsPagerAdapter.notifyDataSetChanged();
                                 ((MainActivity)context).refreshViewPager();
                                 progDialog.dismiss();
                             }
