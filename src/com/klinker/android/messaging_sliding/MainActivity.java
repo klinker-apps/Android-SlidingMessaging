@@ -1119,6 +1119,7 @@ public class MainActivity extends FragmentActivity {
         }
 
         setTitle(R.string.app_name_in_app);
+        getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
     }
 
     public void setUpIntentStuff() {
@@ -3133,7 +3134,6 @@ public class MainActivity extends FragmentActivity {
         menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
 
         menu.getContent().setBackgroundDrawable(new ColorDrawable(ctMessageListBackground));
-        getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
 
         if (deviceType.equals("phone") || deviceType.equals("phablet2"))
         {
