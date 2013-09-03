@@ -2,73 +2,81 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <ListPreference
-        android:key="pin_conversation_list"
-        android:title="@string/pin_conversation_list"
-        android:summary="@string/pin_conversation_list_summary"
-        android:defaultValue="1"
-        android:entries="@array/pin_conversation_list"
-        android:entryValues="@array/pin_conversation_list_inserted"
-        />
+    <PreferenceCategory android:title="@string/conversation_theme_category" >
 
-    <ListPreference
-        android:key="text_size2"
-        android:title="@string/text_size"
-        android:summary="@string/text_size_summary"
-        android:defaultValue="14"
-        android:entries="@array/textSize"
-        android:entryValues="@array/textSize"
-        />
+        <ListPreference
+            android:key="pin_conversation_list"
+            android:title="@string/pin_conversation_list"
+            android:summary="@string/pin_conversation_list_summary"
+            android:defaultValue="1"
+            android:entries="@array/pin_conversation_list"
+            android:entryValues="@array/pin_conversation_list_inserted"
+            />
 
-    <CheckBoxPreference
-        android:key="contact_pictures2"
-        android:title="@string/contact_pictures"
-        android:defaultValue="true"
-        />
+        <ListPreference
+            android:key="text_size2"
+            android:title="@string/text_size"
+            android:summary="@string/text_size_summary"
+            android:defaultValue="14"
+            android:entries="@array/textSize"
+            android:entryValues="@array/textSize"
+            />
 
-    <CheckBoxPreference
-        android:key="hide_message_counter"
-        android:title="@string/hide_message_counter"
-        android:defaultValue="false"
-        />
+        <CheckBoxPreference
+            android:key="contact_pictures2"
+            android:title="@string/contact_pictures"
+            android:defaultValue="true"
+            />
 
-    <CheckBoxPreference
-        android:key="hide_date_conversations"
-        android:title="@string/hide_date"
-        android:defaultValue="false"
-        />
+        <CheckBoxPreference
+            android:key="hide_message_counter"
+            android:title="@string/hide_message_counter"
+            android:defaultValue="false"
+            />
 
-    <CheckBoxPreference
-        android:key="open_contact_menu"
-        android:title="@string/open_contact_menu"
-        android:summary="@string/open_contact_menu_summary"
-        android:defaultValue="false"
-        />
+        <CheckBoxPreference
+            android:key="hide_date_conversations"
+            android:title="@string/hide_date"
+            android:defaultValue="false"
+            />
 
-    <CheckBoxPreference
-        android:key="slide_messages"
-        android:title="@string/slide_messages"
-        android:summary="@string/slide_messages_summary"
-        android:defaultValue="false"
-        />
+    </PreferenceCategory>
 
-    <CheckBoxPreference
-        android:key="hide_contact_number"
-        android:title="@string/hide_contact_number"
-        android:summary="@string/hide_contact_number_summary"
-        android:defaultValue="false"
-        />
+    <PreferenceCategory android:title="@string/general_conversation_category" >
 
-    <CheckBoxPreference
-        android:key="open_to_first"
-        android:title="@string/open_to_first"
-        android:defaultValue="false"
-        />
+        <CheckBoxPreference
+            android:key="open_contact_menu"
+            android:title="@string/open_contact_menu"
+            android:summary="@string/open_contact_menu_summary"
+            android:defaultValue="false"
+            />
 
-    <CheckBoxPreference
-        android:key="limit_conversations_start"
-        android:title="@string/limit_conversations_start"
-        android:summary="@string/limit_conversations_start_summary"
-        android:defaultValue="true"
-        />
+        <CheckBoxPreference
+            android:key="slide_messages"
+            android:title="@string/slide_messages"
+            android:summary="@string/slide_messages_summary"
+            android:defaultValue="false"
+            />
+
+        <CheckBoxPreference
+            android:key="hide_contact_number"
+            android:title="@string/hide_contact_number"
+            android:summary="@string/hide_contact_number_summary"
+            android:defaultValue="false"
+            />
+    
+        <CheckBoxPreference
+            android:key="open_to_first"
+            android:title="@string/open_to_first"
+            android:defaultValue="false"
+            />
+
+        <CheckBoxPreference
+            android:key="limit_conversations_start"
+            android:title="@string/limit_conversations_start"
+            android:summary="@string/limit_conversations_start_summary"
+            android:defaultValue="true"
+            />
+
+    </PreferenceCategory>
 </PreferenceScreen>

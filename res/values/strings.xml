@@ -730,5 +730,7 @@
     <string name="message_theme_category">Messages Theme Settings</string>
     <string name="general_messages_category">General Message Settings</string>
     <string name="message_animation_category">Animation Settings</string>
+    <string name="conversation_theme_category">Conversation Theme Settings</string>
+    <string name="general_conversation_category">General Conversations Settings</string>
 
 </resources>
