@@ -3828,10 +3828,14 @@ public class MainActivity extends FragmentActivity {
                     startActivity(intent);
                     overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                 } else {
-                    Intent intent = new Intent(this, BatchDeleteConversationActivity.class);
-                    intent.putExtra("threadId", threadIds.get(mViewPager.getCurrentItem()));
-                    startActivity(intent);
-                    overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                    try {
+                        Intent intent = new Intent(this, BatchDeleteConversationActivity.class);
+                        intent.putExtra("threadId", threadIds.get(mViewPager.getCurrentItem()));
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                    } catch (Exception e) {
+                        Toast.makeText(this, "No Messages", Toast.LENGTH_SHORT).show();
+                    }
                 }
 
                 return true;

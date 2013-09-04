@@ -572,9 +572,8 @@
             <intent-filter>
                 <action android:name="robj.floating.notifications.isExtension" />
             </intent-filter>
-            <intent-filter android:priority="99">
-                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
-                <category android:name="android.intent.category.HOME" />
+            <intent-filter>
+                <action android:name="com.klinker.android.messaging_donate.FNRECEIVED" />
             </intent-filter>
 
             <meta-data android:name="label" android:value="@string/app_name" />
