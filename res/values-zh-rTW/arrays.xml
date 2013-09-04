@@ -123,6 +123,7 @@
     
     <string-array name="runAs">
         <item>Card UI</item>
+        <item>Card+ UI</item>
         <item>Hangouts UI</item>
         <item>經典布局</item>
     </string-array>
