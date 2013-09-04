@@ -105,7 +105,7 @@ public class SendUtil {
                 }
             };
 
-            context.registerReceiver(receiver, new IntentFilter("com.klinker.android.send_message.RNRSE"));
+            context.registerReceiver(receiver, new IntentFilter(Transaction.VOICE_TOKEN));
         }
 
         return sendSettings;

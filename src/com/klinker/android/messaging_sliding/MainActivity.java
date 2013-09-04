@@ -4801,13 +4801,13 @@ public class MainActivity extends FragmentActivity {
         filter.setPriority(3);
         registerReceiver(receiver, filter);
 
-        filter = new IntentFilter("com.klinker.android.send_message.REFRESH");
+        filter = new IntentFilter(Transaction.REFRESH);
         registerReceiver(refreshReceiver, filter);
 
-        filter = new IntentFilter("com.klinker.android.send_message.MMS_ERROR");
+        filter = new IntentFilter(Transaction.MMS_ERROR);
         registerReceiver(mmsError, filter);
 
-        filter = new IntentFilter("com.klinker.android.send_message.VOICE_FAILED");
+        filter = new IntentFilter(Transaction.VOICE_FAILED);
         registerReceiver(voiceError, filter);
 
         filter = new IntentFilter("com.klinker.android.messaging.NEW_MMS");
