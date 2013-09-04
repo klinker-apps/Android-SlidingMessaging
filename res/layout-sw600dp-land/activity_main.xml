@@ -134,6 +134,18 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/view1">
 
+                <ProgressBar
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/mmsProgress"
+                        android:indeterminate="false"
+                        android:indeterminateOnly="false"
+                        android:progress="0"
+                        android:visibility="gone"
+                        android:background="@android:color/transparent"
+                        android:progressDrawable="@drawable/progress_horizontal_holo_light"/>
+
                 <ImageButton
                         android:id="@+id/display_emoji"
                         android:layout_width="wrap_content"

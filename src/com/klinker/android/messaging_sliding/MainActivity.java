@@ -155,6 +155,7 @@ public class MainActivity extends FragmentActivity {
     public BroadcastReceiver receiver;
     public BroadcastReceiver mmsReceiver;
     public BroadcastReceiver killReceiver;
+    public BroadcastReceiver mmsProgressReceiver;
 
     public static int contactWidth;
     public boolean jump = true;
@@ -199,6 +200,7 @@ public class MainActivity extends FragmentActivity {
     public Uri attachedImage;
     public Uri attachedImage2;
     public int attachedPosition;
+    public ProgressBar mmsProgress;
 
     public Uri capturedPhotoUri;
     public boolean fromCamera = false;
@@ -1052,6 +1054,20 @@ public class MainActivity extends FragmentActivity {
             }
         };
 
+        mmsProgressReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                int progress = intent.getIntExtra("progress", 0);
+
+                if (progress == 100) {
+                    mmsProgress.setVisibility(View.GONE);
+                } else {
+                    mmsProgress.setVisibility(View.VISIBLE);
+                    mmsProgress.setProgress(progress);
+                }
+            }
+        };
+
         final float scale = getResources().getDisplayMetrics().density;
         MainActivity.contactWidth = (int) (64 * scale + 0.5f);
 
@@ -1611,6 +1627,7 @@ public class MainActivity extends FragmentActivity {
         sendButton = (ImageButton) findViewById(R.id.sendButton);
         emojiButton = (ImageButton) findViewById(R.id.display_emoji);
         voiceButton = (ImageButton) findViewById(R.id.voiceButton);
+        mmsProgress = (ProgressBar) findViewById(R.id.mmsProgress);
 
         v = findViewById(R.id.view1);
         imageAttachBackground = findViewById(R.id.image_attachment_view_background2);
@@ -4809,6 +4826,9 @@ public class MainActivity extends FragmentActivity {
 
         filter = new IntentFilter(Transaction.VOICE_FAILED);
         registerReceiver(voiceError, filter);
+
+        filter = new IntentFilter(Transaction.MMS_PROGRESS);
+        registerReceiver(mmsProgressReceiver, filter);
 
         filter = new IntentFilter("com.klinker.android.messaging.NEW_MMS");
         filter.addCategory(Intent.CATEGORY_DEFAULT);
