@@ -2288,7 +2288,11 @@ public class MessageCursorAdapter extends CursorAdapter {
                                         }
                                     }
 
-                                    tryDownloading(apns.get(0), downloadLocation, 0, threadIds, msgId, holder);
+                                    try {
+                                        tryDownloading(apns.get(0), downloadLocation, 0, threadIds, msgId, holder);
+                                    } catch (Exception e) {
+                                        // error with apns, too bad for you...
+                                    }
 
                                     if (sharedPrefs.getBoolean("wifi_mms_fix", true))
                                     {

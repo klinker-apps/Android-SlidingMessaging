@@ -133,6 +133,7 @@
     
     <string-array name="runAs">
         <item>Card UI</item>
+        <item>Card+ UI</item>
         <item>Hangouts Görünümü</item>
         <item>Klasik Görünüm</item>
     </string-array>

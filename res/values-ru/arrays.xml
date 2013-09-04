@@ -108,6 +108,7 @@
   </string-array>
   <string-array name="runAs">
     <item>Card UI</item>
+      <item>Card+ UI</item>
     <item>Стиль Hangouts</item>
     <item>Классический</item>
   </string-array>

@@ -162,6 +162,7 @@
     
     <string-array name="runAs">
         <item>卡片风格</item>
+        <item>Card+ UI</item>
         <item>谷歌群聊风格</item>
         <item>经典风格</item>
     </string-array>
