@@ -38,7 +38,7 @@ public class InitialSetupWizardModel extends AbstractWizardModel {
                         .setRequired(false),
 
                 new SingleFixedChoicePage(this, mContext.getString(R.string.run_as))
-                        .setChoices("Hangouts UI", "Classic UI", "Cards UI")
+                        .setChoices("Hangouts UI", "Classic UI", "Cards UI", "Cards+ UI")
                         .setRequired(true),
 
                 new SingleFixedChoicePage(this, mContext.getString(R.string.emojis))
@@ -57,6 +57,5 @@ public class InitialSetupWizardModel extends AbstractWizardModel {
                         "Verizon Wireless","Verizon Wireless #2","Vodafone UK",
                         "Vodafone AU","Not on list")
                     .setRequired(true));
-
     }
 }

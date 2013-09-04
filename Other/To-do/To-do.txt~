@@ -5,8 +5,7 @@ Jake:
     - delayed sending for certain times
 Luke:
     - Message details for MMS messages
-    - Option to auto close halo pop up on send. not slideover, halo.
-    - look into emojis mixups
+    - Add categories to each of the settings pages for more organization
 
 1) more individual notification options
 2) option for adding certain text to every message at the beginning (delivery reports?)
@@ -16,6 +15,7 @@ Luke:
 6) Auto call when phone is placed to the ear (proximity sensor)
 7) Option to sort contacts alphabetically in contact search box? don't know if this would work well or not or how you have it set up...
 8) Add a crouton notification for drafts instead of current system, then use a pull to refresh on the bottom to fill the text box with the draft. again, don't know if this would work well or is possible to attach another one to the list view, but it might be cool
+9) Add scheduled sms to bottom of conversation in a footer maybe
 
 - igamer777@gmail.com, nikorezzano@gmail.com
 

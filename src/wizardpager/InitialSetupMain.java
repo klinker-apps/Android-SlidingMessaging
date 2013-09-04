@@ -224,8 +224,10 @@ public class InitialSetupMain extends FragmentActivity implements
                     editor.putString("run_as", "hangout");
                 else if (display.equals("Classic UI"))
                     editor.putString("run_as", "sliding");
-                else
+                else if (display.equals("Cards UI"))
                     editor.putString("run_as", "card2");
+                else
+                    editor.putString("run_as", "card+");
 
                 editor.commit();
             }

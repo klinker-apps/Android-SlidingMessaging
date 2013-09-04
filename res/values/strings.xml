@@ -653,7 +653,7 @@
 
         All these programs work well and will get you the contact pictures that you want so dearly :)</string>
     <string name="slideover_hide_notifications">Hide Status Bar Notifications</string>
-    <string name="slideover_hide_notifications_summary">Use only SlideOver to handle notifications, hiding them from the status bar</string>
+    <string name="slideover_hide_notifications_summary">Use only SlideOver to handle notifications, hiding them from the status bar. WARNING: This will disable LED functionality.</string>
     <string name="tip_notification_listener_title">Dev. Tip #5 (Notification Listening)</string>
     <string name="tip_notification_listener">
         I\'ve had multiple requests to take advantage of the new APIs introduced in Android 4.3 that allow for listening to when notifications are posted and dismissed and taking advantage of that
