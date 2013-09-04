@@ -20,22 +20,12 @@ public class FNReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(final Context context, Intent intent) {
-        Bundle extras = intent.getExtras();
+        String body = intent.getStringExtra("body");
+        String address = intent.getStringExtra("address");
 
-        String body = "";
-        String address = "";
-
-        if (extras != null)
-        {
-            Object[] smsExtra = (Object[]) extras.get("pdus");
-
-            for ( int i = 0; i < smsExtra.length; ++i )
-            {
-                SmsMessage sms = SmsMessage.createFromPdu((byte[])smsExtra[i]);
-
-                body += sms.getMessageBody().toString();
-                address = sms.getOriginatingAddress();
-            }
+        if (address == null) {
+            address = "";
+            body = "";
         }
         
         address = address.replace("+", "").replace(" ", "").replace("(", "").replace(")", "");

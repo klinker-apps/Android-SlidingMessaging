@@ -80,6 +80,11 @@ public class TextMessageReceiver extends BroadcastReceiver {
             final String origBody = body;
             final String origDate = dateReceived;
             final String origAddress = address;
+
+            Intent fnReceiver = new Intent("com.klinker.android.messaging_donate.FNRECEIVED");
+            fnReceiver.putExtra("address", origAddress);
+            fnReceiver.putExtra("body", origBody);
+            context.sendBroadcast(fnReceiver);
 	        
 	        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
