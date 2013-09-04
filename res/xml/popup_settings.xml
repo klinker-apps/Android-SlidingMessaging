@@ -15,6 +15,21 @@
         android:defaultValue="true"
         android:dependency="popup_reply" />
 
+    <CheckBoxPreference
+        android:key="enable_view_conversation"
+        android:title="@string/enable_view_conversation"
+        android:summary="@string/enable_view_conversation_summary"
+        android:defaultValue="false"
+        />
+
+    <ListPreference
+        android:key="text_alignment2"
+        android:title="@string/text_alignment"
+        android:defaultValue="center"
+        android:entries="@array/textAlignment2"
+        android:entryValues="@array/textAlignmentInserted"
+        />
+
     <PreferenceCategory android:key="slideover_popup_category"
         android:title="@string/slideover_popup_category" >
 
@@ -44,20 +59,6 @@
             android:summary="@string/popup_theme_summary"
         />
 
-        <CheckBoxPreference
-            android:key="enable_view_conversation"
-            android:title="@string/enable_view_conversation"
-            android:summary="@string/enable_view_conversation_summary"
-            android:defaultValue="false"
-        />
-
-        <ListPreference
-            android:key="text_alignment2"
-            android:title="@string/text_alignment"
-            android:defaultValue="center"
-            android:entries="@array/textAlignment2"
-            android:entryValues="@array/textAlignmentInserted"
-        />
     </PreferenceCategory>
 
     <PreferenceCategory android:key="old_popup_category"

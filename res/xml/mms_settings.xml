@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <PreferenceCategory android:title="@string/general_mms_category" >
+    <PreferenceCategory android:key="general_mms_category"
+        android:title="@string/general_mms_category" >
         <CheckBoxPreference
             android:key="group_message"
             android:title="@string/group_message"

@@ -2,7 +2,9 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="@string/general_slideover_category" >
+    <PreferenceCategory android:key="slideover_general_category"
+         android:title="@string/general_slideover_category" >
+
         <CheckBoxPreference
             android:key="slideover_enabled"
             android:title="@string/enable_slideover"
@@ -36,7 +38,7 @@
             />
     </PreferenceCategory>
 
-    <PreferenceCategory
+    <PreferenceCategory android:key="slideover_positioning_category"
         android:title="@string/positioning">
 
         <ListPreference
@@ -114,7 +116,7 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory
+    <PreferenceCategory android:key="slideover_settings_popup_category"
         android:title="@string/slideover_popup_category">
 
         <CheckBoxPreference

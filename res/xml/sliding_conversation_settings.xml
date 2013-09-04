@@ -2,7 +2,8 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="@string/conversation_theme_category" >
+    <PreferenceCategory android:key="conversation_theme_category"
+        android:title="@string/conversation_theme_category" >
 
         <ListPreference
             android:key="pin_conversation_list"
@@ -40,9 +41,23 @@
             android:defaultValue="false"
             />
 
+        <CheckBoxPreference
+            android:key="hide_contact_number"
+            android:title="@string/hide_contact_number"
+            android:summary="@string/hide_contact_number_summary"
+            android:defaultValue="false"
+            />
+
+        <CheckBoxPreference
+            android:key="open_to_first"
+            android:title="@string/open_to_first"
+            android:defaultValue="false"
+            />
+
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/general_conversation_category" >
+    <PreferenceCategory android:key="general_conversation_category"
+        android:title="@string/general_conversation_category" >
 
         <CheckBoxPreference
             android:key="open_contact_menu"
@@ -55,19 +70,6 @@
             android:key="slide_messages"
             android:title="@string/slide_messages"
             android:summary="@string/slide_messages_summary"
-            android:defaultValue="false"
-            />
-
-        <CheckBoxPreference
-            android:key="hide_contact_number"
-            android:title="@string/hide_contact_number"
-            android:summary="@string/hide_contact_number_summary"
-            android:defaultValue="false"
-            />
-
-        <CheckBoxPreference
-            android:key="open_to_first"
-            android:title="@string/open_to_first"
             android:defaultValue="false"
             />
 

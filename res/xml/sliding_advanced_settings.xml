@@ -26,7 +26,8 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/advanced_theme_category" >
+    <PreferenceCategory android:key="advanced_theme_category"
+        android:title="@string/advanced_theme_category" >
 
         <CheckBoxPreference
             android:key="strip_unicode"
@@ -120,12 +121,12 @@
             android:defaultValue="true"
             />
 
-        <!--<CheckBoxPreference
+        <CheckBoxPreference
             android:key="show_advanced_settings"
             android:title="@string/show_advanced_settings"
             android:summary="@string/show_advanced_settings_summary"
             android:defaultValue="false"
-        />-->
+        />
 
     </PreferenceCategory>
 
