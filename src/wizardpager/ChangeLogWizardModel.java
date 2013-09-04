@@ -53,7 +53,7 @@ public class ChangeLogWizardModel extends AbstractWizardModel {
                 "- Option to disable vibrate and ringtone for incoming messages while in a call\n" +
                 "- Option to disable the date in the conversations list panel\n" +
                 "- Option to theme the hyperlinks for anyone with the theme engine\n" +
-                "- Option to close Halo after sending a message (not for SlideOver)\n" +
+                "- Option to close Halo popup automatically after sending a message (not for SlideOver)\n" +
                 "- Revamp of settings menu\n" +
                 "- Bug fixes\n\n" +
                 "- For interested developers: I completely recreated the back-end sending process and published it as a library to Github. Any developer interested in using it, improving it, or whatever else, check it out! " +
