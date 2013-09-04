@@ -57,6 +57,5 @@ public class InitialSetupWizardModel extends AbstractWizardModel {
                         "Verizon Wireless","Verizon Wireless #2","Vodafone UK",
                         "Vodafone AU","Not on list")
                     .setRequired(true));
-
     }
 }
