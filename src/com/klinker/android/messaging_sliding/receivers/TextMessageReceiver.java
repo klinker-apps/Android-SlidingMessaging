@@ -1409,7 +1409,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 		return false;
 	}
 	
-	public boolean isRunning(Context ctx) {
+	public static boolean isRunning(Context ctx) {
         ActivityManager activityManager = (ActivityManager) ctx.getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningTaskInfo> tasks = activityManager.getRunningTasks(1);
 

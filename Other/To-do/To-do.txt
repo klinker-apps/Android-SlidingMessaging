@@ -1,13 +1,12 @@
 Version 7.50
 
 Jake:
-    - SlideOver MMS popup
     - remove messaging_donate.MainActivity as it is no longer necessary and just redirects to same spot, slowing everything down, pointless
     - theme the progressbar and edit text by first fetching drawable from resource, setting the color filter to said drawable, and then setting drawable back to background or progress drawable (might not work for edittext because of focused and unfocused drawables though...)
+    - Use MMS APN library to automatically detect apns in setup pager and set them, and add an option in apn settings to auto detect
     - google voice receiving support
-        1) Through Voice app instructions
-        2) Notification listener instructions
-        3) Refresh Interval (pull notifications)
+        1) Notification listener instructions
+        2) Refresh Interval (poll notifications)
     - delayed sending for certain times
 Luke:
     - Add sprint to setup pager as confirmed apn

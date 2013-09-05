@@ -35,7 +35,9 @@ import com.google.android.mms.APNHelper;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu_alt.*;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_donate.receivers.UnlockReceiver;
 import com.klinker.android.messaging_sliding.MainActivity;
+import com.klinker.android.messaging_sliding.quick_reply.QuickReply;
 import com.klinker.android.send_message.Transaction;
 
 import java.io.*;
@@ -396,6 +398,66 @@ public class MMSMessageReceiver extends BroadcastReceiver {
 			updateHalo.putExtra("name", mmsFrom);
 			updateHalo.putExtra("message", "New Picture Message");
 			context.sendBroadcast(updateHalo);
+
+            if (!TextMessageReceiver.isRunning(context))
+            {
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        if (sharedPrefs.getBoolean("popup_reply", false) && !sharedPrefs.getBoolean("secure_notification", false))
+                        {
+                            Intent intent3;
+
+                            if (sharedPrefs.getBoolean("halo_popup", false) || sharedPrefs.getBoolean("full_app_popup", true))
+                            {
+                                boolean halo = sharedPrefs.getBoolean("halo_popup", false);
+
+                                if (halo) {
+                                    intent3 = new Intent(context, com.klinker.android.messaging_donate.MainActivity.class);
+                                } else {
+                                    intent3 = new Intent(context, com.klinker.android.messaging_sliding.MainActivityPopup.class);
+                                }
+
+                                try
+                                {
+                                    if (halo) {
+                                        intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | 0x00002000);
+                                        intent3.putExtra("halo_popup", true);
+                                    } else {
+                                        intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    }
+                                } catch (Exception e)
+                                {
+                                    intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                }
+
+                                PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+
+                                if (pm.isScreenOn() || sharedPrefs.getBoolean("unlock_screen", false))
+                                {
+                                    if (!sharedPrefs.getBoolean("full_app_popup", true) || (sharedPrefs.getBoolean("full_app_popup", true) && !sharedPrefs.getBoolean("slideover_popup_lockscreen_only", false)) || sharedPrefs.getBoolean("unlock_screen", false)) {
+                                        final Intent popup = intent3;
+
+                                        new Handler().postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                context.startActivity(popup);
+                                            }
+                                        }, 250);
+                                    }
+                                } else
+                                {
+                                    UnlockReceiver.openApp = true;
+                                }
+                            }
+                        }
+
+                    }
+
+                }, 200);
+            }
 			
 			if (sharedPrefs.getBoolean("override_stock", false) && !error)
 			{
