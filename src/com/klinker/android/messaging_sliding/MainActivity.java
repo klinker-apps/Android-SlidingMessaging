@@ -2170,6 +2170,10 @@ public class MainActivity extends FragmentActivity {
         imageAttachBackground.setVisibility(View.GONE);
         imageAttach.setVisibility(false);
 
+        Drawable mmsProgressDrawable = getResources().getDrawable(R.drawable.progress_horizontal_holo_light);
+        mmsProgressDrawable.setColorFilter(ctSendButtonColor, Mode.MULTIPLY);
+        mmsProgress.setProgressDrawable(mmsProgressDrawable);
+
         if (customFont)
         {
             mTextView.setTypeface(font);
