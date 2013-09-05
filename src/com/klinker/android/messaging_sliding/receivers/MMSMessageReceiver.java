@@ -8,6 +8,7 @@ import android.database.sqlite.SqliteWrapper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
@@ -242,6 +243,10 @@ public class MMSMessageReceiver extends BroadcastReceiver {
                                 currentDataState = Transaction.isMobileDataEnabled(context);
                                 Transaction.setMobileDataEnabled(context, true);
                             }
+
+                            ConnectivityManager connMgr =
+                                    (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                            connMgr.startUsingNetworkFeature(ConnectivityManager.TYPE_MOBILE, "enableMMS");
 							
 							Cursor locationQuery = context.getContentResolver().query(Uri.parse("content://mms/"), new String[] {"ct_l", "thread_id", "_id"}, null, null, "date desc");
 							locationQuery.moveToFirst();
@@ -249,6 +254,13 @@ public class MMSMessageReceiver extends BroadcastReceiver {
 							String threadId = locationQuery.getString(locationQuery.getColumnIndex("thread_id"));
 							String msgId = locationQuery.getString(locationQuery.getColumnIndex("_id"));
 							locationQuery.close();
+
+                            // give the connectivity manager some time to connect...
+                            try {
+                                Thread.sleep(1000);
+                            } catch (Exception e) {
+
+                            }
 							
 							try
 							{
@@ -471,6 +483,7 @@ public class MMSMessageReceiver extends BroadcastReceiver {
 
     public void tryDownloading(APN apns, String downloadLocation, int retryNumber, String threadId, String msgId) {
         try {
+            Log.v("attempting_mms_download", "number: " + retryNumber);
             Transaction.ensureRouteToHost(context, apns.MMSCenterUrl, apns.MMSProxy);
             byte[] resp = HttpUtils.httpConnection(
                     context, SendingProgressTokenManager.NO_TOKEN,
@@ -501,6 +514,7 @@ public class MMSMessageReceiver extends BroadcastReceiver {
 
                 tryDownloading(apns, downloadLocation, retryNumber + 1, threadId, msgId);
             } else {
+                Log.v("attempting_mms_download", "failed");
                 if (sharedPrefs.getBoolean("secure_notification", false))
                 {
                     makeNotification("New Picture Message", "", null);

@@ -1,7 +1,6 @@
 Version 7.50
 
 Jake:
-    - theme the progressbar and edit text by first fetching drawable from resource, setting the color filter to said drawable, and then setting drawable back to background or progress drawable (might not work for edittext because of focused and unfocused drawables though...)
     - Use MMS APN library to automatically detect apns in setup pager and set them, and add an option in apn settings to auto detect
     - google voice receiving support
         1) Notification listener instructions
