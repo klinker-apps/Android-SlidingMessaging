@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -33,10 +34,10 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
-		sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         if(sharedPrefs.getBoolean("slideover_enabled",false))
         {
@@ -47,7 +48,7 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
             }
         }
 
-        setContentView(R.layout.loading_screen);
+        //setContentView(R.layout.loading_screen);
 		
 		NotificationManager mNotificationManager =
 	            (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
