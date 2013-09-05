@@ -61,6 +61,7 @@ import com.klinker.android.messaging_sliding.batch_delete.BatchDeleteAllActivity
 import com.klinker.android.messaging_sliding.batch_delete.BatchDeleteConversationActivity;
 import com.klinker.android.messaging_sliding.blacklist.BlacklistContact;
 import com.klinker.android.messaging_sliding.custom_dialogs.CustomListView;
+import com.klinker.android.messaging_sliding.custom_dialogs.ProgressAnimator;
 import com.klinker.android.messaging_sliding.emoji_pager.KeyboardFragment;
 import com.klinker.android.messaging_sliding.emojis.EmojiAdapter;
 import com.klinker.android.messaging_sliding.emojis.EmojiAdapter2;
@@ -155,7 +156,9 @@ public class MainActivity extends FragmentActivity {
     public BroadcastReceiver receiver;
     public BroadcastReceiver mmsReceiver;
     public BroadcastReceiver killReceiver;
+
     public BroadcastReceiver mmsProgressReceiver;
+    public ProgressAnimator mmsProgressAnimation;
 
     public static int contactWidth;
     public boolean jump = true;
@@ -1059,14 +1062,34 @@ public class MainActivity extends FragmentActivity {
             public void onReceive(Context context, Intent intent) {
                 int progress = intent.getIntExtra("progress", 0);
 
-                if (progress == 100) {
-                    mmsProgress.setVisibility(View.GONE);
-                } else {
+                if (progress == -1) {
                     mmsProgress.setVisibility(View.VISIBLE);
-                    mmsProgress.setProgress(progress);
+                    mmsProgress.setProgress(0);
+
+                    try {
+                        mmsProgressAnimation.start();
+                    } catch (Exception e) {
+                        // animation already started
+                    }
+                } else if (progress == 100) {
+                    mmsProgressAnimation.setMaxProgress(100);
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mmsProgress.setVisibility(View.GONE);
+                        }
+                    }, 250);
+                } else {
+                    mmsProgressAnimation.setMaxProgress(progress);
                 }
             }
         };
+
+        mmsProgressAnimation = new ProgressAnimator();
+        mmsProgressAnimation.setContext(this);
+        mmsProgressAnimation.setCurrentProgress(0);
+        mmsProgressAnimation.setMaxProgress(100);
 
         final float scale = getResources().getDisplayMetrics().density;
         MainActivity.contactWidth = (int) (64 * scale + 0.5f);
@@ -1628,6 +1651,7 @@ public class MainActivity extends FragmentActivity {
         emojiButton = (ImageButton) findViewById(R.id.display_emoji);
         voiceButton = (ImageButton) findViewById(R.id.voiceButton);
         mmsProgress = (ProgressBar) findViewById(R.id.mmsProgress);
+        mmsProgressAnimation.setMmsProgress(mmsProgress);
 
         v = findViewById(R.id.view1);
         imageAttachBackground = findViewById(R.id.image_attachment_view_background2);
