@@ -1,7 +1,12 @@
 Version 7.50
 
 Jake:
+    - SlideOver MMS popup
+    - remove messaging_donate.MainActivity as it is no longer necessary and just redirects to same spot, slowing everything down, pointless
     - google voice receiving support
+        1) Through Voice app instructions
+        2) Notification listener instructions
+        3) Refresh Interval (pull notifications)
     - delayed sending for certain times
 Luke:
     - Message details for MMS messages
