@@ -47,7 +47,7 @@ public class ChangeLogWizardModel extends AbstractWizardModel {
         }
 
         String changeLog = "Version " + version + ":\n\n" +
-                "- Tons of MMS changes, now confirmed working with Sprint and hopefully many other carriers\n" +
+                "- Tons of MMS changes and fixes, now confirmed working with Sprint and hopefully many other carriers\n" +
                 "- Revamp of settings menu\n" +
                 "- Bug fixes";
                 
