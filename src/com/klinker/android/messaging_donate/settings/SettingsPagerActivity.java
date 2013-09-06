@@ -872,16 +872,21 @@ public class SettingsPagerActivity extends FragmentActivity {
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                int mcc = Integer.parseInt(networkOperator.substring(0, 3));
-                                String s = networkOperator.substring(3);
-                                int mnc = Integer.parseInt(s.replaceFirst("^0{1,2}", ""));
-                                Carrier c = Carrier.getCarrier(mcc, mnc);
-                                APN a = c.getAPN();
-
                                 try {
+                                    int mcc = Integer.parseInt(networkOperator.substring(0, 3));
+                                    String s = networkOperator.substring(3);
+                                    int mnc = Integer.parseInt(s.replaceFirst("^0{1,2}", ""));
+                                    Carrier c = Carrier.getCarrier(mcc, mnc);
+                                    APN a = c.getAPN();
+
                                     sharedPrefs.edit().putString("mmsc_url", a.mmsc).putString("mms_proxy", a.proxy).putString("mms_port", a.port + "").commit();
                                 } catch (Exception e) {
-                                    // error setting values... apn most likely null
+                                    ((Activity)context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Toast.makeText(context, "Error, couldn't get system APNs.", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
                                 }
 
                                 ((Activity)context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
