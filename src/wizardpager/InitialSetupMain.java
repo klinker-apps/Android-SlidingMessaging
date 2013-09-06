@@ -16,6 +16,8 @@
 
 package wizardpager;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -33,6 +35,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
+import com.droidprism.APN;
+import com.droidprism.Carrier;
 import com.klinker.android.messaging_donate.R;
 import wizardpager.wizard.model.AbstractWizardModel;
 import wizardpager.wizard.model.ModelCallbacks;
@@ -285,8 +289,31 @@ public class InitialSetupMain extends FragmentActivity implements
                     toast.show();
                 } else if (!carrier.equals(""))
                 {
+                    if (carrier.equals("Auto Select")) {
+                        TelephonyManager manager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+                        final String networkOperator = manager.getNetworkOperator();
 
-                    if (carrier.equals("AT&T"))
+                        if (networkOperator != null) {
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    int mcc = Integer.parseInt(networkOperator.substring(0, 3));
+                                    String s = networkOperator.substring(3);
+                                    int mnc = Integer.parseInt(s.replaceFirst("^0{1,2}", ""));
+                                    Carrier c = Carrier.getCarrier(mcc, mnc);
+                                    APN a = c.getAPN();
+
+                                    try {
+                                        sharedPrefs.edit().putString("mmsc_url", a.mmsc).putString("mms_proxy", a.proxy).putString("mms_port", a.port + "").commit();
+                                    } catch (Exception e) {
+                                        // error setting values... apn most likely null
+                                    }
+                                }
+                            }).start();
+                        } else {
+                            Toast.makeText(context, "Error, no network operator.", Toast.LENGTH_SHORT).show();
+                        }
+                    } else if (carrier.equals("AT&T"))
                     {
                         editor.putString("mmsc_url","http://mmsc.cingular.com");
                         editor.putString("mms_proxy","wireless.cingular.com");
@@ -327,6 +354,11 @@ public class InitialSetupMain extends FragmentActivity implements
                         editor.putString("mmsc_url","http://mms.gprs.rogers.com");
                         editor.putString("mms_proxy","10.128.1.69");
                         editor.putString("mms_port","8080");
+                    } else if (carrier.equals("Sprint"))
+                    {
+                        editor.putString("mmsc_url","http://mms.sprintpcs.com");
+                        editor.putString("mms_proxy","68.28.31.7");
+                        editor.putString("mms_port","80");
                     } else if (carrier.equals("Straight Talk AT&T"))
                     {
                         editor.putString("mmsc_url","http://mmsc.cingular.com");

@@ -50,9 +50,9 @@ public class InitialSetupWizardModel extends AbstractWizardModel {
                         .setRequired(true),
 
                 new SingleFixedChoicePage(this, mContext.getString(R.string.need_mms_setup))
-                .setChoices("AT&T","AT&T #2","Bell Canada","Fido Canada",
+                .setChoices("Auto Select","AT&T","AT&T #2","Bell Canada","Fido Canada",
                         "Free Mobile France","Network Norway","Net10","O2",
-                        "Rogers","Straight Talk AT&T","Tele2","Telus",
+                        "Rogers","Sprint","Straight Talk AT&T","Tele2","Telus",
                         "T-Mobile US","T-Mobile Polish","Virgin Mobile Canada",
                         "Verizon Wireless","Verizon Wireless #2","Vodafone UK",
                         "Vodafone AU","Not on list")

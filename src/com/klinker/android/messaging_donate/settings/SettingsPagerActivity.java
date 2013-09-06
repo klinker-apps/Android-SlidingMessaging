@@ -876,8 +876,6 @@ public class SettingsPagerActivity extends FragmentActivity {
                                 String s = networkOperator.substring(3);
                                 int mnc = Integer.parseInt(s.replaceFirst("^0{1,2}", ""));
                                 Carrier c = Carrier.getCarrier(mcc, mnc);
-                                c.getsmsemail();
-                                c.getmmsemail();
                                 APN a = c.getAPN();
 
                                 try {
@@ -896,7 +894,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                             }
                         }).start();
                     } else {
-                        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Error, no network operator.", Toast.LENGTH_SHORT).show();
                     }
 
                     return false;
@@ -930,8 +928,12 @@ public class SettingsPagerActivity extends FragmentActivity {
             });
 
             if (!showAll) {
-                ((PreferenceGroup) findPreference("general_mms_category")).removePreference(findPreference("wifi_mms_fix"));
-                ((PreferenceGroup) findPreference("general_mms_category")).removePreference(findPreference("limit_attachment_size"));
+                try {
+                    ((PreferenceGroup) findPreference("general_mms_category")).removePreference(findPreference("wifi_mms_fix"));
+                    ((PreferenceGroup) findPreference("general_mms_category")).removePreference(findPreference("limit_attachment_size"));
+                } catch (Exception e) {
+
+                }
             }
         }
 
