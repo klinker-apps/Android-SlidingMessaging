@@ -19,8 +19,11 @@ import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager;
+import android.telephony.TelephonyManager;
 import android.view.MenuItem;
 import android.widget.Toast;
+import com.droidprism.APN;
+import com.droidprism.Carrier;
 import com.klinker.android.messaging_card.theme.PopupChooserActivity;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_sliding.DeleteOldService;
@@ -853,6 +856,52 @@ public class SettingsPagerActivity extends FragmentActivity {
 
             port = (Preference) findPreference("mms_port");
             port.setSummary(sharedPrefs.getString("mms_port", ""));
+
+            Preference autoSelect = findPreference("auto_select_apn");
+            autoSelect.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    TelephonyManager manager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+                    final String networkOperator = manager.getNetworkOperator();
+
+                    if (networkOperator != null) {
+                        final ProgressDialog dialog = new ProgressDialog(context);
+                        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                        dialog.setMessage(context.getString(R.string.finding_apns));
+                        dialog.show();
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                int mcc = Integer.parseInt(networkOperator.substring(0, 3));
+                                String s = networkOperator.substring(3);
+                                int mnc = Integer.parseInt(s.replaceFirst("^0{1,2}", ""));
+                                Carrier c = Carrier.getCarrier(mcc, mnc);
+                                c.getsmsemail();
+                                c.getmmsemail();
+                                APN a = c.getAPN();
+
+                                try {
+                                    sharedPrefs.edit().putString("mmsc_url", a.mmsc).putString("mms_proxy", a.proxy).putString("mms_port", a.port + "").commit();
+                                } catch (Exception e) {
+                                    // error setting values... apn most likely null
+                                }
+
+                                ((Activity)context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        setUpMmsSettings();
+                                        dialog.dismiss();
+                                    }
+                                });
+                            }
+                        }).start();
+                    } else {
+                        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+                    }
+
+                    return false;
+                }
+            });
 
             Preference presets = (Preference) findPreference("preset_apns");
             presets.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {

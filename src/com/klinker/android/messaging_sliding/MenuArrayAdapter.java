@@ -607,7 +607,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 				Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
 		        vibrator.vibrate(25);
 
-                final ProgressDialog progDialog = new ProgressDialog(context);;
+                final ProgressDialog progDialog = new ProgressDialog(context);
 
 				AlertDialog.Builder builder = new AlertDialog.Builder(context);
 				builder.setMessage(context.getResources().getString(R.string.delete_messages) + "\n\n" + context.getResources().getString(R.string.conversation) + ": " + MainActivity.findContactName(MainActivity.findContactNumber(numbers.get(position), context), context));

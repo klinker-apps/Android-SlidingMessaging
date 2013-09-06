@@ -308,7 +308,7 @@
 	<string name="confirmed_apns">Confirmed Working APNs:</string>
 	<string name="experimental_apns">Experimental APNs:</string>
 	<string name="experimental_apns_summary">May or may not work and may need some manual editing</string>
-	<string name="preset_apns">Preset APNs</string>
+	<string name="preset_apns">Preset (Previously Tested) APNs</string>
 	<string name="preset_apns_summary">Select your carrier from a list a preset APNs to make life a little easier</string>
 	<string name="ct_emoji_button_color">Emoji Button Color</string>
 	<string name="ct_conversation_divider_color">Conversation List Divider Color</string>
@@ -737,5 +737,8 @@
     <string name="optimization_category">Optimization Settings</string>
     <string name="advanced_theme_category">Advanced Theme and Style Settings</string>
     <string name="advanced_other_category">Other Advanced Settings</string>
+    <string name="auto_select_apn">Automatically Select APNs</string>
+    <string name="auto_select_apn_summary">Attempts to get the correct APNs automatically from your device</string>
+    <string name="finding_apns">Finding APNs…</string>
 
 </resources>

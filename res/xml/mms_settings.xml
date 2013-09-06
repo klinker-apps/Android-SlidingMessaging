@@ -67,6 +67,12 @@
     android:key="apn_category" >
 
         <Preference
+            android:key="auto_select_apn"
+            android:title="@string/auto_select_apn"
+            android:summary="@string/auto_select_apn_summary"
+        />
+
+        <Preference
             android:key="preset_apns"
             android:title="@string/preset_apns"
             android:summary="@string/preset_apns_summary"
