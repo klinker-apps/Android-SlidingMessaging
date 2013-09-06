@@ -289,6 +289,8 @@ public class InitialSetupMain extends FragmentActivity implements
                     toast.show();
                 } else if (!carrier.equals(""))
                 {
+                    final Activity context = (Activity) getApplicationContext();
+
                     if (carrier.equals("Auto Select")) {
                         TelephonyManager manager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
                         final String networkOperator = manager.getNetworkOperator();
@@ -297,21 +299,30 @@ public class InitialSetupMain extends FragmentActivity implements
                             new Thread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    int mcc = Integer.parseInt(networkOperator.substring(0, 3));
-                                    String s = networkOperator.substring(3);
-                                    int mnc = Integer.parseInt(s.replaceFirst("^0{1,2}", ""));
-                                    Carrier c = Carrier.getCarrier(mcc, mnc);
-                                    APN a = c.getAPN();
-
                                     try {
+                                        int mcc = Integer.parseInt(networkOperator.substring(0, 3));
+                                        String s = networkOperator.substring(3);
+                                        int mnc = Integer.parseInt(s.replaceFirst("^0{1,2}", ""));
+                                        Carrier c = Carrier.getCarrier(mcc, mnc);
+                                        APN a = c.getAPN();
+
                                         sharedPrefs.edit().putString("mmsc_url", a.mmsc).putString("mms_proxy", a.proxy).putString("mms_port", a.port + "").commit();
                                     } catch (Exception e) {
-                                        // error setting values... apn most likely null
+                                        context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                try {
+                                                    Toast.makeText(context, "Error auto selecting APNs", Toast.LENGTH_LONG).show();
+                                                } catch (Exception e) {
+                                                    // context no longer active probably...
+                                                }
+                                            }
+                                        });
                                     }
                                 }
                             }).start();
                         } else {
-                            Toast.makeText(context, "Error, no network operator.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Error auto selecting APNs.", Toast.LENGTH_SHORT).show();
                         }
                     } else if (carrier.equals("AT&T"))
                     {
