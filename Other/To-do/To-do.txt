@@ -1,14 +1,11 @@
 Version 7.50
 
 Jake:
-    - Use MMS APN library to automatically detect apns in setup pager and set them, and add an option in apn settings to auto detect
     - google voice receiving support
         1) Notification listener instructions
         2) Refresh Interval (poll notifications)
     - delayed sending for certain times
 Luke:
-    - Add sprint to setup pager as confirmed apn
-    - maybe add option for edittext and progressbar color (only if edit text themes correctly, or else progressbar will be same as draft color as I am pretty sure that will work fine)
     - Message details for MMS messages
 
 1) more individual notification options
