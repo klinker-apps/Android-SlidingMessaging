@@ -72,6 +72,8 @@ public class VoiceReceiver extends Service {
         if (intent == null)
             return ret;
 
+        startRefresh();
+
         return ret;
     }
 
@@ -195,15 +197,16 @@ public class VoiceReceiver extends Service {
             if (message.type != VOICE_INCOMING_SMS)
                 continue;
             try {
+                Log.v("refresh_voice", "sending sms broadcast");
                 Intent smsBroadcast = new Intent("android.provider.Telephony.SMS_RECEIVED");
                 smsBroadcast.putExtra("voice_message", true);
                 smsBroadcast.putExtra("voice_body", message.message);
                 smsBroadcast.putExtra("voice_address", message.phoneNumber);
                 smsBroadcast.putExtra("voice_date", message.date);
                 sendBroadcast(smsBroadcast);
-            }
-            catch (Exception e) {
-
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.v("refresh_voice", "failed to send sms broadcast");
             }
         }
         settings.edit()
@@ -213,6 +216,8 @@ public class VoiceReceiver extends Service {
 
     void startRefresh() {
         needsRefresh = true;
+
+        Log.v("refresh_voice", "starting refresh...");
 
         // if a sync is in progress, dont start another
         if (refreshThread != null && refreshThread.getState() != Thread.State.TERMINATED)

@@ -740,5 +740,6 @@
     <string name="auto_select_apn">Automatically Select APNs</string>
     <string name="auto_select_apn_summary">Attempts to get the correct APNs automatically from your device</string>
     <string name="finding_apns">Finding APNs…</string>
+    <string name="sync_voice_messages">Sync New Voice Messages</string>
 
 </resources>

@@ -25,6 +25,7 @@ import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
 import android.text.Editable;
 import android.text.SpannableStringBuilder;
+import android.util.Log;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.receivers.UnlockReceiver;
 import com.klinker.android.messaging_sliding.MainActivity;
@@ -59,25 +60,29 @@ public class TextMessageReceiver extends BroadcastReceiver {
 	        String id;
 	        String date = "";
             String dateReceived;
-	         
-	        if ( extras != null )
-	        {
-                if (!intent.getBooleanExtra("voice_message", false)) {
-                    Object[] smsExtra = (Object[]) extras.get( SMS_EXTRA_NAME );
 
-                    for ( int i = 0; i < smsExtra.length; ++i )
-                    {
-                        SmsMessage sms = SmsMessage.createFromPdu((byte[])smsExtra[i]);
+            boolean voiceMessage = intent.getBooleanExtra("voice_message", false);
 
-                        body += sms.getMessageBody().toString();
-                        address = sms.getOriginatingAddress();
-                        date = sms.getTimestampMillis() + "";
-                    }
-                } else {
-                    body = intent.getStringExtra("voice_body");
-                    address = intent.getStringExtra("voice_address");
-                    date = intent.getStringExtra("voice_date");
+            Log.v("refresh_voice", "sms receiver " + voiceMessage);
+
+            if (!voiceMessage) {
+                if ( extras != null )
+                {
+                        Object[] smsExtra = (Object[]) extras.get( SMS_EXTRA_NAME );
+
+                        for ( int i = 0; i < smsExtra.length; ++i )
+                        {
+                            SmsMessage sms = SmsMessage.createFromPdu((byte[])smsExtra[i]);
+
+                            body += sms.getMessageBody().toString();
+                            address = sms.getOriginatingAddress();
+                            date = sms.getTimestampMillis() + "";
+                        }
                 }
+            } else {
+                body = intent.getStringExtra("voice_body");
+                address = intent.getStringExtra("voice_address");
+                date = intent.getStringExtra("voice_date");
             }
 
             Calendar cal = Calendar.getInstance();
@@ -117,7 +122,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 	        	abortBroadcast();
 	        } else
 	        {
-		        if (sharedPrefs.getBoolean("override", false))
+		        if (sharedPrefs.getBoolean("override", false) || voiceMessage)
 		        {
 		        	ContentValues values = new ContentValues();
 			        values.put("address", address);
@@ -1228,7 +1233,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 		        	}, 200);
 		        }
 		        
-		        if (sharedPrefs.getBoolean("override", false))
+		        if (sharedPrefs.getBoolean("override", false) || voiceMessage)
 		        {
 		        	this.abortBroadcast();
 		        }

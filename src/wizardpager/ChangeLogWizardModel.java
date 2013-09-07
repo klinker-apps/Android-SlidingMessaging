@@ -47,10 +47,7 @@ public class ChangeLogWizardModel extends AbstractWizardModel {
         }
 
         String changeLog = "Version " + version + ":\n\n" +
-                "- MMS changes and fixes, now tested and confirmed working with Sprint and hopefully other carriers\n" +
-                "- Option to try fetching the correct APNs based on your carrier\n" +
-                "- Revamp of settings menu\n" +
-                "- Bug fixes";
+                "- Voice message syncing support\n";
                 
         String themeEditor = "The theme editor now fully supports the Cards UI 2.0, making it a " +
                 "better time than ever to get on board and start making Sliding Messaging Pro look exactly how you want!\n\n" +
