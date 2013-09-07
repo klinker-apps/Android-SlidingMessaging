@@ -6,6 +6,7 @@ import android.accounts.AccountManagerCallback;
 import android.accounts.AccountManagerFuture;
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_sliding.receivers.VoiceReceiver;
 
 public class GoogleVoiceFragment extends Fragment {
     class AccountAdapter extends ArrayAdapter<Account> {
@@ -80,6 +82,14 @@ public class GoogleVoiceFragment extends Fragment {
                 lv.clearChoices();
                 lv.requestLayout();
                 getToken(account, position);
+            }
+        });
+
+        Button syncButton = (Button) layout.findViewById(R.id.syncButton);
+        syncButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                context.startService(new Intent(context, VoiceReceiver.class));
             }
         });
 

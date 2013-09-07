@@ -62,16 +62,22 @@ public class TextMessageReceiver extends BroadcastReceiver {
 	         
 	        if ( extras != null )
 	        {
-	            Object[] smsExtra = (Object[]) extras.get( SMS_EXTRA_NAME );
-	            
-	            for ( int i = 0; i < smsExtra.length; ++i )
-	            {
-	                SmsMessage sms = SmsMessage.createFromPdu((byte[])smsExtra[i]);
-	                 
-	                body += sms.getMessageBody().toString();
-	                address = sms.getOriginatingAddress();
-	                date = sms.getTimestampMillis() + "";
-	            }
+                if (!intent.getBooleanExtra("voice_message", false)) {
+                    Object[] smsExtra = (Object[]) extras.get( SMS_EXTRA_NAME );
+
+                    for ( int i = 0; i < smsExtra.length; ++i )
+                    {
+                        SmsMessage sms = SmsMessage.createFromPdu((byte[])smsExtra[i]);
+
+                        body += sms.getMessageBody().toString();
+                        address = sms.getOriginatingAddress();
+                        date = sms.getTimestampMillis() + "";
+                    }
+                } else {
+                    body = intent.getStringExtra("voice_body");
+                    address = intent.getStringExtra("voice_address");
+                    date = intent.getStringExtra("voice_date");
+                }
             }
 
             Calendar cal = Calendar.getInstance();
