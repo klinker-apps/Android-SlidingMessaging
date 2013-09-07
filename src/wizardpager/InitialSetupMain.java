@@ -69,9 +69,13 @@ public class InitialSetupMain extends FragmentActivity implements
     private Intent fromIntent;
     private String version;
 
+    private Activity mContext;
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wizard_main);
+
+        mContext = this;
 
         mWizardModel = new InitialSetupWizardModel(getBaseContext());
         fromIntent = getIntent();
@@ -289,8 +293,6 @@ public class InitialSetupMain extends FragmentActivity implements
                     toast.show();
                 } else if (!carrier.equals(""))
                 {
-                    final Activity context = (Activity) getApplicationContext();
-
                     if (carrier.equals("Auto Select")) {
                         TelephonyManager manager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
                         final String networkOperator = manager.getNetworkOperator();
@@ -308,7 +310,7 @@ public class InitialSetupMain extends FragmentActivity implements
 
                                         sharedPrefs.edit().putString("mmsc_url", a.mmsc).putString("mms_proxy", a.proxy).putString("mms_port", a.port + "").commit();
                                     } catch (Exception e) {
-                                        context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+                                        mContext.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
                                             @Override
                                             public void run() {
                                                 try {
