@@ -95,7 +95,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                 getResources().getString(R.string.mms_settings),
                 getResources().getString(R.string.google_voice_settings),
                 getResources().getString(R.string.security_settings),
-                getResources().getString(R.string.advanced_settings), };
+                getResources().getString(R.string.advanced_settings),  }; // add other settings
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -133,6 +133,7 @@ public class SettingsPagerActivity extends FragmentActivity {
         public void onItemClick(AdapterView parent, View view, int position, long id) {
 
             // TODO: Make this smoother
+            // TODO: Add the other settings options for not switching viewpager
 
             mDrawerLayout.closeDrawer(mDrawer);
             mViewPager.setCurrentItem(position, true);
