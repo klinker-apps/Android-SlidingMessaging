@@ -25,6 +25,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 import com.droidprism.APN;
@@ -67,6 +68,7 @@ public class SettingsPagerActivity extends FragmentActivity {
 
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
+    private LinearLayout mDrawer;
 
     private static final int REQ_CREATE_PATTERN = 3;
 
@@ -104,7 +106,8 @@ public class SettingsPagerActivity extends FragmentActivity {
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        mDrawerList = (ListView) findViewById(R.id.links_list);
+        mDrawer = (LinearLayout) findViewById(R.id.drawer);
 
         // Set the adapter for the list view
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,
@@ -128,8 +131,11 @@ public class SettingsPagerActivity extends FragmentActivity {
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView parent, View view, int position, long id) {
+
+            // TODO: Make this smoother
+
+            mDrawerLayout.closeDrawer(mDrawer);
             mViewPager.setCurrentItem(position, true);
-            mDrawerLayout.closeDrawer(mDrawerList);
         }
     }
 

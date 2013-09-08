@@ -29,13 +29,45 @@
     </android.support.v4.view.ViewPager>
 
     <!-- The navigation drawer -->
-    <!-- default of 240dp width -->
-    <ListView android:id="@+id/left_drawer"
-        android:layout_width="280dp"
-        android:layout_height="match_parent"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/drawer"
+        android:orientation="vertical"
+        android:layout_width="370dp"
+        android:layout_height="fill_parent"
         android:layout_gravity="start"
-        android:choiceMode="singleChoice"
-        android:divider="@android:color/darker_gray"
-        android:dividerHeight="1dp"
-        android:background="@color/light_silver"/>
+        android:background="@color/light_silver" >
+
+        <ScrollView android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <LinearLayout android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1" >
+
+                <TextView android:id="@+id/title"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:text="@string/settings_category"
+                    android:textSize="20dp" android:textColor="@color/light_grey"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="15dp" />
+
+                <!-- default of 240dp width -->
+                <ListView android:id="@+id/links_list"
+                    android:layout_height="match_parent" android:layout_width="wrap_content"
+                    android:layout_gravity="start"
+                    android:choiceMode="singleChoice"
+                    android:divider="@color/light_grey" android:dividerHeight="1dp"
+                    android:paddingLeft="40dp" android:paddingRight="40dp"
+                    android:footerDividersEnabled="false" android:headerDividersEnabled="false"/>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
 </android.support.v4.widget.DrawerLayout>
