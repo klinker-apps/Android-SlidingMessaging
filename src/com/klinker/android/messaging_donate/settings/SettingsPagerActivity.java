@@ -94,6 +94,8 @@ public class SettingsPagerActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_main);
 
+        DrawerArrayAdapter.current = 0;
+
         linkItems = new String[] { getResources().getString(R.string.theme_settings),
                 getResources().getString(R.string.notification_settings),
                 getResources().getString(R.string.popup_settings),
@@ -167,6 +169,16 @@ public class SettingsPagerActivity extends FragmentActivity {
         }
 
         showAll = sharedPrefs.getBoolean("show_advanced_settings", false);
+
+        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            public void onPageScrollStateChanged(int state) {}
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+
+            public void onPageSelected(int position) {
+                DrawerArrayAdapter.current = position;
+                mDrawerList.invalidateViews();
+            }
+        });
     }
 
     @Override
@@ -219,12 +231,10 @@ public class SettingsPagerActivity extends FragmentActivity {
             // TODO: Add the other settings options for not switching viewpager
             final Context context = getApplicationContext();
             Intent intent;
-            mDrawerLayout.closeDrawer(mDrawer);
+
             if (settingsLinksActive) {
                 mViewPager.setCurrentItem(position, true);
-                DrawerArrayAdapter.current = position;
-                mDrawerList.setAdapter(new DrawerArrayAdapter(activity,
-                        new ArrayList<String>(Arrays.asList(linkItems))));
+                mDrawerLayout.closeDrawer(mDrawer);
             } else {
                 switch (position) {
                     case 0:
@@ -392,6 +402,10 @@ public class SettingsPagerActivity extends FragmentActivity {
 
             Bundle args = getArguments();
             position = args.getInt("position");
+
+            DrawerArrayAdapter.current = position - 1;
+            mDrawerList.setAdapter(new DrawerArrayAdapter(activity,
+                    new ArrayList<String>(Arrays.asList(linkItems))));
 
             switch(position)
             {

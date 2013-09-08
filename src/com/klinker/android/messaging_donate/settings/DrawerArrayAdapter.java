@@ -57,13 +57,6 @@ public class DrawerArrayAdapter  extends ArrayAdapter<String> {
             viewHolder.name = (TextView) rowView.findViewById(R.id.title);
             viewHolder.icon = (ImageView) rowView.findViewById(R.id.icon);
 
-            if(current == position && SettingsPagerActivity.settingsLinksActive) {
-                viewHolder.name.setTextColor(context.getResources().getColor(R.color.holo_blue));
-            } else {
-                viewHolder.name.setTextColor(context.getResources().getColor(R.color.light_grey));
-            }
-
-
             rowView.setTag(viewHolder);
         }
 
@@ -104,8 +97,10 @@ public class DrawerArrayAdapter  extends ArrayAdapter<String> {
 
         if (current == position && SettingsPagerActivity.settingsLinksActive) {
             holder.icon.setColorFilter(context.getResources().getColor(R.color.holo_blue));
+            holder.name.setTextColor(context.getResources().getColor(R.color.holo_blue));
         } else {
             holder.icon.setColorFilter(context.getResources().getColor(R.color.light_grey));
+            holder.name.setTextColor(context.getResources().getColor(R.color.light_grey));
         }
 
         return rowView;
