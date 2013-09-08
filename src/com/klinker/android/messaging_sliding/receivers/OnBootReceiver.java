@@ -75,7 +75,13 @@ public class OnBootReceiver extends BroadcastReceiver {
         serviceIntent.putExtra(EXTRA_MESSAGE, details[3]);
         serviceIntent.putExtra(EXTRA_NUMBER, details[0]);
 
-        PendingIntent pi = getDistinctPendingIntent(serviceIntent, Integer.parseInt(details[4]));
+        PendingIntent pi;
+
+        try {
+            pi = getDistinctPendingIntent(serviceIntent, Integer.parseInt(details[4]));
+        } catch (Exception e) {
+            return;
+        }
 
         // Schedule the alarm!
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
