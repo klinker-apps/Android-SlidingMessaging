@@ -37,7 +37,6 @@ import com.klinker.android.messaging_sliding.backup.BackupService;
 import com.klinker.android.messaging_sliding.blacklist.BlacklistActivity;
 import com.klinker.android.messaging_sliding.custom_dialogs.NumberPickerDialog;
 import com.klinker.android.messaging_sliding.notifications.NotificationsSettingsActivity;
-import com.klinker.android.messaging_sliding.receivers.CacheService;
 import com.klinker.android.messaging_sliding.receivers.NotificationReceiver;
 import com.klinker.android.messaging_sliding.scheduled.ScheduledSms;
 import com.klinker.android.messaging_sliding.security.SetPasswordActivity;
@@ -95,7 +94,12 @@ public class SettingsPagerActivity extends FragmentActivity {
                 getResources().getString(R.string.mms_settings),
                 getResources().getString(R.string.google_voice_settings),
                 getResources().getString(R.string.security_settings),
-                getResources().getString(R.string.advanced_settings),  }; // add other settings
+                getResources().getString(R.string.advanced_settings),
+                getResources().getString(R.string.quick_templates),
+                getResources().getString(R.string.scheduled_sms),
+                getResources().getString(R.string.get_help),
+                getResources().getString(R.string.other_apps),
+                getResources().getString(R.string.rate_it) };
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -134,9 +138,51 @@ public class SettingsPagerActivity extends FragmentActivity {
 
             // TODO: Make this smoother
             // TODO: Add the other settings options for not switching viewpager
+            final Context context = getApplicationContext();
+            Intent intent;
 
             mDrawerLayout.closeDrawer(mDrawer);
-            mViewPager.setCurrentItem(position, true);
+            if (position < 9) {
+                mViewPager.setCurrentItem(position, true);
+            } else {
+                switch (position) {
+                    case 10:
+                        intent = new Intent(context, TemplateActivity.class);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                        break;
+
+                    case 11:
+                        intent = new Intent(context, ScheduledSms.class);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                        break;
+
+                    case 12:
+                        intent = new Intent(context, GetHelpSettingsActivity.class);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                        break;
+
+                    case 13:
+                        intent = new Intent(context, OtherAppsSettingsActivity.class);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                        break;
+
+                    case 14:
+
+                        Uri uri = Uri.parse("market://details?id=" + context.getPackageName());
+                        Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+                        try {
+                            startActivity(goToMarket);
+                        } catch (ActivityNotFoundException e) {
+                            Toast.makeText(context, "Couldn't launch the market", Toast.LENGTH_LONG).show();
+                        }
+
+                        break;
+                }
+            }
         }
     }
 
