@@ -34,6 +34,7 @@ public class MainActivity extends Activity {
         MyCard tipThree = new MyCard(getResources().getString(R.string.tip_slideover_title), getResources().getString(R.string.tip_slideover));
         MyCard tipFour = new MyCard(getResources().getString(R.string.tip_contacts_title), getResources().getString(R.string.tip_contacts));
         MyCard tipFive = new MyCard(getString(R.string.tip_notification_listener_title), getString(R.string.tip_notification_listener));
+        MyCard tipSix = new MyCard(getString(R.string.voice_receiving_notes), getString(R.string.voice_receiving_notes_summary));
 
         // Send them to the google+ post if it is clicked on
         tipOne.setOnClickListener(new OnClickListener() {
@@ -82,6 +83,7 @@ public class MainActivity extends Activity {
         mCardView.addCard(tipThree);
         mCardView.addCard(tipFour);
         mCardView.addCard(tipFive);
+        mCardView.addCard(tipSix);
 
         // draw cards
         mCardView.refresh();

@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,6 +91,34 @@ public class GoogleVoiceFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 context.startService(new Intent(context, VoiceReceiver.class));
+            }
+        });
+
+        LinearLayout voiceReceivingOption1 = (LinearLayout) layout.findViewById(R.id.voiceReceivingOption1);
+        voiceReceivingOption1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (android.os.Build.VERSION.SDK_INT >= 18) {
+                    startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
+                } else {
+                    startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS));
+                }
+            }
+        });
+
+        LinearLayout voiceReceivingOption2 = (LinearLayout) layout.findViewById(R.id.voiceReceivingOption2);
+        voiceReceivingOption2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        Button tipsButton = (Button) layout.findViewById(R.id.tipsButton);
+        tipsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(context, com.klinker.android.messaging_sliding.developer_tips.MainActivity.class));
             }
         });
 

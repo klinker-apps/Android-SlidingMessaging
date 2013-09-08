@@ -10,6 +10,7 @@
     <color name="black">#222222</color>
     <color name="pitch_black">#000000</color>
     <color name="holo_blue">#33B5E5</color>
+    <color name="holo_blue_2">#9933B5E5</color>
     <color name="holo_orange">#FF8800</color>
     <color name="holo_red">#CC0000</color>
     <color name="holo_purple">#AA66CC</color>
@@ -22,6 +23,7 @@
     <color name="emoji_button">#8dbc36</color>
     <color name="shadow">#55c6c6c6</color>
     <color name="divider">#99c6c6c6</color>
+    <color name="settings_divider">#22c6c6c6</color>
 
     <color name="card_message_list_back">#e5e5e5</color>
     <color name="card_message_text_body">#6a6a6a</color>

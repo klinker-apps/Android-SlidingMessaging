@@ -740,6 +740,17 @@
     <string name="auto_select_apn">Automatically Select APNs</string>
     <string name="auto_select_apn_summary">Attempts to get the correct APNs automatically from your device</string>
     <string name="finding_apns">Finding APNs…</string>
-    <string name="sync_voice_messages">Sync New Voice Messages</string>
+    <string name="sync_voice_messages">Manually Sync New Voice Messages</string>
+    <string name="voice_receiving">Set Up Google Voice Message Receiving:</string>
+    <string name="voice_receiving_option_1">Option 1: Use a Notification Listener</string>
+    <string name="voice_receiving_option_1_summary">Will sync messages instantly when you receive them through Google Voice by listening for a notification. You must have the Google Voice app installed and notifications enabled</string>
+    <string name="voice_receiving_option_2">Option 2: Refresh on Interval</string>
+    <string name="voice_receiving_option_2_summary">Sets a refresh interval to intermediately go and check for new messages. Does not require the Google Voice app to be installed</string>
+    <string name="voice_receiving_tips">If you have problems, please read the \"Developer Tip\" on receiving Voice messages</string>
+    <string name="voice_receiving_notes">Dev Tip #6 (Google Voice Receiving): </string>
+    <string name="voice_receiving_notes_summary">1) Android 4.3+ users can use the notification listener service, and users below that you need to use the accessibility service (both of which can be enabled by clicking the \"Option 1\" button).\n\n
+                                                 2) The accessibility service cannot cancel Google Voice notifications (this is a limitation of the Android system), but if you turn them off through the Voice app then Sliding Messaging won\'t
+                                                 receive the messages at all. If you are using OPTION ONE, you must have notifications enabled for Google Voice, meaning Jellybean (4.1 and 4.2) and ICS (4.0) users will get double notifications\n\n
+                                                 3) The \"Refresh on Interval\" option is still in the works and will not do anything this beta.</string>
 
 </resources>

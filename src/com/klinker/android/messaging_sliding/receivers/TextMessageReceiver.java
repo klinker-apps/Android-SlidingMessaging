@@ -82,7 +82,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
             } else {
                 body = intent.getStringExtra("voice_body");
                 address = intent.getStringExtra("voice_address");
-                date = intent.getStringExtra("voice_date");
+                date = intent.getLongExtra("voice_date", Calendar.getInstance().getTimeInMillis()) + "";
             }
 
             Calendar cal = Calendar.getInstance();
@@ -1232,6 +1232,10 @@ public class TextMessageReceiver extends BroadcastReceiver {
 		        		
 		        	}, 200);
 		        }
+
+                if (voiceMessage) {
+                    context.sendBroadcast(new Intent("com.klinker.android.messaging.NEW_MMS"));
+                }
 		        
 		        if (sharedPrefs.getBoolean("override", false) || voiceMessage)
 		        {

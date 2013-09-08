@@ -991,6 +991,14 @@ public class MainActivity extends FragmentActivity {
                 {
                     if (currentThread.equals(threadIds.get(i)))
                     {
+                        if (i != 0) {
+                            if (appMsgConversations == 1) {
+                                appMsg = AppMsg.makeText((Activity) arg0, appMsgConversations + getString(R.string.new_conversation), AppMsg.STYLE_ALERT);
+                            } else {
+                                appMsg = AppMsg.makeText((Activity) arg0, appMsgConversations + getString(R.string.new_conversations), AppMsg.STYLE_ALERT);
+                            }
+                        }
+
                         mViewPager.setCurrentItem(i, false);
                         break;
                     }

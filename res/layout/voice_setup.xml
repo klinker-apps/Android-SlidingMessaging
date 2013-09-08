@@ -1,31 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="fill_parent"
-              android:layout_height="wrap_content"
-              android:layout_marginLeft="12dp"
-              android:layout_marginRight="12dp">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
-    <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/account"
-            android:layout_marginTop="4dp"
-            style="@android:style/TextAppearance.Small"/>
+    <LinearLayout android:orientation="vertical"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginLeft="12dp"
+                  android:layout_marginRight="12dp"
+                  android:divider="@color/divider">
 
-    <ListView
-            android:choiceMode="singleChoice"
-            android:id="@+id/list"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"/>
+        <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/account"
+                android:layout_marginTop="4dp"
+                style="@android:style/TextAppearance.Small"/>
 
-    <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/sync_voice_messages"
-            android:id="@+id/syncButton"
-            android:layout_gravity="center"/>
+        <ListView
+                android:choiceMode="singleChoice"
+                android:id="@+id/list"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"/>
 
-</LinearLayout>
+        <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/voice_receiving"
+                android:layout_marginTop="24dp"
+                style="@android:style/TextAppearance.Small"/>
+
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="vertical"
+                      android:layout_marginRight="32dp"
+                      android:layout_marginLeft="4dp"
+                      android:background="@drawable/voice_layout_background"
+                      android:id="@+id/voiceReceivingOption1">
+
+            <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/voice_receiving_option_1"
+                    android:layout_marginTop="4dp"
+                    style="@android:style/TextAppearance.Medium"/>
+
+            <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/voice_receiving_option_1_summary"
+                    style="@android:style/TextAppearance.Small"/>
+
+        </LinearLayout>
+
+        <View android:layout_height="1dp"
+              android:layout_width="wrap_content"
+              android:background="@color/settings_divider"
+              android:layout_marginTop="6dp"
+              android:layout_marginRight="32dp"/>
+
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="vertical"
+                      android:layout_marginRight="32dp"
+                      android:layout_marginLeft="4dp"
+                      android:background="@drawable/voice_layout_background"
+                      android:id="@+id/voiceReceivingOption2">
+
+            <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/voice_receiving_option_2"
+                    android:layout_marginTop="4dp"
+                    style="@android:style/TextAppearance.Medium"/>
+
+            <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/voice_receiving_option_2_summary"
+                    style="@android:style/TextAppearance.Small"/>
+
+        </LinearLayout>
+
+        <View android:layout_height="1dp"
+              android:layout_width="wrap_content"
+              android:background="@color/settings_divider"
+              android:layout_marginTop="8dp"
+              android:layout_marginRight="32dp"/>
+
+        <Button
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/sync_voice_messages"
+                android:id="@+id/syncButton"
+                android:layout_gravity="center"/>
+
+        <View android:layout_height="1dp"
+              android:layout_width="wrap_content"
+              android:background="@color/settings_divider"
+              android:layout_marginTop="6dp"
+              android:layout_marginRight="32dp"/>
+
+        <Button
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/voice_receiving_tips"
+                android:id="@+id/tipsButton"
+                android:layout_gravity="center"/>
+
+    </LinearLayout>
+</ScrollView>
 
