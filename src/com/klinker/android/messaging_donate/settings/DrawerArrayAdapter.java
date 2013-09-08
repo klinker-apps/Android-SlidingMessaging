@@ -95,7 +95,6 @@ public class DrawerArrayAdapter  extends ArrayAdapter<String> {
         else
             holder.icon.setImageResource(R.drawable.drawer_rating);
 
-
         return rowView;
     }
 }
