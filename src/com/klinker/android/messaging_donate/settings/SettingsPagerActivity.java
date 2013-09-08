@@ -77,7 +77,7 @@ public class SettingsPagerActivity extends FragmentActivity {
     private static final int REQ_CREATE_PATTERN = 3;
 
     private boolean showAll;
-    private boolean settingsLinksActive = true;
+    public static boolean settingsLinksActive = true;
 
     private String[] linkItems;
     private String[] otherItems;
@@ -219,10 +219,12 @@ public class SettingsPagerActivity extends FragmentActivity {
             // TODO: Add the other settings options for not switching viewpager
             final Context context = getApplicationContext();
             Intent intent;
-
             mDrawerLayout.closeDrawer(mDrawer);
             if (settingsLinksActive) {
                 mViewPager.setCurrentItem(position, true);
+                DrawerArrayAdapter.current = position;
+                mDrawerList.setAdapter(new DrawerArrayAdapter(activity,
+                        new ArrayList<String>(Arrays.asList(linkItems))));
             } else {
                 switch (position) {
                     case 0:

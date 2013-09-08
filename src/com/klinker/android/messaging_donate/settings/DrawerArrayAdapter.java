@@ -2,6 +2,7 @@ package com.klinker.android.messaging_donate.settings;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.graphics.PorterDuff;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ public class DrawerArrayAdapter  extends ArrayAdapter<String> {
     private final Activity context;
     private final ArrayList<String> text;
     public SharedPreferences sharedPrefs;
+    public static int current = 0;
 
     static class ViewHolder {
         public TextView name;
@@ -55,6 +57,11 @@ public class DrawerArrayAdapter  extends ArrayAdapter<String> {
             viewHolder.name = (TextView) rowView.findViewById(R.id.title);
             viewHolder.icon = (ImageView) rowView.findViewById(R.id.icon);
 
+            if(current == position && SettingsPagerActivity.settingsLinksActive) {
+                viewHolder.name.setTextColor(context.getResources().getColor(R.color.holo_blue));
+            } else {
+                viewHolder.name.setTextColor(context.getResources().getColor(R.color.light_grey));
+            }
 
 
             rowView.setTag(viewHolder);
@@ -94,6 +101,12 @@ public class DrawerArrayAdapter  extends ArrayAdapter<String> {
             holder.icon.setImageResource(R.drawable.drawer_apps);
         else
             holder.icon.setImageResource(R.drawable.drawer_rating);
+
+        if (current == position && SettingsPagerActivity.settingsLinksActive) {
+            holder.icon.setColorFilter(context.getResources().getColor(R.color.holo_blue));
+        } else {
+            holder.icon.setColorFilter(context.getResources().getColor(R.color.light_grey));
+        }
 
         return rowView;
     }
