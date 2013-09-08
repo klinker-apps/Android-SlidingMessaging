@@ -478,4 +478,9 @@
         <item>markRead</item>
     </string-array>
 
+    <string-array name="drawer_spinner_array">
+        <item>Settings Links</item>
+        <item>Other Links</item>
+    </string-array>
+
 </resources>
