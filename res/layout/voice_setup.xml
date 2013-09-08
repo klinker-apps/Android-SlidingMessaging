@@ -96,7 +96,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/sync_voice_messages"
                 android:id="@+id/syncButton"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:layout_marginRight="32dp"/>
 
         <View android:layout_height="1dp"
               android:layout_width="wrap_content"
@@ -110,7 +111,9 @@
                 android:layout_height="wrap_content"
                 android:text="@string/voice_receiving_tips"
                 android:id="@+id/tipsButton"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:layout_marginRight="32dp"
+                android:layout_marginLeft="12dp"/>
 
     </LinearLayout>
 </ScrollView>
