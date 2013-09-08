@@ -193,12 +193,11 @@ public class VoiceReceiver extends Service {
                 continue;
             }
 
-            // TODO this is where the messages should be broadcast
             if (message.type != VOICE_INCOMING_SMS)
                 continue;
             try {
                 Log.v("refresh_voice", "sending sms broadcast");
-                Intent smsBroadcast = new Intent("android.provider.Telephony.SMS_RECEIVED");
+                Intent smsBroadcast = new Intent("com.klinker.android.messaging.VOICE_RECEIVED");
                 smsBroadcast.putExtra("voice_message", true);
                 smsBroadcast.putExtra("voice_body", message.message);
                 smsBroadcast.putExtra("voice_address", message.phoneNumber);

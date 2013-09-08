@@ -478,7 +478,11 @@
             <intent-filter android:priority="2"> 
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
                 <category android:name="android.intent.category.HOME" />
-            </intent-filter> 
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="com.klinker.android.messaging.VOICE_RECEIVED" />
+            </intent-filter>
         </receiver>
         
         <receiver android:name="com.klinker.android.messaging_sliding.receivers.MMSMessageReceiver"
