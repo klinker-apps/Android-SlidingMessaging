@@ -3,6 +3,7 @@ package com.klinker.android.messaging_donate.settings;
 import android.annotation.SuppressLint;
 import android.app.*;
 import android.content.*;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -16,6 +17,7 @@ import android.preference.PreferenceGroup;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v13.app.FragmentPagerAdapter;
+import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager;
@@ -69,6 +71,7 @@ public class SettingsPagerActivity extends FragmentActivity {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private LinearLayout mDrawer;
+    private ActionBarDrawerToggle mDrawerToggle;
 
     private static final int REQ_CREATE_PATTERN = 3;
 
@@ -137,7 +140,18 @@ public class SettingsPagerActivity extends FragmentActivity {
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
-        //getActionBar().setDisplayHomeAsUpEnabled(true);
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this,                  /* host Activity */
+                mDrawerLayout,         /* DrawerLayout object */
+                R.drawable.ic_drawer,  /* nav drawer icon to replace 'Up' caret */
+                R.string.drawer_open,  /* "open drawer" description */
+                R.string.drawer_close  /* "close drawer" description */
+        );
+
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
 
         try {
             if (getIntent().getBooleanExtra("mms", false)) {
@@ -148,6 +162,19 @@ public class SettingsPagerActivity extends FragmentActivity {
         }
 
         showAll = sharedPrefs.getBoolean("show_advanced_settings", false);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     private class SpinnerClickListener implements  Spinner.OnItemSelectedListener {
@@ -238,15 +265,24 @@ public class SettingsPagerActivity extends FragmentActivity {
         switch (item.getItemId()) {
 
             case android.R.id.home:
-                if (mViewPager.getCurrentItem() == 0)
+                /*if (mViewPager.getCurrentItem() == 0)
                 {
                    onBackPressed();
                 } else
                 {
                     mViewPager.setCurrentItem(0, true);
+                }*/
+
+                // Pass the event to ActionBarDrawerToggle, if it returns
+                // true, then it has handled the app icon touch event
+                if (mDrawerToggle.onOptionsItemSelected(item)) {
+                    return true;
                 }
 
-                return true;
+                // Handle your other action bar items...
+
+                return super.onOptionsItemSelected(item);
+
             default:
                 return super.onOptionsItemSelected(item);
         }

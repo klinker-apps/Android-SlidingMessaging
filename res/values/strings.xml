@@ -752,5 +752,6 @@
                                                  2) The accessibility service cannot cancel Google Voice notifications (this is a limitation of the Android system), but if you turn them off through the Voice app then Sliding Messaging won\'t
                                                  receive the messages at all. If you are using OPTION ONE, you must have notifications enabled for Google Voice, meaning Jellybean (4.1 and 4.2) and ICS (4.0) users will get double notifications\n\n
                                                  3) The \"Refresh on Interval\" option is still in the works and will not do anything this beta.</string>
-
+    <string name="drawer_open"> Settings Links</string>
+    <string name="drawer_close"> Settings</string>
 </resources>
