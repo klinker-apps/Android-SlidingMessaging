@@ -29,6 +29,7 @@
     </android.support.v4.view.ViewPager>
 
     <!-- The navigation drawer -->
+    <!-- default of 240dp width -->
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/drawer"
@@ -45,9 +46,8 @@
             <Spinner android:id="@+id/spinner"
                 android:layout_width="match_parent" android:layout_height="wrap_content" />
 
-            </LinearLayout>
+        </LinearLayout>
 
-        <!-- default of 240dp width -->
         <ListView android:id="@+id/links_list"
             android:layout_height="wrap_content" android:layout_width="wrap_content"
             android:layout_gravity="start"
