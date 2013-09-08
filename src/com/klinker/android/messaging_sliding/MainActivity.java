@@ -2654,7 +2654,7 @@ public class MainActivity extends FragmentActivity {
                     pattern = Pattern.compile(text.toLowerCase());
                 } catch (Exception e)
                 {
-                    pattern = Pattern.compile(text.toLowerCase().replace("(", "").replace(")", "").replace("?", "").replace("[", "").replace("{", "").replace("}", "").replace("\\", ""));
+                    pattern = Pattern.compile(text.toLowerCase().replace("(", "").replace(")", "").replace("?", "").replace("[", "").replace("{", "").replace("}", "").replace("\\", "").replace("*", ""));
                 }
 
                 try {
