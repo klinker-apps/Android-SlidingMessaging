@@ -19,8 +19,13 @@ import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.telephony.TelephonyManager;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 import com.droidprism.APN;
 import com.droidprism.Carrier;
@@ -60,9 +65,14 @@ public class SettingsPagerActivity extends FragmentActivity {
     SectionsPagerAdapter mSectionsPagerAdapter;
     SharedPreferences sharedPrefs;
 
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
+
     private static final int REQ_CREATE_PATTERN = 3;
 
     private boolean showAll;
+
+    private String[] drawerItems;
 
     /**
      * The {@link android.support.v4.view.ViewPager} that will host the section contents.
@@ -74,6 +84,17 @@ public class SettingsPagerActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_main);
 
+        drawerItems = new String[] { getResources().getString(R.string.theme_settings),
+                getResources().getString(R.string.notification_settings),
+                getResources().getString(R.string.popup_settings),
+                getResources().getString(R.string.slideover_settings),
+                getResources().getString(R.string.text_settings),
+                getResources().getString(R.string.conversation_settings),
+                getResources().getString(R.string.mms_settings),
+                getResources().getString(R.string.google_voice_settings),
+                getResources().getString(R.string.security_settings),
+                getResources().getString(R.string.advanced_settings) };
+
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(
@@ -82,7 +103,16 @@ public class SettingsPagerActivity extends FragmentActivity {
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+
+        // Set the adapter for the list view
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
+                R.layout.drawer_list_item, drawerItems));
+        // Set the list's click listener
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+
+        //getActionBar().setDisplayHomeAsUpEnabled(true);
 
         try {
             if (getIntent().getBooleanExtra("mms", false)) {
@@ -93,6 +123,14 @@ public class SettingsPagerActivity extends FragmentActivity {
         }
 
         showAll = sharedPrefs.getBoolean("show_advanced_settings", false);
+    }
+
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView parent, View view, int position, long id) {
+            mViewPager.setCurrentItem(position, true);
+            mDrawerLayout.closeDrawer(mDrawerList);
+        }
     }
 
     @Override
@@ -137,7 +175,7 @@ public class SettingsPagerActivity extends FragmentActivity {
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        public static final int NUM_PAGES = 11;
+        public static final int NUM_PAGES = 10;
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -146,7 +184,7 @@ public class SettingsPagerActivity extends FragmentActivity {
         @Override
         public Fragment getItem(int position) {
 
-            if (position != 8) {
+            if (position != 7) {
                 PreferenceFragment fragment = new PrefFragment();
                 Bundle args = new Bundle();
                 args.putInt("position", position);
@@ -166,27 +204,27 @@ public class SettingsPagerActivity extends FragmentActivity {
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
+                //case 0:
+                    //return getResources().getString(R.string.menu_settings);
                 case 0:
-                    return getResources().getString(R.string.menu_settings);
-                case 1:
                     return getResources().getString(R.string.theme_settings);
-                case 2:
+                case 1:
                     return getResources().getString(R.string.sliding_notification_settings);
-                case 3:
+                case 2:
                     return getResources().getString(R.string.popup_settings);
-                case 4:
+                case 3:
                     return getResources().getString(R.string.slideover_settings);
-                case 5:
+                case 4:
                     return getResources().getString(R.string.text_settings);
-                case 6:
+                case 5:
                     return getResources().getString(R.string.conversation_settings);
-                case 7:
+                case 6:
                     return getResources().getString(R.string.mms_settings);
-                case 8:
+                case 7:
                     return getResources().getString(R.string.google_voice_settings);
-                case 9:
+                case 8:
                     return getResources().getString(R.string.security_settings);
-                case 10:
+                case 9:
                     return getResources().getString(R.string.advanced_settings);
             }
             return null;
@@ -214,43 +252,43 @@ public class SettingsPagerActivity extends FragmentActivity {
 
             switch(position)
             {
+                //case 0:
+                    //addPreferencesFromResource(R.xml.sliding_settings);
+                    //setUpSlidingSettings();
+                    //break;
                 case 0:
-                    addPreferencesFromResource(R.xml.sliding_settings);
-                    setUpSlidingSettings();
-                    break;
-                case 1:
                     addPreferencesFromResource(R.xml.sliding_theme_settings);
                     setUpThemeSettings();
                     break;
-                case 2:
+                case 1:
                     addPreferencesFromResource(R.xml.sliding_notification_settings);
                     setUpNotificationSettings();
                     break;
-                case 3:
+                case 2:
                     addPreferencesFromResource(R.xml.popup_settings);
                     setUpPopupSettings();
                     break;
-                case 4:
+                case 3:
                     addPreferencesFromResource(R.xml.slideover_settings);
                     setUpSlideOverSettings();
                     break;
-                case 5:
+                case 4:
                     addPreferencesFromResource(R.xml.sliding_message_settings);
                     setUpMessageSettings();
                     break;
-                case 6:
+                case 5:
                     addPreferencesFromResource(R.xml.sliding_conversation_settings);
                     setUpConversationSettings();
                     break;
-                case 7:
+                case 6:
                     addPreferencesFromResource(R.xml.mms_settings);
                     setUpMmsSettings();
                     break;
-                case 9:
+                case 8:
                     addPreferencesFromResource(R.xml.sliding_security_settings);
                     setUpSecuritySettings();
                     break;
-                case 10:
+                case 9:
                     addPreferencesFromResource(R.xml.sliding_advanced_settings);
                     setUpAdvancedSettings();
                     break;

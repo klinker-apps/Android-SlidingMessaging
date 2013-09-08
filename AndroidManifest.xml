@@ -154,7 +154,7 @@
         <activity
             android:name="com.klinker.android.messaging_donate.settings.SettingsPagerActivity"
             android:label="@string/menu_settings"
-            android:theme="@style/SettingsTheme"
+            android:theme="@android:style/Theme.Holo.Light.DarkActionBar"
             android:excludeFromRecents="true"
             android:configChanges="orientation" >
         </activity>
