@@ -1,6 +1,7 @@
 Version 7.50
 
 Jake:
+    - Update mainactivity mms refresh receiver to use refreshviewpager4
     - google voice receiving support
         2) Refresh Interval (poll notifications)
     - change voice sending status depending on thread?

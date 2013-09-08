@@ -109,7 +109,12 @@ public class VoiceReceiver extends Service {
             return;
 
         // tokens!
-        String authToken = Transaction.getAuthToken(account, this);
+        String authToken = settings.getString("voice_rnrse", null);
+
+        if (authToken == null) {
+            authToken = Transaction.getAuthToken(account, this);
+            settings.edit().putString("voice_rnrse", authToken).commit();
+        }
 
         Payload payload = Ion.with(this)
                 .load("https://www.google.com/voice/request/messages")
