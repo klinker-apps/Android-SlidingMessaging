@@ -754,4 +754,6 @@
                                                  3) The \"Refresh on Interval\" option is still in the works and will not do anything this beta.</string>
     <string name="drawer_open"> Settings Links</string>
     <string name="drawer_close"> Settings</string>
+    <string name="swipe_read">Enable Swipe to Mark as Read</string>
+    <string name="swipe_read_summary">Android 4.3 ONLY. Please read the developer tips on how to implement this function.</string>
 </resources>

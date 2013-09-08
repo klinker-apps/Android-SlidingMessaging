@@ -758,6 +758,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                 ((PreferenceGroup) findPreference("notification_led_category")).removePreference(findPreference("led_on_time"));
                 ((PreferenceGroup) findPreference("notification_look_category")).removePreference(findPreference("button_options"));
                 ((PreferenceGroup) findPreference("notification_other_category")).removePreference(findPreference("secure_notification"));
+                ((PreferenceGroup) findPreference("notification_other_category")).removePreference(findPreference("swipe_read"));
                 ((PreferenceGroup) findPreference("wake_notification_category")).removePreference(findPreference("screen_timeout"));
             }
         }

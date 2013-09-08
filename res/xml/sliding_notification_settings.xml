@@ -235,6 +235,13 @@
             android:defaultValue="true"
             android:dependency="notifications"
             />
+
+        <CheckBoxPreference
+            android:key="swipe_read"
+            android:title="@string/swipe_read"
+            android:summary="@string/swipe_read_summary"
+            android:defaultValue="true"
+            />
     </PreferenceCategory>
 
 </PreferenceScreen>
