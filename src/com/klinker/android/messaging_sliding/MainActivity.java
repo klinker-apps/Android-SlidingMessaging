@@ -1065,6 +1065,8 @@ public class MainActivity extends FragmentActivity {
             }
         };
 
+        final Activity activity = this;
+
         mmsProgressReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -1075,11 +1077,19 @@ public class MainActivity extends FragmentActivity {
                     mmsProgress.setProgress(0);
 
                     try {
-                        mmsProgressAnimation.start();
+                        if (!mmsProgressAnimation.alreadyRunning) {
+                            mmsProgressAnimation = new ProgressAnimator();
+                            mmsProgressAnimation.setContext(activity);
+                            mmsProgressAnimation.setCurrentProgress(0);
+                            mmsProgressAnimation.setMmsProgress(mmsProgress);
+                            mmsProgressAnimation.start();
+                            mmsProgressAnimation.alreadyRunning = true;
+                        }
                     } catch (Exception e) {
                         // animation already started
                     }
                 } else if (progress == 100) {
+                    mmsProgressAnimation.alreadyRunning = false;
                     mmsProgressAnimation.setMaxProgress(100);
 
                     new Handler().postDelayed(new Runnable() {
@@ -1095,9 +1105,8 @@ public class MainActivity extends FragmentActivity {
         };
 
         mmsProgressAnimation = new ProgressAnimator();
-        mmsProgressAnimation.setContext(this);
+        mmsProgressAnimation.setContext(activity);
         mmsProgressAnimation.setCurrentProgress(0);
-        mmsProgressAnimation.setMaxProgress(100);
 
         final float scale = getResources().getDisplayMetrics().density;
         MainActivity.contactWidth = (int) (64 * scale + 0.5f);
