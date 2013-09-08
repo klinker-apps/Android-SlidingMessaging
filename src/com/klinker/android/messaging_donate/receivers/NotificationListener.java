@@ -25,8 +25,10 @@ public class NotificationListener extends NotificationListenerService {
     public void onNotificationRemoved(StatusBarNotification sbn) {
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        if (sbn.getPackageName().equals(this.getPackageName()) && !(sharedPrefs.getBoolean("slideover_enabled", false) && sharedPrefs.getBoolean("slideover_hide_notifications", false))) {
-            startService(new Intent(this, QmMarkRead2.class));
+        if (sharedPrefs.getBoolean("swipe_read", true)) {
+            if (sbn.getPackageName().equals(this.getPackageName()) && !(sharedPrefs.getBoolean("slideover_enabled", false) && sharedPrefs.getBoolean("slideover_hide_notifications", false))) {
+                startService(new Intent(this, QmMarkRead2.class));
+            }
         }
     }
 }
