@@ -38,44 +38,24 @@
         android:layout_gravity="start"
         android:background="@color/light_silver" >
 
-        <ScrollView android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:fillViewport="true" >
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:paddingLeft="30dp" android:paddingRight="30dp"
+            android:paddingTop="20dp" android:paddingBottom="8dp" >
 
-            <LinearLayout android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
-
-                <!--<TextView android:id="@+id/title"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:text="@string/settings_category"
-                    android:textSize="20dp" android:textColor="#4b4b4b"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    android:paddingLeft="15dp" />-->
-
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                    android:paddingLeft="30dp" android:paddingRight="30dp"
-                    android:paddingTop="20dp" android:paddingBottom="8dp" >
-
-                    <Spinner android:id="@+id/spinner"
-                        android:layout_width="match_parent" android:layout_height="wrap_content" />
-
-                    </LinearLayout>
-
-                <!-- default of 240dp width -->
-                <ListView android:id="@+id/links_list"
-                    android:layout_height="wrap_content" android:layout_width="wrap_content"
-                    android:layout_gravity="start"
-                    android:choiceMode="singleChoice"
-                    android:divider="#d2d2d2" android:dividerHeight="1dp"
-                    android:paddingLeft="40dp" android:paddingRight="40dp"
-                    android:footerDividersEnabled="false" android:headerDividersEnabled="false"/>
+            <Spinner android:id="@+id/spinner"
+                android:layout_width="match_parent" android:layout_height="wrap_content" />
 
             </LinearLayout>
 
-        </ScrollView>
+        <!-- default of 240dp width -->
+        <ListView android:id="@+id/links_list"
+            android:layout_height="wrap_content" android:layout_width="wrap_content"
+            android:layout_gravity="start"
+            android:choiceMode="singleChoice"
+            android:divider="#d2d2d2" android:dividerHeight="1dp"
+            android:paddingLeft="40dp" android:paddingRight="40dp"
+            android:footerDividersEnabled="false" android:headerDividersEnabled="false"/>
 
     </LinearLayout>
+
 </android.support.v4.widget.DrawerLayout>
