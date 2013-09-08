@@ -49,6 +49,7 @@ public class ChangeLogWizardModel extends AbstractWizardModel {
         String changeLog = "Version " + version + ":\n\n" +
                 "- Voice message syncing support (Notification Listening)\n" +
                 "- New settings menu navigation\n" +
+                "- Option to disable the mark as read by swiping away the message on 4.3 (useful if you also want Google Voice support)\n" +
                 "- Bug fixes";
                 
         String themeEditor = "The theme editor now fully supports the Cards UI 2.0, making it a " +
