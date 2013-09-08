@@ -95,7 +95,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                 getResources().getString(R.string.mms_settings),
                 getResources().getString(R.string.google_voice_settings),
                 getResources().getString(R.string.security_settings),
-                getResources().getString(R.string.advanced_settings) };
+                getResources().getString(R.string.advanced_settings), };
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
