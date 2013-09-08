@@ -27,6 +27,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 import com.droidprism.APN;
 import com.droidprism.Carrier;
@@ -72,8 +73,10 @@ public class SettingsPagerActivity extends FragmentActivity {
     private static final int REQ_CREATE_PATTERN = 3;
 
     private boolean showAll;
+    private boolean settingsLinksActive = true;
 
-    private String[] drawerItems;
+    private String[] linkItems;
+    private String[] otherItems;
 
     /**
      * The {@link android.support.v4.view.ViewPager} that will host the section contents.
@@ -85,7 +88,7 @@ public class SettingsPagerActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_main);
 
-        drawerItems = new String[] { getResources().getString(R.string.theme_settings),
+        linkItems = new String[] { getResources().getString(R.string.theme_settings),
                 getResources().getString(R.string.notification_settings),
                 getResources().getString(R.string.popup_settings),
                 getResources().getString(R.string.slideover_settings),
@@ -94,8 +97,9 @@ public class SettingsPagerActivity extends FragmentActivity {
                 getResources().getString(R.string.mms_settings),
                 getResources().getString(R.string.google_voice_settings),
                 getResources().getString(R.string.security_settings),
-                getResources().getString(R.string.advanced_settings),
-                getResources().getString(R.string.quick_templates),
+                getResources().getString(R.string.advanced_settings)   };
+
+        otherItems = new String[] {getResources().getString(R.string.quick_templates),
                 getResources().getString(R.string.scheduled_sms),
                 getResources().getString(R.string.get_help),
                 getResources().getString(R.string.other_apps),
@@ -113,9 +117,23 @@ public class SettingsPagerActivity extends FragmentActivity {
         mDrawerList = (ListView) findViewById(R.id.links_list);
         mDrawer = (LinearLayout) findViewById(R.id.drawer);
 
+        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.drawer_spinner_array, android.R.layout.simple_spinner_item);
+
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // Apply the adapter to the spinner
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new SpinnerClickListener());
+
         // Set the adapter for the list view
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.drawer_list_item, drawerItems));
+                R.layout.drawer_list_item, linkItems));
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
@@ -132,6 +150,35 @@ public class SettingsPagerActivity extends FragmentActivity {
         showAll = sharedPrefs.getBoolean("show_advanced_settings", false);
     }
 
+    private class SpinnerClickListener implements  Spinner.OnItemSelectedListener {
+        @Override
+        // sets the string repetition to whatever is choosen from the spinner
+        public void onItemSelected(AdapterView<?> parent, View view,
+                                   int pos, long id) {
+            // An item was selected. You can retrieve the selected item using
+            // parent.getItemAtPosition(pos)
+            String selected = parent.getItemAtPosition(pos).toString();
+
+            if (selected.equals("Settings Links")) {
+                mDrawerList.setAdapter(new ArrayAdapter<String>(getApplicationContext(),
+                        R.layout.drawer_list_item, linkItems));
+                mDrawerList.invalidate();
+                settingsLinksActive = true;
+            } else {
+                mDrawerList.setAdapter(new ArrayAdapter<String>(getApplicationContext(),
+                        R.layout.drawer_list_item, otherItems));
+                mDrawerList.invalidate();
+                settingsLinksActive = false;
+            }
+
+
+        }
+
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    }
+
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView parent, View view, int position, long id) {
@@ -142,35 +189,35 @@ public class SettingsPagerActivity extends FragmentActivity {
             Intent intent;
 
             mDrawerLayout.closeDrawer(mDrawer);
-            if (position < 9) {
+            if (settingsLinksActive) {
                 mViewPager.setCurrentItem(position, true);
             } else {
                 switch (position) {
-                    case 10:
+                    case 0:
                         intent = new Intent(context, TemplateActivity.class);
                         startActivity(intent);
                         overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                         break;
 
-                    case 11:
+                    case 1:
                         intent = new Intent(context, ScheduledSms.class);
                         startActivity(intent);
                         overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                         break;
 
-                    case 12:
+                    case 2:
                         intent = new Intent(context, GetHelpSettingsActivity.class);
                         startActivity(intent);
                         overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                         break;
 
-                    case 13:
+                    case 3:
                         intent = new Intent(context, OtherAppsSettingsActivity.class);
                         startActivity(intent);
                         overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                         break;
 
-                    case 14:
+                    case 4:
 
                         Uri uri = Uri.parse("market://details?id=" + context.getPackageName());
                         Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
@@ -1269,6 +1316,57 @@ public class SettingsPagerActivity extends FragmentActivity {
                     }
 
                     return false;
+                }
+
+            });
+
+            Preference deleteAll = findPreference("delete_all");
+            deleteAll.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+
+                @Override
+                public boolean onPreferenceClick(Preference arg0) {
+                    AlertDialog.Builder builder2 = new AlertDialog.Builder(context);
+                    builder2.setMessage(context.getResources().getString(R.string.delete_all));
+                    builder2.setPositiveButton(context.getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
+                        @SuppressLint("SimpleDateFormat")
+                        public void onClick(DialogInterface dialog, int id) {
+
+                            final ProgressDialog progDialog = new ProgressDialog(context);
+                            progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                            progDialog.setMessage(context.getResources().getString(R.string.deleting));
+                            progDialog.show();
+
+                            new Thread(new Runnable(){
+
+                                @Override
+                                public void run() {
+                                    deleteSMS(context);
+                                    writeToFile(new ArrayList<String>(), context);
+
+                                    ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                                        @Override
+                                        public void run() {
+                                            progDialog.dismiss();
+                                        }
+
+                                    });
+                                }
+
+                            }).start();
+
+                        }
+                    });
+                    builder2.setNegativeButton(context.getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.dismiss();
+                        }
+                    });
+                    AlertDialog dialog2 = builder2.create();
+
+                    dialog2.show();
+
+                    return true;
                 }
 
             });
