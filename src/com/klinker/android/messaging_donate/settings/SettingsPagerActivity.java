@@ -52,6 +52,7 @@ import net.margaritov.preference.colorpicker.ColorPickerPreference;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Map;
 
@@ -81,6 +82,8 @@ public class SettingsPagerActivity extends FragmentActivity {
     private String[] linkItems;
     private String[] otherItems;
 
+    private Activity activity;
+
     /**
      * The {@link android.support.v4.view.ViewPager} that will host the section contents.
      */
@@ -107,6 +110,8 @@ public class SettingsPagerActivity extends FragmentActivity {
                 getResources().getString(R.string.get_help),
                 getResources().getString(R.string.other_apps),
                 getResources().getString(R.string.rate_it) };
+
+        activity = this;
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -135,8 +140,8 @@ public class SettingsPagerActivity extends FragmentActivity {
         spinner.setOnItemSelectedListener(new SpinnerClickListener());
 
         // Set the adapter for the list view
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.drawer_list_item, linkItems));
+        mDrawerList.setAdapter(new DrawerArrayAdapter(this,
+                new ArrayList<String>(Arrays.asList(linkItems))));
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
@@ -187,13 +192,13 @@ public class SettingsPagerActivity extends FragmentActivity {
             String selected = parent.getItemAtPosition(pos).toString();
 
             if (selected.equals("Settings Links")) {
-                mDrawerList.setAdapter(new ArrayAdapter<String>(getApplicationContext(),
-                        R.layout.drawer_list_item, linkItems));
+                mDrawerList.setAdapter(new DrawerArrayAdapter(activity,
+                        new ArrayList<String>(Arrays.asList(linkItems))));
                 mDrawerList.invalidate();
                 settingsLinksActive = true;
             } else {
-                mDrawerList.setAdapter(new ArrayAdapter<String>(getApplicationContext(),
-                        R.layout.drawer_list_item, otherItems));
+                mDrawerList.setAdapter(new DrawerArrayAdapter(activity,
+                        new ArrayList<String>(Arrays.asList(otherItems))));
                 mDrawerList.invalidate();
                 settingsLinksActive = false;
             }
