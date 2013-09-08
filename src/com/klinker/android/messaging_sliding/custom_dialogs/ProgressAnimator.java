@@ -9,10 +9,13 @@ public class ProgressAnimator extends Thread {
     private int currentProgress;
     private Activity context;
     private ProgressBar mmsProgress;
+    public boolean alreadyRunning;
 
     @Override
     public void run() {
         currentProgress = 0;
+        maxProgress = 10;
+        alreadyRunning = true;
 
         while (currentProgress < 100) {
             if (currentProgress > maxProgress) {
@@ -41,6 +44,8 @@ public class ProgressAnimator extends Thread {
                 }
             }
         }
+
+        alreadyRunning = false;
     }
 
     public void setMaxProgress(int maxProgress) {
