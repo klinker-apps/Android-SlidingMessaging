@@ -2,26 +2,46 @@ package com.klinker.android.messaging_sliding.templates;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.Toast;
+
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_donate.settings.DrawerArrayAdapter;
+import com.klinker.android.messaging_donate.settings.GetHelpSettingsActivity;
+import com.klinker.android.messaging_donate.settings.OtherAppsSettingsActivity;
+import com.klinker.android.messaging_donate.settings.SettingsPagerActivity;
+import com.klinker.android.messaging_sliding.scheduled.ScheduledSms;
 import com.mobeta.android.dslv.DragSortController;
 import com.mobeta.android.dslv.DragSortListView;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Locale;
 
 public class TemplateActivity extends Activity {
@@ -32,6 +52,16 @@ public class TemplateActivity extends Activity {
     public ImageButton delete;
 	public SharedPreferences sharedPrefs;
 	public ArrayList<String> text;
+
+    private String[] linkItems;
+    private String[] otherItems;
+
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
+    private LinearLayout mDrawer;
+    private ActionBarDrawerToggle mDrawerToggle;
+
+    private Activity activity;
 
     public TemplateArrayAdapter adapter;
 
@@ -171,14 +201,214 @@ public class TemplateActivity extends Activity {
 
             );
 
+        linkItems = new String[] { getResources().getString(R.string.theme_settings),
+                getResources().getString(R.string.notification_settings),
+                getResources().getString(R.string.popup_settings),
+                getResources().getString(R.string.slideover_settings),
+                getResources().getString(R.string.text_settings),
+                getResources().getString(R.string.conversation_settings),
+                getResources().getString(R.string.mms_settings),
+                getResources().getString(R.string.google_voice_settings),
+                getResources().getString(R.string.security_settings),
+                getResources().getString(R.string.advanced_settings)   };
+
+        otherItems = new String[] {getResources().getString(R.string.quick_templates),
+                getResources().getString(R.string.scheduled_sms),
+                getResources().getString(R.string.get_help),
+                getResources().getString(R.string.other_apps),
+                getResources().getString(R.string.rate_it) };
+
+        DrawerArrayAdapter.current = 0;
+        SettingsPagerActivity.settingsLinksActive = false;
+        SettingsPagerActivity.inOtherLinks = true;
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.links_list);
+        mDrawer = (LinearLayout) findViewById(R.id.drawer);
+
+        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.drawer_spinner_array, R.layout.drawer_spinner_item);
+
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // Apply the adapter to the spinner
+        spinner.setAdapter(adapter);
+
+        spinner.setSelection(1);
+
+        spinner.setOnItemSelectedListener(new SpinnerClickListener());
+
+        // Set the adapter for the list view
+        mDrawerList.setAdapter(new DrawerArrayAdapter(this,
+                new ArrayList<String>(Arrays.asList(otherItems))));
+        // Set the list's click listener
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this,                  /* host Activity */
+                mDrawerLayout,         /* DrawerLayout object */
+                R.drawable.ic_drawer,  /* nav drawer icon to replace 'Up' caret */
+                R.string.drawer_open,  /* "open drawer" description */
+                R.string.drawer_close  /* "close drawer" description */
+        );
+
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
+
+        activity = this;
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    private class SpinnerClickListener implements  Spinner.OnItemSelectedListener {
+        @Override
+        // sets the string repetition to whatever is choosen from the spinner
+        public void onItemSelected(AdapterView<?> parent, View view,
+                                   int pos, long id) {
+            // An item was selected. You can retrieve the selected item using
+            // parent.getItemAtPosition(pos)
+            String selected = parent.getItemAtPosition(pos).toString();
+
+            if (selected.equals("Settings Links")) {
+                mDrawerList.setAdapter(new DrawerArrayAdapter(activity,
+                        new ArrayList<String>(Arrays.asList(linkItems))));
+                mDrawerList.invalidate();
+                SettingsPagerActivity.settingsLinksActive = true;
+            } else {
+                mDrawerList.setAdapter(new DrawerArrayAdapter(activity,
+                        new ArrayList<String>(Arrays.asList(otherItems))));
+                mDrawerList.invalidate();
+                SettingsPagerActivity.settingsLinksActive = false;
+            }
+
 
         }
 
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    }
+
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
+        public void onItemClick(AdapterView parent, View view, int position, long id) {
+
+            // TODO: Make this smoother
+            // TODO: Add the other settings options for not switching viewpager
+            final Context context = getApplicationContext();
+            Intent intent;
+
+            if (SettingsPagerActivity.settingsLinksActive) {
+                onBackPressed();
+
+                intent = new Intent(context, SettingsPagerActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                intent.putExtra("page_number", position);
+                startActivity(intent);
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mDrawerLayout.closeDrawer(mDrawer);
+                    }
+                }, 200);
+            } else {
+                switch (position) {
+                    case 0:
+                        onBackPressed();
+                        mDrawerLayout.closeDrawer(mDrawer);
+                        intent = new Intent(context, TemplateActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        startActivity(intent);
+                        //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                        break;
+
+                    case 1:
+                        onBackPressed();
+                        intent = new Intent(context, ScheduledSms.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        startActivity(intent);
+                        //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                        mDrawerLayout.closeDrawer(mDrawer);
+                        break;
+
+                    case 2:
+                        onBackPressed();
+                        intent = new Intent(context, GetHelpSettingsActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        startActivity(intent);
+                        //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                        mDrawerLayout.closeDrawer(mDrawer);
+                        break;
+
+                    case 3:
+                        onBackPressed();
+                        intent = new Intent(context, OtherAppsSettingsActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        startActivity(intent);
+                        //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                        mDrawerLayout.closeDrawer(mDrawer);
+                        break;
+
+                    case 4:
+                        Uri uri = Uri.parse("market://details?id=" + context.getPackageName());
+                        Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+
+                        try {
+                            startActivity(goToMarket);
+                        } catch (ActivityNotFoundException e) {
+                            Toast.makeText(context, "Couldn't launch the market", Toast.LENGTH_SHORT).show();
+                        }
+
+                        //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                        mDrawerLayout.closeDrawer(mDrawer);
+                        break;
+                }
+            }
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // Pass the event to ActionBarDrawerToggle, if it returns
+                // true, then it has handled the app icon touch event
+                if (mDrawerToggle.onOptionsItemSelected(item)) {
+
+                    return true;
+                }
+
+                // Handle your other action bar items...
+
+                return super.onOptionsItemSelected(item);
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+    @Override
 	public void onBackPressed() {
 		writeToFile(text, this);
 		super.onBackPressed();
-        overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
+        //overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
 	}
 	
 	@SuppressWarnings("resource")

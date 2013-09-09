@@ -1,42 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-    <ListView
-        android:id="@+id/templateListView2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/addNewButton" >
-
-    </ListView>
-
-    <com.mobeta.android.dslv.DragSortListView
-            android:id="@+id/templateListView"
+        <ListView
+            android:id="@+id/templateListView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/addNewButton"
-            android:padding="3dp"
-            android:layout_margin="3dp"
-            android:dividerHeight="2dp"/>
-            <!--dslv:drag_enabled="true"
-            dslv:collapsed_height="2dp"
-            dslv:drag_scroll_start="0.33"
-            dslv:max_drag_scroll_speed="0.5"
-            dslv:float_alpha="0.6"
-            dslv:slide_shuffle_speed="0.3"
-            dslv:track_drag_sort="false"
-            dslv:use_default_controller="false" />-->
+            android:layout_above="@+id/addNewButton" >
 
-    <Button
-        android:id="@+id/addNewButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:contentDescription="@string/placeholder"
-        android:text="@string/add_new" />
+        </ListView>
 
-</RelativeLayout>
+        <com.mobeta.android.dslv.DragSortListView
+                android:id="@+id/templateListView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/addNewButton"
+                android:padding="3dp"
+                android:layout_margin="3dp"
+                android:dividerHeight="2dp"/>
+                <!--dslv:drag_enabled="true"
+                dslv:collapsed_height="2dp"
+                dslv:drag_scroll_start="0.33"
+                dslv:max_drag_scroll_speed="0.5"
+                dslv:float_alpha="0.6"
+                dslv:slide_shuffle_speed="0.3"
+                dslv:track_drag_sort="false"
+                dslv:use_default_controller="false" />-->
+
+        <Button
+            android:id="@+id/addNewButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:contentDescription="@string/placeholder"
+            android:text="@string/add_new" />
+
+    </RelativeLayout>
+
+    <!-- The navigation drawer -->
+    <!-- default of 240dp width -->
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/drawer"
+        android:orientation="vertical"
+        android:layout_width="315dp"
+        android:layout_height="fill_parent"
+        android:layout_gravity="start"
+        android:background="@color/light_silver" >
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:paddingLeft="20dp" android:paddingRight="20dp"
+            android:paddingTop="8dp" android:paddingBottom="5dp" >
+
+            <Spinner android:id="@+id/spinner"
+                android:layout_width="match_parent" android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <ListView android:id="@+id/links_list"
+            android:layout_height="wrap_content" android:layout_width="wrap_content"
+            android:layout_gravity="start"
+            android:choiceMode="singleChoice"
+            android:divider="#d2d2d2" android:dividerHeight="1dp"
+            android:paddingLeft="25dp" android:paddingRight="25dp"
+            android:footerDividersEnabled="false" android:headerDividersEnabled="false"/>
+
+    </LinearLayout>
+
+</android.support.v4.widget.DrawerLayout>

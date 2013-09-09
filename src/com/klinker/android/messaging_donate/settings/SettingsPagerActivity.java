@@ -79,6 +79,8 @@ public class SettingsPagerActivity extends FragmentActivity {
     private boolean showAll;
     private boolean userKnows;
     public static boolean settingsLinksActive = true;
+    public static boolean inOtherLinks = true;
+    public static int clickedItem = 0;
 
     private String[] linkItems;
     private String[] otherItems;
@@ -253,43 +255,48 @@ public class SettingsPagerActivity extends FragmentActivity {
             } else {
                 switch (position) {
                     case 0:
-                        mDrawerLayout.closeDrawer(mDrawer);
                         intent = new Intent(context, TemplateActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(intent);
-                        overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                        mDrawerLayout.closeDrawer(mDrawer);
+                        //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                         break;
 
                     case 1:
-                        mDrawerLayout.closeDrawer(mDrawer);
                         intent = new Intent(context, ScheduledSms.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(intent);
-                        overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                        mDrawerLayout.closeDrawer(mDrawer);
+                        //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                         break;
 
                     case 2:
-                        mDrawerLayout.closeDrawer(mDrawer);
                         intent = new Intent(context, GetHelpSettingsActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(intent);
-                        overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                        mDrawerLayout.closeDrawer(mDrawer);
+                        //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                         break;
 
                     case 3:
-                        mDrawerLayout.closeDrawer(mDrawer);
                         intent = new Intent(context, OtherAppsSettingsActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(intent);
-                        overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                        mDrawerLayout.closeDrawer(mDrawer);
+                        //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                         break;
 
                     case 4:
-                        mDrawerLayout.closeDrawer(mDrawer);
                         Uri uri = Uri.parse("market://details?id=" + context.getPackageName());
                         Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+                        goToMarket.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         try {
                             startActivity(goToMarket);
                         } catch (ActivityNotFoundException e) {
                             Toast.makeText(context, "Couldn't launch the market", Toast.LENGTH_LONG).show();
                         }
 
+                        mDrawerLayout.closeDrawer(mDrawer);
                         break;
                 }
             }
@@ -1163,6 +1170,7 @@ public class SettingsPagerActivity extends FragmentActivity {
         public void onResume() {
             super.onResume();
             getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(myPrefListner);
+            inOtherLinks = false;
         }
 
         @Override
