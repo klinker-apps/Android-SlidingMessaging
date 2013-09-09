@@ -335,10 +335,10 @@ public class TemplateActivity extends Activity {
 
                 switch (position) {
                     case 0:
-                        new Handler().postDelayed(new Runnable() {
+                        /*new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                //onBackPressed();
+                                onBackPressed();
 
                                 Intent mIntent = new Intent(context, TemplateActivity.class);
                                 mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -346,7 +346,7 @@ public class TemplateActivity extends Activity {
                                 overridePendingTransition(0,0);
                                 //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                             }
-                        }, 100);
+                        }, 100);*/
                         break;
 
                     case 1:
@@ -354,6 +354,8 @@ public class TemplateActivity extends Activity {
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
+                                onBackPressed();
+
                                 Intent mIntent = new Intent(context, ScheduledSms.class);
                                 mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(mIntent);
@@ -437,8 +439,8 @@ public class TemplateActivity extends Activity {
 	public void onBackPressed() {
 		writeToFile(text, this);
 		super.onBackPressed();
-        overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
-        //overridePendingTransition(0,0);
+        //overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
+        overridePendingTransition(0,0);
 	}
 	
 	@SuppressWarnings("resource")
