@@ -77,7 +77,10 @@ public class SettingsPagerActivity extends FragmentActivity {
     private static final int REQ_CREATE_PATTERN = 3;
 
     private boolean showAll;
+    private boolean userKnows;
     public static boolean settingsLinksActive = true;
+    public static boolean inOtherLinks = true;
+    public static int clickedItem = 0;
 
     private String[] linkItems;
     private String[] otherItems;
@@ -164,11 +167,15 @@ public class SettingsPagerActivity extends FragmentActivity {
             if (getIntent().getBooleanExtra("mms", false)) {
                 mViewPager.setCurrentItem(6, true);
             }
+
+            int pageNumber = getIntent().getIntExtra("page_number", 0);
+            mViewPager.setCurrentItem(pageNumber, true);
         } catch (Exception e) {
 
         }
 
         showAll = sharedPrefs.getBoolean("show_advanced_settings", false);
+        userKnows = sharedPrefs.getBoolean("user_knows_navigation_drawer", false);
 
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             public void onPageScrollStateChanged(int state) {}
@@ -179,6 +186,10 @@ public class SettingsPagerActivity extends FragmentActivity {
                 mDrawerList.invalidateViews();
             }
         });
+
+        if(!userKnows) {
+            mDrawerLayout.openDrawer(mDrawer);
+        }
     }
 
     @Override
@@ -231,9 +242,10 @@ public class SettingsPagerActivity extends FragmentActivity {
             // TODO: Add the other settings options for not switching viewpager
             final Context context = getApplicationContext();
             Intent intent;
+            final int mPos = position;
 
             if (settingsLinksActive) {
-                mViewPager.setCurrentItem(position, true);
+                mViewPager.setCurrentItem(mPos, true);
 
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -242,40 +254,75 @@ public class SettingsPagerActivity extends FragmentActivity {
                     }
                 }, 200);
             } else {
+                mDrawerLayout.closeDrawer(mDrawer);
+
                 switch (position) {
                     case 0:
-                        intent = new Intent(context, TemplateActivity.class);
-                        startActivity(intent);
-                        overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent mIntent = new Intent(context, TemplateActivity.class);
+                                mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(mIntent);
+                                //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                            }
+                        }, 100);
                         break;
 
                     case 1:
-                        intent = new Intent(context, ScheduledSms.class);
-                        startActivity(intent);
-                        overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent mIntent = new Intent(context, ScheduledSms.class);
+                                mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(mIntent);
+                                //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                            }
+                        }, 100);
                         break;
 
                     case 2:
-                        intent = new Intent(context, GetHelpSettingsActivity.class);
-                        startActivity(intent);
-                        overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent mIntent = new Intent(context, GetHelpSettingsActivity.class);
+                                mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(mIntent);
+                                overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                            }
+                        }, 100);
+
                         break;
 
                     case 3:
-                        intent = new Intent(context, OtherAppsSettingsActivity.class);
-                        startActivity(intent);
-                        overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent mIntent = new Intent(context, OtherAppsSettingsActivity.class);
+                                mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(mIntent);
+                                overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                            }
+                        }, 100);
+
                         break;
 
                     case 4:
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Uri uri = Uri.parse("market://details?id=" + context.getPackageName());
+                                Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
 
-                        Uri uri = Uri.parse("market://details?id=" + context.getPackageName());
-                        Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
-                        try {
-                            startActivity(goToMarket);
-                        } catch (ActivityNotFoundException e) {
-                            Toast.makeText(context, "Couldn't launch the market", Toast.LENGTH_LONG).show();
-                        }
+                                try {
+                                    startActivity(goToMarket);
+                                } catch (ActivityNotFoundException e) {
+                                    Toast.makeText(context, "Couldn't launch the market", Toast.LENGTH_SHORT).show();
+                                }
+                                overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                            }
+                        }, 100);
 
                         break;
                 }
@@ -299,6 +346,11 @@ public class SettingsPagerActivity extends FragmentActivity {
                 // Pass the event to ActionBarDrawerToggle, if it returns
                 // true, then it has handled the app icon touch event
                 if (mDrawerToggle.onOptionsItemSelected(item)) {
+                    if (!userKnows) {
+                        userKnows = true;
+
+                        sharedPrefs.edit().putBoolean("user_knows_navigation_drawer", true).commit();
+                    }
                     return true;
                 }
 
@@ -324,6 +376,7 @@ public class SettingsPagerActivity extends FragmentActivity {
         startActivity(i);
         finish();
         overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
+        //overridePendingTransition(0,0);
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
@@ -1145,6 +1198,7 @@ public class SettingsPagerActivity extends FragmentActivity {
         public void onResume() {
             super.onResume();
             getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(myPrefListner);
+            inOtherLinks = false;
         }
 
         @Override

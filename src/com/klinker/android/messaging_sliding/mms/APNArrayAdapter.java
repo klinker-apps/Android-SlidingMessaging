@@ -49,8 +49,8 @@ public class APNArrayAdapter  extends ArrayAdapter<String> {
 	      viewHolder.text = (TextView) rowView.findViewById(R.id.textView1);
 	      viewHolder.text2 = (TextView) rowView.findViewById(R.id.textView2);
 	      
-	      viewHolder.text.setTextColor(context.getResources().getColor(R.color.white));
-	      viewHolder.text2.setTextColor(context.getResources().getColor(R.color.white));
+	      viewHolder.text.setTextColor(context.getResources().getColor(R.color.black));
+	      viewHolder.text2.setTextColor(context.getResources().getColor(R.color.black));
 	      rowView.setTag(viewHolder);
 	    }
 	    

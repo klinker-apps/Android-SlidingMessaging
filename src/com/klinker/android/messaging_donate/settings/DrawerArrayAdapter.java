@@ -95,7 +95,8 @@ public class DrawerArrayAdapter  extends ArrayAdapter<String> {
         else
             holder.icon.setImageResource(R.drawable.drawer_rating);
 
-        if (current == position && SettingsPagerActivity.settingsLinksActive) {
+        if ((current == position && SettingsPagerActivity.settingsLinksActive && !SettingsPagerActivity.inOtherLinks) ||
+                (!SettingsPagerActivity.settingsLinksActive && current == position && SettingsPagerActivity.inOtherLinks)) {
             holder.icon.setColorFilter(context.getResources().getColor(R.color.holo_blue));
             holder.name.setTextColor(context.getResources().getColor(R.color.holo_blue));
         } else {
