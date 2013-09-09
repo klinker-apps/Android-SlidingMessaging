@@ -315,15 +315,21 @@ public class TemplateActivity extends Activity {
             final Context context = getApplicationContext();
             Intent intent;
 
+            final int mPos = position;
+
             if (SettingsPagerActivity.settingsLinksActive) {
                 mDrawerLayout.closeDrawer(mDrawer);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //onBackPressed();
 
-                onBackPressed();
-
-                intent = new Intent(context, SettingsPagerActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                intent.putExtra("page_number", position);
-                startActivity(intent);
+                        Intent mIntent = new Intent(context, SettingsPagerActivity.class);
+                        mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        mIntent.putExtra("page_number", mPos);
+                        startActivity(mIntent);
+                    }
+                }, 100);
             } else {
                 mDrawerLayout.closeDrawer(mDrawer);
 
@@ -332,10 +338,10 @@ public class TemplateActivity extends Activity {
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                onBackPressed();
+                                //onBackPressed();
 
                                 Intent mIntent = new Intent(context, TemplateActivity.class);
-                                mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(mIntent);
                                 //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                             }
@@ -350,7 +356,7 @@ public class TemplateActivity extends Activity {
                                 onBackPressed();
 
                                 Intent mIntent = new Intent(context, ScheduledSms.class);
-                                mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(mIntent);
                                 //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                             }
@@ -364,7 +370,7 @@ public class TemplateActivity extends Activity {
                                 onBackPressed();
 
                                 Intent mIntent = new Intent(context, GetHelpSettingsActivity.class);
-                                mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(mIntent);
                                 //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                             }
@@ -379,7 +385,7 @@ public class TemplateActivity extends Activity {
                                 onBackPressed();
 
                                 Intent mIntent = new Intent(context, OtherAppsSettingsActivity.class);
-                                mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(mIntent);
                                 //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                             }

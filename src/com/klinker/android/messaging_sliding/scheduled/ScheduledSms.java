@@ -294,14 +294,14 @@ public class ScheduledSms extends Activity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        onBackPressed();
+                        //onBackPressed();
 
                         Intent mIntent = new Intent(context, SettingsPagerActivity.class);
-                        mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         mIntent.putExtra("page_number", mPositition);
                         startActivity(mIntent);
                     }
-                }, 100);
+                }, 150);
             } else {
                 mDrawerLayout.closeDrawer(mDrawer);
 
@@ -310,10 +310,8 @@ public class ScheduledSms extends Activity {
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                onBackPressed();
-
                                 Intent mIntent = new Intent(context, TemplateActivity.class);
-                                mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(mIntent);
                                 //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                             }
@@ -325,10 +323,8 @@ public class ScheduledSms extends Activity {
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                onBackPressed();
-
                                 Intent mIntent = new Intent(context, ScheduledSms.class);
-                                mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(mIntent);
                                 //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                             }
@@ -339,8 +335,6 @@ public class ScheduledSms extends Activity {
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                onBackPressed();
-
                                 Intent mIntent = new Intent(context, GetHelpSettingsActivity.class);
                                 mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                                 startActivity(mIntent);
@@ -354,8 +348,6 @@ public class ScheduledSms extends Activity {
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                onBackPressed();
-
                                 Intent mIntent = new Intent(context, OtherAppsSettingsActivity.class);
                                 mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                                 startActivity(mIntent);
