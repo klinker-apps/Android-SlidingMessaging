@@ -984,6 +984,54 @@ public class MainActivity extends FragmentActivity {
                 NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                 mNotificationManager.cancel(1);
                 mNotificationManager.cancel(2);
+
+                try
+                {
+                    if (getIntent().getStringExtra("address").replace(" ", "").replace("(", "").replace(")", "").replace("-", "").endsWith(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), arg0).replace(" ", "").replace("(", "").replace(")", "").replace("-", "")))
+                    {
+                        animationReceived = 1;
+                        animationThread = mViewPager.getCurrentItem();
+                    } else
+                    {
+                        animationReceived = 2;
+                    }
+                } catch (Exception e)
+                {
+                    animationReceived = 2;
+                }
+
+                if (animationReceived == 2) {
+                    if (inAppNotifications) {
+                        boolean flag = false;
+                        for (int i = 0; i < appMsgConversations; i++) {
+                            if (getIntent().getStringExtra("address").replace(" ", "").replace("(", "").replace(")", "").replace("-", "").endsWith(findContactNumber(inboxNumber.get(i), arg0).replace(" ", "").replace("(", "").replace(")", "").replace("-", ""))) {
+                                flag = true;
+                                break;
+                            }
+                        }
+
+                        if (!flag) {
+                            appMsgConversations++;
+                        }
+
+                        if (appMsgConversations == 1) {
+                            appMsg = AppMsg.makeText((Activity) arg0, appMsgConversations + getString(R.string.new_conversation), AppMsg.STYLE_ALERT);
+                        } else {
+                            appMsg = AppMsg.makeText((Activity) arg0, appMsgConversations + getString(R.string.new_conversations), AppMsg.STYLE_ALERT);
+                        }
+
+                        appMsg.show();
+                    }
+                }
+
+                dismissCrouton = false;
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        dismissCrouton = true;
+                    }
+                }, 500);
             }
 
         };
