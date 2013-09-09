@@ -316,69 +316,94 @@ public class TemplateActivity extends Activity {
             Intent intent;
 
             if (SettingsPagerActivity.settingsLinksActive) {
+                mDrawerLayout.closeDrawer(mDrawer);
+
                 onBackPressed();
 
                 intent = new Intent(context, SettingsPagerActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 intent.putExtra("page_number", position);
                 startActivity(intent);
-
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mDrawerLayout.closeDrawer(mDrawer);
-                    }
-                }, 200);
             } else {
+                mDrawerLayout.closeDrawer(mDrawer);
+
                 switch (position) {
                     case 0:
-                        onBackPressed();
-                        mDrawerLayout.closeDrawer(mDrawer);
-                        intent = new Intent(context, TemplateActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                        startActivity(intent);
-                        //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                onBackPressed();
+
+                                Intent mIntent = new Intent(context, TemplateActivity.class);
+                                mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                startActivity(mIntent);
+                                //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                            }
+                        }, 100);
                         break;
 
                     case 1:
-                        onBackPressed();
-                        intent = new Intent(context, ScheduledSms.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                        startActivity(intent);
-                        //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
-                        mDrawerLayout.closeDrawer(mDrawer);
+
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                onBackPressed();
+
+                                Intent mIntent = new Intent(context, ScheduledSms.class);
+                                mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                startActivity(mIntent);
+                                //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                            }
+                        }, 100);
                         break;
 
                     case 2:
-                        onBackPressed();
-                        intent = new Intent(context, GetHelpSettingsActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                        startActivity(intent);
-                        //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
-                        mDrawerLayout.closeDrawer(mDrawer);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                onBackPressed();
+
+                                Intent mIntent = new Intent(context, GetHelpSettingsActivity.class);
+                                mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                startActivity(mIntent);
+                                //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                            }
+                        }, 100);
+
                         break;
 
                     case 3:
-                        onBackPressed();
-                        intent = new Intent(context, OtherAppsSettingsActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                        startActivity(intent);
-                        //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
-                        mDrawerLayout.closeDrawer(mDrawer);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                onBackPressed();
+
+                                Intent mIntent = new Intent(context, OtherAppsSettingsActivity.class);
+                                mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                startActivity(mIntent);
+                                //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                            }
+                        }, 100);
+
                         break;
 
                     case 4:
-                        Uri uri = Uri.parse("market://details?id=" + context.getPackageName());
-                        Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Uri uri = Uri.parse("market://details?id=" + context.getPackageName());
+                                Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
 
-                        try {
-                            startActivity(goToMarket);
-                        } catch (ActivityNotFoundException e) {
-                            Toast.makeText(context, "Couldn't launch the market", Toast.LENGTH_SHORT).show();
-                        }
+                                try {
+                                    startActivity(goToMarket);
+                                } catch (ActivityNotFoundException e) {
+                                    Toast.makeText(context, "Couldn't launch the market", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }, 100);
 
                         //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
-                        mDrawerLayout.closeDrawer(mDrawer);
+                        //mDrawerLayout.closeDrawer(mDrawer);
                         break;
                 }
             }
@@ -409,6 +434,7 @@ public class TemplateActivity extends Activity {
 		writeToFile(text, this);
 		super.onBackPressed();
         //overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
+        overridePendingTransition(0,0);
 	}
 	
 	@SuppressWarnings("resource")

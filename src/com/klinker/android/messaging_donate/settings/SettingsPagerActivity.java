@@ -253,50 +253,85 @@ public class SettingsPagerActivity extends FragmentActivity {
                     }
                 }, 200);
             } else {
+                mDrawerLayout.closeDrawer(mDrawer);
+
                 switch (position) {
                     case 0:
-                        intent = new Intent(context, TemplateActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                        startActivity(intent);
-                        mDrawerLayout.closeDrawer(mDrawer);
-                        //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                onBackPressed();
+
+                                Intent mIntent = new Intent(context, TemplateActivity.class);
+                                mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                startActivity(mIntent);
+                                //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                            }
+                        }, 100);
                         break;
 
                     case 1:
-                        intent = new Intent(context, ScheduledSms.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                        startActivity(intent);
-                        mDrawerLayout.closeDrawer(mDrawer);
-                        //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                onBackPressed();
+
+                                Intent mIntent = new Intent(context, ScheduledSms.class);
+                                mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                startActivity(mIntent);
+                                //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                            }
+                        }, 100);
                         break;
 
                     case 2:
-                        intent = new Intent(context, GetHelpSettingsActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                        startActivity(intent);
-                        mDrawerLayout.closeDrawer(mDrawer);
-                        //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                onBackPressed();
+
+                                Intent mIntent = new Intent(context, GetHelpSettingsActivity.class);
+                                mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                startActivity(mIntent);
+                                //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                            }
+                        }, 100);
+
                         break;
 
                     case 3:
-                        intent = new Intent(context, OtherAppsSettingsActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                        startActivity(intent);
-                        mDrawerLayout.closeDrawer(mDrawer);
-                        //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                onBackPressed();
+
+                                Intent mIntent = new Intent(context, OtherAppsSettingsActivity.class);
+                                mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                startActivity(mIntent);
+                                //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                            }
+                        }, 100);
+
                         break;
 
                     case 4:
-                        Uri uri = Uri.parse("market://details?id=" + context.getPackageName());
-                        Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
-                        goToMarket.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                        try {
-                            startActivity(goToMarket);
-                        } catch (ActivityNotFoundException e) {
-                            Toast.makeText(context, "Couldn't launch the market", Toast.LENGTH_LONG).show();
-                        }
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Uri uri = Uri.parse("market://details?id=" + context.getPackageName());
+                                Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
 
-                        mDrawerLayout.closeDrawer(mDrawer);
+                                try {
+                                    startActivity(goToMarket);
+                                } catch (ActivityNotFoundException e) {
+                                    Toast.makeText(context, "Couldn't launch the market", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }, 100);
+
+                        //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                        //mDrawerLayout.closeDrawer(mDrawer);
                         break;
                 }
             }
