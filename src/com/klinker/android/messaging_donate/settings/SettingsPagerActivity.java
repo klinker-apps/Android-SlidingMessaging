@@ -162,7 +162,7 @@ public class SettingsPagerActivity extends FragmentActivity {
 
         try {
             if (getIntent().getBooleanExtra("mms", false)) {
-                mViewPager.setCurrentItem(7, true);
+                mViewPager.setCurrentItem(6, true);
             }
         } catch (Exception e) {
 
@@ -314,16 +314,10 @@ public class SettingsPagerActivity extends FragmentActivity {
     @Override
     public void onBackPressed()
     {
-        if (mViewPager.getCurrentItem() == 0)
-        {
-            Intent i = new Intent(this, com.klinker.android.messaging_donate.MainActivity.class);
-            startActivity(i);
-            finish();
-            overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
-        } else
-        {
-            mViewPager.setCurrentItem(0, true);
-        }
+        Intent i = new Intent(this, com.klinker.android.messaging_donate.MainActivity.class);
+        startActivity(i);
+        finish();
+        overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
