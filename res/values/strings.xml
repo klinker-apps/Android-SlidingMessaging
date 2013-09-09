@@ -241,7 +241,6 @@
 
         Reminders:\n\n
 
-        - CDMA Users, remember to check the \"Split SMS\" option in Advanced Settings to send long messages. \n\n
         - If you are having problems with messages not being saved, or you have disabled all other messaging apps on your device except Sliding Messaging, be sure to check the \"Override Stock Messaging\" option in Advanced Settings.\n\n
 	    - Please check the new section under setting \'Developer Tips\' for speed and MMS issues before leaving a bad review or sending us an angry email. It should be able to solve some of your problems.\n</string>
     <string name="led">LED Light on Notification</string>
@@ -743,7 +742,7 @@
     <string name="sync_voice_messages">Manually Sync New Voice Messages</string>
     <string name="voice_receiving">Set Up Google Voice Message Receiving:</string>
     <string name="voice_receiving_option_1">Option 1: Use a Notification Listener</string>
-    <string name="voice_receiving_option_1_summary">Will sync messages instantly when you receive them through Google Voice by listening for a notification. You must have the Google Voice app installed and notifications enabled</string>
+    <string name="voice_receiving_option_1_summary">Syncs messages instantly when you receive them through Google Voice by listening for a notification. You must have the Google Voice app installed and notifications enabled from that app for this option to work correctly</string>
     <string name="voice_receiving_option_2">Option 2: Refresh on Interval</string>
     <string name="voice_receiving_option_2_summary">Sets a refresh interval to intermediately go and check for new messages. Does not require the Google Voice app to be installed</string>
     <string name="voice_receiving_tips">If you have problems, please read the \"Developer Tip\" on receiving Voice messages</string>
