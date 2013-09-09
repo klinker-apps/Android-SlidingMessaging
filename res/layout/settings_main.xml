@@ -34,13 +34,13 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/drawer"
         android:orientation="vertical"
-        android:layout_width="370dp"
+        android:layout_width="315dp"
         android:layout_height="fill_parent"
         android:layout_gravity="start"
         android:background="@color/light_silver" >
 
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:paddingLeft="30dp" android:paddingRight="30dp"
+            android:paddingLeft="20dp" android:paddingRight="20dp"
             android:paddingTop="20dp" android:paddingBottom="8dp" >
 
             <Spinner android:id="@+id/spinner"
@@ -53,7 +53,7 @@
             android:layout_gravity="start"
             android:choiceMode="singleChoice"
             android:divider="#d2d2d2" android:dividerHeight="1dp"
-            android:paddingLeft="40dp" android:paddingRight="40dp"
+            android:paddingLeft="25dp" android:paddingRight="25dp"
             android:footerDividersEnabled="false" android:headerDividersEnabled="false"/>
 
     </LinearLayout>
