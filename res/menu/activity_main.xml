@@ -10,7 +10,8 @@
     <item android:id="@+id/delete_conversation" android:orderInCategory="8" android:title="@string/delete_conversation" android:showAsAction="never"></item>
     <item android:id="@+id/menu_mark_all_read"  android:orderInCategory="9" android:title="@string/mark_all_read"       android:showAsAction="never"></item>
     <item android:id="@+id/copy_sender"         android:orderInCategory="10" android:title="@string/copy_sender_address" android:showAsAction="never"></item>
-    <item android:id="@+id/menu_settings"       android:orderInCategory="11" android:title="@string/menu_settings"       android:showAsAction="never"></item>
-    <item android:id="@+id/menu_about"          android:orderInCategory="12" android:title="@string/menu_about"         android:showAsAction="never"></item>
+    <item android:id="@+id/menu_refreshVoice"   android:orderInCategory="11" android:title="@string/refresh_voice_messages" android:showAsAction="never"></item>
+    <item android:id="@+id/menu_settings"       android:orderInCategory="12" android:title="@string/menu_settings"       android:showAsAction="never"></item>
+    <item android:id="@+id/menu_about"          android:orderInCategory="13" android:title="@string/menu_about"         android:showAsAction="never"></item>
 
 </menu>

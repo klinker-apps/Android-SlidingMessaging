@@ -5,11 +5,11 @@ Jake:
     - Update mainactivity mms refresh receiver to use refreshviewpager4
     - google voice receiving support
         2) Refresh Interval (poll notifications)
-        3) option to refresh in the menu if voice is enabled
     - change voice sending status depending on thread?
     - delayed sending for certain times
 Luke:
     - Message details for MMS messages
+    - Turn off the mms page in initial setup if tablet and tell them to go to voice settings to get voice working
     - emoji keyboard problem... workaround unlikely. add disclaimer
     - look into the keyboard covering text input box with picture
 

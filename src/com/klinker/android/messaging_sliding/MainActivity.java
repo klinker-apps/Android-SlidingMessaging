@@ -69,10 +69,7 @@ import com.klinker.android.messaging_sliding.emojis.EmojiConverter;
 import com.klinker.android.messaging_sliding.emojis.EmojiConverter2;
 import com.klinker.android.messaging_sliding.notifications.IndividualSetting;
 import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead2;
-import com.klinker.android.messaging_sliding.receivers.CacheService;
-import com.klinker.android.messaging_sliding.receivers.NotificationReceiver;
-import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
-import com.klinker.android.messaging_sliding.receivers.QuickTextService;
+import com.klinker.android.messaging_sliding.receivers.*;
 import com.klinker.android.messaging_sliding.scheduled.NewScheduledSms;
 import com.klinker.android.messaging_sliding.search.SearchActivity;
 import com.klinker.android.messaging_sliding.security.PasswordActivity;
@@ -3764,6 +3761,12 @@ public class MainActivity extends FragmentActivity {
             }
         }
 
+        if (voiceAccount != null) {
+            menu.getItem(10).setVisible(true);
+        } else {
+            menu.getItem(10).setVisible(false);
+        }
+
         if (lightActionBar)
         {
             Drawable callButton = getResources().getDrawable(R.drawable.ic_menu_call);
@@ -4042,6 +4045,9 @@ public class MainActivity extends FragmentActivity {
             case R.id.menu_mark_all_read:
                 startService(new Intent(getBaseContext(), QmMarkRead2.class));
 
+                return true;
+            case R.id.menu_refreshVoice:
+                startService(new Intent(this, VoiceReceiver.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
