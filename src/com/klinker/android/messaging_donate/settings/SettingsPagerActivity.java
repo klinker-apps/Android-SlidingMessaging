@@ -77,6 +77,7 @@ public class SettingsPagerActivity extends FragmentActivity {
     private static final int REQ_CREATE_PATTERN = 3;
 
     private boolean showAll;
+    private boolean userKnows;
     public static boolean settingsLinksActive = true;
 
     private String[] linkItems;
@@ -164,11 +165,15 @@ public class SettingsPagerActivity extends FragmentActivity {
             if (getIntent().getBooleanExtra("mms", false)) {
                 mViewPager.setCurrentItem(6, true);
             }
+
+            int pageNumber = getIntent().getIntExtra("page_number", 0);
+            mViewPager.setCurrentItem(pageNumber, true);
         } catch (Exception e) {
 
         }
 
         showAll = sharedPrefs.getBoolean("show_advanced_settings", false);
+        userKnows = sharedPrefs.getBoolean("user_knows_navigation_drawer", false);
 
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             public void onPageScrollStateChanged(int state) {}
@@ -179,6 +184,10 @@ public class SettingsPagerActivity extends FragmentActivity {
                 mDrawerList.invalidateViews();
             }
         });
+
+        if(!userKnows) {
+            mDrawerLayout.openDrawer(mDrawer);
+        }
     }
 
     @Override
@@ -244,31 +253,35 @@ public class SettingsPagerActivity extends FragmentActivity {
             } else {
                 switch (position) {
                     case 0:
+                        mDrawerLayout.closeDrawer(mDrawer);
                         intent = new Intent(context, TemplateActivity.class);
                         startActivity(intent);
                         overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                         break;
 
                     case 1:
+                        mDrawerLayout.closeDrawer(mDrawer);
                         intent = new Intent(context, ScheduledSms.class);
                         startActivity(intent);
                         overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                         break;
 
                     case 2:
+                        mDrawerLayout.closeDrawer(mDrawer);
                         intent = new Intent(context, GetHelpSettingsActivity.class);
                         startActivity(intent);
                         overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                         break;
 
                     case 3:
+                        mDrawerLayout.closeDrawer(mDrawer);
                         intent = new Intent(context, OtherAppsSettingsActivity.class);
                         startActivity(intent);
                         overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                         break;
 
                     case 4:
-
+                        mDrawerLayout.closeDrawer(mDrawer);
                         Uri uri = Uri.parse("market://details?id=" + context.getPackageName());
                         Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
                         try {
@@ -299,6 +312,11 @@ public class SettingsPagerActivity extends FragmentActivity {
                 // Pass the event to ActionBarDrawerToggle, if it returns
                 // true, then it has handled the app icon touch event
                 if (mDrawerToggle.onOptionsItemSelected(item)) {
+                    if (!userKnows) {
+                        userKnows = true;
+
+                        sharedPrefs.edit().putBoolean("user_knows_navigation_drawer", true).commit();
+                    }
                     return true;
                 }
 

@@ -2,6 +2,7 @@ package com.klinker.android.messaging_sliding.mms;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.ListView;
 import com.klinker.android.messaging_donate.R;
 
@@ -28,7 +29,21 @@ public class APNSettingsActivity extends Activity {
 		ListView apns = (ListView) findViewById(R.id.fontListView);
 		APNArrayAdapter adapter = new APNArrayAdapter(this, names, values);
 		apns.setAdapter(adapter);
+
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
 	}
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return super.onOptionsItemSelected(item);
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     @Override
     public void onBackPressed() {
