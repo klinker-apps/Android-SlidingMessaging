@@ -11,7 +11,7 @@
     <TextView android:id="@+id/title"
         android:layout_height="wrap_content" android:layout_width="340dp"
         android:layout_weight="3"
-        android:textSize="20dp" android:textColor="@color/light_grey"
+        android:textSize="18dp" android:textColor="@color/light_grey"
         android:paddingTop="15dp" android:paddingBottom="15dp" android:paddingLeft="11dp" />
 
 </LinearLayout>

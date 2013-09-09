@@ -40,7 +40,7 @@
         android:background="@color/light_silver" >
 
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:paddingLeft="30dp" android:paddingRight="30dp"
+            android:paddingLeft="35dp" android:paddingRight="35dp"
             android:paddingTop="20dp" android:paddingBottom="8dp" >
 
             <Spinner android:id="@+id/spinner"
