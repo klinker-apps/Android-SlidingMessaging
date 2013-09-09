@@ -980,27 +980,10 @@ public class MainActivity extends FragmentActivity {
 
             @Override
             public void onReceive(Context arg0, Intent arg1) {
-                String currentThread = threadIds.get(mViewPager.getCurrentItem());
-
-                refreshViewPager();
-
-                for (int i = 0; i < threadIds.size(); i++)
-                {
-                    if (currentThread.equals(threadIds.get(i)))
-                    {
-                        if (i != 0) {
-                            if (appMsgConversations == 1) {
-                                appMsg = AppMsg.makeText((Activity) arg0, appMsgConversations + getString(R.string.new_conversation), AppMsg.STYLE_ALERT);
-                            } else {
-                                appMsg = AppMsg.makeText((Activity) arg0, appMsgConversations + getString(R.string.new_conversations), AppMsg.STYLE_ALERT);
-                            }
-                        }
-
-                        mViewPager.setCurrentItem(i, false);
-                        break;
-                    }
-                }
-
+                refreshViewPager4(findRecipientId(arg1.getStringExtra("address"), arg0), arg1.getStringExtra("body"), arg1.getStringExtra("date"));
+                NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                mNotificationManager.cancel(1);
+                mNotificationManager.cancel(2);
             }
 
         };

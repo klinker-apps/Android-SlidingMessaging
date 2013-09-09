@@ -109,12 +109,7 @@ public class VoiceReceiver extends Service {
             return;
 
         // tokens!
-        String authToken = settings.getString("voice_rnrse", null);
-
-        if (authToken == null) {
-            authToken = Transaction.getAuthToken(account, this);
-            settings.edit().putString("voice_rnrse", authToken).commit();
-        }
+        String authToken = Transaction.getAuthToken(account, this);
 
         Payload payload = Ion.with(this)
                 .load("https://www.google.com/voice/request/messages")
@@ -139,6 +134,8 @@ public class VoiceReceiver extends Service {
                 return -1;
             }
         });
+
+        Log.v("refresh_voice", "at timestamp");
 
         long timestamp = settings.getLong("voice_refresh_timestamp", 0);
         boolean first = timestamp == 0;
@@ -211,6 +208,8 @@ public class VoiceReceiver extends Service {
                         refreshMessages();
                     }
                     catch (Exception e) {
+                        Log.v("refresh_voice", "error refreshing");
+                        e.printStackTrace();
                         needsRefresh = true;
                         break;
                     }

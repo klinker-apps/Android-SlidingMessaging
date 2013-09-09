@@ -216,10 +216,10 @@ public class MMSMessageReceiver extends BroadcastReceiver {
 			{
 				if (sharedPrefs.getBoolean("secure_notification", false))
 				{
-					makeNotification("New Picture Message", "", null);
+					makeNotification("New Picture Message", "", null, phoneNumber, "", Calendar.getInstance().getTimeInMillis() + "");
 				} else
 				{
-					makeNotification("New Picture Message", mmsFrom, null);
+					makeNotification("New Picture Message", mmsFrom, null, phoneNumber, "", Calendar.getInstance().getTimeInMillis() + "");
 				}
 			} else
 			{
@@ -370,16 +370,16 @@ public class MMSMessageReceiver extends BroadcastReceiver {
 				        	
 				        	if (sharedPrefs.getBoolean("secure_notification", false))
 				        	{
-				        		makeNotification("New MMS Message", "", null);
+				        		makeNotification("New MMS Message", "", null, phoneNumber, body, Calendar.getInstance().getTimeInMillis() + "");
 				        	} else
 				        	{
 				        		if (images[0].trim().equals(""))
 				        		{
-				        			makeNotification(phoneNumber, body, null);
+				        			makeNotification(phoneNumber, body, null, phoneNumber, body, Calendar.getInstance().getTimeInMillis() + "");
 				        		} else
 				        		{
 					        		Bitmap b = decodeFile(new File(getRealPathFromURI(Uri.parse(images[0].trim()))));
-					        		makeNotification(phoneNumber, body, b);
+					        		makeNotification(phoneNumber, body, b, phoneNumber, body, Calendar.getInstance().getTimeInMillis() + "");
 				        		}
 				        	}
 
@@ -517,10 +517,10 @@ public class MMSMessageReceiver extends BroadcastReceiver {
                 Log.v("attempting_mms_download", "failed");
                 if (sharedPrefs.getBoolean("secure_notification", false))
                 {
-                    makeNotification("New Picture Message", "", null);
+                    makeNotification("New Picture Message", "", null, phoneNumber, "", Calendar.getInstance().getTimeInMillis() + "");
                 } else
                 {
-                    makeNotification("New Picture Message", phoneNumber, null);
+                    makeNotification("New Picture Message", phoneNumber, null, phoneNumber, "", Calendar.getInstance().getTimeInMillis() + "");
                 }
 
                 if (sharedPrefs.getBoolean("wifi_mms_fix", true))
@@ -535,7 +535,7 @@ public class MMSMessageReceiver extends BroadcastReceiver {
         }
     }
 	
-	private void makeNotification(String title, String text, Bitmap image)
+	private void makeNotification(String title, String text, Bitmap image, String address, String body, String date)
 	{
 		if (sharedPrefs.getBoolean("notifications", true))
 		{
@@ -735,6 +735,9 @@ public class MMSMessageReceiver extends BroadcastReceiver {
 			context.sendBroadcast(updateWidget);
 			
 			Intent newMms = new Intent("com.klinker.android.messaging.NEW_MMS");
+            newMms.putExtra("address", address);
+            newMms.putExtra("body", body);
+            newMms.putExtra("date", date);
 			context.sendBroadcast(newMms);
 			
 			if (!sharedPrefs.getString("repeating_notification", "none").equals("none"))
