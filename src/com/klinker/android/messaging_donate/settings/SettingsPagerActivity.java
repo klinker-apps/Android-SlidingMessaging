@@ -234,7 +234,13 @@ public class SettingsPagerActivity extends FragmentActivity {
 
             if (settingsLinksActive) {
                 mViewPager.setCurrentItem(position, true);
-                mDrawerLayout.closeDrawer(mDrawer);
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mDrawerLayout.closeDrawer(mDrawer);
+                    }
+                }, 200);
             } else {
                 switch (position) {
                     case 0:
