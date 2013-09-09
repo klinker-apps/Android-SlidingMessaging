@@ -5,6 +5,7 @@ Jake:
     - Update mainactivity mms refresh receiver to use refreshviewpager4
     - google voice receiving support
         2) Refresh Interval (poll notifications)
+        3) option to refresh in the menu if voice is enabled
     - change voice sending status depending on thread?
     - delayed sending for certain times
 Luke:

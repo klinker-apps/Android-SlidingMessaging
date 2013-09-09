@@ -2854,7 +2854,17 @@ public class MainActivity extends FragmentActivity {
                             }
 
                             if (!sendWithStock) {
-                                sendTransaction.sendNewMessage(message, null);
+                                if (message.getImages().length != 0 || (sendAsMMS && Transaction.getNumPages(sendSettings, message.getText()) > mmsAfter && !sharedPrefs.getBoolean("voice_enabled", false)) || (message.getAddresses().length > 1 && groupMessage)) {
+                                    ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Log.v("sending_mms_library", "sending new mms, posted to UI thread");
+                                            sendTransaction.sendNewMessage(message, null);
+                                        }
+                                    });
+                                } else {
+                                    sendTransaction.sendNewMessage(message, null);
+                                }
                             } else {
                                 if (message.getImages().length != 0 || (sendSettings.getSendLongAsMms() && Transaction.getNumPages(sendSettings, message.getText()) > sendSettings.getSendLongAsMmsAfter() && !sendSettings.getPreferVoice()) || (message.getAddresses().length > 1 && sendSettings.getGroup())) {
                                     if (multipleAttachments == false)
