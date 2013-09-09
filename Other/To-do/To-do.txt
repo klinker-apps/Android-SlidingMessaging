@@ -10,7 +10,7 @@ Jake:
 Luke:
     - Message details for MMS messages
     - Turn off the mms page in initial setup if tablet and tell them to go to voice settings to get voice working
-    - emoji keyboard problem... workaround unlikely. add disclaimer
+    - emoji keyboard problem... workaround unlikely. add disclaimer (maybe change margins when using keyboard and then change back when it is closed)
     - look into the keyboard covering text input box with picture
 
 1) more individual notification options (slideover color)
@@ -22,7 +22,7 @@ Luke:
 7) Option to sort contacts alphabetically in contact search box? don't know if this would work well or not or how you have it set up...
 8) Add a crouton notification for drafts instead of current system, then use a pull to refresh on the bottom to fill the text box with the draft. again, don't know if this would work well or is possible to attach another one to the list view, but it might be cool
 9) Add scheduled sms to bottom of conversation in a footer maybe
-10) Add sent or recieved icon to conversations list
+10) Add sent or received icon to conversations list
 
 - igamer777@gmail.com, nikorezzano@gmail.com
 
