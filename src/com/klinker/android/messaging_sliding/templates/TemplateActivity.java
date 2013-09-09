@@ -437,8 +437,8 @@ public class TemplateActivity extends Activity {
 	public void onBackPressed() {
 		writeToFile(text, this);
 		super.onBackPressed();
-        //overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
-        overridePendingTransition(0,0);
+        overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
+        //overridePendingTransition(0,0);
 	}
 	
 	@SuppressWarnings("resource")
