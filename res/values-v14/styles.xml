@@ -5,10 +5,10 @@
         AppBaseTheme from BOTH res/values/styles.xml and
         res/values-v11/styles.xml on API 14+ devices.
     -->
-    <style name="AppBaseTheme" parent="android:Theme.Holo">
+    <style name="AppBaseTheme" parent="android:Theme.Holo.Light.DarkActionBar">
     </style>
     
-    <style name="SettingsTheme" parent="android:Theme.Holo">
+    <style name="SettingsTheme" parent="android:Theme.Holo.Light.DarkActionBar">
 
     </style>
     
@@ -39,7 +39,7 @@
         <item name="android:colorBackgroundCacheHint">@null</item>
     </style>
 
-    <style name="AppBaseThemeDialog" parent="@android:Theme.Holo">
+    <style name="AppBaseThemeDialog" parent="@android:Theme.Holo.Light.DarkActionBar">
         <item name="messageBarContainerStyle">@style/MessageBar.Container</item>
         <item name="messageBarTextStyle">@style/MessageBar.Message</item>
         <item name="messageBarButtonStyle">@style/MessageBar.Button</item>
