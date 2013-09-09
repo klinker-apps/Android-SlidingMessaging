@@ -300,6 +300,7 @@ public class ScheduledSms extends Activity {
                         mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         mIntent.putExtra("page_number", mPositition);
                         startActivity(mIntent);
+                        overridePendingTransition(0,0);
                     }
                 }, 150);
             } else {
@@ -313,6 +314,7 @@ public class ScheduledSms extends Activity {
                                 Intent mIntent = new Intent(context, TemplateActivity.class);
                                 mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(mIntent);
+                                overridePendingTransition(0,0);
                                 //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                             }
                         }, 100);
@@ -326,6 +328,7 @@ public class ScheduledSms extends Activity {
                                 Intent mIntent = new Intent(context, ScheduledSms.class);
                                 mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(mIntent);
+                                overridePendingTransition(0,0);
                                 //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                             }
                         }, 100);
@@ -338,7 +341,8 @@ public class ScheduledSms extends Activity {
                                 Intent mIntent = new Intent(context, GetHelpSettingsActivity.class);
                                 mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                                 startActivity(mIntent);
-                                //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                                //overridePendingTransition(0,0);
+                                overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                             }
                         }, 100);
 
@@ -351,7 +355,8 @@ public class ScheduledSms extends Activity {
                                 Intent mIntent = new Intent(context, OtherAppsSettingsActivity.class);
                                 mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                                 startActivity(mIntent);
-                                //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                                //overridePendingTransition(0,0);
+                                overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                             }
                         }, 100);
 

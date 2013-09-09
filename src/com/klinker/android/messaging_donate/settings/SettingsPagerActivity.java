@@ -293,7 +293,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                                 Intent mIntent = new Intent(context, GetHelpSettingsActivity.class);
                                 mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(mIntent);
-                                //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                                overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                             }
                         }, 100);
 
@@ -308,7 +308,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                                 Intent mIntent = new Intent(context, OtherAppsSettingsActivity.class);
                                 mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(mIntent);
-                                //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                                overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                             }
                         }, 100);
 

@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+import android.view.MenuItem;
+
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_sliding.developer_tips.MainActivity;
 import wizardpager.ChangeLogMain;
@@ -28,6 +30,9 @@ public class GetHelpSettingsActivity extends PreferenceActivity {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.get_help_settings);
         setTitle(R.string.get_help);
+
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
 
         context = this;
 
@@ -144,6 +149,17 @@ public class GetHelpSettingsActivity extends PreferenceActivity {
         });
 
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return super.onOptionsItemSelected(item);
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
