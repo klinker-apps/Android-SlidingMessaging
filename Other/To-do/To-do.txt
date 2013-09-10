@@ -1,8 +1,6 @@
 Version 7.50
 
 Jake:
-    - google voice receiving support
-        2) Refresh Interval (poll notifications)
     - change voice sending status depending on thread?
     - delayed sending for certain times
 Luke:
