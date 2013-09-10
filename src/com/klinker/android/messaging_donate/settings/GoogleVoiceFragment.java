@@ -5,7 +5,9 @@ import android.accounts.AccountManager;
 import android.accounts.AccountManagerCallback;
 import android.accounts.AccountManagerFuture;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -17,7 +19,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_sliding.receivers.OnBootReceiver;
 import com.klinker.android.messaging_sliding.receivers.VoiceReceiver;
+
+import java.util.Calendar;
 
 public class GoogleVoiceFragment extends Fragment {
     class AccountAdapter extends ArrayAdapter<Account> {
@@ -77,6 +82,8 @@ public class GoogleVoiceFragment extends Fragment {
 
                 if (account == NULL) {
                     settings.edit().remove("voice_account").remove("voice_rnrse").remove("voice_enabled").commit();
+
+                    OnBootReceiver.stopVoiceReceiverManager(context);
                     return;
                 }
 
@@ -110,7 +117,42 @@ public class GoogleVoiceFragment extends Fragment {
         voiceReceivingOption2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String[] values = context.getResources().getStringArray(R.array.repeatingVoiceRefresh);
+                final String[] set = context.getResources().getStringArray(R.array.repeatingVoiceRefreshSet);
+                new AlertDialog.Builder(context)
+                        .setTitle(R.string.select_interval)
+                        .setSingleChoiceItems(values, settings.getInt("repeatingVoiceItem", 0), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
 
+                                if (i == 1 || i == 2 || i == 3) {
+                                    new AlertDialog.Builder(context)
+                                            .setMessage(R.string.low_interval)
+                                            .setPositiveButton(R.string.ok, null)
+                                            .create()
+                                            .show();
+                                }
+
+                                settings.edit()
+                                        .putString("repeatingVoiceInterval", i != 0 ? set[i] : null)
+                                        .putInt("repeatingVoiceItem", i)
+                                        .commit();
+
+                                if (i == 0) {
+                                    OnBootReceiver.stopVoiceReceiverManager(context);
+                                } else {
+                                    OnBootReceiver.startVoiceReceiverManager(context, Calendar.getInstance().getTimeInMillis(), Long.parseLong(settings.getString("repeatingVoiceInterval", null)));
+                                }
+                            }
+                        })
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        })
+                        .create()
+                        .show();
             }
         });
 
@@ -168,6 +210,8 @@ public class GoogleVoiceFragment extends Fragment {
 
                     lv.setItemChecked(position, true);
                     lv.requestLayout();
+
+                    OnBootReceiver.startVoiceReceiverManager(context, Calendar.getInstance().getTimeInMillis(), Long.parseLong(settings.getString("repeatingVoiceInterval", null)));
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }

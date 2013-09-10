@@ -491,7 +491,7 @@
                 <category android:name="android.intent.category.HOME" />
             </intent-filter>
 
-            <intent-filter>
+            <intent-filter android:priority="100">
                 <action android:name="com.klinker.android.messaging.VOICE_RECEIVED" />
             </intent-filter>
         </receiver>

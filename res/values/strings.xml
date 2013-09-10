@@ -756,4 +756,6 @@
     <string name="swipe_read">Enable Swipe to Mark as Read</string>
     <string name="swipe_read_summary">Android 4.3 ONLY. Please read the developer tips on how to implement this function.</string>
     <string name="refresh_voice_messages">Refresh Google Voice</string>
+    <string name="select_interval">Select Refresh Interval: </string>
+    <string name="low_interval">This low of an interval will use more battery and data!</string>
 </resources>

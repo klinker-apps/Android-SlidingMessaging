@@ -55,7 +55,10 @@ public class OnBootReceiver extends BroadcastReceiver {
         }
 
         resetAlarms(sharedPrefs, context);
-		
+
+        if (sharedPrefs.getString("repeatingVoiceInterval", null) != null) {
+            startVoiceReceiverManager(context, Calendar.getInstance().getTimeInMillis(), Long.parseLong(sharedPrefs.getString("repeatingVoiceInterval", null)));
+        }
 	}
 
     public void resetAlarms(SharedPreferences sharedPrefs, Context context)
@@ -152,6 +155,20 @@ public class OnBootReceiver extends BroadcastReceiver {
                         0);
 
         return pi;
+    }
+
+    public static void startVoiceReceiverManager(Context context, long startTime, long interval) {
+        AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        manager.setRepeating(AlarmManager.RTC_WAKEUP, startTime, interval, getVoiceReceiverPIntent(context));
+    }
+
+    public static void stopVoiceReceiverManager(Context context) {
+        AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        manager.cancel(getVoiceReceiverPIntent(context));
+    }
+
+    public static PendingIntent getVoiceReceiverPIntent(Context context) {
+        return PendingIntent.getService(context, 0, new Intent(context, VoiceReceiver.class), PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     @SuppressWarnings("resource")

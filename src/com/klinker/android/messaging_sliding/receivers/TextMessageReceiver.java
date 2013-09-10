@@ -1243,7 +1243,11 @@ public class TextMessageReceiver extends BroadcastReceiver {
 		        
 		        if (sharedPrefs.getBoolean("override", false) || voiceMessage)
 		        {
-		        	this.abortBroadcast();
+                    try {
+		        	    this.abortBroadcast();
+                    } catch (Exception e) {
+
+                    }
 		        }
 	        }
 		} catch (Exception e)
