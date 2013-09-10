@@ -23,6 +23,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -46,6 +47,7 @@ import com.klinker.android.messaging_sliding.security.SetPasswordActivity;
 import com.klinker.android.messaging_sliding.security.SetPinActivity;
 import com.klinker.android.messaging_sliding.templates.TemplateActivity;
 import com.klinker.android.messaging_sliding.theme.ThemeChooserActivity;
+import com.klinker.android.send_message.Transaction;
 import group.pals.android.lib.ui.lockpattern.LockPatternActivity;
 import group.pals.android.lib.ui.lockpattern.prefs.SecurityPrefs;
 import net.margaritov.preference.colorpicker.ColorPickerPreference;
@@ -1072,10 +1074,41 @@ public class SettingsPagerActivity extends FragmentActivity {
 
         public void setUpMmsSettings()
         {
+            boolean isTablet = false;
+
+            try {
+                if (Transaction.getMyPhoneNumber(getActivity()) == null || Transaction.getMyPhoneNumber(getActivity()).equals("")) {
+                    isTablet = true;
+                } else {
+                    isTablet = false;
+                }
+            } catch (Exception e) {
+                isTablet = true;
+            }
+
+            Log.v("tablet_stuff", "isTablet: " + isTablet);
+
             Preference mmsc, proxy, port;
             final Context context = getActivity();
             final SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
+            if (isTablet) {
+                findPreference("group_message").setEnabled(false);
+                findPreference("auto_download_mms").setEnabled(false);
+                findPreference("wifi_mms_fix").setEnabled(false);
+                findPreference("limit_attachment_size").setEnabled(false);
+                findPreference("send_as_mms").setEnabled(false);
+                findPreference("mms_after").setEnabled(false);
+                findPreference("send_with_stock").setEnabled(false);
+                findPreference("receive_with_stock").setEnabled(false);
+                findPreference("auto_select_apn").setEnabled(false);
+                findPreference("preset_apns").setEnabled(false);
+                findPreference("mmsc_url").setEnabled(false);
+                findPreference("mms_proxy").setEnabled(false);
+                findPreference("mms_port").setEnabled(false);
+                findPreference("mms_disclaimer").setEnabled(false);
+                findPreference("get_apn_help").setEnabled(false);
+            }
             Preference smsToStore = (Preference) findPreference("mms_after");
             smsToStore.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 
