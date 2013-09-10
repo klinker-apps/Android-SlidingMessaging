@@ -18,6 +18,7 @@ package wizardpager;
 
 import android.content.Context;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.send_message.Transaction;
 import wizardpager.wizard.model.AbstractWizardModel;
 import wizardpager.wizard.model.MessagePage;
 import wizardpager.wizard.model.PageList;
@@ -31,6 +32,18 @@ public class InitialSetupWizardModel extends AbstractWizardModel {
 
     @Override
     protected PageList onNewRootPageList() {
+
+        boolean isTablet;
+
+        try {
+            if (Transaction.getMyPhoneNumber(mContext) == null || Transaction.getMyPhoneNumber(mContext).equals("")) {
+                isTablet = true;
+            } else {
+                isTablet = false;
+            }
+        } catch (Exception e) {
+            isTablet = true;
+        }
 
         return new PageList(
                 new MessagePage(this, mContext.getString(R.string.initial_setup))
@@ -49,6 +62,7 @@ public class InitialSetupWizardModel extends AbstractWizardModel {
                         .setChoices("Yes - The most used app, messaging, is always accessible.", "No")
                         .setRequired(true),
 
+                !isTablet ?
                 new SingleFixedChoicePage(this, mContext.getString(R.string.need_mms_setup))
                 .setChoices("Auto Select","AT&T","AT&T #2","Bell Canada","Fido Canada",
                         "Free Mobile France","Network Norway","Net10","O2",
@@ -56,6 +70,8 @@ public class InitialSetupWizardModel extends AbstractWizardModel {
                         "T-Mobile US","T-Mobile Polish","Virgin Mobile Canada",
                         "Verizon Wireless","Verizon Wireless #2","Vodafone UK",
                         "Vodafone AU","Not on list")
-                    .setRequired(true));
+                    .setRequired(true) :
+                new MessagePage(this, mContext.getString(R.string.need_mms_setup))
+                .setMessage("Since you are using a tablet, MMS is not available. You need to set up Google Voice in settings before sending any messages!"));
     }
 }

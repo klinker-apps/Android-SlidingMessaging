@@ -3,6 +3,7 @@ Version 7.50
 Jake:
     - change voice sending status depending on thread?
     - delayed sending for certain times
+    - Add google voice to app description
 Luke:
     - Message details for MMS messages
     - Turn off the mms page in initial setup if tablet and tell them to go to voice settings to get voice working

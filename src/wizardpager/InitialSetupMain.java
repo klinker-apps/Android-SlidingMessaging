@@ -149,7 +149,9 @@ public class InitialSetupMain extends FragmentActivity implements
                         carrier = "";
                     }
 
-                    setAPN(carrier);
+                    if (null != carrier) {
+                        setAPN(carrier);
+                    }
 
                     // Sets the display layout
                     String display;

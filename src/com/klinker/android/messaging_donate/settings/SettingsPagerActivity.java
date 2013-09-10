@@ -1074,7 +1074,7 @@ public class SettingsPagerActivity extends FragmentActivity {
 
         public void setUpMmsSettings()
         {
-            boolean isTablet = false;
+            boolean isTablet;
 
             try {
                 if (Transaction.getMyPhoneNumber(getActivity()) == null || Transaction.getMyPhoneNumber(getActivity()).equals("")) {
@@ -1085,8 +1085,6 @@ public class SettingsPagerActivity extends FragmentActivity {
             } catch (Exception e) {
                 isTablet = true;
             }
-
-            Log.v("tablet_stuff", "isTablet: " + isTablet);
 
             Preference mmsc, proxy, port;
             final Context context = getActivity();
