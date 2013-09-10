@@ -3235,11 +3235,15 @@ public class MainActivity extends FragmentActivity {
                 menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
             } else if (deviceType.equals("phablet") || deviceType.equals("tablet"))
             {
-                Display display = getWindowManager().getDefaultDisplay();
-                Point size = new Point();
-                display.getSize(size);
-                int width = size.x;
-                menu.setBehindOffset((int) (width * .6));
+                if (!isPopup) {
+                    Display display = getWindowManager().getDefaultDisplay();
+                    Point size = new Point();
+                    display.getSize(size);
+                    int width = size.x;
+                    menu.setBehindOffset((int) (width * .6));
+                } else {
+                    menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+                }
             }
         } else
         {

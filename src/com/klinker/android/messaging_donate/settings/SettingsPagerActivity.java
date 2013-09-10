@@ -1079,7 +1079,7 @@ public class SettingsPagerActivity extends FragmentActivity {
 
             Preference mmsc, proxy, port;
             final Context context = getActivity();
-            final SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            final SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(context);
 
             try {
                 if ((Transaction.getMyPhoneNumber(context) == null || Transaction.getMyPhoneNumber(context).equals("")) && tabletSize(context) > 6.5 && xLargeScreen(context)) {
