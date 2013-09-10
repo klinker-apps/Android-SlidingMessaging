@@ -1004,9 +1004,13 @@ public class MainActivity extends FragmentActivity {
                     if (inAppNotifications) {
                         boolean flag = false;
                         for (int i = 0; i < appMsgConversations; i++) {
-                            if (getIntent().getStringExtra("address").replace(" ", "").replace("(", "").replace(")", "").replace("-", "").endsWith(findContactNumber(inboxNumber.get(i), arg0).replace(" ", "").replace("(", "").replace(")", "").replace("-", ""))) {
-                                flag = true;
-                                break;
+                            try {
+                                if (getIntent().getStringExtra("address").replace(" ", "").replace("(", "").replace(")", "").replace("-", "").endsWith(findContactNumber(inboxNumber.get(i), arg0).replace(" ", "").replace("(", "").replace(")", "").replace("-", ""))) {
+                                    flag = true;
+                                    break;
+                                }
+                            } catch (Exception e) {
+
                             }
                         }
 

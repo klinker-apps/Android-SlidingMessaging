@@ -179,8 +179,10 @@ public class VoiceReceiver extends Service {
                 if (cursor.moveToFirst()) {
                     do {
                         long date = Long.parseLong(cursor.getString(cursor.getColumnIndex("date")));
+                        Log.v("refresh_voice", "saved message date: " + date + " downloaded message date: " + message.date);
 
-                        if (date + 5000 < message.date && date - 5000 > message.date) {
+                        if (date + 60000 > message.date && date - 60000 < message.date) {
+                            Log.v("refresh_voice", "message already exists");
                             exists = true;
                             break;
                         }
