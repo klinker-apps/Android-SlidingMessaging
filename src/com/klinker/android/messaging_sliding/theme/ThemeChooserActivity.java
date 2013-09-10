@@ -60,7 +60,10 @@ public class ThemeChooserActivity extends Activity {
 		    config.locale = locale;
 		    getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
 		}
-	}
+
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
+    }
 
     @Override
     public void onBackPressed() {
@@ -224,6 +227,10 @@ public class ThemeChooserActivity extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    switch (item.getItemId()) {
+
+        case android.R.id.home:
+            onBackPressed();
+            return super.onOptionsItemSelected(item);
 	    case R.id.menu_add_theme:
 	    	try
 	       	 {

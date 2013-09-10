@@ -235,6 +235,8 @@ public class MainActivity extends FragmentActivity {
     public LayoutParams SlidingTabParams;
     public LayoutParams viewPagerParams;
 
+    public boolean emojiUp = false;
+
     // shared prefs values
     public boolean lightActionBar;
     public boolean limitConversationsAtStart;
@@ -2037,6 +2039,8 @@ public class MainActivity extends FragmentActivity {
                 @Override
                 public void onClick(View arg0) {
 
+                    final String menuOption = sharedPrefs.getString("page_or_menu2", "2");
+
                     if(emojiKeyboard && emojiType)
                     {
                         if (!emojiOpen)
@@ -2046,6 +2050,9 @@ public class MainActivity extends FragmentActivity {
                             messageScreen.addView(tabs, SlidingTabParams);
                             messageScreen.addView(vp, viewPagerParams);
 
+                            if (menuOption.equals("1") ) {
+                                menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
+                            }
 
                             InputMethodManager keyboard = (InputMethodManager)
                                     getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -2059,6 +2066,10 @@ public class MainActivity extends FragmentActivity {
                                         messageScreen.removeView(tabs);
                                         messageScreen.removeView(vp);
 
+                                        if (menuOption.equals("1")) {
+                                            menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+                                        }
+
                                         emojiOpen = false;
                                     }
 
@@ -2068,6 +2079,10 @@ public class MainActivity extends FragmentActivity {
                         } else
                         {
                             emojiOpen = false;
+
+                            if (menuOption.equals("1")) {
+                                menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+                            }
 
                             messageScreen.removeView(tabs);
                             messageScreen.removeView(vp);
@@ -2969,6 +2984,9 @@ public class MainActivity extends FragmentActivity {
 
                 @Override
                 public void onClick(View arg0) {
+
+                    final String menuOption = sharedPrefs.getString("page_or_menu2", "2");
+
                     if(emojiKeyboard && emojiType)
                     {
                         if (!emoji2Open)
@@ -2977,6 +2995,10 @@ public class MainActivity extends FragmentActivity {
 
                             messageScreen2.addView(tabs, SlidingTabParams);
                             messageScreen2.addView(vp, viewPagerParams);
+
+                            if (menuOption.equals("1")) {
+                                menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
+                            }
 
                             emoji2Open = true;
                             messageEntry2.requestFocus();
@@ -2992,6 +3014,10 @@ public class MainActivity extends FragmentActivity {
                                     messageScreen2.removeView(tabs);
                                     messageScreen2.removeView(vp);
 
+                                    if (menuOption.equals("1")) {
+                                        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+                                    }
+
                                     emoji2Open = false;
                                     return false;
                                 }
@@ -3005,6 +3031,10 @@ public class MainActivity extends FragmentActivity {
                                         messageScreen2.removeView(tabs);
                                         messageScreen2.removeView(vp);
 
+                                        if (menuOption.equals("1")) {
+                                            menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+                                        }
+
                                         emoji2Open = false;
                                     }
                                     return false;
@@ -3015,6 +3045,10 @@ public class MainActivity extends FragmentActivity {
                             emoji2Open = false;
                             messageScreen2.removeView(tabs);
                             messageScreen2.removeView(vp);
+
+                            if (menuOption.equals("1")) {
+                                menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+                            }
                         }
                     } else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(context);

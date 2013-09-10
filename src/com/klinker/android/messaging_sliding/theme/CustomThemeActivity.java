@@ -10,6 +10,7 @@ import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+import android.view.MenuItem;
 import android.widget.Toast;
 import com.klinker.android.messaging_donate.R;
 import net.margaritov.preference.colorpicker.ColorPickerPreference;
@@ -103,7 +104,21 @@ public class CustomThemeActivity extends PreferenceActivity {
 		
 		ColorPickerPreference receiveBack = (ColorPickerPreference) findPreference("ct_receivedMessageBackground");
 		receiveBack.setAlphaSliderEnabled(true);
-	}
+
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return super.onOptionsItemSelected(item);
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 	
 	@Override
 	public void onBackPressed() {
