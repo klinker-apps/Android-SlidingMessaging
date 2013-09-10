@@ -1927,7 +1927,7 @@ public class MainActivity extends FragmentActivity {
                             }
 
                             if (!sendWithStock) {
-                                if (message.getImages().length != 0 || (sendAsMMS && Transaction.getNumPages(sendSettings, message.getText()) > mmsAfter && !sharedPrefs.getBoolean("voice_enabled", false)) || (message.getAddresses().length > 1 && groupMessage)) {
+                                if (sendTransaction.checkMMS(message)) {
                                     ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
                                         @Override
                                         public void run() {
@@ -2882,7 +2882,7 @@ public class MainActivity extends FragmentActivity {
                             }
 
                             if (!sendWithStock) {
-                                if (message.getImages().length != 0 || (sendAsMMS && Transaction.getNumPages(sendSettings, message.getText()) > mmsAfter && !sharedPrefs.getBoolean("voice_enabled", false)) || (message.getAddresses().length > 1 && groupMessage)) {
+                                if (sendTransaction.checkMMS(message)) {
                                     ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
                                         @Override
                                         public void run() {
