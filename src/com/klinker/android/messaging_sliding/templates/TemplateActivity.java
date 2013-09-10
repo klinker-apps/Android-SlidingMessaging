@@ -325,11 +325,12 @@ public class TemplateActivity extends Activity {
                         //onBackPressed();
 
                         Intent mIntent = new Intent(context, SettingsPagerActivity.class);
-                        mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION |Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         mIntent.putExtra("page_number", mPos);
                         startActivity(mIntent);
+                        overridePendingTransition(0,0);
                     }
-                }, 100);
+                }, 200);
             } else {
                 mDrawerLayout.closeDrawer(mDrawer);
 
@@ -354,15 +355,13 @@ public class TemplateActivity extends Activity {
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                onBackPressed();
-
                                 Intent mIntent = new Intent(context, ScheduledSms.class);
                                 mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(mIntent);
                                 overridePendingTransition(0,0);
                                 //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                             }
-                        }, 100);
+                        }, 200);
                         break;
 
                     case 2:
@@ -372,10 +371,10 @@ public class TemplateActivity extends Activity {
                                 Intent mIntent = new Intent(context, GetHelpSettingsActivity.class);
                                 mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(mIntent);
-                                //overridePendingTransition(0,0);
-                                overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                                overridePendingTransition(0,0);
+                                //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                             }
-                        }, 100);
+                        }, 200);
 
                         break;
 
@@ -386,10 +385,10 @@ public class TemplateActivity extends Activity {
                                 Intent mIntent = new Intent(context, OtherAppsSettingsActivity.class);
                                 mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(mIntent);
-                                //overridePendingTransition(0,0);
-                                overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                                overridePendingTransition(0,0);
+                                //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                             }
-                        }, 100);
+                        }, 200);
 
                         break;
 
@@ -405,8 +404,9 @@ public class TemplateActivity extends Activity {
                                 } catch (ActivityNotFoundException e) {
                                     Toast.makeText(context, "Couldn't launch the market", Toast.LENGTH_SHORT).show();
                                 }
+                                overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                             }
-                        }, 100);
+                        }, 200);
 
                         //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                         //mDrawerLayout.closeDrawer(mDrawer);
@@ -438,9 +438,10 @@ public class TemplateActivity extends Activity {
     @Override
 	public void onBackPressed() {
 		writeToFile(text, this);
-		super.onBackPressed();
-        //overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
-        overridePendingTransition(0,0);
+        Intent i = new Intent(this, com.klinker.android.messaging_donate.MainActivity.class);
+        startActivity(i);
+        finish();
+        overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
 	}
 	
 	@SuppressWarnings("resource")
