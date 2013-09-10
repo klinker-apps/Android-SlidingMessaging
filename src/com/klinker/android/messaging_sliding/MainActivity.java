@@ -69,10 +69,7 @@ import com.klinker.android.messaging_sliding.emojis.EmojiConverter;
 import com.klinker.android.messaging_sliding.emojis.EmojiConverter2;
 import com.klinker.android.messaging_sliding.notifications.IndividualSetting;
 import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead2;
-import com.klinker.android.messaging_sliding.receivers.CacheService;
-import com.klinker.android.messaging_sliding.receivers.NotificationReceiver;
-import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
-import com.klinker.android.messaging_sliding.receivers.QuickTextService;
+import com.klinker.android.messaging_sliding.receivers.*;
 import com.klinker.android.messaging_sliding.scheduled.NewScheduledSms;
 import com.klinker.android.messaging_sliding.search.SearchActivity;
 import com.klinker.android.messaging_sliding.security.PasswordActivity;
@@ -983,27 +980,58 @@ public class MainActivity extends FragmentActivity {
 
             @Override
             public void onReceive(Context arg0, Intent arg1) {
-                String currentThread = threadIds.get(mViewPager.getCurrentItem());
+                refreshViewPager4(findRecipientId(arg1.getStringExtra("address"), arg0), arg1.getStringExtra("body"), arg1.getStringExtra("date"));
+                NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                mNotificationManager.cancel(1);
+                mNotificationManager.cancel(2);
 
-                refreshViewPager();
-
-                for (int i = 0; i < threadIds.size(); i++)
+                try
                 {
-                    if (currentThread.equals(threadIds.get(i)))
+                    if (getIntent().getStringExtra("address").replace(" ", "").replace("(", "").replace(")", "").replace("-", "").endsWith(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), arg0).replace(" ", "").replace("(", "").replace(")", "").replace("-", "")))
                     {
-                        if (i != 0) {
-                            if (appMsgConversations == 1) {
-                                appMsg = AppMsg.makeText((Activity) arg0, appMsgConversations + getString(R.string.new_conversation), AppMsg.STYLE_ALERT);
-                            } else {
-                                appMsg = AppMsg.makeText((Activity) arg0, appMsgConversations + getString(R.string.new_conversations), AppMsg.STYLE_ALERT);
+                        animationReceived = 1;
+                        animationThread = mViewPager.getCurrentItem();
+                    } else
+                    {
+                        animationReceived = 2;
+                    }
+                } catch (Exception e)
+                {
+                    animationReceived = 2;
+                }
+
+                if (animationReceived == 2) {
+                    if (inAppNotifications) {
+                        boolean flag = false;
+                        for (int i = 0; i < appMsgConversations; i++) {
+                            if (getIntent().getStringExtra("address").replace(" ", "").replace("(", "").replace(")", "").replace("-", "").endsWith(findContactNumber(inboxNumber.get(i), arg0).replace(" ", "").replace("(", "").replace(")", "").replace("-", ""))) {
+                                flag = true;
+                                break;
                             }
                         }
 
-                        mViewPager.setCurrentItem(i, false);
-                        break;
+                        if (!flag) {
+                            appMsgConversations++;
+                        }
+
+                        if (appMsgConversations == 1) {
+                            appMsg = AppMsg.makeText((Activity) arg0, appMsgConversations + getString(R.string.new_conversation), AppMsg.STYLE_ALERT);
+                        } else {
+                            appMsg = AppMsg.makeText((Activity) arg0, appMsgConversations + getString(R.string.new_conversations), AppMsg.STYLE_ALERT);
+                        }
+
+                        appMsg.show();
                     }
                 }
 
+                dismissCrouton = false;
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        dismissCrouton = true;
+                    }
+                }, 500);
             }
 
         };
@@ -2854,7 +2882,17 @@ public class MainActivity extends FragmentActivity {
                             }
 
                             if (!sendWithStock) {
-                                sendTransaction.sendNewMessage(message, null);
+                                if (message.getImages().length != 0 || (sendAsMMS && Transaction.getNumPages(sendSettings, message.getText()) > mmsAfter && !sharedPrefs.getBoolean("voice_enabled", false)) || (message.getAddresses().length > 1 && groupMessage)) {
+                                    ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Log.v("sending_mms_library", "sending new mms, posted to UI thread");
+                                            sendTransaction.sendNewMessage(message, null);
+                                        }
+                                    });
+                                } else {
+                                    sendTransaction.sendNewMessage(message, null);
+                                }
                             } else {
                                 if (message.getImages().length != 0 || (sendSettings.getSendLongAsMms() && Transaction.getNumPages(sendSettings, message.getText()) > sendSettings.getSendLongAsMmsAfter() && !sendSettings.getPreferVoice()) || (message.getAddresses().length > 1 && sendSettings.getGroup())) {
                                     if (multipleAttachments == false)
@@ -3754,6 +3792,12 @@ public class MainActivity extends FragmentActivity {
             }
         }
 
+        if (voiceAccount != null) {
+            menu.getItem(10).setVisible(true);
+        } else {
+            menu.getItem(10).setVisible(false);
+        }
+
         if (lightActionBar)
         {
             Drawable callButton = getResources().getDrawable(R.drawable.ic_menu_call);
@@ -4032,6 +4076,9 @@ public class MainActivity extends FragmentActivity {
             case R.id.menu_mark_all_read:
                 startService(new Intent(getBaseContext(), QmMarkRead2.class));
 
+                return true;
+            case R.id.menu_refreshVoice:
+                startService(new Intent(this, VoiceReceiver.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

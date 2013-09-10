@@ -1234,7 +1234,11 @@ public class TextMessageReceiver extends BroadcastReceiver {
 		        }
 
                 if (voiceMessage) {
-                    context.sendBroadcast(new Intent("com.klinker.android.messaging.NEW_MMS"));
+                    Intent voice = new Intent("com.klinker.android.messaging.NEW_MMS");
+                    voice.putExtra("address", address);
+                    voice.putExtra("body", body);
+                    voice.putExtra("date", date);
+                    context.sendBroadcast(voice);
                 }
 		        
 		        if (sharedPrefs.getBoolean("override", false) || voiceMessage)
