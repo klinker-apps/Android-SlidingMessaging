@@ -1241,7 +1241,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
                     context.sendBroadcast(voice);
                 }
 		        
-		        if (sharedPrefs.getBoolean("override", false) || voiceMessage)
+		        if (sharedPrefs.getBoolean("override", false))
 		        {
                     try {
 		        	    this.abortBroadcast();
