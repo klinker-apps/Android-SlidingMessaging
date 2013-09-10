@@ -37,7 +37,7 @@ public class InitialSetupWizardModel extends AbstractWizardModel {
         boolean isTablet;
 
         try {
-            if ((Transaction.getMyPhoneNumber(mContext) == null || Transaction.getMyPhoneNumber(mContext).equals("")) && SettingsPagerActivity.tabletSize(mContext) > 6.5) {
+            if ((Transaction.getMyPhoneNumber(mContext) == null || Transaction.getMyPhoneNumber(mContext).equals("")) && SettingsPagerActivity.tabletSize(mContext) > 6.5 && SettingsPagerActivity.xLargeScreen(mContext)) {
                 isTablet = true;
             } else {
                 isTablet = false;

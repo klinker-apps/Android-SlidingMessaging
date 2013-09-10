@@ -1077,8 +1077,12 @@ public class SettingsPagerActivity extends FragmentActivity {
         {
             boolean isTablet;
 
+            Preference mmsc, proxy, port;
+            final Context context = getActivity();
+            final SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
             try {
-                if ((Transaction.getMyPhoneNumber(getActivity()) == null || Transaction.getMyPhoneNumber(getActivity()).equals("")) && tabletSize(getActivity()) > 6.5) {
+                if ((Transaction.getMyPhoneNumber(context) == null || Transaction.getMyPhoneNumber(context).equals("")) && tabletSize(context) > 6.5 && xLargeScreen(context)) {
                     isTablet = true;
                 } else {
                     isTablet = false;
@@ -1086,10 +1090,6 @@ public class SettingsPagerActivity extends FragmentActivity {
             } catch (Exception e) {
                 isTablet = true;
             }
-
-            Preference mmsc, proxy, port;
-            final Context context = getActivity();
-            final SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
             if (isTablet) {
                 findPreference("group_message").setEnabled(false);
@@ -2156,15 +2156,25 @@ public class SettingsPagerActivity extends FragmentActivity {
         double size = 0;
 
         try {
-            DisplayMetrics dm = context.getResources().getDisplayMetrics();
-
-            float screenWidth  = dm.widthPixels / dm.xdpi;
-            float screenHeight = dm.heightPixels / dm.ydpi;
-            size = Math.sqrt(Math.pow(screenWidth, 2) + Math.pow(screenHeight, 2));
+            DisplayMetrics dm = new DisplayMetrics();
+            ((Activity)context).getWindowManager().getDefaultDisplay().getMetrics(dm);
+            double x = Math.pow(dm.widthPixels/dm.xdpi,2);
+            double y = Math.pow(dm.heightPixels/dm.ydpi,2);
+            double screenInches = Math.sqrt(x+y);
+            return screenInches;
         } catch(Throwable t) {
 
         }
 
         return size;
+    }
+
+    public static boolean xLargeScreen(Context context) {
+        Configuration config = context.getResources().getConfiguration();
+        if((config.screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE) {
+            return true;
+        }
+
+        return false;
     }
 }
