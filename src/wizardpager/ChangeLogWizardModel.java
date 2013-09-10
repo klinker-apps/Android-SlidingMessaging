@@ -48,9 +48,9 @@ public class ChangeLogWizardModel extends AbstractWizardModel {
 
         String changeLog = "Version " + version + ":\n\n" +
                 "- 3 different Google Voice message syncing options\n" +
-                "\t1) Manual refresh from menu or settings\n" +
+                "\t1) Refreshing on specified interval\n" +
                 "\t2) Refreshing when Google Voice app shows notification\n" +
-                "\t3) Refreshing on specified interval\n" +
+                "\t3) Manual refresh from menu or settings\n" +
                 "- New settings menu navigation\n" +
                 "- Holo light theme applied throughout the app to better match Google's current styles\n" +
                 "- Option to disable the mark as read by swiping away the message on 4.3 (useful if you also want Google Voice support)\n" +
