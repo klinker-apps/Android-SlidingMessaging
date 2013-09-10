@@ -6,8 +6,6 @@ Jake:
     - Add google voice to app description
 Luke:
     - Message details for MMS messages
-    - emoji keyboard problem... workaround unlikely. add disclaimer (maybe change margins when using keyboard and then change back when it is closed)
-    - look into the keyboard covering text input box with picture
     - Change add settings activities right off the nav drawer to include a "home" button in the action bar
 
 1) more individual notification options (slideover color)
