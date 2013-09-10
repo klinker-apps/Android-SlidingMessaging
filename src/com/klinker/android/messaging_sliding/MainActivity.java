@@ -1947,7 +1947,16 @@ public class MainActivity extends FragmentActivity {
                                         sendIntent.putExtra("sms_body", text);
                                         sendIntent.putExtra(Intent.EXTRA_STREAM, attachedImage);
                                         sendIntent.setType("image/png");
-                                        startActivity(sendIntent);
+
+                                        Intent htcIntent = new Intent("android.intent.action.SEND_MSG");
+                                        htcIntent.putExtra("address", findContactNumber(recipientId, context).replace(";", ""));
+                                        htcIntent.putExtra("sms_body", text);
+                                        htcIntent.putExtra(Intent.EXTRA_STREAM, attachedImage);
+                                        htcIntent.setType("image/png");
+
+                                        Intent chooser = Intent.createChooser(sendIntent, "Send Message:");
+                                        chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] { htcIntent });
+                                        startActivity(chooser);
 
                                         com.klinker.android.messaging_sliding.MainActivity.messageRecieved = true;
                                     } else
@@ -2902,7 +2911,16 @@ public class MainActivity extends FragmentActivity {
                                         sendIntent.putExtra("sms_body", text);
                                         sendIntent.putExtra(Intent.EXTRA_STREAM, attachedImage);
                                         sendIntent.setType("image/png");
-                                        startActivity(sendIntent);
+
+                                        Intent htcIntent = new Intent("android.intent.action.SEND_MSG");
+                                        htcIntent.putExtra("address", contact.getText().toString().replace(";", ""));
+                                        htcIntent.putExtra("sms_body", text);
+                                        htcIntent.putExtra(Intent.EXTRA_STREAM, attachedImage);
+                                        htcIntent.setType("image/png");
+
+                                        Intent chooser = Intent.createChooser(sendIntent, "Send Message:");
+                                        chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] { htcIntent });
+                                        startActivity(chooser);
 
                                         com.klinker.android.messaging_sliding.MainActivity.messageRecieved = true;
                                     } else
