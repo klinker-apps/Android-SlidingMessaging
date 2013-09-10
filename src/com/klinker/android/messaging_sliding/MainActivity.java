@@ -2628,7 +2628,7 @@ public class MainActivity extends FragmentActivity {
                         String[] projection    = new String[] {ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
                                 ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.LABEL};
 
-                        Cursor people = getContentResolver().query(uri, projection, null, null, null);
+                        Cursor people = getContentResolver().query(uri, projection, null, null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " asc");
 
                         int indexName = people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
                         int indexNumber = people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
