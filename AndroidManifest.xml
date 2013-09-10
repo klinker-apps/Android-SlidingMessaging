@@ -118,7 +118,8 @@
                 android:theme="@style/AppBaseThemeDialog"
                 android:configChanges="orientation|screenSize"
                 android:hardwareAccelerated="true"
-                android:windowSoftInputMode="adjustResize"
+                android:windowSoftInputMode="adjustPan"
+                android:launchMode="singleTop"
                 android:clearTaskOnLaunch="true"
                 android:exported="true"
                 tools:ignore="ExportedActivity" >
