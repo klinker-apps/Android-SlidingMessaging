@@ -23,6 +23,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.telephony.TelephonyManager;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -1077,7 +1078,7 @@ public class SettingsPagerActivity extends FragmentActivity {
             boolean isTablet;
 
             try {
-                if (Transaction.getMyPhoneNumber(getActivity()) == null || Transaction.getMyPhoneNumber(getActivity()).equals("")) {
+                if ((Transaction.getMyPhoneNumber(getActivity()) == null || Transaction.getMyPhoneNumber(getActivity()).equals("")) && tabletSize(getActivity()) > 6.5) {
                     isTablet = true;
                 } else {
                     isTablet = false;
@@ -2151,4 +2152,19 @@ public class SettingsPagerActivity extends FragmentActivity {
         }, 500);
     }
 
+    public static double tabletSize(Context context) {
+        double size = 0;
+
+        try {
+            DisplayMetrics dm = context.getResources().getDisplayMetrics();
+
+            float screenWidth  = dm.widthPixels / dm.xdpi;
+            float screenHeight = dm.heightPixels / dm.ydpi;
+            size = Math.sqrt(Math.pow(screenWidth, 2) + Math.pow(screenHeight, 2));
+        } catch(Throwable t) {
+
+        }
+
+        return size;
+    }
 }
