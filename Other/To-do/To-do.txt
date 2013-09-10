@@ -14,10 +14,9 @@ Luke:
 4) Attach more options for MMS - create slideshow with videos and audio and pictures, attach plain text contact info
 5) Pin contact to always be first conversation
 6) Auto call when phone is placed to the ear (proximity sensor)
-7) Option to sort contacts alphabetically in contact search box? don't know if this would work well or not or how you have it set up...
-8) Add a crouton notification for drafts instead of current system, then use a pull to refresh on the bottom to fill the text box with the draft. again, don't know if this would work well or is possible to attach another one to the list view, but it might be cool
-9) Add scheduled sms to bottom of conversation in a footer maybe
-10) Add sent or received icon to conversations list
+7) Add a crouton notification for drafts instead of current system, then use a pull to refresh on the bottom to fill the text box with the draft. again, don't know if this would work well or is possible to attach another one to the list view, but it might be cool
+8) Add scheduled sms to bottom of conversation in a footer maybe
+9) Add sent or received icon to conversations list
 
 - igamer777@gmail.com, nikorezzano@gmail.com
 
