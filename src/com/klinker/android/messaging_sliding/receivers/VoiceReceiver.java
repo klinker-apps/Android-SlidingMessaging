@@ -4,6 +4,7 @@ import android.app.Service;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
@@ -164,14 +165,38 @@ public class VoiceReceiver extends Service {
                 continue;
             }
 
-            // sync up outgoing messages
+            // sync up outgoing messages (ones sent from other devices)
             if (message.type == VOICE_OUTGOING_SMS) {
-                // do nothing with outgoing
+                Log.v("refresh_voice", "new outgoing message we will try and save...");
+
+                boolean exists = false;
+
+                Uri uri = Uri.parse("content://sms/sent");
+                String[] projection = new String[] {message.message};
+
+                Cursor cursor = getContentResolver().query(uri, new String[] {"_id", "body", "date"}, "body=?", projection, null);
+
+                if (cursor.moveToFirst()) {
+                    do {
+                        long date = Long.parseLong(cursor.getString(cursor.getColumnIndex("date")));
+
+                        if (date + 5000 < message.date && date - 5000 > message.date) {
+                            exists = true;
+                            break;
+                        }
+                    } while (cursor.moveToNext());
+                }
+
+                if (!exists) {
+                    insertMessage(message.phoneNumber, message.message, PROVIDER_OUTGOING_SMS, message.date);
+                }
+
                 continue;
             }
 
             if (message.type != VOICE_INCOMING_SMS)
                 continue;
+
             try {
                 Log.v("refresh_voice", "sending sms broadcast");
                 Intent smsBroadcast = new Intent("com.klinker.android.messaging.VOICE_RECEIVED");
