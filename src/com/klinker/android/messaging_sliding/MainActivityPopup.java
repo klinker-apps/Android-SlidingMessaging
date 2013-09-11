@@ -15,9 +15,12 @@ import android.preference.PreferenceManager;
 import android.support.v4.view.PagerTitleStrip;
 import android.util.TypedValue;
 import android.view.Display;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
 
@@ -76,6 +79,22 @@ public class MainActivityPopup extends MainActivity {
         }
 
         setContentView(R.layout.activity_main);
+
+        if (sharedPrefs.getBoolean("show_full_app_button", false)) {
+            Button fullApp = (Button) findViewById(R.id.launch_app);
+            fullApp.setTextColor(emojiButtonColor);
+            fullApp.setTextSize(Integer.parseInt(textSize));
+            fullApp.setVisibility(View.VISIBLE);
+
+            fullApp.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent app = new Intent(getBaseContext(), com.klinker.android.messaging_donate.MainActivity.class);
+                    startActivity(app);
+                    overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                }
+            });
+        }
 
         setTitle(null);
 

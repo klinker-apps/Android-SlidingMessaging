@@ -762,4 +762,8 @@
     <string name="launch_slideover_summary">Launch from the extension with SlideOver instead of the main app.</string>
     <string name="delivery_reports_type">Delivery Report Notification Type</string>
     <string name="delivery_reports_type_summary">Select how you should be notified when your message has been delivered</string>
+    <string name="launch_full_app">Launch Full App</string>
+    <string name="show_full_app_button">Full App Button</string>
+    <string name="show_full_app_button_summary">Adds a button to the bottom of SlideOver that will take you to the full app</string>
+
 </resources>
