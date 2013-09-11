@@ -7,7 +7,6 @@ Jake:
 Luke:
     - Message details for MMS messages
     - Add option to disable delivery reports toast
-    - change scheduled sms text color
 
 1) more individual notification options (slideover color)
 2) option for adding certain text to every message at the beginning (delivery reports?)
