@@ -3,6 +3,7 @@ package com.klinker.android.messaging_hangout;
 import android.annotation.SuppressLint;
 import android.app.*;
 import android.content.*;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SqliteWrapper;
 import android.graphics.*;
@@ -77,6 +78,8 @@ public class MessageCursorAdapter extends CursorAdapter {
     public WifiInfo currentWifi;
     public boolean currentWifiState;
     public boolean currentDataState;
+
+    private boolean touchwiz = false;
 
     // shared prefs values
 
@@ -249,6 +252,15 @@ public class MessageCursorAdapter extends CursorAdapter {
         {
             font = Typeface.createFromFile(sharedPrefs.getString("custom_font_path", ""));
             paint.setTypeface(font);
+        }
+
+        // check if user is using touchwiz by looking for the launcher on their device
+        try {
+            PackageManager pm = context.getPackageManager();
+            pm.getPackageInfo("com.sec.android.smando.launcher", PackageManager.GET_ACTIVITIES);
+            touchwiz = true;
+        } catch (Exception e) {
+
         }
     }
 
@@ -1590,7 +1602,9 @@ public class MessageCursorAdapter extends CursorAdapter {
             holder.bubble = (ImageView) v.findViewById(R.id.msgBubble);
             holder.background = v.findViewById(R.id.messageBody);
 
-            holder.image.assignContactUri(ContactsContract.Profile.CONTENT_URI);
+            if (!touchwiz) {
+                holder.image.assignContactUri(ContactsContract.Profile.CONTENT_URI);
+            }
         } else {
             if (runAs.equals("hangout")) {
                 v = mInflater.inflate(R.layout.message_hangout_received, parent, false);
