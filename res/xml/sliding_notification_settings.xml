@@ -226,7 +226,7 @@
             android:summary="@string/delivery_reports_type_summary"
             android:entries="@array/deliveryReportType"
             android:entryValues="@array/deliveryReportTypeSet"
-            android:defaultValue="1"
+            android:defaultValue="2"
             android:dependency="delivery_reports"
             />
 

@@ -1,7 +1,6 @@
 Version 7.50
 
 Jake:
-    - change voice sending status depending on thread?
     - delayed sending for certain times
 Luke:
     - Add google voice to app description after full update

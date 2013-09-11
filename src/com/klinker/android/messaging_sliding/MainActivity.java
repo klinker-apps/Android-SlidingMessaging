@@ -132,6 +132,8 @@ public class MainActivity extends FragmentActivity {
     public ArrayList<String> msgCount;
     public ArrayList<String> msgRead;
 
+    public ArrayList<String> threadsThroughVoice;
+
     public static boolean waitToLoad = false;
     public static boolean threadedLoad = true;
     public static boolean notChanged = true;
@@ -473,6 +475,13 @@ public class MainActivity extends FragmentActivity {
             voiceAccount = sharedPrefs.getString("voice_account", null);
             voiceEnabled = sharedPrefs.getBoolean("voice_enabled", false);
             closeHaloAfterSend = sharedPrefs.getBoolean("close_halo_after_send", false);
+        }
+
+        if (voiceAccount != null) {
+            String voiceThreads = sharedPrefs.getString("voice_threads", "");
+            threadsThroughVoice = new ArrayList<String>(Arrays.asList(voiceThreads.split("-")));
+
+            while (threadsThroughVoice.remove(""));
         }
 
         setUpWindow();
@@ -2219,6 +2228,11 @@ public class MainActivity extends FragmentActivity {
                         voiceButton.setImageResource(R.drawable.voice_disabled);
                         sendSettings.setPreferVoice(false);
                         sendTransaction.settings = sendSettings;
+
+                        if (threadsThroughVoice.contains(threadIds.get(mViewPager.getCurrentItem()))) {
+                            boolean res = threadsThroughVoice.remove(threadIds.get(mViewPager.getCurrentItem()));
+                            Log.v("threads_through_voice", "removed: " + res);
+                        }
                     } else {
                         voiceEnabled = true;
                         sharedPrefs.edit().putBoolean("voice_enabled", true).commit();
@@ -2226,6 +2240,11 @@ public class MainActivity extends FragmentActivity {
                         voiceButton.setImageResource(R.drawable.voice_enabled);
                         sendSettings.setPreferVoice(true);
                         sendTransaction.settings = sendSettings;
+
+                        if (!threadsThroughVoice.contains(threadIds.get(mViewPager.getCurrentItem()))) {
+                            boolean res = threadsThroughVoice.add(threadIds.get(mViewPager.getCurrentItem()));
+                            Log.v("threads_through_voice", "added: " + res);
+                        }
                     }
                 }
             });
@@ -3622,6 +3641,22 @@ public class MainActivity extends FragmentActivity {
 
                         final int indexF = index;
 
+                        boolean voicePerformClick = false;
+
+                        if (voiceAccount != null) {
+                            if (threadsThroughVoice.contains(threadIds.get(mViewPager.getCurrentItem()))) {
+                                if (!voiceEnabled) {
+                                    voicePerformClick = true;
+                                }
+                            } else {
+                                if (voiceEnabled) {
+                                    voicePerformClick = true;
+                                }
+                            }
+                        }
+
+                        final boolean performClick = voicePerformClick;
+
                         ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 
                             @Override
@@ -3673,6 +3708,10 @@ public class MainActivity extends FragmentActivity {
                                     } else {
                                         fromDraft = true;
                                     }
+                                }
+
+                                if (performClick) {
+                                    voiceButton.performClick();
                                 }
                             }
 
@@ -5135,6 +5174,18 @@ public class MainActivity extends FragmentActivity {
                 }
             }
         }
+
+        if (voiceAccount != null) {
+            if (threadsThroughVoice.contains(threadIds.get(mViewPager.getCurrentItem()))) {
+                if (!voiceEnabled) {
+                    voiceButton.performClick();
+                }
+            } else {
+                if (voiceEnabled) {
+                    voiceButton.performClick();
+                }
+            }
+        }
     }
 
     @Override
@@ -5282,6 +5333,22 @@ public class MainActivity extends FragmentActivity {
         }
 
         unlockDevice = false;
+
+        if (voiceAccount != null) {
+            String voiceThreads = "";
+
+            for (String s : threadsThroughVoice) {
+                voiceThreads += s + "-";
+            }
+
+            try {
+                voiceThreads = voiceThreads.substring(0, voiceThreads.length() - 1);
+            } catch (Exception e) {
+
+            }
+
+            sharedPrefs.edit().putString("voice_threads", voiceThreads).commit();
+        }
     }
 
     @Override
