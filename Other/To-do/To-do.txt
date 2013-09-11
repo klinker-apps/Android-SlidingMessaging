@@ -1,6 +1,7 @@
 Version 7.50
 
 Jake:
+    - http://stackoverflow.com/a/4756630/967142
     - delayed sending for certain times
 Luke:
     - Add google voice to app description after full update
