@@ -1,7 +1,6 @@
 Version 7.50
 
 Jake:
-    - Add option to disable delivery reports toast
     - change voice sending status depending on thread?
     - delayed sending for certain times
 Luke:
