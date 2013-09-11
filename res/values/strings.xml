@@ -764,6 +764,6 @@
     <string name="delivery_reports_type_summary">Select how you should be notified when your message has been delivered</string>
     <string name="launch_full_app">Launch Full App</string>
     <string name="show_full_app_button">Enable Full App Button</string>
-    <string name="show_full_app_button_summary">Adds a button to the bottom of SlideOver that will take you to the full app. WARNING: Takes up screenspace that could be used to view messages. You might have to adjust the height of the window for this feature.</string>
+    <string name="show_full_app_button_summary">Adds a button to the bottom of SlideOver that will take you to the full app. NOTE: For best results, set SlideOver height to 100%.</string>
 
 </resources>
