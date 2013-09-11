@@ -5341,7 +5341,12 @@ public class MainActivity extends FragmentActivity {
                 voiceThreads += s + "-";
             }
 
-            voiceThreads = voiceThreads.substring(0, voiceThreads.length() - 1);
+            try {
+                voiceThreads = voiceThreads.substring(0, voiceThreads.length() - 1);
+            } catch (Exception e) {
+
+            }
+
             sharedPrefs.edit().putString("voice_threads", voiceThreads).commit();
         }
     }
