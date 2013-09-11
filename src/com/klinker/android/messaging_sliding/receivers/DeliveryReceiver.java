@@ -1,6 +1,7 @@
 package com.klinker.android.messaging_sliding.receivers;
 
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -58,6 +59,16 @@ public class DeliveryReceiver extends BroadcastReceiver {
                         );
 
                 builder.setContentIntent(resultPendingIntent);
+
+                long[] pattern = {0L, 400L, 100L, 400L};
+                builder.setVibrate(pattern);
+                builder.setLights(0xFFffffff, 1000, 2000);
+
+                NotificationManager mNotificationManager =
+                        (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+                Notification notification = builder.build();
+                mNotificationManager.notify(4, notification);
                 break;
         }
     }

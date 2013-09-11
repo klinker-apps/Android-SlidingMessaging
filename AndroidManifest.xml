@@ -543,7 +543,12 @@
                 <action android:name="com.klinker.android.send_message.NOTIFY_DELIVERY" />
             </intent-filter>
         </receiver>
-        
+
+        <receiver android:name="com.klinker.android.messaging_sliding.receivers.SendErrorReceiver" >
+            <intent-filter>
+                <action android:name="com.klinker.android.send_message.NOTIFY_SMS_FAILURE" />
+            </intent-filter>
+        </receiver>
         
         <receiver android:name="com.klinker.android.messaging_donate.widget.CardWidgetProvider" >
 		    <intent-filter>

@@ -986,6 +986,7 @@ public class MainActivity extends FragmentActivity {
                 NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                 mNotificationManager.cancel(1);
                 mNotificationManager.cancel(2);
+                mNotificationManager.cancel(4);
 
                 try
                 {
@@ -5253,6 +5254,7 @@ public class MainActivity extends FragmentActivity {
                             (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                     mNotificationManager.cancel(1);
                     mNotificationManager.cancel(2);
+                    mNotificationManager.cancel(4);
                     writeToFile2(new ArrayList<String>(), context);
 
                     Intent intent = new Intent("com.klinker.android.messaging.CLEARED_NOTIFICATION");
@@ -5576,6 +5578,7 @@ public class MainActivity extends FragmentActivity {
                                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                         mNotificationManager.cancel(1);
                         mNotificationManager.cancel(2);
+                        mNotificationManager.cancel(4);
                         writeToFile2(new ArrayList<String>(), context);
 
                         Intent intent = new Intent("com.klinker.android.messaging.CLEARED_NOTIFICATION");
@@ -5977,6 +5980,7 @@ public class MainActivity extends FragmentActivity {
                             (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                     mNotificationManager.cancel(1);
                     mNotificationManager.cancel(2);
+                    mNotificationManager.cancel(4);
                     writeToFile2(new ArrayList<String>(), context);
 
                     Intent intent = new Intent("com.klinker.android.messaging.CLEARED_NOTIFICATION");
