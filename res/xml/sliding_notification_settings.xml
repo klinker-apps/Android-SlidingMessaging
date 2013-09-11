@@ -220,6 +220,16 @@
             android:defaultValue="false"
             />
 
+        <ListPreference
+            android:key="delivery_reports_type"
+            android:title="@string/delivery_reports_type"
+            android:summary="@string/delivery_reports_type_summary"
+            android:entries="@array/deliveryReportType"
+            android:entryValues="@array/deliveryReportTypeSet"
+            android:defaultValue="1"
+            android:dependency="delivery_reports"
+            />
+
         <CheckBoxPreference
             android:key="secure_notification"
             android:title="@string/secure_notification"

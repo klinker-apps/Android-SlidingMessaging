@@ -515,4 +515,16 @@
         <item>86400000</item>
     </string-array>
 
+    <string-array name="deliveryReportType">
+        <item>Check Mark Only</item>
+        <item>Check Mark and Short Popup (Non-Intrusive)</item>
+        <item>Check Mark and Notification</item>
+    </string-array>
+
+    <string-array name="deliveryReportTypeSet">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
 </resources>

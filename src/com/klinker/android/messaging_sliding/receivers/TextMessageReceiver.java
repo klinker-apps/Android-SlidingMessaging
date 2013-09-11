@@ -277,7 +277,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 						        if (!id.equals("0"))
 						        	mBuilder.setLargeIcon(contactImage);
 						        
-						        setIcon(mBuilder);
+						        setIcon(mBuilder, context);
 						        
 						        HashSet<String> set = new HashSet<String>();
 						        set.add("1");
@@ -479,7 +479,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 						        if (!id.equals("0"))
 						        	mBuilder.setLargeIcon(contactImage);
 
-                                setIcon(mBuilder);
+                                setIcon(mBuilder, context);
 						        
 						        HashSet<String> set = new HashSet<String>();
 						        set.add("1");
@@ -658,7 +658,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 						                .setContentTitle(prevNotifications.size() + 1 + " New Messages")
 						                .setTicker(prevNotifications.size() + 1 + " New Messages");
 
-                                setIcon(mBuilder);
+                                setIcon(mBuilder, context);
 					        	
 					        	HashSet<String> set = new HashSet<String>();
 						        set.add("1");
@@ -848,7 +848,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 						                .setTicker("New Message")
 						                .setContentText("");
 
-                                setIcon(mBuilder);
+                                setIcon(mBuilder, context);
 						        
 						        Intent resultIntent = new Intent(context, com.klinker.android.messaging_donate.MainActivity.class);
 						
@@ -990,7 +990,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 						                .setTicker("New Messages")
 						                .setContentText("");
 
-                                setIcon(mBuilder);
+                                setIcon(mBuilder, context);
 						        
 						        Intent resultIntent = new Intent(context, com.klinker.android.messaging_donate.MainActivity.class);
 						
@@ -1256,8 +1256,10 @@ public class TextMessageReceiver extends BroadcastReceiver {
 		}
 	}
 
-    public void setIcon(NotificationCompat.Builder mBuilder)
+    public static void setIcon(NotificationCompat.Builder mBuilder, Context context)
     {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+
         if (!sharedPrefs.getBoolean("breath", false))
         {
             String notIcon = sharedPrefs.getString("notification_icon", "white");
