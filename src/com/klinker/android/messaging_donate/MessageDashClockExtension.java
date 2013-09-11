@@ -74,7 +74,13 @@ public class MessageDashClockExtension extends DashClockExtension {
 				publishUpdate(new ExtensionData());
 			} else
 			{
-				Intent intent = new Intent(this, com.klinker.android.messaging_donate.MainActivity.class);
+                Intent intent = null;
+                if(sharedPrefs.getBoolean("launch_slideover", false)) {
+                    intent = new Intent(this, com.klinker.android.messaging_sliding.MainActivityPopup.class);
+                } else {
+                    intent = new Intent(this, com.klinker.android.messaging_donate.MainActivity.class);
+                }
+
 				Bundle b = new Bundle();
 				b.putBoolean("dashclock", true);
 				intent.putExtras(b);

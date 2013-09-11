@@ -16,10 +16,12 @@ import android.support.v4.view.PagerTitleStrip;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
@@ -31,6 +33,7 @@ public class MainActivityPopup extends MainActivity {
     public boolean secondaryAction = false;
     public boolean multipleNew = false;
     public int openTo = 0;
+    public int originalHeight = 0;
 
     private BroadcastReceiver closeReceiver = new BroadcastReceiver() {
         @Override
@@ -80,8 +83,25 @@ public class MainActivityPopup extends MainActivity {
 
         setContentView(R.layout.activity_main);
 
+        final Button fullApp = (Button) findViewById(R.id.launch_app);
+
+        /*EditText entry = (EditText) findViewById(R.id.messageEntry);
+
+        entry.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+
+                if (hasFocus && !justOpened) {
+                    fullApp.setVisibility(View.GONE);
+                } else  if (sharedPrefs.getBoolean("show_full_app_button", false)) {
+                    fullApp.setVisibility(View.VISIBLE);
+                }
+                justOpened = false;
+            }
+        });*/
+
         if (sharedPrefs.getBoolean("show_full_app_button", false)) {
-            Button fullApp = (Button) findViewById(R.id.launch_app);
+
             fullApp.setTextColor(emojiButtonColor);
             fullApp.setTextSize(Integer.parseInt(textSize));
             fullApp.setVisibility(View.VISIBLE);
@@ -107,6 +127,7 @@ public class MainActivityPopup extends MainActivity {
         display.getSize(size);
         int width = size.x;
         int height = size.y;
+        originalHeight = getWindow().getAttributes().height;
 
         if (width > height) {
             getWindow().getDecorView().setPadding(0,height/12,0,height/12);
@@ -119,6 +140,24 @@ public class MainActivityPopup extends MainActivity {
 
             }
         }
+
+        /*final View activityRootView = findViewById(R.id.pager);
+        activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                int height = getWindow().getAttributes().height;
+
+                Button fullApp = (Button) findViewById(R.id.launch_app);
+
+                if (height < originalHeight) {
+                    fullApp.setVisibility(View.GONE);
+                } else {
+                    if (sharedPrefs.getBoolean("show_full_app_button", false)) {
+                        fullApp.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        });*/
     }
     
     @Override
@@ -205,6 +244,16 @@ public class MainActivityPopup extends MainActivity {
         } else {
             int dividend = (int)(16 * (sharedPrefs.getInt("slideover_padding", 50)/100.0));
             getWindow().getDecorView().setPadding(width / 20, height / dividend, width / 20, height / dividend);
+        }
+
+        Button fullApp = (Button) findViewById(R.id.launch_app);
+
+        if (true) {//height < originalHeight) {
+                fullApp.setVisibility(View.GONE);
+        } else {
+            if (sharedPrefs.getBoolean("show_full_app_button", false)) {
+                fullApp.setVisibility(View.VISIBLE);
+            }
         }
     }
     
