@@ -14,4 +14,11 @@
         android:defaultValue="false"
     />
 
+    <CheckBoxPreference
+        android:key="launch_slideover"
+        android:title="@string/launch_slideover"
+        android:summary="@string/launch_slideover_summary"
+        android:defaultValue="false"
+        />
+
 </PreferenceScreen>

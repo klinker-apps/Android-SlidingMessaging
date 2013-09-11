@@ -55,6 +55,8 @@ public class ChangeLogWizardModel extends AbstractWizardModel {
                 "- Holo light theme applied throughout the app to better match Google's current styles\n" +
                 "- Option to disable the mark as read by swiping away the message on 4.3 (useful if you also want Google Voice support)\n" +
                 "- Tablet specific UI changes\n" +
+                "- Added the option to launch SlideOver popup from the DashClock extesion\n" +
+                "- Fix for keyboard showing up over the text input box in SlideOver\n" +
                 "- Bug fixes";
                 
         String themeEditor = "The theme editor now fully supports the Cards UI 2.0, making it a " +
