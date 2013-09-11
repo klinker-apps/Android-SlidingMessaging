@@ -63,15 +63,15 @@ public class SchedulesArrayAdapter  extends ArrayAdapter<String> {
 
             viewHolder.date = (TextView) rowView.findViewById(R.id.date);
             viewHolder.date.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0, 2)));
-            viewHolder.date.setTextColor(context.getResources().getColor(R.color.messageCounterLight));
+            //viewHolder.date.setTextColor(context.getResources().getColor(R.color.messageCounterLight));
 
             viewHolder.repetition = (TextView) rowView.findViewById(R.id.repetition);
             viewHolder.repetition.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0, 2)));
-            viewHolder.repetition.setTextColor(context.getResources().getColor(R.color.messageCounterLight));
+            //viewHolder.repetition.setTextColor(context.getResources().getColor(R.color.messageCounterLight));
 
             viewHolder.message = (TextView) rowView.findViewById(R.id.message);
             viewHolder.message.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0, 2)));
-            viewHolder.message.setTextColor(context.getResources().getColor(R.color.white));
+            //viewHolder.message.setTextColor(context.getResources().getColor(R.color.white));
 
             rowView.setTag(viewHolder);
         }

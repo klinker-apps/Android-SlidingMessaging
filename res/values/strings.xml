@@ -758,4 +758,6 @@
     <string name="refresh_voice_messages">Refresh Google Voice</string>
     <string name="select_interval">Select Refresh Interval: </string>
     <string name="low_interval">This low of an interval will use more battery and data!</string>
+    <string name="launch_slideover">Use SlideOver</string>
+    <string name="launch_slideover_summary">Launch from the extension with SlideOver instead of the main app.</string>
 </resources>
