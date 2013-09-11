@@ -19,7 +19,7 @@ public class DeliveryReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         boolean result = intent.getBooleanExtra("result", true);
-        int reportType = Integer.parseInt(sharedPrefs.getString("delivery_reports_type", "1"));
+        int reportType = Integer.parseInt(sharedPrefs.getString("delivery_reports_type", "2"));
 
         switch (reportType) {
             case 1:
