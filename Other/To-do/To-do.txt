@@ -5,6 +5,7 @@ Jake:
     - delayed sending for certain times
 Luke:
     - Add google voice to app description after full update
+    - Put favorites tab on emoji keyboard?
     - Message details for MMS messages
 
 1) more individual notification options (slideover color)

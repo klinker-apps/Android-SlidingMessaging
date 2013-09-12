@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/voice_tutorial"
+    android:paddingRight="30dp"
+    android:paddingTop="100dp"
+    android:paddingLeft="30dp"
+    android:layout_gravity="center_horizontal"
+    android:id="@+id/relLayout" >
+
+
+    <TextView android:id="@+id/voice_tutorial_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/google_voice_tutorial_1"
+        android:textColor="@color/white"
+        android:gravity="center_horizontal"
+        android:layout_alignParentTop="true"
+        android:paddingTop="160dp"
+        android:textSize="25dp"/>
+
+    <Button android:id="@+id/next_button"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="@string/next" android:textSize="25dp"
+        android:textColor="@android:color/white" />
+
+    <Button android:id="@+id/finish_button"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="@string/finish" android:textSize="25dp"
+        android:textColor="@android:color/white"
+        android:visibility="gone" />
+
+</RelativeLayout>

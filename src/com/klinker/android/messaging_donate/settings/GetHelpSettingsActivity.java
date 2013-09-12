@@ -61,7 +61,7 @@ public class GetHelpSettingsActivity extends PreferenceActivity {
 
         context = this;
 
-        SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        final SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
         if (sharedPrefs.getBoolean("override_lang", false))
         {
@@ -125,6 +125,18 @@ public class GetHelpSettingsActivity extends PreferenceActivity {
                 intent.putExtra("initial_run", true);
                 startActivity(intent);
                 overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                return false;
+            }
+
+        });
+
+        Preference voiceTutorial = findPreference("voice_tutorial");
+        voiceTutorial.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+
+            @Override
+            public boolean onPreferenceClick(Preference arg0) {
+                sharedPrefs.edit().putBoolean("run_voice_tutorial", true).commit();
+                onBackPressed();
                 return false;
             }
 

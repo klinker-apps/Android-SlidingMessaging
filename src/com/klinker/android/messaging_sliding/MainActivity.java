@@ -82,6 +82,8 @@ import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
 import group.pals.android.lib.ui.lockpattern.LockPatternActivity;
 import group.pals.android.lib.ui.lockpattern.prefs.SecurityPrefs;
 import net.simonvt.messagebar.MessageBar;
+
+import robj.floating.notifications.Extension;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 import wizardpager.ChangeLogMain;
 
@@ -223,7 +225,7 @@ public class MainActivity extends FragmentActivity {
     public LayoutParams SlidingTabParams;
     public LayoutParams viewPagerParams;
 
-    public boolean emojiUp = false;
+    public int currentVoiceTutorial = 0;
 
     // shared prefs values
     public boolean lightActionBar;
@@ -5092,6 +5094,60 @@ public class MainActivity extends FragmentActivity {
                             this, LockPatternActivity.class);
                     startActivityForResult(intent, REQ_ENTER_PATTERN);
                 }
+
+            }
+        }
+
+        if(sharedPrefs.getBoolean("run_voice_tutorial", true) && sharedPrefs.getString("voice_account", null) != (null))
+        {
+            sharedPrefs.edit().putBoolean("run_voice_tutorial", false).commit();
+
+            try { // try catch so if they change to landscape, which uses a linear layout instead, everything won't force close
+
+                final WindowManager.LayoutParams arcParams = new WindowManager.LayoutParams(
+                        WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
+                        WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                                |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
+                        PixelFormat.TRANSLUCENT);
+
+                final WindowManager arcWindow = (WindowManager) getSystemService(WINDOW_SERVICE);
+                final View voiceTutorial = getLayoutInflater().inflate(R.layout.google_voice_tutorial, null);
+
+                final Button next = (Button) voiceTutorial.findViewById(R.id.next_button);
+                final Button finish = (Button) voiceTutorial.findViewById(R.id.finish_button);
+                final TextView text = (TextView) voiceTutorial.findViewById(R.id.voice_tutorial_text);
+
+                currentVoiceTutorial = 0;
+
+                next.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (currentVoiceTutorial == 0) {
+                            text.setText(getResources().getString(R.string.google_voice_tutorial_2));
+                        } else if (currentVoiceTutorial == 1) {
+                            text.setText(getResources().getString(R.string.google_voice_tutorial_3));
+                        } else if (currentVoiceTutorial == 2) {
+                            text.setText(getResources().getString(R.string.google_voice_tutorial_4));
+
+                            next.setVisibility(View.GONE);
+                            finish.setVisibility(View.VISIBLE);
+                        }
+
+                        currentVoiceTutorial++;
+                    }
+                });
+
+                finish.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        arcWindow.removeViewImmediate(voiceTutorial);
+                    }
+                });
+
+                arcWindow.addView(voiceTutorial, arcParams);
+
+            } catch (ClassCastException e)
+            {
 
             }
         }

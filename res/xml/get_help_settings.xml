@@ -18,6 +18,12 @@
         />
 
     <Preference
+        android:key="voice_tutorial"
+        android:title="@string/voice_tutorial"
+        android:summary="@string/voice_tutorial_summary"
+        />
+
+    <Preference
         android:key="google_plus_page"
         android:title="@string/google_plus_page"
         />
