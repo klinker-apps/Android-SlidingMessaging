@@ -52,6 +52,7 @@ public class ChangeLogWizardModel extends AbstractWizardModel {
                 "\t2) Refreshing when Google Voice app shows notification\n" +
                 "\t3) Manual refresh from menu or settings\n" +
                 "- Google Voice sending settings are now saved on a per-conversation basis so that you don't have to remember to switch back and forth between SMS and Voice\n" +
+                "- MMS fixes including a possible fix for sending over WiFi which is still experimental. Feel free to disable the WiFi MMS fix now though if you want to try!\n" +
                 "- New settings menu navigation\n" +
                 "- Holo light theme applied throughout the app to better match Google's current styles\n" +
                 "- Option to disable the mark as read by swiping away the message on 4.3 (useful if you also want Google Voice support)\n" +
