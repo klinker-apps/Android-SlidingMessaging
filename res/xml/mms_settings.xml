@@ -19,7 +19,7 @@
             android:key="wifi_mms_fix"
             android:title="@string/wifi_mms_fix"
             android:summary="@string/wifi_mms_fix_summary"
-            android:defaultValue="true"
+            android:defaultValue="false"
         />
 
         <CheckBoxPreference

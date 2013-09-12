@@ -1073,10 +1073,10 @@ public class MainActivity extends FragmentActivity {
                     @Override
                     public void onClick(DialogInterface dialog,
                                         int which) {
+                        sharedPrefs.edit().putBoolean("show_advanced_settings", true).commit();
                         Intent intent = new Intent(context, SettingsPagerActivity.class);
                         intent.putExtra("mms", true);
                         context.startActivity(intent);
-
                     }
 
                 });
