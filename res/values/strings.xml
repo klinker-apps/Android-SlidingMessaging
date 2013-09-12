@@ -16,6 +16,7 @@
     <string name="dark_theme_summary">Check to enable dark theme</string>
     <string name="text_size">Text Size</string>
     <string name="text_size_summary">Choose text size of messages</string>
+    <string name="text_size2_summary">Choose text size of conversations</string>
     <string name="notifications">Notifications</string>
     <string name="notifications_summary">Check to enable notifications</string>
     <string name="ringtone">Ringtone</string>

@@ -17,7 +17,7 @@
         <ListPreference
             android:key="text_size2"
             android:title="@string/text_size"
-            android:summary="@string/text_size_summary"
+            android:summary="@string/text_size2_summary"
             android:defaultValue="14"
             android:entries="@array/textSize"
             android:entryValues="@array/textSize"
