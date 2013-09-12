@@ -1,8 +1,6 @@
 Version 7.50
 
 Jake:
-    - change apn error message
-    - merge mms receiver service to the download button
     - remove wifi fix from library and mms receiver service and take it out of settings and library settings after testing complete and successful (hopefully lol)
     - delayed sending for certain times
 Luke:
