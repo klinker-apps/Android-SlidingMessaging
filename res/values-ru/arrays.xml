@@ -170,21 +170,4 @@
         <item>Еженедельно</item>
     </string-array>
 
-    <string-array name="pin_conversation_list">
-        <item>Default, According to Device Type</item>
-        <item>Never Pin</item>
-        <item>Pin in Landscape Mode</item>
-        <item>Always Pin</item>
-    </string-array>
-
-    <string-array name="slideover_side">
-        <item>Left</item>
-        <item>Right</item>
-    </string-array>
-
-    <string-array name="slideover_secondary_action">
-        <item>Open Conversation List</item>
-        <item>Compose New Message</item>
-        <item>Mark All Messages as Read</item>
-    </string-array>
 </resources>
