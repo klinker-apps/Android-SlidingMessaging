@@ -449,6 +449,10 @@
         </service>
 
         <service
+            android:name="com.klinker.android.messaging_sliding.mms.MmsReceiverService">
+        </service>
+
+        <service
             android:name="com.klinker.android.messaging_donate.receivers.AccessibilityListener"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
 
