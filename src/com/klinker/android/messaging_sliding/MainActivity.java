@@ -5115,9 +5115,17 @@ public class MainActivity extends FragmentActivity {
 
                 final Button next = (Button) voiceTutorial.findViewById(R.id.next_button);
                 final Button finish = (Button) voiceTutorial.findViewById(R.id.finish_button);
+                final Button voice = (Button) voiceTutorial.findViewById(R.id.voice_button);
                 final TextView text = (TextView) voiceTutorial.findViewById(R.id.voice_tutorial_text);
 
                 currentVoiceTutorial = 0;
+
+                voice.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        voiceButton.performClick();
+                    }
+                });
 
                 next.setOnClickListener(new View.OnClickListener() {
                     @Override
