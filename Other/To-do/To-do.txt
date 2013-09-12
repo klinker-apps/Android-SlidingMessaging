@@ -1,7 +1,7 @@
 Version 7.50
 
 Jake:
-    - http://stackoverflow.com/a/4756630/967142
+    - create receiving MMS service to utilize receiving over wifi and not the same way as the library and instead of doing it in 2 different places
     - delayed sending for certain times
 Luke:
     - Add google voice to app description after full update

@@ -1,4 +1,4 @@
-package com.klinker.android.messaging_hangout;
+package com.klinker.android.messaging_sliding;
 
 import android.annotation.SuppressLint;
 import android.app.*;

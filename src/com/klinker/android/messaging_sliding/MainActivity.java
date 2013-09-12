@@ -6622,7 +6622,7 @@ public class MainActivity extends FragmentActivity {
                                 @Override
                                 public void run() {
 
-                                    com.klinker.android.messaging_hangout.MessageCursorAdapter adapter = new com.klinker.android.messaging_hangout.MessageCursorAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), messageQuery, position);
+                                    MessageCursorAdapter adapter = new MessageCursorAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), messageQuery, position);
 
                                     listView.setAdapter(adapter);
 
@@ -6700,7 +6700,7 @@ public class MainActivity extends FragmentActivity {
                     messageQuery = CacheService.conversations.get(position);
                 }
 
-                com.klinker.android.messaging_hangout.MessageCursorAdapter adapter = new com.klinker.android.messaging_hangout.MessageCursorAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), messageQuery, position);
+                MessageCursorAdapter adapter = new MessageCursorAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), messageQuery, position);
 
                 listView.setAdapter(adapter);
                 listView.setStackFromBottom(true);
@@ -6790,7 +6790,7 @@ public class MainActivity extends FragmentActivity {
         @Override
         public void onLoadFinished(android.content.Loader<Cursor> loader, final Cursor query)
         {
-            com.klinker.android.messaging_hangout.MessageCursorAdapter adapter = new com.klinker.android.messaging_hangout.MessageCursorAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), query, position);
+            MessageCursorAdapter adapter = new MessageCursorAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), query, position);
 
             listView.setAdapter(adapter);
             listView.setStackFromBottom(true);
@@ -6872,7 +6872,7 @@ public class MainActivity extends FragmentActivity {
                 @Override
                 protected void onPostExecute(Void result) {
                     super.onPostExecute(result);
-                    com.klinker.android.messaging_hangout.MessageCursorAdapter adapter = new com.klinker.android.messaging_hangout.MessageCursorAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), query, position);
+                    MessageCursorAdapter adapter = new MessageCursorAdapter((Activity) context, myId, findContactNumber(numbers.get(position), context), threadIds.get(position), query, position);
 
                     listView.setAdapter(adapter);
                     listView.setStackFromBottom(true);
