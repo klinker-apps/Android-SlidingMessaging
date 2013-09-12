@@ -47,10 +47,10 @@ import com.klinker.android.messaging_donate.SendUtil;
 import com.klinker.android.messaging_sliding.ImageViewer;
 import com.klinker.android.messaging_sliding.MainActivity;
 import com.klinker.android.messaging_sliding.emojis.*;
-import com.klinker.android.messaging_sliding.receivers.NotificationReceiver;
 import com.klinker.android.send_message.DisconnectWifi;
 import com.klinker.android.send_message.StripAccents;
 import com.klinker.android.send_message.Transaction;
+import com.klinker.android.send_message.Utils;
 
 import java.io.*;
 import java.text.DateFormat;
@@ -2124,8 +2124,8 @@ public class MessageCursorAdapter extends CursorAdapter {
                             wifi.disconnect();
                             discon = new DisconnectWifi();
                             context.registerReceiver(discon, new IntentFilter(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION));
-                            currentDataState = Transaction.isMobileDataEnabled(context);
-                            Transaction.setMobileDataEnabled(context, true);
+                            currentDataState = Utils.isMobileDataEnabled(context);
+                            Utils.setMobileDataEnabled(context, true);
                         }
 
                         ConnectivityManager mConnMgr =  (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -2234,7 +2234,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                                     wifi.setWifiEnabled(false);
                                                     wifi.setWifiEnabled(currentWifiState);
                                                     Log.v("Reconnect", "" + wifi.reconnect());
-                                                    Transaction.setMobileDataEnabled(context, currentDataState);
+                                                    Utils.setMobileDataEnabled(context, currentDataState);
                                                 }
 
                                             }
@@ -2320,7 +2320,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                         wifi.setWifiEnabled(false);
                                         wifi.setWifiEnabled(currentWifiState);
                                         Log.v("Reconnect", "" + wifi.reconnect());
-                                        Transaction.setMobileDataEnabled(context, currentDataState);
+                                        Utils.setMobileDataEnabled(context, currentDataState);
                                     }
 
                                 }
@@ -2337,7 +2337,7 @@ public class MessageCursorAdapter extends CursorAdapter {
 
     public void tryDownloading(APN apns, String downloadLocation, int numberRetries, String threadId, String msgId, final ViewHolder holder) {
         try {
-            Transaction.ensureRouteToHost(context, apns.MMSCenterUrl, apns.MMSProxy);
+            Utils.ensureRouteToHost(context, apns.MMSCenterUrl, apns.MMSProxy);
             byte[] resp = HttpUtils.httpConnection(
                     context, SendingProgressTokenManager.NO_TOKEN,
                     downloadLocation, null, HttpUtils.HTTP_GET_METHOD,

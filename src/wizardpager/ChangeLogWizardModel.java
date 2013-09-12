@@ -60,7 +60,10 @@ public class ChangeLogWizardModel extends AbstractWizardModel {
                 "- Option to enable a button that will take you to the full app in SlideOver\n" +
                 "- Added the option to launch SlideOver popup from the DashClock extesion\n" +
                 "- Fix for keyboard showing up over the text input box in SlideOver\n" +
-                "- Bug fixes";
+                "- Bug fixes\n\n\n" +
+                "To My Testers:\n" +
+                "I need everyone to try sending MMS on WiFi without the \"WiFi Fix\" in MMS settings enabled. Report finding to the Google+ community please. It works well on my phone, but MMS has always" +
+                "worked well for me so I'd just like to be sure everything is all good before I take that option out completely.";
                 
         String themeEditor = "The theme editor now fully supports the Cards UI 2.0, making it a " +
                 "better time than ever to get on board and start making Sliding Messaging Pro look exactly how you want!\n\n" +

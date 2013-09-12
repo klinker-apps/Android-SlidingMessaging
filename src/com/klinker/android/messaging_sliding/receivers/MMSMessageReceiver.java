@@ -38,8 +38,8 @@ import com.google.android.mms.pdu_alt.*;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.receivers.UnlockReceiver;
 import com.klinker.android.messaging_sliding.MainActivity;
-import com.klinker.android.messaging_sliding.quick_reply.QuickReply;
 import com.klinker.android.send_message.Transaction;
+import com.klinker.android.send_message.Utils;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -240,8 +240,8 @@ public class MMSMessageReceiver extends BroadcastReceiver {
                                 currentWifi = wifi.getConnectionInfo();
                                 currentWifiState = wifi.isWifiEnabled();
                                 wifi.disconnect();
-                                currentDataState = Transaction.isMobileDataEnabled(context);
-                                Transaction.setMobileDataEnabled(context, true);
+                                currentDataState = Utils.isMobileDataEnabled(context);
+                                Utils.setMobileDataEnabled(context, true);
                             }
 
                             ConnectivityManager connMgr =
@@ -484,7 +484,7 @@ public class MMSMessageReceiver extends BroadcastReceiver {
     public void tryDownloading(APN apns, String downloadLocation, int retryNumber, String threadId, String msgId) {
         try {
             Log.v("attempting_mms_download", "number: " + retryNumber);
-            Transaction.ensureRouteToHost(context, apns.MMSCenterUrl, apns.MMSProxy);
+            Utils.ensureRouteToHost(context, apns.MMSCenterUrl, apns.MMSProxy);
             byte[] resp = HttpUtils.httpConnection(
                     context, SendingProgressTokenManager.NO_TOKEN,
                     downloadLocation, null, HttpUtils.HTTP_GET_METHOD,
@@ -529,7 +529,7 @@ public class MMSMessageReceiver extends BroadcastReceiver {
                     wifi.setWifiEnabled(false);
                     wifi.setWifiEnabled(currentWifiState);
                     Log.v("Reconnect", "" + wifi.reconnect());
-                    Transaction.setMobileDataEnabled(context, currentDataState);
+                    Utils.setMobileDataEnabled(context, currentDataState);
                 }
             }
         }

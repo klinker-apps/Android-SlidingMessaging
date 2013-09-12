@@ -19,7 +19,7 @@ package wizardpager;
 import android.content.Context;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.settings.SettingsPagerActivity;
-import com.klinker.android.send_message.Transaction;
+import com.klinker.android.send_message.Utils;
 import wizardpager.wizard.model.AbstractWizardModel;
 import wizardpager.wizard.model.MessagePage;
 import wizardpager.wizard.model.PageList;
@@ -37,7 +37,7 @@ public class InitialSetupWizardModel extends AbstractWizardModel {
         boolean isTablet;
 
         try {
-            if ((Transaction.getMyPhoneNumber(mContext) == null || Transaction.getMyPhoneNumber(mContext).equals("")) && SettingsPagerActivity.tabletSize(mContext) > 6.5 && SettingsPagerActivity.xLargeScreen(mContext)) {
+            if ((Utils.getMyPhoneNumber(mContext) == null || Utils.getMyPhoneNumber(mContext).equals("")) && SettingsPagerActivity.tabletSize(mContext) > 6.5 && SettingsPagerActivity.xLargeScreen(mContext)) {
                 isTablet = true;
             } else {
                 isTablet = false;

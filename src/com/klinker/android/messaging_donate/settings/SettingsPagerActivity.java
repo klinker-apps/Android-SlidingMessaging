@@ -24,7 +24,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -48,7 +47,7 @@ import com.klinker.android.messaging_sliding.security.SetPasswordActivity;
 import com.klinker.android.messaging_sliding.security.SetPinActivity;
 import com.klinker.android.messaging_sliding.templates.TemplateActivity;
 import com.klinker.android.messaging_sliding.theme.ThemeChooserActivity;
-import com.klinker.android.send_message.Transaction;
+import com.klinker.android.send_message.Utils;
 import group.pals.android.lib.ui.lockpattern.LockPatternActivity;
 import group.pals.android.lib.ui.lockpattern.prefs.SecurityPrefs;
 import net.margaritov.preference.colorpicker.ColorPickerPreference;
@@ -1082,7 +1081,7 @@ public class SettingsPagerActivity extends FragmentActivity {
             final SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(context);
 
             try {
-                if ((Transaction.getMyPhoneNumber(context) == null || Transaction.getMyPhoneNumber(context).equals("")) && tabletSize(context) > 6.5 && xLargeScreen(context)) {
+                if ((Utils.getMyPhoneNumber(context) == null || Utils.getMyPhoneNumber(context).equals("")) && tabletSize(context) > 6.5 && xLargeScreen(context)) {
                     isTablet = true;
                 } else {
                     isTablet = false;

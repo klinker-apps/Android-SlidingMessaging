@@ -76,10 +76,8 @@ import com.klinker.android.messaging_sliding.security.PasswordActivity;
 import com.klinker.android.messaging_sliding.security.PinActivity;
 import com.klinker.android.messaging_sliding.templates.TemplateActivity;
 import com.klinker.android.messaging_sliding.templates.TemplateArrayAdapter;
+import com.klinker.android.send_message.*;
 import com.klinker.android.send_message.Message;
-import com.klinker.android.send_message.Settings;
-import com.klinker.android.send_message.StripAccents;
-import com.klinker.android.send_message.Transaction;
 import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
 import group.pals.android.lib.ui.lockpattern.LockPatternActivity;
 import group.pals.android.lib.ui.lockpattern.prefs.SecurityPrefs;
@@ -1955,7 +1953,7 @@ public class MainActivity extends FragmentActivity {
                                     sendTransaction.sendNewMessage(message, threadIds.get(currentItem));
                                 }
                             } else {
-                                if (message.getImages().length != 0 || (sendSettings.getSendLongAsMms() && Transaction.getNumPages(sendSettings, message.getText()) > sendSettings.getSendLongAsMmsAfter() && !sendSettings.getPreferVoice()) || (message.getAddresses().length > 1 && sendSettings.getGroup())) {
+                                if (message.getImages().length != 0 || (sendSettings.getSendLongAsMms() && Utils.getNumPages(sendSettings, message.getText()) > sendSettings.getSendLongAsMmsAfter() && !sendSettings.getPreferVoice()) || (message.getAddresses().length > 1 && sendSettings.getGroup())) {
                                     if (multipleAttachments == false)
                                     {
                                         Intent sendIntent = new Intent(Intent.ACTION_SEND);
@@ -2942,7 +2940,7 @@ public class MainActivity extends FragmentActivity {
                                     sendTransaction.sendNewMessage(message, null);
                                 }
                             } else {
-                                if (message.getImages().length != 0 || (sendSettings.getSendLongAsMms() && Transaction.getNumPages(sendSettings, message.getText()) > sendSettings.getSendLongAsMmsAfter() && !sendSettings.getPreferVoice()) || (message.getAddresses().length > 1 && sendSettings.getGroup())) {
+                                if (message.getImages().length != 0 || (sendSettings.getSendLongAsMms() && Utils.getNumPages(sendSettings, message.getText()) > sendSettings.getSendLongAsMmsAfter() && !sendSettings.getPreferVoice()) || (message.getAddresses().length > 1 && sendSettings.getGroup())) {
                                     if (multipleAttachments == false)
                                     {
                                         Intent sendIntent = new Intent(Intent.ACTION_SEND);
