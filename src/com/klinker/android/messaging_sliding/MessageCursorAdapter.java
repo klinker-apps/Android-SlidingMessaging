@@ -546,8 +546,12 @@ public class MessageCursorAdapter extends CursorAdapter {
                                                     }
                                                 });
 
-                                                if (imagesF.length > 1) {
-                                                    holder.date.setText(holder.date.getText().toString() + " - Multiple Attachments");
+                                                try {
+                                                    if (imagesF.length > 1) {
+                                                        holder.date.setText(holder.date.getText().toString() + " - Multiple Attachments");
+                                                    }
+                                                } catch (NullPointerException e) {
+                                                    e.printStackTrace();
                                                 }
                                             } else if (videoF != null) {
                                                 holder.media.setVisibility(View.VISIBLE);
