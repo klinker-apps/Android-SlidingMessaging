@@ -92,18 +92,6 @@ import java.util.regex.Pattern;
 
 public class MainActivity extends FragmentActivity {
 
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link android.support.v4.app.FragmentPagerAdapter} derivative, which
-     * will keep every loaded fragment in memory. If this becomes too memory
-     * intensive, it may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     s
-     /**
-     * The {@link ViewPager} that will host the section contents.
-     */
-
     public final static String EXTRA_NUMBER = "com.klinker.android.messaging_sliding.NUMBER";
     public final static String EXTRA_DATE = "com.klinker.android.messaging_sliding.DATE";
     public final static String EXTRA_REPEAT = "com.klinker.android.messaging_sliding.REPEAT";
