@@ -67,8 +67,14 @@ public class MmsReceiverService extends Service {
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         settings = SendUtil.getSendSettings(this);
-        phoneNumber = intent.getStringExtra("address");
-        name = intent.getStringExtra("name");
+
+        try {
+            phoneNumber = intent.getStringExtra("address");
+            name = intent.getStringExtra("name");
+        } catch (Exception e) {
+            phoneNumber = null;
+            name = null;
+        }
 
         getLocation();
 
@@ -222,7 +228,7 @@ public class MmsReceiverService extends Service {
                             receiveData();
                         }
                     }
-                }, 3500);
+                }, 7000);
             }
         }
     }

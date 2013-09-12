@@ -97,26 +97,9 @@ public class MMSMessageReceiver extends BroadcastReceiver {
 	            	{
 		            	case PduHeaders.MESSAGE_TYPE_DELIVERY_IND:
 		            	case PduHeaders.MESSAGE_TYPE_READ_ORIG_IND:
-		            	{
-		            		threadId = findThreadId(context, pdu, type);
-
-		            		if (threadId == -1)
-		            		{
-		            			break;
-		            		}
-
-		            		Uri uri = p.persist(pdu, Inbox.CONTENT_URI, true, groupMMS, null);
-							ContentValues values = new ContentValues(1);
-		                    values.put(Mms.THREAD_ID, threadId);
-		                    SqliteWrapper.update(context, context.getContentResolver(), uri, values, null, null);
-		                    break;
-		            	}
 		            	case PduHeaders.MESSAGE_TYPE_NOTIFICATION_IND:
 		            	{
-                            Uri uri = p.persist(pdu, Inbox.CONTENT_URI, true, groupMMS, null);
-                            ContentValues values = new ContentValues(1);
-                            values.put(Mms.THREAD_ID, threadId);
-                            SqliteWrapper.update(context, context.getContentResolver(), uri, values, null, null);
+                            p.persist(pdu, Inbox.CONTENT_URI, true, groupMMS, null);
 		            		break;
 		            	}
 		            	default:
