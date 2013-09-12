@@ -275,7 +275,8 @@
 	<string name="mms_port">MMS Port</string>
 	<string name="apn_error_title">APN Error</string>
 	<string name="apn_error_button">Take me to MMS Settings</string>
-	<string name="apn_error_1">Either there is an error in your APN settings, you haven\'t configured them yet, they are for some reason incompatible, or you are connected to WiFi and haven\'t checked the WiFi workaround option in MMS settings. \n\nDue to limitations implemented by Google in Android 4.0 (Ice Cream Sandwich), </string>
+	<string name="apn_error_1">Either there is an error in your APN settings, you haven\'t configured them yet, they are for some reason incompatible, or you are connected to WiFi and haven\'t checked the WiFi workaround option in MMS settings (sending over WiFi will not work for everyone at this point).
+        \n\nIf you think everything is right already, a reboot never hurt anything ;) If not, check out MMS Settings and see if you can find anything there to help you out.\n\nDue to limitations implemented by Google in Android 4.0 (Ice Cream Sandwich), </string>
 	<string name="apn_error_2">Google now restricts Sliding Messaging\'s access to the system defined APNs for \"security reasons.\" Because of this, you will need to set the values manually if you </string>
 	<string name="apn_error_3">wish to be able to send MMS messages through Sliding Messaging. You can find APN settings for your carrier by going into your System Settings -> Wireless and Networks -> </string>
 	<string name="apn_error_4">More… -> Mobile Networks -> Access Point Names and selecting the APN from there that you wish to use, copying the \"MMSC\", \"MMS Proxy\", and \"MMS Port\" values </string>
