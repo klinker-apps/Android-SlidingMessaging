@@ -49,17 +49,17 @@ public class ChangeLogWizardModel extends AbstractWizardModel {
         String changeLog = "Version " + version + ":\n\n" +
                 "- 3 different Google Voice message syncing options\n" +
                 "\t1) Refreshing on specified interval\n" +
-                "\t2) Refreshing when Google Voice app shows notification\n" +
+                "\t2) Refreshing when Google Voice app shows a notification\n" +
                 "\t3) Manual refresh from menu or settings\n" +
+                "- MMS fixes including a possible fix for sending with WiFi enabled which is still experimental. Feel free to disable the WiFi MMS fix now though if you want to try!\n" +
                 "- Google Voice sending settings are now saved on a per-conversation basis so that you don't have to remember to switch back and forth between SMS and Voice\n" +
-                "- MMS fixes including a possible fix for sending over WiFi which is still experimental. Feel free to disable the WiFi MMS fix now though if you want to try!\n" +
                 "- New settings menu navigation\n" +
-                "- Holo light theme applied throughout the app to better match Google's current styles\n" +
-                "- Option to disable the mark as read by swiping away the message on 4.3 (useful if you also want Google Voice support)\n" +
                 "- More delivery report options\n" +
-                "- Tablet specific UI changes\n" +
+                "- Holo Light theme applied throughout the app to better match Google's current styles\n" +
+                "- Option to disable the mark as read by swiping away a notification on Android 4.3\n" +
+                "- Tablet specific UI changes and fixes\n" +
                 "- Option to enable a button that will take you to the full app in SlideOver\n" +
-                "- Added the option to launch SlideOver popup from the DashClock extesion\n" +
+                "- Option to launch SlideOver popup from the DashClock extension\n" +
                 "- Fix for keyboard showing up over the text input box in SlideOver\n" +
                 "- Bug fixes\n\n\n" +
                 "To My Testers:\n" +
