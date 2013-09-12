@@ -296,15 +296,22 @@ public class MmsReceiverService extends Service {
                 tryDownloading(apns, downloadLocation, retryNumber + 1, threadId, msgId);
             } else {
                 Log.v("attempting_mms_download", "failed");
-                if (sharedPrefs.getBoolean("secure_notification", false))
-                {
-                    makeNotification("New Picture Message", "", null, phoneNumber, "", Calendar.getInstance().getTimeInMillis() + "", context);
-                } else
-                {
-                    makeNotification("New Picture Message", phoneNumber, null, phoneNumber, "", Calendar.getInstance().getTimeInMillis() + "", context);
+
+                if (phoneNumber != null) {
+                    if (sharedPrefs.getBoolean("secure_notification", false))
+                    {
+                        makeNotification("New Picture Message", "", null, phoneNumber, "", Calendar.getInstance().getTimeInMillis() + "", context);
+                    } else
+                    {
+                        makeNotification("New Picture Message", phoneNumber, null, phoneNumber, "", Calendar.getInstance().getTimeInMillis() + "", context);
+                    }
                 }
 
-                reinstateWifi();
+                sendBroadcast(new Intent("com.klinker.android.messaging.SHOW_DOWNLOAD_BUTTON"));
+
+                if (settings.getWifiMmsFix()) {
+                    reinstateWifi();
+                }
             }
         }
     }
@@ -359,18 +366,20 @@ public class MmsReceiverService extends Service {
 
         String images[] = image.trim().split(" ");
 
-        if (sharedPrefs.getBoolean("secure_notification", false))
-        {
-            makeNotification("New MMS Message", "", null, phoneNumber, body, Calendar.getInstance().getTimeInMillis() + "", context);
-        } else
-        {
-            if (images[0].trim().equals(""))
+        if (phoneNumber != null) {
+            if (sharedPrefs.getBoolean("secure_notification", false))
             {
-                makeNotification(phoneNumber, body, null, phoneNumber, body, Calendar.getInstance().getTimeInMillis() + "", context);
+                makeNotification("New MMS Message", "", null, phoneNumber, body, Calendar.getInstance().getTimeInMillis() + "", context);
             } else
             {
-                Bitmap b = decodeFile(new File(getRealPathFromURI(Uri.parse(images[0].trim()))));
-                makeNotification(phoneNumber, body, b, phoneNumber, body, Calendar.getInstance().getTimeInMillis() + "", context);
+                if (images[0].trim().equals(""))
+                {
+                    makeNotification(phoneNumber, body, null, phoneNumber, body, Calendar.getInstance().getTimeInMillis() + "", context);
+                } else
+                {
+                    Bitmap b = decodeFile(new File(getRealPathFromURI(Uri.parse(images[0].trim()))));
+                    makeNotification(phoneNumber, body, b, phoneNumber, body, Calendar.getInstance().getTimeInMillis() + "", context);
+                }
             }
         }
     }
