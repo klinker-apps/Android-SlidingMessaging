@@ -1,7 +1,7 @@
 package com.klinker.android.messaging_sliding.mms;
 
 public class PresetAPNs {
-	public static int CONFIRMED_APNS = 20;
+	public static int CONFIRMED_APNS = 21;
 	public static int EXPERIMENTAL_APNS = 2;
 	
 	public static String[] apns = {
@@ -16,6 +16,7 @@ public class PresetAPNs {
 		"Rogers--http://mms.gprs.rogers.com, 10.128.1.69, 8080",
         "Sprint--http://mms.sprintpcs.com, 68.28.31.7, 80",
 		"Straight_Talk_AT&T--http://mmsc.cingular.com, 66.209.11.33, 80",
+        "Straight_Talk_AT&T_#2--http://mms-tf.net, mms3.tracfone.com, 80",
 		"Tele2--http://mmsc.tele2.se, 130.244.202.30, 8080",
 		"Telus--http://aliasredirect.net/proxy/mmsc, 74.49.0.18, 80",
 		"T-Mobile_US--http://mms.msg.eng.t-mobile.com/mms/wapenc, 216.155.165.50, 8080",
