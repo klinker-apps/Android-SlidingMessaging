@@ -1150,6 +1150,66 @@ public class MessageCursorAdapter extends CursorAdapter {
                     builder.setTitle(context.getResources().getString(R.string.message_details));
                     builder.setMessage(dialogText);
                     builder.create().show();
+                } else {
+                    Uri uri = Uri.parse("content://mms/" + idF);
+                    String[] projection = new String[] {"_id", "date"};
+
+                    Cursor query = context.getContentResolver().query(uri, projection, null, null, null);
+
+                    if (query.moveToFirst()) {
+
+                        String address = getAddressNumber(Integer.parseInt(query.getString(query.getColumnIndex("_id"))));
+                        String[] addresses = address.split(" ");
+
+                        if (sentF) {
+                            addresses[0] = "";
+                        } else {
+                            for (int i = 0; i < addresses.length; i++) {
+                                if (addresses[i].equals(MainActivity.myPhoneNumber) || addresses[i].startsWith(MainActivity.myPhoneNumber) || addresses[i].endsWith(MainActivity.myPhoneNumber)) {
+                                    addresses[i] = "";
+                                }
+                            }
+                        }
+
+                        address = "";
+                        for (String a : addresses) {
+                            if (!a.equals("")) {
+                                address += a + ", ";
+                            }
+                        }
+
+                        if (address.length() > 0) {
+                            address = address.substring(0, address.length() - 2);
+                        }
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setTitle(context.getString(R.string.message_details));
+
+                        String message;
+
+                        String dateReceived;
+                        Date date2 = new Date(Long.parseLong(dateT));
+
+                        if (hourFormat) {
+                            dateReceived = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2);
+                        } else {
+                            dateReceived = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2);
+                        }
+
+                        // TODO add on more information to this
+                        if (sentF) {
+                            message = context.getResources().getString(R.string.type) + " Multimedia Message\n" +
+                                    context.getResources().getString(R.string.to) + " " + address + "\n" +
+                                    context.getResources().getString(R.string.received) + " " + dateReceived;
+                        } else {
+                            message = context.getResources().getString(R.string.type) + " Multimedia Message\n" +
+                                    context.getResources().getString(R.string.from) + " " + address + "\n" +
+                                    context.getResources().getString(R.string.received) + " " + dateReceived;
+                        }
+
+                        builder.setMessage(message);
+                        builder.create().show();
+                    }
                 }
             }
         });
