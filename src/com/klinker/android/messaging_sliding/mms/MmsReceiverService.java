@@ -388,6 +388,8 @@ public class MmsReceiverService extends Service {
                 }
             }
         }
+
+        removeOldThread();
     }
 
     public static void makeNotification(String title, String text, Bitmap image, String address, String body, String date, Context context)
@@ -588,6 +590,36 @@ public class MmsReceiverService extends Service {
                 Intent cacheService = new Intent(context, CacheService.class);
                 context.startService(cacheService);
             }
+        }
+    }
+
+    private void removeOldThread() {
+        try
+        {
+            String[] projection = new String[]{"_id", "message_count"};
+            Uri uri = Uri.parse("content://mms-sms/conversations/?simple=true");
+            Cursor query = getContentResolver().query(uri, projection, null, null, "date desc");
+
+            if (query.moveToFirst()) {
+                do {
+                    int msgCount = Integer.parseInt(query.getString(query.getColumnIndex("message_count")));
+                    String id = query.getString(query.getColumnIndex("_id"));
+
+                    if (msgCount == 0) {
+                        try {
+                            context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/" + id + "/"), null, null);
+                            context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/"), "_id=?", new String[] {id});
+                        } catch (Exception e) {
+
+                        }
+                    }
+                } while (query.moveToNext());
+            }
+
+            query.close();
+        } catch (Exception e)
+        {
+
         }
     }
 

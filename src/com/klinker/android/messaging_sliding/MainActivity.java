@@ -2261,7 +2261,6 @@ public class MainActivity extends FragmentActivity {
         imageAttachBackground.setVisibility(View.GONE);
         imageAttach.setVisibility(false);
 
-        // todo set this color to a new theme color?
         Drawable mmsProgressDrawable = getResources().getDrawable(R.drawable.progress_horizontal_holo_light);
         mmsProgressDrawable.setColorFilter(ctSendButtonColor, Mode.MULTIPLY);
         mmsProgress.setProgressDrawable(mmsProgressDrawable);
