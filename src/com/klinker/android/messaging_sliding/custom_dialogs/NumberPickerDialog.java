@@ -58,7 +58,7 @@ public class NumberPickerDialog extends AlertDialog implements OnClickListener {
             int rangeMin,
             int rangeMax,
             int title) {
-        this(context, AlertDialog.THEME_HOLO_DARK, callBack, number, rangeMin, rangeMax, title);
+        this(context, AlertDialog.THEME_HOLO_LIGHT, callBack, number, rangeMin, rangeMax, title);
     }
 
     /**
