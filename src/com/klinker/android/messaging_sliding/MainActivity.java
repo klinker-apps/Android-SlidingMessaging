@@ -5225,7 +5225,7 @@ public class MainActivity extends FragmentActivity {
             }
         }
 
-        if (voiceAccount != null) {
+        if (voiceAccount != null && threadIds.size() > 0) {
             if (threadsThroughVoice.contains(threadIds.get(mViewPager.getCurrentItem()))) {
                 if (!voiceEnabled) {
                     voiceButton.performClick();
