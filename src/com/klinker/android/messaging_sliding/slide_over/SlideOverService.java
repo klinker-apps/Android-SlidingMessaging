@@ -174,6 +174,11 @@ public class SlideOverService extends Service {
         public boolean onSingleTapUp (MotionEvent event) {
             // play the sound like PA has it
             playSoundEffect(SoundEffectConstants.CLICK);
+            
+            if (HAPTIC_FEEDBACK) {
+                v.vibrate(10);
+            }
+        
             return true;
         }
 
@@ -186,19 +191,35 @@ public class SlideOverService extends Service {
 
         @Override
         public boolean onSingleTapConfirmed(MotionEvent event) {
-            // will launch the floating window feature
+            if (HAPTIC_FEEDBACK) {
+                v.vibrate(10);
+            }
+            
+            // will launch the floating message box feature
             return true;
         }
 
         @Override
         public boolean onDoubleTap(MotionEvent event) {
+            // Implement vibrate when the move feature is done
+            if (HAPTIC_FEEDBACK) {
+                v.vibrate(10);
+            }
+            
             // eventually will move it around
             return true;
         }
 
         @Override
         public void onLongPress(MotionEvent event){
+            if (HAPTIC_FEEDBACK) {
+                v.vibrate(10);
+            }
+            
             // will have this open the settings menu.
+            Intent intent = new Intent(getBaseContext(), com.klinker.android.messaging_sliding.slide_over.SlideOverSettings.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
         }
     }
 
@@ -293,9 +314,10 @@ public class SlideOverService extends Service {
 
     public void onDown(MotionEvent event)
     {
-        if (HAPTIC_FEEDBACK) {
-            v.vibrate(10);
-        }
+        // Don't want it to vibrate now right away because it should vibrate on the actions
+        //if (HAPTIC_FEEDBACK) {
+            //v.vibrate(10);
+        //}
 
         initX = event.getX();
         initY = event.getY();
