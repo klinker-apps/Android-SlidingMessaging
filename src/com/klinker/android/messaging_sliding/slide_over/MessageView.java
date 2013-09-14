@@ -40,7 +40,8 @@ public class MessageView extends ViewGroup {
                 R.drawable.halo_bg);
 
         haloPaint = new Paint();
-        haloPaint.setAlpha(haloAlpha);
+        haloPaint.setColor(getResources().getColor(R.color.black));
+        haloPaint.setAlpha(40);
 
         haloNewPaint = new Paint();
         haloNewPaint.setAlpha(haloNewAlpha);
@@ -56,17 +57,7 @@ public class MessageView extends ViewGroup {
         height = d.getHeight();
         width = d.getWidth();
 
-        if (haloAlpha != 0) {
-            haloPaint.setAlpha(haloAlpha);
-            haloPaint.setColorFilter(new PorterDuffColorFilter(haloColor, PorterDuff.Mode.MULTIPLY));
-            canvas.drawBitmap(halo, 0, 0, haloPaint);
-        }
-
-        if (haloNewAlpha != 0) {
-            haloNewPaint.setAlpha(haloNewAlpha);
-            haloNewPaint.setColorFilter(new PorterDuffColorFilter(haloUnreadColor, PorterDuff.Mode.MULTIPLY));
-            canvas.drawBitmap(halo, 0, 0, haloNewPaint);
-        }
+        canvas.drawRect(0, 0, width - 160, 200, haloPaint);
     }
 
     @Override
