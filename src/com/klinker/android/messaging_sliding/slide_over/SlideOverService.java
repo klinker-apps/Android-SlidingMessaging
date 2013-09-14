@@ -25,7 +25,10 @@ public class SlideOverService extends Service {
     public WindowManager.LayoutParams haloParams;
     public WindowManager.LayoutParams haloHiddenParams;
     public WindowManager.LayoutParams arcParams;
+    public WindowManager.LayoutParams arcParamsNoBack;
     public WindowManager.LayoutParams animationParams;
+    
+    private GestureDetector mGestureDetector;
 
     public Context mContext;
 
@@ -95,6 +98,8 @@ public class SlideOverService extends Service {
 
             @Override
             public boolean onTouch(View view, MotionEvent event) {
+            
+            mGestureDetector.onTouchEvent(event);
 
                 if ((event.getX() > haloView.getX() && event.getX() < haloView.getX() + halo.getWidth() && event.getY() > haloView.getY() && event.getY() < haloView.getY() + halo.getHeight()) || needDetection) {
                     final int type = event.getActionMasked();
@@ -162,6 +167,34 @@ public class SlideOverService extends Service {
         filter.addAction("com.klinker.android.messaging.CLEAR_MESSAGES");
         this.registerReceiver(clearMessages, filter);
     }
+    
+    class GestureListener extends GestureDetector.SimpleOnGestureListener {
+        
+        @Override
+        public boolean onSingleTapUp (MotionEvent event) {
+            return true;
+        }
+
+        @Override
+        public boolean onFling(MotionEvent event1, MotionEvent event2, 
+                float velocityX, float velocityY) {
+            return true;
+        }
+
+        @Override
+        public boolean onSingleTapConfirmed(MotionEvent event) {
+            return true;
+        }
+
+        @Override
+        public boolean onDoubleTap(MotionEvent event) {
+            return true;
+        }
+
+        @Override
+        public void onLongPress(MotionEvent event){
+        }
+    }
 
     public void initialSetup(Bitmap halo, int height, int width)
     {
@@ -189,6 +222,8 @@ public class SlideOverService extends Service {
         animationView = new AnimationView(this, halo);
 
         numberNewConv = arcView.newConversations.size();
+        
+        mGestureDetector = new GestureDetector(mContext, new GestureListener());
     }
 
     public void setParams(Bitmap halo, int height, int width)
@@ -229,6 +264,13 @@ public class SlideOverService extends Service {
                         |WindowManager.LayoutParams.FLAG_DIM_BEHIND,
                 PixelFormat.TRANSLUCENT);
         arcParams.dimAmount=.7f;
+        
+        arcParamsNoBack = new WindowManager.LayoutParams(
+                WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                        |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+                        |WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
+                PixelFormat.TRANSLUCENT);
 
         animationParams = new WindowManager.LayoutParams(
                 WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
@@ -254,7 +296,7 @@ public class SlideOverService extends Service {
 
         arcView.newMessagePaint.setAlpha(START_ALPHA2);
 
-        arcWindow.addView(arcView, arcParams);
+        arcWindow.addView(arcView, arcParamsNoBack);
         haloWindow.updateViewLayout(haloView, haloHiddenParams);
         needDetection = true;
     }
@@ -571,7 +613,7 @@ public class SlideOverService extends Service {
             arcView.conversationsPaint.setAlpha(START_ALPHA);
             arcView.newMessagePaint.setAlpha(START_ALPHA2);
             arcView.invalidate();
-            arcWindow.updateViewLayout(arcView, arcParams);
+            arcWindow.updateViewLayout(arcView, arcParamsNoBack);
             vibrateNeeded = true;
         }
     }
@@ -617,7 +659,7 @@ public class SlideOverService extends Service {
             arcView.newMessagePaint.setAlpha(START_ALPHA2);
             arcView.conversationsPaint.setAlpha(START_ALPHA);
             arcView.invalidate();
-            arcWindow.updateViewLayout(arcView, arcParams);
+            arcWindow.updateViewLayout(arcView, arcParamsNoBack);
             vibrateNeeded = true;
         }
     }
