@@ -173,7 +173,7 @@ public class SlideOverService extends Service {
         @Override
         public boolean onSingleTapUp (MotionEvent event) {
             // play the sound like PA has it
-            playSoundEffect(SoundEffectConstants.CLICK);
+            //playSoundEffect(SoundEffectConstants.CLICK);
             
             if (HAPTIC_FEEDBACK) {
                 v.vibrate(10);
@@ -217,6 +217,11 @@ public class SlideOverService extends Service {
             }
             
             // will have this open the settings menu.
+            try {
+                arcWindow.removeViewImmediate(arcView);
+            } catch (Exception e) {
+
+            }
             Intent intent = new Intent(getBaseContext(), com.klinker.android.messaging_sliding.slide_over.SlideOverSettings.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
@@ -325,7 +330,7 @@ public class SlideOverService extends Service {
         arcView.newMessagePaint.setAlpha(START_ALPHA2);
 
         arcWindow.addView(arcView, arcParamsNoBack);
-        haloWindow.updateViewLayout(haloView, haloHiddenParams);
+        //haloWindow.updateViewLayout(haloView, haloHiddenParams);
         needDetection = true;
     }
 
@@ -528,7 +533,11 @@ public class SlideOverService extends Service {
         arcView.newMessagePaint.setAlpha(START_ALPHA2);
         resetZoneAlphas();
 
-        arcWindow.removeViewImmediate(arcView);
+        try {
+            arcWindow.removeViewImmediate(arcView);
+        } catch (Exception e) {
+
+        }
 
         needDetection = true;
     }
@@ -555,7 +564,11 @@ public class SlideOverService extends Service {
 
         arcView.newMessagePaint.setAlpha(START_ALPHA2);
 
-        arcWindow.removeViewImmediate(arcView);
+        try {
+            arcWindow.removeViewImmediate(arcView);
+        } catch (Exception e) {
+
+        }
 
         needDetection = true;
     }
@@ -641,7 +654,11 @@ public class SlideOverService extends Service {
             arcView.conversationsPaint.setAlpha(START_ALPHA);
             arcView.newMessagePaint.setAlpha(START_ALPHA2);
             arcView.invalidate();
-            arcWindow.updateViewLayout(arcView, arcParamsNoBack);
+            try {
+                arcWindow.updateViewLayout(arcView, arcParamsNoBack);
+            } catch (Exception e) {
+
+            }
             vibrateNeeded = true;
         }
     }
@@ -687,7 +704,11 @@ public class SlideOverService extends Service {
             arcView.newMessagePaint.setAlpha(START_ALPHA2);
             arcView.conversationsPaint.setAlpha(START_ALPHA);
             arcView.invalidate();
-            arcWindow.updateViewLayout(arcView, arcParamsNoBack);
+            try {
+                arcWindow.updateViewLayout(arcView, arcParamsNoBack);
+            } catch (Exception e) {
+
+            }
             vibrateNeeded = true;
         }
     }
@@ -780,13 +801,17 @@ public class SlideOverService extends Service {
 
     public void resetZoneAlphas()
     {
-        for (int i = 0; i < numberNewConv; i++)
-        {
-            arcView.textPaint[i].setAlpha(START_ALPHA2);
-        }
+        try {
+            for (int i = 0; i < numberNewConv; i++)
+            {
+                arcView.textPaint[i].setAlpha(START_ALPHA2);
+            }
 
-        arcView.invalidate();
-        arcWindow.updateViewLayout(arcView, arcParams);
+            arcView.invalidate();
+            arcWindow.updateViewLayout(arcView, arcParams);
+        } catch (Exception e) {
+
+        }
     }
 
     public boolean isRunning(Context ctx) {

@@ -1,7 +1,7 @@
 Version 7.50
 
 Jake:
-    - remove wifi fix from library and mms receiver service and take it out of settings and library settings after testing complete and successful (hopefully lol)
+    - Make all textviews, edit text, etc. default to Roboto light
     - delayed sending for certain times
 Luke:
     - Add google voice to app description after full update
