@@ -21,11 +21,13 @@ import java.util.List;
 public class SlideOverService extends Service {
 
     public HaloView haloView;
+    public MessageView messageView;
     public ArcView arcView;
     public AnimationView animationView;
 
     public WindowManager.LayoutParams haloParams;
     public WindowManager.LayoutParams haloHiddenParams;
+    public WindowManager.LayoutParams messageWindowParams;
     public WindowManager.LayoutParams arcParams;
     public WindowManager.LayoutParams arcParamsNoBack;
     public WindowManager.LayoutParams animationParams;
@@ -37,6 +39,7 @@ public class SlideOverService extends Service {
     public Vibrator v;
 
     public WindowManager haloWindow;
+    public WindowManager messageWindow;
     public WindowManager arcWindow;
     public WindowManager animationWindow;
 
@@ -80,6 +83,9 @@ public class SlideOverService extends Service {
 
     private double distance = 0;
     private double angle = 0;
+
+    public Handler messageBoxHandler = new Handler();
+    public Runnable messageBoxRunnable;
 
     @Override
     public void onCreate() {
@@ -153,6 +159,17 @@ public class SlideOverService extends Service {
 
         haloWindow.addView(haloView, haloParams);
 
+        messageBoxRunnable = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    messageWindow.removeViewImmediate(messageView);
+                } catch (Exception e) {
+
+                }
+            }
+        };
+
         IntentFilter filter = new IntentFilter();
         filter.addAction("com.klinker.android.messaging.STOP_HALO");
         registerReceiver(stopSlideover, filter);
@@ -198,6 +215,15 @@ public class SlideOverService extends Service {
             //}
             
             // will launch the floating message box feature
+            try {
+                messageWindow.addView(messageView, messageWindowParams);
+            } catch (Exception e) {
+                messageWindow.removeViewImmediate(messageView);
+                messageBoxHandler.removeCallbacks(messageBoxRunnable);
+            }
+
+            messageBoxHandler.postDelayed(messageBoxRunnable, 3500);
+
             return true;
         }
 
@@ -255,6 +281,7 @@ public class SlideOverService extends Service {
         haloView = new HaloView(this);
         arcView = new ArcView(this, halo, SWIPE_MIN_DISTANCE, ARC_BREAK_POINT, HALO_SLIVER_RATIO);
         animationView = new AnimationView(this, halo);
+        messageView = new MessageView(this);
 
         numberNewConv = arcView.newConversations.size();
         
@@ -263,6 +290,18 @@ public class SlideOverService extends Service {
 
     public void setParams(Bitmap halo, int height, int width)
     {
+        messageWindowParams = new WindowManager.LayoutParams(
+                width - 80,  // 40 pixels on each side
+                200,        // 100 pixels tall
+                40,         // 40 pixel width on the side
+                60,         // 60 pixels down the screen
+                WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                        |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+                        |WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
+                        |WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                PixelFormat.TRANSLUCENT);
+
         haloParams = new WindowManager.LayoutParams(
                 halo.getWidth(),
                 halo.getHeight(),
@@ -316,6 +355,7 @@ public class SlideOverService extends Service {
                 PixelFormat.TRANSLUCENT);
 
         haloWindow = (WindowManager) getSystemService(WINDOW_SERVICE);
+        messageWindow = (WindowManager) getSystemService(WINDOW_SERVICE);
         arcWindow = (WindowManager) getSystemService(WINDOW_SERVICE);
         animationWindow = (WindowManager) getSystemService(WINDOW_SERVICE);
     }
@@ -332,7 +372,17 @@ public class SlideOverService extends Service {
 
         arcView.newMessagePaint.setAlpha(START_ALPHA2);
 
-        arcWindow.addView(arcView, arcParamsNoBack);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    arcWindow.addView(arcView, arcParamsNoBack);
+                } catch (Exception e) {
+
+                }
+            }
+        }, 100);
+
 
         //haloWindow.updateViewLayout(haloView, haloHiddenParams);
         needDetection = true;
@@ -546,7 +596,7 @@ public class SlideOverService extends Service {
 
                 }
             }
-        }, 75);
+        }, 175);
 
         needDetection = true;
     }
