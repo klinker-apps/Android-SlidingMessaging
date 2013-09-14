@@ -76,7 +76,12 @@ public class MmsReceiverService extends Service {
             name = null;
         }
 
-        getLocation();
+        try {
+            getLocation();
+        } catch (Exception e) {
+            // no mms to download for whatever reason
+            return 0;
+        }
 
         Log.v("mms_download", "got mms location: " + downloadLocation + " and now starting download");
 
@@ -89,12 +94,17 @@ public class MmsReceiverService extends Service {
         return super.onStartCommand(intent, flags, startId);
     }
 
-    private void getLocation() {
+    private void getLocation() throws Exception {
         Cursor locationQuery = context.getContentResolver().query(Uri.parse("content://mms/"), new String[] {"ct_l", "thread_id", "_id"}, null, null, "date desc");
-        locationQuery.moveToFirst();
-        downloadLocation = locationQuery.getString(locationQuery.getColumnIndex("ct_l"));
-        threadId = locationQuery.getString(locationQuery.getColumnIndex("thread_id"));
-        msgId = locationQuery.getString(locationQuery.getColumnIndex("_id"));
+
+        if (locationQuery != null && locationQuery.moveToFirst()) {
+            downloadLocation = locationQuery.getString(locationQuery.getColumnIndex("ct_l"));
+            threadId = locationQuery.getString(locationQuery.getColumnIndex("thread_id"));
+            msgId = locationQuery.getString(locationQuery.getColumnIndex("_id"));
+        } else {
+            throw new Exception("No MMS to download");
+        }
+
         locationQuery.close();
     }
 

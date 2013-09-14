@@ -1664,7 +1664,9 @@ public class MainActivity extends FragmentActivity {
                     }
                 }
 
-                phonesCursor.close();
+                if (phonesCursor != null) {
+                    phonesCursor.close();
+                }
             } catch (IllegalArgumentException e)
             {
                 try

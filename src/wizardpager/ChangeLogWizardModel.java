@@ -47,6 +47,8 @@ public class ChangeLogWizardModel extends AbstractWizardModel {
         }
 
         String changeLog = "Version " + version + ":\n\n" +
+                "- Bug fixes\n\n\n" +
+                "Version 7.50: \n\n" +
                 "- 3 different Google Voice message syncing options\n" +
                 "\t1) Refreshing on specified interval\n" +
                 "\t2) Refreshing when Google Voice app shows a notification\n" +
