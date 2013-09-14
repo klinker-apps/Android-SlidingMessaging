@@ -7,12 +7,14 @@ import android.content.*;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
+import android.os.Handler;
 import android.os.IBinder;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.view.*;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead2;
+import com.klinker.android.messaging_sliding.templates.TemplateActivity;
 
 import java.util.List;
 
@@ -191,9 +193,9 @@ public class SlideOverService extends Service {
 
         @Override
         public boolean onSingleTapConfirmed(MotionEvent event) {
-            if (HAPTIC_FEEDBACK) {
-                v.vibrate(10);
-            }
+            //if (HAPTIC_FEEDBACK) {
+                //v.vibrate(10);
+            //}
             
             // will launch the floating message box feature
             return true;
@@ -222,6 +224,7 @@ public class SlideOverService extends Service {
             } catch (Exception e) {
 
             }
+
             Intent intent = new Intent(getBaseContext(), com.klinker.android.messaging_sliding.slide_over.SlideOverSettings.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
@@ -330,6 +333,7 @@ public class SlideOverService extends Service {
         arcView.newMessagePaint.setAlpha(START_ALPHA2);
 
         arcWindow.addView(arcView, arcParamsNoBack);
+
         //haloWindow.updateViewLayout(haloView, haloHiddenParams);
         needDetection = true;
     }
@@ -533,11 +537,16 @@ public class SlideOverService extends Service {
         arcView.newMessagePaint.setAlpha(START_ALPHA2);
         resetZoneAlphas();
 
-        try {
-            arcWindow.removeViewImmediate(arcView);
-        } catch (Exception e) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    arcWindow.removeViewImmediate(arcView);
+                } catch (Exception e) {
 
-        }
+                }
+            }
+        }, 75);
 
         needDetection = true;
     }
@@ -564,11 +573,17 @@ public class SlideOverService extends Service {
 
         arcView.newMessagePaint.setAlpha(START_ALPHA2);
 
-        try {
-            arcWindow.removeViewImmediate(arcView);
-        } catch (Exception e) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    arcWindow.removeViewImmediate(arcView);
+                } catch (Exception e) {
 
-        }
+                }
+            }
+        }, 75);
+
 
         needDetection = true;
     }
