@@ -157,6 +157,21 @@ public class SlideOverService extends Service {
             }
         });
 
+        messageView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                // TODO - Check that this touch is in the upper part of the screen
+                try {
+                    Intent intent = finishFlat();
+                    intent.putExtra("openToPage", 0);
+                    startActivity(intent);
+                } catch (Exception e) {
+                    // already open and intent is null
+                }
+                return false;
+            }
+        });
+
         haloWindow.addView(haloView, haloParams);
 
         messageBoxRunnable = new Runnable() {
@@ -210,9 +225,6 @@ public class SlideOverService extends Service {
 
         @Override
         public boolean onSingleTapConfirmed(MotionEvent event) {
-            //if (HAPTIC_FEEDBACK) {
-                //v.vibrate(10);
-            //}
             
             // will launch the floating message box feature
             try {
@@ -222,7 +234,9 @@ public class SlideOverService extends Service {
                 messageBoxHandler.removeCallbacks(messageBoxRunnable);
             }
 
-            messageBoxHandler.postDelayed(messageBoxRunnable, 3500);
+            // closes the box after 4 seconds
+            // can add an option for this later
+            messageBoxHandler.postDelayed(messageBoxRunnable, 4000);
 
             return true;
         }
@@ -291,16 +305,17 @@ public class SlideOverService extends Service {
     public void setParams(Bitmap halo, int height, int width)
     {
         messageWindowParams = new WindowManager.LayoutParams(
-                width - 80,  // 40 pixels on each side
-                200,        // 100 pixels tall
-                40,         // 40 pixel width on the side
-                60,         // 60 pixels down the screen
+                width - 100,  // 50 pixels on each side
+                250,        // 100 pixels tall
+                50,         // 40 pixel width on the side
+                75,         // 60 pixels down the screen
                 WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                         |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                         |WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
                         |WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 PixelFormat.TRANSLUCENT);
+        messageWindowParams.gravity = Gravity.TOP | Gravity.LEFT;
 
         haloParams = new WindowManager.LayoutParams(
                 halo.getWidth(),
@@ -691,8 +706,11 @@ public class SlideOverService extends Service {
             arcView.newMessagePaint.setAlpha(START_ALPHA2);
 
             arcView.invalidate();
-            arcWindow.updateViewLayout(arcView, arcParams);
+            try {
+                arcWindow.updateViewLayout(arcView, arcParams);
+            } catch (Exception e) {
 
+            }
             if (!initial) {
                 if (HAPTIC_FEEDBACK) {
                     v.vibrate(25);
@@ -706,7 +724,12 @@ public class SlideOverService extends Service {
             arcView.conversationsPaint.setAlpha(START_ALPHA2 + 20);
             arcView.newMessagePaint.setAlpha(START_ALPHA2);
             arcView.invalidate();
-            arcWindow.updateViewLayout(arcView, arcParams);
+
+            try {
+                arcWindow.updateViewLayout(arcView, arcParams);
+            } catch (Exception e) {
+
+            }
 
             if (HAPTIC_FEEDBACK) {
                 v.vibrate(25);
@@ -738,7 +761,11 @@ public class SlideOverService extends Service {
             arcView.conversationsPaint.setAlpha(START_ALPHA);
             arcView.invalidate();
 
-            arcWindow.updateViewLayout(arcView, arcParams);
+            try {
+                arcWindow.updateViewLayout(arcView, arcParams);
+            } catch (Exception e) {
+
+            }
 
             if (!initial) {
                 if (HAPTIC_FEEDBACK) {
@@ -752,7 +779,12 @@ public class SlideOverService extends Service {
             arcView.newMessagePaint.setAlpha(TOUCHED_ALPHA);
             arcView.conversationsPaint.setAlpha(START_ALPHA);
             arcView.invalidate();
-            arcWindow.updateViewLayout(arcView, arcParams);
+
+            try {
+                arcWindow.updateViewLayout(arcView, arcParams);
+            } catch (Exception e) {
+
+            }
 
             if (HAPTIC_FEEDBACK) {
                 v.vibrate(25);
@@ -794,6 +826,8 @@ public class SlideOverService extends Service {
             service.setAction("com.klinker.android.messaging.STOP_HALO");
             sendBroadcast(service);
         }
+
+        messageWindow.removeViewImmediate(messageView);
     }
 
     public Intent finishFlat()
@@ -802,13 +836,16 @@ public class SlideOverService extends Service {
             Intent intent = new Intent();
             intent.setAction("com.klinker.android.messaging_donate.KILL_FOR_HALO");
             sendBroadcast(intent);
+            messageWindow.removeViewImmediate(messageView);
             return null;
         } else {
             Intent intent = new Intent(getBaseContext(), com.klinker.android.messaging_sliding.MainActivityPopup.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             intent.putExtra("fromHalo", true);
+            messageWindow.removeViewImmediate(messageView);
             return intent;
         }
+
     }
 
     public void finishDash()
@@ -829,6 +866,8 @@ public class SlideOverService extends Service {
                 intent.putExtra("secondaryType", sharedPrefs.getString("slideover_secondary_action", "conversations"));
                 startActivity(intent);
             }
+
+            messageWindow.removeViewImmediate(messageView);
         }
     }
 
