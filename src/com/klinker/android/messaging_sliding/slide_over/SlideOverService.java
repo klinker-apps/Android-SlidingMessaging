@@ -172,27 +172,33 @@ public class SlideOverService extends Service {
         
         @Override
         public boolean onSingleTapUp (MotionEvent event) {
+            // play the sound like PA has it
+            playSoundEffect(SoundEffectConstants.CLICK);
             return true;
         }
 
         @Override
         public boolean onFling(MotionEvent event1, MotionEvent event2, 
                 float velocityX, float velocityY) {
+                // Does nothing
             return true;
         }
 
         @Override
         public boolean onSingleTapConfirmed(MotionEvent event) {
+            // will launch the floating window feature
             return true;
         }
 
         @Override
         public boolean onDoubleTap(MotionEvent event) {
+            // eventually will move it around
             return true;
         }
 
         @Override
         public void onLongPress(MotionEvent event){
+            // will have this open the settings menu.
         }
     }
 
