@@ -161,12 +161,19 @@ public class SlideOverService extends Service {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 // TODO - Check that this touch is in the upper part of the screen
-                try {
-                    Intent intent = finishFlat();
-                    intent.putExtra("openToPage", 0);
-                    startActivity(intent);
-                } catch (Exception e) {
-                    // already open and intent is null
+                float currentX = motionEvent.getX();
+                float currentY = motionEvent.getY();
+
+                if(currentX > 50 && currentX < width - 50 && currentY > 75 && currentY < 75 + 250)
+                {
+                    try {
+                        Intent intent = finishFlat();
+                        intent.putExtra("openToPage", 0);
+                        startActivity(intent);
+                        messageWindow.removeViewImmediate(messageView);
+                    } catch (Exception e) {
+                        // already open and intent is null
+                    }
                 }
                 return false;
             }
@@ -225,18 +232,26 @@ public class SlideOverService extends Service {
 
         @Override
         public boolean onSingleTapConfirmed(MotionEvent event) {
-            
-            // will launch the floating message box feature
-            try {
-                messageWindow.addView(messageView, messageWindowParams);
-            } catch (Exception e) {
-                messageWindow.removeViewImmediate(messageView);
-                messageBoxHandler.removeCallbacks(messageBoxRunnable);
-            }
 
-            // closes the box after 4 seconds
-            // can add an option for this later
-            messageBoxHandler.postDelayed(messageBoxRunnable, 4000);
+            if (!isRunning(getApplication())) {
+                // will launch the floating message box feature
+                try {
+                    //TODO - Actually create and fill a list view here. check if the arraylist is empty of full and fill it accordingly
+                    if(arcView.newConversations.size() != 0) {
+                        // fill a list view with the conversations arraylist
+                    } else {
+                        // make a black arraylist and just output that there are no new messages.
+                    }
+                    messageWindow.addView(messageView, messageWindowParams);
+                } catch (Exception e) {
+                    messageWindow.removeViewImmediate(messageView);
+                    messageBoxHandler.removeCallbacks(messageBoxRunnable);
+                }
+
+                // closes the box after 4 seconds
+                // TODO can add an option for this later
+                messageBoxHandler.postDelayed(messageBoxRunnable, 4000);
+            }
 
             return true;
         }
@@ -836,13 +851,13 @@ public class SlideOverService extends Service {
             Intent intent = new Intent();
             intent.setAction("com.klinker.android.messaging_donate.KILL_FOR_HALO");
             sendBroadcast(intent);
-            messageWindow.removeViewImmediate(messageView);
+            //messageWindow.removeViewImmediate(messageView);
             return null;
         } else {
             Intent intent = new Intent(getBaseContext(), com.klinker.android.messaging_sliding.MainActivityPopup.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             intent.putExtra("fromHalo", true);
-            messageWindow.removeViewImmediate(messageView);
+            //messageWindow.removeViewImmediate(messageView);
             return intent;
         }
 
@@ -867,7 +882,7 @@ public class SlideOverService extends Service {
                 startActivity(intent);
             }
 
-            messageWindow.removeViewImmediate(messageView);
+            //messageWindow.removeViewImmediate(messageView);
         }
     }
 
