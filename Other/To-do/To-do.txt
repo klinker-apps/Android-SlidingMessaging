@@ -1,8 +1,7 @@
 Version 7.50
 
 Jake:
-    - name on mms notification instead of number
-    - settings object to heold all settings in static class
+    - settings object to hold all settings in static class
     - look into downloadingmms and data getting stuck
     - option to set voice as default always- voice button on the send message dialog
     - work on mms resizing
