@@ -2005,7 +2005,7 @@ public class MainActivity extends FragmentActivity {
                                     refreshViewPager4(recipientId, StripAccents.stripAccents(message.getText()), Calendar.getInstance().getTimeInMillis() + "");
                                     mViewPager.setCurrentItem(0);
 
-                                    if (isPopup && fullAppPopupClose) {
+                                    if (isPopup && fullAppPopupClose && !sendTransaction.checkMMS(message)) {
                                         Intent intent = new Intent("com.klinker.android.messaging.CLOSE_POPUP");
                                         sendBroadcast(intent);
                                     }

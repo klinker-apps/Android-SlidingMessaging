@@ -1,10 +1,15 @@
 Version 7.50
 
 Jake:
+    - name on mms notification instead of number
+    - settings object to heold all settings in static class
+    - look into downloadingmms and data getting stuck
+    - option to set voice as default always- voice button on the send message dialog
+    - work on mms resizing
     - Make all textviews, edit text, etc. default to Roboto light
     - delayed sending for certain times
+    - rewrite menu array adapter as cursor adaptor
 Luke:
-    - Add google voice to app description after full update
     - Put favorites tab on emoji keyboard?
     - Message details for MMS messages
 
