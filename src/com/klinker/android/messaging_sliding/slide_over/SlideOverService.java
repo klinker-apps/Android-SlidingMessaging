@@ -414,11 +414,6 @@ public class SlideOverService extends Service {
 
     public void onDown(MotionEvent event)
     {
-        // Don't want it to vibrate now right away because it should vibrate on the actions
-        //if (HAPTIC_FEEDBACK) {
-            //v.vibrate(10);
-        //}
-
         initX = event.getX();
         initY = event.getY();
 
@@ -678,7 +673,7 @@ public class SlideOverService extends Service {
 
                 }
             }
-        }, 75);
+        }, 175);
 
 
         needDetection = true;
