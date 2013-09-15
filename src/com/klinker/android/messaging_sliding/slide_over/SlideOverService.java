@@ -243,6 +243,7 @@ public class SlideOverService extends Service {
                         // make a black arraylist and just output that there are no new messages.
                     }
                     messageWindow.addView(messageView, messageWindowParams);
+                    
                 } catch (Exception e) {
                     messageWindow.removeViewImmediate(messageView);
                     messageBoxHandler.removeCallbacks(messageBoxRunnable);
@@ -411,7 +412,7 @@ public class SlideOverService extends Service {
 
                 }
             }
-        }, 100);
+        }, 150);
 
 
         //haloWindow.updateViewLayout(haloView, haloHiddenParams);
@@ -464,7 +465,8 @@ public class SlideOverService extends Service {
             }
 
             arcView.invalidate();
-            arcWindow.updateViewLayout(arcView, arcParams);
+
+            updateArcView();
 
 
         } else if ((!(initY > event.getY()) && angle > ARC_BREAK_POINT)) // in dash area
@@ -514,7 +516,8 @@ public class SlideOverService extends Service {
 
                 zoneChange = false;
                 arcView.invalidate();
-                arcWindow.updateViewLayout(arcView, arcParams);
+
+                updateArcView();
             }
 
         }
@@ -547,7 +550,8 @@ public class SlideOverService extends Service {
             }
 
             arcView.invalidate();
-            arcWindow.updateViewLayout(arcView, arcParams);
+
+            updateArcView();
 
         } else if ((!(initY > event.getY()) && angle > ARC_BREAK_POINT)) // in dash area
         {
@@ -721,11 +725,9 @@ public class SlideOverService extends Service {
             arcView.newMessagePaint.setAlpha(START_ALPHA2);
 
             arcView.invalidate();
-            try {
-                arcWindow.updateViewLayout(arcView, arcParams);
-            } catch (Exception e) {
 
-            }
+            updateArcView();
+
             if (!initial) {
                 if (HAPTIC_FEEDBACK) {
                     v.vibrate(25);
@@ -740,11 +742,7 @@ public class SlideOverService extends Service {
             arcView.newMessagePaint.setAlpha(START_ALPHA2);
             arcView.invalidate();
 
-            try {
-                arcWindow.updateViewLayout(arcView, arcParams);
-            } catch (Exception e) {
-
-            }
+            updateArcView();
 
             if (HAPTIC_FEEDBACK) {
                 v.vibrate(25);
@@ -776,11 +774,7 @@ public class SlideOverService extends Service {
             arcView.conversationsPaint.setAlpha(START_ALPHA);
             arcView.invalidate();
 
-            try {
-                arcWindow.updateViewLayout(arcView, arcParams);
-            } catch (Exception e) {
-
-            }
+            updateArcView();
 
             if (!initial) {
                 if (HAPTIC_FEEDBACK) {
@@ -795,11 +789,7 @@ public class SlideOverService extends Service {
             arcView.conversationsPaint.setAlpha(START_ALPHA);
             arcView.invalidate();
 
-            try {
-                arcWindow.updateViewLayout(arcView, arcParams);
-            } catch (Exception e) {
-
-            }
+            updateArcView();
 
             if (HAPTIC_FEEDBACK) {
                 v.vibrate(25);
@@ -842,7 +832,7 @@ public class SlideOverService extends Service {
             sendBroadcast(service);
         }
 
-        messageWindow.removeViewImmediate(messageView);
+        //messageWindow.removeViewImmediate(messageView);
     }
 
     public Intent finishFlat()
@@ -927,7 +917,7 @@ public class SlideOverService extends Service {
             }
 
             arcView.invalidate();
-            arcWindow.updateViewLayout(arcView, arcParams);
+            updateArcView();
         } catch (Exception e) {
 
         }
@@ -1090,5 +1080,13 @@ public class SlideOverService extends Service {
         // We want this service to continue running until it is explicitly
         // stopped, so return sticky.
         return START_STICKY;
+    }
+
+    public void updateArcView() {
+        try {
+            arcWindow.updateViewLayout(arcView, arcParams);
+        } catch (Exception e) {
+
+        }
     }
 }
