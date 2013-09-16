@@ -2070,12 +2070,22 @@ public class MainActivity extends FragmentActivity {
 
     public static void insertEmoji(String emoji)
     {
-        if(menu.isSecondaryMenuShowing())
-        {
-            messageEntry2.append(EmojiConverter2.getSmiledText(statCont, emoji));
+        EditText input;
+
+        if(menu.isSecondaryMenuShowing()) {
+            input = messageEntry2;
         } else {
-            messageEntry1.append(EmojiConverter2.getSmiledText(statCont, emoji));
+            input = messageEntry1;
         }
+
+        input.setEnabled(false); // prevent modification temporarily
+        int beforeSelectionStart = input.getSelectionStart();
+        int beforeLength = input.getText().toString().length();
+        CharSequence before = input.getText().subSequence(0, beforeSelectionStart);
+        CharSequence after = input.getText().subSequence(input.getSelectionEnd(), beforeLength);
+        input.setText(android.text.TextUtils.concat(before, EmojiConverter.getSmiledText(statCont, emoji), after));
+        input.setEnabled(true);
+        input.setSelection(beforeSelectionStart + (input.getText().toString().length() - beforeLength));
     }
 
     public class MyPagerAdapter extends FragmentPagerAdapter {
