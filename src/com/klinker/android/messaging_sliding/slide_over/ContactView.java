@@ -5,19 +5,18 @@ import android.content.SharedPreferences;
 import android.graphics.*;
 import android.preference.PreferenceManager;
 import android.view.Display;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import com.klinker.android.messaging_donate.R;
 
-public class MessageView extends ViewGroup {
+public class  ContactView extends ViewGroup {
     public Context mContext;
 
-    public Bitmap halo;
+    public Bitmap cancel;
 
-    public Paint haloPaint;
-    public Paint haloNewPaint;
+    public Paint cancelPaint;
+    public Paint blackPaint;
     public int haloAlpha = 255;
     public int haloNewAlpha = 0;
 
@@ -31,21 +30,22 @@ public class MessageView extends ViewGroup {
     public int height;
     public int width;
 
-    public MessageView(Context context) {
+    public ContactView(Context context) {
         super(context);
 
         mContext = context;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
 
-        halo = BitmapFactory.decodeResource(getResources(),
-                R.drawable.halo_bg);
+        cancel = BitmapFactory.decodeResource(getResources(),
+                R.drawable.ic_cancel);
 
-        haloPaint = new Paint();
-        haloPaint.setColor(getResources().getColor(R.color.black));
-        haloPaint.setAlpha(200);
+        blackPaint = new Paint();
+        blackPaint.setColor(getResources().getColor(R.color.black));
+        blackPaint.setAlpha(200);
 
-        haloNewPaint = new Paint();
-        haloNewPaint.setAlpha(haloNewAlpha);
+        cancelPaint = new Paint();
+        cancelPaint.setColor(getResources().getColor(R.color.white));
+        cancelPaint.setAlpha(200);
 
         haloColor = sharedPrefs.getInt("slideover_color", context.getResources().getColor(R.color.white));
         haloUnreadColor = sharedPrefs.getInt("slideover_unread_color", context.getResources().getColor(R.color.holo_red));
@@ -58,7 +58,15 @@ public class MessageView extends ViewGroup {
         height = d.getHeight();
         width = d.getWidth();
 
-        canvas.drawRect(0, 0, width - 100, 200, haloPaint);
+        canvas.drawRect(0, 0, 100, 100, blackPaint);
+        canvas.drawRect(105, 0, 205, 100, blackPaint);
+        canvas.drawRect(210, 0, 310, 100, blackPaint);
+        canvas.drawRect(315, 0, 415, 100, blackPaint);
+        canvas.drawRect(420, 0, 520, 100, blackPaint);
+
+        Rect cancelRect = new Rect(width - 100 - 100, 0, width - 100, 100);
+
+        canvas.drawBitmap(cancel, null, cancelRect, cancelPaint);
     }
 
     @Override

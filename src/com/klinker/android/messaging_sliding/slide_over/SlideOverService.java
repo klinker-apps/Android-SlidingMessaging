@@ -25,12 +25,14 @@ public class SlideOverService extends Service {
 
     public HaloView haloView;
     public MessageView messageView;
+    public ContactView contactView;
     public ArcView arcView;
     public AnimationView animationView;
 
     public WindowManager.LayoutParams haloParams;
     public WindowManager.LayoutParams haloHiddenParams;
     public WindowManager.LayoutParams messageWindowParams;
+    public WindowManager.LayoutParams contactParams;
     public WindowManager.LayoutParams arcParams;
     public WindowManager.LayoutParams arcParamsNoBack;
     public WindowManager.LayoutParams animationParams;
@@ -192,7 +194,7 @@ public class SlideOverService extends Service {
                 float currentX = motionEvent.getX();
                 float currentY = motionEvent.getY();
 
-                if(currentX > 50 && currentX < width - 50 && currentY > 75 && currentY < 75 + 250)
+                if(currentX > 50 && currentX < width - 50 && currentY > 155 && currentY < 155 + 200)
                 {
                     try {
                         Intent intent = finishFlat();
@@ -214,6 +216,7 @@ public class SlideOverService extends Service {
             public void run() {
                 try {
                     messageWindow.removeView(messageView);
+                    messageWindow.removeView(contactView);
                 } catch (Exception e) {
 
                 }
@@ -351,9 +354,11 @@ public class SlideOverService extends Service {
                         // make a black arraylist and just output that there are no new messages.
                     }
                     messageWindow.addView(messageView, messageWindowParams);
+                    messageWindow.addView(contactView, contactParams);
 
                 } catch (Exception e) {
                     messageWindow.removeView(messageView);
+                    messageWindow.removeView(contactView);
                     messageBoxHandler.removeCallbacks(messageBoxRunnable);
                 }
 
@@ -430,6 +435,7 @@ public class SlideOverService extends Service {
         arcView = new ArcView(this, halo, SWIPE_MIN_DISTANCE, ARC_BREAK_POINT, HALO_SLIVER_RATIO);
         animationView = new AnimationView(this, halo);
         messageView = new MessageView(this);
+        contactView = new ContactView(this);
 
         numberNewConv = arcView.newConversations.size();
         
@@ -440,9 +446,9 @@ public class SlideOverService extends Service {
     {
         messageWindowParams = new WindowManager.LayoutParams(
                 width - 100,  // 50 pixels on each side
-                250,        // 100 pixels tall
+                200,        // 100 pixels tall
                 50,         // 40 pixel width on the side
-                75,         // 60 pixels down the screen
+                155,         // 60 pixels down the screen
                 WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                         |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
@@ -451,6 +457,20 @@ public class SlideOverService extends Service {
                 PixelFormat.TRANSLUCENT);
         messageWindowParams.gravity = Gravity.TOP | Gravity.LEFT;
         messageWindowParams.windowAnimations = android.R.style.Animation_Translucent;
+
+        contactParams = new WindowManager.LayoutParams(
+                width - 100,  // 50 pixels on each side
+                100,        // 100 pixels tall
+                50,         // 40 pixel width on the side
+                50,         // 60 pixels down the screen
+                WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                        |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+                        |WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
+                        |WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                PixelFormat.TRANSLUCENT);
+        contactParams.gravity = Gravity.TOP | Gravity.LEFT;
+        contactParams.windowAnimations = android.R.style.Animation_Toast;
 
         haloParams = new WindowManager.LayoutParams(
                 halo.getWidth(),
