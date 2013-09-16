@@ -259,7 +259,7 @@ public class SlideOverService extends Service {
         // set the shared prefs, then invalidate arcview?
 
         int currX = (int) event.getRawX();
-        double currY = event.getRawY();
+        float currY = event.getRawY() - halo.getWidth()/2;
 
         if (currX < width/2) {
             sharedPrefs.edit().putString("slideover_side", "left").commit();
@@ -267,10 +267,11 @@ public class SlideOverService extends Service {
             sharedPrefs.edit().putString("slideover_side", "right").commit();
         }
 
-        sharedPrefs.edit().putInt("slideover_vertical", (int) ((currY/height) * 100)).commit();
+        sharedPrefs.edit().putFloat("slideover_downscreen", currY).commit();
 
-        PERCENT_DOWN_SCREEN = sharedPrefs.getInt("slideover_vertical", 50)/100.0;
-        PERCENT_DOWN_SCREEN -= PERCENT_DOWN_SCREEN * (halo.getHeight()/(double)height);
+        PERCENT_DOWN_SCREEN = currY;
+        //PERCENT_DOWN_SCREEN = sharedPrefs.getInt("slideover_vertical", 50)/100.0;
+        //PERCENT_DOWN_SCREEN -= PERCENT_DOWN_SCREEN * (halo.getHeight()/(double)height);
 
         arcView.invalidate();
 
@@ -278,7 +279,7 @@ public class SlideOverService extends Service {
                 halo.getWidth(),
                 halo.getHeight(),
                 sharedPrefs.getString("slideover_side", "left").equals("left") ? (int) (-1 * (1 - HALO_SLIVER_RATIO) * halo.getWidth()) : (int) (width - (halo.getWidth() * (HALO_SLIVER_RATIO))),
-                (int)(height * PERCENT_DOWN_SCREEN),
+                (int) currY,
                 WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                         |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
@@ -419,8 +420,9 @@ public class SlideOverService extends Service {
         breakAng += breakAngle;
 
         HALO_SLIVER_RATIO = sharedPrefs.getInt("slideover_sliver", 33)/100.0;
-        PERCENT_DOWN_SCREEN = sharedPrefs.getInt("slideover_vertical", 50)/100.0;
-        PERCENT_DOWN_SCREEN -= PERCENT_DOWN_SCREEN * (halo.getHeight()/(double)height);
+        PERCENT_DOWN_SCREEN = sharedPrefs.getFloat("slideover_downscreen", 0);
+        //PERCENT_DOWN_SCREEN = sharedPrefs.getInt("slideover_vertical", 50)/100.0;
+        //PERCENT_DOWN_SCREEN -= PERCENT_DOWN_SCREEN * (halo.getHeight()/(double)height);
         HAPTIC_FEEDBACK = sharedPrefs.getBoolean("slideover_haptic_feedback", true);
         ARC_BREAK_POINT = breakAng * .9f;
 
@@ -476,7 +478,7 @@ public class SlideOverService extends Service {
                 halo.getWidth(),
                 halo.getHeight(),
                 sharedPrefs.getString("slideover_side", "left").equals("left") ? (int) (-1 * (1 - HALO_SLIVER_RATIO) * halo.getWidth()) : (int) (width - (halo.getWidth() * (HALO_SLIVER_RATIO))),
-                (int)(height * PERCENT_DOWN_SCREEN),
+                (int) sharedPrefs.getFloat("slideover_downscreen", 0),
                 WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                         |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
@@ -486,18 +488,18 @@ public class SlideOverService extends Service {
         haloParams.gravity = Gravity.TOP | Gravity.LEFT;
         haloParams.windowAnimations = android.R.style.Animation_Toast;
 
-        haloHiddenParams = new WindowManager.LayoutParams(
+        /*haloHiddenParams = new WindowManager.LayoutParams(
                 halo.getWidth(),
                 halo.getHeight(),
                 sharedPrefs.getString("slideover_side", "left").equals("left") ? -1 * halo.getWidth() : width + halo.getWidth(),
-                (int)(height * PERCENT_DOWN_SCREEN),
+                (int) sharedPrefs.getFloat("slideover_downscreen", 0),
                 WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                         |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                         |WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
                         |WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 PixelFormat.TRANSLUCENT);
-        haloHiddenParams.gravity = Gravity.TOP | Gravity.LEFT;
+        haloHiddenParams.gravity = Gravity.TOP | Gravity.LEFT;*/
 
         arcParams = new WindowManager.LayoutParams(
                 WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,

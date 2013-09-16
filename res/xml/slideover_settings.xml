@@ -60,14 +60,14 @@
                 android:entryValues="@array/slideover_side_inserted"
                 />
 
-        <com.klinker.android.messaging_sliding.custom_dialogs.SeekBarPreference3
+        <!--<com.klinker.android.messaging_sliding.custom_dialogs.SeekBarPreference3
                 android:key="slideover_vertical"
                 android:title="@string/slideover_alignment"
                 android:summary="@string/slideover_alignment_summary"
                 android:defaultValue="50"
                 android:max="100"
                 android:dependency="slideover_enabled"
-                />
+                />-->
 
         <com.klinker.android.messaging_sliding.custom_dialogs.SeekBarPreference3
                 android:key="slideover_sliver"

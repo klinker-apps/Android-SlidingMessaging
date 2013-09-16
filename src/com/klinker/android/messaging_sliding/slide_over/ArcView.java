@@ -220,7 +220,7 @@ public class ArcView extends ViewGroup {
             returnArray[0] = (int)(width - (halo.getWidth() * SlideOverService.HALO_SLIVER_RATIO));
         }
 
-        returnArray[1] = (int)(height * SlideOverService.PERCENT_DOWN_SCREEN);
+        returnArray[1] = (int)(SlideOverService.PERCENT_DOWN_SCREEN);
 
         return returnArray;
     }
