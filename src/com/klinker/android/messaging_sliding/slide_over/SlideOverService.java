@@ -198,7 +198,7 @@ public class SlideOverService extends Service {
                 {
                     try {
                         Intent intent = finishFlat();
-                        intent.putExtra("openToPage", 0);
+                        intent.putExtra("openToPage", ContactView.currentContact);
                         startActivity(intent);
                         messageWindow.removeView(contactView);
                         messageWindow.removeView(messageView);
@@ -206,6 +206,35 @@ public class SlideOverService extends Service {
                         // already open and intent is null
                     }
                 }
+                return false;
+            }
+        });
+
+        contactView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                float currentX = event.getRawX();
+                float currentY = event.getRawY();
+
+                if (currentY > 50 && currentY < 150 && currentX > 50 && currentX < width - 50) {// if it is in the y zone and the x zone
+                    currentX -= 50; // to match the start of the window
+
+                    if (currentX < 100) { // contact 1 touched
+                        ContactView.currentContact = 0;
+                    } else if (currentX > 105 && currentX < 205) { // contact 2 touched
+                        ContactView.currentContact = 1;
+                    } else if (currentX > 210 && currentX < 310) { // contact 3 touched
+                        ContactView.currentContact = 2;
+                    } else if (currentX > 315 && currentX < 415) { // contact 4 touched
+                        ContactView.currentContact = 3;
+                    } else if (currentX > 420 && currentX < 520) { // contact 5 touched
+                        ContactView.currentContact = 4;
+                    }
+
+                    contactView.invalidate();
+                    messageWindow.updateViewLayout(contactView, contactParams);
+                }
+
                 return false;
             }
         });
@@ -349,12 +378,14 @@ public class SlideOverService extends Service {
             if (!isRunning(getApplication())) {
                 // will launch the floating message box feature
                 try {
-                    //TODO - Actually create and fill a list view here. check if the arraylist is empty of full and fill it accordingly
-                    if(arcView.newConversations.size() != 0) {
-                        // fill a list view with the conversations arraylist
-                    } else {
-                        // make a black arraylist and just output that there are no new messages.
-                    }
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            ContactView.currentContact = 0;
+                            contactView.invalidate();
+                        }
+                    }, 200);
+
 
                     messageWindow.addView(contactView, contactParams);
                     messageWindow.addView(messageView, messageWindowParams);

@@ -966,14 +966,14 @@ public class SettingsPagerActivity extends FragmentActivity {
                 }
             });
 
-            Preference alignment = findPreference("slideover_vertical");
+            /*Preference alignment = findPreference("slideover_vertical");
             alignment.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
                     restartHalo();
                     return true;
                 }
-            });
+            });*/
 
             Preference activation = findPreference("slideover_activation");
             activation.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {

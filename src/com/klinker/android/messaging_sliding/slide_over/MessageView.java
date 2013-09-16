@@ -17,14 +17,6 @@ public class MessageView extends ViewGroup {
 
     public Paint blackPaint;
     public Paint strokePaint;
-    public Paint haloNewPaint;
-    public int haloAlpha = 255;
-    public int haloNewAlpha = 0;
-
-    public int haloColor;
-    public int haloUnreadColor;
-
-    public boolean animating = false;
 
     public SharedPreferences sharedPrefs;
 
@@ -49,12 +41,6 @@ public class MessageView extends ViewGroup {
         strokePaint.setAlpha(50);
         strokePaint.setStyle(Paint.Style.STROKE);
         strokePaint.setStrokeWidth(2);
-
-        haloNewPaint = new Paint();
-        haloNewPaint.setAlpha(haloNewAlpha);
-
-        haloColor = sharedPrefs.getInt("slideover_color", context.getResources().getColor(R.color.white));
-        haloUnreadColor = sharedPrefs.getInt("slideover_unread_color", context.getResources().getColor(R.color.holo_red));
     }
 
     protected void onDraw(Canvas canvas) {
