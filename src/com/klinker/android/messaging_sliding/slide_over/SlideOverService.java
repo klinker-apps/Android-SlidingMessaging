@@ -262,7 +262,7 @@ public class SlideOverService extends Service {
             sharedPrefs.edit().putString("slideover_side", "right").commit();
         }
 
-        sharedPrefs.edit().putInt("slideover_vertical", (int) Math.abs((currY/height) * 100)).commit();
+        sharedPrefs.edit().putInt("slideover_vertical", (int) ((currY/height) * 100)).commit();
 
         PERCENT_DOWN_SCREEN = sharedPrefs.getInt("slideover_vertical", 50)/100.0;
         PERCENT_DOWN_SCREEN -= PERCENT_DOWN_SCREEN * (halo.getHeight()/(double)height);
@@ -281,9 +281,11 @@ public class SlideOverService extends Service {
                         |WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 PixelFormat.TRANSLUCENT);
         haloParams.gravity = Gravity.TOP | Gravity.LEFT;
-        haloParams.windowAnimations = android.R.anim.accelerate_decelerate_interpolator;
+        haloParams.windowAnimations = android.R.style.Animation_InputMethod;
 
-        haloWindow.updateViewLayout(haloView, haloParams);
+        haloWindow.removeView(haloView);
+        haloWindow.addView(haloView, haloParams);
+        //haloWindow.updateViewLayout(haloView, haloParams);
     }
 
     public void movingHalo(Bitmap halo, MotionEvent event) {
@@ -299,7 +301,7 @@ public class SlideOverService extends Service {
                         |WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 PixelFormat.TRANSLUCENT);
         haloParams.gravity = Gravity.TOP | Gravity.LEFT;
-        haloParams.windowAnimations = android.R.anim.accelerate_decelerate_interpolator;
+        haloParams.windowAnimations = android.R.style.Animation_InputMethod;
 
         haloWindow.updateViewLayout(haloView, haloParams);
     }
@@ -459,7 +461,7 @@ public class SlideOverService extends Service {
                         |WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 PixelFormat.TRANSLUCENT);
         haloParams.gravity = Gravity.TOP | Gravity.LEFT;
-        haloParams.windowAnimations = android.R.anim.accelerate_decelerate_interpolator;
+        haloParams.windowAnimations = android.R.style.Animation_InputMethod;
 
         haloHiddenParams = new WindowManager.LayoutParams(
                 halo.getWidth(),
