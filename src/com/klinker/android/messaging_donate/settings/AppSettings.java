@@ -58,6 +58,8 @@ public class AppSettings {
     public boolean hideDate;
     public boolean smiliesType;
     public boolean hourFormat;
+    public boolean contactPictures;
+    public boolean tinyDate;
     public String smilies;
     public String textSize;
     public String textSize2;
@@ -73,6 +75,12 @@ public class AppSettings {
     public String voiceThreads;
     public String vibratePattern;
     public String voiceAccount;
+    public String sendingAnimation;
+    public String receiveAnimation;
+    public String themeName;
+    public String sentTextColor;
+    public String receivedTextColor;
+    public String textAlignment;
     public int ctConversationListBackground;
     public int ctSentMessageBackground;
     public int ctMessageListBackground;
@@ -90,6 +98,12 @@ public class AppSettings {
     public int ctSummaryTextColor;
     public int ctMessageCounterColor;
     public int ctUnreadConversationColor;
+    public int ctRecievedTextColor;
+    public int ctSentTextColor;
+    public int ctRecievedMessageBackground;
+    public int animationSpeed;
+    public int textOpacity;
+    public int linkColor;
 
     public static AppSettings init(Context context) {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -120,6 +134,7 @@ public class AppSettings {
             settings.numOfCachedConversations = 5;
             settings.textSize = "14";
             settings.textSize2 = "14";
+            settings.contactPictures = false;
         } else {
             settings.limitConversationsAtStart = sharedPrefs.getBoolean("limit_conversations_start", true);
             settings.customFont = sharedPrefs.getBoolean("custom_font", false);
@@ -145,6 +160,7 @@ public class AppSettings {
             settings.numOfCachedConversations = sharedPrefs.getInt("num_cache_conversations", 5);
             settings.textSize = sharedPrefs.getString("text_size", 14 + "");
             settings.textSize2 = sharedPrefs.getString("text_size2", 14 + "");
+            settings.contactPictures = sharedPrefs.getBoolean("contact_pictures", true);
         }
 
         settings.lightActionBar = sharedPrefs.getBoolean("ct_light_action_bar", false);
@@ -207,6 +223,25 @@ public class AppSettings {
         settings.smiliesType = sharedPrefs.getBoolean("smiliesType", true);
         settings.hourFormat = sharedPrefs.getBoolean("hour_format", false);
         settings.ctUnreadConversationColor = sharedPrefs.getInt("ct_unreadConversationColor", sharedPrefs.getInt("ct_receivedMessageBackground", context.getResources().getColor(R.color.white)));
+        settings.tinyDate = sharedPrefs.getBoolean("tiny_date", false);
+        settings.sendingAnimation = sharedPrefs.getString("send_animation", "left");
+        settings.receiveAnimation = sharedPrefs.getString("receive_animation", "right");
+        settings.themeName = sharedPrefs.getString("ct_theme_name", "Light Theme");
+        settings.sentTextColor = sharedPrefs.getString("sent_text_color", "default");
+        settings.receivedTextColor = sharedPrefs.getString("received_text_color", "default");
+        settings.textAlignment = sharedPrefs.getString("text_alignment", "split");
+        settings.ctRecievedTextColor = sharedPrefs.getInt("ct_receivedTextColor", context.getResources().getColor(R.color.black));
+        settings.ctSentTextColor = sharedPrefs.getInt("ct_sentTextColor", context.getResources().getColor(R.color.black));
+        settings.ctRecievedMessageBackground = sharedPrefs.getInt("ct_receivedMessageBackground", context.getResources().getColor(R.color.white));
+        settings.animationSpeed = sharedPrefs.getInt("animation_speed", 300);
+        settings.textOpacity = sharedPrefs.getInt("text_opacity", 100);
+        settings.linkColor = sharedPrefs.getInt("hyper_link_color", context.getResources().getColor(R.color.holo_blue));
+
+        if (settings.runAs.equals("card+")) {
+            settings.customTheme = true;
+            settings.ctRecievedMessageBackground = context.getResources().getColor(android.R.color.transparent);
+            settings.ctSentMessageBackground = context.getResources().getColor(android.R.color.transparent);
+        }
 
         return settings;
     }
