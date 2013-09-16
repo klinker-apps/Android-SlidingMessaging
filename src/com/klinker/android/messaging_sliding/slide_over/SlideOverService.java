@@ -191,8 +191,8 @@ public class SlideOverService extends Service {
         messageView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                float currentX = motionEvent.getX();
-                float currentY = motionEvent.getY();
+                float currentX = motionEvent.getRawX();
+                float currentY = motionEvent.getRawY();
 
                 if(currentX > 50 && currentX < width - 50 && currentY > 155 && currentY < 155 + 200)
                 {
@@ -200,7 +200,8 @@ public class SlideOverService extends Service {
                         Intent intent = finishFlat();
                         intent.putExtra("openToPage", 0);
                         startActivity(intent);
-                        messageWindow.removeViewImmediate(messageView);
+                        messageWindow.removeView(contactView);
+                        messageWindow.removeView(messageView);
                     } catch (Exception e) {
                         // already open and intent is null
                     }
@@ -215,8 +216,8 @@ public class SlideOverService extends Service {
             @Override
             public void run() {
                 try {
-                    messageWindow.removeView(messageView);
                     messageWindow.removeView(contactView);
+                    messageWindow.removeView(messageView);
                 } catch (Exception e) {
 
                 }
@@ -354,18 +355,19 @@ public class SlideOverService extends Service {
                     } else {
                         // make a black arraylist and just output that there are no new messages.
                     }
-                    messageWindow.addView(messageView, messageWindowParams);
+
                     messageWindow.addView(contactView, contactParams);
+                    messageWindow.addView(messageView, messageWindowParams);
 
                 } catch (Exception e) {
-                    messageWindow.removeView(messageView);
                     messageWindow.removeView(contactView);
+                    messageWindow.removeView(messageView);
                     messageBoxHandler.removeCallbacks(messageBoxRunnable);
                 }
 
                 // closes the box after 4 seconds
                 // TODO can add an option for this later
-                messageBoxHandler.postDelayed(messageBoxRunnable, 4000);
+                //messageBoxHandler.postDelayed(messageBoxRunnable, 4000);
             }
 
             return true;

@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.graphics.*;
 import android.preference.PreferenceManager;
 import android.view.Display;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -16,7 +15,8 @@ public class MessageView extends ViewGroup {
 
     public Bitmap halo;
 
-    public Paint haloPaint;
+    public Paint blackPaint;
+    public Paint strokePaint;
     public Paint haloNewPaint;
     public int haloAlpha = 255;
     public int haloNewAlpha = 0;
@@ -40,9 +40,15 @@ public class MessageView extends ViewGroup {
         halo = BitmapFactory.decodeResource(getResources(),
                 R.drawable.halo_bg);
 
-        haloPaint = new Paint();
-        haloPaint.setColor(getResources().getColor(R.color.black));
-        haloPaint.setAlpha(200);
+        blackPaint = new Paint();
+        blackPaint.setColor(getResources().getColor(R.color.black));
+        blackPaint.setAlpha(200);
+
+        strokePaint = new Paint(blackPaint);
+        strokePaint.setColor(getResources().getColor(R.color.white));
+        strokePaint.setAlpha(50);
+        strokePaint.setStyle(Paint.Style.STROKE);
+        strokePaint.setStrokeWidth(2);
 
         haloNewPaint = new Paint();
         haloNewPaint.setAlpha(haloNewAlpha);
@@ -58,7 +64,8 @@ public class MessageView extends ViewGroup {
         height = d.getHeight();
         width = d.getWidth();
 
-        canvas.drawRect(0, 0, width - 100, 200, haloPaint);
+        canvas.drawRect(0, 0, width - 100, 200, blackPaint);
+        canvas.drawRect(0, 0, width - 100, 200, strokePaint);
     }
 
     @Override

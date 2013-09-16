@@ -15,7 +15,7 @@ public class  ContactView extends ViewGroup {
 
     public Bitmap cancel;
 
-    public Paint cancelPaint;
+    public Paint strokePaint;
     public Paint blackPaint;
     public int haloAlpha = 255;
     public int haloNewAlpha = 0;
@@ -43,9 +43,12 @@ public class  ContactView extends ViewGroup {
         blackPaint.setColor(getResources().getColor(R.color.black));
         blackPaint.setAlpha(200);
 
-        cancelPaint = new Paint();
-        cancelPaint.setColor(getResources().getColor(R.color.white));
-        cancelPaint.setAlpha(200);
+
+        strokePaint = new Paint(blackPaint);
+        strokePaint.setColor(getResources().getColor(R.color.white));
+        strokePaint.setAlpha(50);
+        strokePaint.setStyle(Paint.Style.STROKE);
+        strokePaint.setStrokeWidth(2);
 
         haloColor = sharedPrefs.getInt("slideover_color", context.getResources().getColor(R.color.white));
         haloUnreadColor = sharedPrefs.getInt("slideover_unread_color", context.getResources().getColor(R.color.holo_red));
@@ -64,9 +67,14 @@ public class  ContactView extends ViewGroup {
         canvas.drawRect(315, 0, 415, 100, blackPaint);
         canvas.drawRect(420, 0, 520, 100, blackPaint);
 
-        Rect cancelRect = new Rect(width - 100 - 100, 0, width - 100, 100);
+        canvas.drawRect(0, 0, 100, 100, strokePaint);
+        canvas.drawRect(105, 0, 205, 100, strokePaint);
+        canvas.drawRect(210, 0, 310, 100, strokePaint);
+        canvas.drawRect(315, 0, 415, 100, strokePaint);
+        canvas.drawRect(420, 0, 520, 100, strokePaint);
 
-        canvas.drawBitmap(cancel, null, cancelRect, cancelPaint);
+        //Rect cancelRect = new Rect(width - 100 - 100, 0, width - 100, 100);
+        //canvas.drawBitmap(cancel, null, cancelRect, strokePaint);
     }
 
     @Override
