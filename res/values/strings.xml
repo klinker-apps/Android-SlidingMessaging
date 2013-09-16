@@ -775,5 +775,6 @@
     <string name="google_voice_tutorial_3">Messages sent with Google Voice will be marked with the same icon, next to the date and time of the message.</string>
     <string name="google_voice_tutorial_4">That\'s it!\n\nThe status of the conversation is automatically remembered so you don\'t have to choose Google Voice or SMS every time!</string>
     <string name="always_use_voice">Default to Google Voice</string>
+    <string name="favorites">Favorites</string>
 
 </resources>

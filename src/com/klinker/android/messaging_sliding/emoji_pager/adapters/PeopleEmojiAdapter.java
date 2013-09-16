@@ -1,25 +1,16 @@
-package com.klinker.android.messaging_sliding.emoji_pager.android;
+package com.klinker.android.messaging_sliding.emoji_pager.adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import com.klinker.android.messaging_donate.R;
 
-public class PeopleEmojiAdapter extends BaseAdapter {
+public class PeopleEmojiAdapter extends BaseEmojiAdapter {
 
-    private Context context;
-
-    public PeopleEmojiAdapter(Context context)
-    {
-        this.context = context;
+    public PeopleEmojiAdapter(Context context) {
+        super(context);
     }
 
     @Override
@@ -28,30 +19,20 @@ public class PeopleEmojiAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int arg0) {
-        return null;
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return 0;
-    }
-
-    @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        final ImageView textView;
+        final ImageView imageView;
         if (convertView == null) {
-            textView = new ImageView(context);
+            imageView = new ImageView(context);
             int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, context.getResources().getDisplayMetrics());
-            textView.setPadding(scale, (int)(scale*1.2), scale, (int)(scale * 1.2));
-            textView.setAdjustViewBounds(true);
+            imageView.setPadding(scale, (int)(scale*1.2), scale, (int)(scale * 1.2));
+            imageView.setAdjustViewBounds(true);
         } else {
-            textView = (ImageView) convertView;
+            imageView = (ImageView) convertView;
         }
 
-        textView.setImageResource(sIconIds[position]);
+        imageView.setImageResource(sIconIds[position]);
 
-        return textView;
+        return imageView;
     }
 
     public static final String[] mEmojiTexts = {
@@ -123,27 +104,4 @@ public class PeopleEmojiAdapter extends BaseAdapter {
             R.drawable.emoji_u261d, R.drawable.emoji_u1f446, R.drawable.emoji_u1f447, R.drawable.emoji_u1f448, R.drawable.emoji_u1f449,
             R.drawable.emoji_u1f44b, R.drawable.emoji_u1f44f, R.drawable.emoji_u1f450
     };
-
-    public Bitmap drawableToBitmap (Drawable drawable) {
-        if (drawable instanceof BitmapDrawable) {
-            return ((BitmapDrawable)drawable).getBitmap();
-        }
-
-        try
-        {
-            int width = drawable.getIntrinsicWidth();
-            width = width > 0 ? width : 1;
-            int height = drawable.getIntrinsicHeight();
-            height = height > 0 ? height : 1;
-
-            Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-            Canvas canvas = new Canvas(bitmap);
-            drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-            drawable.draw(canvas);
-            return bitmap;
-        } catch (Exception e)
-        {
-            return BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_picture);
-        }
-    }
 }

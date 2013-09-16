@@ -48,6 +48,7 @@ public class ChangeLogWizardModel extends AbstractWizardModel {
 
         String changeLog = "Version " + version + ":\n\n" +
                 "- Option to always use Google Voice\n" +
+                "- Favorites category on the emoji keyboard for quick access to your most used emojis\n" +
                 "- Bug fixes\n";
                 
         String themeEditor = "The theme editor now fully supports the Cards UI 2.0, making it a " +

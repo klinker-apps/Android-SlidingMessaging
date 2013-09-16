@@ -308,7 +308,7 @@ public class EmojiAdapter2 extends BaseAdapter implements StickyGridHeadersBaseA
             "\uD83C\uDDfb", "\uD83C\uDDfc", "\uD83C\uDDfd", "\uD83C\uDDfe", "\uD83C\uDDff",
     };
 
-    private static final int[] sIconIds = {
+    public static final int[] sIconIds = {
             // people
             R.drawable.emoji_u263a, R.drawable.emoji_u1f60a,  R.drawable.emoji_u1f600, R.drawable.emoji_u1f601, R.drawable.emoji_u1f602,
             R.drawable.emoji_u1f603, R.drawable.emoji_u1f604, R.drawable.emoji_u1f605, R.drawable.emoji_u1f606, R.drawable.emoji_u1f607,

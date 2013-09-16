@@ -64,6 +64,8 @@ import com.klinker.android.messaging_sliding.blacklist.BlacklistContact;
 import com.klinker.android.messaging_sliding.custom_dialogs.CustomListView;
 import com.klinker.android.messaging_sliding.custom_dialogs.ProgressAnimator;
 import com.klinker.android.messaging_sliding.emoji_pager.KeyboardFragment;
+import com.klinker.android.messaging_sliding.emoji_pager.sqlite.EmojiDataSource;
+import com.klinker.android.messaging_sliding.emoji_pager.sqlite.Recent;
 import com.klinker.android.messaging_sliding.emojis.EmojiAdapter;
 import com.klinker.android.messaging_sliding.emojis.EmojiAdapter2;
 import com.klinker.android.messaging_sliding.emojis.EmojiConverter;
@@ -273,10 +275,12 @@ public class MainActivity extends FragmentActivity {
 
             tabs.setIndicatorColor(settings.titleBarColor);
 
-            MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager());
-            vp.setAdapter(adapter);
+            emojiAdapter = new MyPagerAdapter(getSupportFragmentManager());
+            vp.setAdapter(emojiAdapter);
 
             tabs.setViewPager(vp);
+
+            vp.setCurrentItem(1);
 
             messageScreen = (LinearLayout) findViewById(R.id.messageScreen);
             messageScreen2 = (LinearLayout) findViewById(R.id.messageScreen2);
@@ -2068,7 +2072,10 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
-    public static void insertEmoji(String emoji)
+    private static EmojiDataSource dataSource;
+    public static ArrayList<Recent> recents;
+
+    public static void insertEmoji(String emoji, int icon)
     {
         EditText input;
 
@@ -2086,14 +2093,40 @@ public class MainActivity extends FragmentActivity {
         input.setText(android.text.TextUtils.concat(before, EmojiConverter2.getSmiledText(statCont, emoji), after));
         input.setEnabled(true);
         input.setSelection(beforeSelectionStart + (input.getText().toString().length() - beforeLength));
+
+        for (int i = 0; i < recents.size(); i++) {
+            if (recents.get(i).text.equals(emoji)) {
+                dataSource.updateRecent(icon + "");
+                recents.get(i).count++;
+                return;
+            }
+        }
+
+        Recent recent = dataSource.createRecent(emoji, icon + "");
+
+        if (recent != null) {
+            recents.add(recent);
+        }
+    }
+
+    private static MyPagerAdapter emojiAdapter;
+
+    public static void removeRecent(int position) {
+        dataSource.deleteRecent(recents.get(position).id);
+        recents.remove(position);
+        emojiAdapter.notifyDataSetChanged();
     }
 
     public class MyPagerAdapter extends FragmentPagerAdapter {
 
-        private final String[] TITLES = { getString(R.string.people), getString(R.string.things), getString(R.string.nature), getString(R.string.places), getString(R.string.symbols) };
+        private final String[] TITLES = { getString(R.string.favorites), getString(R.string.people), getString(R.string.things), getString(R.string.nature), getString(R.string.places), getString(R.string.symbols) };
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
+
+            dataSource = new EmojiDataSource(MainActivity.this);
+            dataSource.open();
+            recents = (ArrayList<Recent>) dataSource.getAllRecents();
         }
 
         @Override
