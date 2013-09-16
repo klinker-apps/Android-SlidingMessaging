@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+	<integer name="COLOR_BLACK">0xff000000</integer>
+	<integer name="COLOR_GREEN">0xff00ff00</integer>
+	<integer name="holo_blue">0xff33B5E5</integer>
+	<integer name="holo_orange">0xffFF8800</integer>
+	<integer name="holo_red">0xffCC0000</integer>
+	<integer name="holo_purple">0xffAA66CC</integer>
+	<integer name="holo_green">0xff99CC00</integer>
+</resources>
