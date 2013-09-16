@@ -60,6 +60,7 @@ public class AppSettings {
     public boolean hourFormat;
     public boolean contactPictures;
     public boolean tinyDate;
+    public boolean alwaysUseVoice;
     public String smilies;
     public String textSize;
     public String textSize2;
@@ -236,6 +237,7 @@ public class AppSettings {
         settings.animationSpeed = sharedPrefs.getInt("animation_speed", 300);
         settings.textOpacity = sharedPrefs.getInt("text_opacity", 100);
         settings.linkColor = sharedPrefs.getInt("hyper_link_color", context.getResources().getColor(R.color.holo_blue));
+        settings.alwaysUseVoice = sharedPrefs.getBoolean("always_use_voice", false);
 
         if (settings.runAs.equals("card+")) {
             settings.customTheme = true;

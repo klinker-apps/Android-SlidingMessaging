@@ -1209,6 +1209,10 @@ public class MainActivity extends FragmentActivity {
             }
         }
 
+        if (settings.alwaysUseVoice) {
+            threadsThroughVoice = threadIds;
+        }
+
         if (inboxNumber.size() > 0)
         {
             messageEntry.setVisibility(View.VISIBLE);
