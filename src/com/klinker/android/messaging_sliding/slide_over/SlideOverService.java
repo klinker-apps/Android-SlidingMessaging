@@ -12,6 +12,9 @@ import android.os.IBinder;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.view.*;
+import android.widget.ScrollView;
+import android.widget.TextView;
+
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead2;
 import com.klinker.android.messaging_sliding.templates.TemplateActivity;
@@ -186,7 +189,6 @@ public class SlideOverService extends Service {
         messageView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                // TODO - Check that this touch is in the upper part of the screen
                 float currentX = motionEvent.getX();
                 float currentY = motionEvent.getY();
 
@@ -211,7 +213,7 @@ public class SlideOverService extends Service {
             @Override
             public void run() {
                 try {
-                    messageWindow.removeViewImmediate(messageView);
+                    messageWindow.removeView(messageView);
                 } catch (Exception e) {
 
                 }
@@ -351,7 +353,7 @@ public class SlideOverService extends Service {
                     messageWindow.addView(messageView, messageWindowParams);
 
                 } catch (Exception e) {
-                    messageWindow.removeViewImmediate(messageView);
+                    messageWindow.removeView(messageView);
                     messageBoxHandler.removeCallbacks(messageBoxRunnable);
                 }
 

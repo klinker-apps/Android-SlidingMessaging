@@ -41,7 +41,7 @@ public class MessageView extends ViewGroup {
 
         haloPaint = new Paint();
         haloPaint.setColor(getResources().getColor(R.color.black));
-        haloPaint.setAlpha(70);
+        haloPaint.setAlpha(700);
 
         haloNewPaint = new Paint();
         haloNewPaint.setAlpha(haloNewAlpha);
