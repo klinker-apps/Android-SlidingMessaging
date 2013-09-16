@@ -286,7 +286,7 @@ public class TemplateActivity extends Activity {
             // parent.getItemAtPosition(pos)
             String selected = parent.getItemAtPosition(pos).toString();
 
-            if (selected.equals("AppSettings Links")) {
+            if (selected.equals("Settings Links")) {
                 mDrawerList.setAdapter(new DrawerArrayAdapter(activity,
                         new ArrayList<String>(Arrays.asList(linkItems))));
                 mDrawerList.invalidate();
