@@ -270,7 +270,7 @@ public class GetHelpSettingsActivity extends PreferenceActivity {
             // parent.getItemAtPosition(pos)
             String selected = parent.getItemAtPosition(pos).toString();
 
-            if (selected.equals("Settings Links")) {
+            if (selected.equals("AppSettings Links")) {
                 mDrawerList.setAdapter(new DrawerArrayAdapter(activity,
                         new ArrayList<String>(Arrays.asList(linkItems))));
                 mDrawerList.invalidate();

@@ -1,9 +1,11 @@
 Version 7.50
 
 Jake:
-    - settings object to hold all settings in static class
-    - look into downloadingmms and data getting stuck
-    - option to set voice as default always- voice button on the send message dialog
+    - use settings class in menu array adapter and message array adapter
+    - look into downloading mms and data getting stuck
+    - option to set voice as default always
+    - voice button on the send message dialog
+    - change message forwarding slightly
     - work on mms resizing
     - Make all textviews, edit text, etc. default to Roboto light
     - delayed sending for certain times

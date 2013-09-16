@@ -56,6 +56,7 @@ import com.google.android.mms.MMSPart;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.SendUtil;
+import com.klinker.android.messaging_donate.settings.AppSettings;
 import com.klinker.android.messaging_donate.settings.SettingsPagerActivity;
 import com.klinker.android.messaging_sliding.batch_delete.BatchDeleteAllActivity;
 import com.klinker.android.messaging_sliding.batch_delete.BatchDeleteConversationActivity;
@@ -171,8 +172,6 @@ public class MainActivity extends FragmentActivity {
     public String sendToThread = null;
     public String sendToMessage;
 
-    public SharedPreferences sharedPrefs;
-
     public EditText messageEntry;
     public static EditText messageEntry1;
     public static EditText messageEntry2;
@@ -227,80 +226,10 @@ public class MainActivity extends FragmentActivity {
 
     public int currentVoiceTutorial = 0;
 
-    // shared prefs values
-    public boolean lightActionBar;
-    public boolean limitConversationsAtStart;
-    public boolean customFont;
-    public boolean useTitleBar;
-    public boolean alwaysShowContactInfo;
-    public boolean titleContactImages;
-    public boolean titleCaps;
-    public boolean darkContactImage;
-    public boolean showOriginalTimestamp;
-    public boolean deliveryReports;
-    public boolean stripUnicode;
-    public boolean customTheme;
-    public boolean emojiType;
-    public boolean quickText;
-    public boolean overrideLang;
-    public boolean inAppNotifications;
-    public boolean titleTextColor;
-    public boolean enableDrafts;
-    public boolean customBackground;
-    public boolean messageDividerVisible;
-    public boolean slideMessages;
-    public boolean autoInsertDrafts;
-    public boolean limitAttachmentSize;
-    public boolean openContactMenu;
-    public boolean cacheConversations;
-    public boolean customBackground2;
-    public boolean limitMessages;
-    public boolean vibrate;
-    public boolean customVibratePattern;
-    public boolean led;
-    public boolean pageorMenu2;
-    public boolean keyboardType;
-    public boolean sendAsMMS;
-    public boolean sendWithReturn;
-    public boolean hideKeyboard;
-    public boolean messageSounds;
-    public boolean splitSMS;
-    public boolean splitCounter;
-    public boolean fullAppPopupClose;
-    public boolean sendWithStock;
-    public boolean emoji;
-    public boolean mobileOnly;
-    public boolean groupMessage;
-    public boolean emojiKeyboard;
-    public String  textSize;
-    public String runAs;
-    public String signature;
-    public String ringTone;
-    public String deliveryOptions;
-    public String customFontPath;
-    public String pinType;
-    public String securityOption;
-    public String customBackgroundLocation;
-    public String customBackground2Location;
-    public int ctConversationListBackground;
-    public int ctSentMessageBackground;
-    public int ctMessageListBackground;
-    public int ctConversationDividerColor;
-    public int ctSendButtonColor;
-    public int ctSendBarBackground;
-    public int emojiButtonColor;
-    public int draftTextColor;
-    public int titleBarTextColor;
-    public int titleBarColor;
-    public int mmsAfter;
-    public int ctNameTextColor;
-    public int numOfCachedConversations;
-    public int messageDividerColor;
-    public String voiceAccount;
-    public boolean voiceEnabled;
     public boolean haloPopup = false;
-    public boolean closeHaloAfterSend;
 
+    public static AppSettings settings;
+    protected SharedPreferences sharedPrefs;
 
     @SuppressWarnings("deprecation")
     @Override
@@ -315,159 +244,11 @@ public class MainActivity extends FragmentActivity {
 
         statCont = this;
 
+        settings = AppSettings.init(this);
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        if(sharedPrefs.getBoolean("override_speed", false))
-        {
-            lightActionBar = sharedPrefs.getBoolean("ct_light_action_bar", false);
-            limitConversationsAtStart = true;
-            customFont = false;
-            useTitleBar = true;
-            alwaysShowContactInfo = false;
-            runAs = sharedPrefs.getString("run_as", "sliding");
-            titleContactImages = false;
-            titleCaps = false;
-            darkContactImage = false;
-            showOriginalTimestamp = sharedPrefs.getBoolean("show_original_timestamp", false);
-            deliveryReports = false;
-            stripUnicode = false;
-            customTheme = sharedPrefs.getBoolean("custom_theme", false);
-            emojiType = sharedPrefs.getBoolean("emoji_type", true);
-            quickText = sharedPrefs.getBoolean("quick_text", false);
-            overrideLang = sharedPrefs.getBoolean("override_lang", false);
-            inAppNotifications = sharedPrefs.getBoolean("in_app_notifications", true);
-            titleTextColor = false;
-            enableDrafts = false;
-            customBackground = false;
-            messageDividerVisible = false;
-            slideMessages= sharedPrefs.getBoolean("slide_messages", false);
-            autoInsertDrafts = false;
-            limitAttachmentSize = sharedPrefs.getBoolean("limit_attachment_size", true);
-            openContactMenu = sharedPrefs.getBoolean("open_contact_menu", false);
-            cacheConversations= false;
-            customBackground2 = false;
-            limitMessages = true;
-            customVibratePattern = false;
-            vibrate = sharedPrefs.getBoolean("vibrate", true);
-            led = sharedPrefs.getBoolean("led", true);
-            keyboardType = sharedPrefs.getBoolean("keyboard_type", true);
-            pageorMenu2 = sharedPrefs.getString("page_or_menu2", "2").equals("1");
-            sendAsMMS = sharedPrefs.getBoolean("send_as_mms", false);
-            sendWithReturn = sharedPrefs.getBoolean("send_with_return", false);
-            hideKeyboard = sharedPrefs.getBoolean("hide_keyboard", false);
-            messageSounds = sharedPrefs.getBoolean("message_sounds", false);
-            splitSMS = sharedPrefs.getBoolean("split_sms", false);
-            splitCounter = sharedPrefs.getBoolean("split_counter", false);
-            fullAppPopupClose = sharedPrefs.getBoolean("full_app_popup_close", false);
-            sendWithStock = sharedPrefs.getBoolean("send_with_stock", false);
-            emoji = sharedPrefs.getBoolean("emoji", false);
-            mobileOnly = sharedPrefs.getBoolean("mobile_only", false);
-            groupMessage = sharedPrefs.getBoolean("group_message", false);
-            textSize = "14";
-            signature = sharedPrefs.getString("signature", "");
-            ringTone = sharedPrefs.getString("ringtone", "null");
-            deliveryOptions= sharedPrefs.getString("delivery_options", "2");
-            customFontPath = null;
-            pinType = sharedPrefs.getString("pin_conversation_list", "1");
-            securityOption = sharedPrefs.getString("security_option", "none");
-            customBackgroundLocation = "";
-            customBackgroundLocation = "";
-            ctConversationListBackground = sharedPrefs.getInt("ct_conversationListBackground", getResources().getColor(R.color.light_silver));
-            ctSentMessageBackground = sharedPrefs.getInt("ct_sentMessageBackground", getResources().getColor(R.color.white));
-            ctMessageListBackground = sharedPrefs.getInt("ct_messageListBackground", getResources().getColor(R.color.light_silver));
-            ctConversationDividerColor = sharedPrefs.getInt("ct_conversationDividerColor", getResources().getColor(R.color.white));
-            ctSendButtonColor = sharedPrefs.getInt("ct_sendButtonColor", getResources().getColor(R.color.black));
-            ctSendBarBackground = sharedPrefs.getInt("ct_sendbarBackground", getResources().getColor(R.color.white));
-            emojiButtonColor = sharedPrefs.getInt("ct_emojiButtonColor", getResources().getColor(R.color.emoji_button));
-            draftTextColor = sharedPrefs.getInt("ct_draftTextColor", ctSendButtonColor);
-            titleBarTextColor = sharedPrefs.getInt("ct_titleBarTextColor", getResources().getColor(R.color.white));
-            titleBarColor = sharedPrefs.getInt("ct_titleBarColor", getResources().getColor(R.color.holo_blue));
-            mmsAfter = sharedPrefs.getInt("mms_after", 4);
-            ctNameTextColor = sharedPrefs.getInt("ct_nameTextColor", getResources().getColor(R.color.black));
-            numOfCachedConversations = 5;
-            messageDividerColor = sharedPrefs.getInt("ct_messageDividerColor", getResources().getColor(R.color.light_silver));
-            emojiKeyboard = sharedPrefs.getBoolean("emoji_keyboard", true);
-            voiceAccount = sharedPrefs.getString("voice_account", null);
-            voiceEnabled = sharedPrefs.getBoolean("voice_enabled", false);
-            closeHaloAfterSend = sharedPrefs.getBoolean("close_halo_after_send", false);
-        } else
-        {
-            lightActionBar = sharedPrefs.getBoolean("ct_light_action_bar", false);
-            limitConversationsAtStart = sharedPrefs.getBoolean("limit_conversations_start", true);
-            customFont = sharedPrefs.getBoolean("custom_font", false);
-            useTitleBar = sharedPrefs.getBoolean("hide_title_bar", true);
-            alwaysShowContactInfo = sharedPrefs.getBoolean("always_show_contact_info", false);
-            runAs = sharedPrefs.getString("run_as", "sliding");
-            titleContactImages = sharedPrefs.getBoolean("title_contact_image", false);
-            titleCaps = sharedPrefs.getBoolean("title_caps", true);
-            darkContactImage = sharedPrefs.getBoolean("ct_darkContactImage", false);
-            showOriginalTimestamp = sharedPrefs.getBoolean("show_original_timestamp", false);
-            deliveryReports = sharedPrefs.getBoolean("delivery_reports", false);
-            stripUnicode = sharedPrefs.getBoolean("strip_unicode", false);
-            customTheme = sharedPrefs.getBoolean("custom_theme", false);
-            emojiType = sharedPrefs.getBoolean("emoji_type", true);
-            quickText = sharedPrefs.getBoolean("quick_text", false);
-            overrideLang = sharedPrefs.getBoolean("override_lang", false);
-            inAppNotifications = sharedPrefs.getBoolean("in_app_notifications", true);
-            titleTextColor = sharedPrefs.getBoolean("title_text_color", false);
-            enableDrafts = sharedPrefs.getBoolean("enable_drafts", true);
-            customBackground = sharedPrefs.getBoolean("custom_background", false);
-            messageDividerVisible = sharedPrefs.getBoolean("ct_messageDividerVisibility", true);
-            slideMessages= sharedPrefs.getBoolean("slide_messages", false);
-            autoInsertDrafts = sharedPrefs.getBoolean("auto_insert_draft", false);
-            limitAttachmentSize = sharedPrefs.getBoolean("limit_attachment_size", true);
-            openContactMenu = sharedPrefs.getBoolean("open_contact_menu", false);
-            cacheConversations= sharedPrefs.getBoolean("cache_conversations", false);
-            customBackground2 = sharedPrefs.getBoolean("custom_background2", false);
-            limitMessages = sharedPrefs.getBoolean("limit_messages", true);
-            customVibratePattern = sharedPrefs.getBoolean("custom_vibrate_pattern", false);
-            vibrate = sharedPrefs.getBoolean("vibrate", true);
-            led = sharedPrefs.getBoolean("led", true);
-            keyboardType = sharedPrefs.getBoolean("keyboard_type", true);
-            pageorMenu2 = sharedPrefs.getString("page_or_menu2", "2").equals("1");
-            sendAsMMS = sharedPrefs.getBoolean("send_as_mms", false);
-            sendWithReturn = sharedPrefs.getBoolean("send_with_return", false);
-            hideKeyboard = sharedPrefs.getBoolean("hide_keyboard", false);
-            messageSounds = sharedPrefs.getBoolean("message_sounds", false);
-            splitSMS = sharedPrefs.getBoolean("split_sms", false);
-            splitCounter = sharedPrefs.getBoolean("split_counter", false);
-            fullAppPopupClose = sharedPrefs.getBoolean("full_app_popup_close", false);
-            sendWithStock = sharedPrefs.getBoolean("send_with_stock", false);
-            emoji = sharedPrefs.getBoolean("emoji", false);
-            mobileOnly = sharedPrefs.getBoolean("mobile_only", false);
-            groupMessage = sharedPrefs.getBoolean("group_message", false);
-            textSize = sharedPrefs.getString("text_size", "14");
-            signature = sharedPrefs.getString("signature", "");
-            ringTone = sharedPrefs.getString("ringtone", "null");
-            deliveryOptions = sharedPrefs.getString("delivery_options", "2");
-            customFontPath = sharedPrefs.getString("custom_font_path", null);
-            pinType = sharedPrefs.getString("pin_conversation_list", "1");
-            securityOption = sharedPrefs.getString("security_option", "none");
-            customBackground2Location = sharedPrefs.getString("custom_background2_location", "");
-            customBackgroundLocation = sharedPrefs.getString("custom_background_location", "");
-            ctConversationListBackground = sharedPrefs.getInt("ct_conversationListBackground", getResources().getColor(R.color.light_silver));
-            ctSentMessageBackground = sharedPrefs.getInt("ct_sentMessageBackground", getResources().getColor(R.color.white));
-            ctMessageListBackground = sharedPrefs.getInt("ct_messageListBackground", getResources().getColor(R.color.light_silver));
-            ctConversationDividerColor = sharedPrefs.getInt("ct_conversationDividerColor", getResources().getColor(R.color.white));
-            ctSendButtonColor = sharedPrefs.getInt("ct_sendButtonColor", getResources().getColor(R.color.black));
-            ctSendBarBackground = sharedPrefs.getInt("ct_sendbarBackground", getResources().getColor(R.color.white));
-            emojiButtonColor = sharedPrefs.getInt("ct_emojiButtonColor", getResources().getColor(R.color.emoji_button));
-            draftTextColor = sharedPrefs.getInt("ct_draftTextColor", ctSendButtonColor);
-            titleBarTextColor = sharedPrefs.getInt("ct_titleBarTextColor", getResources().getColor(R.color.white));
-            titleBarColor = sharedPrefs.getInt("ct_titleBarColor", getResources().getColor(R.color.holo_blue));
-            mmsAfter = sharedPrefs.getInt("mms_after", 4);
-            ctNameTextColor = sharedPrefs.getInt("ct_nameTextColor", getResources().getColor(R.color.black));
-            numOfCachedConversations = sharedPrefs.getInt("num_cache_conversations", 5);
-            messageDividerColor = sharedPrefs.getInt("ct_messageDividerColor", getResources().getColor(R.color.light_silver));
-            emojiKeyboard = sharedPrefs.getBoolean("emoji_keyboard", true);
-            voiceAccount = sharedPrefs.getString("voice_account", null);
-            voiceEnabled = sharedPrefs.getBoolean("voice_enabled", false);
-            closeHaloAfterSend = sharedPrefs.getBoolean("close_halo_after_send", false);
-        }
-
-        if (voiceAccount != null) {
-            String voiceThreads = sharedPrefs.getString("voice_threads", "");
-            threadsThroughVoice = new ArrayList<String>(Arrays.asList(voiceThreads.split("-")));
+        if (settings.voiceAccount != null) {
+            threadsThroughVoice = new ArrayList<String>(Arrays.asList(settings.voiceThreads.split("-")));
 
             while (threadsThroughVoice.remove(""));
         }
@@ -475,7 +256,7 @@ public class MainActivity extends FragmentActivity {
         setUpWindow();
         setUpSendSettings();
 
-        if (emojiKeyboard && emoji)
+        if (settings.emojiKeyboard && settings.emoji)
         {
             vp = new ViewPager(this);
             tabs = new PagerSlidingTabStrip(this);
@@ -490,7 +271,7 @@ public class MainActivity extends FragmentActivity {
             SlidingTabParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, getResources().getDisplayMetrics()));
             viewPagerParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, keyboardHeight);
 
-            tabs.setIndicatorColor(titleBarColor);
+            tabs.setIndicatorColor(settings.titleBarColor);
 
             MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager());
             vp.setAdapter(adapter);
@@ -557,10 +338,10 @@ public class MainActivity extends FragmentActivity {
             }
         }
 
-        mPullToRefreshAttacher = new PullToRefreshAttacher(this, lightActionBar, true);
+        mPullToRefreshAttacher = new PullToRefreshAttacher(this, settings.lightActionBar, true);
         appMsg = AppMsg.makeText(this, "", AppMsg.STYLE_ALERT);
 
-        if (limitConversationsAtStart) {
+        if (settings.limitConversationsAtStart) {
             limitConversations = true;
         } else {
             limitConversations = false;
@@ -570,20 +351,20 @@ public class MainActivity extends FragmentActivity {
 
         setUpIntentStuff();
 
-        if (customFont)
+        if (settings.customFont)
         {
             try
             {
-                font = Typeface.createFromFile(customFontPath);
+                font = Typeface.createFromFile(settings.customFontPath);
             } catch (Exception e)
             {
-                Editor edit = sharedPrefs.edit();
+                Editor edit = PreferenceManager.getDefaultSharedPreferences(this).edit();
                 edit.putBoolean("custom_font", false);
                 edit.commit();
             }
         }
 
-        if (quickText)
+        if (settings.quickText)
         {
             Intent mIntent = new Intent(this, QuickTextService.class);
             this.startService(mIntent);
@@ -594,7 +375,7 @@ public class MainActivity extends FragmentActivity {
             mNotificationManager.cancel(3);
         }
 
-        if (overrideLang)
+        if (settings.overrideLang)
         {
             String languageToLoad  = "en";
             Locale locale = new Locale(languageToLoad);
@@ -693,7 +474,7 @@ public class MainActivity extends FragmentActivity {
 
                     }
 
-                    if (inAppNotifications)
+                    if (settings.inAppNotifications)
                     {
                         NotificationCompat.Builder mBuilder =
                                 new NotificationCompat.Builder(context)
@@ -709,9 +490,9 @@ public class MainActivity extends FragmentActivity {
 
                         if(!individualNotification(mBuilder, name, context))
                         {
-                            if (vibrate)
+                            if (settings.vibrate)
                             {
-                                if (!customVibratePattern)
+                                if (!settings.customVibratePattern)
                                 {
                                     String vibPat = sharedPrefs.getString("vibrate_pattern", "2short");
 
@@ -744,7 +525,7 @@ public class MainActivity extends FragmentActivity {
                                 {
                                     try
                                     {
-                                        String[] vibPat = sharedPrefs.getString("set_custom_vibrate_pattern", "0, 400, 100, 400").replace("L", "").split(", ");
+                                        String[] vibPat = settings.vibratePattern.replace("L", "").split(", ");
                                         long[] pattern = new long[vibPat.length];
 
                                         for (int i = 0; i < vibPat.length; i++)
@@ -760,7 +541,7 @@ public class MainActivity extends FragmentActivity {
                                 }
                             }
 
-                            if (led)
+                            if (settings.led)
                             {
                                 String ledColor = sharedPrefs.getString("led_color", "white");
                                 int ledOn = sharedPrefs.getInt("led_on_time", 1000);
@@ -792,7 +573,7 @@ public class MainActivity extends FragmentActivity {
 
                             try
                             {
-                                mBuilder.setSound(Uri.parse(ringTone));
+                                mBuilder.setSound(Uri.parse(settings.ringTone));
                             } catch(Exception e)
                             {
                                 mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
@@ -855,7 +636,7 @@ public class MainActivity extends FragmentActivity {
                     }
 
                     if (animationReceived == 2) {
-                        if (inAppNotifications) {
+                        if (settings.inAppNotifications) {
                             boolean flag = false;
                             for (int i = 0; i < appMsgConversations; i++) {
                                 if (address.replace(" ", "").replace("(", "").replace(")", "").replace("-", "").endsWith(findContactNumber(inboxNumber.get(i), context).replace(" ", "").replace("(", "").replace(")", "").replace("-", ""))) {
@@ -889,7 +670,7 @@ public class MainActivity extends FragmentActivity {
                         }
                     }, 500);
 
-                    if (!useTitleBar || alwaysShowContactInfo)
+                    if (!settings.useTitleBar || settings.alwaysShowContactInfo)
                     {
                         final ActionBar ab = getActionBar();
 
@@ -933,7 +714,7 @@ public class MainActivity extends FragmentActivity {
                         }
                     }
 
-                    if (titleContactImages)
+                    if (settings.titleContactImages)
                     {
                         final ActionBar ab = getActionBar();
 
@@ -1001,7 +782,7 @@ public class MainActivity extends FragmentActivity {
                 }
 
                 if (animationReceived == 2) {
-                    if (inAppNotifications) {
+                    if (settings.inAppNotifications) {
                         boolean flag = false;
                         for (int i = 0; i < appMsgConversations; i++) {
                             try {
@@ -1063,7 +844,7 @@ public class MainActivity extends FragmentActivity {
                     @Override
                     public void onClick(DialogInterface dialog,
                                         int which) {
-                        sharedPrefs.edit().putBoolean("show_advanced_settings", true).commit();
+                        PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("show_advanced_settings", true).commit();
                         Intent intent = new Intent(context, SettingsPagerActivity.class);
                         intent.putExtra("mms", true);
                         context.startActivity(intent);
@@ -1147,13 +928,13 @@ public class MainActivity extends FragmentActivity {
             ActionBar ab = getActionBar();
             ab.setDisplayHomeAsUpEnabled(true);
 
-            if (!lightActionBar)
+            if (!settings.lightActionBar)
             {
                 ab.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.black)));
 
-                if (ctConversationListBackground == getResources().getColor(R.color.pitch_black))
+                if (settings.ctConversationListBackground == getResources().getColor(R.color.pitch_black))
                 {
-                    if (!useTitleBar)
+                    if (!settings.useTitleBar)
                     {
                         ab.setBackgroundDrawable(getResources().getDrawable(R.drawable.pitch_black_action_bar_blue));
                     } else
@@ -1185,15 +966,15 @@ public class MainActivity extends FragmentActivity {
     }
 
     public void setUpWindow() {
-        if (lightActionBar)
+        if (settings.lightActionBar)
         {
             setTheme(R.style.HangoutsTheme);
         }
 
-        if (!pinType.equals("1")) {
-            if (pinType.equals("2")) {
+        if (!settings.pinType.equals("1")) {
+            if (settings.pinType.equals("2")) {
                 setContentView(R.layout.activity_main_phone);
-            } else if (pinType.equals("3")) {
+            } else if (settings.pinType.equals("3")) {
                 if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
                     setContentView(R.layout.activity_main_phablet2);
                 } else {
@@ -1278,30 +1059,30 @@ public class MainActivity extends FragmentActivity {
     public void setUpTitleBar() {
         title = (PagerTitleStrip) findViewById(R.id.pager_title_strip);
 
-        if (pageorMenu2)
+        if (settings.pageorMenu2)
         {
             title.setTextSpacing(5000);
         }
 
-        if (!customTheme)
+        if (!settings.customTheme)
         {
-            if (titleTextColor)
+            if (settings.titleTextColor)
             {
                 title.setTextColor(getResources().getColor(R.color.black));
             }
         } else
         {
-            title.setTextColor(titleBarTextColor);
+            title.setTextColor(settings.titleBarTextColor);
         }
 
-        if (!titleCaps)
+        if (!settings.titleCaps)
         {
             title.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
         }
 
-        if (useTitleBar)
+        if (settings.useTitleBar)
         {
-            if (!customTheme)
+            if (!settings.customTheme)
             {
                 String titleColor = sharedPrefs.getString("title_color", "blue");
 
@@ -1332,7 +1113,7 @@ public class MainActivity extends FragmentActivity {
                 }
             } else
             {
-                title.setBackgroundColor(titleBarColor);
+                title.setBackgroundColor(settings.titleBarColor);
             }
         } else
         {
@@ -1434,7 +1215,7 @@ public class MainActivity extends FragmentActivity {
             sendButton.setVisibility(View.VISIBLE);
             v.setVisibility(View.VISIBLE);
 
-            if (useTitleBar)
+            if (settings.useTitleBar)
             {
                 title.setVisibility(View.VISIBLE);
             }
@@ -1447,7 +1228,7 @@ public class MainActivity extends FragmentActivity {
             emojiButton.setVisibility(View.GONE);
             voiceButton.setVisibility(View.GONE);
 
-            getWindow().getDecorView().setBackgroundColor(ctMessageListBackground);
+            getWindow().getDecorView().setBackgroundColor(settings.ctMessageListBackground);
         }
 
         if (refreshMyContact)
@@ -1719,7 +1500,7 @@ public class MainActivity extends FragmentActivity {
             // no action bar, dialog theme
         }
 
-        if (!keyboardType)
+        if (!settings.keyboardType)
         {
             messageEntry.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
             messageEntry.setImeOptions(EditorInfo.IME_ACTION_NONE);
@@ -1727,7 +1508,7 @@ public class MainActivity extends FragmentActivity {
 
         if (deviceType.equals("phablet") || deviceType.equals("tablet"))
         {
-            if (!keyboardType)
+            if (!settings.keyboardType)
             {
                 messageEntry.setImeOptions(EditorInfo.IME_ACTION_NONE | EditorInfo.IME_FLAG_NO_EXTRACT_UI);
             } else
@@ -1757,9 +1538,9 @@ public class MainActivity extends FragmentActivity {
                 }
                 int length = Integer.parseInt(String.valueOf(s.length()));
 
-                if (!signature.equals(""))
+                if (!settings.signature.equals(""))
                 {
-                    length += ("\n" + signature).length();
+                    length += ("\n" + settings.signature).length();
                 }
 
                 String patternStr = "[^" + MainActivity.GSM_CHARACTERS_REGEX + "]";
@@ -1768,7 +1549,7 @@ public class MainActivity extends FragmentActivity {
 
                 int size = 160;
 
-                if (matcher.find() && !stripUnicode)
+                if (matcher.find() && !settings.stripUnicode)
                 {
                     size = 70;
                 }
@@ -1803,12 +1584,12 @@ public class MainActivity extends FragmentActivity {
                     mTextView.setVisibility(View.GONE);
                 }
 
-                if (sendAsMMS && pages > mmsAfter)
+                if (settings.sendAsMMS && pages > settings.mmsAfter)
                 {
                     mTextView.setVisibility(View.GONE);
                 }
 
-                if (sendWithReturn)
+                if (settings.sendWithReturn)
                 {
                     if (messageEntry.getText().toString().endsWith("\n"))
                     {
@@ -1821,7 +1602,7 @@ public class MainActivity extends FragmentActivity {
             }
 
             public void afterTextChanged(Editable s) {
-                if (enableDrafts) {
+                if (settings.enableDrafts) {
                     if (newDraft.equals(""))
                     {
                         newDraft = threadIds.get(mViewPager.getCurrentItem());
@@ -1870,7 +1651,7 @@ public class MainActivity extends FragmentActivity {
                     messageEntry.setText("");
                     mTextView.setVisibility(View.GONE);
 
-                    if (hideKeyboard)
+                    if (settings.hideKeyboard)
                     {
                         new Thread(new Runnable() {
 
@@ -1932,7 +1713,7 @@ public class MainActivity extends FragmentActivity {
                                 message.setImages(images);
                             }
 
-                            if (!sendWithStock) {
+                            if (!settings.sendWithStock) {
                                 if (sendTransaction.checkMMS(message)) {
                                     ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
                                         @Override
@@ -1978,7 +1759,7 @@ public class MainActivity extends FragmentActivity {
 
                                 @Override
                                 public void run() {
-                                    if (enableDrafts) {
+                                    if (settings.enableDrafts) {
                                         if (fromDraft)
                                         {
                                             try {
@@ -2005,7 +1786,7 @@ public class MainActivity extends FragmentActivity {
                                     refreshViewPager4(recipientId, StripAccents.stripAccents(message.getText()), Calendar.getInstance().getTimeInMillis() + "");
                                     mViewPager.setCurrentItem(0);
 
-                                    if (isPopup && fullAppPopupClose && !sendTransaction.checkMMS(message)) {
+                                    if (isPopup && settings.fullAppPopupClose && !sendTransaction.checkMMS(message)) {
                                         Intent intent = new Intent("com.klinker.android.messaging.CLOSE_POPUP");
                                         sendBroadcast(intent);
                                     }
@@ -2016,7 +1797,7 @@ public class MainActivity extends FragmentActivity {
                     }).start();
                 }
 
-                if (haloPopup && closeHaloAfterSend) {
+                if (haloPopup && settings.closeHaloAfterSend) {
                     finish();
                 }
             }
@@ -2024,12 +1805,12 @@ public class MainActivity extends FragmentActivity {
         });
 
         try {
-            messageEntry.setTextSize(Integer.parseInt(textSize.substring(0,2)));
+            messageEntry.setTextSize(Integer.parseInt(settings.textSize.substring(0,2)));
         } catch (Exception e) {
-            messageEntry.setTextSize(Integer.parseInt(textSize.substring(0,1)));
+            messageEntry.setTextSize(Integer.parseInt(settings.textSize.substring(0,1)));
         }
 
-        if (!emoji)
+        if (!settings.emoji)
         {
             emojiButton.setVisibility(View.GONE);
         } else
@@ -2041,7 +1822,7 @@ public class MainActivity extends FragmentActivity {
 
                     final String menuOption = sharedPrefs.getString("page_or_menu2", "2");
 
-                    if(emojiKeyboard && emojiType)
+                    if(settings.emojiKeyboard && settings.emojiType)
                     {
                         if (!emojiOpen)
                         {
@@ -2104,7 +1885,7 @@ public class MainActivity extends FragmentActivity {
                         final StickyGridHeadersGridView emojiGrid = (StickyGridHeadersGridView) frame.findViewById(R.id.emojiGrid);
                         Button okButton = (Button) frame.findViewById(R.id.emoji_ok);
 
-                        if (emojiType)
+                        if (settings.emojiType)
                         {
                             emojiGrid.setAdapter(new EmojiAdapter2(context));
                             emojiGrid.setOnItemClickListener(new OnItemClickListener() {
@@ -2181,7 +1962,7 @@ public class MainActivity extends FragmentActivity {
 
                             @Override
                             public void onClick(View v) {
-                                if (emojiType)
+                                if (settings.emojiType)
                                 {
                                     messageEntry.setText(EmojiConverter2.getSmiledText(context, messageEntry.getText().toString() + editText.getText().toString()));
                                     messageEntry.setSelection(messageEntry.getText().length());
@@ -2201,8 +1982,8 @@ public class MainActivity extends FragmentActivity {
             });
         }
 
-        if (voiceAccount != null) {
-            if (voiceEnabled) {
+        if (settings.voiceAccount != null) {
+            if (settings.voiceEnabled) {
                 voiceButton.setImageResource(R.drawable.voice_enabled);
             } else {
                 voiceButton.setImageResource(R.drawable.voice_disabled);
@@ -2211,8 +1992,8 @@ public class MainActivity extends FragmentActivity {
             voiceButton.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (voiceEnabled) {
-                        voiceEnabled = false;
+                    if (settings.voiceEnabled) {
+                        settings.voiceEnabled = false;
                         sharedPrefs.edit().putBoolean("voice_enabled", false).commit();
                         voiceButton2.setImageResource(R.drawable.voice_disabled);
                         voiceButton.setImageResource(R.drawable.voice_disabled);
@@ -2224,7 +2005,7 @@ public class MainActivity extends FragmentActivity {
                             Log.v("threads_through_voice", "removed: " + res);
                         }
                     } else {
-                        voiceEnabled = true;
+                        settings.voiceEnabled = true;
                         sharedPrefs.edit().putBoolean("voice_enabled", true).commit();
                         voiceButton2.setImageResource(R.drawable.voice_enabled);
                         voiceButton.setImageResource(R.drawable.voice_enabled);
@@ -2248,37 +2029,37 @@ public class MainActivity extends FragmentActivity {
             sendButton.setImageResource(R.drawable.ic_attach);
         }
 
-        mTextView.setTextColor(ctSendButtonColor);
-        v.setBackgroundColor(ctSendBarBackground);
+        mTextView.setTextColor(settings.ctSendButtonColor);
+        v.setBackgroundColor(settings.ctSendBarBackground);
         sendButton.setBackgroundResource(R.drawable.pitch_black_send_button);
-        sendButton.setColorFilter(ctSendButtonColor);
+        sendButton.setColorFilter(settings.ctSendButtonColor);
         emojiButton.setBackgroundResource(R.drawable.pitch_black_send_button);
-        emojiButton.setColorFilter(emojiButtonColor);
-        voiceButton.setColorFilter(emojiButtonColor);
-        messageEntry.setTextColor(draftTextColor);
-        imageAttachBackground.setBackgroundColor(ctMessageListBackground);
+        emojiButton.setColorFilter(settings.emojiButtonColor);
+        voiceButton.setColorFilter(settings.emojiButtonColor);
+        messageEntry.setTextColor(settings.draftTextColor);
+        imageAttachBackground.setBackgroundColor(settings.ctMessageListBackground);
         Drawable attachBack = getResources().getDrawable(R.drawable.attachment_editor_bg);
-        attachBack.setColorFilter(ctSentMessageBackground, Mode.MULTIPLY);
+        attachBack.setColorFilter(settings.ctSentMessageBackground, Mode.MULTIPLY);
         imageAttach.setBackgroundDrawable(attachBack);
         imageAttachBackground.setVisibility(View.GONE);
         imageAttach.setVisibility(false);
 
         Drawable mmsProgressDrawable = getResources().getDrawable(R.drawable.progress_horizontal_holo_light);
-        mmsProgressDrawable.setColorFilter(ctSendButtonColor, Mode.MULTIPLY);
+        mmsProgressDrawable.setColorFilter(settings.ctSendButtonColor, Mode.MULTIPLY);
         mmsProgress.setProgressDrawable(mmsProgressDrawable);
 
-        if (customFont)
+        if (settings.customFont)
         {
             mTextView.setTypeface(font);
             messageEntry.setTypeface(font);
         }
 
-        if (runAs.equals("hangout") || runAs.equals("card2") || runAs.equals("card+"))
+        if (settings.runAs.equals("hangout") || settings.runAs.equals("card2") || settings.runAs.equals("card+"))
         {
             emojiButton.setImageResource(R.drawable.ic_emoji_dark);
         }
 
-        if (runAs.equals("sliding")) {
+        if (settings.runAs.equals("sliding")) {
             voiceButton.setAlpha(255);
         }
     }
@@ -2325,7 +2106,7 @@ public class MainActivity extends FragmentActivity {
         {
             ListFragment newFragment = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.menuList);
             final ListView menuLayout = newFragment.getListView();
-            if (limitConversationsAtStart && inboxNumber.size() > 10) {
+            if (settings.limitConversationsAtStart && inboxNumber.size() > 10) {
                 final Button footer = new Button(this);
                 footer.setOnClickListener(new OnClickListener() {
                     @Override
@@ -2338,19 +2119,19 @@ public class MainActivity extends FragmentActivity {
                 footer.setText(getResources().getString(R.string.load_all));
                 footer.setTypeface(font);
                 footer.setBackgroundResource(android.R.color.transparent);
-                footer.setTextColor(ctNameTextColor);
+                footer.setTextColor(settings.ctNameTextColor);
                 menuLayout.addFooterView(footer);
             }
             newFragment.setListAdapter(new MenuArrayAdapter(this, inboxBody, inboxDate, inboxNumber, MainActivity.mViewPager, threadIds, group, msgCount, msgRead));
 
-            if (customBackground)
+            if (settings.customBackground)
             {
                 try
                 {
                     BitmapFactory.Options options = new BitmapFactory.Options();
 
                     options.inSampleSize = 2;
-                    Bitmap myBitmap = BitmapFactory.decodeFile(Uri.parse(customBackgroundLocation).getPath(),options);
+                    Bitmap myBitmap = BitmapFactory.decodeFile(Uri.parse(settings.customBackgroundLocation).getPath(),options);
                     this.getResources();
                     Drawable d = new BitmapDrawable(Resources.getSystem(),myBitmap);
                     newFragment.getView().setBackgroundDrawable(d);
@@ -2360,12 +2141,12 @@ public class MainActivity extends FragmentActivity {
                 }
             } else
             {
-                newFragment.getView().setBackgroundColor(ctConversationListBackground);
+                newFragment.getView().setBackgroundColor(settings.ctConversationListBackground);
             }
 
-            menuLayout.setDivider(new ColorDrawable(ctConversationDividerColor));
+            menuLayout.setDivider(new ColorDrawable(settings.ctConversationDividerColor));
 
-            if (messageDividerVisible)
+            if (settings.messageDividerVisible)
             {
                 menuLayout.setDividerHeight(1);
             } else
@@ -2374,7 +2155,7 @@ public class MainActivity extends FragmentActivity {
             }
         } else
         {
-            if (limitConversationsAtStart && inboxNumber.size() > 10) {
+            if (settings.limitConversationsAtStart && inboxNumber.size() > 10) {
                 final Button footer = new Button(this);
                 footer.setOnClickListener(new OnClickListener() {
                     @Override
@@ -2387,18 +2168,18 @@ public class MainActivity extends FragmentActivity {
                 footer.setText(getResources().getString(R.string.load_all));
                 footer.setTypeface(font);
                 footer.setBackgroundResource(android.R.color.transparent);
-                footer.setTextColor(ctNameTextColor);
+                footer.setTextColor(settings.ctNameTextColor);
                 menuLayout.addFooterView(footer);
             }
 
-            if (customBackground)
+            if (settings.customBackground)
             {
                 try
                 {
                     BitmapFactory.Options options = new BitmapFactory.Options();
 
                     options.inSampleSize = 2;
-                    Bitmap myBitmap = BitmapFactory.decodeFile(Uri.parse(customBackgroundLocation).getPath(),options);
+                    Bitmap myBitmap = BitmapFactory.decodeFile(Uri.parse(settings.customBackgroundLocation).getPath(),options);
                     this.getResources();
                     Drawable d = new BitmapDrawable(Resources.getSystem(),myBitmap);
                     menuLayout.setBackgroundDrawable(d);
@@ -2408,7 +2189,7 @@ public class MainActivity extends FragmentActivity {
                 }
             } else
             {
-                menuLayout.setBackgroundColor(ctConversationListBackground);
+                menuLayout.setBackgroundColor(settings.ctConversationListBackground);
             }
 
             final Activity activity = this;
@@ -2418,9 +2199,9 @@ public class MainActivity extends FragmentActivity {
                 public void run() {
                     menuAdapter = new MenuArrayAdapter(activity, inboxBody, inboxDate, inboxNumber, mViewPager, threadIds, group, msgCount, msgRead);
                     menuLayout.setAdapter(menuAdapter);
-                    menuLayout.setDivider(new ColorDrawable(ctConversationDividerColor));
+                    menuLayout.setDivider(new ColorDrawable(settings.ctConversationDividerColor));
 
-                    if (messageDividerVisible)
+                    if (settings.messageDividerVisible)
                     {
                         menuLayout.setDividerHeight(1);
                     } else
@@ -2454,9 +2235,9 @@ public class MainActivity extends FragmentActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 int length = Integer.parseInt(String.valueOf(s.length()));
 
-                if (!signature.equals(""))
+                if (!settings.signature.equals(""))
                 {
-                    length += ("\n" + signature).length();
+                    length += ("\n" + settings.signature).length();
                 }
 
                 String patternStr = "[^" + MainActivity.GSM_CHARACTERS_REGEX + "]";
@@ -2465,7 +2246,7 @@ public class MainActivity extends FragmentActivity {
 
                 int size = 160;
 
-                if (matcher.find() && !stripUnicode)
+                if (matcher.find() && !settings.stripUnicode)
                 {
                     size = 70;
                 }
@@ -2500,12 +2281,12 @@ public class MainActivity extends FragmentActivity {
                     mTextView.setVisibility(View.GONE);
                 }
 
-                if (sendAsMMS && pages > mmsAfter)
+                if (settings.sendAsMMS && pages > settings.mmsAfter)
                 {
                     mTextView.setVisibility(View.GONE);
                 }
 
-                if (sendWithReturn)
+                if (settings.sendWithReturn)
                 {
                     if (mEditText.getText().toString().endsWith("\n"))
                     {
@@ -2521,7 +2302,7 @@ public class MainActivity extends FragmentActivity {
             }
         });
 
-        if (!keyboardType)
+        if (!settings.keyboardType)
         {
             mEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
             mEditText.setImeOptions(EditorInfo.IME_ACTION_NONE);
@@ -2531,7 +2312,7 @@ public class MainActivity extends FragmentActivity {
         final EditText contact = (EditText) newMessageView.findViewById(R.id.contactEntry);
 
         final ListPopupWindow lpw = new ListPopupWindow(this);
-        lpw.setBackgroundDrawable(new ColorDrawable(ctConversationListBackground));
+        lpw.setBackgroundDrawable(new ColorDrawable(settings.ctConversationListBackground));
 
         lpw.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
@@ -2614,7 +2395,7 @@ public class MainActivity extends FragmentActivity {
                         int type = people.getInt(people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
                         String customLabel = people.getString(people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.LABEL));
 
-                        if (mobileOnly)
+                        if (settings.mobileOnly)
                         {
                             if (type == 2)
                             {
@@ -2676,7 +2457,7 @@ public class MainActivity extends FragmentActivity {
                                 String customLabel = people.getString(people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.LABEL));
 
                                 try {
-                                    if (mobileOnly)
+                                    if (settings.mobileOnly)
                                     {
                                         if (type == 2)
                                         {
@@ -2856,7 +2637,7 @@ public class MainActivity extends FragmentActivity {
                     final String text = mEditText.getText().toString();
                     mEditText.setText("");
 
-                    if (hideKeyboard)
+                    if (settings.hideKeyboard)
                     {
                         new Thread(new Runnable() {
 
@@ -2918,7 +2699,7 @@ public class MainActivity extends FragmentActivity {
                                 message.setImages(images);
                             }
 
-                            if (!sendWithStock) {
+                            if (!settings.sendWithStock) {
                                 if (sendTransaction.checkMMS(message)) {
                                     ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
                                         @Override
@@ -2975,7 +2756,7 @@ public class MainActivity extends FragmentActivity {
                     }).start();
                 }
 
-                if (haloPopup && closeHaloAfterSend)
+                if (haloPopup && settings.closeHaloAfterSend)
                     finish();
             }
 
@@ -2984,7 +2765,7 @@ public class MainActivity extends FragmentActivity {
         ImageButton emojiButton = (ImageButton) newMessageView.findViewById(R.id.display_emoji);
         voiceButton2 = (ImageButton) newMessageView.findViewById(R.id.voiceButton);
 
-        if (!emoji)
+        if (!settings.emoji)
         {
             emojiButton.setVisibility(View.GONE);
         } else
@@ -2996,7 +2777,7 @@ public class MainActivity extends FragmentActivity {
 
                     final String menuOption = sharedPrefs.getString("page_or_menu2", "2");
 
-                    if(emojiKeyboard && emojiType)
+                    if(settings.emojiKeyboard && settings.emojiType)
                     {
                         if (!emoji2Open)
                         {
@@ -3075,7 +2856,7 @@ public class MainActivity extends FragmentActivity {
                         final GridView emojiGrid = (GridView) frame.findViewById(R.id.emojiGrid);
                         Button okButton = (Button) frame.findViewById(R.id.emoji_ok);
 
-                        if (emojiType)
+                        if (settings.emojiType)
                         {
                             emojiGrid.setAdapter(new EmojiAdapter2(context));
                             emojiGrid.setOnItemClickListener(new OnItemClickListener() {
@@ -3152,7 +2933,7 @@ public class MainActivity extends FragmentActivity {
 
                             @Override
                             public void onClick(View v) {
-                                if (emojiType)
+                                if (settings.emojiType)
                                 {
                                     mEditText.setText(EmojiConverter2.getSmiledText(context, mEditText.getText().toString() + editText.getText().toString()));
                                     mEditText.setSelection(mEditText.getText().length());
@@ -3172,8 +2953,8 @@ public class MainActivity extends FragmentActivity {
             });
         }
 
-        if (voiceAccount != null) {
-            if (voiceEnabled) {
+        if (settings.voiceAccount != null) {
+            if (settings.voiceEnabled) {
                 voiceButton2.setImageResource(R.drawable.voice_enabled);
             } else {
                 voiceButton2.setImageResource(R.drawable.voice_disabled);
@@ -3182,15 +2963,15 @@ public class MainActivity extends FragmentActivity {
             voiceButton2.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (voiceEnabled) {
-                        voiceEnabled = false;
+                    if (settings.voiceEnabled) {
+                        settings.voiceEnabled = false;
                         sharedPrefs.edit().putBoolean("voice_enabled", false).commit();
                         voiceButton2.setImageResource(R.drawable.voice_disabled);
                         voiceButton.setImageResource(R.drawable.voice_disabled);
                         sendSettings.setPreferVoice(false);
                         sendTransaction.settings = sendSettings;
                     } else {
-                        voiceEnabled = true;
+                        settings.voiceEnabled = true;
                         sharedPrefs.edit().putBoolean("voice_enabled", true).commit();
                         voiceButton2.setImageResource(R.drawable.voice_enabled);
                         voiceButton.setImageResource(R.drawable.voice_enabled);
@@ -3206,59 +2987,59 @@ public class MainActivity extends FragmentActivity {
         ListView searchView = (ListView) newMessageView.findViewById(R.id.contactSearch);
 
         try {
-            mEditText.setTextSize(Integer.parseInt(textSize.substring(0, 2)));
+            mEditText.setTextSize(Integer.parseInt(settings.textSize.substring(0, 2)));
         } catch (Exception e) {
-            mEditText.setTextSize(Integer.parseInt(textSize.substring(0, 1)));
+            mEditText.setTextSize(Integer.parseInt(settings.textSize.substring(0, 1)));
         }
 
         View v1 = newMessageView.findViewById(R.id.view1);
         View v2 = newMessageView.findViewById(R.id.sentBackground);
 
-        mTextView.setTextColor(ctSendButtonColor);
-        v1.setBackgroundColor(ctSendBarBackground);
-        v2.setBackgroundColor(ctSendBarBackground);
+        mTextView.setTextColor(settings.ctSendButtonColor);
+        v1.setBackgroundColor(settings.ctSendBarBackground);
+        v2.setBackgroundColor(settings.ctSendBarBackground);
         sendButton.setBackgroundResource(R.drawable.pitch_black_send_button);
         sendButton.setImageResource(R.drawable.ic_action_send_white);
-        sendButton.setColorFilter(ctSendButtonColor);
-        searchView.setBackgroundColor(ctConversationListBackground);
+        sendButton.setColorFilter(settings.ctSendButtonColor);
+        searchView.setBackgroundColor(settings.ctConversationListBackground);
         emojiButton.setBackgroundResource(R.drawable.pitch_black_send_button);
-        emojiButton.setColorFilter(emojiButtonColor);
-        voiceButton2.setColorFilter(emojiButtonColor);
-        mEditText.setTextColor(draftTextColor);
-        contact.setTextColor(draftTextColor);
-        contactLister.setColorFilter(ctSendButtonColor);
+        emojiButton.setColorFilter(settings.emojiButtonColor);
+        voiceButton2.setColorFilter(settings.emojiButtonColor);
+        mEditText.setTextColor(settings.draftTextColor);
+        contact.setTextColor(settings.draftTextColor);
+        contactLister.setColorFilter(settings.ctSendButtonColor);
 
-        imageAttachBackground2.setBackgroundColor(ctMessageListBackground);
+        imageAttachBackground2.setBackgroundColor(settings.ctMessageListBackground);
         Drawable attachBack = getResources().getDrawable(R.drawable.attachment_editor_bg);
-        attachBack.setColorFilter(ctSentMessageBackground, Mode.MULTIPLY);
+        attachBack.setColorFilter(settings.ctSentMessageBackground, Mode.MULTIPLY);
         imageAttach2.setBackgroundDrawable(attachBack);
         imageAttachBackground2.setVisibility(View.GONE);
         imageAttach2.setVisibility(false);
 
-        if (customFont)
+        if (settings.customFont)
         {
             mTextView.setTypeface(font);
             mEditText.setTypeface(font);
             contact.setTypeface(font);
         }
 
-        if (runAs.equals("hangout") || runAs.equals("card2") || runAs.equals("card+"))
+        if (settings.runAs.equals("hangout") || settings.runAs.equals("card2") || settings.runAs.equals("card+"))
         {
             emojiButton.setImageResource(R.drawable.ic_emoji_dark);
         }
 
-        if (runAs.equals("sliding")) {
+        if (settings.runAs.equals("sliding")) {
             voiceButton2.setAlpha(255);
         }
 
-        if (customBackground)
+        if (settings.customBackground)
         {
             try
             {
                 BitmapFactory.Options options = new BitmapFactory.Options();
 
                 options.inSampleSize = 2;
-                Bitmap myBitmap = BitmapFactory.decodeFile(Uri.parse(customBackgroundLocation).getPath(),options);
+                Bitmap myBitmap = BitmapFactory.decodeFile(Uri.parse(settings.customBackgroundLocation).getPath(),options);
                 this.getResources();
                 Drawable d = new BitmapDrawable(Resources.getSystem(),myBitmap);
                 searchView.setBackgroundDrawable(d);
@@ -3268,7 +3049,7 @@ public class MainActivity extends FragmentActivity {
                     BitmapFactory.Options options = new BitmapFactory.Options();
 
                     options.inSampleSize = 4;
-                    Bitmap myBitmap = BitmapFactory.decodeFile(Uri.parse(customBackgroundLocation).getPath(),options);
+                    Bitmap myBitmap = BitmapFactory.decodeFile(Uri.parse(settings.customBackgroundLocation).getPath(),options);
                     this.getResources();
                     Drawable d = new BitmapDrawable(Resources.getSystem(),myBitmap);
                     searchView.setBackgroundDrawable(d);
@@ -3293,7 +3074,7 @@ public class MainActivity extends FragmentActivity {
 
         menu.setShadowWidthRes(R.dimen.shadow_width);
 
-        if (!slideMessages)
+        if (!settings.slideMessages)
         {
             if (deviceType.equals("phone") || deviceType.equals("phablet2"))
             {
@@ -3318,7 +3099,7 @@ public class MainActivity extends FragmentActivity {
         menu.setFadeDegree(0.35f);
         menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
 
-        menu.getContent().setBackgroundDrawable(new ColorDrawable(ctMessageListBackground));
+        menu.getContent().setBackgroundDrawable(new ColorDrawable(settings.ctMessageListBackground));
 
         if (deviceType.equals("phone") || deviceType.equals("phablet2"))
         {
@@ -3413,7 +3194,7 @@ public class MainActivity extends FragmentActivity {
                         getActionBar().setDisplayHomeAsUpEnabled(true);
                     }
 
-                    if (!useTitleBar || alwaysShowContactInfo) {
+                    if (!settings.useTitleBar || settings.alwaysShowContactInfo) {
                         final ActionBar ab = getActionBar();
 
                         if (ab != null) {
@@ -3462,7 +3243,7 @@ public class MainActivity extends FragmentActivity {
                     // no action bar, dialog theme
                 }
 
-                if (titleContactImages) {
+                if (settings.titleContactImages) {
                     final ActionBar ab = getActionBar();
 
                     if (ab != null) {
@@ -3541,7 +3322,7 @@ public class MainActivity extends FragmentActivity {
                         String title = "";
                         String subtitle = "";
 
-                        if (!useTitleBar || alwaysShowContactInfo)
+                        if (!settings.useTitleBar || settings.alwaysShowContactInfo)
                         {
                             if (group.get(mViewPager.getCurrentItem()).equals("yes"))
                             {
@@ -3568,7 +3349,7 @@ public class MainActivity extends FragmentActivity {
 
                         BitmapDrawable image2 = null;
 
-                        if (titleContactImages)
+                        if (settings.titleContactImages)
                         {
                             Bitmap image = getFacebookPhoto(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context), context);
                             image2 = new BitmapDrawable(image);
@@ -3580,7 +3361,7 @@ public class MainActivity extends FragmentActivity {
                         int where = -1;
                         int index = -1;
 
-                        if (enableDrafts) {
+                        if (settings.enableDrafts) {
                             try {
                                 for (int i = 0; i < draftNames.size(); i++)
                                 {
@@ -3632,13 +3413,13 @@ public class MainActivity extends FragmentActivity {
 
                         boolean voicePerformClick = false;
 
-                        if (voiceAccount != null) {
+                        if (settings.voiceAccount != null) {
                             if (threadsThroughVoice.contains(threadIds.get(mViewPager.getCurrentItem()))) {
-                                if (!voiceEnabled) {
+                                if (!settings.voiceEnabled) {
                                     voicePerformClick = true;
                                 }
                             } else {
-                                if (voiceEnabled) {
+                                if (settings.voiceEnabled) {
                                     voicePerformClick = true;
                                 }
                             }
@@ -3652,23 +3433,23 @@ public class MainActivity extends FragmentActivity {
                             public void run() {
                                 try {
                                     View row = menuLayout.getChildAt(mViewPager.getCurrentItem());
-                                    if (!customBackground) {
-                                        row.setBackgroundColor(ctConversationListBackground);
+                                    if (!settings.customBackground) {
+                                        row.setBackgroundColor(settings.ctConversationListBackground);
                                     }
                                 } catch (Exception e) {
 
                                 }
 
-                                if ((!useTitleBar || alwaysShowContactInfo) && ab != null) {
+                                if ((!settings.useTitleBar || settings.alwaysShowContactInfo) && ab != null) {
                                     ab.setTitle(titleF);
                                     ab.setSubtitle(subtitleF);
                                 }
 
-                                if (titleContactImages && ab != null) {
+                                if (settings.titleContactImages && ab != null) {
                                     ab.setIcon(icon);
                                 }
 
-                                if (enableDrafts) {
+                                if (settings.enableDrafts) {
                                     if (deleteDraft) {
                                         if (!messageEntry.getText().equals("")) {
                                             messageEntry.setText("");
@@ -3677,7 +3458,7 @@ public class MainActivity extends FragmentActivity {
                                         fromDraft = false;
 
                                         if (indexF != -1) {
-                                            if (autoInsertDrafts) {
+                                            if (settings.autoInsertDrafts) {
                                                 fromDraft = true;
                                                 messageEntry.setText(drafts.get(indexF));
                                                 messageEntry.setSelection(drafts.get(indexF).length());
@@ -3713,7 +3494,7 @@ public class MainActivity extends FragmentActivity {
 
         mViewPager.setOffscreenPageLimit(1);
 
-        if (runAs.equals("card2") || runAs.equals("card+")) {
+        if (settings.runAs.equals("card2") || settings.runAs.equals("card+")) {
             mViewPager.setOffscreenPageLimit(2);
             int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -26, context.getResources().getDisplayMetrics());
             mViewPager.setPageMargin(scale);
@@ -3739,7 +3520,7 @@ public class MainActivity extends FragmentActivity {
             return bitmap;
         } catch (Exception e)
         {
-            if (darkContactImage)
+            if (settings.darkContactImage)
             {
                 return BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_contact_dark);
             } else
@@ -3885,13 +3666,13 @@ public class MainActivity extends FragmentActivity {
             }
         }
 
-        if (voiceAccount != null) {
+        if (settings.voiceAccount != null) {
             menu.getItem(10).setVisible(true);
         } else {
             menu.getItem(10).setVisible(false);
         }
 
-        if (lightActionBar)
+        if (settings.lightActionBar)
         {
             Drawable callButton = getResources().getDrawable(R.drawable.ic_menu_call);
             callButton.setColorFilter(getResources().getColor(R.color.hangouts_ab_icon), Mode.MULTIPLY);
@@ -4376,9 +4157,9 @@ public class MainActivity extends FragmentActivity {
                 attachedImage = selectedImage;
                 fromCamera = false;
 
-                imageAttachBackground.setBackgroundColor(ctMessageListBackground);
+                imageAttachBackground.setBackgroundColor(settings.ctMessageListBackground);
                 Drawable attachBack = getResources().getDrawable(R.drawable.attachment_editor_bg);
-                attachBack.setColorFilter(ctSentMessageBackground, Mode.MULTIPLY);
+                attachBack.setColorFilter(settings.ctSentMessageBackground, Mode.MULTIPLY);
                 imageAttach.setBackgroundDrawable(attachBack);
                 imageAttachBackground.setVisibility(View.VISIBLE);
                 imageAttach.setVisibility(true);
@@ -4444,9 +4225,9 @@ public class MainActivity extends FragmentActivity {
                 attachedImage2 = selectedImage;
                 fromCamera = false;
 
-                imageAttachBackground2.setBackgroundColor(ctConversationListBackground);
+                imageAttachBackground2.setBackgroundColor(settings.ctConversationListBackground);
                 Drawable attachBack = getResources().getDrawable(R.drawable.attachment_editor_bg);
-                attachBack.setColorFilter(ctSentMessageBackground, Mode.MULTIPLY);
+                attachBack.setColorFilter(settings.ctSentMessageBackground, Mode.MULTIPLY);
                 imageAttach2.setBackgroundDrawable(attachBack);
                 imageAttachBackground2.setVisibility(View.VISIBLE);
                 imageAttach2.setVisibility(true);
@@ -4517,9 +4298,9 @@ public class MainActivity extends FragmentActivity {
                 attachedImage = Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/", "photoToSend.png"));
                 fromCamera = true;
 
-                imageAttachBackground.setBackgroundColor(ctConversationListBackground);
+                imageAttachBackground.setBackgroundColor(settings.ctConversationListBackground);
                 Drawable attachBack = getResources().getDrawable(R.drawable.attachment_editor_bg);
-                attachBack.setColorFilter(ctSentMessageBackground, Mode.MULTIPLY);
+                attachBack.setColorFilter(settings.ctSentMessageBackground, Mode.MULTIPLY);
                 imageAttach.setBackgroundDrawable(attachBack);
                 imageAttachBackground.setVisibility(View.VISIBLE);
                 imageAttach.setVisibility(true);
@@ -4587,9 +4368,9 @@ public class MainActivity extends FragmentActivity {
                 attachedImage2 = Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/", "photoToSend.png"));
                 fromCamera = true;
 
-                imageAttachBackground2.setBackgroundColor(ctConversationListBackground);
+                imageAttachBackground2.setBackgroundColor(settings.ctConversationListBackground);
                 Drawable attachBack = getResources().getDrawable(R.drawable.attachment_editor_bg);
-                attachBack.setColorFilter(ctSentMessageBackground, Mode.MULTIPLY);
+                attachBack.setColorFilter(settings.ctSentMessageBackground, Mode.MULTIPLY);
                 imageAttach2.setBackgroundDrawable(attachBack);
                 imageAttachBackground2.setVisibility(View.VISIBLE);
                 imageAttach2.setVisibility(true);
@@ -4655,9 +4436,9 @@ public class MainActivity extends FragmentActivity {
             {
                 multipleAttachments = true;
 
-                imageAttachBackground.setBackgroundColor(ctConversationListBackground);
+                imageAttachBackground.setBackgroundColor(settings.ctConversationListBackground);
                 Drawable attachBack = getResources().getDrawable(R.drawable.attachment_editor_bg);
-                attachBack.setColorFilter(ctSentMessageBackground, Mode.MULTIPLY);
+                attachBack.setColorFilter(settings.ctSentMessageBackground, Mode.MULTIPLY);
                 imageAttach.setBackgroundDrawable(attachBack);
                 imageAttachBackground.setVisibility(View.VISIBLE);
                 imageAttach.setVisibility(true);
@@ -4722,9 +4503,9 @@ public class MainActivity extends FragmentActivity {
             {
                 multipleAttachments = true;
 
-                imageAttachBackground2.setBackgroundColor(ctConversationListBackground);
+                imageAttachBackground2.setBackgroundColor(settings.ctConversationListBackground);
                 Drawable attachBack = getResources().getDrawable(R.drawable.attachment_editor_bg);
-                attachBack.setColorFilter(ctSentMessageBackground, Mode.MULTIPLY);
+                attachBack.setColorFilter(settings.ctSentMessageBackground, Mode.MULTIPLY);
                 imageAttach2.setBackgroundDrawable(attachBack);
                 imageAttachBackground2.setVisibility(View.VISIBLE);
                 imageAttach2.setVisibility(true);
@@ -4888,7 +4669,7 @@ public class MainActivity extends FragmentActivity {
             //The new size we want to scale to
             int REQUIRED_SIZE=300;
 
-            if (!limitAttachmentSize)
+            if (!settings.limitAttachmentSize)
             {
                 REQUIRED_SIZE = 500;
             }
@@ -4963,7 +4744,7 @@ public class MainActivity extends FragmentActivity {
         {
             if (menu.isSecondaryMenuShowing())
             {
-                if (!openContactMenu)
+                if (!settings.openContactMenu)
                 {
                     menu.showContent();
                 } else
@@ -4972,10 +4753,10 @@ public class MainActivity extends FragmentActivity {
                 }
             } else
             {
-                if (menu.isMenuShowing() && !openContactMenu)
+                if (menu.isMenuShowing() && !settings.openContactMenu)
                 {
                     menu.showContent();
-                } else if (!menu.isMenuShowing() && openContactMenu)
+                } else if (!menu.isMenuShowing() && settings.openContactMenu)
                 {
                     menu.showMenu();
                 } else
@@ -5071,7 +4852,7 @@ public class MainActivity extends FragmentActivity {
         Intent updateWidget = new Intent("com.klinker.android.messaging.UPDATE_WIDGET");
         sendBroadcast(updateWidget);
 
-        if(!securityOption.equals("none"))
+        if(!settings.securityOption.equals("none"))
         {
             long currentTime = Calendar.getInstance().getTimeInMillis();
             long lastTime = sharedPrefs.getLong("last_time", 0);
@@ -5161,7 +4942,7 @@ public class MainActivity extends FragmentActivity {
             }
         }
 
-        if (enableDrafts) {
+        if (settings.enableDrafts) {
             try {
                 drafts = new ArrayList<String>();
                 draftNames = new ArrayList<String>();
@@ -5203,7 +4984,7 @@ public class MainActivity extends FragmentActivity {
 
             if (index != -1)
             {
-                if (autoInsertDrafts)
+                if (settings.autoInsertDrafts)
                 {
                     fromDraft = true;
                     messageEntry.setText(drafts.get(index));
@@ -5226,13 +5007,13 @@ public class MainActivity extends FragmentActivity {
             }
         }
 
-        if (voiceAccount != null && threadIds.size() > 0) {
+        if (settings.voiceAccount != null && threadIds.size() > 0) {
             if (threadsThroughVoice.contains(threadIds.get(mViewPager.getCurrentItem()))) {
-                if (!voiceEnabled) {
+                if (!settings.voiceEnabled) {
                     voiceButton.performClick();
                 }
             } else {
-                if (voiceEnabled) {
+                if (settings.voiceEnabled) {
                     voiceButton.performClick();
                 }
             }
@@ -5266,7 +5047,7 @@ public class MainActivity extends FragmentActivity {
 
         final Context context = this;
 
-        if (enableDrafts) {
+        if (settings.enableDrafts) {
             if (messageEntry.getText().toString().length() != 0) {
                 draftChanged.add(true);
                 draftNames.add(threadIds.get(mViewPager.getCurrentItem()));
@@ -5341,7 +5122,7 @@ public class MainActivity extends FragmentActivity {
             }).start();
         }
 
-        if (cacheConversations) {
+        if (settings.cacheConversations) {
             Intent cacheService = new Intent(context, CacheService.class);
             context.startService(cacheService);
         }
@@ -5385,7 +5166,7 @@ public class MainActivity extends FragmentActivity {
 
         unlockDevice = false;
 
-        if (voiceAccount != null) {
+        if (settings.voiceAccount != null) {
             String voiceThreads = "";
 
             for (String s : threadsThroughVoice) {
@@ -5432,7 +5213,7 @@ public class MainActivity extends FragmentActivity {
             createMenu();
             firstRun = false;
 
-            if (openContactMenu && (deviceType.equals("phone") || deviceType.equals("phablet2")))
+            if (settings.openContactMenu && (deviceType.equals("phone") || deviceType.equals("phablet2")))
             {
                 menu.showMenu();
             }
@@ -5492,9 +5273,9 @@ public class MainActivity extends FragmentActivity {
 
                         if (attachedImage2 != null)
                         {
-                            imageAttachBackground2.setBackgroundColor(ctConversationListBackground);
+                            imageAttachBackground2.setBackgroundColor(settings.ctConversationListBackground);
                             Drawable attachBack = getResources().getDrawable(R.drawable.attachment_editor_bg);
-                            attachBack.setColorFilter(ctSentMessageBackground, Mode.MULTIPLY);
+                            attachBack.setColorFilter(settings.ctSentMessageBackground, Mode.MULTIPLY);
                             imageAttach2.setBackgroundDrawable(attachBack);
                             imageAttachBackground2.setVisibility(View.VISIBLE);
                             imageAttach2.setVisibility(true);
@@ -5605,7 +5386,7 @@ public class MainActivity extends FragmentActivity {
                 menu.showContent();
             } else
             {
-                if (openContactMenu && (imageAttach.getVisibility() != View.VISIBLE && imageAttach2.getVisibility() != View.VISIBLE) && (deviceType.equals("phone") || deviceType.equals("phablet2")))
+                if (settings.openContactMenu && (imageAttach.getVisibility() != View.VISIBLE && imageAttach2.getVisibility() != View.VISIBLE) && (deviceType.equals("phone") || deviceType.equals("phablet2")))
                 {
                     menu.showMenu();
                 } else if (imageAttach.getVisibility() == View.VISIBLE)
@@ -5654,14 +5435,14 @@ public class MainActivity extends FragmentActivity {
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setBackgroundDrawable(null);
 
-        if (customBackground2)
+        if (settings.customBackground2)
         {
             try
             {
                 BitmapFactory.Options options = new BitmapFactory.Options();
 
                 options.inSampleSize = 2;
-                Bitmap myBitmap = BitmapFactory.decodeFile(Uri.parse(customBackground2Location).getPath(),options);
+                Bitmap myBitmap = BitmapFactory.decodeFile(Uri.parse(settings.customBackground2Location).getPath(),options);
                 Drawable d = new BitmapDrawable(Resources.getSystem(),myBitmap);
                 mViewPager.setBackgroundDrawable(d);
             } catch (Error e)
@@ -5670,7 +5451,7 @@ public class MainActivity extends FragmentActivity {
                     BitmapFactory.Options options = new BitmapFactory.Options();
 
                     options.inSampleSize = 4;
-                    Bitmap myBitmap = BitmapFactory.decodeFile(Uri.parse(customBackground2Location).getPath(),options);
+                    Bitmap myBitmap = BitmapFactory.decodeFile(Uri.parse(settings.customBackground2Location).getPath(),options);
                     Drawable d = new BitmapDrawable(Resources.getSystem(),myBitmap);
                     mViewPager.setBackgroundDrawable(d);
                 } catch (Error f) {
@@ -5809,9 +5590,9 @@ public class MainActivity extends FragmentActivity {
             }).start();
         }
 
-        if(!runAs.equals("card+"))
+        if(!settings.runAs.equals("card+"))
         {
-            if (!useTitleBar || alwaysShowContactInfo)
+            if (!settings.useTitleBar || settings.alwaysShowContactInfo)
             {
                 final ActionBar ab = getActionBar();
                 final Context context = this;
@@ -5847,7 +5628,7 @@ public class MainActivity extends FragmentActivity {
             }
         }
 
-        if (titleContactImages)
+        if (settings.titleContactImages)
         {
             final ActionBar ab = getActionBar();
             final Context context = this;
@@ -6306,7 +6087,7 @@ public class MainActivity extends FragmentActivity {
             try {
                 String text = "No Messages";
 
-                if (!useTitleBar && !isPopup)
+                if (!settings.useTitleBar && !isPopup)
                 {
                     return "";
                 }
@@ -6317,7 +6098,7 @@ public class MainActivity extends FragmentActivity {
                     {
                         if (group.get(position).equals("yes"))
                         {
-                            if (titleCaps)
+                            if (settings.titleCaps)
                             {
                                 text = "GROUP MMS";
                             } else
@@ -6326,9 +6107,9 @@ public class MainActivity extends FragmentActivity {
                             }
                         } else
                         {
-                            if (titleCaps)
+                            if (settings.titleCaps)
                             {
-                                if (alwaysShowContactInfo)
+                                if (settings.alwaysShowContactInfo)
                                 {
                                     String[] names = findContactName(findContactNumber(inboxNumber.get(position), getBaseContext()), getBaseContext()).split(" ");
                                     text = names[0].trim().toUpperCase(Locale.getDefault());
@@ -6338,7 +6119,7 @@ public class MainActivity extends FragmentActivity {
                                 }
                             } else
                             {
-                                if (alwaysShowContactInfo)
+                                if (settings.alwaysShowContactInfo)
                                 {
                                     try
                                     {
@@ -6365,7 +6146,7 @@ public class MainActivity extends FragmentActivity {
                         {
                             if (group.get(position).equals("yes"))
                             {
-                                if (titleCaps)
+                                if (settings.titleCaps)
                                 {
                                     text = "GROUP MMS";
                                 } else
@@ -6374,9 +6155,9 @@ public class MainActivity extends FragmentActivity {
                                 }
                             } else
                             {
-                                if (titleCaps)
+                                if (settings.titleCaps)
                                 {
-                                    if (alwaysShowContactInfo)
+                                    if (settings.alwaysShowContactInfo)
                                     {
                                         try
                                         {
@@ -6392,7 +6173,7 @@ public class MainActivity extends FragmentActivity {
                                     }
                                 } else
                                 {
-                                    if (alwaysShowContactInfo)
+                                    if (settings.alwaysShowContactInfo)
                                     {
                                         try
                                         {
@@ -6498,7 +6279,7 @@ public class MainActivity extends FragmentActivity {
 
             try
             {
-                if (!cacheConversations || !CacheService.cached || !MainActivity.notChanged || !(position < numOfCachedConversations)) {
+                if (!settings.cacheConversations || !CacheService.cached || !MainActivity.notChanged || !(position < settings.numOfCachedConversations)) {
                     messageQuery.close();
                 }
             } catch (Exception e)
@@ -6514,7 +6295,7 @@ public class MainActivity extends FragmentActivity {
             view = inflater.inflate(R.layout.message_frame, container, false);
             //container.setBackgroundColor(ctMessageListBackground);
 
-            if(runAs.equals("card+"))
+            if(settings.runAs.equals("card+"))
             {
                 final int margin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 18, getResources()
                         .getDisplayMetrics());
@@ -6530,7 +6311,7 @@ public class MainActivity extends FragmentActivity {
                 //list.setFooterDividersEnabled(false);
                 //list.setHeaderDividersEnabled(true);
                 list.setBackgroundResource(R.drawable.background_card);
-                list.setBackgroundColor(ctSentMessageBackground);
+                list.setBackgroundColor(settings.ctSentMessageBackground);
                 list.setOverScrollMode(View.OVER_SCROLL_NEVER);
                 //list.addHeaderView(header);
                 //list.addFooterView(header);
@@ -6570,9 +6351,9 @@ public class MainActivity extends FragmentActivity {
 
                 }).start();
 
-                groupList.setTextColor(titleBarTextColor);
+                groupList.setTextColor(settings.titleBarTextColor);
 
-                if (!customTheme)
+                if (!settings.customTheme)
                 {
                     String titleColor = sharedPrefs.getString("title_color", "blue");
 
@@ -6603,7 +6384,7 @@ public class MainActivity extends FragmentActivity {
                     }
                 } else
                 {
-                    groupList.setBackgroundColor(titleBarColor);
+                    groupList.setBackgroundColor(settings.titleBarColor);
                 }
             } else
             {
@@ -6622,7 +6403,7 @@ public class MainActivity extends FragmentActivity {
                 spinner.setVisibility(View.GONE);
             }
 
-            if (cacheConversations && CacheService.cached && MainActivity.notChanged && position < numOfCachedConversations) {
+            if (settings.cacheConversations && CacheService.cached && MainActivity.notChanged && position < settings.numOfCachedConversations) {
                 MainActivity.threadedLoad = false;
             }
 
@@ -6650,12 +6431,12 @@ public class MainActivity extends FragmentActivity {
                             String[] projection2;
                             String proj = "_id body date type read msg_box locked";
 
-                            if (showOriginalTimestamp)
+                            if (settings.showOriginalTimestamp)
                             {
                                 proj += " date_sent";
                             }
 
-                            if (deliveryReports) {
+                            if (settings.deliveryReports) {
                                 proj += " status";
                             }
 
@@ -6663,7 +6444,7 @@ public class MainActivity extends FragmentActivity {
 
                             String sortOrder = "normalized_date desc";
 
-                            if (limitMessages)
+                            if (settings.limitMessages)
                             {
                                 sortOrder += " limit " + MainActivity.numToLoad;
                             }
@@ -6729,12 +6510,12 @@ public class MainActivity extends FragmentActivity {
                 String[] projection2;
                 String proj = "_id body date type read msg_box locked";
 
-                if (showOriginalTimestamp)
+                if (settings.showOriginalTimestamp)
                 {
                     proj += " date_sent";
                 }
 
-                if (deliveryReports || voiceAccount != null) {
+                if (settings.deliveryReports || settings.voiceAccount != null) {
                     proj += " status";
                 }
 
@@ -6742,12 +6523,12 @@ public class MainActivity extends FragmentActivity {
 
                 String sortOrder = "normalized_date desc";
 
-                if (limitMessages)
+                if (settings.limitMessages)
                 {
                     sortOrder += " limit " + MainActivity.numToLoad;
                 }
 
-                if (!cacheConversations || !CacheService.cached || !MainActivity.notChanged || !(position < numOfCachedConversations)) {
+                if (!settings.cacheConversations || !CacheService.cached || !MainActivity.notChanged || !(position < settings.numOfCachedConversations)) {
                     messageQuery = contentResolver.query(uri3, projection2, null, null, sortOrder);
                 } else {
                     messageQuery = CacheService.conversations.get(position);
@@ -6773,12 +6554,12 @@ public class MainActivity extends FragmentActivity {
                 }, 100L);
             }
 
-            listView.setDivider(new ColorDrawable(messageDividerColor));
+            listView.setDivider(new ColorDrawable(settings.messageDividerColor));
 
-            if (messageDividerVisible && runAs.equals("sliding"))
+            if (settings.messageDividerVisible && settings.runAs.equals("sliding"))
             {
                 listView.setDividerHeight(1);
-            } else if (runAs.equals("card+") && messageDividerVisible)
+            } else if (settings.runAs.equals("card+") && settings.messageDividerVisible)
             {
                 listView.setDivider(getResources().getDrawable(R.drawable.card_plus_divider));
             } else {
@@ -6812,12 +6593,12 @@ public class MainActivity extends FragmentActivity {
             String[] projection2;
             String proj = "_id body date type read msg_box locked";
 
-            if (showOriginalTimestamp)
+            if (settings.showOriginalTimestamp)
             {
                 proj += " date_sent";
             }
 
-            if (deliveryReports || voiceAccount != null) {
+            if (settings.deliveryReports || settings.voiceAccount != null) {
                 proj += " status";
             }
 
@@ -6825,7 +6606,7 @@ public class MainActivity extends FragmentActivity {
 
             String sortOrder = "normalized_date desc";
 
-            if (limitMessages)
+            if (settings.limitMessages)
             {
                 sortOrder += " limit " + MainActivity.numToLoad;
             }
@@ -6890,12 +6671,12 @@ public class MainActivity extends FragmentActivity {
                     String[] projection2;
                     String proj = "_id body date type read msg_box locked";
 
-                    if (showOriginalTimestamp)
+                    if (settings.showOriginalTimestamp)
                     {
                         proj += " date_sent";
                     }
 
-                    if (deliveryReports || voiceAccount != null) {
+                    if (settings.deliveryReports || settings.voiceAccount != null) {
                         proj += " status";
                     }
 
@@ -6903,7 +6684,7 @@ public class MainActivity extends FragmentActivity {
 
                     String sortOrder = "normalized_date desc";
 
-                    if (limitMessages)
+                    if (settings.limitMessages)
                     {
                         sortOrder += " limit " + MainActivity.numToLoad;
                     }

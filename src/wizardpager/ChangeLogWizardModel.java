@@ -54,7 +54,7 @@ public class ChangeLogWizardModel extends AbstractWizardModel {
                 "\t2) Refreshing when Google Voice app shows a notification\n" +
                 "\t3) Manual refresh from menu or settings\n" +
                 "- MMS fixes including a possible fix for sending with WiFi enabled which is still experimental. Feel free to disable the WiFi MMS fix now though if you want to try (to see this option in MMS settings" +
-                " you'll need to check the \"Show All Settings\" option in Advanced Settings)!\n" +
+                " you'll need to check the \"Show All AppSettings\" option in Advanced AppSettings)!\n" +
                 "- Google Voice sending settings are now saved on a per-conversation basis so that you don't have to remember to switch back and forth between SMS and Voice\n" +
                 "- New settings menu navigation\n" +
                 "- More delivery report options\n" +
