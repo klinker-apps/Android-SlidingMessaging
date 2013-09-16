@@ -448,6 +448,7 @@ public class SlideOverService extends Service {
                         |WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 PixelFormat.TRANSLUCENT);
         messageWindowParams.gravity = Gravity.TOP | Gravity.LEFT;
+        messageWindowParams.windowAnimations = android.R.style.Animation_Translucent;
 
         haloParams = new WindowManager.LayoutParams(
                 halo.getWidth(),
