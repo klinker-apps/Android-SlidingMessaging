@@ -2223,7 +2223,7 @@ public class MainActivity extends FragmentActivity {
 
         final TextView mTextView = (TextView) newMessageView.findViewById(R.id.charsRemaining2);
         final EditText mEditText = (EditText) newMessageView.findViewById(R.id.messageEntry2);
-        messageEntry2 = (EditText) newMessageView.findViewById(R.id.messageEntry2);
+        messageEntry2 = mEditText;
         final ImageButton sendButton = (ImageButton) newMessageView.findViewById(R.id.sendButton);
         imageAttachBackground2 = newMessageView.findViewById(R.id.image_attachment_view_background);
         imageAttach2 = (ImageAttachmentView) newMessageView.findViewById(R.id.image_attachment_view);

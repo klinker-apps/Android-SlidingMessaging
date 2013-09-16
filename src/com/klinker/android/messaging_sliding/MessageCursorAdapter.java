@@ -1162,13 +1162,9 @@ public class MessageCursorAdapter extends CursorAdapter {
                                         break;
                                     case 1:
                                         MainActivity.menu.showSecondaryMenu();
-
-                                        View newMessageView = MainActivity.menu.getSecondaryMenu();
-
-                                        EditText body = (EditText) newMessageView.findViewById(R.id.messageEntry2);
                                         TextView tv2 = (TextView) arg0.findViewById(R.id.textBody);
 
-                                        body.setText(tv2.getText().toString());
+                                        MainActivity.messageEntry2.setText(tv2.getText().toString());
 
                                         break;
                                     case 2:
@@ -1249,8 +1245,6 @@ public class MessageCursorAdapter extends CursorAdapter {
                                         MainActivity.menu.showSecondaryMenu();
 
                                         View newMessageView = MainActivity.menu.getSecondaryMenu();
-
-                                        EditText body = (EditText) newMessageView.findViewById(R.id.messageEntry2);
                                         TextView tv2 = (TextView) arg0.findViewById(R.id.textBody);
 
                                         try
@@ -1315,7 +1309,7 @@ public class MessageCursorAdapter extends CursorAdapter {
 
                                         });
 
-                                        body.setText(tv2.getText().toString());
+                                        MainActivity.messageEntry2.setText(tv2.getText().toString());
 
                                         try
                                         {
@@ -1446,13 +1440,9 @@ public class MessageCursorAdapter extends CursorAdapter {
                                     break;
                                 case 2:
                                     MainActivity.menu.showSecondaryMenu();
-
-                                    View newMessageView = MainActivity.menu.getSecondaryMenu();
-
-                                    EditText body3 = (EditText) newMessageView.findViewById(R.id.messageEntry2);
                                     TextView tv2 = (TextView) arg0.findViewById(R.id.textBody);
 
-                                    body3.setText(tv2.getText().toString());
+                                    MainActivity.messageEntry2.setText(tv2.getText().toString());
 
                                     break;
                                 case 3:
