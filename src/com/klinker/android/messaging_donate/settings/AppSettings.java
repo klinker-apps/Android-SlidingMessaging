@@ -50,7 +50,17 @@ public class AppSettings {
     public boolean mobileOnly;
     public boolean groupMessage;
     public boolean emojiKeyboard;
-    public String  textSize;
+    public boolean voiceEnabled;
+    public boolean closeHaloAfterSend;
+    public boolean contactPictures2;
+    public boolean ctDarkContactPics;
+    public boolean hideMessageCounter;
+    public boolean hideDate;
+    public boolean smiliesType;
+    public boolean hourFormat;
+    public String smilies;
+    public String textSize;
+    public String textSize2;
     public String runAs;
     public String signature;
     public String ringTone;
@@ -62,6 +72,7 @@ public class AppSettings {
     public String customBackground2Location;
     public String voiceThreads;
     public String vibratePattern;
+    public String voiceAccount;
     public int ctConversationListBackground;
     public int ctSentMessageBackground;
     public int ctMessageListBackground;
@@ -76,9 +87,9 @@ public class AppSettings {
     public int ctNameTextColor;
     public int numOfCachedConversations;
     public int messageDividerColor;
-    public String voiceAccount;
-    public boolean voiceEnabled;
-    public boolean closeHaloAfterSend;
+    public int ctSummaryTextColor;
+    public int ctMessageCounterColor;
+    public int ctUnreadConversationColor;
 
     public static AppSettings init(Context context) {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -107,6 +118,8 @@ public class AppSettings {
             settings.customBackgroundLocation = "";
             settings.customBackgroundLocation = "";
             settings.numOfCachedConversations = 5;
+            settings.textSize = "14";
+            settings.textSize2 = "14";
         } else {
             settings.limitConversationsAtStart = sharedPrefs.getBoolean("limit_conversations_start", true);
             settings.customFont = sharedPrefs.getBoolean("custom_font", false);
@@ -130,6 +143,8 @@ public class AppSettings {
             settings.customBackground2Location = sharedPrefs.getString("custom_background2_location", "");
             settings.customBackgroundLocation = sharedPrefs.getString("custom_background_location", "");
             settings.numOfCachedConversations = sharedPrefs.getInt("num_cache_conversations", 5);
+            settings.textSize = sharedPrefs.getString("text_size", 14 + "");
+            settings.textSize2 = sharedPrefs.getString("text_size2", 14 + "");
         }
 
         settings.lightActionBar = sharedPrefs.getBoolean("ct_light_action_bar", false);
@@ -158,7 +173,6 @@ public class AppSettings {
         settings.emoji = sharedPrefs.getBoolean("emoji", false);
         settings.mobileOnly = sharedPrefs.getBoolean("mobile_only", false);
         settings.groupMessage = sharedPrefs.getBoolean("group_message", false);
-        settings.textSize = "14";
         settings.signature = sharedPrefs.getString("signature", "");
         settings.ringTone = sharedPrefs.getString("ringtone", "null");
         settings.deliveryOptions= sharedPrefs.getString("delivery_options", "2");
@@ -183,6 +197,16 @@ public class AppSettings {
         settings.closeHaloAfterSend = sharedPrefs.getBoolean("close_halo_after_send", false);
         settings.voiceThreads = sharedPrefs.getString("voice_threads", "");
         settings.vibratePattern = sharedPrefs.getString("set_custom_vibrate_pattern", "0, 400, 100, 400");
+        settings.ctSummaryTextColor = sharedPrefs.getInt("ct_summaryTextColor", context.getResources().getColor(R.color.black));
+        settings.contactPictures2 = sharedPrefs.getBoolean("contact_pictures2", true);
+        settings.ctDarkContactPics = sharedPrefs.getBoolean("ct_darkContactImage", false);
+        settings.hideMessageCounter = sharedPrefs.getBoolean("hide_message_counter", false);
+        settings.hideDate = sharedPrefs.getBoolean("hide_date_conversations", false);
+        settings.ctMessageCounterColor = sharedPrefs.getInt("ct_messageCounterColor", context.getResources().getColor(R.color.messageCounterLight));
+        settings.smilies = sharedPrefs.getString("smilies", "with");
+        settings.smiliesType = sharedPrefs.getBoolean("smiliesType", true);
+        settings.hourFormat = sharedPrefs.getBoolean("hour_format", false);
+        settings.ctUnreadConversationColor = sharedPrefs.getInt("ct_unreadConversationColor", sharedPrefs.getInt("ct_receivedMessageBackground", context.getResources().getColor(R.color.white)));
 
         return settings;
     }
