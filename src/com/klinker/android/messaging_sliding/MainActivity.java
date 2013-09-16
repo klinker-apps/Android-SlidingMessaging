@@ -1623,7 +1623,7 @@ public class MainActivity extends FragmentActivity {
             public void onClick(View v) {
 
                 final String recipientId = inboxNumber.get(mViewPager.getCurrentItem());
-                final int currentItem = mViewPager.getCurrentItem();
+                final String threadId = threadIds.get(mViewPager.getCurrentItem());
 
                 if (!unlocked) {
                     messageEntry.setError(getString(R.string.trial_expired));
@@ -1723,11 +1723,11 @@ public class MainActivity extends FragmentActivity {
                                         @Override
                                         public void run() {
                                             Log.v("sending_mms_library", "sending new mms, posted to UI thread");
-                                            sendTransaction.sendNewMessage(message, threadIds.get(currentItem));
+                                            sendTransaction.sendNewMessage(message, threadId);
                                         }
                                     });
                                 } else {
-                                    sendTransaction.sendNewMessage(message, threadIds.get(currentItem));
+                                    sendTransaction.sendNewMessage(message, threadId);
                                 }
                             } else {
                                 if (message.getImages().length != 0 || (sendSettings.getSendLongAsMms() && Utils.getNumPages(sendSettings, message.getText()) > sendSettings.getSendLongAsMmsAfter() && !sendSettings.getPreferVoice()) || (message.getAddresses().length > 1 && sendSettings.getGroup())) {
@@ -1755,7 +1755,7 @@ public class MainActivity extends FragmentActivity {
                                         Toast.makeText(context, "Cannot send multiple images through stock", Toast.LENGTH_SHORT).show();
                                     }
                                 } else {
-                                    sendTransaction.sendNewMessage(message, threadIds.get(currentItem));
+                                    sendTransaction.sendNewMessage(message, threadId);
                                 }
                             }
 
@@ -1769,7 +1769,7 @@ public class MainActivity extends FragmentActivity {
                                             try {
                                                 for (int i = 0; i < draftNames.size(); i++)
                                                 {
-                                                    if (draftNames.get(i).equals(threadIds.get(currentItem)))
+                                                    if (draftNames.get(i).equals(threadId))
                                                     {
                                                         draftsToDelete.add(draftNames.get(i));
                                                         draftNames.remove(i);
@@ -5034,6 +5034,7 @@ public class MainActivity extends FragmentActivity {
             unregisterReceiver(refreshReceiver);
             unregisterReceiver(mmsError);
             unregisterReceiver(voiceError);
+            unregisterReceiver(mmsProgressReceiver);
             unregisterReceiver(mmsReceiver);
             unregisterReceiver(killReceiver);
         } catch (Exception e) {

@@ -2,7 +2,6 @@ Version 7.50
 
 Jake:
     - look into downloading mms and data getting stuck
-    - voice button on the send message dialog
     - change message forwarding slightly
     - work on mms resizing
     - Make all textviews, edit text, etc. default to Roboto light

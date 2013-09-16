@@ -3,10 +3,7 @@ package com.klinker.android.messaging_sliding.quick_reply;
 import android.annotation.SuppressLint;
 import android.app.*;
 import android.app.KeyguardManager.KeyguardLock;
-import android.content.ContentUris;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.*;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -36,6 +33,7 @@ import com.klinker.android.messaging_sliding.MainActivity;
 import com.klinker.android.messaging_sliding.emojis.*;
 import com.klinker.android.messaging_sliding.receivers.CacheService;
 import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
+import com.klinker.android.send_message.Transaction;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -373,14 +371,29 @@ public class QuickReply extends Activity {
 					Toast.makeText(context, "ERROR: Nothing to send", Toast.LENGTH_SHORT).show();
 				} else
 				{
-                    SendUtil.sendMessage(context, sendTo, messageEntry.getText().toString());
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            SendUtil.sendMessage(context, sendTo, messageEntry.getText().toString());
+                        }
+                    }).start();
 
                     if (sharedPrefs.getBoolean("cache_conversations", false)) {
                         Intent cacheService = new Intent(context, CacheService.class);
                         context.startService(cacheService);
                     }
-				    
-				    ((Activity) context).finish();
+
+                    if (sharedPrefs.getBoolean("voice_enabled", false)) {
+                        registerReceiver(new BroadcastReceiver() {
+                            @Override
+                            public void onReceive(Context context, Intent intent) {
+                                unregisterReceiver(this);
+                                finish();
+                            }
+                        }, new IntentFilter(Transaction.REFRESH));
+                    } else {
+                        finish();
+                    }
 				    
 				    NotificationManager mNotificationManager =
 				            (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
