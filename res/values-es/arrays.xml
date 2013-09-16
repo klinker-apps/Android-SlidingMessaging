@@ -15,7 +15,7 @@
         <item>Copiar texto</item>
         <item>Reenviar mensaje</item>
         <item>Borrar mensaje</item>
-        <item>Lock Message</item>
+        <item>Bloquear mensaje</item>
     </string-array>
     
     <string-array name="messageOptions2">
@@ -23,7 +23,7 @@
         <item>Guardar imagen</item>
         <item>Reenviar mensaje</item>
         <item>Borrar mensaje</item>
-        <item>Lock Message</item>
+        <item>Bloquear mensaje</item>
     </string-array>
     
     <string-array name="ledColors">
@@ -123,8 +123,8 @@
     </string-array>
     
     <string-array name="runAs">
-        <item>Card UI</item>
-        <item>Card+ UI</item>
+        <item>Diseño basado en cartas</item>
+        <item>Diseño basado en cartas+</item>
         <item>Diseño hangouts</item>
         <item>Diseño clásico</item>
     </string-array>
@@ -192,6 +192,121 @@
         <item>Alineamiento en el centro</item>
         <item>Alineamiento a la derecha</item>
         <item>Alineamiento a la izquierda</item>
+    </string-array>
+
+    <string-array name="selectImage">
+        <item>Seleccionar imagen</item>
+        <item>Tomar foto</item>
+        <item>Adjuntar más...</item>
+    </string-array>
+
+    <string-array name="runAs">
+        <item>Diseño de cartas</item>
+        <item>Diseño de cartas+</item>
+        <item>Diseño hangouts</item>
+        <item>Diseño clásico</item>
+    </string-array>
+
+    <string-array name="repeatingNotification">
+        <item>Nunca</item>
+        <item>15 Segundos</item>
+        <item>30 Segundos</item>
+        <item>1 Minuto</item>
+        <item>2 Minutos</item>
+        <item>5 Minutos</item>
+        <item>7 Minutos</item>
+        <item>10 Minutos</item>
+        <item>15 Minutos</item>
+    </string-array>
+
+    <string-array name="attach_more_options">
+        <item>Seleccionar imagen</item>
+        <item>Seleccionar video</item>
+        <item>Seleccionar audio</item>
+    </string-array>
+
+    <string-array name="notification_icon">
+        <item>Ícono estándar</item>
+        <item>Burbuja de mensaje</item>
+        <item>Signo de exclamación</item>
+        <item>Avión de papel</item>
+        <item>Nube</item>
+    </string-array>
+
+    <string-array name="timeout">
+        <item>30 Segundos</item>
+        <item>1 Minuto</item>
+        <item>5 Minutos</item>
+        <item>10 Minutos</item>
+        <item>30 Minutos</item>
+        <item>1 Hora</item>
+        <item>5 Horas</item>
+    </string-array>
+
+    <string-array name="security_type">
+        <item>Sin seguridad</item>
+        <item>PIN</item>
+        <item>Patrón</item>
+        <item>Contraseña</item>
+    </string-array>
+
+    <string-array name="repetition_array">
+        <item>Ninguna</item>
+        <item>Diaria</item>
+        <item>Semanal</item>
+        <item>Anual</item>
+    </string-array>
+
+    <string-array name="backup_repetition_array">
+        <item>Ninguna</item>
+        <item>Diaria</item>
+        <item>Cada 3 días</item>
+        <item>Semanal</item>
+    </string-array>
+
+    <string-array name="pin_conversation_list">
+        <item>Estándar, depende del dispositivo</item>
+        <item>Nunca</item>
+        <item>En modo horizontal</item>
+        <item>Siempre</item>
+    </string-array>
+
+    <string-array name="slideover_side">
+        <item>Izquierda</item>
+        <item>Derecha</item>
+    </string-array>
+
+    <string-array name="slideover_secondary_action">
+        <item>Abrir lista de conversación</item>
+        <item>Escribir nuevo mensaje</item>
+        <item>Marcar todos como leídos</item>
+    </string-array>
+
+    <string-array name="drawer_spinner_array">
+        <item>Enlaces a Ajustes</item>
+        <item>Otros</item>
+    </string-array>
+
+    <string-array name="repeatingVoiceRefresh">
+        <item>Nunca</item>
+        <item>1 Minuto</item>
+        <item>5 Minutos</item>
+        <item>10 Minutos</item>
+        <item>15 Minutos</item>
+        <item>20 Minutos</item>
+        <item>30 Minutos</item>
+        <item>45 Minutos</item>
+        <item>1 Hora</item>
+        <item>2 Horas</item>
+        <item>6 Horas</item>
+        <item>12 Horas</item>
+        <item>24 Horas</item>
+    </string-array>
+
+    <string-array name="deliveryReportType">
+        <item>Sólo marca de verificación</item>
+        <item>Marca de verificación y pop-up</item>
+        <item>Marca de verificación y notificación</item>
     </string-array>
 	
 </resources>

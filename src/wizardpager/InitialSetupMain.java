@@ -288,7 +288,7 @@ public class InitialSetupMain extends FragmentActivity implements
                 if(carrier.equals("Not on list"))
                 {
                     Context context = getApplicationContext();
-                    CharSequence text = "Configure APN's manually at Settings->MMS Settings";
+                    CharSequence text = "Configure APN's manually at AppSettings->MMS AppSettings";
                     int duration = Toast.LENGTH_LONG;
 
                     Toast toast = Toast.makeText(context, text, duration);

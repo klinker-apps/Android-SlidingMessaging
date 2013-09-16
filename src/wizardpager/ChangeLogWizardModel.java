@@ -47,24 +47,8 @@ public class ChangeLogWizardModel extends AbstractWizardModel {
         }
 
         String changeLog = "Version " + version + ":\n\n" +
-                "- Bug fixes\n\n\n" +
-                "Version 7.50: \n\n" +
-                "- 3 different Google Voice message syncing options\n" +
-                "\t1) Refreshing on specified interval\n" +
-                "\t2) Refreshing when Google Voice app shows a notification\n" +
-                "\t3) Manual refresh from menu or settings\n" +
-                "- MMS fixes including a possible fix for sending with WiFi enabled which is still experimental. Feel free to disable the WiFi MMS fix now though if you want to try (to see this option in MMS settings" +
-                " you'll need to check the \"Show All Settings\" option in Advanced Settings)!\n" +
-                "- Google Voice sending settings are now saved on a per-conversation basis so that you don't have to remember to switch back and forth between SMS and Voice\n" +
-                "- New settings menu navigation\n" +
-                "- More delivery report options\n" +
-                "- Holo Light theme applied throughout the app to better match Google's current styles\n" +
-                "- Option to disable the mark as read by swiping away a notification on Android 4.3\n" +
-                "- Tablet specific UI changes and fixes\n" +
-                "- Option to enable a button that will take you to the full app in SlideOver\n" +
-                "- Option to launch SlideOver popup from the DashClock extension\n" +
-                "- Fix for keyboard showing up over the text input box in SlideOver\n" +
-                "- Bug fixes";
+                "- Option to always use Google Voice\n" +
+                "- Bug fixes\n";
                 
         String themeEditor = "The theme editor now fully supports the Cards UI 2.0, making it a " +
                 "better time than ever to get on board and start making Sliding Messaging Pro look exactly how you want!\n\n" +

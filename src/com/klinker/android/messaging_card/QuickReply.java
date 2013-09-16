@@ -13,6 +13,7 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
@@ -41,6 +42,7 @@ import com.klinker.android.messaging_donate.SendUtil;
 import com.klinker.android.messaging_sliding.emojis.*;
 import com.klinker.android.messaging_sliding.receivers.CacheService;
 import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
+import com.klinker.android.send_message.Transaction;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -334,7 +336,17 @@ public class QuickReply extends FragmentActivity {
 		
 		if (ids.size() == 0)
 		{
-			finish();
+            if (sharedPrefs.getBoolean("voice_enabled", false)) {
+                registerReceiver(new BroadcastReceiver() {
+                    @Override
+                    public void onReceive(Context context, Intent intent) {
+                        unregisterReceiver(this);
+                        finish();
+                    }
+                }, new IntentFilter(Transaction.REFRESH));
+            } else {
+                finish();
+            }
 		} else
 		{
             mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -808,12 +820,17 @@ public class QuickReply extends FragmentActivity {
 
             @Override
             public void onClick(View arg0) {
-                String number = inboxNumber.get(mViewPager.getCurrentItem());
-                String body = messageEntry.getText().toString();
+                final String number = inboxNumber.get(mViewPager.getCurrentItem());
+                final String body = messageEntry.getText().toString();
 
                 if (!body.equals(""))
                 {
-                    SendUtil.sendMessage(context, number, body);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            SendUtil.sendMessage(context, number, body);
+                        }
+                    }).start();
 
                     messageEntry.setText("");
                     removePage(mViewPager.getCurrentItem());

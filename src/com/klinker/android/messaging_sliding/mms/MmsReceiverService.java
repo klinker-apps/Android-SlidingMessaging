@@ -390,11 +390,11 @@ public class MmsReceiverService extends Service {
             {
                 if (images[0].trim().equals(""))
                 {
-                    makeNotification(phoneNumber, body, null, phoneNumber, body, Calendar.getInstance().getTimeInMillis() + "", context);
+                    makeNotification(name, body, null, phoneNumber, body, Calendar.getInstance().getTimeInMillis() + "", context);
                 } else
                 {
                     Bitmap b = decodeFile(new File(getRealPathFromURI(Uri.parse(images[0].trim()))));
-                    makeNotification(phoneNumber, body, b, phoneNumber, body, Calendar.getInstance().getTimeInMillis() + "", context);
+                    makeNotification(name, body, b, phoneNumber, body, Calendar.getInstance().getTimeInMillis() + "", context);
                 }
             }
         }

@@ -101,6 +101,21 @@ public class GoogleVoiceFragment extends Fragment {
             }
         });
 
+        final CheckBox alwaysVoice = (CheckBox) layout.findViewById(R.id.alwaysUseVoice);
+        alwaysVoice.setChecked(settings.getBoolean("always_use_voice", false));
+        alwaysVoice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (settings.getBoolean("always_use_voice", false)) {
+                    alwaysVoice.setChecked(false);
+                    settings.edit().putBoolean("always_use_voice", false).commit();
+                } else {
+                    alwaysVoice.setChecked(true);
+                    settings.edit().putBoolean("always_use_voice", true).commit();
+                }
+            }
+        });
+
         LinearLayout voiceReceivingOption1 = (LinearLayout) layout.findViewById(R.id.voiceReceivingOption1);
         voiceReceivingOption1.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -3,18 +3,18 @@ package com.klinker.android.messaging_sliding.quick_reply;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.*;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,6 +25,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.RelativeLayout.LayoutParams;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.SendUtil;
+import com.klinker.android.messaging_donate.settings.AppSettings;
 import com.klinker.android.messaging_sliding.ContactSearchArrayAdapter2;
 import com.klinker.android.messaging_sliding.MainActivity;
 import com.klinker.android.messaging_sliding.emojis.EmojiAdapter;
@@ -32,6 +33,7 @@ import com.klinker.android.messaging_sliding.emojis.EmojiAdapter2;
 import com.klinker.android.messaging_sliding.emojis.EmojiConverter;
 import com.klinker.android.messaging_sliding.emojis.EmojiConverter2;
 import com.klinker.android.messaging_sliding.receivers.CacheService;
+import com.klinker.android.send_message.Transaction;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -148,7 +150,7 @@ public class SendMessage extends Activity {
 			mEditText.setImeOptions(EditorInfo.IME_ACTION_NONE);
 		}
 		
-		final Context context = (Context) this;
+		final Context context = this;
 		final EditText contact = (EditText) newMessageView.findViewById(R.id.contactEntry);
 
 		contact.addTextChangedListener(new TextWatcher() {
@@ -325,16 +327,31 @@ public class SendMessage extends Activity {
 					Toast.makeText(context, "ERROR: Nothing to send", Toast.LENGTH_SHORT).show();
 				} else
 				{
-					String[] contacts = contact.getText().toString().split("; ");
+					final String[] contacts = contact.getText().toString().split("; ");
 
-                    SendUtil.sendMessage(context, contacts, mEditText.getText().toString());
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            SendUtil.sendMessage(context, contacts, mEditText.getText().toString());
+                        }
+                    }).start();
 
                     if (sharedPrefs.getBoolean("cache_conversations", false)) {
                         Intent cacheService = new Intent(context, CacheService.class);
                         context.startService(cacheService);
                     }
 
-                    finish();
+                    if (sharedPrefs.getBoolean("voice_enabled", false)) {
+                        registerReceiver(new BroadcastReceiver() {
+                            @Override
+                            public void onReceive(Context context, Intent intent) {
+                                unregisterReceiver(this);
+                                finish();
+                            }
+                        }, new IntentFilter(Transaction.REFRESH));
+                    } else {
+                        finish();
+                    }
 				}
 			}
 			
@@ -464,6 +481,34 @@ public class SendMessage extends Activity {
 				
 			});
 		}
+
+        final AppSettings settings = AppSettings.init(this);
+        final ImageButton voiceButton = (ImageButton) newMessageView.findViewById(R.id.voiceButton);
+
+        if (settings.voiceAccount != null) {
+            if (settings.voiceEnabled) {
+                voiceButton.setImageResource(R.drawable.voice_enabled);
+            } else {
+                voiceButton.setImageResource(R.drawable.voice_disabled);
+            }
+
+            voiceButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (settings.voiceEnabled) {
+                        settings.voiceEnabled = false;
+                        sharedPrefs.edit().putBoolean("voice_enabled", false).commit();
+                        voiceButton.setImageResource(R.drawable.voice_disabled);
+                    } else {
+                        settings.voiceEnabled = true;
+                        sharedPrefs.edit().putBoolean("voice_enabled", true).commit();
+                        voiceButton.setImageResource(R.drawable.voice_enabled);
+                    }
+                }
+            });
+        } else {
+            voiceButton.setVisibility(View.GONE);
+        }
 		
 		ListView searchView = (ListView) newMessageView.findViewById(R.id.contactSearch);
 
@@ -485,6 +530,8 @@ public class SendMessage extends Activity {
         searchView.setBackgroundColor(ctConversationListBackground);
         emojiButton.setBackgroundResource(R.drawable.pitch_black_send_button);
         emojiButton.setColorFilter(emojiButtonColor);
+        voiceButton.setBackgroundResource(R.drawable.pitch_black_send_button);
+        voiceButton.setColorFilter(emojiButtonColor);
         mEditText.setTextColor(draftTextColor);
         contact.setTextColor(draftTextColor);
 

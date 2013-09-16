@@ -60,11 +60,9 @@ public class MainActivityPopup extends MainActivity {
 
         if(sharedPrefs.getBoolean("disable_backgrounds", true))
         {
-            customBackground = false;
-            customBackground2 = false;
+            settings.customBackground = false;
+            settings.customBackground2 = false;
         }
-
-        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         if (sharedPrefs.getBoolean("unlock_screen", false))
         {
@@ -76,7 +74,7 @@ public class MainActivityPopup extends MainActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
-        if (sharedPrefs.getBoolean("ct_light_action_bar", false))
+        if (settings.lightActionBar)
         {
             setTheme(R.style.HangoutsThemeDialog);
         }
@@ -102,8 +100,8 @@ public class MainActivityPopup extends MainActivity {
 
         if (sharedPrefs.getBoolean("show_full_app_button", false)) {
 
-            fullApp.setTextColor(emojiButtonColor);
-            fullApp.setTextSize(Integer.parseInt(textSize));
+            fullApp.setTextColor(settings.emojiButtonColor);
+            fullApp.setTextSize(Integer.parseInt(settings.textSize));
             fullApp.setVisibility(View.VISIBLE);
 
             fullApp.setOnClickListener(new View.OnClickListener() {
@@ -178,7 +176,7 @@ public class MainActivityPopup extends MainActivity {
 			title.setTextSpacing(5000);
 		}
 		
-		if (!sharedPrefs.getBoolean("custom_theme", false))
+		if (!settings.customTheme)
         {
         	if (sharedPrefs.getBoolean("title_text_color", false))
         	{
@@ -194,7 +192,7 @@ public class MainActivityPopup extends MainActivity {
         	title.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
         }
 		
-        if (!sharedPrefs.getBoolean("custom_theme", false))
+        if (!settings.customTheme)
         {
             String titleColor = sharedPrefs.getString("title_color", "blue");
             
