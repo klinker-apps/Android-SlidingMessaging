@@ -281,7 +281,7 @@ public class SlideOverService extends Service {
                         |WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 PixelFormat.TRANSLUCENT);
         haloParams.gravity = Gravity.TOP | Gravity.LEFT;
-        haloParams.windowAnimations = android.R.style.Animation_InputMethod;
+        haloParams.windowAnimations = android.R.style.Animation_Toast;
 
         haloWindow.removeView(haloView);
         haloWindow.addView(haloView, haloParams);
@@ -301,7 +301,7 @@ public class SlideOverService extends Service {
                         |WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 PixelFormat.TRANSLUCENT);
         haloParams.gravity = Gravity.TOP | Gravity.LEFT;
-        haloParams.windowAnimations = android.R.style.Animation_InputMethod;
+        haloParams.windowAnimations = android.R.style.Animation_Toast;
 
         haloWindow.updateViewLayout(haloView, haloParams);
     }
@@ -461,7 +461,7 @@ public class SlideOverService extends Service {
                         |WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 PixelFormat.TRANSLUCENT);
         haloParams.gravity = Gravity.TOP | Gravity.LEFT;
-        haloParams.windowAnimations = android.R.style.Animation_InputMethod;
+        haloParams.windowAnimations = android.R.style.Animation_Toast;
 
         haloHiddenParams = new WindowManager.LayoutParams(
                 halo.getWidth(),
