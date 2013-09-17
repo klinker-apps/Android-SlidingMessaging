@@ -10,6 +10,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.util.TypedValue;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.ViewGroup;
@@ -60,7 +61,7 @@ public class  ContactView extends ViewGroup {
 
         contactCurrentPaint = new Paint();
         contactCurrentPaint.setColor(getResources().getColor(R.color.black));
-        contactCurrentPaint.setAlpha(215);
+        contactCurrentPaint.setAlpha(140);
 
         contactClosedPaint = new Paint();
         contactClosedPaint.setColor(getResources().getColor(R.color.black));
@@ -79,42 +80,42 @@ public class  ContactView extends ViewGroup {
         width = d.getWidth();
 
         if (!ignore[0]) {
-            Rect contOneRect = new Rect(0, 0, 100, 100);
-            canvas.drawRect(0, 0, 100, 100, blackPaint);
+            Rect contOneRect = new Rect(0, 0, toDP(60), toDP(60));
+            canvas.drawRect(contOneRect, blackPaint);
             if (currentContact != 0)
-                canvas.drawRect(0, 0, 100, 100, strokePaint);
+                canvas.drawRect(contOneRect, strokePaint);
             canvas.drawBitmap(contactPics[0], null, contOneRect, currentContact == 0 ? contactCurrentPaint : contactClosedPaint);
         }
 
         if (!ignore[1]) {
-            Rect contTwoRect = new Rect(105, 0, 205, 100);
-            canvas.drawRect(105, 0, 205, 100, blackPaint);
+            Rect contTwoRect = new Rect(toDP(63), 0, toDP(123), toDP(60));
+            canvas.drawRect(contTwoRect, blackPaint);
             if (currentContact != 1)
-                canvas.drawRect(105, 0, 205, 100, strokePaint);
+                canvas.drawRect(contTwoRect, strokePaint);
             canvas.drawBitmap(contactPics[1], null, contTwoRect, currentContact == 1 ? contactCurrentPaint : contactClosedPaint);
         }
 
         if (!ignore[2]) {
-            Rect contThreeRect = new Rect(210, 0, 310, 100);
-            canvas.drawRect(210, 0, 310, 100, blackPaint);
+            Rect contThreeRect = new Rect(toDP(126), 0, toDP(186), toDP(60));
+            canvas.drawRect(contThreeRect, blackPaint);
             if (currentContact != 2)
-                canvas.drawRect(210, 0, 310, 100, strokePaint);
+                canvas.drawRect(contThreeRect, strokePaint);
             canvas.drawBitmap(contactPics[2], null, contThreeRect, currentContact == 2 ? contactCurrentPaint : contactClosedPaint);
         }
 
         if (!ignore[3]) {
-            Rect contFourRect = new Rect(315, 0, 415, 100);
-            canvas.drawRect(315, 0, 415, 100, blackPaint);
+            Rect contFourRect = new Rect(toDP(189), 0, toDP(249), toDP(60));
+            canvas.drawRect(contFourRect, blackPaint);
             if (currentContact != 3)
-                canvas.drawRect(315, 0, 415, 100, strokePaint);
+                canvas.drawRect(contFourRect, strokePaint);
             canvas.drawBitmap(contactPics[3], null, contFourRect, currentContact == 3 ? contactCurrentPaint : contactClosedPaint);
         }
 
         if (!ignore[4]) {
-            Rect contFiveRect = new Rect(420, 0, 520, 100);
-            canvas.drawRect(420, 0, 520, 100, blackPaint);
+            Rect contFiveRect = new Rect(toDP(252), 0, toDP(312), toDP(60));
+            canvas.drawRect(contFiveRect, blackPaint);
             if (currentContact != 4)
-                canvas.drawRect(420, 0, 520, 100, strokePaint);
+                canvas.drawRect(contFiveRect, strokePaint);
             canvas.drawBitmap(contactPics[4], null, contFiveRect, currentContact == 4 ? contactCurrentPaint : contactClosedPaint);
         }
 
@@ -240,5 +241,9 @@ public class  ContactView extends ViewGroup {
                 ignore[i] = true;
             }
         }
+    }
+
+    public int toDP(int px) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, getResources().getDisplayMetrics());
     }
 }

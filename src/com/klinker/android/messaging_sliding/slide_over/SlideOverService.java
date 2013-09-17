@@ -275,15 +275,15 @@ public class SlideOverService extends Service {
                 if (currentY > 50 && currentY < 150 && currentX > 50 && currentX < width - 50) {// if it is in the y zone and the x zone
                     currentX -= 50; // to match the start of the window
 
-                    if (currentX < 100 && !ContactView.ignore[0]) { // contact 1 touched
+                    if (currentX < toDP(60) && !ContactView.ignore[0]) { // contact 1 touched
                         ContactView.currentContact = 0;
-                    } else if (currentX > 105 && currentX < 205 && !ContactView.ignore[1]) { // contact 2 touched
+                    } else if (currentX > toDP(63) && currentX < toDP(123) && !ContactView.ignore[1]) { // contact 2 touched
                         ContactView.currentContact = 1;
-                    } else if (currentX > 210 && currentX < 310 && !ContactView.ignore[2]) { // contact 3 touched
+                    } else if (currentX > toDP(126) && currentX < toDP(186) && !ContactView.ignore[2]) { // contact 3 touched
                         ContactView.currentContact = 2;
-                    } else if (currentX > 315 && currentX < 415 && !ContactView.ignore[3]) { // contact 4 touched
+                    } else if (currentX > toDP(189) && currentX < toDP(249) && !ContactView.ignore[3]) { // contact 4 touched
                         ContactView.currentContact = 3;
-                    } else if (currentX > 420 && currentX < 520 && !ContactView.ignore[4]) { // contact 5 touched
+                    } else if (currentX > toDP(252) && currentX < toDP(312) && !ContactView.ignore[4]) { // contact 5 touched
                         ContactView.currentContact = 4;
                     }
 
@@ -1490,6 +1490,14 @@ public class SlideOverService extends Service {
                     }, 220);
                 }
             }*/
+
+            // remove the message view and contact view so they don't cause problems
+            try {
+                messageWindow.removeView(messageView);
+                messageWindow.removeView(contactView);
+            } catch (Exception e) {
+
+            }
         }
     };
 
