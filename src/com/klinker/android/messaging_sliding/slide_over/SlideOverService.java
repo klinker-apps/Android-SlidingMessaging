@@ -1354,9 +1354,14 @@ public class SlideOverService extends Service {
                 @Override
                 public void run() {
                     haloView.invalidate();
-                    haloWindow.updateViewLayout(haloView, haloParams);
+                    try {
+                        haloWindow.removeView(haloView);
+                        haloWindow.addView(haloView, haloParams);
+                    } catch (Exception e) {
+
+                    }
                 }
-            }, 500);
+            }, 1000);
 
         }
     };
