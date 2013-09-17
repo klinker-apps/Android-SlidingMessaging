@@ -178,6 +178,8 @@ public class MessageCursorAdapter extends CursorAdapter {
         } catch (Exception e) {
 
         }
+
+        pattern = Pattern.compile(patternStr);
     }
 
     private int getItemViewType(Cursor query) {
@@ -1820,11 +1822,12 @@ public class MessageCursorAdapter extends CursorAdapter {
         public Uri imageUri;
     }
 
+    private final String patternStr = "[^\\x20-\\x7E\\n]";
+    private Pattern pattern;
+
     public void setMessageText(final TextView textView, final String body) {
         if (MainActivity.settings.smilies.equals("with"))
         {
-            String patternStr = "[^\\x20-\\x7E\\n]";
-            Pattern pattern = Pattern.compile(patternStr);
             Matcher matcher = pattern.matcher(body);
 
             if (matcher.find())
@@ -1877,8 +1880,6 @@ public class MessageCursorAdapter extends CursorAdapter {
             }
         } else if (MainActivity.settings.smilies.equals("without"))
         {
-            String patternStr = "[^\\x20-\\x7E\\n]";
-            Pattern pattern = Pattern.compile(patternStr);
             Matcher matcher = pattern.matcher(body);
 
             if (matcher.find())
@@ -1931,8 +1932,6 @@ public class MessageCursorAdapter extends CursorAdapter {
             }
         } else if (MainActivity.settings.smilies.equals("none"))
         {
-            String patternStr = "[^\\x20-\\x7E\\n]";
-            Pattern pattern = Pattern.compile(patternStr);
             Matcher matcher = pattern.matcher(body);
 
             if (matcher.find())
@@ -1972,8 +1971,6 @@ public class MessageCursorAdapter extends CursorAdapter {
             }
         } else if (MainActivity.settings.smilies.equals("both"))
         {
-            String patternStr = "[^\\x20-\\x7E\\n]";
-            Pattern pattern = Pattern.compile(patternStr);
             Matcher matcher = pattern.matcher(body);
 
             if (matcher.find())
