@@ -118,11 +118,11 @@ public class  ContactView extends ViewGroup {
         contactNames[3] = "Cody Chapman";
         contactNames[4] = "Jake Alleman";
 
-        message[0] = "Contact 0. This is the first message that i am making with the new slideover. Contact 0";
-        message[1] = "Contact 1. This is the first message that i am making with the new slideover. Contact 1";
-        message[2] = "Contact 2. This is the first message that i am making with the new slideover. Contact 2";
-        message[3] = "Contact 3. This is the first message that i am making with the new slideover. Contact 3";
-        message[4] = "Contact 4. This is the first message that i am making with the new slideover. Contact 4";
+        message[0] = "Contact 0. This is the first message that i am making with the new slideover. Contact 0" + "\n\n" + "this is the 2nd half of the message. It keeps going for this conversation to test if the thing is big enough for 5 lines or not. this is a continuation of the testing now.";
+        message[1] = "Contact 1. This is the first message that i \n\nContact 1" + "\n\n" + "this is the 2nd half of the message";
+        message[2] = "Contact 2. This is the first message that i\n\nContact 2" + "\n\n" + "this is the 2nd half of the message \ntesting";
+        message[3] = "Contact 3. This is the first message that i am making with the new slideover. Contact 3" + "\n\n" + "this is the 2nd half of the message";
+        message[4] = "Contact 4. This is the first message that i am making with the new slideover. Contact 4" + "\n\n" + "this is the 2nd half of the message";
 
         for (int i = 0; i < 5; i++)
             contactPics[i] = BitmapFactory.decodeResource(resources, R.drawable.ic_contact_picture);
