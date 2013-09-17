@@ -453,7 +453,7 @@ public class SlideOverService extends Service {
         /*@Override
         public boolean onSingleTapUp (MotionEvent event) {
             // play the sound like PA has it
-            //playSoundEffect(SoundEffectConstants.CLICK);
+            playSoundEffect(SoundEffectConstants.CLICK);
 
         
             return true;
@@ -470,6 +470,8 @@ public class SlideOverService extends Service {
         public boolean onSingleTapConfirmed(MotionEvent event) {
 
             arcViewHandler.removeCallbacks(arcViewRunnable);
+
+            haloView.playSoundEffect(SoundEffectConstants.CLICK);
 
             if (HAPTIC_FEEDBACK) {
                 v.vibrate(10);
@@ -509,6 +511,7 @@ public class SlideOverService extends Service {
         @Override
         public boolean onDoubleTap(MotionEvent event) {
             // Implement vibrate when the move feature is done
+            haloView.playSoundEffect(SoundEffectConstants.CLICK);
             if (HAPTIC_FEEDBACK) {
                 v.vibrate(10);
             }
@@ -554,6 +557,7 @@ public class SlideOverService extends Service {
 
             if (!changingSliver) {
 
+                haloView.playSoundEffect(SoundEffectConstants.CLICK);
                 if (HAPTIC_FEEDBACK) {
                     v.vibrate(10);
                 }
