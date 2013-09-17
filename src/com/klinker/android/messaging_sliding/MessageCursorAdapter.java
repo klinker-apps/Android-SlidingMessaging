@@ -422,7 +422,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                                     } else {
                                                         holder.media.setImageBitmap(pictureF);
                                                     }
-                                                } catch (Exception e) {
+                                                } catch (Throwable e) {
                                                     holder.media.setVisibility(View.GONE);
                                                 }
 

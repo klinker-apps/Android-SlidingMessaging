@@ -38,7 +38,13 @@ public class FNAction extends BroadcastReceiver {
 
                 case 1:
                     // create new reply overlay
-                    final String editTextHint = context.getResources().getString(R.string.reply_to) + " " + MainActivity.findContactName(FNReceiver.messages.get(id)[0], context);
+                    final String editTextHint;
+                    try {
+                        editTextHint = context.getResources().getString(R.string.reply_to) + " " + MainActivity.findContactName(FNReceiver.messages.get(id)[0], context);
+                    } catch (Exception e) {
+                        // uhhh not sure what has happened here, but catch it lol
+                        editTextHint = "";
+                    }
                     final String previousText = FNReceiver.messages.get(id)[1];
                     final Bitmap image = MainActivity.getFacebookPhoto(FNReceiver.messages.get(id)[0], context);
                     final Extension.onClickListener imageOnClick = new Extension.onClickListener() {

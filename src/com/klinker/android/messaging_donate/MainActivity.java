@@ -5826,7 +5826,15 @@ public class MainActivity extends FragmentActivity {
         MainActivity.notChanged = false;
         MainActivity.threadedLoad = false;
         int position = mViewPager.getCurrentItem();
-        String currentNumber = inboxNumber.get(mViewPager.getCurrentItem());
+        String currentNumber;
+
+        try {
+            currentNumber = inboxNumber.get(mViewPager.getCurrentItem());
+        } catch (IndexOutOfBoundsException e) {
+            // no messages
+            refreshViewPager();
+            return;
+        }
 
         boolean flag = false;
 
