@@ -197,6 +197,14 @@ public class SlideOverService extends Service {
                 if(currentX > 50 && currentX < width - 50 && currentY > 155 && currentY < 155 + 200)
                 {
                     try {
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                ContactView.currentContact = 0;
+                                contactView.invalidate();
+                            }
+                        }, 200);
+                        
                         Intent intent = finishFlat();
                         intent.putExtra("openToPage", ContactView.currentContact);
                         startActivity(intent);
@@ -737,7 +745,7 @@ public class SlideOverService extends Service {
 
             numberNewConv = 0;
         }
-        
+
         haloWindow.updateViewLayout(haloView, haloParams);
 
         // now will fire a different intent depending on what view you are in
