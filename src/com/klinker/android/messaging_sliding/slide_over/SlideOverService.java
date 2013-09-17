@@ -230,7 +230,7 @@ public class SlideOverService extends Service {
                 float currentX = motionEvent.getRawX();
                 float currentY = motionEvent.getRawY();
 
-                if(currentX > 50 && currentX < width - 50 && currentY > 155 && currentY < 155 + toDP(160))
+                if(currentX > 50 && currentX < width - 50 && currentY > 50 + toDP(63) && currentY < 50 + toDP(63) + toDP(160))
                 {
                     if (!isPlaying) {
                         messageView.playSoundEffect(SoundEffectConstants.CLICK);
@@ -290,7 +290,7 @@ public class SlideOverService extends Service {
                 float currentX = event.getRawX();
                 float currentY = event.getRawY();
 
-                if (currentY > 50 && currentY < 150 && currentX > 50 && currentX < width - 50) {// if it is in the y zone and the x zone
+                if (currentY > 50 && currentY < 50 + toDP(60) && currentX > 50 && currentX < width - 50) {// if it is in the y zone and the x zone
                     currentX -= 50; // to match the start of the window
 
                     if (currentX < toDP(60) && !ContactView.ignore[0]) { // contact 1 touched
@@ -671,7 +671,7 @@ public class SlideOverService extends Service {
                 width - 100,  // 50 pixels on each side
                 toDP(160),        // 250 pixels tall
                 50,         // 50 pixel width on the side
-                155,         // 155 pixels down the screen
+                50 + toDP(63),         // 155 pixels down the screen
                 WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                         |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
@@ -683,7 +683,7 @@ public class SlideOverService extends Service {
 
         contactParams = new WindowManager.LayoutParams(
                 width - 100,  // 50 pixels on each side
-                100,        // 100 pixels tall
+                toDP(60),        // 100 pixels tall
                 50,         // 40 pixel width on the side
                 50,         // 60 pixels down the screen
                 WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
