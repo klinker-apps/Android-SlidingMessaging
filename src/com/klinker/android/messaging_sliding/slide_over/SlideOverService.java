@@ -80,6 +80,8 @@ public class SlideOverService extends Service {
     private boolean movingBubble = false;
     private boolean changingSliver = false;
 
+    private boolean isPlaying = false;
+
     private int lastZone = 0;
     private int currentZone = 0;
     private int zoneWidth;
@@ -230,6 +232,22 @@ public class SlideOverService extends Service {
 
                 if(currentX > 50 && currentX < width - 50 && currentY > 155 && currentY < 155 + toDP(160))
                 {
+                    if (!isPlaying) {
+                        messageView.playSoundEffect(SoundEffectConstants.CLICK);
+                        isPlaying = true;
+
+                        if (HAPTIC_FEEDBACK) {
+                            ((Vibrator) getSystemService(Context.VIBRATOR_SERVICE)).vibrate(10);
+                        }
+                    }
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            isPlaying = false;
+                        }
+                    }, 100);
+
                     arcView.newConversations.clear();
 
                     haloView.haloNewAlpha = 0;
@@ -276,16 +294,63 @@ public class SlideOverService extends Service {
                     currentX -= 50; // to match the start of the window
 
                     if (currentX < toDP(60) && !ContactView.ignore[0]) { // contact 1 touched
+                        if (!isPlaying) {
+                            contactView.playSoundEffect(SoundEffectConstants.CLICK);
+                            isPlaying = true;
+
+                            if (HAPTIC_FEEDBACK) {
+                                ((Vibrator) getSystemService(Context.VIBRATOR_SERVICE)).vibrate(10);
+                            }
+                        }
                         ContactView.currentContact = 0;
                     } else if (currentX > toDP(63) && currentX < toDP(123) && !ContactView.ignore[1]) { // contact 2 touched
+                        if (!isPlaying) {
+                            contactView.playSoundEffect(SoundEffectConstants.CLICK);
+                            isPlaying = true;
+
+                            if (HAPTIC_FEEDBACK) {
+                                ((Vibrator) getSystemService(Context.VIBRATOR_SERVICE)).vibrate(10);
+                            }
+                        }
                         ContactView.currentContact = 1;
                     } else if (currentX > toDP(126) && currentX < toDP(186) && !ContactView.ignore[2]) { // contact 3 touched
+                        if (!isPlaying) {
+                            contactView.playSoundEffect(SoundEffectConstants.CLICK);
+                            isPlaying = true;
+
+                            if (HAPTIC_FEEDBACK) {
+                                ((Vibrator) getSystemService(Context.VIBRATOR_SERVICE)).vibrate(10);
+                            }
+                        }
                         ContactView.currentContact = 2;
                     } else if (currentX > toDP(189) && currentX < toDP(249) && !ContactView.ignore[3]) { // contact 4 touched
+                        if (!isPlaying) {
+                            contactView.playSoundEffect(SoundEffectConstants.CLICK);
+                            isPlaying = true;
+
+                            if (HAPTIC_FEEDBACK) {
+                                ((Vibrator) getSystemService(Context.VIBRATOR_SERVICE)).vibrate(10);
+                            }
+                        }
                         ContactView.currentContact = 3;
                     } else if (currentX > toDP(252) && currentX < toDP(312) && !ContactView.ignore[4]) { // contact 5 touched
+                        if (!isPlaying) {
+                            contactView.playSoundEffect(SoundEffectConstants.CLICK);
+                            isPlaying = true;
+
+                            if (HAPTIC_FEEDBACK) {
+                                ((Vibrator) getSystemService(Context.VIBRATOR_SERVICE)).vibrate(10);
+                            }
+                        }
                         ContactView.currentContact = 4;
                     }
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            isPlaying = false;
+                        }
+                    }, 100);
 
                     contactView.invalidate();
                     messageView.invalidate();
