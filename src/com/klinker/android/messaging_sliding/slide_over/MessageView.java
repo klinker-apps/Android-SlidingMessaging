@@ -88,7 +88,7 @@ public class MessageView extends ViewGroup {
 
         canvas.drawText(ContactView.contactNames[ContactView.currentContact], 10, 40, namePaint);
 
-        int amountDown = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 25, mContext.getResources().getDisplayMetrics());
+        int amountDown = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 19, mContext.getResources().getDisplayMetrics());
 
         String message3 = ContactView.message[ContactView.currentContact][2];
 
@@ -105,7 +105,7 @@ public class MessageView extends ViewGroup {
 
             if (mTextLayout3.getLineCount() > 1) {
                 message3 = message3.substring(0, start - 4) + "...";
-                amountDown -= (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 18, mContext.getResources().getDisplayMetrics());
+                //amountDown -= (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 18, mContext.getResources().getDisplayMetrics());
             } else {
                 message3 = message3.substring(0, start);
             }
