@@ -68,6 +68,7 @@ public class MessageView extends ViewGroup {
 
         messageSentPaint = new TextPaint(messageReceivedPaint);
         messageSentPaint.setColor(Color.GRAY);
+        messageSentPaint.setAlpha(SlideOverService.TOUCHED_ALPHA);
 
         namePaint = new Paint(messageReceivedPaint);
         namePaint.setAlpha(SlideOverService.TOUCHED_ALPHA);
