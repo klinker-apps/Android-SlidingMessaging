@@ -29,7 +29,6 @@
     <orderEntry type="module" module-name="android-smsmms" />
     <orderEntry type="module" module-name="ion1" />
     <orderEntry type="module" module-name="FloatingNotificationsExtensionLibrary" />
-    <orderEntry type="library" name="gson-2.2.41" level="project" />
     <orderEntry type="library" name="gson-2.2.4" level="project" />
     <orderEntry type="module-library">
       <library>

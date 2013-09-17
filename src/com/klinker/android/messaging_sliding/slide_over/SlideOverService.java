@@ -228,7 +228,7 @@ public class SlideOverService extends Service {
                 float currentX = motionEvent.getRawX();
                 float currentY = motionEvent.getRawY();
 
-                if(currentX > 50 && currentX < width - 50 && currentY > 155 && currentY < 155 + 250)
+                if(currentX > 50 && currentX < width - 50 && currentY > 155 && currentY < 155 + toDP(160))
                 {
                     arcView.newConversations.clear();
 
@@ -604,7 +604,7 @@ public class SlideOverService extends Service {
     {
         messageWindowParams = new WindowManager.LayoutParams(
                 width - 100,  // 50 pixels on each side
-                250,        // 250 pixels tall
+                toDP(160),        // 250 pixels tall
                 50,         // 50 pixel width on the side
                 155,         // 155 pixels down the screen
                 WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,

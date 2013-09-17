@@ -84,8 +84,8 @@ public class MessageView extends ViewGroup {
         width = d.getWidth();
 
         // draws the rectangle and the outline
-        canvas.drawRect(0, 0, width - 100, 250, blackPaint);
-        canvas.drawRect(0, 0, width - 100, 250, strokePaint);
+        canvas.drawRect(0, 0, width - 100, toDP(160), blackPaint);
+        canvas.drawRect(0, 0, width - 100, toDP(160), strokePaint);
 
         canvas.drawText(ContactView.contactNames[ContactView.currentContact], 10, 40, namePaint);
 
@@ -210,5 +210,9 @@ public class MessageView extends ViewGroup {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         return false;
+    }
+
+    public int toDP(int px) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, getResources().getDisplayMetrics());
     }
 }

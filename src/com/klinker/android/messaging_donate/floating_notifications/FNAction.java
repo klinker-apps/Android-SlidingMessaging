@@ -38,7 +38,7 @@ public class FNAction extends BroadcastReceiver {
 
                 case 1:
                     // create new reply overlay
-                    final String editTextHint;
+                    String editTextHint;
                     try {
                         editTextHint = context.getResources().getString(R.string.reply_to) + " " + MainActivity.findContactName(FNReceiver.messages.get(id)[0], context);
                     } catch (Exception e) {
