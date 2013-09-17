@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="black">#222222</color>
+    <color name="pitch_black">#000000</color>
+
+    <color name="grey">#A1A1A1</color>
+    <color name="darkgrey">#3D3D3D</color>
+
+</resources>
