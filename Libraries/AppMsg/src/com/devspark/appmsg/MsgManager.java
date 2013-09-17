@@ -16,15 +16,15 @@
 
 package com.devspark.appmsg;
 
-import java.util.LinkedList;
-import java.util.Queue;
-
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * @author Evgeny Shishkin

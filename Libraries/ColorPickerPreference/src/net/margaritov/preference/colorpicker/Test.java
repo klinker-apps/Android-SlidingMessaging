@@ -16,8 +16,6 @@
 
 package net.margaritov.preference.colorpicker;
 
-import net.margaritov.preference.colorpicker.R;
-
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;

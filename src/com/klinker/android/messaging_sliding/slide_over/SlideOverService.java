@@ -4,7 +4,6 @@ import android.app.ActivityManager;
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.*;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
@@ -13,7 +12,6 @@ import android.os.IBinder;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.view.*;
-
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead2;
 

@@ -11,6 +11,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.widget.Toast;
+import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
 
 public class DeliveryReceiver extends BroadcastReceiver {
@@ -47,10 +48,10 @@ public class DeliveryReceiver extends BroadcastReceiver {
 
                 builder.setAutoCancel(true);
 
-                Intent resultIntent = new Intent(context, com.klinker.android.messaging_donate.MainActivity.class);
+                Intent resultIntent = new Intent(context, MainActivity.class);
 
                 TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-                stackBuilder.addParentStack(com.klinker.android.messaging_donate.MainActivity.class);
+                stackBuilder.addParentStack(MainActivity.class);
                 stackBuilder.addNextIntent(resultIntent);
                 PendingIntent resultPendingIntent =
                         stackBuilder.getPendingIntent(

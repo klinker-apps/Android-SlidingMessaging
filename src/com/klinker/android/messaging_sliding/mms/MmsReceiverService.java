@@ -28,9 +28,9 @@ import com.google.android.mms.APNHelper;
 import com.google.android.mms.pdu_alt.PduParser;
 import com.google.android.mms.pdu_alt.PduPersister;
 import com.google.android.mms.pdu_alt.RetrieveConf;
+import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.SendUtil;
-import com.klinker.android.messaging_sliding.MainActivity;
 import com.klinker.android.messaging_sliding.receivers.CacheService;
 import com.klinker.android.messaging_sliding.receivers.NotificationReceiver;
 import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
@@ -427,10 +427,10 @@ public class MmsReceiverService extends Service {
 
             TextMessageReceiver.setIcon(mBuilder, context);
 
-            Intent resultIntent = new Intent(context, com.klinker.android.messaging_donate.MainActivity.class);
+            Intent resultIntent = new Intent(context, MainActivity.class);
 
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-            stackBuilder.addParentStack(com.klinker.android.messaging_donate.MainActivity.class);
+            stackBuilder.addParentStack(MainActivity.class);
             stackBuilder.addNextIntent(resultIntent);
             PendingIntent resultPendingIntent =
                     stackBuilder.getPendingIntent(

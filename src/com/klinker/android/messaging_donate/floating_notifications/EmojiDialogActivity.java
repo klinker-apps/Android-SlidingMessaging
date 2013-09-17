@@ -11,9 +11,9 @@ import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.*;
+import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.SendUtil;
-import com.klinker.android.messaging_sliding.MainActivity;
 import com.klinker.android.messaging_sliding.emojis.EmojiAdapter;
 import com.klinker.android.messaging_sliding.emojis.EmojiAdapter2;
 import com.klinker.android.messaging_sliding.emojis.EmojiConverter;
@@ -130,7 +130,7 @@ public class EmojiDialogActivity extends Activity {
                 final Extension.onClickListener imageOnClick = new Extension.onClickListener() {
                     @Override
                     public void onClick() {
-                            Intent intent = new Intent(context, com.klinker.android.messaging_sliding.MainActivity.class);
+                            Intent intent = new Intent(context, MainActivity.class);
                             intent.putExtra("com.klinker.android.OPEN_THREAD", FNReceiver.messages.get(id)[0]);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(intent);

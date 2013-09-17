@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import com.klinker.android.messaging_sliding.MainActivity;
+import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_sliding.emoji_pager.adapters.*;
 import com.klinker.android.messaging_sliding.emojis.EmojiAdapter2;
 

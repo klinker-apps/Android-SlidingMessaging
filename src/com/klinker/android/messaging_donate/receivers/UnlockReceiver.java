@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import com.klinker.android.messaging_donate.MainActivity;
 
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class UnlockReceiver extends BroadcastReceiver {
             final Intent intent3;
             
             if (halo) {
-                intent3 = new Intent(context, com.klinker.android.messaging_donate.MainActivity.class); 
+                intent3 = new Intent(context, MainActivity.class);
             } else {
                 intent3 = new Intent(context, com.klinker.android.messaging_sliding.MainActivityPopup.class);
             }

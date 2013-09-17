@@ -29,6 +29,7 @@ import android.widget.ArrayAdapter;
 import android.widget.QuickContactBadge;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
 
 import java.io.ByteArrayInputStream;
@@ -256,8 +257,8 @@ public class BatchDeleteAllArrayAdapter extends ArrayAdapter<String> {
 
             @Override
             public void run() {
-                final String number = com.klinker.android.messaging_sliding.MainActivity.findContactNumber(numbers.get(position), context);
-                final Bitmap image = Bitmap.createScaledBitmap(getFacebookPhoto(number), com.klinker.android.messaging_sliding.MainActivity.contactWidth, com.klinker.android.messaging_sliding.MainActivity.contactWidth, true);
+                final String number = MainActivity.findContactNumber(numbers.get(position), context);
+                final Bitmap image = Bitmap.createScaledBitmap(getFacebookPhoto(number), MainActivity.contactWidth, MainActivity.contactWidth, true);
 
                 Spanned text;
                 String names = "";
@@ -267,20 +268,20 @@ public class BatchDeleteAllArrayAdapter extends ArrayAdapter<String> {
                     if (group.get(position).equals("yes"))
                     {
                         text = Html.fromHtml("Group MMS");
-                        names = com.klinker.android.messaging_sliding.MainActivity.loadGroupContacts(number, context);
+                        names = MainActivity.loadGroupContacts(number, context);
                     } else
                     {
-                        text = Html.fromHtml(com.klinker.android.messaging_sliding.MainActivity.findContactName(number, context));
+                        text = Html.fromHtml(MainActivity.findContactName(number, context));
                     }
                 } else
                 {
                     if (group.get(position).equals("yes"))
                     {
                         text = Html.fromHtml("Group MMS");
-                        names = com.klinker.android.messaging_sliding.MainActivity.loadGroupContacts(number, context);
+                        names = MainActivity.loadGroupContacts(number, context);
                     } else
                     {
-                        text = Html.fromHtml(com.klinker.android.messaging_sliding.MainActivity.findContactName(number, context));
+                        text = Html.fromHtml(MainActivity.findContactName(number, context));
                     }
                 }
 
@@ -299,25 +300,25 @@ public class BatchDeleteAllArrayAdapter extends ArrayAdapter<String> {
                             {
                                 try
                                 {
-                                    holder.image.setImageBitmap(Bitmap.createScaledBitmap(image, com.klinker.android.messaging_sliding.MainActivity.contactWidth, com.klinker.android.messaging_sliding.MainActivity.contactWidth, true));
+                                    holder.image.setImageBitmap(Bitmap.createScaledBitmap(image, MainActivity.contactWidth, MainActivity.contactWidth, true));
                                 } catch (Exception e)
                                 {
                                     if (ctDarkContactPics)
                                     {
-                                        holder.image.setImageBitmap(Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(R.drawable.ic_contact_dark)), com.klinker.android.messaging_sliding.MainActivity.contactWidth, com.klinker.android.messaging_sliding.MainActivity.contactWidth, true));
+                                        holder.image.setImageBitmap(Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(R.drawable.ic_contact_dark)), MainActivity.contactWidth, MainActivity.contactWidth, true));
                                     } else
                                     {
-                                        holder.image.setImageBitmap(Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(R.drawable.ic_contact_picture)), com.klinker.android.messaging_sliding.MainActivity.contactWidth, com.klinker.android.messaging_sliding.MainActivity.contactWidth, true));
+                                        holder.image.setImageBitmap(Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(R.drawable.ic_contact_picture)), MainActivity.contactWidth, MainActivity.contactWidth, true));
                                     }
                                 }
                             } else
                             {
                                 if (ctDarkContactPics)
                                 {
-                                    holder.image.setImageBitmap(Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(R.drawable.ic_contact_dark)), com.klinker.android.messaging_sliding.MainActivity.contactWidth, com.klinker.android.messaging_sliding.MainActivity.contactWidth, true));
+                                    holder.image.setImageBitmap(Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(R.drawable.ic_contact_dark)), MainActivity.contactWidth, MainActivity.contactWidth, true));
                                 } else
                                 {
-                                    holder.image.setImageBitmap(Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(R.drawable.ic_contact_picture)), com.klinker.android.messaging_sliding.MainActivity.contactWidth, com.klinker.android.messaging_sliding.MainActivity.contactWidth, true));
+                                    holder.image.setImageBitmap(Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(R.drawable.ic_contact_picture)), MainActivity.contactWidth, MainActivity.contactWidth, true));
                                 }
                             }
                         } else

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.*;
-import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,6 +14,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import com.haarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
+import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
 
 import java.io.IOException;
@@ -99,7 +99,7 @@ public class BatchDeleteAllActivity extends Activity {
                                 @Override
                                 public void run() {
                                     progDialog.dismiss();
-                                    Intent intent = new Intent(context, com.klinker.android.messaging_donate.MainActivity.class);
+                                    Intent intent = new Intent(context, MainActivity.class);
                                     context.startActivity(intent);
                                     finish();
                                     overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);

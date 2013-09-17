@@ -27,13 +27,14 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.RelativeLayout.LayoutParams;
+import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.SendUtil;
-import com.klinker.android.messaging_sliding.MainActivity;
 import com.klinker.android.messaging_sliding.emojis.*;
 import com.klinker.android.messaging_sliding.receivers.CacheService;
 import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
 import com.klinker.android.send_message.Transaction;
+import com.klinker.android.send_message.Utils;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -532,7 +533,7 @@ public class QuickReply extends Activity {
 	        		length += ("\n" + sharedPrefs.getString("signature", "")).length();
 	        	}
 	        	
-	        	String patternStr = "[^" + MainActivity.GSM_CHARACTERS_REGEX + "]";
+	        	String patternStr = "[^" + Utils.GSM_CHARACTERS_REGEX + "]";
 				Pattern pattern = Pattern.compile(patternStr);
 				Matcher matcher = pattern.matcher(s);
 				
@@ -699,7 +700,7 @@ public class QuickReply extends Activity {
 				public void onClick(View arg0) {
 					
 					Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:"+number2));
-		            intent.setClass(context, com.klinker.android.messaging_donate.MainActivity.class);
+		            intent.setClass(context, MainActivity.class);
 		            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		            intent.setAction(Intent.ACTION_SENDTO);
 			        intent.putExtra("com.klinker.android.OPEN", number2);

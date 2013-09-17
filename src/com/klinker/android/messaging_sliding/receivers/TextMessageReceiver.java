@@ -21,14 +21,13 @@ import android.provider.ContactsContract.PhoneLookup;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.telephony.PhoneNumberUtils;
-import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
 import android.text.Editable;
 import android.text.SpannableStringBuilder;
 import android.util.Log;
+import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.receivers.UnlockReceiver;
-import com.klinker.android.messaging_sliding.MainActivity;
 import com.klinker.android.messaging_sliding.MainActivityPopup;
 import com.klinker.android.messaging_sliding.blacklist.BlacklistContact;
 import com.klinker.android.messaging_sliding.notifications.IndividualSetting;
@@ -222,7 +221,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
                     }
 
                     if (sharedPrefs.getBoolean("halo_popup", false)) {
-                        intent2 = new Intent(context, com.klinker.android.messaging_donate.MainActivity.class);
+                        intent2 = new Intent(context, MainActivity.class);
                         pIntentExtra = 0;
 
                         try
@@ -317,12 +316,12 @@ public class TextMessageReceiver extends BroadcastReceiver {
 						        	}
 						        }
 						        
-						        Intent resultIntent = new Intent(context, com.klinker.android.messaging_donate.MainActivity.class);
+						        Intent resultIntent = new Intent(context, MainActivity.class);
 						        resultIntent.setAction(Intent.ACTION_SENDTO);
 						        resultIntent.putExtra("com.klinker.android.OPEN", address);
 						
 						        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-						        stackBuilder.addParentStack(com.klinker.android.messaging_donate.MainActivity.class);
+						        stackBuilder.addParentStack(MainActivity.class);
 						        stackBuilder.addNextIntent(resultIntent);
 						        PendingIntent resultPendingIntent =
 						                stackBuilder.getPendingIntent(
@@ -516,10 +515,10 @@ public class TextMessageReceiver extends BroadcastReceiver {
 						        	}
 						        }
 						        
-						        Intent resultIntent = new Intent(context, com.klinker.android.messaging_donate.MainActivity.class);
+						        Intent resultIntent = new Intent(context, MainActivity.class);
 						
 						        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-						        stackBuilder.addParentStack(com.klinker.android.messaging_donate.MainActivity.class);
+						        stackBuilder.addParentStack(MainActivity.class);
 						        stackBuilder.addNextIntent(resultIntent);
 						        PendingIntent resultPendingIntent =
 						                stackBuilder.getPendingIntent(
@@ -693,10 +692,10 @@ public class TextMessageReceiver extends BroadcastReceiver {
 						        	}
 						        }
 						        
-						        Intent resultIntent = new Intent(context, com.klinker.android.messaging_donate.MainActivity.class);
+						        Intent resultIntent = new Intent(context, MainActivity.class);
 						
 						        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-						        stackBuilder.addParentStack(com.klinker.android.messaging_donate.MainActivity.class);
+						        stackBuilder.addParentStack(MainActivity.class);
 						        stackBuilder.addNextIntent(resultIntent);
 						        PendingIntent resultPendingIntent =
 						                stackBuilder.getPendingIntent(
@@ -850,10 +849,10 @@ public class TextMessageReceiver extends BroadcastReceiver {
 
                                 setIcon(mBuilder, context);
 						        
-						        Intent resultIntent = new Intent(context, com.klinker.android.messaging_donate.MainActivity.class);
+						        Intent resultIntent = new Intent(context, MainActivity.class);
 						
 						        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-						        stackBuilder.addParentStack(com.klinker.android.messaging_donate.MainActivity.class);
+						        stackBuilder.addParentStack(MainActivity.class);
 						        stackBuilder.addNextIntent(resultIntent);
 						        PendingIntent resultPendingIntent =
 						                stackBuilder.getPendingIntent(
@@ -992,10 +991,10 @@ public class TextMessageReceiver extends BroadcastReceiver {
 
                                 setIcon(mBuilder, context);
 						        
-						        Intent resultIntent = new Intent(context, com.klinker.android.messaging_donate.MainActivity.class);
+						        Intent resultIntent = new Intent(context, MainActivity.class);
 						
 						        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-						        stackBuilder.addParentStack(com.klinker.android.messaging_donate.MainActivity.class);
+						        stackBuilder.addParentStack(MainActivity.class);
 						        stackBuilder.addNextIntent(resultIntent);
 						        PendingIntent resultPendingIntent =
 						                stackBuilder.getPendingIntent(
@@ -1181,7 +1180,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 									boolean halo = sharedPrefs.getBoolean("halo_popup", false);
 									
 									if (halo) {
-										intent3 = new Intent(context, com.klinker.android.messaging_donate.MainActivity.class);
+										intent3 = new Intent(context, MainActivity.class);
 									} else {
 										intent3 = new Intent(context, com.klinker.android.messaging_sliding.MainActivityPopup.class);
 
