@@ -226,9 +226,13 @@ public class  ContactView extends ViewGroup {
                         count2++;
                     } while (cursor2.moveToNext() && count2 < 3);
 
+                    cursor2.close();
+
                     count++;
                 }
             } while (cursor.moveToNext() && count < 5);
+
+            cursor.close();
         }
 
         for (int i = 0; i < 5; i++) {
