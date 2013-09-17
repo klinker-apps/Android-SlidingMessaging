@@ -11,18 +11,15 @@ import android.content.res.Configuration;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.support.v4.view.PagerTitleStrip;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.EditText;
-
+import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
 
@@ -47,14 +44,6 @@ public class MainActivityPopup extends MainActivity {
 
     @Override
     public void setUpWindow() {
-        com.klinker.android.messaging_donate.MainActivity.group = null;
-        com.klinker.android.messaging_donate.MainActivity.inboxBody = null;
-        com.klinker.android.messaging_donate.MainActivity.inboxDate = null;
-        com.klinker.android.messaging_donate.MainActivity.inboxNumber = null;
-        com.klinker.android.messaging_donate.MainActivity.msgCount = null;
-        com.klinker.android.messaging_donate.MainActivity.msgRead = null;
-        com.klinker.android.messaging_donate.MainActivity.threadIds = null;
-        
         isPopup = true;
         attachOnSend = true;
 
@@ -107,7 +96,7 @@ public class MainActivityPopup extends MainActivity {
             fullApp.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent app = new Intent(getBaseContext(), com.klinker.android.messaging_donate.MainActivity.class);
+                    Intent app = new Intent(getBaseContext(), MainActivity.class);
                     startActivity(app);
                     overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                 }

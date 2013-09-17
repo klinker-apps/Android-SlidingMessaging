@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
-
 import com.klinker.android.messaging_donate.R;
 
 import java.util.Locale;

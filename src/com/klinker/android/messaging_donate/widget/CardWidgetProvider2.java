@@ -16,9 +16,6 @@ import com.klinker.android.messaging_donate.R;
 import java.io.*;
 import java.util.ArrayList;
 
-/**
- * Created by Jacob on 5/26/13.
- */
 public class CardWidgetProvider2 extends AppWidgetProvider {
 
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {

@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.util.Log;
-
 import com.google.gson.annotations.SerializedName;
 import com.klinker.android.send_message.Utils;
 import com.koushikdutta.ion.Ion;

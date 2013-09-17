@@ -31,6 +31,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
 import wizardpager.wizard.model.AbstractWizardModel;
 import wizardpager.wizard.model.ModelCallbacks;
@@ -139,7 +140,7 @@ public class ChangeLogMain extends FragmentActivity implements
                         flag = true;
                     }
 
-                    final Intent intent = new Intent(context, com.klinker.android.messaging_sliding.MainActivity.class);
+                    final Intent intent = new Intent(context, MainActivity.class);
                     intent.setAction(fromIntent.getAction());
                     intent.setData(fromIntent.getData());
 

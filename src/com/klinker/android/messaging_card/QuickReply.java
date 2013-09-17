@@ -13,7 +13,6 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
@@ -37,12 +36,14 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.RelativeLayout.LayoutParams;
+import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.SendUtil;
 import com.klinker.android.messaging_sliding.emojis.*;
 import com.klinker.android.messaging_sliding.receivers.CacheService;
 import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
 import com.klinker.android.send_message.Transaction;
+import com.klinker.android.send_message.Utils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -641,7 +642,7 @@ public class QuickReply extends FragmentActivity {
 
                 @Override
                 public void onClick(View arg0) {
-                    Intent intent = new Intent(context, com.klinker.android.messaging_donate.MainActivity.class);
+                    Intent intent = new Intent(context, MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent.putExtra("com.klinker.android.OPEN_THREAD", inboxNumber.get(mViewPager.getCurrentItem()));
                     intent.putExtra("com.klinker.android.CURRENT_TEXT", messageEntry.getText().toString());
@@ -764,7 +765,7 @@ public class QuickReply extends FragmentActivity {
                     length += ("\n" + sharedPrefs.getString("signature", "")).length();
                 }
 
-                String patternStr = "[^" + com.klinker.android.messaging_sliding.MainActivity.GSM_CHARACTERS_REGEX + "]";
+                String patternStr = "[^" + Utils.GSM_CHARACTERS_REGEX + "]";
                 Pattern pattern = Pattern.compile(patternStr);
                 Matcher matcher = pattern.matcher(s);
 

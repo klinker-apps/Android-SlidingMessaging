@@ -4,16 +4,18 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.Cursor;
-import android.graphics.*;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
-import com.klinker.android.messaging_sliding.MainActivity;
 
 import java.util.Arrays;
 

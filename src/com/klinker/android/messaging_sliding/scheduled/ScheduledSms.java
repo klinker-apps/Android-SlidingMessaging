@@ -1,11 +1,7 @@
 package com.klinker.android.messaging_sliding.scheduled;
 
 import android.app.*;
-import android.content.ActivityNotFoundException;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.*;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.net.Uri;
@@ -18,15 +14,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
+import android.widget.*;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.Toast;
-
+import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.settings.DrawerArrayAdapter;
 import com.klinker.android.messaging_donate.settings.GetHelpSettingsActivity;
@@ -408,7 +398,7 @@ public class ScheduledSms extends Activity {
     @Override
     public void onBackPressed() {
         writeToFile(text, this);
-        Intent i = new Intent(this, com.klinker.android.messaging_donate.MainActivity.class);
+        Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
         finish();
         overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);

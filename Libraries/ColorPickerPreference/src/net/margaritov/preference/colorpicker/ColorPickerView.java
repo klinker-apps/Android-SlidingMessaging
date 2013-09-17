@@ -17,15 +17,7 @@
 package net.margaritov.preference.colorpicker;
 
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.ComposeShader;
-import android.graphics.LinearGradient;
-import android.graphics.Paint;
-import android.graphics.Point;
-import android.graphics.PorterDuff;
-import android.graphics.RectF;
-import android.graphics.Shader;
+import android.graphics.*;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
 import android.graphics.Shader.TileMode;

@@ -1,6 +1,5 @@
 package com.klinker.android.messaging_sliding.developer_tips;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;

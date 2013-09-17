@@ -2,15 +2,11 @@ package com.klinker.android.messaging_sliding.batch_delete;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
-import android.database.CharArrayBuffer;
-import android.database.ContentObserver;
 import android.database.Cursor;
-import android.database.DataSetObserver;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,8 +15,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
+import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
-import com.klinker.android.messaging_sliding.MainActivity;
 
 import java.util.ArrayList;
 
@@ -95,7 +91,7 @@ public class BatchDeleteConversationActivity extends Activity implements android
                             @Override
                             public void run() {
                                 progDialog.dismiss();
-                                Intent intent = new Intent(context, com.klinker.android.messaging_donate.MainActivity.class);
+                                Intent intent = new Intent(context, MainActivity.class);
                                 context.startActivity(intent);
                                 finish();
 

@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
 
 import java.util.Calendar;
@@ -82,7 +83,7 @@ public class PasswordActivity extends FragmentActivity {
                         flag = true;
                     }
 
-                    final Intent intent = new Intent(context, com.klinker.android.messaging_sliding.MainActivity.class);
+                    final Intent intent = new Intent(context, MainActivity.class);
                     intent.setAction(fromIntent.getAction());
                     intent.setData(fromIntent.getData());
 
@@ -121,7 +122,7 @@ public class PasswordActivity extends FragmentActivity {
             flag = true;
         }
 
-        final Intent intent = new Intent(context, com.klinker.android.messaging_sliding.MainActivity.class);
+        final Intent intent = new Intent(context, MainActivity.class);
         intent.setAction(fromIntent.getAction());
         intent.setData(fromIntent.getData());
 

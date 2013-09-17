@@ -6,7 +6,6 @@ Jake:
     - delayed sending for certain times
     - rewrite menu array adapter as cursor adaptor
 Luke:
-    - Put favorites tab on emoji keyboard?
     - Message details for MMS messages
 
 1) more individual notification options (slideover color)

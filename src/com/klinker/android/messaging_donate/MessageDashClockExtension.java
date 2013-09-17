@@ -53,7 +53,7 @@ public class MessageDashClockExtension extends DashClockExtension {
             if(sharedPrefs.getBoolean("launch_slideover", false)) {
                 intent = new Intent(this, com.klinker.android.messaging_sliding.MainActivityPopup.class);
             } else {
-			    intent = new Intent(this, com.klinker.android.messaging_donate.MainActivity.class);
+			    intent = new Intent(this, MainActivity.class);
             }
 
 			Bundle b = new Bundle();
@@ -78,7 +78,7 @@ public class MessageDashClockExtension extends DashClockExtension {
                 if(sharedPrefs.getBoolean("launch_slideover", false)) {
                     intent = new Intent(this, com.klinker.android.messaging_sliding.MainActivityPopup.class);
                 } else {
-                    intent = new Intent(this, com.klinker.android.messaging_donate.MainActivity.class);
+                    intent = new Intent(this, MainActivity.class);
                 }
 
 				Bundle b = new Bundle();

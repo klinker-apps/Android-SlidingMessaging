@@ -9,7 +9,6 @@ import android.os.Environment;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
-
 import com.klinker.android.messaging_donate.R;
 
 import java.io.*;

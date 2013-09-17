@@ -8,13 +8,11 @@ import android.database.Cursor;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,13 +25,13 @@ import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.SendUtil;
 import com.klinker.android.messaging_donate.settings.AppSettings;
 import com.klinker.android.messaging_sliding.ContactSearchArrayAdapter2;
-import com.klinker.android.messaging_sliding.MainActivity;
 import com.klinker.android.messaging_sliding.emojis.EmojiAdapter;
 import com.klinker.android.messaging_sliding.emojis.EmojiAdapter2;
 import com.klinker.android.messaging_sliding.emojis.EmojiConverter;
 import com.klinker.android.messaging_sliding.emojis.EmojiConverter2;
 import com.klinker.android.messaging_sliding.receivers.CacheService;
 import com.klinker.android.send_message.Transaction;
+import com.klinker.android.send_message.Utils;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -116,7 +114,7 @@ public class SendMessage extends Activity {
 	        		length += ("\n" + sharedPrefs.getString("signature", "")).length();
 	        	}
 	        	
-	        	String patternStr = "[^" + MainActivity.GSM_CHARACTERS_REGEX + "]";
+	        	String patternStr = "[^" + Utils.GSM_CHARACTERS_REGEX + "]";
 				Pattern pattern = Pattern.compile(patternStr);
 				Matcher matcher = pattern.matcher(s);
 				

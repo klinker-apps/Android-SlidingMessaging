@@ -7,14 +7,11 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.TypedValue;
-import com.klinker.android.messaging_sliding.*;
-import com.klinker.android.messaging_sliding.MainActivity;
 import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead2;
 import com.klinker.android.send_message.Message;
 import com.klinker.android.send_message.Settings;
 import com.klinker.android.send_message.Transaction;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Calendar;
@@ -37,7 +34,7 @@ public class SendUtil {
         mrIntent.putExtra("address", number);
         context.startService(mrIntent);
 
-        com.klinker.android.messaging_sliding.MainActivity.messageRecieved = true;
+        MainActivity.messageRecieved = true;
     }
 
     public static void sendMessage(Context context, String[] number, String body)
@@ -56,7 +53,7 @@ public class SendUtil {
         mrIntent.putExtra("address", number);
         context.startService(mrIntent);
 
-        com.klinker.android.messaging_sliding.MainActivity.messageRecieved = true;
+        MainActivity.messageRecieved = true;
     }
 
     public static void sendMessage(Context context, String[] number, String body, Bitmap[] images)
@@ -76,7 +73,7 @@ public class SendUtil {
         mrIntent.putExtra("address", number);
         context.startService(mrIntent);
 
-        com.klinker.android.messaging_sliding.MainActivity.messageRecieved = true;
+        MainActivity.messageRecieved = true;
     }
 
     public static Settings getSendSettings(Context context) {

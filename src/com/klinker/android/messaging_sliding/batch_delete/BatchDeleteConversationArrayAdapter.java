@@ -20,9 +20,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_sliding.ImageViewer;
-import com.klinker.android.messaging_sliding.MainActivity;
 
 import java.io.*;
 import java.text.DateFormat;

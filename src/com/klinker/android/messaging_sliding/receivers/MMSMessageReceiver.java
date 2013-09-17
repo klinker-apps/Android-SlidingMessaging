@@ -1,10 +1,12 @@
 package com.klinker.android.messaging_sliding.receivers;
 
-import android.content.*;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SqliteWrapper;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
@@ -14,8 +16,8 @@ import android.provider.Telephony.Mms.Inbox;
 import android.util.Log;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu_alt.*;
+import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.receivers.UnlockReceiver;
-import com.klinker.android.messaging_sliding.MainActivity;
 import com.klinker.android.messaging_sliding.mms.MmsReceiverService;
 
 import java.util.Calendar;
@@ -165,7 +167,7 @@ public class MMSMessageReceiver extends BroadcastReceiver {
                                 boolean halo = sharedPrefs.getBoolean("halo_popup", false);
 
                                 if (halo) {
-                                    intent3 = new Intent(context, com.klinker.android.messaging_donate.MainActivity.class);
+                                    intent3 = new Intent(context, MainActivity.class);
                                 } else {
                                     intent3 = new Intent(context, com.klinker.android.messaging_sliding.MainActivityPopup.class);
                                 }
