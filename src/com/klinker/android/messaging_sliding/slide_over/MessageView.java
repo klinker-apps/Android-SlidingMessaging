@@ -64,7 +64,7 @@ public class MessageView extends ViewGroup {
         messagePaint.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
 
         namePaint = new Paint(messagePaint);
-        namePaint.setAlpha(SlideOverService.TOUCHED_ALPHA - 70);
+        namePaint.setAlpha(SlideOverService.TOUCHED_ALPHA);
         namePaint.setTextSize(TEXT_SIZE_BIG);
         namePaint.setTypeface(Typeface.create("sans-serif-light", Typeface.BOLD));
     }
@@ -82,7 +82,7 @@ public class MessageView extends ViewGroup {
 
         canvas.drawText(ContactView.contactNames[ContactView.currentContact], 10, 40, namePaint);
 
-        String message = ContactView.message[ContactView.currentContact];
+        String message = ContactView.message[ContactView.currentContact][0] + ContactView.message[ContactView.currentContact][1] + ContactView.message[ContactView.currentContact][2];
 
         StaticLayout mTextLayout = new StaticLayout(message, messagePaint, canvas.getWidth() - 40, Layout.Alignment.ALIGN_NORMAL, .85f, 0.0f, false);
 

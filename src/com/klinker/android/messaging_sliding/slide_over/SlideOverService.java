@@ -231,6 +231,20 @@ public class SlideOverService extends Service {
 
                 if(currentX > 50 && currentX < width - 50 && currentY > 155 && currentY < 155 + 200)
                 {
+                    arcView.newConversations.clear();
+
+                    haloView.haloNewAlpha = 0;
+                    haloView.haloAlpha = 255;
+                    haloView.invalidate();
+                    try {
+                        haloWindow.removeView(haloView);
+                        haloWindow.addView(haloView, haloParams);
+                    } catch (Exception e) {
+
+                    }
+
+                    numberNewConv = 0;
+
                     try {
                         new Handler().postDelayed(new Runnable() {
                             @Override

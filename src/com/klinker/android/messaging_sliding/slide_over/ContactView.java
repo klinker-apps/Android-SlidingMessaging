@@ -3,16 +3,20 @@ package com.klinker.android.messaging_sliding.slide_over;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.*;
+import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_sliding.MainActivity;
 
 public class  ContactView extends ViewGroup {
-    public Context mContext;
+    public static Context mContext;
 
     public Paint strokePaint;
     public Paint blackPaint;
@@ -30,7 +34,7 @@ public class  ContactView extends ViewGroup {
 
     public static Bitmap[] contactPics = new Bitmap[5];
     public static String[] contactNames = new String[5];
-    public static String[] message = new String[5];
+    public static String[][] message = new String[5][3];
 
     public ContactView(Context context) {
         super(context);
@@ -40,7 +44,7 @@ public class  ContactView extends ViewGroup {
 
         blackPaint = new Paint();
         blackPaint.setColor(getResources().getColor(R.color.black));
-        blackPaint.setAlpha(200);
+        blackPaint.setAlpha(75);
 
         strokePaint = new Paint(blackPaint);
         strokePaint.setColor(getResources().getColor(R.color.white));
@@ -50,7 +54,7 @@ public class  ContactView extends ViewGroup {
 
         contactCurrentPaint = new Paint();
         contactCurrentPaint.setColor(getResources().getColor(R.color.black));
-        contactCurrentPaint.setAlpha(150);
+        contactCurrentPaint.setAlpha(215);
 
         contactClosedPaint = new Paint();
         contactClosedPaint.setColor(getResources().getColor(R.color.black));
@@ -112,6 +116,7 @@ public class  ContactView extends ViewGroup {
         // need a contact pictures array, contact names, first message, second message
         // all should be 5 long for the 5 conversations
 
+        /* This is the test data that i was using
         contactNames[0] = "Jacob Klinker";
         contactNames[1] = "Luke Klinker";
         contactNames[2] = "Ben Madden";
@@ -126,5 +131,70 @@ public class  ContactView extends ViewGroup {
 
         for (int i = 0; i < 5; i++)
             contactPics[i] = BitmapFactory.decodeResource(resources, R.drawable.ic_contact_picture);
+        */
+
+        contactNames[0] = "";
+        contactNames[1] = "";
+        contactNames[2] = "";
+        contactNames[3] = "";
+        contactNames[4] = "";
+
+        message[0][0] = "";
+        message[0][1] = "";
+        message[0][2] = "";
+        message[1][0] = "";
+        message[1][1] = "";
+        message[1][2] = "";
+        message[2][0] = "";
+        message[2][1] = "";
+        message[2][2] = "";
+        message[3][0] = "";
+        message[3][1] = "";
+        message[3][2] = "";
+        message[4][0] = "";
+        message[4][1] = "";
+        message[4][2] = "";
+
+        for (int i = 0; i < 5; i++)
+            contactPics[i] = BitmapFactory.decodeResource(resources, R.drawable.ic_contact_picture);
+
+        Uri SMS_CONTENT_URI = Uri.parse("content://mms-sms/conversations/?simple=true");
+        Cursor cursor = mContext.getContentResolver().query( SMS_CONTENT_URI, new String[]{"_id", "recipient_ids"}, null, null, "date desc");
+
+        if (cursor.moveToFirst()) {
+            int count = 0;
+            do {
+                String id = cursor.getString(cursor.getColumnIndex("_id"));
+                String number = MainActivity.findContactNumber(cursor.getString(cursor.getColumnIndex("recipient_ids")), mContext);
+                String name = MainActivity.findContactName(number, mContext);
+
+                Cursor cursor2 = mContext.getContentResolver().query( Uri.parse("content://sms/inbox/"), new String[]{"body", "address", "thread_id"}, "thread_id=?", new String[] {id}, "date desc");
+                //Cursor cursor2 = mContext.getContentResolver().query( Uri.parse("content://mms-sms/inbox/"), new String[]{"body", "address", "thread_id", "msg_box"}, "thread_id=?", new String[] {id}, "date desc");
+                Log.v("reading_cursor_data", "looking for conversation " + id);
+
+                if (cursor2.moveToFirst()) {
+                    Log.v("reading_cursor_data", "found conversation " + id);
+                    int count2 = 0;
+
+                    contactNames[count] = name;
+                    contactPics[count] = MainActivity.getFacebookPhoto(number, mContext);
+                    //contactNames[count] = "contact " + count;
+                    do {
+                        //String s = cursor2.getString(cursor2.getColumnIndex("msg_box"));
+
+                        //if (s != null) {
+                            //Log.v("reading_cursor_data", "found mms message");
+                        //} else {
+                            Log.v("reading_cursor_data", cursor2.getString(cursor2.getColumnIndex("body")));
+                            message[count][count2] = cursor2.getString(cursor2.getColumnIndex("body")) + "\n\n";
+                        //}
+
+                        count2++;
+                    } while (cursor2.moveToNext() && count2 < 3);
+
+                    count++;
+                }
+            } while (cursor.moveToNext() && count < 5);
+        }
     }
 }
