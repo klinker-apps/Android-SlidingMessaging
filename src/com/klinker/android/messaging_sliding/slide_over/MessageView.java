@@ -59,12 +59,12 @@ public class MessageView extends ViewGroup {
         messagePaint = new TextPaint();
         messagePaint.setAntiAlias(true);
         messagePaint.setColor(Color.WHITE);
-        messagePaint.setAlpha(SlideOverService.START_ALPHA2);
+        messagePaint.setAlpha(SlideOverService.TOUCHED_ALPHA - 50);
         messagePaint.setTextSize(TEXT_SIZE);
         messagePaint.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
 
         namePaint = new Paint(messagePaint);
-        namePaint.setAlpha(SlideOverService.START_ALPHA2);
+        namePaint.setAlpha(SlideOverService.TOUCHED_ALPHA - 70);
         namePaint.setTextSize(TEXT_SIZE_BIG);
         namePaint.setTypeface(Typeface.create("sans-serif-light", Typeface.BOLD));
     }
@@ -84,12 +84,20 @@ public class MessageView extends ViewGroup {
 
         String message = ContactView.message[ContactView.currentContact];
 
-        StaticLayout mTextLayout = new StaticLayout(message, messagePaint, canvas.getWidth() - 40, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+        StaticLayout mTextLayout = new StaticLayout(message, messagePaint, canvas.getWidth() - 40, Layout.Alignment.ALIGN_NORMAL, .85f, 0.0f, false);
+
+        if (mTextLayout.getLineCount() > 4) {
+            int start = mTextLayout.getLineStart(5);
+
+            message = message.substring(0, start);
+
+            mTextLayout = new StaticLayout(message, messagePaint, canvas.getWidth() - 40, Layout.Alignment.ALIGN_NORMAL, .85f, 0.0f, false);
+        }
 
         //canvas.drawText(message, 20, 80, messagePaint);
 
         canvas.save();
-        canvas.translate(20, 60);
+        canvas.translate(20, 56);
         mTextLayout.draw(canvas);
         canvas.restore();
     }

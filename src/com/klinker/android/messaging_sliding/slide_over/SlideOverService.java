@@ -4,6 +4,7 @@ import android.app.ActivityManager;
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.*;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
@@ -12,16 +13,15 @@ import android.os.IBinder;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.view.*;
-import android.widget.ScrollView;
-import android.widget.TextView;
 
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead2;
-import com.klinker.android.messaging_sliding.templates.TemplateActivity;
 
 import java.util.List;
 
 public class SlideOverService extends Service {
+
+    public static final String BCAST_CONFIGCHANGED = "android.intent.action.CONFIGURATION_CHANGED";
 
     public HaloView haloView;
     public MessageView messageView;
@@ -323,6 +323,10 @@ public class SlideOverService extends Service {
         filter = new IntentFilter();
         filter.addAction("com.klinker.android.messaging.CLEAR_MESSAGES");
         this.registerReceiver(clearMessages, filter);
+
+        filter = new IntentFilter();
+        filter.addAction(BCAST_CONFIGCHANGED);
+        this.registerReceiver(orientationChange, filter);
     }
 
     public void changeSliverWidth(Bitmap halo, MotionEvent event, int width) {
@@ -1363,6 +1367,9 @@ public class SlideOverService extends Service {
                 }
             }, 1500);
 
+            ContactView.refreshArrays();
+            contactView.invalidate();
+            messageView.invalidate();
         }
     };
 
@@ -1377,6 +1384,98 @@ public class SlideOverService extends Service {
             haloView.invalidate();
             
             numberNewConv = 0;
+        }
+    };
+
+    public BroadcastReceiver orientationChange = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent myIntent) {
+
+            /*new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        haloWindow.removeViewImmediate(haloView);
+                        haloWindow.removeViewImmediate(haloView);
+                    } catch (Exception e) {
+
+                    }
+                }
+            }, 200);
+
+            float currY = (float) PERCENT_DOWN_SCREEN;
+
+            Display d = ((WindowManager)getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+            final int orientationHeight = d.getHeight();
+            final int orientationWidth = d.getWidth();
+
+            if ( myIntent.getAction().equals( BCAST_CONFIGCHANGED ) ) {
+
+                if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+                    // it's Landscape
+                    PERCENT_DOWN_SCREEN = (currY/orientationWidth) * orientationHeight;
+
+                    ArcView.setDisplay();
+                    arcView.invalidate();
+
+                    haloParams = new WindowManager.LayoutParams(
+                            halo.getWidth(),
+                            halo.getHeight(),
+                            sharedPrefs.getString("slideover_side", "left").equals("left") ? (int) (-1 * (1 - HALO_SLIVER_RATIO) * halo.getWidth()) : (int) (orientationWidth - (halo.getWidth() * (HALO_SLIVER_RATIO))),
+                            (int) PERCENT_DOWN_SCREEN,
+                            WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
+                            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                                    |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+                                    |WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
+                                    |WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                            PixelFormat.TRANSLUCENT);
+                    haloParams.gravity = Gravity.TOP | Gravity.LEFT;
+                    haloParams.windowAnimations = android.R.style.Animation_Toast;
+
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                haloWindow.addView(haloView, haloParams);
+                            } catch (Exception e) {
+
+                            }
+                        }
+                    }, 220);
+                } else {
+                    // its portrait
+                    PERCENT_DOWN_SCREEN = currY;
+
+                    ArcView.setDisplay();
+                    arcView.invalidate();
+
+                    haloParams = new WindowManager.LayoutParams(
+                            halo.getWidth(),
+                            halo.getHeight(),
+                            sharedPrefs.getString("slideover_side", "left").equals("left") ? (int) (-1 * (1 - HALO_SLIVER_RATIO) * halo.getWidth()) : (int) (orientationWidth - (halo.getWidth() * (HALO_SLIVER_RATIO))),
+                            (int) currY,
+                            WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
+                            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                                    |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+                                    |WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
+                                    |WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                            PixelFormat.TRANSLUCENT);
+                    haloParams.gravity = Gravity.TOP | Gravity.LEFT;
+                    haloParams.windowAnimations = android.R.style.Animation_Toast;
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                haloWindow.addView(haloView, haloParams);
+                            } catch (Exception e) {
+
+                            }
+                        }
+                    }, 220);
+                }
+            }*/
         }
     };
 
