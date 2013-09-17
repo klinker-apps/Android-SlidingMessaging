@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.util.TypedValue;
 import android.view.*;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead2;
@@ -227,7 +228,7 @@ public class SlideOverService extends Service {
                 float currentX = motionEvent.getRawX();
                 float currentY = motionEvent.getRawY();
 
-                if(currentX > 50 && currentX < width - 50 && currentY > 155 && currentY < 155 + 200)
+                if(currentX > 50 && currentX < width - 50 && currentY > 155 && currentY < 155 + 250)
                 {
                     arcView.newConversations.clear();
 
@@ -395,11 +396,6 @@ public class SlideOverService extends Service {
     }
 
     public void setHalo(Bitmap halo, MotionEvent event, int height, int width) {
-        // TODO:
-        // need to update the arc view layout here too
-        // need to set the halo to the side and still have the sliver that the user set
-
-        // set the shared prefs, then invalidate arcview?
 
         int currX = (int) event.getRawX();
         float currY = event.getRawY() - halo.getWidth()/2;
@@ -413,8 +409,6 @@ public class SlideOverService extends Service {
         sharedPrefs.edit().putFloat("slideover_downscreen", currY).commit();
 
         PERCENT_DOWN_SCREEN = currY;
-        //PERCENT_DOWN_SCREEN = sharedPrefs.getInt("slideover_vertical", 50)/100.0;
-        //PERCENT_DOWN_SCREEN -= PERCENT_DOWN_SCREEN * (halo.getHeight()/(double)height);
 
         arcView.invalidate();
 
@@ -434,7 +428,6 @@ public class SlideOverService extends Service {
 
         haloWindow.removeView(haloView);
         haloWindow.addView(haloView, haloParams);
-        //haloWindow.updateViewLayout(haloView, haloParams);
     }
 
     public void movingHalo(Bitmap halo, MotionEvent event) {
@@ -607,9 +600,9 @@ public class SlideOverService extends Service {
     {
         messageWindowParams = new WindowManager.LayoutParams(
                 width - 100,  // 50 pixels on each side
-                200,        // 100 pixels tall
-                50,         // 40 pixel width on the side
-                155,         // 60 pixels down the screen
+                250,        // 250 pixels tall
+                50,         // 50 pixel width on the side
+                155,         // 155 pixels down the screen
                 WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                         |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
@@ -698,7 +691,7 @@ public class SlideOverService extends Service {
         arcView.newMessagePaint.setAlpha(START_ALPHA2);
 
         arcViewHandler.removeCallbacks(arcViewRunnable);
-        arcViewHandler.postDelayed(arcViewRunnable, 200);
+        arcViewHandler.postDelayed(arcViewRunnable, 250);
 
         //haloWindow.updateViewLayout(haloView, haloHiddenParams);
         needDetection = true;
@@ -1362,18 +1355,20 @@ public class SlideOverService extends Service {
                 }
             }
 
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    haloView.invalidate();
-                    try {
-                        haloWindow.removeView(haloView);
-                        haloWindow.addView(haloView, haloParams);
-                    } catch (Exception e) {
+            if (!sharedPrefs.getBoolean("popup_reply", false)) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        haloView.invalidate();
+                        try {
+                            haloWindow.removeView(haloView);
+                            haloWindow.addView(haloView, haloParams);
+                        } catch (Exception e) {
 
+                        }
                     }
-                }
-            }, 1500);
+                }, 1500);
+            }
 
             ContactView.refreshArrays();
 
@@ -1382,6 +1377,7 @@ public class SlideOverService extends Service {
                 public void run() {
                     contactView.invalidate();
                     messageView.invalidate();
+                    ContactView.currentContact = 0;
                 }
             }, 200);
         }
@@ -1507,5 +1503,9 @@ public class SlideOverService extends Service {
         } catch (Exception e) {
 
         }
+    }
+
+    public int toDP(int px) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, getResources().getDisplayMetrics());
     }
 }

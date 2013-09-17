@@ -39,6 +39,7 @@ public class  ContactView extends ViewGroup {
     public static Bitmap[] contactPics = new Bitmap[5];
     public static String[] contactNames = new String[5];
     public static String[][] message = new String[5][3];
+    public static int[][] type = new int[5][3];
     public static boolean[] ignore = new boolean[5];
 
     public ContactView(Context context) {
@@ -55,7 +56,7 @@ public class  ContactView extends ViewGroup {
         strokePaint.setColor(getResources().getColor(R.color.white));
         strokePaint.setAlpha(50);
         strokePaint.setStyle(Paint.Style.STROKE);
-        strokePaint.setStrokeWidth(2);
+        strokePaint.setStrokeWidth(3);
 
         contactCurrentPaint = new Paint();
         contactCurrentPaint.setColor(getResources().getColor(R.color.black));
@@ -80,35 +81,40 @@ public class  ContactView extends ViewGroup {
         if (!ignore[0]) {
             Rect contOneRect = new Rect(0, 0, 100, 100);
             canvas.drawRect(0, 0, 100, 100, blackPaint);
-            canvas.drawRect(0, 0, 100, 100, strokePaint);
+            if (currentContact != 0)
+                canvas.drawRect(0, 0, 100, 100, strokePaint);
             canvas.drawBitmap(contactPics[0], null, contOneRect, currentContact == 0 ? contactCurrentPaint : contactClosedPaint);
         }
 
         if (!ignore[1]) {
             Rect contTwoRect = new Rect(105, 0, 205, 100);
             canvas.drawRect(105, 0, 205, 100, blackPaint);
-            canvas.drawRect(105, 0, 205, 100, strokePaint);
+            if (currentContact != 1)
+                canvas.drawRect(105, 0, 205, 100, strokePaint);
             canvas.drawBitmap(contactPics[1], null, contTwoRect, currentContact == 1 ? contactCurrentPaint : contactClosedPaint);
         }
 
         if (!ignore[2]) {
             Rect contThreeRect = new Rect(210, 0, 310, 100);
             canvas.drawRect(210, 0, 310, 100, blackPaint);
-            canvas.drawRect(210, 0, 310, 100, strokePaint);
+            if (currentContact != 2)
+                canvas.drawRect(210, 0, 310, 100, strokePaint);
             canvas.drawBitmap(contactPics[2], null, contThreeRect, currentContact == 2 ? contactCurrentPaint : contactClosedPaint);
         }
 
         if (!ignore[3]) {
             Rect contFourRect = new Rect(315, 0, 415, 100);
             canvas.drawRect(315, 0, 415, 100, blackPaint);
-            canvas.drawRect(315, 0, 415, 100, strokePaint);
+            if (currentContact != 3)
+                canvas.drawRect(315, 0, 415, 100, strokePaint);
             canvas.drawBitmap(contactPics[3], null, contFourRect, currentContact == 3 ? contactCurrentPaint : contactClosedPaint);
         }
 
         if (!ignore[4]) {
             Rect contFiveRect = new Rect(420, 0, 520, 100);
             canvas.drawRect(420, 0, 520, 100, blackPaint);
-            canvas.drawRect(420, 0, 520, 100, strokePaint);
+            if (currentContact != 4)
+                canvas.drawRect(420, 0, 520, 100, strokePaint);
             canvas.drawBitmap(contactPics[4], null, contFiveRect, currentContact == 4 ? contactCurrentPaint : contactClosedPaint);
         }
 
@@ -147,27 +153,21 @@ public class  ContactView extends ViewGroup {
         */
 
         // initializing data isn't necessary
-        contactNames[0] = "";
-        contactNames[1] = "";
-        contactNames[2] = "";
-        contactNames[3] = "";
-        contactNames[4] = "";
+        for (int i = 0; i < 5; i++) {
+            contactNames[i] = "";
+        }
 
-        message[0][0] = "";
-        message[0][1] = "";
-        message[0][2] = "";
-        message[1][0] = "";
-        message[1][1] = "";
-        message[1][2] = "";
-        message[2][0] = "";
-        message[2][1] = "";
-        message[2][2] = "";
-        message[3][0] = "";
-        message[3][1] = "";
-        message[3][2] = "";
-        message[4][0] = "";
-        message[4][1] = "";
-        message[4][2] = "";
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j< 3; j++) {
+                message[i][j] = "";
+            }
+        }
+
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j< 3; j++) {
+                type[i][j] = 0;
+            }
+        }
 
         Arrays.fill(ignore, Boolean.FALSE);
 
@@ -184,8 +184,8 @@ public class  ContactView extends ViewGroup {
                 String number = MainActivity.findContactNumber(cursor.getString(cursor.getColumnIndex("recipient_ids")), mContext);
                 String name = MainActivity.findContactName(number, mContext);
 
-                Cursor cursor2 = mContext.getContentResolver().query( Uri.parse("content://sms/inbox/"), new String[]{"body", "address", "thread_id"}, "thread_id=?", new String[] {id}, "date desc");
-                //Cursor cursor2 = mContext.getContentResolver().query( Uri.parse("content://mms-sms/inbox/"), new String[]{"body", "address", "thread_id", "msg_box"}, "thread_id=?", new String[] {id}, "date desc");
+                Cursor cursor2 = mContext.getContentResolver().query( Uri.parse("content://sms/"), new String[]{"body", "type", "thread_id"}, "thread_id=?", new String[] {id}, "date desc");
+                //Cursor cursor2 = mContext.getContentResolver().query( Uri.parse("content://mms-sms/conversations/"), new String[]{"body", "address", "thread_id", "msg_box"}, "thread_id=?", new String[] {id}, "date desc");
                 //Log.v("reading_cursor_data", "looking for conversation " + id);
 
                 if (cursor2.moveToFirst()) {
@@ -202,8 +202,17 @@ public class  ContactView extends ViewGroup {
                             //Log.v("reading_cursor_data", "found mms message");
                         //} else {
                             //Log.v("reading_cursor_data", cursor2.getString(cursor2.getColumnIndex("body")));
-                            message[count][count2] = cursor2.getString(cursor2.getColumnIndex("body")) + "\n\n";
+                            message[count][count2] = cursor2.getString(cursor2.getColumnIndex("body"));
+                            String type2 = cursor2.getString(cursor2.getColumnIndex("type"));
                         //}
+
+                        if (type2.equals("2") || type2.equals("4") || type2.equals("5") || type2.equals("6"))
+                        {
+                            type[count][count2] = 1;
+                        } else
+                        {
+                            type[count][count2] = 0;
+                        }
 
                         count2++;
                     } while (cursor2.moveToNext() && count2 < 3);
