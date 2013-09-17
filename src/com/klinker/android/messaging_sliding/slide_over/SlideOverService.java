@@ -437,11 +437,22 @@ public class SlideOverService extends Service {
         @Override
         public boolean onDoubleTap(MotionEvent event) {
             // Implement vibrate when the move feature is done
-            if (HAPTIC_FEEDBACK) {
+            /*if (HAPTIC_FEEDBACK) {
                 v.vibrate(10);
-            }
+            }*/
             
             // change sliver width
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        arcWindow.removeViewImmediate(arcView);
+                    } catch (Exception e) {
+
+                    }
+                }
+            }, 150);
 
             changingSliver = true;
 
@@ -450,10 +461,7 @@ public class SlideOverService extends Service {
 
         @Override
         public void onLongPress(MotionEvent event){
-            if (HAPTIC_FEEDBACK) {
-                v.vibrate(10);
-            }
-            
+
             // will have this open the settings menu.
             /*try {
                 arcWindow.removeViewImmediate(arcView);
@@ -472,8 +480,14 @@ public class SlideOverService extends Service {
 
             }
 
-            if (!changingSliver)
+            if (!changingSliver) {
+
+                if (HAPTIC_FEEDBACK) {
+                    v.vibrate(10);
+                }
+
                 movingBubble = true;
+            }
         }
     }
 
