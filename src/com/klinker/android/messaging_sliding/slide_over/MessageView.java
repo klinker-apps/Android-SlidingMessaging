@@ -191,7 +191,7 @@ public class MessageView extends ViewGroup {
                     false);
         }
 
-        amountDown += (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 18 * mTextLayout2.getLineCount(), mContext.getResources().getDisplayMetrics());
+        amountDown += (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 18 * mTextLayout2.getLineCount() + 3, mContext.getResources().getDisplayMetrics());
 
         if (!(mTextLayout1.getHeight() + mTextLayout2.getHeight() + mTextLayout3.getHeight() > 230)) {
             canvas.save();

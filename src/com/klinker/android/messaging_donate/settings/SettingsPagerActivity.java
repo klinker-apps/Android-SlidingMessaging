@@ -35,6 +35,7 @@ import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_sliding.DeleteOldService;
 import com.klinker.android.messaging_sliding.backup.BackupService;
 import com.klinker.android.messaging_sliding.blacklist.BlacklistActivity;
+import com.klinker.android.messaging_sliding.views.HoloEditText;
 import com.klinker.android.messaging_sliding.views.HoloTextView;
 import com.klinker.android.messaging_sliding.views.NumberPickerDialog;
 import com.klinker.android.messaging_sliding.notifications.NotificationsSettingsActivity;
@@ -784,6 +785,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     HoloTextView.typeface = null;
+                    HoloEditText.typeface = null;
                     return false;
                 }
             });
@@ -966,6 +968,15 @@ public class SettingsPagerActivity extends FragmentActivity {
 
             Preference sliver = findPreference("slideover_sliver");
             sliver.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    restartHalo();
+                    return true;
+                }
+            });
+
+            Preference unreadOnly = findPreference("slideover_only_unread");
+            unreadOnly.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
                     restartHalo();

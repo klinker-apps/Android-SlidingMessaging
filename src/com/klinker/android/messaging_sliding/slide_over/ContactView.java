@@ -27,7 +27,7 @@ public class  ContactView extends ViewGroup {
     public Paint contactCurrentPaint;
     public Paint contactClosedPaint;
 
-    public SharedPreferences sharedPrefs;
+    public static SharedPreferences sharedPrefs;
 
     public static Resources resources;
 
@@ -175,7 +175,13 @@ public class  ContactView extends ViewGroup {
             contactPics[i] = BitmapFactory.decodeResource(resources, R.drawable.ic_contact_picture);*/
 
         Uri SMS_CONTENT_URI = Uri.parse("content://mms-sms/conversations/?simple=true");
-        Cursor cursor = mContext.getContentResolver().query( SMS_CONTENT_URI, new String[]{"_id", "recipient_ids"}, null, null, "date desc");
+        Cursor cursor;
+
+        if (sharedPrefs.getBoolean("slideover_only_unread", false)) {
+            cursor = mContext.getContentResolver().query( SMS_CONTENT_URI, new String[]{"_id", "recipient_ids"}, "read=?", new String[] {"0"}, "date desc");
+        } else {
+            cursor = mContext.getContentResolver().query( SMS_CONTENT_URI, new String[]{"_id", "recipient_ids"}, null, null, "date desc");
+        }
 
         if (cursor.moveToFirst()) {
             int count = 0;
@@ -184,7 +190,10 @@ public class  ContactView extends ViewGroup {
                 String number = MainActivity.findContactNumber(cursor.getString(cursor.getColumnIndex("recipient_ids")), mContext);
                 String name = MainActivity.findContactName(number, mContext);
 
-                Cursor cursor2 = mContext.getContentResolver().query( Uri.parse("content://sms/"), new String[]{"body", "type", "thread_id"}, "thread_id=?", new String[] {id}, "date desc");
+                Cursor cursor2;
+
+                cursor2 = mContext.getContentResolver().query( Uri.parse("content://sms/"), new String[]{"body", "type", "thread_id"}, "thread_id=?", new String[] {id}, "date desc");
+
                 //Cursor cursor2 = mContext.getContentResolver().query( Uri.parse("content://mms-sms/conversations/"), new String[]{"body", "address", "thread_id", "msg_box"}, "thread_id=?", new String[] {id}, "date desc");
                 //Log.v("reading_cursor_data", "looking for conversation " + id);
 
@@ -217,9 +226,13 @@ public class  ContactView extends ViewGroup {
                         count2++;
                     } while (cursor2.moveToNext() && count2 < 3);
 
+                    cursor2.close();
+
                     count++;
                 }
             } while (cursor.moveToNext() && count < 5);
+
+            cursor.close();
         }
 
         for (int i = 0; i < 5; i++) {

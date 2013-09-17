@@ -780,5 +780,6 @@
     <string name="mms_max_height">Max Height (in pixels)</string>
     <string name="mms_max_size_warning">Be aware, some carriers only allow for message up to 1 MB, so setting the above values to high may result in delivery failure</string>
     <string name="use_device_font">Use Device Font</string>
-
+    <string name="slideover_only_unread">Quick Window: Unread Only</string>
+    <string name="slideover_only_unread_summary">Only show unread messages in the SlideOver Quick Window.</string>
 </resources>

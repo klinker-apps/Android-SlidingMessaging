@@ -88,6 +88,15 @@ public class SlideOverSettings  extends PreferenceActivity {
             }
         });
 
+        Preference unreadOnly = findPreference("slideover_only_unread");
+        unreadOnly.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object o) {
+                restartHalo();
+                return true;
+            }
+        });
+
         /*Preference side = findPreference("slideover_side");
         side.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
