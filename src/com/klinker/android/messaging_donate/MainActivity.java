@@ -360,14 +360,13 @@ public class MainActivity extends FragmentActivity {
 
         if (settings.customFont)
         {
-            try
-            {
+            try {
                 font = Typeface.createFromFile(settings.customFontPath);
-            } catch (Exception e)
-            {
+            } catch (Throwable e) {
                 Editor edit = PreferenceManager.getDefaultSharedPreferences(this).edit();
                 edit.putBoolean("custom_font", false);
                 edit.commit();
+                settings.customFont = false;
             }
         }
 
@@ -1409,23 +1408,47 @@ public class MainActivity extends FragmentActivity {
 
     public static String findContactName(String number, Context context)
     {
-        String name = "";
+        try {
+            String name = "";
 
-        String origin = number;
+            String origin = number;
 
-        if (origin.length() != 0)
-        {
-            Uri phoneUri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(origin));
-            Cursor phonesCursor = context.getContentResolver().query(phoneUri, new String[] {ContactsContract.Contacts.DISPLAY_NAME_PRIMARY, ContactsContract.RawContacts._ID}, null, null, ContactsContract.Contacts.DISPLAY_NAME + " desc limit 1");
+            if (origin.length() != 0)
+            {
+                Uri phoneUri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(origin));
+                Cursor phonesCursor = context.getContentResolver().query(phoneUri, new String[] {ContactsContract.Contacts.DISPLAY_NAME_PRIMARY, ContactsContract.RawContacts._ID}, null, null, ContactsContract.Contacts.DISPLAY_NAME + " desc limit 1");
 
-            if(phonesCursor != null && phonesCursor.moveToFirst()) {
-                name = phonesCursor.getString(0);
+                if(phonesCursor != null && phonesCursor.moveToFirst()) {
+                    name = phonesCursor.getString(0);
+                } else
+                {
+                    if (!number.equals(""))
+                    {
+                        try
+                        {
+                            Locale sCachedLocale = Locale.getDefault();
+                            int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
+                            Editable editable = new SpannableStringBuilder(number);
+                            PhoneNumberUtils.formatNumber(editable, sFormatType);
+                            name = editable.toString();
+                        } catch (Exception e)
+                        {
+                            name = number;
+                        }
+                    } else
+                    {
+                        name = "No Information";
+                    }
+                }
+
+                phonesCursor.close();
             } else
             {
                 if (!number.equals(""))
                 {
                     try
                     {
+                        Long.parseLong(number.replaceAll("[^0-9]", ""));
                         Locale sCachedLocale = Locale.getDefault();
                         int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
                         Editable editable = new SpannableStringBuilder(number);
@@ -1441,30 +1464,11 @@ public class MainActivity extends FragmentActivity {
                 }
             }
 
-            phonesCursor.close();
-        } else
-        {
-            if (!number.equals(""))
-            {
-                try
-                {
-                    Long.parseLong(number.replaceAll("[^0-9]", ""));
-                    Locale sCachedLocale = Locale.getDefault();
-                    int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
-                    Editable editable = new SpannableStringBuilder(number);
-                    PhoneNumberUtils.formatNumber(editable, sFormatType);
-                    name = editable.toString();
-                } catch (Exception e)
-                {
-                    name = number;
-                }
-            } else
-            {
-                name = "No Information";
-            }
+            return name;
+        } catch (Exception e) {
+            // something weird when looking up the number I think (mms tokens sometimes give a weird initial number instead of phone number
+            return number;
         }
-
-        return name;
     }
 
     public static String loadGroupContacts(String numbers, Context context)
@@ -2522,11 +2526,15 @@ public class MainActivity extends FragmentActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        lpw.setAdapter(new ContactSearchArrayAdapter((Activity)context, contactNames, contactNumbers, contactTypes));
-                        lpw.setAnchorView(contact);
-                        lpw.setWidth(ListPopupWindow.WRAP_CONTENT);
-                        lpw.setHeight(height/3);
-                        lpw.show();
+                        try {
+                            lpw.setAdapter(new ContactSearchArrayAdapter((Activity)context, contactNames, contactNumbers, contactTypes));
+                            lpw.setAnchorView(contact);
+                            lpw.setWidth(ListPopupWindow.WRAP_CONTENT);
+                            lpw.setHeight(height/3);
+                            lpw.show();
+                        } catch (Exception e) {
+                            // window is null
+                        }
                     }
                 }, 500);
             }

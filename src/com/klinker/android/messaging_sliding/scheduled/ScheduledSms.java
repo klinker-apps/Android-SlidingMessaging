@@ -111,7 +111,11 @@ public class ScheduledSms extends Activity {
                         .setMessage(context.getResources().getString(R.string.delete_scheduled_sms))
                         .setPositiveButton(context.getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
-                                cancelAlarm(Integer.parseInt(text.get(arg2)[4]), text.get(arg2)[2], Long.parseLong(text.get(arg2)[1]));
+                                try {
+                                    cancelAlarm(Integer.parseInt(text.get(arg2)[4]), text.get(arg2)[2], Long.parseLong(text.get(arg2)[1]));
+                                } catch (Exception e) {
+
+                                }
 
                                 text.remove(arg2);
 
@@ -132,8 +136,11 @@ public class ScheduledSms extends Activity {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1,
                                            final int pos, long arg3) {
+                try {
+                    cancelAlarm(Integer.parseInt(text.get(pos)[4]), text.get(pos)[2], Long.parseLong(text.get(pos)[1]));
+                } catch (Exception e) {
 
-                cancelAlarm(Integer.parseInt(text.get(pos)[4]), text.get(pos)[2], Long.parseLong(text.get(pos)[1]));
+                }
 
                 Intent intent = new Intent(context, NewScheduledSms.class);
                 intent.putExtra(EXTRA_NUMBER, text.get(pos)[0]);
