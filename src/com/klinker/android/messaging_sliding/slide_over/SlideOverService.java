@@ -276,15 +276,15 @@ public class SlideOverService extends Service {
                 if (currentY > 50 && currentY < 150 && currentX > 50 && currentX < width - 50) {// if it is in the y zone and the x zone
                     currentX -= 50; // to match the start of the window
 
-                    if (currentX < 100) { // contact 1 touched
+                    if (currentX < 100 && !ContactView.ignore[0]) { // contact 1 touched
                         ContactView.currentContact = 0;
-                    } else if (currentX > 105 && currentX < 205) { // contact 2 touched
+                    } else if (currentX > 105 && currentX < 205 && !ContactView.ignore[1]) { // contact 2 touched
                         ContactView.currentContact = 1;
-                    } else if (currentX > 210 && currentX < 310) { // contact 3 touched
+                    } else if (currentX > 210 && currentX < 310 && !ContactView.ignore[2]) { // contact 3 touched
                         ContactView.currentContact = 2;
-                    } else if (currentX > 315 && currentX < 415) { // contact 4 touched
+                    } else if (currentX > 315 && currentX < 415 && !ContactView.ignore[3]) { // contact 4 touched
                         ContactView.currentContact = 3;
-                    } else if (currentX > 420 && currentX < 520) { // contact 5 touched
+                    } else if (currentX > 420 && currentX < 520 && !ContactView.ignore[4]) { // contact 5 touched
                         ContactView.currentContact = 4;
                     }
 
@@ -490,7 +490,7 @@ public class SlideOverService extends Service {
 
             }
 
-            if (!isRunning(getApplication())) {
+            //if (!isRunning(getApplication())) {
                 // will launch the floating message box feature
                 try {
                     new Handler().postDelayed(new Runnable() {
@@ -510,11 +510,7 @@ public class SlideOverService extends Service {
                     messageWindow.removeView(messageView);
                     messageBoxHandler.removeCallbacks(messageBoxRunnable);
                 }
-
-                // closes the box after 4 seconds
-                // TODO can add an option for this later
-                //messageBoxHandler.postDelayed(messageBoxRunnable, 4000);
-            }
+            //}
 
             return true;
         }
@@ -1382,8 +1378,14 @@ public class SlideOverService extends Service {
             }, 1500);
 
             ContactView.refreshArrays();
-            contactView.invalidate();
-            messageView.invalidate();
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    contactView.invalidate();
+                    messageView.invalidate();
+                }
+            }, 200);
         }
     };
 
