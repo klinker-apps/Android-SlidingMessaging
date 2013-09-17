@@ -61,7 +61,7 @@ public class  ContactView extends ViewGroup {
 
         contactCurrentPaint = new Paint();
         contactCurrentPaint.setColor(getResources().getColor(R.color.black));
-        contactCurrentPaint.setAlpha(140);
+        contactCurrentPaint.setAlpha(200);
 
         contactClosedPaint = new Paint();
         contactClosedPaint.setColor(getResources().getColor(R.color.black));
@@ -82,7 +82,7 @@ public class  ContactView extends ViewGroup {
         if (!ignore[0]) {
             Rect contOneRect = new Rect(0, 0, toDP(60), toDP(60));
             canvas.drawRect(contOneRect, blackPaint);
-            if (currentContact != 0)
+            //if (currentContact != 0)
                 canvas.drawRect(contOneRect, strokePaint);
             canvas.drawBitmap(contactPics[0], null, contOneRect, currentContact == 0 ? contactCurrentPaint : contactClosedPaint);
         }
@@ -90,7 +90,7 @@ public class  ContactView extends ViewGroup {
         if (!ignore[1]) {
             Rect contTwoRect = new Rect(toDP(63), 0, toDP(123), toDP(60));
             canvas.drawRect(contTwoRect, blackPaint);
-            if (currentContact != 1)
+            //if (currentContact != 1)
                 canvas.drawRect(contTwoRect, strokePaint);
             canvas.drawBitmap(contactPics[1], null, contTwoRect, currentContact == 1 ? contactCurrentPaint : contactClosedPaint);
         }
@@ -106,7 +106,7 @@ public class  ContactView extends ViewGroup {
         if (!ignore[3]) {
             Rect contFourRect = new Rect(toDP(189), 0, toDP(249), toDP(60));
             canvas.drawRect(contFourRect, blackPaint);
-            if (currentContact != 3)
+            //if (currentContact != 3)
                 canvas.drawRect(contFourRect, strokePaint);
             canvas.drawBitmap(contactPics[3], null, contFourRect, currentContact == 3 ? contactCurrentPaint : contactClosedPaint);
         }
@@ -114,7 +114,7 @@ public class  ContactView extends ViewGroup {
         if (!ignore[4]) {
             Rect contFiveRect = new Rect(toDP(252), 0, toDP(312), toDP(60));
             canvas.drawRect(contFiveRect, blackPaint);
-            if (currentContact != 4)
+            //if (currentContact != 4)
                 canvas.drawRect(contFiveRect, strokePaint);
             canvas.drawBitmap(contactPics[4], null, contFiveRect, currentContact == 4 ? contactCurrentPaint : contactClosedPaint);
         }
