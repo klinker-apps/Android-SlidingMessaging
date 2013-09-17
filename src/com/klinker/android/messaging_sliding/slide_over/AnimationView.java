@@ -73,7 +73,7 @@ public class AnimationView extends ViewGroup {
 
         int radius = halo.getWidth();
         int xOffset = (int)(-1 * (1 - SlideOverService.HALO_SLIVER_RATIO) * radius);
-        int yOffset = (int)(height * SlideOverService.PERCENT_DOWN_SCREEN);
+        int yOffset = (int)(SlideOverService.PERCENT_DOWN_SCREEN);
 
         if (!sharedPrefs.getString("slideover_side", "left").equals("left")) {
             xOffset = (int) (width - (halo.getWidth() * (SlideOverService.HALO_SLIVER_RATIO)));
