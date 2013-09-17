@@ -50,7 +50,7 @@
     <PreferenceCategory android:key="slideover_positioning_category"
         android:title="@string/positioning">
 
-        <ListPreference
+        <!--<ListPreference
                 android:key="slideover_side"
                 android:title="@string/slideover_side"
                 android:summary="@string/slideover_side_summary"
@@ -58,7 +58,7 @@
                 android:dependency="slideover_enabled"
                 android:entries="@array/slideover_side"
                 android:entryValues="@array/slideover_side_inserted"
-                />
+                />-->
 
         <!--<com.klinker.android.messaging_sliding.custom_dialogs.SeekBarPreference3
                 android:key="slideover_vertical"

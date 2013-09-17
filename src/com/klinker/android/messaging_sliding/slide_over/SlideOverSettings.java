@@ -88,14 +88,14 @@ public class SlideOverSettings  extends PreferenceActivity {
             }
         });
 
-        Preference side = findPreference("slideover_side");
+        /*Preference side = findPreference("slideover_side");
         side.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
                 restartHalo();
                 return true;
             }
-        });
+        });*/
 
         Preference sliver = findPreference("slideover_sliver");
         sliver.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {

@@ -204,7 +204,7 @@ public class SlideOverService extends Service {
                                 contactView.invalidate();
                             }
                         }, 200);
-                        
+
                         Intent intent = finishFlat();
                         intent.putExtra("openToPage", ContactView.currentContact);
                         startActivity(intent);
