@@ -232,7 +232,8 @@ public class SlideOverService extends Service {
                     }
 
                     contactView.invalidate();
-                    messageWindow.updateViewLayout(contactView, contactParams);
+                    messageView.invalidate();
+                    //messageWindow.updateViewLayout(contactView, contactParams);
                 }
 
                 return false;
@@ -585,7 +586,7 @@ public class SlideOverService extends Service {
         float rawY = event.getRawY();
         float rawX = event.getRawX();
 
-        if ((rawY < 120 && PERCENT_DOWN_SCREEN > .5) || (rawY > height - 120 && PERCENT_DOWN_SCREEN < .5)) // in Button Area
+        if ((rawY < 120 && PERCENT_DOWN_SCREEN > height/2) || (rawY > height - 120 && PERCENT_DOWN_SCREEN < height/2)) // in Button Area
         {
             inButtons = true;
 
@@ -726,6 +727,17 @@ public class SlideOverService extends Service {
 
     public void messagesUp()
     {
+        if (distance > SWIPE_MIN_DISTANCE) {
+            arcView.newConversations.clear();
+
+            haloView.haloNewAlpha = 0;
+            haloView.haloAlpha = 255;
+            haloView.invalidate();
+            haloWindow.updateViewLayout(haloView, haloParams);
+
+            numberNewConv = 0;
+        }
+        
         haloWindow.updateViewLayout(haloView, haloParams);
 
         // now will fire a different intent depending on what view you are in
@@ -764,17 +776,6 @@ public class SlideOverService extends Service {
             }
         } else if (distance > SWIPE_MIN_DISTANCE && inDash) {
             finishDash();
-        }
-
-        if (distance > SWIPE_MIN_DISTANCE) {
-            arcView.newConversations.clear();
-
-            haloView.haloNewAlpha = 0;
-            haloView.haloAlpha = 255;
-            haloView.invalidate();
-            haloWindow.updateViewLayout(haloView, haloParams);
-
-            numberNewConv = 0;
         }
 
         arcView.newMessagePaint.setAlpha(START_ALPHA2);

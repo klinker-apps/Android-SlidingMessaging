@@ -102,7 +102,7 @@ public class ArcView extends ViewGroup {
         super.onDraw(canvas);
 
         if (newConversations.size() > 0) {
-            if(SlideOverService.PERCENT_DOWN_SCREEN > .5) {
+            if(SlideOverService.PERCENT_DOWN_SCREEN > height/2) {
                 canvas.drawText(getResources().getString(R.string.slideover_clear), (float)((width * .25) - (closePaint.measureText(getResources().getString(R.string.slideover_clear))/2)) , 60, clearPaint);
                 canvas.drawText(getResources().getString(R.string.slideover_close), (float)((width * .5) - (closePaint.measureText(getResources().getString(R.string.slideover_close))/2)), 60, closePaint);
                 canvas.drawText(getResources().getString(R.string.slideover_settings_overlay), (float)((width * .75) - (closePaint.measureText(getResources().getString(R.string.slideover_settings_overlay))/2)) , 60, movePaint);
@@ -114,7 +114,7 @@ public class ArcView extends ViewGroup {
             }
         } else
         {
-            if(SlideOverService.PERCENT_DOWN_SCREEN > .5) {
+            if(SlideOverService.PERCENT_DOWN_SCREEN > height/2) {
                 canvas.drawText(getResources().getString(R.string.slideover_close), (float)((width * .25) - (closePaint.measureText(getResources().getString(R.string.slideover_close))/2)) , 60, closePaint);
                 canvas.drawText(getResources().getString(R.string.slideover_settings_overlay), (float)((width * .75) - (closePaint.measureText(getResources().getString(R.string.slideover_settings_overlay))/2)) , 60, movePaint);
             } else

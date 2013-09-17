@@ -30,8 +30,7 @@ public class  ContactView extends ViewGroup {
 
     public static Bitmap[] contactPics = new Bitmap[5];
     public static String[] contactNames = new String[5];
-    public static String[] firstMessage = new String[5];
-    public static String[] secondMessage = new String[5];
+    public static String[] message = new String[5];
 
     public ContactView(Context context) {
         super(context);
@@ -112,6 +111,18 @@ public class  ContactView extends ViewGroup {
     public static void refreshArrays() {
         // need a contact pictures array, contact names, first message, second message
         // all should be 5 long for the 5 conversations
+
+        contactNames[0] = "Jacob Klinker";
+        contactNames[1] = "Luke Klinker";
+        contactNames[2] = "Ben Madden";
+        contactNames[3] = "Cody Chapman";
+        contactNames[4] = "Jake Alleman";
+
+        message[0] = "This is the first message that i am making with the new slideover. Contact 0";
+        message[1] = "This is the first message that i am making with the new slideover. Contact 1";
+        message[2] = "This is the first message that i am making with the new slideover. Contact 2";
+        message[3] = "This is the first message that i am making with the new slideover. Contact 3";
+        message[4] = "This is the first message that i am making with the new slideover. Contact 4";
 
         for (int i = 0; i < 5; i++)
             contactPics[i] = BitmapFactory.decodeResource(resources, R.drawable.ic_contact_picture);
