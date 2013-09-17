@@ -1363,6 +1363,9 @@ public class SlideOverService extends Service {
                 }
             }, 1500);
 
+            ContactView.refreshArrays();
+            contactView.invalidate();
+            messageView.invalidate();
         }
     };
 
