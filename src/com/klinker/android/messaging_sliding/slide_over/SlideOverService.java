@@ -145,6 +145,17 @@ public class SlideOverService extends Service {
 
                             case MotionEvent.ACTION_UP:
 
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            arcWindow.removeViewImmediate(arcView);
+                                        } catch (Exception e) {
+
+                                        }
+                                    }
+                                }, 500);
+
                                 if (changingSliver) {
                                     setSliver(halo, event, height, width);
                                     changingSliver = false;
@@ -180,6 +191,17 @@ public class SlideOverService extends Service {
                                 return true;
 
                             case MotionEvent.ACTION_UP:
+
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            arcWindow.removeViewImmediate(arcView);
+                                        } catch (Exception e) {
+
+                                        }
+                                    }
+                                }, 500);
 
                                 if (changingSliver) {
                                     setSliver(halo, event, height, width);
@@ -824,7 +846,12 @@ public class SlideOverService extends Service {
             haloView.haloNewAlpha = 0;
             haloView.haloAlpha = 255;
             haloView.invalidate();
-            haloWindow.updateViewLayout(haloView, haloParams);
+            try {
+                haloWindow.removeView(haloView);
+                haloWindow.addView(haloView, haloParams);
+            } catch (Exception e) {
+
+            }
 
             numberNewConv = 0;
         }
@@ -888,7 +915,19 @@ public class SlideOverService extends Service {
 
     public void noMessagesUp()
     {
-        haloWindow.updateViewLayout(haloView, haloParams);
+        if (distance > SWIPE_MIN_DISTANCE) {
+            arcView.newConversations.clear();
+
+            haloView.haloNewAlpha = 0;
+            haloView.haloAlpha = 255;
+            haloView.invalidate();
+            haloWindow.removeView(haloView);
+            haloWindow.addView(haloView, haloParams);
+
+            numberNewConv = 0;
+        } else {
+            haloWindow.updateViewLayout(haloView, haloParams);
+        }
 
         // now will fire a different intent depending on what view you are in
         if(inButtons)
@@ -1281,7 +1320,6 @@ public class SlideOverService extends Service {
             arcView.updateTextPaint();
             arcView.invalidate();
 
-
             // set the icon to the red, recieved, icon
             if (!haloView.animating) {
                 haloView.haloNewAlpha = 0;
@@ -1311,6 +1349,15 @@ public class SlideOverService extends Service {
                     animation.start();
                 }
             }
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    haloView.invalidate();
+                    haloWindow.updateViewLayout(haloView, haloParams);
+                }
+            }, 500);
+
         }
     };
 
