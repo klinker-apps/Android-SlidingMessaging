@@ -50,6 +50,8 @@ public class ChangeLogWizardModel extends AbstractWizardModel {
                 "- Option to select the max height and width of sent pictures for higher resolution images\n" +
                 "- Option to always use Google Voice\n" +
                 "- Favorites category on the emoji keyboard for quick access to your most used emojis\n" +
+                "- Changed default font to \"Roboto Light\" for a cleaner look, you also have the option to use your device font in Theme Settings (first turn on \"Show All Settings\" in advanced settings though)\n" +
+                "- Minor style and UI changes\n" +
                 "- Bug fixes\n";
                 
         String themeEditor = "The theme editor now fully supports the Cards UI 2.0, making it a " +

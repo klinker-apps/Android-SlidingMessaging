@@ -150,7 +150,7 @@
             android:dependency="led"
             />
 
-        <com.klinker.android.messaging_sliding.custom_dialogs.SeekBarPreference2
+        <com.klinker.android.messaging_sliding.views.SeekBarPreference2
             android:key="led_off_time"
             android:title="@string/led_off_time"
             android:defaultValue="2000"
@@ -158,7 +158,7 @@
             android:dependency="led"
             />
 
-        <com.klinker.android.messaging_sliding.custom_dialogs.SeekBarPreference2
+        <com.klinker.android.messaging_sliding.views.SeekBarPreference2
             android:key="led_on_time"
             android:title="@string/led_on_time"
             android:defaultValue="1000"

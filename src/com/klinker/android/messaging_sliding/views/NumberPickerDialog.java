@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.klinker.android.messaging_sliding.custom_dialogs;
+package com.klinker.android.messaging_sliding.views;
 
 import android.app.AlertDialog;
 import android.content.Context;

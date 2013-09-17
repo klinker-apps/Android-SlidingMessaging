@@ -11,7 +11,7 @@
                   android:layout_height="wrap_content"
                   android:id="@+id/sentBackground">
 
-        <EditText
+        <com.klinker.android.messaging_sliding.views.HoloEditText
                 android:id="@+id/contactEntry"
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -19,7 +19,7 @@
                 android:ems="10"
                 android:hint="@string/contact_entry"
                 android:textCursorDrawable="@null">
-        </EditText>
+        </com.klinker.android.messaging_sliding.views.HoloEditText>
 
         <ImageButton
                 android:layout_width="wrap_content"
@@ -120,7 +120,7 @@
                 android:layout_alignParentTop="true"
                 android:scaleType="fitCenter"/>
 
-        <EditText
+        <com.klinker.android.messaging_sliding.views.HoloEditText
                 android:id="@+id/messageEntry2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -135,7 +135,7 @@
                 android:layout_toLeftOf="@+id/sendButton"
                 android:layout_toRightOf="@+id/voiceButton">
             <requestFocus/>
-        </EditText>
+        </com.klinker.android.messaging_sliding.views.HoloEditText>
 
         <ImageButton
                 android:id="@+id/sendButton"

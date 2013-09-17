@@ -35,7 +35,8 @@ import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_sliding.DeleteOldService;
 import com.klinker.android.messaging_sliding.backup.BackupService;
 import com.klinker.android.messaging_sliding.blacklist.BlacklistActivity;
-import com.klinker.android.messaging_sliding.custom_dialogs.NumberPickerDialog;
+import com.klinker.android.messaging_sliding.views.HoloTextView;
+import com.klinker.android.messaging_sliding.views.NumberPickerDialog;
 import com.klinker.android.messaging_sliding.notifications.NotificationsSettingsActivity;
 import com.klinker.android.messaging_sliding.receivers.NotificationReceiver;
 import com.klinker.android.messaging_sliding.scheduled.ScheduledSms;
@@ -778,11 +779,21 @@ public class SettingsPagerActivity extends FragmentActivity {
 
             });
 
+            Preference deviceFont = findPreference("device_font");
+            deviceFont.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    HoloTextView.typeface = null;
+                    return false;
+                }
+            });
+
             if (!showAll) {
                 try {
                     ((PreferenceGroup) findPreference("smilies_category")).removePreference(findPreference("smiliesType"));
                     ((PreferenceGroup) findPreference("emoji_category")).removePreference(findPreference("emoji_keyboard"));
                     ((PreferenceGroup) findPreference("emoji_category")).removePreference(findPreference("emoji_type"));
+                    ((PreferenceGroup) findPreference("look_style_category")).removePreference(findPreference("device_font"));
                 } catch (Exception e) {
 
                 }

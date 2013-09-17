@@ -70,7 +70,7 @@
             android:entryValues="@array/sendAnimationInserted"
             />
 
-        <com.klinker.android.messaging_sliding.custom_dialogs.SeekBarPreference2
+        <com.klinker.android.messaging_sliding.views.SeekBarPreference2
             android:key="animation_speed"
             android:title="@string/animation_speed"
             android:defaultValue="300"

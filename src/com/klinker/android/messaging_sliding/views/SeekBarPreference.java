@@ -1,4 +1,4 @@
-package com.klinker.android.messaging_sliding.custom_dialogs;
+package com.klinker.android.messaging_sliding.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -15,7 +15,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import com.klinker.android.messaging_donate.R;
 
-public class SeekBarPreference2 extends Preference implements OnSeekBarChangeListener {
+public class SeekBarPreference extends Preference implements OnSeekBarChangeListener {
 	
 	private final String TAG = getClass().getName();
 	
@@ -23,22 +23,22 @@ public class SeekBarPreference2 extends Preference implements OnSeekBarChangeLis
 	private static final String ROBOBUNNYNS="http://robobunny.com";
 	private static final int DEFAULT_VALUE = 50;
 	
-	private int mMaxValue      = 1000;
-	private int mMinValue      = 100;
-	private int mInterval      = 10;
+	private int mMaxValue      = 100;
+	private int mMinValue      = 0;
+	private int mInterval      = 1;
 	private int mCurrentValue;
 	private String mUnitsLeft  = "";
-	private String mUnitsRight = "ms";
+	private String mUnitsRight = "";
 	private SeekBar mSeekBar;
 	
 	private TextView mStatusText;
 
-	public SeekBarPreference2(Context context, AttributeSet attrs) {
+	public SeekBarPreference(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		initPreference(context, attrs);
 	}
 
-	public SeekBarPreference2(Context context, AttributeSet attrs, int defStyle) {
+	public SeekBarPreference(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		initPreference(context, attrs);
 	}

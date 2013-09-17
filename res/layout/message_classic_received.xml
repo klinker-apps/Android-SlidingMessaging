@@ -37,7 +37,7 @@
         android:layout_alignParentRight="true"
         android:minHeight="64dp">
 
-        <TextView
+        <com.klinker.android.messaging_sliding.views.HoloTextView
             android:id="@+id/textBody"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -50,7 +50,7 @@
             android:textColor="@color/card_conversation_summary"
             />
 
-        <TextView
+        <com.klinker.android.messaging_sliding.views.HoloTextView
             android:id="@+id/textDate"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

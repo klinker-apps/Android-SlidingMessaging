@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_contact_picture"/>
 
-    <TextView
+    <com.klinker.android.messaging_sliding.views.HoloTextView
         android:id="@+id/contactBody"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -27,7 +27,7 @@
         android:textColor="@color/light_grey"
         android:textSize="@dimen/contact_body_size" />
 
-    <TextView
+    <com.klinker.android.messaging_sliding.views.HoloTextView
         android:id="@+id/contactName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
         android:paddingRight="5dp"
         android:textSize="@dimen/contact_name_size" />
 
-    <TextView
+    <com.klinker.android.messaging_sliding.views.HoloTextView
         android:id="@+id/contactDate2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
         android:textColor="@color/light_grey"
         android:textSize="@dimen/contact_body_size" />
 
-    <TextView
+    <com.klinker.android.messaging_sliding.views.HoloTextView
         android:id="@+id/contactDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -63,7 +63,7 @@
         android:textColor="@color/light_grey"
         android:textSize="@dimen/contact_body_size" />
 
-    <TextView
+    <com.klinker.android.messaging_sliding.views.HoloTextView
         android:id="@+id/conversationCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

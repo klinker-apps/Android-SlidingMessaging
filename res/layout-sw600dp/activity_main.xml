@@ -117,7 +117,7 @@
                     android:scaleType="fitCenter"
                     />
 
-            <EditText
+            <com.klinker.android.messaging_sliding.views.HoloEditText
                     android:id="@+id/messageEntry"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -132,7 +132,7 @@
                     android:layout_toLeftOf="@+id/sendButton"
                     android:layout_toRightOf="@+id/voiceButton">
                 <requestFocus/>
-            </EditText>
+            </com.klinker.android.messaging_sliding.views.HoloEditText>
 
             <Button android:id="@+id/launch_app"
                 android:layout_height="wrap_content"

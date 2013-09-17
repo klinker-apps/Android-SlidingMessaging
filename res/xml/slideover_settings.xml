@@ -71,7 +71,7 @@
                 android:dependency="slideover_enabled"
                 />-->
 
-        <com.klinker.android.messaging_sliding.custom_dialogs.SeekBarPreference3
+        <com.klinker.android.messaging_sliding.views.SeekBarPreference3
                 android:key="slideover_sliver"
                 android:title="@string/slideover_sliver"
                 android:summary="@string/slideover_sliver_summary"
@@ -80,7 +80,7 @@
                 android:dependency="slideover_enabled"
                 />
 
-        <com.klinker.android.messaging_sliding.custom_dialogs.SeekBarPreference3
+        <com.klinker.android.messaging_sliding.views.SeekBarPreference3
                 android:key="slideover_activation"
                 android:title="@string/slideover_activation"
                 android:summary="@string/slideover_activation_summary"
@@ -89,7 +89,7 @@
                 android:dependency="slideover_enabled"
                 />
 
-        <com.klinker.android.messaging_sliding.custom_dialogs.SeekBarPreference3
+        <com.klinker.android.messaging_sliding.views.SeekBarPreference3
                 android:key="slideover_break_point"
                 android:title="@string/slideover_break_point"
                 android:summary="@string/slideover_break_point_summary"
@@ -117,7 +117,7 @@
                 android:dependency="slideover_enabled"
                 />
 
-        <com.klinker.android.messaging_sliding.custom_dialogs.SeekBarPreference3
+        <com.klinker.android.messaging_sliding.views.SeekBarPreference3
                 android:key="slideover_animation_speed"
                 android:title="@string/slideover_animation_speed"
                 android:defaultValue="33"
@@ -144,7 +144,7 @@
             android:defaultValue="true"
             />
 
-        <com.klinker.android.messaging_sliding.custom_dialogs.SeekBarPreference3
+        <com.klinker.android.messaging_sliding.views.SeekBarPreference3
             android:key="slideover_padding"
             android:title="@string/slideover_padding"
             android:summary="@string/slideover_padding_summary"

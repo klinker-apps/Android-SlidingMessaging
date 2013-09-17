@@ -1,4 +1,4 @@
-package com.klinker.android.messaging_sliding.custom_dialogs;
+package com.klinker.android.messaging_sliding.views;
 
 import android.content.Context;
 import android.util.AttributeSet;

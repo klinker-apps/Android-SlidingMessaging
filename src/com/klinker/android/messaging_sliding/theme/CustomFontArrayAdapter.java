@@ -38,8 +38,8 @@ public class CustomFontArrayAdapter extends ArrayAdapter<String> {
 	      viewHolder.text = (TextView) rowView.findViewById(R.id.textView1);
 	      viewHolder.text2 = (TextView) rowView.findViewById(R.id.textView2);
 	      
-	      viewHolder.text.setTextColor(context.getResources().getColor(R.color.white));
-	      viewHolder.text2.setTextColor(context.getResources().getColor(R.color.white));
+	      viewHolder.text.setTextColor(context.getResources().getColor(R.color.darkgrey));
+	      viewHolder.text2.setTextColor(context.getResources().getColor(R.color.darkgrey));
 	      rowView.setTag(viewHolder);
 	    }
 

@@ -28,7 +28,7 @@
         android:layout_alignParentLeft="true"
         android:minHeight="64dp">
 
-        <TextView
+        <com.klinker.android.messaging_sliding.views.HoloTextView
                 android:id="@+id/textBody"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
                 android:layout_gravity="right|center_vertical"
                 android:gravity="right"/>
 
-        <TextView
+        <com.klinker.android.messaging_sliding.views.HoloTextView
                 android:id="@+id/textDate"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"

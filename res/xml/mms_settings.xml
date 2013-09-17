@@ -22,14 +22,14 @@
             android:defaultValue="false"
         />
 
-        <com.klinker.android.messaging_sliding.custom_dialogs.SeekBarPreference2
+        <com.klinker.android.messaging_sliding.views.SeekBarPreference2
                 android:key="mms_max_width"
                 android:title="@string/mms_max_width"
                 android:defaultValue="800"
                 android:max="2500"
                 />
 
-        <com.klinker.android.messaging_sliding.custom_dialogs.SeekBarPreference2
+        <com.klinker.android.messaging_sliding.views.SeekBarPreference2
                 android:key="mms_max_height"
                 android:title="@string/mms_max_height"
                 android:defaultValue="800"

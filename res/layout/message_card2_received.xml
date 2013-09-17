@@ -56,7 +56,7 @@
                     android:contentDescription="@string/placeholder"
                     android:padding="12dp"/>
 
-            <TextView
+            <com.klinker.android.messaging_sliding.views.HoloTextView
                     android:id="@+id/textBody"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -76,7 +76,7 @@
                   android:layout_marginRight="15dp"
                   android:id="@+id/divider"/>
 
-            <TextView
+            <com.klinker.android.messaging_sliding.views.HoloTextView
                     android:id="@+id/textDate"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"

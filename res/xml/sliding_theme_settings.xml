@@ -46,6 +46,12 @@
             android:entryValues="@array/slideToMenuInserted"
             />
 
+        <CheckBoxPreference
+            android:key="device_font"
+            android:title="@string/use_device_font"
+            android:defaultValue="false"
+            />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:key="smilies_category"

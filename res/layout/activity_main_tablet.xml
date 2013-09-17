@@ -149,7 +149,7 @@
                         android:layout_alignParentTop="true"
                         android:scaleType="fitCenter"/>
 
-                <EditText
+                <com.klinker.android.messaging_sliding.views.HoloEditText
                         android:id="@+id/messageEntry"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -165,7 +165,7 @@
                         android:layout_toRightOf="@+id/voiceButton"
                         android:imeOptions="flagNoExtractUi">
                     <requestFocus/>
-                </EditText>
+                </com.klinker.android.messaging_sliding.views.HoloEditText>
 
                 <Button android:id="@+id/launch_app"
                     android:layout_height="wrap_content"

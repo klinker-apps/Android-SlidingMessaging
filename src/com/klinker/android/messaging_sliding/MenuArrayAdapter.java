@@ -259,7 +259,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
                 {
                     if (Integer.parseInt(count.get(position)) > 1)
                     {
-                        text = Html.fromHtml("Group MMS   <font color=#" + CustomTheme.convertToARGB(MainActivity.settings.ctMessageCounterColor).substring(3) + "><b>" + count.get(position) + "</b></color>");
+                        text = Html.fromHtml("Group MMS   <small><font color=#" + CustomTheme.convertToARGB(MainActivity.settings.ctMessageCounterColor).substring(3) + "><b>" + count.get(position) + "</b></color></small>");
                     } else
                     {
                         text = Html.fromHtml("Group MMS");
@@ -272,7 +272,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 
                     if (Integer.parseInt(count.get(position)) > 1)
                     {
-                        text = Html.fromHtml(contactName + "   <font color=#" + CustomTheme.convertToARGB(MainActivity.settings.ctMessageCounterColor).substring(3) + "><b>" + count.get(position) + "</b></color>");
+                        text = Html.fromHtml(contactName + "   <small><font color=#" + CustomTheme.convertToARGB(MainActivity.settings.ctMessageCounterColor).substring(3) + "><b>" + count.get(position) + "</b></color></small>");
                     } else
                     {
                         text = Html.fromHtml(contactName);
