@@ -7,6 +7,8 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.TypedValue;
+import com.klinker.android.messaging_sliding.*;
+import com.klinker.android.messaging_sliding.MainActivity;
 import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead2;
 import com.klinker.android.send_message.Message;
 import com.klinker.android.send_message.Settings;
@@ -140,10 +142,9 @@ public class SendUtil {
         return bitmap;
     }
 
-    // TODO this where where we will resize the image to a certain filesize eventually
-    public static Bitmap getImage(Context context, Uri uri) throws IOException {
+    public static Bitmap getImage(Context context, Uri uri, int size) throws IOException {
 
-        int THUMBNAIL_SIZE = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, context.getResources().getDisplayMetrics());
+        int THUMBNAIL_SIZE = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, size, context.getResources().getDisplayMetrics());
 
         InputStream input = context.getContentResolver().openInputStream(uri);
 
@@ -167,6 +168,20 @@ public class SendUtil {
         input = context.getContentResolver().openInputStream(uri);
         Bitmap bitmap = BitmapFactory.decodeStream(input, null, bitmapOptions);
         input.close();
+
+        Log.v("bitmap_size", bitmap.getByteCount() + " " + bitmap.getHeight() + " " + bitmap.getWidth());
+
+        if (bitmap.getHeight() > MainActivity.settings.mmsMaxHeight || bitmap.getWidth() > MainActivity.settings.mmsMaxWidth) {
+            double r;
+            if (bitmap.getHeight() > bitmap.getWidth()) {
+                r = MainActivity.settings.mmsMaxHeight / (double) bitmap.getHeight();
+            } else {
+                r = MainActivity.settings.mmsMaxWidth / (double) bitmap.getWidth();
+            }
+
+            bitmap = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * r), (int) (bitmap.getHeight() * r), false);
+        }
+
         return bitmap;
     }
 

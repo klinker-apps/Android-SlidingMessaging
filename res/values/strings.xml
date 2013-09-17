@@ -776,5 +776,8 @@
     <string name="google_voice_tutorial_4">That\'s it!\n\nThe status of the conversation is automatically remembered so you don\'t have to choose Google Voice or SMS every time!</string>
     <string name="always_use_voice">Default to Google Voice</string>
     <string name="favorites">Favorites</string>
+    <string name="mms_max_width">Max Width (in pixels)</string>
+    <string name="mms_max_height">Max Height (in pixels)</string>
+    <string name="mms_max_size_warning">Be aware, some carriers only allow for message up to 1 MB, so setting the above values to high may result in delivery failure</string>
 
 </resources>

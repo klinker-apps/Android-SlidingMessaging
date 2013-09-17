@@ -47,6 +47,7 @@ public class ChangeLogWizardModel extends AbstractWizardModel {
         }
 
         String changeLog = "Version " + version + ":\n\n" +
+                "- Option to select the max height and width of sent pictures for higher resolution images\n" +
                 "- Option to always use Google Voice\n" +
                 "- Favorites category on the emoji keyboard for quick access to your most used emojis\n" +
                 "- Bug fixes\n";
