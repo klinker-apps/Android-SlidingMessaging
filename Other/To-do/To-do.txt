@@ -2,7 +2,6 @@ Version 7.60
 
 Jake:
     - look into downloading mms and data getting stuck
-    - work on mms resizing
     - Make all textviews, edit text, etc. default to Roboto light
     - delayed sending for certain times
     - rewrite menu array adapter as cursor adaptor

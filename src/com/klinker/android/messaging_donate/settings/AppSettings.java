@@ -105,6 +105,8 @@ public class AppSettings {
     public int animationSpeed;
     public int textOpacity;
     public int linkColor;
+    public int mmsMaxWidth;
+    public int mmsMaxHeight;
 
     public static AppSettings init(Context context) {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -238,6 +240,8 @@ public class AppSettings {
         settings.textOpacity = sharedPrefs.getInt("text_opacity", 100);
         settings.linkColor = sharedPrefs.getInt("hyper_link_color", context.getResources().getColor(R.color.holo_blue));
         settings.alwaysUseVoice = sharedPrefs.getBoolean("always_use_voice", false);
+        settings.mmsMaxWidth = sharedPrefs.getInt("mms_max_width", 500);
+        settings.mmsMaxHeight = sharedPrefs.getInt("mms_max_height", 500);
 
         if (settings.runAs.equals("card+")) {
             settings.customTheme = true;

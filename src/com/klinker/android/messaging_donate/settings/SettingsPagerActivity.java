@@ -1094,7 +1094,6 @@ public class SettingsPagerActivity extends FragmentActivity {
                 findPreference("group_message").setEnabled(false);
                 findPreference("auto_download_mms").setEnabled(false);
                 findPreference("wifi_mms_fix").setEnabled(false);
-                findPreference("limit_attachment_size").setEnabled(false);
                 findPreference("send_as_mms").setEnabled(false);
                 findPreference("mms_after").setEnabled(false);
                 findPreference("send_with_stock").setEnabled(false);
@@ -1219,7 +1218,6 @@ public class SettingsPagerActivity extends FragmentActivity {
             if (!showAll) {
                 try {
                     ((PreferenceGroup) findPreference("general_mms_category")).removePreference(findPreference("wifi_mms_fix"));
-                    ((PreferenceGroup) findPreference("general_mms_category")).removePreference(findPreference("limit_attachment_size"));
                 } catch (Exception e) {
 
                 }

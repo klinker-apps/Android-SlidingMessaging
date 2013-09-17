@@ -1695,13 +1695,13 @@ public class MainActivity extends FragmentActivity {
                                 if (!multipleAttachments) {
                                     if (!fromCamera) {
                                         try {
-                                            bitmaps.add(SendUtil.getImage(context, attachedImage));
+                                            bitmaps.add(SendUtil.getImage(context, attachedImage, 600));
                                         } catch (Exception e) {
                                             bitmaps.add(decodeFile2(new File(getPath(attachedImage))));
                                         }
                                     } else {
                                         try {
-                                            bitmaps.add(SendUtil.getImage(context, Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/", "photoToSend.png"))));
+                                            bitmaps.add(SendUtil.getImage(context, Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/", "photoToSend.png")), 600));
                                         } catch (Exception e) {
                                             bitmaps.add(decodeFile2(new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/", "photoToSend.png")));
                                         }
@@ -2720,13 +2720,13 @@ public class MainActivity extends FragmentActivity {
                                 if (!multipleAttachments) {
                                     if (!fromCamera) {
                                         try {
-                                            bitmaps.add(SendUtil.getImage(context, attachedImage2));
+                                            bitmaps.add(SendUtil.getImage(context, attachedImage2, 600));
                                         } catch (Exception e) {
                                             bitmaps.add(decodeFile2(new File(getPath(attachedImage2))));
                                         }
                                     } else {
                                         try {
-                                            bitmaps.add(SendUtil.getImage(context, Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/", "photoToSend.png"))));
+                                            bitmaps.add(SendUtil.getImage(context, Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/", "photoToSend.png")), 600));
                                         } catch (Exception e) {
                                             bitmaps.add(decodeFile2(new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/", "photoToSend.png")));
                                         }
@@ -4354,7 +4354,7 @@ public class MainActivity extends FragmentActivity {
 
                 try
                 {
-                    Bitmap image = SendUtil.getImage(this, capturedPhotoUri);
+                    Bitmap image = SendUtil.getImage(this, capturedPhotoUri, 600);
                     imageAttach.setImage("send_image", image);
                 } catch (Exception e)
                 {
@@ -4424,7 +4424,7 @@ public class MainActivity extends FragmentActivity {
 
                 try
                 {
-                    Bitmap image = SendUtil.getImage(this, capturedPhotoUri);
+                    Bitmap image = SendUtil.getImage(this, capturedPhotoUri, 600);
                     imageAttach2.setImage("send_image", image);
                 } catch (Exception e)
                 {
@@ -4715,11 +4715,6 @@ public class MainActivity extends FragmentActivity {
 
             //The new size we want to scale to
             int REQUIRED_SIZE=300;
-
-            if (!settings.limitAttachmentSize)
-            {
-                REQUIRED_SIZE = 500;
-            }
 
             //Find the correct scale value. It should be the power of 2.
             int scale=1;
