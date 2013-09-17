@@ -14,7 +14,7 @@ import com.klinker.android.messaging_donate.R;
 import java.util.ArrayList;
 
 public class ArcView extends ViewGroup {
-    public Context mContext;
+    public static Context mContext;
 
     public static float TEXT_SIZE;
     public static float TEXT_GAP;
@@ -34,8 +34,8 @@ public class ArcView extends ViewGroup {
 
     public SharedPreferences sharedPrefs;
 
-    public int height;
-    public int width;
+    public static int height;
+    public static int width;
 
     public double sliverPercent;
 
@@ -223,5 +223,11 @@ public class ArcView extends ViewGroup {
         returnArray[1] = (int)(SlideOverService.PERCENT_DOWN_SCREEN);
 
         return returnArray;
+    }
+
+    public static void setDisplay() {
+        Display d = ((WindowManager)mContext.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+        height = d.getHeight();
+        width = d.getWidth();
     }
 }
