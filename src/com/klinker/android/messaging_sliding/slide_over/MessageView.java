@@ -88,7 +88,7 @@ public class MessageView extends ViewGroup {
 
         canvas.drawText(ContactView.contactNames[ContactView.currentContact], 10, 40, namePaint);
 
-        int amountDown = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 22, mContext.getResources().getDisplayMetrics());
+        int amountDown = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 25, mContext.getResources().getDisplayMetrics());
 
         String message3 = ContactView.message[ContactView.currentContact][2];
 
