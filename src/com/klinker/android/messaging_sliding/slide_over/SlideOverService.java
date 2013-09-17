@@ -43,6 +43,8 @@ public class SlideOverService extends Service {
 
     public Vibrator v;
 
+    public Bitmap halo;
+
     public WindowManager haloWindow;
     public WindowManager messageWindow;
     public WindowManager arcWindow;
@@ -77,6 +79,7 @@ public class SlideOverService extends Service {
     private boolean inClear = false;
 
     private boolean movingBubble = false;
+    private boolean changingSliver = false;
 
     private int lastZone = 0;
     private int currentZone = 0;
@@ -102,7 +105,7 @@ public class SlideOverService extends Service {
         mContext = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
 
-        final Bitmap halo = BitmapFactory.decodeResource(getResources(),
+        halo = BitmapFactory.decodeResource(getResources(),
                 R.drawable.halo_bg);
 
         Display d = ((WindowManager)getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
@@ -130,7 +133,9 @@ public class SlideOverService extends Service {
 
                             case MotionEvent.ACTION_MOVE:
 
-                                if(movingBubble) {
+                                if (changingSliver) {
+                                    changeSliverWidth(halo, event);
+                                } else if(movingBubble) {
                                     movingHalo(halo, event);
                                 } else {
                                     noMessagesMove(event, height, width);
@@ -140,7 +145,10 @@ public class SlideOverService extends Service {
 
                             case MotionEvent.ACTION_UP:
 
-                                if (movingBubble) {
+                                if (changingSliver) {
+                                    setSliver(halo, event, height, width);
+                                    changingSliver = false;
+                                } else if (movingBubble) {
                                     setHalo(halo, event, height, width);
                                     movingBubble = false;
                                 } else {
@@ -161,7 +169,9 @@ public class SlideOverService extends Service {
 
                             case MotionEvent.ACTION_MOVE:
 
-                                if(movingBubble) {
+                                if (changingSliver) {
+                                    changeSliverWidth(halo, event);
+                                } else if(movingBubble) {
                                     movingHalo(halo, event);
                                 } else {
                                     messagesMove(event, height, width, zoneWidth);
@@ -171,7 +181,10 @@ public class SlideOverService extends Service {
 
                             case MotionEvent.ACTION_UP:
 
-                                if (movingBubble) {
+                                if (changingSliver) {
+                                    setSliver(halo, event, height, width);
+                                    changingSliver = false;
+                                } else if (movingBubble) {
                                     setHalo(halo, event, height, width);
                                     movingBubble = false;
                                 } else {
@@ -288,6 +301,14 @@ public class SlideOverService extends Service {
         filter = new IntentFilter();
         filter.addAction("com.klinker.android.messaging.CLEAR_MESSAGES");
         this.registerReceiver(clearMessages, filter);
+    }
+
+    public void changeSliverWidth(Bitmap halo, MotionEvent event) {
+
+    }
+
+    public void setSliver(Bitmap halo, MotionEvent event, int height, int width) {
+
     }
 
     public void setHalo(Bitmap halo, MotionEvent event, int height, int width) {
@@ -413,17 +434,19 @@ public class SlideOverService extends Service {
             return true;
         }
 
-        /*@Override
+        @Override
         public boolean onDoubleTap(MotionEvent event) {
             // Implement vibrate when the move feature is done
-            //if (HAPTIC_FEEDBACK) {
-                //v.vibrate(10);
-            //}
+            if (HAPTIC_FEEDBACK) {
+                v.vibrate(10);
+            }
             
-            // eventually will move it around
+            // change sliver width
+
+            changingSliver = true;
 
             return true;
-        }*/
+        }
 
         @Override
         public void onLongPress(MotionEvent event){
@@ -449,7 +472,8 @@ public class SlideOverService extends Service {
 
             }
 
-            movingBubble = true;
+            if (!changingSliver)
+                movingBubble = true;
         }
     }
 
@@ -1198,6 +1222,7 @@ public class SlideOverService extends Service {
             arcView.updateTextPaint();
             arcView.invalidate();
 
+
             // set the icon to the red, recieved, icon
             if (!haloView.animating) {
                 haloView.haloNewAlpha = 0;
@@ -1208,6 +1233,8 @@ public class SlideOverService extends Service {
                 animation.setRunning(true);
                 animation.start();
             }
+
+            animationView = new AnimationView(getApplicationContext(), halo);
 
             if (!animationView.circleText) {
                 if (!sharedPrefs.getBoolean("popup_reply", false) || (sharedPrefs.getBoolean("popup_reply", true) && sharedPrefs.getBoolean("slideover_popup_lockscreen_only", false))) {
