@@ -966,6 +966,15 @@ public class SettingsPagerActivity extends FragmentActivity {
                 }
             });
 
+            Preference unreadOnly = findPreference("slideover_only_unread");
+            unreadOnly.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    restartHalo();
+                    return true;
+                }
+            });
+
             /*Preference alignment = findPreference("slideover_vertical");
             alignment.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override

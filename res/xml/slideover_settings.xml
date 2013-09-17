@@ -45,7 +45,13 @@
             android:dependency="slideover_enabled"
             />
 
-        
+        <CheckBoxPreference
+            android:key="slideover_only_unread"
+            android:title="@string/slideover_only_unread"
+            android:summary="@string/slideover_only_unread_summary"
+            android:dependency="slideover_enabled"
+            android:defaultValue="false"
+            />
 
     </PreferenceCategory>
 
