@@ -693,7 +693,7 @@ public class SlideOverService extends Service {
         arcView.newMessagePaint.setAlpha(START_ALPHA2);
 
         arcViewHandler.removeCallbacks(arcViewRunnable);
-        arcViewHandler.postDelayed(arcViewRunnable, 200);
+        arcViewHandler.postDelayed(arcViewRunnable, 250);
 
         //haloWindow.updateViewLayout(haloView, haloHiddenParams);
         needDetection = true;

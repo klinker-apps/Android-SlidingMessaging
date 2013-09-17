@@ -45,6 +45,8 @@
             android:dependency="slideover_enabled"
             />
 
+        
+
     </PreferenceCategory>
 
     <PreferenceCategory android:key="slideover_positioning_category"
