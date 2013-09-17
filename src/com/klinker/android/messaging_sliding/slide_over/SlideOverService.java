@@ -134,7 +134,7 @@ public class SlideOverService extends Service {
                             case MotionEvent.ACTION_MOVE:
 
                                 if (changingSliver) {
-                                    changeSliverWidth(halo, event);
+                                    changeSliverWidth(halo, event, width);
                                 } else if(movingBubble) {
                                     movingHalo(halo, event);
                                 } else {
@@ -170,7 +170,7 @@ public class SlideOverService extends Service {
                             case MotionEvent.ACTION_MOVE:
 
                                 if (changingSliver) {
-                                    changeSliverWidth(halo, event);
+                                    changeSliverWidth(halo, event, width);
                                 } else if(movingBubble) {
                                     movingHalo(halo, event);
                                 } else {
@@ -303,12 +303,57 @@ public class SlideOverService extends Service {
         this.registerReceiver(clearMessages, filter);
     }
 
-    public void changeSliverWidth(Bitmap halo, MotionEvent event) {
+    public void changeSliverWidth(Bitmap halo, MotionEvent event, int width) {
+        int sliver;
 
+        if (sharedPrefs.getString("slideover_side", "left").equals("left")) {
+            sliver = (int)((event.getRawX() * 100)/width);
+        } else {
+            sliver = (int)((1 - (event.getRawX()/width)) * 100);
+        }
+
+        HALO_SLIVER_RATIO = sliver/100.0;
+
+        haloParams = new WindowManager.LayoutParams(
+                halo.getWidth(),
+                halo.getHeight(),
+                sharedPrefs.getString("slideover_side", "left").equals("left") ? (int) (-1 * (1 - HALO_SLIVER_RATIO) * halo.getWidth()) : (int) (width - (halo.getWidth() * (HALO_SLIVER_RATIO))),
+                (int) sharedPrefs.getFloat("slideover_downscreen", 0),
+                WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                        |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+                        |WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
+                        |WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                PixelFormat.TRANSLUCENT);
+        haloParams.gravity = Gravity.TOP | Gravity.LEFT;
+        haloParams.windowAnimations = android.R.style.Animation_Toast;
+
+        haloWindow.updateViewLayout(haloView, haloParams);
     }
 
     public void setSliver(Bitmap halo, MotionEvent event, int height, int width) {
+        if (sharedPrefs.getString("slideover_side", "left").equals("left"))
+            sharedPrefs.edit().putInt("slideover_sliver", (int)((event.getRawX() * 100)/width)).commit();
+        else
+            sharedPrefs.edit().putInt("slideover_sliver", (int)((1 - (event.getRawX()/width)) * 100)).commit();
 
+        HALO_SLIVER_RATIO = sharedPrefs.getInt("slideover_sliver", 33)/100.0;
+
+        haloParams = new WindowManager.LayoutParams(
+                halo.getWidth(),
+                halo.getHeight(),
+                sharedPrefs.getString("slideover_side", "left").equals("left") ? (int) (-1 * (1 - HALO_SLIVER_RATIO) * halo.getWidth()) : (int) (width - (halo.getWidth() * (HALO_SLIVER_RATIO))),
+                (int) sharedPrefs.getFloat("slideover_downscreen", 0),
+                WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                        |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+                        |WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
+                        |WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                PixelFormat.TRANSLUCENT);
+        haloParams.gravity = Gravity.TOP | Gravity.LEFT;
+        haloParams.windowAnimations = android.R.style.Animation_Toast;
+
+        haloWindow.updateViewLayout(haloView, haloParams);
     }
 
     public void setHalo(Bitmap halo, MotionEvent event, int height, int width) {
@@ -437,9 +482,9 @@ public class SlideOverService extends Service {
         @Override
         public boolean onDoubleTap(MotionEvent event) {
             // Implement vibrate when the move feature is done
-            /*if (HAPTIC_FEEDBACK) {
+            if (HAPTIC_FEEDBACK) {
                 v.vibrate(10);
-            }*/
+            }
             
             // change sliver width
 
@@ -452,7 +497,7 @@ public class SlideOverService extends Service {
 
                     }
                 }
-            }, 150);
+            }, 220);
 
             changingSliver = true;
 
