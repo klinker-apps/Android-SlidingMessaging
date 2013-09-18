@@ -557,7 +557,7 @@ public class SlideOverService extends Service {
                     windowOffsetY = (int) (currentY - toDP(30));
 
                     contactParams.y = toDP(1) + windowOffsetY;
-                    
+
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
