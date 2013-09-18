@@ -81,7 +81,7 @@ public class SlideOverService extends Service {
     private boolean changingSliver = false;
     private boolean draggingQuickWindow = false;
 
-    private boolean isPlaying = false;
+    public int currContact = 0;
 
     private int lastZone = 0;
     private int currentZone = 0;
@@ -541,12 +541,16 @@ public class SlideOverService extends Service {
                     if (currentX > width - 50 - toDP(60) && currentX < width - 50) {
                         draggingQuickWindow = true;
 
-                        messageWindowParams.windowAnimations = android.R.style.Animation_InputMethod;
                         messageWindow.removeView(messageView);
+
+                        currContact = ContactView.currentContact;
+                        ContactView.currentContact = 6;
                     }
 
                     contactView.invalidate();
                     messageView.invalidate();
+
+
                 }
 
                 break;
@@ -555,15 +559,8 @@ public class SlideOverService extends Service {
 
                 if(draggingQuickWindow) {
                     windowOffsetY = (int) (currentY - toDP(30));
-
                     contactParams.y = toDP(1) + windowOffsetY;
-
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            messageWindow.updateViewLayout(contactView, contactParams);
-                        }
-                    }, 150);
+                    messageWindow.updateViewLayout(contactView, contactParams);
 
                 } else if (currentX < toDP(60) && !ContactView.ignore[0]) { // contact 1 touched
                     contactZoneNoVibrate(0);
@@ -594,13 +591,13 @@ public class SlideOverService extends Service {
 
                         messageWindow.updateViewLayout(contactView, contactParams);
                         messageWindow.addView(messageView, messageWindowParams);
-
-                        messageWindowParams.windowAnimations = android.R.style.Animation_InputMethod;
                     } else {
                         messageWindowParams.y = toDP(63) + windowOffsetY;
                         messageWindow.addView(messageView, messageWindowParams);
-                        messageWindowParams.windowAnimations = android.R.style.Animation_InputMethod;
                     }
+
+                    ContactView.currentContact = currContact;
+                    contactView.invalidate();
 
                     draggingQuickWindow = false;
                 }
@@ -613,56 +610,48 @@ public class SlideOverService extends Service {
         float currentX = motionEvent.getRawX();
         float currentY = motionEvent.getRawY();
 
-        if(currentX > 50 && currentX < width - 50 && currentY > windowOffsetY + toDP(63) && currentY < windowOffsetY + toDP(63) + toDP(160))
-        {
-            if (!isPlaying) {
+        if (motionEvent.getActionMasked() == MotionEvent.ACTION_DOWN) {
+            if(currentX > 50 && currentX < width - 50 && currentY > windowOffsetY + toDP(63) && currentY < windowOffsetY + toDP(63) + toDP(160))
+            {
                 messageView.playSoundEffect(SoundEffectConstants.CLICK);
-                isPlaying = true;
 
                 if (HAPTIC_FEEDBACK) {
-                    ((Vibrator) getSystemService(Context.VIBRATOR_SERVICE)).vibrate(10);
+                    v.vibrate(10);
                 }
-            }
 
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    isPlaying = false;
+                arcView.newConversations.clear();
+
+                haloView.haloNewAlpha = 0;
+                haloView.haloAlpha = 255;
+                haloView.invalidate();
+
+                try {
+                    haloWindow.removeView(haloView);
+                    haloWindow.addView(haloView, haloParams);
+                } catch (Exception e) {
+
                 }
-            }, 500);
 
-            arcView.newConversations.clear();
+                numberNewConv = 0;
 
-            haloView.haloNewAlpha = 0;
-            haloView.haloAlpha = 255;
-            haloView.invalidate();
+                try {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            ContactView.currentContact = 0;
+                            contactView.invalidate();
+                        }
+                    }, 200);
 
-            try {
-                haloWindow.removeView(haloView);
-                haloWindow.addView(haloView, haloParams);
-            } catch (Exception e) {
+                    Intent intent = finishFlat();
+                    intent.putExtra("openToPage", ContactView.currentContact);
+                    startActivity(intent);
 
-            }
-
-            numberNewConv = 0;
-
-            try {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        ContactView.currentContact = 0;
-                        contactView.invalidate();
-                    }
-                }, 200);
-
-                Intent intent = finishFlat();
-                intent.putExtra("openToPage", ContactView.currentContact);
-                startActivity(intent);
-
-                messageWindow.removeView(contactView);
-                messageWindow.removeView(messageView);
-            } catch (Exception e) {
-                // already open and intent is null
+                    messageWindow.removeView(contactView);
+                    messageWindow.removeView(messageView);
+                } catch (Exception e) {
+                    // already open and intent is null
+                }
             }
         }
     }
