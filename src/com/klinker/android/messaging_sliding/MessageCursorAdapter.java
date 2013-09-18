@@ -1806,7 +1806,7 @@ public class MessageCursorAdapter extends CursorAdapter {
         public Uri imageUri;
     }
 
-    private final String patternStr = "[^\\x20-\\x7E\\n]";
+    public static final String patternStr = "\u00a9|\u00ae|[\u203c-\u3299]|[\uD83C\uDC04-\uD83C\uDFf0]|[\uD83D\uDC00-\uD83D\uDEc5]";
     private Pattern pattern;
 
     public void setMessageText(final TextView textView, final String body) {

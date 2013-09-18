@@ -56,6 +56,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
   private final ViewPager pager;
   private static final String FILENAME = "newMessages.txt";
   private SharedPreferences sharedPrefs;
+  private Pattern pattern;
   
   static class ViewHolder {
 	    public TextView text;
@@ -77,6 +78,8 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
     this.read = read;
     this.pager = pager;
     this.sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+    pattern = Pattern.compile(MessageCursorAdapter.patternStr);
   }
   
   @Override
@@ -346,8 +349,6 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 
       if (MainActivity.settings.smilies.equals("with"))
       {
-          String patternStr = "[^\\x20-\\x7E]";
-          Pattern pattern = Pattern.compile(patternStr);
           Matcher matcher = pattern.matcher(body.get(position));
 
           if (matcher.find())
