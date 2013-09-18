@@ -372,7 +372,7 @@ public class SlideOverService extends Service {
                             width - 100,  // 50 pixels on each side
                             toDP(160),        // 250 pixels tall
                             50,         // 50 pixel width on the side
-                            toDP(63) + (int) currentY,         // 155 pixels down the screen
+                            toDP(63) + (int) currentY - toDP(30),         // 155 pixels down the screen
                             WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
                             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                                     |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
@@ -386,7 +386,7 @@ public class SlideOverService extends Service {
                             width - 100,  // 50 pixels on each side
                             toDP(60),        // 100 pixels tall
                             50,         // 40 pixel width on the side
-                            (int) currentY,         // 60 pixels down the screen
+                            (int) currentY - toDP(30),         // 60 pixels down the screen
                             WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
                             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                                     |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
@@ -402,7 +402,7 @@ public class SlideOverService extends Service {
 
                 if (event.getActionMasked() == MotionEvent.ACTION_UP) {
 
-                    if (currentY > .93 * height)
+                    if (currentY - toDP(30) > .93 * height)
                     {
                         messageWindowParams = new WindowManager.LayoutParams(
                                 width - 100,  // 50 pixels on each side
