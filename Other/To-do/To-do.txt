@@ -18,7 +18,9 @@ Luke:
 8) Add scheduled sms to bottom of conversation in a footer maybe
 9) Add sent or received icon to conversations list
 
-- igamer777@gmail.com, nikorezzano@gmail.com
+Translation stuff:
+- igamer777@gmail.com (Russian), nikorezzano@gmail.com (Spanish), supremazx@gmail.com (Turkish)
+- https://drive.google.com/folderview?id=0B3Z7vr7d5bgAUUQ3ZmxMbjFiWm8&usp=sharing&tid=0B3Z7vr7d5bgAdlY4aGRpdVNEYlE (French)
 
 - sms backup
 	- different icon in notification
