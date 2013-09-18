@@ -431,7 +431,7 @@ public class SlideOverService extends Service {
                         |WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 PixelFormat.TRANSLUCENT);
         messageWindowParams.gravity = Gravity.TOP | Gravity.LEFT;
-        messageWindowParams.windowAnimations = android.R.style.Animation_Translucent;
+        messageWindowParams.windowAnimations = android.R.style.Animation_InputMethod;
 
         contactParams = new WindowManager.LayoutParams(
                 width - 100,  // 50 pixels on each side
@@ -521,58 +521,91 @@ public class SlideOverService extends Service {
         float currentX = event.getRawX();
         float currentY = event.getRawY();
 
-        if (!draggingQuickWindow && currentY > windowOffsetY && currentY < windowOffsetY + toDP(60) && currentX > 50 && currentX < width - 50) {// if it is in the y zone and the x zone
-            currentX -= 50; // to match the start of the window
+        switch (event.getActionMasked()) {
+            case MotionEvent.ACTION_DOWN:
+                if (!draggingQuickWindow && currentY > windowOffsetY && currentY < windowOffsetY + toDP(60) && currentX > 50 && currentX < width - 50) {// if it is in the y zone and the x zone
+                    currentX -= 50; // to match the start of the window
 
-            if (currentX < toDP(60) && !ContactView.ignore[0]) { // contact 1 touched
-                contactZone(0);
-            } else if (currentX > toDP(63) && currentX < toDP(123) && !ContactView.ignore[1]) { // contact 2 touched
-                contactZone(1);
-            } else if (currentX > toDP(126) && currentX < toDP(186) && !ContactView.ignore[2]) { // contact 3 touched
-                contactZone(2);
-            } else if (currentX > toDP(189) && currentX < toDP(249) && !ContactView.ignore[3]) { // contact 4 touched
-                contactZone(3);
-            } else if (currentX > toDP(252) && currentX < toDP(312) && !ContactView.ignore[4]) { // contact 5 touched
-                contactZone(4);
-            }
+                    if (currentX < toDP(60) && !ContactView.ignore[0]) { // contact 1 touched
+                        contactZone(0);
+                    } else if (currentX > toDP(63) && currentX < toDP(123) && !ContactView.ignore[1]) { // contact 2 touched
+                        contactZone(1);
+                    } else if (currentX > toDP(126) && currentX < toDP(186) && !ContactView.ignore[2]) { // contact 3 touched
+                        contactZone(2);
+                    } else if (currentX > toDP(189) && currentX < toDP(249) && !ContactView.ignore[3]) { // contact 4 touched
+                        contactZone(3);
+                    } else if (currentX > toDP(252) && currentX < toDP(312) && !ContactView.ignore[4]) { // contact 5 touched
+                        contactZone(4);
+                    }
 
-            if (currentX > width - 50 - toDP(60) && currentX < width - 50) {
-                draggingQuickWindow = true;
-            }
+                    if (currentX > width - 50 - toDP(60) && currentX < width - 50) {
+                        draggingQuickWindow = true;
 
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    isPlaying = false;
+                        messageWindowParams.windowAnimations = android.R.style.Animation_InputMethod;
+                        messageWindow.removeView(messageView);
+                    }
+
+                    contactView.invalidate();
+                    messageView.invalidate();
                 }
-            }, 100);
 
-            contactView.invalidate();
-            messageView.invalidate();
-        }
+                break;
 
-        if(draggingQuickWindow) {
-            windowOffsetY = (int) (currentY - toDP(30));
+            case MotionEvent.ACTION_MOVE:
 
-            contactParams.y = toDP(1) + windowOffsetY;
-            messageWindowParams.y = toDP(63) + windowOffsetY;
+                if(draggingQuickWindow) {
+                    windowOffsetY = (int) (currentY - toDP(30));
 
-            messageWindow.updateViewLayout(messageView, messageWindowParams);
-            messageWindow.updateViewLayout(contactView, contactParams);
-        }
+                    contactParams.y = toDP(1) + windowOffsetY;
+                    
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            messageWindow.updateViewLayout(contactView, contactParams);
+                        }
+                    }, 150);
 
-        if (event.getActionMasked() == MotionEvent.ACTION_UP) {
+                } else if (currentX < toDP(60) && !ContactView.ignore[0]) { // contact 1 touched
+                    contactZoneNoVibrate(0);
+                } else if (currentX > toDP(63) && currentX < toDP(123) && !ContactView.ignore[1]) { // contact 2 touched
+                    contactZoneNoVibrate(1);
+                } else if (currentX > toDP(126) && currentX < toDP(186) && !ContactView.ignore[2]) { // contact 3 touched
+                    contactZoneNoVibrate(2);
+                } else if (currentX > toDP(189) && currentX < toDP(249) && !ContactView.ignore[3]) { // contact 4 touched
+                    contactZoneNoVibrate(3);
+                } else if (currentX > toDP(252) && currentX < toDP(312) && !ContactView.ignore[4]) { // contact 5 touched
+                    contactZoneNoVibrate(4);
+                }
 
-            if (currentY - toDP(30) > .93 * height)
-            {
-                messageWindowParams.y = toDP(63) + (int) (.93 * height);
-                contactParams.y = (int) (.93 * height);
+                contactView.invalidate();
+                messageView.invalidate();
 
-                messageWindow.updateViewLayout(contactView, contactParams);
-                messageWindow.updateViewLayout(messageView, messageWindowParams);
-            }
+                break;
 
-            draggingQuickWindow = false;
+            case MotionEvent.ACTION_UP:
+
+                if (draggingQuickWindow) {
+                    windowOffsetY = (int) (currentY - toDP(30));
+
+                    if (currentY - toDP(30) > .95 * height)
+                    {
+                        messageWindowParams.y = toDP(63) + (int) (.95 * height);
+                        contactParams.y = (int) (.95 * height);
+
+                        messageWindow.updateViewLayout(contactView, contactParams);
+                        messageWindow.addView(messageView, messageWindowParams);
+
+                        messageWindowParams.windowAnimations = android.R.style.Animation_InputMethod;
+                    } else {
+                        messageWindowParams.y = toDP(63) + windowOffsetY;
+                        messageWindow.addView(messageView, messageWindowParams);
+                        messageWindowParams.windowAnimations = android.R.style.Animation_InputMethod;
+                    }
+
+                    draggingQuickWindow = false;
+                }
+
+                break;
         }
     }
 
@@ -596,7 +629,7 @@ public class SlideOverService extends Service {
                 public void run() {
                     isPlaying = false;
                 }
-            }, 100);
+            }, 500);
 
             arcView.newConversations.clear();
 
@@ -1105,14 +1138,17 @@ public class SlideOverService extends Service {
     }
 
     public void contactZone(int number) {
-        if (!isPlaying) {
-            contactView.playSoundEffect(SoundEffectConstants.CLICK);
-            isPlaying = true;
 
-            if (HAPTIC_FEEDBACK) {
-                ((Vibrator) getSystemService(Context.VIBRATOR_SERVICE)).vibrate(10);
-            }
+        contactView.playSoundEffect(SoundEffectConstants.CLICK);
+
+        if (HAPTIC_FEEDBACK) {
+            ((Vibrator) getSystemService(Context.VIBRATOR_SERVICE)).vibrate(10);
         }
+
+        ContactView.currentContact = number;
+    }
+
+    public void contactZoneNoVibrate(int number) {
         ContactView.currentContact = number;
     }
 
