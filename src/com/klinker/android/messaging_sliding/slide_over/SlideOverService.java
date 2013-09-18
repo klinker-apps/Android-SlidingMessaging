@@ -295,7 +295,7 @@ public class SlideOverService extends Service {
                 float currentX = event.getRawX();
                 float currentY = event.getRawY();
 
-                if (currentY > windowOffsetY && currentY < windowOffsetY + toDP(60) && currentX > 50 && currentX < width - 50) {// if it is in the y zone and the x zone
+                if (currentY > windowOffsetY && currentY < windowOffsetY + toDP(60) && currentX > 50 && currentX < width - 50 && !draggingQuickWindow) {// if it is in the y zone and the x zone
                     currentX -= 50; // to match the start of the window
 
                     if (currentX < toDP(60) && !ContactView.ignore[0]) { // contact 1 touched
@@ -367,12 +367,12 @@ public class SlideOverService extends Service {
                 }
 
                 if(draggingQuickWindow) {
-                    windowOffsetY = (int) currentY;
+                    windowOffsetY = (int) currentY - toDP(30);
                     messageWindowParams = new WindowManager.LayoutParams(
                             width - 100,  // 50 pixels on each side
                             toDP(160),        // 250 pixels tall
                             50,         // 50 pixel width on the side
-                            toDP(63) + (int) currentY - toDP(30),         // 155 pixels down the screen
+                            toDP(63) + windowOffsetY,         // 155 pixels down the screen
                             WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
                             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                                     |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
@@ -386,7 +386,7 @@ public class SlideOverService extends Service {
                             width - 100,  // 50 pixels on each side
                             toDP(60),        // 100 pixels tall
                             50,         // 40 pixel width on the side
-                            (int) currentY - toDP(30),         // 60 pixels down the screen
+                            windowOffsetY,         // 60 pixels down the screen
                             WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
                             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                                     |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
