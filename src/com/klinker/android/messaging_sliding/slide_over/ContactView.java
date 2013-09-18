@@ -119,6 +119,10 @@ public class  ContactView extends ViewGroup {
             canvas.drawBitmap(contactPics[4], null, contFiveRect, currentContact == 4 ? contactCurrentPaint : contactClosedPaint);
         }
 
+        //Rect circleMove = new Rect(width - 50 - toDP(60), 0, width - 50, toDP(60));
+        canvas.drawCircle(width - 50 - toDP(60), toDP(30), toDP(10), blackPaint);
+        canvas.drawCircle(width - 50 - toDP(60), toDP(30), toDP(10), strokePaint);
+
         //Rect cancelRect = new Rect(width - 100 - 100, 0, width - 100, 100);
         //canvas.drawBitmap(cancel, null, cancelRect, strokePaint);
     }
