@@ -521,7 +521,7 @@ public class SlideOverService extends Service {
         float currentX = event.getRawX();
         float currentY = event.getRawY();
 
-        if (currentY > windowOffsetY && currentY < windowOffsetY + toDP(60) && currentX > 50 && currentX < width - 50 && !draggingQuickWindow) {// if it is in the y zone and the x zone
+        if (!draggingQuickWindow && currentY > windowOffsetY && currentY < windowOffsetY + toDP(60) && currentX > 50 && currentX < width - 50) {// if it is in the y zone and the x zone
             currentX -= 50; // to match the start of the window
 
             if (currentX < toDP(60) && !ContactView.ignore[0]) { // contact 1 touched
@@ -549,17 +549,16 @@ public class SlideOverService extends Service {
 
             contactView.invalidate();
             messageView.invalidate();
-            //messageWindow.updateViewLayout(contactView, contactParams);
         }
 
         if(draggingQuickWindow) {
-            windowOffsetY = (int) currentY - toDP(30);
+            windowOffsetY = (int) (currentY - toDP(30));
 
+            contactParams.y = toDP(1) + windowOffsetY;
             messageWindowParams.y = toDP(63) + windowOffsetY;
-            contactParams.y = windowOffsetY;
 
-            messageWindow.updateViewLayout(contactView, contactParams);
             messageWindow.updateViewLayout(messageView, messageWindowParams);
+            messageWindow.updateViewLayout(contactView, contactParams);
         }
 
         if (event.getActionMasked() == MotionEvent.ACTION_UP) {

@@ -28,6 +28,12 @@ public class  ContactView extends ViewGroup {
     public Paint contactCurrentPaint;
     public Paint contactClosedPaint;
 
+    public Rect contOneRect;
+    public Rect contTwoRect;
+    public Rect contThreeRect;
+    public Rect contFourRect;
+    public Rect contFiveRect;
+
     public static SharedPreferences sharedPrefs;
 
     public static Resources resources;
@@ -69,6 +75,12 @@ public class  ContactView extends ViewGroup {
 
         resources = getResources();
 
+        contOneRect = new Rect(0, 0, toDP(60), toDP(60));
+        contTwoRect = new Rect(toDP(63), 0, toDP(123), toDP(60));
+        contThreeRect = new Rect(toDP(126), 0, toDP(186), toDP(60));
+        contFourRect = new Rect(toDP(189), 0, toDP(249), toDP(60));
+        contFiveRect = new Rect(toDP(252), 0, toDP(312), toDP(60));
+
         refreshArrays();
     }
 
@@ -80,7 +92,6 @@ public class  ContactView extends ViewGroup {
         width = d.getWidth();
 
         if (!ignore[0]) {
-            Rect contOneRect = new Rect(0, 0, toDP(60), toDP(60));
             canvas.drawRect(contOneRect, blackPaint);
             //if (currentContact != 0)
                 canvas.drawRect(contOneRect, strokePaint);
@@ -88,7 +99,6 @@ public class  ContactView extends ViewGroup {
         }
 
         if (!ignore[1]) {
-            Rect contTwoRect = new Rect(toDP(63), 0, toDP(123), toDP(60));
             canvas.drawRect(contTwoRect, blackPaint);
             //if (currentContact != 1)
                 canvas.drawRect(contTwoRect, strokePaint);
@@ -96,7 +106,6 @@ public class  ContactView extends ViewGroup {
         }
 
         if (!ignore[2]) {
-            Rect contThreeRect = new Rect(toDP(126), 0, toDP(186), toDP(60));
             canvas.drawRect(contThreeRect, blackPaint);
             if (currentContact != 2)
                 canvas.drawRect(contThreeRect, strokePaint);
@@ -104,7 +113,6 @@ public class  ContactView extends ViewGroup {
         }
 
         if (!ignore[3]) {
-            Rect contFourRect = new Rect(toDP(189), 0, toDP(249), toDP(60));
             canvas.drawRect(contFourRect, blackPaint);
             //if (currentContact != 3)
                 canvas.drawRect(contFourRect, strokePaint);
@@ -112,19 +120,14 @@ public class  ContactView extends ViewGroup {
         }
 
         if (!ignore[4]) {
-            Rect contFiveRect = new Rect(toDP(252), 0, toDP(312), toDP(60));
             canvas.drawRect(contFiveRect, blackPaint);
             //if (currentContact != 4)
                 canvas.drawRect(contFiveRect, strokePaint);
             canvas.drawBitmap(contactPics[4], null, contFiveRect, currentContact == 4 ? contactCurrentPaint : contactClosedPaint);
         }
 
-        //Rect circleMove = new Rect(width - 50 - toDP(60), 0, width - 50, toDP(60));
         canvas.drawCircle(width - 50 - toDP(60), toDP(30), toDP(10), blackPaint);
         canvas.drawCircle(width - 50 - toDP(60), toDP(30), toDP(10), strokePaint);
-
-        //Rect cancelRect = new Rect(width - 100 - 100, 0, width - 100, 100);
-        //canvas.drawBitmap(cancel, null, cancelRect, strokePaint);
     }
 
     @Override
@@ -137,27 +140,6 @@ public class  ContactView extends ViewGroup {
     }
 
     public static void refreshArrays() {
-        // need a contact pictures array, contact names, first message, second message
-        // all should be 5 long for the 5 conversations
-
-        /* This is the test data that i was using
-        contactNames[0] = "Jacob Klinker";
-        contactNames[1] = "Luke Klinker";
-        contactNames[2] = "Ben Madden";
-        contactNames[3] = "Cody Chapman";
-        contactNames[4] = "Jake Alleman";
-
-        message[0] = "Contact 0. This is the first message that i am making with the new slideover. Contact 0" + "\n\n" + "this is the 2nd half of the message. It keeps going for this conversation to test if the thing is big enough for 5 lines or not. this is a continuation of the testing now.";
-        message[1] = "Contact 1. This is the first message that i \n\nContact 1" + "\n\n" + "this is the 2nd half of the message";
-        message[2] = "Contact 2. This is the first message that i\n\nContact 2" + "\n\n" + "this is the 2nd half of the message \ntesting";
-        message[3] = "Contact 3. This is the first message that i am making with the new slideover. Contact 3" + "\n\n" + "this is the 2nd half of the message";
-        message[4] = "Contact 4. This is the first message that i am making with the new slideover. Contact 4" + "\n\n" + "this is the 2nd half of the message";
-
-        for (int i = 0; i < 5; i++)
-            contactPics[i] = BitmapFactory.decodeResource(resources, R.drawable.ic_contact_picture);
-        */
-
-        // initializing data isn't necessary
         for (int i = 0; i < 5; i++) {
             contactNames[i] = "";
         }
@@ -175,9 +157,6 @@ public class  ContactView extends ViewGroup {
         }
 
         Arrays.fill(ignore, Boolean.FALSE);
-
-        /*for (int i = 0; i < 5; i++)
-            contactPics[i] = BitmapFactory.decodeResource(resources, R.drawable.ic_contact_picture);*/
 
         Uri SMS_CONTENT_URI = Uri.parse("content://mms-sms/conversations/?simple=true");
         Cursor cursor;
@@ -198,27 +177,26 @@ public class  ContactView extends ViewGroup {
                 Cursor cursor2;
 
                 cursor2 = mContext.getContentResolver().query( Uri.parse("content://sms/"), new String[]{"body", "type", "thread_id"}, "thread_id=?", new String[] {id}, "date desc");
-
                 //Cursor cursor2 = mContext.getContentResolver().query( Uri.parse("content://mms-sms/conversations/"), new String[]{"body", "address", "thread_id", "msg_box"}, "thread_id=?", new String[] {id}, "date desc");
-                //Log.v("reading_cursor_data", "looking for conversation " + id);
 
                 if (cursor2.moveToFirst()) {
-                    //Log.v("reading_cursor_data", "found conversation " + id);
                     int count2 = 0;
 
                     contactNames[count] = name;
                     contactPics[count] = MainActivity.getFacebookPhoto(number, mContext);
-                    //contactNames[count] = "contact " + count;
                     do {
-                        //String s = cursor2.getString(cursor2.getColumnIndex("msg_box"));
+                        /*String s = cursor2.getString(cursor2.getColumnIndex("msg_box"));
 
-                        //if (s != null) {
+                        if (s != null) {
                             //Log.v("reading_cursor_data", "found mms message");
-                        //} else {
+                        } else {
                             //Log.v("reading_cursor_data", cursor2.getString(cursor2.getColumnIndex("body")));
                             message[count][count2] = cursor2.getString(cursor2.getColumnIndex("body"));
                             String type2 = cursor2.getString(cursor2.getColumnIndex("type"));
-                        //}
+                        }*/
+
+                        message[count][count2] = cursor2.getString(cursor2.getColumnIndex("body"));
+                        String type2 = cursor2.getString(cursor2.getColumnIndex("type"));
 
                         if (type2.equals("2") || type2.equals("4") || type2.equals("5") || type2.equals("6"))
                         {
