@@ -20,6 +20,7 @@ import android.provider.MediaStore;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.util.Linkify;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -695,6 +696,14 @@ public class MessageCursorAdapter extends CursorAdapter {
                     mms = false;
                     image = null;
                     error = true;
+
+                    if (lookForVoice) {
+                        status = cursor.getString(cursor.getColumnIndex("status"));
+
+                        if (status.equals("2")) {
+                            voice = true;
+                        }
+                    }
                 } else if (type.equals("4") || type.equals("6"))
                 {
                     sent = true;
@@ -704,6 +713,14 @@ public class MessageCursorAdapter extends CursorAdapter {
                     mms = false;
                     image = null;
                     sending = true;
+
+                    if (lookForVoice) {
+                        status = cursor.getString(cursor.getColumnIndex("status"));
+
+                        if (status.equals("2")) {
+                            voice = true;
+                        }
+                    }
                 } else
                 {
                     sent = false;
@@ -712,6 +729,14 @@ public class MessageCursorAdapter extends CursorAdapter {
                     id = cursor.getString(cursor.getColumnIndex("_id"));
                     mms = false;
                     image = null;
+
+                    if (lookForVoice) {
+                        status = cursor.getString(cursor.getColumnIndex("status"));
+
+                        if (status.equals("2")) {
+                            voice = true;
+                        }
+                    }
                 }
             }
         } catch (Exception e)
@@ -811,7 +836,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                 holder.date.setText(Html.fromHtml(text, imgGetterFail, null));
             }
 
-            if (voice) {
+            if (voice && !error) {
                 String text = "<html><body><img src=\"voice_enabled.png\"/> " + holder.date.getText().toString() + "</body></html>";
                 holder.date.setText(Html.fromHtml(text, imgGetterVoice, null));
             }
@@ -1125,6 +1150,7 @@ public class MessageCursorAdapter extends CursorAdapter {
 
         final int sizeT = size2;
         final boolean errorT = error;
+        final boolean voiceF = voice;
 
         view.setOnLongClickListener(new View.OnLongClickListener() {
 
@@ -1382,6 +1408,12 @@ public class MessageCursorAdapter extends CursorAdapter {
 
                                         @Override
                                         public void run() {
+                                            boolean currentVoiceState = sharedPrefs.getBoolean("voice_enabled", false);
+                                            Log.v("voice_state", currentVoiceState + " " + voiceF);
+
+                                            if (voiceF != currentVoiceState) {
+                                                sharedPrefs.edit().putBoolean("voice_enabled", voiceF).commit();
+                                            }
 
                                             if (mmsF && holder.imageUri != null) {
                                                 int size = holder.imageUri.toString().trim().split(" ").length;
@@ -1399,6 +1431,8 @@ public class MessageCursorAdapter extends CursorAdapter {
                                             } else {
                                                 SendUtil.sendMessage(context, inboxNumbers, body);
                                             }
+
+                                            sharedPrefs.edit().putBoolean("voice_enabled", currentVoiceState).commit();
 
                                             Cursor deleter = context.getContentResolver().query(Uri.parse("content://sms/failed"), new String[] {"_id"}, null, null, null);
 
