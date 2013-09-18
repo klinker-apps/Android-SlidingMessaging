@@ -10,8 +10,11 @@ import android.text.TextPaint;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.klinker.android.messaging_donate.R;
@@ -199,8 +202,6 @@ public class MessageView extends ViewGroup {
             mTextLayout1.draw(canvas);
             canvas.restore();
         }
-
-
     }
 
     @Override
