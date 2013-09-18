@@ -129,6 +129,11 @@ public class TextMessageReceiver extends BroadcastReceiver {
 			        values.put("date", dateReceived);
 			        values.put("read", "0");
 			        values.put("date_sent", date);
+
+                    if (voiceMessage) {
+                        values.put("status", 2);
+                    }
+
 			        context.getContentResolver().insert(Uri.parse("content://sms/inbox"), values);
 		        }
 		        

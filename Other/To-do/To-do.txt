@@ -1,6 +1,7 @@
 Version 7.60
 
 Jake:
+    - create xxhdpi icon
     - look into downloading mms and data getting stuck
     - delayed sending for certain times
     - rewrite menu array adapter as cursor adaptor
