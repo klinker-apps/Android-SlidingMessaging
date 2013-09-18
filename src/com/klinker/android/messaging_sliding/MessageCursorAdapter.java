@@ -644,6 +644,14 @@ public class MessageCursorAdapter extends CursorAdapter {
                     mms = false;
                     image = null;
 
+                    if (lookForVoice) {
+                        status = cursor.getString(cursor.getColumnIndex("status"));
+
+                         if (status.equals("2")) {
+                            voice = true;
+                        }
+                    }
+
                     if (cursor.getInt(cursor.getColumnIndex("read")) == 0)
                     {
                         String SmsMessageId = cursor.getString(cursor.getColumnIndex("_id"));
