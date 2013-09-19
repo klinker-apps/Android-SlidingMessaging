@@ -323,6 +323,9 @@ public class SlideOverService extends Service {
 
                 messageBoxHandler.removeCallbacks(messageBoxRunnable);
 
+                if (sharedPrefs.getBoolean("slideover_only_unread", false))
+                    startService(new Intent(getBaseContext(), QmMarkRead2.class));
+
                 ContactView.refreshArrays();
             }
 
