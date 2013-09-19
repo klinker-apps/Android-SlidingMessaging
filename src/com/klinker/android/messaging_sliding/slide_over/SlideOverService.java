@@ -1516,6 +1516,9 @@ public class SlideOverService extends Service {
         @Override
         public void onReceive(Context context, Intent intent) {
 
+            // FIXME sometimes this doesnt work... swiping away a notification or having popup automatically doesn't clear the color
+            // turning on popup after lockscreen only and testing with message, popup will show but then the halo will never go back to white
+            // until you manually bring up slideover from halo
             arcView.newConversations.clear();
 
             haloView.haloNewAlpha = 0;
