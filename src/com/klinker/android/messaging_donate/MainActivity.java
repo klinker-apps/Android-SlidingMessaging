@@ -3700,78 +3700,82 @@ public class MainActivity extends FragmentActivity {
             }
         });
 
-        if (deviceType.equals("phone") || deviceType.equals("phablet2"))
-        {
-            if (inboxNumber.size() == 0 || MainActivity.menu.isMenuShowing()) // on conversation list
+        try {
+            if (deviceType.equals("phone") || deviceType.equals("phablet2"))
             {
-                menu.getItem(0).setVisible(false);
-                menu.getItem(1).setVisible(false);
-                menu.getItem(2).setVisible(false);
-                menu.getItem(3).setVisible(true);
-                menu.getItem(4).setVisible(true);
-                menu.getItem(5).setVisible(true);
-                menu.getItem(6).setVisible(false);
-                menu.getItem(7).setVisible(false);
-                menu.getItem(8).setVisible(true);
-                menu.getItem(9).setVisible(false);
-
-                if (MainActivity.menu.isSecondaryMenuShowing()) // on new message
+                if (inboxNumber.size() == 0 || MainActivity.menu.isMenuShowing()) // on conversation list
                 {
                     menu.getItem(0).setVisible(false);
-                    menu.getItem(1).setVisible(true);
+                    menu.getItem(1).setVisible(false);
+                    menu.getItem(2).setVisible(false);
+                    menu.getItem(3).setVisible(true);
+                    menu.getItem(4).setVisible(true);
+                    menu.getItem(5).setVisible(true);
+                    menu.getItem(6).setVisible(false);
+                    menu.getItem(7).setVisible(false);
+                    menu.getItem(8).setVisible(true);
+                    menu.getItem(9).setVisible(false);
+
+                    if (MainActivity.menu.isSecondaryMenuShowing()) // on new message
+                    {
+                        menu.getItem(0).setVisible(false);
+                        menu.getItem(1).setVisible(true);
+                        menu.getItem(2).setVisible(true);
+                        menu.getItem(3).setVisible(false);
+                        menu.getItem(4).setVisible(false);
+                        menu.getItem(5).setVisible(false);
+                        menu.getItem(6).setVisible(true);
+                        menu.getItem(7).setVisible(false);
+                        menu.getItem(8).setVisible(false);
+                        menu.getItem(9).setVisible(false);
+                    }
+                } else // in ViewPager
+                {
+                    menu.getItem(0).setVisible(true);
+                    menu.getItem(1).setVisible(false);
                     menu.getItem(2).setVisible(true);
                     menu.getItem(3).setVisible(false);
+                    menu.getItem(4).setVisible(true);
+                    menu.getItem(5).setVisible(true);
+                    menu.getItem(6).setVisible(true);
+                    menu.getItem(7).setVisible(true);
+                    menu.getItem(8).setVisible(true);
+                    menu.getItem(9).setVisible(true);
+
+                    if (group.get(mViewPager.getCurrentItem()).equals("yes")) // if there is a group message
+                    {
+                        menu.getItem(0).setVisible(false);
+                        menu.getItem(9).setVisible(false);
+                    }
+                }
+            } else
+            {
+                if (inboxNumber.size() == 0 || MainActivity.menu.isMenuShowing())
+                {
+                    menu.getItem(0).setVisible(false);
                     menu.getItem(4).setVisible(false);
                     menu.getItem(5).setVisible(false);
-                    menu.getItem(6).setVisible(true);
                     menu.getItem(7).setVisible(false);
                     menu.getItem(8).setVisible(false);
                     menu.getItem(9).setVisible(false);
-                }
-            } else // in ViewPager
-            {
-                menu.getItem(0).setVisible(true);
-                menu.getItem(1).setVisible(false);
-                menu.getItem(2).setVisible(true);
-                menu.getItem(3).setVisible(false);
-                menu.getItem(4).setVisible(true);
-                menu.getItem(5).setVisible(true);
-                menu.getItem(6).setVisible(true);
-                menu.getItem(7).setVisible(true);
-                menu.getItem(8).setVisible(true);
-                menu.getItem(9).setVisible(true);
-
-                if (group.get(mViewPager.getCurrentItem()).equals("yes")) // if there is a group message
+                } else
                 {
-                    menu.getItem(0).setVisible(false);
-                    menu.getItem(9).setVisible(false);
+                    menu.getItem(0).setVisible(true);
+                    menu.getItem(4).setVisible(true);
+                    menu.getItem(5).setVisible(true);
+                    menu.getItem(7).setVisible(true);
+                    menu.getItem(8).setVisible(true);
+                    menu.getItem(9).setVisible(true);
+
+                    if (group.get(mViewPager.getCurrentItem()).equals("yes"))
+                    {
+                        menu.getItem(0).setVisible(false);
+                        menu.getItem(9).setVisible(false);
+                    }
                 }
             }
-        } else
-        {
-            if (inboxNumber.size() == 0 || MainActivity.menu.isMenuShowing())
-            {
-                menu.getItem(0).setVisible(false);
-                menu.getItem(4).setVisible(false);
-                menu.getItem(5).setVisible(false);
-                menu.getItem(7).setVisible(false);
-                menu.getItem(8).setVisible(false);
-                menu.getItem(9).setVisible(false);
-            } else
-            {
-                menu.getItem(0).setVisible(true);
-                menu.getItem(4).setVisible(true);
-                menu.getItem(5).setVisible(true);
-                menu.getItem(7).setVisible(true);
-                menu.getItem(8).setVisible(true);
-                menu.getItem(9).setVisible(true);
+        } catch (Exception e) {
 
-                if (group.get(mViewPager.getCurrentItem()).equals("yes"))
-                {
-                    menu.getItem(0).setVisible(false);
-                    menu.getItem(9).setVisible(false);
-                }
-            }
         }
 
         if (settings.voiceAccount != null) {
