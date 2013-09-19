@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.*;
 import com.klinker.android.messaging_donate.R;
@@ -21,6 +22,8 @@ import java.util.List;
 public class SlideOverService extends Service {
 
     public static final String BCAST_CONFIGCHANGED = "android.intent.action.CONFIGURATION_CHANGED";
+
+    public static DisplayMetrics displayMatrix;
 
     public HaloView haloView;
     public MessageView messageView;
@@ -115,6 +118,8 @@ public class SlideOverService extends Service {
         Display d = ((WindowManager)getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         final int height = d.getHeight();
         final int width = d.getWidth();
+
+        displayMatrix = getResources().getDisplayMetrics();
 
         halo = BitmapFactory.decodeResource(getResources(),
                 R.drawable.halo_bg);
@@ -529,7 +534,7 @@ public class SlideOverService extends Service {
 
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
-                if (!draggingQuickWindow && currentY > windowOffsetY && currentY < windowOffsetY + toDP(60) && currentX > 50 && currentX < width - 50) {// if it is in the y zone and the x zone
+                if (currentY > windowOffsetY && currentY < windowOffsetY + toDP(60) && currentX > 50 && currentX < width - 50) {// if it is in the y zone and the x zone
                     currentX -= 50; // to match the start of the window
 
                     if (currentX < toDP(60) && !ContactView.ignore[0]) { // contact 1 touched
@@ -545,7 +550,11 @@ public class SlideOverService extends Service {
                     } else if (currentX > width - 50 - toDP(60) && currentX < width - 50) {
                         draggingQuickWindow = true;
 
-                        messageWindow.removeView(messageView);
+                        try {
+                            messageWindow.removeView(messageView);
+                        } catch (Exception e) {
+
+                        }
 
                         currContact = ContactView.currentContact;
                         ContactView.currentContact = 5;
@@ -595,6 +604,13 @@ public class SlideOverService extends Service {
 
             case MotionEvent.ACTION_UP:
 
+                if (!draggingQuickWindow) {
+                    try {
+                        messageWindow.addView(messageView, messageWindowParams);
+                    } catch (Exception e) {
+
+                    }
+                }
                 if (draggingQuickWindow && actuallyDragging) {
                     windowOffsetY = (int) (currentY - toDP(30));
 
@@ -604,14 +620,25 @@ public class SlideOverService extends Service {
                         contactParams.y = (int) (.95 * height);
 
                         messageWindow.updateViewLayout(contactView, contactParams);
-                        messageWindow.addView(messageView, messageWindowParams);
+
+                        if (!quickPeekHidden) {
+                            messageWindow.addView(messageView, messageWindowParams);
+                            quickPeekHidden = false;
+                            ContactView.currentContact = currContact;
+                            contactView.invalidate();
+                        }
+
                     } else {
                         messageWindowParams.y = toDP(63) + windowOffsetY;
-                        messageWindow.addView(messageView, messageWindowParams);
+
+                        if (!quickPeekHidden) {
+                            messageWindow.addView(messageView, messageWindowParams);
+                            quickPeekHidden = false;
+                            ContactView.currentContact = currContact;
+                            contactView.invalidate();
+                        }
                     }
 
-                    ContactView.currentContact = currContact;
-                    contactView.invalidate();
                     messageView.invalidate();
 
                     draggingQuickWindow = false;
@@ -1183,6 +1210,8 @@ public class SlideOverService extends Service {
         }
 
         ContactView.currentContact = number;
+
+        currContact = number;
     }
 
     public void contactZoneNoVibrate(int number) {
@@ -1271,7 +1300,7 @@ public class SlideOverService extends Service {
     }
 
     public int toDP(int px) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, getResources().getDisplayMetrics());
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, displayMatrix);
     }
 
     public void checkInButtons()

@@ -226,6 +226,6 @@ public class  ContactView extends ViewGroup {
     }
 
     public int toDP(int px) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, getResources().getDisplayMetrics());
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, SlideOverService.displayMatrix);
     }
 }
