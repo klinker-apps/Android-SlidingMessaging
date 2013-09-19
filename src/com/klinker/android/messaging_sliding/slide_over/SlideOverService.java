@@ -313,7 +313,13 @@ public class SlideOverService extends Service {
 
             } catch (Exception e) {
                 messageWindow.removeView(contactView);
-                messageWindow.removeView(messageView);
+
+                try {
+                    messageWindow.removeView(messageView);
+                } catch (Exception x) {
+                    // message view is gone already
+                }
+
                 messageBoxHandler.removeCallbacks(messageBoxRunnable);
             }
 
@@ -844,7 +850,7 @@ public class SlideOverService extends Service {
         float rawY = event.getRawY();
         float rawX = event.getRawX();
 
-        if ((rawY < 120 && PERCENT_DOWN_SCREEN > .5) || (rawY > height - 120 && PERCENT_DOWN_SCREEN < .5)) // in Button Area
+        if ((rawY < 120 && PERCENT_DOWN_SCREEN > height/2) || (rawY > height - 120 && PERCENT_DOWN_SCREEN < height/2)) // in Button Area
         {
             inButtons = true;
 
