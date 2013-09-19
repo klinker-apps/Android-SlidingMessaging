@@ -80,8 +80,12 @@ public class SlideOverService extends Service {
     private boolean movingBubble = false;
     private boolean changingSliver = false;
     private boolean draggingQuickWindow = false;
+    private boolean actuallyDragging = false;
+    private boolean quickPeekHidden = false;
+    private boolean initialOnDown = false;
 
     public int currContact = 0;
+    public int originalPos = 0;
 
     private int lastZone = 0;
     private int currentZone = 0;
@@ -307,6 +311,8 @@ public class SlideOverService extends Service {
                 messageWindow.removeView(messageView);
                 messageBoxHandler.removeCallbacks(messageBoxRunnable);
             }
+
+            quickPeekHidden = false;
 
             return true;
         }
@@ -536,21 +542,23 @@ public class SlideOverService extends Service {
                         contactZone(3);
                     } else if (currentX > toDP(252) && currentX < toDP(312) && !ContactView.ignore[4]) { // contact 5 touched
                         contactZone(4);
-                    }
-
-                    if (currentX > width - 50 - toDP(60) && currentX < width - 50) {
+                    } else if (currentX > width - 50 - toDP(60) && currentX < width - 50) {
                         draggingQuickWindow = true;
 
                         messageWindow.removeView(messageView);
 
                         currContact = ContactView.currentContact;
-                        ContactView.currentContact = 6;
+                        ContactView.currentContact = 5;
+
+                        originalPos = (int) currentY;
+
+                        quickPeekHidden = true;
+                        actuallyDragging = false;
+                        initialOnDown = true;
                     }
 
                     contactView.invalidate();
                     messageView.invalidate();
-
-
                 }
 
                 break;
@@ -558,9 +566,15 @@ public class SlideOverService extends Service {
             case MotionEvent.ACTION_MOVE:
 
                 if(draggingQuickWindow) {
-                    windowOffsetY = (int) (currentY - toDP(30));
-                    contactParams.y = toDP(1) + windowOffsetY;
-                    messageWindow.updateViewLayout(contactView, contactParams);
+                    if ((currentY > originalPos + toDP(20) || currentY < originalPos - toDP(20))) {
+                        actuallyDragging = true;
+                    }
+
+                    if (actuallyDragging) {
+                        windowOffsetY = (int) (currentY - toDP(30));
+                        contactParams.y = toDP(1) + windowOffsetY;
+                        messageWindow.updateViewLayout(contactView, contactParams);
+                    }
 
                 } else if (currentX < toDP(60) && !ContactView.ignore[0]) { // contact 1 touched
                     contactZoneNoVibrate(0);
@@ -581,7 +595,7 @@ public class SlideOverService extends Service {
 
             case MotionEvent.ACTION_UP:
 
-                if (draggingQuickWindow) {
+                if (draggingQuickWindow && actuallyDragging) {
                     windowOffsetY = (int) (currentY - toDP(30));
 
                     if (currentY - toDP(30) > .95 * height)
@@ -598,8 +612,42 @@ public class SlideOverService extends Service {
 
                     ContactView.currentContact = currContact;
                     contactView.invalidate();
+                    messageView.invalidate();
 
                     draggingQuickWindow = false;
+                    actuallyDragging = false;
+                } else if (draggingQuickWindow) {
+                    if (quickPeekHidden && !initialOnDown) {
+                        ContactView.currentContact = currContact;
+                        contactView.invalidate();
+                        messageView.invalidate();
+
+                        messageWindowParams.y = toDP(63) + windowOffsetY;
+                        messageWindow.addView(messageView, messageWindowParams);
+                        actuallyDragging = false;
+                        initialOnDown = false;
+                        quickPeekHidden = false;
+                        draggingQuickWindow = false;
+
+                    } else if (!quickPeekHidden) {
+                        ContactView.currentContact = 5;
+                        contactView.invalidate();
+                        messageView.invalidate();
+
+                        messageWindowParams.y = toDP(63) + windowOffsetY;
+                        messageWindow.removeView(messageView);
+                        actuallyDragging = false;
+                        initialOnDown = false;
+                        quickPeekHidden = true;
+                        draggingQuickWindow = false;
+
+                    } else if (initialOnDown) {
+                        initialOnDown = false;
+                        ContactView.currentContact = 5;
+
+                        contactView.invalidate();
+                        messageView.invalidate();
+                    }
                 }
 
                 break;

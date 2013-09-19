@@ -43,11 +43,11 @@ public class  ContactView extends ViewGroup {
 
     public static int currentContact = 0;
 
-    public static Bitmap[] contactPics = new Bitmap[5];
-    public static String[] contactNames = new String[5];
-    public static String[][] message = new String[5][3];
-    public static int[][] type = new int[5][3];
-    public static boolean[] ignore = new boolean[5];
+    public static Bitmap[] contactPics = new Bitmap[6];
+    public static String[] contactNames = new String[6];
+    public static String[][] message = new String[6][3];
+    public static int[][] type = new int[6][3];
+    public static boolean[] ignore = new boolean[6];
 
     public ContactView(Context context) {
         super(context);
@@ -140,17 +140,17 @@ public class  ContactView extends ViewGroup {
     }
 
     public static void refreshArrays() {
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 6; i++) {
             contactNames[i] = "";
         }
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 6; i++) {
             for (int j = 0; j< 3; j++) {
                 message[i][j] = "";
             }
         }
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 6; i++) {
             for (int j = 0; j< 3; j++) {
                 type[i][j] = 0;
             }
