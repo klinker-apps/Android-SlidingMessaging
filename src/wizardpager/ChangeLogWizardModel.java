@@ -47,8 +47,8 @@ public class ChangeLogWizardModel extends AbstractWizardModel {
         }
 
         String changeLog = "Version " + version + ":\n\n" +
-                "- SlideOver 2.0 + Quick Peek!  (Includes new actions and functionality)\n" +
-                "\t- For a full list of features and a demo video go to: \n" +
+                "- SlideOver 2.0 + Quick Peek!  (Includes new actions and major functionality increases)\n" +
+                "\t- For a full list of features and a demo video go to: http://goo.gl/7VbZkI\n" +
                 "\t- Double tap bubble to change sliver width\n" +
                 "\t- Long click to reposition bubble\n" +
                 "\t- Single tap to open Quick Peek window\n" +
@@ -57,6 +57,7 @@ public class ChangeLogWizardModel extends AbstractWizardModel {
                 "- Favorites category on the emoji keyboard for quick access to your most used emojis\n" +
                 "- Changed default font to \"Roboto Light\" for a cleaner look, you also have the option to use your device font in Theme Settings (first turn on \"Show All Settings\" in advanced settings though)\n" +
                 "- Minor style and UI changes\n" +
+                "- A few more optimizations" +
                 "- Bug fixes\n";
                 
         String themeEditor = "The theme editor now fully supports the Cards UI 2.0, making it a " +
