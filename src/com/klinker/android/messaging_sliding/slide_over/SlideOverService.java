@@ -1530,12 +1530,17 @@ public class SlideOverService extends Service {
         @Override
         public void onReceive(Context context, Intent myIntent) {
             // remove the message view and contact view so they don't cause problems
-            try {
-                messageWindow.removeView(messageView);
-                messageWindow.removeView(contactView);
-            } catch (Exception e) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        messageWindow.removeView(messageView);
+                        messageWindow.removeView(contactView);
+                    } catch (Exception e) {
 
-            }
+                    }
+                }
+            }, 300);
         }
     };
 }
