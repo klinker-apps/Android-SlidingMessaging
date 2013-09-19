@@ -574,8 +574,10 @@ public class SlideOverService extends Service {
 
             case MotionEvent.ACTION_MOVE:
 
+                currentX -=50;
+
                 if(draggingQuickWindow) {
-                    if ((currentY > originalPos + toDP(20) || currentY < originalPos - toDP(20))) {
+                    if ((currentY > originalPos + toDP(10) || currentY < originalPos - toDP(10))) {
                         actuallyDragging = true;
                     }
 
@@ -624,7 +626,7 @@ public class SlideOverService extends Service {
                         if (!quickPeekHidden) {
                             messageWindow.addView(messageView, messageWindowParams);
                             quickPeekHidden = false;
-                            ContactView.currentContact = currContact;
+                            ContactView.currentContact = 0;
                             contactView.invalidate();
                         }
 
@@ -634,7 +636,7 @@ public class SlideOverService extends Service {
                         if (!quickPeekHidden) {
                             messageWindow.addView(messageView, messageWindowParams);
                             quickPeekHidden = false;
-                            ContactView.currentContact = currContact;
+                            ContactView.currentContact = 0;
                             contactView.invalidate();
                         }
                     }
