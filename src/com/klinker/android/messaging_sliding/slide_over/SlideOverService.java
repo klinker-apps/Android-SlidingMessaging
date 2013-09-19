@@ -312,6 +312,7 @@ public class SlideOverService extends Service {
                 messageWindow.addView(messageView, messageWindowParams);
 
             } catch (Exception e) {
+
                 messageWindow.removeView(contactView);
 
                 try {
@@ -321,6 +322,8 @@ public class SlideOverService extends Service {
                 }
 
                 messageBoxHandler.removeCallbacks(messageBoxRunnable);
+
+                ContactView.refreshArrays();
             }
 
             quickPeekHidden = false;
