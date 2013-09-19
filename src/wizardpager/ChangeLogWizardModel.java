@@ -47,6 +47,11 @@ public class ChangeLogWizardModel extends AbstractWizardModel {
         }
 
         String changeLog = "Version " + version + ":\n\n" +
+                "- SlideOver 2.0 + Quick Peek!  (Includes new actions and functionality)\n" +
+                "\t- For a full list of features and a demo video go to: \n" +
+                "\t- Double tap bubble to change sliver width\n" +
+                "\t- Long click to reposition bubble\n" +
+                "\t- Single tap to open Quick Peek window\n" +
                 "- Option to select the max height and width of sent pictures for higher resolution images\n" +
                 "- Option to always use Google Voice\n" +
                 "- Favorites category on the emoji keyboard for quick access to your most used emojis\n" +

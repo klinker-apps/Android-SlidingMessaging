@@ -1518,9 +1518,9 @@ public class SlideOverService extends Service {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    ContactView.currentContact = 0;
                     contactView.invalidate();
                     messageView.invalidate();
-                    ContactView.currentContact = 0;
                 }
             }, 200);
         }
