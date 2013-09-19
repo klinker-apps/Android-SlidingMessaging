@@ -312,9 +312,21 @@ public class SlideOverService extends Service {
                 messageWindow.addView(messageView, messageWindowParams);
 
             } catch (Exception e) {
+
                 messageWindow.removeView(contactView);
-                messageWindow.removeView(messageView);
+
+                try {
+                    messageWindow.removeView(messageView);
+                } catch (Exception x) {
+                    // message view is gone already
+                }
+
                 messageBoxHandler.removeCallbacks(messageBoxRunnable);
+
+                if (sharedPrefs.getBoolean("slideover_only_unread", false))
+                    startService(new Intent(getBaseContext(), QmMarkRead2.class));
+
+                ContactView.refreshArrays();
             }
 
             quickPeekHidden = false;
@@ -574,8 +586,10 @@ public class SlideOverService extends Service {
 
             case MotionEvent.ACTION_MOVE:
 
+                currentX -=50;
+
                 if(draggingQuickWindow) {
-                    if ((currentY > originalPos + toDP(20) || currentY < originalPos - toDP(20))) {
+                    if ((currentY > originalPos + toDP(10) || currentY < originalPos - toDP(10))) {
                         actuallyDragging = true;
                     }
 
@@ -624,7 +638,7 @@ public class SlideOverService extends Service {
                         if (!quickPeekHidden) {
                             messageWindow.addView(messageView, messageWindowParams);
                             quickPeekHidden = false;
-                            ContactView.currentContact = currContact;
+                            ContactView.currentContact = 0;
                             contactView.invalidate();
                         }
 
@@ -634,7 +648,7 @@ public class SlideOverService extends Service {
                         if (!quickPeekHidden) {
                             messageWindow.addView(messageView, messageWindowParams);
                             quickPeekHidden = false;
-                            ContactView.currentContact = currContact;
+                            ContactView.currentContact = 0;
                             contactView.invalidate();
                         }
                     }
@@ -842,7 +856,7 @@ public class SlideOverService extends Service {
         float rawY = event.getRawY();
         float rawX = event.getRawX();
 
-        if ((rawY < 120 && PERCENT_DOWN_SCREEN > .5) || (rawY > height - 120 && PERCENT_DOWN_SCREEN < .5)) // in Button Area
+        if ((rawY < 120 && PERCENT_DOWN_SCREEN > height/2) || (rawY > height - 120 && PERCENT_DOWN_SCREEN < height/2)) // in Button Area
         {
             inButtons = true;
 
@@ -1504,9 +1518,9 @@ public class SlideOverService extends Service {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    ContactView.currentContact = 0;
                     contactView.invalidate();
                     messageView.invalidate();
-                    ContactView.currentContact = 0;
                 }
             }, 200);
         }
@@ -1533,12 +1547,17 @@ public class SlideOverService extends Service {
         @Override
         public void onReceive(Context context, Intent myIntent) {
             // remove the message view and contact view so they don't cause problems
-            try {
-                messageWindow.removeView(messageView);
-                messageWindow.removeView(contactView);
-            } catch (Exception e) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        messageWindow.removeView(messageView);
+                        messageWindow.removeView(contactView);
+                    } catch (Exception e) {
 
-            }
+                    }
+                }
+            }, 300);
         }
     };
 }
