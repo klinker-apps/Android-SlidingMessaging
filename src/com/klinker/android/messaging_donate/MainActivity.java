@@ -127,7 +127,7 @@ public class MainActivity extends FragmentActivity {
     private ArrayList<String> msgCount;
     private ArrayList<String> msgRead;
 
-    private ArrayList<String> threadsThroughVoice;
+    public ArrayList<String> threadsThroughVoice;
 
     public static boolean waitToLoad = false;
     public static boolean threadedLoad = true;
@@ -139,7 +139,7 @@ public class MainActivity extends FragmentActivity {
 
     public static SlidingMenu menu;
     private MessageBar messageBar;
-    private boolean firstRun = true;
+    public boolean firstRun = true;
     private boolean firstContactSearch = true;
     private boolean refreshMyContact = true;
 
@@ -184,7 +184,7 @@ public class MainActivity extends FragmentActivity {
     private TextView mTextView;
     private ImageButton sendButton;
     private ImageButton emojiButton;
-    private ImageButton voiceButton;
+    public ImageButton voiceButton;
     private ImageButton voiceButton2;
     private View v;
     protected PagerTitleStrip title;
@@ -5298,7 +5298,6 @@ public class MainActivity extends FragmentActivity {
         {
             refreshViewPager();
             createMenu();
-            firstRun = false;
 
             if (settings.openContactMenu && (deviceType.equals("phone") || deviceType.equals("phablet2")))
             {
@@ -5460,6 +5459,13 @@ public class MainActivity extends FragmentActivity {
                     }
                 }
             }
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    firstRun = false;
+                }
+            }, 3000);
         } else
         {
             if (messageRecieved == true)

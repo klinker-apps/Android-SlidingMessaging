@@ -1574,6 +1574,16 @@ public class MessageCursorAdapter extends CursorAdapter {
 
             MainActivity.animationReceived = 0;
         }
+
+        if (cursor.getPosition() == 0 && voice) {
+            if (!((MainActivity) context).threadsThroughVoice.contains(threadIds)) {
+                ((MainActivity) context).threadsThroughVoice.add(threadIds);
+
+                if (((MainActivity) context).firstRun) {
+                    ((MainActivity) context).voiceButton.performClick();
+                }
+            }
+        }
     }
 
     @Override
