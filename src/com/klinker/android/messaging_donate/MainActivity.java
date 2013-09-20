@@ -968,8 +968,6 @@ public class MainActivity extends FragmentActivity {
 
     private void initialSetup() {
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        
-        restartHalo();
 
         if (getIntent().getAction().equals("OPEN_APP") {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
@@ -4908,6 +4906,8 @@ public class MainActivity extends FragmentActivity {
     public void onResume()
     {
         super.onResume();
+        
+        restartHalo();
 
         Intent clearMessages = new Intent("com.klinker.android.messaging.CLEAR_MESSAGES");
         getApplicationContext().sendBroadcast(clearMessages);
