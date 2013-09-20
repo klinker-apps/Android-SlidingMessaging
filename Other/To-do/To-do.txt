@@ -3,10 +3,12 @@ Version 7.60
 Jake:
     - create xxhdpi icon
     - look into downloading mms and data getting stuck
+    - look into voice being marked as failed when it has sent
     - delayed sending for certain times
     - rewrite menu array adapter as cursor adaptor
 Luke:
     - Message details for MMS messages
+    - fix slideover not turning back to white after opening the app any way except through the actual bubble
 
 1) more individual notification options (slideover color)
 2) option for adding certain text to every message at the beginning (delivery reports?)
