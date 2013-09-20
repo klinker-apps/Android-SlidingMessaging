@@ -1852,8 +1852,19 @@ public class MainActivity extends FragmentActivity {
                                     mViewPager.setCurrentItem(0);
 
                                     if (isPopup && settings.fullAppPopupClose && !sendTransaction.checkMMS(message)) {
-                                        Intent intent = new Intent("com.klinker.android.messaging.CLOSE_POPUP");
-                                        sendBroadcast(intent);
+                                        if (!settings.voiceEnabled) {
+                                            Intent intent = new Intent("com.klinker.android.messaging.CLOSE_POPUP");
+                                            sendBroadcast(intent);
+                                        } else {
+                                            registerReceiver(new BroadcastReceiver() {
+                                                @Override
+                                                public void onReceive(Context context, Intent intent) {
+                                                    unregisterReceiver(this);
+                                                    Intent close = new Intent("com.klinker.android.messaging.CLOSE_POPUP");
+                                                    sendBroadcast(close);
+                                                }
+                                            }, new IntentFilter(Transaction.REFRESH));
+                                        }
                                     }
                                 }
 
