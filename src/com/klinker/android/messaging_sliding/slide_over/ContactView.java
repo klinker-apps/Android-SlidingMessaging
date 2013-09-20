@@ -41,6 +41,8 @@ public class  ContactView extends ViewGroup {
     public int height;
     public int width;
 
+    public static int numberOfContacts = 0;
+
     public static int currentContact = 0;
 
     public static Bitmap[] contactPics = new Bitmap[6];
@@ -80,6 +82,8 @@ public class  ContactView extends ViewGroup {
         contThreeRect = new Rect(toDP(126), 0, toDP(186), toDP(60));
         contFourRect = new Rect(toDP(189), 0, toDP(249), toDP(60));
         contFiveRect = new Rect(toDP(252), 0, toDP(312), toDP(60));
+
+        numberOfContacts = sharedPrefs.getInt("quick_peek_contact_num", 5);
 
         refreshArrays();
     }
@@ -213,7 +217,7 @@ public class  ContactView extends ViewGroup {
 
                     count++;
                 }
-            } while (cursor.moveToNext() && count < 5);
+            } while (cursor.moveToNext() && count < numberOfContacts);
 
             cursor.close();
         }

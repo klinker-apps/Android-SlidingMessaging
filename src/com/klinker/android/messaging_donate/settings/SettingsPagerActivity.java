@@ -948,6 +948,9 @@ public class SettingsPagerActivity extends FragmentActivity {
         }
 
         public void setUpSlideOverSettings() {
+
+            final Context context = getActivity();
+
             Preference slideOver = findPreference("slideover_enabled");
             slideOver.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
@@ -1009,6 +1012,31 @@ public class SettingsPagerActivity extends FragmentActivity {
                     restartHalo();
                     return true;
                 }
+            });
+
+            Preference smsToStore = (Preference) findPreference("quick_peek_contact_num");
+            smsToStore.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+
+                @Override
+                public boolean onPreferenceClick(Preference arg0) {
+
+                    NumberPickerDialog.OnNumberSetListener mSmsLimitListener =
+                            new NumberPickerDialog.OnNumberSetListener() {
+                                public void onNumberSet(int limit) {
+                                    SharedPreferences.Editor editor = sharedPrefs.edit();
+
+                                    editor.putInt("quick_peek_contact_num", limit);
+                                    editor.commit();
+                                }
+                            };
+
+                    new NumberPickerDialog(context, mSmsLimitListener, sharedPrefs.getInt("quick_peek_contact_num", 5), 1, 5, R.string.quick_peek_contact_num).show();
+
+                    restartHalo();
+
+                    return false;
+                }
+
             });
 
             /*Preference alignment = findPreference("slideover_vertical");

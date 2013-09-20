@@ -1519,14 +1519,14 @@ public class SlideOverService extends Service {
 
             ContactView.refreshArrays();
 
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
+            //new Handler().postDelayed(new Runnable() {
+                //@Override
+                //public void run() {
                     ContactView.currentContact = 0;
                     contactView.invalidate();
                     messageView.invalidate();
-                }
-            }, 200);
+            //    }
+            //}, 200);
         }
     };
 

@@ -8,11 +8,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceGroup;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_sliding.views.NumberPickerDialog;
 
 public class SlideOverSettings  extends PreferenceActivity {
 
@@ -123,6 +125,8 @@ public class SlideOverSettings  extends PreferenceActivity {
                 return true;
             }
         });
+
+        ((PreferenceGroup) findPreference("slideover_quick_peek")).removePreference(findPreference("quick_peek_contact_num"));
 
         /*Preference side = findPreference("slideover_side");
         side.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {

@@ -47,7 +47,7 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:key="slideover_qucik_peek"
+    <PreferenceCategory android:key="slideover_quick_peek"
         android:title="@string/quick_peek_category" >
 
         <CheckBoxPreference
@@ -63,6 +63,14 @@
             android:title="@string/quick_peek_transparency"
             android:defaultValue="100"
             android:max="100"
+            android:dependency="slideover_enabled"
+            />
+
+        <Preference
+            android:key="quick_peek_contact_num"
+            android:title="@string/quick_peek_contact_num"
+            android:summary="@string/quick_peek_contact_num_summary"
+            android:defaultValue="5"
             android:dependency="slideover_enabled"
             />
 
