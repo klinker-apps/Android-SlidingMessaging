@@ -969,7 +969,7 @@ public class MainActivity extends FragmentActivity {
     private void initialSetup() {
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        if (getIntent().getAction().equals("OPEN_APP") {
+        if (getIntent().getAction().equals("OPEN_APP")) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
         }

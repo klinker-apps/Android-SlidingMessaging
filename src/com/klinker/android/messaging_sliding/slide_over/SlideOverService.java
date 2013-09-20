@@ -1381,7 +1381,7 @@ public class SlideOverService extends Service {
             haloView.invalidate();
             haloWindow.removeViewImmediate(haloView);
             try { messageWindow.removeViewImmediate(messageView); } catch (Exception e) { }
-            try { messageWindow.removeViewImmddiate(contactView); } catch (Exception e) { }
+            try { messageWindow.removeViewImmediate(contactView); } catch (Exception e) { }
             stopSelf();
             unregisterReceiver(this);
         }
