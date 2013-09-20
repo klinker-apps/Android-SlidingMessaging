@@ -968,6 +968,8 @@ public class MainActivity extends FragmentActivity {
 
     private void initialSetup() {
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        
+        restartHalo();
 
         if (getIntent().getAction().equals("OPEN_APP") {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
@@ -7230,5 +7232,21 @@ public class MainActivity extends FragmentActivity {
         }
 
         return unlocked;
+    }
+    
+    public void restartHalo() {
+        Intent service = new Intent();
+        service.setAction("com.klinker.android.messaging.STOP_HALO");
+        sendBroadcast(service);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (sharedPrefs.getBoolean("slideover_enabled", false)) {
+                    Intent service = new Intent(getApplicationContext(), com.klinker.android.messaging_sliding.slide_over.SlideOverService.class);
+                    startService(service);
+                }
+            }
+        }, 500);
     }
 }
