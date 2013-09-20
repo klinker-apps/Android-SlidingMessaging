@@ -565,21 +565,16 @@ public class SlideOverService extends Service {
                     } else if (currentX > toDP(252) && currentX < toDP(312) && !ContactView.ignore[4]) { // contact 5 touched
                         contactZone(4);
                     } else if (currentX > width - 50 - toDP(60) && currentX < width - 50) {
-                        actionButtonTouched = true;
 
-                        try { messageWindow.removeView(messageView); } catch (Exception e) { }
-
-                        if (!quickPeekHidden) {
+                        try { messageWindow.removeView(messageView);
                             currContact = ContactView.currentContact;
-                            ContactView.currentContact = 5;
+                            ContactView.currentContact = 5; } catch (Exception e) { }
 
-                            quickPeekHidden = true;
-                            initialOnDown = true;
-                        }
+                        quickPeekHidden = true;
+                        actionButtonTouched = true;
+                        contactPictureTouched = false;
 
                         originalPos = (int) currentY;
-
-                        draggingQuickPeek = false;
                     }
 
                     contactView.invalidate();
@@ -593,7 +588,7 @@ public class SlideOverService extends Service {
                 currentX -=50;
 
                 if(actionButtonTouched) {
-                    if ((currentY > originalPos + toDP(10) || currentY < originalPos - toDP(10))) {
+                    if ((currentY > originalPos + toDP(7) || currentY < originalPos - toDP(7))) {
                         draggingQuickPeek = true;
 
                         windowOffsetY = (int) (currentY - toDP(30));
@@ -620,39 +615,12 @@ public class SlideOverService extends Service {
 
             case MotionEvent.ACTION_UP:
 
-                if (!actionButtonTouched) {
-                    try {
-                        messageWindow.addView(messageView, messageWindowParams);
-                    } catch (Exception e) {
+                if (contactPictureTouched) { // contact picture was touched
+                    try { messageWindow.addView(messageView, messageWindowParams); } catch (Exception e) { }
 
-                    }
-                } else if (actionButtonTouched && draggingQuickPeek) {
+                } else if (actionButtonTouched && draggingQuickPeek) { // finished actually dragging the window around
+
                     windowOffsetY = (int) (currentY - toDP(30));
-
-                    /*if (currentY - toDP(30) > .95 * height)
-                    {
-                        messageWindowParams.y = toDP(63) + (int) (.95 * height);
-                        contactParams.y = (int) (.95 * height);
-
-                        messageWindow.updateViewLayout(contactView, contactParams);
-
-                        if (!quickPeekHidden) {
-                            messageWindow.addView(messageView, messageWindowParams);
-                            quickPeekHidden = false;
-                            ContactView.currentContact = 0;
-                            contactView.invalidate();
-                        }
-
-                    } else {*/
-                        //messageWindowParams.y = toDP(63) + windowOffsetY;
-
-                        /*if (!quickPeekHidden) {
-                            messageWindow.addView(messageView, messageWindowParams);
-                            quickPeekHidden = false;
-                            ContactView.currentContact = 0;
-                            contactView.invalidate();
-                        }*/
-                    //}
                     currContact = 5;
                     ContactView.currentContact = 5;
 
@@ -663,17 +631,19 @@ public class SlideOverService extends Service {
                     actionButtonTouched = false;
                     draggingQuickPeek = false;
                     quickPeekHidden = true;
-                } else if (actionButtonTouched && quickPeekHidden) {
+                } else if (actionButtonTouched && quickPeekHidden) { // keep quick peek hidden unless contact pic touched
                     actionButtonTouched = false;
                     draggingQuickPeek = false;
                     quickPeekHidden = true;
+
                     currContact = 5;
                     ContactView.currentContact = 5;
                     contactView.invalidate();
 
                     messageWindowParams.y = toDP(63) + windowOffsetY;
                     try { messageWindow.removeView(messageView); } catch (Exception e) { }
-                } else if (actionButtonTouched && !quickPeekHidden) {
+
+                } else if (actionButtonTouched && !quickPeekHidden) { // hides quick peek when you touch the action button
                         ContactView.currentContact = 5;
                         contactView.invalidate();
                         messageView.invalidate();
@@ -682,21 +652,9 @@ public class SlideOverService extends Service {
                         messageWindow.removeView(messageView);
 
                         draggingQuickPeek = false;
-                        initialOnDown = false;
                         quickPeekHidden = true;
                         actionButtonTouched = false;
-
-                    /*else if (initialOnDown) {
-                        initialOnDown = false;
-                        ContactView.currentContact = 5;
-
-                        contactView.invalidate();
-                        messageView.invalidate();
-                    }*/
-                } /*else if (contactPictureTouched && quickPeekHidden) {
-                    messageWindow.addView(messageView, messageWindowParams);
-                    contactPictureTouched = false;
-                }*/
+                }
 
                 break;
         }
@@ -1233,6 +1191,8 @@ public class SlideOverService extends Service {
         currContact = number;
 
         contactPictureTouched = true;
+        quickPeekHidden = false;
+        actionButtonTouched = false;
     }
 
     public void contactZoneNoVibrate(int number) {
@@ -1240,6 +1200,8 @@ public class SlideOverService extends Service {
         currContact = number;
 
         contactPictureTouched = true;
+        quickPeekHidden = false;
+        actionButtonTouched = false;
     }
 
     public void changeSliverWidth(Bitmap halo, MotionEvent event, int width) {
