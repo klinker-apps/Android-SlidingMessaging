@@ -337,25 +337,27 @@ public class SlideOverService extends Service {
         @Override
         public boolean onDoubleTap(MotionEvent event) {
 
-            haloView.playSoundEffect(SoundEffectConstants.CLICK);
+            if (!sharedPrefs.getBoolean("slideover_disable_sliver_drag", false)) {
+                haloView.playSoundEffect(SoundEffectConstants.CLICK);
 
-            if (HAPTIC_FEEDBACK) {
-                v.vibrate(10);
-            }
-            
-            // change sliver width
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        arcWindow.removeViewImmediate(arcView);
-                    } catch (Exception e) {
-
-                    }
+                if (HAPTIC_FEEDBACK) {
+                    v.vibrate(10);
                 }
-            }, 220);
 
-            changingSliver = true;
+                // change sliver width
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            arcWindow.removeViewImmediate(arcView);
+                        } catch (Exception e) {
+
+                        }
+                    }
+                }, 220);
+
+                changingSliver = true;
+            }
 
             return true;
         }
@@ -363,20 +365,22 @@ public class SlideOverService extends Service {
         @Override
         public void onLongPress(MotionEvent event){
             // Move slideover bubble
-            try {
-                arcWindow.removeViewImmediate(arcView);
-            } catch (Exception e) {
+            if (!sharedPrefs.getBoolean("slideover_disable_drag", false)) {
+                try {
+                    arcWindow.removeViewImmediate(arcView);
+                } catch (Exception e) {
 
-            }
-
-            if (!changingSliver) {
-
-                haloView.playSoundEffect(SoundEffectConstants.CLICK);
-                if (HAPTIC_FEEDBACK) {
-                    v.vibrate(10);
                 }
 
-                movingBubble = true;
+                if (!changingSliver) {
+
+                    haloView.playSoundEffect(SoundEffectConstants.CLICK);
+                    if (HAPTIC_FEEDBACK) {
+                        v.vibrate(10);
+                    }
+
+                    movingBubble = true;
+                }
             }
         }
     }

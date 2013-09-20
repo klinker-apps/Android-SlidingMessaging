@@ -782,4 +782,9 @@
     <string name="use_device_font">Use Device Font</string>
     <string name="slideover_only_unread">Quick Peek: Unread Only</string>
     <string name="slideover_only_unread_summary">Only show unread messages in the SlideOver Quick Peek.</string>
+    <string name="slideover_disable_drag">Disable long press to drag function</string>
+    <string name="slideover_disable_drag_summary">Warning: you will have no way to move the bubble around with this option enabled.</string>
+    <string name="slideover_disable_sliver">Disable the double-tap to change sliver function</string>
+    <string name="quick_peek_category">Quick Peek Settings</string>
+    <string name="quick_peek_transparency">Message box transparency</string>
 </resources>

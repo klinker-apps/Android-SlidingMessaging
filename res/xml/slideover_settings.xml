@@ -45,6 +45,11 @@
             android:dependency="slideover_enabled"
             />
 
+    </PreferenceCategory>
+
+    <PreferenceCategory android:key="slideover_qucik_peek"
+        android:title="@string/quick_peek_category" >
+
         <CheckBoxPreference
             android:key="slideover_only_unread"
             android:title="@string/slideover_only_unread"
@@ -53,10 +58,33 @@
             android:defaultValue="false"
             />
 
+        <com.klinker.android.messaging_sliding.views.SeekBarPreference3
+            android:key="quick_peek_transpareny"
+            android:title="@string/quick_peek_transparency"
+            android:defaultValue="100"
+            android:max="100"
+            android:dependency="slideover_enabled"
+            />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:key="slideover_positioning_category"
         android:title="@string/positioning">
+
+        <CheckBoxPreference
+            android:key="slideover_disable_drag"
+            android:title="@string/slideover_disable_drag"
+            android:summary="@string/slideover_disable_drag_summary"
+            android:defaultValue="false"
+            android:dependency="slideover_enabled"
+            />
+
+        <CheckBoxPreference
+            android:key="slideover_disable_sliver_drag"
+            android:title="@string/slideover_disable_sliver"
+            android:defaultValue="false"
+            android:dependency="slideover_enabled"
+            />
 
         <!--<ListPreference
                 android:key="slideover_side"

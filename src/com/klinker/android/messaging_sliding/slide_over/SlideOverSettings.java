@@ -97,6 +97,33 @@ public class SlideOverSettings  extends PreferenceActivity {
             }
         });
 
+        Preference disableDrag = findPreference("slideover_disable_drag");
+        disableDrag.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object o) {
+                restartHalo();
+                return true;
+            }
+        });
+
+        Preference disableSliverDrag = findPreference("slideover_disable_sliver_drag");
+        disableSliverDrag.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object o) {
+                restartHalo();
+                return true;
+            }
+        });
+
+        Preference quickPeekTransparency = findPreference("slideover_disable_sliver_drag");
+        quickPeekTransparency.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object o) {
+                restartHalo();
+                return true;
+            }
+        });
+
         /*Preference side = findPreference("slideover_side");
         side.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override

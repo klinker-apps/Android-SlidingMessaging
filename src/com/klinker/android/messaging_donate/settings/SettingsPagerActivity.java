@@ -984,6 +984,33 @@ public class SettingsPagerActivity extends FragmentActivity {
                 }
             });
 
+            Preference disableDrag = findPreference("slideover_disable_drag");
+            disableDrag.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    restartHalo();
+                    return true;
+                }
+            });
+
+            Preference disableSliverDrag = findPreference("slideover_disable_sliver_drag");
+            disableSliverDrag.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    restartHalo();
+                    return true;
+                }
+            });
+
+            Preference quickPeekTransparency = findPreference("slideover_disable_sliver_drag");
+            quickPeekTransparency.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    restartHalo();
+                    return true;
+                }
+            });
+
             /*Preference alignment = findPreference("slideover_vertical");
             alignment.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override

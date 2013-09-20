@@ -1606,7 +1606,7 @@ public class MessageCursorAdapter extends CursorAdapter {
             holder.date = (TextView) v.findViewById(R.id.textDate);
             holder.media = (ImageView) v.findViewById(R.id.media);
             holder.image = (QuickContactBadge) v.findViewById(R.id.imageContactPicture);
-            holder.ellipsis = (ImageView) v.findViewById(R.id.ellipsis);
+            try { holder.ellipsis = (ImageView) v.findViewById(R.id.ellipsis); } catch (Exception e) {  }
             holder.bubble = (ImageView) v.findViewById(R.id.msgBubble);
             holder.background = v.findViewById(R.id.messageBody);
 
@@ -1702,7 +1702,7 @@ public class MessageCursorAdapter extends CursorAdapter {
             holder.background.setBackgroundColor(MainActivity.settings.ctSentMessageBackground);
             holder.media.setBackgroundColor(MainActivity.settings.ctSentMessageBackground);
             holder.bubble.setColorFilter(MainActivity.settings.ctSentMessageBackground);
-            holder.ellipsis.setColorFilter(MainActivity.settings.ctSentTextColor);
+            try { holder.ellipsis.setColorFilter(MainActivity.settings.ctSentTextColor); } catch (Exception e) { }
 
             if (!MainActivity.settings.customTheme)
             {

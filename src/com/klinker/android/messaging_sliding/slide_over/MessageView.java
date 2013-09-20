@@ -54,7 +54,7 @@ public class MessageView extends ViewGroup {
 
         blackPaint = new Paint();
         blackPaint.setColor(getResources().getColor(R.color.black));
-        blackPaint.setAlpha(200);
+        blackPaint.setAlpha(sharedPrefs.getInt("quick_peek_transparency", 100) * 2);
 
         strokePaint = new Paint(blackPaint);
         strokePaint.setColor(getResources().getColor(R.color.white));
