@@ -247,6 +247,8 @@ public class MainActivityPopup extends MainActivity {
     @Override
     public void onResume() {
         super.onResume();
+        
+        restartHalo();
 
         if (!getIntent().getBooleanExtra("fromNotification", false)) {
             if (!fromWidget) {
@@ -333,6 +335,22 @@ public class MainActivityPopup extends MainActivity {
                 PendingIntent pStopRepeating = PendingIntent.getService(context, 0, stopRepeating, 0);
                 AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                 alarm.cancel(pStopRepeating);
+            }
+        }, 500);
+    }
+    
+    public void restartHalo() {
+        Intent service = new Intent();
+        service.setAction("com.klinker.android.messaging.STOP_HALO");
+        sendBroadcast(service);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (sharedPrefs.getBoolean("slideover_enabled", false)) {
+                    Intent service = new Intent(getApplicationContext(), com.klinker.android.messaging_sliding.slide_over.SlideOverService.class);
+                    startService(service);
+                }
             }
         }, 500);
     }
