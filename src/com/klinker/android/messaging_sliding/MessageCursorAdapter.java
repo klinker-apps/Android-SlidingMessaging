@@ -236,6 +236,7 @@ public class MessageCursorAdapter extends CursorAdapter {
         String status = "-1";
         boolean locked = false;
         boolean voice = false;
+        String subject = null;
 
         String dateType = "date";
 
@@ -254,6 +255,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                 body = "";
 
                 date = Long.parseLong(cursor.getString(cursor.getColumnIndex("date"))) * 1000 + "";
+                subject = cursor.getString(cursor.getColumnIndex("sub"));
 
                 String number = getAddressNumber(Integer.parseInt(cursor.getString(cursor.getColumnIndex("_id")))).trim();
 
@@ -784,19 +786,27 @@ public class MessageCursorAdapter extends CursorAdapter {
         {
             if (MainActivity.settings.hourFormat)
             {
-                holder.date.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(date2));
+                holder.date.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(date2) + (
+                        subject != null ? " - " + subject : ""
+                        ));
             } else
             {
-                holder.date.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(date2));
+                holder.date.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(date2) + (
+                        subject != null ? " - " + subject : ""
+                ));
             }
         } else
         {
             if (MainActivity.settings.hourFormat)
             {
-                holder.date.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2));
+                holder.date.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2) + (
+                        subject != null ? " - " + subject : ""
+                ));
             } else
             {
-                holder.date.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2));
+                holder.date.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2) + (
+                        subject != null ? " - " + subject : ""
+                ));
             }
         }
 
