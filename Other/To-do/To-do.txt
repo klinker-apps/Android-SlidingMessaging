@@ -4,6 +4,8 @@ Jake:
     - create xxhdpi icon
     - active notifications contact picture
     - look into downloading mms and data getting stuck
+    - Attach subject to options menu and then add edit text at top of conversation and under new contact entry area
+    - Attach audio and video to mms
     - delayed sending for certain times
     - rewrite menu array adapter as cursor adaptor
     - actionbar pull to refresh, get the newest changes
