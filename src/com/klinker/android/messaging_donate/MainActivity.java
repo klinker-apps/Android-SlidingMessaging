@@ -1791,7 +1791,7 @@ public class MainActivity extends FragmentActivity {
                                     sendTransaction.sendNewMessage(message, threadId);
                                 }
                             } else {
-                                if (message.getImages().length != 0 || (sendSettings.getSendLongAsMms() && Utils.getNumPages(sendSettings, message.getText()) > sendSettings.getSendLongAsMmsAfter() && !sendSettings.getPreferVoice()) || (message.getAddresses().length > 1 && sendSettings.getGroup())) {
+                                if (sendTransaction.checkMMS(message)) {
                                     if (multipleAttachments == false)
                                     {
                                         Intent sendIntent = new Intent(Intent.ACTION_SEND);
@@ -2820,7 +2820,7 @@ public class MainActivity extends FragmentActivity {
                                     sendTransaction.sendNewMessage(message, null);
                                 }
                             } else {
-                                if (message.getImages().length != 0 || (sendSettings.getSendLongAsMms() && Utils.getNumPages(sendSettings, message.getText()) > sendSettings.getSendLongAsMmsAfter() && !sendSettings.getPreferVoice()) || (message.getAddresses().length > 1 && sendSettings.getGroup())) {
+                                if (sendTransaction.checkMMS(message)) {
                                     if (multipleAttachments == false)
                                     {
                                         Intent sendIntent = new Intent(Intent.ACTION_SEND);

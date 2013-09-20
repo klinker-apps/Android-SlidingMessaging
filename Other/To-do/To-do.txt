@@ -2,8 +2,9 @@ Version 7.60
 
 Jake:
     - create xxhdpi icon
-    - look into downloading mms and data getting stuck
+    - active notifications contact picture
     - look into voice being marked as failed when it has sent
+    - look into downloading mms and data getting stuck
     - delayed sending for certain times
     - rewrite menu array adapter as cursor adaptor
 Luke:
