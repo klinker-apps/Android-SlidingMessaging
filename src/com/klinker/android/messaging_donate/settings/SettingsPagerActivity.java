@@ -1002,7 +1002,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                 }
             });
 
-            Preference quickPeekTransparency = findPreference("slideover_disable_sliver_drag");
+            Preference quickPeekTransparency = findPreference("quick_peek_transparency");
             quickPeekTransparency.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {

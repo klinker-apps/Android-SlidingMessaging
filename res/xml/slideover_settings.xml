@@ -59,7 +59,7 @@
             />
 
         <com.klinker.android.messaging_sliding.views.SeekBarPreference3
-            android:key="quick_peek_transpareny"
+            android:key="quick_peek_transparency"
             android:title="@string/quick_peek_transparency"
             android:defaultValue="100"
             android:max="100"
