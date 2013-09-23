@@ -288,6 +288,9 @@ public class SlideOverService extends Service {
 
             haloView.playSoundEffect(SoundEffectConstants.CLICK);
 
+            currContact = 0;
+            ContactView.currentContact = 0;
+
             if (HAPTIC_FEEDBACK) {
                 v.vibrate(10);
             }
@@ -687,21 +690,6 @@ public class SlideOverService extends Service {
                 if (HAPTIC_FEEDBACK) {
                     v.vibrate(10);
                 }
-
-                arcView.newConversations.clear();
-
-                haloView.haloNewAlpha = 0;
-                haloView.haloAlpha = 255;
-                haloView.invalidate();
-
-                try {
-                    haloWindow.removeView(haloView);
-                    haloWindow.addView(haloView, haloParams);
-                } catch (Exception e) {
-
-                }
-
-                numberNewConv = 0;
 
                 try {
                     new Handler().postDelayed(new Runnable() {
