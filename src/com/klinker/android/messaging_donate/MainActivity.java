@@ -196,6 +196,8 @@ public class MainActivity extends FragmentActivity {
     public Uri attachedImage2;
     private int attachedPosition;
     private ProgressBar mmsProgress;
+    private View subjectLine;
+    private EditText subjectEntry;
 
     private Uri capturedPhotoUri;
     private boolean fromCamera = false;
@@ -1539,6 +1541,8 @@ public class MainActivity extends FragmentActivity {
         voiceButton = (ImageButton) findViewById(R.id.voiceButton);
         mmsProgress = (ProgressBar) findViewById(R.id.mmsProgress);
         mmsProgressAnimation.setMmsProgress(mmsProgress);
+        subjectLine = findViewById(R.id.subjectBar);
+        subjectEntry = (EditText) findViewById(R.id.subjectEntry);
 
         v = findViewById(R.id.view1);
         imageAttachBackground = findViewById(R.id.image_attachment_view_background2);
@@ -1768,6 +1772,10 @@ public class MainActivity extends FragmentActivity {
                                 message.setImages(images);
                             }
 
+                            if (subjectLine.getVisibility() != View.GONE && !subjectEntry.getText().toString().equals("")) {
+                                message.setSubject(subjectEntry.getText().toString());
+                            }
+
                             if (!settings.sendWithStock) {
                                 if (sendTransaction.checkMMS(message)) {
                                     ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
@@ -1856,6 +1864,9 @@ public class MainActivity extends FragmentActivity {
                                             }, new IntentFilter(Transaction.REFRESH));
                                         }
                                     }
+
+                                    subjectEntry.setText("");
+                                    subjectLine.setVisibility(View.GONE);
                                 }
 
                             });
@@ -2114,14 +2125,17 @@ public class MainActivity extends FragmentActivity {
         mmsProgressDrawable.setColorFilter(settings.ctSendButtonColor, Mode.MULTIPLY);
         mmsProgress.setProgressDrawable(mmsProgressDrawable);
 
-        if (settings.customFont)
-        {
+        subjectEntry.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+        subjectEntry.setTextColor(settings.draftTextColor);
+        subjectLine.setVisibility(View.GONE);
+
+        if (settings.customFont) {
             mTextView.setTypeface(font);
             messageEntry.setTypeface(font);
+            subjectEntry.setTypeface(font);
         }
 
-        if (settings.runAs.equals("hangout") || settings.runAs.equals("card2") || settings.runAs.equals("card+"))
-        {
+        if (settings.runAs.equals("hangout") || settings.runAs.equals("card2") || settings.runAs.equals("card+")) {
             emojiButton.setImageResource(R.drawable.ic_emoji_dark);
         }
 
@@ -3706,19 +3720,20 @@ public class MainActivity extends FragmentActivity {
             }
         });
 
-        int MENU_CALL = 0;
-        int MENU_SCHEDULED = 1;
-        int MENU_ATTACH = 2;
-        int MENU_SEARCH = 3;
-        int MENU_NEW_MESSAGE = 4;
-        int MENU_DELETE = 5;
-        int MENU_TEMPLATE = 6;
-        int DELETE_CONVERSATION = 7;
-        int MENU_MARK_ALL_READ = 8;
-        int COPY_SENDER = 9;
-        int MENU_REFRESH_VOICE = 10;
-        int MENU_SETTINGS = 11;
-        int MENU_ABOUT = 12;
+        final int MENU_CALL = 0;
+        final int MENU_SCHEDULED = 1;
+        final int MENU_ATTACH = 2;
+        final int MENU_SEARCH = 3;
+        final int MENU_NEW_MESSAGE = 4;
+        final int MENU_DELETE = 5;
+        final int MENU_TEMPLATE = 6;
+        final int MENU_SUBJECT = 7;
+        final int DELETE_CONVERSATION = 8;
+        final int MENU_MARK_ALL_READ = 9;
+        final int COPY_SENDER = 10;
+        final int MENU_REFRESH_VOICE = 11;
+        final int MENU_SETTINGS = 12;
+        final int MENU_ABOUT = 13;
 
         try {
             if (deviceType.equals("phone") || deviceType.equals("phablet2"))
@@ -3732,6 +3747,7 @@ public class MainActivity extends FragmentActivity {
                     menu.getItem(MENU_NEW_MESSAGE).setVisible(true);
                     menu.getItem(MENU_DELETE).setVisible(true);
                     menu.getItem(MENU_TEMPLATE).setVisible(false);
+                    menu.getItem(MENU_SUBJECT).setVisible(false);
                     menu.getItem(DELETE_CONVERSATION).setVisible(false);
                     menu.getItem(MENU_MARK_ALL_READ).setVisible(true);
                     menu.getItem(COPY_SENDER).setVisible(false);
@@ -3745,6 +3761,7 @@ public class MainActivity extends FragmentActivity {
                         menu.getItem(MENU_NEW_MESSAGE).setVisible(false);
                         menu.getItem(MENU_DELETE).setVisible(false);
                         menu.getItem(MENU_TEMPLATE).setVisible(true);
+                        menu.getItem(MENU_SUBJECT).setVisible(true);
                         menu.getItem(DELETE_CONVERSATION).setVisible(false);
                         menu.getItem(MENU_MARK_ALL_READ).setVisible(false);
                         menu.getItem(COPY_SENDER).setVisible(false);
@@ -3758,6 +3775,7 @@ public class MainActivity extends FragmentActivity {
                     menu.getItem(MENU_NEW_MESSAGE).setVisible(true);
                     menu.getItem(MENU_DELETE).setVisible(true);
                     menu.getItem(MENU_TEMPLATE).setVisible(true);
+                    menu.getItem(MENU_SUBJECT).setVisible(true);
                     menu.getItem(DELETE_CONVERSATION).setVisible(true);
                     menu.getItem(MENU_MARK_ALL_READ).setVisible(true);
                     menu.getItem(COPY_SENDER).setVisible(true);
@@ -4081,10 +4099,33 @@ public class MainActivity extends FragmentActivity {
                 return true;
             case R.id.menu_mark_all_read:
                 startService(new Intent(getBaseContext(), QmMarkRead2.class));
-
                 return true;
             case R.id.menu_refreshVoice:
                 startService(new Intent(this, VoiceReceiver.class));
+                return true;
+            case R.id.menu_subject:
+                if (!menu.isSecondaryMenuShowing()) {
+                    if (subjectLine.getVisibility() == View.GONE) {
+                        subjectLine.setVisibility(View.VISIBLE);
+                        subjectEntry.requestFocusFromTouch();
+                        final InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        inputManager.showSoftInput(subjectLine, 0);
+
+                        ImageButton subjectDelete = (ImageButton) findViewById(R.id.subjectDelete);
+                        subjectDelete.setColorFilter(settings.ctSendButtonColor);
+                        subjectDelete.setOnClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                subjectLine.setVisibility(View.GONE);
+                                subjectEntry.setText("");
+                                messageEntry.requestFocusFromTouch();
+                                inputManager.showSoftInput(messageEntry, 0);
+                            }
+                        });
+                    }
+                } else {
+                    // TODO new message subject implementation
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -21,6 +21,28 @@
                   android:layout_height="match_parent"
                   android:id="@+id/messageScreen">
 
+        <LinearLayout android:orientation="horizontal"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="center_vertical"
+                      android:id="@+id/subjectBar"
+                      android:visibility="gone">
+
+            <com.klinker.android.messaging_sliding.views.HoloEditText android:layout_width="0dp"
+                      android:layout_height="wrap_content"
+                      android:layout_weight="1"
+                      android:maxLines="1"
+                      android:hint="@string/message_subject"
+                      android:id="@+id/subjectEntry"/>
+
+            <ImageButton android:layout_width="wrap_content"
+                         android:layout_height="match_parent"
+                         android:src="@drawable/ic_menu_delete"
+                         android:scaleType="fitCenter"
+                         android:background="@drawable/dark_send_button"
+                         android:id="@+id/subjectDelete"/>
+        </LinearLayout>
+
         <android.support.v4.view.ViewPager
                 android:id="@+id/pager"
                 android:layout_width="match_parent"
