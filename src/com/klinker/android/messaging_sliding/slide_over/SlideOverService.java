@@ -338,8 +338,12 @@ public class SlideOverService extends Service {
             haloView.haloAlpha = 255;
             haloView.invalidate();
 
-            haloWindow.removeViewImmediate(haloView);
-            haloWindow.addView(haloView, haloParams);
+            try {
+                haloWindow.removeViewImmediate(haloView);
+                haloWindow.addView(haloView, haloParams);
+            } catch (Exception e) {
+
+            }
 
             numberNewConv = 0;
 
@@ -1524,8 +1528,12 @@ public class SlideOverService extends Service {
             haloView.haloAlpha = 255;
             haloView.invalidate();
 
-            haloWindow.removeViewImmediate(haloView);
-            haloWindow.addView(haloView, haloParams);
+            try {
+                haloWindow.removeViewImmediate(haloView);
+                haloWindow.addView(haloView, haloParams);
+            } catch (Exception e) {
+
+            }
 
             numberNewConv = 0;
         }
