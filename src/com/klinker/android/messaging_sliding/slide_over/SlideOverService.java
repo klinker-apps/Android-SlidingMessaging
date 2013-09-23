@@ -146,7 +146,7 @@ public class SlideOverService extends Service {
 
                                         }
                                     }
-                                }, 7000);
+                                }, 10000);
 
                     if (numberNewConv == 0) { // no messages to display
                         switch (type) {
