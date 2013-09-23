@@ -969,31 +969,19 @@ public class MainActivity extends FragmentActivity {
     private void initialSetup() {
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        if (getIntent().getAction().equals("OPEN_APP")) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+        try {
+            if (getIntent().getAction().equals("OPEN_APP")) {
+                getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+                getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+            }
+        } catch (Exception e) {
+
         }
 
         if(sharedPrefs.getBoolean("slideover_enabled",false)) {
             if(!isSlideOverRunning()) {
                 Intent service = new Intent(getApplicationContext(), com.klinker.android.messaging_sliding.slide_over.SlideOverService.class);
                 startService(service);
-            }
-        }
-
-        NotificationManager mNotificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.cancel(1);
-
-        Map<Long, String[]> fnMessages = com.klinker.android.messaging_donate.floating_notifications.FNReceiver.messages;
-
-        if (fnMessages != null) {
-            if (fnMessages.size() > 0) {
-                Set<Long> keys = fnMessages.keySet();
-
-                for (Long ii: keys) {
-                    robj.floating.notifications.Extension.remove(ii, this);
-                }
             }
         }
 
@@ -5590,15 +5578,21 @@ public class MainActivity extends FragmentActivity {
                         mNotificationManager.cancel(1);
                         mNotificationManager.cancel(2);
                         mNotificationManager.cancel(4);
-                        writeToFile2(new ArrayList<String>(), context);
 
-                        Intent intent = new Intent("com.klinker.android.messaging.CLEARED_NOTIFICATION");
-                        context.sendBroadcast(intent);
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                writeToFile2(new ArrayList<String>(), context);
 
-                        Intent stopRepeating = new Intent(context, NotificationRepeaterService.class);
-                        PendingIntent pStopRepeating = PendingIntent.getService(context, 0, stopRepeating, 0);
-                        AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                        alarm.cancel(pStopRepeating);
+                                Intent intent = new Intent("com.klinker.android.messaging.CLEARED_NOTIFICATION");
+                                context.sendBroadcast(intent);
+
+                                Intent stopRepeating = new Intent(context, NotificationRepeaterService.class);
+                                PendingIntent pStopRepeating = PendingIntent.getService(context, 0, stopRepeating, 0);
+                                AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                                alarm.cancel(pStopRepeating);
+                            }
+                        }).start();
 
                         Map<Long, String[]> fnMessages = com.klinker.android.messaging_donate.floating_notifications.FNReceiver.messages;
 
@@ -6549,7 +6543,7 @@ public class MainActivity extends FragmentActivity {
 
                             Uri uri3 = Uri.parse("content://mms-sms/conversations/" + threadIds.get(position) + "/");
                             String[] projection2;
-                            String proj = "_id body date type read msg_box locked";
+                            String proj = "_id body date type read msg_box locked sub";
 
                             if (settings.showOriginalTimestamp)
                             {
@@ -6628,7 +6622,7 @@ public class MainActivity extends FragmentActivity {
 
                 Uri uri3 = Uri.parse("content://mms-sms/conversations/" + threadIds.get(position) + "/");
                 String[] projection2;
-                String proj = "_id body date type read msg_box locked";
+                String proj = "_id body date type read msg_box locked sub";
 
                 if (settings.showOriginalTimestamp)
                 {
@@ -6711,7 +6705,7 @@ public class MainActivity extends FragmentActivity {
         {
             Uri uri3 = Uri.parse("content://mms-sms/conversations/" + threadIds.get(position) + "/");
             String[] projection2;
-            String proj = "_id body date type read msg_box locked";
+            String proj = "_id body date type read msg_box locked sub";
 
             if (settings.showOriginalTimestamp)
             {
@@ -6789,7 +6783,7 @@ public class MainActivity extends FragmentActivity {
 
                     Uri uri3 = Uri.parse("content://mms-sms/conversations/" + threadIds.get(position) + "/");
                     String[] projection2;
-                    String proj = "_id body date type read msg_box locked";
+                    String proj = "_id body date type read msg_box locked sub";
 
                     if (settings.showOriginalTimestamp)
                     {

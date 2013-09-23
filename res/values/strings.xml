@@ -84,7 +84,7 @@
 	<string name="wake_screen">Wake Screen</string>
 	<string name="wake_screen_summary">Wakes screen when new notification arrives</string>
 	<string name="unlock_screen">Unlock Device</string>
-	<string name="unlock_screen_summary">Unlocks the device when new notification arrives</string>
+	<string name="unlock_screen_summary">Unlocks the device when new notification arrives (does not work when using the SlideOver popup)</string>
 	<string name="signature">Select Signature</string>
 	<string name="smilies">Smilies to be Displayed</string>
 	<string name="smilies_summary">Selected how smilies should be displayed</string>
