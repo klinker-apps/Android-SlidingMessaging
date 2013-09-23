@@ -136,6 +136,17 @@ public class SlideOverService extends Service {
 
                 if ((event.getX() > haloView.getX() && event.getX() < haloView.getX() + halo.getWidth() && event.getY() > haloView.getY() && event.getY() < haloView.getY() + halo.getHeight()) || needDetection) {
                     final int type = event.getActionMasked();
+                    
+                    new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            arcWindow.removeViewImmediate(arcView);
+                                        } catch (Exception e) {
+
+                                        }
+                                    }
+                                }, 10000);
 
                     if (numberNewConv == 0) { // no messages to display
                         switch (type) {
@@ -157,17 +168,6 @@ public class SlideOverService extends Service {
                                 return true;
 
                             case MotionEvent.ACTION_UP:
-
-                                new Handler().postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        try {
-                                            arcWindow.removeViewImmediate(arcView);
-                                        } catch (Exception e) {
-
-                                        }
-                                    }
-                                }, 500);
 
                                 if (changingSliver) {
                                     setSliver(halo, event, height, width);
@@ -204,18 +204,6 @@ public class SlideOverService extends Service {
                                 return true;
 
                             case MotionEvent.ACTION_UP:
-
-                                new Handler().postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        try {
-                                            arcWindow.removeViewImmediate(arcView);
-                                        } catch (Exception e) {
-
-                                        }
-                                    }
-                                }, 500);
-
                                 if (changingSliver) {
                                     setSliver(halo, event, height, width);
                                     changingSliver = false;
@@ -288,6 +276,9 @@ public class SlideOverService extends Service {
 
             haloView.playSoundEffect(SoundEffectConstants.CLICK);
 
+            currContact = 0;
+            ContactView.currentContact = 0;
+
             if (HAPTIC_FEEDBACK) {
                 v.vibrate(10);
             }
@@ -315,16 +306,15 @@ public class SlideOverService extends Service {
                     startService(new Intent(getBaseContext(), QmMarkRead2.class));
 
                 ContactView.refreshArrays();
+
+                contactView.invalidate();
+                messageView.invalidate();
             } catch (Exception e) {
 
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        ContactView.currentContact = 0;
-                        contactView.invalidate();
-                    }
-                }, 200);
+                ContactView.refreshArrays();
 
+                contactView.invalidate();
+                messageView.invalidate();
 
                 messageWindow.addView(contactView, contactParams);
                 messageWindow.addView(messageView, messageWindowParams);
@@ -687,21 +677,6 @@ public class SlideOverService extends Service {
                 if (HAPTIC_FEEDBACK) {
                     v.vibrate(10);
                 }
-
-                arcView.newConversations.clear();
-
-                haloView.haloNewAlpha = 0;
-                haloView.haloAlpha = 255;
-                haloView.invalidate();
-
-                try {
-                    haloWindow.removeView(haloView);
-                    haloWindow.addView(haloView, haloParams);
-                } catch (Exception e) {
-
-                }
-
-                numberNewConv = 0;
 
                 try {
                     new Handler().postDelayed(new Runnable() {
