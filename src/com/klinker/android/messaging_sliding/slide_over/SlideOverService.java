@@ -306,16 +306,15 @@ public class SlideOverService extends Service {
                     startService(new Intent(getBaseContext(), QmMarkRead2.class));
 
                 ContactView.refreshArrays();
+
+                contactView.invalidate();
+                messageView.invalidate();
             } catch (Exception e) {
 
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        ContactView.currentContact = 0;
-                        contactView.invalidate();
-                    }
-                }, 200);
+                ContactView.refreshArrays();
 
+                contactView.invalidate();
+                messageView.invalidate();
 
                 messageWindow.addView(contactView, contactParams);
                 messageWindow.addView(messageView, messageWindowParams);
