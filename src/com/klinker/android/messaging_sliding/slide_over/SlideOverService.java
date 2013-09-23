@@ -136,6 +136,17 @@ public class SlideOverService extends Service {
 
                 if ((event.getX() > haloView.getX() && event.getX() < haloView.getX() + halo.getWidth() && event.getY() > haloView.getY() && event.getY() < haloView.getY() + halo.getHeight()) || needDetection) {
                     final int type = event.getActionMasked();
+                    
+                    new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            arcWindow.removeViewImmediate(arcView);
+                                        } catch (Exception e) {
+
+                                        }
+                                    }
+                                }, 7000);
 
                     if (numberNewConv == 0) { // no messages to display
                         switch (type) {
@@ -157,17 +168,6 @@ public class SlideOverService extends Service {
                                 return true;
 
                             case MotionEvent.ACTION_UP:
-
-                                new Handler().postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        try {
-                                            arcWindow.removeViewImmediate(arcView);
-                                        } catch (Exception e) {
-
-                                        }
-                                    }
-                                }, 500);
 
                                 if (changingSliver) {
                                     setSliver(halo, event, height, width);
@@ -204,18 +204,6 @@ public class SlideOverService extends Service {
                                 return true;
 
                             case MotionEvent.ACTION_UP:
-
-                                new Handler().postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        try {
-                                            arcWindow.removeViewImmediate(arcView);
-                                        } catch (Exception e) {
-
-                                        }
-                                    }
-                                }, 500);
-
                                 if (changingSliver) {
                                     setSliver(halo, event, height, width);
                                     changingSliver = false;
