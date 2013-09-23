@@ -2605,7 +2605,7 @@ public class MainActivity extends FragmentActivity {
 
                 String[] text2 = text.split("; ");
 
-                text = text2[text2.length-1];
+                text = text2[text2.length-1].trim();
 
                 if (text.startsWith("+"))
                 {
