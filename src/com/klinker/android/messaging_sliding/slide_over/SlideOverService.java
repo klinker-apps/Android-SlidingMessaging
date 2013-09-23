@@ -1391,6 +1391,17 @@ public class SlideOverService extends Service {
         @Override
         public void onReceive(Context context, Intent intent) {
 
+            ContactView.refreshArrays();
+
+            //new Handler().postDelayed(new Runnable() {
+            //@Override
+            //public void run() {
+                ContactView.currentContact = 0;
+                contactView.invalidate();
+                messageView.invalidate();
+            //    }
+            //}, 200);
+
             String name = intent.getStringExtra("name");
             String message = intent.getStringExtra("message");
 
@@ -1486,17 +1497,6 @@ public class SlideOverService extends Service {
                     }
                 }, 1500);
             }
-
-            ContactView.refreshArrays();
-
-            //new Handler().postDelayed(new Runnable() {
-                //@Override
-                //public void run() {
-                    ContactView.currentContact = 0;
-                    contactView.invalidate();
-                    messageView.invalidate();
-            //    }
-            //}, 200);
         }
     };
 
