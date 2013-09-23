@@ -5,6 +5,12 @@
     <PreferenceCategory android:key="slideover_general_category"
          android:title="@string/general_slideover_category" >
 
+        <Preference
+            android:key="slideover_help"
+            android:title="@string/slideover_tutorial"
+            android:summary="@string/slideover_tutorial_summary"
+            />
+
         <CheckBoxPreference
             android:key="slideover_enabled"
             android:title="@string/enable_slideover"

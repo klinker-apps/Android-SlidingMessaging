@@ -951,6 +951,18 @@ public class SettingsPagerActivity extends FragmentActivity {
 
             final Context context = getActivity();
 
+            Preference googlePlus = findPreference("slideover_help");
+            googlePlus.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+
+                @Override
+                public boolean onPreferenceClick(Preference arg0) {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://plus.google.com/117432358268488452276/posts/S1YMm5K69bQ")));
+                    overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                    return false;
+                }
+
+            });
+
             Preference slideOver = findPreference("slideover_enabled");
             slideOver.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override

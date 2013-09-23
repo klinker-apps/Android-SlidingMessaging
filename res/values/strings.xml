@@ -789,4 +789,6 @@
     <string name="quick_peek_transparency">Message box opacity</string>
     <string name="quick_peek_contact_num">Number of Contacts</string>
     <string name="quick_peek_contact_num_summary">You may have to adjust this if the contacts don\'t fit on the screen correctly.</string>
+    <string name="slideover_tutorial">SlideOver Tutorial</string>
+    <string name="slideover_tutorial_summary">Click here for a list of features and knowledge about using SlideOver and Quick Peek to their full potential.</string>
 </resources>
