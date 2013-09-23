@@ -786,7 +786,7 @@
     <string name="slideover_disable_drag_summary">Warning: you will have no way to move the bubble around with this option enabled.</string>
     <string name="slideover_disable_sliver">Disable the double-tap action</string>
     <string name="quick_peek_category">Quick Peek Settings</string>
-    <string name="quick_peek_transparency">Message box transparency</string>
+    <string name="quick_peek_transparency">Message box opacity</string>
     <string name="quick_peek_contact_num">Number of Contacts</string>
     <string name="quick_peek_contact_num_summary">You may have to adjust this if the contacts don\'t fit on the screen correctly.</string>
 </resources>

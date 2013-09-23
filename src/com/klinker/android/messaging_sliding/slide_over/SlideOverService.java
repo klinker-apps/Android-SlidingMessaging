@@ -300,19 +300,6 @@ public class SlideOverService extends Service {
 
             // will launch the floating message box feature
             try {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        ContactView.currentContact = 0;
-                        contactView.invalidate();
-                    }
-                }, 200);
-
-
-                messageWindow.addView(contactView, contactParams);
-                messageWindow.addView(messageView, messageWindowParams);
-
-            } catch (Exception e) {
 
                 messageWindow.removeView(contactView);
 
@@ -328,9 +315,33 @@ public class SlideOverService extends Service {
                     startService(new Intent(getBaseContext(), QmMarkRead2.class));
 
                 ContactView.refreshArrays();
+            } catch (Exception e) {
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ContactView.currentContact = 0;
+                        contactView.invalidate();
+                    }
+                }, 200);
+
+
+                messageWindow.addView(contactView, contactParams);
+                messageWindow.addView(messageView, messageWindowParams);
             }
 
             quickPeekHidden = false;
+
+            arcView.newConversations.clear();
+
+            haloView.haloNewAlpha = 0;
+            haloView.haloAlpha = 255;
+            haloView.invalidate();
+
+            haloWindow.removeViewImmediate(haloView);
+            haloWindow.addView(haloView, haloParams);
+
+            numberNewConv = 0;
 
             return true;
         }
@@ -1512,6 +1523,9 @@ public class SlideOverService extends Service {
             haloView.haloNewAlpha = 0;
             haloView.haloAlpha = 255;
             haloView.invalidate();
+
+            haloWindow.removeViewImmediate(haloView);
+            haloWindow.addView(haloView, haloParams);
 
             numberNewConv = 0;
         }
