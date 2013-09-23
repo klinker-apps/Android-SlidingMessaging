@@ -32,6 +32,7 @@ import android.widget.*;
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.SendUtil;
+import com.klinker.android.messaging_donate.settings.AppSettings;
 import com.klinker.android.messaging_sliding.emojis.*;
 import com.klinker.android.messaging_sliding.mms.MmsReceiverService;
 import com.klinker.android.send_message.StripAccents;
@@ -74,6 +75,10 @@ public class MessageCursorAdapter extends CursorAdapter {
         this.contentResolver = context.getContentResolver();
         this.mInflater = LayoutInflater.from(context);
         this.mCursor = query;
+
+        if (MainActivity.settings.runAs == null) {
+            MainActivity.settings = AppSettings.init(context);
+        }
 
         Bitmap input;
 

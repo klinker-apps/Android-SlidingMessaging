@@ -263,8 +263,6 @@ public class MmsReceiverService extends Service {
                     apns = helper.getMMSApns();
                 }
 
-                Log.v("mms_download", apns.get(0).MMSCenterUrl + " " + apns.get(0).MMSPort + " " + apns.get(0).MMSProxy);
-
                 try {
                     tryDownloading(apns.get(0), downloadLocation, 0, threadId, msgId);
                 } catch (Exception e) {

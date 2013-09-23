@@ -3210,13 +3210,18 @@ public class MainActivity extends FragmentActivity {
 
         menu.getContent().setBackgroundDrawable(new ColorDrawable(settings.ctMessageListBackground));
 
-        if (deviceType.equals("phone") || deviceType.equals("phablet2"))
-        {
-            menu.setMenu(menuLayout);
-            menu.setSecondaryMenu(newMessageView);
-        } else if (deviceType.equals("phablet") || deviceType.equals("tablet"))
-        {
-            menu.setMenu(newMessageView);
+        try {
+            if (deviceType.equals("phone") || deviceType.equals("phablet2"))
+            {
+                menu.setMenu(menuLayout);
+                menu.setSecondaryMenu(newMessageView);
+            } else if (deviceType.equals("phablet") || deviceType.equals("tablet"))
+            {
+                menu.setMenu(newMessageView);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            // specified child already has a parent, you must call removeView() on the child's parent first
         }
 
         menu.setOnOpenedListener(new SlidingMenu.OnOpenedListener() {

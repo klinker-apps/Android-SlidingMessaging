@@ -37,53 +37,57 @@ public class FNAction extends BroadcastReceiver {
                     break;
 
                 case 1:
-                    // create new reply overlay
-                    String editTextHint;
                     try {
-                        editTextHint = context.getResources().getString(R.string.reply_to) + " " + MainActivity.findContactName(FNReceiver.messages.get(id)[0], context);
+                        // create new reply overlay
+                        String editTextHint;
+                        try {
+                            editTextHint = context.getResources().getString(R.string.reply_to) + " " + MainActivity.findContactName(FNReceiver.messages.get(id)[0], context);
+                        } catch (Exception e) {
+                            // uhhh not sure what has happened here, but catch it lol
+                            editTextHint = "";
+                        }
+                        final String previousText = FNReceiver.messages.get(id)[1];
+                        final Bitmap image = MainActivity.getFacebookPhoto(FNReceiver.messages.get(id)[0], context);
+                        final Extension.onClickListener imageOnClick = new Extension.onClickListener() {
+                            @Override
+                            public void onClick() {
+                                Intent intent = new Intent(context, MainActivity.class);
+                                intent.putExtra("com.klinker.android.OPEN_THREAD", FNReceiver.messages.get(id)[0]);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                context.startActivity(intent);
+                                FNReceiver.messages.remove(id);
+                                Extension.remove(id, context);
+                            }
+                        };
+
+                        final Extension.onClickListener sendOnClick = new Extension.onClickListener() {
+                            @Override
+                            public void onClick(String str) {
+                                SendUtil.sendMessage(context, FNReceiver.messages.get(id)[0], str);
+                                Extension.remove(id, context);
+                                FNReceiver.messages.remove(id);
+                            }
+                        };
+
+                        final Bitmap extraButton = BitmapFactory.decodeResource(context.getResources(), R.drawable.emo_im_smirk);
+
+                        Extension.onClickListener extraOnClick = new Extension.onClickListener() {
+                            @Override
+                            public void onClick(final String str) {
+                                Intent emojiDialog = new Intent(context, EmojiDialogActivity.class);
+                                emojiDialog.putExtra("id", id);
+                                emojiDialog.putExtra("message", str);
+                                emojiDialog.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                Log.v("Extension", "starting emoji dialog");
+                                context.startActivity(emojiDialog);
+                            }
+                        };
+
+                        Extension.replyOverlay(editTextHint, previousText, image, imageOnClick, sendOnClick, extraOnClick, true, extraButton, context, false, "");
+                        Extension.hideAll(id, context);
                     } catch (Exception e) {
-                        // uhhh not sure what has happened here, but catch it lol
-                        editTextHint = "";
+                        // something went wrong with the ids i think...
                     }
-                    final String previousText = FNReceiver.messages.get(id)[1];
-                    final Bitmap image = MainActivity.getFacebookPhoto(FNReceiver.messages.get(id)[0], context);
-                    final Extension.onClickListener imageOnClick = new Extension.onClickListener() {
-                        @Override
-                        public void onClick() {
-                            Intent intent = new Intent(context, MainActivity.class);
-                            intent.putExtra("com.klinker.android.OPEN_THREAD", FNReceiver.messages.get(id)[0]);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            context.startActivity(intent);
-                            FNReceiver.messages.remove(id);
-                            Extension.remove(id, context);
-                        }
-                    };
-
-                    final Extension.onClickListener sendOnClick = new Extension.onClickListener() {
-                        @Override
-                        public void onClick(String str) {
-                            SendUtil.sendMessage(context, FNReceiver.messages.get(id)[0], str);
-                            Extension.remove(id, context);
-                            FNReceiver.messages.remove(id);
-                        }
-                    };
-
-                    final Bitmap extraButton = BitmapFactory.decodeResource(context.getResources(), R.drawable.emo_im_smirk);
-
-                    Extension.onClickListener extraOnClick = new Extension.onClickListener() {
-                        @Override
-                        public void onClick(final String str) {
-                            Intent emojiDialog = new Intent(context, EmojiDialogActivity.class);
-                            emojiDialog.putExtra("id", id);
-                            emojiDialog.putExtra("message", str);
-                            emojiDialog.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            Log.v("Extension", "starting emoji dialog");
-                            context.startActivity(emojiDialog);
-                        }
-                    };
-
-                    Extension.replyOverlay(editTextHint, previousText, image, imageOnClick, sendOnClick, extraOnClick, true, extraButton, context, false, "");
-                    Extension.hideAll(id, context);
                     break;
 
                 case 2:
