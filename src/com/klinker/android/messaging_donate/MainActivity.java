@@ -3706,77 +3706,91 @@ public class MainActivity extends FragmentActivity {
             }
         });
 
+        int MENU_CALL = 0;
+        int MENU_SCHEDULED = 1;
+        int MENU_ATTACH = 2;
+        int MENU_SEARCH = 3;
+        int MENU_NEW_MESSAGE = 4;
+        int MENU_DELETE = 5;
+        int MENU_TEMPLATE = 6;
+        int DELETE_CONVERSATION = 7;
+        int MENU_MARK_ALL_READ = 8;
+        int COPY_SENDER = 9;
+        int MENU_REFRESH_VOICE = 10;
+        int MENU_SETTINGS = 11;
+        int MENU_ABOUT = 12;
+
         try {
             if (deviceType.equals("phone") || deviceType.equals("phablet2"))
             {
                 if (inboxNumber.size() == 0 || MainActivity.menu.isMenuShowing()) // on conversation list
                 {
-                    menu.getItem(0).setVisible(false);
-                    menu.getItem(1).setVisible(false);
-                    menu.getItem(2).setVisible(false);
-                    menu.getItem(3).setVisible(true);
-                    menu.getItem(4).setVisible(true);
-                    menu.getItem(5).setVisible(true);
-                    menu.getItem(6).setVisible(false);
-                    menu.getItem(7).setVisible(false);
-                    menu.getItem(8).setVisible(true);
-                    menu.getItem(9).setVisible(false);
+                    menu.getItem(MENU_CALL).setVisible(false);
+                    menu.getItem(MENU_SCHEDULED).setVisible(false);
+                    menu.getItem(MENU_ATTACH).setVisible(false);
+                    menu.getItem(MENU_SEARCH).setVisible(true);
+                    menu.getItem(MENU_NEW_MESSAGE).setVisible(true);
+                    menu.getItem(MENU_DELETE).setVisible(true);
+                    menu.getItem(MENU_TEMPLATE).setVisible(false);
+                    menu.getItem(DELETE_CONVERSATION).setVisible(false);
+                    menu.getItem(MENU_MARK_ALL_READ).setVisible(true);
+                    menu.getItem(COPY_SENDER).setVisible(false);
 
                     if (MainActivity.menu.isSecondaryMenuShowing()) // on new message
                     {
-                        menu.getItem(0).setVisible(false);
-                        menu.getItem(1).setVisible(true);
-                        menu.getItem(2).setVisible(true);
-                        menu.getItem(3).setVisible(false);
-                        menu.getItem(4).setVisible(false);
-                        menu.getItem(5).setVisible(false);
-                        menu.getItem(6).setVisible(true);
-                        menu.getItem(7).setVisible(false);
-                        menu.getItem(8).setVisible(false);
-                        menu.getItem(9).setVisible(false);
+                        menu.getItem(MENU_CALL).setVisible(false);
+                        menu.getItem(MENU_SCHEDULED).setVisible(true);
+                        menu.getItem(MENU_ATTACH).setVisible(true);
+                        menu.getItem(MENU_SEARCH).setVisible(false);
+                        menu.getItem(MENU_NEW_MESSAGE).setVisible(false);
+                        menu.getItem(MENU_DELETE).setVisible(false);
+                        menu.getItem(MENU_TEMPLATE).setVisible(true);
+                        menu.getItem(DELETE_CONVERSATION).setVisible(false);
+                        menu.getItem(MENU_MARK_ALL_READ).setVisible(false);
+                        menu.getItem(COPY_SENDER).setVisible(false);
                     }
                 } else // in ViewPager
                 {
-                    menu.getItem(0).setVisible(true);
-                    menu.getItem(1).setVisible(false);
-                    menu.getItem(2).setVisible(true);
-                    menu.getItem(3).setVisible(false);
-                    menu.getItem(4).setVisible(true);
-                    menu.getItem(5).setVisible(true);
-                    menu.getItem(6).setVisible(true);
-                    menu.getItem(7).setVisible(true);
-                    menu.getItem(8).setVisible(true);
-                    menu.getItem(9).setVisible(true);
+                    menu.getItem(MENU_CALL).setVisible(true);
+                    menu.getItem(MENU_SCHEDULED).setVisible(false);
+                    menu.getItem(MENU_ATTACH).setVisible(true);
+                    menu.getItem(MENU_SEARCH).setVisible(false);
+                    menu.getItem(MENU_NEW_MESSAGE).setVisible(true);
+                    menu.getItem(MENU_DELETE).setVisible(true);
+                    menu.getItem(MENU_TEMPLATE).setVisible(true);
+                    menu.getItem(DELETE_CONVERSATION).setVisible(true);
+                    menu.getItem(MENU_MARK_ALL_READ).setVisible(true);
+                    menu.getItem(COPY_SENDER).setVisible(true);
 
                     if (group.get(mViewPager.getCurrentItem()).equals("yes")) // if there is a group message
                     {
-                        menu.getItem(0).setVisible(false);
-                        menu.getItem(9).setVisible(false);
+                        menu.getItem(MENU_CALL).setVisible(false);
+                        menu.getItem(COPY_SENDER).setVisible(false);
                     }
                 }
             } else
             {
                 if (inboxNumber.size() == 0 || MainActivity.menu.isMenuShowing())
                 {
-                    menu.getItem(0).setVisible(false);
-                    menu.getItem(4).setVisible(false);
-                    menu.getItem(5).setVisible(false);
-                    menu.getItem(7).setVisible(false);
-                    menu.getItem(8).setVisible(false);
-                    menu.getItem(9).setVisible(false);
+                    menu.getItem(MENU_CALL).setVisible(false);
+                    menu.getItem(MENU_NEW_MESSAGE).setVisible(false);
+                    menu.getItem(MENU_DELETE).setVisible(false);
+                    menu.getItem(DELETE_CONVERSATION).setVisible(false);
+                    menu.getItem(MENU_MARK_ALL_READ).setVisible(false);
+                    menu.getItem(COPY_SENDER).setVisible(false);
                 } else
                 {
-                    menu.getItem(0).setVisible(true);
-                    menu.getItem(4).setVisible(true);
-                    menu.getItem(5).setVisible(true);
-                    menu.getItem(7).setVisible(true);
-                    menu.getItem(8).setVisible(true);
-                    menu.getItem(9).setVisible(true);
+                    menu.getItem(MENU_CALL).setVisible(true);
+                    menu.getItem(MENU_NEW_MESSAGE).setVisible(true);
+                    menu.getItem(MENU_DELETE).setVisible(true);
+                    menu.getItem(DELETE_CONVERSATION).setVisible(true);
+                    menu.getItem(MENU_MARK_ALL_READ).setVisible(true);
+                    menu.getItem(COPY_SENDER).setVisible(true);
 
                     if (group.get(mViewPager.getCurrentItem()).equals("yes"))
                     {
-                        menu.getItem(0).setVisible(false);
-                        menu.getItem(9).setVisible(false);
+                        menu.getItem(MENU_CALL).setVisible(false);
+                        menu.getItem(COPY_SENDER).setVisible(false);
                     }
                 }
             }
@@ -3785,53 +3799,53 @@ public class MainActivity extends FragmentActivity {
         }
 
         if (settings.voiceAccount != null) {
-            menu.getItem(10).setVisible(true);
+            menu.getItem(MENU_REFRESH_VOICE).setVisible(true);
         } else {
-            menu.getItem(10).setVisible(false);
+            menu.getItem(MENU_REFRESH_VOICE).setVisible(false);
         }
 
         if (settings.lightActionBar)
         {
             Drawable callButton = getResources().getDrawable(R.drawable.ic_menu_call);
             callButton.setColorFilter(getResources().getColor(R.color.hangouts_ab_icon), Mode.MULTIPLY);
-            menu.getItem(0).setIcon(callButton);
+            menu.getItem(MENU_CALL).setIcon(callButton);
 
             Drawable scheduledButton = getResources().getDrawable(R.drawable.ic_scheduled);
             scheduledButton.setColorFilter(getResources().getColor(R.color.hangouts_ab_icon), Mode.MULTIPLY);
-            menu.getItem(1).setIcon(scheduledButton);
+            menu.getItem(MENU_SCHEDULED).setIcon(scheduledButton);
 
             Drawable attachButton = getResources().getDrawable(R.drawable.ic_attach);
             attachButton.setColorFilter(getResources().getColor(R.color.hangouts_ab_icon), Mode.MULTIPLY);
-            menu.getItem(2).setIcon(attachButton);
+            menu.getItem(MENU_ATTACH).setIcon(attachButton);
 
             Drawable searchButton = getResources().getDrawable(R.drawable.ic_search);
             searchButton.setColorFilter(getResources().getColor(R.color.hangouts_ab_icon), Mode.MULTIPLY);
-            menu.getItem(3).setIcon(searchButton);
+            menu.getItem(MENU_SEARCH).setIcon(searchButton);
 
             Drawable replyButton = getResources().getDrawable(R.drawable.ic_reply);
             replyButton.setColorFilter(getResources().getColor(R.color.hangouts_ab_icon), Mode.MULTIPLY);
-            menu.getItem(4).setIcon(replyButton);
+            menu.getItem(MENU_NEW_MESSAGE).setIcon(replyButton);
         } else
         {
             Drawable callButton = getResources().getDrawable(R.drawable.ic_menu_call);
             callButton.setColorFilter(getResources().getColor(R.color.white), Mode.MULTIPLY);
-            menu.getItem(0).setIcon(callButton);
+            menu.getItem(MENU_CALL).setIcon(callButton);
 
             Drawable scheduledButton = getResources().getDrawable(R.drawable.ic_scheduled);
             scheduledButton.setColorFilter(getResources().getColor(R.color.white), Mode.MULTIPLY);
-            menu.getItem(1).setIcon(scheduledButton);
+            menu.getItem(MENU_SCHEDULED).setIcon(scheduledButton);
 
             Drawable attachButton = getResources().getDrawable(R.drawable.ic_attach);
             attachButton.setColorFilter(getResources().getColor(R.color.white), Mode.MULTIPLY);
-            menu.getItem(2).setIcon(attachButton);
+            menu.getItem(MENU_ATTACH).setIcon(attachButton);
 
             Drawable searchButton = getResources().getDrawable(R.drawable.ic_search);
             searchButton.setColorFilter(getResources().getColor(R.color.white), Mode.MULTIPLY);
-            menu.getItem(3).setIcon(searchButton);
+            menu.getItem(MENU_SEARCH).setIcon(searchButton);
 
             Drawable replyButton = getResources().getDrawable(R.drawable.ic_reply);
             replyButton.setColorFilter(getResources().getColor(R.color.white), Mode.MULTIPLY);
-            menu.getItem(4).setIcon(replyButton);
+            menu.getItem(MENU_NEW_MESSAGE).setIcon(replyButton);
         }
 
         return true;
