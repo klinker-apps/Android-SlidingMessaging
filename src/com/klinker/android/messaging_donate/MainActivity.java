@@ -198,6 +198,10 @@ public class MainActivity extends FragmentActivity {
     private ProgressBar mmsProgress;
     private View subjectLine;
     private EditText subjectEntry;
+    private View subjectLine2;
+    private EditText subjectEntry2;
+    private ImageView subjectDelete;
+    private ImageView subjectDelete2;
 
     private Uri capturedPhotoUri;
     private boolean fromCamera = false;
@@ -1543,6 +1547,7 @@ public class MainActivity extends FragmentActivity {
         mmsProgressAnimation.setMmsProgress(mmsProgress);
         subjectLine = findViewById(R.id.subjectBar);
         subjectEntry = (EditText) findViewById(R.id.subjectEntry);
+        subjectDelete = (ImageButton) findViewById(R.id.subjectDelete);
 
         v = findViewById(R.id.view1);
         imageAttachBackground = findViewById(R.id.image_attachment_view_background2);
@@ -2128,6 +2133,8 @@ public class MainActivity extends FragmentActivity {
         subjectEntry.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
         subjectEntry.setTextColor(settings.draftTextColor);
         subjectLine.setVisibility(View.GONE);
+        subjectLine.setBackgroundColor(settings.ctSendBarBackground);
+        subjectDelete.setColorFilter(settings.ctSendButtonColor);
 
         if (settings.customFont) {
             mTextView.setTypeface(font);
@@ -2343,6 +2350,9 @@ public class MainActivity extends FragmentActivity {
         imageAttachBackground2 = newMessageView.findViewById(R.id.image_attachment_view_background);
         imageAttach2 = (ImageAttachmentView) newMessageView.findViewById(R.id.image_attachment_view);
         ImageButton contactLister = (ImageButton) newMessageView.findViewById(R.id.contactLister);
+        subjectLine2 = newMessageView.findViewById(R.id.subjectBar);
+        subjectEntry2 = (EditText) newMessageView.findViewById(R.id.subjectEntry);
+        subjectDelete2 = (ImageButton) newMessageView.findViewById(R.id.subjectDelete);
 
         mTextView.setVisibility(View.GONE);
         mEditText.requestFocus();
@@ -2822,6 +2832,10 @@ public class MainActivity extends FragmentActivity {
                                 message.setImages(images);
                             }
 
+                            if (subjectLine2.getVisibility() != View.GONE && !subjectEntry2.getText().toString().equals("")) {
+                                message.setSubject(subjectEntry2.getText().toString());
+                            }
+
                             if (!settings.sendWithStock) {
                                 if (sendTransaction.checkMMS(message)) {
                                     ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
@@ -2872,6 +2886,9 @@ public class MainActivity extends FragmentActivity {
                                     menu.showContent();
                                     refreshViewPager();
                                     mViewPager.setCurrentItem(0);
+
+                                    subjectLine2.setVisibility(View.GONE);
+                                    subjectEntry2.setText("");
                                 }
 
                             });
@@ -3138,6 +3155,12 @@ public class MainActivity extends FragmentActivity {
         imageAttach2.setBackgroundDrawable(attachBack);
         imageAttachBackground2.setVisibility(View.GONE);
         imageAttach2.setVisibility(false);
+
+        subjectEntry2.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+        subjectEntry2.setTextColor(settings.draftTextColor);
+        subjectLine2.setVisibility(View.GONE);
+        subjectLine2.setBackgroundColor(settings.ctSendBarBackground);
+        subjectDelete2.setColorFilter(settings.ctSendButtonColor);
 
         if (settings.customFont)
         {
@@ -4104,6 +4127,8 @@ public class MainActivity extends FragmentActivity {
                 startService(new Intent(this, VoiceReceiver.class));
                 return true;
             case R.id.menu_subject:
+                Toast.makeText(this, getString(R.string.converting_mms), Toast.LENGTH_SHORT).show();
+
                 if (!menu.isSecondaryMenuShowing()) {
                     if (subjectLine.getVisibility() == View.GONE) {
                         subjectLine.setVisibility(View.VISIBLE);
@@ -4111,7 +4136,6 @@ public class MainActivity extends FragmentActivity {
                         final InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         inputManager.showSoftInput(subjectLine, 0);
 
-                        ImageButton subjectDelete = (ImageButton) findViewById(R.id.subjectDelete);
                         subjectDelete.setColorFilter(settings.ctSendButtonColor);
                         subjectDelete.setOnClickListener(new OnClickListener() {
                             @Override
@@ -4124,7 +4148,23 @@ public class MainActivity extends FragmentActivity {
                         });
                     }
                 } else {
-                    // TODO new message subject implementation
+                    if (subjectLine2.getVisibility() == View.GONE) {
+                        subjectLine2.setVisibility(View.VISIBLE);
+                        subjectEntry2.requestFocusFromTouch();
+                        final InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        inputManager.showSoftInput(subjectLine2, 0);
+
+                        subjectDelete2.setColorFilter(settings.ctSendButtonColor);
+                        subjectDelete2.setOnClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                subjectLine2.setVisibility(View.GONE);
+                                subjectEntry2.setText("");
+                                messageEntry2.requestFocusFromTouch();
+                                inputManager.showSoftInput(messageEntry2, 0);
+                            }
+                        });
+                    }
                 }
                 return true;
             default:

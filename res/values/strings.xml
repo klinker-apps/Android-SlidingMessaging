@@ -793,4 +793,6 @@
     <string name="slideover_tutorial_summary">Click here for a list of features and knowledge about using SlideOver and Quick Peek to their full potential</string>
     <string name="message_subject">Subject</string>
     <string name="insert_subject">Add Subject</string>
+    <string name="converting_mms">Converting to MMS…</string>
+
 </resources>

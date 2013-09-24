@@ -52,6 +52,7 @@ public class ChangeLogWizardModel extends AbstractWizardModel {
                 "\t- Double tap bubble to change sliver width\n" +
                 "\t- Long click to reposition bubble\n" +
                 "\t- Single tap to open Quick Peek window\n" +
+                "- Ability to attach subjects to MMS messages\n" +
                 "- Option to select the max height and width of sent pictures for higher resolution images\n" +
                 "- Option to always use Google Voice\n" +
                 "- Favorites category on the emoji keyboard for quick access to your most used emojis\n" +
