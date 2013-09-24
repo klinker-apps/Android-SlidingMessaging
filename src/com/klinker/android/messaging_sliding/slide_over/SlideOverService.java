@@ -108,8 +108,10 @@ public class SlideOverService extends Service {
 
     public Handler messageBoxHandler = new Handler();
     public Handler arcViewHandler = new Handler();
+    public Handler removeArcHandler = new Handler();
     public Runnable messageBoxRunnable;
     public Runnable arcViewRunnable;
+    public Runnable removeArcRunnable;
 
     @Override
     public void onCreate() {
@@ -137,16 +139,7 @@ public class SlideOverService extends Service {
                 if ((event.getX() > haloView.getX() && event.getX() < haloView.getX() + halo.getWidth() && event.getY() > haloView.getY() && event.getY() < haloView.getY() + halo.getHeight()) || needDetection) {
                     final int type = event.getActionMasked();
                     
-                    new Handler().postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        try {
-                                            arcWindow.removeViewImmediate(arcView);
-                                        } catch (Exception e) {
-
-                                        }
-                                    }
-                                }, 10000);
+                    removeArcHandler.postDelayed(removeArcRunnable, 10000);
 
                     if (numberNewConv == 0) { // no messages to display
                         switch (type) {
@@ -178,6 +171,8 @@ public class SlideOverService extends Service {
                                 } else {
                                     noMessagesUp();
                                 }
+
+                                removeArcHandler.removeCallbacks(removeArcRunnable);
 
                                 return true;
                         }
@@ -213,6 +208,8 @@ public class SlideOverService extends Service {
                                 } else {
                                     messagesUp();
                                 }
+
+                                removeArcHandler.removeCallbacks(removeArcRunnable);
 
                                 return true;
                         }
@@ -441,6 +438,17 @@ public class SlideOverService extends Service {
             public void run() {
                 try {
                     arcWindow.addView(arcView, arcParamsNoBack);
+                } catch (Exception e) {
+
+                }
+            }
+        };
+
+        removeArcRunnable = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    arcWindow.removeViewImmediate(arcView);
                 } catch (Exception e) {
 
                 }
