@@ -59,7 +59,7 @@ public class ChangeLogWizardModel extends AbstractWizardModel {
                 "- Changed default font to \"Roboto Light\" for a cleaner look, you also have the option to use your device font in Theme Settings (first turn on \"Show All Settings\" in advanced settings though)\n" +
                 "- Minor style and UI changes\n" +
                 "- Option to bold the names in the conversations list\n" +
-                "- A few more optimizations" +
+                "- A few more optimizations\n" +
                 "- Bug fixes\n";
                 
         String themeEditor = "The theme editor now fully supports the Cards UI 2.0, making it a " +
