@@ -1412,11 +1412,6 @@ public class MessageCursorAdapter extends CursorAdapter {
 
                                     String body2 = ((TextView) arg0.findViewById(R.id.textBody)).getText().toString();
 
-                                    if (!MainActivity.settings.signature.equals(""))
-                                    {
-                                        body2 += "\n" + MainActivity.settings.signature;
-                                    }
-
                                     final String body = body2;
 
                                     new Thread(new Runnable() {
@@ -1451,10 +1446,8 @@ public class MessageCursorAdapter extends CursorAdapter {
 
                                             Cursor deleter = context.getContentResolver().query(Uri.parse("content://sms/failed"), new String[] {"_id"}, null, null, null);
 
-                                            if (deleter.moveToFirst())
-                                            {
+                                            if (deleter.moveToFirst()) {
                                                 String id = deleter.getString(deleter.getColumnIndex("_id"));
-
                                                 context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/" + threadIds + "/"), "_id=" + id, null);
                                             }
 
