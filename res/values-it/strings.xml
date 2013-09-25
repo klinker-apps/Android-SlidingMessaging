@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Messaging</string>
+
+    <string name="app_name">Sliding Messaging</string>
+	<string name="app_name_in_app">Messaging</string>
     <string name="menu_settings">Impostazioni</string>
     <string name="send_button">Invia</string>
     <string name="type_message">Digita messaggio</string>
@@ -11,69 +13,71 @@
     <string name="menu_new_message">Nuovo Messaggio</string>
     <string name="quick_reply">Risposta Rapida</string>
     <string name="dark_theme">Tema Scuro</string>
-    <string name="dark_theme_summary">Selezionare per abilitare il tema scuro</string>
+    <string name="dark_theme_summary">Seleziona per abilitare il tema scuro</string>
     <string name="text_size">Dimensione testo</string>
     <string name="text_size_summary">Scegli la dimensione del testo dei messaggi</string>
+	<string name="text_size2_summary">Scegli la dimensione del testo delle conversazioni</string>
     <string name="notifications">Notifiche</string>
-    <string name="notifications_summary">Selezionare per attivare le notifiche</string>
+    <string name="notifications_summary">Seleziona per attivare le notifiche</string>
     <string name="ringtone">Suoneria</string>
     <string name="ringtone_summary">Scegli suoneria</string>
-    <string name="page_or_menu">Pagina Rapida tra conversazioni</string>
-    <string name="page_or_menu_summary">Selezionare per abilitare la paginazione veloce</string>
-    <string name="theme">Temi</string>
+    <string name="page_or_menu">Modalità Menù a Scorrimento</string>
+    <string name="page_or_menu_summary">Seleziona il metodo di scorrimento tra i menù</string>
+    <string name="theme">Impostazioni Tema</string>
     <string name="dark_theme_quick_reply">Tema Scuro per Risposta Rapida</string>
-    <string name="dark_theme_quick_reply_summary">Selezionare per abilitare il tema scuro nella risposta rapida (solo Jelly Bean)</string>
+    <string name="dark_theme_quick_reply_summary">Seleziona per abilitare il tema scuro nella risposta rapida</string>
     <string name="menu_about">Info</string>
     <string name="delete_message">Vuoi eliminare questo messaggio?</string>
-    <string name="delete_messages">Vuoi cancellare questi messaggi?</string>
+    <string name="delete_messages">Vuoi eliminare questi messaggi?</string>
     <string name="yes">Sì</string>
     <string name="no">No</string>
     <string name="restart_1">Dopo aver cambiato il tema, l\'applicazione deve essere riavviata.</string>
     <string name="restart_2">Riavvia Sliding Messaging</string>
-    <string name="title_color">Colore della Barra del Titolo</string>
-    <string name="title_color_summary">Scegliere il colore della barra del titolo</string>
-    <string name="delivery_reports">Avviso di consegna</string>
+    <string name="title_color">Colore Barra del Titolo</string>
+    <string name="title_color_summary">Scegli il colore della barra del titolo</string>
+    <string name="delivery_reports">Avvisi di Consegna</string>
     <string name="popup_reply">Risposta Popup</string>
-    <string name="popup_reply_summary">Per gli utenti che non hanno Jelly Bean, aggiunge una risposta rapida che viene visualizzata automaticamente quando un nuovo messaggio viene ricevuto</string>
+    <string name="popup_reply_summary">Aggiunge una risposta rapida che viene visualizzata automaticamente quando un nuovo messaggio viene ricevuto</string>
     <string name="text_saved">Testo salvato negli appunti.</string>
     <string name="draft_saved">Bozza salvata negli appunti.</string>
-    <string name="hour_format">Stampa nel formato 24 ore</string>
-    <string name="hide_title_bar">Mostra barra del titolo</string>
-    <string name="hide_title_bar_summary">Selezionare per visualizzare la barra del titolo</string>
-    <string name="strip_unicode">Elimina caratteri Unicode</string>
-    <string name="strip_unicode_summary">Sostituire con ? tutti i caratteri non supportati nel messaggio SMS da 160 caratteri</string>
-    <string name="other">Altre Configurazioni</string>
+    <string name="hour_format">Stampa nel Formato 24 ore</string>
+    <string name="hide_title_bar">Mostra barra del Titolo</string>
+    <string name="hide_title_bar_summary">Seleziona per visualizzare la barra del titolo</string>
+    <string name="strip_unicode">Elimina Caratteri Unicode</string>
+    <string name="strip_unicode_summary">Sostituisci con ? tutti i caratteri non supportati nel messaggio SMS da 160 caratteri</string>
+    <string name="other">Altre Impostazioni</string>
     <string name="ok">OK</string>
     <string name="emoji">Abilita Emojis</string>
-    <string name="donate">Donazioni</string>
+    <string name="donate">Versione Pro</string>
+	<string name="donate_summary">Ricevi tonnellate di altre funzionalità e aggiornamenti più frequenti</string>
     <string name="load_messages">Messaggi da caricare</string>
-    <string name="load_messages_summary">Selezionare il numero di messaggi che devono essere caricati inizialmente</string>
-    <string name="load_all">Carica tutti i messaggi</string>
-    <string name="limit_messages">Limite sui messaggi</string>
+    <string name="load_messages_summary">Seleziona il numero di messaggi che devono essere caricati inizialmente</string>
+    <string name="load_all">Carica Tutte le Conversazioni</string>
+    <string name="limit_messages">Limita i Messaggi</string>
     <string name="limit_messages_summary">Limita la quantità di messaggi inizialmente caricati</string>
-    <string name="pull_to_refresh">Tira per caricare tutti i messaggi</string>
-	<string name="vibrate">Vibra alla notifica</string>
-    <string name="override">Sovrascrivi applicazione di gestione SMS del produttore</string>
-    <string name="override_summary">Salva i messaggi nella lista in arrivo e interrompe la trasmisisone ad altre applicazioni di gestione SMS, fermando le notifiche. Abilitare solo se avete disinstallato l\'applicazione del produttore.</string>	 
-	<string name="open_contact_menu">Apri la lista dei contatti all\'avvio</string>
-	<string name="open_contact_menu_summary">Apri il menù sinistro all\'avvio</string>
-	<string name="limit_conversations">Conversazioni da caricare</string>
-	<string name="limit_conversations_summary">Selezionare il numero di conversazioni che devono essere caricate inizialmente</string>
-	<string name="contact_pictures">Visualizza le foto dei contatti</string>
-	<string name="date_format">Formato data</string>
-	<string name="date_format_summary">Selezionare la formattazione della data</string>
-	<string name="secure_notification">Notifica Sicura</string>
-	<string name="secure_notification_summary">Mittente e testo del messaggio non vengono visualizzate nella notifica</string>
-	<string name="enable_view_conversation">Abilita il bottone visualizza conversazione</string>
-	<string name="enable_view_conversation_summary">Mostra il bottone visualizza conversazione in basso, nel pop up di risposta rapida</string>
+    <string name="pull_to_refresh">Tira per Caricare Tutti i Messaggi</string>
+	<string name="pull_to_refresh_summary">Scorri verso il basso nella lista messaggi per caricarli tutti</string>
+	<string name="vibrate">Vibra alla Notifica</string>
+    <string name="override">Sovrascrivi Applicazione di Sistema</string>
+    <string name="override_summary">Salva i messaggi nella lista in arrivo e interrompe la trasmissione ad altre applicazioni di gestione SMS, fermando le notifiche. Abilitate solo se avete disinstallato l\'applicazione di SMS di sistema predefinita.</string>	 
+	<string name="open_contact_menu">Apri la Lista Conversazioni all\'avvio</string>
+	<string name="open_contact_menu_summary">Apri il menù sinistro delle conversazioni all\'avvio</string>
+	<string name="limit_conversations">Limita le Conversazioni</string>
+	<string name="limit_conversations_summary">Carica solamente 10 conversazioni all\' avvio per motivi di velocità</string>
+	<string name="contact_pictures">Visualizza le Foto dei Contatti</string>
+	<string name="date_format">Formato Data</string>
+	<string name="date_format_summary">Seleziona il formato della data</string>
+	<string name="secure_notification">Notifiche Sicure</string>
+	<string name="secure_notification_summary">Mittente e testo del messaggio non verranno visualizzati nelle notifiche</string>
+	<string name="enable_view_conversation">Abilita il Pulsante Visualizza Conversazione</string>
+	<string name="enable_view_conversation_summary">Mostra i pulsanti visualizza conversazione ed elimina nel popup di risposta rapida</string>
 	<string name="enable_mms">Abilita MMS</string>
-	<string name="enable_mms_summary">Solo versione Pro, comprala dal Play Store. Attualmente il supporto della versione free è limitato</string>
-	<string name="mobile_only">Solo Numero di Telefono</string>
-	<string name="mobile_only_summary">Mostra solo il numero di telefono quando cerchi un contatto per un nuovo messaggio</string>
+	<string name="mobile_only">Solo Numeri di Telefono</string>
+	<string name="mobile_only_summary">Mostra solo i numeri di telefono quando cerchi tra i contatti per un nuovo messaggio</string>
 	<string name="led_color">Colore del LED</string>
 	<string name="led_color_summary">Scegli il colore del LED di notifica</string>
-	<string name="vibrate_pattern">Pattern di vibrazione</string>
-	<string name="vibrate_pattern_summary">Scegli il pattern di vibrazione per le nuove notifiche</string>
+	<string name="vibrate_pattern">Sequenza di Vibrazione</string>
+	<string name="vibrate_pattern_summary">Scegli la sequenza di vibrazione per le nuove notifiche</string>
 	<string name="menu_call">Chiama Contatto</string>
 	<string name="keyboard_type">Bottone Smile</string>
 	<string name="keyboard_type_summary">Mostra il bottone per gli smile sulla tastiera</string>
@@ -81,48 +85,703 @@
 	<string name="override_lang_summary">Imposta la lingua Inglese</string>
 	<string name="save_image">Immagine Salvata</string>
 	<string name="wake_screen">Accendi il Display</string>
-	<string name="wake_screen_summary">Accende il display quando arriva una nuova notifica</string>
+	<string name="wake_screen_summary">Accendi il display quando arriva una nuova notifica</string>
 	<string name="unlock_screen">Sblocca il dispositivo</string>
 	<string name="unlock_screen_summary">Sblocca il dispositivo quando arriva una nuova notifica</string>
 	<string name="signature">Seleziona Firma</string>
-	<string name="smilies">Smile</string>
+	<string name="smilies">Tipo di Smile</string>
 	<string name="smilies_summary">Seleziona come devono essere gli smile</string>
 	<string name="send_to">Invia A</string>
-	<string name="button_options">Bottoni nella Notifica</string>
-	<string name="button_options_summary">Seleziona i bottoni che devono essere visualizzati nelle notifica</string>
-	<string name="slide_messages">Nascondi la Scheda dei Messaggi quando scorri</string>
+	<string name="button_options">Pulsanti nelle Notifiche</string>
+	<string name="button_options_summary">Seleziona i pulsanti che devono essere visualizzati nelle notifiche (Massimo 3 sulla maggior parte dei telefoni)</string>
+	<string name="slide_messages">Nascondi la Scheda dei Messaggi quando Scorri</string>
 	<string name="slide_messages_summary">Spunta per nascondere completamente la scheda dei messaggi quando scorri a destra o sinistra</string>
-	<string name="disable_sliding">Disabilita il menù scorrevole</string>
-	<string name="disable_sliding_summary">Disabilita i menù scorrevoli a destra e sinistra, possono essere aperti usando i bottoni in alto</string>
-	<string name="show_keyboard">Mostra Tastiera</string>
-	<string name="show_keyboard_summary">Apre automaticamente la tastiera quando l\'app viene avviata</string>
+	<string name="disable_sliding">Disabilita i Menù a Scorrimento</string>
+	<string name="disable_sliding_summary">Disabilita i menù a scorrimento a destra e sinistra, possono essere aperti usando i pulsanti in alto</string>
+	<string name="show_keyboard">Nascondi Tastiera</string>
+	<string name="show_keyboard_summary">Nascondi automaticamente la tastiera dopo aver inviato un messaggio</string>
 	<string name="notification_icon">Colore Icona di Notifica</string>
 	<string name="new_message">Nuovo Messaggio</string>
 	<string name="title_caps">Barra del Titolo con Lettere Maiuscole</string>
 	<string name="title_caps_summary">Se spuntata, visualizza i nomi nella barra del titolo tutti con lettere maiuscole</string>
-    <string name="advanced_theme">Impostazioni Avanzate dei Temi</string>
-    <string name="advanced_notifications">Impostazioni Avanzate delle Notifiche</string>
+    <string name="advanced_theme">Impostazioni Avanzate Tema</string>
+    <string name="advanced_notifications">Impostazioni Avanzate Notifiche</string>
     <string name="advanced_other">Altre Impostazioni Avanzate</string>
 	<string name="advanced_settings">Impostazioni Avanzate</string>
     <string name="title_bar_settings">Impostazioni Barra del Titolo</string>
-    <string name="title_contact_image">Immagini del Contatto nella Barra del Titolo</string>
-    <string name="title_contact_image_summary">Visualizza nella barra del titolo della coversazione selezionata l\'icona del contatto</string>
-    <string name="pitch_black_theme">Pitch Black Theme</string>
+    <string name="title_contact_image">Immagini Contatto nella Barra Attività</string>
+    <string name="title_contact_image_summary">Visualizza l\'immagine del contatto nella barra delle attività</string>
+    <string name="pitch_black_theme">Tema Nero Pece</string>
     <string name="custom_background">Sfondo Personalizzato per i Menù</string>
-    <string name="custom_background_summary">Scegli uno sfondo personalizzato da applicare al menù scorrevole</string>
+    <string name="custom_background_summary">Scegli uno sfondo personalizzato da applicare ai menù a scorrimento</string>
     <string name="custom_background2">Sfondo Personalizzato per i Messaggi</string>
-    <string name="custom_background2_summary">Scegli uno sfondo personalizzato da applicare ai messaggi</string>
-    <string name="menu_delete">Cancella tutte le conversazioni</string>
-    <string name="delete_all">ATTENZIONE: Verranno cancellati TUTTI i messaggi in TUTTE le conversazioni.\n\nVuoi cancellare tutte le conversazioni?</string>
-    <string name="text_settings">Impostazioni del Testo</string>
-    <string name="sent_text_color">Colore per i Messaggi Inviati</string>
-    <string name="sent_text_color_summary">Scegli un colore da impostare per i messaggi inviati</string>
-    <string name="received_text_color">Colore per i Messaggi Ricevuti</string>
-    <string name="received_text_color_summary">Scegli un colore da impostare per i messaggi ricevuti</string>
-    <string name="menu_text_color">Menu Text Color</string>
-    <string name="menu_text_color_summary">Choose a color to set as the menu text color</string>
+    <string name="custom_background2_summary">Scegli uno sfondo personalizzato da applicare alla lista messaggi</string>
+    <string name="menu_delete">Elimina tutte le conversazioni</string>
+    <string name="delete_all">ATTENZIONE: Verranno eliminati TUTTI i messaggi in TUTTE le conversazioni.\n\nVuoi eliminare tutte le conversazioni?</string>
+    <string name="text_settings">Impostazioni Messaggi</string>
+    <string name="sent_text_color">Colore dei Messaggi Inviati</string>
+    <string name="sent_text_color_summary">Scegli un colore da impostare per il testo dei messaggi inviati</string>
+    <string name="received_text_color">Colore dei Messaggi Ricevuti</string>
+    <string name="received_text_color_summary">Scegli un colore da impostare per il testo dei messaggi ricevuti</string>
+    <string name="menu_text_color">Colore dell\'anteprima</string>
+    <string name="menu_text_color_summary">Scegli un colore da impostare per l\'anteprima dei messaggi nella lista conversazioni</string>
     <string name="text_opacity">Opacità del Messaggio</string>
-    <string name="text_opacity_summary">Imposta l\'opacità dei messaggi (per consentire la corretta visualizzazione anche con sfondi personalizzati)</string>
-    <string name="conversation">Conversazioni</string>
+    <string name="text_opacity_summary">Imposta l\'opacità dei messaggi (per consentire la corretta visualizzazione degli sfondi personalizzati)</string>
+    <string name="conversation">Conversazione</string>
+    <string name="version">Versione</string>
+    <string name="extension_title">Sliding Messaging</string>
+    <string name="extension_description">Visualizza nuovi messaggi nella schermata di sblocco</string>
+    <string name="emoji_type">Emoji Stile Android</string>
+    <string name="notification_settings">Impostazioni Notifiche</string>
+    <string name="about_expanded">Crediti a jfeinstein10 di GitHub per SlidingMenu library, attenzione di GitHub per ColorPickerPreference library, nhaarman di GitHub per ListViewAnimations library, Roman Nurik per il suo Wizard Pager, chrisbanes di GitHub per the ActionBar-PullToRefresh library, Hai Bison di Google Code per the Lock Pattern library, l\'intero team Paranoid Android per l\'inspirazione dietro SlideOver e tutto il fantastico lavoro che svolgono, koush per Cyanogenmod\'s Voice+ che permette il supporto Google Voice e a tutti i traduttori.</string>
+    <string name="download">Download</string>
+    <string name="none"></string>
+    <string name="message_delivered">Messaggio Inviato</string>
+    <string name="message_not_delivered">Messaggio Non Inviato</string>
+    <string name="dismiss">Ignora</string>
+    <string name="delivery_options">Opzioni di Consegna</string>
+    <string name="delivery_options_summary">Scegli come devono essere mostrate le notifiche di consegna</string>
+    <string name="image_viewer">Immagini MMS</string>
+    <string name="multiple_attachments">Allegati Multipli</string>
+    <string name="delete_conversation">Elimina Conversazione</string>
+    <string name="save_images">Immagini Salvate</string>
+    <string name="persistent">Messaggi Persistenti</string>
+    <string name="persistent_summary">Seleziona per mostrare sempre il conto dei nuovi messaggi, anche se sono 0</string>
+    <string name="screen_timeout">Sospensione Schermo</string>
+    <string name="always_show_contact_info">Informazioni Contatto nella Barra delle Attività</string>
+    <string name="always_show_contact_info_summary">Forza le informazioni di contatto nella barra delle Attività (anche con barra del titolo abilitata)</string>
+    <string name="deleting">Eliminazione…</string>
+    <string name="send_animation">Animazione d\'Invio</string>
+    <string name="send_animation_summary">Seleziona l\'animazione mostrata all\'invio di un messaggio</string>
+    <string name="receive_animation">Animazione di Ricezione</string>
+    <string name="receive_animation_summary">Seleziona l\'animazione mostrata all\'arrivo di un messaggio</string>
+    <string name="animation_speed">Velocità di Animazione (in millisecondi)</string>
+    <string name="sending">Invio…</string>
+    <string name="new_messages">Nuovi Messaggi</string>
+    <string name="hide_message_counter">Nascondi Contatore Messaggi</string>
+    <string name="pref_messages_to_save">Messaggi da Salvare</string>
+    <string name="delete_old">Elimina Vecchi Messaggi</string>
+    <string name="sms_limit">Limite SMS</string>
+    <string name="sms_limit_summary">Numero dei messaggi da conservare</string>
+    <string name="mms_limit">Limite MMS</string>
+    <string name="mms_limit_summary">Numero degli MMS da conservare</string>
+    <string name="cancel">Annulla</string>
+    <string name="conversation_settings">Impostazioni Lista Conversazioni</string>
+    <string name="name_text_color">Colore Testo Nomi</string>
+    <string name="name_text_color_summary">Scegli un colore da impostare per il testo dei nomi dei contatti</string>
+    <string name="quick_text">Notifica Messaggio Rapido</string>
+    <string name="quick_text_summary">Crea una notifica permanente ce ti permette di scrivere un messaggio senza lasciare l\'app in cui ti trovi</string>
+    <string name="quick_text_notification">Messaggio Rapido</string>
+    <string name="quick_text_notification_summary">Premi per comporre un messaggio rapido</string>
+    <string name="background_service">Esegui come servizio in background</string>
+    <string name="background_service_summary">Sperimentale: Aiuterà ad incrementare il tempo d\'avvio, non incide sulla durata della batteria</string>
+    <string name="background_service_dialog">Per favore seleziona l\'opzione \"Sovrascrivi Applicazione di Sistema\" se desideri che questa funzione agisca correttamente. Se incorri in un arresto anomalo dopo l\'attivazione, disinstalla e reinstalla quest\'app.</string>
+    <string name="title_text_color">Colore Testo Scuro</string>
+    <string name="caching">Riponi i Dati nella cache (Potrebbe richiedere del tempo a seconda della quantità di messaggi salvati)</string>
+    <string name="custom_theme_prefs">Impostazioni Personalizzate Tema</string>
+    <string name="ct_title_bar_color">Colore Barra del Titolo</string>
+    <string name="ct_title_bar_text_color">Colore Testo Barra del Titolo</string>
+    <string name="ct_message_list_background">Sfondo Lista Messaggi</string>
+    <string name="ct_sendbar_background">Sfondo Barra d\'Inserimento</string>
+    <string name="ct_sent_message_background">Sfondo Messaggio Inviato</string>
+    <string name="ct_received_message_background">Sfondo Messaggio Ricevuto</string>
+    <string name="ct_sent_message_text_color">Colore Testo Messaggio Inviato</string>
+    <string name="ct_received_message_text_color">Colore Testo Messaggio Ricevuto</string>
+    <string name="ct_conversation_list_background">Sfondo Lista Conversazioni</string>
+    <string name="ct_name_text_color">Colore Testo Nomi</string>
+    <string name="ct_summary_text_color">Colore Testo Anteprima Messaggi</string>
+    <string name="ct_message_divider">Abilita Divisore Messaggi</string>
+    <string name="ct_message_divider_color">Colore Divisore</string>
+    <string name="ct_send_button_color">Colore Pulsante d\'Invio</string>
+    <string name="ct_contact_image_color">Immagine Contatto Scura</string>
+    <string name="ct_counter_text_color">Colore Contatore Messaggi</string>
+    <string name="ct_custom_font">Font Personalizzato</string>
+    <string name="ct_theme_name">Nome del Tema</string>
+    <string name="ct_contact_name">Nome Contatto</string>
+    <string name="ct_sent_message">Testo del messaggio inviato.</string>
+    <string name="ct_sent_date">Data</string>
+    <string name="ct_received_message">Testo del messaggio ricevuto.</string>
+    <string name="ct_received_date">Data</string>
+    <string name="menu_edit_theme">Modifica Tema</string>
+    <string name="menu_delete_theme">Elimina Tema</string>
+    <string name="menu_get_more_themes">Ottieni Più Temi</string>
+    <string name="menu_instructions">Aiuto</string>
+    <string name="menu_add_theme">Aggiungi Tema</string>
+    <string name="theme_chooser_prefs">Scegli Tema</string>
+    <string name="select_theme">Applica Tema</string>
+    <string name="save_theme">Salva Tema</string>
+    <string name="toast_theme_set">Tema Applicato</string>
+    <string name="toast_theme_saved">Tema Salvato</string>
+    <string name="cannot_delete">Impossibile eliminare i temi predefiniti</string>
+    <string name="popup_help1">Ottieni l\'app necessaria qui:</string>
+    <string name="popup_link"><a href="market://details?id=com.klinker.android.messaging_theme">Play Store</a></string>
+    <string name="popup_help2">- Hai 2 opzioni:</string>
+    <string name="popup_help3">1) Seleziona un tema predefinito (puoi modificarlo andando in Menù -> Modifica Tema)</string>
+    <string name="popup_help4">2) Seleziona Menù -> Aggiungi Tema e crea un nuovo tema modificandone i valori</string>
+    <string name="popup_help5">- L\'opzione \"Elimina Tema\", eliminerà il tema corrente (se esso non è un tema predefinito)</string>
+    <string name="popup_help6">- Per ottenere più temi, vai in Menù -> Ottieni Più Temi</string>
+    <string name="popup_help7">- Per impostare un nuovo font (tipo di carattere) vai in Menù -> Font Personalizzato</string>
+    <string name="popup_help8">Nota Bene: se selezioni un tema diverso dai primi tre (Chiaro, Scuro, Nero Pece), essi ignoreranno qualsiasi altra impostazione da te modificata.</string>
+    <string name="popup_help9">Gli utenti \"Pro\" potranno applicare e utilizzare qualsiasi tema scaricato, ma per aggiungere e modificare un tema devi scaricare \"Theme Engine\"</string>
+    <string name="custom_font">Utilizza Font Personalizzato</string>
+    <string name="custom_font_summary">Seleziona un font personalizzato da mostrare nell\'app</string>
+    <string name="backup_settings">Impostazioni Backup</string>
+    <string name="backup">Salva tutte le impostazioni</string>
+    <string name="restore">Ripristina tutte le impostazioni salvate</string>
+    <string name="backup_success">Backup Effettuato</string>
+    <string name="restore_success">Ripristino Effettuato</string>
+    <string name="default_font">Font Predefinito</string>
+    <string name="default_font_summary">Font predefinito di sistema</string>
+    <string name="font_set">Font Salvato</string>
+    <string name="find_fonts">Ricerca Font in Corso…</string>
+    <string name="theme_support_title">Sliding Messaging Theme Engine</string>
+    <string name="theme_support">Sliding Messaging ora supporta temi completamente personalizzabili!\n\nFunzionalità:\n - 16 elementi completamente personalizzabili\n - Seleziona il colore che preferisci o scegli i 3 predefiniti\n - Modifica elementi precedentemente non personalizzabili\n - Condividi e ottieni nuovi temi online\n - Seleziona un font personalizzato dalla memoria\n\nPer più informazioni vai a Impostazioni -> Impostazioni Personalizzate Tema -> Menù -> Aiuto</string>
+    <string name="get_it_now">Ottienilo Ora!</string>
+    <string name="remind_me_later">Ricordamelo la Prossima Volta</string>
+    <string name="dont_bother">Non Annoiarmi di Nuovo</string>
+    <string name="changelog_title">Change Log:</string>
+    <string name="changelog_disclaimers">Ti piace Sliding Messaging? Ci piacerebbe se ci dessi un voto! 5 stelle riscalderebbero i nostri cuori :)\n
+        http://goo.gl/zH4eBo \n\n
+
+        Promemoria:\n\n
+
+        - Se riscontri problemi con messaggi non salvati o hai disabilitato tutte le altre applicazioni di gestione messaggi eccetto Sliding Messaging, assicurati d\'aver selezionato l\'opzione \"Sovrascrivi Applicazione di Sistema\" in Impostazioni Avanzate.\n\n
+        - Per favore prima di dare una recensione affrettata dai un\'occhiata alla nuova sezione \"Suggerimenti dello Sviluppatore\" per problemi relativi alla velocità e agli MMS o inviaci una email di protesta. Dovremmo essere capaci di risolvere i tuoi problemi.\n</string>
+    <string name="led">Luce LED per Notifiche</string>
+    <string name="default_theme_prefs">Impostazioni Tema Predefinito</string>
+    <string name="breath">Animazione Lampeggiante Notifiche</string>
+    <string name="breath_summary">Farà lampeggiare l\'icona di notifica nella barra di stato. Valido solo per l\'icona predefinita SMS</string>
+    <string name="go_sms_title">Go SMS Installato</string>
+    <string name="go_sms_body">Sliding Messaging ha notato che Go SMS è installato. Per favore nota che Go SMS blocca le notifiche di altre app di messaggistica, ciò significa che non riceverai notifiche da quest\'app. Puoi risolvere il problema andando in Impostazioni Go SMS -> Impostazioni Avanzate -> Impostazioni di Notifica e deseleziona \"Disabilita altre notifiche\".</string>
+    <string name="text_alignment">Allineamento Testo</string>
+    <string name="text_alignment_summary">Si raccomanda di disabilitare anche immagini contatti o si potrebbero avere errori nella interfaccia, a meno che tu non utilizzi Android 4.2+</string>
+    <string name="ct_draft_text_color">Colore Testo Digitato</string>
+    <string name="view">Apri</string>
+    <string name="replace">Sostituisci</string>
+    <string name="remove">Rimuovi</string>
+    <string name="menu_attach">Allega</string>
+    <string name="select_picture">Seleziona Immagine da Inviare</string>
+    <string name="select_video">Seleziona Video da Inviare</string>
+    <string name="select_audio">Seleziona Audio da Inviare</string>
+    <string name="group_message">Messaggi di Gruppo</string>
+    <string name="group_message_summary">Convertirà in automatico i messaggi per più destinatari in MMS di gruppo. Funziona meglio con Android 4.2+</string>
+    <string name="mms">MMS</string>
+    <string name="mms_settings">Impostazioni MMS</string>
+    <string name="send_as_mms">Invia Lunghi Messaggi Come MMS</string>
+    <string name="send_as_mms_summary">Invierà messaggi più lunghi del numero desiderato di SMS come un singolo MMS</string>
+    <string name="mms_after">Invia MMS Dopo</string>
+    <string name="mms_after_summary">Numero di SMS richiesto per inviare, invece, un MMS</string>
+    <string name="error_state">Campo vuoto</string>
+    <string name="error_state_text">Il campo dei thread e dei destinatari è vuoto.</string>
+    <string name="apn_settings">Impostazioni APN</string>
+    <string name="mmsc_url">URL MMSC</string>
+    <string name="mms_proxy">Proxy MMS</string>
+    <string name="mms_port">Porta MMS</string>
+    <string name="apn_error_title">Errore APN</string>
+    <string name="apn_error_button">Vai alle Impostazioni MMS</string>
+    <string name="apn_error_1">Forse c\'è un errore nella tua configurazione APN, potresti non averli ancora configurati, sono per qualche ragione incompatibili, oppure sei connesso in WiFi e non hai selezionato la soluzione WiFi nelle impostazioni MMS.
+        \n\nSe pensi che sia tutto apposto un riavvio del cellulare non guasterebbe ;) Se pensi che ci sia qualcosa che non va ricontrolla le impostazioni MMS.\n\nA causa di limitazioni introdotte da Google in Android 4.0 (Ice Cream Sandwich), </string>
+	<string name="apn_error_2">Google ha limitato l\'accesso di Sliding Messaging agli APN predefiniti per \"ragioni di sicurezza\". Purtroppo, dovrai inserire i valori manualmente, se </string>
+	<string name="apn_error_3">desideri inviare MMS attraverso Sliding Messaging. Puoi trovare le tue impostazioni APN andando in Impostazioni di sistema -> Wireless e Reti -> </string>
+	<string name="apn_error_4">Altro… -> Reti mobili -> Nomi punti di accesso e selezionando gli APN che desideri utilizzare, copia i valori \"MMSC\", \"Proxy MMS\" e \"Porta MMS\"</string>
+	<string name="apn_error_5">nelle impostazioni MMS di Sliding Messaging a cui puoi accedere attraverso il menù impostazioni principali o tramite il pulsante sotto. Puoi cercare i tuoi APN anche tramite una ricerca su Google inserendo informazioni apn e il nome del tuo operatore.\n\n</string>
+	<string name="apn_error_6">Finché non inserirai i valori corretti, purtroppo, non sarai in grado di inviare MMS correttamente.</string>
+    <string name="secure_dashclock">Notifiche Dashclock Sicure</string>
+    <string name="secure_dashclock_summary">Nascondi il nome mittente nelle notifiche Dashclock</string>
+    <string name="custom_vibrate_pattern">Sequenza di Vibrazione Personalizzata</string>
+    <string name="custom_vibrate_pattern_summary">Utilizza la sequenza personalizzata</string>
+    <string name="set_custom_vibrate_pattern">Imposta Sequenza</string>
+    <string name="set_custom_vibrate_pattern_summary">Ogni numero deve essere seguito da una virgola e uno spazio. Esempio: \"0, 400, 100, 400\". La sequenza si alterna tra vibrazioni OFF e vibrazioni ON per il tempo specificato in millisecondi</string>
+    <string name="error">Errore</string>
+    <string name="pro_dialog">Versione Completa</string>
+    <string name="go_pro1">Sliding Messaging è anche in versione completa (Pro) con tantissime altre funzionalità! Tra cui:\n</string>
+    <string name="go_pro2">- Invio e visualizzazione di MMS e Messaggi di gruppo\n- Funzione di condivisione di link e altri contenuti\n- 6 temi addizionali\n</string>
+    <string name="go_pro3">- Scelta di uno sfondo personalizzato per la lista messaggi e conversazioni\n- Opzioni di modifica del colore dei testi\n- Animazioni personalizzate\n- E mille altre!\n\n</string>
+    <string name="go_pro4">Gli utenti \"Pro\" avranno anche aggiornamenti più frequenti e accesso a tutte le ultime funzionalità.</string>
+    <string name="mms_disclaimer">Nota bene:</string>
+    <string name="mms_disclaimer_summary">Se riscontri problemi nell\'invio di MMS, probabilmente è perché l\'APN che hai inserito non è corretto o non ancora compatibile o stai utilizzando il WiFi che potrebbe causare problemi di connessione.</string>
+    <string name="mms_report">Segnala APN</string>
+    <string name="mms_report_summary">Per favore inviami una email a: jklinker1@gmail.com con i tuoi APN funzionanti e il nome del tuo operatore in modo che possa aggiungerli all\'app</string>
+    <string name="apn_username_password">Nome Utente e Password Personalizzati</string>
+    <string name="apn_username_password_summary">Alcuni operatori utilizzano una richiesta MMS protetta da nome utente e password, se è il tuo caso, imposta questi valori</string>
+    <string name="apn_username">Nome Utente</string>
+    <string name="apn_username_summary">Nome utente APN. Potrebbe essere anche nullo</string>
+    <string name="apn_password">Password</string>
+    <string name="apn_password_summary">Password APN. Potrebbe essere anche nulla</string>
+    <string name="get_apn_help">Ottieni Aiuto per gli APN</string>
+    <string name="confirmed_apns">APN Funzionanti:</string>
+    <string name="experimental_apns">APN Sperimentali:</string>
+    <string name="experimental_apns_summary">Potrebbe o non potrebbe funzionare e potrebbe volere delle modifiche manuali</string>
+    <string name="preset_apns">APN Predefiniti (Già Testati)</string>
+    <string name="preset_apns_summary">Seleziona il tuo operatore dalla lista APN per renderti la vita più semplice</string>
+    <string name="ct_emoji_button_color">Colore Pulsante Emoji</string>
+    <string name="ct_conversation_divider_color">Colore Divisore Conversazioni</string>
+    <string name="run_as">Stile dei Messaggi</string>
+    <string name="messages">Messaggi</string>
+    <string name="message">Messaggio</string>
+    <string name="conversation_list">Lista Conversazioni</string>
+    <string name="conversations">Conversazioni</string>
+    <string name="delete">Elimina</string>
+    <string name="all">Tutto</string>
+    <string name="new_conversation">Nuova Conversazione</string>
+    <string name="new_conversations">Nuove Conversazioni</string>
+    <string name="display_contact_cards">Visualizza Barra delle Attività</string>
+    <string name="display_contact_cards_summary">Abilita o disabilita informazioni sopra ogni conversazione</string>
+    <string name="display_call_button">Visualizza Pulsante Chiamata</string>
+    <string name="display_call_button_summary">Abilita o disabilita un pulsante di chiamata sopra ogni conversazione</string>
+    <string name="display_contact_names">Visualizza Nome Contatti</string>
+    <string name="unread">Non Letto</string>
+    <string name="open_to_first">Apri la Prima Conversazione</string>
+    <string name="simple_cards">Visualizza Info Semplici</string>
+    <string name="simple_cards_summary">Visualizza informazioni senza ombra e può aiutare a migliorare le prestazioni</string>
+    <string name="conversation_gesture">Scorri per Conversazioni</string>
+    <string name="conversation_gesture_summary">Scorri velocemente dal lato sinistro per aprire la lista conversazioni</string>
+    <string name="new_message_gesture">Scorri per Nuovo Messaggio</string>
+    <string name="new_message_gesture_summary">Scorri velocemente dal lato destro per comporre un nuovo messaggio</string>
+    <string name="gesture_distance">Distanza Gesto</string>
+    <string name="gesture_distance_summary">Distanza dal lato dello schermo per attivare la funzione di scorrimento (in % allo schermo)</string>
+    <string name="gesture_summary">Istruzioni:</string>
+    <string name="gesture_summary_description">Per attivare la funzione di scorrimento scorri velocemente con il dito dal lato, verso il centro. Per muoverti velocemente tra le conversazioni, scorri dal centro verso i lati.</string>
+    <string name="gesture_length">Lunghezza Gesto</string>
+    <string name="gesture_length_summary">Lunghezza che devi percorrere con il dito per attivare la funzione di scorrimento</string>
+    <string name="gesture_speed">Velocità Gesto</string>
+    <string name="gesture_speed_summary">Velocità con cui muovere il dito per attivare la funzione di scorrimento</string>
+    <string name="gesture_settings">Impostazioni Gesti</string>
+    <string name="auto_download_mms">Scarica Automaticamente MMS</string>
+    <string name="led_on_time">Tempo di Accensione LED</string>
+    <string name="led_off_time">Tempo di Spegnimento LED</string>
+    <string name="repeating_notification">Tempo di Ripetizione Notifica</string>
+    <string name="repeating_notification_summary">Seleziona quanto spesso desideri che ti sia ricordato un nuovo messaggio</string>
+    <string name="wifi_mms_fix">MMS con WiFi</string>
+    <string name="wifi_mms_fix_summary">Soluzione: Disabiliterà temporaneamente il WiFi durante l\'invio di un MMS e,una volta completato, cercherà di riattivarlo.</string>
+    <string name="hide_contact_number">Nascondi il Numero di Telefono</string>
+    <string name="hide_contact_number_summary">Nascondi il numero di telefono di ogni contatto nella lista conversazioni</string>
+    <string name="view_conversation">Mostra Conversazione</string>
+    <string name="popup_settings">Impostazioni Popup</string>
+    <string name="use_old_popup">Usa Popup Vecchio Stile</string>
+    <string name="widget_settings">Impostazioni Widget</string>
+    <string name="widget_dark_theme">Usa Lista Contatti Scura</string>
+    <string name="widget_background">Abilità Sfondo Widget</string>
+    <string name="widget_background_summary">Mostra un sfondo per il widget</string>
+    <string name="show_keyboard_popup">Mostra Tastiera all\'avvio</string>
+    <string name="show_keyboard_popup_summary">Mostra automaticamente la tastiera quando il popup è sullo schermo</string>
+    <string name="batch">Multipla</string>
+    <string name="batch_delete">Eliminazione Multipla</string>
+    <string name="add_new">Aggiungi Nuovo Modello Rapido</string>
+    <string name="quick_templates">Gestisci Modelli Rapidi</string>
+    <string name="delete_template">Vuoi eliminare il modello?</string>
+    <string name="insert_template">Inserisci Modello</string>
+    <string name="add_templates">Aggiungi nuovi modelli rapidi in Impostazioni -> Gestisci Modelli Rapidi</string>
+    <string name="send_with_return">Invia Messaggio con Tasto A Capo</string>
+    <string name="send_with_return_summary">Con il tasto a capo, anziché di un ritorno a capo, si avrà l\'invio di un messaggio</string>
+    <string name="halo_popup">Popup multitasking</string>
+    <string name="halo_popup_summary">Utilizza solo se hai una ROM con funzione multitasking (Halo). Attiverà l\'app in funzione multitasking invece che il semplice popup</string>
+    <string name="individual_notification_settings">Impostazioni Notifiche Individuali</string>
+    <string name="individual_notification_settings_summary">Personalizza alcune impostazioni per un singolo contatto</string>
+    <string name="add_new_individual">Aggiungi Contatto</string>
+    <string name="find_contact">Scegli Contatto</string>
+    <string name="experimental">Sperimentale</string>
+    <string name="delete_contact_settings">Vuoi eliminare impostazione individuale?</string>
+    <string name="temp_led_color_summary">Scegli un colore per il LED di notifica. Attenzione il tuo LED potrebbe non supportare tutti i colori</string>
+    <string name="tiny_date">Data Piccola</string>
+    <string name="tiny_date_summary">Mostra la data con un font piccolo anziché un po\' più piccola della dimensione del testo messaggi</string>
+    <string name="contact_name_or_number">Nome o Numero Contatto</string>
+    <string name="save_blacklist">Salva Contatto nella Blacklist</string>
+    <string name="black_list_1">Nascondi le notifiche ma salva i messaggi di questo contatto</string>
+    <string name="black_list_2">Nascondi le notifiche e non salvare i messaggi di questo contatto</string>
+    <string name="delete_blacklist_contact">Vuoi eliminare il contatto dalla blacklist?</string>
+    <string name="blacklist_settings">Impostazioni Blacklist</string>
+    <string name="save_to_external">Salva nella Scheda SD</string>
+    <string name="save_to_external_summary">Salva alcuni dati come impostazioni notifiche individuali e impostazioni blacklist nella Scheda SD anziché nella memoria interna</string>
+    <string name="split_sms">Dividi Messaggi SMS</string>
+    <string name="split_sms_summary">Dividi gli SMS troppo lunghi in più messaggi. Utilizzalo se hai problemi con il tuo operatore</string>
+    <string name="top_actionbar">Barra Attività in Alto</string>
+    <string name="top_actionbar_summary">Muovi la barra delle attività in alto nello stile Card</string>
+    <string name="attach_more">Allega Altro</string>
+    <string name="remove_attachment">Vuoi eliminare l\'allegato?</string>
+    <string name="show_original_timestamp">Mostra Orario Originale</string>
+	<string name="show_original_timestamp_summary">Mostra l\'orario originale dell\'invio del messaggio</string>
+    <string name="people">Persone</string>
+    <string name="things">Oggetti</string>
+    <string name="nature">Natura</string>
+    <string name="places">Luoghi</string>
+    <string name="symbols">Simboli</string>
+    <string name="limit_number_conversations">Limita Conversazioni Inizialmente Caricate</string>
+    <string name="limit_number_conversations_summary">Carica 15 conversazioni all\'avvio invece che tutte per diminuire il tempo d\'avvio</string>
+    <string name="limit_attachment_size">Limita Dimensione Allegato</string>
+    <string name="limit_attachment_size_summary">Comprimi immagini per inviarle in modo più semplice attraverso il tuo operatore. Se disattivato le immagini verranno inviate ad una risoluzione più alta. Attenzione, molti operatori, però, non supportano immagini ad alta risoluzione</string>
+    <string name="send_with_stock">Invia Tramite App Predefinita</string>
+    <string name="send_with_stock_summary">Invia gli MMS tramite l\'app predefinita di sistema, utile se non riesci a farlo con Sliding Messaging</string>
+    <string name="ct_unread_conversation_color">Colore Conversazioni Non Lette</string>
+    <string name="copy_sender_address">Copia Numero Contatto</string>
+    <string name="delete_conversation_message">Vuoi eliminare la conversazione?</string>
+    <string name="sliding_notification_settings">Impostazioni Notifiche</string>
+    <string name="theme_settings">Impostazioni Tema</string>
+    <string name="notification_image">Icona di Notifica</string>
+    <string name="test_notification">Testa Notifica</string>
+    <string name="test_notification_summary">Spegni lo schermo per avviare il test di notifica.</string>
+	<string name="next">Successivo</string>
+    <string name="prev">Precedente</string>
+    <string name="finish">Finito</string>
+    <string name="review">Rivedi</string>
+    <string name="notes">Note</string>
+    <string name="unlock">Sblocca</string>
+    <string name="close">Chiudi</string>
+    <string name="passwordTitle">Inserisci Password:</string>
+    <string name="popup_theme">Impostazioni Personalizzate Tema Popup</string>
+    <string name="popup_theme_summary">Applicabile solo al nuovo popup</string>
+    <string name="cp_theme_name">Nome Tema Popup</string>
+    <string name="cp_messageBackground">Colore Sfondo Messaggio</string>
+    <string name="cp_sendBarBackground">Sfondo Barra d\'Inserimento</string>
+    <string name="cp_dividerColor">Colore Divisore</string>
+    <string name="cp_nameTextColor">Colore Testo Nome</string>
+    <string name="cp_numberTextColor">Colore Testo Numero</string>
+    <string name="cp_dateTextColor">Colore Data</string>
+    <string name="cp_messageTextColor">Colore Corpo Messaggio</string>
+    <string name="cp_draftTextColor">Colore Testo Digitato</string>
+    <string name="cp_buttonColor">Colore Pulsanti</string>
+    <string name="cp_emojiButtonColor">Colore Pulsante Emoji</string>
+    <string name="security_settings">Impostazioni di Sicurezza</string>
+    <string name="security">Protezione con Password</string>
+    <string name="security_summary">Seleziona per abilitare sicurezza all\'avvio.</string>
+    <string name="timeout_settings">Tempo Concesso</string>
+    <string name="timeout_settings_summary">Tempo concesso per inserire la password</string>
+    <string name="set_password">Imposta Password</string>
+    <string name="auto_unlock">Sblocco Automatico</string>
+    <string name="auto_unlock_summary">Prova a sbloccare automaticamente l\'app dopo che è stata inserita la password, senza conferma</string>
+    <string name="loading_conversations">Caricamento Conversazioni…</string>
+    <string name="dark_background">Utilizza Sfondo Nero</string>
+    <string name="widget_done">Fatto</string>
+    <string name="done">Fatto</string>
+    <string name="discard">Annulla</string>
+    <string name="widget_title_dark_theme">Usa Barra Titolo Scura</string>
+    <string name="type">Digita:</string>
+    <string name="from">Da:</string>
+    <string name="to">A:</string>
+    <string name="sent">Inviato:</string>
+    <string name="received">Ricevuto:</string>
+    <string name="status">Stato:</string>
+    <string name="message_details">Dettagli Messaggio</string>
+    <string name="twitter_link">Segui l\'app su Twitter per aggiornamenti e funzionalità future! \nhttp://www.twitter.com/SlidingSMS</string>
+    <string name="date_picker">Imposta Data</string>
+    <string name="time_picker">Imposta Orario</string>
+    <string name="scheduled_sms">SMS Pianificato</string>
+    <string name="repetition">Ripetizione:</string>
+    <string name="add_new_sms">Nuovo SMS Pianificato</string>
+    <string name="delete_scheduled_sms">Vuoi eliminare SMS pianificato?</string>
+    <string name="backup_settings_title">Vuoi creare un nuovo backup?</string>
+    <string name="backup_settings_summary">Questo sovrascriverà i backup precedenti.</string>
+    <string name="receive_through_stock">Ricevi Tramite App Predefinita</string>
+    <string name="receive_through_stock_summary">Disabilita il salvataggio degli MMS su Sliding Messaging, abilitandolo invece sull\'app predefinita anche se hai selezionato l\'opzione \"Sovrascrivi Applicazione di Sistema\".</string>
+    <string name="draft_found">Bozza trovata</string>
+    <string name="apply_draft">Applico?</string>
+    <string name="auto_insert_draft">Inserimento Automatico Bozza</string>
+    <string name="auto_insert_draft_summary">Inserirà automaticamente la bozza, se presente, nel campo di testo. Se disabilitata farà apparire un popup dove scegliere se inserire o meno la bozza</string>
+    <string name="message_sounds">Suoni Messaggio</string>
+    <string name="message_sounds_summary">Attiverà dei suoni all\'invio di un messaggio</string>
+    <string name="ct_light_action_bar">Barra Attività Chiara</string>
+    <string name="cache_conversations">Cache Conversazioni</string>
+    <string name="cache_conversations_summary">Precarica conversazioni nella cache in background, potrebbe incidere sulla durata della batteria. Questa funzione è ancora sperimentale. AGGIORNAMENTO: Disabilitata, per ora, causa troppi problemi</string>
+    <string name="num_cache_conversations">Numero di conversazioni nella Cache</string>
+    <string name="num_cache_conversations_summary">Seleziona il numero di conversazioni da salvare nella cache per caricarle in modo più veloce ad ogni avvio</string>
+    <string name="changelog">Change Log</string>
+    <string name="tweet_us">Twittaci!</string>
+    <string name="speed_improvement_settings">Backup Messaggi</string>
+    <string name="use_backup">Backup/Eliminazione Messaggi</string>
+    <string name="use_backup_summary">LEGGI ATTENTAMENTE: Attivando questa opzione si aumenterà di molto la velocità di Sliding Messaging, inoltre tutti i tuoi messaggi verranno salvati su un servizio esterno di backup in modo tale da poterli eliminare dall\'app. Non sarai, però, in grado di vederli ne su Sliding Messaging, ne su altre applicazioni di messaggistica</string>
+    <string name="sd_backup">Backup su Scheda SD</string>
+    <string name="drive_backup">Backup su Google Drive</string>
+    <string name="run_backup">Esegui Ora Backup/Eliminazione Messaggi</string>
+    <string name="schedule_backup">Backup/Eliminazione Pianificato</string>
+    <string name="schedule_backup_summary">ATTENZIONE: Potrebbe fare il backup e poi eliminare messaggi non letti se eseguito prima che questi siano letti.</string>
+    <string name="only_read">Elimina solo messaggi già letti</string>
+    <string name="dont_delete_previous">Non eliminare giorni precedenti</string>
+    <string name="dont_delete_previous_summary">Non eliminare gli ultimi giorni in modo tale da conservarli dopo aver effettuato il backup/eliminazione</string>
+    <string name="delete_after_backup">Elimina messaggi dopo backup</string>
+    <string name="delete_after_backup_summary">RACCOMANDATO: Elimina tutti i messaggi dopo che il backup sarà completo per incrementare la velocità e fluidità di Sliding Messaging.\nATTENZIONE: Elimina anche gli MMS, di cui non è possibile fare un backup.</string>
+    <string name="enable_drafts">Abilita Bozze</string>
+    <string name="in_app_notifications">Notifiche In-App</string>
+    <string name="in_app_notifications_summary">Mostra una piccola barra di notifica in alto, all\' interno dell\'app quando arriva un nuovo messaggio</string>
+    <string name="mark_all_read">Segna Tutti Come Letti</string>
+    <string name="show_number_widget">Mostra Numero di Telefono</string>
+    <string name="need_mms_setup">Setup Iniziale MMS:</string>
+    <string name="mms_setup_message">Per favore seleziona un operatore dal menù o configura manualmente gli APN.</string>
+    <string name="mms_manual_setup">Setup Manuale</string>
+    <string name="holo_style_smiles">Smile Stile Holo</string>
+    <string name="limit_conversations_start">Limita Conversazioni</string>
+    <string name="limit_conversations_start_summary">Carica solamente 10 conversazioni all\'avvio per motivi di velocità</string>
+    <string name="search">Cerca</string>
+    <string name="message_body">Corpo del Messaggio</string>
+    <string name="pin_conversation_list">Mantieni Lista Conversazioni</string>
+    <string name="pin_conversation_list_summary">Scegli quando deve essere mostrata la lista conversazioni sulla schermata dei messaggi</string>
+    <string name="load_all_messages">Carica Tutti i Messaggi</string>
+    <string name="split_counter">Mostra Conto dei Messaggi</string>
+    <string name="split_counter_summary">Aggiungi un contatore agli SMS divisi per ordinarli correttamente. Esempio: (1/3)</string>
+    <string name="full_app_popup">Usa SlideOver come Popup</string>
+    <string name="full_app_popup_summary">Sostituisci il normale popup con una versione completa di quest\'app mostrata sotto forma di finestra ridotta ma eseguibile in multitasking</string>
+    <string name="slideover_settings">Impostazioni SlideOver</string>
+    <string name="slideover_teaser">Altre funzionalità nei prossimi aggiornamenti... ;)</string>
+    <string name="reply_to">Rispondi a</string>
+    <string name="slide_over">SlideOver</string>
+    <string name="enable_slideover">Abilita SlideOver</string>
+    <string name="enable_slideover_summary">Crea una bolla in stile ChatHeads che ti permette di accedere rapidamente all\'app mentre esegui altre app</string>
+    <string name="slideover_side">Posizionamento Orizzontale</string>
+    <string name="slideover_side_summary">Muovi SlideOver a destra o sinistra</string>
+    <string name="slideover_alignment">Posizionamento Verticale</string>
+    <string name="slideover_alignment_summary">Muovi SlideOver sull\'asse verticale</string>
+    <string name="slideover_sliver">Visibilità</string>
+    <string name="slideover_sliver_summary">Scegli quanto dev\'essere visibile SlideOver sullo schermo</string>
+    <string name="slideover_activation">Distanza d\'attivazione</string>
+    <string name="slideover_activation_summary">Distanza da percorrere con il dito prima di attivare SlideOver</string>
+    <string name="slideover_break_point">Dimensione Arco</string>
+    <string name="slideover_break_point_summary">Dimensione dell\'arco con linea continua (azione primaria)</string>
+	<string name="under_development">Nota Bene:</string>
+    <string name="under_development_summary">SlideOver è ancora in fase di sviluppo. Non inviare richieste o suggerimenti.</string>
+    <string name="slideover_secondary_action">Azione Secondaria</string>
+    <string name="slideover_secondary_action_summary">Scegli l\'azione da eseguire all\'attivazione della parte tratteggiata dell\'arco</string>
+    <string name="slideover_haptic_feedback">Abilita Vibrazione</string>
+    <string name="full_app_popup_close">Chiudi Automaticamente SlideOver</string>
+    <string name="full_app_popup_close_summary">Chiudi dopo aver risposto ad un messaggio</string>
+	<string name="slideover_popup_settings">Impostazioni Popup SlideOver</string>
+    <string name="slideover_padding">Dimensioni Popup SlideOver</string>
+    <string name="slideover_padding_summary">Dimensioni della finestra SlideOver (in percentuale). Utile quando la tastiera non è visualizzata propriamente, o se non vuoi che occupi troppo spazio sul tuo schermo</string>
+    <string name="slideover_popup_lockscreen_only">SlideOver Popup Dopo Schermata di Sblocco</string>
+    <string name="slideover_popup_lockscreen_only_summary">Mostra SlideOver solo dopo aver sbloccato il dispositivo e c\'è un nuovo messaggio</string>
+    <string name="slideover_animation_speed">Velocità d\'animazione</string>
+    <string name="show_advanced_settings">Mostra Tutte le Impostazioni</string>
+    <string name="show_advanced_settings_summary">Abilita tutte le impostazioni nascoste</string>
+    <string name="slideover_close">CHIUDI</string>
+    <string name="slideover_clear">PULISCI</string>
+    <string name="slideover_settings_overlay">OPZIONI</string>
+    <string name="override_speed">Abilita Performance Massime</string>
+    <string name="override_speed_summary">Disabilita alcune impostazioni allo scopo di rendere l\'app veloce e reattiva.\nNOTA: Disabilita alcune funzioni, come le immagini dei contatti.</string>
+    <string name="settings_category">Impostazioni Principali</string>
+    <string name="other_category">Altri Strumenti</string>
+    <string name="developer_tips">Suggerimenti dello Sviluppatore</string>
+    <string name="tip_speed_title">Consiglio #1 (Velocità e Rallentamenti):</string>
+    <string name="tip_speed">
+        Con l\'ultimo aggiornamento, abbiamo fatto grandi progressi per creare un\'app priva di rallentamenti ma ovviamente questo è un compito arduo 
+		a causa del suo stile e di ciò che stiamo cercando di ottenere. Caricare tanti messaggi tutti in una volta richiede molta memoria e molte risorse,
+        molte più di ogni altra app di messaggistica. Ecco perché avere molti messaggi la rallenterebbe più di qualsiasi altra app.\n\n
+
+        Secondo il mio parere hai, quindi, 2 opzioni per non creare rallentamenti, entrambe sono compromettenti ma dovresti essere disposto a farlo per un\'app come questa:\n\n
+
+		1) CANCELLA I MESSAGGI! Questo è ciò che stiamo dicendo sin dall\'inizio. TI AIUTERÀ :) questo è il mio primo suggerimento.\n\n
+
+        Capisco che molte persone potrebbero non volerlo fare perché amano tenere i propri messaggi personali ma ci sono app di backup proprio a questo scopo, utilizzale.
+        Eliminare i messaggi fa la differenza se ne conservi tantissimi. Comunque l\'app funziona perfettamente, zero rallentamenti sul mio Nexus 4 con circa 2000 messaggi in memoria.
+        Non posso testarne di più ovviamente ma se sei quel tipo di persona che ne conserva 10000 in memoria o un numero spropositato questo potrebbe causare seri effetti negativi sull\'app. Come ho già detto, questo è il mio primo suggerimento per tutti.\n\n
+
+        2) Utilizza l\'opzione \"Abilita Performance Massime\" in Impostazioni Avanzate e utilizza lo stile Card+.\n\n
+
+        Utilizzando questa opzione si ha più che un miglioramento, essa comprende un set di impostazioni che sono le più indicate per far funzionare bene il dispositivo.
+        Bisogna rinunciare ad un po\' di personalizzazioni ma funzionerà tutto perfettamente. Ho solo eliminato alcuni extra, opzioni non necessarie.
+        Questa opzione è compromettente, lo so, ma se non vuoi applicare la prima opzione dovresti provare.\n\n
+
+        Onestamente non voglio più sentire parlare di rallentamenti, vi abbiamo dato gli strumenti per fare in modo che non avvengano.
+		Se hai scelto di non usarli, così sia, ma sono lì e servono a quello scopo :)
+    </string>
+    <string name="tip_incoming_mms_title">Consiglio #2 (Ricezione MMS):</string>
+    <string name="tip_incoming_mms">
+        Questo è più che un suggerimento, sono stanco delle persone che ci dicono di non riuscire a ricevere MMS.
+        L\'invio è tutt\'un altra storia ma il download funziona su tutti i telefoni, ogni volta, se sai come impostarlo.\n\n
+
+        L\'ho spiegato così tante volte via email che credo sia arrivato il momento di metterlo qui per tutti quanti.\n\n
+
+        Quindi ecco come dovresti fare per ricevere MMS:\n\n
+
+        1) Prova l\'opzione \"Ricevi Tramite App Predefinita\".\n\n
+
+        Questa opzione è fatta in modo che non importi quale altra hai impostato, gli MMS verranno scaricati tramite il servizio predefinito di sistema.
+        Non importa se hai attivato \"Sovrascrivi Applicazione di Sistema\". In modo tale che tutti i download vengano gestiti dall\'applicazione predefinita e che tu non debba preoccuparti degli APN,
+		o del fatto che non si possano mandare MMS in WiFi.\n\n
+
+        2) Nell\'applicazione predefinita di sistema attiva il download automatico.\n\n
+
+        In questo modo l\'applicazione predefinita scaricherà automaticamente gli MMS non appena ricevuti dall\'operatore.
+		Così sarà più veloce che premere il pulsante di download e non ci sarà alcun lato negativo.\n\n
+
+        3) Disabilita l\'opzione di auto-download in Sliding Messaging\n\n
+
+        In modo da evitare doppie notifiche.\n\n
+
+        Quindi questo è il miglior modo di gestire la ricezione degli MMS e funzionerà perfettamente ogni volta, proprio come farebbe con l\'app predefinita.
+        Inoltre elimina anche le notifiche di Sliding Messaging, quindi nessun problema.\n\n
+
+        FUNZIONERÀ SEMPRE COME DOVREBBE, SEMPRE\n\n
+
+        Niente più problemi con gli MMS dunque! :)
+    </string>
+    <string name="tip_slideover_title">Consiglio #3 (Funzionalità SlideOver)</string>
+    <string name="tip_slideover">
+        Riassunto delle funzionalità (attenzione, alcune funzionalità sono accessibili soltanto attivando \"Mostra Tutte le Impostazioni\" in Impostazioni Avanzate):\n\n
+
+        1) Il posizionamento orizzontale determina se la bolla deve stare a destra o a sinistra dello schermo\n
+        2) Il posizionamento verticale, invece, quanto la bolla è distante dall\'alto di esso\n
+        3) La visibilità indica l\'ammontare di bolla visibile, più basso sarà, più piccola risulterà la bolla che noterai sul lato dello schermo\n
+        4) La distanza d\'attivazione è la percentuale di schermo che bisogna percorrere per attivare il popup\n
+        5) La dimensione dell\'arco influisce sulla grandezza della linea tratteggiata nella metà bassa dell\'arco di SlideOver\n
+        6) L\'azione secondaria ti permette di scegliere quale funzione attivare una volta oltrepassata la linea tratteggiata\n
+        7) Abilita Vibrazione, questo si descrive da solo, abilita o disabilita la vibrazione\n
+        8) La funzione di chiusura automatica permetterà a SlideOver di chiudersi autonomamente una volta risposto, è davvero utile per uscire rapidamente e tornare a ciò che si stava facendo\n
+        9) Modificando le dimensioni del popup SlideOver si modificano i margini della finestra di risposta, rimpicciolendola o ingrandendola. Attenzione, però, a non renderla troppo piccola\n\n\n
+
+
+        Ora, le funzionalità principali di SlideOver:\n\n
+
+        1) Esso è il nuovo popup di cui tutti possono trarre vantaggio. Potrete vedere le vostre conversazioni per intero quando arriverà un nuovo messaggio, con il supporto MMS ecc. Molto meglio dei vecchi popup\n
+        2) La bolla riprende lo stile di interfaccia \"ChatHeads\", in modo molto minimale e ti permette di accedervi in qualsiasi momento,
+		sia se hai bisogno di leggere un messaggio, che di comporlo.\n
+        3) Ogniqualvolta riceverai un nuovo messaggio puoi vederne velocemente l\'anteprima e, a seconda di quanto andrai lontano con il dito,
+		evidenzierà un diverso messaggio e ti permetterà, quindi, di accedere velocemente alla conversazione desiderata. In questo modo saprai sempre quanti messaggi hai ricevuto
+		e potrai scegliere l\'ordine con cui rispondere\n
+        4) Ci sono 3 pulsanti che si attivano con l\'arco che ti permetteranno di cancellare tutte le notifiche nella bolla,
+		chiudere SlideOver e rimuoverne la bolla o accederne alle impostazioni.
+    </string>
+    <string name="tip_contacts_title">Consiglio #4 (Sincronizzazione Contatti)</string>
+    <string name="tip_contacts">
+        Mi fanno molte domande del tipo \"Perché non riesco a vedere le mie immagini dei contatti?\" o \"Alcuni dei miei contatti non compaiono nell\' app!\"\n\n
+
+        C\'è una ragione molto semplice, le immagini e i contatti utilizzati sono quelli dell\'account Google. Per due motivi 1) è più semplice per noi
+		2) rende le operazioni più veloci riducendo i tempi di caricamento.\n\n
+		Come soluzione ci sono molte app che provvedono all\'aggiunta delle immagini nei contatti, io raccomando:\n\n
+
+        1) Haxsync\n\n
+
+        2) Contact Picture Sync\n\n
+
+        3) Ubersync\n\n
+
+        Tutte e tre funzionano bene e servono allo scopo in modo veloce e semplice :)</string>
+    <string name="slideover_hide_notifications">Nascondi Notifiche Barra di Stato</string>
+    <string name="slideover_hide_notifications_summary">Usa SlideOver per gestire le notifiche, nascondendole dalla barra di stato. ATTENZIONE: Questo disabiliterà le funzionalità LED.</string>
+    <string name="tip_notification_listener_title">Consiglio #5 (Listener di Notifica)</string>
+    <string name="tip_notification_listener">
+        Mi sono state fatte più richieste di avvantaggiarmi delle nuove API introdotte in Android 4.3 che permettono di controllare quando una notifica è arrivata o è stata cancellata e ho colto l\'occasione
+		per segnare i messaggi come letti.\n\n
+
+        Tutti gli utenti che utilizzano Android 4.3 ora potranno usufruire del servizio andando in Impostazioni di Sistema -> Sicurezza e cliccando sull\'opzione \"Accesso alle Notifiche\" (o semplicemente cliccando su questo consiglio).\n\n
+
+        Ora non vi resta che scegliere e abilitare Sliding Messaging dalla lista di app che possono accedere a questo servizio. D\'ora in poi, ogni volta che farai scorrere la notifica verso i bordi (swipe) il tuo messaggio verrà segnato come letto,
+		eliminando il bisogno del pulsante \"Letto\" nelle notifiche!
+    </string>
+
+    <string name="initial_setup">Setup Iniziale:</string>
+    <string name="initial_setup_message">Grazie per aver acquistato Sliding Messaging Pro!\n\n
+
+        Sembra che ci sia molto da fare adesso ma iniziamo, per prima cosa, con le opzioni principali. Dopo sarai in grado di configurare tutto ciò che vorrai dal menù impostazioni.</string>
+    <string name="emojis">Emoji:</string>
+    <string name="unlock_message">Sblocca Messaggio</string>
+    <string name="disable_backgrounds">Disabilita Sfondo Personalizzato</string>
+    <string name="disable_backgrounds_summary">Attiva questa opzione se appare un riquadro bianco attorno alla finestra di SlideOver quando usi sfondi personalizzati.</string>
+    <string name="locked_messages">Messaggi Bloccati nella Conversazione</string>
+    <string name="locked_messages_summary">Ci sono alcuni messaggi bloccati in questa conversazione, vuoi eliminarli?</string>
+    <string name="slideover_summary">Ispirato al sistema ChatHeads di Facebook e ad Halo di Paranoid Android. L\'idea è che l\'applicazione di messaggistica che utilizzi più spesso dovrebbe essere sempre accessibile.</string>
+    <string name="get_help">Ottieni Aiuto!</string>
+    <string name="initial_how_to">Guida Iniziale</string>
+    <string name="contact_us">Contattaci</string>
+    <string name="contact_us_summary">Se non trovi ciò che cercavi in nessuna sezione contattaci via email prima di dare un giudizio negativo. Non fa mai male chiedere aiuto!</string>
+    <string name="google_plus_page">Pagina Google Plus</string>
+    <string name="xda_thread">Thread XDA Developers</string>
+    <string name="emoji_keyboard">Usa Tastiera Emoji</string>
+    <string name="emoji_keyboard_summary">NOTA: Solo con Emoji stile Android.</string>
+    <string name="other_apps">Le Nostre App</string>
+    <string name="trial_expired">Periodo di Prova Scaduto</string>
+    <string name="trial_expired_message">Spero tu abbia gradito la versione di prova!\n\nIl periodo di prova di Sliding Messaging Pro è scaduto e se desideri continuare ad utilizzare l\'app per favore acquista la versione di completa. Potrai continuare ad utilizzare la versione gratuita, ma con funzioni molto limitate.</string>
+    <string name="upgrade_to_pro">Passa a Sliding Messaging Pro!</string>
+    <string name="select_all">Seleziona Tutto</string>
+    <string name="select_none">Deseleziona Tutto</string>
+    <string name="disable">Disabilita, invia tutti i messaggi come SMS</string>
+    <string name="account">Seleziona un Account:</string>
+    <string name="google_voice_settings">Impostazioni Google Voice</string>
+    <string name="google_voice_failed">Hai abilitato la connessione dati o WiFi e hai impostato il tuo account Google? Se non lo hai ancora fatto, procedi online.</string>
+    <string name="google_voice_failed_title">Errore di Invio Messaggio Google Voice</string>
+    <string name="google_voice_sign_up">Registrati!</string>
+    <string name="card_background">Oppure il colore dei messaggi nello stile Card+.</string>
+    <string name="need_emoji_title">Tastiera Emoji:</string>
+    <string name="need_emoji_summary">Ti piace la nostra nuova tastiera emoji? Utilizzala con qualsiasi app grazie al progetto Sliding Emoji Keyboard!</string>
+    <string name="rate_it">Valuta Sliding Messaging!</string>
+    <string name="rate_it_summary">5 stelle ci motiverebbero a lavorare sodo per aggiungere nuove funzionalità!</string>
+    <string name="fn_extension_description">Espandi Floating Notifications abilitando l\'invio di Emoji</string>
+    <string name="alert_in_call">Notifiche Durante Chiamata</string>
+    <string name="alert_in_call_summary">Vibra e squilla durante una chiamata.</string>
+    <string name="hide_date">Nascondi Data</string>
+    <string name="hyper_link_color">Colore Collegamenti</string>
+    <string name="close_halo_after_send">Chiudi Popup Halo Dopo l\'invio di un Messaggio</string>
+    <string name="close_halo_after_send_summary">Non incide sul normale funzionamento di Halo</string>
+    <string name="slideover_color">Colore Bolla Normale</string>
+    <string name="slideover_unread_color">Colore Bolla con Notifica</string>
+    <string name="positioning">Posizionamento SlideOver</string>
+    <string name="slideover_theme_settings">Aspetto SlideOver</string>
+    <string name="slideover_popup_settings">Popup SlideOver</string>
+    <string name="look_style_category">Impostazioni Aspetto e Stile</string>
+    <string name="smilies_category">Impostazioni Smile</string>
+    <string name="emoji_category">Impostazioni Emoji</string>
+    <string name="general_notification_category">Impostazioni Generali Notifiche</string>
+    <string name="notification_look_category">Impostazioni Stile Notifiche</string>
+    <string name="notification_led_category">Impostazioni LED di Notifica</string>
+    <string name="notification_vibrate_category">Impostazioni Vibrazione Notifiche</string>
+    <string name="notification_wake_category">Impostazioni Avviso Notifiche</string>
+    <string name="notification_other_category">Altre Impostazioni di Notifica</string>
+    <string name="slideover_popup_category">Impostazioni Popup SlideOver</string>
+    <string name="card_popup_category">Impostazioni Popup Card</string>
+    <string name="old_popup_category">Impostazioni Popup Vecchio Stile</string>
+    <string name="experimental_popup_category">Impostazioni Sperimentali Halo</string>
+    <string name="general_slideover_category">Impostazioni Generali SlideOver</string>
+    <string name="message_theme_category">Impostazioni Aspetto Messaggi</string>
+    <string name="general_messages_category">Impostazioni Generali Messaggi</string>
+    <string name="message_animation_category">Impostazioni Animazione</string>
+    <string name="conversation_theme_category">Impostazioni Aspetto Conversazioni</string>
+    <string name="general_conversation_category">Impostazioni Generali Conversazioni</string>
+    <string name="mms_through_stock_category">Impostazioni MMS Tramite App di Sistema</string>
+    <string name="general_mms_category">Impostazioni Generali MMS</string>
+    <string name="optimization_category">Impostazioni Ottimizzazione</string>
+    <string name="advanced_theme_category">Impostazioni Avanzate Aspetto e Stile</string>
+    <string name="advanced_other_category">Altre Impostazioni Avanzate</string>
+    <string name="auto_select_apn">Seleziona Automaticamente APN</string>
+    <string name="auto_select_apn_summary">Prova ad ottenere automaticamente gli APN corretti</string>
+	<string name="finding_apns">Ricerca APN…</string>
+    <string name="sync_voice_messages">Sincronizza Manualmente Messaggi Google Voice</string>
+    <string name="voice_receiving">Imposta Ricezione Messaggi Google Voice:</string>
+    <string name="voice_receiving_option_1">Opzione 1: Usa il Listener di Notifica</string>
+    <string name="voice_receiving_option_1_summary">Sincronizza i messaggi istantaneamente attraverso Google Voice. Richiede l\'app di Google Voice installata e le sue notifiche attive</string>
+	<string name="voice_receiving_option_2">Opzione 2: Aggiorna ad Intervalli</string>
+    <string name="voice_receiving_option_2_summary">Seleziona un intervallo di tempo per verificare se siano presenti nuovi messaggi. Richiede l\'app di Google Voice installata</string>
+	<string name="voice_receiving_tips">Se hai problemi, leggi i \"Suggerimenti dello Sviluppatore\" sulla ricezione di messaggi Google Voice</string>
+	
+    <string name="voice_receiving_notes">Consiglio #6 (Ricezione Google Voice): </string>
+    <string name="voice_receiving_notes_summary">1) Gli utenti Android 4.3 posso utilizzare il servizio di listener di notifica, gli utenti con una versione più vecchia il servizio di accessibilità (entrambi possono essere attivati cliccando sul Consiglio #5 qui sopra).\n\n
+												 2) Il servizio di accessibilità non può cancellare le notifiche Google Voice (a causa di una limitazione di Android), ma se le elimini tramite l\'app Google Voice allora non verranno
+												 mostrate più neanche in Sliding Messaging. Se utilizzi questa opzione attiva le notifiche Google Voice ma se non possiedi Android 4.3 riceverai notifiche doppie\n\n
+												 3) L\'opzione \"Aggiorna ad Intervalli\" è ancora in fase di sviluppo e, se non funziona ancora, attendi i prossimi aggiornamenti.</string>
+    <string name="drawer_open"> Impostazioni Principali</string>
+    <string name="drawer_close"> Impostazioni</string>
+    <string name="swipe_read">Abilita Swipe per Segnare come Letto</string>
+    <string name="swipe_read_summary">SOLO Android 4.3. Per favore leggi i \"Suggerimenti dello Sviluppatore\" su come utilizzare questa funzione.</string>
+    <string name="refresh_voice_messages">Aggiorna Google Voice</string>
+    <string name="select_interval">Seleziona Intervallo d\'aggiornamento: </string>
+    <string name="low_interval">Minore sarà l\'intervallo, maggiore sarà il consumo di dati e batteria!</string>
+    <string name="launch_slideover">Usa SlideOver</string>
+    <string name="launch_slideover_summary">Lancia SlideOVer anziché l\'app intera dall\'estensione.</string>
+    <string name="delivery_reports_type">Tipo di Notifica Avviso di Consegna</string>
+    <string name="delivery_reports_type_summary">Seleziona come devi essere notificato alla consegna di un messaggio</string>
+    <string name="launch_full_app">Vai all\'Applicazione Completa</string>
+    <string name="show_full_app_button">Abilita il Pulsante App Completa</string>
+    <string name="show_full_app_button_summary">Aggiunge un pulsante in basso alla finestra SlideOver che apre l\'applicazione completa. NOTA: Imposta le Dimensioni Popup SlideOver a 100% per un miglior risultato.</string>
+    <string name="voice_tutorial">Esegui Guida Google Voice</string>
+    <string name="voice_tutorial_summary">Funziona solo se hai selezionato un account Google Voice.</string>
+    <string name="message_swipe">Scorri nel mezzo per navigare tra i messaggi</string>
+    <string name="google_voice_tutorial_1">Al principio tutti i messaggi vengono inviati come SMS.</string>
+    <string name="google_voice_tutorial_2">Per passare a Google Voice clicca semplicemente l\'icona affianco il campo d\'inserimento!</string>
+    <string name="google_voice_tutorial_3">I messaggi inviati tramite Google Voice verranno segnati con la stessa icona affianco all\'orario del messaggio.</string>
+    <string name="google_voice_tutorial_4">Questo è tutto!\n\nIl tipo di conversazione verrà ricordato automaticamente, così non dovrai, ogni volta, sceglierlo tu!</string>
+    <string name="always_use_voice">Imposta Google Voice Predefinito</string>
+    <string name="favorites">Preferiti</string>
+    <string name="mms_max_width">Larghezza Massima (in pixels)</string>
+    <string name="mms_max_height">Altezza Massima (in pixels)</string>
+    <string name="mms_max_size_warning">Attenzione, alcuni operatori supportano MMS fino a 1 MB soltanto, aumentare questi valori potrebbe rendere l\'invio impossibile</string>
+	<string name="use_device_font">Utilizza Font di Sistema</string>
+    <string name="slideover_only_unread">Finestra Rapida: Solo Non Letti</string>
+    <string name="slideover_only_unread_summary">Mostra solo messaggi non letti nella finestra di SlideOver.</string>
 	
 </resources>

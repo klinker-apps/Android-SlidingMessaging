@@ -210,7 +210,7 @@ public class SendMessage extends Activity {
 	        	
 	        	String[] text2 = text.split("; ");
 	        	
-	        	text = text2[text2.length-1];
+	        	text = text2[text2.length-1].trim();
 	        	
 	        	try
 	        	{

@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string-array name="titleColors">
+        <item>Blu</item>
+        <item>Verde</item>
+        <item>Arancione</item>
+        <item>Rosso</item>
+        <item>Viola</item>
+        <item>Grigio</item>
+        <item>Grigio Scuro</item>
+        <item>Nero Pece</item>
+    </string-array>
+    
+    <string-array name="messageOptions">
+        <item>Copia Testo</item>
+        <item>Inoltra Messaggio</item>
+        <item>Elimina Messaggio</item>
+        <item>Blocca Messaggio</item>
+    </string-array>
+
+    <string-array name="messageOptionsUnlock">
+        <item>Copia Testo</item>
+        <item>Inoltra Messaggio</item>
+        <item>Elimina Messaggio</item>
+        <item>Sblocca Messaggio</item>
+    </string-array>
+    
+    <string-array name="messageOptions2">
+        <item>Copia Testo</item>
+        <item>Salva Immagine</item>
+        <item>Inoltra Messaggio</item>
+        <item>Elimina Messaggio</item>
+        <item>Blocca Messaggio</item>
+    </string-array>
+
+    <string-array name="messageOptions2Unlock">
+        <item>Copia Testo</item>
+        <item>Salva Immagine</item>
+        <item>Inoltra Messaggio</item>
+        <item>Elimina Messaggio</item>
+        <item>Sblocca Messaggio</item>
+    </string-array>
+    
+    <string-array name="messageOptions3">
+        <item>Invia Di Nuovo</item>
+        <item>Copia Testo</item>
+        <item>Inoltra Messaggio</item>
+        <item>Elimina Messaggio</item>
+        <item>Blocca Messaggio</item>
+    </string-array>
+
+    <string-array name="messageOptions3Unlock">
+        <item>Invia Di Nuovo</item>
+        <item>Copia Testo</item>
+        <item>Inoltra Messaggio</item>
+        <item>Elimina Messaggio</item>
+        <item>Sblocca Messaggio</item>
+    </string-array>
+
+    <string-array name="ledColors">
+        <item>Bianco</item>
+        <item>Blu</item>
+        <item>Verde</item>
+        <item>Arancione</item>
+        <item>Rosso</item>
+        <item>Viola</item>
+    </string-array>
+    
+    <string-array name="vibratePattern">
+        <item>1 Breve</item>
+        <item>1 Lungo</item>
+        <item>2 Brevi</item>
+        <item>2 Lunghi</item>
+        <item>3 Brevi</item>
+        <item>3 Lunghi</item>
+    </string-array>
+
+    <string-array name="smilies">
+        <item>Con Naso :-)</item>
+        <item>Senza Naso :)</item>
+        <item>Nessuno</item>
+        <item>Entrambi</item>
+    </string-array>
+
+    <string-array name="quickReplyOptions">
+        <item>Rispondi</item>
+        <item>Letto</item>
+        <item>Chiama</item>
+        <item>Elimina</item>
+    </string-array>
+
+    <string-array name="slideToMenu">
+        <item>Menù a Scorrimento a Tutto Schermo</item>
+        <item>Menù a Scorrimento Solo sui Margini</item>
+        <item>Nessun Menù a Scorrimento (Naviga con la Barra delle Attività)</item>
+    </string-array>
+
+    <string-array name="notificationIcon">
+        <item>Bianco</item>
+        <item>Blu</item>
+        <item>Verde</item>
+        <item>Arancione</item>
+        <item>Rosso</item>
+        <item>Viola</item>
+        <item>Icona App</item>
+    </string-array>
+
+    <string-array name="textColors">
+        <item>Predefinito</item>
+        <item>Bianco</item>
+        <item>Blu</item>
+        <item>Verde</item>
+        <item>Arancione</item>
+        <item>Rosso</item>
+        <item>Viola</item>
+        <item>Grigio</item>
+        <item>Nero</item>
+    </string-array>
+    
+    <string-array name="deliveryOptions">
+        <item>Niente alla Consegna</item>
+        <item>Popup alla Consegna</item>
+        <item>Toast alla Consegna</item>
+    </string-array>
+
+    <string-array name="screenTimeout">
+        <item>1 Secondo</item>
+        <item>5 Secondi</item>
+        <item>15 Secondi</item>
+        <item>30 Secondi</item>
+        <item>1 Minuto</item>
+        <item>3 Minuti</item>
+        <item>5 Minuti</item>
+    </string-array>
+
+    <string-array name="sendAnimation">
+        <item>Scorri da Sinistra</item>
+        <item>Scorri da Destra</item>
+        <item>Scorri dal Basso</item>
+        <item>Ingrandisci dal Basso</item>
+        <item>Nessuna Animazione</item>
+    </string-array>
+
+    <string-array name="textAlignment">
+        <item>Allineamento Diviso</item>
+        <item>Allineamento a Destra</item>
+        <item>Allineamento a Sinistra</item>
+    </string-array>
+
+    <string-array name="textAlignment2">
+        <item>Allineamento Centrale</item>
+        <item>Allineamento a Destra</item>
+        <item>Allineamento a Sinistra</item>
+    </string-array>
+
+    <string-array name="selectImage">
+        <item>Seleziona Immagine</item>
+        <item>Scatta Foto</item>
+        <item>Allega Altro...</item>
+    </string-array>
+    
+    <string-array name="runAs">
+        <item>Stile Card</item>
+        <item>Stile Card+</item>
+        <item>Stile Hangouts</item>
+        <item>Stile Classico</item>
+    </string-array>
+
+    <string-array name="repeatingNotification">
+        <item>Mai</item>
+        <item>15 Secondi</item>
+        <item>30 Secondi</item>
+        <item>1 Minuto</item>
+        <item>2 Minuti</item>
+        <item>5 Minuti</item>
+        <item>7 Minuti</item>
+        <item>10 Minuti</item>
+        <item>15 Minuti</item>
+    </string-array>
+
+    <string-array name="attach_more_options">
+        <item>Seleziona Immagine</item>
+        <item>Seleziona Video</item>
+        <item>Seleziona Audio</item>
+    </string-array>
+
+    <string-array name="notification_icon">
+        <item>Icona Originale</item>
+        <item>Fumetto</item>
+        <item>Punto Esclamativo</item>
+        <item>Aeroplano di Carta</item>
+        <item>Nuvola</item>
+    </string-array>
+
+    <string-array name="timeout">
+        <item>30 Secondi</item>
+        <item>1 Minuto</item>
+        <item>5 Minuti</item>
+        <item>10 Minuti</item>
+        <item>30 Minuti</item>
+        <item>1 Ora</item>
+        <item>5 Ore</item>
+    </string-array>
+
+    <string-array name="security_type">
+        <item>Nessuna Sicurezza</item>
+        <item>PIN</item>
+        <item>Pattern</item>
+        <item>Password</item>
+    </string-array>
+
+    <string-array name="repetition_array">
+        <item>Nessuno</item>
+        <item>Ogni Giorno</item>
+        <item>Ogni Settimana</item>
+        <item>Ogni Anno</item>
+    </string-array>
+
+    <string-array name="backup_repetition_array">
+        <item>Nessuno</item>
+        <item>Ogni Giorno</item>
+        <item>Ogni 3 Giorni</item>
+        <item>Ogni Settimana</item>
+    </string-array>
+
+    <string-array name="pin_conversation_list">
+        <item>Predefinito, a Seconda del Dispositivo</item>
+        <item>Non Mostrare</item>
+        <item>Mostra in Modalità Orizzontale</item>
+        <item>Mostra Sempre</item>
+    </string-array>
+
+    <string-array name="slideover_side">
+        <item>Sinistra</item>
+        <item>Destra</item>
+    </string-array>
+
+    <string-array name="slideover_secondary_action">
+        <item>Apri Lista Conversazioni</item>
+        <item>Componi Nuovo Messaggio</item>
+        <item>Segna Tutti i Messaggi come Letti</item>
+    </string-array>
+
+    <string-array name="drawer_spinner_array">
+        <item>Impostazioni Principali</item>
+        <item>Altri Strumenti</item>
+    </string-array>
+
+    <string-array name="repeatingVoiceRefresh">
+        <item>Mai</item>
+        <item>1 Minuto</item>
+        <item>5 Minuti</item>
+        <item>10 Minuti</item>
+        <item>15 Minuti</item>
+        <item>20 Minuti</item>
+        <item>30 Minuti</item>
+        <item>45 Minuti</item>
+        <item>1 Ora</item>
+        <item>2 Ore</item>
+        <item>6 Ore</item>
+        <item>12 Ore</item>
+        <item>24 Ore</item>
+    </string-array>
+
+    <string-array name="deliveryReportType">
+        <item>Segno di Spunta</item>
+        <item>Segno di Spunta e Popup Breve (Non Intrusivo)</item>
+        <item>Segno di Spunta e Notifica</item>
+    </string-array>
+
+</resources>
