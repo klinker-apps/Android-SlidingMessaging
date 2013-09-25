@@ -32,7 +32,7 @@
         <item>Copier le Texte</item>
         <item>Transférer...</item>
         <item>Supprimer le Message</item>
-        <item>Lock Message</item>
+        <item>Vérouiller le Message</item>
     </string-array>
     
     <string-array name="ledColors">
@@ -161,4 +161,89 @@
         <item>Sélectionner Video</item>
         <item>Sélectionner Audio</item>
     </string-array>
+
+    <string-array name="notification_icon">
+        <item>Stock Icon</item>
+        <item>Message Bubble</item>
+        <item>Exclamation Point</item>
+        <item>Paper Airplane</item>
+        <item>Cloud</item>
+    </string-array>
+
+    <string-array name="timeout">
+        <item>30 Seconds</item>
+        <item>1 Minute</item>
+        <item>5 Minutes</item>
+        <item>10 Minutes</item>
+        <item>30 Minutes</item>
+        <item>1 Hour</item>
+        <item>5 Hours</item>
+    </string-array>
+
+    <string-array name="security_type">
+        <item>No Security</item>
+        <item>PIN</item>
+        <item>Pattern</item>
+        <item>Password</item>
+    </string-array>
+
+    <string-array name="repetition_array">
+        <item>None</item>
+        <item>Daily</item>
+        <item>Weekly</item>
+        <item>Yearly</item>
+    </string-array>
+
+    <string-array name="backup_repetition_array">
+        <item>None</item>
+        <item>Daily</item>
+        <item>Every 3 Days</item>
+        <item>Weekly</item>
+    </string-array>
+
+    <string-array name="pin_conversation_list">
+        <item>Default, According to Device Type</item>
+        <item>Never Pin</item>
+        <item>Pin in Landscape Mode</item>
+        <item>Always Pin</item>
+    </string-array>
+
+    <string-array name="slideover_side">
+        <item>Left</item>
+        <item>Right</item>
+    </string-array>
+
+    <string-array name="slideover_secondary_action">
+        <item>Open Conversation List</item>
+        <item>Compose New Message</item>
+        <item>Mark All Messages as Read</item>
+    </string-array>
+
+    <string-array name="drawer_spinner_array">
+        <item>Settings Links</item>
+        <item>Other Links</item>
+    </string-array>
+
+    <string-array name="repeatingVoiceRefresh">
+        <item>Never</item>
+        <item>1 Minute</item>
+        <item>5 Minutes</item>
+        <item>10 Minutes</item>
+        <item>15 Minutes</item>
+        <item>20 Minutes</item>
+        <item>30 Minutes</item>
+        <item>45 Minutes</item>
+        <item>1 Hour</item>
+        <item>2 Hours</item>
+        <item>6 Hours</item>
+        <item>12 Hours</item>
+        <item>24 Hours</item>
+    </string-array>
+
+    <string-array name="deliveryReportType">
+        <item>Check Mark Only</item>
+        <item>Check Mark and Short Popup (Non-Intrusive)</item>
+        <item>Check Mark and Notification</item>
+    </string-array>
+
 </resources>

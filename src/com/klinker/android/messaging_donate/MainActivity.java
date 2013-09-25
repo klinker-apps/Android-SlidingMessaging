@@ -5403,8 +5403,12 @@ public class MainActivity extends FragmentActivity {
 
         if (firstRun)
         {
-            refreshViewPager();
-            createMenu();
+            try {
+                refreshViewPager();
+                createMenu();
+            } catch (Exception e) {
+
+            }
 
             if (settings.openContactMenu && (deviceType.equals("phone") || deviceType.equals("phablet2")))
             {
