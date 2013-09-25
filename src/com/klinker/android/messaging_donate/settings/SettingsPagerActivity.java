@@ -963,6 +963,15 @@ public class SettingsPagerActivity extends FragmentActivity {
 
             });
 
+            Preference enableQuickPeek = findPreference("enable_quick_peek");
+            enableQuickPeek.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    restartHalo();
+                    return true;
+                }
+            });
+
             Preference slideOver = findPreference("slideover_enabled");
             slideOver.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override

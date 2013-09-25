@@ -57,10 +57,18 @@
         android:title="@string/quick_peek_category" >
 
         <CheckBoxPreference
+            android:key="enable_quick_peek"
+            android:title="@string/enable_quick_peek"
+            android:summary="@string/enable_quick_peek_summary"
+            android:defaultValue="true"
+            android:dependency="slideover_enabled"
+            />
+
+        <CheckBoxPreference
             android:key="slideover_only_unread"
             android:title="@string/slideover_only_unread"
             android:summary="@string/slideover_only_unread_summary"
-            android:dependency="slideover_enabled"
+            android:dependency="enable_quick_peek"
             android:defaultValue="false"
             />
 
@@ -69,7 +77,7 @@
             android:title="@string/quick_peek_transparency"
             android:defaultValue="100"
             android:max="100"
-            android:dependency="slideover_enabled"
+            android:dependency="enable_quick_peek"
             />
 
         <Preference
@@ -77,7 +85,7 @@
             android:title="@string/quick_peek_contact_num"
             android:summary="@string/quick_peek_contact_num_summary"
             android:defaultValue="5"
-            android:dependency="slideover_enabled"
+            android:dependency="enable_quick_peek"
             />
 
     </PreferenceCategory>
