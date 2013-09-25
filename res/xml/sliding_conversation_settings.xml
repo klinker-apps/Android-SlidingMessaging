@@ -24,6 +24,12 @@
             />
 
         <CheckBoxPreference
+            android:key="bold_conversations"
+            android:title="@string/bold_conversations"
+            android:defaultValue="false"
+            />
+
+        <CheckBoxPreference
             android:key="contact_pictures2"
             android:title="@string/contact_pictures"
             android:defaultValue="true"

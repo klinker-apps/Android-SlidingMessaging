@@ -794,5 +794,6 @@
     <string name="message_subject">Subject</string>
     <string name="insert_subject">Add Subject</string>
     <string name="converting_mms">Converting to MMS…</string>
+    <string name="bold_conversations">Bold Names</string>
 
 </resources>
