@@ -794,5 +794,8 @@
     <string name="message_subject">Subject</string>
     <string name="insert_subject">Add Subject</string>
     <string name="converting_mms">Converting to MMS…</string>
+    <string name="bold_conversations">Bold Names</string>
+    <string name="enable_quick_peek">Enable Quick Peek</string>
+    <string name="enable_quick_peek_summary">A single tap on the SlideOver bubble will open the new Quick Peek window to view recent conversations.</string>
 
 </resources>

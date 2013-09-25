@@ -88,6 +88,8 @@ public class SlideOverService extends Service {
     private boolean initialOnDown = false;
     private boolean contactPictureTouched = false;
 
+    private boolean enableQuickPeek;
+
     public int currContact = 0;
     public int originalPos = 0;
 
@@ -269,70 +271,72 @@ public class SlideOverService extends Service {
         @Override
         public boolean onSingleTapConfirmed(MotionEvent event) {
 
-            arcViewHandler.removeCallbacks(arcViewRunnable);
+            if (enableQuickPeek) {
+                arcViewHandler.removeCallbacks(arcViewRunnable);
 
-            haloView.playSoundEffect(SoundEffectConstants.CLICK);
+                haloView.playSoundEffect(SoundEffectConstants.CLICK);
 
-            currContact = 0;
-            ContactView.currentContact = 0;
+                currContact = 0;
+                ContactView.currentContact = 0;
 
-            if (HAPTIC_FEEDBACK) {
-                v.vibrate(10);
-            }
-
-            try {
-                arcWindow.removeViewImmediate(arcView);
-            } catch (Exception e) {
-
-            }
-
-            // will launch the floating message box feature
-            try {
-
-                messageWindow.removeView(contactView);
-
-                try {
-                    messageWindow.removeView(messageView);
-                } catch (Exception x) {
-                    // message view is gone already
+                if (HAPTIC_FEEDBACK) {
+                    v.vibrate(10);
                 }
 
-                messageBoxHandler.removeCallbacks(messageBoxRunnable);
+                try {
+                    arcWindow.removeViewImmediate(arcView);
+                } catch (Exception e) {
 
-                if (sharedPrefs.getBoolean("slideover_only_unread", false))
-                    startService(new Intent(getBaseContext(), QmMarkRead2.class));
+                }
 
-                ContactView.refreshArrays();
+                // will launch the floating message box feature
+                try {
 
-                contactView.invalidate();
-                messageView.invalidate();
-            } catch (Exception e) {
+                    messageWindow.removeView(contactView);
 
-                ContactView.refreshArrays();
+                    try {
+                        messageWindow.removeView(messageView);
+                    } catch (Exception x) {
+                        // message view is gone already
+                    }
 
-                contactView.invalidate();
-                messageView.invalidate();
+                    messageBoxHandler.removeCallbacks(messageBoxRunnable);
 
-                messageWindow.addView(contactView, contactParams);
-                messageWindow.addView(messageView, messageWindowParams);
+                    if (sharedPrefs.getBoolean("slideover_only_unread", false))
+                        startService(new Intent(getBaseContext(), QmMarkRead2.class));
+
+                    ContactView.refreshArrays();
+
+                    contactView.invalidate();
+                    messageView.invalidate();
+                } catch (Exception e) {
+
+                    ContactView.refreshArrays();
+
+                    contactView.invalidate();
+                    messageView.invalidate();
+
+                    messageWindow.addView(contactView, contactParams);
+                    messageWindow.addView(messageView, messageWindowParams);
+                }
+
+                quickPeekHidden = false;
+
+                arcView.newConversations.clear();
+
+                haloView.haloNewAlpha = 0;
+                haloView.haloAlpha = 255;
+                haloView.invalidate();
+
+                try {
+                    haloWindow.removeViewImmediate(haloView);
+                    haloWindow.addView(haloView, haloParams);
+                } catch (Exception e) {
+
+                }
+
+                numberNewConv = 0;
             }
-
-            quickPeekHidden = false;
-
-            arcView.newConversations.clear();
-
-            haloView.haloNewAlpha = 0;
-            haloView.haloAlpha = 255;
-            haloView.invalidate();
-
-            try {
-                haloWindow.removeViewImmediate(haloView);
-                haloWindow.addView(haloView, haloParams);
-            } catch (Exception e) {
-
-            }
-
-            numberNewConv = 0;
 
             return true;
         }
@@ -392,6 +396,8 @@ public class SlideOverService extends Service {
     {
         mContext = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+
+        enableQuickPeek = sharedPrefs.getBoolean("enable_quick_peek", true);
 
         v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 

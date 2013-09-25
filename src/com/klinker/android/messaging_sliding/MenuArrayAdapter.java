@@ -22,7 +22,9 @@ import android.provider.ContactsContract;
 import android.provider.ContactsContract.PhoneLookup;
 import android.support.v4.view.ViewPager;
 import android.text.Html;
+import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnLongClickListener;
@@ -334,7 +336,13 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 						holder.text2.setPadding(10, 0, 0, 15);
 					}
 
-                    holder.text.setText(textF);
+                    if (MainActivity.settings.boldNames) {
+                        SpannableString spanString = new SpannableString(textF);
+                        spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, spanString.length(), 0);
+                        holder.text.setText(spanString);
+                    } else {
+                        holder.text.setText(textF);
+                    }
 
                     if (group.get(position).equals("yes"))
                     {

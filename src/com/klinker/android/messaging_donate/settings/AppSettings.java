@@ -61,6 +61,7 @@ public class AppSettings {
     public boolean contactPictures;
     public boolean tinyDate;
     public boolean alwaysUseVoice;
+    public boolean boldNames;
     public String smilies;
     public String textSize;
     public String textSize2;
@@ -192,6 +193,7 @@ public class AppSettings {
         settings.emoji = sharedPrefs.getBoolean("emoji", false);
         settings.mobileOnly = sharedPrefs.getBoolean("mobile_only", false);
         settings.groupMessage = sharedPrefs.getBoolean("group_message", false);
+        settings.boldNames = sharedPrefs.getBoolean("bold_conversations", false);
         settings.signature = sharedPrefs.getString("signature", "");
         settings.ringTone = sharedPrefs.getString("ringtone", "null");
         settings.deliveryOptions= sharedPrefs.getString("delivery_options", "2");
