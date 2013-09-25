@@ -244,7 +244,7 @@
 
     <string-array name="drawer_spinner_array">
         <item>Impostazioni Principali</item>
-        <item>Altri Strumenti</item>
+        <item>Altre Impostazioni</item>
     </string-array>
 
     <string-array name="repeatingVoiceRefresh">

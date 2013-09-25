@@ -116,7 +116,7 @@
     <string name="custom_background_summary">Scegli uno sfondo personalizzato da applicare ai menù a scorrimento</string>
     <string name="custom_background2">Sfondo Personalizzato per i Messaggi</string>
     <string name="custom_background2_summary">Scegli uno sfondo personalizzato da applicare alla lista messaggi</string>
-    <string name="menu_delete">Elimina tutte le conversazioni</string>
+    <string name="menu_delete">Elimina Tutte le Conversazioni</string>
     <string name="delete_all">ATTENZIONE: Verranno eliminati TUTTI i messaggi in TUTTE le conversazioni.\n\nVuoi eliminare tutte le conversazioni?</string>
     <string name="text_settings">Impostazioni Messaggi</string>
     <string name="sent_text_color">Colore dei Messaggi Inviati</string>
@@ -226,8 +226,8 @@
     <string name="custom_font">Utilizza Font Personalizzato</string>
     <string name="custom_font_summary">Seleziona un font personalizzato da mostrare nell\'app</string>
     <string name="backup_settings">Impostazioni Backup</string>
-    <string name="backup">Salva tutte le impostazioni</string>
-    <string name="restore">Ripristina tutte le impostazioni salvate</string>
+    <string name="backup">Backup impostazioni</string>
+    <string name="restore">Ripristino impostazioni</string>
     <string name="backup_success">Backup Effettuato</string>
     <string name="restore_success">Ripristino Effettuato</string>
     <string name="default_font">Font Predefinito</string>
