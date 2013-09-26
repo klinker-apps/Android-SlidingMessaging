@@ -60,7 +60,9 @@ public class ChangeLogWizardModel extends AbstractWizardModel {
                 "- Minor style and UI changes\n" +
                 "- Option to bold the names in the conversations list\n" +
                 "- A few more optimizations\n" +
-                "- Bug fixes\n";
+                "- Bug fixes\n\n" +
+                "- Fix for SlideOver Arc not disappearing\n" +
+                "- Fix for Card+ UI not displaying correctly";
                 
         String themeEditor = "The theme editor now fully supports the Cards UI 2.0, making it a " +
                 "better time than ever to get on board and start making Sliding Messaging Pro look exactly how you want!\n\n" +
