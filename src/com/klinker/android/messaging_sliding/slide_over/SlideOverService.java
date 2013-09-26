@@ -271,9 +271,9 @@ public class SlideOverService extends Service {
         @Override
         public boolean onSingleTapConfirmed(MotionEvent event) {
 
-            if (enableQuickPeek) {
-                arcViewHandler.removeCallbacks(arcViewRunnable);
+            arcViewHandler.removeCallbacks(arcViewRunnable);
 
+            if (enableQuickPeek) {
                 haloView.playSoundEffect(SoundEffectConstants.CLICK);
 
                 currContact = 0;
