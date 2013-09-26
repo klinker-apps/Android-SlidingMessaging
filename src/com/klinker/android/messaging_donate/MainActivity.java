@@ -5406,40 +5406,20 @@ public class MainActivity extends FragmentActivity {
             try {
                 refreshViewPager();
                 createMenu();
-            } catch (Exception e) {
 
-            }
+                if (settings.openContactMenu && (deviceType.equals("phone") || deviceType.equals("phablet2")))
+                {
+                    menu.showMenu();
+                }
 
-            if (settings.openContactMenu && (deviceType.equals("phone") || deviceType.equals("phablet2")))
-            {
-                menu.showMenu();
-            }
-
-            if (sendTo && !fromNotification)
-            {
-                try {
-                    boolean flag = false;
-
-                    for (int i = 0; i < inboxNumber.size(); i++)
-                    {
-                        if (findContactNumber(inboxNumber.get(i), this).replace("-","").replace("+", "").equals(sendMessageTo.replace("-", "").replace("+1", "")))
-                        {
-                            if (i < 10 || (!limitConversations && i > 10)) {
-                                mViewPager.setCurrentItem(i);
-                                menu.showContent();
-                                flag = true;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (!flag)
-                    {
-                        String name = findContactName(sendMessageTo, this);
+                if (sendTo && !fromNotification)
+                {
+                    try {
+                        boolean flag = false;
 
                         for (int i = 0; i < inboxNumber.size(); i++)
                         {
-                            if (findContactName(findContactNumber(inboxNumber.get(i), this), this).equals(name))
+                            if (findContactNumber(inboxNumber.get(i), this).replace("-","").replace("+", "").equals(sendMessageTo.replace("-", "").replace("+1", "")))
                             {
                                 if (i < 10 || (!limitConversations && i > 10)) {
                                     mViewPager.setCurrentItem(i);
@@ -5449,134 +5429,156 @@ public class MainActivity extends FragmentActivity {
                                 }
                             }
                         }
-                    }
 
-                    if (!flag)
-                    {
-                        View newMessage;
+                        if (!flag)
+                        {
+                            String name = findContactName(sendMessageTo, this);
 
-                        if (deviceType.equals("phone") || deviceType.equals("phablet2"))
-                        {
-                            menu.showSecondaryMenu();
-                            newMessage = menu.getSecondaryMenu();
-                        } else
-                        {
-                            menu.showMenu();
-                            newMessage = menu.getMenu();
+                            for (int i = 0; i < inboxNumber.size(); i++)
+                            {
+                                if (findContactName(findContactNumber(inboxNumber.get(i), this), this).equals(name))
+                                {
+                                    if (i < 10 || (!limitConversations && i > 10)) {
+                                        mViewPager.setCurrentItem(i);
+                                        menu.showContent();
+                                        flag = true;
+                                        break;
+                                    }
+                                }
+                            }
                         }
 
-                        EditText contact = (EditText) newMessage.findViewById(R.id.contactEntry);
-                        contact.setText(sendMessageTo);
-
-                        if (attachedImage2 != null)
+                        if (!flag)
                         {
-                            imageAttachBackground2.setBackgroundColor(settings.ctConversationListBackground);
-                            Drawable attachBack = getResources().getDrawable(R.drawable.attachment_editor_bg);
-                            attachBack.setColorFilter(settings.ctSentMessageBackground, Mode.MULTIPLY);
-                            imageAttach2.setBackgroundDrawable(attachBack);
-                            imageAttachBackground2.setVisibility(View.VISIBLE);
-                            imageAttach2.setVisibility(true);
+                            View newMessage;
 
-                            try
+                            if (deviceType.equals("phone") || deviceType.equals("phablet2"))
                             {
-                                imageAttach2.setImage("send_image", decodeFile(new File(getPath(attachedImage2))));
-                            } catch (Exception e)
+                                menu.showSecondaryMenu();
+                                newMessage = menu.getSecondaryMenu();
+                            } else
                             {
-                                Toast.makeText(this, "Error loading image", Toast.LENGTH_SHORT).show();
-                                imageAttach2.setVisibility(false);
-                                imageAttachBackground2.setVisibility(View.GONE);
+                                menu.showMenu();
+                                newMessage = menu.getMenu();
                             }
 
-                            final Context context = this;
+                            EditText contact = (EditText) newMessage.findViewById(R.id.contactEntry);
+                            contact.setText(sendMessageTo);
 
-                            Button viewImage = (Button) findViewById(R.id.view_image_button2);
-                            Button replaceImage = (Button) findViewById(R.id.replace_image_button2);
-                            Button removeImage = (Button) findViewById(R.id.remove_image_button2);
+                            if (attachedImage2 != null)
+                            {
+                                imageAttachBackground2.setBackgroundColor(settings.ctConversationListBackground);
+                                Drawable attachBack = getResources().getDrawable(R.drawable.attachment_editor_bg);
+                                attachBack.setColorFilter(settings.ctSentMessageBackground, Mode.MULTIPLY);
+                                imageAttach2.setBackgroundDrawable(attachBack);
+                                imageAttachBackground2.setVisibility(View.VISIBLE);
+                                imageAttach2.setVisibility(true);
 
-                            viewImage.setOnClickListener(new OnClickListener() {
-
-                                @Override
-                                public void onClick(View arg0) {
-                                    context.startActivity(new Intent(Intent.ACTION_VIEW, attachedImage2));
-
-                                }
-
-                            });
-
-                            replaceImage.setOnClickListener(new OnClickListener() {
-
-                                @Override
-                                public void onClick(View v) {
-                                    Intent intent = new Intent();
-                                    intent.setType("image/*");
-                                    intent.setAction(Intent.ACTION_GET_CONTENT);
-                                    startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.select_picture)), 2);
-
-                                }
-
-                            });
-
-                            removeImage.setOnClickListener(new OnClickListener() {
-
-                                @Override
-                                public void onClick(View v) {
+                                try
+                                {
+                                    imageAttach2.setImage("send_image", decodeFile(new File(getPath(attachedImage2))));
+                                } catch (Exception e)
+                                {
+                                    Toast.makeText(this, "Error loading image", Toast.LENGTH_SHORT).show();
                                     imageAttach2.setVisibility(false);
                                     imageAttachBackground2.setVisibility(View.GONE);
-
                                 }
 
-                            });
+                                final Context context = this;
+
+                                Button viewImage = (Button) findViewById(R.id.view_image_button2);
+                                Button replaceImage = (Button) findViewById(R.id.replace_image_button2);
+                                Button removeImage = (Button) findViewById(R.id.remove_image_button2);
+
+                                viewImage.setOnClickListener(new OnClickListener() {
+
+                                    @Override
+                                    public void onClick(View arg0) {
+                                        context.startActivity(new Intent(Intent.ACTION_VIEW, attachedImage2));
+
+                                    }
+
+                                });
+
+                                replaceImage.setOnClickListener(new OnClickListener() {
+
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent intent = new Intent();
+                                        intent.setType("image/*");
+                                        intent.setAction(Intent.ACTION_GET_CONTENT);
+                                        startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.select_picture)), 2);
+
+                                    }
+
+                                });
+
+                                removeImage.setOnClickListener(new OnClickListener() {
+
+                                    @Override
+                                    public void onClick(View v) {
+                                        imageAttach2.setVisibility(false);
+                                        imageAttachBackground2.setVisibility(View.GONE);
+
+                                    }
+
+                                });
+                            }
                         }
+
+                        sendTo = false;
+                    } catch (Exception e) {
+
                     }
-
-                    sendTo = false;
-                } catch (Exception e) {
-
                 }
-            }
 
-            if (sendToThread != null)
-            {
-                for (int i = 0; i < threadIds.size(); i++)
+                if (sendToThread != null)
                 {
-                    if (threadIds.get(i).equals(sendToThread))
+                    for (int i = 0; i < threadIds.size(); i++)
                     {
-                        mViewPager.setCurrentItem(i);
-                        sendToThread = null;
-                        break;
-                    }
-                }
-
-                messageEntry.setText(sendToMessage);
-
-                try
-                {
-                    messageEntry.setSelection(sendToMessage.length());
-                } catch (Exception e)
-                {
-
-                }
-            }
-
-            long threadId = getIntent().getLongExtra("thread_id", 0);
-            if (threadId > 0) {
-                for (int i = 0; i < threadIds.size(); i++) {
-                    if ((threadId + "").equals(threadIds.get(i))) {
-                        if ((i < 10 && limitConversations) || !limitConversations) {
+                        if (threadIds.get(i).equals(sendToThread))
+                        {
                             mViewPager.setCurrentItem(i);
+                            sendToThread = null;
+                            break;
                         }
+                    }
 
-                        break;
+                    messageEntry.setText(sendToMessage);
+
+                    try
+                    {
+                        messageEntry.setSelection(sendToMessage.length());
+                    } catch (Exception e)
+                    {
+
                     }
                 }
-            }
 
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    firstRun = false;
+                long threadId = getIntent().getLongExtra("thread_id", 0);
+                if (threadId > 0) {
+                    for (int i = 0; i < threadIds.size(); i++) {
+                        if ((threadId + "").equals(threadIds.get(i))) {
+                            if ((i < 10 && limitConversations) || !limitConversations) {
+                                mViewPager.setCurrentItem(i);
+                            }
+
+                            break;
+                        }
+                    }
                 }
-            }, 3000);
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        firstRun = false;
+                    }
+                }, 3000);
+            } catch (Exception e) {
+                // FIXME
+                // something went wrong setting everything up, but lets continue anyways just for the hell of it.
+                // This was something coming for the lockscreen widget NiLS, assuming setting everything up and navagating to correct conversation
+            }
         } else
         {
             if (messageRecieved == true)
