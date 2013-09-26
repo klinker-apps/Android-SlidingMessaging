@@ -248,7 +248,6 @@ public class AppSettings {
         if (settings.runAs.equals("card+")) {
             settings.customTheme = true;
             settings.ctRecievedMessageBackground = context.getResources().getColor(android.R.color.transparent);
-            settings.ctSentMessageBackground = context.getResources().getColor(android.R.color.transparent);
         }
 
         return settings;
