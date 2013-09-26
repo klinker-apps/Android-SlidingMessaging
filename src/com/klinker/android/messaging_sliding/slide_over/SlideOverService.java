@@ -140,8 +140,6 @@ public class SlideOverService extends Service {
 
                 if ((event.getX() > haloView.getX() && event.getX() < haloView.getX() + halo.getWidth() && event.getY() > haloView.getY() && event.getY() < haloView.getY() + halo.getHeight()) || needDetection) {
                     final int type = event.getActionMasked();
-                    
-                    removeArcHandler.postDelayed(removeArcRunnable, 10000);
 
                     if (numberNewConv == 0) { // no messages to display
                         switch (type) {
@@ -271,8 +269,6 @@ public class SlideOverService extends Service {
         @Override
         public boolean onSingleTapConfirmed(MotionEvent event) {
 
-            arcViewHandler.removeCallbacks(arcViewRunnable);
-
             if (enableQuickPeek) {
                 haloView.playSoundEffect(SoundEffectConstants.CLICK);
 
@@ -281,12 +277,6 @@ public class SlideOverService extends Service {
 
                 if (HAPTIC_FEEDBACK) {
                     v.vibrate(10);
-                }
-
-                try {
-                    arcWindow.removeViewImmediate(arcView);
-                } catch (Exception e) {
-
                 }
 
                 // will launch the floating message box feature
@@ -558,9 +548,6 @@ public class SlideOverService extends Service {
 
         arcView.newMessagePaint.setAlpha(START_ALPHA2);
 
-        arcViewHandler.removeCallbacks(arcViewRunnable);
-        arcViewHandler.postDelayed(arcViewRunnable, 250);
-
         needDetection = true;
     }
 
@@ -716,7 +703,14 @@ public class SlideOverService extends Service {
 
     public void messagesMove(MotionEvent event, int height, int width, int zoneWidth)
     {
+
         initalMoveSetup(event);
+
+        if (distance > toDP(10)) {
+            try { arcWindow.addView(arcView, arcParams); } catch (Exception e) { }
+        } else {
+            try { arcWindow.removeView(arcView); } catch (Exception e) { }
+        }
 
         float rawY = event.getRawY();
         float rawX = event.getRawX();
@@ -821,6 +815,12 @@ public class SlideOverService extends Service {
     public void noMessagesMove(MotionEvent event, int height, int width)
     {
         initalMoveSetup(event);
+
+        if (distance > toDP(10)) {
+            try { arcWindow.addView(arcView, arcParams); } catch (Exception e) { }
+        } else {
+            try { arcWindow.removeView(arcView); } catch (Exception e) { }
+        }
 
         float rawY = event.getRawY();
         float rawX = event.getRawX();
