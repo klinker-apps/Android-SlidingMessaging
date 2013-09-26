@@ -4520,7 +4520,7 @@ public class MainActivity extends FragmentActivity {
 
                 try
                 {
-                    Bitmap image = SendUtil.getImage(this, capturedPhotoUri, 600);
+                    Bitmap image = SendUtil.getThumbnail(this, capturedPhotoUri);
                     imageAttach.setImage("send_image", image);
                 } catch (Exception e)
                 {
@@ -4590,7 +4590,7 @@ public class MainActivity extends FragmentActivity {
 
                 try
                 {
-                    Bitmap image = SendUtil.getImage(this, capturedPhotoUri, 600);
+                    Bitmap image = SendUtil.getThumbnail(this, capturedPhotoUri);
                     imageAttach2.setImage("send_image", image);
                 } catch (Exception e)
                 {
