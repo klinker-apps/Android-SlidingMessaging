@@ -6,7 +6,6 @@ Jake:
     - Look at menu array adapter and how it can be changed for more speed getting contact pictures, is that really the problem? Look at the stock apps get contact picture method in the contact class
         - Remove all of the get facebook photo methods and just use one from a utils file
     - redo the text message receiver for cleaner, more efficient code and send broadcast at the end of it to refresh instead of creating a receiver in the app, like i've done for mms
-        - declare all of the broadcast receivers outside of onCreate and put them all at the bottom of main activity
     - redo the refresh view pager stuff for initial setup and then notifying the adapter of a change (both view pager and listview of conversation fragment)
     - redo getting the intent stuff at startup
     - trace through entire main activity and get rid of/optimize everything
