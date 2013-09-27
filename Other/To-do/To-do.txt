@@ -1,11 +1,19 @@
 Version 7.60
 
 Jake:
-    - Create conversation class that closely mirrors stock app and can be used instead of array lists in main activity
-    - Use conversation class along with the stock app menu array adapter
+    - Create conversation class that closely mirrors stock app and can be used instead of array lists in main activity, move the name and number getting methods there as well
+    - Look into draw on the side for new message view and then enabling or disabling the slide to open it
+    - Look at menu array adapter and how it can be changed for more speed getting contact pictures, is that really the problem? Look at the stock apps get contact picture method in the contact class
+        - Remove all of the get facebook photo methods and just use one from a utils file
+    - redo the text message receiver for cleaner, more efficient code and send broadcast at the end of it to refresh instead of creating a receiver in the app, like i've done for mms
+        - declare all of the broadcast receivers outside of onCreate and put them all at the bottom of main activity
+    - redo the refresh view pager stuff for initial setup and then notifying the adapter of a change (both view pager and listview of conversation fragment)
+    - redo getting the intent stuff at startup
+    - trace through entire main activity and get rid of/optimize everything
+    - create utils file with stuff for getting contact pictures, name and numbers, and all of the read from file stuff
     - active notifications contact picture
     - look into downloading mms and data getting stuck
-    - Attach audio and video to mms
+    - Attach audio and video to mms (look at stock app)
     - delayed sending for certain times
     - actionbar pull to refresh, get the newest changes
 Luke:
