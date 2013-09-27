@@ -60,6 +60,7 @@ import com.klinker.android.messaging_donate.settings.AppSettings;
 import com.klinker.android.messaging_donate.settings.SettingsPagerActivity;
 import com.klinker.android.messaging_sliding.AttachMore;
 import com.klinker.android.messaging_sliding.ContactSearchArrayAdapter;
+import com.klinker.android.messaging_sliding.Conversation;
 import com.klinker.android.messaging_sliding.MenuArrayAdapter;
 import com.klinker.android.messaging_sliding.batch_delete.BatchDeleteAllActivity;
 import com.klinker.android.messaging_sliding.batch_delete.BatchDeleteConversationActivity;
@@ -131,6 +132,7 @@ public class MainActivity extends FragmentActivity {
 
     public static String myPhoneNumber, myContactId;
 
+    private ArrayList<Conversation> conversations;
     private ArrayList<String> contactNames, contactNumbers, contactTypes, threadIds;
 
     public static SlidingMenu menu;
@@ -719,6 +721,7 @@ public class MainActivity extends FragmentActivity {
         group = new ArrayList<String>();
         msgCount = new ArrayList<String>();
         msgRead = new ArrayList<String>();
+        conversations = new ArrayList<Conversation>();
         ContentResolver contentResolver = getContentResolver();
 
         try
@@ -727,10 +730,24 @@ public class MainActivity extends FragmentActivity {
             Uri uri = Uri.parse("content://mms-sms/conversations/?simple=true");
             Cursor query = contentResolver.query(uri, projection, null, null, "date desc");
 
-            if (query.moveToFirst())
-            {
-                do
-                {
+            if (query.moveToFirst()) {
+                do {
+                    String snippet = " ";
+                    try {
+                        snippet = query.getString(query.getColumnIndex("snippet")).replaceAll("\\\n", " ");
+                    } catch (Exception e) {
+
+                    }
+
+                    conversations.add(new Conversation(
+                            query.getLong(query.getColumnIndex("_id")),
+                            query.getInt(query.getColumnIndex("message_count")),
+                            query.getString(query.getColumnIndex("read")),
+                            snippet,
+                            query.getLong(query.getColumnIndex("date")),
+                            query.getString(query.getColumnIndex("recipient_ids"))
+                    ));
+
                     threadIds.add(query.getString(query.getColumnIndex("_id")));
                     msgCount.add(query.getString(query.getColumnIndex("message_count")));
                     msgRead.add(query.getString(query.getColumnIndex("read")));
