@@ -724,8 +724,7 @@ public class MainActivity extends FragmentActivity {
         conversations = new ArrayList<Conversation>();
         ContentResolver contentResolver = getContentResolver();
 
-        try
-        {
+        try {
             String[] projection = new String[]{"_id", "date", "message_count", "recipient_ids", "snippet", "read"};
             Uri uri = Uri.parse("content://mms-sms/conversations/?simple=true");
             Cursor query = contentResolver.query(uri, projection, null, null, "date desc");
@@ -754,29 +753,25 @@ public class MainActivity extends FragmentActivity {
 
                     inboxBody.add(" ");
 
-                    try
-                    {
+                    try {
                         inboxBody.set(inboxBody.size() - 1, query.getString(query.getColumnIndex("snippet")).replaceAll("\\\n", " "));
-                    } catch (Exception e)
-                    {
+                    } catch (Exception e) {
+
                     }
 
                     inboxDate.add(query.getString(query.getColumnIndex("date")));
                     inboxNumber.add(query.getString(query.getColumnIndex("recipient_ids")));
 
-                    if (query.getString(query.getColumnIndex("recipient_ids")).split(" ").length > 1)
-                    {
+                    if (query.getString(query.getColumnIndex("recipient_ids")).split(" ").length > 1) {
                         group.add("yes");
-                    } else
-                    {
+                    } else {
                         group.add("no");
                     }
                 } while (query.moveToNext());
             }
 
             query.close();
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
 
         }
 
@@ -784,18 +779,15 @@ public class MainActivity extends FragmentActivity {
             threadsThroughVoice = threadIds;
         }
 
-        if (inboxNumber.size() > 0)
-        {
+        if (inboxNumber.size() > 0) {
             messageEntry.setVisibility(View.VISIBLE);
             sendButton.setVisibility(View.VISIBLE);
             v.setVisibility(View.VISIBLE);
 
-            if (settings.useTitleBar)
-            {
+            if (settings.useTitleBar) {
                 title.setVisibility(View.VISIBLE);
             }
-        } else
-        {
+        } else {
             messageEntry.setVisibility(View.GONE);
             sendButton.setVisibility(View.GONE);
             v.setVisibility(View.GONE);
@@ -806,8 +798,7 @@ public class MainActivity extends FragmentActivity {
             getWindow().getDecorView().setBackgroundColor(settings.ctMessageListBackground);
         }
 
-        if (refreshMyContact)
-        {
+        if (refreshMyContact) {
             String[] mProjection = new String[]
                     {
                             Profile._ID
@@ -821,20 +812,15 @@ public class MainActivity extends FragmentActivity {
                             null,
                             null);
 
-            try
-            {
-                if (mProfileCursor.moveToFirst())
-                {
+            try {
+                if (mProfileCursor.moveToFirst()) {
                     myContactId = mProfileCursor.getString(mProfileCursor.getColumnIndex(Profile._ID));
                 }
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 myContactId = myPhoneNumber;
-            } finally
-            {
+            } finally {
                 mProfileCursor.close();
             }
-
 
             refreshMyContact = false;
         }
