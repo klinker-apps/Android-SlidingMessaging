@@ -1,12 +1,12 @@
 Version 7.60
 
 Jake:
+    - Create conversation class that closely mirrors stock app and can be used instead of array lists in main activity
+    - Use conversation class along with the stock app menu array adapter
     - active notifications contact picture
     - look into downloading mms and data getting stuck
-    - Attach subject to options menu and then add edit text at top of conversation and under new contact entry area
     - Attach audio and video to mms
     - delayed sending for certain times
-    - rewrite menu array adapter as cursor adaptor
     - actionbar pull to refresh, get the newest changes
 Luke:
     - Message details for MMS messages
