@@ -98,7 +98,6 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
                              Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.message_frame, container, false);
-        //container.setBackgroundColor(ctMessageListBackground);
 
         if (MainActivity.settings.runAs.equals("card+")) {
             final int margin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 18, getResources()
@@ -106,19 +105,11 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
             final int marginTop = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, getResources()
                     .getDisplayMetrics());
 
-            //View header = new View(context);
-            //header.setMinimumHeight(marginTop);
-            //header.setBackgroundColor(ctMessageListBackground);
-
             CustomListView list = (CustomListView) view.findViewById(R.id.fontListView);
 
-            //list.setFooterDividersEnabled(false);
-            //list.setHeaderDividersEnabled(true);
             list.setBackgroundResource(R.drawable.background_card);
             list.setBackgroundColor(MainActivity.settings.ctSentMessageBackground);
             list.setOverScrollMode(View.OVER_SCROLL_NEVER);
-            //list.addHeaderView(header);
-            //list.addFooterView(header);
 
             view.findViewById(R.id.messageBackground).setPadding(margin, marginTop, margin, marginTop);
         }
