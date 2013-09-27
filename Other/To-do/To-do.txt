@@ -18,7 +18,8 @@ Jake:
     - actionbar pull to refresh, get the newest changes
 Luke:
     - Message details for MMS messages
-    - fix slideover not turning back to white after opening the app any way except through the actual bubble
+    - Fix image inserting button on slideover
+    - Find out why it fills the screen when attaching from camera
 
 1) more individual notification options (slideover color, notification icon)
 2) option for adding certain text to every message at the beginning (delivery reports?)
