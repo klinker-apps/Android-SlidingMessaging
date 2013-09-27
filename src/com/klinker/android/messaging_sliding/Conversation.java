@@ -25,4 +25,32 @@ public class Conversation {
     public String toString() {
         return "threadId: " + threadId + ", count: " + count + " read: " + read + " body: " + body + " date: " + date + " number: " + number + " group: " + group;
     }
+
+    public long getThreadId() {
+        return threadId;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public boolean getRead() {
+        return read;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public long getDate() {
+        return date;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public boolean getGroup() {
+        return group;
+    }
 }

@@ -133,7 +133,7 @@ public class MainActivity extends FragmentActivity {
     public static String myPhoneNumber, myContactId;
 
     private ArrayList<Conversation> conversations;
-    private ArrayList<String> contactNames, contactNumbers, contactTypes, threadIds;
+    //private ArrayList<String> contactNames, contactNumbers, contactTypes, threadIds;
 
     public static SlidingMenu menu;
     private MessageBar messageBar;
