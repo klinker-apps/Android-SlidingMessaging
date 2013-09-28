@@ -493,6 +493,8 @@ public class MainActivity extends FragmentActivity {
                     messageScreen2.removeView(tabs);
                     messageScreen2.removeView(vp);
                 }
+
+                mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
             }
 
             public void onDrawerOpened(View drawerView) {
@@ -508,6 +510,8 @@ public class MainActivity extends FragmentActivity {
                     messageScreen.removeView(tabs);
                     messageScreen.removeView(vp);
                 }
+
+                mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
             }
         };
 
@@ -1085,6 +1089,7 @@ public class MainActivity extends FragmentActivity {
                                         }
                                     }
 
+                                    mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
                                     emoji2Open = false;
                                     return false;
                                 }
@@ -1103,6 +1108,7 @@ public class MainActivity extends FragmentActivity {
                                             }
                                         }
 
+                                        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
                                         emoji2Open = false;
                                     }
                                     return false;
