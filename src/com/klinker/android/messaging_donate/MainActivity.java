@@ -489,17 +489,21 @@ public class MainActivity extends FragmentActivity {
 
         setUpDrawer();
 
+        final String newMessage = getResources().getString(R.string.new_message);
+        final String messaging = getResources().getString(R.string.app_name_in_app);
+
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
                 R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close) {
 
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
+                getActionBar().setTitle(messaging);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
 
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
-                //getActionBar().setTitle(mDrawerTitle);
+                getActionBar().setTitle(newMessage);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
         };
