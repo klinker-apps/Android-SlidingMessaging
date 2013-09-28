@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.app.LoaderManager;
 import android.content.*;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -31,16 +32,17 @@ import java.util.Calendar;
 
 public class ConversationFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, PullToRefreshAttacher.OnRefreshListener {
 
-    public ArrayList<String> threadIds;
-    public int position;
-    public ArrayList<String> numbers;
-    public ArrayList<String> group;
-    public String myId, myPhoneNumber;
-    public View view;
+    private ArrayList<String> threadIds;
+    private int position;
+    private ArrayList<String> numbers;
+    private ArrayList<String> group;
+    private String myId, myPhoneNumber;
+    private View view;
     private SharedPreferences sharedPrefs;
-    public Context context;
-    public Cursor messageQuery;
-    public CustomListView listView;
+    private Context context;
+    private Cursor messageQuery;
+    private CustomListView listView;
+    private Resources resources;
 
     public ProgressBar spinner;
     private PullToRefreshAttacher mPullToRefreshAttacher;
@@ -79,6 +81,7 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         context = activity;
+        resources = context.getResources();
     }
 
     @Override
@@ -101,9 +104,9 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
         view = inflater.inflate(R.layout.message_frame, container, false);
 
         if (MainActivity.settings.runAs.equals("card+")) {
-            final int margin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 18, getResources()
+            final int margin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 18, resources
                     .getDisplayMetrics());
-            final int marginTop = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, getResources()
+            final int marginTop = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, resources
                     .getDisplayMetrics());
 
             CustomListView list = (CustomListView) view.findViewById(R.id.fontListView);
@@ -151,21 +154,21 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
                 String titleColor = sharedPrefs.getString("title_color", "blue");
 
                 if (titleColor.equals("blue")) {
-                    groupList.setBackgroundColor(getResources().getColor(R.color.holo_blue));
+                    groupList.setBackgroundColor(resources.getColor(R.color.holo_blue));
                 } else if (titleColor.equals("orange")) {
-                    groupList.setBackgroundColor(getResources().getColor(R.color.holo_orange));
+                    groupList.setBackgroundColor(resources.getColor(R.color.holo_orange));
                 } else if (titleColor.equals("red")) {
-                    groupList.setBackgroundColor(getResources().getColor(R.color.holo_red));
+                    groupList.setBackgroundColor(resources.getColor(R.color.holo_red));
                 } else if (titleColor.equals("green")) {
-                    groupList.setBackgroundColor(getResources().getColor(R.color.holo_green));
+                    groupList.setBackgroundColor(resources.getColor(R.color.holo_green));
                 } else if (titleColor.equals("purple")) {
-                    groupList.setBackgroundColor(getResources().getColor(R.color.holo_purple));
+                    groupList.setBackgroundColor(resources.getColor(R.color.holo_purple));
                 } else if (titleColor.equals("grey")) {
-                    groupList.setBackgroundColor(getResources().getColor(R.color.grey));
+                    groupList.setBackgroundColor(resources.getColor(R.color.grey));
                 } else if (titleColor.equals("black")) {
-                    groupList.setBackgroundColor(getResources().getColor(R.color.pitch_black));
+                    groupList.setBackgroundColor(resources.getColor(R.color.pitch_black));
                 } else if (titleColor.equals("darkgrey")) {
-                    groupList.setBackgroundColor(getResources().getColor(R.color.darkgrey));
+                    groupList.setBackgroundColor(resources.getColor(R.color.darkgrey));
                 }
             } else {
                 groupList.setBackgroundColor(MainActivity.settings.titleBarColor);
@@ -326,7 +329,7 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
         if (MainActivity.settings.messageDividerVisible && MainActivity.settings.runAs.equals("sliding")) {
             listView.setDividerHeight(1);
         } else if (MainActivity.settings.runAs.equals("card+") && MainActivity.settings.messageDividerVisible) {
-            listView.setDivider(getResources().getDrawable(R.drawable.card_plus_divider));
+            listView.setDivider(resources.getDrawable(R.drawable.card_plus_divider));
         } else {
             listView.setDividerHeight(0);
         }

@@ -16,6 +16,7 @@ import android.widget.ListView;
 import com.haarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_sliding.Conversation;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -23,7 +24,8 @@ import java.util.ArrayList;
 
 public class BatchDeleteAllActivity extends Activity {
 	
-	public ArrayList<String> threadIds, inboxNumber, inboxBody, inboxGroup;
+	//public ArrayList<String> threadIds, inboxNumber, inboxBody, inboxGroup;
+    public ArrayList<Conversation> conversations;
     public BatchDeleteAllArrayAdapter mAdapter;
     public final Context context = this;
 
@@ -45,13 +47,8 @@ public class BatchDeleteAllActivity extends Activity {
         }
 
         getWindow().setBackgroundDrawable(new ColorDrawable(sharedPrefs.getInt("ct_conversationListBackground", getResources().getColor(R.color.light_silver))));
-		
-		Intent intent = getIntent();
-		Bundle b = intent.getExtras();
-		threadIds = b.getStringArrayList("threadIds");
-		inboxNumber = b.getStringArrayList("inboxNumber");
-        inboxBody = b.getStringArrayList("inboxBody");
-        inboxGroup = b.getStringArrayList("group");
+
+		conversations = MainActivity.conversations;
 		
 		ListView contactList = (ListView) findViewById(R.id.messageListView);
         contactList.setDivider(new ColorDrawable(sharedPrefs.getInt("ct_conversationDividerColor", getResources().getColor(R.color.white))));
@@ -63,7 +60,7 @@ public class BatchDeleteAllActivity extends Activity {
         }
 
         // Animation for the list view
-        mAdapter = new BatchDeleteAllArrayAdapter(this, inboxBody, inboxNumber, inboxGroup);
+        mAdapter = new BatchDeleteAllArrayAdapter(this, conversations);
 
         SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(mAdapter);
         swingBottomInAnimationAdapter.setListView(contactList);
@@ -89,9 +86,8 @@ public class BatchDeleteAllActivity extends Activity {
 						public void run() {
 							ArrayList<Integer> positions = BatchDeleteAllArrayAdapter.itemsToDelete;
 							
-							for (int i = 0; i < positions.size(); i++)
-							{
-								deleteSMS(context, threadIds.get(positions.get(i)));
+							for (int i = 0; i < positions.size(); i++) {
+								deleteSMS(context, conversations.get(i).getThreadId());
 							}
 
                             ((Activity)context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
@@ -122,20 +118,18 @@ public class BatchDeleteAllActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-                if (!BatchDeleteAllArrayAdapter.checkedAll)
-                {
+                if (!BatchDeleteAllArrayAdapter.checkedAll) {
                     BatchDeleteAllArrayAdapter.itemsToDelete.clear();
                     BatchDeleteAllArrayAdapter.checkedAll = true;
 
                     mAdapter.notifyDataSetChanged();
 
-                    for (int i = 0; i < threadIds.size(); i++)
+                    for (int i = 0; i < conversations.size(); i++)
                         BatchDeleteAllArrayAdapter.itemsToDelete.add(i);
 
                     selectAll.setText(getResources().getString(R.string.select_none));
 
-                } else
-                {
+                } else {
                     BatchDeleteAllArrayAdapter.itemsToDelete.clear();
                     BatchDeleteAllArrayAdapter.checkedAll = false;
 
@@ -154,7 +148,7 @@ public class BatchDeleteAllActivity extends Activity {
         overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
     }
 
-    public void deleteSMS(final Context context, final String id) {
+    public void deleteSMS(final Context context, final long id) {
         if (checkLocked(context, id)) {
             while (showingDialog) {
                 try {
@@ -216,7 +210,7 @@ public class BatchDeleteAllActivity extends Activity {
         }
     }
 
-    public boolean checkLocked(Context context, String id) {
+    public boolean checkLocked(Context context, long id) {
         try {
             return context.getContentResolver().query(Uri.parse("content://mms-sms/locked/" + id + "/"), new String[]{"_id"}, null, null, null).moveToFirst();
         } catch (Exception e) {
@@ -224,16 +218,16 @@ public class BatchDeleteAllActivity extends Activity {
         }
     }
 
-    public void deleteLocked(Context context, String id) {
+    public void deleteLocked(Context context, long id) {
         try {
             context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/" + id + "/"), null, null);
-            context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/"), "_id=?", new String[] {id});
+            context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/"), "_id=?", new String[] {id + ""});
         } catch (Exception e) {
 
         }
     }
 
-    public void dontDeleteLocked(Context context, String id) {
+    public void dontDeleteLocked(Context context, long id) {
         ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
         ops.add(ContentProviderOperation.newDelete(Uri.parse("content://mms-sms/conversations/" + id + "/"))
                 .withSelection("locked=?", new String[]{"0"})
@@ -244,21 +238,4 @@ public class BatchDeleteAllActivity extends Activity {
         } catch (OperationApplicationException e) {
         }
     }
-	
-	private static void writeToFile3(ArrayList<String> data, Context context) {
-        try {
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("conversationList.txt", Context.MODE_PRIVATE));
-            
-            for (int i = 0; i < data.size(); i++)
-            {
-            	outputStreamWriter.write(data.get(i) + "\n");
-            }
-            	
-            outputStreamWriter.close();
-        }
-        catch (IOException e) {
-            
-        } 
-		
-	}
 }

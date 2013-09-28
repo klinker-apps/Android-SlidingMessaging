@@ -15,7 +15,6 @@ import android.graphics.PorterDuff.Mode;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.ExifInterface;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.*;
@@ -57,6 +56,7 @@ import com.klinker.android.messaging_donate.receivers.UnlockReceiver;
 import com.klinker.android.messaging_donate.settings.AppSettings;
 import com.klinker.android.messaging_donate.settings.SettingsPagerActivity;
 import com.klinker.android.messaging_donate.utils.ContactUtil;
+import com.klinker.android.messaging_donate.utils.IOUtil;
 import com.klinker.android.messaging_donate.utils.SendUtil;
 import com.klinker.android.messaging_sliding.AttachMore;
 import com.klinker.android.messaging_sliding.ContactSearchArrayAdapter;
@@ -106,11 +106,15 @@ public class MainActivity extends FragmentActivity {
     public final static String EXTRA_REPEAT = "com.klinker.android.messaging_sliding.REPEAT";
     public final static String EXTRA_MESSAGE = "com.klinker.android.messaging_sliding.MESSAGE";
 
-    public DrawerLayout mDrawerLayout;
+    protected static Context context;
+    private ActionBar ab;
+    protected Resources resources;
+
+    public static DrawerLayout mDrawerLayout;
     private LinearLayout mDrawer;
     private ActionBarDrawerToggle mDrawerToggle;
 
-    private View newMessageView;
+    public static View newMessageView;
 
     private boolean unlocked = false;
 
@@ -119,8 +123,6 @@ public class MainActivity extends FragmentActivity {
 
     public static String deviceType;
     public static boolean newMessage;
-
-    public static Context statCont;
 
     public static Settings sendSettings;
     private Transaction sendTransaction;
@@ -134,7 +136,7 @@ public class MainActivity extends FragmentActivity {
 
     public static String myPhoneNumber, myContactId;
 
-    private ArrayList<Conversation> conversations;
+    public static ArrayList<Conversation> conversations;
     private ArrayList<String> contactNames, contactNumbers, contactTypes;
 
     public static SlidingMenu menu;
@@ -242,13 +244,15 @@ public class MainActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        context = this;
+        resources = getResources();
+
         if (getPackageName().equals("com.klinker.android.messaging_donate")) {
             unlocked = true;
         } else {
             unlocked = checkUnlocked();
         }
 
-        statCont = this;
         settings = AppSettings.init(this);
         initialSetup();
 
@@ -269,15 +273,15 @@ public class MainActivity extends FragmentActivity {
         if (settings.emojiKeyboard && settings.emoji) {
             vp = new ViewPager(this);
             tabs = new PagerSlidingTabStrip(this);
-            vp.setBackgroundColor(getResources().getColor(R.color.light_silver));
-            tabs.setBackgroundColor(getResources().getColor(R.color.light_silver));
+            vp.setBackgroundColor(resources.getColor(R.color.light_silver));
+            tabs.setBackgroundColor(resources.getColor(R.color.light_silver));
 
             vp.setId(555555);
 
             Display d = ((WindowManager)getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
             int keyboardHeight = (int) (d.getHeight()/3.0);
 
-            SlidingTabParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, getResources().getDisplayMetrics()));
+            SlidingTabParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, resources.getDisplayMetrics()));
             viewPagerParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, keyboardHeight);
 
             tabs.setIndicatorColor(settings.titleBarColor);
@@ -385,7 +389,7 @@ public class MainActivity extends FragmentActivity {
             Locale.setDefault(locale);
             Configuration config = new Configuration();
             config.locale = locale;
-            getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+            resources.updateConfiguration(config, resources.getDisplayMetrics());
         }
 
         setUpTitleBar();
@@ -437,25 +441,24 @@ public class MainActivity extends FragmentActivity {
         mmsProgressAnimation.setContext(activity);
         mmsProgressAnimation.setCurrentProgress(0);
 
-        final float scale = getResources().getDisplayMetrics().density;
+        final float scale = resources.getDisplayMetrics().density;
         MainActivity.contactWidth = (int) (64 * scale + 0.5f);
 
         try {
-            ActionBar ab = getActionBar();
             ab.setDisplayHomeAsUpEnabled(true);
 
             if (!settings.lightActionBar) {
-                ab.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.black)));
+                ab.setBackgroundDrawable(new ColorDrawable(resources.getColor(R.color.black)));
 
-                if (settings.ctConversationListBackground == getResources().getColor(R.color.pitch_black)) {
+                if (settings.ctConversationListBackground == resources.getColor(R.color.pitch_black)) {
                     if (!settings.useTitleBar) {
-                        ab.setBackgroundDrawable(getResources().getDrawable(R.drawable.pitch_black_action_bar_blue));
+                        ab.setBackgroundDrawable(resources.getDrawable(R.drawable.pitch_black_action_bar_blue));
                     } else {
-                        ab.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.pitch_black)));
+                        ab.setBackgroundDrawable(new ColorDrawable(resources.getColor(R.color.pitch_black)));
                     }
                 }
             } else {
-                ab.setBackgroundDrawable(getResources().getDrawable(R.drawable.ab_hangouts));
+                ab.setBackgroundDrawable(resources.getDrawable(R.drawable.ab_hangouts));
             }
         } catch (Exception e) {
             // no action bar, dialog theme
@@ -475,26 +478,36 @@ public class MainActivity extends FragmentActivity {
 
         setUpDrawer();
 
-        final String newMessage = getResources().getString(R.string.new_message);
-        final String messaging = getResources().getString(R.string.app_name_in_app);
+        final String newMessage = resources.getString(R.string.new_message);
+        final String messaging = resources.getString(R.string.app_name_in_app);
 
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
                 R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close) {
 
             public void onDrawerClosed(View view) {
-                try { getActionBar().setTitle(messaging); } catch (Exception e) { }
+                try { ab.setTitle(messaging); } catch (Exception e) { }
                 invalidateOptionsMenu();
                 messageEntry.requestFocusFromTouch();
+
+                if (emoji2Open) {
+                    messageScreen2.removeView(tabs);
+                    messageScreen2.removeView(vp);
+                }
             }
 
             public void onDrawerOpened(View drawerView) {
-                try { getActionBar().setTitle(newMessage); } catch (Exception e) { }
+                try { ab.setTitle(newMessage); } catch (Exception e) { }
                 invalidateOptionsMenu();
                 EditText contactEntry = (EditText) newMessageView.findViewById(R.id.contactEntry);
                 contactEntry.requestFocusFromTouch();
                 InputMethodManager keyboard = (InputMethodManager)
                         getSystemService(Context.INPUT_METHOD_SERVICE);
                 keyboard.showSoftInput(contactEntry, 0);
+
+                if (emojiOpen) {
+                    messageScreen.removeView(tabs);
+                    messageScreen.removeView(vp);
+                }
             }
         };
 
@@ -595,7 +608,6 @@ public class MainActivity extends FragmentActivity {
             mEditText.setImeOptions(EditorInfo.IME_ACTION_NONE);
         }
 
-        final Context context = this;
         final EditText contact = (EditText) newMessageView.findViewById(R.id.contactEntry);
 
         final ListPopupWindow lpw = new ListPopupWindow(this);
@@ -681,12 +693,12 @@ public class MainActivity extends FragmentActivity {
                             if (type == 2) {
                                 contactNames.add(people.getString(indexName));
                                 contactNumbers.add(people.getString(indexNumber).replaceAll("[^0-9\\+]", ""));
-                                contactTypes.add(ContactsContract.CommonDataKinds.Phone.getTypeLabel(context.getResources(), type, customLabel).toString());
+                                contactTypes.add(ContactsContract.CommonDataKinds.Phone.getTypeLabel(resources, type, customLabel).toString());
                             }
                         } else {
                             contactNames.add(people.getString(indexName));
                             contactNumbers.add(people.getString(indexNumber).replaceAll("[^0-9\\+]", ""));
-                            contactTypes.add(ContactsContract.CommonDataKinds.Phone.getTypeLabel(context.getResources(), type, customLabel).toString());
+                            contactTypes.add(ContactsContract.CommonDataKinds.Phone.getTypeLabel(resources, type, customLabel).toString());
                         }
                     } while (people.moveToNext());
                 }
@@ -742,17 +754,17 @@ public class MainActivity extends FragmentActivity {
                                         if (type == 2) {
                                             contactNames.add(people.getString(indexName));
                                             contactNumbers.add(people.getString(indexNumber).replaceAll("[^0-9\\+]", ""));
-                                            contactTypes.add(ContactsContract.CommonDataKinds.Phone.getTypeLabel(context.getResources(), type, customLabel).toString());
+                                            contactTypes.add(ContactsContract.CommonDataKinds.Phone.getTypeLabel(resources, type, customLabel).toString());
                                         }
                                     } else {
                                         contactNames.add(people.getString(indexName));
                                         contactNumbers.add(people.getString(indexNumber).replaceAll("[^0-9\\+]", ""));
-                                        contactTypes.add(ContactsContract.CommonDataKinds.Phone.getTypeLabel(context.getResources(), type, customLabel).toString());
+                                        contactTypes.add(ContactsContract.CommonDataKinds.Phone.getTypeLabel(resources, type, customLabel).toString());
                                     }
                                 } catch (Exception e) {
                                     contactNames.add(people.getString(indexName));
                                     contactNumbers.add(people.getString(indexName));
-                                    contactTypes.add(ContactsContract.CommonDataKinds.Phone.getTypeLabel(context.getResources(), type, customLabel).toString());
+                                    contactTypes.add(ContactsContract.CommonDataKinds.Phone.getTypeLabel(resources, type, customLabel).toString());
                                 }
                             } while (people.moveToNext());
                         }
@@ -817,9 +829,7 @@ public class MainActivity extends FragmentActivity {
                             }
                         }
                     }
-                } catch (Exception e) {
-
-                }
+                } catch (Exception e) { }
 
                 Display display = getWindowManager().getDefaultDisplay();
                 Point size = new Point();
@@ -935,13 +945,13 @@ public class MainActivity extends FragmentActivity {
                                         try {
                                             bitmaps.add(SendUtil.getImage(context, attachedImage2, 600));
                                         } catch (Exception e) {
-                                            bitmaps.add(decodeFile2(new File(getPath(attachedImage2))));
+                                            bitmaps.add(IOUtil.decodeFileWithExif2(new File(IOUtil.getPath(attachedImage2, context))));
                                         }
                                     } else {
                                         try {
                                             bitmaps.add(SendUtil.getImage(context, Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/", "photoToSend.png")), 600));
                                         } catch (Exception e) {
-                                            bitmaps.add(decodeFile2(new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/", "photoToSend.png")));
+                                            bitmaps.add(IOUtil.decodeFileWithExif2(new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/", "photoToSend.png")));
                                         }
                                     }
                                 } else {
@@ -1040,8 +1050,9 @@ public class MainActivity extends FragmentActivity {
 
                     final String menuOption = sharedPrefs.getString("page_or_menu2", "2");
 
-                    if(false)/*(settings.emojiKeyboard && settings.emojiType)*/ {
+                    if (settings.emojiKeyboard && settings.emojiType) {
                         if (!emoji2Open) {
+                            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
                             messageScreen2 = (LinearLayout) findViewById(R.id.messageScreen2);
 
                             messageScreen2.addView(tabs, SlidingTabParams);
@@ -1090,8 +1101,8 @@ public class MainActivity extends FragmentActivity {
                                     return false;
                                 }
                             });
-                        } else
-                        {
+                        } else {
+                            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
                             emoji2Open = false;
                             messageScreen2.removeView(tabs);
                             messageScreen2.removeView(vp);
@@ -1266,7 +1277,7 @@ public class MainActivity extends FragmentActivity {
         contactLister.setColorFilter(settings.ctSendButtonColor);
 
         imageAttachBackground2.setBackgroundColor(settings.ctMessageListBackground);
-        Drawable attachBack = getResources().getDrawable(R.drawable.attachment_editor_bg);
+        Drawable attachBack = resources.getDrawable(R.drawable.attachment_editor_bg);
         attachBack.setColorFilter(settings.ctSentMessageBackground, Mode.MULTIPLY);
         imageAttach2.setBackgroundDrawable(attachBack);
         imageAttachBackground2.setVisibility(View.GONE);
@@ -1298,7 +1309,6 @@ public class MainActivity extends FragmentActivity {
 
                 options.inSampleSize = 2;
                 Bitmap myBitmap = BitmapFactory.decodeFile(Uri.parse(settings.customBackgroundLocation).getPath(),options);
-                this.getResources();
                 Drawable d = new BitmapDrawable(Resources.getSystem(),myBitmap);
                 searchView.setBackgroundDrawable(d);
             } catch (Error e) {
@@ -1307,7 +1317,6 @@ public class MainActivity extends FragmentActivity {
 
                     options.inSampleSize = 4;
                     Bitmap myBitmap = BitmapFactory.decodeFile(Uri.parse(settings.customBackgroundLocation).getPath(),options);
-                    this.getResources();
                     Drawable d = new BitmapDrawable(Resources.getSystem(),myBitmap);
                     searchView.setBackgroundDrawable(d);
                 } catch (Error f) {
@@ -1325,9 +1334,7 @@ public class MainActivity extends FragmentActivity {
                 getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
                 getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
             }
-        } catch (Exception e) {
-
-        }
+        } catch (Exception e) { }
 
         if(sharedPrefs.getBoolean("slideover_enabled",false)) {
             if(!isSlideOverRunning()) {
@@ -1385,13 +1392,14 @@ public class MainActivity extends FragmentActivity {
     public void setUpWindow() {
         if (settings.lightActionBar) {
             setTheme(R.style.HangoutsTheme);
+            ab = getActionBar();
         }
 
         if (!settings.pinType.equals("1")) {
             if (settings.pinType.equals("2")) {
                 setContentView(R.layout.activity_main_phone);
             } else if (settings.pinType.equals("3")) {
-                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                if (resources.getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
                     setContentView(R.layout.activity_main_phablet2);
                 } else {
                     setContentView(R.layout.activity_main_phablet);
@@ -1404,7 +1412,7 @@ public class MainActivity extends FragmentActivity {
         }
 
         setTitle(R.string.app_name_in_app);
-        getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
+        getWindow().setBackgroundDrawable(new ColorDrawable(resources.getColor(android.R.color.transparent)));
     }
 
     public void setUpIntentStuff() {
@@ -1455,9 +1463,7 @@ public class MainActivity extends FragmentActivity {
                     }
                 }
             }
-        } catch (Exception e) {
-
-        }
+        } catch (Exception e) { }
     }
 
     public void setUpTitleBar() {
@@ -1469,7 +1475,7 @@ public class MainActivity extends FragmentActivity {
 
         if (!settings.customTheme) {
             if (settings.titleTextColor) {
-                title.setTextColor(getResources().getColor(R.color.black));
+                title.setTextColor(resources.getColor(R.color.black));
             }
         } else {
             title.setTextColor(settings.titleBarTextColor);
@@ -1484,21 +1490,21 @@ public class MainActivity extends FragmentActivity {
                 String titleColor = sharedPrefs.getString("title_color", "blue");
 
                 if (titleColor.equals("blue")) {
-                    title.setBackgroundColor(getResources().getColor(R.color.holo_blue));
+                    title.setBackgroundColor(resources.getColor(R.color.holo_blue));
                 } else if (titleColor.equals("orange")) {
-                    title.setBackgroundColor(getResources().getColor(R.color.holo_orange));
+                    title.setBackgroundColor(resources.getColor(R.color.holo_orange));
                 } else if (titleColor.equals("red")) {
-                    title.setBackgroundColor(getResources().getColor(R.color.holo_red));
+                    title.setBackgroundColor(resources.getColor(R.color.holo_red));
                 } else if (titleColor.equals("green")) {
-                    title.setBackgroundColor(getResources().getColor(R.color.holo_green));
+                    title.setBackgroundColor(resources.getColor(R.color.holo_green));
                 } else if (titleColor.equals("purple")) {
-                    title.setBackgroundColor(getResources().getColor(R.color.holo_purple));
+                    title.setBackgroundColor(resources.getColor(R.color.holo_purple));
                 } else if (titleColor.equals("grey")) {
-                    title.setBackgroundColor(getResources().getColor(R.color.grey));
+                    title.setBackgroundColor(resources.getColor(R.color.grey));
                 } else if (titleColor.equals("black")) {
-                    title.setBackgroundColor(getResources().getColor(R.color.pitch_black));
+                    title.setBackgroundColor(resources.getColor(R.color.pitch_black));
                 } else if (titleColor.equals("darkgrey")) {
-                    title.setBackgroundColor(getResources().getColor(R.color.darkgrey));
+                    title.setBackgroundColor(resources.getColor(R.color.darkgrey));
                 }
             } else {
                 title.setBackgroundColor(settings.titleBarColor);
@@ -1538,9 +1544,7 @@ public class MainActivity extends FragmentActivity {
                     String snippet = " ";
                     try {
                         snippet = query.getString(query.getColumnIndex("snippet")).replaceAll("\\\n", " ");
-                    } catch (Exception e) {
-
-                    }
+                    } catch (Exception e) { }
 
                     conversations.add(new Conversation(
                             query.getLong(query.getColumnIndex("_id")),
@@ -1554,9 +1558,7 @@ public class MainActivity extends FragmentActivity {
             }
 
             query.close();
-        } catch (Exception e) {
-
-        }
+        } catch (Exception e) { }
 
         if (settings.alwaysUseVoice) {
             for (Conversation i : conversations) {
@@ -1632,7 +1634,7 @@ public class MainActivity extends FragmentActivity {
 
         try {
             if (deviceType.equals("phablet") || deviceType.equals("tablet")) {
-                getActionBar().setDisplayHomeAsUpEnabled(false);
+                ab.setDisplayHomeAsUpEnabled(false);
             }
         } catch (Exception e) {
             // no action bar, dialog theme
@@ -1735,8 +1737,6 @@ public class MainActivity extends FragmentActivity {
             }
         });
 
-        final Context context = this;
-
         sendButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -1812,13 +1812,13 @@ public class MainActivity extends FragmentActivity {
                                         try {
                                             bitmaps.add(SendUtil.getImage(context, attachedImage, 600));
                                         } catch (Exception e) {
-                                            bitmaps.add(decodeFile2(new File(getPath(attachedImage))));
+                                            bitmaps.add(IOUtil.decodeFileWithExif2(new File(IOUtil.getPath(attachedImage, context))));
                                         }
                                     } else {
                                         try {
                                             bitmaps.add(SendUtil.getImage(context, Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/", "photoToSend.png")), 600));
                                         } catch (Exception e) {
-                                            bitmaps.add(decodeFile2(new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/", "photoToSend.png")));
+                                            bitmaps.add(IOUtil.decodeFileWithExif2(new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/", "photoToSend.png")));
                                         }
                                     }
                                 } else {
@@ -2163,13 +2163,13 @@ public class MainActivity extends FragmentActivity {
         voiceButton.setColorFilter(settings.emojiButtonColor);
         messageEntry.setTextColor(settings.draftTextColor);
         imageAttachBackground.setBackgroundColor(settings.ctMessageListBackground);
-        Drawable attachBack = getResources().getDrawable(R.drawable.attachment_editor_bg);
+        Drawable attachBack = resources.getDrawable(R.drawable.attachment_editor_bg);
         attachBack.setColorFilter(settings.ctSentMessageBackground, Mode.MULTIPLY);
         imageAttach.setBackgroundDrawable(attachBack);
         imageAttachBackground.setVisibility(View.GONE);
         imageAttach.setVisibility(false);
 
-        Drawable mmsProgressDrawable = getResources().getDrawable(R.drawable.progress_horizontal_holo_light);
+        Drawable mmsProgressDrawable = resources.getDrawable(R.drawable.progress_horizontal_holo_light);
         mmsProgressDrawable.setColorFilter(settings.ctSendButtonColor, Mode.MULTIPLY);
         mmsProgress.setProgressDrawable(mmsProgressDrawable);
 
@@ -2200,7 +2200,7 @@ public class MainActivity extends FragmentActivity {
     public static void insertEmoji(String emoji, int icon) {
         EditText input;
 
-        if (menu.isSecondaryMenuShowing()) {
+        if (mDrawerLayout.isDrawerOpen(Gravity.RIGHT)) {
             input = messageEntry2;
         } else {
             input = messageEntry;
@@ -2211,7 +2211,7 @@ public class MainActivity extends FragmentActivity {
         int beforeLength = input.getText().toString().length();
         CharSequence before = input.getText().subSequence(0, beforeSelectionStart);
         CharSequence after = input.getText().subSequence(input.getSelectionEnd(), beforeLength);
-        input.setText(android.text.TextUtils.concat(before, EmojiConverter2.getSmiledText(statCont, emoji), after));
+        input.setText(android.text.TextUtils.concat(before, EmojiConverter2.getSmiledText(context, emoji), after));
         input.setEnabled(true);
         input.setSelection(beforeSelectionStart + (input.getText().toString().length() - beforeLength));
 
@@ -2282,7 +2282,7 @@ public class MainActivity extends FragmentActivity {
                         refreshViewPager();
                     }
                 });
-                footer.setText(getResources().getString(R.string.load_all));
+                footer.setText(resources.getString(R.string.load_all));
                 footer.setTypeface(font);
                 footer.setBackgroundResource(android.R.color.transparent);
                 footer.setTextColor(settings.ctNameTextColor);
@@ -2297,7 +2297,6 @@ public class MainActivity extends FragmentActivity {
 
                     options.inSampleSize = 2;
                     Bitmap myBitmap = BitmapFactory.decodeFile(Uri.parse(settings.customBackgroundLocation).getPath(),options);
-                    this.getResources();
                     Drawable d = new BitmapDrawable(Resources.getSystem(),myBitmap);
                     newFragment.getView().setBackgroundDrawable(d);
                 } catch (Error e) {
@@ -2325,7 +2324,7 @@ public class MainActivity extends FragmentActivity {
                         refreshViewPager();
                     }
                 });
-                footer.setText(getResources().getString(R.string.load_all));
+                footer.setText(resources.getString(R.string.load_all));
                 footer.setTypeface(font);
                 footer.setBackgroundResource(android.R.color.transparent);
                 footer.setTextColor(settings.ctNameTextColor);
@@ -2338,7 +2337,6 @@ public class MainActivity extends FragmentActivity {
 
                     options.inSampleSize = 2;
                     Bitmap myBitmap = BitmapFactory.decodeFile(Uri.parse(settings.customBackgroundLocation).getPath(),options);
-                    this.getResources();
                     Drawable d = new BitmapDrawable(Resources.getSystem(),myBitmap);
                     menuLayout.setBackgroundDrawable(d);
                 } catch (Error e) {
@@ -2424,7 +2422,6 @@ public class MainActivity extends FragmentActivity {
                 }
 
                 try {
-                    ActionBar ab = getActionBar();
                     ab.setTitle(R.string.app_name_in_app);
                     ab.setSubtitle(null);
                     ab.setIcon(R.drawable.ic_launcher);
@@ -2443,7 +2440,6 @@ public class MainActivity extends FragmentActivity {
 
         });
 
-        final Context context = this;
         menu.setOnClosedListener(new SlidingMenu.OnClosedListener() {
 
             @Override
@@ -2469,12 +2465,10 @@ public class MainActivity extends FragmentActivity {
 
                 try {
                     if (deviceType.equals("phone") || deviceType.equals("phablet2")) {
-                        getActionBar().setDisplayHomeAsUpEnabled(true);
+                        ab.setDisplayHomeAsUpEnabled(true);
                     }
 
                     if (!settings.useTitleBar || settings.alwaysShowContactInfo || settings.titleContactImages) {
-                        final ActionBar ab = getActionBar();
-
                         if (ab != null) {
                             try {
                                 new Thread(new Runnable() {
@@ -2554,7 +2548,6 @@ public class MainActivity extends FragmentActivity {
 
                     @Override
                     public void run() {
-                        final ActionBar ab = getActionBar();
                         String title = "";
                         String subtitle = "";
 
@@ -2663,9 +2656,7 @@ public class MainActivity extends FragmentActivity {
                                     if (!settings.customBackground) {
                                         row.setBackgroundColor(settings.ctConversationListBackground);
                                     }
-                                } catch (Exception e) {
-
-                                }
+                                } catch (Exception e) { }
 
                                 if ((!settings.useTitleBar || settings.alwaysShowContactInfo) && ab != null) {
                                     ab.setTitle(titleF);
@@ -2729,7 +2720,7 @@ public class MainActivity extends FragmentActivity {
 
         if (settings.runAs.equals("card2") || settings.runAs.equals("card+")) {
             mViewPager.setOffscreenPageLimit(2);
-            int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -26, context.getResources().getDisplayMetrics());
+            int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -26, resources.getDisplayMetrics());
             mViewPager.setPageMargin(scale);
         }
     }
@@ -2796,7 +2787,7 @@ public class MainActivity extends FragmentActivity {
                         menu.getItem(DELETE_CONVERSATION).setVisible(false);
                         menu.getItem(MENU_MARK_ALL_READ).setVisible(true);
                         menu.getItem(COPY_SENDER).setVisible(false);
-                    } else if (MainActivity.menu.isSecondaryMenuShowing() || mDrawerLayout.isDrawerOpen(Gravity.RIGHT)) {
+                    } else if (mDrawerLayout.isDrawerOpen(Gravity.RIGHT)) {
                         menu.getItem(MENU_CALL).setVisible(false);
                         menu.getItem(MENU_SCHEDULED).setVisible(true);
                         menu.getItem(MENU_ATTACH).setVisible(true);
@@ -2858,44 +2849,44 @@ public class MainActivity extends FragmentActivity {
         }
 
         if (settings.lightActionBar) {
-            Drawable callButton = getResources().getDrawable(R.drawable.ic_menu_call);
-            callButton.setColorFilter(getResources().getColor(R.color.hangouts_ab_icon), Mode.MULTIPLY);
+            Drawable callButton = resources.getDrawable(R.drawable.ic_menu_call);
+            callButton.setColorFilter(resources.getColor(R.color.hangouts_ab_icon), Mode.MULTIPLY);
             menu.getItem(MENU_CALL).setIcon(callButton);
 
-            Drawable scheduledButton = getResources().getDrawable(R.drawable.ic_scheduled);
-            scheduledButton.setColorFilter(getResources().getColor(R.color.hangouts_ab_icon), Mode.MULTIPLY);
+            Drawable scheduledButton = resources.getDrawable(R.drawable.ic_scheduled);
+            scheduledButton.setColorFilter(resources.getColor(R.color.hangouts_ab_icon), Mode.MULTIPLY);
             menu.getItem(MENU_SCHEDULED).setIcon(scheduledButton);
 
-            Drawable attachButton = getResources().getDrawable(R.drawable.ic_attach);
-            attachButton.setColorFilter(getResources().getColor(R.color.hangouts_ab_icon), Mode.MULTIPLY);
+            Drawable attachButton = resources.getDrawable(R.drawable.ic_attach);
+            attachButton.setColorFilter(resources.getColor(R.color.hangouts_ab_icon), Mode.MULTIPLY);
             menu.getItem(MENU_ATTACH).setIcon(attachButton);
 
-            Drawable searchButton = getResources().getDrawable(R.drawable.ic_search);
-            searchButton.setColorFilter(getResources().getColor(R.color.hangouts_ab_icon), Mode.MULTIPLY);
+            Drawable searchButton = resources.getDrawable(R.drawable.ic_search);
+            searchButton.setColorFilter(resources.getColor(R.color.hangouts_ab_icon), Mode.MULTIPLY);
             menu.getItem(MENU_SEARCH).setIcon(searchButton);
 
-            Drawable replyButton = getResources().getDrawable(R.drawable.ic_reply);
-            replyButton.setColorFilter(getResources().getColor(R.color.hangouts_ab_icon), Mode.MULTIPLY);
+            Drawable replyButton = resources.getDrawable(R.drawable.ic_reply);
+            replyButton.setColorFilter(resources.getColor(R.color.hangouts_ab_icon), Mode.MULTIPLY);
             menu.getItem(MENU_NEW_MESSAGE).setIcon(replyButton);
         } else {
-            Drawable callButton = getResources().getDrawable(R.drawable.ic_menu_call);
-            callButton.setColorFilter(getResources().getColor(R.color.white), Mode.MULTIPLY);
+            Drawable callButton = resources.getDrawable(R.drawable.ic_menu_call);
+            callButton.setColorFilter(resources.getColor(R.color.white), Mode.MULTIPLY);
             menu.getItem(MENU_CALL).setIcon(callButton);
 
-            Drawable scheduledButton = getResources().getDrawable(R.drawable.ic_scheduled);
-            scheduledButton.setColorFilter(getResources().getColor(R.color.white), Mode.MULTIPLY);
+            Drawable scheduledButton = resources.getDrawable(R.drawable.ic_scheduled);
+            scheduledButton.setColorFilter(resources.getColor(R.color.white), Mode.MULTIPLY);
             menu.getItem(MENU_SCHEDULED).setIcon(scheduledButton);
 
-            Drawable attachButton = getResources().getDrawable(R.drawable.ic_attach);
-            attachButton.setColorFilter(getResources().getColor(R.color.white), Mode.MULTIPLY);
+            Drawable attachButton = resources.getDrawable(R.drawable.ic_attach);
+            attachButton.setColorFilter(resources.getColor(R.color.white), Mode.MULTIPLY);
             menu.getItem(MENU_ATTACH).setIcon(attachButton);
 
-            Drawable searchButton = getResources().getDrawable(R.drawable.ic_search);
-            searchButton.setColorFilter(getResources().getColor(R.color.white), Mode.MULTIPLY);
+            Drawable searchButton = resources.getDrawable(R.drawable.ic_search);
+            searchButton.setColorFilter(resources.getColor(R.color.white), Mode.MULTIPLY);
             menu.getItem(MENU_SEARCH).setIcon(searchButton);
 
-            Drawable replyButton = getResources().getDrawable(R.drawable.ic_reply);
-            replyButton.setColorFilter(getResources().getColor(R.color.white), Mode.MULTIPLY);
+            Drawable replyButton = resources.getDrawable(R.drawable.ic_reply);
+            replyButton.setColorFilter(resources.getColor(R.color.white), Mode.MULTIPLY);
             menu.getItem(MENU_NEW_MESSAGE).setIcon(replyButton);
         }
 
@@ -2945,16 +2936,16 @@ public class MainActivity extends FragmentActivity {
                     e.printStackTrace();
                 }
 
-                builder.setMessage(this.getResources().getString(R.string.version) + ": " + version +
-                        "\n\n" + this.getResources().getString(R.string.about_expanded) + "\n\n© 2013 Jacob Klinker and Luke Klinker")
-                        .setPositiveButton(this.getResources().getString(R.string.changelog), new DialogInterface.OnClickListener() {
+                builder.setMessage(resources.getString(R.string.version) + ": " + version +
+                        "\n\n" + resources.getString(R.string.about_expanded) + "\n\n© 2013 Jacob Klinker and Luke Klinker")
+                        .setPositiveButton(resources.getString(R.string.changelog), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 Intent wizardintent = new Intent(getApplicationContext(), ChangeLogMain.class);
                                 wizardintent.putExtra("version", version);
                                 startActivity(wizardintent);
                             }
                         })
-                        .setNegativeButton(this.getResources().getString(R.string.tweet_us), new DialogInterface.OnClickListener() {
+                        .setNegativeButton(resources.getString(R.string.tweet_us), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                                 sharingIntent.setType("text/plain");
@@ -2967,12 +2958,8 @@ public class MainActivity extends FragmentActivity {
                 dialog.show();
                 return true;
             case android.R.id.home:
-                if (deviceType.equals("phone") || deviceType.equals("phablet2"))
-                {
+                if (deviceType.equals("phone") || deviceType.equals("phablet2")) {
                     menu.showMenu();
-                } else
-                {
-
                 }
 
                 return true;
@@ -2981,37 +2968,18 @@ public class MainActivity extends FragmentActivity {
 
                 return true;
             case R.id.menu_call:
-                try
-                {
+                try {
                     Intent callIntent = new Intent(Intent.ACTION_CALL);
                     callIntent.setData(Uri.parse("tel:"+ ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), this)));
                     callIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(callIntent);
-                } catch (Exception e)
-                {
+                } catch (Exception e) {
                     Toast.makeText(this, "No contact to call", Toast.LENGTH_SHORT).show();
                 }
                 return true;
             case R.id.menu_delete:
                 if (menu.isMenuShowing()) {
                     Intent intent = new Intent(this, BatchDeleteAllActivity.class);
-
-                    // FIXME optimize again
-                    ArrayList<String> threadIds = new ArrayList<String>();
-                    ArrayList<String> inboxNumber = new ArrayList<String>();
-                    ArrayList<String> inboxBody = new ArrayList<String>();
-                    ArrayList<String> group = new ArrayList<String>();
-
-                    for (Conversation i : conversations) {
-                        threadIds.add("" + i.getThreadId());
-                        inboxBody.add(i.getBody());
-                        inboxNumber.add(i.getNumber());
-                        group.add( i.getGroup() ? "yes" : "no");
-                    }
-                    intent.putExtra("threadIds", threadIds);
-                    intent.putExtra("inboxNumber", inboxNumber);
-                    intent.putExtra("inboxBody", inboxBody);
-                    intent.putExtra("group", group);
                     startActivity(intent);
                     overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                 } else {
@@ -3028,13 +2996,13 @@ public class MainActivity extends FragmentActivity {
                 return true;
             case R.id.menu_template:
                 AlertDialog.Builder template = new AlertDialog.Builder(this);
-                template.setTitle(getResources().getString(R.string.insert_template));
+                template.setTitle(resources.getString(R.string.insert_template));
 
                 ListView templates = new ListView(this);
 
                 TextView footer = new TextView(this);
-                footer.setText(getResources().getString(R.string.add_templates));
-                int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());
+                footer.setText(resources.getString(R.string.add_templates));
+                int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, resources.getDisplayMetrics());
                 footer.setPadding(scale, scale, scale, scale);
 
                 templates.addFooterView(footer);
@@ -3062,39 +3030,18 @@ public class MainActivity extends FragmentActivity {
                     @Override
                     public void onItemClick(AdapterView<?> arg0, View arg1,
                                             int arg2, long arg3) {
-                        try
-                        {
-                            boolean newMessage;
+                        try {
+                            boolean newMessage = mDrawerLayout.isDrawerOpen(Gravity.RIGHT);
 
-                            if (deviceType.equals("phone") || deviceType.equals("phablet2"))
-                            {
-                                newMessage = menu.isSecondaryMenuShowing();
-                            } else
-                            {
-                                newMessage = menu.isMenuShowing();
-                            }
-
-                            if (newMessage)
-                            {
-                                if (deviceType.equals("phone") || deviceType.equals("phablet2"))
-                                {
-                                    ((TextView) menu.getSecondaryMenu().findViewById(R.id.messageEntry2)).setText(text.get(arg2));
-                                } else
-                                {
-                                    ((TextView) menu.getMenu().findViewById(R.id.messageEntry2)).setText(text.get(arg2));
-                                }
-
+                            if (newMessage) {
+                                messageEntry2.setText(text.get(arg2));
                                 templateDialog.cancel();
-                            } else
-                            {
+                            } else {
                                 messageEntry.setText(text.get(arg2));
                                 messageEntry.setSelection(text.get(arg2).length());
                                 templateDialog.cancel();
                             }
-                        } catch (Exception e)
-                        {
-
-                        }
+                        } catch (Exception e) { }
 
                     }
 
@@ -3109,17 +3056,15 @@ public class MainActivity extends FragmentActivity {
                 Toast.makeText(this, R.string.text_saved, Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.delete_conversation:
-                final Context context = this;
-
                 AlertDialog.Builder deleteDialog = new AlertDialog.Builder(this);
-                deleteDialog.setTitle(getResources().getString(R.string.delete_conversation));
-                deleteDialog.setMessage(getResources().getString(R.string.delete_conversation_message));
-                deleteDialog.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
+                deleteDialog.setTitle(resources.getString(R.string.delete_conversation));
+                deleteDialog.setMessage(resources.getString(R.string.delete_conversation_message));
+                deleteDialog.setPositiveButton(resources.getString(R.string.yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         final ProgressDialog progDialog = new ProgressDialog(context);
                         progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                        progDialog.setMessage(getResources().getString(R.string.deleting));
+                        progDialog.setMessage(resources.getString(R.string.deleting));
                         progDialog.show();
 
                         new Thread(new Runnable(){
@@ -3127,14 +3072,13 @@ public class MainActivity extends FragmentActivity {
                             @Override
                             public void run() {
                                 Looper.prepare();
-                                //FIXME
-                                deleteSMS(context, "" + conversations.get(mViewPager.getCurrentItem()).getThreadId(), progDialog);
+                                deleteSMS(context, conversations.get(mViewPager.getCurrentItem()).getThreadId(), progDialog);
                             }
 
                         }).start();
                     }
                 });
-                deleteDialog.setNegativeButton(getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
+                deleteDialog.setNegativeButton(resources.getString(R.string.no), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -3201,18 +3145,13 @@ public class MainActivity extends FragmentActivity {
         multipleAttachments = false;
         AttachMore.data = new ArrayList<MMSPart>();
 
-        if (deviceType.equals("phone") || deviceType.equals("phablet2"))
-        {
-            newMessage = mDrawerLayout.isDrawerOpen(Gravity.RIGHT);//menu.isSecondaryMenuShowing() ||
-        } else
-        {
-            newMessage = mDrawerLayout.isDrawerOpen(Gravity.RIGHT);//menu.isMenuShowing();
+        if (deviceType.equals("phone") || deviceType.equals("phablet2")) {
+            newMessage = mDrawerLayout.isDrawerOpen(Gravity.RIGHT);
+        } else {
+            newMessage = mDrawerLayout.isDrawerOpen(Gravity.RIGHT);
         }
 
-        if (newMessage)
-        {
-            final Context context = this;
-
+        if (newMessage) {
             AlertDialog.Builder attachBuilder = new AlertDialog.Builder(this);
             attachBuilder.setItems(R.array.selectImage, new DialogInterface.OnClickListener() {
 
@@ -3224,7 +3163,7 @@ public class MainActivity extends FragmentActivity {
                             Intent intent = new Intent();
                             intent.setType("image/*");
                             intent.setAction(Intent.ACTION_GET_CONTENT);
-                            startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.select_picture)), 2);
+                            startActivityForResult(Intent.createChooser(intent, resources.getString(R.string.select_picture)), 2);
 
                             break;
                         case 1:
@@ -3245,10 +3184,7 @@ public class MainActivity extends FragmentActivity {
             });
 
             attachBuilder.create().show();
-        } else
-        {
-            final Context context = this;
-
+        } else {
             attachedPosition = mViewPager.getCurrentItem();
 
             AlertDialog.Builder attachBuilder = new AlertDialog.Builder(this);
@@ -3256,13 +3192,12 @@ public class MainActivity extends FragmentActivity {
 
                 @Override
                 public void onClick(DialogInterface arg0, int arg1) {
-                    switch (arg1)
-                    {
+                    switch (arg1) {
                         case 0:
                             Intent intent = new Intent();
                             intent.setType("image/*");
                             intent.setAction(Intent.ACTION_GET_CONTENT);
-                            startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.select_picture)), 1);
+                            startActivityForResult(Intent.createChooser(intent, resources.getString(R.string.select_picture)), 1);
 
                             break;
                         case 1:
@@ -3286,7 +3221,7 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
-    public void deleteSMS(final Context context, final String id, final ProgressDialog progDialog) {
+    public void deleteSMS(final Context context, final long id, final ProgressDialog progDialog) {
         if (checkLocked(context, id)) {
             ((Activity)context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 
@@ -3357,7 +3292,7 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
-    public boolean checkLocked(Context context, String id) {
+    public boolean checkLocked(Context context, long id) {
         try {
             return context.getContentResolver().query(Uri.parse("content://mms-sms/locked/" + id + "/"), new String[]{"_id"}, null, null, null).moveToFirst();
         } catch (Exception e) {
@@ -3365,12 +3300,12 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
-    public void deleteLocked(Context context, String id) {
+    public void deleteLocked(Context context, long id) {
         context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/" + id + "/"), null, null);
-        context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/"), "_id=?", new String[] {id});
+        context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/"), "_id=?", new String[]{id + ""});
     }
 
-    public void dontDeleteLocked(Context context, String id) {
+    public void dontDeleteLocked(Context context, long id) {
         ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
         ops.add(ContentProviderOperation.newDelete(Uri.parse("content://mms-sms/conversations/" + id + "/"))
                 .withSelection("locked=?", new String[]{"0"})
@@ -3388,31 +3323,26 @@ public class MainActivity extends FragmentActivity {
         attachOnSend = false;
         sendButton.setImageResource(R.drawable.ic_action_send_white);
 
-        if (requestCode == 1)
-        {
+        if (requestCode == 1) {
             if(resultCode == RESULT_OK){
                 final Uri selectedImage = imageReturnedIntent.getData();
                 attachedImage = selectedImage;
                 fromCamera = false;
 
                 imageAttachBackground.setBackgroundColor(settings.ctMessageListBackground);
-                Drawable attachBack = getResources().getDrawable(R.drawable.attachment_editor_bg);
+                Drawable attachBack = resources.getDrawable(R.drawable.attachment_editor_bg);
                 attachBack.setColorFilter(settings.ctSentMessageBackground, Mode.MULTIPLY);
                 imageAttach.setBackgroundDrawable(attachBack);
                 imageAttachBackground.setVisibility(View.VISIBLE);
                 imageAttach.setVisibility(true);
 
-                try
-                {
+                try {
                     imageAttach.setImage("send_image", SendUtil.getThumbnail(this, selectedImage));
-                } catch (Exception e)
-                {
+                } catch (Exception e) {
                     Toast.makeText(this, "Error loading image", Toast.LENGTH_SHORT).show();
                     imageAttach.setVisibility(false);
                     imageAttachBackground.setVisibility(View.GONE);
                 }
-
-                final Context context = this;
 
                 Button viewImage = (Button) findViewById(R.id.view_image_button);
                 Button replaceImage = (Button) findViewById(R.id.replace_image_button);
@@ -3435,7 +3365,7 @@ public class MainActivity extends FragmentActivity {
                         Intent intent = new Intent();
                         intent.setType("image/*");
                         intent.setAction(Intent.ACTION_GET_CONTENT);
-                        startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.select_picture)), 1);
+                        startActivityForResult(Intent.createChooser(intent, resources.getString(R.string.select_picture)), 1);
 
                     }
 
@@ -3456,31 +3386,26 @@ public class MainActivity extends FragmentActivity {
                 mViewPager.setCurrentItem(attachedPosition);
 
             }
-        } else if (requestCode == 2)
-        {
+        } else if (requestCode == 2) {
             if(resultCode == RESULT_OK){
                 final Uri selectedImage = imageReturnedIntent.getData();
                 attachedImage2 = selectedImage;
                 fromCamera = false;
 
                 imageAttachBackground2.setBackgroundColor(settings.ctConversationListBackground);
-                Drawable attachBack = getResources().getDrawable(R.drawable.attachment_editor_bg);
+                Drawable attachBack = resources.getDrawable(R.drawable.attachment_editor_bg);
                 attachBack.setColorFilter(settings.ctSentMessageBackground, Mode.MULTIPLY);
                 imageAttach2.setBackgroundDrawable(attachBack);
                 imageAttachBackground2.setVisibility(View.VISIBLE);
                 imageAttach2.setVisibility(true);
 
-                try
-                {
+                try {
                     imageAttach2.setImage("send_image", SendUtil.getThumbnail(this, selectedImage));
-                } catch (Exception e)
-                {
+                } catch (Exception e) {
                     Toast.makeText(this, "Error loading image", Toast.LENGTH_SHORT).show();
                     imageAttach2.setVisibility(false);
                     imageAttachBackground2.setVisibility(View.GONE);
                 }
-
-                final Context context = this;
 
                 Button viewImage = (Button) findViewById(R.id.view_image_button2);
                 Button replaceImage = (Button) findViewById(R.id.replace_image_button2);
@@ -3503,7 +3428,7 @@ public class MainActivity extends FragmentActivity {
                         Intent intent = new Intent();
                         intent.setType("image/*");
                         intent.setAction(Intent.ACTION_GET_CONTENT);
-                        startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.select_picture)), 2);
+                        startActivityForResult(Intent.createChooser(intent, resources.getString(R.string.select_picture)), 2);
 
                     }
 
@@ -3519,43 +3444,30 @@ public class MainActivity extends FragmentActivity {
                     }
 
                 });
-                /*if (deviceType.equals("phone") || deviceType.equals("phablet2"))
-                {
-                    MainActivity.menu.showSecondaryMenu();
-                } else
-                {
-                    MainActivity.menu.showMenu();
-                }*/
                 mDrawerLayout.openDrawer(Gravity.RIGHT);
             }
-        } else if (requestCode == 3)
-        {
-            if (resultCode == Activity.RESULT_OK)
-            {
+        } else if (requestCode == 3) {
+            if (resultCode == Activity.RESULT_OK) {
                 getContentResolver().notifyChange(capturedPhotoUri, null);
                 attachedImage = Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/", "photoToSend.png"));
                 fromCamera = true;
 
                 imageAttachBackground.setBackgroundColor(settings.ctConversationListBackground);
-                Drawable attachBack = getResources().getDrawable(R.drawable.attachment_editor_bg);
+                Drawable attachBack = resources.getDrawable(R.drawable.attachment_editor_bg);
                 attachBack.setColorFilter(settings.ctSentMessageBackground, Mode.MULTIPLY);
                 imageAttach.setBackgroundDrawable(attachBack);
                 imageAttachBackground.setVisibility(View.VISIBLE);
                 imageAttach.setVisibility(true);
 
-                try
-                {
+                try {
                     Bitmap image = SendUtil.getThumbnail(this, capturedPhotoUri);
                     imageAttach.setImage("send_image", image);
-                } catch (Exception e)
-                {
+                } catch (Exception e) {
                     e.printStackTrace();
                     Toast.makeText(this, "Error loading image", Toast.LENGTH_SHORT).show();
                     imageAttach.setVisibility(false);
                     imageAttachBackground.setVisibility(View.GONE);
                 }
-
-                final Context context = this;
 
                 Button viewImage = (Button) findViewById(R.id.view_image_button);
                 Button replaceImage = (Button) findViewById(R.id.replace_image_button);
@@ -3581,7 +3493,7 @@ public class MainActivity extends FragmentActivity {
                         Intent intent = new Intent();
                         intent.setType("image/*");
                         intent.setAction(Intent.ACTION_GET_CONTENT);
-                        startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.select_picture)), 1);
+                        startActivityForResult(Intent.createChooser(intent, resources.getString(R.string.select_picture)), 1);
 
                     }
 
@@ -3598,34 +3510,28 @@ public class MainActivity extends FragmentActivity {
 
                 });
             }
-        } else if (requestCode == 4)
-        {
-            if (resultCode == Activity.RESULT_OK)
-            {
+        } else if (requestCode == 4) {
+            if (resultCode == Activity.RESULT_OK) {
                 getContentResolver().notifyChange(capturedPhotoUri, null);
                 attachedImage2 = Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/", "photoToSend.png"));
                 fromCamera = true;
 
                 imageAttachBackground2.setBackgroundColor(settings.ctConversationListBackground);
-                Drawable attachBack = getResources().getDrawable(R.drawable.attachment_editor_bg);
+                Drawable attachBack = resources.getDrawable(R.drawable.attachment_editor_bg);
                 attachBack.setColorFilter(settings.ctSentMessageBackground, Mode.MULTIPLY);
                 imageAttach2.setBackgroundDrawable(attachBack);
                 imageAttachBackground2.setVisibility(View.VISIBLE);
                 imageAttach2.setVisibility(true);
 
-                try
-                {
+                try {
                     Bitmap image = SendUtil.getThumbnail(this, capturedPhotoUri);
                     imageAttach2.setImage("send_image", image);
-                } catch (Exception e)
-                {
+                } catch (Exception e) {
                     e.printStackTrace();
                     Toast.makeText(this, "Error loading image", Toast.LENGTH_SHORT).show();
                     imageAttach2.setVisibility(false);
                     imageAttachBackground2.setVisibility(View.GONE);
                 }
-
-                final Context context = this;
 
                 Button viewImage = (Button) findViewById(R.id.view_image_button2);
                 Button replaceImage = (Button) findViewById(R.id.replace_image_button2);
@@ -3651,7 +3557,7 @@ public class MainActivity extends FragmentActivity {
                         Intent intent = new Intent();
                         intent.setType("image/*");
                         intent.setAction(Intent.ACTION_GET_CONTENT);
-                        startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.select_picture)), 1);
+                        startActivityForResult(Intent.createChooser(intent, resources.getString(R.string.select_picture)), 1);
 
                     }
 
@@ -3669,33 +3575,27 @@ public class MainActivity extends FragmentActivity {
                 });
                 mDrawerLayout.openDrawer(Gravity.RIGHT);
             }
-        } else if (requestCode == 5)
-        {
-            if (resultCode == Activity.RESULT_OK)
-            {
+        } else if (requestCode == 5) {
+            if (resultCode == Activity.RESULT_OK) {
                 multipleAttachments = true;
 
                 imageAttachBackground.setBackgroundColor(settings.ctConversationListBackground);
-                Drawable attachBack = getResources().getDrawable(R.drawable.attachment_editor_bg);
+                Drawable attachBack = resources.getDrawable(R.drawable.attachment_editor_bg);
                 attachBack.setColorFilter(settings.ctSentMessageBackground, Mode.MULTIPLY);
                 imageAttach.setBackgroundDrawable(attachBack);
                 imageAttachBackground.setVisibility(View.VISIBLE);
                 imageAttach.setVisibility(true);
 
-                try
-                {
+                try {
                     Bitmap bmp = BitmapFactory.decodeByteArray(AttachMore.data.get(0).Data, 0, AttachMore.data.get(0).Data.length);
                     Bitmap mutableBitmap = bmp.copy(Bitmap.Config.ARGB_8888, true);
                     imageAttach.setImage("send_image", mutableBitmap);
-                } catch (Exception e)
-                {
+                } catch (Exception e) {
                     e.printStackTrace();
                     Toast.makeText(this, "Error loading MMS", Toast.LENGTH_SHORT).show();
                     imageAttach.setVisibility(false);
                     imageAttachBackground.setVisibility(View.GONE);
                 }
-
-                final Context context = this;
 
                 Button viewImage = (Button) findViewById(R.id.view_image_button);
                 Button replaceImage = (Button) findViewById(R.id.replace_image_button);
@@ -3736,33 +3636,27 @@ public class MainActivity extends FragmentActivity {
 
                 });
             }
-        } else if (requestCode == 6)
-        {
-            if (resultCode == Activity.RESULT_OK)
-            {
+        } else if (requestCode == 6) {
+            if (resultCode == Activity.RESULT_OK) {
                 multipleAttachments = true;
 
                 imageAttachBackground2.setBackgroundColor(settings.ctConversationListBackground);
-                Drawable attachBack = getResources().getDrawable(R.drawable.attachment_editor_bg);
+                Drawable attachBack = resources.getDrawable(R.drawable.attachment_editor_bg);
                 attachBack.setColorFilter(settings.ctSentMessageBackground, Mode.MULTIPLY);
                 imageAttach2.setBackgroundDrawable(attachBack);
                 imageAttachBackground2.setVisibility(View.VISIBLE);
                 imageAttach2.setVisibility(true);
 
-                try
-                {
+                try {
                     Bitmap bmp = BitmapFactory.decodeByteArray(AttachMore.data.get(0).Data, 0, AttachMore.data.get(0).Data.length);
                     Bitmap mutableBitmap = bmp.copy(Bitmap.Config.ARGB_8888, true);
                     imageAttach2.setImage("send_image", mutableBitmap);
-                } catch (Exception e)
-                {
+                } catch (Exception e) {
                     e.printStackTrace();
                     Toast.makeText(this, "Error loading MMS", Toast.LENGTH_SHORT).show();
                     imageAttach2.setVisibility(false);
                     imageAttachBackground2.setVisibility(View.GONE);
                 }
-
-                final Context context = this;
 
                 Button viewImage = (Button) findViewById(R.id.view_image_button);
                 Button replaceImage = (Button) findViewById(R.id.replace_image_button);
@@ -3805,11 +3699,7 @@ public class MainActivity extends FragmentActivity {
 
                 mDrawerLayout.openDrawer(Gravity.RIGHT);
             }
-        } else if (requestCode == REQ_ENTER_PATTERN) // Code for pattern unlock
-        {
-            /*
-            * NOTE that there are 3 possible result codes!!!
-            */
+        } else if (requestCode == REQ_ENTER_PATTERN) {
             switch (resultCode) {
                 case RESULT_OK:
                     SharedPreferences.Editor prefEdit = sharedPrefs.edit();
@@ -3831,144 +3721,24 @@ public class MainActivity extends FragmentActivity {
 
                     break;
             }
-        } else
-        {
-
         }
 
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
     }
 
-    public String getPath(Uri uri) {
-        String[] projection = { MediaStore.Images.Media.DATA };
-        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        String path = cursor.getString(column_index);
-        cursor.close();
-        return path;
-    }
-
-    private Bitmap decodeFile(File f){
-        try {
-            //Decode image size
-            BitmapFactory.Options o = new BitmapFactory.Options();
-            o.inJustDecodeBounds = true;
-            BitmapFactory.decodeStream(new FileInputStream(f),null,o);
-
-            //The new size we want to scale to
-            final int REQUIRED_SIZE=150;
-
-            //Find the correct scale value. It should be the power of 2.
-            int scale=1;
-            while(o.outWidth/scale/2>=REQUIRED_SIZE && o.outHeight/scale/2>=REQUIRED_SIZE)
-                scale*=2;
-
-            //Decode with inSampleSize
-            BitmapFactory.Options o2 = new BitmapFactory.Options();
-            o2.inSampleSize=scale;
-            Bitmap image = BitmapFactory.decodeStream(new FileInputStream(f), null, o2);
-
-            try
-            {
-                ExifInterface exif = new ExifInterface(f.getAbsolutePath());
-                int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
-
-                if (orientation == 6)
-                {
-                    Matrix matrix = new Matrix();
-                    matrix.postRotate(90);
-                    image = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(), matrix, true);
-                } else if (orientation == 3)
-                {
-                    Matrix matrix = new Matrix();
-                    matrix.postRotate(180);
-                    image = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(), matrix, true);
-                } else if (orientation == 8)
-                {
-                    Matrix matrix = new Matrix();
-                    matrix.postRotate(2700);
-                    image = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(), matrix, true);
-                }
-            } catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-
-            return image;
-        } catch (FileNotFoundException e) {}
-        return null;
-    }
-
-    private Bitmap decodeFile2(File f){
-        try {
-            //Decode image size
-            BitmapFactory.Options o = new BitmapFactory.Options();
-            o.inJustDecodeBounds = true;
-            BitmapFactory.decodeStream(new FileInputStream(f),null,o);
-
-            //The new size we want to scale to
-            int REQUIRED_SIZE=300;
-
-            //Find the correct scale value. It should be the power of 2.
-            int scale=1;
-            while(o.outWidth/scale/2>=REQUIRED_SIZE && o.outHeight/scale/2>=REQUIRED_SIZE)
-                scale*=2;
-
-            //Decode with inSampleSize
-            BitmapFactory.Options o2 = new BitmapFactory.Options();
-            o2.inSampleSize=scale;
-            Bitmap image = BitmapFactory.decodeStream(new FileInputStream(f), null, o2);
-
-            try
-            {
-                ExifInterface exif = new ExifInterface(f.getPath());
-                int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
-
-                if (orientation == 6)
-                {
-                    Matrix matrix = new Matrix();
-                    matrix.postRotate(90);
-                    image = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(), matrix, true);
-                } else if (orientation == 3)
-                {
-                    Matrix matrix = new Matrix();
-                    matrix.postRotate(180);
-                    image = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(), matrix, true);
-                } else if (orientation == 8)
-                {
-                    Matrix matrix = new Matrix();
-                    matrix.postRotate(2700);
-                    image = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(), matrix, true);
-                }
-            } catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-
-            return image;
-        } catch (FileNotFoundException e) {}
-        return null;
-    }
-
     @Override
     public void onBackPressed() {
-        if (emojiOpen || emoji2Open)
-        {
-            if (menu.isSecondaryMenuShowing() || mDrawerLayout.isDrawerOpen(Gravity.RIGHT))
-            {
-                if(emoji2Open)
-                {
+        if (emojiOpen || emoji2Open) {
+            if (mDrawerLayout.isDrawerOpen(Gravity.RIGHT)) {
+                if(emoji2Open) {
                     messageScreen2 = (LinearLayout) findViewById(R.id.messageScreen2);
 
                     emoji2Open = false;
                     messageScreen2.removeView(tabs);
                     messageScreen2.removeView(vp);
                 }
-
             } else {
-                if(emojiOpen)
-                {
+                if(emojiOpen) {
                     messageScreen = (LinearLayout) findViewById(R.id.messageScreen);
 
                     emojiOpen = false;
@@ -3976,40 +3746,29 @@ public class MainActivity extends FragmentActivity {
                     messageScreen.removeView(vp);
                 }
             }
-        } else if (deviceType.equals("phone") || deviceType.equals("phablet2"))
-        {
-            if (menu.isSecondaryMenuShowing() || mDrawerLayout.isDrawerOpen(Gravity.RIGHT))
-            {
+        } else if (deviceType.equals("phone") || deviceType.equals("phablet2")) {
+            if (mDrawerLayout.isDrawerOpen(Gravity.RIGHT)) {
                 if (mDrawerLayout.isDrawerOpen(Gravity.RIGHT)) {
                     mDrawerLayout.closeDrawer(Gravity.RIGHT);
                 }
-                if (!settings.openContactMenu)
-                {
+                if (!settings.openContactMenu) {
                     menu.showContent();
-                } else
-                {
+                } else {
                     menu.showMenu();
                 }
-            } else
-            {
-                if (menu.isMenuShowing() && !settings.openContactMenu)
-                {
+            } else {
+                if (menu.isMenuShowing() && !settings.openContactMenu) {
                     menu.showContent();
-                } else if (!menu.isMenuShowing() && settings.openContactMenu)
-                {
+                } else if (!menu.isMenuShowing() && settings.openContactMenu) {
                     menu.showMenu();
-                } else
-                {
+                } else {
                     super.onBackPressed();
                 }
             }
-        } else
-        {
-            if (menu.isMenuShowing())
-            {
+        } else {
+            if (menu.isMenuShowing()) {
                 menu.showContent();
-            } else
-            {
+            } else {
                 super.onBackPressed();
             }
         }
@@ -4018,12 +3777,11 @@ public class MainActivity extends FragmentActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-
+        // do nothing to save state...
     }
 
     @Override
-    public void onResume()
-    {
+    public void onResume() {
         super.onResume();
         
         restartHalo();
@@ -4059,33 +3817,19 @@ public class MainActivity extends FragmentActivity {
 
         String menuOption = sharedPrefs.getString("page_or_menu2", "2");
 
-        if (menuOption.equals("2"))
-        {
+        if (menuOption.equals("2")) {
             menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
-        } else if (menuOption.equals("1"))
-        {
+        } else if (menuOption.equals("1")) {
             menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
-        } else
-        {
+        } else {
             menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
         }
 
-        if (imageAttach.getVisibility() == View.VISIBLE)
-        {
+        if (imageAttach.getVisibility() == View.VISIBLE) {
             menu.showContent();
-        } /*else if (imageAttach2.getVisibility() == View.VISIBLE)
-        {
-            if (deviceType.equals("phone") || deviceType.equals("phablet2"))
-            {
-                menu.showSecondaryMenu();
-            } else
-            {
-                menu.showMenu();
-            }
-        }*/
+        }
 
-        if (whatToSend != null)
-        {
+        if (whatToSend != null) {
             messageEntry.setText(whatToSend);
             whatToSend = null;
         }
@@ -4093,40 +3837,32 @@ public class MainActivity extends FragmentActivity {
         Intent updateWidget = new Intent("com.klinker.android.messaging.UPDATE_WIDGET");
         sendBroadcast(updateWidget);
 
-        if(!settings.securityOption.equals("none"))
-        {
+        if(!settings.securityOption.equals("none")) {
             long currentTime = Calendar.getInstance().getTimeInMillis();
             long lastTime = sharedPrefs.getLong("last_time", 0);
 
-            if (currentTime - lastTime > Long.parseLong(sharedPrefs.getString("timeout_settings", "300000")))
-            {
-                if (sharedPrefs.getString("security_option", "none").equals("pin"))
-                {
+            if (currentTime - lastTime > Long.parseLong(sharedPrefs.getString("timeout_settings", "300000"))) {
+                if (sharedPrefs.getString("security_option", "none").equals("pin")) {
                     Intent passwordIntent = new Intent(getApplicationContext(), PinActivity.class);
                     startActivity(passwordIntent);
                     finish();
-                } else if (sharedPrefs.getString("security_option", "none").equals("password"))
-                {
+                } else if (sharedPrefs.getString("security_option", "none").equals("password")) {
                     Intent passwordIntent = new Intent(getApplicationContext(), PasswordActivity.class);
                     startActivity(passwordIntent);
                     finish();
-                } else if (sharedPrefs.getString("security_option", "none").equals("pattern"))
-                {
+                } else if (sharedPrefs.getString("security_option", "none").equals("pattern")) {
                     SecurityPrefs.setAutoSavePattern(this, true);
                     Intent intent = new Intent(LockPatternActivity.ACTION_COMPARE_PATTERN, null,
                             this, LockPatternActivity.class);
                     startActivityForResult(intent, REQ_ENTER_PATTERN);
                 }
-
             }
         }
 
-        if(sharedPrefs.getBoolean("run_voice_tutorial", true) && sharedPrefs.getString("voice_account", null) != (null))
-        {
+        if(sharedPrefs.getBoolean("run_voice_tutorial", true) && sharedPrefs.getString("voice_account", null) != (null)) {
             sharedPrefs.edit().putBoolean("run_voice_tutorial", false).commit();
 
             try { // try catch so if they change to landscape, which uses a linear layout instead, everything won't force close
-
                 final WindowManager.LayoutParams arcParams = new WindowManager.LayoutParams(
                         WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
                         WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
@@ -4154,11 +3890,11 @@ public class MainActivity extends FragmentActivity {
                     @Override
                     public void onClick(View view) {
                         if (currentVoiceTutorial == 0) {
-                            text.setText(getResources().getString(R.string.google_voice_tutorial_2));
+                            text.setText(resources.getString(R.string.google_voice_tutorial_2));
                         } else if (currentVoiceTutorial == 1) {
-                            text.setText(getResources().getString(R.string.google_voice_tutorial_3));
+                            text.setText(resources.getString(R.string.google_voice_tutorial_3));
                         } else if (currentVoiceTutorial == 2) {
-                            text.setText(getResources().getString(R.string.google_voice_tutorial_4));
+                            text.setText(resources.getString(R.string.google_voice_tutorial_4));
 
                             next.setVisibility(View.GONE);
                             finish.setVisibility(View.VISIBLE);
@@ -4177,10 +3913,7 @@ public class MainActivity extends FragmentActivity {
 
                 arcWindow.addView(voiceTutorial, arcParams);
 
-            } catch (ClassCastException e)
-            {
-
-            }
+            } catch (ClassCastException e) { }
         }
 
         if (settings.enableDrafts) {
@@ -4192,8 +3925,7 @@ public class MainActivity extends FragmentActivity {
 
                 Cursor query = getContentResolver().query(Uri.parse("content://sms/draft/"), new String[] {"thread_id", "body"}, null, null, null);
 
-                if (query.moveToFirst())
-                {
+                if (query.moveToFirst()) {
                     do {
                         drafts.add(query.getString(query.getColumnIndex("body")));
                         draftNames.add(Long.parseLong(query.getString(query.getColumnIndex("thread_id"))));
@@ -4202,36 +3934,27 @@ public class MainActivity extends FragmentActivity {
                 }
 
                 query.close();
-            } catch (Exception e) {
-
-            }
+            } catch (Exception e) { }
 
             int index = -1;
 
             try {
-                for (int i = 0; i < draftNames.size(); i++)
-                {
-                    if (draftNames.get(i) == conversations.get(mViewPager.getCurrentItem()).getThreadId())
-                    {
+                for (int i = 0; i < draftNames.size(); i++) {
+                    if (draftNames.get(i) == conversations.get(mViewPager.getCurrentItem()).getThreadId()) {
                         index = i;
                         break;
                     }
                 }
-            } catch (Exception e) {
-
-            }
+            } catch (Exception e) { }
 
             fromDraft = false;
 
-            if (index != -1)
-            {
-                if (settings.autoInsertDrafts)
-                {
+            if (index != -1) {
+                if (settings.autoInsertDrafts) {
                     fromDraft = true;
                     messageEntry.setText(drafts.get(index));
                     messageEntry.setSelection(drafts.get(index).length());
-                } else
-                {
+                } else {
                     final int indexF = index;
 
                     messageBar.setOnClickListener(new MessageBar.OnMessageClickListener() {
@@ -4262,8 +3985,7 @@ public class MainActivity extends FragmentActivity {
     }
 
     @Override
-    public void onPause()
-    {
+    public void onPause() {
         super.onPause();
 
         try {
@@ -4274,20 +3996,15 @@ public class MainActivity extends FragmentActivity {
             unregisterReceiver(mmsProgressReceiver);
             unregisterReceiver(mmsReceiver);
             unregisterReceiver(killReceiver);
-        } catch (Exception e) {
-
-        }
+        } catch (Exception e) { }
     }
 
     @Override
-    public void onStop()
-    {
+    public void onStop() {
         super.onStop();
 
         Intent updateWidget = new Intent("com.klinker.android.messaging.UPDATE_WIDGET");
         sendBroadcast(updateWidget);
-
-        final Context context = this;
 
         if (settings.enableDrafts) {
             if (messageEntry.getText().toString().length() != 0) {
@@ -4370,8 +4087,6 @@ public class MainActivity extends FragmentActivity {
         }
 
         if (isPopup && !unlockDevice) {
-            //final Context context = this;
-
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -4409,9 +4124,7 @@ public class MainActivity extends FragmentActivity {
 
             try {
                 voiceThreads = voiceThreads.substring(0, voiceThreads.length() - 1);
-            } catch (Exception e) {
-
-            }
+            } catch (Exception e) { }
 
             sharedPrefs.edit().putString("voice_threads", voiceThreads).commit();
         }
@@ -4430,30 +4143,24 @@ public class MainActivity extends FragmentActivity {
 
     @SuppressWarnings("deprecation")
     @Override
-    public void onStart()
-    {
+    public void onStart() {
         super.onStart();
 
-        if (firstRun)
-        {
+        if (firstRun) {
             try {
                 refreshViewPager();
                 createMenu();
 
-                if (settings.openContactMenu && (deviceType.equals("phone") || deviceType.equals("phablet2")))
-                {
+                if (settings.openContactMenu && (deviceType.equals("phone") || deviceType.equals("phablet2"))) {
                     menu.showMenu();
                 }
 
-                if (sendTo && !fromNotification)
-                {
+                if (sendTo && !fromNotification) {
                     try {
                         boolean flag = false;
 
-                        for (int i = 0; i < conversations.size(); i++)
-                        {
-                            if (ContactUtil.findContactNumber(conversations.get(i).getNumber(), this).replace("-","").replace("+", "").equals(sendMessageTo.replace("-", "").replace("+1", "")))
-                            {
+                        for (int i = 0; i < conversations.size(); i++) {
+                            if (ContactUtil.findContactNumber(conversations.get(i).getNumber(), this).replace("-","").replace("+", "").equals(sendMessageTo.replace("-", "").replace("+1", ""))) {
                                 if (i < 10 || (!limitConversations && i > 10)) {
                                     mViewPager.setCurrentItem(i);
                                     menu.showContent();
@@ -4463,14 +4170,11 @@ public class MainActivity extends FragmentActivity {
                             }
                         }
 
-                        if (!flag)
-                        {
+                        if (!flag) {
                             String name = ContactUtil.findContactName(sendMessageTo, this);
 
-                            for (int i = 0; i < conversations.size(); i++)
-                            {
-                                if (ContactUtil.findContactName(ContactUtil.findContactNumber(conversations.get(i).getNumber(), this), this).equals(name))
-                                {
+                            for (int i = 0; i < conversations.size(); i++) {
+                                if (ContactUtil.findContactName(ContactUtil.findContactNumber(conversations.get(i).getNumber(), this), this).equals(name)) {
                                     if (i < 10 || (!limitConversations && i > 10)) {
                                         mViewPager.setCurrentItem(i);
                                         menu.showContent();
@@ -4481,43 +4185,27 @@ public class MainActivity extends FragmentActivity {
                             }
                         }
 
-                        if (!flag)
-                        {
-                            View newMessage;
+                        if (!flag) {
+                            mDrawerLayout.openDrawer(Gravity.RIGHT);
 
-                            if (deviceType.equals("phone") || deviceType.equals("phablet2"))
-                            {
-                                menu.showSecondaryMenu();
-                                newMessage = menu.getSecondaryMenu();
-                            } else
-                            {
-                                menu.showMenu();
-                                newMessage = menu.getMenu();
-                            }
-
-                            EditText contact = (EditText) newMessage.findViewById(R.id.contactEntry);
+                            EditText contact = (EditText) newMessageView.findViewById(R.id.contactEntry);
                             contact.setText(sendMessageTo);
 
-                            if (attachedImage2 != null)
-                            {
+                            if (attachedImage2 != null) {
                                 imageAttachBackground2.setBackgroundColor(settings.ctConversationListBackground);
-                                Drawable attachBack = getResources().getDrawable(R.drawable.attachment_editor_bg);
+                                Drawable attachBack = resources.getDrawable(R.drawable.attachment_editor_bg);
                                 attachBack.setColorFilter(settings.ctSentMessageBackground, Mode.MULTIPLY);
                                 imageAttach2.setBackgroundDrawable(attachBack);
                                 imageAttachBackground2.setVisibility(View.VISIBLE);
                                 imageAttach2.setVisibility(true);
 
-                                try
-                                {
-                                    imageAttach2.setImage("send_image", decodeFile(new File(getPath(attachedImage2))));
-                                } catch (Exception e)
-                                {
+                                try {
+                                    imageAttach2.setImage("send_image", IOUtil.decodeFileWithExif(new File(IOUtil.getPath(attachedImage2, this))));
+                                } catch (Exception e) {
                                     Toast.makeText(this, "Error loading image", Toast.LENGTH_SHORT).show();
                                     imageAttach2.setVisibility(false);
                                     imageAttachBackground2.setVisibility(View.GONE);
                                 }
-
-                                final Context context = this;
 
                                 Button viewImage = (Button) findViewById(R.id.view_image_button2);
                                 Button replaceImage = (Button) findViewById(R.id.replace_image_button2);
@@ -4540,7 +4228,7 @@ public class MainActivity extends FragmentActivity {
                                         Intent intent = new Intent();
                                         intent.setType("image/*");
                                         intent.setAction(Intent.ACTION_GET_CONTENT);
-                                        startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.select_picture)), 2);
+                                        startActivityForResult(Intent.createChooser(intent, resources.getString(R.string.select_picture)), 2);
 
                                     }
 
@@ -4560,17 +4248,12 @@ public class MainActivity extends FragmentActivity {
                         }
 
                         sendTo = false;
-                    } catch (Exception e) {
-
-                    }
+                    } catch (Exception e) { }
                 }
 
-                if (sendToThread != null)
-                {
-                    for (int i = 0; i < conversations.size(); i++)
-                    {
-                        if (("" + conversations.get(i).getThreadId()).equals(sendToThread))
-                        {
+                if (sendToThread != null) {
+                    for (int i = 0; i < conversations.size(); i++) {
+                        if (("" + conversations.get(i).getThreadId()).equals(sendToThread)) {
                             mViewPager.setCurrentItem(i);
                             sendToThread = null;
                             break;
@@ -4579,13 +4262,9 @@ public class MainActivity extends FragmentActivity {
 
                     messageEntry.setText(sendToMessage);
 
-                    try
-                    {
+                    try {
                         messageEntry.setSelection(sendToMessage.length());
-                    } catch (Exception e)
-                    {
-
-                    }
+                    } catch (Exception e) { }
                 }
 
                 long threadId = getIntent().getLongExtra("thread_id", 0);
@@ -4608,49 +4287,33 @@ public class MainActivity extends FragmentActivity {
                     }
                 }, 3000);
             } catch (Exception e) {
-                // FIXME
                 // something went wrong setting everything up, but lets continue anyways just for the hell of it.
                 // This was something coming for the lockscreen widget NiLS, assuming setting everything up and navagating to correct conversation
             }
-        } else
-        {
-            if (messageRecieved == true)
-            {
+        } else {
+            if (messageRecieved) {
                 refreshViewPager();
                 messageRecieved = false;
             }
 
-            if (sendTo == true)
-            {
+            if (sendTo) {
                 menu.showContent();
-            } else
-            {
-                if (settings.openContactMenu && (imageAttach.getVisibility() != View.VISIBLE && imageAttach2.getVisibility() != View.VISIBLE) && (deviceType.equals("phone") || deviceType.equals("phablet2")))
-                {
+            } else {
+                if (settings.openContactMenu && (imageAttach.getVisibility() != View.VISIBLE && imageAttach2.getVisibility() != View.VISIBLE) && (deviceType.equals("phone") || deviceType.equals("phablet2"))) {
                     menu.showMenu();
-                } else if (imageAttach.getVisibility() == View.VISIBLE)
-                {
+                } else if (imageAttach.getVisibility() == View.VISIBLE) {
                     menu.showContent();
-                } /*else if (imageAttach2.getVisibility() == View.VISIBLE)
-                {
-                    if (deviceType.equals("phone") || deviceType.equals("phablet2"))
-                    {
-                        menu.showSecondaryMenu();
-                    } else
-                    {
-                        menu.showMenu();
-                    }
-                }*/
+                }
             }
         }
 
-        if (fromNotification)
-        {
+        if (fromNotification) {
             menu.showContent();
             fromNotification = false;
         }
     }
 
+    // TODO start here
     @SuppressWarnings("deprecation")
     public void refreshViewPager()
     {
@@ -4707,8 +4370,6 @@ public class MainActivity extends FragmentActivity {
 
         if (!isPopup) {
             if (dismissNotification) {
-                final Context context = this;
-
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -4760,8 +4421,6 @@ public class MainActivity extends FragmentActivity {
             }
         } else
         {
-            final Context context = this;
-
             new Thread(new Runnable() {
 
                 @Override
@@ -4783,8 +4442,6 @@ public class MainActivity extends FragmentActivity {
             mViewPager.setCurrentItem(0);
         } else {
             final String threadT = threadTitle;
-            final Context context = this;
-
             new Thread(new Runnable() {
 
                 @Override
@@ -4830,9 +4487,6 @@ public class MainActivity extends FragmentActivity {
         {
             if (!settings.useTitleBar || settings.alwaysShowContactInfo)
             {
-                final ActionBar ab = getActionBar();
-                final Context context = this;
-
                 if (ab != null) {
                     try
                     {
@@ -4866,16 +4520,10 @@ public class MainActivity extends FragmentActivity {
 
         if (settings.titleContactImages)
         {
-            final ActionBar ab = getActionBar();
-            final Context context = this;
-
             try
             {
                 ab.setIcon(new BitmapDrawable(ContactUtil.getFacebookPhoto(ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context), context)));
-            } catch (Exception e)
-            {
-
-            }
+            } catch (Exception e) { }
         }
 
         MainActivity.loadAll = false;
@@ -4933,10 +4581,7 @@ public class MainActivity extends FragmentActivity {
         try
         {
             invalidateOptionsMenu();
-        } catch (Exception e)
-        {
-
-        }
+        } catch (Exception e) { }
     }
 
     public void refreshViewPager3()
@@ -4971,10 +4616,7 @@ public class MainActivity extends FragmentActivity {
         try
         {
             invalidateOptionsMenu();
-        } catch (Exception e)
-        {
-
-        }
+        } catch (Exception e) { }
     }
 
     public void refreshViewPager4(String number, String body, String date)
@@ -5101,14 +4743,9 @@ public class MainActivity extends FragmentActivity {
         try
         {
             invalidateOptionsMenu();
-        } catch (Exception e)
-        {
-
-        }
+        } catch (Exception e) { }
 
         if (isPopup) {
-            final Context context = this;
-
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -5463,13 +5100,13 @@ public class MainActivity extends FragmentActivity {
         public void onReceive(final Context context, Intent intent) {
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setTitle(R.string.apn_error_title);
-            builder.setMessage(context.getResources().getString(R.string.apn_error_1) + " " +
-                    context.getResources().getString(R.string.apn_error_2) + " " +
-                    context.getResources().getString(R.string.apn_error_3) + " " +
-                    context.getResources().getString(R.string.apn_error_4) + " " +
-                    context.getResources().getString(R.string.apn_error_5) +
-                    context.getResources().getString(R.string.apn_error_6));
-            builder.setNeutralButton(context.getResources().getString(R.string.apn_error_button), new DialogInterface.OnClickListener() {
+            builder.setMessage(resources.getString(R.string.apn_error_1) + " " +
+                    resources.getString(R.string.apn_error_2) + " " +
+                    resources.getString(R.string.apn_error_3) + " " +
+                    resources.getString(R.string.apn_error_4) + " " +
+                    resources.getString(R.string.apn_error_5) +
+                    resources.getString(R.string.apn_error_6));
+            builder.setNeutralButton(resources.getString(R.string.apn_error_button), new DialogInterface.OnClickListener() {
 
                 @Override
                 public void onClick(DialogInterface dialog,
@@ -5491,8 +5128,8 @@ public class MainActivity extends FragmentActivity {
         public void onReceive(final Context context, Intent intent) {
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setTitle(R.string.google_voice_failed_title);
-            builder.setMessage(context.getResources().getString(R.string.google_voice_failed));
-            builder.setNeutralButton(context.getResources().getString(R.string.google_voice_sign_up), new DialogInterface.OnClickListener() {
+            builder.setMessage(resources.getString(R.string.google_voice_failed));
+            builder.setNeutralButton(resources.getString(R.string.google_voice_sign_up), new DialogInterface.OnClickListener() {
 
                 @Override
                 public void onClick(DialogInterface dialog,
@@ -5560,7 +5197,7 @@ public class MainActivity extends FragmentActivity {
                 String name = ContactUtil.findContactName(address, context);
                 String id = "0";
 
-                Bitmap contactImage = BitmapFactory.decodeResource(getResources(), R.drawable.ic_contact_picture);
+                Bitmap contactImage = BitmapFactory.decodeResource(resources, R.drawable.ic_contact_picture);
 
                 try {
                     Uri phoneUri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(address.replaceAll("[^0-9\\+]", "")));
@@ -5574,13 +5211,11 @@ public class MainActivity extends FragmentActivity {
 
                     if (input == null)
                     {
-                        input = context.getResources().openRawResource(R.drawable.ic_contact_picture);
+                        input = resources.openRawResource(R.drawable.ic_contact_picture);
                     }
 
                     contactImage = Bitmap.createScaledBitmap(BitmapFactory.decodeStream(input), 120, 120, true);
-                } catch (Exception e) {
-
-                }
+                } catch (Exception e) { }
 
                 if (settings.inAppNotifications)
                 {
@@ -5642,10 +5277,7 @@ public class MainActivity extends FragmentActivity {
                                     }
 
                                     mBuilder.setVibrate(pattern);
-                                } catch (Exception e)
-                                {
-
-                                }
+                                } catch (Exception e) { }
                             }
                         }
 
@@ -5780,8 +5412,6 @@ public class MainActivity extends FragmentActivity {
 
                 if (!settings.useTitleBar || settings.alwaysShowContactInfo)
                 {
-                    final ActionBar ab = getActionBar();
-
                     if (ab != null) {
                         if (conversations.get(mViewPager.getCurrentItem()).getGroup())
                         {
@@ -5824,8 +5454,6 @@ public class MainActivity extends FragmentActivity {
 
                 if (settings.titleContactImages)
                 {
-                    final ActionBar ab = getActionBar();
-
                     if (ab != null) {
                         new Thread(new Runnable() {
 
@@ -5898,9 +5526,7 @@ public class MainActivity extends FragmentActivity {
                                 flag = true;
                                 break;
                             }
-                        } catch (Exception e) {
-
-                        }
+                        } catch (Exception e) { }
                     }
 
                     if (!flag) {
@@ -6206,9 +5832,7 @@ public class MainActivity extends FragmentActivity {
                 } else {
                     return true;
                 }
-            } catch (Exception e) {
-
-            }
+            } catch (Exception e) { }
         } else {
             try {
                 FileOutputStream f = new FileOutputStream(file);
@@ -6221,9 +5845,7 @@ public class MainActivity extends FragmentActivity {
                 f.close();
 
                 return true;
-            } catch (Exception e) {
-
-            }
+            } catch (Exception e) { }
         }
 
         return unlocked;

@@ -107,7 +107,7 @@ public class MainActivityPopup extends MainActivity {
         setTitle(null);
 
         ColorDrawable background = new ColorDrawable();
-        background.setColor(getResources().getColor(android.R.color.transparent));
+        background.setColor(resources.getColor(android.R.color.transparent));
         getWindow().setBackgroundDrawable(background);
 
         Display display = getWindowManager().getDefaultDisplay();
@@ -170,11 +170,11 @@ public class MainActivityPopup extends MainActivity {
         {
         	if (sharedPrefs.getBoolean("title_text_color", false))
         	{
-        		title.setTextColor(getResources().getColor(R.color.black));
+        		title.setTextColor(resources.getColor(R.color.black));
         	}
         } else
         {
-        	title.setTextColor(sharedPrefs.getInt("ct_titleBarTextColor", getResources().getColor(R.color.white)));
+        	title.setTextColor(sharedPrefs.getInt("ct_titleBarTextColor", resources.getColor(R.color.white)));
         }
         
         if (!sharedPrefs.getBoolean("title_caps", true))
@@ -188,32 +188,32 @@ public class MainActivityPopup extends MainActivity {
             
             if (titleColor.equals("blue"))
             {
-                title.setBackgroundColor(getResources().getColor(R.color.holo_blue));
+                title.setBackgroundColor(resources.getColor(R.color.holo_blue));
             } else if (titleColor.equals("orange"))
             {
-                title.setBackgroundColor(getResources().getColor(R.color.holo_orange));
+                title.setBackgroundColor(resources.getColor(R.color.holo_orange));
             } else if (titleColor.equals("red"))
             {
-                title.setBackgroundColor(getResources().getColor(R.color.holo_red));
+                title.setBackgroundColor(resources.getColor(R.color.holo_red));
             } else if (titleColor.equals("green"))
             {
-                title.setBackgroundColor(getResources().getColor(R.color.holo_green));
+                title.setBackgroundColor(resources.getColor(R.color.holo_green));
             } else if (titleColor.equals("purple"))
             {
-                title.setBackgroundColor(getResources().getColor(R.color.holo_purple));
+                title.setBackgroundColor(resources.getColor(R.color.holo_purple));
             } else if (titleColor.equals("grey"))
             {
-                title.setBackgroundColor(getResources().getColor(R.color.grey));
+                title.setBackgroundColor(resources.getColor(R.color.grey));
             } else if (titleColor.equals("black"))
             {
-                title.setBackgroundColor(getResources().getColor(R.color.pitch_black));
+                title.setBackgroundColor(resources.getColor(R.color.pitch_black));
             } else if (titleColor.equals("darkgrey"))
             {
-                title.setBackgroundColor(getResources().getColor(R.color.darkgrey));
+                title.setBackgroundColor(resources.getColor(R.color.darkgrey));
             }
         } else
         {
-            title.setBackgroundColor(sharedPrefs.getInt("ct_titleBarColor", getResources().getColor(R.color.holo_blue)));
+            title.setBackgroundColor(sharedPrefs.getInt("ct_titleBarColor", resources.getColor(R.color.holo_blue)));
         }
 	}
 
@@ -317,9 +317,6 @@ public class MainActivityPopup extends MainActivity {
     @Override
     public void onPause() {
         super.onPause();
-
-        final Context context = this;
-
         // be sure that notifications are always dismissed after closing slideover
         new Handler().postDelayed(new Runnable() {
             @Override

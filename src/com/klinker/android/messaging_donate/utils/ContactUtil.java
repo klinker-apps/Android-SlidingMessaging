@@ -257,10 +257,10 @@ public class ContactUtil {
         {
             if (MainActivity.settings.darkContactImage)
             {
-                return BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_dark);
+                return BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar_dark);
             } else
             {
-                return BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_picture);
+                return BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
             }
         }
     }
@@ -316,23 +316,23 @@ public class ContactUtil {
                         return BitmapFactory.decodeStream(input);
                     }
                 } else {
-                    Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_picture);
+                    Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
 
                     contact.close();
                     return defaultPhoto;
                 }
-                Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_picture);
+                Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
 
                 contact.close();
                 return defaultPhoto;
             } catch (Exception e)
             {
                 contact.close();
-                return BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_picture);
+                return BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
             }
         } catch (Exception e)
         {
-            return BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_picture);
+            return BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
         }
     }
 

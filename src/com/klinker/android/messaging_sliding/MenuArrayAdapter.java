@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.*;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -46,6 +47,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
   private static final String FILENAME = "newMessages.txt";
   private SharedPreferences sharedPrefs;
   private Pattern pattern;
+  private Resources resources;
   
   static class ViewHolder {
 	    public TextView text;
@@ -62,6 +64,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
     this.context = context;
     this.pager = pager;
     this.sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+    this.resources = context.getResources();
 
     pattern = Pattern.compile(MessageCursorAdapter.patternStr);
   }
@@ -119,44 +122,44 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 
               if (color.equals("blue"))
               {
-                  viewHolder.text2.setTextColor(context.getResources().getColor(R.color.holo_blue));
-                  viewHolder.text3.setTextColor(context.getResources().getColor(R.color.holo_blue));
-                  viewHolder.text4.setTextColor(context.getResources().getColor(R.color.holo_blue));
+                  viewHolder.text2.setTextColor(resources.getColor(R.color.holo_blue));
+                  viewHolder.text3.setTextColor(resources.getColor(R.color.holo_blue));
+                  viewHolder.text4.setTextColor(resources.getColor(R.color.holo_blue));
               } else if (color.equals("white"))
               {
-                  viewHolder.text2.setTextColor(context.getResources().getColor(R.color.white));
-                  viewHolder.text3.setTextColor(context.getResources().getColor(R.color.white));
-                  viewHolder.text4.setTextColor(context.getResources().getColor(R.color.white));
+                  viewHolder.text2.setTextColor(resources.getColor(R.color.white));
+                  viewHolder.text3.setTextColor(resources.getColor(R.color.white));
+                  viewHolder.text4.setTextColor(resources.getColor(R.color.white));
               } else if (color.equals("green"))
               {
-                  viewHolder.text2.setTextColor(context.getResources().getColor(R.color.holo_green));
-                  viewHolder.text3.setTextColor(context.getResources().getColor(R.color.holo_green));
-                  viewHolder.text4.setTextColor(context.getResources().getColor(R.color.holo_green));
+                  viewHolder.text2.setTextColor(resources.getColor(R.color.holo_green));
+                  viewHolder.text3.setTextColor(resources.getColor(R.color.holo_green));
+                  viewHolder.text4.setTextColor(resources.getColor(R.color.holo_green));
               } else if (color.equals("orange"))
               {
-                  viewHolder.text2.setTextColor(context.getResources().getColor(R.color.holo_orange));
-                  viewHolder.text3.setTextColor(context.getResources().getColor(R.color.holo_orange));
-                  viewHolder.text4.setTextColor(context.getResources().getColor(R.color.holo_orange));
+                  viewHolder.text2.setTextColor(resources.getColor(R.color.holo_orange));
+                  viewHolder.text3.setTextColor(resources.getColor(R.color.holo_orange));
+                  viewHolder.text4.setTextColor(resources.getColor(R.color.holo_orange));
               } else if (color.equals("red"))
               {
-                  viewHolder.text2.setTextColor(context.getResources().getColor(R.color.holo_red));
-                  viewHolder.text3.setTextColor(context.getResources().getColor(R.color.holo_red));
-                  viewHolder.text4.setTextColor(context.getResources().getColor(R.color.holo_red));
+                  viewHolder.text2.setTextColor(resources.getColor(R.color.holo_red));
+                  viewHolder.text3.setTextColor(resources.getColor(R.color.holo_red));
+                  viewHolder.text4.setTextColor(resources.getColor(R.color.holo_red));
               } else if (color.equals("purple"))
               {
-                  viewHolder.text2.setTextColor(context.getResources().getColor(R.color.holo_purple));
-                  viewHolder.text3.setTextColor(context.getResources().getColor(R.color.holo_purple));
-                  viewHolder.text4.setTextColor(context.getResources().getColor(R.color.holo_purple));
+                  viewHolder.text2.setTextColor(resources.getColor(R.color.holo_purple));
+                  viewHolder.text3.setTextColor(resources.getColor(R.color.holo_purple));
+                  viewHolder.text4.setTextColor(resources.getColor(R.color.holo_purple));
               } else if (color.equals("black"))
               {
-                  viewHolder.text2.setTextColor(context.getResources().getColor(R.color.pitch_black));
-                  viewHolder.text3.setTextColor(context.getResources().getColor(R.color.pitch_black));
-                  viewHolder.text4.setTextColor(context.getResources().getColor(R.color.pitch_black));
+                  viewHolder.text2.setTextColor(resources.getColor(R.color.pitch_black));
+                  viewHolder.text3.setTextColor(resources.getColor(R.color.pitch_black));
+                  viewHolder.text4.setTextColor(resources.getColor(R.color.pitch_black));
               } else if (color.equals("grey"))
               {
-                  viewHolder.text2.setTextColor(context.getResources().getColor(R.color.grey));
-                  viewHolder.text3.setTextColor(context.getResources().getColor(R.color.grey));
-                  viewHolder.text4.setTextColor(context.getResources().getColor(R.color.grey));
+                  viewHolder.text2.setTextColor(resources.getColor(R.color.grey));
+                  viewHolder.text3.setTextColor(resources.getColor(R.color.grey));
+                  viewHolder.text4.setTextColor(resources.getColor(R.color.grey));
               }  else
               {
                   viewHolder.text2.setTextColor(MainActivity.settings.ctSummaryTextColor);
@@ -168,35 +171,35 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 
               if (color.equals("blue"))
               {
-                  viewHolder.text.setTextColor(context.getResources().getColor(R.color.holo_blue));
+                  viewHolder.text.setTextColor(resources.getColor(R.color.holo_blue));
               } else if (color.equals("white"))
               {
-                  viewHolder.text.setTextColor(context.getResources().getColor(R.color.white));
+                  viewHolder.text.setTextColor(resources.getColor(R.color.white));
               } else if (color.equals("green"))
               {
-                  viewHolder.text.setTextColor(context.getResources().getColor(R.color.holo_green));
+                  viewHolder.text.setTextColor(resources.getColor(R.color.holo_green));
               } else if (color.equals("orange"))
               {
-                  viewHolder.text.setTextColor(context.getResources().getColor(R.color.holo_orange));
+                  viewHolder.text.setTextColor(resources.getColor(R.color.holo_orange));
               } else if (color.equals("red"))
               {
-                  viewHolder.text.setTextColor(context.getResources().getColor(R.color.holo_red));
+                  viewHolder.text.setTextColor(resources.getColor(R.color.holo_red));
               } else if (color.equals("purple"))
               {
-                  viewHolder.text.setTextColor(context.getResources().getColor(R.color.holo_purple));
+                  viewHolder.text.setTextColor(resources.getColor(R.color.holo_purple));
               } else if (color.equals("black"))
               {
-                  viewHolder.text.setTextColor(context.getResources().getColor(R.color.pitch_black));
+                  viewHolder.text.setTextColor(resources.getColor(R.color.pitch_black));
               } else if (color.equals("grey"))
               {
-                  viewHolder.text.setTextColor(context.getResources().getColor(R.color.grey));
+                  viewHolder.text.setTextColor(resources.getColor(R.color.grey));
               }  else
               {
-                  viewHolder.text.setTextColor(sharedPrefs.getInt("ct_nameTextColor", context.getResources().getColor(R.color.black)));
+                  viewHolder.text.setTextColor(sharedPrefs.getInt("ct_nameTextColor", resources.getColor(R.color.black)));
               }
           } else
           {
-              viewHolder.text.setTextColor(sharedPrefs.getInt("ct_nameTextColor", context.getResources().getColor(R.color.black)));
+              viewHolder.text.setTextColor(sharedPrefs.getInt("ct_nameTextColor", resources.getColor(R.color.black)));
               viewHolder.text2.setTextColor(MainActivity.settings.ctSummaryTextColor);
               viewHolder.text3.setTextColor(MainActivity.settings.ctSummaryTextColor);
               viewHolder.text4.setTextColor(MainActivity.settings.ctSummaryTextColor);
@@ -298,20 +301,20 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
                               {
                                 if (MainActivity.settings.ctDarkContactPics)
                                 {
-                                    holder.image.setImageBitmap(Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(context.getResources().getDrawable(R.drawable.ic_contact_dark), context), MainActivity.contactWidth, MainActivity.contactWidth, true));
+                                    holder.image.setImageBitmap(Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(resources.getDrawable(R.drawable.ic_contact_dark), context), MainActivity.contactWidth, MainActivity.contactWidth, true));
                                 } else
                                 {
-                                    holder.image.setImageBitmap(Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(context.getResources().getDrawable(R.drawable.ic_contact_picture), context), MainActivity.contactWidth, MainActivity.contactWidth, true));
+                                    holder.image.setImageBitmap(Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(resources.getDrawable(R.drawable.ic_contact_picture), context), MainActivity.contactWidth, MainActivity.contactWidth, true));
                                 }
                               }
                         } else
                         {
                             if (MainActivity.settings.ctDarkContactPics)
                             {
-                                holder.image.setImageBitmap(Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(context.getResources().getDrawable(R.drawable.ic_contact_dark), context), MainActivity.contactWidth, MainActivity.contactWidth, true));
+                                holder.image.setImageBitmap(Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(resources.getDrawable(R.drawable.ic_contact_dark), context), MainActivity.contactWidth, MainActivity.contactWidth, true));
                             } else
                             {
-                                holder.image.setImageBitmap(Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(context.getResources().getDrawable(R.drawable.ic_contact_picture), context), MainActivity.contactWidth, MainActivity.contactWidth, true));
+                                holder.image.setImageBitmap(Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(resources.getDrawable(R.drawable.ic_contact_picture), context), MainActivity.contactWidth, MainActivity.contactWidth, true));
                             }
                         }
 					} else
@@ -567,11 +570,11 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
                 final ProgressDialog progDialog = new ProgressDialog(context);
 
 				AlertDialog.Builder builder = new AlertDialog.Builder(context);
-				builder.setMessage(context.getResources().getString(R.string.delete_messages) + "\n\n" + context.getResources().getString(R.string.conversation) + ": " + ContactUtil.findContactName(ContactUtil.findContactNumber(conversations.get(position).getNumber(), context), context));
-				builder.setPositiveButton(context.getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
+				builder.setMessage(resources.getString(R.string.delete_messages) + "\n\n" + resources.getString(R.string.conversation) + ": " + ContactUtil.findContactName(ContactUtil.findContactNumber(conversations.get(position).getNumber(), context), context));
+				builder.setPositiveButton(resources.getString(R.string.yes), new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 			               progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-			               progDialog.setMessage(context.getResources().getString(R.string.deleting));
+			               progDialog.setMessage(resources.getString(R.string.deleting));
 			               progDialog.show();
 
 			               new Thread(new Runnable(){
@@ -689,7 +692,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
                     } catch (OperationApplicationException e) {
                     }
                 }});
-				builder.setNegativeButton(context.getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
+				builder.setNegativeButton(resources.getString(R.string.no), new DialogInterface.OnClickListener() {
 			           public void onClick(DialogInterface dialog, int id) {
 			               dialog.dismiss();
 			           }

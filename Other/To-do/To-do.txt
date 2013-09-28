@@ -2,8 +2,8 @@ Version 7.60
 
 Jake:
     - emoji keyboard for drawer
-    - remove secondary menu references
-    - search for all empty exception blocks and condense them
+    - move all the write and read to file functions to ioutil
+    - fix landscape mode
     - if voice fails, try fetching a new rnrse and save that value to sharedprefs
     - Look at menu array adapter and how it can be changed for more speed getting contact pictures, is that really the problem? Look at the stock apps get contact picture method in the contact class
         - Remove all of the get facebook photo methods and just use one from a utils file
@@ -11,7 +11,6 @@ Jake:
     - redo the refresh view pager stuff for initial setup and then notifying the adapter of a change (both view pager and listview of conversation fragment)
     - redo getting the intent stuff at startup
     - trace through entire main activity and get rid of/optimize everything
-    - create utils file with stuff for getting contact pictures, name and numbers, and all of the read from file stuff
     - active notifications contact picture
     - look into downloading mms and data getting stuck
     - Attach audio and video to mms (look at stock app)

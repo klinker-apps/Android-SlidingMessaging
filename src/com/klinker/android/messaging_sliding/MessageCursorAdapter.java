@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.*;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.*;
 import android.graphics.drawable.AnimationDrawable;
@@ -61,6 +62,7 @@ public class MessageCursorAdapter extends CursorAdapter {
     private Paint paint;
     private Typeface font;
     private final LayoutInflater mInflater;
+    private Resources resources;
 
     private boolean touchwiz = false;
     private final boolean lookForVoice;
@@ -76,6 +78,8 @@ public class MessageCursorAdapter extends CursorAdapter {
         this.contentResolver = context.getContentResolver();
         this.mInflater = LayoutInflater.from(context);
         this.mCursor = query;
+
+        this.resources = context.getResources();
 
         if (MainActivity.settings.runAs == null) {
             MainActivity.settings = AppSettings.init(context);
@@ -97,9 +101,9 @@ public class MessageCursorAdapter extends CursorAdapter {
 
         if (input == null) {
             if (MainActivity.settings.darkContactImage) {
-                input = ContactUtil.drawableToBitmap(context.getResources().getDrawable(R.drawable.default_avatar_dark), context);
+                input = ContactUtil.drawableToBitmap(resources.getDrawable(R.drawable.default_avatar_dark), context);
             } else {
-                input = ContactUtil.drawableToBitmap(context.getResources().getDrawable(R.drawable.default_avatar), context);
+                input = ContactUtil.drawableToBitmap(resources.getDrawable(R.drawable.default_avatar), context);
             }
         }
 
@@ -115,9 +119,9 @@ public class MessageCursorAdapter extends CursorAdapter {
 
         if (input2 == null) {
             if (MainActivity.settings.darkContactImage) {
-                input2 = context.getResources().openRawResource(R.drawable.default_avatar_dark);
+                input2 = resources.openRawResource(R.drawable.default_avatar_dark);
             } else {
-                input2 = context.getResources().openRawResource(R.drawable.default_avatar);
+                input2 = resources.openRawResource(R.drawable.default_avatar);
             }
         }
 
@@ -127,16 +131,16 @@ public class MessageCursorAdapter extends CursorAdapter {
             im = Bitmap.createScaledBitmap(BitmapFactory.decodeStream(input2), MainActivity.contactWidth, MainActivity.contactWidth, true);
         } catch (Exception e) {
             if (MainActivity.settings.darkContactImage) {
-                im = Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(context.getResources().getDrawable(R.drawable.default_avatar_dark), context), MainActivity.contactWidth, MainActivity.contactWidth, true);
+                im = Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(resources.getDrawable(R.drawable.default_avatar_dark), context), MainActivity.contactWidth, MainActivity.contactWidth, true);
             } else {
-                im = Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(context.getResources().getDrawable(R.drawable.default_avatar), context), MainActivity.contactWidth, MainActivity.contactWidth, true);
+                im = Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(resources.getDrawable(R.drawable.default_avatar), context), MainActivity.contactWidth, MainActivity.contactWidth, true);
             }
         }
 
         myImage = im;
 
         paint = new Paint();
-        float densityMultiplier = context.getResources().getDisplayMetrics().density;
+        float densityMultiplier = resources.getDisplayMetrics().density;
         float scaledPx = Integer.parseInt(MainActivity.settings.textSize) * densityMultiplier;
         paint.setTextSize(scaledPx);
         font = null;
@@ -842,10 +846,10 @@ public class MessageCursorAdapter extends CursorAdapter {
 
         if (cursor.getPosition() == 0) {
             if (MainActivity.settings.runAs.equals("hangout")) {
-                int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 7, context.getResources().getDisplayMetrics());
-                int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, context.getResources().getDisplayMetrics());
-                int scale3 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, context.getResources().getDisplayMetrics());
-                int scale4 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 21, context.getResources().getDisplayMetrics());
+                int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 7, resources.getDisplayMetrics());
+                int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, resources.getDisplayMetrics());
+                int scale3 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, resources.getDisplayMetrics());
+                int scale4 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 21, resources.getDisplayMetrics());
                 
                 if (sent) {
                     view.setPadding(scale4, scale2, scale, scale3);
@@ -853,19 +857,19 @@ public class MessageCursorAdapter extends CursorAdapter {
                     view.setPadding(scale, scale2, scale4, scale3);
                 }
             } else if (MainActivity.settings.runAs.equals("card2") || MainActivity.settings.runAs.equals("card+")) {
-                int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 17, context.getResources().getDisplayMetrics());
-                int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, context.getResources().getDisplayMetrics());
-                int scale3 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, context.getResources().getDisplayMetrics());
+                int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 17, resources.getDisplayMetrics());
+                int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, resources.getDisplayMetrics());
+                int scale3 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, resources.getDisplayMetrics());
                 view.setPadding(scale, scale2, scale, scale3);
             } else {
-                int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, context.getResources().getDisplayMetrics());
+                int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, resources.getDisplayMetrics());
                 view.setPadding(0, 0, 0, scale);
             }
         } else {
             if (MainActivity.settings.runAs.equals("hangout")) {
-                int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 7, context.getResources().getDisplayMetrics());
-                int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, context.getResources().getDisplayMetrics());
-                int scale3 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 21, context.getResources().getDisplayMetrics());
+                int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 7, resources.getDisplayMetrics());
+                int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, resources.getDisplayMetrics());
+                int scale3 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 21, resources.getDisplayMetrics());
             
                 if (sent) {
                     view.setPadding(scale3, scale2, scale, scale2);
@@ -873,8 +877,8 @@ public class MessageCursorAdapter extends CursorAdapter {
                     view.setPadding(scale, scale2, scale3, scale2);
                 }
             } else if (MainActivity.settings.runAs.equals("card2") || MainActivity.settings.runAs.equals("card+")) {
-                int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 17, context.getResources().getDisplayMetrics());
-                int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, context.getResources().getDisplayMetrics());
+                int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 17, resources.getDisplayMetrics());
+                int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, resources.getDisplayMetrics());
                 view.setPadding(scale, scale2, scale, 0);
             } else {
                 view.setPadding(0, 0, 0, 0);
@@ -936,10 +940,10 @@ public class MessageCursorAdapter extends CursorAdapter {
                                     dateReceived = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2);
                                 }
 
-                                dialogText = context.getResources().getString(R.string.type) + " Text Message\n" +
-                                        context.getResources().getString(R.string.from) + " " + query.getString(query.getColumnIndex("address")) + "\n" +
-                                        context.getResources().getString(R.string.sent) + " " + dateSent + "\n" +
-                                        context.getResources().getString(R.string.received) + " " + dateReceived;
+                                dialogText = resources.getString(R.string.type) + " Text Message\n" +
+                                        resources.getString(R.string.from) + " " + query.getString(query.getColumnIndex("address")) + "\n" +
+                                        resources.getString(R.string.sent) + " " + dateSent + "\n" +
+                                        resources.getString(R.string.received) + " " + dateReceived;
                             }
                         } else {
                             query = contentResolver.query(Uri.parse("content://sms/" + idF + "/"), new String[] {"date", "status", "type", "address"}, null, null, "date desc limit 1");
@@ -954,19 +958,19 @@ public class MessageCursorAdapter extends CursorAdapter {
                                     dateReceived = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2);
                                 }
 
-                                dialogText = context.getResources().getString(R.string.type) + " Text Message\n" +
-                                        context.getResources().getString(R.string.to) + " " + query.getString(query.getColumnIndex("address")) + "\n" +
-                                        context.getResources().getString(R.string.sent) + " " + dateReceived;
+                                dialogText = resources.getString(R.string.type) + " Text Message\n" +
+                                        resources.getString(R.string.to) + " " + query.getString(query.getColumnIndex("address")) + "\n" +
+                                        resources.getString(R.string.sent) + " " + dateReceived;
 
                                 String status = query.getString(query.getColumnIndex("status"));
 
                                 if (!status.equals("-1")) {
                                     if (status.equals("64") || status.equals("128")) {
-                                        dialogText += "\n" + context.getResources().getString(R.string.status) + " Error";
+                                        dialogText += "\n" + resources.getString(R.string.status) + " Error";
                                     } else if (status.equals("2")) {
-                                        dialogText += "\n" + context.getResources().getString(R.string.status) + " Voice";
+                                        dialogText += "\n" + resources.getString(R.string.status) + " Voice";
                                     } else {
-                                        dialogText += "\n" + context.getResources().getString(R.string.status) + " Delivered";
+                                        dialogText += "\n" + resources.getString(R.string.status) + " Delivered";
                                     }
                                 }
                             }
@@ -985,19 +989,19 @@ public class MessageCursorAdapter extends CursorAdapter {
                                     dateReceived = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2);
                                 }
 
-                                dialogText = context.getResources().getString(R.string.type) + " Text Message\n" +
-                                        context.getResources().getString(R.string.to) + " " + query.getString(query.getColumnIndex("address")) + "\n" +
-                                        context.getResources().getString(R.string.sent) + " " + dateReceived;
+                                dialogText = resources.getString(R.string.type) + " Text Message\n" +
+                                        resources.getString(R.string.to) + " " + query.getString(query.getColumnIndex("address")) + "\n" +
+                                        resources.getString(R.string.sent) + " " + dateReceived;
 
                                 String status = query.getString(query.getColumnIndex("status"));
 
                                 if (!status.equals("-1")) {
                                     if (status.equals("64") || status.equals("128")) {
-                                        dialogText += "\n" + context.getResources().getString(R.string.status) + " Error";
+                                        dialogText += "\n" + resources.getString(R.string.status) + " Error";
                                     } else if (status.equals("2")) {
-                                        dialogText += "\n" + context.getResources().getString(R.string.status) + " Voice";
+                                        dialogText += "\n" + resources.getString(R.string.status) + " Voice";
                                     } else {
-                                        dialogText += "\n" + context.getResources().getString(R.string.status) + " Delivered";
+                                        dialogText += "\n" + resources.getString(R.string.status) + " Delivered";
                                     }
                                 }
                             } else {
@@ -1010,15 +1014,15 @@ public class MessageCursorAdapter extends CursorAdapter {
                                     dateReceived = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2);
                                 }
 
-                                dialogText = context.getResources().getString(R.string.type) + " Text Message\n" +
-                                        context.getResources().getString(R.string.from) + " " + query.getString(query.getColumnIndex("address")) + "\n" +
-                                        context.getResources().getString(R.string.received) + " " + dateReceived;
+                                dialogText = resources.getString(R.string.type) + " Text Message\n" +
+                                        resources.getString(R.string.from) + " " + query.getString(query.getColumnIndex("address")) + "\n" +
+                                        resources.getString(R.string.received) + " " + dateReceived;
                             }
                         }
                     }
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setTitle(context.getResources().getString(R.string.message_details));
+                    builder.setTitle(resources.getString(R.string.message_details));
                     builder.setMessage(dialogText);
                     builder.create().show();
                 } else {
@@ -1069,13 +1073,13 @@ public class MessageCursorAdapter extends CursorAdapter {
 
                         // TODO add on more information to this
                         if (sentF) {
-                            message = context.getResources().getString(R.string.type) + " Multimedia Message\n" +
-                                    context.getResources().getString(R.string.to) + " " + address + "\n" +
-                                    context.getResources().getString(R.string.received) + " " + dateReceived;
+                            message = resources.getString(R.string.type) + " Multimedia Message\n" +
+                                    resources.getString(R.string.to) + " " + address + "\n" +
+                                    resources.getString(R.string.received) + " " + dateReceived;
                         } else {
-                            message = context.getResources().getString(R.string.type) + " Multimedia Message\n" +
-                                    context.getResources().getString(R.string.from) + " " + address + "\n" +
-                                    context.getResources().getString(R.string.received) + " " + dateReceived;
+                            message = resources.getString(R.string.type) + " Multimedia Message\n" +
+                                    resources.getString(R.string.from) + " " + address + "\n" +
+                                    resources.getString(R.string.received) + " " + dateReceived;
                         }
 
                         builder.setMessage(message);
@@ -1118,16 +1122,15 @@ public class MessageCursorAdapter extends CursorAdapter {
                                         Toast.makeText(context, R.string.text_saved, Toast.LENGTH_SHORT).show();
                                         break;
                                     case 1:
-                                        MainActivity.menu.showSecondaryMenu();
+                                        MainActivity.mDrawerLayout.openDrawer(Gravity.RIGHT);
                                         TextView tv2 = (TextView) arg0.findViewById(R.id.textBody);
-
                                         MainActivity.messageEntry2.setText(tv2.getText().toString());
 
                                         break;
                                     case 2:
                                         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                                        builder.setMessage(context.getResources().getString(R.string.delete_message));
-                                        builder.setPositiveButton(context.getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
+                                        builder.setMessage(resources.getString(R.string.delete_message));
+                                        builder.setPositiveButton(resources.getString(R.string.yes), new DialogInterface.OnClickListener() {
                                             @SuppressLint("SimpleDateFormat")
                                             public void onClick(DialogInterface dialog, int id) {
                                                 String threadId = threadIds;
@@ -1147,7 +1150,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                                 } catch (Exception e) {
                                                 }
                                             }});
-                                        builder.setNegativeButton(context.getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
+                                        builder.setNegativeButton(resources.getString(R.string.no), new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int id) {
                                                 dialog.dismiss();
                                             }
@@ -1199,9 +1202,9 @@ public class MessageCursorAdapter extends CursorAdapter {
                                         }
                                         break;
                                     case 2:
-                                        MainActivity.menu.showSecondaryMenu();
+                                        MainActivity.mDrawerLayout.openDrawer(Gravity.RIGHT);
 
-                                        View newMessageView = MainActivity.menu.getSecondaryMenu();
+                                        View newMessageView = MainActivity.newMessageView;
                                         TextView tv2 = (TextView) arg0.findViewById(R.id.textBody);
 
                                         try
@@ -1209,7 +1212,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                             ((MainActivity)context).attachedImage2 = holder.imageUri;
 
                                             ((MainActivity)context).imageAttachBackground2.setBackgroundColor(MainActivity.settings.ctConversationListBackground);
-                                            Drawable attachBack = context.getResources().getDrawable(R.drawable.attachment_editor_bg);
+                                            Drawable attachBack = resources.getDrawable(R.drawable.attachment_editor_bg);
                                             attachBack.setColorFilter(MainActivity.settings.ctSentMessageBackground, PorterDuff.Mode.MULTIPLY);
                                             ((MainActivity)context).imageAttach2.setBackgroundDrawable(attachBack);
                                             ((MainActivity)context).imageAttachBackground2.setVisibility(View.VISIBLE);
@@ -1249,7 +1252,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                                 Intent intent = new Intent();
                                                 intent.setType("image/*");
                                                 intent.setAction(Intent.ACTION_GET_CONTENT);
-                                                context.startActivityForResult(Intent.createChooser(intent, context.getResources().getString(R.string.select_picture)), 2);
+                                                context.startActivityForResult(Intent.createChooser(intent, resources.getString(R.string.select_picture)), 2);
 
                                             }
 
@@ -1279,8 +1282,8 @@ public class MessageCursorAdapter extends CursorAdapter {
                                         break;
                                     case 3:
                                         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                                        builder.setMessage(context.getResources().getString(R.string.delete_message));
-                                        builder.setPositiveButton(context.getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
+                                        builder.setMessage(resources.getString(R.string.delete_message));
+                                        builder.setPositiveButton(resources.getString(R.string.yes), new DialogInterface.OnClickListener() {
                                             @SuppressLint("SimpleDateFormat")
                                             public void onClick(DialogInterface dialog, int id) {
                                                 String threadId = threadIds;
@@ -1295,7 +1298,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                                 } catch (Exception e) {
                                                 }
                                             }});
-                                        builder.setNegativeButton(context.getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
+                                        builder.setNegativeButton(resources.getString(R.string.no), new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int id) {
                                                 dialog.dismiss();
                                             }
@@ -1397,16 +1400,15 @@ public class MessageCursorAdapter extends CursorAdapter {
                                     Toast.makeText(context, R.string.text_saved, Toast.LENGTH_SHORT).show();
                                     break;
                                 case 2:
-                                    MainActivity.menu.showSecondaryMenu();
+                                    MainActivity.mDrawerLayout.openDrawer(Gravity.RIGHT);
                                     TextView tv2 = (TextView) arg0.findViewById(R.id.textBody);
-
                                     MainActivity.messageEntry2.setText(tv2.getText().toString());
 
                                     break;
                                 case 3:
                                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                                    builder.setMessage(context.getResources().getString(R.string.delete_message));
-                                    builder.setPositiveButton(context.getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
+                                    builder.setMessage(resources.getString(R.string.delete_message));
+                                    builder.setPositiveButton(resources.getString(R.string.yes), new DialogInterface.OnClickListener() {
                                         @SuppressLint("SimpleDateFormat")
                                         public void onClick(DialogInterface dialog, int id) {
                                             String threadId = threadIds;
@@ -1421,7 +1423,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                             } catch (Exception e) {
                                             }
                                         }});
-                                    builder.setNegativeButton(context.getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
+                                    builder.setNegativeButton(resources.getString(R.string.no), new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int id) {
                                             dialog.dismiss();
                                         }
@@ -1638,36 +1640,36 @@ public class MessageCursorAdapter extends CursorAdapter {
             {
                 if (MainActivity.settings.sentTextColor.equals("blue"))
                 {
-                    holder.text.setTextColor(context.getResources().getColor(R.color.holo_blue));
-                    holder.date.setTextColor(context.getResources().getColor(R.color.holo_blue));
+                    holder.text.setTextColor(resources.getColor(R.color.holo_blue));
+                    holder.date.setTextColor(resources.getColor(R.color.holo_blue));
                 } else if (MainActivity.settings.sentTextColor.equals("white"))
                 {
-                    holder.text.setTextColor(context.getResources().getColor(R.color.white));
-                    holder.date.setTextColor(context.getResources().getColor(R.color.white));
+                    holder.text.setTextColor(resources.getColor(R.color.white));
+                    holder.date.setTextColor(resources.getColor(R.color.white));
                 } else if (MainActivity.settings.sentTextColor.equals("green"))
                 {
-                    holder.text.setTextColor(context.getResources().getColor(R.color.holo_green));
-                    holder.date.setTextColor(context.getResources().getColor(R.color.holo_green));
+                    holder.text.setTextColor(resources.getColor(R.color.holo_green));
+                    holder.date.setTextColor(resources.getColor(R.color.holo_green));
                 } else if (MainActivity.settings.sentTextColor.equals("orange"))
                 {
-                    holder.text.setTextColor(context.getResources().getColor(R.color.holo_orange));
-                    holder.date.setTextColor(context.getResources().getColor(R.color.holo_orange));
+                    holder.text.setTextColor(resources.getColor(R.color.holo_orange));
+                    holder.date.setTextColor(resources.getColor(R.color.holo_orange));
                 } else if (MainActivity.settings.sentTextColor.equals("red"))
                 {
-                    holder.text.setTextColor(context.getResources().getColor(R.color.holo_red));
-                    holder.date.setTextColor(context.getResources().getColor(R.color.holo_red));
+                    holder.text.setTextColor(resources.getColor(R.color.holo_red));
+                    holder.date.setTextColor(resources.getColor(R.color.holo_red));
                 } else if (MainActivity.settings.sentTextColor.equals("purple"))
                 {
-                    holder.text.setTextColor(context.getResources().getColor(R.color.holo_purple));
-                    holder.date.setTextColor(context.getResources().getColor(R.color.holo_purple));
+                    holder.text.setTextColor(resources.getColor(R.color.holo_purple));
+                    holder.date.setTextColor(resources.getColor(R.color.holo_purple));
                 } else if (MainActivity.settings.sentTextColor.equals("black"))
                 {
-                    holder.text.setTextColor(context.getResources().getColor(R.color.pitch_black));
-                    holder.date.setTextColor(context.getResources().getColor(R.color.pitch_black));
+                    holder.text.setTextColor(resources.getColor(R.color.pitch_black));
+                    holder.date.setTextColor(resources.getColor(R.color.pitch_black));
                 } else if (MainActivity.settings.sentTextColor.equals("grey"))
                 {
-                    holder.text.setTextColor(context.getResources().getColor(R.color.grey));
-                    holder.date.setTextColor(context.getResources().getColor(R.color.grey));
+                    holder.text.setTextColor(resources.getColor(R.color.grey));
+                    holder.date.setTextColor(resources.getColor(R.color.grey));
                 }
 
                 holder.background.setBackgroundColor(convertToColorInt(convertToARGB(MainActivity.settings.ctSentMessageBackground, MainActivity.settings.textOpacity + "")));
@@ -1683,36 +1685,36 @@ public class MessageCursorAdapter extends CursorAdapter {
             {
                 if (MainActivity.settings.receivedTextColor.equals("blue"))
                 {
-                    holder.text.setTextColor(context.getResources().getColor(R.color.holo_blue));
-                    holder.date.setTextColor(context.getResources().getColor(R.color.holo_blue));
+                    holder.text.setTextColor(resources.getColor(R.color.holo_blue));
+                    holder.date.setTextColor(resources.getColor(R.color.holo_blue));
                 } else if (MainActivity.settings.receivedTextColor.equals("white"))
                 {
-                    holder.text.setTextColor(context.getResources().getColor(R.color.white));
-                    holder.date.setTextColor(context.getResources().getColor(R.color.white));
+                    holder.text.setTextColor(resources.getColor(R.color.white));
+                    holder.date.setTextColor(resources.getColor(R.color.white));
                 } else if (MainActivity.settings.receivedTextColor.equals("green"))
                 {
-                    holder.text.setTextColor(context.getResources().getColor(R.color.holo_green));
-                    holder.date.setTextColor(context.getResources().getColor(R.color.holo_green));
+                    holder.text.setTextColor(resources.getColor(R.color.holo_green));
+                    holder.date.setTextColor(resources.getColor(R.color.holo_green));
                 } else if (MainActivity.settings.receivedTextColor.equals("orange"))
                 {
-                    holder.text.setTextColor(context.getResources().getColor(R.color.holo_orange));
-                    holder.date.setTextColor(context.getResources().getColor(R.color.holo_orange));
+                    holder.text.setTextColor(resources.getColor(R.color.holo_orange));
+                    holder.date.setTextColor(resources.getColor(R.color.holo_orange));
                 } else if (MainActivity.settings.receivedTextColor.equals("red"))
                 {
-                    holder.text.setTextColor(context.getResources().getColor(R.color.holo_red));
-                    holder.date.setTextColor(context.getResources().getColor(R.color.holo_red));
+                    holder.text.setTextColor(resources.getColor(R.color.holo_red));
+                    holder.date.setTextColor(resources.getColor(R.color.holo_red));
                 } else if (MainActivity.settings.receivedTextColor.equals("purple"))
                 {
-                    holder.text.setTextColor(context.getResources().getColor(R.color.holo_purple));
-                    holder.date.setTextColor(context.getResources().getColor(R.color.holo_purple));
+                    holder.text.setTextColor(resources.getColor(R.color.holo_purple));
+                    holder.date.setTextColor(resources.getColor(R.color.holo_purple));
                 } else if (MainActivity.settings.receivedTextColor.equals("black"))
                 {
-                    holder.text.setTextColor(context.getResources().getColor(R.color.pitch_black));
-                    holder.date.setTextColor(context.getResources().getColor(R.color.pitch_black));
+                    holder.text.setTextColor(resources.getColor(R.color.pitch_black));
+                    holder.date.setTextColor(resources.getColor(R.color.pitch_black));
                 } else if (MainActivity.settings.receivedTextColor.equals("grey"))
                 {
-                    holder.text.setTextColor(context.getResources().getColor(R.color.grey));
-                    holder.date.setTextColor(context.getResources().getColor(R.color.grey));
+                    holder.text.setTextColor(resources.getColor(R.color.grey));
+                    holder.date.setTextColor(resources.getColor(R.color.grey));
                 }
 
                 holder.background.setBackgroundColor(convertToColorInt(convertToARGB(MainActivity.settings.ctRecievedMessageBackground, MainActivity.settings.textOpacity + "")));
@@ -1741,9 +1743,9 @@ public class MessageCursorAdapter extends CursorAdapter {
         }
 
         if (MainActivity.settings.runAs.equals("hangout")) {
-            int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 7, context.getResources().getDisplayMetrics());
-            int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, context.getResources().getDisplayMetrics());
-            int scale3 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 21, context.getResources().getDisplayMetrics());
+            int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 7, resources.getDisplayMetrics());
+            int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, resources.getDisplayMetrics());
+            int scale3 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 21, resources.getDisplayMetrics());
             
             if (type == 1) {
                 v.setPadding(scale3, scale2, scale, scale2);
@@ -1751,8 +1753,8 @@ public class MessageCursorAdapter extends CursorAdapter {
                 v.setPadding(scale, scale2, scale3, scale2);
             }
         } else if (MainActivity.settings.runAs.equals("card2") || MainActivity.settings.runAs.equals("card+")) {
-            int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 17, context.getResources().getDisplayMetrics());
-            int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, context.getResources().getDisplayMetrics());
+            int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 17, resources.getDisplayMetrics());
+            int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, resources.getDisplayMetrics());
             v.setPadding(scale, scale2, scale, 0);
         }
 
@@ -2143,7 +2145,7 @@ public class MessageCursorAdapter extends CursorAdapter {
     Html.ImageGetter imgGetterSent = new Html.ImageGetter() {
         @Override
         public Drawable getDrawable(String source) {
-            Drawable drawable = context.getResources().getDrawable(R.drawable.ic_sent);
+            Drawable drawable = resources.getDrawable(R.drawable.ic_sent);
 
             drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable
                     .getIntrinsicHeight());
@@ -2155,7 +2157,7 @@ public class MessageCursorAdapter extends CursorAdapter {
     Html.ImageGetter imgGetterFail = new Html.ImageGetter() {
         @Override
         public Drawable getDrawable(String source) {
-            Drawable drawable = context.getResources().getDrawable(R.drawable.ic_failed);
+            Drawable drawable = resources.getDrawable(R.drawable.ic_failed);
 
             drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable
                     .getIntrinsicHeight());
@@ -2167,7 +2169,7 @@ public class MessageCursorAdapter extends CursorAdapter {
     Html.ImageGetter imgGetterLocked = new Html.ImageGetter() {
         @Override
         public Drawable getDrawable(String source) {
-            Drawable drawable = context.getResources().getDrawable(R.drawable.ic_locked);
+            Drawable drawable = resources.getDrawable(R.drawable.ic_locked);
 
             drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable
                     .getIntrinsicHeight());
@@ -2185,7 +2187,7 @@ public class MessageCursorAdapter extends CursorAdapter {
     Html.ImageGetter imgGetterVoice = new Html.ImageGetter() {
         @Override
         public Drawable getDrawable(String source) {
-            Drawable drawable = context.getResources().getDrawable(R.drawable.voice_message);
+            Drawable drawable = resources.getDrawable(R.drawable.voice_message);
 
             drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable
                     .getIntrinsicHeight());

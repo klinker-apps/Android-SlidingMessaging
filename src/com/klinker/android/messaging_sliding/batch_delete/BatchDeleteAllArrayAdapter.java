@@ -32,6 +32,7 @@ import android.widget.TextView;
 import com.klinker.android.messaging_donate.utils.ContactUtil;
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_sliding.Conversation;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -42,9 +43,7 @@ public class BatchDeleteAllArrayAdapter extends ArrayAdapter<String> {
     public static boolean checkedAll = false;
 
     private final Activity context;
-    private final ArrayList<String> body;
-    private final ArrayList<String> numbers;
-    private final ArrayList<String> group;
+    private ArrayList<Conversation> conversations;
     private SharedPreferences sharedPrefs;
 
     public boolean customFont;
@@ -73,13 +72,11 @@ public class BatchDeleteAllArrayAdapter extends ArrayAdapter<String> {
         public View background;
     }
 
-	  public BatchDeleteAllArrayAdapter(Activity context, ArrayList<String> body, ArrayList<String> numbers, ArrayList<String> group) {
-          super(context, R.layout.contact_body, body);
+	  public BatchDeleteAllArrayAdapter(Activity context, ArrayList<Conversation> conversations) {
+          super(context, R.layout.contact_body);
 
           this.context = context;
-          this.body = body;
-          this.numbers = numbers;
-          this.group = group;
+          this.conversations = conversations;
           this.sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
           // shared prefs again!
@@ -102,9 +99,8 @@ public class BatchDeleteAllArrayAdapter extends ArrayAdapter<String> {
       }
 	  
 	  @Override
-	  public int getCount()
-	  {
-		return numbers.size();
+	  public int getCount() {
+		return conversations.size();
 	  }
 
     @SuppressLint("SimpleDateFormat")
@@ -258,15 +254,15 @@ public class BatchDeleteAllArrayAdapter extends ArrayAdapter<String> {
 
             @Override
             public void run() {
-                final String number = ContactUtil.findContactNumber(numbers.get(position), context);
-                final Bitmap image = Bitmap.createScaledBitmap(getFacebookPhoto(number), MainActivity.contactWidth, MainActivity.contactWidth, true);
+                final String number = ContactUtil.findContactNumber(conversations.get(position).getNumber(), context);
+                final Bitmap image = Bitmap.createScaledBitmap(ContactUtil.getFacebookPhoto(number, context), MainActivity.contactWidth, MainActivity.contactWidth, true);
 
                 Spanned text;
                 String names = "";
 
                 if (!hideMessageCounter)
                 {
-                    if (group.get(position).equals("yes"))
+                    if (conversations.get(position).getGroup())
                     {
                         text = Html.fromHtml("Group MMS");
                         names = ContactUtil.loadGroupContacts(number, context);
@@ -276,7 +272,7 @@ public class BatchDeleteAllArrayAdapter extends ArrayAdapter<String> {
                     }
                 } else
                 {
-                    if (group.get(position).equals("yes"))
+                    if (conversations.get(position).getGroup())
                     {
                         text = Html.fromHtml("Group MMS");
                         names = ContactUtil.loadGroupContacts(number, context);
@@ -297,7 +293,7 @@ public class BatchDeleteAllArrayAdapter extends ArrayAdapter<String> {
 
                         if (contactPictures2)
                         {
-                            if (group.get(position).equals("no"))
+                            if (!conversations.get(position).getGroup())
                             {
                                 try
                                 {
@@ -306,20 +302,20 @@ public class BatchDeleteAllArrayAdapter extends ArrayAdapter<String> {
                                 {
                                     if (ctDarkContactPics)
                                     {
-                                        holder.image.setImageBitmap(Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(R.drawable.ic_contact_dark)), MainActivity.contactWidth, MainActivity.contactWidth, true));
+                                        holder.image.setImageBitmap(Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(context.getResources().getDrawable(R.drawable.ic_contact_dark), context), MainActivity.contactWidth, MainActivity.contactWidth, true));
                                     } else
                                     {
-                                        holder.image.setImageBitmap(Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(R.drawable.ic_contact_picture)), MainActivity.contactWidth, MainActivity.contactWidth, true));
+                                        holder.image.setImageBitmap(Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(context.getResources().getDrawable(R.drawable.ic_contact_picture), context), MainActivity.contactWidth, MainActivity.contactWidth, true));
                                     }
                                 }
                             } else
                             {
                                 if (ctDarkContactPics)
                                 {
-                                    holder.image.setImageBitmap(Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(R.drawable.ic_contact_dark)), MainActivity.contactWidth, MainActivity.contactWidth, true));
+                                    holder.image.setImageBitmap(Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(context.getResources().getDrawable(R.drawable.ic_contact_dark), context), MainActivity.contactWidth, MainActivity.contactWidth, true));
                                 } else
                                 {
-                                    holder.image.setImageBitmap(Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(R.drawable.ic_contact_picture)), MainActivity.contactWidth, MainActivity.contactWidth, true));
+                                    holder.image.setImageBitmap(Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(context.getResources().getDrawable(R.drawable.ic_contact_picture), context), MainActivity.contactWidth, MainActivity.contactWidth, true));
                                 }
                             }
                         } else
@@ -329,7 +325,7 @@ public class BatchDeleteAllArrayAdapter extends ArrayAdapter<String> {
 
                         holder.text.setText(textF);
 
-                        if (group.get(position).equals("yes"))
+                        if (conversations.get(position).getGroup())
                         {
                             holder.text2.setText(namesF);
                         }
@@ -340,7 +336,7 @@ public class BatchDeleteAllArrayAdapter extends ArrayAdapter<String> {
 
         }).start();
 
-        holder.text2.setText(body.get(position));
+        holder.text2.setText(conversations.get(position).getBody());
 
         if (!itemsToDelete.contains(position)) {
             holder.background.setBackgroundColor(sharedPrefs.getInt("ct_conversationListBackground", context.getResources().getColor(R.color.light_silver)));
@@ -377,127 +373,4 @@ public class BatchDeleteAllArrayAdapter extends ArrayAdapter<String> {
 
         return contactView;
     }
-	  
-	  public InputStream openDisplayPhoto(long contactId) {
-		  Uri contactUri = ContentUris.withAppendedId(Contacts.CONTENT_URI, contactId);
-		     Uri photoUri = Uri.withAppendedPath(contactUri, Contacts.Photo.CONTENT_DIRECTORY);
-		     Cursor cursor = context.getContentResolver().query(photoUri,
-		          new String[] {Contacts.Photo.PHOTO}, null, null, null);
-		     if (cursor == null) {
-		         return null;
-		     }
-		     try {
-		         if (cursor.moveToFirst()) {
-		             byte[] data = cursor.getBlob(0);
-		             if (data != null) {
-		                 return new ByteArrayInputStream(data);
-		             }
-		         }
-		     } finally {
-		         cursor.close();
-		     }
-		     return null;
-		 }
-
-    public Bitmap getFacebookPhoto(String phoneNumber) {
-        try
-        {
-            Uri phoneUri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNumber));
-            Uri photoUri = null;
-            ContentResolver cr = context.getContentResolver();
-            Cursor contact = cr.query(phoneUri,
-                    new String[] { ContactsContract.Contacts._ID }, null, null, null);
-
-            try
-            {
-                if (contact.moveToFirst()) {
-                    long userId = contact.getLong(contact.getColumnIndex(ContactsContract.Contacts._ID));
-                    photoUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, userId);
-                    contact.close();
-                }
-                else {
-                    Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_picture);
-
-                    if (ctDarkContactPics)
-                    {
-                        defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_dark);
-                    }
-
-                    contact.close();
-                    return defaultPhoto;
-                }
-                if (photoUri != null) {
-                    InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(
-                            cr, photoUri);
-                    if (input != null) {
-                        contact.close();
-                        return BitmapFactory.decodeStream(input);
-                    }
-                } else {
-                    Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_picture);
-
-                    if (ctDarkContactPics)
-                    {
-                        defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_dark);
-                    }
-
-                    contact.close();
-                    return defaultPhoto;
-                }
-                Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_picture);
-
-                if (ctDarkContactPics)
-                {
-                    defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_dark);
-                }
-
-                contact.close();
-                return defaultPhoto;
-            } catch (Exception e)
-            {
-                if (ctDarkContactPics)
-                {
-                    contact.close();
-                    return BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_dark);
-                } else
-                {
-                    contact.close();
-                    return BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_picture);
-                }
-            }
-        } catch (Exception e)
-        {
-            if (ctDarkContactPics)
-            {
-                return BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_dark);
-            } else
-            {
-                return BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_picture);
-            }
-        }
-    }
-
-    public Bitmap drawableToBitmap (Drawable drawable) {
-        if (drawable instanceof BitmapDrawable) {
-            return ((BitmapDrawable)drawable).getBitmap();
-        }
-
-        try
-        {
-            int width = drawable.getIntrinsicWidth();
-            width = width > 0 ? width : 1;
-            int height = drawable.getIntrinsicHeight();
-            height = height > 0 ? height : 1;
-
-            Bitmap bitmap = Bitmap.createBitmap(width, height, Config.ARGB_8888);
-            Canvas canvas = new Canvas(bitmap);
-            drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-            drawable.draw(canvas);
-            return bitmap;
-        } catch (Exception e)
-        {
-            return BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_picture);
-        }
-    }
-
 }
