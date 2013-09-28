@@ -171,55 +171,59 @@ public class  ContactView extends ViewGroup {
             cursor = mContext.getContentResolver().query( SMS_CONTENT_URI, new String[]{"_id", "recipient_ids"}, null, null, "date desc");
         }
 
-        if (cursor.moveToFirst()) {
-            int count = 0;
-            do {
-                String id = cursor.getString(cursor.getColumnIndex("_id"));
-                String number = ContactUtil.findContactNumber(cursor.getString(cursor.getColumnIndex("recipient_ids")), mContext);
-                String name = ContactUtil.findContactName(number, mContext);
+        try {
+            if (cursor.moveToFirst()) {
+                int count = 0;
+                do {
+                    String id = cursor.getString(cursor.getColumnIndex("_id"));
+                    String number = ContactUtil.findContactNumber(cursor.getString(cursor.getColumnIndex("recipient_ids")), mContext);
+                    String name = ContactUtil.findContactName(number, mContext);
 
-                Cursor cursor2;
+                    Cursor cursor2;
 
-                cursor2 = mContext.getContentResolver().query( Uri.parse("content://sms/"), new String[]{"body", "type", "thread_id"}, "thread_id=?", new String[] {id}, "date desc");
-                //Cursor cursor2 = mContext.getContentResolver().query( Uri.parse("content://mms-sms/conversations/"), new String[]{"body", "address", "thread_id", "msg_box"}, "thread_id=?", new String[] {id}, "date desc");
+                    cursor2 = mContext.getContentResolver().query( Uri.parse("content://sms/"), new String[]{"body", "type", "thread_id"}, "thread_id=?", new String[] {id}, "date desc");
+                    //Cursor cursor2 = mContext.getContentResolver().query( Uri.parse("content://mms-sms/conversations/"), new String[]{"body", "address", "thread_id", "msg_box"}, "thread_id=?", new String[] {id}, "date desc");
 
-                if (cursor2.moveToFirst()) {
-                    int count2 = 0;
+                    if (cursor2.moveToFirst()) {
+                        int count2 = 0;
 
-                    contactNames[count] = name;
-                    contactPics[count] = ContactUtil.getFacebookPhoto(number, mContext);
-                    do {
-                        /*String s = cursor2.getString(cursor2.getColumnIndex("msg_box"));
+                        contactNames[count] = name;
+                        contactPics[count] = ContactUtil.getFacebookPhoto(number, mContext);
+                        do {
+                            /*String s = cursor2.getString(cursor2.getColumnIndex("msg_box"));
 
-                        if (s != null) {
-                            //Log.v("reading_cursor_data", "found mms message");
-                        } else {
-                            //Log.v("reading_cursor_data", cursor2.getString(cursor2.getColumnIndex("body")));
+                            if (s != null) {
+                                //Log.v("reading_cursor_data", "found mms message");
+                            } else {
+                                //Log.v("reading_cursor_data", cursor2.getString(cursor2.getColumnIndex("body")));
+                                message[count][count2] = cursor2.getString(cursor2.getColumnIndex("body"));
+                                String type2 = cursor2.getString(cursor2.getColumnIndex("type"));
+                            }*/
+
                             message[count][count2] = cursor2.getString(cursor2.getColumnIndex("body"));
                             String type2 = cursor2.getString(cursor2.getColumnIndex("type"));
-                        }*/
 
-                        message[count][count2] = cursor2.getString(cursor2.getColumnIndex("body"));
-                        String type2 = cursor2.getString(cursor2.getColumnIndex("type"));
+                            if (type2.equals("2") || type2.equals("4") || type2.equals("5") || type2.equals("6"))
+                            {
+                                type[count][count2] = 1;
+                            } else
+                            {
+                                type[count][count2] = 0;
+                            }
 
-                        if (type2.equals("2") || type2.equals("4") || type2.equals("5") || type2.equals("6"))
-                        {
-                            type[count][count2] = 1;
-                        } else
-                        {
-                            type[count][count2] = 0;
-                        }
+                            count2++;
+                        } while (cursor2.moveToNext() && count2 < 3);
 
-                        count2++;
-                    } while (cursor2.moveToNext() && count2 < 3);
+                        cursor2.close();
 
-                    cursor2.close();
+                        count++;
+                    }
+                } while (cursor.moveToNext() && count < numberOfContacts);
 
-                    count++;
-                }
-            } while (cursor.moveToNext() && count < numberOfContacts);
-
-            cursor.close();
+                cursor.close();
+            }
+        } catch (Exception e) {
+            // something is wrong with the cursor causing it to crash
         }
 
         for (int i = 0; i < 5; i++) {
