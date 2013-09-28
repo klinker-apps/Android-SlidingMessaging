@@ -48,13 +48,7 @@ import java.util.regex.Pattern;
 
 public class MenuArrayAdapter extends ArrayAdapter<String> {
   private final Activity context;
-  private final ArrayList<String> body;
-  private final ArrayList<String> date;
-  private final ArrayList<String> numbers;
-  private final ArrayList<String> threadIds;
-  private final ArrayList<String> group;
-  private final ArrayList<String> count;
-  private final ArrayList<String> read;
+  private final ArrayList<Conversation> conversations;
   private final ViewPager pager;
   private static final String FILENAME = "newMessages.txt";
   private SharedPreferences sharedPrefs;
@@ -68,16 +62,12 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 	    public QuickContactBadge image;
 	  }
 
-  public MenuArrayAdapter(Activity context, ArrayList<String> body, ArrayList<String> date, ArrayList<String> numbers, ViewPager pager, ArrayList<String> threadIds, ArrayList<String> group, ArrayList<String> count, ArrayList<String> read) {
-    super(context, R.layout.contact_body, body);
+  public MenuArrayAdapter(Activity context, ArrayList<Conversation> conversations, ArrayList<String> body, ViewPager pager) {
+
+      super(context, R.layout.contact_body, body);
+
+    this.conversations = conversations;
     this.context = context;
-    this.body = body;
-    this.date = date;
-    this.numbers = numbers;
-    this.threadIds = threadIds;
-    this.group = group;
-    this.count = count;
-    this.read = read;
     this.pager = pager;
     this.sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
@@ -88,13 +78,13 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
   public int getCount()
   {
       if (MainActivity.limitConversations) {
-          if (body.size() < 10) {
-              return body.size();
+          if (conversations.size() < 10) {
+              return conversations.size();
           } else {
               return 10;
           }
       } else {
-          return body.size();
+          return conversations.size();
       }
   }
 
@@ -252,7 +242,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 
 		@Override
 		public void run() {
-            final String number = MainActivity.findContactNumber(numbers.get(position), context);
+            final String number = Conversation.findContactNumber(conversations.get(position).getNumber(), context);
 			final Bitmap image = Bitmap.createScaledBitmap(getFacebookPhoto(number), MainActivity.contactWidth, MainActivity.contactWidth, true);
 
             Spanned text;
@@ -260,11 +250,12 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 
             if (!MainActivity.settings.hideMessageCounter)
             {
-                if (group.get(position).equals("yes"))
+                int count = conversations.get(position).getCount();
+                if (conversations.get(position).getGroup())
                 {
-                    if (Integer.parseInt(count.get(position)) > 1)
+                    if (count > 1)
                     {
-                        text = Html.fromHtml("Group MMS   <small><font color=#" + CustomTheme.convertToARGB(MainActivity.settings.ctMessageCounterColor).substring(3) + "><b>" + count.get(position) + "</b></color></small>");
+                        text = Html.fromHtml("Group MMS   <small><font color=#" + CustomTheme.convertToARGB(MainActivity.settings.ctMessageCounterColor).substring(3) + "><b>" + count + "</b></color></small>");
                     } else
                     {
                         text = Html.fromHtml("Group MMS");
@@ -275,9 +266,9 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
                 {
                     String contactName = MainActivity.findContactName(number, context);
 
-                    if (Integer.parseInt(count.get(position)) > 1)
+                    if (count > 1)
                     {
-                        text = Html.fromHtml(contactName + "   <small><font color=#" + CustomTheme.convertToARGB(MainActivity.settings.ctMessageCounterColor).substring(3) + "><b>" + count.get(position) + "</b></color></small>");
+                        text = Html.fromHtml(contactName + "   <small><font color=#" + CustomTheme.convertToARGB(MainActivity.settings.ctMessageCounterColor).substring(3) + "><b>" + count + "</b></color></small>");
                     } else
                     {
                         text = Html.fromHtml(contactName);
@@ -285,7 +276,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
                 }
             } else
             {
-                if (group.get(position).equals("yes"))
+                if (conversations.get(position).getGroup())
                 {
                     text = Html.fromHtml("Group MMS");
                     names = MainActivity.loadGroupContacts(number, context);
@@ -306,7 +297,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 
 					if (MainActivity.settings.contactPictures2)
 					{
-                        if (group.get(position).equals("no"))
+                        if (!conversations.get(position).getGroup())
                         {
                             try
                               {
@@ -344,7 +335,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
                         holder.text.setText(textF);
                     }
 
-                    if (group.get(position).equals("yes"))
+                    if (conversations.get(position).getGroup())
                     {
                         holder.text2.setText(namesF);
                     }
@@ -355,114 +346,115 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 
 	  }).start();
 
+      String mBody = conversations.get(position).getBody();
       if (MainActivity.settings.smilies.equals("with"))
       {
-          Matcher matcher = pattern.matcher(body.get(position));
+          Matcher matcher = pattern.matcher(mBody);
 
           if (matcher.find())
           {
               if (MainActivity.settings.emojiType)
               {
                   if (MainActivity.settings.smiliesType) {
-                      holder.text2.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter2New.getSmiledText(context, body.get(position))));
+                      holder.text2.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter2New.getSmiledText(context, mBody)));
                   } else {
-                      holder.text2.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter2.getSmiledText(context, body.get(position))));
+                      holder.text2.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter2.getSmiledText(context, mBody)));
                   }
               } else
               {
                   if (MainActivity.settings.smiliesType) {
-                      holder.text2.setText(EmojiConverter.getSmiledText(context, EmoticonConverter2New.getSmiledText(context, body.get(position))));
+                      holder.text2.setText(EmojiConverter.getSmiledText(context, EmoticonConverter2New.getSmiledText(context, mBody)));
                   } else {
-                      holder.text2.setText(EmojiConverter.getSmiledText(context, EmoticonConverter2.getSmiledText(context, body.get(position))));
+                      holder.text2.setText(EmojiConverter.getSmiledText(context, EmoticonConverter2.getSmiledText(context, mBody)));
                   }
               }
           } else
           {
               if (MainActivity.settings.smiliesType) {
-                  holder.text2.setText(EmoticonConverter2New.getSmiledText(context, body.get(position)));
+                  holder.text2.setText(EmoticonConverter2New.getSmiledText(context, mBody));
               } else {
-                  holder.text2.setText(EmoticonConverter2.getSmiledText(context, body.get(position)));
+                  holder.text2.setText(EmoticonConverter2.getSmiledText(context, mBody));
               }
           }
       } else if (MainActivity.settings.smilies.equals("without"))
       {
           String patternStr = "[^\\x20-\\x7E]";
           Pattern pattern = Pattern.compile(patternStr);
-          Matcher matcher = pattern.matcher(body.get(position));
+          Matcher matcher = pattern.matcher(mBody);
 
           if (matcher.find())
           {
               if (MainActivity.settings.emojiType)
               {
                   if (MainActivity.settings.smiliesType) {
-                      holder.text2.setText(EmojiConverter2.getSmiledText(context, EmoticonConverterNew.getSmiledText(context, body.get(position))));
+                      holder.text2.setText(EmojiConverter2.getSmiledText(context, EmoticonConverterNew.getSmiledText(context, mBody)));
                   } else {
-                      holder.text2.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter.getSmiledText(context, body.get(position))));
+                      holder.text2.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter.getSmiledText(context, mBody)));
                   }
               } else
               {
                   if (MainActivity.settings.smiliesType) {
-                      holder.text2.setText(EmojiConverter.getSmiledText(context, EmoticonConverterNew.getSmiledText(context, body.get(position))));
+                      holder.text2.setText(EmojiConverter.getSmiledText(context, EmoticonConverterNew.getSmiledText(context, mBody)));
                   } else {
-                      holder.text2.setText(EmojiConverter.getSmiledText(context, EmoticonConverter.getSmiledText(context, body.get(position))));
+                      holder.text2.setText(EmojiConverter.getSmiledText(context, EmoticonConverter.getSmiledText(context, mBody)));
                   }
               }
           } else
           {
               if (MainActivity.settings.smiliesType) {
-                  holder.text2.setText(EmoticonConverterNew.getSmiledText(context, body.get(position)));
+                  holder.text2.setText(EmoticonConverterNew.getSmiledText(context, mBody));
               } else {
-                  holder.text2.setText(EmoticonConverter.getSmiledText(context, body.get(position)));
+                  holder.text2.setText(EmoticonConverter.getSmiledText(context, mBody));
               }
           }
       } else if (MainActivity.settings.smilies.equals("none"))
       {
           String patternStr = "[^\\x20-\\x7E]";
           Pattern pattern = Pattern.compile(patternStr);
-          Matcher matcher = pattern.matcher(body.get(position));
+          Matcher matcher = pattern.matcher(mBody);
 
           if (matcher.find())
           {
               if (MainActivity.settings.emojiType)
               {
-                  holder.text2.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter2.getSmiledText(context, body.get(position))));
+                  holder.text2.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter2.getSmiledText(context, mBody)));
               } else
               {
-                  holder.text2.setText(EmojiConverter.getSmiledText(context, EmoticonConverter2.getSmiledText(context, body.get(position))));
+                  holder.text2.setText(EmojiConverter.getSmiledText(context, EmoticonConverter2.getSmiledText(context, mBody)));
               }
           } else
           {
-              holder.text2.setText(body.get(position));
+              holder.text2.setText(mBody);
           }
       } else if (MainActivity.settings.smilies.equals("both"))
       {
           String patternStr = "[^\\x20-\\x7E]";
           Pattern pattern = Pattern.compile(patternStr);
-          Matcher matcher = pattern.matcher(body.get(position));
+          Matcher matcher = pattern.matcher(mBody);
 
           if (matcher.find())
           {
               if (MainActivity.settings.emojiType)
               {
                   if (MainActivity.settings.smiliesType) {
-                      holder.text2.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter3New.getSmiledText(context, body.get(position))));
+                      holder.text2.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter3New.getSmiledText(context, mBody)));
                   } else {
-                      holder.text2.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter3.getSmiledText(context, body.get(position))));
+                      holder.text2.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter3.getSmiledText(context, mBody)));
                   }
               } else
               {
                   if (MainActivity.settings.smiliesType) {
-                      holder.text2.setText(EmojiConverter.getSmiledText(context, EmoticonConverter3New.getSmiledText(context, body.get(position))));
+                      holder.text2.setText(EmojiConverter.getSmiledText(context, EmoticonConverter3New.getSmiledText(context, mBody)));
                   } else {
-                      holder.text2.setText(EmojiConverter.getSmiledText(context, EmoticonConverter3.getSmiledText(context, body.get(position))));
+                      holder.text2.setText(EmojiConverter.getSmiledText(context, EmoticonConverter3.getSmiledText(context, mBody)));
                   }
               }
           } else
           {
               if (MainActivity.settings.smiliesType) {
-                  holder.text2.setText(EmoticonConverter3New.getSmiledText(context, body.get(position)));
+                  holder.text2.setText(EmoticonConverter3New.getSmiledText(context, mBody));
               } else {
-                  holder.text2.setText(EmoticonConverter3.getSmiledText(context, body.get(position)));
+                  holder.text2.setText(EmoticonConverter3.getSmiledText(context, mBody));
               }
           }
       }
@@ -471,7 +463,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 
 	  try
 	  {
-		  date2 = new Date(Long.parseLong(date.get(position)));
+		  date2 = new Date(conversations.get(position).getDate());
 	  } catch (Exception e)
 	  {
 
@@ -496,7 +488,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
           holder.text2.setMaxLines(1);
       }
 
-	  if (read.get(position).equals("0"))
+	  if (!conversations.get(position).getRead())
 	  {
 		  if (position != 0)
 		  {
@@ -505,7 +497,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 				  contactView.setBackgroundColor(MainActivity.settings.ctUnreadConversationColor);
 		        }
 
-			  read.set(position, "1");
+			  conversations.get(position).setRead();
 		  } else
 		  {
 			  if (!MainActivity.sentMessage)
@@ -515,7 +507,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 					  contactView.setBackgroundColor(MainActivity.settings.ctUnreadConversationColor);
 			        }
 
-				  read.set(position, "1");
+                  conversations.get(position).setRead();
 			  }
 		  }
 	  }
@@ -531,7 +523,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
                 }
 
 		    	pager.setCurrentItem(position, false);
-			    read.set(position, "1");
+                conversations.get(position).setRead();
 			    MainActivity.menu.showContent();
 
 		        if (!MainActivity.settings.customBackground)
@@ -547,8 +539,8 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 						{
 							ContentValues values = new ContentValues();
 			               	values.put("read", true);
-			               	context.getContentResolver().update(Uri.parse("content://sms/conversations/"), values, "thread_id=?", new String[] {threadIds.get(position)});
-			               	context.getContentResolver().update(Uri.parse("content://mms/conversations/"), values, "thread_id=?", new String[] {threadIds.get(position)});
+			               	context.getContentResolver().update(Uri.parse("content://sms/conversations/"), values, "thread_id=?", new String[] {"" + conversations.get(position).getThreadId()});
+			               	context.getContentResolver().update(Uri.parse("content://mms/conversations/"), values, "thread_id=?", new String[] {"" + conversations.get(position).getThreadId()});
 						} catch (Exception e)
 						{
 							e.printStackTrace();
@@ -583,7 +575,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
                 final ProgressDialog progDialog = new ProgressDialog(context);
 
 				AlertDialog.Builder builder = new AlertDialog.Builder(context);
-				builder.setMessage(context.getResources().getString(R.string.delete_messages) + "\n\n" + context.getResources().getString(R.string.conversation) + ": " + MainActivity.findContactName(MainActivity.findContactNumber(numbers.get(position), context), context));
+				builder.setMessage(context.getResources().getString(R.string.delete_messages) + "\n\n" + context.getResources().getString(R.string.conversation) + ": " + MainActivity.findContactName(Conversation.findContactNumber(conversations.get(position).getNumber(), context), context));
 				builder.setPositiveButton(context.getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 			               progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -595,7 +587,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 								@Override
 								public void run() {
                                     Looper.prepare();
-                                    deleteSMS(context, threadIds.get(position));
+                                    deleteSMS(context, "" + conversations.get(position).getThreadId());
 								}
 
 			               }).start();

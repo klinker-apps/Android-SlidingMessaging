@@ -119,12 +119,12 @@ public class MainActivity extends FragmentActivity {
     public static Settings sendSettings;
     private Transaction sendTransaction;
 
-    private ArrayList<String> inboxNumber, inboxDate, inboxBody;
-    private ArrayList<String> group;
-    private ArrayList<String> msgCount;
-    private ArrayList<String> msgRead;
+    //private ArrayList<String> inboxNumber, inboxDate, inboxBody;
+    //private ArrayList<String> group;
+    //private ArrayList<String> msgCount;
+    //private ArrayList<String> msgRead;
 
-    public ArrayList<String> threadsThroughVoice;
+    public ArrayList<Long> threadsThroughVoice;
 
     public static boolean waitToLoad = false;
     public static boolean threadedLoad = true;
@@ -133,7 +133,7 @@ public class MainActivity extends FragmentActivity {
     public static String myPhoneNumber, myContactId;
 
     private ArrayList<Conversation> conversations;
-    //private ArrayList<String> contactNames, contactNumbers, contactTypes, threadIds;
+    private ArrayList<String> contactNames, contactNumbers, contactTypes;//, threadIds;
 
     public static SlidingMenu menu;
     private MessageBar messageBar;
@@ -150,11 +150,12 @@ public class MainActivity extends FragmentActivity {
     public static int contactWidth;
     private boolean jump = true;
 
-    private ArrayList<String> drafts, draftNames;
+    private ArrayList<String> drafts;
+    private ArrayList<Long> draftNames;
     private ArrayList<Boolean> draftChanged;
-    private ArrayList<String> draftsToDelete;
+    private ArrayList<Long> draftsToDelete;
     private boolean fromDraft = false;
-    private String newDraft = "";
+    private long newDraft = 0;
     private boolean deleteDraft = true;
 
     private ListView menuLayout;
@@ -250,11 +251,12 @@ public class MainActivity extends FragmentActivity {
         settings = AppSettings.init(this);
         initialSetup();
 
-        if (settings.voiceAccount != null) {
+        // FIXME just commented for now cause i can't fix it haha
+        /*if (settings.voiceAccount != null) {
             threadsThroughVoice = new ArrayList<String>(Arrays.asList(settings.voiceThreads.split("-")));
 
             while (threadsThroughVoice.remove(""));
-        }
+        }*/
 
         setUpWindow();
         setUpSendSettings();
@@ -714,13 +716,6 @@ public class MainActivity extends FragmentActivity {
     }
 
     public void refreshMessages() {
-        inboxNumber = new ArrayList<String>();
-        inboxDate = new ArrayList<String>();
-        inboxBody = new ArrayList<String>();
-        threadIds = new ArrayList<String>();
-        group = new ArrayList<String>();
-        msgCount = new ArrayList<String>();
-        msgRead = new ArrayList<String>();
         conversations = new ArrayList<Conversation>();
         ContentResolver contentResolver = getContentResolver();
 
@@ -746,27 +741,6 @@ public class MainActivity extends FragmentActivity {
                             query.getLong(query.getColumnIndex("date")),
                             query.getString(query.getColumnIndex("recipient_ids"))
                     ));
-
-                    threadIds.add(query.getString(query.getColumnIndex("_id")));
-                    msgCount.add(query.getString(query.getColumnIndex("message_count")));
-                    msgRead.add(query.getString(query.getColumnIndex("read")));
-
-                    inboxBody.add(" ");
-
-                    try {
-                        inboxBody.set(inboxBody.size() - 1, query.getString(query.getColumnIndex("snippet")).replaceAll("\\\n", " "));
-                    } catch (Exception e) {
-
-                    }
-
-                    inboxDate.add(query.getString(query.getColumnIndex("date")));
-                    inboxNumber.add(query.getString(query.getColumnIndex("recipient_ids")));
-
-                    if (query.getString(query.getColumnIndex("recipient_ids")).split(" ").length > 1) {
-                        group.add("yes");
-                    } else {
-                        group.add("no");
-                    }
                 } while (query.moveToNext());
             }
 
@@ -776,10 +750,12 @@ public class MainActivity extends FragmentActivity {
         }
 
         if (settings.alwaysUseVoice) {
-            threadsThroughVoice = threadIds;
+            for (Conversation i : conversations) {
+                threadsThroughVoice.add(i.getThreadId());
+            }
         }
 
-        if (inboxNumber.size() > 0) {
+        if (conversations.size() > 0) {
             messageEntry.setVisibility(View.VISIBLE);
             sendButton.setVisibility(View.VISIBLE);
             v.setVisibility(View.VISIBLE);
@@ -826,87 +802,7 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
-    public static String findContactNumber(String id, Context context) {
-        try {
-            String[] ids = id.split(" ");
-            String numbers = "";
-
-            for (int i = 0; i < ids.length; i++)
-            {
-                try
-                {
-                    if (ids[i] != null && (!ids[i].equals("") || !ids[i].equals(" ")))
-                    {
-                        Cursor number = context.getContentResolver().query(Uri.parse("content://mms-sms/canonical-addresses"), null, "_id=" + ids[i], null, null);
-
-                        if (number.moveToFirst())
-                        {
-                            numbers += number.getString(number.getColumnIndex("address")).replace("-", "").replace(")", "").replace("(", "").replace(" ", "") + " ";
-                        } else
-                        {
-                            numbers += ids[i] + " ";
-                        }
-
-                        number.close();
-                    } else
-                    {
-
-                    }
-                } catch (Exception e)
-                {
-                    numbers += "0 ";
-                }
-            }
-
-            return numbers;
-        } catch (Exception e) {
-            return id;
-        }
-    }
-
-    public static String findRecipientId(String number, Context context) {
-        try {
-            String[] ids = number.split(" ");
-            String numbers = "";
-
-            Cursor id = context.getContentResolver().query(Uri.parse("content://mms-sms/canonical-addresses"), new String[] {"_id", "address"}, null, null, null);
-
-            for (int i = 0; i < ids.length; i++)
-            {
-                try
-                {
-                    if (ids[i] != null && (!ids[i].equals("") || !ids[i].equals(" ")))
-                    {
-                        if (id.moveToFirst())
-                        {
-                            do {
-                                if (id.getString(id.getColumnIndex("address")).endsWith(number.replace("+1", "").replace(" ", "").replace("-", "").replace(")", "").replace("(", ""))) {
-                                    numbers += id.getString(id.getColumnIndex("_id"));
-                                }
-                            } while (id.moveToNext());
-                        } else
-                        {
-                            numbers += ids[i] + " ";
-                        }
-
-                        id.close();
-                    } else
-                    {
-
-                    }
-                } catch (Exception e)
-                {
-                    numbers += "0 ";
-                }
-            }
-
-            return numbers;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return number;
-        }
-    }
-
+    // TODO move this to conversation class, there was an conflict and i didn't know what you wanted to do with it.
     public static String findContactName(String number, Context context)
     {
         try {
@@ -972,6 +868,7 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
+    // TODO move this to conversation class, there was an conflict and i didn't know what you wanted to do with it.
     public static String loadGroupContacts(String numbers, Context context)
     {
         String names = "";
@@ -1148,7 +1045,7 @@ public class MainActivity extends FragmentActivity {
                     mTextView.setVisibility(View.GONE);
                 }
 
-                if (imageAttach.getVisibility() == View.VISIBLE || group.get(mViewPager.getCurrentItem()).equals("yes"))
+                if (imageAttach.getVisibility() == View.VISIBLE || conversations.get(mViewPager.getCurrentItem()).getGroup())
                 {
                     mTextView.setVisibility(View.GONE);
                 }
@@ -1172,9 +1069,9 @@ public class MainActivity extends FragmentActivity {
 
             public void afterTextChanged(Editable s) {
                 if (settings.enableDrafts) {
-                    if (newDraft.equals(""))
+                    if (newDraft == 0)
                     {
-                        newDraft = threadIds.get(mViewPager.getCurrentItem());
+                        newDraft = conversations.get(mViewPager.getCurrentItem()).getThreadId();
                     }
                 }
             }
@@ -1187,8 +1084,8 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
 
-                final String recipientId = inboxNumber.get(mViewPager.getCurrentItem());
-                final String threadId = threadIds.get(mViewPager.getCurrentItem());
+                final String recipientId = conversations.get(mViewPager.getCurrentItem()).getNumber();
+                final long threadId = conversations.get(mViewPager.getCurrentItem()).getThreadId();
 
                 if (!unlocked) {
                     messageEntry.setError(getString(R.string.trial_expired));
@@ -1248,7 +1145,7 @@ public class MainActivity extends FragmentActivity {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            final Message message = new Message(text, findContactNumber(recipientId, context).replace(";", ""));
+                            final Message message = new Message(text, Conversation.findContactNumber(recipientId, context).replace(";", ""));
 
                             if (image) {
                                 ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
@@ -1292,24 +1189,26 @@ public class MainActivity extends FragmentActivity {
                                         @Override
                                         public void run() {
                                             Log.v("sending_mms_library", "sending new mms, posted to UI thread");
-                                            sendTransaction.sendNewMessage(message, threadId);
+                                            // FIXME turned the thread id to a stirng here, will have to change the class to fix this
+                                            sendTransaction.sendNewMessage(message, "" + threadId);
                                         }
                                     });
                                 } else {
-                                    sendTransaction.sendNewMessage(message, threadId);
+                                    // FIXME turned the thread id to a stirng here, will have to change the class to fix this
+                                    sendTransaction.sendNewMessage(message, "" + threadId);
                                 }
                             } else {
                                 if (sendTransaction.checkMMS(message)) {
                                     if (multipleAttachments == false)
                                     {
                                         Intent sendIntent = new Intent(Intent.ACTION_SEND);
-                                        sendIntent.putExtra("address", findContactNumber(recipientId, context).replace(";", ""));
+                                        sendIntent.putExtra("address", Conversation.findContactNumber(recipientId, context).replace(";", ""));
                                         sendIntent.putExtra("sms_body", text);
                                         sendIntent.putExtra(Intent.EXTRA_STREAM, attachedImage);
                                         sendIntent.setType("image/png");
 
                                         Intent htcIntent = new Intent("android.intent.action.SEND_MSG");
-                                        htcIntent.putExtra("address", findContactNumber(recipientId, context).replace(";", ""));
+                                        htcIntent.putExtra("address", Conversation.findContactNumber(recipientId, context).replace(";", ""));
                                         htcIntent.putExtra("sms_body", text);
                                         htcIntent.putExtra(Intent.EXTRA_STREAM, attachedImage);
                                         htcIntent.setType("image/png");
@@ -1324,7 +1223,8 @@ public class MainActivity extends FragmentActivity {
                                         Toast.makeText(context, "Cannot send multiple images through stock", Toast.LENGTH_SHORT).show();
                                     }
                                 } else {
-                                    sendTransaction.sendNewMessage(message, threadId);
+                                    // FIXME turned the thread id to a stirng here, will have to change the class to fix this
+                                    sendTransaction.sendNewMessage(message, "" + threadId);
                                 }
                             }
 
@@ -1338,7 +1238,7 @@ public class MainActivity extends FragmentActivity {
                                             try {
                                                 for (int i = 0; i < draftNames.size(); i++)
                                                 {
-                                                    if (draftNames.get(i).equals(threadId))
+                                                    if (draftNames.get(i) == (threadId))
                                                     {
                                                         draftsToDelete.add(draftNames.get(i));
                                                         draftNames.remove(i);
@@ -1587,8 +1487,8 @@ public class MainActivity extends FragmentActivity {
                         sendSettings.setPreferVoice(false);
                         sendTransaction.settings = sendSettings;
 
-                        if (threadsThroughVoice.contains(threadIds.get(mViewPager.getCurrentItem()))) {
-                            boolean res = threadsThroughVoice.remove(threadIds.get(mViewPager.getCurrentItem()));
+                        if (threadsThroughVoice.contains(conversations.get(mViewPager.getCurrentItem()).getThreadId())) {
+                            boolean res = threadsThroughVoice.remove(conversations.get(mViewPager.getCurrentItem()).getThreadId());
                             Log.v("threads_through_voice", "removed: " + res);
                         }
                     } else {
@@ -1599,8 +1499,8 @@ public class MainActivity extends FragmentActivity {
                         sendSettings.setPreferVoice(true);
                         sendTransaction.settings = sendSettings;
 
-                        if (!threadsThroughVoice.contains(threadIds.get(mViewPager.getCurrentItem()))) {
-                            boolean res = threadsThroughVoice.add(threadIds.get(mViewPager.getCurrentItem()));
+                        if (!threadsThroughVoice.contains(conversations.get(mViewPager.getCurrentItem()).getThreadId())) {
+                            boolean res = threadsThroughVoice.add(conversations.get(mViewPager.getCurrentItem()).getThreadId());
                             Log.v("threads_through_voice", "added: " + res);
                         }
                     }
@@ -1737,7 +1637,7 @@ public class MainActivity extends FragmentActivity {
         {
             ListFragment newFragment = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.menuList);
             final ListView menuLayout = newFragment.getListView();
-            if (settings.limitConversationsAtStart && inboxNumber.size() > 10) {
+            if (settings.limitConversationsAtStart && conversations.size() > 10) {
                 final Button footer = new Button(this);
                 footer.setOnClickListener(new OnClickListener() {
                     @Override
@@ -1753,7 +1653,14 @@ public class MainActivity extends FragmentActivity {
                 footer.setTextColor(settings.ctNameTextColor);
                 menuLayout.addFooterView(footer);
             }
-            newFragment.setListAdapter(new MenuArrayAdapter(this, inboxBody, inboxDate, inboxNumber, MainActivity.mViewPager, threadIds, group, msgCount, msgRead));
+            // FIXME inefficient, but i didn't want to change things to much
+
+            ArrayList<String> body = new ArrayList<String>();
+            for (Conversation i : conversations) {
+                body.add(i.getBody());
+            }
+
+            newFragment.setListAdapter(new MenuArrayAdapter(this, conversations, body, MainActivity.mViewPager));
 
             if (settings.customBackground)
             {
@@ -1786,7 +1693,7 @@ public class MainActivity extends FragmentActivity {
             }
         } else
         {
-            if (settings.limitConversationsAtStart && inboxNumber.size() > 10) {
+            if (settings.limitConversationsAtStart && conversations.size() > 10) {
                 final Button footer = new Button(this);
                 footer.setOnClickListener(new OnClickListener() {
                     @Override
@@ -1828,7 +1735,14 @@ public class MainActivity extends FragmentActivity {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    menuAdapter = new MenuArrayAdapter(activity, inboxBody, inboxDate, inboxNumber, mViewPager, threadIds, group, msgCount, msgRead);
+                    // FIXME inefficient, but i didn't want to change things to much
+
+                    ArrayList<String> body = new ArrayList<String>();
+                    for (Conversation i : conversations) {
+                        body.add(i.getBody());
+                    }
+
+                    menuAdapter = new MenuArrayAdapter(activity, conversations, body, MainActivity.mViewPager);
                     menuLayout.setAdapter(menuAdapter);
                     menuLayout.setDivider(new ColorDrawable(settings.ctConversationDividerColor));
 
@@ -2859,8 +2773,8 @@ public class MainActivity extends FragmentActivity {
 
                                     @Override
                                     public void run() {
-                                        if (inboxNumber.size() != 0) {
-                                            final String title = findContactName(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context), context);
+                                        if (conversations.size() != 0) {
+                                            final String title = findContactName(Conversation.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context), context);
 
                                             ((MainActivity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 
@@ -2870,7 +2784,7 @@ public class MainActivity extends FragmentActivity {
 
                                                     Locale sCachedLocale = Locale.getDefault();
                                                     int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
-                                                    Editable editable = new SpannableStringBuilder(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context));
+                                                    Editable editable = new SpannableStringBuilder(Conversation.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context));
                                                     PhoneNumberUtils.formatNumber(editable, sFormatType);
                                                     ab.setSubtitle(editable.toString());
 
@@ -2878,7 +2792,7 @@ public class MainActivity extends FragmentActivity {
                                                         ab.setSubtitle(null);
                                                     }
 
-                                                    if (group.get(mViewPager.getCurrentItem()).equals("yes")) {
+                                                    if (conversations.get(mViewPager.getCurrentItem()).getGroup()) {
                                                         ab.setTitle("Group MMS");
                                                         ab.setSubtitle(null);
                                                     }
@@ -2907,8 +2821,8 @@ public class MainActivity extends FragmentActivity {
 
                             @Override
                             public void run() {
-                                if (inboxNumber.size() != 0) {
-                                    Bitmap image = getFacebookPhoto(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context), context);
+                                if (conversations.size() != 0) {
+                                    Bitmap image = getFacebookPhoto(Conversation.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context), context);
                                     final BitmapDrawable image2 = new BitmapDrawable(image);
 
                                     ((MainActivity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
@@ -2926,7 +2840,7 @@ public class MainActivity extends FragmentActivity {
                         }).start();
                     }
 
-                    if (threadIds.size() == 0 && ab != null) {
+                    if (conversations.size() == 0 && ab != null) {
                         ab.setIcon(R.drawable.ic_launcher);
                     }
                 }
@@ -2940,9 +2854,9 @@ public class MainActivity extends FragmentActivity {
         messageBar = new MessageBar (this);
 
         drafts = new ArrayList<String>();
-        draftNames = new ArrayList<String>();
+        draftNames = new ArrayList<Long>();
         draftChanged = new ArrayList<Boolean>();
-        draftsToDelete = new ArrayList<String>();
+        draftsToDelete = new ArrayList<Long>();
 
         mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener()
         {
@@ -2966,7 +2880,7 @@ public class MainActivity extends FragmentActivity {
 
                         for (int j = 0; j < newMessages.size(); j++)
                         {
-                            if (newMessages.get(j).replaceAll("-", "").endsWith(findContactName(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context), context).replace("-", "")))
+                            if (newMessages.get(j).replaceAll("-", "").endsWith(findContactName(Conversation.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context), context).replace("-", "")))
                             {
                                 newMessages.remove(j);
                             }
@@ -2980,17 +2894,17 @@ public class MainActivity extends FragmentActivity {
 
                         if (!settings.useTitleBar || settings.alwaysShowContactInfo)
                         {
-                            if (group.get(mViewPager.getCurrentItem()).equals("yes"))
+                            if (conversations.get(mViewPager.getCurrentItem()).getGroup())
                             {
                                 title = "Group MMS";
                                 subtitle = null;
                             } else
                             {
-                                title = findContactName(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context), context);
+                                title = findContactName(Conversation.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context), context);
 
                                 Locale sCachedLocale = Locale.getDefault();
                                 int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
-                                Editable editable = new SpannableStringBuilder(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context));
+                                Editable editable = new SpannableStringBuilder(Conversation.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context));
                                 PhoneNumberUtils.formatNumber(editable, sFormatType);
                                 subtitle = editable.toString();
 
@@ -3007,7 +2921,7 @@ public class MainActivity extends FragmentActivity {
 
                         if (settings.titleContactImages)
                         {
-                            Bitmap image = getFacebookPhoto(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context), context);
+                            Bitmap image = getFacebookPhoto(Conversation.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context), context);
                             image2 = new BitmapDrawable(image);
                         }
 
@@ -3021,7 +2935,7 @@ public class MainActivity extends FragmentActivity {
                             try {
                                 for (int i = 0; i < draftNames.size(); i++)
                                 {
-                                    if (draftNames.get(i).equals(newDraft))
+                                    if (draftNames.get(i) == (newDraft))
                                     {
                                         contains = true;
                                         where = i;
@@ -3049,12 +2963,12 @@ public class MainActivity extends FragmentActivity {
 
                             }
 
-                            newDraft = "";
+                            newDraft = 0;
 
                             try {
                                 for (int i = 0; i < draftNames.size(); i++)
                                 {
-                                    if (draftNames.get(i).equals(threadIds.get(mViewPager.getCurrentItem())))
+                                    if (draftNames.get(i).equals(conversations.get(mViewPager.getCurrentItem()).getThreadId()))
                                     {
                                         index = i;
                                         break;
@@ -3070,7 +2984,7 @@ public class MainActivity extends FragmentActivity {
                         boolean voicePerformClick = false;
 
                         if (settings.voiceAccount != null) {
-                            if (threadsThroughVoice.contains(threadIds.get(mViewPager.getCurrentItem()))) {
+                            if (threadsThroughVoice.contains(conversations.get(mViewPager.getCurrentItem()).getThreadId())) {
                                 if (!settings.voiceEnabled) {
                                     voicePerformClick = true;
                                 }
@@ -3266,7 +3180,7 @@ public class MainActivity extends FragmentActivity {
         try {
             if (deviceType.equals("phone") || deviceType.equals("phablet2"))
             {
-                if (inboxNumber.size() == 0 || MainActivity.menu.isMenuShowing()) // on conversation list
+                if (conversations.size() == 0 || MainActivity.menu.isMenuShowing()) // on conversation list
                 {
                     menu.getItem(MENU_CALL).setVisible(false);
                     menu.getItem(MENU_SCHEDULED).setVisible(false);
@@ -3308,7 +3222,7 @@ public class MainActivity extends FragmentActivity {
                     menu.getItem(MENU_MARK_ALL_READ).setVisible(true);
                     menu.getItem(COPY_SENDER).setVisible(true);
 
-                    if (group.get(mViewPager.getCurrentItem()).equals("yes")) // if there is a group message
+                    if (conversations.get(mViewPager.getCurrentItem()).getGroup()) // if there is a group message
                     {
                         menu.getItem(MENU_CALL).setVisible(false);
                         menu.getItem(COPY_SENDER).setVisible(false);
@@ -3316,7 +3230,7 @@ public class MainActivity extends FragmentActivity {
                 }
             } else
             {
-                if (inboxNumber.size() == 0 || MainActivity.menu.isMenuShowing())
+                if (conversations.size() == 0 || MainActivity.menu.isMenuShowing())
                 {
                     menu.getItem(MENU_CALL).setVisible(false);
                     menu.getItem(MENU_NEW_MESSAGE).setVisible(false);
@@ -3333,7 +3247,7 @@ public class MainActivity extends FragmentActivity {
                     menu.getItem(MENU_MARK_ALL_READ).setVisible(true);
                     menu.getItem(COPY_SENDER).setVisible(true);
 
-                    if (group.get(mViewPager.getCurrentItem()).equals("yes"))
+                    if (conversations.get(mViewPager.getCurrentItem()).getGroup())
                     {
                         menu.getItem(MENU_CALL).setVisible(false);
                         menu.getItem(COPY_SENDER).setVisible(false);
@@ -3479,7 +3393,7 @@ public class MainActivity extends FragmentActivity {
                 try
                 {
                     Intent callIntent = new Intent(Intent.ACTION_CALL);
-                    callIntent.setData(Uri.parse("tel:"+findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), this)));
+                    callIntent.setData(Uri.parse("tel:"+ Conversation.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), this)));
                     callIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(callIntent);
                 } catch (Exception e)
@@ -3490,6 +3404,19 @@ public class MainActivity extends FragmentActivity {
             case R.id.menu_delete:
                 if (menu.isMenuShowing()) {
                     Intent intent = new Intent(this, BatchDeleteAllActivity.class);
+
+                    // FIXME optimize again
+                    ArrayList<String> threadIds = new ArrayList<String>();
+                    ArrayList<String> inboxNumber = new ArrayList<String>();
+                    ArrayList<String> inboxBody = new ArrayList<String>();
+                    ArrayList<String> group = new ArrayList<String>();
+
+                    for (Conversation i : conversations) {
+                        threadIds.add("" + i.getThreadId());
+                        inboxBody.add(i.getBody());
+                        inboxNumber.add(i.getNumber());
+                        group.add( i.getGroup() ? "yes" : "no");
+                    }
                     intent.putExtra("threadIds", threadIds);
                     intent.putExtra("inboxNumber", inboxNumber);
                     intent.putExtra("inboxBody", inboxBody);
@@ -3499,7 +3426,7 @@ public class MainActivity extends FragmentActivity {
                 } else {
                     try {
                         Intent intent = new Intent(this, BatchDeleteConversationActivity.class);
-                        intent.putExtra("threadId", threadIds.get(mViewPager.getCurrentItem()));
+                        intent.putExtra("threadId", conversations.get(mViewPager.getCurrentItem()).getThreadId());
                         startActivity(intent);
                         overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                     } catch (Exception e) {
@@ -3585,7 +3512,7 @@ public class MainActivity extends FragmentActivity {
                 return true;
             case R.id.copy_sender:
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("Copied Address", findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), this));
+                ClipData clip = ClipData.newPlainText("Copied Address", Conversation.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), this));
                 clipboard.setPrimaryClip(clip);
 
                 Toast.makeText(this, R.string.text_saved, Toast.LENGTH_SHORT).show();
@@ -3609,7 +3536,8 @@ public class MainActivity extends FragmentActivity {
                             @Override
                             public void run() {
                                 Looper.prepare();
-                                deleteSMS(context, threadIds.get(mViewPager.getCurrentItem()), progDialog);
+                                //FIXME
+                                deleteSMS(context, "" + conversations.get(mViewPager.getCurrentItem()).getThreadId(), progDialog);
                             }
 
                         }).start();
@@ -4660,9 +4588,9 @@ public class MainActivity extends FragmentActivity {
         if (settings.enableDrafts) {
             try {
                 drafts = new ArrayList<String>();
-                draftNames = new ArrayList<String>();
+                draftNames = new ArrayList<Long>();
                 draftChanged = new ArrayList<Boolean>();
-                draftsToDelete = new ArrayList<String>();
+                draftsToDelete = new ArrayList<Long>();
 
                 Cursor query = getContentResolver().query(Uri.parse("content://sms/draft/"), new String[] {"thread_id", "body"}, null, null, null);
 
@@ -4670,7 +4598,7 @@ public class MainActivity extends FragmentActivity {
                 {
                     do {
                         drafts.add(query.getString(query.getColumnIndex("body")));
-                        draftNames.add(query.getString(query.getColumnIndex("thread_id")));
+                        draftNames.add(Long.parseLong(query.getString(query.getColumnIndex("thread_id"))));
                         draftChanged.add(false);
                     } while (query.moveToNext());
                 }
@@ -4685,7 +4613,7 @@ public class MainActivity extends FragmentActivity {
             try {
                 for (int i = 0; i < draftNames.size(); i++)
                 {
-                    if (draftNames.get(i).equals(threadIds.get(mViewPager.getCurrentItem())))
+                    if (draftNames.get(i) == conversations.get(mViewPager.getCurrentItem()).getThreadId())
                     {
                         index = i;
                         break;
@@ -4722,8 +4650,8 @@ public class MainActivity extends FragmentActivity {
             }
         }
 
-        if (settings.voiceAccount != null && threadIds.size() > 0) {
-            if (threadsThroughVoice.contains(threadIds.get(mViewPager.getCurrentItem()))) {
+        if (settings.voiceAccount != null && conversations.size() > 0) {
+            if (threadsThroughVoice.contains(conversations.get(mViewPager.getCurrentItem()).getThreadId())) {
                 if (!settings.voiceEnabled) {
                     voiceButton.performClick();
                 }
@@ -4766,7 +4694,7 @@ public class MainActivity extends FragmentActivity {
         if (settings.enableDrafts) {
             if (messageEntry.getText().toString().length() != 0) {
                 draftChanged.add(true);
-                draftNames.add(threadIds.get(mViewPager.getCurrentItem()));
+                draftNames.add(conversations.get(mViewPager.getCurrentItem()).getThreadId());
                 drafts.add(messageEntry.getText().toString());
                 messageEntry.setText("");
             }
@@ -4817,9 +4745,9 @@ public class MainActivity extends FragmentActivity {
                         for (int i = 0; i < draftNames.size(); i++) {
                             String address = "";
 
-                            for (int j = 0; j < inboxNumber.size(); j++) {
-                                if (threadIds.get(j).equals(draftNames.get(i))) {
-                                    address = findContactNumber(inboxNumber.get(j), context);
+                            for (int j = 0; j < conversations.size(); j++) {
+                                if (conversations.get(j).getThreadId() ==  draftNames.get(i)) {
+                                    address = Conversation.findContactNumber(conversations.get(j).getNumber(), context);
                                     break;
                                 }
                             }
@@ -4877,7 +4805,7 @@ public class MainActivity extends FragmentActivity {
         if (settings.voiceAccount != null) {
             String voiceThreads = "";
 
-            for (String s : threadsThroughVoice) {
+            for (Long s : threadsThroughVoice) {
                 voiceThreads += s + "-";
             }
 
@@ -4922,9 +4850,9 @@ public class MainActivity extends FragmentActivity {
                     try {
                         boolean flag = false;
 
-                        for (int i = 0; i < inboxNumber.size(); i++)
+                        for (int i = 0; i < conversations.size(); i++)
                         {
-                            if (findContactNumber(inboxNumber.get(i), this).replace("-","").replace("+", "").equals(sendMessageTo.replace("-", "").replace("+1", "")))
+                            if (Conversation.findContactNumber(conversations.get(i).getNumber(), this).replace("-","").replace("+", "").equals(sendMessageTo.replace("-", "").replace("+1", "")))
                             {
                                 if (i < 10 || (!limitConversations && i > 10)) {
                                     mViewPager.setCurrentItem(i);
@@ -4939,9 +4867,9 @@ public class MainActivity extends FragmentActivity {
                         {
                             String name = findContactName(sendMessageTo, this);
 
-                            for (int i = 0; i < inboxNumber.size(); i++)
+                            for (int i = 0; i < conversations.size(); i++)
                             {
-                                if (findContactName(findContactNumber(inboxNumber.get(i), this), this).equals(name))
+                                if (findContactName(Conversation.findContactNumber(conversations.get(i).getNumber(), this), this).equals(name))
                                 {
                                     if (i < 10 || (!limitConversations && i > 10)) {
                                         mViewPager.setCurrentItem(i);
@@ -5039,9 +4967,9 @@ public class MainActivity extends FragmentActivity {
 
                 if (sendToThread != null)
                 {
-                    for (int i = 0; i < threadIds.size(); i++)
+                    for (int i = 0; i < conversations.size(); i++)
                     {
-                        if (threadIds.get(i).equals(sendToThread))
+                        if (("" + conversations.get(i).getThreadId()).equals(sendToThread))
                         {
                             mViewPager.setCurrentItem(i);
                             sendToThread = null;
@@ -5062,8 +4990,8 @@ public class MainActivity extends FragmentActivity {
 
                 long threadId = getIntent().getLongExtra("thread_id", 0);
                 if (threadId > 0) {
-                    for (int i = 0; i < threadIds.size(); i++) {
-                        if ((threadId + "").equals(threadIds.get(i))) {
+                    for (int i = 0; i < conversations.size(); i++) {
+                        if (threadId == conversations.get(i).getThreadId()) {
                             if ((i < 10 && limitConversations) || !limitConversations) {
                                 mViewPager.setCurrentItem(i);
                             }
@@ -5129,10 +5057,10 @@ public class MainActivity extends FragmentActivity {
         pullToRefreshPosition = -1;
         String threadTitle = "0";
 
-        if (!firstRun && inboxNumber.size() != 0)
+        if (!firstRun && conversations.size() != 0)
         {
             MainActivity.notChanged = false;
-            threadTitle = findContactName(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), this), this);
+            threadTitle = findContactName(Conversation.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), this), this);
         }
 
         refreshMessages();
@@ -5223,14 +5151,19 @@ public class MainActivity extends FragmentActivity {
 
         if (!firstRun)
         {
+            ArrayList<String> body = new ArrayList<String>();
+            for (Conversation i : conversations) {
+                body.add(i.getBody());
+            }
+
             if (deviceType.equals("phone") || deviceType.equals("phablet2"))
             {
-                menuAdapter = new MenuArrayAdapter(this, inboxBody, inboxDate, inboxNumber, mViewPager, threadIds, group, msgCount, msgRead);
+                menuAdapter = new MenuArrayAdapter(this, conversations, body, MainActivity.mViewPager);
                 menuLayout.setAdapter(menuAdapter);
             } else
             {
                 ListFragment newFragment = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.menuList);
-                newFragment.setListAdapter(new MenuArrayAdapter(this, inboxBody, inboxDate, inboxNumber, MainActivity.mViewPager, threadIds, group, msgCount, msgRead));
+                newFragment.setListAdapter(new MenuArrayAdapter(this, conversations, body, MainActivity.mViewPager));
             }
         } else
         {
@@ -5242,7 +5175,7 @@ public class MainActivity extends FragmentActivity {
                 public void run() {
                     ArrayList<String> newMessages = readFromFile(context);
 
-                    if (inboxNumber.size() > 0)
+                    if (conversations.size() > 0)
                     {
                         if (newMessages.size() != 0)
                             newMessages.remove(newMessages.size() - 1);
@@ -5272,9 +5205,9 @@ public class MainActivity extends FragmentActivity {
                 public void run() {
                     boolean flag = false;
 
-                    for (int i = 0; i < inboxNumber.size(); i++)
+                    for (int i = 0; i < conversations.size(); i++)
                     {
-                        if (threadT.equals(findContactName(findContactNumber(inboxNumber.get(i), context), context)))
+                        if (threadT.equals(findContactName(Conversation.findContactNumber(conversations.get(i).getNumber(), context), context)))
                         {
                             final int index = i;
 
@@ -5317,11 +5250,11 @@ public class MainActivity extends FragmentActivity {
                 if (ab != null) {
                     try
                     {
-                        ab.setTitle(findContactName(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context), context));
+                        ab.setTitle(findContactName(Conversation.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context), context));
 
                         Locale sCachedLocale = Locale.getDefault();
                         int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
-                        Editable editable = new SpannableStringBuilder(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context));
+                        Editable editable = new SpannableStringBuilder(Conversation.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context));
                         PhoneNumberUtils.formatNumber(editable, sFormatType);
                         ab.setSubtitle(editable.toString());
 
@@ -5330,7 +5263,7 @@ public class MainActivity extends FragmentActivity {
                             ab.setSubtitle(null);
                         }
 
-                        if (group.get(mViewPager.getCurrentItem()).equals("yes"))
+                        if (conversations.get(mViewPager.getCurrentItem()).getGroup())
                         {
                             ab.setTitle("Group MMS");
                             ab.setSubtitle(null);
@@ -5352,7 +5285,7 @@ public class MainActivity extends FragmentActivity {
 
             try
             {
-                ab.setIcon(new BitmapDrawable(getFacebookPhoto(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context), context)));
+                ab.setIcon(new BitmapDrawable(getFacebookPhoto(Conversation.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context), context)));
             } catch (Exception e)
             {
 
@@ -5467,7 +5400,7 @@ public class MainActivity extends FragmentActivity {
         String currentNumber;
 
         try {
-            currentNumber = inboxNumber.get(mViewPager.getCurrentItem());
+            currentNumber = conversations.get(mViewPager.getCurrentItem()).getNumber();
         } catch (IndexOutOfBoundsException e) {
             // no messages
             refreshViewPager();
@@ -5476,25 +5409,21 @@ public class MainActivity extends FragmentActivity {
 
         boolean flag = false;
 
-        for (int i = 0; i < inboxNumber.size(); i++)
+        for (int i = 0; i < conversations.size(); i++)
         {
-            if (number.equals(inboxNumber.get(i)))
+            if (number.equals(conversations.get(i).getNumber()))
             {
-                inboxBody.add(0, body);
+                /*inboxBody.add(0, body);
                 inboxDate.add(0, date);
                 inboxNumber.add(0, inboxNumber.get(i));
                 threadIds.add(0, threadIds.get(i));
                 group.add(0, group.get(i));
                 msgCount.add(0, Integer.parseInt(msgCount.get(i)) + 1 + "");
-                msgRead.add(0, "0");
+                msgRead.add(0, "0");*/
 
-                inboxBody.remove(i+1);
-                inboxDate.remove(i+1);
-                inboxNumber.remove(i+1);
-                threadIds.remove(i+1);
-                group.remove(i+1);
-                msgCount.remove(i+1);
-                msgRead.remove(i+1);
+                conversations.add(0, new Conversation(conversations.get(i).getThreadId(), conversations.get(i).getCount() + 1, "0", body, Long.parseLong(date), conversations.get(i).getNumber()));
+
+                conversations.remove(i + 1);
 
                 flag = true;
                 break;
@@ -5503,14 +5432,19 @@ public class MainActivity extends FragmentActivity {
 
         if (flag == true)
         {
+            ArrayList<String> body2 = new ArrayList<String>();
+            for (Conversation i : conversations) {
+                body2.add(i.getBody());
+            }
+
             if (deviceType.equals("phone") || deviceType.equals("phablet2"))
             {
-                menuAdapter = new MenuArrayAdapter(this, inboxBody, inboxDate, inboxNumber, mViewPager, threadIds, group, msgCount, msgRead);
+                menuAdapter =  new MenuArrayAdapter(this, conversations, body2, MainActivity.mViewPager);
                 menuLayout.setAdapter(menuAdapter);
             } else
             {
                 ListFragment newFragment = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.menuList);
-                newFragment.setListAdapter(new MenuArrayAdapter(this, inboxBody, inboxDate, inboxNumber, MainActivity.mViewPager, threadIds, group, msgCount, msgRead));
+                newFragment.setListAdapter(new MenuArrayAdapter(this, conversations, body2, MainActivity.mViewPager));
             }
 
             try {
@@ -5521,9 +5455,9 @@ public class MainActivity extends FragmentActivity {
                 // fragment most likely outside of activity now or something
             }
 
-            for (int i = 0; i < inboxNumber.size(); i++)
+            for (int i = 0; i < conversations.size(); i++)
             {
-                if (currentNumber.equals(inboxNumber.get(i)))
+                if (currentNumber.equals(conversations.get(i).getNumber()))
                 {
                     position = i;
                     break;
@@ -5736,9 +5670,9 @@ public class MainActivity extends FragmentActivity {
                 public void run() {
                     ArrayList<String> contacts = new ArrayList<String>();
 
-                    for (int i = 0; i < inboxNumber.size(); i++)
+                    for (int i = 0; i < conversations.size(); i++)
                     {
-                        contacts.add(loadGroupContacts(findContactNumber(inboxNumber.get(i), getBaseContext()), getBaseContext()));
+                        contacts.add(loadGroupContacts(Conversation.findContactNumber(conversations.get(i).getNumber(), getBaseContext()), getBaseContext()));
                     }
 
                     contact = new ArrayList<String>();
@@ -5759,9 +5693,9 @@ public class MainActivity extends FragmentActivity {
                 public void run() {
                     ArrayList<String> contacts = new ArrayList<String>();
 
-                    for (int i = 0; i < inboxNumber.size(); i++)
+                    for (int i = 0; i < conversations.size(); i++)
                     {
-                        contacts.add(loadGroupContacts(findContactNumber(inboxNumber.get(i), getBaseContext()), getBaseContext()));
+                        contacts.add(loadGroupContacts(Conversation.findContactNumber(conversations.get(i).getNumber(), getBaseContext()), getBaseContext()));
                     }
 
                     contact = new ArrayList<String>();
@@ -5779,6 +5713,15 @@ public class MainActivity extends FragmentActivity {
             ConversationFragment fragment = new ConversationFragment();
             Bundle args = new Bundle();
 
+            ArrayList<String> inboxNumber = new ArrayList<String>();
+            ArrayList<String> threadIds = new ArrayList<String>();
+            ArrayList<String> group = new ArrayList<String>();
+            for (Conversation i : conversations) {
+                inboxNumber.add(i.getNumber());
+                threadIds.add("" + i.getThreadId());
+                group.add( i.getGroup() ? "1" : "0" );
+            }
+
             args.putInt("position", position);
             args.putStringArrayList("numbers", inboxNumber);
             args.putString("myId", myContactId);
@@ -5792,13 +5735,13 @@ public class MainActivity extends FragmentActivity {
         @Override
         public int getCount() {
             if (MainActivity.limitConversations) {
-                if (inboxNumber.size() < 10) {
-                    return inboxNumber.size();
+                if (conversations.size() < 10) {
+                    return conversations.size();
                 } else {
                     return 10;
                 }
             } else {
-                return inboxNumber.size();
+                return conversations.size();
             }
         }
 
@@ -5814,9 +5757,9 @@ public class MainActivity extends FragmentActivity {
 
                 if (contact == null)
                 {
-                    if (inboxNumber.size() >= 1)
+                    if (conversations.size() >= 1)
                     {
-                        if (group.get(position).equals("yes"))
+                        if (conversations.get(position).getGroup())
                         {
                             if (settings.titleCaps)
                             {
@@ -5831,11 +5774,11 @@ public class MainActivity extends FragmentActivity {
                             {
                                 if (settings.alwaysShowContactInfo)
                                 {
-                                    String[] names = findContactName(findContactNumber(inboxNumber.get(position), getBaseContext()), getBaseContext()).split(" ");
+                                    String[] names = findContactName(Conversation.findContactNumber(conversations.get(position).getNumber(), getBaseContext()), getBaseContext()).split(" ");
                                     text = names[0].trim().toUpperCase(Locale.getDefault());
                                 } else
                                 {
-                                    text = findContactName(findContactNumber(inboxNumber.get(position), getBaseContext()), getBaseContext()).toUpperCase(Locale.getDefault());
+                                    text = findContactName(Conversation.findContactNumber(conversations.get(position).getNumber(), getBaseContext()), getBaseContext()).toUpperCase(Locale.getDefault());
                                 }
                             } else
                             {
@@ -5843,15 +5786,15 @@ public class MainActivity extends FragmentActivity {
                                 {
                                     try
                                     {
-                                        String[] names = findContactName(findContactNumber(inboxNumber.get(position), getBaseContext()), getBaseContext()).split(" ");
+                                        String[] names = findContactName(Conversation.findContactNumber(conversations.get(position).getNumber(), getBaseContext()), getBaseContext()).split(" ");
                                         text = names[0].trim();
                                     } catch (Exception e)
                                     {
-                                        text = findContactName(findContactNumber(inboxNumber.get(position), getBaseContext()), getBaseContext());
+                                        text = findContactName(Conversation.findContactNumber(conversations.get(position).getNumber(), getBaseContext()), getBaseContext());
                                     }
                                 } else
                                 {
-                                    text = findContactName(findContactNumber(inboxNumber.get(position), getBaseContext()), getBaseContext());
+                                    text = findContactName(Conversation.findContactNumber(conversations.get(position).getNumber(), getBaseContext()), getBaseContext());
                                 }
                             }
                         }
@@ -5864,7 +5807,7 @@ public class MainActivity extends FragmentActivity {
                     {
                         if (contact.size() >= 1)
                         {
-                            if (group.get(position).equals("yes"))
+                            if (conversations.get(position).getGroup())
                             {
                                 if (settings.titleCaps)
                                 {
@@ -6209,7 +6152,7 @@ public class MainActivity extends FragmentActivity {
 
                 try
                 {
-                    if (address.replace(" ", "").replace("(", "").replace(")", "").replace("-", "").endsWith(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context).replace(" ", "").replace("(", "").replace(")", "").replace("-", "")))
+                    if (address.replace(" ", "").replace("(", "").replace(")", "").replace("-", "").endsWith(Conversation.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context).replace(" ", "").replace("(", "").replace(")", "").replace("-", "")))
                     {
                         animationReceived = 1;
                         animationThread = mViewPager.getCurrentItem();
@@ -6226,7 +6169,7 @@ public class MainActivity extends FragmentActivity {
                     if (settings.inAppNotifications) {
                         boolean flag = false;
                         for (int i = 0; i < appMsgConversations; i++) {
-                            if (address.replace(" ", "").replace("(", "").replace(")", "").replace("-", "").endsWith(findContactNumber(inboxNumber.get(i), context).replace(" ", "").replace("(", "").replace(")", "").replace("-", ""))) {
+                            if (address.replace(" ", "").replace("(", "").replace(")", "").replace("-", "").endsWith(Conversation.findContactNumber(conversations.get(i).getNumber(), context).replace(" ", "").replace("(", "").replace(")", "").replace("-", ""))) {
                                 flag = true;
                                 break;
                             }
@@ -6248,7 +6191,7 @@ public class MainActivity extends FragmentActivity {
 
                 dismissCrouton = false;
 
-                refreshViewPager4(findRecipientId(address, context), body, date);
+                refreshViewPager4(Conversation.findRecipientId(address, context), body, date);
 
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -6262,7 +6205,7 @@ public class MainActivity extends FragmentActivity {
                     final ActionBar ab = getActionBar();
 
                     if (ab != null) {
-                        if (group.get(mViewPager.getCurrentItem()).equals("yes"))
+                        if (conversations.get(mViewPager.getCurrentItem()).getGroup())
                         {
                             ab.setTitle("Group MMS");
                             ab.setSubtitle(null);
@@ -6272,7 +6215,7 @@ public class MainActivity extends FragmentActivity {
 
                                 @Override
                                 public void run() {
-                                    final String title = findContactName(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context), context);
+                                    final String title = findContactName(Conversation.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context), context);
 
                                     ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 
@@ -6289,7 +6232,7 @@ public class MainActivity extends FragmentActivity {
 
                             Locale sCachedLocale = Locale.getDefault();
                             int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
-                            Editable editable = new SpannableStringBuilder(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context));
+                            Editable editable = new SpannableStringBuilder(Conversation.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context));
                             PhoneNumberUtils.formatNumber(editable, sFormatType);
                             ab.setSubtitle(editable.toString());
 
@@ -6310,7 +6253,7 @@ public class MainActivity extends FragmentActivity {
 
                             @Override
                             public void run() {
-                                final Bitmap image = getFacebookPhoto(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), context), context);
+                                final Bitmap image = getFacebookPhoto(Conversation.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context), context);
                                 final BitmapDrawable image2 = new BitmapDrawable(image);
 
                                 ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
@@ -6347,7 +6290,7 @@ public class MainActivity extends FragmentActivity {
 
         @Override
         public void onReceive(Context arg0, Intent arg1) {
-            refreshViewPager4(findRecipientId(arg1.getStringExtra("address"), arg0), arg1.getStringExtra("body"), arg1.getStringExtra("date"));
+            refreshViewPager4(Conversation.findRecipientId(arg1.getStringExtra("address"), arg0), arg1.getStringExtra("body"), arg1.getStringExtra("date"));
             NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             mNotificationManager.cancel(1);
             mNotificationManager.cancel(2);
@@ -6355,7 +6298,7 @@ public class MainActivity extends FragmentActivity {
 
             try
             {
-                if (getIntent().getStringExtra("address").replace(" ", "").replace("(", "").replace(")", "").replace("-", "").endsWith(findContactNumber(inboxNumber.get(mViewPager.getCurrentItem()), arg0).replace(" ", "").replace("(", "").replace(")", "").replace("-", "")))
+                if (getIntent().getStringExtra("address").replace(" ", "").replace("(", "").replace(")", "").replace("-", "").endsWith(Conversation.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), arg0).replace(" ", "").replace("(", "").replace(")", "").replace("-", "")))
                 {
                     animationReceived = 1;
                     animationThread = mViewPager.getCurrentItem();
@@ -6373,7 +6316,7 @@ public class MainActivity extends FragmentActivity {
                     boolean flag = false;
                     for (int i = 0; i < appMsgConversations; i++) {
                         try {
-                            if (getIntent().getStringExtra("address").replace(" ", "").replace("(", "").replace(")", "").replace("-", "").endsWith(findContactNumber(inboxNumber.get(i), arg0).replace(" ", "").replace("(", "").replace(")", "").replace("-", ""))) {
+                            if (getIntent().getStringExtra("address").replace(" ", "").replace("(", "").replace(")", "").replace("-", "").endsWith(Conversation.findContactNumber(conversations.get(i).getNumber(), arg0).replace(" ", "").replace("(", "").replace(")", "").replace("-", ""))) {
                                 flag = true;
                                 break;
                             }

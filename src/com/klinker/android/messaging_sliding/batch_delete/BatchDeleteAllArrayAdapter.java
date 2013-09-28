@@ -31,6 +31,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_sliding.Conversation;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -257,7 +258,7 @@ public class BatchDeleteAllArrayAdapter extends ArrayAdapter<String> {
 
             @Override
             public void run() {
-                final String number = MainActivity.findContactNumber(numbers.get(position), context);
+                final String number = Conversation.findContactNumber(numbers.get(position), context);
                 final Bitmap image = Bitmap.createScaledBitmap(getFacebookPhoto(number), MainActivity.contactWidth, MainActivity.contactWidth, true);
 
                 Spanned text;

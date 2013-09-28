@@ -1585,7 +1585,7 @@ public class MessageCursorAdapter extends CursorAdapter {
 
         if (cursor.getPosition() == 0 && voice) {
             if (!((MainActivity) context).threadsThroughVoice.contains(threadIds)) {
-                ((MainActivity) context).threadsThroughVoice.add(threadIds);
+                ((MainActivity) context).threadsThroughVoice.add(Long.parseLong(threadIds));
 
                 if (((MainActivity) context).firstRun) {
                     ((MainActivity) context).voiceButton.performClick();

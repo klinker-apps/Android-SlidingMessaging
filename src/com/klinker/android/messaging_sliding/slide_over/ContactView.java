@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_sliding.Conversation;
 
 import java.util.Arrays;
 
@@ -175,7 +176,7 @@ public class  ContactView extends ViewGroup {
             int count = 0;
             do {
                 String id = cursor.getString(cursor.getColumnIndex("_id"));
-                String number = MainActivity.findContactNumber(cursor.getString(cursor.getColumnIndex("recipient_ids")), mContext);
+                String number = Conversation.findContactNumber(cursor.getString(cursor.getColumnIndex("recipient_ids")), mContext);
                 String name = MainActivity.findContactName(number, mContext);
 
                 Cursor cursor2;

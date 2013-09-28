@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_sliding.Conversation;
 
 import java.util.ArrayList;
 
@@ -183,7 +184,7 @@ public class BatchDeleteConversationActivity extends Activity implements android
     @Override
     public void onLoadFinished(android.content.Loader<Cursor> loader, final Cursor query)
     {
-        adapter = new BatchDeleteConversationArrayAdapter((Activity) context, MainActivity.myContactId, MainActivity.findContactNumber(threadId, context), threadId, query, 1);
+        adapter = new BatchDeleteConversationArrayAdapter((Activity) context, MainActivity.myContactId, Conversation.findContactNumber(threadId, context), threadId, query, 1);
 
         list.setAdapter(adapter);
         list.setStackFromBottom(true);
