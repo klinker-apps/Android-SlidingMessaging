@@ -24,7 +24,7 @@ public class SendUtil {
 
         final Message message = new Message(body, number);
 
-        sendTransaction.sendNewMessage(message, null);
+        sendTransaction.sendNewMessage(message, (Long) null);
 
         Intent mrIntent = new Intent();
         mrIntent.setClass(context, QmMarkRead2.class);
@@ -43,7 +43,7 @@ public class SendUtil {
 
         final Message message = new Message(body, number);
 
-        sendTransaction.sendNewMessage(message, null);
+        sendTransaction.sendNewMessage(message, (Long) null);
 
         Intent mrIntent = new Intent();
         mrIntent.setClass(context, QmMarkRead2.class);
@@ -63,7 +63,7 @@ public class SendUtil {
         final Message message = new Message(body, number);
         message.setImages(images);
 
-        sendTransaction.sendNewMessage(message, null);
+        sendTransaction.sendNewMessage(message, (Long) null);
 
         Intent mrIntent = new Intent();
         mrIntent.setClass(context, QmMarkRead2.class);
