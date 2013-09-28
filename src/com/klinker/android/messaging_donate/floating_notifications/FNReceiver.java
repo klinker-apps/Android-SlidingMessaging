@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import com.klinker.android.messaging_donate.MainActivity;
+import com.klinker.android.messaging_donate.utils.ContactUtil;
 import com.klinker.android.messaging_donate.R;
 import robj.floating.notifications.Extension;
 
@@ -44,7 +44,7 @@ public class FNReceiver extends BroadcastReceiver {
             messages.put(id, new String[] {address, body});
         }
 
-        Bitmap image = MainActivity.getFacebookPhoto(address, context);
+        Bitmap image = ContactUtil.getFacebookPhoto(address, context);
         image = Bitmap.createScaledBitmap(image, 200, 200, false);
 
         Bitmap actionOne = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_menu_msg_compose_holo_dark);

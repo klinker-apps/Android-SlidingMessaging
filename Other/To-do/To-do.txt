@@ -2,6 +2,8 @@ Version 7.60
 
 Jake:
     - emoji keyboard for drawer
+    - remove secondary menu references
+    - search for all empty exception blocks and condense them
     - if voice fails, try fetching a new rnrse and save that value to sharedprefs
     - Look at menu array adapter and how it can be changed for more speed getting contact pictures, is that really the problem? Look at the stock apps get contact picture method in the contact class
         - Remove all of the get facebook photo methods and just use one from a utils file

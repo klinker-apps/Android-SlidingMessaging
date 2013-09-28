@@ -8,7 +8,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import com.klinker.android.messaging_donate.R;
-import com.klinker.android.messaging_donate.SendUtil;
+import com.klinker.android.messaging_donate.utils.SendUtil;
 
 import java.util.ArrayList;
 

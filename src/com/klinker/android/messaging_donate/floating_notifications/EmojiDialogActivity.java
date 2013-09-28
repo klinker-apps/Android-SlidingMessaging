@@ -11,9 +11,10 @@ import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.*;
+import com.klinker.android.messaging_donate.utils.ContactUtil;
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
-import com.klinker.android.messaging_donate.SendUtil;
+import com.klinker.android.messaging_donate.utils.SendUtil;
 import com.klinker.android.messaging_sliding.emojis.EmojiAdapter;
 import com.klinker.android.messaging_sliding.emojis.EmojiAdapter2;
 import com.klinker.android.messaging_sliding.emojis.EmojiConverter;
@@ -124,9 +125,9 @@ public class EmojiDialogActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				final String editTextHint = context.getResources().getString(R.string.reply_to) + " " + MainActivity.findContactName(FNReceiver.messages.get(id)[0], context);
+				final String editTextHint = context.getResources().getString(R.string.reply_to) + " " + ContactUtil.findContactName(FNReceiver.messages.get(id)[0], context);
                 final String previousText = FNReceiver.messages.get(id)[1];
-                final Bitmap image = MainActivity.getFacebookPhoto(FNReceiver.messages.get(id)[0], context);
+                final Bitmap image = ContactUtil.getFacebookPhoto(FNReceiver.messages.get(id)[0], context);
                 final Extension.onClickListener imageOnClick = new Extension.onClickListener() {
                     @Override
                     public void onClick() {

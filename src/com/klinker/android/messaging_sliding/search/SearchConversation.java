@@ -12,7 +12,7 @@ import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ListView;
-import com.klinker.android.messaging_donate.MainActivity;
+import com.klinker.android.messaging_donate.utils.ContactUtil;
 import com.klinker.android.messaging_donate.R;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 
@@ -77,7 +77,7 @@ public class SearchConversation extends Activity implements PullToRefreshAttache
         while(messages.get(i)[3].equals("1"))
             i++;
 
-        String contactName = MainActivity.loadGroupContacts(messages.get(i)[0].replaceAll(" ", ""), this);
+        String contactName = ContactUtil.loadGroupContacts(messages.get(i)[0].replaceAll(" ", ""), this);
 
         actionBar.setTitle(contactName + " - Search");
         actionBar.setSubtitle(messages.get(i)[0]);

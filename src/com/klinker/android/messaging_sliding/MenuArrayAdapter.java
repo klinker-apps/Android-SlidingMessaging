@@ -5,21 +5,13 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.*;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Bitmap.Config;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Looper;
 import android.os.RemoteException;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
-import android.provider.ContactsContract;
-import android.provider.ContactsContract.PhoneLookup;
 import android.support.v4.view.ViewPager;
 import android.text.Html;
 import android.text.SpannableString;
@@ -33,6 +25,7 @@ import android.widget.ArrayAdapter;
 import android.widget.QuickContactBadge;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import com.klinker.android.messaging_donate.utils.ContactUtil;
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_sliding.emojis.*;
@@ -62,9 +55,8 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 	    public QuickContactBadge image;
 	  }
 
-  public MenuArrayAdapter(Activity context, ArrayList<Conversation> conversations, ArrayList<String> body, ViewPager pager) {
-
-      super(context, R.layout.contact_body, body);
+  public MenuArrayAdapter(Activity context, ArrayList<Conversation> conversations, ViewPager pager) {
+      super(context, R.layout.contact_body);
 
     this.conversations = conversations;
     this.context = context;
@@ -242,8 +234,8 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 
 		@Override
 		public void run() {
-            final String number = Conversation.findContactNumber(conversations.get(position).getNumber(), context);
-			final Bitmap image = Bitmap.createScaledBitmap(getFacebookPhoto(number), MainActivity.contactWidth, MainActivity.contactWidth, true);
+            final String number = ContactUtil.findContactNumber(conversations.get(position).getNumber(), context);
+			final Bitmap image = Bitmap.createScaledBitmap(ContactUtil.getFacebookPhoto(number, context), MainActivity.contactWidth, MainActivity.contactWidth, true);
 
             Spanned text;
             String names = "";
@@ -261,10 +253,10 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
                         text = Html.fromHtml("Group MMS");
                     }
 
-                    names = MainActivity.loadGroupContacts(number, context);
+                    names = ContactUtil.loadGroupContacts(number, context);
                 } else
                 {
-                    String contactName = MainActivity.findContactName(number, context);
+                    String contactName = ContactUtil.findContactName(number, context);
 
                     if (count > 1)
                     {
@@ -279,10 +271,10 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
                 if (conversations.get(position).getGroup())
                 {
                     text = Html.fromHtml("Group MMS");
-                    names = MainActivity.loadGroupContacts(number, context);
+                    names = ContactUtil.loadGroupContacts(number, context);
                 } else
                 {
-                    text = Html.fromHtml(MainActivity.findContactName(number, context));
+                    text = Html.fromHtml(ContactUtil.findContactName(number, context));
                 }
             }
 
@@ -306,20 +298,20 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
                               {
                                 if (MainActivity.settings.ctDarkContactPics)
                                 {
-                                    holder.image.setImageBitmap(Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(R.drawable.ic_contact_dark)), MainActivity.contactWidth, MainActivity.contactWidth, true));
+                                    holder.image.setImageBitmap(Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(context.getResources().getDrawable(R.drawable.ic_contact_dark), context), MainActivity.contactWidth, MainActivity.contactWidth, true));
                                 } else
                                 {
-                                    holder.image.setImageBitmap(Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(R.drawable.ic_contact_picture)), MainActivity.contactWidth, MainActivity.contactWidth, true));
+                                    holder.image.setImageBitmap(Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(context.getResources().getDrawable(R.drawable.ic_contact_picture), context), MainActivity.contactWidth, MainActivity.contactWidth, true));
                                 }
                               }
                         } else
                         {
                             if (MainActivity.settings.ctDarkContactPics)
                             {
-                                holder.image.setImageBitmap(Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(R.drawable.ic_contact_dark)), MainActivity.contactWidth, MainActivity.contactWidth, true));
+                                holder.image.setImageBitmap(Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(context.getResources().getDrawable(R.drawable.ic_contact_dark), context), MainActivity.contactWidth, MainActivity.contactWidth, true));
                             } else
                             {
-                                holder.image.setImageBitmap(Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(R.drawable.ic_contact_picture)), MainActivity.contactWidth, MainActivity.contactWidth, true));
+                                holder.image.setImageBitmap(Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(context.getResources().getDrawable(R.drawable.ic_contact_picture), context), MainActivity.contactWidth, MainActivity.contactWidth, true));
                             }
                         }
 					} else
@@ -575,7 +567,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
                 final ProgressDialog progDialog = new ProgressDialog(context);
 
 				AlertDialog.Builder builder = new AlertDialog.Builder(context);
-				builder.setMessage(context.getResources().getString(R.string.delete_messages) + "\n\n" + context.getResources().getString(R.string.conversation) + ": " + MainActivity.findContactName(Conversation.findContactNumber(conversations.get(position).getNumber(), context), context));
+				builder.setMessage(context.getResources().getString(R.string.delete_messages) + "\n\n" + context.getResources().getString(R.string.conversation) + ": " + ContactUtil.findContactName(ContactUtil.findContactNumber(conversations.get(position).getNumber(), context), context));
 				builder.setPositiveButton(context.getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 			               progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -739,107 +731,6 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 		}
 
       return ret;
-	}
-  	
-  	public Bitmap getFacebookPhoto(String phoneNumber) {
-        try
-        {
-            Uri phoneUri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNumber));
-            Uri photoUri = null;
-            ContentResolver cr = context.getContentResolver();
-            Cursor contact = cr.query(phoneUri,
-                    new String[] { ContactsContract.Contacts._ID }, null, null, null);
-
-            try
-            {
-                if (contact.moveToFirst()) {
-                    long userId = contact.getLong(contact.getColumnIndex(ContactsContract.Contacts._ID));
-                    photoUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, userId);
-                    contact.close();
-                }
-                else {
-                    Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_picture);
-
-                    if (MainActivity.settings.ctDarkContactPics)
-                    {
-                        defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_dark);
-                    }
-
-                    contact.close();
-                    return defaultPhoto;
-                }
-                if (photoUri != null) {
-                    InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(
-                            cr, photoUri);
-                    if (input != null) {
-                        contact.close();
-                        return BitmapFactory.decodeStream(input);
-                    }
-                } else {
-                    Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_picture);
-
-                    if (MainActivity.settings.ctDarkContactPics)
-                    {
-                        defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_dark);
-                    }
-
-                    contact.close();
-                    return defaultPhoto;
-                }
-                Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_picture);
-
-                if (MainActivity.settings.ctDarkContactPics)
-                {
-                    defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_dark);
-                }
-
-                contact.close();
-                return defaultPhoto;
-            } catch (Exception e)
-            {
-                if (MainActivity.settings.ctDarkContactPics)
-                {
-                    contact.close();
-                    return BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_dark);
-                } else
-                {
-                    contact.close();
-                    return BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_picture);
-                }
-            }
-        } catch (Exception e)
-        {
-            if (MainActivity.settings.ctDarkContactPics)
-            {
-                return BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_dark);
-            } else
-            {
-                return BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_picture);
-            }
-        }
-	}
-  
-  public Bitmap drawableToBitmap (Drawable drawable) {
-	    if (drawable instanceof BitmapDrawable) {
-	        return ((BitmapDrawable)drawable).getBitmap();
-	    }
-
-	    try
-	    {
-		    int width = drawable.getIntrinsicWidth();
-		    width = width > 0 ? width : 1;
-		    int height = drawable.getIntrinsicHeight();
-		    height = height > 0 ? height : 1;
-	
-		    Bitmap bitmap = Bitmap.createBitmap(width, height, Config.ARGB_8888);
-		    Canvas canvas = new Canvas(bitmap); 
-		    drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-		    drawable.draw(canvas);
-		    return bitmap;
-	    } catch (Exception e)
-	    {
-	    	return BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_picture);
-	    }
 	}
   	
   	private void writeToFile(ArrayList<String> data, Context context) {

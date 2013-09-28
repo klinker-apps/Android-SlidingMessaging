@@ -22,7 +22,7 @@ import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.RelativeLayout.LayoutParams;
 import com.klinker.android.messaging_donate.R;
-import com.klinker.android.messaging_donate.SendUtil;
+import com.klinker.android.messaging_donate.utils.SendUtil;
 import com.klinker.android.messaging_donate.settings.AppSettings;
 import com.klinker.android.messaging_sliding.ContactSearchArrayAdapter2;
 import com.klinker.android.messaging_sliding.emojis.EmojiAdapter;

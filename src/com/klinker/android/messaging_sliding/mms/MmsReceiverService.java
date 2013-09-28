@@ -28,9 +28,10 @@ import com.google.android.mms.APNHelper;
 import com.google.android.mms.pdu_alt.PduParser;
 import com.google.android.mms.pdu_alt.PduPersister;
 import com.google.android.mms.pdu_alt.RetrieveConf;
+import com.klinker.android.messaging_donate.utils.ContactUtil;
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
-import com.klinker.android.messaging_donate.SendUtil;
+import com.klinker.android.messaging_donate.utils.SendUtil;
 import com.klinker.android.messaging_sliding.receivers.CacheService;
 import com.klinker.android.messaging_sliding.receivers.NotificationReceiver;
 import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
@@ -416,7 +417,7 @@ public class MmsReceiverService extends Service {
             {
                 try
                 {
-                    mBuilder.setLargeIcon(MainActivity.getFacebookPhoto(address, context));
+                    mBuilder.setLargeIcon(ContactUtil.getFacebookPhoto(address, context));
                 } catch (Exception e)
                 {
 

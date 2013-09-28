@@ -12,7 +12,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
@@ -29,9 +28,11 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
+import com.klinker.android.messaging_donate.utils.ContactUtil;
+import com.klinker.android.messaging_donate.utils.IOUtil;
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
-import com.klinker.android.messaging_donate.SendUtil;
+import com.klinker.android.messaging_donate.utils.SendUtil;
 import com.klinker.android.messaging_donate.settings.AppSettings;
 import com.klinker.android.messaging_sliding.emojis.*;
 import com.klinker.android.messaging_sliding.mms.MmsReceiverService;
@@ -88,22 +89,17 @@ public class MessageCursorAdapter extends CursorAdapter {
             lookForVoice = false;
         }
 
-        try
-        {
-            input = getFacebookPhoto(inboxNumbers);
-        } catch (NumberFormatException e)
-        {
+        try {
+            input = ContactUtil.getFacebookPhoto(inboxNumbers, context);
+        } catch (NumberFormatException e) {
             input = null;
         }
 
-        if (input == null)
-        {
-            if (MainActivity.settings.darkContactImage)
-            {
-                input = drawableToBitmap(context.getResources().getDrawable(R.drawable.default_avatar_dark));
-            } else
-            {
-                input = drawableToBitmap(context.getResources().getDrawable(R.drawable.default_avatar));
+        if (input == null) {
+            if (MainActivity.settings.darkContactImage) {
+                input = ContactUtil.drawableToBitmap(context.getResources().getDrawable(R.drawable.default_avatar_dark), context);
+            } else {
+                input = ContactUtil.drawableToBitmap(context.getResources().getDrawable(R.drawable.default_avatar), context);
             }
         }
 
@@ -111,38 +107,29 @@ public class MessageCursorAdapter extends CursorAdapter {
 
         InputStream input2;
 
-        try
-        {
-            input2 = openDisplayPhoto(Long.parseLong(this.myId));
-        } catch (NumberFormatException e)
-        {
+        try {
+            input2 = ContactUtil.openDisplayPhoto(Long.parseLong(this.myId), context);
+        } catch (NumberFormatException e) {
             input2 = null;
         }
 
-        if (input2 == null)
-        {
-            if (MainActivity.settings.darkContactImage)
-            {
+        if (input2 == null) {
+            if (MainActivity.settings.darkContactImage) {
                 input2 = context.getResources().openRawResource(R.drawable.default_avatar_dark);
-            } else
-            {
+            } else {
                 input2 = context.getResources().openRawResource(R.drawable.default_avatar);
             }
         }
 
         Bitmap im;
 
-        try
-        {
+        try {
             im = Bitmap.createScaledBitmap(BitmapFactory.decodeStream(input2), MainActivity.contactWidth, MainActivity.contactWidth, true);
-        } catch (Exception e)
-        {
-            if (MainActivity.settings.darkContactImage)
-            {
-                im = Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(R.drawable.default_avatar_dark)), MainActivity.contactWidth, MainActivity.contactWidth, true);
-            } else
-            {
-                im = Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(R.drawable.default_avatar)), MainActivity.contactWidth, MainActivity.contactWidth, true);
+        } catch (Exception e) {
+            if (MainActivity.settings.darkContactImage) {
+                im = Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(context.getResources().getDrawable(R.drawable.default_avatar_dark), context), MainActivity.contactWidth, MainActivity.contactWidth, true);
+            } else {
+                im = Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(context.getResources().getDrawable(R.drawable.default_avatar), context), MainActivity.contactWidth, MainActivity.contactWidth, true);
             }
         }
 
@@ -154,8 +141,7 @@ public class MessageCursorAdapter extends CursorAdapter {
         paint.setTextSize(scaledPx);
         font = null;
 
-        if (MainActivity.settings.customFont)
-        {
+        if (MainActivity.settings.customFont) {
             font = Typeface.createFromFile(sharedPrefs.getString("custom_font_path", ""));
             paint.setTypeface(font);
         }
@@ -173,39 +159,30 @@ public class MessageCursorAdapter extends CursorAdapter {
     }
 
     private int getItemViewType(Cursor query) {
-        try
-        {
+        try {
             String s = query.getString(query.getColumnIndex("msg_box"));
 
             if (s != null) {
-                if (query.getInt(query.getColumnIndex("msg_box")) == 4)
-                {
+                if (query.getInt(query.getColumnIndex("msg_box")) == 4) {
                     return 1;
-                } else if (query.getInt(query.getColumnIndex("msg_box")) == 5)
-                {
+                } else if (query.getInt(query.getColumnIndex("msg_box")) == 5) {
                     return 1;
-                } else if (query.getInt(query.getColumnIndex("msg_box")) == 1)
-                {
+                } else if (query.getInt(query.getColumnIndex("msg_box")) == 1) {
                     return 0;
-                } else if (query.getInt(query.getColumnIndex("msg_box")) == 2)
-                {
+                } else if (query.getInt(query.getColumnIndex("msg_box")) == 2) {
                     return 1;
                 }
-            } else
-            {
+            } else {
                 String type = query.getString(query.getColumnIndex("type"));
 
-                if (type.equals("2") || type.equals("4") || type.equals("5") || type.equals("6"))
-                {
+                if (type.equals("2") || type.equals("4") || type.equals("5") || type.equals("6")) {
                     return 1;
-                } else
-                {
+                } else {
                     return 0;
                 }
 
             }
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             return 0;
         }
 
@@ -245,13 +222,11 @@ public class MessageCursorAdapter extends CursorAdapter {
 
         String dateType = "date";
 
-        if (MainActivity.settings.showOriginalTimestamp)
-        {
+        if (MainActivity.settings.showOriginalTimestamp) {
             dateType = "date_sent";
         }
 
-        try
-        {
+        try {
             String s = cursor.getString(cursor.getColumnIndex("msg_box"));
 
             if (s != null) {
@@ -266,30 +241,24 @@ public class MessageCursorAdapter extends CursorAdapter {
 
                 String[] numbers = number.split(" ");
 
-                if (cursor.getInt(cursor.getColumnIndex("msg_box")) == 4)
-                {
+                if (cursor.getInt(cursor.getColumnIndex("msg_box")) == 4) {
                     sending = true;
                     sent = true;
-                } else if (cursor.getInt(cursor.getColumnIndex("msg_box")) == 5)
-                {
+                } else if (cursor.getInt(cursor.getColumnIndex("msg_box")) == 5) {
                     error = true;
                     sent = true;
-                } else if (cursor.getInt(cursor.getColumnIndex("msg_box")) == 1)
-                {
+                } else if (cursor.getInt(cursor.getColumnIndex("msg_box")) == 1) {
                     sent = false;
-                } else if (cursor.getInt(cursor.getColumnIndex("msg_box")) == 2)
-                {
+                } else if (cursor.getInt(cursor.getColumnIndex("msg_box")) == 2) {
                     sent = true;
                 }
 
-                if (numbers.length > 2)
-                {
+                if (numbers.length > 2) {
                     group = true;
                     sender = numbers[0];
                 }
 
-                if (cursor.getInt(cursor.getColumnIndex("read")) == 0)
-                {
+                if (cursor.getInt(cursor.getColumnIndex("read")) == 0) {
                     final String SmsMessageId = cursor.getString(cursor.getColumnIndex("_id"));
 
                     new Thread(new Runnable() {
@@ -318,9 +287,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                         public void run() {
                             try {
                                 Thread.sleep(250);
-                            } catch (Exception e) {
-
-                            }
+                            } catch (Exception e) { }
 
                             String body = "";
                             String image = null;
@@ -746,20 +713,18 @@ public class MessageCursorAdapter extends CursorAdapter {
                     }
                 }
             }
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-        if (group && !sent)
-        {
+        if (group && !sent) {
             final String sentFrom = sender;
             new Thread(new Runnable() {
 
                 @Override
                 public void run()
                 {
-                    final Bitmap picture = Bitmap.createScaledBitmap(getFacebookPhoto(sentFrom), MainActivity.contactWidth, MainActivity.contactWidth, true);
+                    final Bitmap picture = Bitmap.createScaledBitmap(ContactUtil.getFacebookPhoto(sentFrom, context), MainActivity.contactWidth, MainActivity.contactWidth, true);
 
                     context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 
@@ -776,74 +741,57 @@ public class MessageCursorAdapter extends CursorAdapter {
 
         Date date2;
 
-        try
-        {
+        try {
             date2 = new Date(Long.parseLong(date));
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             date2 = new Date(0);
         }
 
         Calendar cal = Calendar.getInstance();
         Date currentDate = new Date(cal.getTimeInMillis());
 
-        if (getZeroTimeDate(date2).equals(getZeroTimeDate(currentDate)))
-        {
-            if (MainActivity.settings.hourFormat)
-            {
+        if (getZeroTimeDate(date2).equals(getZeroTimeDate(currentDate))) {
+            if (MainActivity.settings.hourFormat) {
                 holder.date.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(date2) + (
                         subject != null ? " - " + subject : ""
                         ));
-            } else
-            {
+            } else {
                 holder.date.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(date2) + (
                         subject != null ? " - " + subject : ""
                 ));
             }
-        } else
-        {
-            if (MainActivity.settings.hourFormat)
-            {
+        } else {
+            if (MainActivity.settings.hourFormat) {
                 holder.date.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2) + (
                         subject != null ? " - " + subject : ""
                 ));
-            } else
-            {
+            } else {
                 holder.date.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2) + (
                         subject != null ? " - " + subject : ""
                 ));
             }
         }
 
-        if (sending == true)
-        {
+        if (sending) {
             holder.date.setVisibility(View.GONE);
 
-            try
-            {
+            try {
                 holder.ellipsis.setVisibility(View.VISIBLE);
                 holder.ellipsis.setBackgroundResource(R.drawable.ellipsis);
                 holder.ellipsis.setColorFilter(MainActivity.settings.ctSentTextColor);
                 AnimationDrawable ellipsis = (AnimationDrawable) holder.ellipsis.getBackground();
                 ellipsis.start();
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
 
             }
-        } else
-        {
+        } else {
             holder.date.setVisibility(View.VISIBLE);
 
-            try
-            {
+            try {
                 holder.ellipsis.setVisibility(View.GONE);
-            } catch (Exception e)
-            {
+            } catch (Exception e) { }
 
-            }
-
-            if (sent && MainActivity.settings.deliveryReports && !error && status.equals("0"))
-            {
+            if (sent && MainActivity.settings.deliveryReports && !error && status.equals("0")) {
                 String text = "<html><body><img src=\"ic_sent.png\"/> " + holder.date.getText().toString() + "</body></html>";
                 holder.date.setText(Html.fromHtml(text, imgGetterSent, null));
             } else if (error) {
@@ -862,8 +810,7 @@ public class MessageCursorAdapter extends CursorAdapter {
             holder.date.setText(Html.fromHtml(text, imgGetterLocked, null));
         }
 
-        if (group == true && sent == false)
-        {
+        if (group && !sent) {
             final String senderF = sender;
 
             new Thread(new Runnable() {
@@ -893,8 +840,7 @@ public class MessageCursorAdapter extends CursorAdapter {
 
         setMessageText(holder.text, body);
 
-        if (cursor.getPosition() == 0)
-        {
+        if (cursor.getPosition() == 0) {
             if (MainActivity.settings.runAs.equals("hangout")) {
                 int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 7, context.getResources().getDisplayMetrics());
                 int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, context.getResources().getDisplayMetrics());
@@ -938,13 +884,9 @@ public class MessageCursorAdapter extends CursorAdapter {
         final String dateT = date;
         int size2 = 0;
 
-        try
-        {
+        try {
             size2 = image.split(" ").length;
-        } catch (Exception e)
-        {
-
-        }
+        } catch (Exception e) { }
 
         final View rowViewF = view;
 
@@ -974,28 +916,22 @@ public class MessageCursorAdapter extends CursorAdapter {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!mmsF)
-                {
+                if(!mmsF) {
                     Cursor query;
                     String dialogText = "";
 
-                    try
-                    {
-                        if (!sentF)
-                        {
+                    try {
+                        if (!sentF) {
                             query = contentResolver.query(Uri.parse("content://sms/" + idF + "/"), new String[] {"date", "date_sent", "type", "address"}, null, null, "date desc limit 1");
 
-                            if (query.moveToFirst())
-                            {
+                            if (query.moveToFirst()) {
                                 String dateSent = query.getString(query.getColumnIndex("date_sent")), dateReceived = query.getString(query.getColumnIndex("date"));
                                 Date date1 = new Date(Long.parseLong(dateSent)), date2 = new Date(Long.parseLong(dateReceived));
 
-                                if (MainActivity.settings.hourFormat)
-                                {
+                                if (MainActivity.settings.hourFormat) {
                                     dateSent = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(date1) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date1);
                                     dateReceived = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2);
-                                } else
-                                {
+                                } else {
                                     dateSent = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(date1) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date1);
                                     dateReceived = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2);
                                 }
@@ -1005,20 +941,16 @@ public class MessageCursorAdapter extends CursorAdapter {
                                         context.getResources().getString(R.string.sent) + " " + dateSent + "\n" +
                                         context.getResources().getString(R.string.received) + " " + dateReceived;
                             }
-                        } else
-                        {
+                        } else {
                             query = contentResolver.query(Uri.parse("content://sms/" + idF + "/"), new String[] {"date", "status", "type", "address"}, null, null, "date desc limit 1");
 
-                            if (query.moveToFirst())
-                            {
+                            if (query.moveToFirst()) {
                                 String dateReceived = query.getString(query.getColumnIndex("date"));
                                 Date date2 = new Date(Long.parseLong(dateReceived));
 
-                                if (MainActivity.settings.hourFormat)
-                                {
+                                if (MainActivity.settings.hourFormat) {
                                     dateReceived = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2);
-                                } else
-                                {
+                                } else {
                                     dateReceived = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2);
                                 }
 
@@ -1028,34 +960,28 @@ public class MessageCursorAdapter extends CursorAdapter {
 
                                 String status = query.getString(query.getColumnIndex("status"));
 
-                                if (!status.equals("-1"))
-                                {
-                                    if (status.equals("64") || status.equals("128"))
-                                    {
+                                if (!status.equals("-1")) {
+                                    if (status.equals("64") || status.equals("128")) {
                                         dialogText += "\n" + context.getResources().getString(R.string.status) + " Error";
-                                    } else
-                                    {
+                                    } else if (status.equals("2")) {
+                                        dialogText += "\n" + context.getResources().getString(R.string.status) + " Voice";
+                                    } else {
                                         dialogText += "\n" + context.getResources().getString(R.string.status) + " Delivered";
                                     }
                                 }
                             }
                         }
-                    } catch (Exception e)
-                    {
+                    } catch (Exception e) {
                         query = contentResolver.query(Uri.parse("content://sms/" + idF + "/"), new String[] {"date", "status", "type", "address"}, null, null, "date desc limit 1");
 
-                        if (query.moveToFirst())
-                        {
-                            if (sentF)
-                            {
+                        if (query.moveToFirst()) {
+                            if (sentF) {
                                 String dateReceived = query.getString(query.getColumnIndex("date"));
                                 Date date2 = new Date(Long.parseLong(dateReceived));
 
-                                if (MainActivity.settings.hourFormat)
-                                {
+                                if (MainActivity.settings.hourFormat) {
                                     dateReceived = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2);
-                                } else
-                                {
+                                } else {
                                     dateReceived = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2);
                                 }
 
@@ -1065,26 +991,22 @@ public class MessageCursorAdapter extends CursorAdapter {
 
                                 String status = query.getString(query.getColumnIndex("status"));
 
-                                if (!status.equals("-1"))
-                                {
-                                    if (status.equals("64") || status.equals("128"))
-                                    {
+                                if (!status.equals("-1")) {
+                                    if (status.equals("64") || status.equals("128")) {
                                         dialogText += "\n" + context.getResources().getString(R.string.status) + " Error";
-                                    } else
-                                    {
+                                    } else if (status.equals("2")) {
+                                        dialogText += "\n" + context.getResources().getString(R.string.status) + " Voice";
+                                    } else {
                                         dialogText += "\n" + context.getResources().getString(R.string.status) + " Delivered";
                                     }
                                 }
-                            } else
-                            {
+                            } else {
                                 String dateReceived = query.getString(query.getColumnIndex("date"));
                                 Date date2 = new Date(Long.parseLong(dateReceived));
 
-                                if (MainActivity.settings.hourFormat)
-                                {
+                                if (MainActivity.settings.hourFormat) {
                                     dateReceived = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2);
-                                } else
-                                {
+                                } else {
                                     dateReceived = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2);
                                 }
 
@@ -1270,7 +1192,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                         break;
                                     case 1:
                                         try {
-                                            saveImage(((BitmapDrawable) holder.media.getDrawable()).getBitmap(), dateT);
+                                            IOUtil.saveImage(((BitmapDrawable) holder.media.getDrawable()).getBitmap(), dateT, context);
                                         } catch (Exception e)
                                         {
                                             Toast.makeText(context, "ERROR", Toast.LENGTH_SHORT).show();
@@ -1299,7 +1221,7 @@ public class MessageCursorAdapter extends CursorAdapter {
 
                                         try
                                         {
-                                            ((MainActivity)context).imageAttach2.setImage("send_image", decodeFile(new File(getPath(holder.imageUri))));
+                                            ((MainActivity)context).imageAttach2.setImage("send_image", IOUtil.decodeFile(new File(IOUtil.getPath(holder.imageUri, context))));
                                         } catch (Exception e)
                                         {
                                             ((MainActivity)context).imageAttach2.setVisibility(false);
@@ -2149,144 +2071,6 @@ public class MessageCursorAdapter extends CursorAdapter {
         }
     }
 
-    public InputStream openDisplayPhoto(long contactId) {
-        Uri contactUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, contactId);
-        Uri photoUri = Uri.withAppendedPath(contactUri, ContactsContract.Contacts.Photo.CONTENT_DIRECTORY);
-        Cursor cursor = context.getContentResolver().query(photoUri,
-                new String[] {ContactsContract.Contacts.Photo.PHOTO}, null, null, null);
-        if (cursor == null) {
-            return null;
-        }
-        try {
-            if (cursor.moveToFirst()) {
-                byte[] data = cursor.getBlob(0);
-                if (data != null) {
-                    return new ByteArrayInputStream(data);
-                }
-            }
-        } finally {
-            cursor.close();
-        }
-        return null;
-    }
-
-    public Bitmap getFacebookPhoto(String phoneNumber) {
-        try
-        {
-            Uri phoneUri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNumber));
-            Uri photoUri = null;
-            ContentResolver cr = context.getContentResolver();
-            Cursor contact = cr.query(phoneUri,
-                    new String[] { ContactsContract.Contacts._ID }, null, null, null);
-
-            try
-            {
-                if (contact.moveToFirst()) {
-                    long userId = contact.getLong(contact.getColumnIndex(ContactsContract.Contacts._ID));
-                    photoUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, userId);
-                    contact.close();
-                }
-                else {
-                    Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
-
-                    if (MainActivity.settings.darkContactImage)
-                    {
-                        defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar_dark);
-                    }
-
-                    contact.close();
-                    return defaultPhoto;
-                }
-                if (photoUri != null) {
-                    InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(
-                            cr, photoUri);
-                    if (input != null) {
-                        contact.close();
-                        return BitmapFactory.decodeStream(input);
-                    }
-                } else {
-                    Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
-
-                    if (MainActivity.settings.darkContactImage)
-                    {
-                        defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar_dark);
-                    }
-
-                    contact.close();
-                    return defaultPhoto;
-                }
-                Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
-
-                if (MainActivity.settings.darkContactImage)
-                {
-                    defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar_dark);
-                }
-
-                contact.close();
-                return defaultPhoto;
-            } catch (Exception e)
-            {
-                if (MainActivity.settings.darkContactImage)
-                {
-                    contact.close();
-                    return BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar_dark);
-                } else
-                {
-                    contact.close();
-                    return BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
-                }
-            }
-        } catch (Exception e)
-        {
-            if (MainActivity.settings.darkContactImage)
-            {
-                return BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar_dark);
-            } else
-            {
-                return BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
-            }
-        }
-    }
-
-    @SuppressWarnings("deprecation")
-    public String getPath(Uri uri) {
-        String[] projection = { MediaStore.Images.Media.DATA };
-        Cursor cursor = context.managedQuery(uri, projection, null, null, null);
-        context.startManagingCursor(cursor);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        return cursor.getString(column_index);
-    }
-
-    public Bitmap drawableToBitmap (Drawable drawable) {
-        if (drawable instanceof BitmapDrawable) {
-            return ((BitmapDrawable)drawable).getBitmap();
-        }
-
-        try
-        {
-            int width = drawable.getIntrinsicWidth();
-            width = width > 0 ? width : 1;
-            int height = drawable.getIntrinsicHeight();
-            height = height > 0 ? height : 1;
-
-            Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-            Canvas canvas = new Canvas(bitmap);
-            drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-            drawable.draw(canvas);
-            return bitmap;
-        } catch (Exception e)
-        {
-            if (MainActivity.settings.darkContactImage)
-            {
-                return BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar_dark);
-            } else
-            {
-                return BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
-            }
-        }
-    }
-
     private static String getMmsText(String id, Activity context) {
         Uri partURI = Uri.parse("content://mms/part/" + id);
         InputStream is = null;
@@ -2342,63 +2126,15 @@ public class MessageCursorAdapter extends CursorAdapter {
         return name.trim();
     }
 
-    private void saveImage(Bitmap finalBitmap, String d) {
-
-        String root = Environment.getExternalStorageDirectory().toString();
-        File myDir = new File(root + "/Download");
-        myDir.mkdirs();
-        String fname = d + ".jpg";
-        File file = new File (myDir, fname);
-        if (file.exists ()) file.delete ();
-        try {
-            FileOutputStream out = new FileOutputStream(file);
-            finalBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
-            out.flush();
-            out.close();
-
-        } catch (Exception e) {
-            Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-        }
-
-        context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse("file://" + Environment.getExternalStorageDirectory())));
-        Toast.makeText(context, context.getResources().getString(R.string.save_image), Toast.LENGTH_SHORT).show();
-    }
-
-    private Bitmap decodeFile(File f){
-        try {
-            //Decode image size
-            BitmapFactory.Options o = new BitmapFactory.Options();
-            o.inJustDecodeBounds = true;
-            BitmapFactory.decodeStream(new FileInputStream(f),null,o);
-
-            //The new size we want to scale to
-            final int REQUIRED_SIZE=200;
-
-            //Find the correct scale value. It should be the power of 2.
-            int scale=1;
-            while(o.outWidth/scale/2>=REQUIRED_SIZE && o.outHeight/scale/2>=REQUIRED_SIZE)
-                scale*=2;
-
-            //Decode with inSampleSize
-            BitmapFactory.Options o2 = new BitmapFactory.Options();
-            o2.inSampleSize=scale;
-            return BitmapFactory.decodeStream(new FileInputStream(f), null, o2);
-        } catch (FileNotFoundException e) {}
-        return null;
-    }
-
-    public static Date getZeroTimeDate(Date fecha) {
-        Date res = fecha;
+    public static Date getZeroTimeDate(Date date) {
+        Date res = date;
         Calendar cal = Calendar.getInstance();
-
-        cal.setTime( fecha );
+        cal.setTime(date);
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
-
-        res = (Date) cal.getTime();
+        res = cal.getTime();
 
         return res;
     }

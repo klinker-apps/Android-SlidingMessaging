@@ -3,6 +3,12 @@ package com.klinker.android.messaging_sliding;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.provider.ContactsContract;
+import android.telephony.PhoneNumberUtils;
+import android.text.Editable;
+import android.text.SpannableStringBuilder;
+
+import java.util.Locale;
 
 public class Conversation {
 
@@ -23,87 +29,6 @@ public class Conversation {
         this.date = date;
         this.number = number;
         this.group = this.number.split(" ").length > 1;
-    }
-
-    public static String findContactNumber(String id, Context context) {
-        try {
-            String[] ids = id.split(" ");
-            String numbers = "";
-
-            for (int i = 0; i < ids.length; i++)
-            {
-                try
-                {
-                    if (ids[i] != null && (!ids[i].equals("") || !ids[i].equals(" ")))
-                    {
-                        Cursor number = context.getContentResolver().query(Uri.parse("content://mms-sms/canonical-addresses"), null, "_id=" + ids[i], null, null);
-
-                        if (number.moveToFirst())
-                        {
-                            numbers += number.getString(number.getColumnIndex("address")).replace("-", "").replace(")", "").replace("(", "").replace(" ", "") + " ";
-                        } else
-                        {
-                            numbers += ids[i] + " ";
-                        }
-
-                        number.close();
-                    } else
-                    {
-
-                    }
-                } catch (Exception e)
-                {
-                    numbers += "0 ";
-                }
-            }
-
-            return numbers;
-        } catch (Exception e) {
-            return id;
-        }
-    }
-
-    public static String findRecipientId(String number, Context context) {
-        try {
-            String[] ids = number.split(" ");
-            String numbers = "";
-
-            Cursor id = context.getContentResolver().query(Uri.parse("content://mms-sms/canonical-addresses"), new String[] {"_id", "address"}, null, null, null);
-
-            for (int i = 0; i < ids.length; i++)
-            {
-                try
-                {
-                    if (ids[i] != null && (!ids[i].equals("") || !ids[i].equals(" ")))
-                    {
-                        if (id.moveToFirst())
-                        {
-                            do {
-                                if (id.getString(id.getColumnIndex("address")).endsWith(number.replace("+1", "").replace(" ", "").replace("-", "").replace(")", "").replace("(", ""))) {
-                                    numbers += id.getString(id.getColumnIndex("_id"));
-                                }
-                            } while (id.moveToNext());
-                        } else
-                        {
-                            numbers += ids[i] + " ";
-                        }
-
-                        id.close();
-                    } else
-                    {
-
-                    }
-                } catch (Exception e)
-                {
-                    numbers += "0 ";
-                }
-            }
-
-            return numbers;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return number;
-        }
     }
 
     @Override

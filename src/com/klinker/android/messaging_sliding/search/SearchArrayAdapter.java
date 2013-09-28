@@ -23,6 +23,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.QuickContactBadge;
 import android.widget.TextView;
+import com.klinker.android.messaging_donate.utils.ContactUtil;
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
 
@@ -431,7 +432,7 @@ public class SearchArrayAdapter  extends ArrayAdapter<String> {
 
                     if (number.equals(holder.number)) {
                         // view has not been recycled, so not fast scrolling and should post image
-                        final String contactName = MainActivity.loadGroupContacts(number, context);
+                        final String contactName = ContactUtil.loadGroupContacts(number, context);
 
                         final Bitmap picture = Bitmap.createScaledBitmap(getFacebookPhoto(number), MainActivity.contactWidth, MainActivity.contactWidth, true);
 

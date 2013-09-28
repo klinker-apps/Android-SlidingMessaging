@@ -16,6 +16,7 @@ import android.provider.Telephony.Mms.Inbox;
 import android.util.Log;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu_alt.*;
+import com.klinker.android.messaging_donate.utils.ContactUtil;
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.receivers.UnlockReceiver;
 import com.klinker.android.messaging_sliding.mms.MmsReceiverService;
@@ -122,7 +123,7 @@ public class MMSMessageReceiver extends BroadcastReceiver {
             lastReceivedNumber = incomingNumber;
             lastReceivedTime = Calendar.getInstance().getTimeInMillis();
 			phoneNumber = incomingNumber.replace("+1", "").replace("+", "").replace("-", "").replace(" ", "").replace("(","").replace(")","");
-            mmsFrom = MainActivity.findContactName(phoneNumber, context);
+            mmsFrom = ContactUtil.findContactName(phoneNumber, context);
 
 			if (!sharedPrefs.getBoolean("auto_download_mms", false) || sharedPrefs.getBoolean("receive_with_stock", false))
 			{
