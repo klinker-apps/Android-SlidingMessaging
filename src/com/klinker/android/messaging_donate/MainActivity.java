@@ -498,13 +498,13 @@ public class MainActivity extends FragmentActivity {
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
                 getActionBar().setTitle(messaging);
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+                invalidateOptionsMenu();
             }
 
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
                 getActionBar().setTitle(newMessage);
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+                invalidateOptionsMenu();
             }
         };
 
@@ -1096,7 +1096,7 @@ public class MainActivity extends FragmentActivity {
 
                     final String menuOption = sharedPrefs.getString("page_or_menu2", "2");
 
-                    if(settings.emojiKeyboard && settings.emojiType)
+                    if(false)//settings.emojiKeyboard && settings.emojiType)
                     {
                         if (!emoji2Open)
                         {
