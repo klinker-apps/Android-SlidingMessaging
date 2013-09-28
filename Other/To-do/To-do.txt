@@ -19,7 +19,6 @@ Jake:
 Luke:
     - Message details for MMS messages
     - Fix image inserting button on slideover
-    - Find out why it fills the screen when attaching from camera
 
 1) more individual notification options (slideover color, notification icon)
 2) option for adding certain text to every message at the beginning (delivery reports?)
