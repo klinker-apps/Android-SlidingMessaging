@@ -107,7 +107,7 @@ public class MainActivity extends FragmentActivity {
     public final static String EXTRA_REPEAT = "com.klinker.android.messaging_sliding.REPEAT";
     public final static String EXTRA_MESSAGE = "com.klinker.android.messaging_sliding.MESSAGE";
 
-    private DrawerLayout mDrawerLayout;
+    public DrawerLayout mDrawerLayout;
     private LinearLayout mDrawer;
     private ActionBarDrawerToggle mDrawerToggle;
 
@@ -497,13 +497,13 @@ public class MainActivity extends FragmentActivity {
 
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
-                getActionBar().setTitle(messaging);
+                try { getActionBar().setTitle(messaging); } catch (Exception e) { }
                 invalidateOptionsMenu();
             }
 
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
-                getActionBar().setTitle(newMessage);
+                try { getActionBar().setTitle(newMessage); } catch (Exception e) { };
                 invalidateOptionsMenu();
             }
         };

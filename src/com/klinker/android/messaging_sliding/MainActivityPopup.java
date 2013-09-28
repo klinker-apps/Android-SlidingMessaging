@@ -14,6 +14,7 @@ import android.os.Handler;
 import android.support.v4.view.PagerTitleStrip;
 import android.util.TypedValue;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -262,7 +263,7 @@ public class MainActivityPopup extends MainActivity {
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    menu.showSecondaryMenu();
+                                    mDrawerLayout.openDrawer(Gravity.RIGHT);
                                 }
                             }, 500);
                         }
