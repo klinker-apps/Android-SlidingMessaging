@@ -34,7 +34,7 @@
         android:minWidth="80dp"
         android:padding="7dp"
         android:scaleType="centerInside"
-        android:src="@drawable/ic_contact_picture" />
+        android:src="@drawable/default_avatar" />
     
     <ImageView
         android:id="@+id/contactLine"

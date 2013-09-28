@@ -576,8 +576,8 @@ public class ThemeChooserActivity extends Activity {
 
                 if (ThemeChooserActivity.themes.get(position).darkContactImage)
                 {
-                    sentContactPicture.setImageResource(R.drawable.ic_contact_dark);
-                    receiveContactPicture.setImageResource(R.drawable.ic_contact_dark);
+                    sentContactPicture.setImageResource(R.drawable.default_avatar_dark);
+                    receiveContactPicture.setImageResource(R.drawable.default_avatar_dark);
                 }
 
                 if (!ThemeChooserActivity.themes.get(position).custom)
@@ -766,8 +766,8 @@ public class ThemeChooserActivity extends Activity {
 
                 if (ThemeChooserActivity.themes.get(position).darkContactImage)
                 {
-                    sentContactPicture.setImageResource(R.drawable.ic_contact_dark);
-                    receiveContactPicture.setImageResource(R.drawable.ic_contact_dark);
+                    sentContactPicture.setImageResource(R.drawable.default_avatar_dark);
+                    receiveContactPicture.setImageResource(R.drawable.default_avatar_dark);
                 }
 
                 if (!ThemeChooserActivity.themes.get(position).custom)

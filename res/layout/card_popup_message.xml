@@ -23,7 +23,7 @@
         android:adjustViewBounds="true"
         android:contentDescription="@string/placeholder"
         android:layout_margin="5dp"
-        android:src="@drawable/ic_contact_picture" />
+        android:src="@drawable/default_avatar" />
 
     <TextView
         android:id="@+id/contactName"

@@ -303,7 +303,7 @@ public class ContactUtil {
                     contact.close();
                 }
                 else {
-                    Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_picture);
+                    Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
 
                     contact.close();
                     return defaultPhoto;

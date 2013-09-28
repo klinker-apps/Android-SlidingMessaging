@@ -159,7 +159,7 @@
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/placeholder"
                 android:padding="7dp"
-                android:src="@drawable/ic_contact_picture"
+                android:src="@drawable/default_avatar"
                 android:clickable="false"/>
 
             <TextView

@@ -196,7 +196,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 					
 					if (input == null)
 					{
-						input = context.getResources().openRawResource(R.drawable.ic_contact_picture);
+						input = context.getResources().openRawResource(R.drawable.default_avatar);
 					}
 					
 					Bitmap contactImage = Bitmap.createScaledBitmap(BitmapFactory.decodeStream(input), 120, 120, true);

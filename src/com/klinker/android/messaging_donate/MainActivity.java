@@ -1018,7 +1018,8 @@ public class MainActivity extends FragmentActivity {
                                 @Override
                                 public void run() {
                                     contact.setText("");
-                                    menu.showContent();
+                                    if (settings.openContactMenu && (deviceType.equals("phone") || deviceType.equals("phablet2")))
+                                        menu.showContent();
                                     refreshViewPager();
                                     mViewPager.setCurrentItem(0);
 
@@ -1058,8 +1059,10 @@ public class MainActivity extends FragmentActivity {
                             messageScreen2.addView(tabs, SlidingTabParams);
                             messageScreen2.addView(vp, viewPagerParams);
 
-                            if (menuOption.equals("1")) {
-                                menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
+                            if (settings.openContactMenu && (deviceType.equals("phone") || deviceType.equals("phablet2"))) {
+                                if (menuOption.equals("1")) {
+                                    menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
+                                }
                             }
 
                             emoji2Open = true;
@@ -1076,8 +1079,10 @@ public class MainActivity extends FragmentActivity {
                                     messageScreen2.removeView(tabs);
                                     messageScreen2.removeView(vp);
 
-                                    if (menuOption.equals("1")) {
-                                        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+                                    if (settings.openContactMenu && (deviceType.equals("phone") || deviceType.equals("phablet2"))) {
+                                        if (menuOption.equals("1")) {
+                                            menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+                                        }
                                     }
 
                                     emoji2Open = false;
@@ -1092,8 +1097,10 @@ public class MainActivity extends FragmentActivity {
                                         messageScreen2.removeView(tabs);
                                         messageScreen2.removeView(vp);
 
-                                        if (menuOption.equals("1")) {
-                                            menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+                                        if (settings.openContactMenu && (deviceType.equals("phone") || deviceType.equals("phablet2"))) {
+                                            if (menuOption.equals("1")) {
+                                                menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+                                            }
                                         }
 
                                         emoji2Open = false;
@@ -1107,8 +1114,10 @@ public class MainActivity extends FragmentActivity {
                             messageScreen2.removeView(tabs);
                             messageScreen2.removeView(vp);
 
-                            if (menuOption.equals("1")) {
-                                menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+                            if (settings.openContactMenu && (deviceType.equals("phone") || deviceType.equals("phablet2"))) {
+                                if (menuOption.equals("1")) {
+                                    menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+                                }
                             }
                         }
                     } else {
@@ -1963,8 +1972,10 @@ public class MainActivity extends FragmentActivity {
                             messageScreen.addView(tabs, SlidingTabParams);
                             messageScreen.addView(vp, viewPagerParams);
 
-                            if (menuOption.equals("1") ) {
-                                menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
+                            if (settings.openContactMenu && (deviceType.equals("phone") || deviceType.equals("phablet2"))) {
+                                if (menuOption.equals("1") ) {
+                                    menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
+                                }
                             }
 
                             InputMethodManager keyboard = (InputMethodManager)
@@ -1978,8 +1989,10 @@ public class MainActivity extends FragmentActivity {
                                         messageScreen.removeView(tabs);
                                         messageScreen.removeView(vp);
 
-                                        if (menuOption.equals("1")) {
-                                            menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+                                        if (settings.openContactMenu && (deviceType.equals("phone") || deviceType.equals("phablet2"))) {
+                                            if (menuOption.equals("1")) {
+                                                menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+                                            }
                                         }
 
                                         emojiOpen = false;
@@ -1991,8 +2004,10 @@ public class MainActivity extends FragmentActivity {
                         } else {
                             emojiOpen = false;
 
-                            if (menuOption.equals("1")) {
-                                menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+                            if (settings.openContactMenu && (deviceType.equals("phone") || deviceType.equals("phablet2"))) {
+                                if (menuOption.equals("1")) {
+                                    menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+                                }
                             }
 
                             messageScreen.removeView(tabs);
@@ -2364,169 +2379,157 @@ public class MainActivity extends FragmentActivity {
             }, 100);
         }
 
-        menu = new SlidingMenu(this);
-
         if (deviceType.equals("phone") || deviceType.equals("phablet2")) {
+            menu = new SlidingMenu(this);
             menu.setMode(SlidingMenu.LEFT);
             menu.setShadowDrawable(R.drawable.shadow);
-        }
+            menu.setShadowWidthRes(R.dimen.shadow_width);
 
-        menu.setShadowWidthRes(R.dimen.shadow_width);
-
-        if (!settings.slideMessages)  {
-            if (deviceType.equals("phone") || deviceType.equals("phablet2")) {
+            if (!settings.slideMessages)  {
                 menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+            } else {
+                menu.setBehindOffset(0);
             }
-        } else {
-            menu.setBehindOffset(0);
-        }
 
-        if (deviceType.equals("phone") || deviceType.equals("phablet2")) {
             menu.setFadeDegree(0.35f);
             menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
             menu.getContent().setBackgroundDrawable(new ColorDrawable(settings.ctMessageListBackground));
-        }
+            menu.setMenu(menuLayout);
 
-        try {
-            if (deviceType.equals("phone") || deviceType.equals("phablet2")) {
-                menu.setMenu(menuLayout);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            // specified child already has a parent, you must call removeView() on the child's parent first
-        }
+            menu.setOnOpenedListener(new SlidingMenu.OnOpenedListener() {
 
-        menu.setOnOpenedListener(new SlidingMenu.OnOpenedListener() {
+                @Override
+                public void onOpened() {
+                    invalidateOptionsMenu();
 
-            @Override
-            public void onOpened() {
-                invalidateOptionsMenu();
+                    if (mDrawerLayout.isDrawerOpen(Gravity.RIGHT))
+                        mDrawerLayout.closeDrawer(Gravity.RIGHT);
 
-                if (mDrawerLayout.isDrawerOpen(Gravity.RIGHT))
-                    mDrawerLayout.closeDrawer(Gravity.RIGHT);
+                    if (emojiOpen) {
+                        messageScreen = (LinearLayout) findViewById(R.id.messageScreen);
 
-                if (emojiOpen) {
-                    messageScreen = (LinearLayout) findViewById(R.id.messageScreen);
-
-                    messageScreen.removeView(tabs);
-                    messageScreen.removeView(vp);
-                    emojiOpen = false;
-                }
-
-                if(emoji2Open) {
-                    messageScreen2 = (LinearLayout) findViewById(R.id.messageScreen2);
-
-                    messageScreen2.removeView(tabs);
-                    messageScreen2.removeView(vp);
-                    emoji2Open = false;
-                }
-
-                try {
-                    ab.setTitle(R.string.app_name_in_app);
-                    ab.setSubtitle(null);
-                    ab.setIcon(R.drawable.ic_launcher);
-
-                    ab.setDisplayHomeAsUpEnabled(false);
-                } catch (Exception e) {
-                    // no action bar, dialog theme
-                }
-
-                if (menu.isMenuShowing()) {
-                    InputMethodManager imm = (InputMethodManager) getSystemService(
-                            Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(messageEntry.getWindowToken(), 0);
-                }
-            }
-
-        });
-
-        menu.setOnClosedListener(new SlidingMenu.OnClosedListener() {
-
-            @Override
-            public void onClosed() {
-
-                invalidateOptionsMenu();
-
-                if (emojiOpen) {
-                    messageScreen = (LinearLayout) findViewById(R.id.messageScreen);
-
-                    messageScreen.removeView(tabs);
-                    messageScreen.removeView(vp);
-                    emojiOpen = false;
-                }
-
-                if (emoji2Open) {
-                    messageScreen2 = (LinearLayout) findViewById(R.id.messageScreen2);
-
-                    messageScreen2.removeView(tabs);
-                    messageScreen2.removeView(vp);
-                    emoji2Open = false;
-                }
-
-                try {
-                    if (deviceType.equals("phone") || deviceType.equals("phablet2")) {
-                        ab.setDisplayHomeAsUpEnabled(true);
+                        messageScreen.removeView(tabs);
+                        messageScreen.removeView(vp);
+                        emojiOpen = false;
                     }
 
-                    if (!settings.useTitleBar || settings.alwaysShowContactInfo || settings.titleContactImages) {
-                        if (ab != null) {
-                            try {
-                                new Thread(new Runnable() {
+                    if(emoji2Open) {
+                        messageScreen2 = (LinearLayout) findViewById(R.id.messageScreen2);
 
-                                    @Override
-                                    public void run() {
-                                        if (conversations.size() != 0) {
-                                            final String title = ContactUtil.findContactName(ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context), context);
-                                            Bitmap image = ContactUtil.getFacebookPhoto(ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context), context);
-                                            final BitmapDrawable image2 = new BitmapDrawable(image);
+                        messageScreen2.removeView(tabs);
+                        messageScreen2.removeView(vp);
+                        emoji2Open = false;
+                    }
 
-                                            ((MainActivity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+                    try {
+                        ab.setTitle(R.string.app_name_in_app);
+                        ab.setSubtitle(null);
+                        ab.setIcon(R.drawable.ic_launcher);
 
-                                                @Override
-                                                public void run() {
-                                                    ab.setTitle(title);
+                        ab.setDisplayHomeAsUpEnabled(false);
+                    } catch (Exception e) {
+                        // no action bar, dialog theme
+                    }
 
-                                                    Locale sCachedLocale = Locale.getDefault();
-                                                    int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
-                                                    Editable editable = new SpannableStringBuilder(ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context));
-                                                    PhoneNumberUtils.formatNumber(editable, sFormatType);
-                                                    ab.setSubtitle(editable.toString());
+                    if (menu.isMenuShowing()) {
+                        InputMethodManager imm = (InputMethodManager) getSystemService(
+                                Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(messageEntry.getWindowToken(), 0);
+                    }
+                }
 
-                                                    if (ab.getTitle().equals(ab.getSubtitle())) {
-                                                        ab.setSubtitle(null);
+            });
+
+            menu.setOnClosedListener(new SlidingMenu.OnClosedListener() {
+
+                @Override
+                public void onClosed() {
+
+                    invalidateOptionsMenu();
+
+                    if (emojiOpen) {
+                        messageScreen = (LinearLayout) findViewById(R.id.messageScreen);
+
+                        messageScreen.removeView(tabs);
+                        messageScreen.removeView(vp);
+                        emojiOpen = false;
+                    }
+
+                    if (emoji2Open) {
+                        messageScreen2 = (LinearLayout) findViewById(R.id.messageScreen2);
+
+                        messageScreen2.removeView(tabs);
+                        messageScreen2.removeView(vp);
+                        emoji2Open = false;
+                    }
+
+                    try {
+                        if (deviceType.equals("phone") || deviceType.equals("phablet2")) {
+                            ab.setDisplayHomeAsUpEnabled(true);
+                        }
+
+                        if (!settings.useTitleBar || settings.alwaysShowContactInfo || settings.titleContactImages) {
+                            if (ab != null) {
+                                try {
+                                    new Thread(new Runnable() {
+
+                                        @Override
+                                        public void run() {
+                                            if (conversations.size() != 0) {
+                                                final String title = ContactUtil.findContactName(ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context), context);
+                                                Bitmap image = ContactUtil.getFacebookPhoto(ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context), context);
+                                                final BitmapDrawable image2 = new BitmapDrawable(image);
+
+                                                ((MainActivity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                                                    @Override
+                                                    public void run() {
+                                                        ab.setTitle(title);
+
+                                                        Locale sCachedLocale = Locale.getDefault();
+                                                        int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
+                                                        Editable editable = new SpannableStringBuilder(ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context));
+                                                        PhoneNumberUtils.formatNumber(editable, sFormatType);
+                                                        ab.setSubtitle(editable.toString());
+
+                                                        if (ab.getTitle().equals(ab.getSubtitle())) {
+                                                            ab.setSubtitle(null);
+                                                        }
+
+                                                        if (conversations.get(mViewPager.getCurrentItem()).getGroup()) {
+                                                            ab.setTitle("Group MMS");
+                                                            ab.setSubtitle(null);
+                                                        }
+
+                                                        ab.setIcon(image2);
                                                     }
 
-                                                    if (conversations.get(mViewPager.getCurrentItem()).getGroup()) {
-                                                        ab.setTitle("Group MMS");
-                                                        ab.setSubtitle(null);
-                                                    }
-
-                                                    ab.setIcon(image2);
-                                                }
-
-                                            });
+                                                });
+                                            }
                                         }
-                                    }
 
-                                }).start();
-                            } catch (Exception e) {
-                                ab.setTitle(R.string.app_name_in_app);
+                                    }).start();
+                                } catch (Exception e) {
+                                    ab.setTitle(R.string.app_name_in_app);
+                                    ab.setIcon(R.drawable.ic_launcher);
+                                }
+                            }
+
+                            if (conversations.size() == 0 && ab != null) {
                                 ab.setIcon(R.drawable.ic_launcher);
                             }
                         }
-
-                        if (conversations.size() == 0 && ab != null) {
-                            ab.setIcon(R.drawable.ic_launcher);
-                        }
+                    } catch (Exception e) {
+                        // no action bar, dialog theme
                     }
-                } catch (Exception e) {
-                    // no action bar, dialog theme
+
+                    messageEntry.requestFocus();
                 }
 
-                messageEntry.requestFocus();
-            }
-
-        });
+            });
+        } else {
+            mViewPager.setBackgroundDrawable(new ColorDrawable(settings.ctMessageListBackground));
+        }
 
         messageBar = new MessageBar (this);
 
@@ -2902,8 +2905,10 @@ public class MainActivity extends FragmentActivity {
                 if (mDrawerLayout.isDrawerOpen(Gravity.RIGHT)) {
                     mDrawerLayout.closeDrawer(Gravity.RIGHT);
                 } else {
-                    if (menu.isMenuShowing())
-                        menu.toggle();
+                    if (settings.openContactMenu && (deviceType.equals("phone") || deviceType.equals("phablet2"))) {
+                        if (menu.isMenuShowing())
+                            menu.toggle();
+                    }
                     mDrawerLayout.openDrawer(Gravity.RIGHT);
                 }
 
@@ -2978,19 +2983,25 @@ public class MainActivity extends FragmentActivity {
                 }
                 return true;
             case R.id.menu_delete:
-                if (menu.isMenuShowing()) {
+                if (settings.openContactMenu && (deviceType.equals("phone") || deviceType.equals("phablet2"))) {
+                    if (menu.isMenuShowing()) {
+                        Intent intent = new Intent(this, BatchDeleteAllActivity.class);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                    } else {
+                        try {
+                            Intent intent = new Intent(this, BatchDeleteConversationActivity.class);
+                            intent.putExtra("threadId", conversations.get(mViewPager.getCurrentItem()).getThreadId());
+                            startActivity(intent);
+                            overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                        } catch (Exception e) {
+                            Toast.makeText(this, "No Messages", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                } else {
                     Intent intent = new Intent(this, BatchDeleteAllActivity.class);
                     startActivity(intent);
                     overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
-                } else {
-                    try {
-                        Intent intent = new Intent(this, BatchDeleteConversationActivity.class);
-                        intent.putExtra("threadId", conversations.get(mViewPager.getCurrentItem()).getThreadId());
-                        startActivity(intent);
-                        overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
-                    } catch (Exception e) {
-                        Toast.makeText(this, "No Messages", Toast.LENGTH_SHORT).show();
-                    }
                 }
 
                 return true;
@@ -3382,7 +3393,9 @@ public class MainActivity extends FragmentActivity {
 
                 });
 
-                MainActivity.menu.showContent();
+                if (settings.openContactMenu && (deviceType.equals("phone") || deviceType.equals("phablet2"))) {
+                    MainActivity.menu.showContent();
+                }
                 mViewPager.setCurrentItem(attachedPosition);
 
             }
@@ -3768,8 +3781,8 @@ public class MainActivity extends FragmentActivity {
                 }
             }
         } else {
-            if (menu.isMenuShowing()) {
-                menu.showContent();
+            if (mDrawerLayout.isDrawerOpen(Gravity.RIGHT)) {
+                mDrawerLayout.closeDrawer(Gravity.RIGHT);
             } else {
                 super.onBackPressed();
             }
@@ -3817,18 +3830,20 @@ public class MainActivity extends FragmentActivity {
         filter.addCategory(Intent.CATEGORY_DEFAULT);
         registerReceiver(killReceiver, filter);
 
-        String menuOption = sharedPrefs.getString("page_or_menu2", "2");
+        if (settings.openContactMenu && (deviceType.equals("phone") || deviceType.equals("phablet2"))) {
+            String menuOption = sharedPrefs.getString("page_or_menu2", "2");
 
-        if (menuOption.equals("2")) {
-            menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
-        } else if (menuOption.equals("1")) {
-            menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
-        } else {
-            menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
-        }
+            if (menuOption.equals("2")) {
+                menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
+            } else if (menuOption.equals("1")) {
+                menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+            } else {
+                menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
+            }
 
-        if (imageAttach.getVisibility() == View.VISIBLE) {
-            menu.showContent();
+            if (imageAttach.getVisibility() == View.VISIBLE) {
+                menu.showContent();
+            }
         }
 
         if (whatToSend != null) {
@@ -4165,7 +4180,9 @@ public class MainActivity extends FragmentActivity {
                             if (ContactUtil.findContactNumber(conversations.get(i).getNumber(), this).replace("-","").replace("+", "").equals(sendMessageTo.replace("-", "").replace("+1", ""))) {
                                 if (i < 10 || (!limitConversations && i > 10)) {
                                     mViewPager.setCurrentItem(i);
-                                    menu.showContent();
+                                    if (settings.openContactMenu && (deviceType.equals("phone") || deviceType.equals("phablet2"))) {
+                                        menu.showContent();
+                                    }
                                     flag = true;
                                     break;
                                 }
@@ -4179,7 +4196,9 @@ public class MainActivity extends FragmentActivity {
                                 if (ContactUtil.findContactName(ContactUtil.findContactNumber(conversations.get(i).getNumber(), this), this).equals(name)) {
                                     if (i < 10 || (!limitConversations && i > 10)) {
                                         mViewPager.setCurrentItem(i);
-                                        menu.showContent();
+                                        if (settings.openContactMenu && (deviceType.equals("phone") || deviceType.equals("phablet2"))) {
+                                            menu.showContent();
+                                        }
                                         flag = true;
                                         break;
                                     }
@@ -4298,19 +4317,23 @@ public class MainActivity extends FragmentActivity {
                 messageRecieved = false;
             }
 
-            if (sendTo) {
-                menu.showContent();
-            } else {
-                if (settings.openContactMenu && (imageAttach.getVisibility() != View.VISIBLE && imageAttach2.getVisibility() != View.VISIBLE) && (deviceType.equals("phone") || deviceType.equals("phablet2"))) {
-                    menu.showMenu();
-                } else if (imageAttach.getVisibility() == View.VISIBLE) {
+            if (settings.openContactMenu && (deviceType.equals("phone") || deviceType.equals("phablet2"))) {
+                if (sendTo) {
                     menu.showContent();
+                } else {
+                    if (settings.openContactMenu && (imageAttach.getVisibility() != View.VISIBLE && imageAttach2.getVisibility() != View.VISIBLE) && (deviceType.equals("phone") || deviceType.equals("phablet2"))) {
+                        menu.showMenu();
+                    } else if (imageAttach.getVisibility() == View.VISIBLE) {
+                        menu.showContent();
+                    }
                 }
             }
         }
 
         if (fromNotification) {
-            menu.showContent();
+            if (settings.openContactMenu && (deviceType.equals("phone") || deviceType.equals("phablet2"))) {
+                menu.showContent();
+            }
             fromNotification = false;
         }
     }
@@ -5199,7 +5222,7 @@ public class MainActivity extends FragmentActivity {
                 String name = ContactUtil.findContactName(address, context);
                 String id = "0";
 
-                Bitmap contactImage = BitmapFactory.decodeResource(resources, R.drawable.ic_contact_picture);
+                Bitmap contactImage = BitmapFactory.decodeResource(resources, R.drawable.default_avatar);
 
                 try {
                     Uri phoneUri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(address.replaceAll("[^0-9\\+]", "")));
@@ -5213,7 +5236,7 @@ public class MainActivity extends FragmentActivity {
 
                     if (input == null)
                     {
-                        input = resources.openRawResource(R.drawable.ic_contact_picture);
+                        input = resources.openRawResource(R.drawable.default_avatar);
                     }
 
                     contactImage = Bitmap.createScaledBitmap(BitmapFactory.decodeStream(input), 120, 120, true);

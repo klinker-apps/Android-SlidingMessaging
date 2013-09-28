@@ -226,19 +226,23 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 	  
 	  final ViewHolder holder = (ViewHolder) contactView.getTag();
       
-      if (MainActivity.settings.ctDarkContactPics)
-      {
-          holder.image.setImageResource(R.drawable.ic_contact_dark);
+      if (MainActivity.settings.ctDarkContactPics) {
+          holder.image.setImageResource(R.drawable.default_avatar_dark);
       } else {
-          holder.image.setImageResource(R.drawable.ic_contact_picture);
+          holder.image.setImageResource(R.drawable.default_avatar);
       }
+
+      holder.text.setText("");
+      holder.text2.setText("");
+      holder.text3.setText("");
+      holder.text4.setText("");
 
 	  new Thread(new Runnable() {
 
 		@Override
 		public void run() {
             final String number = ContactUtil.findContactNumber(conversations.get(position).getNumber(), context);
-			final Bitmap image = Bitmap.createScaledBitmap(ContactUtil.getFacebookPhoto(number, context), MainActivity.contactWidth, MainActivity.contactWidth, true);
+			final Bitmap image = ContactUtil.getFacebookPhoto(number, context);
 
             Spanned text;
             String names = "";
@@ -301,20 +305,20 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
                               {
                                 if (MainActivity.settings.ctDarkContactPics)
                                 {
-                                    holder.image.setImageBitmap(Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(resources.getDrawable(R.drawable.ic_contact_dark), context), MainActivity.contactWidth, MainActivity.contactWidth, true));
+                                    holder.image.setImageBitmap(Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(resources.getDrawable(R.drawable.default_avatar_dark), context), MainActivity.contactWidth, MainActivity.contactWidth, true));
                                 } else
                                 {
-                                    holder.image.setImageBitmap(Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(resources.getDrawable(R.drawable.ic_contact_picture), context), MainActivity.contactWidth, MainActivity.contactWidth, true));
+                                    holder.image.setImageBitmap(Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(resources.getDrawable(R.drawable.default_avatar), context), MainActivity.contactWidth, MainActivity.contactWidth, true));
                                 }
                               }
                         } else
                         {
                             if (MainActivity.settings.ctDarkContactPics)
                             {
-                                holder.image.setImageBitmap(Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(resources.getDrawable(R.drawable.ic_contact_dark), context), MainActivity.contactWidth, MainActivity.contactWidth, true));
+                                holder.image.setImageBitmap(Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(resources.getDrawable(R.drawable.default_avatar_dark), context), MainActivity.contactWidth, MainActivity.contactWidth, true));
                             } else
                             {
-                                holder.image.setImageBitmap(Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(resources.getDrawable(R.drawable.ic_contact_picture), context), MainActivity.contactWidth, MainActivity.contactWidth, true));
+                                holder.image.setImageBitmap(Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(resources.getDrawable(R.drawable.default_avatar), context), MainActivity.contactWidth, MainActivity.contactWidth, true));
                             }
                         }
 					} else

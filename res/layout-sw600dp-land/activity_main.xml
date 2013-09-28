@@ -8,9 +8,7 @@
     <LinearLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="left|center_vertical"
-            android:baselineAligned="false">
+            android:layout_height="match_parent">
 
         <RelativeLayout
                 android:layout_width="0dp"
@@ -272,18 +270,13 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <!-- The navigation drawer -->
-    <!-- default of 240dp width -->
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/drawer"
         android:orientation="vertical"
         android:layout_width="315dp"
         android:layout_height="fill_parent"
         android:layout_gravity="right"
         android:background="@color/light_silver" >
-
-
 
     </LinearLayout>
 

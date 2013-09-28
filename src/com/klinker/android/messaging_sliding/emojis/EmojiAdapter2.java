@@ -512,7 +512,7 @@ public class EmojiAdapter2 extends BaseAdapter implements StickyGridHeadersBaseA
             return bitmap;
         } catch (Exception e)
         {
-            return BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_picture);
+            return BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
         }
     }
 }

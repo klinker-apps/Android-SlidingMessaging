@@ -236,10 +236,7 @@
         </LinearLayout>
     </RelativeLayout>
 
-    <!-- The navigation drawer -->
-    <!-- default of 240dp width -->
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/drawer"
         android:orientation="vertical"
         android:layout_width="315dp"

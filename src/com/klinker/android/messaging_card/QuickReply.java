@@ -38,6 +38,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.RelativeLayout.LayoutParams;
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_donate.utils.ContactUtil;
 import com.klinker.android.messaging_donate.utils.SendUtil;
 import com.klinker.android.messaging_sliding.emojis.*;
 import com.klinker.android.messaging_sliding.receivers.CacheService;
@@ -1176,7 +1177,7 @@ public class QuickReply extends FragmentActivity {
 			  }
 			  
 			  photo.assignContactFromPhone(inboxNumber.get(position), true);
-			  photo.setImageBitmap(getFacebookPhoto(inboxNumber.get(position), context));
+			  photo.setImageBitmap(ContactUtil.getFacebookPhoto(inboxNumber.get(position), context));
 
               final Context context = getActivity();
 			  
@@ -1312,74 +1313,6 @@ public class QuickReply extends FragmentActivity {
 	    res = (Date) cal.getTime();
 
 	    return res;
-	}
-	
-	public static Bitmap getFacebookPhoto(String phoneNumber, Context context) {
-		  try
-		  {
-		    Uri phoneUri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNumber));
-		    Uri photoUri = null;
-		    ContentResolver cr = context.getContentResolver();
-		    Cursor contact = cr.query(phoneUri,
-		            new String[] { ContactsContract.Contacts._ID }, null, null, null);
-
-		    try
-		    {
-			    if (contact.moveToFirst()) {
-			        long userId = contact.getLong(contact.getColumnIndex(ContactsContract.Contacts._ID));
-			        photoUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, userId);
-			        contact.close();
-			    }
-			    else {
-			        Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_picture);
-			        
-			        contact.close();
-			        return defaultPhoto;
-			    }
-			    if (photoUri != null) {
-			        InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(
-			                cr, photoUri);
-			        if (input != null) {
-			        	contact.close();
-			            return BitmapFactory.decodeStream(input);
-			        }
-			    } else {
-			        Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_picture);
-			        
-			        contact.close();
-			        return defaultPhoto;
-			    }
-			    Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_picture);
-		        
-		        contact.close();
-			    return defaultPhoto;
-		    } catch (Exception e)
-		    {
-		        	contact.close();
-		        	return BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_picture);
-		    }
-		  } catch (Exception e)
-		  {
-		        	return BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_picture);
-		  }
-		}
-	
-	
-	private static void writeToFile3(ArrayList<String> data, Context context) {
-        try {
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("conversationList.txt", Context.MODE_PRIVATE));
-            
-            for (int i = 0; i < data.size(); i++)
-            {
-            	outputStreamWriter.write(data.get(i) + "\n");
-            }
-            	
-            outputStreamWriter.close();
-        }
-        catch (IOException e) {
-            
-        } 
-		
 	}
 	
 	private void writeToFile2(ArrayList<String> data, Context context) {

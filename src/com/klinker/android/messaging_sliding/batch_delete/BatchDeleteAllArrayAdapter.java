@@ -245,9 +245,9 @@ public class BatchDeleteAllArrayAdapter extends ArrayAdapter<String> {
 
         if (ctDarkContactPics)
         {
-            holder.image.setImageResource(R.drawable.ic_contact_dark);
+            holder.image.setImageResource(R.drawable.default_avatar_dark);
         } else {
-            holder.image.setImageResource(R.drawable.ic_contact_picture);
+            holder.image.setImageResource(R.drawable.default_avatar);
         }
 
         new Thread(new Runnable() {
@@ -302,20 +302,20 @@ public class BatchDeleteAllArrayAdapter extends ArrayAdapter<String> {
                                 {
                                     if (ctDarkContactPics)
                                     {
-                                        holder.image.setImageBitmap(Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(context.getResources().getDrawable(R.drawable.ic_contact_dark), context), MainActivity.contactWidth, MainActivity.contactWidth, true));
+                                        holder.image.setImageBitmap(Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(context.getResources().getDrawable(R.drawable.default_avatar_dark), context), MainActivity.contactWidth, MainActivity.contactWidth, true));
                                     } else
                                     {
-                                        holder.image.setImageBitmap(Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(context.getResources().getDrawable(R.drawable.ic_contact_picture), context), MainActivity.contactWidth, MainActivity.contactWidth, true));
+                                        holder.image.setImageBitmap(Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(context.getResources().getDrawable(R.drawable.default_avatar), context), MainActivity.contactWidth, MainActivity.contactWidth, true));
                                     }
                                 }
                             } else
                             {
                                 if (ctDarkContactPics)
                                 {
-                                    holder.image.setImageBitmap(Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(context.getResources().getDrawable(R.drawable.ic_contact_dark), context), MainActivity.contactWidth, MainActivity.contactWidth, true));
+                                    holder.image.setImageBitmap(Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(context.getResources().getDrawable(R.drawable.default_avatar_dark), context), MainActivity.contactWidth, MainActivity.contactWidth, true));
                                 } else
                                 {
-                                    holder.image.setImageBitmap(Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(context.getResources().getDrawable(R.drawable.ic_contact_picture), context), MainActivity.contactWidth, MainActivity.contactWidth, true));
+                                    holder.image.setImageBitmap(Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(context.getResources().getDrawable(R.drawable.default_avatar), context), MainActivity.contactWidth, MainActivity.contactWidth, true));
                                 }
                             }
                         } else

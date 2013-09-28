@@ -348,10 +348,10 @@ public class QuickReply extends Activity {
 		{
 			if (sharedPrefs.getBoolean("ct_darkContctImage", false))
 			{
-				input = this.getResources().openRawResource(R.drawable.ic_contact_dark);
+				input = this.getResources().openRawResource(R.drawable.default_avatar_dark);
 			} else
 			{
-				input = this.getResources().openRawResource(R.drawable.ic_contact_picture);
+				input = this.getResources().openRawResource(R.drawable.default_avatar);
 			}
 		}
 		

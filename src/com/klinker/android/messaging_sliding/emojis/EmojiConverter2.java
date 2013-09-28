@@ -941,7 +941,7 @@ public class EmojiConverter2 {
             return bitmap;
         } catch (Exception e)
         {
-            return BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_picture);
+            return BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
         }
     }
 }
