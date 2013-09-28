@@ -32,11 +32,8 @@ import java.util.Calendar;
 
 public class ConversationFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, PullToRefreshAttacher.OnRefreshListener {
 
-    private ArrayList<String> threadIds;
     private int position;
-    private ArrayList<String> numbers;
-    private ArrayList<String> group;
-    private String myId, myPhoneNumber;
+    private String myId;
     private View view;
     private SharedPreferences sharedPrefs;
     private Context context;
@@ -66,13 +63,8 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
         this.setRetainInstance(true);
 
         Bundle args = this.getArguments();
-
         this.position = args.getInt("position");
-        this.numbers = args.getStringArrayList("numbers");
         this.myId = args.getString("myId");
-        this.myPhoneNumber = args.getString("myPhone");
-        this.threadIds = args.getStringArrayList("threadIds");
-        this.group = args.getStringArrayList("group");
 
         this.sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
     }
@@ -129,12 +121,12 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
 
         final TextView groupList = (TextView) view.findViewById(R.id.groupList);
 
-        if (group.get(position).equals("yes")) {
+        if (MainActivity.conversations.get(position).getGroup()) {
             new Thread(new Runnable() {
 
                 @Override
                 public void run() {
-                    final String name = ContactUtil.loadGroupContacts(ContactUtil.findContactNumber(numbers.get(position), context), context);
+                    final String name = ContactUtil.loadGroupContacts(ContactUtil.findContactNumber(MainActivity.conversations.get(position).getNumber(), context), context);
 
                     ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 
@@ -207,7 +199,7 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
 
                         MainActivity.waitToLoad = false;
 
-                        Uri uri3 = Uri.parse("content://mms-sms/conversations/" + threadIds.get(position) + "/");
+                        Uri uri3 = Uri.parse("content://mms-sms/conversations/" + MainActivity.conversations.get(position).getThreadId() + "/");
                         String[] projection2;
                         String proj = "_id body date type read msg_box locked sub";
 
@@ -234,7 +226,7 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
                             @Override
                             public void run() {
 
-                                MessageCursorAdapter adapter = new MessageCursorAdapter((Activity) context, myId, ContactUtil.findContactNumber(numbers.get(position), context), threadIds.get(position), messageQuery, position);
+                                MessageCursorAdapter adapter = new MessageCursorAdapter((Activity) context, myId, ContactUtil.findContactNumber(MainActivity.conversations.get(position).getNumber(), context), MainActivity.conversations.get(position).getThreadId(), messageQuery, position);
 
                                 listView.setAdapter(adapter);
 
@@ -278,7 +270,7 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
         } else {
             getLoaderManager().destroyLoader(position);
 
-            Uri uri3 = Uri.parse("content://mms-sms/conversations/" + threadIds.get(position) + "/");
+            Uri uri3 = Uri.parse("content://mms-sms/conversations/" + MainActivity.conversations.get(position).getThreadId() + "/");
             String[] projection2;
             String proj = "_id body date type read msg_box locked sub";
 
@@ -304,7 +296,7 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
                 messageQuery = CacheService.conversations.get(position);
             }
 
-            MessageCursorAdapter adapter = new MessageCursorAdapter((Activity) context, myId, ContactUtil.findContactNumber(numbers.get(position), context), threadIds.get(position), messageQuery, position);
+            MessageCursorAdapter adapter = new MessageCursorAdapter((Activity) context, myId, ContactUtil.findContactNumber(MainActivity.conversations.get(position).getNumber(), context), MainActivity.conversations.get(position).getThreadId(), messageQuery, position);
 
             listView.setAdapter(adapter);
             listView.setStackFromBottom(true);
@@ -356,7 +348,7 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
 
     @Override
     public Loader<Cursor> onCreateLoader(int loaderID, Bundle bundle) {
-        Uri uri3 = Uri.parse("content://mms-sms/conversations/" + threadIds.get(position) + "/");
+        Uri uri3 = Uri.parse("content://mms-sms/conversations/" + MainActivity.conversations.get(position).getThreadId() + "/");
         String[] projection2;
         String proj = "_id body date type read msg_box locked sub";
 
@@ -388,7 +380,7 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, final Cursor query) {
-        MessageCursorAdapter adapter = new MessageCursorAdapter((Activity) context, myId, ContactUtil.findContactNumber(numbers.get(position), context), threadIds.get(position), query, position);
+        MessageCursorAdapter adapter = new MessageCursorAdapter((Activity) context, myId, ContactUtil.findContactNumber(MainActivity.conversations.get(position).getNumber(), context), MainActivity.conversations.get(position).getThreadId(), query, position);
 
         listView.setAdapter(adapter);
         listView.setStackFromBottom(true);
@@ -430,7 +422,7 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
             protected Void doInBackground(Void... params) {
                 long startTime = Calendar.getInstance().getTimeInMillis();
 
-                Uri uri3 = Uri.parse("content://mms-sms/conversations/" + threadIds.get(position) + "/");
+                Uri uri3 = Uri.parse("content://mms-sms/conversations/" + MainActivity.conversations.get(position).getThreadId() + "/");
                 String[] projection2;
                 String proj = "_id body date type read msg_box locked sub";
 
@@ -467,7 +459,7 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
             @Override
             protected void onPostExecute(Void result) {
                 super.onPostExecute(result);
-                MessageCursorAdapter adapter = new MessageCursorAdapter((Activity) context, myId, ContactUtil.findContactNumber(numbers.get(position), context), threadIds.get(position), query, position);
+                MessageCursorAdapter adapter = new MessageCursorAdapter((Activity) context, myId, ContactUtil.findContactNumber(MainActivity.conversations.get(position).getNumber(), context), MainActivity.conversations.get(position).getThreadId(), query, position);
 
                 listView.setAdapter(adapter);
                 listView.setStackFromBottom(true);

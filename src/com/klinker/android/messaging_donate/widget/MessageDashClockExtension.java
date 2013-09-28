@@ -1,4 +1,4 @@
-package com.klinker.android.messaging_donate;
+package com.klinker.android.messaging_donate.widget;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import com.google.android.apps.dashclock.api.DashClockExtension;
 import com.google.android.apps.dashclock.api.ExtensionData;
+import com.klinker.android.messaging_donate.MainActivity;
+import com.klinker.android.messaging_donate.R;
 
 import java.io.*;
 import java.util.ArrayList;

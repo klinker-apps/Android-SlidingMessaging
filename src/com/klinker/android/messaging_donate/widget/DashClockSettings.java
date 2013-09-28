@@ -1,4 +1,4 @@
-package com.klinker.android.messaging_donate;
+package com.klinker.android.messaging_donate.widget;
 
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
+import com.klinker.android.messaging_donate.R;
 
 import java.util.Locale;
 

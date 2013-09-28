@@ -4955,21 +4955,8 @@ public class MainActivity extends FragmentActivity {
             ConversationFragment fragment = new ConversationFragment();
             Bundle args = new Bundle();
 
-            ArrayList<String> inboxNumber = new ArrayList<String>();
-            ArrayList<String> threadIds = new ArrayList<String>();
-            ArrayList<String> group = new ArrayList<String>();
-            for (Conversation i : conversations) {
-                inboxNumber.add(i.getNumber());
-                threadIds.add("" + i.getThreadId());
-                group.add( i.getGroup() ? "1" : "0" );
-            }
-
             args.putInt("position", position);
-            args.putStringArrayList("numbers", inboxNumber);
             args.putString("myId", myContactId);
-            args.putString("myPhone", myPhoneNumber);
-            args.putStringArrayList("threadIds", threadIds);
-            args.putStringArrayList("group", group);
             fragment.setArguments(args);
             return fragment;
         }

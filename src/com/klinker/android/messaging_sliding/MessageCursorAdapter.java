@@ -53,7 +53,7 @@ public class MessageCursorAdapter extends CursorAdapter {
     private final String myId;
     private final String inboxNumbers;
     private final int threadPosition;
-    private final String threadIds;
+    private final long threadIds;
     private final Bitmap contactImage;
     private final Bitmap myImage;
     private SharedPreferences sharedPrefs;
@@ -67,7 +67,7 @@ public class MessageCursorAdapter extends CursorAdapter {
     private boolean touchwiz = false;
     private final boolean lookForVoice;
 
-    public MessageCursorAdapter(Activity context, String myId, String inboxNumbers, String ids, Cursor query, int threadPosition) {
+    public MessageCursorAdapter(Activity context, String myId, String inboxNumbers, long ids, Cursor query, int threadPosition) {
         super(context, query, 0);
         this.context = context;
         this.myId = myId;
@@ -1133,9 +1133,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                         builder.setPositiveButton(resources.getString(R.string.yes), new DialogInterface.OnClickListener() {
                                             @SuppressLint("SimpleDateFormat")
                                             public void onClick(DialogInterface dialog, int id) {
-                                                String threadId = threadIds;
-
-                                                deleteSMS(context, threadId, idF);
+                                                deleteSMS(context, threadIds, idF);
 
                                                 try {
                                                     ((MainActivity) context).refreshViewPager();
@@ -1144,7 +1142,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                                 }
                                             }
 
-                                            public void deleteSMS(Context context, String threadId, String messageId) {
+                                            public void deleteSMS(Context context, long threadId, String messageId) {
                                                 try {
                                                     context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/" + threadId + "/"), "_id=" + messageId, null);
                                                 } catch (Exception e) {
@@ -1271,14 +1269,6 @@ public class MessageCursorAdapter extends CursorAdapter {
 
                                         MainActivity.messageEntry2.setText(tv2.getText().toString());
 
-                                        try
-                                        {
-
-                                        } catch (Exception e)
-                                        {
-
-                                        }
-
                                         break;
                                     case 3:
                                         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -1286,13 +1276,11 @@ public class MessageCursorAdapter extends CursorAdapter {
                                         builder.setPositiveButton(resources.getString(R.string.yes), new DialogInterface.OnClickListener() {
                                             @SuppressLint("SimpleDateFormat")
                                             public void onClick(DialogInterface dialog, int id) {
-                                                String threadId = threadIds;
-
-                                                deleteSMS(context, threadId, idF);
+                                                deleteSMS(context, threadIds, idF);
                                                 ((MainActivity) context).refreshViewPager();
                                             }
 
-                                            public void deleteSMS(Context context, String threadId, String messageId) {
+                                            public void deleteSMS(Context context, long threadId, String messageId) {
                                                 try {
                                                     context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/" + threadId + "/"), "_id=" + messageId, null);
                                                 } catch (Exception e) {
@@ -1411,13 +1399,11 @@ public class MessageCursorAdapter extends CursorAdapter {
                                     builder.setPositiveButton(resources.getString(R.string.yes), new DialogInterface.OnClickListener() {
                                         @SuppressLint("SimpleDateFormat")
                                         public void onClick(DialogInterface dialog, int id) {
-                                            String threadId = threadIds;
-
-                                            deleteSMS(context, threadId, idF);
+                                            deleteSMS(context, threadIds, idF);
                                             ((MainActivity) context).refreshViewPager();
                                         }
 
-                                        public void deleteSMS(Context context, String threadId, String messageId) {
+                                        public void deleteSMS(Context context, long threadId, String messageId) {
                                             try {
                                                 context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/" + threadId + "/"), "_id=" + messageId, null);
                                             } catch (Exception e) {
@@ -1509,7 +1495,7 @@ public class MessageCursorAdapter extends CursorAdapter {
 
         if (cursor.getPosition() == 0 && voice) {
             if (!((MainActivity) context).threadsThroughVoice.contains(threadIds)) {
-                ((MainActivity) context).threadsThroughVoice.add(Long.parseLong(threadIds));
+                ((MainActivity) context).threadsThroughVoice.add(threadIds);
 
                 if (((MainActivity) context).firstRun) {
                     ((MainActivity) context).voiceButton.performClick();
