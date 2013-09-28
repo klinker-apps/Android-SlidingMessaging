@@ -2,7 +2,6 @@ Version 7.60
 
 Jake:
     - move all the write and read to file functions to ioutil
-    - fix landscape mode
     - if voice fails, try fetching a new rnrse and save that value to sharedprefs
     - Look at menu array adapter and how it can be changed for more speed getting contact pictures, is that really the problem? Look at the stock apps get contact picture method in the contact class
     - redo the text message receiver for cleaner, more efficient code and send broadcast at the end of it to refresh instead of creating a receiver in the app, like i've done for mms
