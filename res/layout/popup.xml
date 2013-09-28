@@ -29,10 +29,9 @@
 
     <TextView
         android:id="@+id/popupDate"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/popupName"
-        android:layout_alignRight="@+id/popupName"
         android:layout_below="@+id/popupName"
         android:paddingLeft="10dp"
         android:text="@string/placeholder"

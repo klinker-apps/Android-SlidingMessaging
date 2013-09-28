@@ -63,7 +63,7 @@ public class SendUtil {
 
         final Message message = new Message(body, number);
         message.setImages(images);
-
+        
         sendTransaction.sendNewMessage(message, Transaction.NO_THREAD_ID);
 
         Intent mrIntent = new Intent();
