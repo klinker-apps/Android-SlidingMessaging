@@ -3738,6 +3738,8 @@ public class MainActivity extends FragmentActivity {
                     emoji2Open = false;
                     messageScreen2.removeView(tabs);
                     messageScreen2.removeView(vp);
+
+                    mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
                 }
             } else {
                 if(emojiOpen) {

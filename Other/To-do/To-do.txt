@@ -1,7 +1,7 @@
 Version 7.60
 
 Jake:
-    - emoji keyboard for drawer
+    - Adjust the drawer width to 2/3 of the screen when in phone or phablet mode and smaller in phablet2 or tablet mode, dont just set to 315dp all the time, that wont work well.
     - move all the write and read to file functions to ioutil
     - fix landscape mode
     - if voice fails, try fetching a new rnrse and save that value to sharedprefs
