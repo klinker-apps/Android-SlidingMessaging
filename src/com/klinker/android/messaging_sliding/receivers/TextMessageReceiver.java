@@ -151,10 +151,9 @@ public class TextMessageReceiver extends BroadcastReceiver {
 						Uri phoneUri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(origin));
 						Cursor phonesCursor = context.getContentResolver().query(phoneUri, new String[] {ContactsContract.Contacts.DISPLAY_NAME}, null, null, null);
 				
-						if(phonesCursor != null && phonesCursor.moveToFirst()) {
+						if (phonesCursor != null && phonesCursor.moveToFirst()) {
 							name = phonesCursor.getString(0);
-						} else
-						{
+						} else {
 							Locale sCachedLocale = Locale.getDefault();
 							int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
 							Editable editable = new SpannableStringBuilder(address);
@@ -167,16 +166,13 @@ public class TextMessageReceiver extends BroadcastReceiver {
 						ArrayList<String> newMessages = readFromFile(context);
 						boolean flag = false;
 						
-						for (int i = 0; i < newMessages.size(); i++)
-						{
-							if (name.equals(newMessages.get(i)))
-							{
+						for (int i = 0; i < newMessages.size(); i++) {
+							if (name.equals(newMessages.get(i))) {
 								flag = true;
 							}
 						}
 						
-						if (flag == false)
-						{
+						if (!flag) {
 							newMessages.add(name);
 						}
 						

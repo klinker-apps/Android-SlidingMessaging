@@ -12,7 +12,7 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
-import com.klinker.android.messaging_donate.MainActivity;
+import com.klinker.android.messaging_donate.utils.ContactUtil;
 import com.klinker.android.messaging_donate.R;
 
 import java.io.File;
@@ -189,7 +189,7 @@ public class BackupService extends IntentService {
                                 date += " " + (DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(myDate));
                             }
 
-                            String name = MainActivity.findContactName(phone, this);
+                            String name = ContactUtil.findContactName(phone, this);
 
                             name = name.replace(" ", "_");
 

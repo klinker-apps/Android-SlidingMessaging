@@ -9,9 +9,10 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import com.klinker.android.messaging_donate.utils.ContactUtil;
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
-import com.klinker.android.messaging_donate.SendUtil;
+import com.klinker.android.messaging_donate.utils.SendUtil;
 import robj.floating.notifications.Extension;
 
 public class FNAction extends BroadcastReceiver {
@@ -41,13 +42,13 @@ public class FNAction extends BroadcastReceiver {
                         // create new reply overlay
                         String editTextHint;
                         try {
-                            editTextHint = context.getResources().getString(R.string.reply_to) + " " + MainActivity.findContactName(FNReceiver.messages.get(id)[0], context);
+                            editTextHint = context.getResources().getString(R.string.reply_to) + " " + ContactUtil.findContactName(FNReceiver.messages.get(id)[0], context);
                         } catch (Exception e) {
                             // uhhh not sure what has happened here, but catch it lol
                             editTextHint = "";
                         }
                         final String previousText = FNReceiver.messages.get(id)[1];
-                        final Bitmap image = MainActivity.getFacebookPhoto(FNReceiver.messages.get(id)[0], context);
+                        final Bitmap image = ContactUtil.getFacebookPhoto(FNReceiver.messages.get(id)[0], context);
                         final Extension.onClickListener imageOnClick = new Extension.onClickListener() {
                             @Override
                             public void onClick() {

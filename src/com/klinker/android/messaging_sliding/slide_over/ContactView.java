@@ -15,9 +15,8 @@ import android.view.Display;
 import android.view.MotionEvent;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import com.klinker.android.messaging_donate.MainActivity;
+import com.klinker.android.messaging_donate.utils.ContactUtil;
 import com.klinker.android.messaging_donate.R;
-import com.klinker.android.messaging_sliding.Conversation;
 
 import java.util.Arrays;
 
@@ -176,8 +175,8 @@ public class  ContactView extends ViewGroup {
             int count = 0;
             do {
                 String id = cursor.getString(cursor.getColumnIndex("_id"));
-                String number = Conversation.findContactNumber(cursor.getString(cursor.getColumnIndex("recipient_ids")), mContext);
-                String name = MainActivity.findContactName(number, mContext);
+                String number = ContactUtil.findContactNumber(cursor.getString(cursor.getColumnIndex("recipient_ids")), mContext);
+                String name = ContactUtil.findContactName(number, mContext);
 
                 Cursor cursor2;
 
@@ -188,7 +187,7 @@ public class  ContactView extends ViewGroup {
                     int count2 = 0;
 
                     contactNames[count] = name;
-                    contactPics[count] = MainActivity.getFacebookPhoto(number, mContext);
+                    contactPics[count] = ContactUtil.getFacebookPhoto(number, mContext);
                     do {
                         /*String s = cursor2.getString(cursor2.getColumnIndex("msg_box"));
 

@@ -29,9 +29,9 @@ import android.widget.ArrayAdapter;
 import android.widget.QuickContactBadge;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import com.klinker.android.messaging_donate.utils.ContactUtil;
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
-import com.klinker.android.messaging_sliding.Conversation;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -258,7 +258,7 @@ public class BatchDeleteAllArrayAdapter extends ArrayAdapter<String> {
 
             @Override
             public void run() {
-                final String number = Conversation.findContactNumber(numbers.get(position), context);
+                final String number = ContactUtil.findContactNumber(numbers.get(position), context);
                 final Bitmap image = Bitmap.createScaledBitmap(getFacebookPhoto(number), MainActivity.contactWidth, MainActivity.contactWidth, true);
 
                 Spanned text;
@@ -269,20 +269,20 @@ public class BatchDeleteAllArrayAdapter extends ArrayAdapter<String> {
                     if (group.get(position).equals("yes"))
                     {
                         text = Html.fromHtml("Group MMS");
-                        names = MainActivity.loadGroupContacts(number, context);
+                        names = ContactUtil.loadGroupContacts(number, context);
                     } else
                     {
-                        text = Html.fromHtml(MainActivity.findContactName(number, context));
+                        text = Html.fromHtml(ContactUtil.findContactName(number, context));
                     }
                 } else
                 {
                     if (group.get(position).equals("yes"))
                     {
                         text = Html.fromHtml("Group MMS");
-                        names = MainActivity.loadGroupContacts(number, context);
+                        names = ContactUtil.loadGroupContacts(number, context);
                     } else
                     {
-                        text = Html.fromHtml(MainActivity.findContactName(number, context));
+                        text = Html.fromHtml(ContactUtil.findContactName(number, context));
                     }
                 }
 

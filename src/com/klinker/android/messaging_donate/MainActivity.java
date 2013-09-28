@@ -11,7 +11,6 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.*;
-import android.graphics.Bitmap.Config;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -22,7 +21,6 @@ import android.net.Uri;
 import android.os.*;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
-import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.PhoneLookup;
 import android.provider.ContactsContract.Profile;
 import android.provider.MediaStore;
@@ -35,7 +33,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.SmsMessage;
-import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.SpannableStringBuilder;
@@ -59,6 +56,8 @@ import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.klinker.android.messaging_donate.receivers.UnlockReceiver;
 import com.klinker.android.messaging_donate.settings.AppSettings;
 import com.klinker.android.messaging_donate.settings.SettingsPagerActivity;
+import com.klinker.android.messaging_donate.utils.ContactUtil;
+import com.klinker.android.messaging_donate.utils.SendUtil;
 import com.klinker.android.messaging_sliding.AttachMore;
 import com.klinker.android.messaging_sliding.ContactSearchArrayAdapter;
 import com.klinker.android.messaging_sliding.Conversation;
@@ -127,6 +126,7 @@ public class MainActivity extends FragmentActivity {
     private Transaction sendTransaction;
 
     public ArrayList<Long> threadsThroughVoice;
+    public ArrayList<String> newMessages;
 
     public static boolean waitToLoad = false;
     public static boolean threadedLoad = true;
@@ -174,8 +174,7 @@ public class MainActivity extends FragmentActivity {
     private String sendToThread = null;
     private String sendToMessage;
 
-    protected EditText messageEntry;
-    public static EditText messageEntry1;
+    protected static EditText messageEntry;
     public static EditText messageEntry2;
     private TextView mTextView;
     private ImageButton sendButton;
@@ -392,7 +391,7 @@ public class MainActivity extends FragmentActivity {
         setUpTitleBar();
 
         menuLayout = new ListView(this);
-        myPhoneNumber = getMyPhoneNumber();
+        myPhoneNumber = ContactUtil.getMyPhoneNumber(this);
 
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         final Activity activity = this;
@@ -612,7 +611,7 @@ public class MainActivity extends FragmentActivity {
                 for (int i = 0; i < numbers.length; i++) {
                     currentNumbers.add(numbers[i]);
                     currentTypes.add("");
-                    currentNames.add(findContactName(numbers[i], context));
+                    currentNames.add(ContactUtil.findContactName(numbers[i], context));
                 }
 
                 getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
@@ -1384,8 +1383,7 @@ public class MainActivity extends FragmentActivity {
     }
 
     public void setUpWindow() {
-        if (settings.lightActionBar)
-        {
+        if (settings.lightActionBar) {
             setTheme(R.style.HangoutsTheme);
         }
 
@@ -1414,41 +1412,31 @@ public class MainActivity extends FragmentActivity {
         String action = intent.getAction();
 
         try {
-            if (action != null)
-            {
-                if (action.equals(Intent.ACTION_SENDTO))
-                {
+            if (action != null) {
+                if (action.equals(Intent.ACTION_SENDTO)) {
                     sendTo = true;
 
-                    try
-                    {
-                        if (intent.getDataString().startsWith("smsto:"))
-                        {
+                    try {
+                        if (intent.getDataString().startsWith("smsto:")) {
                             sendMessageTo = Uri.decode(intent.getDataString()).substring("smsto:".length()).replace("(", "").replace(")", "").replace("-", "").replace(" ", "");
                             fromNotification = false;
-                        } else
-                        {
+                        } else {
                             sendMessageTo = Uri.decode(intent.getDataString()).substring("sms:".length()).replace("(", "").replace(")", "").replace("-", "").replace(" ", "");
                             fromNotification = false;
                         }
-                    } catch (Exception e)
-                    {
+                    } catch (Exception e) {
                         sendMessageTo = intent.getStringExtra("com.klinker.android.OPEN").replace("(", "").replace(")", "").replace("-", "").replace(" ", "");
                         fromNotification = true;
                     }
-                } else if (action.equals(Intent.ACTION_SEND))
-                {
+                } else if (action.equals(Intent.ACTION_SEND)) {
                     Bundle extras = intent.getExtras();
 
-                    if (extras != null)
-                    {
-                        if (extras.containsKey(Intent.EXTRA_TEXT))
-                        {
+                    if (extras != null) {
+                        if (extras.containsKey(Intent.EXTRA_TEXT)) {
                             whatToSend = (String) extras.getCharSequence(Intent.EXTRA_TEXT);
                         }
 
-                        if (extras.containsKey(Intent.EXTRA_STREAM))
-                        {
+                        if (extras.containsKey(Intent.EXTRA_STREAM)) {
                             sendTo = true;
                             sendMessageTo = "";
                             fromNotification = false;
@@ -1460,10 +1448,8 @@ public class MainActivity extends FragmentActivity {
             {
                 Bundle extras = intent.getExtras();
 
-                if (extras != null)
-                {
-                    if (extras.containsKey("com.klinker.android.OPEN_THREAD"))
-                    {
+                if (extras != null) {
+                    if (extras.containsKey("com.klinker.android.OPEN_THREAD")) {
                         sendToThread = extras.getString("com.klinker.android.OPEN_THREAD");
                         sendToMessage = extras.getString("com.klinker.android.CURRENT_TEXT");
                     }
@@ -1477,64 +1463,47 @@ public class MainActivity extends FragmentActivity {
     public void setUpTitleBar() {
         title = (PagerTitleStrip) findViewById(R.id.pager_title_strip);
 
-        if (settings.pageorMenu2)
-        {
+        if (settings.pageorMenu2) {
             title.setTextSpacing(5000);
         }
 
-        if (!settings.customTheme)
-        {
-            if (settings.titleTextColor)
-            {
+        if (!settings.customTheme) {
+            if (settings.titleTextColor) {
                 title.setTextColor(getResources().getColor(R.color.black));
             }
-        } else
-        {
+        } else {
             title.setTextColor(settings.titleBarTextColor);
         }
 
-        if (!settings.titleCaps)
-        {
+        if (!settings.titleCaps) {
             title.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
         }
 
-        if (settings.useTitleBar)
-        {
-            if (!settings.customTheme)
-            {
+        if (settings.useTitleBar) {
+            if (!settings.customTheme) {
                 String titleColor = sharedPrefs.getString("title_color", "blue");
 
-                if (titleColor.equals("blue"))
-                {
+                if (titleColor.equals("blue")) {
                     title.setBackgroundColor(getResources().getColor(R.color.holo_blue));
-                } else if (titleColor.equals("orange"))
-                {
+                } else if (titleColor.equals("orange")) {
                     title.setBackgroundColor(getResources().getColor(R.color.holo_orange));
-                } else if (titleColor.equals("red"))
-                {
+                } else if (titleColor.equals("red")) {
                     title.setBackgroundColor(getResources().getColor(R.color.holo_red));
-                } else if (titleColor.equals("green"))
-                {
+                } else if (titleColor.equals("green")) {
                     title.setBackgroundColor(getResources().getColor(R.color.holo_green));
-                } else if (titleColor.equals("purple"))
-                {
+                } else if (titleColor.equals("purple")) {
                     title.setBackgroundColor(getResources().getColor(R.color.holo_purple));
-                } else if (titleColor.equals("grey"))
-                {
+                } else if (titleColor.equals("grey")) {
                     title.setBackgroundColor(getResources().getColor(R.color.grey));
-                } else if (titleColor.equals("black"))
-                {
+                } else if (titleColor.equals("black")) {
                     title.setBackgroundColor(getResources().getColor(R.color.pitch_black));
-                } else if (titleColor.equals("darkgrey"))
-                {
+                } else if (titleColor.equals("darkgrey")) {
                     title.setBackgroundColor(getResources().getColor(R.color.darkgrey));
                 }
-            } else
-            {
+            } else {
                 title.setBackgroundColor(settings.titleBarColor);
             }
-        } else
-        {
+        } else {
             title.setVisibility(View.GONE);
         }
     }
@@ -1642,146 +1611,10 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
-    // TODO move this to conversation class, there was an conflict and i didn't know what you wanted to do with it.
-    public static String findContactName(String number, Context context)
-    {
-        try {
-            String name = "";
-
-            String origin = number;
-
-            if (origin.length() != 0)
-            {
-                Uri phoneUri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(origin));
-                Cursor phonesCursor = context.getContentResolver().query(phoneUri, new String[] {ContactsContract.Contacts.DISPLAY_NAME_PRIMARY, ContactsContract.RawContacts._ID}, null, null, ContactsContract.Contacts.DISPLAY_NAME + " desc limit 1");
-
-                if(phonesCursor != null && phonesCursor.moveToFirst()) {
-                    name = phonesCursor.getString(0);
-                } else
-                {
-                    if (!number.equals(""))
-                    {
-                        try
-                        {
-                            Locale sCachedLocale = Locale.getDefault();
-                            int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
-                            Editable editable = new SpannableStringBuilder(number);
-                            PhoneNumberUtils.formatNumber(editable, sFormatType);
-                            name = editable.toString();
-                        } catch (Exception e)
-                        {
-                            name = number;
-                        }
-                    } else
-                    {
-                        name = "No Information";
-                    }
-                }
-
-                phonesCursor.close();
-            } else
-            {
-                if (!number.equals(""))
-                {
-                    try
-                    {
-                        Long.parseLong(number.replaceAll("[^0-9]", ""));
-                        Locale sCachedLocale = Locale.getDefault();
-                        int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
-                        Editable editable = new SpannableStringBuilder(number);
-                        PhoneNumberUtils.formatNumber(editable, sFormatType);
-                        name = editable.toString();
-                    } catch (Exception e)
-                    {
-                        name = number;
-                    }
-                } else
-                {
-                    name = "No Information";
-                }
-            }
-
-            return name;
-        } catch (Exception e) {
-            // something weird when looking up the number I think (mms tokens sometimes give a weird initial number instead of phone number
-            return number;
-        }
-    }
-
-    // TODO move this to conversation class, there was an conflict and i didn't know what you wanted to do with it.
-    public static String loadGroupContacts(String numbers, Context context)
-    {
-        String names = "";
-        String[] number;
-
-        try
-        {
-            number = numbers.split(" ");
-        } catch (Exception e)
-        {
-            return "";
-        }
-
-        for (int i = 0; i < number.length; i++)
-        {
-            try
-            {
-                String origin = number[i];
-
-                Uri phoneUri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(origin));
-                Cursor phonesCursor = context.getContentResolver().query(phoneUri, new String[] {ContactsContract.Contacts.DISPLAY_NAME_PRIMARY, ContactsContract.RawContacts._ID}, null, null, ContactsContract.Contacts.DISPLAY_NAME + " desc limit 1");
-
-                if(phonesCursor != null && phonesCursor.moveToFirst()) {
-                    names += ", " + phonesCursor.getString(0);
-                } else
-                {
-                    try
-                    {
-                        Locale sCachedLocale = Locale.getDefault();
-                        int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
-                        Editable editable = new SpannableStringBuilder(number[i]);
-                        PhoneNumberUtils.formatNumber(editable, sFormatType);
-                        names += ", " + editable.toString();
-                    } catch (Exception e)
-                    {
-                        names += ", " + number;
-                    }
-                }
-
-                if (phonesCursor != null) {
-                    phonesCursor.close();
-                }
-            } catch (IllegalArgumentException e)
-            {
-                try
-                {
-                    Locale sCachedLocale = Locale.getDefault();
-                    int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
-                    Editable editable = new SpannableStringBuilder(number[i]);
-                    PhoneNumberUtils.formatNumber(editable, sFormatType);
-                    names += ", " + editable.toString();
-                } catch (Exception f)
-                {
-                    names += ", " + number;
-                }
-            }
-        }
-
-        try
-        {
-            return names.substring(2);
-        } catch (Exception e)
-        {
-            return "";
-        }
-    }
-
     @SuppressWarnings("deprecation")
-    public void setUpSendbar()
-    {
+    public void setUpSendbar() {
         mTextView = (TextView) findViewById(R.id.charsRemaining2);
         messageEntry = (EditText) findViewById(R.id.messageEntry);
-        messageEntry1 = (EditText) findViewById(R.id.messageEntry);
         sendButton = (ImageButton) findViewById(R.id.sendButton);
         emojiButton = (ImageButton) findViewById(R.id.display_emoji);
         voiceButton = (ImageButton) findViewById(R.id.voiceButton);
@@ -1798,27 +1631,22 @@ public class MainActivity extends FragmentActivity {
         deviceType = messageEntry.getTag().toString();
 
         try {
-            if (deviceType.equals("phablet") || deviceType.equals("tablet"))
-            {
+            if (deviceType.equals("phablet") || deviceType.equals("tablet")) {
                 getActionBar().setDisplayHomeAsUpEnabled(false);
             }
         } catch (Exception e) {
             // no action bar, dialog theme
         }
 
-        if (!settings.keyboardType)
-        {
+        if (!settings.keyboardType) {
             messageEntry.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
             messageEntry.setImeOptions(EditorInfo.IME_ACTION_NONE);
         }
 
-        if (deviceType.equals("phablet") || deviceType.equals("tablet"))
-        {
-            if (!settings.keyboardType)
-            {
+        if (deviceType.equals("phablet") || deviceType.equals("tablet")) {
+            if (!settings.keyboardType) {
                 messageEntry.setImeOptions(EditorInfo.IME_ACTION_NONE | EditorInfo.IME_FLAG_NO_EXTRACT_UI);
-            } else
-            {
+            } else {
                 messageEntry.setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI);
             }
         }
@@ -1827,6 +1655,7 @@ public class MainActivity extends FragmentActivity {
 
         messageEntry.addTextChangedListener(new TextWatcher() {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
             }
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -1844,8 +1673,7 @@ public class MainActivity extends FragmentActivity {
                 }
                 int length = Integer.parseInt(String.valueOf(s.length()));
 
-                if (!settings.signature.equals(""))
-                {
+                if (!settings.signature.equals("")) {
                     length += ("\n" + settings.signature).length();
                 }
 
@@ -1855,50 +1683,41 @@ public class MainActivity extends FragmentActivity {
 
                 int size = 160;
 
-                if (matcher.find() && !settings.stripUnicode)
-                {
+                if (matcher.find() && !settings.stripUnicode) {
                     size = 70;
                 }
 
                 int pages = 1;
 
-                while (length > size)
-                {
+                while (length > size) {
                     length-=size;
                     pages++;
                 }
 
                 mTextView.setText(pages + "/" + (size - length));
 
-                if ((pages == 1 && (size - length) <= 30) || pages != 1)
-                {
+                if ((pages == 1 && (size - length) <= 30) || pages != 1) {
                     mTextView.setVisibility(View.VISIBLE);
                 }
 
-                if ((pages + "/" + (size - length)).equals("1/31"))
-                {
+                if ((pages + "/" + (size - length)).equals("1/31")) {
                     mTextView.setVisibility(View.GONE);
                 }
 
-                if ((pages + "/" + (size - length)).equals("1/160"))
-                {
+                if ((pages + "/" + (size - length)).equals("1/160")) {
                     mTextView.setVisibility(View.GONE);
                 }
 
-                if (imageAttach.getVisibility() == View.VISIBLE || conversations.get(mViewPager.getCurrentItem()).getGroup())
-                {
+                if (imageAttach.getVisibility() == View.VISIBLE || conversations.get(mViewPager.getCurrentItem()).getGroup()) {
                     mTextView.setVisibility(View.GONE);
                 }
 
-                if (settings.sendAsMMS && pages > settings.mmsAfter)
-                {
+                if (settings.sendAsMMS && pages > settings.mmsAfter) {
                     mTextView.setVisibility(View.GONE);
                 }
 
-                if (settings.sendWithReturn)
-                {
-                    if (messageEntry.getText().toString().endsWith("\n"))
-                    {
+                if (settings.sendWithReturn) {
+                    if (messageEntry.getText().toString().endsWith("\n")) {
                         messageEntry.setText(messageEntry.getText().toString().substring(0, messageEntry.getText().toString().length() - 1));
                         sendButton.performClick();
                     }
@@ -1909,8 +1728,7 @@ public class MainActivity extends FragmentActivity {
 
             public void afterTextChanged(Editable s) {
                 if (settings.enableDrafts) {
-                    if (newDraft == 0)
-                    {
+                    if (newDraft == 0) {
                         newDraft = conversations.get(mViewPager.getCurrentItem()).getThreadId();
                     }
                 }
@@ -1967,8 +1785,7 @@ public class MainActivity extends FragmentActivity {
                                     Thread.sleep(2000);
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
-                                } finally
-                                {
+                                } finally {
                                     InputMethodManager keyboard = (InputMethodManager)
                                             getSystemService(Context.INPUT_METHOD_SERVICE);
                                     keyboard.hideSoftInputFromWindow(messageEntry.getWindowToken(), 0);
@@ -1985,7 +1802,7 @@ public class MainActivity extends FragmentActivity {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            final Message message = new Message(text, Conversation.findContactNumber(recipientId, context).replace(";", ""));
+                            final Message message = new Message(text, ContactUtil.findContactNumber(recipientId, context).replace(";", ""));
 
                             if (image) {
                                 ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
@@ -2037,16 +1854,16 @@ public class MainActivity extends FragmentActivity {
                                 }
                             } else {
                                 if (sendTransaction.checkMMS(message)) {
-                                    if (multipleAttachments == false)
+                                    if (!multipleAttachments)
                                     {
                                         Intent sendIntent = new Intent(Intent.ACTION_SEND);
-                                        sendIntent.putExtra("address", Conversation.findContactNumber(recipientId, context).replace(";", ""));
+                                        sendIntent.putExtra("address", ContactUtil.findContactNumber(recipientId, context).replace(";", ""));
                                         sendIntent.putExtra("sms_body", text);
                                         sendIntent.putExtra(Intent.EXTRA_STREAM, attachedImage);
                                         sendIntent.setType("image/png");
 
                                         Intent htcIntent = new Intent("android.intent.action.SEND_MSG");
-                                        htcIntent.putExtra("address", Conversation.findContactNumber(recipientId, context).replace(";", ""));
+                                        htcIntent.putExtra("address", ContactUtil.findContactNumber(recipientId, context).replace(";", ""));
                                         htcIntent.putExtra("sms_body", text);
                                         htcIntent.putExtra(Intent.EXTRA_STREAM, attachedImage);
                                         htcIntent.setType("image/png");
@@ -2070,13 +1887,10 @@ public class MainActivity extends FragmentActivity {
                                 @Override
                                 public void run() {
                                     if (settings.enableDrafts) {
-                                        if (fromDraft)
-                                        {
+                                        if (fromDraft) {
                                             try {
-                                                for (int i = 0; i < draftNames.size(); i++)
-                                                {
-                                                    if (draftNames.get(i) == (threadId))
-                                                    {
+                                                for (int i = 0; i < draftNames.size(); i++) {
+                                                    if (draftNames.get(i) == (threadId)) {
                                                         draftsToDelete.add(draftNames.get(i));
                                                         draftNames.remove(i);
                                                         drafts.remove(i);
@@ -2084,9 +1898,7 @@ public class MainActivity extends FragmentActivity {
                                                         break;
                                                     }
                                                 }
-                                            } catch (Exception e) {
-
-                                            }
+                                            } catch (Exception e) { }
                                         }
                                     }
 
@@ -2134,11 +1946,9 @@ public class MainActivity extends FragmentActivity {
             messageEntry.setTextSize(Integer.parseInt(settings.textSize.substring(0,1)));
         }
 
-        if (!settings.emoji)
-        {
+        if (!settings.emoji) {
             emojiButton.setVisibility(View.GONE);
-        } else
-        {
+        } else {
             emojiButton.setOnClickListener(new OnClickListener() {
 
                 @Override
@@ -2146,10 +1956,8 @@ public class MainActivity extends FragmentActivity {
 
                     final String menuOption = sharedPrefs.getString("page_or_menu2", "2");
 
-                    if(settings.emojiKeyboard && settings.emojiType)
-                    {
-                        if (!emojiOpen)
-                        {
+                    if(settings.emojiKeyboard && settings.emojiType) {
+                        if (!emojiOpen) {
                             emojiOpen = true;
 
                             messageScreen.addView(tabs, SlidingTabParams);
@@ -2161,13 +1969,12 @@ public class MainActivity extends FragmentActivity {
 
                             InputMethodManager keyboard = (InputMethodManager)
                                     getSystemService(Context.INPUT_METHOD_SERVICE);
-                            keyboard.hideSoftInputFromWindow(messageEntry1.getWindowToken(), 0);
+                            keyboard.hideSoftInputFromWindow(messageEntry.getWindowToken(), 0);
 
-                            messageEntry1.setOnTouchListener(new View.OnTouchListener() {
+                            messageEntry.setOnTouchListener(new View.OnTouchListener() {
                                 @Override
                                 public boolean onTouch(View v, MotionEvent event) {
-                                    if(emojiOpen)
-                                    {
+                                    if(emojiOpen) {
                                         messageScreen.removeView(tabs);
                                         messageScreen.removeView(vp);
 
@@ -2181,8 +1988,7 @@ public class MainActivity extends FragmentActivity {
                                     return false;
                                 }
                             });
-                        } else
-                        {
+                        } else {
                             emojiOpen = false;
 
                             if (menuOption.equals("1")) {
@@ -2209,13 +2015,11 @@ public class MainActivity extends FragmentActivity {
                         final StickyGridHeadersGridView emojiGrid = (StickyGridHeadersGridView) frame.findViewById(R.id.emojiGrid);
                         Button okButton = (Button) frame.findViewById(R.id.emoji_ok);
 
-                        if (settings.emojiType)
-                        {
+                        if (settings.emojiType) {
                             emojiGrid.setAdapter(new EmojiAdapter2(context));
                             emojiGrid.setOnItemClickListener(new OnItemClickListener() {
 
-                                public void onItemClick(AdapterView<?> parent, View v, int position, long id)
-                                {
+                                public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                                     editText.setText(EmojiConverter2.getSmiledText(context, editText.getText().toString() + EmojiAdapter2.mEmojiTexts[position]));
                                     editText.setSelection(editText.getText().length());
                                 }
@@ -2255,8 +2059,7 @@ public class MainActivity extends FragmentActivity {
                                     emojiGrid.setSelection(153 + 162 + 178 + 122 + (7 * 7));
                                 }
                             });
-                        } else
-                        {
+                        } else {
                             emojiGrid.setAdapter(new EmojiAdapter(context));
                             emojiGrid.setOnItemClickListener(new OnItemClickListener() {
 
@@ -2286,12 +2089,10 @@ public class MainActivity extends FragmentActivity {
 
                             @Override
                             public void onClick(View v) {
-                                if (settings.emojiType)
-                                {
+                                if (settings.emojiType) {
                                     messageEntry.setText(EmojiConverter2.getSmiledText(context, messageEntry.getText().toString() + editText.getText().toString()));
                                     messageEntry.setSelection(messageEntry.getText().length());
-                                } else
-                                {
+                                } else {
                                     messageEntry.setText(EmojiConverter.getSmiledText(context, messageEntry.getText().toString() + editText.getText().toString()));
                                     messageEntry.setSelection(messageEntry.getText().length());
                                 }
@@ -2396,14 +2197,13 @@ public class MainActivity extends FragmentActivity {
     private static EmojiDataSource dataSource;
     public static ArrayList<Recent> recents;
 
-    public static void insertEmoji(String emoji, int icon)
-    {
+    public static void insertEmoji(String emoji, int icon) {
         EditText input;
 
-        if(menu.isSecondaryMenuShowing()) {
+        if (menu.isSecondaryMenuShowing()) {
             input = messageEntry2;
         } else {
-            input = messageEntry1;
+            input = messageEntry;
         }
 
         input.setEnabled(false);
@@ -2415,10 +2215,10 @@ public class MainActivity extends FragmentActivity {
         input.setEnabled(true);
         input.setSelection(beforeSelectionStart + (input.getText().toString().length() - beforeLength));
 
-        for (int i = 0; i < recents.size(); i++) {
-            if (recents.get(i).text.equals(emoji)) {
+        for (Recent recent : recents) {
+            if (recent.text.equals(emoji)) {
                 dataSource.updateRecent(icon + "");
-                recents.get(i).count++;
+                recent.count++;
                 return;
             }
         }
@@ -2468,10 +2268,8 @@ public class MainActivity extends FragmentActivity {
     }
 
     @SuppressWarnings("deprecation")
-    public void createMenu()
-    {
-        if (deviceType.equals("phablet") || deviceType.equals("tablet"))
-        {
+    public void createMenu() {
+        if (deviceType.equals("phablet") || deviceType.equals("tablet")) {
             ListFragment newFragment = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.menuList);
             final ListView menuLayout = newFragment.getListView();
             if (settings.limitConversationsAtStart && conversations.size() > 10) {
@@ -2490,19 +2288,11 @@ public class MainActivity extends FragmentActivity {
                 footer.setTextColor(settings.ctNameTextColor);
                 menuLayout.addFooterView(footer);
             }
-            // FIXME inefficient, but i didn't want to change things to much
 
-            ArrayList<String> body = new ArrayList<String>();
-            for (Conversation i : conversations) {
-                body.add(i.getBody());
-            }
+            newFragment.setListAdapter(new MenuArrayAdapter(this, conversations, MainActivity.mViewPager));
 
-            newFragment.setListAdapter(new MenuArrayAdapter(this, conversations, body, MainActivity.mViewPager));
-
-            if (settings.customBackground)
-            {
-                try
-                {
+            if (settings.customBackground) {
+                try {
                     BitmapFactory.Options options = new BitmapFactory.Options();
 
                     options.inSampleSize = 2;
@@ -2510,26 +2300,21 @@ public class MainActivity extends FragmentActivity {
                     this.getResources();
                     Drawable d = new BitmapDrawable(Resources.getSystem(),myBitmap);
                     newFragment.getView().setBackgroundDrawable(d);
-                } catch (Error e)
-                {
+                } catch (Error e) {
 
                 }
-            } else
-            {
+            } else {
                 newFragment.getView().setBackgroundColor(settings.ctConversationListBackground);
             }
 
             menuLayout.setDivider(new ColorDrawable(settings.ctConversationDividerColor));
 
-            if (settings.messageDividerVisible)
-            {
+            if (settings.messageDividerVisible) {
                 menuLayout.setDividerHeight(1);
-            } else
-            {
+            } else {
                 menuLayout.setDividerHeight(0);
             }
-        } else
-        {
+        } else {
             if (settings.limitConversationsAtStart && conversations.size() > 10) {
                 final Button footer = new Button(this);
                 footer.setOnClickListener(new OnClickListener() {
@@ -2547,10 +2332,8 @@ public class MainActivity extends FragmentActivity {
                 menuLayout.addFooterView(footer);
             }
 
-            if (settings.customBackground)
-            {
-                try
-                {
+            if (settings.customBackground) {
+                try {
                     BitmapFactory.Options options = new BitmapFactory.Options();
 
                     options.inSampleSize = 2;
@@ -2558,12 +2341,10 @@ public class MainActivity extends FragmentActivity {
                     this.getResources();
                     Drawable d = new BitmapDrawable(Resources.getSystem(),myBitmap);
                     menuLayout.setBackgroundDrawable(d);
-                } catch (Error e)
-                {
+                } catch (Error e) {
 
                 }
-            } else
-            {
+            } else {
                 menuLayout.setBackgroundColor(settings.ctConversationListBackground);
             }
 
@@ -2572,947 +2353,45 @@ public class MainActivity extends FragmentActivity {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    // FIXME inefficient, but i didn't want to change things to much
-
-                    ArrayList<String> body = new ArrayList<String>();
-                    for (Conversation i : conversations) {
-                        body.add(i.getBody());
-                    }
-
-                    menuAdapter = new MenuArrayAdapter(activity, conversations, body, MainActivity.mViewPager);
+                    menuAdapter = new MenuArrayAdapter(activity, conversations, MainActivity.mViewPager);
                     menuLayout.setAdapter(menuAdapter);
                     menuLayout.setDivider(new ColorDrawable(settings.ctConversationDividerColor));
 
-                    if (settings.messageDividerVisible)
-                    {
+                    if (settings.messageDividerVisible) {
                         menuLayout.setDividerHeight(1);
-                    } else
-                    {
+                    } else {
                         menuLayout.setDividerHeight(0);
                     }
                 }
             }, 100);
         }
 
-        LayoutInflater inflater2 = (LayoutInflater) this
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        final Context context = this;
-
-        //newMessageView = inflater2.inflate(R.layout.new_message_frame, (ViewGroup) this.getWindow().getDecorView(), false);
-
-        final TextView mTextView = (TextView) newMessageView.findViewById(R.id.charsRemaining2);
-        final EditText mEditText = (EditText) newMessageView.findViewById(R.id.messageEntry2);
-        //messageEntry2 = mEditText;
-        final ImageButton sendButton = (ImageButton) newMessageView.findViewById(R.id.sendButton);
-        //imageAttachBackground2 = newMessageView.findViewById(R.id.image_attachment_view_background);
-        //imageAttach2 = (ImageAttachmentView) newMessageView.findViewById(R.id.image_attachment_view);
-        ImageButton contactLister = (ImageButton) newMessageView.findViewById(R.id.contactLister);
-        //subjectLine2 = newMessageView.findViewById(R.id.subjectBar);
-        //subjectEntry2 = (EditText) newMessageView.findViewById(R.id.subjectEntry);
-        //subjectDelete2 = (ImageButton) newMessageView.findViewById(R.id.subjectDelete);
-
-        /*mTextView.setVisibility(View.GONE);
-        mEditText.requestFocus();
-
-        mEditText.addTextChangedListener(new TextWatcher() {
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                int length = Integer.parseInt(String.valueOf(s.length()));
-
-                if (!settings.signature.equals(""))
-                {
-                    length += ("\n" + settings.signature).length();
-                }
-
-                String patternStr = "[^" + Utils.GSM_CHARACTERS_REGEX + "]";
-                Pattern pattern = Pattern.compile(patternStr);
-                Matcher matcher = pattern.matcher(s);
-
-                int size = 160;
-
-                if (matcher.find() && !settings.stripUnicode)
-                {
-                    size = 70;
-                }
-
-                int pages = 1;
-
-                while (length > size)
-                {
-                    length-=size;
-                    pages++;
-                }
-
-                mTextView.setText(pages + "/" + (size - length));
-
-                if ((pages == 1 && (size - length) <= 30) || pages != 1)
-                {
-                    mTextView.setVisibility(View.VISIBLE);
-                }
-
-                if ((pages + "/" + (size - length)).equals("1/31"))
-                {
-                    mTextView.setVisibility(View.GONE);
-                }
-
-                if ((pages + "/" + (size - length)).equals("1/160"))
-                {
-                    mTextView.setVisibility(View.GONE);
-                }
-
-                if (imageAttach2.getVisibility() == View.VISIBLE)
-                {
-                    mTextView.setVisibility(View.GONE);
-                }
-
-                if (settings.sendAsMMS && pages > settings.mmsAfter)
-                {
-                    mTextView.setVisibility(View.GONE);
-                }
-
-                if (settings.sendWithReturn)
-                {
-                    if (mEditText.getText().toString().endsWith("\n"))
-                    {
-                        mEditText.setText(mEditText.getText().toString().substring(0, mEditText.getText().toString().length() - 1));
-                        sendButton.performClick();
-                    }
-                }
-
-                mEditText.setError(null);
-            }
-
-            public void afterTextChanged(Editable s) {
-            }
-        });
-
-        if (!settings.keyboardType)
-        {
-            mEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
-            mEditText.setImeOptions(EditorInfo.IME_ACTION_NONE);
-        }
-
-
-        final EditText contact = (EditText) newMessageView.findViewById(R.id.contactEntry);
-
-        final ListPopupWindow lpw = new ListPopupWindow(this);
-        lpw.setBackgroundDrawable(new ColorDrawable(settings.ctConversationListBackground));
-
-        lpw.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                final ArrayList<String> currentNames = new ArrayList<String>(), currentNumbers = new ArrayList<String>(), currentTypes = new ArrayList<String>();
-
-                String[] numbers = contact.getText().toString().split("; ");
-
-                for (int i = 0; i < numbers.length; i++)
-                {
-                    currentNumbers.add(numbers[i]);
-                    currentTypes.add("");
-                    currentNames.add(findContactName(numbers[i], context));
-                }
-
-                getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        ListView current = (ListView) newMessageView.findViewById(R.id.contactSearch);
-
-                        if (!currentNames.get(0).equals("No Information"))
-                        {
-                            current.setAdapter(new ContactSearchArrayAdapter((Activity)context, currentNames, currentNumbers, currentTypes));
-                        } else
-                        {
-                            current.setAdapter(new ContactSearchArrayAdapter((Activity)context, new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>()));
-                        }
-                    }
-
-                });
-            }
-        });
-
-        lpw.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1,
-                                    int position, long arg3) {
-
-                TextView view2 = (TextView) arg1.findViewById(R.id.receivedMessage);
-
-                String[] t1 = contact.getText().toString().split("; ");
-                String string = "";
-
-                for (int i = 0; i < t1.length - 1; i++) {
-                    string += t1[i] + "; ";
-                }
-
-                contact.setText(string + view2.getText() + "; ");
-                contact.setSelection(contact.getText().length());
-                lpw.dismiss();
-                firstContactSearch = true;
-
-                if (contact.getText().length() <= 13) {
-                    mEditText.requestFocus();
-                }
-            }
-
-        });
-
-        contactLister.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                contactNames = new ArrayList<String>();
-                contactNumbers = new ArrayList<String>();
-                contactTypes = new ArrayList<String>();
-
-                Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
-                String[] projection    = new String[] {ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
-                        ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.LABEL};
-
-                Cursor people = getContentResolver().query(uri, projection, null, null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " asc");
-                int indexName = people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
-                int indexNumber = people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
-
-                if (people.moveToFirst())
-                {
-                    do {
-                        int type = people.getInt(people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
-                        String customLabel = people.getString(people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.LABEL));
-
-                        if (settings.mobileOnly)
-                        {
-                            if (type == 2)
-                            {
-                                contactNames.add(people.getString(indexName));
-                                contactNumbers.add(people.getString(indexNumber).replaceAll("[^0-9\\+]", ""));
-                                contactTypes.add(ContactsContract.CommonDataKinds.Phone.getTypeLabel(context.getResources(), type, customLabel).toString());
-                            }
-                        } else
-                        {
-                            contactNames.add(people.getString(indexName));
-                            contactNumbers.add(people.getString(indexNumber).replaceAll("[^0-9\\+]", ""));
-                            contactTypes.add(ContactsContract.CommonDataKinds.Phone.getTypeLabel(context.getResources(), type, customLabel).toString());
-                        }
-                    } while (people.moveToNext());
-                }
-
-                people.close();
-
-                Display display = getWindowManager().getDefaultDisplay();
-                Point size = new Point();
-                display.getSize(size);
-                final int height = size.y;
-
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            lpw.setAdapter(new ContactSearchArrayAdapter((Activity)context, contactNames, contactNumbers, contactTypes));
-                            lpw.setAnchorView(contact);
-                            lpw.setWidth(ListPopupWindow.WRAP_CONTENT);
-                            lpw.setHeight(height/3);
-                            lpw.show();
-                        } catch (Exception e) {
-                            // window is null
-                        }
-                    }
-                }, 500);
-            }
-        });
-
-        contact.addTextChangedListener(new TextWatcher() {
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                if (firstContactSearch)
-                {
-                    try
-                    {
-                        contactNames = new ArrayList<String>();
-                        contactNumbers = new ArrayList<String>();
-                        contactTypes = new ArrayList<String>();
-
-                        Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
-                        String[] projection    = new String[] {ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
-                                ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.LABEL};
-
-                        Cursor people = getContentResolver().query(uri, projection, null, null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " asc");
-
-                        int indexName = people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
-                        int indexNumber = people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
-
-                        if (people.moveToFirst()) {
-                            do {
-                                int type = people.getInt(people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
-                                String customLabel = people.getString(people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.LABEL));
-
-                                try {
-                                    if (settings.mobileOnly)
-                                    {
-                                        if (type == 2)
-                                        {
-                                            contactNames.add(people.getString(indexName));
-                                            contactNumbers.add(people.getString(indexNumber).replaceAll("[^0-9\\+]", ""));
-                                            contactTypes.add(ContactsContract.CommonDataKinds.Phone.getTypeLabel(context.getResources(), type, customLabel).toString());
-                                        }
-                                    } else
-                                    {
-                                        contactNames.add(people.getString(indexName));
-                                        contactNumbers.add(people.getString(indexNumber).replaceAll("[^0-9\\+]", ""));
-                                        contactTypes.add(ContactsContract.CommonDataKinds.Phone.getTypeLabel(context.getResources(), type, customLabel).toString());
-                                    }
-                                } catch (Exception e) {
-                                    contactNames.add(people.getString(indexName));
-                                    contactNumbers.add(people.getString(indexName));
-                                    contactTypes.add(ContactsContract.CommonDataKinds.Phone.getTypeLabel(context.getResources(), type, customLabel).toString());
-                                }
-                            } while (people.moveToNext());
-                        }
-                        people.close();
-                    } catch (IllegalArgumentException e)
-                    {
-
-                    }
-                }
-            }
-
-            @SuppressLint("DefaultLocale")
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                final ArrayList<String> searchedNames = new ArrayList<String>();
-                final ArrayList<String> searchedNumbers = new ArrayList<String>();
-                final ArrayList<String> searchedTypes = new ArrayList<String>();
-
-                String text = contact.getText().toString();
-
-                String[] text2 = text.split("; ");
-
-                text = text2[text2.length-1].trim();
-
-                if (text.startsWith("+"))
-                {
-                    text = text.substring(1);
-                }
-
-                Pattern pattern;
-
-                try
-                {
-                    pattern = Pattern.compile(text.toLowerCase());
-                } catch (Exception e)
-                {
-                    pattern = Pattern.compile(text.toLowerCase().replace("(", "").replace(")", "").replace("?", "").replace("[", "").replace("{", "").replace("}", "").replace("\\", "").replace("*", ""));
-                }
-
-                try {
-                    for (int i = 0; i < contactNames.size(); i++)
-                    {
-                        try
-                        {
-                            Long.parseLong(text);
-
-                            if (text.length() <= contactNumbers.get(i).length())
-                            {
-                                Matcher matcher = pattern.matcher(contactNumbers.get(i));
-                                if(matcher.find())
-                                {
-                                    searchedNames.add(contactNames.get(i));
-                                    searchedNumbers.add(contactNumbers.get(i));
-                                    searchedTypes.add(contactTypes.get(i));
-                                }
-                            }
-                        } catch (Exception e)
-                        {
-                            if (contactNames == null)
-                            {
-                                contactNames = new ArrayList<String>();
-                                contactNumbers = new ArrayList<String>();
-                                contactTypes = new ArrayList<String>();
-                            }
-                            if (text.length() <= contactNames.get(i).length())
-                            {
-                                Matcher matcher = pattern.matcher(contactNames.get(i).toLowerCase());
-                                if(matcher.find())
-                                {
-                                    searchedNames.add(contactNames.get(i));
-                                    searchedNumbers.add(contactNumbers.get(i));
-                                    searchedTypes.add(contactTypes.get(i));
-                                }
-                            }
-                        }
-                    }
-                } catch (Exception e) {
-
-                }
-
-                Display display = getWindowManager().getDefaultDisplay();
-                Point size = new Point();
-                display.getSize(size);
-                final int height = size.y;
-
-                if (sendTo) {
-                    final String textF = text;
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            lpw.setAdapter(new ContactSearchArrayAdapter((Activity)context, searchedNames, searchedNumbers, searchedTypes));
-                            lpw.setAnchorView(findViewById(R.id.contactEntry));
-                            lpw.setWidth(ListPopupWindow.WRAP_CONTENT);
-                            lpw.setHeight(height/3);
-
-
-                            if (firstContactSearch)
-                            {
-                                lpw.show();
-                                firstContactSearch = false;
-                            }
-
-                            if (textF.length() == 0)
-                            {
-                                lpw.dismiss();
-                                firstContactSearch = true;
-                            }
-                        }
-                    }, 500);
-                } else {
-                    lpw.setAdapter(new ContactSearchArrayAdapter((Activity)context, searchedNames, searchedNumbers, searchedTypes));
-                    lpw.setAnchorView(findViewById(R.id.contactEntry));
-                    lpw.setWidth(ListPopupWindow.WRAP_CONTENT);
-                    lpw.setHeight(height/3);
-
-
-                    if (firstContactSearch)
-                    {
-                        lpw.show();
-                        firstContactSearch = false;
-                    }
-
-                    if (text.length() == 0)
-                    {
-                        lpw.dismiss();
-                        firstContactSearch = true;
-                    }
-                }
-
-                contact.setError(null);
-            }
-
-            public void afterTextChanged(Editable s) {
-            }
-        });
-
-        sendButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (contact.getText().toString().equals(""))
-                {
-                    contact.setError("No Recipients");
-                } else if (mEditText.getText().toString().equals("") && imageAttach2.getVisibility() == View.GONE)
-                {
-                    mEditText.setError("Nothing to Send");
-                } else
-                {
-                    MainActivity.animationOn = true;
-                    final boolean image;
-
-                    if (imageAttach2.getVisibility() == View.VISIBLE) {
-                        MainActivity.animationOn = false;
-                        image = true;
-                        imageAttach2.setVisibility(false);
-                        imageAttachBackground2.setVisibility(View.GONE);
-                    } else {
-                        image = false;
-                    }
-
-                    final String text = mEditText.getText().toString();
-                    mEditText.setText("");
-
-                    if (settings.hideKeyboard)
-                    {
-                        new Thread(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                try {
-                                    Thread.sleep(2000);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                } finally
-                                {
-                                    InputMethodManager keyboard = (InputMethodManager)
-                                            getSystemService(Context.INPUT_METHOD_SERVICE);
-                                    keyboard.hideSoftInputFromWindow(mEditText.getWindowToken(), 0);
-                                }
-
-                            }
-
-                        }).start();
-                    }
-
-                    Intent updateWidget = new Intent("com.klinker.android.messaging.UPDATE_WIDGET");
-                    context.sendBroadcast(updateWidget);
-
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            final Message message = new Message(text, contact.getText().toString().replace(";", ""));
-
-                            if (image) {
-                                ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
-
-                                if (!multipleAttachments) {
-                                    if (!fromCamera) {
-                                        try {
-                                            bitmaps.add(SendUtil.getImage(context, attachedImage2, 600));
-                                        } catch (Exception e) {
-                                            bitmaps.add(decodeFile2(new File(getPath(attachedImage2))));
-                                        }
-                                    } else {
-                                        try {
-                                            bitmaps.add(SendUtil.getImage(context, Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/", "photoToSend.png")), 600));
-                                        } catch (Exception e) {
-                                            bitmaps.add(decodeFile2(new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/", "photoToSend.png")));
-                                        }
-                                    }
-                                } else {
-                                    bitmaps = AttachMore.images;
-                                    AttachMore.images = new ArrayList<Bitmap>();
-                                    AttachMore.data = new ArrayList<MMSPart>();
-                                }
-
-                                Bitmap[] images = new Bitmap[bitmaps.size()];
-
-                                for (int i = 0; i < bitmaps.size(); i++) {
-                                    images[i] = bitmaps.get(i);
-                                }
-
-                                message.setImages(images);
-                            }
-
-                            if (subjectLine2.getVisibility() != View.GONE && !subjectEntry2.getText().toString().equals("")) {
-                                message.setSubject(subjectEntry2.getText().toString());
-                            }
-
-                            if (!settings.sendWithStock) {
-                                if (sendTransaction.checkMMS(message)) {
-                                    ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            Log.v("sending_mms_library", "sending new mms, posted to UI thread");
-                                            sendTransaction.sendNewMessage(message, null);
-                                        }
-                                    });
-                                } else {
-                                    sendTransaction.sendNewMessage(message, null);
-                                }
-                            } else {
-                                if (sendTransaction.checkMMS(message)) {
-                                    if (multipleAttachments == false)
-                                    {
-                                        Intent sendIntent = new Intent(Intent.ACTION_SEND);
-                                        sendIntent.putExtra("address", contact.getText().toString().replace(";", ""));
-                                        sendIntent.putExtra("sms_body", text);
-                                        sendIntent.putExtra(Intent.EXTRA_STREAM, attachedImage);
-                                        sendIntent.setType("image/png");
-
-                                        Intent htcIntent = new Intent("android.intent.action.SEND_MSG");
-                                        htcIntent.putExtra("address", contact.getText().toString().replace(";", ""));
-                                        htcIntent.putExtra("sms_body", text);
-                                        htcIntent.putExtra(Intent.EXTRA_STREAM, attachedImage);
-                                        htcIntent.setType("image/png");
-
-                                        Intent chooser = Intent.createChooser(sendIntent, "Send Message:");
-                                        chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] { htcIntent });
-                                        startActivity(chooser);
-
-                                        MainActivity.messageRecieved = true;
-                                    } else
-                                    {
-                                        Toast.makeText(context, "Cannot send multiple images through stock", Toast.LENGTH_SHORT).show();
-                                    }
-                                } else {
-                                    sendTransaction.sendNewMessage(message, null);
-                                }
-                            }
-
-                            ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                                @Override
-                                public void run() {
-                                    contact.setText("");
-                                    menu.showContent();
-                                    refreshViewPager();
-                                    mViewPager.setCurrentItem(0);
-
-                                    subjectLine2.setVisibility(View.GONE);
-                                    subjectEntry2.setText("");
-                                }
-
-                            });
-                        }
-                    }).start();
-                }
-
-                if (haloPopup && settings.closeHaloAfterSend)
-                    finish();
-            }
-
-        });
-
-        ImageButton emojiButton = (ImageButton) newMessageView.findViewById(R.id.display_emoji);
-        voiceButton2 = (ImageButton) newMessageView.findViewById(R.id.voiceButton);
-
-        if (!settings.emoji)
-        {
-            emojiButton.setVisibility(View.GONE);
-        } else
-        {
-            emojiButton.setOnClickListener(new OnClickListener() {
-
-                @Override
-                public void onClick(View arg0) {
-
-                    final String menuOption = sharedPrefs.getString("page_or_menu2", "2");
-
-                    if(settings.emojiKeyboard && settings.emojiType)
-                    {
-                        if (!emoji2Open)
-                        {
-                            messageScreen2 = (LinearLayout) findViewById(R.id.messageScreen2);
-
-                            messageScreen2.addView(tabs, SlidingTabParams);
-                            messageScreen2.addView(vp, viewPagerParams);
-
-                            if (menuOption.equals("1")) {
-                                menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
-                            }
-
-                            emoji2Open = true;
-                            messageEntry2.requestFocus();
-
-                            InputMethodManager keyboard = (InputMethodManager)
-                                    getSystemService(Context.INPUT_METHOD_SERVICE);
-                            keyboard.hideSoftInputFromWindow(messageEntry2.getWindowToken(), 0);
-
-                            final EditText contactEntry = (EditText) findViewById(R.id.contactEntry);
-                            contactEntry.setOnTouchListener(new View.OnTouchListener() {
-                                @Override
-                                public boolean onTouch(View v, MotionEvent event) {
-                                    messageScreen2.removeView(tabs);
-                                    messageScreen2.removeView(vp);
-
-                                    if (menuOption.equals("1")) {
-                                        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
-                                    }
-
-                                    emoji2Open = false;
-                                    return false;
-                                }
-                            });
-
-                            messageEntry2.setOnTouchListener(new View.OnTouchListener() {
-                                @Override
-                                public boolean onTouch(View v, MotionEvent event) {
-                                    if(emoji2Open)
-                                    {
-                                        messageScreen2.removeView(tabs);
-                                        messageScreen2.removeView(vp);
-
-                                        if (menuOption.equals("1")) {
-                                            menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
-                                        }
-
-                                        emoji2Open = false;
-                                    }
-                                    return false;
-                                }
-                            });
-                        } else
-                        {
-                            emoji2Open = false;
-                            messageScreen2.removeView(tabs);
-                            messageScreen2.removeView(vp);
-
-                            if (menuOption.equals("1")) {
-                                menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
-                            }
-                        }
-                    } else {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                        builder.setTitle("Insert Emojis");
-                        LayoutInflater inflater = ((Activity) context).getLayoutInflater();
-                        View frame = inflater.inflate(R.layout.emoji_frame, null);
-
-                        final EditText editText = (EditText) frame.findViewById(R.id.emoji_text);
-                        ImageButton peopleButton = (ImageButton) frame.findViewById(R.id.peopleButton);
-                        ImageButton objectsButton = (ImageButton) frame.findViewById(R.id.objectsButton);
-                        ImageButton natureButton = (ImageButton) frame.findViewById(R.id.natureButton);
-                        ImageButton placesButton = (ImageButton) frame.findViewById(R.id.placesButton);
-                        ImageButton symbolsButton = (ImageButton) frame.findViewById(R.id.symbolsButton);
-
-                        final GridView emojiGrid = (GridView) frame.findViewById(R.id.emojiGrid);
-                        Button okButton = (Button) frame.findViewById(R.id.emoji_ok);
-
-                        if (settings.emojiType)
-                        {
-                            emojiGrid.setAdapter(new EmojiAdapter2(context));
-                            emojiGrid.setOnItemClickListener(new OnItemClickListener() {
-
-                                public void onItemClick(AdapterView<?> parent, View v, int position, long id)
-                                {
-                                    editText.setText(EmojiConverter2.getSmiledText(context, editText.getText().toString() + EmojiAdapter2.mEmojiTexts[position]));
-                                    editText.setSelection(editText.getText().length());
-                                }
-                            });
-
-                            peopleButton.setOnClickListener(new OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    emojiGrid.setSelection(0);
-                                }
-                            });
-
-                            objectsButton.setOnClickListener(new OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    emojiGrid.setSelection(153 + (2 * 7));
-                                }
-                            });
-
-                            natureButton.setOnClickListener(new OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    emojiGrid.setSelection(153 + 162 + (3 * 7));
-                                }
-                            });
-
-                            placesButton.setOnClickListener(new OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    emojiGrid.setSelection(153 + 162 + 178 + (5 * 7));
-                                }
-                            });
-
-                            symbolsButton.setOnClickListener(new OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    emojiGrid.setSelection(153 + 162 + 178 + 122 + (7 * 7));
-                                }
-                            });
-                        } else
-                        {
-                            emojiGrid.setAdapter(new EmojiAdapter(context));
-                            emojiGrid.setOnItemClickListener(new OnItemClickListener() {
-
-                                public void onItemClick(AdapterView<?> parent, View v, int position, long id)
-                                {
-                                    editText.setText(EmojiConverter.getSmiledText(context, editText.getText().toString() + EmojiAdapter.mEmojiTexts[position]));
-                                    editText.setSelection(editText.getText().length());
-                                }
-                            });
-
-                            peopleButton.setMaxHeight(0);
-                            objectsButton.setMaxHeight(0);
-                            natureButton.setMaxHeight(0);
-                            placesButton.setMaxHeight(0);
-                            symbolsButton.setMaxHeight(0);
-
-                            LinearLayout buttons = (LinearLayout) frame.findViewById(R.id.linearLayout);
-                            buttons.setMinimumHeight(0);
-                            buttons.setVisibility(View.GONE);
-                        }
-
-                        builder.setView(frame);
-                        final AlertDialog dialog = builder.create();
-                        dialog.show();
-
-                        okButton.setOnClickListener(new OnClickListener() {
-
-                            @Override
-                            public void onClick(View v) {
-                                if (settings.emojiType)
-                                {
-                                    mEditText.setText(EmojiConverter2.getSmiledText(context, mEditText.getText().toString() + editText.getText().toString()));
-                                    mEditText.setSelection(mEditText.getText().length());
-                                } else
-                                {
-                                    mEditText.setText(EmojiConverter.getSmiledText(context, mEditText.getText().toString() + editText.getText().toString()));
-                                    mEditText.setSelection(mEditText.getText().length());
-                                }
-
-                                dialog.dismiss();
-                            }
-
-                        });
-                    }
-                }
-
-            });
-        }
-
-        if (settings.voiceAccount != null) {
-            if (settings.voiceEnabled) {
-                voiceButton2.setImageResource(R.drawable.voice_enabled);
-            } else {
-                voiceButton2.setImageResource(R.drawable.voice_disabled);
-            }
-
-            voiceButton2.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (settings.voiceEnabled) {
-                        settings.voiceEnabled = false;
-                        sharedPrefs.edit().putBoolean("voice_enabled", false).commit();
-                        voiceButton2.setImageResource(R.drawable.voice_disabled);
-                        voiceButton.setImageResource(R.drawable.voice_disabled);
-                        sendSettings.setPreferVoice(false);
-                        sendTransaction.settings = sendSettings;
-                    } else {
-                        settings.voiceEnabled = true;
-                        sharedPrefs.edit().putBoolean("voice_enabled", true).commit();
-                        voiceButton2.setImageResource(R.drawable.voice_enabled);
-                        voiceButton.setImageResource(R.drawable.voice_enabled);
-                        sendSettings.setPreferVoice(true);
-                        sendTransaction.settings = sendSettings;
-                    }
-                }
-            });
-        } else {
-            voiceButton2.setVisibility(View.GONE);
-        }
-
-        ListView searchView = (ListView) newMessageView.findViewById(R.id.contactSearch);
-
-        try {
-            mEditText.setTextSize(Integer.parseInt(settings.textSize.substring(0, 2)));
-        } catch (Exception e) {
-            mEditText.setTextSize(Integer.parseInt(settings.textSize.substring(0, 1)));
-        }
-
-        View v1 = newMessageView.findViewById(R.id.view1);
-        View v2 = newMessageView.findViewById(R.id.sentBackground);
-
-        mTextView.setTextColor(settings.ctSendButtonColor);
-        v1.setBackgroundColor(settings.ctSendBarBackground);
-        v2.setBackgroundColor(settings.ctSendBarBackground);
-        sendButton.setBackgroundResource(R.drawable.pitch_black_send_button);
-        sendButton.setImageResource(R.drawable.ic_action_send_white);
-        sendButton.setColorFilter(settings.ctSendButtonColor);
-        searchView.setBackgroundColor(settings.ctConversationListBackground);
-        emojiButton.setBackgroundResource(R.drawable.pitch_black_send_button);
-        emojiButton.setColorFilter(settings.emojiButtonColor);
-        voiceButton2.setColorFilter(settings.emojiButtonColor);
-        mEditText.setTextColor(settings.draftTextColor);
-        contact.setTextColor(settings.draftTextColor);
-        contactLister.setColorFilter(settings.ctSendButtonColor);
-
-        imageAttachBackground2.setBackgroundColor(settings.ctMessageListBackground);
-        Drawable attachBack = getResources().getDrawable(R.drawable.attachment_editor_bg);
-        attachBack.setColorFilter(settings.ctSentMessageBackground, Mode.MULTIPLY);
-        imageAttach2.setBackgroundDrawable(attachBack);
-        imageAttachBackground2.setVisibility(View.GONE);
-        imageAttach2.setVisibility(false);
-
-        subjectEntry2.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
-        subjectEntry2.setTextColor(settings.draftTextColor);
-        subjectLine2.setVisibility(View.GONE);
-        subjectLine2.setBackgroundColor(settings.ctSendBarBackground);
-        subjectDelete2.setColorFilter(settings.ctSendButtonColor);
-
-        if (settings.customFont)
-        {
-            mTextView.setTypeface(font);
-            mEditText.setTypeface(font);
-            contact.setTypeface(font);
-        }
-
-        if (settings.runAs.equals("hangout") || settings.runAs.equals("card2") || settings.runAs.equals("card+"))
-        {
-            emojiButton.setImageResource(R.drawable.ic_emoji_dark);
-        }
-
-        if (settings.runAs.equals("sliding")) {
-            voiceButton2.setAlpha(255);
-        }
-
-        if (settings.customBackground)
-        {
-            try
-            {
-                BitmapFactory.Options options = new BitmapFactory.Options();
-
-                options.inSampleSize = 2;
-                Bitmap myBitmap = BitmapFactory.decodeFile(Uri.parse(settings.customBackgroundLocation).getPath(),options);
-                this.getResources();
-                Drawable d = new BitmapDrawable(Resources.getSystem(),myBitmap);
-                searchView.setBackgroundDrawable(d);
-            } catch (Error e)
-            {
-                try {
-                    BitmapFactory.Options options = new BitmapFactory.Options();
-
-                    options.inSampleSize = 4;
-                    Bitmap myBitmap = BitmapFactory.decodeFile(Uri.parse(settings.customBackgroundLocation).getPath(),options);
-                    this.getResources();
-                    Drawable d = new BitmapDrawable(Resources.getSystem(),myBitmap);
-                    searchView.setBackgroundDrawable(d);
-                } catch (Error f) {
-
-                }
-            }
-        }*/
-
         menu = new SlidingMenu(this);
 
-        if (deviceType.equals("phone") || deviceType.equals("phablet2"))
-        {
-            menu.setMode(SlidingMenu.LEFT);//_RIGHT);
+        if (deviceType.equals("phone") || deviceType.equals("phablet2")) {
+            menu.setMode(SlidingMenu.LEFT);
             menu.setShadowDrawable(R.drawable.shadow);
-            //menu.setSecondaryShadowDrawable(R.drawable.shadowright);
-        } else if (deviceType.equals("phablet") || deviceType.equals("tablet"))
-        {
-            //menu.setMode(SlidingMenu.RIGHT);
-            //menu.setShadowDrawable(R.drawable.shadowright);
         }
 
         menu.setShadowWidthRes(R.dimen.shadow_width);
 
-        if (!settings.slideMessages)
-        {
-            if (deviceType.equals("phone") || deviceType.equals("phablet2"))
-            {
+        if (!settings.slideMessages)  {
+            if (deviceType.equals("phone") || deviceType.equals("phablet2")) {
                 menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
-            } else if (deviceType.equals("phablet") || deviceType.equals("tablet"))
-            {
-                if (!isPopup) {
-                    Display display = getWindowManager().getDefaultDisplay();
-                    Point size = new Point();
-                    display.getSize(size);
-                    int width = size.x;
-                    menu.setBehindOffset((int) (width * .6));
-                } else {
-                    menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
-                }
             }
-        } else
-        {
+        } else {
             menu.setBehindOffset(0);
         }
 
-        menu.setFadeDegree(0.35f);
-        menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
-
-        menu.getContent().setBackgroundDrawable(new ColorDrawable(settings.ctMessageListBackground));
+        if (deviceType.equals("phone") || deviceType.equals("phablet2")) {
+            menu.setFadeDegree(0.35f);
+            menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
+            menu.getContent().setBackgroundDrawable(new ColorDrawable(settings.ctMessageListBackground));
+        }
 
         try {
-            if (deviceType.equals("phone") || deviceType.equals("phablet2"))
-            {
+            if (deviceType.equals("phone") || deviceType.equals("phablet2")) {
                 menu.setMenu(menuLayout);
-                //menu.setSecondaryMenu(newMessageView);
-            } else if (deviceType.equals("phablet") || deviceType.equals("tablet"))
-            {
-                //menu.setMenu(newMessageView);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -3528,8 +2407,7 @@ public class MainActivity extends FragmentActivity {
                 if (mDrawerLayout.isDrawerOpen(Gravity.RIGHT))
                     mDrawerLayout.closeDrawer(Gravity.RIGHT);
 
-                if(emojiOpen)
-                {
+                if (emojiOpen) {
                     messageScreen = (LinearLayout) findViewById(R.id.messageScreen);
 
                     messageScreen.removeView(tabs);
@@ -3537,18 +2415,13 @@ public class MainActivity extends FragmentActivity {
                     emojiOpen = false;
                 }
 
-                if(emoji2Open)
-                {
+                if(emoji2Open) {
                     messageScreen2 = (LinearLayout) findViewById(R.id.messageScreen2);
 
                     messageScreen2.removeView(tabs);
                     messageScreen2.removeView(vp);
                     emoji2Open = false;
                 }
-
-                /*if (menu.isSecondaryMenuShowing()) {
-                    contact.requestFocus();
-                }*/
 
                 try {
                     ActionBar ab = getActionBar();
@@ -3561,21 +2434,16 @@ public class MainActivity extends FragmentActivity {
                     // no action bar, dialog theme
                 }
 
-                if (menu.isMenuShowing() && !menu.isSecondaryMenuShowing()) {
+                if (menu.isMenuShowing()) {
                     InputMethodManager imm = (InputMethodManager) getSystemService(
                             Context.INPUT_METHOD_SERVICE);
-                    //imm.hideSoftInputFromWindow(mEditText.getWindowToken(), 0);
+                    imm.hideSoftInputFromWindow(messageEntry.getWindowToken(), 0);
                 }
-
-                /*if (menu.isMenuShowing() && menu.isSecondaryMenuShowing()) {
-                    InputMethodManager imm = (InputMethodManager) getSystemService(
-                            Context.INPUT_METHOD_SERVICE);
-                    imm.showSoftInput(contact, 0);
-                }*/
             }
 
         });
 
+        final Context context = this;
         menu.setOnClosedListener(new SlidingMenu.OnClosedListener() {
 
             @Override
@@ -3583,8 +2451,7 @@ public class MainActivity extends FragmentActivity {
 
                 invalidateOptionsMenu();
 
-                if(emojiOpen)
-                {
+                if (emojiOpen) {
                     messageScreen = (LinearLayout) findViewById(R.id.messageScreen);
 
                     messageScreen.removeView(tabs);
@@ -3592,8 +2459,7 @@ public class MainActivity extends FragmentActivity {
                     emojiOpen = false;
                 }
 
-                if(emoji2Open)
-                {
+                if (emoji2Open) {
                     messageScreen2 = (LinearLayout) findViewById(R.id.messageScreen2);
 
                     messageScreen2.removeView(tabs);
@@ -3606,7 +2472,7 @@ public class MainActivity extends FragmentActivity {
                         getActionBar().setDisplayHomeAsUpEnabled(true);
                     }
 
-                    if (!settings.useTitleBar || settings.alwaysShowContactInfo) {
+                    if (!settings.useTitleBar || settings.alwaysShowContactInfo || settings.titleContactImages) {
                         final ActionBar ab = getActionBar();
 
                         if (ab != null) {
@@ -3616,7 +2482,9 @@ public class MainActivity extends FragmentActivity {
                                     @Override
                                     public void run() {
                                         if (conversations.size() != 0) {
-                                            final String title = findContactName(Conversation.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context), context);
+                                            final String title = ContactUtil.findContactName(ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context), context);
+                                            Bitmap image = ContactUtil.getFacebookPhoto(ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context), context);
+                                            final BitmapDrawable image2 = new BitmapDrawable(image);
 
                                             ((MainActivity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 
@@ -3626,7 +2494,7 @@ public class MainActivity extends FragmentActivity {
 
                                                     Locale sCachedLocale = Locale.getDefault();
                                                     int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
-                                                    Editable editable = new SpannableStringBuilder(Conversation.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context));
+                                                    Editable editable = new SpannableStringBuilder(ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context));
                                                     PhoneNumberUtils.formatNumber(editable, sFormatType);
                                                     ab.setSubtitle(editable.toString());
 
@@ -3638,6 +2506,8 @@ public class MainActivity extends FragmentActivity {
                                                         ab.setTitle("Group MMS");
                                                         ab.setSubtitle(null);
                                                     }
+
+                                                    ab.setIcon(image2);
                                                 }
 
                                             });
@@ -3650,45 +2520,16 @@ public class MainActivity extends FragmentActivity {
                                 ab.setIcon(R.drawable.ic_launcher);
                             }
                         }
+
+                        if (conversations.size() == 0 && ab != null) {
+                            ab.setIcon(R.drawable.ic_launcher);
+                        }
                     }
                 } catch (Exception e) {
                     // no action bar, dialog theme
                 }
 
-                if (settings.titleContactImages) {
-                    final ActionBar ab = getActionBar();
-
-                    if (ab != null) {
-                        new Thread(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                if (conversations.size() != 0) {
-                                    Bitmap image = getFacebookPhoto(Conversation.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context), context);
-                                    final BitmapDrawable image2 = new BitmapDrawable(image);
-
-                                    ((MainActivity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                                        @Override
-                                        public void run() {
-                                            ab.setIcon(image2);
-                                        }
-
-                                    });
-                                }
-
-                            }
-
-                        }).start();
-                    }
-
-                    if (conversations.size() == 0 && ab != null) {
-                        ab.setIcon(R.drawable.ic_launcher);
-                    }
-                }
-
-                EditText textEntry = (EditText) findViewById(R.id.messageEntry);
-                textEntry.requestFocus();
+                messageEntry.requestFocus();
             }
 
         });
@@ -3700,14 +2541,9 @@ public class MainActivity extends FragmentActivity {
         draftChanged = new ArrayList<Boolean>();
         draftsToDelete = new ArrayList<Long>();
 
-        mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener()
-        {
+        mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int arg0) {
-                if (!menu.isMenuShowing())
-                {
-                    menu.showContent();
-                }
 
                 if (mViewPager.getCurrentItem() < appMsgConversations && appMsg.isShowing() && dismissCrouton) {
                     appMsg.cancel();
@@ -3718,40 +2554,24 @@ public class MainActivity extends FragmentActivity {
 
                     @Override
                     public void run() {
-                        ArrayList<String> newMessages = readFromFile(context);
-
-                        for (int j = 0; j < newMessages.size(); j++)
-                        {
-                            if (newMessages.get(j).replaceAll("-", "").endsWith(findContactName(Conversation.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context), context).replace("-", "")))
-                            {
-                                newMessages.remove(j);
-                            }
-                        }
-
-                        writeToFile(newMessages, context);
-
                         final ActionBar ab = getActionBar();
                         String title = "";
                         String subtitle = "";
 
-                        if (!settings.useTitleBar || settings.alwaysShowContactInfo)
-                        {
-                            if (conversations.get(mViewPager.getCurrentItem()).getGroup())
-                            {
+                        if (!settings.useTitleBar || settings.alwaysShowContactInfo) {
+                            if (conversations.get(mViewPager.getCurrentItem()).getGroup()) {
                                 title = "Group MMS";
                                 subtitle = null;
-                            } else
-                            {
-                                title = findContactName(Conversation.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context), context);
+                            } else {
+                                title = ContactUtil.findContactName(ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context), context);
 
                                 Locale sCachedLocale = Locale.getDefault();
                                 int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
-                                Editable editable = new SpannableStringBuilder(Conversation.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context));
+                                Editable editable = new SpannableStringBuilder(ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context));
                                 PhoneNumberUtils.formatNumber(editable, sFormatType);
                                 subtitle = editable.toString();
 
-                                if (title.equals(subtitle))
-                                {
+                                if (title.equals(subtitle)) {
                                     subtitle = null;
                                 }
                             }
@@ -3761,9 +2581,8 @@ public class MainActivity extends FragmentActivity {
 
                         BitmapDrawable image2 = null;
 
-                        if (settings.titleContactImages)
-                        {
-                            Bitmap image = getFacebookPhoto(Conversation.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context), context);
+                        if (settings.titleContactImages) {
+                            Bitmap image = ContactUtil.getFacebookPhoto(ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context), context);
                             image2 = new BitmapDrawable(image);
                         }
 
@@ -3801,9 +2620,7 @@ public class MainActivity extends FragmentActivity {
                                     drafts.remove(where);
                                     draftChanged.remove(where);
                                 }
-                            } catch (Exception e) {
-
-                            }
+                            } catch (Exception e) { }
 
                             newDraft = 0;
 
@@ -3816,9 +2633,7 @@ public class MainActivity extends FragmentActivity {
                                         break;
                                     }
                                 }
-                            } catch (Exception e) {
-
-                            }
+                            } catch (Exception e) { }
                         }
 
                         final int indexF = index;
@@ -3898,6 +2713,12 @@ public class MainActivity extends FragmentActivity {
                             }
 
                         });
+
+                        for (int j = 0; j < newMessages.size(); j++) {
+                            if (newMessages.get(j).replaceAll("-", "").endsWith(ContactUtil.findContactName(ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context), context).replace("-", ""))) {
+                                newMessages.remove(j);
+                            }
+                        }
                     }
 
                 }).start();
@@ -3913,73 +2734,14 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
-    public Bitmap drawableToBitmap (Drawable drawable) {
-        if (drawable instanceof BitmapDrawable) {
-            return ((BitmapDrawable)drawable).getBitmap();
-        }
-
-        try
-        {
-            int width = drawable.getIntrinsicWidth();
-            width = width > 0 ? width : 1;
-            int height = drawable.getIntrinsicHeight();
-            height = height > 0 ? height : 1;
-
-            Bitmap bitmap = Bitmap.createBitmap(width, height, Config.ARGB_8888);
-            Canvas canvas = new Canvas(bitmap);
-            drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-            drawable.draw(canvas);
-            return bitmap;
-        } catch (Exception e)
-        {
-            if (settings.darkContactImage)
-            {
-                return BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_contact_dark);
-            } else
-            {
-                return BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_contact_picture);
-            }
-        }
-    }
-
-    public InputStream openDisplayPhoto(long contactId) {
-        Uri contactUri = ContentUris.withAppendedId(Contacts.CONTENT_URI, contactId);
-        Uri photoUri = Uri.withAppendedPath(contactUri, Contacts.Photo.CONTENT_DIRECTORY);
-        Cursor cursor = getContentResolver().query(photoUri,
-                new String[] {Contacts.Photo.PHOTO}, null, null, null);
-        if (cursor == null) {
-            return null;
-        }
-        try {
-            if (cursor.moveToFirst()) {
-                byte[] data = cursor.getBlob(0);
-                if (data != null) {
-                    return new ByteArrayInputStream(data);
-                }
-            }
-        } finally {
-            cursor.close();
-        }
-        return null;
-    }
-
-    public String getMyPhoneNumber(){
-        TelephonyManager mTelephonyMgr;
-        mTelephonyMgr = (TelephonyManager)
-                getSystemService(Context.TELEPHONY_SERVICE);
-        return mTelephonyMgr.getLine1Number();
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_main, menu);
-
         return true;
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu)
-    {
+    public boolean onPrepareOptionsMenu(Menu menu) {
         // Associate searchable configuration with the SearchView
         final SearchView searchView =
                 (SearchView) menu.findItem(R.id.menu_search).getActionView();
@@ -4020,10 +2782,8 @@ public class MainActivity extends FragmentActivity {
         final int MENU_ABOUT = 13;
 
         try {
-            if (deviceType.equals("phone") || deviceType.equals("phablet2"))
-            {
-                if (conversations.size() == 0 || MainActivity.menu.isMenuShowing() || mDrawerLayout.isDrawerOpen(Gravity.RIGHT)) // on conversation list
-                {
+            if (deviceType.equals("phone") || deviceType.equals("phablet2")) {
+                if (conversations.size() == 0 || MainActivity.menu.isMenuShowing() || mDrawerLayout.isDrawerOpen(Gravity.RIGHT)) {
                     if (MainActivity.menu.isMenuShowing()) {
                         menu.getItem(MENU_CALL).setVisible(false);
                         menu.getItem(MENU_SCHEDULED).setVisible(false);
@@ -4036,8 +2796,7 @@ public class MainActivity extends FragmentActivity {
                         menu.getItem(DELETE_CONVERSATION).setVisible(false);
                         menu.getItem(MENU_MARK_ALL_READ).setVisible(true);
                         menu.getItem(COPY_SENDER).setVisible(false);
-                    } else if (MainActivity.menu.isSecondaryMenuShowing() || mDrawerLayout.isDrawerOpen(Gravity.RIGHT)) // on new message
-                    {
+                    } else if (MainActivity.menu.isSecondaryMenuShowing() || mDrawerLayout.isDrawerOpen(Gravity.RIGHT)) {
                         menu.getItem(MENU_CALL).setVisible(false);
                         menu.getItem(MENU_SCHEDULED).setVisible(true);
                         menu.getItem(MENU_ATTACH).setVisible(true);
@@ -4050,8 +2809,7 @@ public class MainActivity extends FragmentActivity {
                         menu.getItem(MENU_MARK_ALL_READ).setVisible(false);
                         menu.getItem(COPY_SENDER).setVisible(false);
                     }
-                } else // in ViewPager
-                {
+                } else {
                     menu.getItem(MENU_CALL).setVisible(true);
                     menu.getItem(MENU_SCHEDULED).setVisible(false);
                     menu.getItem(MENU_ATTACH).setVisible(true);
@@ -4064,24 +2822,20 @@ public class MainActivity extends FragmentActivity {
                     menu.getItem(MENU_MARK_ALL_READ).setVisible(true);
                     menu.getItem(COPY_SENDER).setVisible(true);
 
-                    if (conversations.get(mViewPager.getCurrentItem()).getGroup()) // if there is a group message
-                    {
+                    if (conversations.get(mViewPager.getCurrentItem()).getGroup()) {
                         menu.getItem(MENU_CALL).setVisible(false);
                         menu.getItem(COPY_SENDER).setVisible(false);
                     }
                 }
-            } else
-            {
-                if (conversations.size() == 0 || MainActivity.menu.isMenuShowing())
-                {
+            } else {
+                if (conversations.size() == 0 || MainActivity.menu.isMenuShowing()) {
                     menu.getItem(MENU_CALL).setVisible(false);
                     menu.getItem(MENU_NEW_MESSAGE).setVisible(false);
                     menu.getItem(MENU_DELETE).setVisible(false);
                     menu.getItem(DELETE_CONVERSATION).setVisible(false);
                     menu.getItem(MENU_MARK_ALL_READ).setVisible(false);
                     menu.getItem(COPY_SENDER).setVisible(false);
-                } else
-                {
+                } else {
                     menu.getItem(MENU_CALL).setVisible(true);
                     menu.getItem(MENU_NEW_MESSAGE).setVisible(true);
                     menu.getItem(MENU_DELETE).setVisible(true);
@@ -4089,16 +2843,13 @@ public class MainActivity extends FragmentActivity {
                     menu.getItem(MENU_MARK_ALL_READ).setVisible(true);
                     menu.getItem(COPY_SENDER).setVisible(true);
 
-                    if (conversations.get(mViewPager.getCurrentItem()).getGroup())
-                    {
+                    if (conversations.get(mViewPager.getCurrentItem()).getGroup()) {
                         menu.getItem(MENU_CALL).setVisible(false);
                         menu.getItem(COPY_SENDER).setVisible(false);
                     }
                 }
             }
-        } catch (Exception e) {
-
-        }
+        } catch (Exception e) { }
 
         if (settings.voiceAccount != null) {
             menu.getItem(MENU_REFRESH_VOICE).setVisible(true);
@@ -4106,8 +2857,7 @@ public class MainActivity extends FragmentActivity {
             menu.getItem(MENU_REFRESH_VOICE).setVisible(false);
         }
 
-        if (settings.lightActionBar)
-        {
+        if (settings.lightActionBar) {
             Drawable callButton = getResources().getDrawable(R.drawable.ic_menu_call);
             callButton.setColorFilter(getResources().getColor(R.color.hangouts_ab_icon), Mode.MULTIPLY);
             menu.getItem(MENU_CALL).setIcon(callButton);
@@ -4127,8 +2877,7 @@ public class MainActivity extends FragmentActivity {
             Drawable replyButton = getResources().getDrawable(R.drawable.ic_reply);
             replyButton.setColorFilter(getResources().getColor(R.color.hangouts_ab_icon), Mode.MULTIPLY);
             menu.getItem(MENU_NEW_MESSAGE).setIcon(replyButton);
-        } else
-        {
+        } else {
             Drawable callButton = getResources().getDrawable(R.drawable.ic_menu_call);
             callButton.setColorFilter(getResources().getColor(R.color.white), Mode.MULTIPLY);
             menu.getItem(MENU_CALL).setIcon(callButton);
@@ -4166,13 +2915,6 @@ public class MainActivity extends FragmentActivity {
                         menu.toggle();
                     mDrawerLayout.openDrawer(Gravity.RIGHT);
                 }
-                /*if (deviceType.equals("phone") || deviceType.equals("phablet2"))
-                {
-                    menu.showSecondaryMenu();
-                } else
-                {
-                    menu.showMenu();
-                }*/
 
                 return true;
             case R.id.menu_settings:
@@ -4242,7 +2984,7 @@ public class MainActivity extends FragmentActivity {
                 try
                 {
                     Intent callIntent = new Intent(Intent.ACTION_CALL);
-                    callIntent.setData(Uri.parse("tel:"+ Conversation.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), this)));
+                    callIntent.setData(Uri.parse("tel:"+ ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), this)));
                     callIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(callIntent);
                 } catch (Exception e)
@@ -4361,7 +3103,7 @@ public class MainActivity extends FragmentActivity {
                 return true;
             case R.id.copy_sender:
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("Copied Address", Conversation.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), this));
+                ClipData clip = ClipData.newPlainText("Copied Address", ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), this));
                 clipboard.setPrimaryClip(clip);
 
                 Toast.makeText(this, R.string.text_saved, Toast.LENGTH_SHORT).show();
@@ -5603,7 +4345,7 @@ public class MainActivity extends FragmentActivity {
 
                             for (int j = 0; j < conversations.size(); j++) {
                                 if (conversations.get(j).getThreadId() ==  draftNames.get(i)) {
-                                    address = Conversation.findContactNumber(conversations.get(j).getNumber(), context);
+                                    address = ContactUtil.findContactNumber(conversations.get(j).getNumber(), context);
                                     break;
                                 }
                             }
@@ -5673,6 +4415,8 @@ public class MainActivity extends FragmentActivity {
 
             sharedPrefs.edit().putString("voice_threads", voiceThreads).commit();
         }
+
+        writeToFile(newMessages, this);
     }
 
     @Override
@@ -5708,7 +4452,7 @@ public class MainActivity extends FragmentActivity {
 
                         for (int i = 0; i < conversations.size(); i++)
                         {
-                            if (Conversation.findContactNumber(conversations.get(i).getNumber(), this).replace("-","").replace("+", "").equals(sendMessageTo.replace("-", "").replace("+1", "")))
+                            if (ContactUtil.findContactNumber(conversations.get(i).getNumber(), this).replace("-","").replace("+", "").equals(sendMessageTo.replace("-", "").replace("+1", "")))
                             {
                                 if (i < 10 || (!limitConversations && i > 10)) {
                                     mViewPager.setCurrentItem(i);
@@ -5721,11 +4465,11 @@ public class MainActivity extends FragmentActivity {
 
                         if (!flag)
                         {
-                            String name = findContactName(sendMessageTo, this);
+                            String name = ContactUtil.findContactName(sendMessageTo, this);
 
                             for (int i = 0; i < conversations.size(); i++)
                             {
-                                if (findContactName(Conversation.findContactNumber(conversations.get(i).getNumber(), this), this).equals(name))
+                                if (ContactUtil.findContactName(ContactUtil.findContactNumber(conversations.get(i).getNumber(), this), this).equals(name))
                                 {
                                     if (i < 10 || (!limitConversations && i > 10)) {
                                         mViewPager.setCurrentItem(i);
@@ -5916,7 +4660,7 @@ public class MainActivity extends FragmentActivity {
         if (!firstRun && conversations.size() != 0)
         {
             MainActivity.notChanged = false;
-            threadTitle = findContactName(Conversation.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), this), this);
+            threadTitle = ContactUtil.findContactName(ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), this), this);
         }
 
         refreshMessages();
@@ -6007,19 +4751,12 @@ public class MainActivity extends FragmentActivity {
 
         if (!firstRun)
         {
-            ArrayList<String> body = new ArrayList<String>();
-            for (Conversation i : conversations) {
-                body.add(i.getBody());
-            }
-
-            if (deviceType.equals("phone") || deviceType.equals("phablet2"))
-            {
-                menuAdapter = new MenuArrayAdapter(this, conversations, body, MainActivity.mViewPager);
+            if (deviceType.equals("phone") || deviceType.equals("phablet2")) {
+                menuAdapter = new MenuArrayAdapter(this, conversations, MainActivity.mViewPager);
                 menuLayout.setAdapter(menuAdapter);
-            } else
-            {
+            } else {
                 ListFragment newFragment = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.menuList);
-                newFragment.setListAdapter(new MenuArrayAdapter(this, conversations, body, MainActivity.mViewPager));
+                newFragment.setListAdapter(new MenuArrayAdapter(this, conversations, MainActivity.mViewPager));
             }
         } else
         {
@@ -6029,29 +4766,22 @@ public class MainActivity extends FragmentActivity {
 
                 @Override
                 public void run() {
-                    ArrayList<String> newMessages = readFromFile(context);
+                    newMessages = readFromFile(context);
 
-                    if (conversations.size() > 0)
-                    {
+                    if (conversations.size() > 0) {
                         if (newMessages.size() != 0)
                             newMessages.remove(newMessages.size() - 1);
-                    } else
-                    {
+                    } else {
                         newMessages = new ArrayList<String>();
                     }
-
-                    writeToFile(newMessages, context);
-
                 }
 
             }).start();
         }
 
-        if (threadTitle.equals("0"))
-        {
+        if (threadTitle.equals("0")) {
             mViewPager.setCurrentItem(0);
-        } else
-        {
+        } else {
             final String threadT = threadTitle;
             final Context context = this;
 
@@ -6063,7 +4793,7 @@ public class MainActivity extends FragmentActivity {
 
                     for (int i = 0; i < conversations.size(); i++)
                     {
-                        if (threadT.equals(findContactName(Conversation.findContactNumber(conversations.get(i).getNumber(), context), context)))
+                        if (threadT.equals(ContactUtil.findContactName(ContactUtil.findContactNumber(conversations.get(i).getNumber(), context), context)))
                         {
                             final int index = i;
 
@@ -6106,11 +4836,11 @@ public class MainActivity extends FragmentActivity {
                 if (ab != null) {
                     try
                     {
-                        ab.setTitle(findContactName(Conversation.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context), context));
+                        ab.setTitle(ContactUtil.findContactName(ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context), context));
 
                         Locale sCachedLocale = Locale.getDefault();
                         int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
-                        Editable editable = new SpannableStringBuilder(Conversation.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context));
+                        Editable editable = new SpannableStringBuilder(ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context));
                         PhoneNumberUtils.formatNumber(editable, sFormatType);
                         ab.setSubtitle(editable.toString());
 
@@ -6141,7 +4871,7 @@ public class MainActivity extends FragmentActivity {
 
             try
             {
-                ab.setIcon(new BitmapDrawable(getFacebookPhoto(Conversation.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context), context)));
+                ab.setIcon(new BitmapDrawable(ContactUtil.getFacebookPhoto(ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context), context)));
             } catch (Exception e)
             {
 
@@ -6286,21 +5016,13 @@ public class MainActivity extends FragmentActivity {
             }
         }
 
-        if (flag == true)
-        {
-            ArrayList<String> body2 = new ArrayList<String>();
-            for (Conversation i : conversations) {
-                body2.add(i.getBody());
-            }
-
-            if (deviceType.equals("phone") || deviceType.equals("phablet2"))
-            {
-                menuAdapter =  new MenuArrayAdapter(this, conversations, body2, MainActivity.mViewPager);
+        if (flag) {
+            if (deviceType.equals("phone") || deviceType.equals("phablet2")) {
+                menuAdapter =  new MenuArrayAdapter(this, conversations, MainActivity.mViewPager);
                 menuLayout.setAdapter(menuAdapter);
-            } else
-            {
+            } else {
                 ListFragment newFragment = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.menuList);
-                newFragment.setListAdapter(new MenuArrayAdapter(this, conversations, body2, MainActivity.mViewPager));
+                newFragment.setListAdapter(new MenuArrayAdapter(this, conversations, MainActivity.mViewPager));
             }
 
             try {
@@ -6528,7 +5250,7 @@ public class MainActivity extends FragmentActivity {
 
                     for (int i = 0; i < conversations.size(); i++)
                     {
-                        contacts.add(loadGroupContacts(Conversation.findContactNumber(conversations.get(i).getNumber(), getBaseContext()), getBaseContext()));
+                        contacts.add(ContactUtil.loadGroupContacts(ContactUtil.findContactNumber(conversations.get(i).getNumber(), getBaseContext()), getBaseContext()));
                     }
 
                     contact = new ArrayList<String>();
@@ -6551,7 +5273,7 @@ public class MainActivity extends FragmentActivity {
 
                     for (int i = 0; i < conversations.size(); i++)
                     {
-                        contacts.add(loadGroupContacts(Conversation.findContactNumber(conversations.get(i).getNumber(), getBaseContext()), getBaseContext()));
+                        contacts.add(ContactUtil.loadGroupContacts(ContactUtil.findContactNumber(conversations.get(i).getNumber(), getBaseContext()), getBaseContext()));
                     }
 
                     contact = new ArrayList<String>();
@@ -6630,11 +5352,11 @@ public class MainActivity extends FragmentActivity {
                             {
                                 if (settings.alwaysShowContactInfo)
                                 {
-                                    String[] names = findContactName(Conversation.findContactNumber(conversations.get(position).getNumber(), getBaseContext()), getBaseContext()).split(" ");
+                                    String[] names = ContactUtil.findContactName(ContactUtil.findContactNumber(conversations.get(position).getNumber(), getBaseContext()), getBaseContext()).split(" ");
                                     text = names[0].trim().toUpperCase(Locale.getDefault());
                                 } else
                                 {
-                                    text = findContactName(Conversation.findContactNumber(conversations.get(position).getNumber(), getBaseContext()), getBaseContext()).toUpperCase(Locale.getDefault());
+                                    text = ContactUtil.findContactName(ContactUtil.findContactNumber(conversations.get(position).getNumber(), getBaseContext()), getBaseContext()).toUpperCase(Locale.getDefault());
                                 }
                             } else
                             {
@@ -6642,15 +5364,15 @@ public class MainActivity extends FragmentActivity {
                                 {
                                     try
                                     {
-                                        String[] names = findContactName(Conversation.findContactNumber(conversations.get(position).getNumber(), getBaseContext()), getBaseContext()).split(" ");
+                                        String[] names = ContactUtil.findContactName(ContactUtil.findContactNumber(conversations.get(position).getNumber(), getBaseContext()), getBaseContext()).split(" ");
                                         text = names[0].trim();
                                     } catch (Exception e)
                                     {
-                                        text = findContactName(Conversation.findContactNumber(conversations.get(position).getNumber(), getBaseContext()), getBaseContext());
+                                        text = ContactUtil.findContactName(ContactUtil.findContactNumber(conversations.get(position).getNumber(), getBaseContext()), getBaseContext());
                                     }
                                 } else
                                 {
-                                    text = findContactName(Conversation.findContactNumber(conversations.get(position).getNumber(), getBaseContext()), getBaseContext());
+                                    text = ContactUtil.findContactName(ContactUtil.findContactNumber(conversations.get(position).getNumber(), getBaseContext()), getBaseContext());
                                 }
                             }
                         }
@@ -6835,7 +5557,7 @@ public class MainActivity extends FragmentActivity {
                 values.put("date_sent", date);
                 getContentResolver().insert(Uri.parse("content://sms/inbox"), values);
 
-                String name = findContactName(address, context);
+                String name = ContactUtil.findContactName(address, context);
                 String id = "0";
 
                 Bitmap contactImage = BitmapFactory.decodeResource(getResources(), R.drawable.ic_contact_picture);
@@ -6848,7 +5570,7 @@ public class MainActivity extends FragmentActivity {
                         id = phonesCursor.getString(0);
                     }
 
-                    InputStream input = openDisplayPhoto(Long.parseLong(id));
+                    InputStream input = ContactUtil.openDisplayPhoto(Long.parseLong(id), context);
 
                     if (input == null)
                     {
@@ -7008,7 +5730,7 @@ public class MainActivity extends FragmentActivity {
 
                 try
                 {
-                    if (address.replace(" ", "").replace("(", "").replace(")", "").replace("-", "").endsWith(Conversation.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context).replace(" ", "").replace("(", "").replace(")", "").replace("-", "")))
+                    if (address.replace(" ", "").replace("(", "").replace(")", "").replace("-", "").endsWith(ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context).replace(" ", "").replace("(", "").replace(")", "").replace("-", "")))
                     {
                         animationReceived = 1;
                         animationThread = mViewPager.getCurrentItem();
@@ -7025,7 +5747,7 @@ public class MainActivity extends FragmentActivity {
                     if (settings.inAppNotifications) {
                         boolean flag = false;
                         for (int i = 0; i < appMsgConversations; i++) {
-                            if (address.replace(" ", "").replace("(", "").replace(")", "").replace("-", "").endsWith(Conversation.findContactNumber(conversations.get(i).getNumber(), context).replace(" ", "").replace("(", "").replace(")", "").replace("-", ""))) {
+                            if (address.replace(" ", "").replace("(", "").replace(")", "").replace("-", "").endsWith(ContactUtil.findContactNumber(conversations.get(i).getNumber(), context).replace(" ", "").replace("(", "").replace(")", "").replace("-", ""))) {
                                 flag = true;
                                 break;
                             }
@@ -7047,7 +5769,7 @@ public class MainActivity extends FragmentActivity {
 
                 dismissCrouton = false;
 
-                refreshViewPager4(Conversation.findRecipientId(address, context), body, date);
+                refreshViewPager4(ContactUtil.findRecipientId(address, context), body, date);
 
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -7071,7 +5793,7 @@ public class MainActivity extends FragmentActivity {
 
                                 @Override
                                 public void run() {
-                                    final String title = findContactName(Conversation.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context), context);
+                                    final String title = ContactUtil.findContactName(ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context), context);
 
                                     ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 
@@ -7088,7 +5810,7 @@ public class MainActivity extends FragmentActivity {
 
                             Locale sCachedLocale = Locale.getDefault();
                             int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
-                            Editable editable = new SpannableStringBuilder(Conversation.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context));
+                            Editable editable = new SpannableStringBuilder(ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context));
                             PhoneNumberUtils.formatNumber(editable, sFormatType);
                             ab.setSubtitle(editable.toString());
 
@@ -7109,7 +5831,7 @@ public class MainActivity extends FragmentActivity {
 
                             @Override
                             public void run() {
-                                final Bitmap image = getFacebookPhoto(Conversation.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context), context);
+                                final Bitmap image = ContactUtil.getFacebookPhoto(ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context), context);
                                 final BitmapDrawable image2 = new BitmapDrawable(image);
 
                                 ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
@@ -7146,7 +5868,7 @@ public class MainActivity extends FragmentActivity {
 
         @Override
         public void onReceive(Context arg0, Intent arg1) {
-            refreshViewPager4(Conversation.findRecipientId(arg1.getStringExtra("address"), arg0), arg1.getStringExtra("body"), arg1.getStringExtra("date"));
+            refreshViewPager4(ContactUtil.findRecipientId(arg1.getStringExtra("address"), arg0), arg1.getStringExtra("body"), arg1.getStringExtra("date"));
             NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             mNotificationManager.cancel(1);
             mNotificationManager.cancel(2);
@@ -7154,7 +5876,7 @@ public class MainActivity extends FragmentActivity {
 
             try
             {
-                if (getIntent().getStringExtra("address").replace(" ", "").replace("(", "").replace(")", "").replace("-", "").endsWith(Conversation.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), arg0).replace(" ", "").replace("(", "").replace(")", "").replace("-", "")))
+                if (getIntent().getStringExtra("address").replace(" ", "").replace("(", "").replace(")", "").replace("-", "").endsWith(ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), arg0).replace(" ", "").replace("(", "").replace(")", "").replace("-", "")))
                 {
                     animationReceived = 1;
                     animationThread = mViewPager.getCurrentItem();
@@ -7172,7 +5894,7 @@ public class MainActivity extends FragmentActivity {
                     boolean flag = false;
                     for (int i = 0; i < appMsgConversations; i++) {
                         try {
-                            if (getIntent().getStringExtra("address").replace(" ", "").replace("(", "").replace(")", "").replace("-", "").endsWith(Conversation.findContactNumber(conversations.get(i).getNumber(), arg0).replace(" ", "").replace("(", "").replace(")", "").replace("-", ""))) {
+                            if (getIntent().getStringExtra("address").replace(" ", "").replace("(", "").replace(")", "").replace("-", "").endsWith(ContactUtil.findContactNumber(conversations.get(i).getNumber(), arg0).replace(" ", "").replace("(", "").replace(")", "").replace("-", ""))) {
                                 flag = true;
                                 break;
                             }
@@ -7215,56 +5937,6 @@ public class MainActivity extends FragmentActivity {
     };
 
     private BroadcastReceiver mmsProgressReceiver;
-
-    public static Bitmap getFacebookPhoto(String phoneNumber, Context context) {
-        try
-        {
-            Uri phoneUri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNumber));
-            Uri photoUri;
-            ContentResolver cr = context.getContentResolver();
-            Cursor contact = cr.query(phoneUri,
-                    new String[] { ContactsContract.Contacts._ID }, null, null, null);
-
-            try
-            {
-                if (contact.moveToFirst()) {
-                    long userId = contact.getLong(contact.getColumnIndex(ContactsContract.Contacts._ID));
-                    photoUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, userId);
-                    contact.close();
-                }
-                else {
-                    Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_picture);
-
-                    contact.close();
-                    return defaultPhoto;
-                }
-                if (photoUri != null) {
-                    InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(
-                            cr, photoUri);
-                    if (input != null) {
-                        contact.close();
-                        return BitmapFactory.decodeStream(input);
-                    }
-                } else {
-                    Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_picture);
-
-                    contact.close();
-                    return defaultPhoto;
-                }
-                Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_picture);
-
-                contact.close();
-                return defaultPhoto;
-            } catch (Exception e)
-            {
-                contact.close();
-                return BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_picture);
-            }
-        } catch (Exception e)
-        {
-            return BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_picture);
-        }
-    }
 
     public void setIcon(NotificationCompat.Builder mBuilder)
     {

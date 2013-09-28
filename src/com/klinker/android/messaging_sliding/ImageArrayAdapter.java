@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import com.klinker.android.messaging_donate.R;
-import com.klinker.android.messaging_donate.SendUtil;
+import com.klinker.android.messaging_donate.utils.SendUtil;
 
 import java.util.ArrayList;
 

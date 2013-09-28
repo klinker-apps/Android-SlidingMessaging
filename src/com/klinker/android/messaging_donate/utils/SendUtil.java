@@ -1,4 +1,4 @@
-package com.klinker.android.messaging_donate;
+package com.klinker.android.messaging_donate.utils;
 
 import android.content.*;
 import android.graphics.Bitmap;
@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.TypedValue;
+import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead2;
 import com.klinker.android.send_message.Message;
 import com.klinker.android.send_message.Settings;
@@ -24,7 +25,7 @@ public class SendUtil {
 
         final Message message = new Message(body, number);
 
-        sendTransaction.sendNewMessage(message, (Long) null);
+        sendTransaction.sendNewMessage(message, Transaction.NO_THREAD_ID);
 
         Intent mrIntent = new Intent();
         mrIntent.setClass(context, QmMarkRead2.class);
@@ -43,7 +44,7 @@ public class SendUtil {
 
         final Message message = new Message(body, number);
 
-        sendTransaction.sendNewMessage(message, (Long) null);
+        sendTransaction.sendNewMessage(message, Transaction.NO_THREAD_ID);
 
         Intent mrIntent = new Intent();
         mrIntent.setClass(context, QmMarkRead2.class);
@@ -62,8 +63,8 @@ public class SendUtil {
 
         final Message message = new Message(body, number);
         message.setImages(images);
-
-        sendTransaction.sendNewMessage(message, (Long) null);
+        
+        sendTransaction.sendNewMessage(message, Transaction.NO_THREAD_ID);
 
         Intent mrIntent = new Intent();
         mrIntent.setClass(context, QmMarkRead2.class);
