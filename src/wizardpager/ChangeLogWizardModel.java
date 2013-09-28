@@ -47,22 +47,10 @@ public class ChangeLogWizardModel extends AbstractWizardModel {
         }
 
         String changeLog = "Version " + version + ":\n\n" +
-                "- SlideOver 2.0 + Quick Peek!  (Includes new actions and major functionality increases)\n" +
-                "\t- For a full list of features and a demo video go to: http://goo.gl/7VbZkI\n" +
-                "\t- Double tap bubble to change sliver width\n" +
-                "\t- Long click to reposition bubble\n" +
-                "\t- Single tap to open Quick Peek window\n" +
-                "- Ability to attach subjects to MMS messages\n" +
-                "- Option to select the max height and width of sent pictures for higher resolution images\n" +
-                "- Option to always use Google Voice\n" +
-                "- Favorites category on the emoji keyboard for quick access to your most used emojis\n" +
-                "- Changed default font to \"Roboto Light\" for a cleaner look, you also have the option to use your device font in Theme Settings (first turn on \"Show All Settings\" in advanced settings though)\n" +
-                "- Minor style and UI changes\n" +
-                "- Option to bold the names in the conversations list\n" +
-                "- A few more optimizations\n" +
-                "- Bug fixes\n\n" +
-                "- Fix for SlideOver Arc not disappearing\n" +
-                "- Fix for Card+ UI not displaying correctly";
+                "- Rewrite of sliding menus\n" +
+                "- Added a navigation drawer to compose new messages instead of sliding menu.\n" +
+                "- Tons of optimizations\n" +
+                "- Bug fixes";
                 
         String themeEditor = "The theme editor now fully supports the Cards UI 2.0, making it a " +
                 "better time than ever to get on board and start making Sliding Messaging Pro look exactly how you want!\n\n" +
