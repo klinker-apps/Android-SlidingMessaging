@@ -1022,7 +1022,7 @@ public class MainActivity extends FragmentActivity {
                                 @Override
                                 public void run() {
                                     contact.setText("");
-                                    if (settings.openContactMenu && (deviceType.equals("phone") || deviceType.equals("phablet2")))
+                                    if (menu != null)
                                         menu.showContent();
                                     refreshViewPager();
                                     mViewPager.setCurrentItem(0);
@@ -1063,7 +1063,7 @@ public class MainActivity extends FragmentActivity {
                             messageScreen2.addView(tabs, SlidingTabParams);
                             messageScreen2.addView(vp, viewPagerParams);
 
-                            if (settings.openContactMenu && (deviceType.equals("phone") || deviceType.equals("phablet2"))) {
+                            if (menu != null) {
                                 if (menuOption.equals("1")) {
                                     menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
                                 }
@@ -1083,7 +1083,7 @@ public class MainActivity extends FragmentActivity {
                                     messageScreen2.removeView(tabs);
                                     messageScreen2.removeView(vp);
 
-                                    if (settings.openContactMenu && (deviceType.equals("phone") || deviceType.equals("phablet2"))) {
+                                    if (menu != null) {
                                         if (menuOption.equals("1")) {
                                             menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
                                         }
@@ -1102,7 +1102,7 @@ public class MainActivity extends FragmentActivity {
                                         messageScreen2.removeView(tabs);
                                         messageScreen2.removeView(vp);
 
-                                        if (settings.openContactMenu && (deviceType.equals("phone") || deviceType.equals("phablet2"))) {
+                                        if (menu != null) {
                                             if (menuOption.equals("1")) {
                                                 menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
                                             }
@@ -1120,7 +1120,7 @@ public class MainActivity extends FragmentActivity {
                             messageScreen2.removeView(tabs);
                             messageScreen2.removeView(vp);
 
-                            if (settings.openContactMenu && (deviceType.equals("phone") || deviceType.equals("phablet2"))) {
+                            if (menu != null) {
                                 if (menuOption.equals("1")) {
                                     menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
                                 }
@@ -1978,7 +1978,7 @@ public class MainActivity extends FragmentActivity {
                             messageScreen.addView(tabs, SlidingTabParams);
                             messageScreen.addView(vp, viewPagerParams);
 
-                            if (settings.openContactMenu && (deviceType.equals("phone") || deviceType.equals("phablet2"))) {
+                            if (menu != null) {
                                 if (menuOption.equals("1") ) {
                                     menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
                                 }
@@ -1995,7 +1995,7 @@ public class MainActivity extends FragmentActivity {
                                         messageScreen.removeView(tabs);
                                         messageScreen.removeView(vp);
 
-                                        if (settings.openContactMenu && (deviceType.equals("phone") || deviceType.equals("phablet2"))) {
+                                        if (menu != null) {
                                             if (menuOption.equals("1")) {
                                                 menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
                                             }
@@ -2010,7 +2010,7 @@ public class MainActivity extends FragmentActivity {
                         } else {
                             emojiOpen = false;
 
-                            if (settings.openContactMenu && (deviceType.equals("phone") || deviceType.equals("phablet2"))) {
+                            if (menu != null) {
                                 if (menuOption.equals("1")) {
                                     menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
                                 }
@@ -2470,10 +2470,6 @@ public class MainActivity extends FragmentActivity {
                     }
 
                     try {
-                        if (deviceType.equals("phone") || deviceType.equals("phablet2")) {
-                            ab.setDisplayHomeAsUpEnabled(true);
-                        }
-
                         if (!settings.useTitleBar || settings.alwaysShowContactInfo || settings.titleContactImages) {
                             if (ab != null) {
                                 try {
@@ -2782,7 +2778,7 @@ public class MainActivity extends FragmentActivity {
         final int MENU_ABOUT = 13;
 
         try {
-            if (deviceType.equals("phone") || deviceType.equals("phablet2")) {
+            if (menu != null) {
                 if (conversations.size() == 0 || MainActivity.menu.isMenuShowing() || mDrawerLayout.isDrawerOpen(Gravity.RIGHT)) {
                     if (MainActivity.menu.isMenuShowing()) {
                         menu.getItem(MENU_CALL).setVisible(false);
@@ -2911,7 +2907,7 @@ public class MainActivity extends FragmentActivity {
                 if (mDrawerLayout.isDrawerOpen(Gravity.RIGHT)) {
                     mDrawerLayout.closeDrawer(Gravity.RIGHT);
                 } else {
-                    if (settings.openContactMenu && (deviceType.equals("phone") || deviceType.equals("phablet2"))) {
+                    if (menu != null) {
                         if (menu.isMenuShowing())
                             menu.toggle();
                     }
@@ -2969,7 +2965,7 @@ public class MainActivity extends FragmentActivity {
                 dialog.show();
                 return true;
             case android.R.id.home:
-                if (deviceType.equals("phone") || deviceType.equals("phablet2")) {
+                if (menu != null) {
                     menu.showMenu();
                 }
 
@@ -2989,7 +2985,7 @@ public class MainActivity extends FragmentActivity {
                 }
                 return true;
             case R.id.menu_delete:
-                if (settings.openContactMenu && (deviceType.equals("phone") || deviceType.equals("phablet2"))) {
+                if (menu != null) {
                     if (menu.isMenuShowing()) {
                         Intent intent = new Intent(this, BatchDeleteAllActivity.class);
                         startActivity(intent);
@@ -3162,7 +3158,7 @@ public class MainActivity extends FragmentActivity {
         multipleAttachments = false;
         AttachMore.data = new ArrayList<MMSPart>();
 
-        if (deviceType.equals("phone") || deviceType.equals("phablet2")) {
+        if (menu != null) {
             newMessage = mDrawerLayout.isDrawerOpen(Gravity.RIGHT);
         } else {
             newMessage = mDrawerLayout.isDrawerOpen(Gravity.RIGHT);
@@ -3399,7 +3395,7 @@ public class MainActivity extends FragmentActivity {
 
                 });
 
-                if (settings.openContactMenu && (deviceType.equals("phone") || deviceType.equals("phablet2"))) {
+                if (menu != null) {
                     MainActivity.menu.showContent();
                 }
                 mViewPager.setCurrentItem(attachedPosition);
@@ -3767,7 +3763,7 @@ public class MainActivity extends FragmentActivity {
                     messageScreen.removeView(vp);
                 }
             }
-        } else if (deviceType.equals("phone") || deviceType.equals("phablet2")) {
+        } else if (menu != null) {
             if (mDrawerLayout.isDrawerOpen(Gravity.RIGHT)) {
                 if (mDrawerLayout.isDrawerOpen(Gravity.RIGHT)) {
                     mDrawerLayout.closeDrawer(Gravity.RIGHT);
@@ -3836,7 +3832,7 @@ public class MainActivity extends FragmentActivity {
         filter.addCategory(Intent.CATEGORY_DEFAULT);
         registerReceiver(killReceiver, filter);
 
-        if (settings.openContactMenu && (deviceType.equals("phone") || deviceType.equals("phablet2"))) {
+        if (menu != null) {
             String menuOption = sharedPrefs.getString("page_or_menu2", "2");
 
             if (menuOption.equals("2")) {
@@ -4174,7 +4170,7 @@ public class MainActivity extends FragmentActivity {
                 refreshViewPager();
                 createMenu();
 
-                if (settings.openContactMenu && (deviceType.equals("phone") || deviceType.equals("phablet2"))) {
+                if (settings.openContactMenu && menu != null) {
                     menu.showMenu();
                 }
 
@@ -4186,7 +4182,7 @@ public class MainActivity extends FragmentActivity {
                             if (ContactUtil.findContactNumber(conversations.get(i).getNumber(), this).replace("-","").replace("+", "").equals(sendMessageTo.replace("-", "").replace("+1", ""))) {
                                 if (i < 10 || (!limitConversations && i > 10)) {
                                     mViewPager.setCurrentItem(i);
-                                    if (settings.openContactMenu && (deviceType.equals("phone") || deviceType.equals("phablet2"))) {
+                                    if (menu != null) {
                                         menu.showContent();
                                     }
                                     flag = true;
@@ -4202,7 +4198,7 @@ public class MainActivity extends FragmentActivity {
                                 if (ContactUtil.findContactName(ContactUtil.findContactNumber(conversations.get(i).getNumber(), this), this).equals(name)) {
                                     if (i < 10 || (!limitConversations && i > 10)) {
                                         mViewPager.setCurrentItem(i);
-                                        if (settings.openContactMenu && (deviceType.equals("phone") || deviceType.equals("phablet2"))) {
+                                        if (menu != null) {
                                             menu.showContent();
                                         }
                                         flag = true;
@@ -4323,11 +4319,11 @@ public class MainActivity extends FragmentActivity {
                 messageRecieved = false;
             }
 
-            if (settings.openContactMenu && (deviceType.equals("phone") || deviceType.equals("phablet2"))) {
+            if (menu != null) {
                 if (sendTo) {
                     menu.showContent();
                 } else {
-                    if (settings.openContactMenu && (imageAttach.getVisibility() != View.VISIBLE && imageAttach2.getVisibility() != View.VISIBLE) && (deviceType.equals("phone") || deviceType.equals("phablet2"))) {
+                    if (settings.openContactMenu && (imageAttach.getVisibility() != View.VISIBLE && imageAttach2.getVisibility() != View.VISIBLE)) {
                         menu.showMenu();
                     } else if (imageAttach.getVisibility() == View.VISIBLE) {
                         menu.showContent();
@@ -4337,7 +4333,7 @@ public class MainActivity extends FragmentActivity {
         }
 
         if (fromNotification) {
-            if (settings.openContactMenu && (deviceType.equals("phone") || deviceType.equals("phablet2"))) {
+            if (menu != null) {
                 menu.showContent();
             }
             fromNotification = false;
@@ -4443,7 +4439,7 @@ public class MainActivity extends FragmentActivity {
 
         if (!firstRun)
         {
-            if (deviceType.equals("phone") || deviceType.equals("phablet2")) {
+            if (menu != null) {
                 menuAdapter = new MenuArrayAdapter(this, conversations, MainActivity.mViewPager);
                 menuLayout.setAdapter(menuAdapter);
             } else {
@@ -4690,7 +4686,7 @@ public class MainActivity extends FragmentActivity {
         }
 
         if (flag) {
-            if (deviceType.equals("phone") || deviceType.equals("phablet2")) {
+            if (menu != null) {
                 menuAdapter =  new MenuArrayAdapter(this, conversations, MainActivity.mViewPager);
                 menuLayout.setAdapter(menuAdapter);
             } else {
