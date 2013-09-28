@@ -1,9 +1,8 @@
 Version 7.60
 
 Jake:
+    - emoji keyboard for drawer
     - if voice fails, try fetching a new rnrse and save that value to sharedprefs
-    - Create conversation class that closely mirrors stock app and can be used instead of array lists in main activity, move the name and number getting methods there as well
-    - Look into draw on the side for new message view and then enabling or disabling the slide to open it
     - Look at menu array adapter and how it can be changed for more speed getting contact pictures, is that really the problem? Look at the stock apps get contact picture method in the contact class
         - Remove all of the get facebook photo methods and just use one from a utils file
     - redo the text message receiver for cleaner, more efficient code and send broadcast at the end of it to refresh instead of creating a receiver in the app, like i've done for mms

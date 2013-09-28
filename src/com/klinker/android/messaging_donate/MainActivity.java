@@ -126,11 +126,6 @@ public class MainActivity extends FragmentActivity {
     public static Settings sendSettings;
     private Transaction sendTransaction;
 
-    //private ArrayList<String> inboxNumber, inboxDate, inboxBody;
-    //private ArrayList<String> group;
-    //private ArrayList<String> msgCount;
-    //private ArrayList<String> msgRead;
-
     public ArrayList<Long> threadsThroughVoice;
 
     public static boolean waitToLoad = false;
@@ -140,7 +135,7 @@ public class MainActivity extends FragmentActivity {
     public static String myPhoneNumber, myContactId;
 
     private ArrayList<Conversation> conversations;
-    private ArrayList<String> contactNames, contactNumbers, contactTypes;//, threadIds;
+    private ArrayList<String> contactNames, contactNumbers, contactTypes;
 
     public static SlidingMenu menu;
     private MessageBar messageBar;
@@ -258,18 +253,21 @@ public class MainActivity extends FragmentActivity {
         settings = AppSettings.init(this);
         initialSetup();
 
-        // FIXME just commented for now cause i can't fix it haha
-        /*if (settings.voiceAccount != null) {
-            threadsThroughVoice = new ArrayList<String>(Arrays.asList(settings.voiceThreads.split("-")));
+        if (settings.voiceAccount != null) {
+            String[] threads = settings.voiceThreads.split("-");
+            threadsThroughVoice = new ArrayList<Long>();
 
-            while (threadsThroughVoice.remove(""));
-        }*/
+            for (int i = 0; i < threads.length; i++) {
+                try {
+                    threadsThroughVoice.add(Long.parseLong(threads[i]));
+                } catch (Exception e) {}
+            }
+        }
 
         setUpWindow();
         setUpSendSettings();
 
-        if (settings.emojiKeyboard && settings.emoji)
-        {
+        if (settings.emojiKeyboard && settings.emoji) {
             vp = new ViewPager(this);
             tabs = new PagerSlidingTabStrip(this);
             vp.setBackgroundColor(getResources().getColor(R.color.light_silver));
@@ -302,10 +300,8 @@ public class MainActivity extends FragmentActivity {
         if(fromIntent.getBooleanExtra("halo_popup", false))
             haloPopup = true;
 
-        if(fromIntent.getBooleanExtra("initial_run", false))
-        {
+        if(fromIntent.getBooleanExtra("initial_run", false)) {
             try { // try catch so if they change to landscape, which uses a linear layout instead, everything won't force close
-
                 final WindowManager.LayoutParams arcParams = new WindowManager.LayoutParams(
                         WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
                         WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
@@ -364,8 +360,7 @@ public class MainActivity extends FragmentActivity {
         MainActivity.notChanged = true;
         setUpIntentStuff();
 
-        if (settings.customFont)
-        {
+        if (settings.customFont) {
             try {
                 font = Typeface.createFromFile(settings.customFontPath);
             } catch (Throwable e) {
@@ -376,19 +371,16 @@ public class MainActivity extends FragmentActivity {
             }
         }
 
-        if (settings.quickText)
-        {
+        if (settings.quickText) {
             Intent mIntent = new Intent(this, QuickTextService.class);
             this.startService(mIntent);
-        } else
-        {
+        } else {
             NotificationManager mNotificationManager =
                     (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             mNotificationManager.cancel(3);
         }
 
-        if (settings.overrideLang)
-        {
+        if (settings.overrideLang) {
             String languageToLoad  = "en";
             Locale locale = new Locale(languageToLoad);
             Locale.setDefault(locale);
@@ -453,22 +445,17 @@ public class MainActivity extends FragmentActivity {
             ActionBar ab = getActionBar();
             ab.setDisplayHomeAsUpEnabled(true);
 
-            if (!settings.lightActionBar)
-            {
+            if (!settings.lightActionBar) {
                 ab.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.black)));
 
-                if (settings.ctConversationListBackground == getResources().getColor(R.color.pitch_black))
-                {
-                    if (!settings.useTitleBar)
-                    {
+                if (settings.ctConversationListBackground == getResources().getColor(R.color.pitch_black)) {
+                    if (!settings.useTitleBar) {
                         ab.setBackgroundDrawable(getResources().getDrawable(R.drawable.pitch_black_action_bar_blue));
-                    } else
-                    {
+                    } else {
                         ab.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.pitch_black)));
                     }
                 }
-            } else
-            {
+            } else {
                 ab.setBackgroundDrawable(getResources().getDrawable(R.drawable.ab_hangouts));
             }
         } catch (Exception e) {
@@ -495,16 +482,20 @@ public class MainActivity extends FragmentActivity {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
                 R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close) {
 
-            /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
                 try { getActionBar().setTitle(messaging); } catch (Exception e) { }
                 invalidateOptionsMenu();
+                messageEntry.requestFocusFromTouch();
             }
 
-            /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
-                try { getActionBar().setTitle(newMessage); } catch (Exception e) { };
+                try { getActionBar().setTitle(newMessage); } catch (Exception e) { }
                 invalidateOptionsMenu();
+                EditText contactEntry = (EditText) newMessageView.findViewById(R.id.contactEntry);
+                contactEntry.requestFocusFromTouch();
+                InputMethodManager keyboard = (InputMethodManager)
+                        getSystemService(Context.INPUT_METHOD_SERVICE);
+                keyboard.showSoftInput(contactEntry, 0);
             }
         };
 
@@ -536,13 +527,13 @@ public class MainActivity extends FragmentActivity {
 
         mEditText.addTextChangedListener(new TextWatcher() {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
             }
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 int length = Integer.parseInt(String.valueOf(s.length()));
 
-                if (!settings.signature.equals(""))
-                {
+                if (!settings.signature.equals("")) {
                     length += ("\n" + settings.signature).length();
                 }
 
@@ -552,50 +543,41 @@ public class MainActivity extends FragmentActivity {
 
                 int size = 160;
 
-                if (matcher.find() && !settings.stripUnicode)
-                {
+                if (matcher.find() && !settings.stripUnicode) {
                     size = 70;
                 }
 
                 int pages = 1;
 
-                while (length > size)
-                {
+                while (length > size) {
                     length-=size;
                     pages++;
                 }
 
                 mTextView.setText(pages + "/" + (size - length));
 
-                if ((pages == 1 && (size - length) <= 30) || pages != 1)
-                {
+                if ((pages == 1 && (size - length) <= 30) || pages != 1) {
                     mTextView.setVisibility(View.VISIBLE);
                 }
 
-                if ((pages + "/" + (size - length)).equals("1/31"))
-                {
+                if ((pages + "/" + (size - length)).equals("1/31")) {
                     mTextView.setVisibility(View.GONE);
                 }
 
-                if ((pages + "/" + (size - length)).equals("1/160"))
-                {
+                if ((pages + "/" + (size - length)).equals("1/160")) {
                     mTextView.setVisibility(View.GONE);
                 }
 
-                if (imageAttach2.getVisibility() == View.VISIBLE)
-                {
+                if (imageAttach2.getVisibility() == View.VISIBLE) {
                     mTextView.setVisibility(View.GONE);
                 }
 
-                if (settings.sendAsMMS && pages > settings.mmsAfter)
-                {
+                if (settings.sendAsMMS && pages > settings.mmsAfter) {
                     mTextView.setVisibility(View.GONE);
                 }
 
-                if (settings.sendWithReturn)
-                {
-                    if (mEditText.getText().toString().endsWith("\n"))
-                    {
+                if (settings.sendWithReturn) {
+                    if (mEditText.getText().toString().endsWith("\n")) {
                         mEditText.setText(mEditText.getText().toString().substring(0, mEditText.getText().toString().length() - 1));
                         sendButton.performClick();
                     }
@@ -605,11 +587,11 @@ public class MainActivity extends FragmentActivity {
             }
 
             public void afterTextChanged(Editable s) {
+
             }
         });
 
-        if (!settings.keyboardType)
-        {
+        if (!settings.keyboardType) {
             mEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
             mEditText.setImeOptions(EditorInfo.IME_ACTION_NONE);
         }
@@ -627,8 +609,7 @@ public class MainActivity extends FragmentActivity {
 
                 String[] numbers = contact.getText().toString().split("; ");
 
-                for (int i = 0; i < numbers.length; i++)
-                {
+                for (int i = 0; i < numbers.length; i++) {
                     currentNumbers.add(numbers[i]);
                     currentTypes.add("");
                     currentNames.add(findContactName(numbers[i], context));
@@ -640,15 +621,12 @@ public class MainActivity extends FragmentActivity {
                     public void run() {
                         ListView current = (ListView) newMessageView.findViewById(R.id.contactSearch);
 
-                        if (!currentNames.get(0).equals("No Information"))
-                        {
+                        if (!currentNames.get(0).equals("No Information")) {
                             current.setAdapter(new ContactSearchArrayAdapter((Activity)context, currentNames, currentNumbers, currentTypes));
-                        } else
-                        {
+                        } else {
                             current.setAdapter(new ContactSearchArrayAdapter((Activity)context, new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>()));
                         }
                     }
-
                 });
             }
         });
@@ -695,22 +673,18 @@ public class MainActivity extends FragmentActivity {
                 int indexName = people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
                 int indexNumber = people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
 
-                if (people.moveToFirst())
-                {
+                if (people.moveToFirst()) {
                     do {
                         int type = people.getInt(people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
                         String customLabel = people.getString(people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.LABEL));
 
-                        if (settings.mobileOnly)
-                        {
-                            if (type == 2)
-                            {
+                        if (settings.mobileOnly) {
+                            if (type == 2) {
                                 contactNames.add(people.getString(indexName));
                                 contactNumbers.add(people.getString(indexNumber).replaceAll("[^0-9\\+]", ""));
                                 contactTypes.add(ContactsContract.CommonDataKinds.Phone.getTypeLabel(context.getResources(), type, customLabel).toString());
                             }
-                        } else
-                        {
+                        } else {
                             contactNames.add(people.getString(indexName));
                             contactNumbers.add(people.getString(indexNumber).replaceAll("[^0-9\\+]", ""));
                             contactTypes.add(ContactsContract.CommonDataKinds.Phone.getTypeLabel(context.getResources(), type, customLabel).toString());
@@ -744,10 +718,8 @@ public class MainActivity extends FragmentActivity {
 
         contact.addTextChangedListener(new TextWatcher() {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                if (firstContactSearch)
-                {
-                    try
-                    {
+                if (firstContactSearch) {
+                    try {
                         contactNames = new ArrayList<String>();
                         contactNumbers = new ArrayList<String>();
                         contactTypes = new ArrayList<String>();
@@ -767,16 +739,13 @@ public class MainActivity extends FragmentActivity {
                                 String customLabel = people.getString(people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.LABEL));
 
                                 try {
-                                    if (settings.mobileOnly)
-                                    {
-                                        if (type == 2)
-                                        {
+                                    if (settings.mobileOnly) {
+                                        if (type == 2) {
                                             contactNames.add(people.getString(indexName));
                                             contactNumbers.add(people.getString(indexNumber).replaceAll("[^0-9\\+]", ""));
                                             contactTypes.add(ContactsContract.CommonDataKinds.Phone.getTypeLabel(context.getResources(), type, customLabel).toString());
                                         }
-                                    } else
-                                    {
+                                    } else {
                                         contactNames.add(people.getString(indexName));
                                         contactNumbers.add(people.getString(indexNumber).replaceAll("[^0-9\\+]", ""));
                                         contactTypes.add(ContactsContract.CommonDataKinds.Phone.getTypeLabel(context.getResources(), type, customLabel).toString());
@@ -808,51 +777,40 @@ public class MainActivity extends FragmentActivity {
 
                 text = text2[text2.length-1].trim();
 
-                if (text.startsWith("+"))
-                {
+                if (text.startsWith("+")) {
                     text = text.substring(1);
                 }
 
                 Pattern pattern;
 
-                try
-                {
+                try {
                     pattern = Pattern.compile(text.toLowerCase());
-                } catch (Exception e)
-                {
+                } catch (Exception e) {
                     pattern = Pattern.compile(text.toLowerCase().replace("(", "").replace(")", "").replace("?", "").replace("[", "").replace("{", "").replace("}", "").replace("\\", "").replace("*", ""));
                 }
 
                 try {
-                    for (int i = 0; i < contactNames.size(); i++)
-                    {
-                        try
-                        {
+                    for (int i = 0; i < contactNames.size(); i++) {
+                        try {
                             Long.parseLong(text);
 
-                            if (text.length() <= contactNumbers.get(i).length())
-                            {
+                            if (text.length() <= contactNumbers.get(i).length()) {
                                 Matcher matcher = pattern.matcher(contactNumbers.get(i));
-                                if(matcher.find())
-                                {
+                                if(matcher.find()) {
                                     searchedNames.add(contactNames.get(i));
                                     searchedNumbers.add(contactNumbers.get(i));
                                     searchedTypes.add(contactTypes.get(i));
                                 }
                             }
-                        } catch (Exception e)
-                        {
-                            if (contactNames == null)
-                            {
+                        } catch (Exception e) {
+                            if (contactNames == null) {
                                 contactNames = new ArrayList<String>();
                                 contactNumbers = new ArrayList<String>();
                                 contactTypes = new ArrayList<String>();
                             }
-                            if (text.length() <= contactNames.get(i).length())
-                            {
+                            if (text.length() <= contactNames.get(i).length()) {
                                 Matcher matcher = pattern.matcher(contactNames.get(i).toLowerCase());
-                                if(matcher.find())
-                                {
+                                if(matcher.find()) {
                                     searchedNames.add(contactNames.get(i));
                                     searchedNumbers.add(contactNumbers.get(i));
                                     searchedTypes.add(contactTypes.get(i));
@@ -880,14 +838,12 @@ public class MainActivity extends FragmentActivity {
                             lpw.setHeight(height/3);
 
 
-                            if (firstContactSearch)
-                            {
+                            if (firstContactSearch) {
                                 lpw.show();
                                 firstContactSearch = false;
                             }
 
-                            if (textF.length() == 0)
-                            {
+                            if (textF.length() == 0) {
                                 lpw.dismiss();
                                 firstContactSearch = true;
                             }
@@ -900,14 +856,12 @@ public class MainActivity extends FragmentActivity {
                     lpw.setHeight(height/3);
 
 
-                    if (firstContactSearch)
-                    {
+                    if (firstContactSearch) {
                         lpw.show();
                         firstContactSearch = false;
                     }
 
-                    if (text.length() == 0)
-                    {
+                    if (text.length() == 0) {
                         lpw.dismiss();
                         firstContactSearch = true;
                     }
@@ -924,14 +878,11 @@ public class MainActivity extends FragmentActivity {
 
             @Override
             public void onClick(View v) {
-                if (contact.getText().toString().equals(""))
-                {
+                if (contact.getText().toString().equals("")) {
                     contact.setError("No Recipients");
-                } else if (mEditText.getText().toString().equals("") && imageAttach2.getVisibility() == View.GONE)
-                {
+                } else if (mEditText.getText().toString().equals("") && imageAttach2.getVisibility() == View.GONE) {
                     mEditText.setError("Nothing to Send");
-                } else
-                {
+                } else {
                     mDrawerLayout.closeDrawer(Gravity.RIGHT);
 
                     MainActivity.animationOn = true;
@@ -949,8 +900,7 @@ public class MainActivity extends FragmentActivity {
                     final String text = mEditText.getText().toString();
                     mEditText.setText("");
 
-                    if (settings.hideKeyboard)
-                    {
+                    if (settings.hideKeyboard) {
                         new Thread(new Runnable() {
 
                             @Override
@@ -959,8 +909,7 @@ public class MainActivity extends FragmentActivity {
                                     Thread.sleep(2000);
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
-                                } finally
-                                {
+                                } finally {
                                     InputMethodManager keyboard = (InputMethodManager)
                                             getSystemService(Context.INPUT_METHOD_SERVICE);
                                     keyboard.hideSoftInputFromWindow(mEditText.getWindowToken(), 0);
@@ -1021,16 +970,15 @@ public class MainActivity extends FragmentActivity {
                                         @Override
                                         public void run() {
                                             Log.v("sending_mms_library", "sending new mms, posted to UI thread");
-                                            sendTransaction.sendNewMessage(message, null);
+                                            sendTransaction.sendNewMessage(message, Transaction.NO_THREAD_ID);
                                         }
                                     });
                                 } else {
-                                    sendTransaction.sendNewMessage(message, null);
+                                    sendTransaction.sendNewMessage(message, Transaction.NO_THREAD_ID);
                                 }
                             } else {
                                 if (sendTransaction.checkMMS(message)) {
-                                    if (multipleAttachments == false)
-                                    {
+                                    if (!multipleAttachments) {
                                         Intent sendIntent = new Intent(Intent.ACTION_SEND);
                                         sendIntent.putExtra("address", contact.getText().toString().replace(";", ""));
                                         sendIntent.putExtra("sms_body", text);
@@ -1048,12 +996,11 @@ public class MainActivity extends FragmentActivity {
                                         startActivity(chooser);
 
                                         MainActivity.messageRecieved = true;
-                                    } else
-                                    {
+                                    } else {
                                         Toast.makeText(context, "Cannot send multiple images through stock", Toast.LENGTH_SHORT).show();
                                     }
                                 } else {
-                                    sendTransaction.sendNewMessage(message, null);
+                                    sendTransaction.sendNewMessage(message, Transaction.NO_THREAD_ID);
                                 }
                             }
 
@@ -1084,11 +1031,9 @@ public class MainActivity extends FragmentActivity {
         ImageButton emojiButton = (ImageButton) newMessageView.findViewById(R.id.display_emoji);
         voiceButton2 = (ImageButton) newMessageView.findViewById(R.id.voiceButton);
 
-        if (!settings.emoji)
-        {
+        if (!settings.emoji) {
             emojiButton.setVisibility(View.GONE);
-        } else
-        {
+        } else {
             emojiButton.setOnClickListener(new OnClickListener() {
 
                 @Override
@@ -1096,10 +1041,8 @@ public class MainActivity extends FragmentActivity {
 
                     final String menuOption = sharedPrefs.getString("page_or_menu2", "2");
 
-                    if(false)//settings.emojiKeyboard && settings.emojiType)
-                    {
-                        if (!emoji2Open)
-                        {
+                    if(false)/*(settings.emojiKeyboard && settings.emojiType)*/ {
+                        if (!emoji2Open) {
                             messageScreen2 = (LinearLayout) findViewById(R.id.messageScreen2);
 
                             messageScreen2.addView(tabs, SlidingTabParams);
@@ -1135,8 +1078,7 @@ public class MainActivity extends FragmentActivity {
                             messageEntry2.setOnTouchListener(new View.OnTouchListener() {
                                 @Override
                                 public boolean onTouch(View v, MotionEvent event) {
-                                    if(emoji2Open)
-                                    {
+                                    if(emoji2Open) {
                                         messageScreen2.removeView(tabs);
                                         messageScreen2.removeView(vp);
 
@@ -1175,8 +1117,7 @@ public class MainActivity extends FragmentActivity {
                         final GridView emojiGrid = (GridView) frame.findViewById(R.id.emojiGrid);
                         Button okButton = (Button) frame.findViewById(R.id.emoji_ok);
 
-                        if (settings.emojiType)
-                        {
+                        if (settings.emojiType) {
                             emojiGrid.setAdapter(new EmojiAdapter2(context));
                             emojiGrid.setOnItemClickListener(new OnItemClickListener() {
 
@@ -1221,8 +1162,7 @@ public class MainActivity extends FragmentActivity {
                                     emojiGrid.setSelection(153 + 162 + 178 + 122 + (7 * 7));
                                 }
                             });
-                        } else
-                        {
+                        } else {
                             emojiGrid.setAdapter(new EmojiAdapter(context));
                             emojiGrid.setOnItemClickListener(new OnItemClickListener() {
 
@@ -1252,12 +1192,10 @@ public class MainActivity extends FragmentActivity {
 
                             @Override
                             public void onClick(View v) {
-                                if (settings.emojiType)
-                                {
+                                if (settings.emojiType) {
                                     mEditText.setText(EmojiConverter2.getSmiledText(context, mEditText.getText().toString() + editText.getText().toString()));
                                     mEditText.setSelection(mEditText.getText().length());
-                                } else
-                                {
+                                } else {
                                     mEditText.setText(EmojiConverter.getSmiledText(context, mEditText.getText().toString() + editText.getText().toString()));
                                     mEditText.setSelection(mEditText.getText().length());
                                 }
@@ -1341,15 +1279,13 @@ public class MainActivity extends FragmentActivity {
         subjectLine2.setBackgroundColor(settings.ctSendBarBackground);
         subjectDelete2.setColorFilter(settings.ctSendButtonColor);
 
-        if (settings.customFont)
-        {
+        if (settings.customFont) {
             mTextView.setTypeface(font);
             mEditText.setTypeface(font);
             contact.setTypeface(font);
         }
 
-        if (settings.runAs.equals("hangout") || settings.runAs.equals("card2") || settings.runAs.equals("card+"))
-        {
+        if (settings.runAs.equals("hangout") || settings.runAs.equals("card2") || settings.runAs.equals("card+")) {
             emojiButton.setImageResource(R.drawable.ic_emoji_dark);
         }
 
@@ -1357,10 +1293,8 @@ public class MainActivity extends FragmentActivity {
             voiceButton2.setAlpha(255);
         }
 
-        if (settings.customBackground)
-        {
-            try
-            {
+        if (settings.customBackground) {
+            try {
                 BitmapFactory.Options options = new BitmapFactory.Options();
 
                 options.inSampleSize = 2;
@@ -1368,8 +1302,7 @@ public class MainActivity extends FragmentActivity {
                 this.getResources();
                 Drawable d = new BitmapDrawable(Resources.getSystem(),myBitmap);
                 searchView.setBackgroundDrawable(d);
-            } catch (Error e)
-            {
+            } catch (Error e) {
                 try {
                     BitmapFactory.Options options = new BitmapFactory.Options();
 
@@ -2096,13 +2029,11 @@ public class MainActivity extends FragmentActivity {
                                         @Override
                                         public void run() {
                                             Log.v("sending_mms_library", "sending new mms, posted to UI thread");
-                                            // FIXME turned the thread id to a stirng here, will have to change the class to fix this
-                                            sendTransaction.sendNewMessage(message, "" + threadId);
+                                            sendTransaction.sendNewMessage(message, threadId);
                                         }
                                     });
                                 } else {
-                                    // FIXME turned the thread id to a stirng here, will have to change the class to fix this
-                                    sendTransaction.sendNewMessage(message, "" + threadId);
+                                    sendTransaction.sendNewMessage(message, threadId);
                                 }
                             } else {
                                 if (sendTransaction.checkMMS(message)) {
@@ -2130,8 +2061,7 @@ public class MainActivity extends FragmentActivity {
                                         Toast.makeText(context, "Cannot send multiple images through stock", Toast.LENGTH_SHORT).show();
                                     }
                                 } else {
-                                    // FIXME turned the thread id to a stirng here, will have to change the class to fix this
-                                    sendTransaction.sendNewMessage(message, "" + threadId);
+                                    sendTransaction.sendNewMessage(message, threadId);
                                 }
                             }
 
