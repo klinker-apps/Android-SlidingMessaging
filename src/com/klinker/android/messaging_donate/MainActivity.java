@@ -1078,9 +1078,9 @@ public class MainActivity extends FragmentActivity {
 
                                     if (menuOption.equals("1")) {
                                         menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
-                                        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
                                     }
 
+                                    mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
                                     emoji2Open = false;
                                     return false;
                                 }
@@ -1095,9 +1095,9 @@ public class MainActivity extends FragmentActivity {
 
                                         if (menuOption.equals("1")) {
                                             menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
-                                            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
                                         }
 
+                                        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
                                         emoji2Open = false;
                                     }
                                     return false;
