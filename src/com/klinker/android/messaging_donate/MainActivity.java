@@ -32,6 +32,7 @@ import android.support.v4.app.ListFragment;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.SmsMessage;
 import android.telephony.TelephonyManager;
@@ -105,6 +106,12 @@ public class MainActivity extends FragmentActivity {
     public final static String EXTRA_DATE = "com.klinker.android.messaging_sliding.DATE";
     public final static String EXTRA_REPEAT = "com.klinker.android.messaging_sliding.REPEAT";
     public final static String EXTRA_MESSAGE = "com.klinker.android.messaging_sliding.MESSAGE";
+
+    private DrawerLayout mDrawerLayout;
+    private LinearLayout mDrawer;
+    private ActionBarDrawerToggle mDrawerToggle;
+
+    private View newMessageView;
 
     private boolean unlocked = false;
 
@@ -475,6 +482,902 @@ public class MainActivity extends FragmentActivity {
 
         if (!unlocked) {
             showUnlockFullDialog();
+        }
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawer = (LinearLayout) findViewById(R.id.drawer);
+
+        setUpDrawer();
+
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+                R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close) {
+
+            /** Called when a drawer has settled in a completely closed state. */
+            public void onDrawerClosed(View view) {
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+
+            /** Called when a drawer has settled in a completely open state. */
+            public void onDrawerOpened(View drawerView) {
+                //getActionBar().setTitle(mDrawerTitle);
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+        };
+
+        // Set the drawer toggle as the DrawerListener
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+    }
+
+    private void setUpDrawer() {
+        LayoutInflater inflater2 = (LayoutInflater) this
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        newMessageView = inflater2.inflate(R.layout.new_message_frame, (ViewGroup) this.getWindow().getDecorView(), false);
+
+        final TextView mTextView = (TextView) newMessageView.findViewById(R.id.charsRemaining2);
+        final EditText mEditText = (EditText) newMessageView.findViewById(R.id.messageEntry2);
+        messageEntry2 = mEditText;
+        final ImageButton sendButton = (ImageButton) newMessageView.findViewById(R.id.sendButton);
+        imageAttachBackground2 = newMessageView.findViewById(R.id.image_attachment_view_background);
+        imageAttach2 = (ImageAttachmentView) newMessageView.findViewById(R.id.image_attachment_view);
+        ImageButton contactLister = (ImageButton) newMessageView.findViewById(R.id.contactLister);
+        subjectLine2 = newMessageView.findViewById(R.id.subjectBar);
+        subjectEntry2 = (EditText) newMessageView.findViewById(R.id.subjectEntry);
+        subjectDelete2 = (ImageButton) newMessageView.findViewById(R.id.subjectDelete);
+
+        mDrawer.addView(newMessageView);
+
+        mTextView.setVisibility(View.GONE);
+        mEditText.requestFocus();
+
+        mEditText.addTextChangedListener(new TextWatcher() {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                int length = Integer.parseInt(String.valueOf(s.length()));
+
+                if (!settings.signature.equals(""))
+                {
+                    length += ("\n" + settings.signature).length();
+                }
+
+                String patternStr = "[^" + Utils.GSM_CHARACTERS_REGEX + "]";
+                Pattern pattern = Pattern.compile(patternStr);
+                Matcher matcher = pattern.matcher(s);
+
+                int size = 160;
+
+                if (matcher.find() && !settings.stripUnicode)
+                {
+                    size = 70;
+                }
+
+                int pages = 1;
+
+                while (length > size)
+                {
+                    length-=size;
+                    pages++;
+                }
+
+                mTextView.setText(pages + "/" + (size - length));
+
+                if ((pages == 1 && (size - length) <= 30) || pages != 1)
+                {
+                    mTextView.setVisibility(View.VISIBLE);
+                }
+
+                if ((pages + "/" + (size - length)).equals("1/31"))
+                {
+                    mTextView.setVisibility(View.GONE);
+                }
+
+                if ((pages + "/" + (size - length)).equals("1/160"))
+                {
+                    mTextView.setVisibility(View.GONE);
+                }
+
+                if (imageAttach2.getVisibility() == View.VISIBLE)
+                {
+                    mTextView.setVisibility(View.GONE);
+                }
+
+                if (settings.sendAsMMS && pages > settings.mmsAfter)
+                {
+                    mTextView.setVisibility(View.GONE);
+                }
+
+                if (settings.sendWithReturn)
+                {
+                    if (mEditText.getText().toString().endsWith("\n"))
+                    {
+                        mEditText.setText(mEditText.getText().toString().substring(0, mEditText.getText().toString().length() - 1));
+                        sendButton.performClick();
+                    }
+                }
+
+                mEditText.setError(null);
+            }
+
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        if (!settings.keyboardType)
+        {
+            mEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+            mEditText.setImeOptions(EditorInfo.IME_ACTION_NONE);
+        }
+
+        final Context context = this;
+        final EditText contact = (EditText) newMessageView.findViewById(R.id.contactEntry);
+
+        final ListPopupWindow lpw = new ListPopupWindow(this);
+        lpw.setBackgroundDrawable(new ColorDrawable(settings.ctConversationListBackground));
+
+        lpw.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                final ArrayList<String> currentNames = new ArrayList<String>(), currentNumbers = new ArrayList<String>(), currentTypes = new ArrayList<String>();
+
+                String[] numbers = contact.getText().toString().split("; ");
+
+                for (int i = 0; i < numbers.length; i++)
+                {
+                    currentNumbers.add(numbers[i]);
+                    currentTypes.add("");
+                    currentNames.add(findContactName(numbers[i], context));
+                }
+
+                getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        ListView current = (ListView) newMessageView.findViewById(R.id.contactSearch);
+
+                        if (!currentNames.get(0).equals("No Information"))
+                        {
+                            current.setAdapter(new ContactSearchArrayAdapter((Activity)context, currentNames, currentNumbers, currentTypes));
+                        } else
+                        {
+                            current.setAdapter(new ContactSearchArrayAdapter((Activity)context, new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>()));
+                        }
+                    }
+
+                });
+            }
+        });
+
+        lpw.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1,
+                                    int position, long arg3) {
+
+                TextView view2 = (TextView) arg1.findViewById(R.id.receivedMessage);
+
+                String[] t1 = contact.getText().toString().split("; ");
+                String string = "";
+
+                for (int i = 0; i < t1.length - 1; i++) {
+                    string += t1[i] + "; ";
+                }
+
+                contact.setText(string + view2.getText() + "; ");
+                contact.setSelection(contact.getText().length());
+                lpw.dismiss();
+                firstContactSearch = true;
+
+                if (contact.getText().length() <= 13) {
+                    mEditText.requestFocus();
+                }
+            }
+
+        });
+
+        contactLister.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                contactNames = new ArrayList<String>();
+                contactNumbers = new ArrayList<String>();
+                contactTypes = new ArrayList<String>();
+
+                Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
+                String[] projection    = new String[] {ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+                        ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.LABEL};
+
+                Cursor people = getContentResolver().query(uri, projection, null, null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " asc");
+                int indexName = people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
+                int indexNumber = people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+
+                if (people.moveToFirst())
+                {
+                    do {
+                        int type = people.getInt(people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
+                        String customLabel = people.getString(people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.LABEL));
+
+                        if (settings.mobileOnly)
+                        {
+                            if (type == 2)
+                            {
+                                contactNames.add(people.getString(indexName));
+                                contactNumbers.add(people.getString(indexNumber).replaceAll("[^0-9\\+]", ""));
+                                contactTypes.add(ContactsContract.CommonDataKinds.Phone.getTypeLabel(context.getResources(), type, customLabel).toString());
+                            }
+                        } else
+                        {
+                            contactNames.add(people.getString(indexName));
+                            contactNumbers.add(people.getString(indexNumber).replaceAll("[^0-9\\+]", ""));
+                            contactTypes.add(ContactsContract.CommonDataKinds.Phone.getTypeLabel(context.getResources(), type, customLabel).toString());
+                        }
+                    } while (people.moveToNext());
+                }
+
+                people.close();
+
+                Display display = getWindowManager().getDefaultDisplay();
+                Point size = new Point();
+                display.getSize(size);
+                final int height = size.y;
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            lpw.setAdapter(new ContactSearchArrayAdapter((Activity)context, contactNames, contactNumbers, contactTypes));
+                            lpw.setAnchorView(contact);
+                            lpw.setWidth(ListPopupWindow.WRAP_CONTENT);
+                            lpw.setHeight(height/3);
+                            lpw.show();
+                        } catch (Exception e) {
+                            // window is null
+                        }
+                    }
+                }, 500);
+            }
+        });
+
+        contact.addTextChangedListener(new TextWatcher() {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                if (firstContactSearch)
+                {
+                    try
+                    {
+                        contactNames = new ArrayList<String>();
+                        contactNumbers = new ArrayList<String>();
+                        contactTypes = new ArrayList<String>();
+
+                        Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
+                        String[] projection    = new String[] {ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+                                ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.LABEL};
+
+                        Cursor people = getContentResolver().query(uri, projection, null, null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " asc");
+
+                        int indexName = people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
+                        int indexNumber = people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+
+                        if (people.moveToFirst()) {
+                            do {
+                                int type = people.getInt(people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
+                                String customLabel = people.getString(people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.LABEL));
+
+                                try {
+                                    if (settings.mobileOnly)
+                                    {
+                                        if (type == 2)
+                                        {
+                                            contactNames.add(people.getString(indexName));
+                                            contactNumbers.add(people.getString(indexNumber).replaceAll("[^0-9\\+]", ""));
+                                            contactTypes.add(ContactsContract.CommonDataKinds.Phone.getTypeLabel(context.getResources(), type, customLabel).toString());
+                                        }
+                                    } else
+                                    {
+                                        contactNames.add(people.getString(indexName));
+                                        contactNumbers.add(people.getString(indexNumber).replaceAll("[^0-9\\+]", ""));
+                                        contactTypes.add(ContactsContract.CommonDataKinds.Phone.getTypeLabel(context.getResources(), type, customLabel).toString());
+                                    }
+                                } catch (Exception e) {
+                                    contactNames.add(people.getString(indexName));
+                                    contactNumbers.add(people.getString(indexName));
+                                    contactTypes.add(ContactsContract.CommonDataKinds.Phone.getTypeLabel(context.getResources(), type, customLabel).toString());
+                                }
+                            } while (people.moveToNext());
+                        }
+                        people.close();
+                    } catch (IllegalArgumentException e)
+                    {
+
+                    }
+                }
+            }
+
+            @SuppressLint("DefaultLocale")
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                final ArrayList<String> searchedNames = new ArrayList<String>();
+                final ArrayList<String> searchedNumbers = new ArrayList<String>();
+                final ArrayList<String> searchedTypes = new ArrayList<String>();
+
+                String text = contact.getText().toString();
+
+                String[] text2 = text.split("; ");
+
+                text = text2[text2.length-1].trim();
+
+                if (text.startsWith("+"))
+                {
+                    text = text.substring(1);
+                }
+
+                Pattern pattern;
+
+                try
+                {
+                    pattern = Pattern.compile(text.toLowerCase());
+                } catch (Exception e)
+                {
+                    pattern = Pattern.compile(text.toLowerCase().replace("(", "").replace(")", "").replace("?", "").replace("[", "").replace("{", "").replace("}", "").replace("\\", "").replace("*", ""));
+                }
+
+                try {
+                    for (int i = 0; i < contactNames.size(); i++)
+                    {
+                        try
+                        {
+                            Long.parseLong(text);
+
+                            if (text.length() <= contactNumbers.get(i).length())
+                            {
+                                Matcher matcher = pattern.matcher(contactNumbers.get(i));
+                                if(matcher.find())
+                                {
+                                    searchedNames.add(contactNames.get(i));
+                                    searchedNumbers.add(contactNumbers.get(i));
+                                    searchedTypes.add(contactTypes.get(i));
+                                }
+                            }
+                        } catch (Exception e)
+                        {
+                            if (contactNames == null)
+                            {
+                                contactNames = new ArrayList<String>();
+                                contactNumbers = new ArrayList<String>();
+                                contactTypes = new ArrayList<String>();
+                            }
+                            if (text.length() <= contactNames.get(i).length())
+                            {
+                                Matcher matcher = pattern.matcher(contactNames.get(i).toLowerCase());
+                                if(matcher.find())
+                                {
+                                    searchedNames.add(contactNames.get(i));
+                                    searchedNumbers.add(contactNumbers.get(i));
+                                    searchedTypes.add(contactTypes.get(i));
+                                }
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+
+                }
+
+                Display display = getWindowManager().getDefaultDisplay();
+                Point size = new Point();
+                display.getSize(size);
+                final int height = size.y;
+
+                if (sendTo) {
+                    final String textF = text;
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            lpw.setAdapter(new ContactSearchArrayAdapter((Activity)context, searchedNames, searchedNumbers, searchedTypes));
+                            lpw.setAnchorView(findViewById(R.id.contactEntry));
+                            lpw.setWidth(ListPopupWindow.WRAP_CONTENT);
+                            lpw.setHeight(height/3);
+
+
+                            if (firstContactSearch)
+                            {
+                                lpw.show();
+                                firstContactSearch = false;
+                            }
+
+                            if (textF.length() == 0)
+                            {
+                                lpw.dismiss();
+                                firstContactSearch = true;
+                            }
+                        }
+                    }, 500);
+                } else {
+                    lpw.setAdapter(new ContactSearchArrayAdapter((Activity)context, searchedNames, searchedNumbers, searchedTypes));
+                    lpw.setAnchorView(findViewById(R.id.contactEntry));
+                    lpw.setWidth(ListPopupWindow.WRAP_CONTENT);
+                    lpw.setHeight(height/3);
+
+
+                    if (firstContactSearch)
+                    {
+                        lpw.show();
+                        firstContactSearch = false;
+                    }
+
+                    if (text.length() == 0)
+                    {
+                        lpw.dismiss();
+                        firstContactSearch = true;
+                    }
+                }
+
+                contact.setError(null);
+            }
+
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        sendButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (contact.getText().toString().equals(""))
+                {
+                    contact.setError("No Recipients");
+                } else if (mEditText.getText().toString().equals("") && imageAttach2.getVisibility() == View.GONE)
+                {
+                    mEditText.setError("Nothing to Send");
+                } else
+                {
+                    mDrawerLayout.closeDrawer(Gravity.RIGHT);
+
+                    MainActivity.animationOn = true;
+                    final boolean image;
+
+                    if (imageAttach2.getVisibility() == View.VISIBLE) {
+                        MainActivity.animationOn = false;
+                        image = true;
+                        imageAttach2.setVisibility(false);
+                        imageAttachBackground2.setVisibility(View.GONE);
+                    } else {
+                        image = false;
+                    }
+
+                    final String text = mEditText.getText().toString();
+                    mEditText.setText("");
+
+                    if (settings.hideKeyboard)
+                    {
+                        new Thread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                try {
+                                    Thread.sleep(2000);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                } finally
+                                {
+                                    InputMethodManager keyboard = (InputMethodManager)
+                                            getSystemService(Context.INPUT_METHOD_SERVICE);
+                                    keyboard.hideSoftInputFromWindow(mEditText.getWindowToken(), 0);
+                                }
+
+                            }
+
+                        }).start();
+                    }
+
+                    Intent updateWidget = new Intent("com.klinker.android.messaging.UPDATE_WIDGET");
+                    context.sendBroadcast(updateWidget);
+
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            final Message message = new Message(text, contact.getText().toString().replace(";", ""));
+
+                            if (image) {
+                                ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
+
+                                if (!multipleAttachments) {
+                                    if (!fromCamera) {
+                                        try {
+                                            bitmaps.add(SendUtil.getImage(context, attachedImage2, 600));
+                                        } catch (Exception e) {
+                                            bitmaps.add(decodeFile2(new File(getPath(attachedImage2))));
+                                        }
+                                    } else {
+                                        try {
+                                            bitmaps.add(SendUtil.getImage(context, Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/", "photoToSend.png")), 600));
+                                        } catch (Exception e) {
+                                            bitmaps.add(decodeFile2(new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/", "photoToSend.png")));
+                                        }
+                                    }
+                                } else {
+                                    bitmaps = AttachMore.images;
+                                    AttachMore.images = new ArrayList<Bitmap>();
+                                    AttachMore.data = new ArrayList<MMSPart>();
+                                }
+
+                                Bitmap[] images = new Bitmap[bitmaps.size()];
+
+                                for (int i = 0; i < bitmaps.size(); i++) {
+                                    images[i] = bitmaps.get(i);
+                                }
+
+                                message.setImages(images);
+                            }
+
+                            if (subjectLine2.getVisibility() != View.GONE && !subjectEntry2.getText().toString().equals("")) {
+                                message.setSubject(subjectEntry2.getText().toString());
+                            }
+
+                            if (!settings.sendWithStock) {
+                                if (sendTransaction.checkMMS(message)) {
+                                    ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Log.v("sending_mms_library", "sending new mms, posted to UI thread");
+                                            sendTransaction.sendNewMessage(message, null);
+                                        }
+                                    });
+                                } else {
+                                    sendTransaction.sendNewMessage(message, null);
+                                }
+                            } else {
+                                if (sendTransaction.checkMMS(message)) {
+                                    if (multipleAttachments == false)
+                                    {
+                                        Intent sendIntent = new Intent(Intent.ACTION_SEND);
+                                        sendIntent.putExtra("address", contact.getText().toString().replace(";", ""));
+                                        sendIntent.putExtra("sms_body", text);
+                                        sendIntent.putExtra(Intent.EXTRA_STREAM, attachedImage);
+                                        sendIntent.setType("image/png");
+
+                                        Intent htcIntent = new Intent("android.intent.action.SEND_MSG");
+                                        htcIntent.putExtra("address", contact.getText().toString().replace(";", ""));
+                                        htcIntent.putExtra("sms_body", text);
+                                        htcIntent.putExtra(Intent.EXTRA_STREAM, attachedImage);
+                                        htcIntent.setType("image/png");
+
+                                        Intent chooser = Intent.createChooser(sendIntent, "Send Message:");
+                                        chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] { htcIntent });
+                                        startActivity(chooser);
+
+                                        MainActivity.messageRecieved = true;
+                                    } else
+                                    {
+                                        Toast.makeText(context, "Cannot send multiple images through stock", Toast.LENGTH_SHORT).show();
+                                    }
+                                } else {
+                                    sendTransaction.sendNewMessage(message, null);
+                                }
+                            }
+
+                            ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                                @Override
+                                public void run() {
+                                    contact.setText("");
+                                    menu.showContent();
+                                    refreshViewPager();
+                                    mViewPager.setCurrentItem(0);
+
+                                    subjectLine2.setVisibility(View.GONE);
+                                    subjectEntry2.setText("");
+                                }
+
+                            });
+                        }
+                    }).start();
+                }
+
+                if (haloPopup && settings.closeHaloAfterSend)
+                    finish();
+            }
+
+        });
+
+        ImageButton emojiButton = (ImageButton) newMessageView.findViewById(R.id.display_emoji);
+        voiceButton2 = (ImageButton) newMessageView.findViewById(R.id.voiceButton);
+
+        if (!settings.emoji)
+        {
+            emojiButton.setVisibility(View.GONE);
+        } else
+        {
+            emojiButton.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View arg0) {
+
+                    final String menuOption = sharedPrefs.getString("page_or_menu2", "2");
+
+                    if(settings.emojiKeyboard && settings.emojiType)
+                    {
+                        if (!emoji2Open)
+                        {
+                            messageScreen2 = (LinearLayout) findViewById(R.id.messageScreen2);
+
+                            messageScreen2.addView(tabs, SlidingTabParams);
+                            messageScreen2.addView(vp, viewPagerParams);
+
+                            if (menuOption.equals("1")) {
+                                menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
+                            }
+
+                            emoji2Open = true;
+                            messageEntry2.requestFocus();
+
+                            InputMethodManager keyboard = (InputMethodManager)
+                                    getSystemService(Context.INPUT_METHOD_SERVICE);
+                            keyboard.hideSoftInputFromWindow(messageEntry2.getWindowToken(), 0);
+
+                            final EditText contactEntry = (EditText) findViewById(R.id.contactEntry);
+                            contactEntry.setOnTouchListener(new View.OnTouchListener() {
+                                @Override
+                                public boolean onTouch(View v, MotionEvent event) {
+                                    messageScreen2.removeView(tabs);
+                                    messageScreen2.removeView(vp);
+
+                                    if (menuOption.equals("1")) {
+                                        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+                                    }
+
+                                    emoji2Open = false;
+                                    return false;
+                                }
+                            });
+
+                            messageEntry2.setOnTouchListener(new View.OnTouchListener() {
+                                @Override
+                                public boolean onTouch(View v, MotionEvent event) {
+                                    if(emoji2Open)
+                                    {
+                                        messageScreen2.removeView(tabs);
+                                        messageScreen2.removeView(vp);
+
+                                        if (menuOption.equals("1")) {
+                                            menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+                                        }
+
+                                        emoji2Open = false;
+                                    }
+                                    return false;
+                                }
+                            });
+                        } else
+                        {
+                            emoji2Open = false;
+                            messageScreen2.removeView(tabs);
+                            messageScreen2.removeView(vp);
+
+                            if (menuOption.equals("1")) {
+                                menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+                            }
+                        }
+                    } else {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setTitle("Insert Emojis");
+                        LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+                        View frame = inflater.inflate(R.layout.emoji_frame, null);
+
+                        final EditText editText = (EditText) frame.findViewById(R.id.emoji_text);
+                        ImageButton peopleButton = (ImageButton) frame.findViewById(R.id.peopleButton);
+                        ImageButton objectsButton = (ImageButton) frame.findViewById(R.id.objectsButton);
+                        ImageButton natureButton = (ImageButton) frame.findViewById(R.id.natureButton);
+                        ImageButton placesButton = (ImageButton) frame.findViewById(R.id.placesButton);
+                        ImageButton symbolsButton = (ImageButton) frame.findViewById(R.id.symbolsButton);
+
+                        final GridView emojiGrid = (GridView) frame.findViewById(R.id.emojiGrid);
+                        Button okButton = (Button) frame.findViewById(R.id.emoji_ok);
+
+                        if (settings.emojiType)
+                        {
+                            emojiGrid.setAdapter(new EmojiAdapter2(context));
+                            emojiGrid.setOnItemClickListener(new OnItemClickListener() {
+
+                                public void onItemClick(AdapterView<?> parent, View v, int position, long id)
+                                {
+                                    editText.setText(EmojiConverter2.getSmiledText(context, editText.getText().toString() + EmojiAdapter2.mEmojiTexts[position]));
+                                    editText.setSelection(editText.getText().length());
+                                }
+                            });
+
+                            peopleButton.setOnClickListener(new OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    emojiGrid.setSelection(0);
+                                }
+                            });
+
+                            objectsButton.setOnClickListener(new OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    emojiGrid.setSelection(153 + (2 * 7));
+                                }
+                            });
+
+                            natureButton.setOnClickListener(new OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    emojiGrid.setSelection(153 + 162 + (3 * 7));
+                                }
+                            });
+
+                            placesButton.setOnClickListener(new OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    emojiGrid.setSelection(153 + 162 + 178 + (5 * 7));
+                                }
+                            });
+
+                            symbolsButton.setOnClickListener(new OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    emojiGrid.setSelection(153 + 162 + 178 + 122 + (7 * 7));
+                                }
+                            });
+                        } else
+                        {
+                            emojiGrid.setAdapter(new EmojiAdapter(context));
+                            emojiGrid.setOnItemClickListener(new OnItemClickListener() {
+
+                                public void onItemClick(AdapterView<?> parent, View v, int position, long id)
+                                {
+                                    editText.setText(EmojiConverter.getSmiledText(context, editText.getText().toString() + EmojiAdapter.mEmojiTexts[position]));
+                                    editText.setSelection(editText.getText().length());
+                                }
+                            });
+
+                            peopleButton.setMaxHeight(0);
+                            objectsButton.setMaxHeight(0);
+                            natureButton.setMaxHeight(0);
+                            placesButton.setMaxHeight(0);
+                            symbolsButton.setMaxHeight(0);
+
+                            LinearLayout buttons = (LinearLayout) frame.findViewById(R.id.linearLayout);
+                            buttons.setMinimumHeight(0);
+                            buttons.setVisibility(View.GONE);
+                        }
+
+                        builder.setView(frame);
+                        final AlertDialog dialog = builder.create();
+                        dialog.show();
+
+                        okButton.setOnClickListener(new OnClickListener() {
+
+                            @Override
+                            public void onClick(View v) {
+                                if (settings.emojiType)
+                                {
+                                    mEditText.setText(EmojiConverter2.getSmiledText(context, mEditText.getText().toString() + editText.getText().toString()));
+                                    mEditText.setSelection(mEditText.getText().length());
+                                } else
+                                {
+                                    mEditText.setText(EmojiConverter.getSmiledText(context, mEditText.getText().toString() + editText.getText().toString()));
+                                    mEditText.setSelection(mEditText.getText().length());
+                                }
+
+                                dialog.dismiss();
+                            }
+
+                        });
+                    }
+                }
+
+            });
+        }
+
+        if (settings.voiceAccount != null) {
+            if (settings.voiceEnabled) {
+                voiceButton2.setImageResource(R.drawable.voice_enabled);
+            } else {
+                voiceButton2.setImageResource(R.drawable.voice_disabled);
+            }
+
+            voiceButton2.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (settings.voiceEnabled) {
+                        settings.voiceEnabled = false;
+                        sharedPrefs.edit().putBoolean("voice_enabled", false).commit();
+                        voiceButton2.setImageResource(R.drawable.voice_disabled);
+                        voiceButton.setImageResource(R.drawable.voice_disabled);
+                        sendSettings.setPreferVoice(false);
+                        sendTransaction.settings = sendSettings;
+                    } else {
+                        settings.voiceEnabled = true;
+                        sharedPrefs.edit().putBoolean("voice_enabled", true).commit();
+                        voiceButton2.setImageResource(R.drawable.voice_enabled);
+                        voiceButton.setImageResource(R.drawable.voice_enabled);
+                        sendSettings.setPreferVoice(true);
+                        sendTransaction.settings = sendSettings;
+                    }
+                }
+            });
+        } else {
+            voiceButton2.setVisibility(View.GONE);
+        }
+
+        ListView searchView = (ListView) newMessageView.findViewById(R.id.contactSearch);
+
+        try {
+            mEditText.setTextSize(Integer.parseInt(settings.textSize.substring(0, 2)));
+        } catch (Exception e) {
+            mEditText.setTextSize(Integer.parseInt(settings.textSize.substring(0, 1)));
+        }
+
+        View v1 = newMessageView.findViewById(R.id.view1);
+        View v2 = newMessageView.findViewById(R.id.sentBackground);
+
+        mTextView.setTextColor(settings.ctSendButtonColor);
+        v1.setBackgroundColor(settings.ctSendBarBackground);
+        v2.setBackgroundColor(settings.ctSendBarBackground);
+        sendButton.setBackgroundResource(R.drawable.pitch_black_send_button);
+        sendButton.setImageResource(R.drawable.ic_action_send_white);
+        sendButton.setColorFilter(settings.ctSendButtonColor);
+        searchView.setBackgroundColor(settings.ctConversationListBackground);
+        emojiButton.setBackgroundResource(R.drawable.pitch_black_send_button);
+        emojiButton.setColorFilter(settings.emojiButtonColor);
+        voiceButton2.setColorFilter(settings.emojiButtonColor);
+        mEditText.setTextColor(settings.draftTextColor);
+        contact.setTextColor(settings.draftTextColor);
+        contactLister.setColorFilter(settings.ctSendButtonColor);
+
+        imageAttachBackground2.setBackgroundColor(settings.ctMessageListBackground);
+        Drawable attachBack = getResources().getDrawable(R.drawable.attachment_editor_bg);
+        attachBack.setColorFilter(settings.ctSentMessageBackground, Mode.MULTIPLY);
+        imageAttach2.setBackgroundDrawable(attachBack);
+        imageAttachBackground2.setVisibility(View.GONE);
+        imageAttach2.setVisibility(false);
+
+        subjectEntry2.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+        subjectEntry2.setTextColor(settings.draftTextColor);
+        subjectLine2.setVisibility(View.GONE);
+        subjectLine2.setBackgroundColor(settings.ctSendBarBackground);
+        subjectDelete2.setColorFilter(settings.ctSendButtonColor);
+
+        if (settings.customFont)
+        {
+            mTextView.setTypeface(font);
+            mEditText.setTypeface(font);
+            contact.setTypeface(font);
+        }
+
+        if (settings.runAs.equals("hangout") || settings.runAs.equals("card2") || settings.runAs.equals("card+"))
+        {
+            emojiButton.setImageResource(R.drawable.ic_emoji_dark);
+        }
+
+        if (settings.runAs.equals("sliding")) {
+            voiceButton2.setAlpha(255);
+        }
+
+        if (settings.customBackground)
+        {
+            try
+            {
+                BitmapFactory.Options options = new BitmapFactory.Options();
+
+                options.inSampleSize = 2;
+                Bitmap myBitmap = BitmapFactory.decodeFile(Uri.parse(settings.customBackgroundLocation).getPath(),options);
+                this.getResources();
+                Drawable d = new BitmapDrawable(Resources.getSystem(),myBitmap);
+                searchView.setBackgroundDrawable(d);
+            } catch (Error e)
+            {
+                try {
+                    BitmapFactory.Options options = new BitmapFactory.Options();
+
+                    options.inSampleSize = 4;
+                    Bitmap myBitmap = BitmapFactory.decodeFile(Uri.parse(settings.customBackgroundLocation).getPath(),options);
+                    this.getResources();
+                    Drawable d = new BitmapDrawable(Resources.getSystem(),myBitmap);
+                    searchView.setBackgroundDrawable(d);
+                } catch (Error f) {
+
+                }
+            }
         }
     }
 
@@ -1760,20 +2663,22 @@ public class MainActivity extends FragmentActivity {
         LayoutInflater inflater2 = (LayoutInflater) this
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        final View newMessageView = inflater2.inflate(R.layout.new_message_frame, (ViewGroup) this.getWindow().getDecorView(), false);
+        final Context context = this;
+
+        //newMessageView = inflater2.inflate(R.layout.new_message_frame, (ViewGroup) this.getWindow().getDecorView(), false);
 
         final TextView mTextView = (TextView) newMessageView.findViewById(R.id.charsRemaining2);
         final EditText mEditText = (EditText) newMessageView.findViewById(R.id.messageEntry2);
-        messageEntry2 = mEditText;
+        //messageEntry2 = mEditText;
         final ImageButton sendButton = (ImageButton) newMessageView.findViewById(R.id.sendButton);
-        imageAttachBackground2 = newMessageView.findViewById(R.id.image_attachment_view_background);
-        imageAttach2 = (ImageAttachmentView) newMessageView.findViewById(R.id.image_attachment_view);
+        //imageAttachBackground2 = newMessageView.findViewById(R.id.image_attachment_view_background);
+        //imageAttach2 = (ImageAttachmentView) newMessageView.findViewById(R.id.image_attachment_view);
         ImageButton contactLister = (ImageButton) newMessageView.findViewById(R.id.contactLister);
-        subjectLine2 = newMessageView.findViewById(R.id.subjectBar);
-        subjectEntry2 = (EditText) newMessageView.findViewById(R.id.subjectEntry);
-        subjectDelete2 = (ImageButton) newMessageView.findViewById(R.id.subjectDelete);
+        //subjectLine2 = newMessageView.findViewById(R.id.subjectBar);
+        //subjectEntry2 = (EditText) newMessageView.findViewById(R.id.subjectEntry);
+        //subjectDelete2 = (ImageButton) newMessageView.findViewById(R.id.subjectDelete);
 
-        mTextView.setVisibility(View.GONE);
+        /*mTextView.setVisibility(View.GONE);
         mEditText.requestFocus();
 
         mEditText.addTextChangedListener(new TextWatcher() {
@@ -1856,7 +2761,7 @@ public class MainActivity extends FragmentActivity {
             mEditText.setImeOptions(EditorInfo.IME_ACTION_NONE);
         }
 
-        final Context context = this;
+
         final EditText contact = (EditText) newMessageView.findViewById(R.id.contactEntry);
 
         final ListPopupWindow lpw = new ListPopupWindow(this);
@@ -2622,19 +3527,19 @@ public class MainActivity extends FragmentActivity {
 
                 }
             }
-        }
+        }*/
 
         menu = new SlidingMenu(this);
 
         if (deviceType.equals("phone") || deviceType.equals("phablet2"))
         {
-            menu.setMode(SlidingMenu.LEFT_RIGHT);
+            menu.setMode(SlidingMenu.LEFT);//_RIGHT);
             menu.setShadowDrawable(R.drawable.shadow);
-            menu.setSecondaryShadowDrawable(R.drawable.shadowright);
+            //menu.setSecondaryShadowDrawable(R.drawable.shadowright);
         } else if (deviceType.equals("phablet") || deviceType.equals("tablet"))
         {
-            menu.setMode(SlidingMenu.RIGHT);
-            menu.setShadowDrawable(R.drawable.shadowright);
+            //menu.setMode(SlidingMenu.RIGHT);
+            //menu.setShadowDrawable(R.drawable.shadowright);
         }
 
         menu.setShadowWidthRes(R.dimen.shadow_width);
@@ -2670,10 +3575,10 @@ public class MainActivity extends FragmentActivity {
             if (deviceType.equals("phone") || deviceType.equals("phablet2"))
             {
                 menu.setMenu(menuLayout);
-                menu.setSecondaryMenu(newMessageView);
+                //menu.setSecondaryMenu(newMessageView);
             } else if (deviceType.equals("phablet") || deviceType.equals("tablet"))
             {
-                menu.setMenu(newMessageView);
+                //menu.setMenu(newMessageView);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -2685,6 +3590,9 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onOpened() {
                 invalidateOptionsMenu();
+
+                if (mDrawerLayout.isDrawerOpen(Gravity.RIGHT))
+                    mDrawerLayout.closeDrawer(Gravity.RIGHT);
 
                 if(emojiOpen)
                 {
@@ -2704,9 +3612,9 @@ public class MainActivity extends FragmentActivity {
                     emoji2Open = false;
                 }
 
-                if (menu.isSecondaryMenuShowing()) {
+                /*if (menu.isSecondaryMenuShowing()) {
                     contact.requestFocus();
-                }
+                }*/
 
                 try {
                     ActionBar ab = getActionBar();
@@ -2722,14 +3630,14 @@ public class MainActivity extends FragmentActivity {
                 if (menu.isMenuShowing() && !menu.isSecondaryMenuShowing()) {
                     InputMethodManager imm = (InputMethodManager) getSystemService(
                             Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(mEditText.getWindowToken(), 0);
+                    //imm.hideSoftInputFromWindow(mEditText.getWindowToken(), 0);
                 }
 
-                if (menu.isMenuShowing() && menu.isSecondaryMenuShowing()) {
+                /*if (menu.isMenuShowing() && menu.isSecondaryMenuShowing()) {
                     InputMethodManager imm = (InputMethodManager) getSystemService(
                             Context.INPUT_METHOD_SERVICE);
                     imm.showSoftInput(contact, 0);
-                }
+                }*/
             }
 
         });
@@ -3180,21 +4088,21 @@ public class MainActivity extends FragmentActivity {
         try {
             if (deviceType.equals("phone") || deviceType.equals("phablet2"))
             {
-                if (conversations.size() == 0 || MainActivity.menu.isMenuShowing()) // on conversation list
+                if (conversations.size() == 0 || MainActivity.menu.isMenuShowing() || mDrawerLayout.isDrawerOpen(Gravity.RIGHT)) // on conversation list
                 {
-                    menu.getItem(MENU_CALL).setVisible(false);
-                    menu.getItem(MENU_SCHEDULED).setVisible(false);
-                    menu.getItem(MENU_ATTACH).setVisible(false);
-                    menu.getItem(MENU_SEARCH).setVisible(true);
-                    menu.getItem(MENU_NEW_MESSAGE).setVisible(true);
-                    menu.getItem(MENU_DELETE).setVisible(true);
-                    menu.getItem(MENU_TEMPLATE).setVisible(false);
-                    menu.getItem(MENU_SUBJECT).setVisible(false);
-                    menu.getItem(DELETE_CONVERSATION).setVisible(false);
-                    menu.getItem(MENU_MARK_ALL_READ).setVisible(true);
-                    menu.getItem(COPY_SENDER).setVisible(false);
-
-                    if (MainActivity.menu.isSecondaryMenuShowing()) // on new message
+                    if (MainActivity.menu.isMenuShowing()) {
+                        menu.getItem(MENU_CALL).setVisible(false);
+                        menu.getItem(MENU_SCHEDULED).setVisible(false);
+                        menu.getItem(MENU_ATTACH).setVisible(false);
+                        menu.getItem(MENU_SEARCH).setVisible(true);
+                        menu.getItem(MENU_NEW_MESSAGE).setVisible(true);
+                        menu.getItem(MENU_DELETE).setVisible(true);
+                        menu.getItem(MENU_TEMPLATE).setVisible(false);
+                        menu.getItem(MENU_SUBJECT).setVisible(false);
+                        menu.getItem(DELETE_CONVERSATION).setVisible(false);
+                        menu.getItem(MENU_MARK_ALL_READ).setVisible(true);
+                        menu.getItem(COPY_SENDER).setVisible(false);
+                    } else if (MainActivity.menu.isSecondaryMenuShowing() || mDrawerLayout.isDrawerOpen(Gravity.RIGHT)) // on new message
                     {
                         menu.getItem(MENU_CALL).setVisible(false);
                         menu.getItem(MENU_SCHEDULED).setVisible(true);
@@ -3317,13 +4225,20 @@ public class MainActivity extends FragmentActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_new_message:
-                if (deviceType.equals("phone") || deviceType.equals("phablet2"))
+                if (mDrawerLayout.isDrawerOpen(Gravity.RIGHT)) {
+                    mDrawerLayout.closeDrawer(Gravity.RIGHT);
+                } else {
+                    if (menu.isMenuShowing())
+                        menu.toggle();
+                    mDrawerLayout.openDrawer(Gravity.RIGHT);
+                }
+                /*if (deviceType.equals("phone") || deviceType.equals("phablet2"))
                 {
                     menu.showSecondaryMenu();
                 } else
                 {
                     menu.showMenu();
-                }
+                }*/
 
                 return true;
             case R.id.menu_settings:
@@ -3562,25 +4477,7 @@ public class MainActivity extends FragmentActivity {
             case R.id.menu_subject:
                 Toast.makeText(this, getString(R.string.converting_mms), Toast.LENGTH_SHORT).show();
 
-                if (!menu.isSecondaryMenuShowing()) {
-                    if (subjectLine.getVisibility() == View.GONE) {
-                        subjectLine.setVisibility(View.VISIBLE);
-                        subjectEntry.requestFocusFromTouch();
-                        final InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                        inputManager.showSoftInput(subjectLine, 0);
-
-                        subjectDelete.setColorFilter(settings.ctSendButtonColor);
-                        subjectDelete.setOnClickListener(new OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                subjectLine.setVisibility(View.GONE);
-                                subjectEntry.setText("");
-                                messageEntry.requestFocusFromTouch();
-                                inputManager.showSoftInput(messageEntry, 0);
-                            }
-                        });
-                    }
-                } else {
+                if (mDrawerLayout.isDrawerOpen(Gravity.RIGHT)) {
                     if (subjectLine2.getVisibility() == View.GONE) {
                         subjectLine2.setVisibility(View.VISIBLE);
                         subjectEntry2.requestFocusFromTouch();
@@ -3598,6 +4495,25 @@ public class MainActivity extends FragmentActivity {
                             }
                         });
                     }
+                } else {
+                    if (subjectLine.getVisibility() == View.GONE) {
+                        subjectLine.setVisibility(View.VISIBLE);
+                        subjectEntry.requestFocusFromTouch();
+                        final InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        inputManager.showSoftInput(subjectLine, 0);
+
+                        subjectDelete.setColorFilter(settings.ctSendButtonColor);
+                        subjectDelete.setOnClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                subjectLine.setVisibility(View.GONE);
+                                subjectEntry.setText("");
+                                messageEntry.requestFocusFromTouch();
+                                inputManager.showSoftInput(messageEntry, 0);
+                            }
+                        });
+                    }
+
                 }
                 return true;
             default:
@@ -3611,10 +4527,10 @@ public class MainActivity extends FragmentActivity {
 
         if (deviceType.equals("phone") || deviceType.equals("phablet2"))
         {
-            newMessage = menu.isSecondaryMenuShowing();
+            newMessage = mDrawerLayout.isDrawerOpen(Gravity.RIGHT);//menu.isSecondaryMenuShowing() ||
         } else
         {
-            newMessage = menu.isMenuShowing();
+            newMessage = mDrawerLayout.isDrawerOpen(Gravity.RIGHT);//menu.isMenuShowing();
         }
 
         if (newMessage)
@@ -3927,14 +4843,14 @@ public class MainActivity extends FragmentActivity {
                     }
 
                 });
-                if (deviceType.equals("phone") || deviceType.equals("phablet2"))
+                /*if (deviceType.equals("phone") || deviceType.equals("phablet2"))
                 {
                     MainActivity.menu.showSecondaryMenu();
                 } else
                 {
                     MainActivity.menu.showMenu();
-                }
-
+                }*/
+                mDrawerLayout.openDrawer(Gravity.RIGHT);
             }
         } else if (requestCode == 3)
         {
@@ -4075,6 +4991,7 @@ public class MainActivity extends FragmentActivity {
                     }
 
                 });
+                mDrawerLayout.openDrawer(Gravity.RIGHT);
             }
         } else if (requestCode == 5)
         {
@@ -4209,6 +5126,8 @@ public class MainActivity extends FragmentActivity {
                     }
 
                 });
+
+                mDrawerLayout.openDrawer(Gravity.RIGHT);
             }
         } else if (requestCode == REQ_ENTER_PATTERN) // Code for pattern unlock
         {
@@ -4360,7 +5279,7 @@ public class MainActivity extends FragmentActivity {
     public void onBackPressed() {
         if (emojiOpen || emoji2Open)
         {
-            if (menu.isSecondaryMenuShowing())
+            if (menu.isSecondaryMenuShowing() || mDrawerLayout.isDrawerOpen(Gravity.RIGHT))
             {
                 if(emoji2Open)
                 {
@@ -4383,8 +5302,11 @@ public class MainActivity extends FragmentActivity {
             }
         } else if (deviceType.equals("phone") || deviceType.equals("phablet2"))
         {
-            if (menu.isSecondaryMenuShowing())
+            if (menu.isSecondaryMenuShowing() || mDrawerLayout.isDrawerOpen(Gravity.RIGHT))
             {
+                if (mDrawerLayout.isDrawerOpen(Gravity.RIGHT)) {
+                    mDrawerLayout.closeDrawer(Gravity.RIGHT);
+                }
                 if (!settings.openContactMenu)
                 {
                     menu.showContent();
@@ -4475,7 +5397,7 @@ public class MainActivity extends FragmentActivity {
         if (imageAttach.getVisibility() == View.VISIBLE)
         {
             menu.showContent();
-        } else if (imageAttach2.getVisibility() == View.VISIBLE)
+        } /*else if (imageAttach2.getVisibility() == View.VISIBLE)
         {
             if (deviceType.equals("phone") || deviceType.equals("phablet2"))
             {
@@ -4484,7 +5406,7 @@ public class MainActivity extends FragmentActivity {
             {
                 menu.showMenu();
             }
-        }
+        }*/
 
         if (whatToSend != null)
         {
@@ -5031,7 +5953,7 @@ public class MainActivity extends FragmentActivity {
                 } else if (imageAttach.getVisibility() == View.VISIBLE)
                 {
                     menu.showContent();
-                } else if (imageAttach2.getVisibility() == View.VISIBLE)
+                } /*else if (imageAttach2.getVisibility() == View.VISIBLE)
                 {
                     if (deviceType.equals("phone") || deviceType.equals("phablet2"))
                     {
@@ -5040,7 +5962,7 @@ public class MainActivity extends FragmentActivity {
                     {
                         menu.showMenu();
                     }
-                }
+                }*/
             }
         }
 

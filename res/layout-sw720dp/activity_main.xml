@@ -1,267 +1,290 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="left|center_vertical"
-        android:baselineAligned="false">
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
 
-    <RelativeLayout
-            android:layout_width="0dp"
+    <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight=".35">
+            android:layout_gravity="left|center_vertical"
+            android:baselineAligned="false">
 
-        <fragment
-                android:name="android.support.v4.app.ListFragment"
-                android:layout_width="match_parent"
+        <RelativeLayout
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:id="@+id/menuList"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentBottom="true"/>
+                android:layout_weight=".35">
 
-        <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageView"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/shadow"
-                android:layout_alignParentBottom="true"
-                android:contentDescription="@string/placeholder"/>
-    </RelativeLayout>
-
-    <RelativeLayout android:layout_weight=".65"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent">
-
-        <ImageView
-                android:id="@+id/newMessageGlow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:adjustViewBounds="true"
-                android:contentDescription="@string/placeholder"
-                android:src="@drawable/overscroll_glow"
-                android:visibility="invisible" />
-
-        <LinearLayout android:orientation="vertical"
-                      android:layout_width="match_parent"
-                      android:layout_height="match_parent"
-                      android:id="@+id/messageScreen">
-
-            <LinearLayout android:orientation="horizontal"
-                          android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:layout_gravity="center_vertical"
-                          android:id="@+id/subjectBar"
-                          android:visibility="gone">
-
-                <com.klinker.android.messaging_sliding.views.HoloEditText android:layout_width="0dp"
-                          android:layout_height="wrap_content"
-                          android:layout_weight="1"
-                          android:maxLines="1"
-                          android:hint="@string/message_subject"
-                          android:id="@+id/subjectEntry"/>
-
-                <ImageButton android:layout_width="wrap_content"
-                             android:layout_height="match_parent"
-                             android:src="@drawable/ic_menu_delete"
-                             android:scaleType="fitCenter"
-                             android:background="@drawable/dark_send_button"
-                             android:id="@+id/subjectDelete"/>
-            </LinearLayout>
-
-            <android.support.v4.view.ViewPager
-                    android:id="@+id/pager"
+            <fragment
+                    android:name="android.support.v4.app.ListFragment"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" >
+                    android:layout_height="match_parent"
+                    android:id="@+id/menuList"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentBottom="true"/>
 
-                <android.support.v4.view.PagerTitleStrip
-                        android:id="@+id/pager_title_strip"
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/shadow"
+                    android:layout_alignParentBottom="true"
+                    android:contentDescription="@string/placeholder"/>
+        </RelativeLayout>
+
+        <RelativeLayout android:layout_weight=".65"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent">
+
+            <ImageView
+                    android:id="@+id/newMessageGlow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/placeholder"
+                    android:src="@drawable/overscroll_glow"
+                    android:visibility="invisible" />
+
+            <LinearLayout android:orientation="vertical"
+                          android:layout_width="match_parent"
+                          android:layout_height="match_parent"
+                          android:id="@+id/messageScreen">
+
+                <LinearLayout android:orientation="horizontal"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:layout_gravity="center_vertical"
+                              android:id="@+id/subjectBar"
+                              android:visibility="gone">
+
+                    <com.klinker.android.messaging_sliding.views.HoloEditText android:layout_width="0dp"
+                              android:layout_height="wrap_content"
+                              android:layout_weight="1"
+                              android:maxLines="1"
+                              android:hint="@string/message_subject"
+                              android:id="@+id/subjectEntry"/>
+
+                    <ImageButton android:layout_width="wrap_content"
+                                 android:layout_height="match_parent"
+                                 android:src="@drawable/ic_menu_delete"
+                                 android:scaleType="fitCenter"
+                                 android:background="@drawable/dark_send_button"
+                                 android:id="@+id/subjectDelete"/>
+                </LinearLayout>
+
+                <android.support.v4.view.ViewPager
+                        android:id="@+id/pager"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="top"
-                        android:background="#33b5e5"
-                        android:paddingBottom="4dp"
-                        android:paddingTop="4dp"
-                        android:textColor="#fff" />
+                        android:layout_height="0dp"
+                        android:layout_weight="1" >
 
-            </android.support.v4.view.ViewPager>
-
-            <RelativeLayout android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/image_attachment_view_background2">
-
-                <com.android.mms.ui.ImageAttachmentView
-                        android:id="@+id/image_attachment_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/attachment_editor_bg"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingRight="5dip" >
-
-
-
-                    <ImageView
-                            android:id="@+id/image_content"
+                    <android.support.v4.view.PagerTitleStrip
+                            android:id="@+id/pager_title_strip"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:maxHeight="300dip"
-                            android:contentDescription="@string/placeholder" />
+                            android:layout_gravity="top"
+                            android:background="#33b5e5"
+                            android:paddingBottom="4dp"
+                            android:paddingTop="4dp"
+                            android:textColor="#fff" />
 
-                    <LinearLayout
+                </android.support.v4.view.ViewPager>
+
+                <RelativeLayout android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/image_attachment_view_background2">
+
+                    <com.android.mms.ui.ImageAttachmentView
+                            android:id="@+id/image_attachment_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/attachment_editor_bg"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingRight="5dip" >
+
+
+
+                        <ImageView
+                                android:id="@+id/image_content"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:maxHeight="300dip"
+                                android:contentDescription="@string/placeholder" />
+
+                        <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:paddingRight="8dp" >
+
+                            <Button
+                                    android:id="@+id/view_image_button"
+                                    style="?android:attr/buttonStyleSmall"
+                                    android:layout_width="100dip"
+                                    android:layout_height="45dip"
+                                    android:text="@string/view"
+                                    android:textColor="@color/button_text" />
+
+                            <Button
+                                    android:id="@+id/replace_image_button"
+                                    style="?android:attr/buttonStyleSmall"
+                                    android:layout_width="100dip"
+                                    android:layout_height="45dip"
+                                    android:text="@string/replace"
+                                    android:textColor="@color/button_text" />
+
+                            <Button
+                                    android:id="@+id/remove_image_button"
+                                    style="?android:attr/buttonStyleSmall"
+                                    android:layout_width="100dip"
+                                    android:layout_height="45dip"
+                                    android:text="@string/remove"
+                                    android:textColor="@color/button_text" />
+                        </LinearLayout>
+                    </com.android.mms.ui.ImageAttachmentView>
+
+                </RelativeLayout>
+
+                <RelativeLayout android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/view1">
+
+                    <ImageButton
+                            android:id="@+id/display_emoji"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:paddingRight="8dp" >
+                            android:layout_gravity="center"
+                            android:background="@drawable/dark_send_button"
+                            android:contentDescription="@string/emoji"
+                            android:minHeight="0dp"
+                            android:minWidth="0dp"
+                            android:paddingLeft="7dp"
+                            android:paddingRight="7dp"
+                            android:src="@drawable/emo_im_smirk"
+                            android:layout_alignBottom="@+id/sendButton"
+                            android:layout_alignParentTop="true"
+                            android:scaleType="fitCenter"/>
 
-                        <Button
-                                android:id="@+id/view_image_button"
-                                style="?android:attr/buttonStyleSmall"
-                                android:layout_width="100dip"
-                                android:layout_height="45dip"
-                                android:text="@string/view"
-                                android:textColor="@color/button_text" />
-
-                        <Button
-                                android:id="@+id/replace_image_button"
-                                style="?android:attr/buttonStyleSmall"
-                                android:layout_width="100dip"
-                                android:layout_height="45dip"
-                                android:text="@string/replace"
-                                android:textColor="@color/button_text" />
-
-                        <Button
-                                android:id="@+id/remove_image_button"
-                                style="?android:attr/buttonStyleSmall"
-                                android:layout_width="100dip"
-                                android:layout_height="45dip"
-                                android:text="@string/remove"
-                                android:textColor="@color/button_text" />
-                    </LinearLayout>
-                </com.android.mms.ui.ImageAttachmentView>
-
-            </RelativeLayout>
-
-            <RelativeLayout android:layout_width="match_parent"
+                    <com.klinker.android.messaging_sliding.views.HoloEditText
+                            android:id="@+id/messageEntry"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:id="@+id/view1">
+                            android:hint="@string/type_message"
+                            android:inputType="textCapSentences|textMultiLine|textShortMessage"
+                            android:maxLines="5"
+                            android:minHeight="50dp"
+                            android:minLines="2"
+                            android:textSize="@dimen/type_message"
+                            android:textCursorDrawable="@null"
+                            android:tag="tablet"
+                            android:layout_toLeftOf="@+id/sendButton"
+                            android:layout_toRightOf="@+id/voiceButton"
+                            android:imeOptions="flagNoExtractUi">
+                        <requestFocus/>
+                    </com.klinker.android.messaging_sliding.views.HoloEditText>
 
-                <ImageButton
-                        android:id="@+id/display_emoji"
-                        android:layout_width="wrap_content"
+                    <Button android:id="@+id/launch_app"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:background="@drawable/dark_send_button"
-                        android:contentDescription="@string/emoji"
-                        android:minHeight="0dp"
-                        android:minWidth="0dp"
-                        android:paddingLeft="7dp"
-                        android:paddingRight="7dp"
-                        android:src="@drawable/emo_im_smirk"
-                        android:layout_alignBottom="@+id/sendButton"
-                        android:layout_alignParentTop="true"
-                        android:scaleType="fitCenter"/>
-
-                <com.klinker.android.messaging_sliding.views.HoloEditText
-                        android:id="@+id/messageEntry"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/type_message"
-                        android:inputType="textCapSentences|textMultiLine|textShortMessage"
-                        android:maxLines="5"
-                        android:minHeight="50dp"
-                        android:minLines="2"
-                        android:textSize="@dimen/type_message"
-                        android:textCursorDrawable="@null"
-                        android:tag="tablet"
-                        android:layout_toLeftOf="@+id/sendButton"
-                        android:layout_toRightOf="@+id/voiceButton"
-                        android:imeOptions="flagNoExtractUi">
-                    <requestFocus/>
-                </com.klinker.android.messaging_sliding.views.HoloEditText>
-
-                <Button android:id="@+id/launch_app"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:layout_below="@+id/messageEntry"
-                    android:background="@android:color/transparent"
-                    android:text="@string/launch_full_app"
-                    android:visibility="gone"/>
-
-                <ImageButton
-                        android:id="@+id/sendButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:contentDescription="@string/send_button"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:src="@drawable/ic_action_send_black"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignBottom="@+id/messageEntry"
-                        android:scaleType="fitCenter"/>
-
-                <TextView
-                        android:id="@+id/charsRemaining2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/chars"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="@color/light_grey"
-                        android:textSize="@dimen/chars_remaining"
-                        android:layout_alignBottom="@+id/sendButton"
-                        android:layout_alignParentRight="true"
-                        android:layout_toRightOf="@+id/messageEntry"
-                        android:gravity="center"/>
-
-                <TextView
-                        android:id="@+id/mmsText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/mms"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="@color/light_grey"
-                        android:textSize="@dimen/chars_remaining"
-                        android:layout_alignParentTop="true"
-                        android:layout_centerHorizontal="true"
+                        android:layout_below="@+id/messageEntry"
+                        android:background="@android:color/transparent"
+                        android:text="@string/launch_full_app"
                         android:visibility="gone"/>
 
-                <ImageButton
-                        android:layout_width="36dp"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/voiceButton"
-                        android:layout_alignParentTop="true"
-                        android:layout_toRightOf="@+id/display_emoji"
-                        android:layout_alignBottom="@+id/display_emoji"
-                        android:background="@drawable/dark_send_button"
-                        android:src="@drawable/voice_enabled"
-                        android:adjustViewBounds="true"
-                        android:scaleType="fitCenter"
-                        android:alpha=".5"
-                        android:paddingLeft="5dp"
-                        android:paddingRight="5dp"
-                        />
+                    <ImageButton
+                            android:id="@+id/sendButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:contentDescription="@string/send_button"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:src="@drawable/ic_action_send_black"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignBottom="@+id/messageEntry"
+                            android:scaleType="fitCenter"/>
 
-                <ProgressBar
-                        style="?android:attr/progressBarStyleHorizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/mmsProgress"
-                        android:indeterminate="false"
-                        android:indeterminateOnly="false"
-                        android:background="@android:color/transparent"
-                        android:progressDrawable="@drawable/progress_horizontal_holo_light"
-                        android:layout_marginTop="-3dp"/>
-            </RelativeLayout>
-        </LinearLayout>
-    </RelativeLayout>
-</LinearLayout>
+                    <TextView
+                            android:id="@+id/charsRemaining2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/chars"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@color/light_grey"
+                            android:textSize="@dimen/chars_remaining"
+                            android:layout_alignBottom="@+id/sendButton"
+                            android:layout_alignParentRight="true"
+                            android:layout_toRightOf="@+id/messageEntry"
+                            android:gravity="center"/>
+
+                    <TextView
+                            android:id="@+id/mmsText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/mms"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@color/light_grey"
+                            android:textSize="@dimen/chars_remaining"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true"
+                            android:visibility="gone"/>
+
+                    <ImageButton
+                            android:layout_width="36dp"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/voiceButton"
+                            android:layout_alignParentTop="true"
+                            android:layout_toRightOf="@+id/display_emoji"
+                            android:layout_alignBottom="@+id/display_emoji"
+                            android:background="@drawable/dark_send_button"
+                            android:src="@drawable/voice_enabled"
+                            android:adjustViewBounds="true"
+                            android:scaleType="fitCenter"
+                            android:alpha=".5"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
+                            />
+
+                    <ProgressBar
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/mmsProgress"
+                            android:indeterminate="false"
+                            android:indeterminateOnly="false"
+                            android:background="@android:color/transparent"
+                            android:progressDrawable="@drawable/progress_horizontal_holo_light"
+                            android:layout_marginTop="-3dp"/>
+                </RelativeLayout>
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <!-- The navigation drawer -->
+    <!-- default of 240dp width -->
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/drawer"
+        android:orientation="vertical"
+        android:layout_width="315dp"
+        android:layout_height="fill_parent"
+        android:layout_gravity="right"
+        android:background="@color/light_silver" >
+
+
+
+    </LinearLayout>
+
+</android.support.v4.widget.DrawerLayout>
