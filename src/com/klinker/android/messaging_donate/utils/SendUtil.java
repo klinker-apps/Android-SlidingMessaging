@@ -97,17 +97,6 @@ public class SendUtil {
         sendSettings.setAccount(sharedPrefs.getString("voice_account", null));
         sendSettings.setRnrSe(sharedPrefs.getString("voice_rnrse", null));
 
-        if (sendSettings.getAccount() != null && sendSettings.getRnrSe() == null) {
-            BroadcastReceiver receiver = new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context context, Intent intent) {
-                    sharedPrefs.edit().putString("voice_rnrse", intent.getStringExtra("_rnr_se")).commit();
-                }
-            };
-
-            context.registerReceiver(receiver, new IntentFilter(Transaction.VOICE_TOKEN));
-        }
-
         return sendSettings;
     }
 

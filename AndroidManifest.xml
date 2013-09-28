@@ -522,6 +522,12 @@
             
         </receiver>
 
+        <receiver android:name="com.klinker.android.messaging_sliding.receivers.RnrseReceiver" >
+            <intent-filter>
+                <action android:name="com.klinker.android.send_message.RNRSE" />
+            </intent-filter>
+        </receiver>
+
         <receiver android:name="com.klinker.android.messaging_donate.receivers.UnlockReceiver"
                   android:enabled="true" >
             <intent-filter android:enabled="true" android:exported="false">
