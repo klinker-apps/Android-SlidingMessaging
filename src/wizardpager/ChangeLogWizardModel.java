@@ -48,7 +48,7 @@ public class ChangeLogWizardModel extends AbstractWizardModel {
 
         String changeLog = "Version " + version + ":\n\n" +
                 "- Rewrite of sliding menus\n" +
-                "- Added a navigation drawer to compose new messages instead of sliding menu.\n" +
+                "- Added a navigation drawer to compose new messages instead of sliding menu\n" +
                 "- Tons of optimizations\n" +
                 "- Bug fixes";
                 

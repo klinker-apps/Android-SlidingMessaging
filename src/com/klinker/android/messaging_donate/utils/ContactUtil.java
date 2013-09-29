@@ -287,6 +287,18 @@ public class ContactUtil {
     }
 
     public static Bitmap getFacebookPhoto(String phoneNumber, Context context) {
+        if (phoneNumber.split(" ").length > 1) {
+            Bitmap defaultPhoto;
+
+            if (!MainActivity.settings.ctDarkContactPics) {
+                defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.group_avatar);
+            } else {
+                defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.group_avatar_dark);
+            }
+
+            return defaultPhoto;
+        }
+
         try
         {
             Uri phoneUri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNumber));
@@ -303,7 +315,13 @@ public class ContactUtil {
                     contact.close();
                 }
                 else {
-                    Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
+                    Bitmap defaultPhoto;
+
+                    if (!MainActivity.settings.ctDarkContactPics) {
+                        defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
+                    } else {
+                        defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar_dark);
+                    }
 
                     contact.close();
                     return defaultPhoto;
@@ -316,23 +334,51 @@ public class ContactUtil {
                         return BitmapFactory.decodeStream(input);
                     }
                 } else {
-                    Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
+                    Bitmap defaultPhoto;
+
+                    if (!MainActivity.settings.ctDarkContactPics) {
+                        defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
+                    } else {
+                        defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar_dark);
+                    }
 
                     contact.close();
                     return defaultPhoto;
                 }
-                Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
+                Bitmap defaultPhoto;
+
+                if (!MainActivity.settings.ctDarkContactPics) {
+                    defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
+                } else {
+                    defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar_dark);
+                }
 
                 contact.close();
                 return defaultPhoto;
             } catch (Exception e)
             {
                 contact.close();
-                return BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
+                Bitmap defaultPhoto;
+
+                if (!MainActivity.settings.ctDarkContactPics) {
+                    defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
+                } else {
+                    defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar_dark);
+                }
+
+                return defaultPhoto;
             }
         } catch (Exception e)
         {
-            return BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
+            Bitmap defaultPhoto;
+
+            if (!MainActivity.settings.ctDarkContactPics) {
+                defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
+            } else {
+                defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar_dark);
+            }
+
+            return defaultPhoto;
         }
     }
 

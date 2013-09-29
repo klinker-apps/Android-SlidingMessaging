@@ -4668,16 +4668,7 @@ public class MainActivity extends FragmentActivity {
         {
             if (number.equals(conversations.get(i).getNumber()))
             {
-                /*inboxBody.add(0, body);
-                inboxDate.add(0, date);
-                inboxNumber.add(0, inboxNumber.get(i));
-                threadIds.add(0, threadIds.get(i));
-                group.add(0, group.get(i));
-                msgCount.add(0, Integer.parseInt(msgCount.get(i)) + 1 + "");
-                msgRead.add(0, "0");*/
-
                 conversations.add(0, new Conversation(conversations.get(i).getThreadId(), conversations.get(i).getCount() + 1, "0", body, Long.parseLong(date), conversations.get(i).getNumber()));
-
                 conversations.remove(i + 1);
 
                 flag = true;

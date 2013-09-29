@@ -292,37 +292,13 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 
 				@Override
 				public void run() {
-                    holder.image.assignContactFromPhone(number, true);
+                    if (!conversations.get(position).getGroup()) {
+                        holder.image.assignContactFromPhone(number, true);
+                    }
 
-					if (MainActivity.settings.contactPictures2)
-					{
-                        if (!conversations.get(position).getGroup())
-                        {
-                            try
-                              {
-                                holder.image.setImageBitmap(Bitmap.createScaledBitmap(image, MainActivity.contactWidth, MainActivity.contactWidth, true));
-                              } catch (Exception e)
-                              {
-                                if (MainActivity.settings.ctDarkContactPics)
-                                {
-                                    holder.image.setImageBitmap(Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(resources.getDrawable(R.drawable.default_avatar_dark), context), MainActivity.contactWidth, MainActivity.contactWidth, true));
-                                } else
-                                {
-                                    holder.image.setImageBitmap(Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(resources.getDrawable(R.drawable.default_avatar), context), MainActivity.contactWidth, MainActivity.contactWidth, true));
-                                }
-                              }
-                        } else
-                        {
-                            if (MainActivity.settings.ctDarkContactPics)
-                            {
-                                holder.image.setImageBitmap(Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(resources.getDrawable(R.drawable.default_avatar_dark), context), MainActivity.contactWidth, MainActivity.contactWidth, true));
-                            } else
-                            {
-                                holder.image.setImageBitmap(Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(resources.getDrawable(R.drawable.default_avatar), context), MainActivity.contactWidth, MainActivity.contactWidth, true));
-                            }
-                        }
-					} else
-					{
+					if (MainActivity.settings.contactPictures2) {
+                        holder.image.setImageBitmap(image);
+					} else {
 						holder.text2.setPadding(10, 0, 0, 15);
 					}
 
