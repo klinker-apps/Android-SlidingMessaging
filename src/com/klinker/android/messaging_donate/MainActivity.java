@@ -2592,27 +2592,22 @@ public class MainActivity extends FragmentActivity {
 
                         if (settings.enableDrafts) {
                             try {
-                                for (int i = 0; i < draftNames.size(); i++)
-                                {
-                                    if (draftNames.get(i) == (newDraft))
-                                    {
+                                for (int i = 0; i < draftNames.size(); i++) {
+                                    if (draftNames.get(i) == (newDraft)) {
                                         contains = true;
                                         where = i;
                                         break;
                                     }
                                 }
 
-                                if (!contains && messageEntry.getText().toString().trim().length() > 0)
-                                {
+                                if (!contains && messageEntry.getText().toString().trim().length() > 0) {
                                     draftNames.add(newDraft);
                                     drafts.add(messageEntry.getText().toString());
                                     draftChanged.add(true);
-                                } else if (contains && messageEntry.getText().toString().trim().length() > 0)
-                                {
+                                } else if (contains && messageEntry.getText().toString().trim().length() > 0) {
                                     drafts.set(where, messageEntry.getText().toString());
                                     draftChanged.set(where, true);
-                                } else if (contains && messageEntry.getText().toString().trim().length() == 0 && fromDraft)
-                                {
+                                } else if (contains && messageEntry.getText().toString().trim().length() == 0 && fromDraft) {
                                     draftsToDelete.add(draftNames.get(where));
                                     draftNames.remove(where);
                                     drafts.remove(where);
@@ -2623,10 +2618,8 @@ public class MainActivity extends FragmentActivity {
                             newDraft = 0;
 
                             try {
-                                for (int i = 0; i < draftNames.size(); i++)
-                                {
-                                    if (draftNames.get(i).equals(conversations.get(mViewPager.getCurrentItem()).getThreadId()))
-                                    {
+                                for (int i = 0; i < draftNames.size(); i++) {
+                                    if (draftNames.get(i).equals(conversations.get(mViewPager.getCurrentItem()).getThreadId())) {
                                         index = i;
                                         break;
                                     }
@@ -2674,7 +2667,7 @@ public class MainActivity extends FragmentActivity {
 
                                 if (settings.enableDrafts) {
                                     if (deleteDraft) {
-                                        if (!messageEntry.getText().equals("")) {
+                                        if (!messageEntry.getText().toString().equals("")) {
                                             messageEntry.setText("");
                                         }
 
@@ -4038,9 +4031,11 @@ public class MainActivity extends FragmentActivity {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
+                    Log.v("deleting_drafts", "beginning delete process");
+
                     try {
                         for (int i = 0; i < draftChanged.size(); i++) {
-                            if (draftChanged.get(i) == false) {
+                            if (!draftChanged.get(i)) {
                                 draftChanged.remove(i);
                                 draftNames.remove(i);
                                 drafts.remove(i);
@@ -4048,30 +4043,35 @@ public class MainActivity extends FragmentActivity {
                             }
                         }
 
-                        ArrayList<String> ids = new ArrayList<String>();
+                        ArrayList<Long> ids = new ArrayList<Long>();
 
                         Cursor query = context.getContentResolver().query(Uri.parse("content://sms/draft/"), new String[] {"_id", "thread_id"}, null, null, null);
+
+                        Log.v("deleteing_drafts", "queried all current drafts, " + query.getCount());
 
                         if (query != null) {
                             if (query.moveToFirst()) {
                                 do {
-                                    for (int i = 0; i < draftsToDelete.size(); i++) {
-                                        if (query.getString(query.getColumnIndex("thread_id")).equals(draftsToDelete.get(i))) {
-                                            ids.add(query.getString(query.getColumnIndex("_id")));
+                                    for (Long draft : draftsToDelete) {
+                                        if (query.getLong(query.getColumnIndex("thread_id")) == draft) {
+                                            ids.add(query.getLong(query.getColumnIndex("_id")));
+                                            Log.v("deleting_drafts", "found draft to delete");
                                             break;
                                         }
                                     }
 
-                                    for (int i = 0; i < draftNames.size(); i++) {
-                                        if (draftNames.get(i).equals(query.getString(query.getColumnIndex("thread_id")))) {
+                                    for (Long name : draftNames) {
+                                        if (name == query.getLong(query.getColumnIndex("thread_id"))) {
                                             context.getContentResolver().delete(Uri.parse("content://sms/" + query.getString(query.getColumnIndex("_id"))), null, null);
+                                            Log.v("deleting_drafts", "found draft name");
                                             break;
                                         }
                                     }
                                 } while (query.moveToNext());
 
-                                for (int i = 0; i < ids.size(); i++) {
-                                    context.getContentResolver().delete(Uri.parse("content://sms/" + ids.get(i)), null, null);
+                                for (Long id : ids) {
+                                    context.getContentResolver().delete(Uri.parse("content://sms/" + id), null, null);
+                                    Log.v("deleting_drafts", "deleting based on id");
                                 }
                             }
 
@@ -4081,9 +4081,9 @@ public class MainActivity extends FragmentActivity {
                         for (int i = 0; i < draftNames.size(); i++) {
                             String address = "";
 
-                            for (int j = 0; j < conversations.size(); j++) {
-                                if (conversations.get(j).getThreadId() ==  draftNames.get(i)) {
-                                    address = ContactUtil.findContactNumber(conversations.get(j).getNumber(), context);
+                            for (Conversation conversation : conversations) {
+                                if (conversation.getThreadId() ==  draftNames.get(i)) {
+                                    address = ContactUtil.findContactNumber(conversation.getNumber(), context);
                                     break;
                                 }
                             }
@@ -4094,10 +4094,9 @@ public class MainActivity extends FragmentActivity {
                             values.put("body", drafts.get(i));
                             values.put("type", "3");
                             context.getContentResolver().insert(Uri.parse("content://sms/"), values);
+                            Log.v("deleting_drafts", "inserting kept draft back in");
                         }
-                    } catch (Exception e) {
-
-                    }
+                    } catch (Exception e) { }
                 }
             }).start();
         }
