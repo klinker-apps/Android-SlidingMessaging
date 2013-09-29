@@ -9,7 +9,6 @@ import android.database.Cursor;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.text.Editable;
@@ -22,13 +21,13 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.*;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_donate.utils.IOUtil;
 import com.klinker.android.messaging_sliding.ContactSearchArrayAdapter;
 import com.klinker.android.messaging_sliding.emojis.EmojiAdapter;
 import com.klinker.android.messaging_sliding.emojis.EmojiAdapter2;
 import com.klinker.android.messaging_sliding.emojis.EmojiConverter;
 import com.klinker.android.messaging_sliding.emojis.EmojiConverter2;
 
-import java.io.*;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -100,7 +99,7 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
 
         context = this;
 
-        data = readFromFile(context);
+        data = IOUtil.readScheduledSMS(context);
 
         mEditText = (EditText) findViewById(R.id.messageEntry2);
 
@@ -686,7 +685,7 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
 
             if (details[0].equals(startNumber) && details[1].equals(startDate) && details[2].equals(startRepeat) && details[3].equals(startMessage))
             {
-                writeToFile(data, this);
+                IOUtil.writeScheduledSMS(data, this);
                 createAlarm(alarmIdNum);
                 finish();
             } else
@@ -703,7 +702,7 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
                 }
                 data.add(details);
 
-                writeToFile(data, this);
+                IOUtil.writeScheduledSMS(data, this);
                 createAlarm(alarmIdNum);
                 finish();
             }
@@ -774,85 +773,10 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
         return pi;
     }
 
-    @SuppressWarnings("resource")
-    private ArrayList<String[]> readFromFile(Context context) {
-
-        ArrayList<String[]> ret = new ArrayList<String[]>();
-
-        try {
-            InputStream inputStream;
-
-            if (sharedPrefs.getBoolean("save_to_external", true))
-            {
-                inputStream = new FileInputStream(Environment.getExternalStorageDirectory() + "/SlidingMessaging/scheduledSMS.txt");
-            } else
-            {
-                inputStream = context.openFileInput("scheduledSMS.txt");
-            }
-
-            if ( inputStream != null ) {
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                String receiveString = "";
-
-                while ( (receiveString = bufferedReader.readLine()) != null ) {
-
-                    String[] details = new String[5];
-                    details[0] = receiveString;
-
-                    for(int i = 1; i < 5; i++)
-                        details[i] = bufferedReader.readLine();
-
-                    ret.add(details);
-                }
-
-                inputStream.close();
-            }
-        }
-        catch (FileNotFoundException e) {
-
-        } catch (IOException e) {
-
-        }
-
-        return ret;
-    }
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
     }
 
-    private void writeToFile(ArrayList<String[]> data, Context context) {
-        try {
-
-            OutputStreamWriter outputStreamWriter;
-
-            if (sharedPrefs.getBoolean("save_to_external", true))
-            {
-                outputStreamWriter = new OutputStreamWriter(new FileOutputStream(Environment.getExternalStorageDirectory() + "/SlidingMessaging/scheduledSMS.txt"));
-            } else
-            {
-                outputStreamWriter = new OutputStreamWriter(context.openFileOutput("scheduledSMS.txt", Context.MODE_PRIVATE));
-            }
-
-            for (int i = 0; i < data.size(); i++)
-            {
-                String[] details = data.get(i);
-
-                for (int j = 0; j < 5; j++)
-                {
-                    outputStreamWriter.write(details[j] + "\n");
-                }
-
-            }
-
-            outputStreamWriter.close();
-        }
-        catch (IOException e) {
-
-        }
-
-    }
 }

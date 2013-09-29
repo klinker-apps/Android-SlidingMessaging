@@ -10,13 +10,11 @@ import android.media.AudioManager;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
-import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.PhoneLookup;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
@@ -25,9 +23,13 @@ import android.telephony.SmsMessage;
 import android.text.Editable;
 import android.text.SpannableStringBuilder;
 import android.util.Log;
+import com.klinker.android.messaging_sliding.quick_reply.CardQuickReply;
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.receivers.UnlockReceiver;
+import com.klinker.android.messaging_donate.utils.ContactUtil;
+import com.klinker.android.messaging_donate.utils.IOUtil;
+import com.klinker.android.messaging_donate.utils.Util;
 import com.klinker.android.messaging_sliding.MainActivityPopup;
 import com.klinker.android.messaging_sliding.blacklist.BlacklistContact;
 import com.klinker.android.messaging_sliding.notifications.IndividualSetting;
@@ -41,7 +43,6 @@ import java.util.*;
 @SuppressWarnings("deprecation")
 public class TextMessageReceiver extends BroadcastReceiver {
 	public static final String SMS_EXTRA_NAME = "pdus";
-	private static final String FILENAME = "newMessages.txt";
 	public SharedPreferences sharedPrefs;
 
     private boolean alert = true;
@@ -103,7 +104,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
                 alert = false;
             }
 	        
-	        ArrayList<BlacklistContact> blacklist = readFromFile5(context);
+	        ArrayList<BlacklistContact> blacklist = IOUtil.readBlacklist(context);
 	        int blacklistType = 0;
 	        
 	        for (int i = 0; i < blacklist.size(); i++)
@@ -114,7 +115,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 	        	}
 	        }
 
-            final ArrayList<String> prevNotifications = readFromFile2(context);
+            final ArrayList<String> prevNotifications = IOUtil.readNotifications(context);
 	        
 	        if (blacklistType == 2)
 	        {
@@ -163,7 +164,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 						
 						phonesCursor.close();
 					
-						ArrayList<String> newMessages = readFromFile(context);
+						ArrayList<String> newMessages = IOUtil.readNewMessages(context);
 						boolean flag = false;
 						
 						for (int i = 0; i < newMessages.size(); i++) {
@@ -176,7 +177,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 							newMessages.add(name);
 						}
 						
-						writeToFile(newMessages, context);
+						IOUtil.writeNewMessages(newMessages, context);
 						
 						phonesCursor = context.getContentResolver().query(phoneUri, new String[] {ContactsContract.Contacts._ID}, null, null, null);
 				
@@ -192,7 +193,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 			        	id = "0";
 			        }
 				    
-				    InputStream input = openDisplayPhoto(Long.parseLong(id), context);
+				    InputStream input = ContactUtil.openDisplayPhoto(Long.parseLong(id), context);
 					
 					if (input == null)
 					{
@@ -201,7 +202,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 					
 					Bitmap contactImage = Bitmap.createScaledBitmap(BitmapFactory.decodeStream(input), 120, 120, true);
 					
-					Intent intent2 = new Intent(context, com.klinker.android.messaging_card.QuickReply.class);
+					Intent intent2 = new Intent(context, CardQuickReply.class);
                     intent2.putExtra("address", origAddress);
                     intent2.putExtra("body", origBody);
                     intent2.putExtra("date", origDate);
@@ -333,7 +334,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 						        mBuilder.setContentIntent(resultPendingIntent);
 						        mBuilder.setAutoCancel(true);
 						        
-						        if(!individualNotification(mBuilder, name, context))
+						        if(!individualNotification(mBuilder, name, context, alert))
 						        {
 							        if (sharedPrefs.getBoolean("vibrate", true) && alert)
 							        {
@@ -453,7 +454,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 
                                 ArrayList<String> newNotifications = new ArrayList<String>();
 						        newNotifications.add(name + ": " + body);
-						        writeToFile2(newNotifications, context);
+						        IOUtil.writeNotifications(newNotifications, context);
 					        } else if (prevNotifications.size() == 1 && prevNotifications.get(0).startsWith(name))
 					        {
 					        	String body2 = prevNotifications.get(0);
@@ -530,7 +531,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 						        mBuilder.setContentIntent(resultPendingIntent);
 						        mBuilder.setAutoCancel(true);
 						        
-						        if(!individualNotification(mBuilder, name, context))
+						        if(!individualNotification(mBuilder, name, context, alert))
 						        {
 							        if (sharedPrefs.getBoolean("vibrate", true) && alert)
 							        {
@@ -649,7 +650,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 						        
 						        ArrayList<String> newNotifications = new ArrayList<String>();
 						        newNotifications.add(name + ": " + body);
-						        writeToFile2(newNotifications, context);
+						        IOUtil.writeNotifications(newNotifications, context);
 					        } else
 					        {
 					        	NotificationCompat.Builder mBuilder =
@@ -707,7 +708,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 						        mBuilder.setContentIntent(resultPendingIntent);
 						        mBuilder.setAutoCancel(true);
 						        
-						        if(!individualNotification(mBuilder, name, context))
+						        if(!individualNotification(mBuilder, name, context, alert))
 						        {
 							        if (sharedPrefs.getBoolean("vibrate", true) && alert)
 							        {
@@ -835,7 +836,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 
                                 mNotificationManager.notify(1, notification);
 						        
-						        writeToFile2(prevNotifications, context);
+						        IOUtil.writeNotifications(prevNotifications, context);
 					        }
 			            } else
 			            {
@@ -980,7 +981,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 						        
 						        ArrayList<String> newNotifications = new ArrayList<String>();
 						        newNotifications.add(name + ": " + body);
-						        writeToFile2(newNotifications, context);
+						        IOUtil.writeNotifications(newNotifications, context);
 					        } else
 					        {
 					        	NotificationCompat.Builder mBuilder =
@@ -1126,7 +1127,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 
                                 mNotificationManager.notify(1, notification);
 						        
-						        writeToFile2(prevNotifications, context);
+						        IOUtil.writeNotifications(prevNotifications, context);
 					        }
 			            }
 			            
@@ -1157,7 +1158,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
                     context.startService(cacheService);
                 }
 		        
-		        if (!isRunning(context) && blacklistType != 1)
+		        if (!Util.isRunning(context) && blacklistType != 1)
 		        {
 		        	Handler handler = new Handler();
 		        	handler.postDelayed(new Runnable() {
@@ -1166,7 +1167,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 						public void run() {
 							if (sharedPrefs.getBoolean("popup_reply", false) && !sharedPrefs.getBoolean("secure_notification", false))
 					        {
-					        	Intent intent3 = new Intent(context, com.klinker.android.messaging_card.QuickReply.class);
+					        	Intent intent3 = new Intent(context, CardQuickReply.class);
                                 intent3.putExtra("address", origAddress);
                                 intent3.putExtra("body", origBody);
                                 intent3.putExtra("date", origDate);
@@ -1398,15 +1399,15 @@ public class TextMessageReceiver extends BroadcastReceiver {
         }
     }
 	
-	public boolean individualNotification(NotificationCompat.Builder mBuilder, String name, Context context)
+	public static boolean individualNotification(NotificationCompat.Builder mBuilder, String name, Context context, boolean alert)
 	{
-		ArrayList<IndividualSetting> individuals = readFromFile4(context);
+		ArrayList<IndividualSetting> individuals = IOUtil.readIndividualNotifications(context);
 		
 		for (int i = 0; i < individuals.size(); i++)
 		{
 			if (individuals.get(i).name.equals(name))
 			{
-                if(alert)
+                if (alert)
 				    mBuilder.setSound(Uri.parse(individuals.get(i).ringtone));
 				
 				try
@@ -1418,14 +1419,14 @@ public class TextMessageReceiver extends BroadcastReceiver {
 	        		{
 	        			pattern[j] = Long.parseLong(vibPat[j]);
 	        		}
-	        		if(alert)
+	        		if (alert)
 	        		    mBuilder.setVibrate(pattern);
 				} catch (Exception e)
 				{
 					e.printStackTrace();
 				}
         		
-        		mBuilder.setLights(individuals.get(i).color, sharedPrefs.getInt("led_on_time", 1000), sharedPrefs.getInt("led_off_time", 2000));
+        		mBuilder.setLights(individuals.get(i).color, PreferenceManager.getDefaultSharedPreferences(context).getInt("led_on_time", 1000), PreferenceManager.getDefaultSharedPreferences(context).getInt("led_off_time", 2000));
         		
         		return true;
 			}
@@ -1433,220 +1434,6 @@ public class TextMessageReceiver extends BroadcastReceiver {
 		
 		return false;
 	}
-	
-	public static boolean isRunning(Context ctx) {
-        ActivityManager activityManager = (ActivityManager) ctx.getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningTaskInfo> tasks = activityManager.getRunningTasks(1);
-
-        for (ActivityManager.RunningTaskInfo task : tasks) {
-            if (ctx.getPackageName().equalsIgnoreCase(task.baseActivity.getPackageName())) 
-                return true;                                  
-        }
-
-        return false;
-    }
-	
-	  public InputStream openDisplayPhoto(long contactId, Context context) {
-		  Uri contactUri = ContentUris.withAppendedId(Contacts.CONTENT_URI, contactId);
-		     Uri photoUri = Uri.withAppendedPath(contactUri, Contacts.Photo.CONTENT_DIRECTORY);
-		     Cursor cursor = context.getContentResolver().query(photoUri,
-		          new String[] {Contacts.Photo.PHOTO}, null, null, null);
-		     if (cursor == null) {
-		         return null;
-		     }
-		     try {
-		         if (cursor.moveToFirst()) {
-		             byte[] data = cursor.getBlob(0);
-		             if (data != null) {
-		                 return new ByteArrayInputStream(data);
-		             }
-		         }
-		     } finally {
-		         cursor.close();
-		     }
-		     return null;
-		 }
-	  
-	  private ArrayList<String> readFromFile(Context context) {
-			
-	      ArrayList<String> ret = new ArrayList<String>();
-	      
-	      try {
-	          InputStream inputStream = context.openFileInput(FILENAME);
-	          
-	          if ( inputStream != null ) {
-	          	InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-	          	BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-	          	String receiveString = "";
-	          	
-	          	while ( (receiveString = bufferedReader.readLine()) != null ) {
-	          		ret.add(receiveString);
-	          	}
-	          	
-	          	inputStream.close();
-	          }
-	      }
-	      catch (FileNotFoundException e) {
-	      	
-			} catch (IOException e) {
-				
-			}
-
-	      return ret;
-		}
-	  	
-	  	private void writeToFile(ArrayList<String> data, Context context) {
-	        try {
-	            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(FILENAME, Context.MODE_PRIVATE));
-	            
-	            for (int i = 0; i < data.size(); i++)
-	            {
-	            	outputStreamWriter.write(data.get(i) + "\n");
-	            }
-	            	
-	            outputStreamWriter.close();
-	        }
-	        catch (IOException e) {
-	            
-	        } 
-			
-		}
-	  	
-	  	private ArrayList<String> readFromFile2(Context context) {
-			
-		      ArrayList<String> ret = new ArrayList<String>();
-		      
-		      try {
-		          InputStream inputStream = context.openFileInput("notifications.txt");
-		          
-		          if ( inputStream != null ) {
-		          	InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-		          	BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-		          	String receiveString = "";
-		          	
-		          	while ( (receiveString = bufferedReader.readLine()) != null ) {
-		          		ret.add(receiveString);
-		          	}
-		          	
-		          	inputStream.close();
-		          }
-		      }
-		      catch (FileNotFoundException e) {
-		      	
-				} catch (IOException e) {
-					
-				}
-
-		      return ret;
-			}
-		  	
-		  	private void writeToFile2(ArrayList<String> data, Context context) {
-		        try {
-		            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("notifications.txt", Context.MODE_PRIVATE));
-		            
-		            for (int i = 0; i < data.size(); i++)
-		            {
-		            	outputStreamWriter.write(data.get(i) + "\n");
-		            }
-		            	
-		            outputStreamWriter.close();
-		        }
-		        catch (IOException e) {
-		            
-		        } 
-				
-			}
-		  	
-		  	private void writeToFile3(ArrayList<String> data, Context context) {
-		        try {
-		            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("conversationList.txt", Context.MODE_PRIVATE));
-		            
-		            for (int i = 0; i < data.size(); i++)
-		            {
-		            	outputStreamWriter.write(data.get(i) + "\n");
-		            }
-		            	
-		            outputStreamWriter.close();
-		        }
-		        catch (IOException e) {
-		            
-		        } 
-				
-			}
-		  	
-		  	@SuppressWarnings("resource")
-			private ArrayList<IndividualSetting> readFromFile4(Context context) {
-				
-			      ArrayList<IndividualSetting> ret = new ArrayList<IndividualSetting>();
-			      
-			      try {
-			          InputStream inputStream;
-			          
-			          if (sharedPrefs.getBoolean("save_to_external", true))
-			          {
-			         	 inputStream = new FileInputStream(Environment.getExternalStorageDirectory() + "/SlidingMessaging/individualNotifications.txt");
-			          } else
-			          {
-			        	  inputStream = context.openFileInput("individualNotifications.txt");
-			          }
-			          
-			          if ( inputStream != null ) {
-			          	InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-			          	BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-			          	String receiveString = "";
-			          	
-			          	while ( (receiveString = bufferedReader.readLine()) != null) {
-			          		ret.add(new IndividualSetting(receiveString, Integer.parseInt(bufferedReader.readLine()), bufferedReader.readLine(), bufferedReader.readLine()));
-			          	}
-			          	
-			          	inputStream.close();
-			          }
-			      }
-			      catch (FileNotFoundException e) {
-			      	
-					} catch (IOException e) {
-						
-					}
-
-			      return ret;
-				}
-		  	
-		  	@SuppressWarnings("resource")
-			private ArrayList<BlacklistContact> readFromFile5(Context context) {
-				
-			      ArrayList<BlacklistContact> ret = new ArrayList<BlacklistContact>();
-			      
-			      try {
-			    	  InputStream inputStream;
-			          
-			          if (sharedPrefs.getBoolean("save_to_external", true))
-			          {
-			         	 inputStream = new FileInputStream(Environment.getExternalStorageDirectory() + "/SlidingMessaging/blacklist.txt");
-			          } else
-			          {
-			        	  inputStream = context.openFileInput("blacklist.txt");
-			          }
-			          
-			          if ( inputStream != null ) {
-			          	InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-			          	BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-			          	String receiveString = "";
-			          	
-			          	while ( (receiveString = bufferedReader.readLine()) != null) {
-			          		ret.add(new BlacklistContact(receiveString, Integer.parseInt(bufferedReader.readLine())));
-			          	}
-			          	
-			          	inputStream.close();
-			          }
-			      }
-			      catch (FileNotFoundException e) {
-			      	
-					} catch (IOException e) {
-						
-					}
-
-			      return ret;
-				}
 
     public static boolean isCallActive(Context context){
         AudioManager manager = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);

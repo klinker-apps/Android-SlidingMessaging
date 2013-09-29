@@ -20,6 +20,7 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_donate.utils.IOUtil;
 import com.klinker.android.messaging_sliding.templates.TemplateArrayAdapter;
 
 import java.io.*;
@@ -46,7 +47,7 @@ public class NotificationsSettingsActivity extends Activity {
 		sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 		context = this;
 		
-		individuals = readFromFile(this);
+		individuals = IOUtil.readIndividualNotifications(this);
 		names = new ArrayList<String>();
 		
 		for (int i = 0; i < individuals.size(); i++)
@@ -91,7 +92,7 @@ public class NotificationsSettingsActivity extends Activity {
 				            TemplateArrayAdapter adapter = new TemplateArrayAdapter((Activity) context, names);
 				    		templates.setAdapter(adapter);
 				    		
-				    		writeToFile(individuals, context);
+				    		IOUtil.writeIndividualNotifications(individuals, context);
 				        }
 				    }).setNegativeButton(context.getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
 				        public void onClick(DialogInterface dialog, int whichButton) {
@@ -118,7 +119,7 @@ public class NotificationsSettingsActivity extends Activity {
 				intent.putExtra("com.klinker.android.messaging.CONTACT_NAME", individuals.get(arg2).name);
 				
 				individuals.remove(arg2);
-				writeToFile(individuals, context);
+				IOUtil.writeIndividualNotifications(individuals, context);
 				startActivity(intent);
                 overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
 			}
@@ -131,7 +132,7 @@ public class NotificationsSettingsActivity extends Activity {
 
 			@Override
 			public void onClick(View arg0) {
-				writeToFile(individuals, context);
+				IOUtil.writeIndividualNotifications(individuals, context);
 				Intent intent = new Intent(context, ContactFinderActivity.class);
 				context.startActivity(intent);
                 overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
@@ -160,7 +161,7 @@ public class NotificationsSettingsActivity extends Activity {
 	{
 		super.onResume();
 		
-		individuals = readFromFile(this);
+		individuals = IOUtil.readIndividualNotifications(this);
 		names = new ArrayList<String>();
 		
 		for (int i = 0; i < individuals.size(); i++)
@@ -175,72 +176,8 @@ public class NotificationsSettingsActivity extends Activity {
 	
 	@Override
 	public void onBackPressed() {
-		writeToFile(individuals, this);
+		IOUtil.writeIndividualNotifications(individuals, this);
 		super.onBackPressed();
         overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
 	}
-	
-	@SuppressWarnings("resource")
-	private ArrayList<IndividualSetting> readFromFile(Context context) {
-		
-	      ArrayList<IndividualSetting> ret = new ArrayList<IndividualSetting>();
-	      
-	      try {
-	          InputStream inputStream;
-	          
-	          if (sharedPrefs.getBoolean("save_to_external", true))
-	          {
-	         	 inputStream = new FileInputStream(Environment.getExternalStorageDirectory() + "/SlidingMessaging/individualNotifications.txt");
-	          } else
-	          {
-	        	  inputStream = context.openFileInput("individualNotifications.txt");
-	          }
-	          
-	          if ( inputStream != null ) {
-	          	InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-	          	BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-	          	String receiveString = "";
-	          	
-	          	while ( (receiveString = bufferedReader.readLine()) != null) {
-	          		ret.add(new IndividualSetting(receiveString, Integer.parseInt(bufferedReader.readLine()), bufferedReader.readLine(), bufferedReader.readLine()));
-	          	}
-	          	
-	          	inputStream.close();
-	          }
-	      }
-	      catch (FileNotFoundException e) {
-	      	
-			} catch (IOException e) {
-				
-			}
-
-	      return ret;
-		}
-	  	
-	  	private void writeToFile(ArrayList<IndividualSetting> data, Context context) {
-	        try {
-	            OutputStreamWriter outputStreamWriter;
-	            
-	            if (sharedPrefs.getBoolean("save_to_external", true))
-	            {
-	            	outputStreamWriter = new OutputStreamWriter(new FileOutputStream(Environment.getExternalStorageDirectory() + "/SlidingMessaging/individualNotifications.txt"));
-	            } else
-	            {
-	            	outputStreamWriter = new OutputStreamWriter(context.openFileOutput("individualNotifications.txt", Context.MODE_PRIVATE));
-	            }
-	            
-	            for (int i = 0; i < data.size(); i++)
-	            {
-	            	IndividualSetting write = data.get(i);
-	            	
-	            	outputStreamWriter.write(write.name + "\n" + write.color + "\n" + write.vibratePattern + "\n" + write.ringtone + "\n");
-	            }
-	            	
-	            outputStreamWriter.close();
-	        }
-	        catch (IOException e) {
-	            
-	        } 
-			
-		}
 }

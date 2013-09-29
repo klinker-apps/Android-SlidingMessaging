@@ -29,6 +29,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.RelativeLayout.LayoutParams;
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_donate.utils.ContactUtil;
+import com.klinker.android.messaging_donate.utils.IOUtil;
 import com.klinker.android.messaging_donate.utils.SendUtil;
 import com.klinker.android.messaging_sliding.emojis.*;
 import com.klinker.android.messaging_sliding.receivers.CacheService;
@@ -342,7 +344,7 @@ public class QuickReply extends Activity {
 	    
 	    contactName.setText(name);
 	    
-	    InputStream input = openDisplayPhoto(Long.parseLong(id), this);
+	    InputStream input = ContactUtil.openDisplayPhoto(Long.parseLong(id), this);
 		
 		if (input == null)
 		{
@@ -400,7 +402,7 @@ public class QuickReply extends Activity {
 				            (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 					mNotificationManager.cancel(1);
 					
-					writeToFile2(new ArrayList<String>(), context);
+					IOUtil.writeNotifications(new ArrayList<String>(), context);
 					
 					Intent intent = new Intent("com.klinker.android.messaging.CLEARED_NOTIFICATION");
 				    context.sendBroadcast(intent);
@@ -441,7 +443,7 @@ public class QuickReply extends Activity {
 				            (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 					mNotificationManager.cancel(1);
 					
-					writeToFile2(new ArrayList<String>(), context);
+					IOUtil.writeNotifications(new ArrayList<String>(), context);
 					
 					Intent intent = new Intent("com.klinker.android.messaging.CLEARED_NOTIFICATION");
 				    context.sendBroadcast(intent);
@@ -479,7 +481,7 @@ public class QuickReply extends Activity {
 				            (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 					mNotificationManager.cancel(1);
 					
-					writeToFile2(new ArrayList<String>(), context);
+					IOUtil.writeNotifications(new ArrayList<String>(), context);
 					
 					Intent intent = new Intent("com.klinker.android.messaging.CLEARED_NOTIFICATION");
 				    context.sendBroadcast(intent);
@@ -719,61 +721,6 @@ public class QuickReply extends Activity {
 	public void onResume()
 	{
 		super.onResume();
-	}
-	
-	public InputStream openDisplayPhoto(long contactId, Context context) {
-		  Uri contactUri = ContentUris.withAppendedId(Contacts.CONTENT_URI, contactId);
-		     Uri photoUri = Uri.withAppendedPath(contactUri, Contacts.Photo.CONTENT_DIRECTORY);
-		     Cursor cursor = context.getContentResolver().query(photoUri,
-		          new String[] {Contacts.Photo.PHOTO}, null, null, null);
-		     if (cursor == null) {
-		         return null;
-		     }
-		     try {
-		         if (cursor.moveToFirst()) {
-		             byte[] data = cursor.getBlob(0);
-		             if (data != null) {
-		                 return new ByteArrayInputStream(data);
-		             }
-		         }
-		     } finally {
-		         cursor.close();
-		     }
-		     return null;
-		 }
-	
-	private void writeToFile2(ArrayList<String> data, Context context) {
-        try {
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("notifications.txt", Context.MODE_PRIVATE));
-            
-            for (int i = 0; i < data.size(); i++)
-            {
-            	outputStreamWriter.write(data.get(i) + "\n");
-            }
-            	
-            outputStreamWriter.close();
-        }
-        catch (IOException e) {
-            
-        } 
-		
-	}
-	
-	private void writeToFile3(ArrayList<String> data, Context context) {
-        try {
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("conversationList.txt", Context.MODE_PRIVATE));
-            
-            for (int i = 0; i < data.size(); i++)
-            {
-            	outputStreamWriter.write(data.get(i) + "\n");
-            }
-            	
-            outputStreamWriter.close();
-        }
-        catch (IOException e) {
-            
-        } 
-		
 	}
 
 }

@@ -74,7 +74,6 @@ import com.klinker.android.messaging_sliding.emojis.EmojiAdapter;
 import com.klinker.android.messaging_sliding.emojis.EmojiAdapter2;
 import com.klinker.android.messaging_sliding.emojis.EmojiConverter;
 import com.klinker.android.messaging_sliding.emojis.EmojiConverter2;
-import com.klinker.android.messaging_sliding.notifications.IndividualSetting;
 import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead2;
 import com.klinker.android.messaging_sliding.receivers.*;
 import com.klinker.android.messaging_sliding.scheduled.NewScheduledSms;
@@ -91,8 +90,8 @@ import group.pals.android.lib.ui.lockpattern.LockPatternActivity;
 import group.pals.android.lib.ui.lockpattern.prefs.SecurityPrefs;
 import net.simonvt.messagebar.MessageBar;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
-import wizardpager.ChangeLogMain;
-import wizardpager.InitialSetupMain;
+import com.klinker.android.messaging_donate.wizardpager.ChangeLogMain;
+import com.klinker.android.messaging_donate.wizardpager.InitialSetupMain;
 
 import java.io.*;
 import java.util.*;
@@ -250,7 +249,7 @@ public class MainActivity extends FragmentActivity {
         if (getPackageName().equals("com.klinker.android.messaging_donate")) {
             unlocked = true;
         } else {
-            unlocked = checkUnlocked();
+            unlocked = IOUtil.checkUnlocked();
         }
 
         settings = AppSettings.init(this);
@@ -3015,7 +3014,7 @@ public class MainActivity extends FragmentActivity {
 
                 templates.addFooterView(footer);
 
-                final ArrayList<String> text = readFromFile4(this);
+                final ArrayList<String> text = IOUtil.readTemplates(this);
                 TemplateArrayAdapter adapter = new TemplateArrayAdapter(this, text);
                 templates.setAdapter(adapter);
 
@@ -3796,7 +3795,7 @@ public class MainActivity extends FragmentActivity {
     public void onResume() {
         super.onResume();
         
-        restartHalo();
+        SlideOverService.restartHalo(this);
 
         Intent clearMessages = new Intent("com.klinker.android.messaging.CLEAR_MESSAGES");
         getApplicationContext().sendBroadcast(clearMessages);
@@ -4115,7 +4114,7 @@ public class MainActivity extends FragmentActivity {
                     mNotificationManager.cancel(1);
                     mNotificationManager.cancel(2);
                     mNotificationManager.cancel(4);
-                    writeToFile2(new ArrayList<String>(), context);
+                    IOUtil.writeNotifications(new ArrayList<String>(), context);
 
                     Intent intent = new Intent("com.klinker.android.messaging.CLEARED_NOTIFICATION");
                     context.sendBroadcast(intent);
@@ -4149,7 +4148,7 @@ public class MainActivity extends FragmentActivity {
             sharedPrefs.edit().putString("voice_threads", voiceThreads).commit();
         }
 
-        writeToFile(newMessages, this);
+        IOUtil.writeNewMessages(newMessages, this);
     }
 
     @Override
@@ -4410,7 +4409,7 @@ public class MainActivity extends FragmentActivity {
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                writeToFile2(new ArrayList<String>(), context);
+                                IOUtil.writeNotifications(new ArrayList<String>(), context);
 
                                 Intent intent = new Intent("com.klinker.android.messaging.CLEARED_NOTIFICATION");
                                 context.sendBroadcast(intent);
@@ -4453,7 +4452,7 @@ public class MainActivity extends FragmentActivity {
 
                 @Override
                 public void run() {
-                    newMessages = readFromFile(context);
+                    newMessages = IOUtil.readNewMessages(context);
 
                     if (conversations.size() > 0) {
                         if (newMessages.size() != 0)
@@ -4773,7 +4772,7 @@ public class MainActivity extends FragmentActivity {
                     mNotificationManager.cancel(1);
                     mNotificationManager.cancel(2);
                     mNotificationManager.cancel(4);
-                    writeToFile2(new ArrayList<String>(), context);
+                    IOUtil.writeNotifications(new ArrayList<String>(), context);
 
                     Intent intent = new Intent("com.klinker.android.messaging.CLEARED_NOTIFICATION");
                     context.sendBroadcast(intent);
@@ -4785,105 +4784,6 @@ public class MainActivity extends FragmentActivity {
                 }
             }, 500);
         }
-    }
-
-    private void writeToFile2(ArrayList<String> data, Context context) {
-        try {
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("notifications.txt", Context.MODE_PRIVATE));
-
-            for (int i = 0; i < data.size(); i++)
-            {
-                outputStreamWriter.write(data.get(i) + "\n");
-            }
-
-            outputStreamWriter.close();
-        }
-        catch (IOException e) {
-
-        }
-
-    }
-
-    private ArrayList<String> readFromFile(Context context) {
-
-        ArrayList<String> ret = new ArrayList<String>();
-
-        try {
-            InputStream inputStream = context.openFileInput("newMessages.txt");
-
-            if ( inputStream != null ) {
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                String receiveString = "";
-
-                while ( (receiveString = bufferedReader.readLine()) != null ) {
-                    ret.add(receiveString);
-                }
-
-                inputStream.close();
-            }
-        }
-        catch (FileNotFoundException e) {
-
-        } catch (IOException e) {
-
-        }
-
-        return ret;
-    }
-
-    private void writeToFile(ArrayList<String> data, Context context) {
-        try {
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("newMessages.txt", Context.MODE_PRIVATE));
-
-            for (int i = 0; i < data.size(); i++)
-            {
-                outputStreamWriter.write(data.get(i) + "\n");
-            }
-
-            outputStreamWriter.close();
-        }
-        catch (IOException e) {
-
-        }
-
-    }
-
-    @SuppressWarnings("resource")
-    private ArrayList<String> readFromFile4(Context context) {
-
-        ArrayList<String> ret = new ArrayList<String>();
-
-        try {
-            InputStream inputStream;
-
-            if (sharedPrefs.getBoolean("save_to_external", true))
-            {
-                inputStream = new FileInputStream(Environment.getExternalStorageDirectory() + "/SlidingMessaging/templates.txt");
-            } else
-            {
-                inputStream = context.openFileInput("templates.txt");
-            }
-
-            if ( inputStream != null ) {
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                String receiveString = "";
-
-                while ( (receiveString = bufferedReader.readLine()) != null ) {
-                    ret.add(receiveString);
-                }
-
-                inputStream.close();
-            }
-        }
-        catch (FileNotFoundException e) {
-
-        } catch (IOException e) {
-
-        }
-
-        return ret;
     }
 
     public PullToRefreshAttacher getPullToRefreshAttacher() {
@@ -5175,7 +5075,7 @@ public class MainActivity extends FragmentActivity {
                 }
             }
 
-            ArrayList<BlacklistContact> blacklist = readFromFile6(context);
+            ArrayList<BlacklistContact> blacklist = IOUtil.readBlacklist(context);
             int blacklistType = 0;
 
             for (int i = 0; i < blacklist.size(); i++)
@@ -5235,9 +5135,9 @@ public class MainActivity extends FragmentActivity {
                     if (!id.equals("0"))
                         mBuilder.setLargeIcon(contactImage);
 
-                    setIcon(mBuilder);
+                    TextMessageReceiver.setIcon(mBuilder, context);
 
-                    if(!individualNotification(mBuilder, name, context))
+                    if(!TextMessageReceiver.individualNotification(mBuilder, name, context, true))
                     {
                         if (settings.vibrate)
                         {
@@ -5570,306 +5470,4 @@ public class MainActivity extends FragmentActivity {
 
     private BroadcastReceiver mmsProgressReceiver;
 
-    public void setIcon(NotificationCompat.Builder mBuilder)
-    {
-        if (!sharedPrefs.getBoolean("breath", false))
-        {
-            String notIcon = sharedPrefs.getString("notification_icon", "white");
-            int notImage = Integer.parseInt(sharedPrefs.getString("notification_image", "1"));
-
-            switch (notImage)
-            {
-                case 1:
-                    if (notIcon.equals("white"))
-                    {
-                        mBuilder.setSmallIcon(R.drawable.stat_notify_sms);
-                    } else if (notIcon.equals("blue"))
-                    {
-                        mBuilder.setSmallIcon(R.drawable.stat_notify_sms_blue);
-                    } else if (notIcon.equals("green"))
-                    {
-                        mBuilder.setSmallIcon(R.drawable.stat_notify_sms_green);
-                    } else if (notIcon.equals("orange"))
-                    {
-                        mBuilder.setSmallIcon(R.drawable.stat_notify_sms_orange);
-                    } else if (notIcon.equals("purple"))
-                    {
-                        mBuilder.setSmallIcon(R.drawable.stat_notify_sms_purple);
-                    } else if (notIcon.equals("red"))
-                    {
-                        mBuilder.setSmallIcon(R.drawable.stat_notify_sms_red);
-                    } else if (notIcon.equals("icon"))
-                    {
-                        mBuilder.setSmallIcon(R.drawable.stat_notify_sms_icon);
-                    }
-
-                    break;
-                case 2:
-                    if (notIcon.equals("white"))
-                    {
-                        mBuilder.setSmallIcon(R.drawable.stat_notify_bubble);
-                    } else if (notIcon.equals("blue"))
-                    {
-                        mBuilder.setSmallIcon(R.drawable.stat_notify_bubble_blue);
-                    } else if (notIcon.equals("green"))
-                    {
-                        mBuilder.setSmallIcon(R.drawable.stat_notify_bubble_green);
-                    } else if (notIcon.equals("orange"))
-                    {
-                        mBuilder.setSmallIcon(R.drawable.stat_notify_bubble_orange);
-                    } else if (notIcon.equals("purple"))
-                    {
-                        mBuilder.setSmallIcon(R.drawable.stat_notify_bubble_purple);
-                    } else if (notIcon.equals("red"))
-                    {
-                        mBuilder.setSmallIcon(R.drawable.stat_notify_bubble_red);
-                    } else if (notIcon.equals("icon"))
-                    {
-                        mBuilder.setSmallIcon(R.drawable.stat_notify_sms_icon);
-                    }
-
-                    break;
-                case 3:
-                    if (notIcon.equals("white"))
-                    {
-                        mBuilder.setSmallIcon(R.drawable.stat_notify_point);
-                    } else if (notIcon.equals("blue"))
-                    {
-                        mBuilder.setSmallIcon(R.drawable.stat_notify_point_blue);
-                    } else if (notIcon.equals("green"))
-                    {
-                        mBuilder.setSmallIcon(R.drawable.stat_notify_point_green);
-                    } else if (notIcon.equals("orange"))
-                    {
-                        mBuilder.setSmallIcon(R.drawable.stat_notify_point_orange);
-                    } else if (notIcon.equals("purple"))
-                    {
-                        mBuilder.setSmallIcon(R.drawable.stat_notify_point_purple);
-                    } else if (notIcon.equals("red"))
-                    {
-                        mBuilder.setSmallIcon(R.drawable.stat_notify_point_red);
-                    } else if (notIcon.equals("icon"))
-                    {
-                        mBuilder.setSmallIcon(R.drawable.stat_notify_sms_icon);
-                    }
-
-                    break;
-                case 4:
-                    if (notIcon.equals("white"))
-                    {
-                        mBuilder.setSmallIcon(R.drawable.stat_notify_airplane);
-                    } else if (notIcon.equals("blue"))
-                    {
-                        mBuilder.setSmallIcon(R.drawable.stat_notify_airplane_blue);
-                    } else if (notIcon.equals("green"))
-                    {
-                        mBuilder.setSmallIcon(R.drawable.stat_notify_airplane_green);
-                    } else if (notIcon.equals("orange"))
-                    {
-                        mBuilder.setSmallIcon(R.drawable.stat_notify_airplane_orange);
-                    } else if (notIcon.equals("purple"))
-                    {
-                        mBuilder.setSmallIcon(R.drawable.stat_notify_airplane_purple);
-                    } else if (notIcon.equals("red"))
-                    {
-                        mBuilder.setSmallIcon(R.drawable.stat_notify_airplane_red);
-                    } else if (notIcon.equals("icon"))
-                    {
-                        mBuilder.setSmallIcon(R.drawable.stat_notify_sms_icon);
-                    }
-
-                    break;
-                case 5:
-                    if (notIcon.equals("white"))
-                    {
-                        mBuilder.setSmallIcon(R.drawable.stat_notify_cloud);
-                    } else if (notIcon.equals("blue"))
-                    {
-                        mBuilder.setSmallIcon(R.drawable.stat_notify_cloud_blue);
-                    } else if (notIcon.equals("green"))
-                    {
-                        mBuilder.setSmallIcon(R.drawable.stat_notify_cloud_green);
-                    } else if (notIcon.equals("orange"))
-                    {
-                        mBuilder.setSmallIcon(R.drawable.stat_notify_cloud_orange);
-                    } else if (notIcon.equals("purple"))
-                    {
-                        mBuilder.setSmallIcon(R.drawable.stat_notify_cloud_purple);
-                    } else if (notIcon.equals("red"))
-                    {
-                        mBuilder.setSmallIcon(R.drawable.stat_notify_cloud_red);
-                    } else if (notIcon.equals("icon"))
-                    {
-                        mBuilder.setSmallIcon(R.drawable.stat_notify_sms_icon);
-                    }
-                    break;
-            }
-        } else
-        {
-            mBuilder.setSmallIcon(R.drawable.stat_notify_sms_breath);
-        }
-    }
-
-    public boolean individualNotification(NotificationCompat.Builder mBuilder, String name, Context context)
-    {
-        ArrayList<IndividualSetting> individuals = readFromFile5(context);
-
-        for (int i = 0; i < individuals.size(); i++)
-        {
-            if (individuals.get(i).name.equals(name))
-            {
-                mBuilder.setSound(Uri.parse(individuals.get(i).ringtone));
-
-                try
-                {
-                    String[] vibPat = individuals.get(i).vibratePattern.replace("L", "").split(", ");
-                    long[] pattern = new long[vibPat.length];
-
-                    for (int j = 0; j < vibPat.length; j++)
-                    {
-                        pattern[j] = Long.parseLong(vibPat[j]);
-                    }
-
-                    mBuilder.setVibrate(pattern);
-                } catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
-
-                mBuilder.setLights(individuals.get(i).color, sharedPrefs.getInt("led_on_time", 1000), sharedPrefs.getInt("led_off_time", 2000));
-
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private ArrayList<IndividualSetting> readFromFile5(Context context) {
-
-        ArrayList<IndividualSetting> ret = new ArrayList<IndividualSetting>();
-
-        try {
-            InputStream inputStream;
-
-            if (sharedPrefs.getBoolean("save_to_external", true))
-            {
-                inputStream = new FileInputStream(Environment.getExternalStorageDirectory() + "/SlidingMessaging/individualNotifications.txt");
-            } else
-            {
-                inputStream = context.openFileInput("individualNotifications.txt");
-            }
-
-            if ( inputStream != null ) {
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                String receiveString = "";
-
-                while ( (receiveString = bufferedReader.readLine()) != null) {
-                    ret.add(new IndividualSetting(receiveString, Integer.parseInt(bufferedReader.readLine()), bufferedReader.readLine(), bufferedReader.readLine()));
-                }
-
-                inputStream.close();
-            }
-        }
-        catch (FileNotFoundException e) {
-
-        } catch (IOException e) {
-
-        }
-
-        return ret;
-    }
-
-    public ArrayList<BlacklistContact> readFromFile6(Context context) {
-
-        ArrayList<BlacklistContact> ret = new ArrayList<BlacklistContact>();
-
-        try {
-            InputStream inputStream;
-
-            if (sharedPrefs.getBoolean("save_to_external", true))
-            {
-                inputStream = new FileInputStream(Environment.getExternalStorageDirectory() + "/SlidingMessaging/blacklist.txt");
-            } else
-            {
-                inputStream = context.openFileInput("blacklist.txt");
-            }
-
-            if ( inputStream != null ) {
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                String receiveString = "";
-
-                while ( (receiveString = bufferedReader.readLine()) != null) {
-                    ret.add(new BlacklistContact(receiveString, Integer.parseInt(bufferedReader.readLine())));
-                }
-
-                inputStream.close();
-            }
-        }
-        catch (FileNotFoundException e) {
-
-        } catch (IOException e) {
-
-        }
-
-        return ret;
-    }
-
-    public static final int TRIAL_LENGTH = 15;
-
-    private boolean checkUnlocked() {
-        boolean unlocked = true;
-
-        File sdCard = Environment.getExternalStorageDirectory();
-        File dir = new File (sdCard.getAbsolutePath() + "/Android/data/com.klinker.android/");
-        dir.mkdirs();
-        File file = new File(dir, "messaging_expires.txt");
-
-        if (file.exists()) {
-            try {
-                BufferedReader reader = new BufferedReader(new FileReader(file));
-                String s = reader.readLine();
-                long date = Long.parseLong(s);
-
-                if (Calendar.getInstance().getTimeInMillis() > date) {
-                    return false;
-                } else {
-                    return true;
-                }
-            } catch (Exception e) { }
-        } else {
-            try {
-                FileOutputStream f = new FileOutputStream(file);
-                PrintWriter pw = new PrintWriter(f);
-
-                pw.println(Calendar.getInstance().getTimeInMillis() + (TRIAL_LENGTH * 24 * 60 * 60 * 1000));
-
-                pw.flush();
-                pw.close();
-                f.close();
-
-                return true;
-            } catch (Exception e) { }
-        }
-
-        return unlocked;
-    }
-    
-    public void restartHalo() {
-        Intent service = new Intent();
-        service.setAction("com.klinker.android.messaging.STOP_HALO");
-        sendBroadcast(service);
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (sharedPrefs.getBoolean("slideover_enabled", false)) {
-                    Intent service = new Intent(getApplicationContext(), com.klinker.android.messaging_sliding.slide_over.SlideOverService.class);
-                    startService(service);
-                }
-            }
-        }, 500);
-    }
 }

@@ -6,7 +6,6 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -22,9 +21,9 @@ import com.klinker.android.messaging_donate.settings.DrawerArrayAdapter;
 import com.klinker.android.messaging_donate.settings.GetHelpSettingsActivity;
 import com.klinker.android.messaging_donate.settings.OtherAppsSettingsActivity;
 import com.klinker.android.messaging_donate.settings.SettingsPagerActivity;
+import com.klinker.android.messaging_donate.utils.IOUtil;
 import com.klinker.android.messaging_sliding.templates.TemplateActivity;
 
-import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -57,7 +56,7 @@ public class ScheduledSms extends Activity {
     protected void onResume()
     {
         super.onResume();
-        text = readFromFile(this, false);
+        text = IOUtil.readScheduledSMS2(this, false);
 
         SchedulesArrayAdapter adapter = new SchedulesArrayAdapter(this, text);
         sms.setAdapter(adapter);
@@ -79,7 +78,7 @@ public class ScheduledSms extends Activity {
         sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         context = this;
 
-        text = readFromFile(this, true);
+        text = IOUtil.readScheduledSMS2(this, true);
 
         SchedulesArrayAdapter adapter = new SchedulesArrayAdapter(this, text);
         sms.setAdapter(adapter);
@@ -119,7 +118,7 @@ public class ScheduledSms extends Activity {
 
                                 text.remove(arg2);
 
-                                writeToFile(text, context);
+                                IOUtil.writeScheduledSMS(text, context);
 
                                 onResume();
                             }
@@ -404,98 +403,16 @@ public class ScheduledSms extends Activity {
 
     @Override
     public void onBackPressed() {
-        writeToFile(text, this);
+        IOUtil.writeScheduledSMS(text, this);
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
         finish();
         overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
     }
 
-    @SuppressWarnings("resource")
-    private ArrayList<String[]> readFromFile(Context context, boolean tryRemove) {
-
-        ArrayList<String[]> ret = new ArrayList<String[]>();
-
-        if (tryRemove)
-            removeOld();
-
-        try {
-            InputStream inputStream;
-
-            if (sharedPrefs.getBoolean("save_to_external", true))
-            {
-                inputStream = new FileInputStream(Environment.getExternalStorageDirectory() + "/SlidingMessaging/scheduledSMS.txt");
-            } else
-            {
-                inputStream = context.openFileInput("scheduledSMS.txt");
-            }
-
-
-
-            if ( inputStream != null ) {
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                String receiveString = "";
-
-                while ( (receiveString = bufferedReader.readLine()) != null ) {
-
-                    String[] details = new String[5];
-                    details[0] = receiveString;
-
-                    for(int i = 1; i < 5; i++)
-                        details[i] = bufferedReader.readLine();
-
-                    ret.add(details);
-                }
-
-                inputStream.close();
-            }
-        }
-        catch (FileNotFoundException e) {
-
-        } catch (IOException e) {
-
-        }
-
-        return ret;
-    }
-
-    private void writeToFile(ArrayList<String[]> data, Context context) {
-        try {
-
-            OutputStreamWriter outputStreamWriter;
-
-            if (sharedPrefs.getBoolean("save_to_external", true))
-            {
-                outputStreamWriter = new OutputStreamWriter(new FileOutputStream(Environment.getExternalStorageDirectory() + "/SlidingMessaging/scheduledSMS.txt"));
-            } else
-            {
-                outputStreamWriter = new OutputStreamWriter(context.openFileOutput("scheduledSMS.txt", Context.MODE_PRIVATE));
-            }
-
-            for (int i = 0; i < data.size(); i++)
-            {
-                String[] details = data.get(i);
-
-                for (int j = 0; j < 5; j++)
-                {
-                    outputStreamWriter.write(details[j] + "\n");
-                }
-
-
-            }
-
-            outputStreamWriter.close();
-        }
-        catch (IOException e) {
-
-        }
-
-    }
-
-    public void removeOld()
+    public static void removeOld()
     {
-        ArrayList<String[]> list = readFromFile(context, false);
+        ArrayList<String[]> list = IOUtil.readScheduledSMS2(context, false);
 
         for(int i = 0; i < list.size(); i++)
         {
@@ -511,7 +428,7 @@ public class ScheduledSms extends Activity {
             }
         }
 
-        writeToFile(list, context);
+        IOUtil.writeScheduledSMS(list, context);
     }
 
     public void cancelAlarm(int alarmId, String repetition, long date)

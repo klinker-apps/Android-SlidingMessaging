@@ -23,6 +23,7 @@ import android.widget.Button;
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
+import com.klinker.android.messaging_sliding.slide_over.SlideOverService;
 
 public class MainActivityPopup extends MainActivity {
 
@@ -73,21 +74,6 @@ public class MainActivityPopup extends MainActivity {
 
         final Button fullApp = (Button) findViewById(R.id.launch_app);
 
-        /*EditText entry = (EditText) findViewById(R.id.messageEntry);
-
-        entry.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-
-                if (hasFocus && !justOpened) {
-                    fullApp.setVisibility(View.GONE);
-                } else  if (sharedPrefs.getBoolean("show_full_app_button", false)) {
-                    fullApp.setVisibility(View.VISIBLE);
-                }
-                justOpened = false;
-            }
-        });*/
-
         if (sharedPrefs.getBoolean("show_full_app_button", false)) {
 
             fullApp.setTextColor(settings.emojiButtonColor);
@@ -128,24 +114,6 @@ public class MainActivityPopup extends MainActivity {
 
             }
         }
-
-        /*final View activityRootView = findViewById(R.id.pager);
-        activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                int height = getWindow().getAttributes().height;
-
-                Button fullApp = (Button) findViewById(R.id.launch_app);
-
-                if (height < originalHeight) {
-                    fullApp.setVisibility(View.GONE);
-                } else {
-                    if (sharedPrefs.getBoolean("show_full_app_button", false)) {
-                        fullApp.setVisibility(View.VISIBLE);
-                    }
-                }
-            }
-        });*/
     }
     
     @Override
@@ -249,7 +217,7 @@ public class MainActivityPopup extends MainActivity {
     public void onResume() {
         super.onResume();
         
-        restartHalo();
+        SlideOverService.restartHalo(this);
 
         if (!getIntent().getBooleanExtra("fromNotification", false)) {
             if (!fromWidget) {
@@ -333,22 +301,6 @@ public class MainActivityPopup extends MainActivity {
                 PendingIntent pStopRepeating = PendingIntent.getService(context, 0, stopRepeating, 0);
                 AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                 alarm.cancel(pStopRepeating);
-            }
-        }, 500);
-    }
-    
-    public void restartHalo() {
-        Intent service = new Intent();
-        service.setAction("com.klinker.android.messaging.STOP_HALO");
-        sendBroadcast(service);
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (sharedPrefs.getBoolean("slideover_enabled", false)) {
-                    Intent service = new Intent(getApplicationContext(), com.klinker.android.messaging_sliding.slide_over.SlideOverService.class);
-                    startService(service);
-                }
             }
         }, 500);
     }

@@ -21,6 +21,7 @@ import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_donate.utils.IOUtil;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -55,7 +56,7 @@ public class NewBlacklistActivity extends Activity {
 		sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 		context = this;
 		
-		individuals = readFromFile(this);
+		individuals = IOUtil.readBlacklist(this);
 		
 		if (sharedPrefs.getBoolean("override_lang", false))
 		{
@@ -95,12 +96,12 @@ public class NewBlacklistActivity extends Activity {
 				if (!contact.getText().toString().equals("") && stop == false)
 				{
 					individuals.add(new BlacklistContact(contact.getText().toString(), saveType));
-					writeToFile(individuals, context);
+					IOUtil.writeBlacklist(individuals, context);
 					finish();
 				} else if (stop == true)
 				{
 					individuals.set(pos, new BlacklistContact(contact.getText().toString(), saveType));
-					writeToFile(individuals, context);
+					IOUtil.writeBlacklist(individuals, context);
 					finish();
 				} else
 				{
@@ -334,79 +335,15 @@ public class NewBlacklistActivity extends Activity {
 		if (!contact.getText().toString().equals("") && !stop)
 		{
 			individuals.add(new BlacklistContact(contact.getText().toString(), saveType));
-			writeToFile(individuals, context);
+			IOUtil.writeBlacklist(individuals, context);
 		} else if (stop)
 		{
 			individuals.set(pos, new BlacklistContact(contact.getText().toString(), saveType));
-			writeToFile(individuals, context);
+			IOUtil.writeBlacklist(individuals, context);
 		}
 
         super.onBackPressed();
         finish();
         overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
 	}
-	
-	@SuppressWarnings("resource")
-	private ArrayList<BlacklistContact> readFromFile(Context context) {
-		
-	      ArrayList<BlacklistContact> ret = new ArrayList<BlacklistContact>();
-	      
-	      try {
-	    	  InputStream inputStream;
-	          
-	          if (sharedPrefs.getBoolean("save_to_external", true))
-	          {
-	         	 inputStream = new FileInputStream(Environment.getExternalStorageDirectory() + "/SlidingMessaging/blacklist.txt");
-	          } else
-	          {
-	        	  inputStream = context.openFileInput("blacklist.txt");
-	          }
-	          
-	          if ( inputStream != null ) {
-	          	InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-	          	BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-	          	String receiveString = "";
-	          	
-	          	while ( (receiveString = bufferedReader.readLine()) != null) {
-	          		ret.add(new BlacklistContact(receiveString, Integer.parseInt(bufferedReader.readLine())));
-	          	}
-	          	
-	          	inputStream.close();
-	          }
-	      }
-	      catch (FileNotFoundException e) {
-	      	
-			} catch (IOException e) {
-				
-			}
-
-	      return ret;
-		}
-	  	
-	  	private void writeToFile(ArrayList<BlacklistContact> data, Context context) {
-	        try {
-	        	OutputStreamWriter outputStreamWriter;
-	            
-	            if (sharedPrefs.getBoolean("save_to_external", true))
-	            {
-	            	outputStreamWriter = new OutputStreamWriter(new FileOutputStream(Environment.getExternalStorageDirectory() + "/SlidingMessaging/blacklist.txt"));
-	            } else
-	            {
-	            	outputStreamWriter = new OutputStreamWriter(context.openFileOutput("blacklist.txt", Context.MODE_PRIVATE));
-	            }
-	            
-	            for (int i = 0; i < data.size(); i++)
-	            {
-	            	BlacklistContact write = data.get(i);
-	            	
-	            	outputStreamWriter.write(write.name + "\n" + write.type + "\n");
-	            }
-	            	
-	            outputStreamWriter.close();
-	        }
-	        catch (IOException e) {
-	            
-	        } 
-			
-		}
 }

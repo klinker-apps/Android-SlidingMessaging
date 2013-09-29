@@ -8,16 +8,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
-import android.provider.ContactsContract;
-import android.provider.ContactsContract.PhoneLookup;
-import android.telephony.PhoneNumberUtils;
-import android.text.Editable;
-import android.text.SpannableStringBuilder;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -26,6 +19,8 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_donate.utils.ContactUtil;
+import com.klinker.android.messaging_donate.utils.IOUtil;
 import com.klinker.android.messaging_sliding.templates.TemplateArrayAdapter;
 
 import java.io.*;
@@ -52,12 +47,12 @@ public class BlacklistActivity extends Activity {
 		sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 		context = this;
 		
-		individuals = readFromFile(this);
+		individuals = IOUtil.readBlacklist(this);
 		names = new ArrayList<String>();
 		
 		for (int i = 0; i < individuals.size(); i++)
 		{
-			names.add(findContactName(individuals.get(i).name, this));
+			names.add(ContactUtil.findContactName(individuals.get(i).name, this));
 		}
 		
 		TemplateArrayAdapter adapter = new TemplateArrayAdapter(this, names);
@@ -97,7 +92,7 @@ public class BlacklistActivity extends Activity {
 				            TemplateArrayAdapter adapter = new TemplateArrayAdapter((Activity) context, names);
 				    		contacts.setAdapter(adapter);
 				    		
-				    		writeToFile(individuals, context);
+				    		IOUtil.writeBlacklist(individuals, context);
 				        }
 				    }).setNegativeButton(context.getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
 				        public void onClick(DialogInterface dialog, int whichButton) {
@@ -114,7 +109,7 @@ public class BlacklistActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				writeToFile(individuals, context);
+				IOUtil.writeBlacklist(individuals, context);
 				Intent intent = new Intent(context, NewBlacklistActivity.class);
 				intent.putExtra("com.klinker.android.messaging.BLACKLIST_NAME", individuals.get(arg2).name);
 				intent.putExtra("com.klinker.android.messaging.BLACKLIST_TYPE", individuals.get(arg2).type);
@@ -130,7 +125,7 @@ public class BlacklistActivity extends Activity {
 
 			@Override
 			public void onClick(View arg0) {
-				writeToFile(individuals, context);
+				IOUtil.writeBlacklist(individuals, context);
 				Intent intent = new Intent(context, NewBlacklistActivity.class);
 				context.startActivity(intent);
                 overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
@@ -145,7 +140,7 @@ public class BlacklistActivity extends Activity {
 	{
 		super.onResume();
 		
-		individuals = readFromFile(this);
+		individuals = IOUtil.readBlacklist(this);
 		names = new ArrayList<String>();
 		
 		for (int i = 0; i < individuals.size(); i++)
@@ -160,133 +155,9 @@ public class BlacklistActivity extends Activity {
 	
 	@Override
 	public void onBackPressed() {
-		writeToFile(individuals, this);
+		IOUtil.writeBlacklist(individuals, this);
 		super.onBackPressed();
 		finish();
         overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
 	}
-	
-	@SuppressWarnings("resource")
-	private ArrayList<BlacklistContact> readFromFile(Context context) {
-		
-	      ArrayList<BlacklistContact> ret = new ArrayList<BlacklistContact>();
-	      
-	      try {
-	    	  InputStream inputStream;
-	          
-	          if (sharedPrefs.getBoolean("save_to_external", true))
-	          {
-	         	 inputStream = new FileInputStream(Environment.getExternalStorageDirectory() + "/SlidingMessaging/blacklist.txt");
-	          } else
-	          {
-	        	  inputStream = context.openFileInput("blacklist.txt");
-	          }
-	          
-	          if ( inputStream != null ) {
-	          	InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-	          	BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-	          	String receiveString = "";
-	          	
-	          	while ( (receiveString = bufferedReader.readLine()) != null) {
-	          		ret.add(new BlacklistContact(receiveString, Integer.parseInt(bufferedReader.readLine())));
-	          	}
-	          	
-	          	inputStream.close();
-	          }
-	      }
-	      catch (FileNotFoundException e) {
-	      	
-			} catch (IOException e) {
-				
-			}
-
-	      return ret;
-		}
-	  	
-	  	private void writeToFile(ArrayList<BlacklistContact> data, Context context) {
-	        try {
-	        	OutputStreamWriter outputStreamWriter;
-	            
-	            if (sharedPrefs.getBoolean("save_to_external", true))
-	            {
-	            	outputStreamWriter = new OutputStreamWriter(new FileOutputStream(Environment.getExternalStorageDirectory() + "/SlidingMessaging/blacklist.txt"));
-	            } else
-	            {
-	            	outputStreamWriter = new OutputStreamWriter(context.openFileOutput("blacklist.txt", Context.MODE_PRIVATE));
-	            }
-	            
-	            for (int i = 0; i < data.size(); i++)
-	            {
-	            	BlacklistContact write = data.get(i);
-	            	
-	            	outputStreamWriter.write(write.name + "\n" + write.type + "\n");
-	            }
-	            	
-	            outputStreamWriter.close();
-	        }
-	        catch (IOException e) {
-	            
-	        } 
-			
-		}
-	  	
-	  	public static String findContactName(String number, Context context)
-		{
-			String name = "";
-			
-			String origin = number;
-			
-			if (origin.length() != 0)
-			{
-				Uri phoneUri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(origin));
-				Cursor phonesCursor = context.getContentResolver().query(phoneUri, new String[] {ContactsContract.Contacts.DISPLAY_NAME_PRIMARY, ContactsContract.RawContacts._ID}, null, null, ContactsContract.Contacts.DISPLAY_NAME + " desc limit 1");
-
-				if(phonesCursor != null && phonesCursor.moveToFirst()) {
-					name = phonesCursor.getString(0);
-				} else
-				{
-					if (!number.equals(""))
-					{
-						try
-						{
-							Locale sCachedLocale = Locale.getDefault();
-							int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
-							Editable editable = new SpannableStringBuilder(number);
-							PhoneNumberUtils.formatNumber(editable, sFormatType);
-							name = editable.toString();
-						} catch (Exception e)
-						{
-							name = number;
-						}
-					} else
-					{
-						name = "No Information";
-					}
-				}
-				
-				phonesCursor.close();
-			} else
-			{			
-				if (!number.equals(""))
-				{
-					try
-					{
-						Long.parseLong(number.replaceAll("[^0-9]", ""));
-						Locale sCachedLocale = Locale.getDefault();
-						int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
-						Editable editable = new SpannableStringBuilder(number);
-						PhoneNumberUtils.formatNumber(editable, sFormatType);
-						name = editable.toString();
-					} catch (Exception e)
-					{
-						name = number;
-					}
-				} else
-				{
-					name = "No Information";
-				}
-			}
-			
-			return name;
-		}
 }

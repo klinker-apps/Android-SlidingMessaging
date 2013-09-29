@@ -12,7 +12,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.method.LinkMovementMethod;
 import android.util.TypedValue;
@@ -20,25 +19,16 @@ import android.view.*;
 import android.widget.*;
 import android.widget.RelativeLayout.LayoutParams;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_donate.utils.IOUtil;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Locale;
 
 public class ThemeChooserActivity extends Activity {
-	/**
-	 * The {@link android.support.v4.view.PagerAdapter} that will provide
-	 * fragments for each of the sections. We use a
-	 * {@link android.support.v4.app.FragmentPagerAdapter} derivative, which
-	 * will keep every loaded fragment in memory. If this becomes too memory
-	 * intensive, it may be best to switch to a
-	 * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-	 */
+
 	public SectionsPagerAdapter mSectionsPagerAdapter;
 
-	/**
-	 * The {@link ViewPager} that will host the section contents.
-	 */
 	public ViewPager mViewPager;
 	public SharedPreferences sharedPrefs;
 	public static ArrayList<CustomTheme> themes;
@@ -106,7 +96,7 @@ public class ThemeChooserActivity extends Activity {
 		
 		for (int i = 0; i < files.size(); i++)
 		{
-			String data = readFromFile(this, files.get(i).getName());
+			String data = IOUtil.readTheme(files.get(i).getName());
 			themes.add(CustomTheme.themeFromString(data));
 		}
 		
@@ -391,60 +381,7 @@ public class ThemeChooserActivity extends Activity {
 	    }
 	}
 
-	private String readFromFile(Context context, String fileName) {
-		
-	      String ret = "";
-	      
-	      try {
-	    	  File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/SlidingMessaging", fileName);
-	          @SuppressWarnings("resource")
-			BufferedReader reader = new BufferedReader(new FileReader(file));
-	          
-	          String s = "";
-	          
-	          while ((s = reader.readLine()) != null)
-	          {
-	        	  ret += s + "\n";
-	          }
-	          
-	      }
-	      catch (FileNotFoundException e) {
-	      	
-			} catch (IOException e) {
-				
-			}
-
-	      return ret;
-		}
-	
-	@SuppressWarnings("unused")
-	private void writeToFile(String data, Context context, String name) {
-		String[] data2 = data.split("\n");
-        try {
-            File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/SlidingMessaging", name);
-            FileOutputStream f = new FileOutputStream(file);
-            PrintWriter pw = new PrintWriter(f);
-            
-            for (int i = 0; i < data2.length; i++)
-            {
-            	pw.println(data2[i]);
-            }
-            
-            pw.flush();
-            pw.close();
-            f.close();
-        }
-        catch (Exception e) {
-            
-        } 
-		
-	}
-	
-	/**
-	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-	 * one of the sections/tabs/pages.
-	 */
-	public class SectionsPagerAdapter extends android.support.v13.app.FragmentStatePagerAdapter {
+    public class SectionsPagerAdapter extends android.support.v13.app.FragmentStatePagerAdapter {
 		
 		public SectionsPagerAdapter(android.app.FragmentManager fm) {
 			super(fm);
@@ -470,15 +407,8 @@ public class ThemeChooserActivity extends Activity {
 		}
 	}
 
-	/**
-	 * A dummy fragment representing a section of the app, but that simply
-	 * displays dummy text.
-	 */
 	public static class DummySectionFragment extends android.app.Fragment {
-		/**
-		 * The fragment argument representing the section number for this
-		 * fragment.
-		 */
+
 		public int position;
 		private View view;
 		public SharedPreferences sharedPrefs;

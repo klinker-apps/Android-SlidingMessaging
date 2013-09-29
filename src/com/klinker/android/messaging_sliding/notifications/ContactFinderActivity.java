@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_donate.utils.IOUtil;
 import com.klinker.android.messaging_sliding.templates.TemplateArrayAdapter;
 
 import java.io.*;
@@ -50,7 +51,7 @@ public class ContactFinderActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				ArrayList<IndividualSetting> individuals = readFromFile(context);
+				ArrayList<IndividualSetting> individuals = IOUtil.readIndividualNotifications(context);
 				boolean flag = false;
 				int pos = 0;
 				
@@ -144,41 +145,4 @@ public class ContactFinderActivity extends Activity {
 			} while (people.moveToNext());
 		}
 	}
-	
-	@SuppressWarnings("resource")
-	private ArrayList<IndividualSetting> readFromFile(Context context) {
-		
-	      ArrayList<IndividualSetting> ret = new ArrayList<IndividualSetting>();
-	      
-	      try {
-	          InputStream inputStream;
-	          
-	          if (sharedPrefs.getBoolean("save_to_external", true))
-	          {
-	         	 inputStream = new FileInputStream(Environment.getExternalStorageDirectory() + "/SlidingMessaging/individualNotifications.txt");
-	          } else
-	          {
-	        	  inputStream = context.openFileInput("individualNotifications.txt");
-	          }
-	          
-	          if ( inputStream != null ) {
-	          	InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-	          	BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-	          	String receiveString = "";
-	          	
-	          	while ( (receiveString = bufferedReader.readLine()) != null) {
-	          		ret.add(new IndividualSetting(receiveString, Integer.parseInt(bufferedReader.readLine()), bufferedReader.readLine(), bufferedReader.readLine()));
-	          	}
-	          	
-	          	inputStream.close();
-	          }
-	      }
-	      catch (FileNotFoundException e) {
-	      	
-			} catch (IOException e) {
-				
-			}
-
-	      return ret;
-		}
 }

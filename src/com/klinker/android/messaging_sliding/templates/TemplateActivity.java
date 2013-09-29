@@ -22,6 +22,7 @@ import com.klinker.android.messaging_donate.settings.DrawerArrayAdapter;
 import com.klinker.android.messaging_donate.settings.GetHelpSettingsActivity;
 import com.klinker.android.messaging_donate.settings.OtherAppsSettingsActivity;
 import com.klinker.android.messaging_donate.settings.SettingsPagerActivity;
+import com.klinker.android.messaging_donate.utils.IOUtil;
 import com.klinker.android.messaging_sliding.scheduled.ScheduledSms;
 import com.mobeta.android.dslv.DragSortController;
 import com.mobeta.android.dslv.DragSortListView;
@@ -65,7 +66,7 @@ public class TemplateActivity extends Activity {
                         text.remove(item);
                         text.add(to, item);
 
-                        writeToFile(text, getBaseContext());
+                        IOUtil.writeTemplates(text, getBaseContext());
 
                         adapter = new TemplateArrayAdapter(getActivity(), text);
                         templates.setAdapter(adapter);
@@ -95,7 +96,7 @@ public class TemplateActivity extends Activity {
 		sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 		context = this;
 		
-		text = readFromFile(this);
+		text = IOUtil.readTemplates(this);
 		
 		adapter = new TemplateArrayAdapter(this, text);
 		templates.setStackFromBottom(false);
@@ -424,75 +425,12 @@ public class TemplateActivity extends Activity {
     }
     @Override
 	public void onBackPressed() {
-		writeToFile(text, this);
+		IOUtil.writeTemplates(text, this);
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
         finish();
         overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
 	}
-	
-	@SuppressWarnings("resource")
-	private ArrayList<String> readFromFile(Context context) {
-		
-	      ArrayList<String> ret = new ArrayList<String>();
-	      
-	      try {
-	    	  InputStream inputStream;
-	          
-	          if (sharedPrefs.getBoolean("save_to_external", true))
-	          {
-	         	 inputStream = new FileInputStream(Environment.getExternalStorageDirectory() + "/SlidingMessaging/templates.txt");
-	          } else
-	          {
-	        	  inputStream = context.openFileInput("templates.txt");
-	          }
-	          
-	          if ( inputStream != null ) {
-	          	InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-	          	BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-	          	String receiveString = "";
-	          	
-	          	while ( (receiveString = bufferedReader.readLine()) != null ) {
-	          		ret.add(receiveString);
-	          	}
-	          	
-	          	inputStream.close();
-	          }
-	      }
-	      catch (FileNotFoundException e) {
-	      	
-			} catch (IOException e) {
-				
-			}
-
-	      return ret;
-		}
-	  	
-	  	private void writeToFile(ArrayList<String> data, Context context) {
-	        try {
-	        	
-	        	OutputStreamWriter outputStreamWriter;
-	            
-	            if (sharedPrefs.getBoolean("save_to_external", true))
-	            {
-	            	outputStreamWriter = new OutputStreamWriter(new FileOutputStream(Environment.getExternalStorageDirectory() + "/SlidingMessaging/templates.txt"));
-	            } else
-	            {
-	            	outputStreamWriter = new OutputStreamWriter(context.openFileOutput("templates.txt", Context.MODE_PRIVATE));
-	            }
-	            
-	            for (int i = 0; i < data.size(); i++)
-	            {
-	            	outputStreamWriter.write(data.get(i) + "\n");
-	            }
-	            	
-	            outputStreamWriter.close();
-	        }
-	        catch (IOException e) {
-	            
-	        } 
-			
-		}
 
     public Activity getActivity()
     {

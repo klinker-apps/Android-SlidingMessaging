@@ -19,6 +19,7 @@ import com.google.android.mms.pdu_alt.*;
 import com.klinker.android.messaging_donate.utils.ContactUtil;
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.receivers.UnlockReceiver;
+import com.klinker.android.messaging_donate.utils.Util;
 import com.klinker.android.messaging_sliding.mms.MmsReceiverService;
 
 import java.util.Calendar;
@@ -152,7 +153,7 @@ public class MMSMessageReceiver extends BroadcastReceiver {
 			updateHalo.putExtra("message", "New Picture Message");
 			context.sendBroadcast(updateHalo);
 
-            if (!TextMessageReceiver.isRunning(context))
+            if (!Util.isRunning(context))
             {
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
@@ -219,38 +220,4 @@ public class MMSMessageReceiver extends BroadcastReceiver {
 			}
 		}
 	}
-	
-	private static long findThreadId(Context context, GenericPdu pdu, int type) {
-        String messageId;
-
-        if (type == PduHeaders.MESSAGE_TYPE_DELIVERY_IND) {
-            messageId = new String(((DeliveryInd) pdu).getMessageId());
-        } else {
-            messageId = new String(((ReadOrigInd) pdu).getMessageId());
-        }
-
-        StringBuilder sb = new StringBuilder('(');
-        sb.append(Mms.MESSAGE_ID);
-        sb.append('=');
-        sb.append(DatabaseUtils.sqlEscapeString(messageId));
-        sb.append(" AND ");
-        sb.append(Mms.MESSAGE_TYPE);
-        sb.append('=');
-        sb.append(PduHeaders.MESSAGE_TYPE_SEND_REQ);
-
-        Cursor cursor = SqliteWrapper.query(context, context.getContentResolver(),
-                            Mms.CONTENT_URI, new String[] { Mms.THREAD_ID },
-                            sb.toString(), null, null);
-        if (cursor != null) {
-            try {
-                if ((cursor.getCount() == 1) && cursor.moveToFirst()) {
-                    return cursor.getLong(0);
-                }
-            } finally {
-                cursor.close();
-            }
-        }
-
-        return -1;
-    }
 }

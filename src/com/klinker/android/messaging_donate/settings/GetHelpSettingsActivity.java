@@ -23,7 +23,7 @@ import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_sliding.developer_tips.MainActivity;
 import com.klinker.android.messaging_sliding.scheduled.ScheduledSms;
 import com.klinker.android.messaging_sliding.templates.TemplateActivity;
-import wizardpager.ChangeLogMain;
+import com.klinker.android.messaging_donate.wizardpager.ChangeLogMain;
 
 import java.util.ArrayList;
 import java.util.Arrays;

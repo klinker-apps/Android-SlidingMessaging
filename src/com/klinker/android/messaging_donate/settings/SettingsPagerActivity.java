@@ -29,12 +29,14 @@ import android.view.View;
 import android.widget.*;
 import com.droidprism.APN;
 import com.droidprism.Carrier;
-import com.klinker.android.messaging_card.theme.PopupChooserActivity;
+import com.klinker.android.messaging_sliding.theme.PopupChooserActivity;
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_donate.utils.IOUtil;
 import com.klinker.android.messaging_sliding.DeleteOldService;
 import com.klinker.android.messaging_sliding.backup.BackupService;
 import com.klinker.android.messaging_sliding.blacklist.BlacklistActivity;
+import com.klinker.android.messaging_sliding.slide_over.SlideOverService;
 import com.klinker.android.messaging_sliding.views.HoloEditText;
 import com.klinker.android.messaging_sliding.views.HoloTextView;
 import com.klinker.android.messaging_sliding.views.NumberPickerDialog;
@@ -54,18 +56,9 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Map;
 
 public class SettingsPagerActivity extends FragmentActivity {
 
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link android.support.v4.app.FragmentPagerAdapter} derivative, which
-     * will keep every loaded fragment in memory. If this becomes too memory
-     * intensive, it may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
     SectionsPagerAdapter mSectionsPagerAdapter;
     SharedPreferences sharedPrefs;
 
@@ -87,9 +80,6 @@ public class SettingsPagerActivity extends FragmentActivity {
 
     private Activity activity;
 
-    /**
-     * The {@link android.support.v4.view.ViewPager} that will host the section contents.
-     */
     public static ViewPager mViewPager;
 
     @Override
@@ -641,7 +631,6 @@ public class SettingsPagerActivity extends FragmentActivity {
                                 @Override
                                 public void run() {
                                     deleteSMS(context);
-                                    writeToFile(new ArrayList<String>(), context);
 
                                     ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 
@@ -967,7 +956,7 @@ public class SettingsPagerActivity extends FragmentActivity {
             enableQuickPeek.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
-                    restartHalo();
+                    SlideOverService.restartHalo(context);
                     return true;
                 }
             });
@@ -976,7 +965,7 @@ public class SettingsPagerActivity extends FragmentActivity {
             slideOver.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    restartHalo();
+                    SlideOverService.restartHalo(context);
                     return false;
                 }
             });
@@ -994,7 +983,7 @@ public class SettingsPagerActivity extends FragmentActivity {
             sliver.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
-                    restartHalo();
+                    SlideOverService.restartHalo(context);
                     return true;
                 }
             });
@@ -1003,7 +992,7 @@ public class SettingsPagerActivity extends FragmentActivity {
             unreadOnly.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
-                    restartHalo();
+                    SlideOverService.restartHalo(context);
                     return true;
                 }
             });
@@ -1012,7 +1001,7 @@ public class SettingsPagerActivity extends FragmentActivity {
             disableDrag.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
-                    restartHalo();
+                    SlideOverService.restartHalo(context);
                     return true;
                 }
             });
@@ -1021,7 +1010,7 @@ public class SettingsPagerActivity extends FragmentActivity {
             disableSliverDrag.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
-                    restartHalo();
+                    SlideOverService.restartHalo(context);
                     return true;
                 }
             });
@@ -1030,7 +1019,7 @@ public class SettingsPagerActivity extends FragmentActivity {
             quickPeekTransparency.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
-                    restartHalo();
+                    SlideOverService.restartHalo(context);
                     return true;
                 }
             });
@@ -1053,7 +1042,7 @@ public class SettingsPagerActivity extends FragmentActivity {
 
                     new NumberPickerDialog(context, mSmsLimitListener, sharedPrefs.getInt("quick_peek_contact_num", 5), 1, 5, R.string.quick_peek_contact_num).show();
 
-                    restartHalo();
+                    SlideOverService.restartHalo(context);
 
                     return false;
                 }
@@ -1073,7 +1062,7 @@ public class SettingsPagerActivity extends FragmentActivity {
             activation.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
-                    restartHalo();
+                    SlideOverService.restartHalo(context);
                     return true;
                 }
             });
@@ -1082,7 +1071,7 @@ public class SettingsPagerActivity extends FragmentActivity {
             breakPoint.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
-                    restartHalo();
+                    SlideOverService.restartHalo(context);
                     return true;
                 }
             });
@@ -1091,7 +1080,7 @@ public class SettingsPagerActivity extends FragmentActivity {
             haptic.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
-                    restartHalo();
+                    SlideOverService.restartHalo(context);
                     return true;
                 }
             });
@@ -1101,7 +1090,7 @@ public class SettingsPagerActivity extends FragmentActivity {
             haloColor.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
-                    restartHalo();
+                    SlideOverService.restartHalo(context);
                     return true;
                 }
             });
@@ -1111,7 +1100,7 @@ public class SettingsPagerActivity extends FragmentActivity {
             haloUnreadColor.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
-                    restartHalo();
+                    SlideOverService.restartHalo(context);
                     return true;
                 }
             });
@@ -1498,7 +1487,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     File des = new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/backup.prefs");
-                                    saveSharedPreferencesToFile(des);
+                                    IOUtil.saveSharedPreferencesToFile(des, context);
 
                                     Toast.makeText(context, context.getResources().getString(R.string.backup_success), Toast.LENGTH_LONG).show();
                                 }
@@ -1523,7 +1512,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                 @Override
                 public boolean onPreferenceClick(Preference arg0) {
                     File des = new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/backup.prefs");
-                    loadSharedPreferencesFromFile(des);
+                    IOUtil.loadSharedPreferencesFromFile(des, context);
 
                     Toast.makeText(context, context.getResources().getString(R.string.restore_success), Toast.LENGTH_LONG).show();
 
@@ -1580,8 +1569,6 @@ public class SettingsPagerActivity extends FragmentActivity {
                                 @Override
                                 public void run() {
                                     deleteSMS(context);
-                                    writeToFile(new ArrayList<String>(), context);
-
                                     ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 
                                         @Override
@@ -2027,7 +2014,7 @@ public class SettingsPagerActivity extends FragmentActivity {
 
         public void deleteLocked(Context context, String id) {
             context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/" + id + "/"), null, null);
-            context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/"), "_id=?", new String[] {id});
+            context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/"), "_id=?", new String[]{id});
         }
 
         public void dontDeleteLocked(Context context, String id) {
@@ -2040,23 +2027,6 @@ public class SettingsPagerActivity extends FragmentActivity {
             } catch (RemoteException e) {
             } catch (OperationApplicationException e) {
             }
-        }
-
-        private void writeToFile(ArrayList<String> data, Context context) {
-            try {
-                OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("conversationList.txt", Context.MODE_PRIVATE));
-
-                for (int i = 0; i < data.size(); i++)
-                {
-                    outputStreamWriter.write(data.get(i) + "\n");
-                }
-
-                outputStreamWriter.close();
-            }
-            catch (IOException e) {
-
-            }
-
         }
 
         public void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
@@ -2115,132 +2085,6 @@ public class SettingsPagerActivity extends FragmentActivity {
             }
         }
 
-        private void writeToFile2(ArrayList<String> data, Context context) {
-            try {
-                OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("conversationList.txt", Context.MODE_PRIVATE));
-
-                for (int i = 0; i < data.size(); i++)
-                {
-                    outputStreamWriter.write(data.get(i) + "\n");
-                }
-
-                outputStreamWriter.close();
-            }
-            catch (IOException e) {
-
-            }
-
-        }
-
-        private boolean saveSharedPreferencesToFile(File dst)
-        {
-            boolean res = false;
-            ObjectOutputStream output = null;
-
-            try
-            {
-                output = new ObjectOutputStream(new FileOutputStream(dst));
-                SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-
-                output.writeObject(pref.getAll());
-
-                res = true;
-            } catch (Exception e)
-            {
-
-            } finally
-            {
-                try
-                {
-                    if (output != null)
-                    {
-                        output.flush();
-                        output.close();
-                    }
-                } catch (Exception e)
-                {
-
-                }
-            }
-
-            return res;
-        }
-
-        private boolean loadSharedPreferencesFromFile(File src)
-        {
-            boolean res = false;
-            ObjectInputStream input = null;
-
-            try
-            {
-                input = new ObjectInputStream(new FileInputStream(src));
-                SharedPreferences.Editor prefEdit = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
-                prefEdit.clear();
-
-                @SuppressWarnings("unchecked")
-                Map<String, ?> entries = (Map<String, ?>) input.readObject();
-
-                for (Map.Entry<String, ?> entry : entries.entrySet())
-                {
-                    Object v = entry.getValue();
-                    String key = entry.getKey();
-
-                    if (v instanceof Boolean)
-                    {
-                        prefEdit.putBoolean(key, ((Boolean) v).booleanValue());
-                    } else if (v instanceof Float)
-                    {
-                        prefEdit.putFloat(key,  ((Float) v).floatValue());
-                    } else if (v instanceof Integer)
-                    {
-                        prefEdit.putInt(key,  ((Integer) v).intValue());
-                    } else if (v instanceof Long)
-                    {
-                        prefEdit.putLong(key,  ((Long) v).longValue());
-                    } else if (v instanceof String)
-                    {
-                        prefEdit.putString(key, ((String) v));
-                    }
-                }
-
-                prefEdit.commit();
-
-                res = true;
-            } catch (Exception e)
-            {
-
-            } finally
-            {
-                try
-                {
-                    if (input != null)
-                    {
-                        input.close();
-                    }
-                } catch (Exception e)
-                {
-
-                }
-            }
-
-            return res;
-        }
-    }
-
-    public void restartHalo() {
-        Intent service = new Intent();
-        service.setAction("com.klinker.android.messaging.STOP_HALO");
-        sendBroadcast(service);
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (sharedPrefs.getBoolean("slideover_enabled", false)) {
-                    Intent service = new Intent(getApplicationContext(), com.klinker.android.messaging_sliding.slide_over.SlideOverService.class);
-                    startService(service);
-                }
-            }
-        }, 500);
     }
 
     public static double tabletSize(Context context) {

@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import com.klinker.android.messaging_donate.utils.IOUtil;
 import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
 
 import java.io.IOException;
@@ -29,8 +30,8 @@ public class QmDelete extends IntentService {
                     (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.cancel(1);
             
-            writeToFile2(new ArrayList<String>(), this);
-            writeToFile(new ArrayList<String>(), this);
+            IOUtil.writeNotifications(new ArrayList<String>(), this);
+            IOUtil.writeNewMessages(new ArrayList<String>(), this);
             
             Intent intent2 = new Intent("com.klinker.android.messaging.CLEARED_NOTIFICATION");
     	    this.sendBroadcast(intent2);
@@ -68,38 +69,4 @@ public class QmDelete extends IntentService {
 	    	
 	    }
     }
-    
-    private void writeToFile2(ArrayList<String> data, Context context) {
-        try {
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("notifications.txt", Context.MODE_PRIVATE));
-            
-            for (int i = 0; i < data.size(); i++)
-            {
-            	outputStreamWriter.write(data.get(i) + "\n");
-            }
-            	
-            outputStreamWriter.close();
-        }
-        catch (IOException e) {
-            
-        } 
-		
-	}
-    
-    private void writeToFile(ArrayList<String> data, Context context) {
-        try {
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("newMessages.txt", Context.MODE_PRIVATE));
-            
-            for (int i = 0; i < data.size(); i++)
-            {
-            	outputStreamWriter.write(data.get(i) + "\n");
-            }
-            	
-            outputStreamWriter.close();
-        }
-        catch (IOException e) {
-            
-        } 
-		
-	}
 }

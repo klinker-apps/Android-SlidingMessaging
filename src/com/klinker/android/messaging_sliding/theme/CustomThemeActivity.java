@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.os.Environment;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
@@ -13,11 +12,9 @@ import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.widget.Toast;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_donate.utils.IOUtil;
 import net.margaritov.preference.colorpicker.ColorPickerPreference;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.PrintWriter;
 import java.util.Locale;
 
 public class CustomThemeActivity extends PreferenceActivity {
@@ -86,7 +83,7 @@ public class CustomThemeActivity extends PreferenceActivity {
                          data += sharedPrefs.getBoolean("ct_light_action_bar", false) + "\n";
                          data += sharedPrefs.getInt("hyper_link_color", getResources().getColor(R.color.holo_blue));
 		            	 
-		            	 writeToFile(data, context, sharedPrefs.getString("ct_theme_name", "Light Theme").replace(" ", "") + ".theme");
+		            	 IOUtil.writeTheme(data, sharedPrefs.getString("ct_theme_name", "Light Theme").replace(" ", "") + ".theme");
 		            	 
 		            	 SharedPreferences.Editor editor = sharedPrefs.edit();
 		 				 editor.putBoolean("custom_theme", true);
@@ -147,7 +144,7 @@ public class CustomThemeActivity extends PreferenceActivity {
          data += sharedPrefs.getBoolean("ct_light_action_bar", false) + "\n";
          data += sharedPrefs.getInt("hyper_link_color", -1);
 	   	 
-	   	 writeToFile(data, this, sharedPrefs.getString("ct_theme_name", "Light Theme").replace(" ", "") + ".theme");
+	   	 IOUtil.writeTheme(data, sharedPrefs.getString("ct_theme_name", "Light Theme").replace(" ", "") + ".theme");
 	   	 
 	   	 SharedPreferences.Editor editor = sharedPrefs.edit();
 		 editor.putBoolean("custom_theme", true);
@@ -157,27 +154,5 @@ public class CustomThemeActivity extends PreferenceActivity {
 		 
 		super.onBackPressed();
         overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
-	}
-	
-	private void writeToFile(String data, Context context, String name) {
-		String[] data2 = data.split("\n");
-        try {
-            File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/SlidingMessaging", name);
-            FileOutputStream f = new FileOutputStream(file);
-            PrintWriter pw = new PrintWriter(f);
-            
-            for (int i = 0; i < data2.length; i++)
-            {
-            	pw.println(data2[i]);
-            }
-            
-            pw.flush();
-            pw.close();
-            f.close();
-        }
-        catch (Exception e) {
-            
-        } 
-		
 	}
 }
