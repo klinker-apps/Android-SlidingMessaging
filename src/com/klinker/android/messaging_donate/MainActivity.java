@@ -891,6 +891,8 @@ public class MainActivity extends FragmentActivity {
 
             @Override
             public void onClick(View v) {
+                MainActivity.sentMessage = true;
+
                 if (contact.getText().toString().equals("")) {
                     contact.setError("No Recipients");
                 } else if (mEditText.getText().toString().equals("") && imageAttach2.getVisibility() == View.GONE) {
