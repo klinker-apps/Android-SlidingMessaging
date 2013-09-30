@@ -175,7 +175,7 @@ public class MainActivity extends FragmentActivity {
     private String sendToThread = null;
     private String sendToMessage;
 
-    protected static EditText messageEntry;
+    public static EditText messageEntry;
     public static EditText messageEntry2;
     private TextView mTextView;
     private ImageButton sendButton;
@@ -3997,6 +3997,8 @@ public class MainActivity extends FragmentActivity {
                 }
             }
         }
+
+        messageEntry.requestFocus();
     }
 
     @Override

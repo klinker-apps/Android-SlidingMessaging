@@ -55,7 +55,7 @@ public class MessageCursorAdapter extends CursorAdapter {
     private final int threadPosition;
     private final long threadIds;
     private final Bitmap contactImage;
-    private final Bitmap myImage;
+    public static Bitmap myImage;
     private SharedPreferences sharedPrefs;
     private ContentResolver contentResolver;
     private Cursor mCursor;
@@ -107,37 +107,39 @@ public class MessageCursorAdapter extends CursorAdapter {
             }
         }
 
-        contactImage = Bitmap.createScaledBitmap(input, MainActivity.contactWidth, MainActivity.contactWidth, true);
+        contactImage = input;
 
-        InputStream input2;
+        if (myImage == null) {
+            InputStream input2;
 
-        try {
-            input2 = ContactUtil.openDisplayPhoto(Long.parseLong(this.myId), context);
-        } catch (NumberFormatException e) {
-            input2 = null;
-        }
-
-        if (input2 == null) {
-            if (MainActivity.settings.darkContactImage) {
-                input2 = resources.openRawResource(R.drawable.default_avatar_dark);
-            } else {
-                input2 = resources.openRawResource(R.drawable.default_avatar);
+            try {
+                input2 = ContactUtil.openDisplayPhoto(Long.parseLong(this.myId), context);
+            } catch (NumberFormatException e) {
+                input2 = null;
             }
-        }
 
-        Bitmap im;
-
-        try {
-            im = Bitmap.createScaledBitmap(BitmapFactory.decodeStream(input2), MainActivity.contactWidth, MainActivity.contactWidth, true);
-        } catch (Exception e) {
-            if (MainActivity.settings.darkContactImage) {
-                im = Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(resources.getDrawable(R.drawable.default_avatar_dark), context), MainActivity.contactWidth, MainActivity.contactWidth, true);
-            } else {
-                im = Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(resources.getDrawable(R.drawable.default_avatar), context), MainActivity.contactWidth, MainActivity.contactWidth, true);
+            if (input2 == null) {
+                if (MainActivity.settings.darkContactImage) {
+                    input2 = resources.openRawResource(R.drawable.default_avatar_dark);
+                } else {
+                    input2 = resources.openRawResource(R.drawable.default_avatar);
+                }
             }
-        }
 
-        myImage = im;
+            Bitmap im;
+
+            try {
+                im = BitmapFactory.decodeStream(input2);
+            } catch (Exception e) {
+                if (MainActivity.settings.darkContactImage) {
+                    im = ContactUtil.drawableToBitmap(resources.getDrawable(R.drawable.default_avatar_dark), context);
+                } else {
+                    im = ContactUtil.drawableToBitmap(resources.getDrawable(R.drawable.default_avatar), context);
+                }
+            }
+
+            myImage = im;
+        }
 
         paint = new Paint();
         float densityMultiplier = resources.getDisplayMetrics().density;
@@ -2115,7 +2117,7 @@ public class MessageCursorAdapter extends CursorAdapter {
     }
 
     public static Date getZeroTimeDate(Date date) {
-        Date res = date;
+        Date res;
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         cal.set(Calendar.HOUR_OF_DAY, 0);

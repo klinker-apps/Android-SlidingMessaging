@@ -29,6 +29,7 @@ import android.widget.TextView;
 import com.klinker.android.messaging_donate.utils.ContactUtil;
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_donate.utils.IOUtil;
 import com.klinker.android.messaging_sliding.emojis.*;
 import com.klinker.android.messaging_sliding.theme.CustomTheme;
 
@@ -521,7 +522,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 							e.printStackTrace();
 						}
 
-						ArrayList<String> newMessages = readFromFile(context);
+						ArrayList<String> newMessages = IOUtil.readNewMessages(context);
 
 				        for (int j = 0; j < newMessages.size(); j++)
 				        {
@@ -531,7 +532,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 				        	}
 				        }
 
-				        writeToFile(newMessages, context);
+				        IOUtil.writeNewMessages(newMessages, context);
 
 					}
 
@@ -687,49 +688,4 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 
 	  return contactView;
   }
-  
-  	private ArrayList<String> readFromFile(Context context) {
-		
-      ArrayList<String> ret = new ArrayList<String>();
-      
-      try {
-          InputStream inputStream = context.openFileInput(FILENAME);
-          
-          if ( inputStream != null ) {
-          	InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-          	BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-          	String receiveString = "";
-          	
-          	while ( (receiveString = bufferedReader.readLine()) != null ) {
-          		ret.add(receiveString);
-          	}
-          	
-          	inputStream.close();
-          }
-      }
-      catch (FileNotFoundException e) {
-      	
-		} catch (IOException e) {
-			
-		}
-
-      return ret;
-	}
-  	
-  	private void writeToFile(ArrayList<String> data, Context context) {
-        try {
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(FILENAME, Context.MODE_PRIVATE));
-            
-            for (int i = 0; i < data.size(); i++)
-            {
-            	outputStreamWriter.write(data.get(i) + "\n");
-            }
-            	
-            outputStreamWriter.close();
-        }
-        catch (IOException e) {
-            
-        } 
-		
-	}
 } 

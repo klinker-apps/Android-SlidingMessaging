@@ -257,7 +257,6 @@ public class MainActivityPopup extends MainActivity {
         }
 
         if (sharedPrefs.getBoolean("show_keyboard_popup", true) && !fromHalo) {
-            Log.v("keyboard_popup", "should be showing keyboard now");
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
