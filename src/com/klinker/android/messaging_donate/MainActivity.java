@@ -3982,7 +3982,9 @@ public class MainActivity extends FragmentActivity {
                         }
                     });
 
-                    messageBar.show(getString(R.string.draft_found), getString(R.string.apply_draft));
+                    if (!menu.isMenuShowing()) {
+                        messageBar.show(getString(R.string.draft_found), getString(R.string.apply_draft));
+                    }
                 }
             }
         }
