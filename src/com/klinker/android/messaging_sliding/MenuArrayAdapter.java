@@ -24,23 +24,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.QuickContactBadge;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.widget.*;
 import com.klinker.android.messaging_donate.utils.ContactUtil;
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.utils.IOUtil;
-import com.klinker.android.messaging_sliding.emojis.*;
+import com.klinker.android.messaging_donate.utils.SendUtil;
 import com.klinker.android.messaging_sliding.theme.CustomTheme;
 
-import java.io.*;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MenuArrayAdapter extends ArrayAdapter<String> {
@@ -58,6 +53,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 	    public TextView text4;
 	    public QuickContactBadge image;
         public boolean mmsTag;
+        public ImageView previewImage;
 	  }
 
   public MenuArrayAdapter(Activity context, ArrayList<Conversation> conversations, ViewPager pager) {
@@ -103,6 +99,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 		  viewHolder.text3 = (TextView) contactView.findViewById(R.id.contactDate);
 		  viewHolder.text4 = (TextView) contactView.findViewById(R.id.contactDate2);
 		  viewHolder.image = (QuickContactBadge) contactView.findViewById(R.id.quickContactBadge3);
+          viewHolder.previewImage = (ImageView) contactView.findViewById(R.id.conversationImage);
 
 
           if (MainActivity.settings.hideDate)
@@ -240,6 +237,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
       holder.text3.setText("");
       holder.text4.setText("");
       holder.mmsTag = false;
+      holder.previewImage.setVisibility(View.GONE);
 
 	  new Thread(new Runnable() {
 
@@ -399,13 +397,30 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 
                           Log.v("message_sub", "final subject: " + sub);
                           final String subject = sub;
-                          final Uri imageUri = Uri.parse(image);
+
+                          Bitmap previewImage;
+                          try {
+                              previewImage = SendUtil.getImage(context, Uri.parse(image), 600);
+                          } catch (Exception e) {
+                              previewImage = null;
+                          }
+
+                          final Bitmap previewImageFinal = previewImage;
 
                           context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 
                               @Override
                               public void run() {
-                                  holder.text2.setText(subject);
+                                  if (!conversations.get(position).getGroup()) {
+                                      holder.text2.setText(subject);
+
+                                      if (previewImageFinal != null) {
+                                          holder.text2.setVisibility(View.GONE);
+                                          holder.text4.setVisibility(View.GONE);
+                                          holder.previewImage.setVisibility(View.VISIBLE);
+                                          holder.previewImage.setImageBitmap(previewImageFinal);
+                                      }
+                                  }
                               }
 
                           });

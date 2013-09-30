@@ -73,4 +73,19 @@
         android:text="@string/none"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="72dp"
+            android:id="@+id/conversationImage"
+            android:layout_below="@+id/contactBody"
+            android:layout_toRightOf="@+id/quickContactBadge3"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/group_avatar_dark"
+            android:scaleType="centerCrop"
+            android:visibility="visible"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="7dp"/>
+
 </RelativeLayout>
