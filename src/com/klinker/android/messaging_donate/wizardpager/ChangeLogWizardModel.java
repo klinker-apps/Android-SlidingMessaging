@@ -18,11 +18,17 @@ package com.klinker.android.messaging_donate.wizardpager;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
+
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.wizardpager.wizard.model.AbstractWizardModel;
 import com.klinker.android.messaging_donate.wizardpager.wizard.model.LinkPage;
 import com.klinker.android.messaging_donate.wizardpager.wizard.model.MessagePage;
 import com.klinker.android.messaging_donate.wizardpager.wizard.model.PageList;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Scanner;
 
 public class ChangeLogWizardModel extends AbstractWizardModel {
 
@@ -46,11 +52,23 @@ public class ChangeLogWizardModel extends AbstractWizardModel {
             e.printStackTrace();
         }
 
-        String changeLog = "Version " + version + ":\n\n" +
-                "- Rewrite of sliding menus\n" +
-                "- Added a navigation drawer to compose new messages instead of sliding menu\n" +
-                "- Tons of optimizations\n" +
-                "- Bug fixes";
+        String changeLog = "Version " + version + ":\n\n";// +
+               // "- Rewrite of sliding menus\n" +
+                //"- Added a navigation drawer to compose new messages instead of sliding menu\n" +
+                //"- Tons of optimizations\n" +
+                //"- Bug fixes";
+
+        try {
+            AssetManager assetManager = mContext.getAssets();
+            Scanner in = new Scanner(assetManager.open("changelog.txt"));
+
+            while (in.hasNextLine()) {
+                changeLog += in.nextLine() + "\n";
+            }
+        } catch (IOException e) {
+            changeLog += "Error reading change log. Find it on the Play Store or on our Google+ Beta Group (http://goo.gl/I7oxPg).";
+        }
+
                 
         String themeEditor = "The theme editor now fully supports the Cards UI 2.0, making it a " +
                 "better time than ever to get on board and start making Sliding Messaging Pro look exactly how you want!\n\n" +
