@@ -1,7 +1,8 @@
 Version 7.70
 
 Jake:
-    - clean imports
+    - google voice push notifications
+    - add textwatcher to HoloEditText and HoloTextView constructors so that emojis are parsed automatically there instead of in the message array adapter
     - redo the text message receiver for cleaner, more efficient code and send broadcast at the end of it to refresh instead of creating a receiver in the app, like i've done for mms
     - redo the refresh view pager stuff for initial setup and then notifying the adapter of a change (both view pager and listview of conversation fragment)
     - redo getting the intent stuff at startup
