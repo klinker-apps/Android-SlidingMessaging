@@ -19,6 +19,7 @@ import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
 
@@ -267,23 +268,12 @@ public class ContactUtil {
 
     public static InputStream openDisplayPhoto(long contactId, Context context) {
         Uri contactUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, contactId);
-        Uri photoUri = Uri.withAppendedPath(contactUri, ContactsContract.Contacts.Photo.CONTENT_DIRECTORY);
-        Cursor cursor = context.getContentResolver().query(photoUri,
-                new String[] {ContactsContract.Contacts.Photo.PHOTO}, null, null, null);
-        if (cursor == null) {
-            return null;
-        }
-        try {
-            if (cursor.moveToFirst()) {
-                byte[] data = cursor.getBlob(0);
-                if (data != null) {
-                    return new ByteArrayInputStream(data);
-                }
-            }
-        } finally {
-            cursor.close();
-        }
-        return null;
+
+        InputStream avatarDataStream = ContactsContract.Contacts.openContactPhotoInputStream(
+                context.getContentResolver(),
+                contactUri);
+
+        return avatarDataStream;
     }
 
     public static Bitmap getFacebookPhoto(String phoneNumber, Context context) {
