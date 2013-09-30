@@ -238,6 +238,8 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
       holder.text4.setText("");
       holder.mmsTag = false;
       holder.previewImage.setVisibility(View.GONE);
+      holder.text2.setVisibility(View.VISIBLE);
+      holder.text4.setVisibility(View.VISIBLE);
 
 	  new Thread(new Runnable() {
 

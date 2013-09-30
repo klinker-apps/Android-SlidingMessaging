@@ -1780,6 +1780,10 @@ public class MessageCursorAdapter extends CursorAdapter {
     public static Pattern pattern = Pattern.compile(patternStr);
 
     public static void setMessageText(final TextView textView, final String body, final Activity context) {
+        if (textView.getVisibility() == View.GONE) {
+            return;
+        }
+
         if (MainActivity.settings.smilies.equals("with"))
         {
             Matcher matcher = pattern.matcher(body);
