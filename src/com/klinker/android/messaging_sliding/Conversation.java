@@ -1,15 +1,5 @@
 package com.klinker.android.messaging_sliding;
 
-import android.content.Context;
-import android.database.Cursor;
-import android.net.Uri;
-import android.provider.ContactsContract;
-import android.telephony.PhoneNumberUtils;
-import android.text.Editable;
-import android.text.SpannableStringBuilder;
-
-import java.util.Locale;
-
 public class Conversation {
 
     private long threadId;

@@ -29,30 +29,30 @@ import android.view.View;
 import android.widget.*;
 import com.droidprism.APN;
 import com.droidprism.Carrier;
-import com.klinker.android.messaging_sliding.theme.PopupChooserActivity;
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.utils.IOUtil;
 import com.klinker.android.messaging_sliding.DeleteOldService;
 import com.klinker.android.messaging_sliding.backup.BackupService;
 import com.klinker.android.messaging_sliding.blacklist.BlacklistActivity;
-import com.klinker.android.messaging_sliding.slide_over.SlideOverService;
-import com.klinker.android.messaging_sliding.views.HoloEditText;
-import com.klinker.android.messaging_sliding.views.HoloTextView;
-import com.klinker.android.messaging_sliding.views.NumberPickerDialog;
 import com.klinker.android.messaging_sliding.notifications.NotificationsSettingsActivity;
 import com.klinker.android.messaging_sliding.receivers.NotificationReceiver;
 import com.klinker.android.messaging_sliding.scheduled.ScheduledSms;
 import com.klinker.android.messaging_sliding.security.SetPasswordActivity;
 import com.klinker.android.messaging_sliding.security.SetPinActivity;
+import com.klinker.android.messaging_sliding.slide_over.SlideOverService;
 import com.klinker.android.messaging_sliding.templates.TemplateActivity;
+import com.klinker.android.messaging_sliding.theme.PopupChooserActivity;
 import com.klinker.android.messaging_sliding.theme.ThemeChooserActivity;
+import com.klinker.android.messaging_sliding.views.HoloEditText;
+import com.klinker.android.messaging_sliding.views.HoloTextView;
+import com.klinker.android.messaging_sliding.views.NumberPickerDialog;
 import com.klinker.android.send_message.Utils;
 import group.pals.android.lib.ui.lockpattern.LockPatternActivity;
 import group.pals.android.lib.ui.lockpattern.prefs.SecurityPrefs;
 import net.margaritov.preference.colorpicker.ColorPickerPreference;
 
-import java.io.*;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -73,7 +73,6 @@ public class SettingsPagerActivity extends FragmentActivity {
     private boolean userKnows;
     public static boolean settingsLinksActive = true;
     public static boolean inOtherLinks = true;
-    public static int clickedItem = 0;
 
     private String[] linkItems;
     private String[] otherItems;
@@ -431,13 +430,8 @@ public class SettingsPagerActivity extends FragmentActivity {
         }
     }
 
-    /**
-     * A dummy fragment representing a section of the app, but that simply
-     * displays dummy text.
-     */
     public class PrefFragment extends PreferenceFragment {
 
-        public static final String ARG_SECTION_NUMBER = "section_number";
         public int position;
 
         public PrefFragment() {
@@ -456,10 +450,6 @@ public class SettingsPagerActivity extends FragmentActivity {
 
             switch(position)
             {
-                //case 0:
-                    //addPreferencesFromResource(R.xml.sliding_settings);
-                    //setUpSlidingSettings();
-                    //break;
                 case 0:
                     addPreferencesFromResource(R.xml.sliding_theme_settings);
                     setUpThemeSettings();
@@ -497,214 +487,6 @@ public class SettingsPagerActivity extends FragmentActivity {
                     setUpAdvancedSettings();
                     break;
             }
-        }
-
-        public void setUpSlidingSettings()
-        {
-
-            Preference themeSettings = (Preference) findPreference("theme_settings");
-            themeSettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                public boolean onPreferenceClick(Preference preference) {
-                    mViewPager.setCurrentItem(1, true);
-                    return true;
-                }
-            });
-
-            Preference notificationSettings = (Preference) findPreference("notification_settings");
-            notificationSettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                public boolean onPreferenceClick(Preference preference) {
-                    mViewPager.setCurrentItem(2, true);
-                    return true;
-                }
-            });
-
-            Preference popupSettings = (Preference) findPreference("popup_settings");
-            popupSettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                public boolean onPreferenceClick(Preference preference) {
-                    mViewPager.setCurrentItem(3, true);
-                    return true;
-                }
-            });
-
-            Preference slideoverSettings = (Preference) findPreference("slideover_settings");
-            slideoverSettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                public boolean onPreferenceClick(Preference preference) {
-                    mViewPager.setCurrentItem(4, true);
-                    return true;
-                }
-            });
-
-            Preference messageSettings = (Preference) findPreference("message_settings");
-            messageSettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                public boolean onPreferenceClick(Preference preference) {
-                    mViewPager.setCurrentItem(5, true);
-                    return true;
-                }
-            });
-
-            Preference conversationSettings = (Preference) findPreference("conversation_settings");
-            conversationSettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                public boolean onPreferenceClick(Preference preference) {
-                    mViewPager.setCurrentItem(6, true);
-                    return true;
-                }
-            });
-
-            Preference mmsSettings = (Preference) findPreference("mms_settings");
-            mmsSettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                public boolean onPreferenceClick(Preference preference) {
-                    mViewPager.setCurrentItem(7, true);
-                    return true;
-                }
-            });
-
-            Preference voiceSettings = (Preference) findPreference("google_voice_settings");
-            voiceSettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                public boolean onPreferenceClick(Preference preference) {
-                    mViewPager.setCurrentItem(8, true);
-                    return true;
-                }
-            });
-
-            Preference securitySettings = (Preference) findPreference("security_settings");
-            securitySettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                public boolean onPreferenceClick(Preference preference) {
-                    mViewPager.setCurrentItem(9, true);
-                    return true;
-                }
-            });
-
-            Preference advancedSettings = (Preference) findPreference("advanced_settings");
-            advancedSettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                public boolean onPreferenceClick(Preference preference) {
-                    mViewPager.setCurrentItem(10, true);
-                    return true;
-                }
-            });
-
-            final Context context = getActivity();
-
-            Preference templates = findPreference("quick_template_settings");
-            templates.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-
-                @Override
-                public boolean onPreferenceClick(Preference arg0) {
-                    Intent intent = new Intent(context, TemplateActivity.class);
-                    startActivity(intent);
-                    overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
-                    return false;
-                }
-
-            });
-
-            Preference scheduledSMS = findPreference("scheduled_sms");
-            scheduledSMS.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-
-                @Override
-                public boolean onPreferenceClick(Preference arg0) {
-                    Intent intent = new Intent(context, ScheduledSms.class);
-                    startActivity(intent);
-                    overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
-                    return false;
-                }
-
-            });
-
-            Preference deleteAll = findPreference("delete_all");
-            deleteAll.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-
-                @Override
-                public boolean onPreferenceClick(Preference arg0) {
-                    AlertDialog.Builder builder2 = new AlertDialog.Builder(context);
-                    builder2.setMessage(context.getResources().getString(R.string.delete_all));
-                    builder2.setPositiveButton(context.getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
-                        @SuppressLint("SimpleDateFormat")
-                        public void onClick(DialogInterface dialog, int id) {
-
-                            final ProgressDialog progDialog = new ProgressDialog(context);
-                            progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                            progDialog.setMessage(context.getResources().getString(R.string.deleting));
-                            progDialog.show();
-
-                            new Thread(new Runnable(){
-
-                                @Override
-                                public void run() {
-                                    deleteSMS(context);
-
-                                    ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                                        @Override
-                                        public void run() {
-                                            progDialog.dismiss();
-                                        }
-
-                                    });
-                                }
-
-                            }).start();
-
-                        }
-                    });
-                    builder2.setNegativeButton(context.getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.dismiss();
-                        }
-                    });
-                    AlertDialog dialog2 = builder2.create();
-
-                    dialog2.show();
-
-                    return true;
-                }
-
-            });
-
-            Preference getHelp = findPreference("get_help");
-            getHelp.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-
-                @Override
-                public boolean onPreferenceClick(Preference arg0) {
-                    Intent intent = new Intent(context, GetHelpSettingsActivity.class);
-                    startActivity(intent);
-                    overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
-                    return false;
-                }
-
-            });
-
-            Preference otherApps = findPreference("other_apps");
-            otherApps.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-
-                @Override
-                public boolean onPreferenceClick(Preference arg0) {
-                    Intent intent = new Intent(context, OtherAppsSettingsActivity.class);
-                    startActivity(intent);
-                    overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
-                    return false;
-                }
-
-            });
-
-            Preference rateIt = findPreference("rate_it");
-            rateIt.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-
-                @Override
-                public boolean onPreferenceClick(Preference arg0) {
-
-                    Uri uri = Uri.parse("market://details?id=" + context.getPackageName());
-                    Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
-                    try {
-                        startActivity(goToMarket);
-                    } catch (ActivityNotFoundException e) {
-                        Toast.makeText(context, "Couldn't launch the market", Toast.LENGTH_LONG).show();
-                    }
-
-                    return false;
-                }
-
-            });
-
         }
 
         public void setUpThemeSettings()
@@ -1151,6 +933,7 @@ public class SettingsPagerActivity extends FragmentActivity {
 
             if (!showAll) {
                 ((PreferenceGroup) findPreference("conversation_theme_category")).removePreference(findPreference("hide_message_counter"));
+                ((PreferenceGroup) findPreference("conversation_theme_category")).removePreference(findPreference("conversation_list_images"));
                 ((PreferenceGroup) findPreference("general_conversation_category")).removePreference(findPreference("limit_conversations_start"));
             }
         }

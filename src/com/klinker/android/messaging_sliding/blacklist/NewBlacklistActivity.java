@@ -9,7 +9,6 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.text.Editable;
@@ -23,7 +22,6 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.utils.IOUtil;
 
-import java.io.*;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.regex.Matcher;

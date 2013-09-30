@@ -19,14 +19,12 @@ package com.klinker.android.messaging_donate.wizardpager;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
-
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.wizardpager.wizard.model.AbstractWizardModel;
 import com.klinker.android.messaging_donate.wizardpager.wizard.model.LinkPage;
 import com.klinker.android.messaging_donate.wizardpager.wizard.model.MessagePage;
 import com.klinker.android.messaging_donate.wizardpager.wizard.model.PageList;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 

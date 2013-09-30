@@ -1,8 +1,7 @@
-Version 7.60
+Version 7.70
 
 Jake:
-    - Look at menu array adapter and how it can be changed for more speed getting contact pictures, is that really the problem? Look at the stock apps get contact picture method in the contact class
-        - if there is no subject with the conversation, query the first message and get the image and display like hangouts conversation, if there is no image, get the text
+    - clean imports
     - redo the text message receiver for cleaner, more efficient code and send broadcast at the end of it to refresh instead of creating a receiver in the app, like i've done for mms
     - redo the refresh view pager stuff for initial setup and then notifying the adapter of a change (both view pager and listview of conversation fragment)
     - redo getting the intent stuff at startup
@@ -15,6 +14,7 @@ Jake:
 Luke:
     - Message details for MMS messages
     - Fix image inserting button on slideover
+    - Fix leaky slideover broadcast receivers, there are tons of them
 
 1) more individual notification options (slideover color, notification icon)
 2) option for adding certain text to every message at the beginning (delivery reports?)

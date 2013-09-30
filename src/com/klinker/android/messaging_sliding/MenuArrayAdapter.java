@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.*;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -18,34 +19,29 @@ import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.QuickContactBadge;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import com.klinker.android.messaging_donate.utils.ContactUtil;
+import android.widget.*;
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_donate.utils.ContactUtil;
 import com.klinker.android.messaging_donate.utils.IOUtil;
-import com.klinker.android.messaging_sliding.emojis.*;
+import com.klinker.android.messaging_donate.utils.SendUtil;
 import com.klinker.android.messaging_sliding.theme.CustomTheme;
 
-import java.io.*;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MenuArrayAdapter extends ArrayAdapter<String> {
   private final Activity context;
   private final ArrayList<Conversation> conversations;
   private final ViewPager pager;
-  private static final String FILENAME = "newMessages.txt";
   private SharedPreferences sharedPrefs;
   private Pattern pattern;
   private Resources resources;
@@ -56,6 +52,8 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 	    public TextView text3;
 	    public TextView text4;
 	    public QuickContactBadge image;
+        public boolean mmsTag;
+        public ImageView previewImage;
 	  }
 
   public MenuArrayAdapter(Activity context, ArrayList<Conversation> conversations, ViewPager pager) {
@@ -101,6 +99,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 		  viewHolder.text3 = (TextView) contactView.findViewById(R.id.contactDate);
 		  viewHolder.text4 = (TextView) contactView.findViewById(R.id.contactDate2);
 		  viewHolder.image = (QuickContactBadge) contactView.findViewById(R.id.quickContactBadge3);
+          viewHolder.previewImage = (ImageView) contactView.findViewById(R.id.conversationImage);
 
 
           if (MainActivity.settings.hideDate)
@@ -237,6 +236,10 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
       holder.text2.setText("");
       holder.text3.setText("");
       holder.text4.setText("");
+      holder.mmsTag = false;
+      holder.previewImage.setVisibility(View.GONE);
+      holder.text2.setVisibility(View.VISIBLE);
+      holder.text4.setVisibility(View.VISIBLE);
 
 	  new Thread(new Runnable() {
 
@@ -323,163 +326,138 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 	  }).start();
 
       String mBody = conversations.get(position).getBody();
-      if (MainActivity.settings.smilies.equals("with"))
-      {
-          Matcher matcher = pattern.matcher(mBody);
 
-          if (matcher.find())
-          {
-              if (MainActivity.settings.emojiType)
-              {
-                  if (MainActivity.settings.smiliesType) {
-                      holder.text2.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter2New.getSmiledText(context, mBody)));
-                  } else {
-                      holder.text2.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter2.getSmiledText(context, mBody)));
-                  }
-              } else
-              {
-                  if (MainActivity.settings.smiliesType) {
-                      holder.text2.setText(EmojiConverter.getSmiledText(context, EmoticonConverter2New.getSmiledText(context, mBody)));
-                  } else {
-                      holder.text2.setText(EmojiConverter.getSmiledText(context, EmoticonConverter2.getSmiledText(context, mBody)));
-                  }
-              }
-          } else
-          {
-              if (MainActivity.settings.smiliesType) {
-                  holder.text2.setText(EmoticonConverter2New.getSmiledText(context, mBody));
-              } else {
-                  holder.text2.setText(EmoticonConverter2.getSmiledText(context, mBody));
-              }
-          }
-      } else if (MainActivity.settings.smilies.equals("without"))
-      {
-          String patternStr = "[^\\x20-\\x7E]";
-          Pattern pattern = Pattern.compile(patternStr);
-          Matcher matcher = pattern.matcher(mBody);
+      if (mBody.startsWith(" ") || mBody == null) {
+          holder.mmsTag = true;
 
-          if (matcher.find())
-          {
-              if (MainActivity.settings.emojiType)
-              {
-                  if (MainActivity.settings.smiliesType) {
-                      holder.text2.setText(EmojiConverter2.getSmiledText(context, EmoticonConverterNew.getSmiledText(context, mBody)));
-                  } else {
-                      holder.text2.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter.getSmiledText(context, mBody)));
-                  }
-              } else
-              {
-                  if (MainActivity.settings.smiliesType) {
-                      holder.text2.setText(EmojiConverter.getSmiledText(context, EmoticonConverterNew.getSmiledText(context, mBody)));
-                  } else {
-                      holder.text2.setText(EmojiConverter.getSmiledText(context, EmoticonConverter.getSmiledText(context, mBody)));
-                  }
-              }
-          } else
-          {
-              if (MainActivity.settings.smiliesType) {
-                  holder.text2.setText(EmoticonConverterNew.getSmiledText(context, mBody));
-              } else {
-                  holder.text2.setText(EmoticonConverter.getSmiledText(context, mBody));
-              }
-          }
-      } else if (MainActivity.settings.smilies.equals("none"))
-      {
-          String patternStr = "[^\\x20-\\x7E]";
-          Pattern pattern = Pattern.compile(patternStr);
-          Matcher matcher = pattern.matcher(mBody);
+          new Thread (new Runnable() {
+              @Override
+              public void run() {
+                  try {
+                      Thread.sleep(500);
 
-          if (matcher.find())
-          {
-              if (MainActivity.settings.emojiType)
-              {
-                  holder.text2.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter2.getSmiledText(context, mBody)));
-              } else
-              {
-                  holder.text2.setText(EmojiConverter.getSmiledText(context, EmoticonConverter2.getSmiledText(context, mBody)));
-              }
-          } else
-          {
-              holder.text2.setText(mBody);
-          }
-      } else if (MainActivity.settings.smilies.equals("both"))
-      {
-          String patternStr = "[^\\x20-\\x7E]";
-          Pattern pattern = Pattern.compile(patternStr);
-          Matcher matcher = pattern.matcher(mBody);
+                      if (holder.mmsTag) {
+                          Cursor query = context.getContentResolver().query(Uri.parse("content://mms-sms/conversations/" + conversations.get(position).getThreadId()), new String[] {"_id", "sub"}, null, null, "normalized_date desc limit 1");
+                          String sub = "";
+                          String image = null;
 
-          if (matcher.find())
-          {
-              if (MainActivity.settings.emojiType)
-              {
-                  if (MainActivity.settings.smiliesType) {
-                      holder.text2.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter3New.getSmiledText(context, mBody)));
-                  } else {
-                      holder.text2.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter3.getSmiledText(context, mBody)));
-                  }
-              } else
-              {
-                  if (MainActivity.settings.smiliesType) {
-                      holder.text2.setText(EmojiConverter.getSmiledText(context, EmoticonConverter3New.getSmiledText(context, mBody)));
-                  } else {
-                      holder.text2.setText(EmojiConverter.getSmiledText(context, EmoticonConverter3.getSmiledText(context, mBody)));
+                          if (query.moveToFirst()) {
+                              sub = query.getString(query.getColumnIndex("sub"));
+
+                              if (sub != null) {
+                                  sub += "; ";
+                              } else {
+                                  sub = "";
+                              }
+
+                              String selectionPart = "mid=" + query.getString(query.getColumnIndex("_id"));
+                              Uri uri = Uri.parse("content://mms/part");
+                              Cursor mmsPart = context.getContentResolver().query(uri, new String[] {"_id", "ct", "_data", "text"}, selectionPart, null, null);
+
+                              if (mmsPart.moveToFirst()) {
+                                  do {
+                                      String partId = mmsPart.getString(mmsPart.getColumnIndex("_id"));
+                                      String type = mmsPart.getString(mmsPart.getColumnIndex("ct"));
+
+                                      if ("text/plain".equals(type)) {
+                                          String data = mmsPart.getString(mmsPart.getColumnIndex("_data"));
+                                          if (data != null) {
+                                              sub += MessageCursorAdapter.getMmsText(partId, context);
+                                          } else {
+                                              sub += mmsPart.getString(mmsPart.getColumnIndex("text"));
+                                          }
+                                      }
+
+                                      if ("image/jpeg".equals(type) || "image/bmp".equals(type) ||
+                                              "image/gif".equals(type) || "image/jpg".equals(type) ||
+                                              "image/png".equals(type)) {
+                                          if (image == null) {
+                                              image = "content://mms/part/" + partId;
+                                          } else {
+                                              image += " content://mms/part/" + partId;
+                                          }
+                                      }
+                                  } while (mmsPart.moveToNext());
+
+                                  if (image != null) {
+                                      image = image.split(" ")[0];
+                                  }
+                              }
+
+                              mmsPart.close();
+                          }
+
+                          query.close();
+
+                          final String subject = sub;
+
+                          Bitmap previewImage;
+                          try {
+                              previewImage = SendUtil.getImage(context, Uri.parse(image), 600);
+                          } catch (Exception e) {
+                              previewImage = null;
+                          }
+
+                          final Bitmap previewImageFinal = previewImage;
+
+                          context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                              @Override
+                              public void run() {
+                                  if (!conversations.get(position).getGroup()) {
+                                      holder.text2.setText(subject);
+
+                                      if (previewImageFinal != null && MainActivity.settings.conversationListImages) {
+                                          holder.text2.setVisibility(View.GONE);
+                                          holder.text4.setVisibility(View.GONE);
+                                          holder.previewImage.setVisibility(View.VISIBLE);
+                                          holder.previewImage.setImageBitmap(previewImageFinal);
+                                      }
+                                  }
+                              }
+
+                          });
+                      }
+                  } catch (Exception e) {
+                      e.printStackTrace();
                   }
               }
-          } else
-          {
-              if (MainActivity.settings.smiliesType) {
-                  holder.text2.setText(EmoticonConverter3New.getSmiledText(context, mBody));
-              } else {
-                  holder.text2.setText(EmoticonConverter3.getSmiledText(context, mBody));
-              }
-          }
+          }).start();
+      } else {
+          MessageCursorAdapter.setMessageText(holder.text2, mBody, context);
       }
 
 	  Date date2 = new Date(0);
 
-	  try
-	  {
+	  try {
 		  date2 = new Date(conversations.get(position).getDate());
-	  } catch (Exception e)
-	  {
+	  } catch (Exception e) { }
 
-	  }
-
-	  if (MainActivity.settings.hourFormat)
-	  {
+	  if (MainActivity.settings.hourFormat) {
 		  holder.text3.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(date2));
-	  } else
-	  {
+	  } else {
 		  holder.text3.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(date2));
 	  }
 
 	  holder.text4.setText(DateFormat.getDateInstance(DateFormat.SHORT).format(date2));
 
-      if (MainActivity.deviceType.equals("phablet") || MainActivity.deviceType.equals("tablet"))
-      if (MainActivity.deviceType.equals("phablet") || MainActivity.deviceType.equals("tablet"))
-      {
+      if (MainActivity.deviceType.equals("phablet") || MainActivity.deviceType.equals("tablet")) {
           holder.text3.setText("");
           holder.text4.setText("");
           holder.text.setMaxLines(1);
           holder.text2.setMaxLines(1);
       }
 
-	  if (!conversations.get(position).getRead())
-	  {
-		  if (position != 0)
-		  {
-			  if (!MainActivity.settings.customBackground)
-		        {
+	  if (!conversations.get(position).getRead()) {
+		  if (position != 0) {
+			  if (!MainActivity.settings.customBackground) {
 				  contactView.setBackgroundColor(MainActivity.settings.ctUnreadConversationColor);
 		        }
 
 			  conversations.get(position).setRead();
-		  } else
-		  {
-			  if (!MainActivity.sentMessage)
-			  {
-				  if (!MainActivity.settings.customBackground)
-			        {
+		  } else {
+			  if (!MainActivity.sentMessage) {
+				  if (!MainActivity.settings.customBackground) {
 					  contactView.setBackgroundColor(MainActivity.settings.ctUnreadConversationColor);
 			        }
 
@@ -493,8 +471,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 	  contactView.setOnClickListener(new View.OnClickListener()
 		{
 		    public void onClick(View v) {
-                if (MainActivity.deviceType.equals("phone") || MainActivity.deviceType.equals("phablet2"))
-                {
+                if (MainActivity.deviceType.equals("phone") || MainActivity.deviceType.equals("phablet2")) {
                     MainActivity.waitToLoad = true;
                 }
 
@@ -502,8 +479,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
                 conversations.get(position).setRead();
 			    MainActivity.menu.showContent();
 
-		        if (!MainActivity.settings.customBackground)
-		        {
+		        if (!MainActivity.settings.customBackground) {
 		        	contactView2.setBackgroundColor(MainActivity.settings.ctConversationListBackground);
 		        }
 

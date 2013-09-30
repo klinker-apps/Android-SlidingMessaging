@@ -19,11 +19,11 @@ package com.klinker.android.messaging_donate.wizardpager;
 import android.content.Context;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.settings.SettingsPagerActivity;
-import com.klinker.android.send_message.Utils;
 import com.klinker.android.messaging_donate.wizardpager.wizard.model.AbstractWizardModel;
 import com.klinker.android.messaging_donate.wizardpager.wizard.model.MessagePage;
 import com.klinker.android.messaging_donate.wizardpager.wizard.model.PageList;
 import com.klinker.android.messaging_donate.wizardpager.wizard.model.SingleFixedChoicePage;
+import com.klinker.android.send_message.Utils;
 
 public class InitialSetupWizardModel extends AbstractWizardModel {
 

@@ -13,7 +13,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
-import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.PhoneLookup;
 import android.telephony.PhoneNumberUtils;
 import android.text.Editable;
@@ -38,10 +37,7 @@ import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterServi
 import com.klinker.android.send_message.Transaction;
 import com.klinker.android.send_message.Utils;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStreamWriter;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.util.ArrayList;

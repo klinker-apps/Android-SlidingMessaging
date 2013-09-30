@@ -29,12 +29,12 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
-import com.klinker.android.messaging_donate.utils.ContactUtil;
-import com.klinker.android.messaging_donate.utils.IOUtil;
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
-import com.klinker.android.messaging_donate.utils.SendUtil;
 import com.klinker.android.messaging_donate.settings.AppSettings;
+import com.klinker.android.messaging_donate.utils.ContactUtil;
+import com.klinker.android.messaging_donate.utils.IOUtil;
+import com.klinker.android.messaging_donate.utils.SendUtil;
 import com.klinker.android.messaging_sliding.emojis.*;
 import com.klinker.android.messaging_sliding.mms.MmsReceiverService;
 import com.klinker.android.send_message.StripAccents;
@@ -160,8 +160,6 @@ public class MessageCursorAdapter extends CursorAdapter {
         } catch (Exception e) {
 
         }
-
-        pattern = Pattern.compile(patternStr);
     }
 
     private int getItemViewType(Cursor query) {
@@ -389,7 +387,7 @@ public class MessageCursorAdapter extends CursorAdapter {
 
                                         @Override
                                         public void run() {
-                                            setMessageText(holder.text, text);
+                                            setMessageText(holder.text, text, context);
 
                                             if (imageUri == null && videoF == null && audioF == null) {
                                                 holder.media.setVisibility(View.GONE);
@@ -538,7 +536,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                         final String videoF = video;
                         final String audioF = audio;
 
-                        setMessageText(holder.text, text);
+                        setMessageText(holder.text, text, context);
 
                         if (imageUri == null && videoF == null && audioF == null) {
                             holder.media.setVisibility(View.GONE);
@@ -844,7 +842,7 @@ public class MessageCursorAdapter extends CursorAdapter {
             }).start();
         }
 
-        setMessageText(holder.text, body);
+        setMessageText(holder.text, body, context);
 
         if (cursor.getPosition() == 0) {
             if (MainActivity.settings.runAs.equals("hangout")) {
@@ -1779,9 +1777,13 @@ public class MessageCursorAdapter extends CursorAdapter {
     }
 
     public static final String patternStr = "\u00a9|\u00ae|[\u203c-\u3299]|[\uD83C\uDC04-\uD83C\uDFf0]|[\uD83D\uDC00-\uD83D\uDEc5]";
-    private Pattern pattern;
+    public static Pattern pattern = Pattern.compile(patternStr);
 
-    public void setMessageText(final TextView textView, final String body) {
+    public static void setMessageText(final TextView textView, final String body, final Activity context) {
+        if (textView.getVisibility() == View.GONE) {
+            return;
+        }
+
         if (MainActivity.settings.smilies.equals("with"))
         {
             Matcher matcher = pattern.matcher(body);
@@ -2061,7 +2063,7 @@ public class MessageCursorAdapter extends CursorAdapter {
         }
     }
 
-    private static String getMmsText(String id, Activity context) {
+    public static String getMmsText(String id, Activity context) {
         Uri partURI = Uri.parse("content://mms/part/" + id);
         InputStream is = null;
         StringBuilder sb = new StringBuilder();

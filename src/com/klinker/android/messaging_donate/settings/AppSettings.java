@@ -62,6 +62,7 @@ public class AppSettings {
     public boolean tinyDate;
     public boolean alwaysUseVoice;
     public boolean boldNames;
+    public boolean conversationListImages;
     public String smilies;
     public String textSize;
     public String textSize2;
@@ -139,6 +140,7 @@ public class AppSettings {
             settings.textSize = "14";
             settings.textSize2 = "14";
             settings.contactPictures = false;
+            settings.conversationListImages = false;
         } else {
             settings.limitConversationsAtStart = sharedPrefs.getBoolean("limit_conversations_start", true);
             settings.customFont = sharedPrefs.getBoolean("custom_font", false);
@@ -165,6 +167,7 @@ public class AppSettings {
             settings.textSize = sharedPrefs.getString("text_size", 14 + "");
             settings.textSize2 = sharedPrefs.getString("text_size2", 14 + "");
             settings.contactPictures = sharedPrefs.getBoolean("contact_pictures", true);
+            settings.conversationListImages = sharedPrefs.getBoolean("conversation_list_images", true);
         }
 
         settings.lightActionBar = sharedPrefs.getBoolean("ct_light_action_bar", false);

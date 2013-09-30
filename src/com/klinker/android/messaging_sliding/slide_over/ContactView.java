@@ -15,8 +15,8 @@ import android.view.Display;
 import android.view.MotionEvent;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import com.klinker.android.messaging_donate.utils.ContactUtil;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_donate.utils.ContactUtil;
 
 import java.util.Arrays;
 

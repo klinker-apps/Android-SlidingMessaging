@@ -18,7 +18,7 @@ import android.widget.*;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.utils.IOUtil;
 
-import java.io.*;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Locale;
 

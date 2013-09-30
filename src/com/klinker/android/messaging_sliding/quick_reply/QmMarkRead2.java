@@ -12,8 +12,6 @@ import android.net.Uri;
 import com.klinker.android.messaging_donate.utils.IOUtil;
 import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
 
-import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 public class QmMarkRead2 extends IntentService {

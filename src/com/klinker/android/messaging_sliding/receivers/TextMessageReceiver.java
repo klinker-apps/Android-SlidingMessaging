@@ -1,7 +1,10 @@
 package com.klinker.android.messaging_sliding.receivers;
 
 import android.annotation.SuppressLint;
-import android.app.*;
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.*;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -23,7 +26,6 @@ import android.telephony.SmsMessage;
 import android.text.Editable;
 import android.text.SpannableStringBuilder;
 import android.util.Log;
-import com.klinker.android.messaging_sliding.quick_reply.CardQuickReply;
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.receivers.UnlockReceiver;
@@ -33,11 +35,12 @@ import com.klinker.android.messaging_donate.utils.Util;
 import com.klinker.android.messaging_sliding.MainActivityPopup;
 import com.klinker.android.messaging_sliding.blacklist.BlacklistContact;
 import com.klinker.android.messaging_sliding.notifications.IndividualSetting;
+import com.klinker.android.messaging_sliding.quick_reply.CardQuickReply;
 import com.klinker.android.messaging_sliding.quick_reply.QmDelete;
 import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead2;
 import com.klinker.android.messaging_sliding.quick_reply.QuickReply;
 
-import java.io.*;
+import java.io.InputStream;
 import java.util.*;
 
 @SuppressWarnings("deprecation")
