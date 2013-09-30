@@ -20,14 +20,13 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import com.klinker.android.messaging_donate.utils.ContactUtil;
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_donate.utils.ContactUtil;
 import com.klinker.android.messaging_sliding.MessageCursorAdapter;
 import com.klinker.android.messaging_sliding.receivers.CacheService;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 
 public class ConversationFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, PullToRefreshAttacher.OnRefreshListener {

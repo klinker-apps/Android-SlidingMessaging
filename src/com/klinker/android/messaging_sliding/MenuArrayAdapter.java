@@ -25,9 +25,9 @@ import android.view.View;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.*;
-import com.klinker.android.messaging_donate.utils.ContactUtil;
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_donate.utils.ContactUtil;
 import com.klinker.android.messaging_donate.utils.IOUtil;
 import com.klinker.android.messaging_donate.utils.SendUtil;
 import com.klinker.android.messaging_sliding.theme.CustomTheme;
@@ -328,7 +328,6 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
       String mBody = conversations.get(position).getBody();
 
       if (mBody.startsWith(" ") || mBody == null) {
-          Log.v("message_sub", "found mms");
           holder.mmsTag = true;
 
           new Thread (new Runnable() {
@@ -346,7 +345,6 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
                               sub = query.getString(query.getColumnIndex("sub"));
 
                               if (sub != null) {
-                                  Log.v("message_sub", sub);
                                   sub += "; ";
                               } else {
                                   sub = "";
@@ -356,14 +354,10 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
                               Uri uri = Uri.parse("content://mms/part");
                               Cursor mmsPart = context.getContentResolver().query(uri, new String[] {"_id", "ct", "_data", "text"}, selectionPart, null, null);
 
-                              Log.v("message_sub", mmsPart.getCount() + "");
-
                               if (mmsPart.moveToFirst()) {
                                   do {
                                       String partId = mmsPart.getString(mmsPart.getColumnIndex("_id"));
                                       String type = mmsPart.getString(mmsPart.getColumnIndex("ct"));
-
-                                      Log.v("message_sub", type);
 
                                       if ("text/plain".equals(type)) {
                                           String data = mmsPart.getString(mmsPart.getColumnIndex("_data"));
@@ -372,8 +366,6 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
                                           } else {
                                               sub += mmsPart.getString(mmsPart.getColumnIndex("text"));
                                           }
-
-                                          Log.v("message_sub", "found text");
                                       }
 
                                       if ("image/jpeg".equals(type) || "image/bmp".equals(type) ||
@@ -397,7 +389,6 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 
                           query.close();
 
-                          Log.v("message_sub", "final subject: " + sub);
                           final String subject = sub;
 
                           Bitmap previewImage;

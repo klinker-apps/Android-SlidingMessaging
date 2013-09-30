@@ -15,7 +15,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.klinker.android.messaging_donate.R;
-import com.klinker.android.messaging_sliding.views.NumberPickerDialog;
 
 public class SlideOverSettings  extends PreferenceActivity {
 

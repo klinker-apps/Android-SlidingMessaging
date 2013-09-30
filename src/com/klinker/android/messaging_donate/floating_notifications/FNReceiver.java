@@ -5,8 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import com.klinker.android.messaging_donate.utils.ContactUtil;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_donate.utils.ContactUtil;
 import robj.floating.notifications.Extension;
 
 import java.util.HashMap;

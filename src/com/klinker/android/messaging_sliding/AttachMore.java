@@ -25,8 +25,8 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
 import com.google.android.mms.MMSPart;
-import com.klinker.android.messaging_donate.utils.IOUtil;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_donate.utils.IOUtil;
 
 import java.io.*;
 import java.util.ArrayList;

@@ -23,9 +23,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.QuickContactBadge;
 import android.widget.TextView;
-import com.klinker.android.messaging_donate.utils.ContactUtil;
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_donate.utils.ContactUtil;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
