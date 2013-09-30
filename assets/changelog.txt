@@ -2,6 +2,6 @@ Sliding Messaging is now smoother than ever!
 
 - Conversation list UI changes and optimizations
 - Rewrite of sliding menus
-- Added a navigation drawer to compose new messages instead of sliding menu
+- Added a navigation drawer to compose new messages instead of right-side sliding menu
 - Tons of optimizations
 - Bug fixes
