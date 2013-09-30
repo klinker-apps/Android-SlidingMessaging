@@ -14,8 +14,7 @@ Jake:
     - actionbar pull to refresh, get the newest changes
 Luke:
     - Message details for MMS messages
-    - Fix image inserting button on slideover
-    - Figure out how to get the emoji keyboard working with drawer
+    - Fix leaky slideover broadcast receivers, there are tons of them
 
 1) more individual notification options (slideover color, notification icon)
 2) option for adding certain text to every message at the beginning (delivery reports?)
