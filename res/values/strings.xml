@@ -796,6 +796,7 @@
     <string name="converting_mms">Converting to MMS…</string>
     <string name="bold_conversations">Bold Names</string>
     <string name="enable_quick_peek">Enable Quick Peek</string>
-    <string name="enable_quick_peek_summary">A single tap on the SlideOver bubble will open the new Quick Peek window to view recent conversations.</string>
+    <string name="enable_quick_peek_summary">A single tap on the SlideOver bubble will open the new Quick Peek window to view recent conversations</string>
+    <string name="conversation_list_images">Display Picture Previews</string>
 
 </resources>

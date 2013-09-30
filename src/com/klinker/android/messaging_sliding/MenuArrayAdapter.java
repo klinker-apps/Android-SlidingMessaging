@@ -407,7 +407,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
                                   if (!conversations.get(position).getGroup()) {
                                       holder.text2.setText(subject);
 
-                                      if (previewImageFinal != null) {
+                                      if (previewImageFinal != null && MainActivity.settings.conversationListImages) {
                                           holder.text2.setVisibility(View.GONE);
                                           holder.text4.setVisibility(View.GONE);
                                           holder.previewImage.setVisibility(View.VISIBLE);

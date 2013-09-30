@@ -55,6 +55,12 @@
             />
 
         <CheckBoxPreference
+            android:key="conversation_list_images"
+            android:title="@string/conversation_list_images"
+            android:defaultValue="true"
+            />
+
+        <CheckBoxPreference
             android:key="open_to_first"
             android:title="@string/open_to_first"
             android:defaultValue="false"
