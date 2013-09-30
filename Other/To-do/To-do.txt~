@@ -1,23 +1,35 @@
-Version 7.50
+Version 7.60
 
 Jake:
-    - google voice receiving support
+    - Look at menu array adapter and how it can be changed for more speed getting contact pictures, is that really the problem? Look at the stock apps get contact picture method in the contact class
+        - if there is no subject with the conversation, query the first message and get the image and display like hangouts conversation, if there is no image, get the text
+    - redo the text message receiver for cleaner, more efficient code and send broadcast at the end of it to refresh instead of creating a receiver in the app, like i've done for mms
+    - redo the refresh view pager stuff for initial setup and then notifying the adapter of a change (both view pager and listview of conversation fragment)
+    - redo getting the intent stuff at startup
+    - trace through entire main activity and get rid of/optimize everything
+    - active notifications contact picture
+    - look into downloading mms and data getting stuck
+    - Attach audio and video to mms (look at stock app)
     - delayed sending for certain times
+    - actionbar pull to refresh, get the newest changes
 Luke:
     - Message details for MMS messages
-    - Add categories to each of the settings pages for more organization
+    - Fix image inserting button on slideover
+    - Figure out how to get the emoji keyboard working with drawer
 
-1) more individual notification options
+1) more individual notification options (slideover color, notification icon)
 2) option for adding certain text to every message at the beginning (delivery reports?)
 3) Tasker options
 4) Attach more options for MMS - create slideshow with videos and audio and pictures, attach plain text contact info
 5) Pin contact to always be first conversation
 6) Auto call when phone is placed to the ear (proximity sensor)
-7) Option to sort contacts alphabetically in contact search box? don't know if this would work well or not or how you have it set up...
-8) Add a crouton notification for drafts instead of current system, then use a pull to refresh on the bottom to fill the text box with the draft. again, don't know if this would work well or is possible to attach another one to the list view, but it might be cool
-9) Add scheduled sms to bottom of conversation in a footer maybe
+7) Add a crouton notification for drafts instead of current system, then use a pull to refresh on the bottom to fill the text box with the draft. again, don't know if this would work well or is possible to attach another one to the list view, but it might be cool
+8) Add scheduled sms to bottom of conversation in a footer maybe
+9) Add sent or received icon to conversations list
 
-- igamer777@gmail.com, nikorezzano@gmail.com
+Translation stuff:
+- igamer777@gmail.com (Russian), nikorezzano@gmail.com (Spanish), supremazx@gmail.com (Turkish), giovanefuori@gmail.com (Italian)
+- https://drive.google.com/folderview?id=0B3Z7vr7d5bgAUUQ3ZmxMbjFiWm8&usp=sharing&tid=0B3Z7vr7d5bgAdlY4aGRpdVNEYlE (French)
 
 - sms backup
 	- different icon in notification
