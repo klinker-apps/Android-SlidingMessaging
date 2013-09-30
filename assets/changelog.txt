@@ -1,4 +1,4 @@
-Sliding Messaging is smoother than ever!
+Sliding Messaging is now smoother than ever!
 
 - Rewrite of sliding menus
 - Added a navigation drawer to compose new messages instead of sliding menu
