@@ -4030,7 +4030,6 @@ public class MainActivity extends FragmentActivity {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    Log.v("deleting_drafts", "beginning delete process");
 
                     try {
                         for (int i = 0; i < draftChanged.size(); i++) {
@@ -4046,15 +4045,12 @@ public class MainActivity extends FragmentActivity {
 
                         Cursor query = context.getContentResolver().query(Uri.parse("content://sms/draft/"), new String[] {"_id", "thread_id"}, null, null, null);
 
-                        Log.v("deleteing_drafts", "queried all current drafts, " + query.getCount());
-
                         if (query != null) {
                             if (query.moveToFirst()) {
                                 do {
                                     for (Long draft : draftsToDelete) {
                                         if (query.getLong(query.getColumnIndex("thread_id")) == draft) {
                                             ids.add(query.getLong(query.getColumnIndex("_id")));
-                                            Log.v("deleting_drafts", "found draft to delete");
                                             break;
                                         }
                                     }
@@ -4062,7 +4058,6 @@ public class MainActivity extends FragmentActivity {
                                     for (Long name : draftNames) {
                                         if (name == query.getLong(query.getColumnIndex("thread_id"))) {
                                             context.getContentResolver().delete(Uri.parse("content://sms/" + query.getString(query.getColumnIndex("_id"))), null, null);
-                                            Log.v("deleting_drafts", "found draft name");
                                             break;
                                         }
                                     }
@@ -4070,7 +4065,6 @@ public class MainActivity extends FragmentActivity {
 
                                 for (Long id : ids) {
                                     context.getContentResolver().delete(Uri.parse("content://sms/" + id), null, null);
-                                    Log.v("deleting_drafts", "deleting based on id");
                                 }
                             }
 
@@ -4093,7 +4087,6 @@ public class MainActivity extends FragmentActivity {
                             values.put("body", drafts.get(i));
                             values.put("type", "3");
                             context.getContentResolver().insert(Uri.parse("content://sms/"), values);
-                            Log.v("deleting_drafts", "inserting kept draft back in");
                         }
                     } catch (Exception e) { }
                 }

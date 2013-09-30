@@ -12,6 +12,7 @@ import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.support.v4.view.PagerTitleStrip;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.Gravity;
@@ -256,6 +257,7 @@ public class MainActivityPopup extends MainActivity {
         }
 
         if (sharedPrefs.getBoolean("show_keyboard_popup", true) && !fromHalo) {
+            Log.v("keyboard_popup", "should be showing keyboard now");
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
