@@ -706,7 +706,7 @@ public class SlideOverService extends Service {
 
         initalMoveSetup(event);
 
-        if (distance > toDP(10)) {
+        if (distance > toDP(10) && !animationView.isActivated()) {
             try { arcWindow.addView(arcView, arcParams); } catch (Exception e) { }
         } else {
             try { arcWindow.removeView(arcView); } catch (Exception e) { }
