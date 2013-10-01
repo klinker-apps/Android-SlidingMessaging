@@ -31,6 +31,7 @@ import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.telephony.PhoneNumberUtils;
+import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
 import android.text.Editable;
 import android.text.InputType;
@@ -542,54 +543,26 @@ public class MainActivity extends FragmentActivity {
         mEditText.requestFocus();
 
         mEditText.addTextChangedListener(new TextWatcher() {
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                int length = Integer.parseInt(String.valueOf(s.length()));
+                if (mEditText.getError() != null) {
+                    mEditText.setError(null);
+                }
 
                 if (!settings.signature.equals("")) {
-                    length += ("\n" + settings.signature).length();
+                    s = s + "\n" + settings.signature;
                 }
 
-                String patternStr = "[^" + Utils.GSM_CHARACTERS_REGEX + "]";
-                Pattern pattern = Pattern.compile(patternStr);
-                Matcher matcher = pattern.matcher(s);
+                int[] data = SmsMessage.calculateLength(s, false);
+                mTextView.setText(data[0] + "/" + data[2]);
 
-                int size = 160;
-
-                if (matcher.find() && !settings.stripUnicode) {
-                    size = 70;
-                }
-
-                int pages = 1;
-
-                while (length > size) {
-                    length-=size;
-                    pages++;
-                }
-
-                mTextView.setText(pages + "/" + (size - length));
-
-                if ((pages == 1 && (size - length) <= 30) || pages != 1) {
+                if ((data[0] < 2 && data[2] > 30) ||
+                        (imageAttach2.getVisibility() == View.VISIBLE) ||
+                        (data[0] > settings.mmsAfter && settings.sendAsMMS)) {
+                    mTextView.setVisibility(View.INVISIBLE);
+                } else {
                     mTextView.setVisibility(View.VISIBLE);
-                }
-
-                if ((pages + "/" + (size - length)).equals("1/31")) {
-                    mTextView.setVisibility(View.GONE);
-                }
-
-                if ((pages + "/" + (size - length)).equals("1/160")) {
-                    mTextView.setVisibility(View.GONE);
-                }
-
-                if (imageAttach2.getVisibility() == View.VISIBLE) {
-                    mTextView.setVisibility(View.GONE);
-                }
-
-                if (settings.sendAsMMS && pages > settings.mmsAfter) {
-                    mTextView.setVisibility(View.GONE);
                 }
 
                 if (settings.sendWithReturn) {
@@ -598,13 +571,9 @@ public class MainActivity extends FragmentActivity {
                         sendButton.performClick();
                     }
                 }
-
-                mEditText.setError(null);
             }
 
-            public void afterTextChanged(Editable s) {
-
-            }
+            public void afterTextChanged(Editable s) { }
         });
 
         if (!settings.keyboardType) {
@@ -1690,49 +1659,25 @@ public class MainActivity extends FragmentActivity {
                         return;
                     }
                 }
-                int length = Integer.parseInt(String.valueOf(s.length()));
+
+                if (messageEntry.getError() != null) {
+                    messageEntry.setError(null);
+                }
 
                 if (!settings.signature.equals("")) {
-                    length += ("\n" + settings.signature).length();
+                    s = s + "\n" + settings.signature;
                 }
 
-                String patternStr = "[^" + Utils.GSM_CHARACTERS_REGEX + "]";
-                Pattern pattern = Pattern.compile(patternStr);
-                Matcher matcher = pattern.matcher(s);
+                int[] data = SmsMessage.calculateLength(s, false);
+                mTextView.setText(data[0] + "/" + data[2]);
 
-                int size = 160;
-
-                if (matcher.find() && !settings.stripUnicode) {
-                    size = 70;
-                }
-
-                int pages = 1;
-
-                while (length > size) {
-                    length-=size;
-                    pages++;
-                }
-
-                mTextView.setText(pages + "/" + (size - length));
-
-                if ((pages == 1 && (size - length) <= 30) || pages != 1) {
+                if ((data[0] < 2 && data[2] > 30) ||
+                        (imageAttach.getVisibility() == View.VISIBLE) ||
+                        (data[0] > settings.mmsAfter && settings.sendAsMMS) ||
+                        (conversations.get(mViewPager.getCurrentItem()).getGroup())) {
+                    mTextView.setVisibility(View.INVISIBLE);
+                } else {
                     mTextView.setVisibility(View.VISIBLE);
-                }
-
-                if ((pages + "/" + (size - length)).equals("1/31")) {
-                    mTextView.setVisibility(View.GONE);
-                }
-
-                if ((pages + "/" + (size - length)).equals("1/160")) {
-                    mTextView.setVisibility(View.GONE);
-                }
-
-                if (imageAttach.getVisibility() == View.VISIBLE || conversations.get(mViewPager.getCurrentItem()).getGroup()) {
-                    mTextView.setVisibility(View.GONE);
-                }
-
-                if (settings.sendAsMMS && pages > settings.mmsAfter) {
-                    mTextView.setVisibility(View.GONE);
                 }
 
                 if (settings.sendWithReturn) {
@@ -1741,8 +1686,6 @@ public class MainActivity extends FragmentActivity {
                         sendButton.performClick();
                     }
                 }
-
-                messageEntry.setError(null);
             }
 
             public void afterTextChanged(Editable s) {
