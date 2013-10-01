@@ -1341,8 +1341,8 @@ public class SlideOverService extends Service {
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onDestroy() {
+        super.onDestroy();
 
         try {
             unregisterReceiver(stopSlideover);
