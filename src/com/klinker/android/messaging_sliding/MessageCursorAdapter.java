@@ -1075,7 +1075,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                         if (sentF) {
                             message = resources.getString(R.string.type) + " Multimedia Message\n" +
                                     resources.getString(R.string.to) + " " + address + "\n" +
-                                    resources.getString(R.string.received) + " " + dateReceived;
+                                    resources.getString(R.string.sent) + " " + dateReceived;
                         } else {
                             message = resources.getString(R.string.type) + " Multimedia Message\n" +
                                     resources.getString(R.string.from) + " " + address + "\n" +
