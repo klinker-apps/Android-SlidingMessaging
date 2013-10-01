@@ -19,7 +19,6 @@ import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.StyleSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnLongClickListener;
@@ -30,6 +29,7 @@ import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.utils.ContactUtil;
 import com.klinker.android.messaging_donate.utils.IOUtil;
 import com.klinker.android.messaging_donate.utils.SendUtil;
+import com.klinker.android.messaging_sliding.emojis.EmojiUtil;
 import com.klinker.android.messaging_sliding.theme.CustomTheme;
 
 import java.sql.Date;
@@ -43,7 +43,6 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
   private final ArrayList<Conversation> conversations;
   private final ViewPager pager;
   private SharedPreferences sharedPrefs;
-  private Pattern pattern;
   private Resources resources;
   
   static class ViewHolder {
@@ -64,8 +63,6 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
     this.pager = pager;
     this.sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
     this.resources = context.getResources();
-
-    pattern = Pattern.compile(MessageCursorAdapter.patternStr);
   }
   
   @Override

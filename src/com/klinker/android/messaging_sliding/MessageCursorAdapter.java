@@ -1776,9 +1776,6 @@ public class MessageCursorAdapter extends CursorAdapter {
         public Uri imageUri;
     }
 
-    public static final String patternStr = "\u00a9|\u00ae|[\u203c-\u3299]|[\uD83C\uDC04-\uD83C\uDFf0]|[\uD83D\uDC00-\uD83D\uDEc5]";
-    public static Pattern pattern = Pattern.compile(patternStr);
-
     public static void setMessageText(final TextView textView, final String body, final Activity context) {
         if (textView.getVisibility() == View.GONE) {
             return;
@@ -1786,7 +1783,7 @@ public class MessageCursorAdapter extends CursorAdapter {
 
         if (MainActivity.settings.smilies.equals("with"))
         {
-            Matcher matcher = pattern.matcher(body);
+            Matcher matcher = EmojiUtil.emojiPattern.matcher(body);
 
             if (matcher.find())
             {
@@ -1838,7 +1835,7 @@ public class MessageCursorAdapter extends CursorAdapter {
             }
         } else if (MainActivity.settings.smilies.equals("without"))
         {
-            Matcher matcher = pattern.matcher(body);
+            Matcher matcher = EmojiUtil.emojiPattern.matcher(body);
 
             if (matcher.find())
             {
@@ -1890,7 +1887,7 @@ public class MessageCursorAdapter extends CursorAdapter {
             }
         } else if (MainActivity.settings.smilies.equals("none"))
         {
-            Matcher matcher = pattern.matcher(body);
+            Matcher matcher = EmojiUtil.emojiPattern.matcher(body);
 
             if (matcher.find())
             {
@@ -1929,7 +1926,7 @@ public class MessageCursorAdapter extends CursorAdapter {
             }
         } else if (MainActivity.settings.smilies.equals("both"))
         {
-            Matcher matcher = pattern.matcher(body);
+            Matcher matcher = EmojiUtil.emojiPattern.matcher(body);
 
             if (matcher.find())
             {

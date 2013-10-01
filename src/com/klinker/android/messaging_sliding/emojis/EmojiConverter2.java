@@ -11,6 +11,8 @@ import android.text.Spannable.Factory;
 import android.text.style.ImageSpan;
 import android.util.TypedValue;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_donate.utils.ContactUtil;
+import com.klinker.android.messaging_donate.utils.Util;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -906,8 +908,8 @@ public class EmojiConverter2 {
 	            if (set) {
 	                hasChanges = true;
 	                int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 18, context.getResources().getDisplayMetrics());
-	                final Bitmap bitmap = Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(entry.getValue()), context), scale, scale, true);
-	                spannable.setSpan(new ImageSpan(context, bitmap),
+	                Bitmap bitmap = Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(context.getResources().getDrawable(entry.getValue()), context), scale, scale, true);
+	                spannable.setSpan(new ImageSpan(context, bitmap, ImageSpan.ALIGN_BOTTOM),
 	                        matcher.start(), matcher.end(),
 	                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 	            }
@@ -921,27 +923,4 @@ public class EmojiConverter2 {
 	    addSmiles(context, spannable);
 	    return spannable;
 	}
-	
-	public static Bitmap drawableToBitmap (Drawable drawable, Context context) {
-        if (drawable instanceof BitmapDrawable) {
-            return ((BitmapDrawable)drawable).getBitmap();
-        }
-
-        try
-        {
-            int width = drawable.getIntrinsicWidth();
-            width = width > 0 ? width : 1;
-            int height = drawable.getIntrinsicHeight();
-            height = height > 0 ? height : 1;
-
-            Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-            Canvas canvas = new Canvas(bitmap);
-            drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-            drawable.draw(canvas);
-            return bitmap;
-        } catch (Exception e)
-        {
-            return BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
-        }
-    }
 }
