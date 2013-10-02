@@ -474,7 +474,10 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 
 		    	pager.setCurrentItem(position, false);
                 conversations.get(position).setRead();
-			    MainActivity.menu.showContent();
+
+                if (MainActivity.menu != null) {
+			        MainActivity.menu.showContent();
+                }
 
 		        if (!MainActivity.settings.customBackground) {
 		        	contactView2.setBackgroundColor(MainActivity.settings.ctConversationListBackground);
