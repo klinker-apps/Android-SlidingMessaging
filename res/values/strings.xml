@@ -798,5 +798,7 @@
     <string name="enable_quick_peek">Enable Quick Peek</string>
     <string name="enable_quick_peek_summary">A single tap on the SlideOver bubble will open the new Quick Peek window to view recent conversations</string>
     <string name="conversation_list_images">Display Picture Previews</string>
+    <string name="stack_notifications">Stack Incoming Texts</string>
+    <string name="stack_notifications_summary">If disabled, notification will only show the most recently received message, it will not show all of the messages from the previous notification along with it.</string>
 
 </resources>

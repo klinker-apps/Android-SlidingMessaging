@@ -1,7 +1,9 @@
 package com.klinker.android.messaging_sliding.slide_over;
 
 import android.app.ActivityManager;
+import android.app.AlarmManager;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.*;
 import android.graphics.Bitmap;
@@ -15,8 +17,11 @@ import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.*;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_donate.utils.IOUtil;
 import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead2;
+import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SlideOverService extends Service {
@@ -688,6 +693,8 @@ public class SlideOverService extends Service {
                         }
                     }, 200);
 
+                   closeNotifications();
+
                     Intent intent = finishFlat();
                     intent.putExtra("openToPage", ContactView.currentContact);
                     startActivity(intent);
@@ -706,7 +713,7 @@ public class SlideOverService extends Service {
 
         initalMoveSetup(event);
 
-        if (distance > toDP(10)) {
+        if (distance > toDP(10) && !animationView.isActivated()) {
             try { arcWindow.addView(arcView, arcParams); } catch (Exception e) { }
         } else {
             try { arcWindow.removeView(arcView); } catch (Exception e) { }
@@ -1149,6 +1156,8 @@ public class SlideOverService extends Service {
 
     public Intent finishFlat()
     {
+        closeNotifications();
+
         if (isRunning(getApplication())) {
             Intent intent = new Intent();
             intent.setAction("com.klinker.android.messaging_donate.KILL_FOR_HALO");
@@ -1165,6 +1174,8 @@ public class SlideOverService extends Service {
 
     public void finishDash()
     {
+        closeNotifications();
+
         if (sharedPrefs.getString("slideover_secondary_action", "conversations").equals("markRead"))
         {
             startService(new Intent(getBaseContext(), QmMarkRead2.class));
@@ -1338,6 +1349,28 @@ public class SlideOverService extends Service {
         } catch (Exception e) {
 
         }
+    }
+
+    public void closeNotifications() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                NotificationManager mNotificationManager =
+                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                mNotificationManager.cancel(1);
+                mNotificationManager.cancel(2);
+                mNotificationManager.cancel(4);
+                IOUtil.writeNotifications(new ArrayList<String>(), mContext);
+
+                Intent intent = new Intent("com.klinker.android.messaging.CLEARED_NOTIFICATION");
+                mContext.sendBroadcast(intent);
+
+                Intent stopRepeating = new Intent(mContext, NotificationRepeaterService.class);
+                PendingIntent pStopRepeating = PendingIntent.getService(mContext, 0, stopRepeating, 0);
+                AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                alarm.cancel(pStopRepeating);
+            }
+        }, 500);
     }
 
     @Override
