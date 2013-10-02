@@ -800,7 +800,7 @@ public class CardQuickReply extends FragmentActivity {
                 {
                     if (messageEntry.getText().toString().endsWith("\n"))
                     {
-                        messageEntry.setText(messageEntry.getText().toString().substring(0, messageEntry.getText().toString().length() - 2));
+                        messageEntry.setText(messageEntry.getText().toString().substring(0, messageEntry.getText().toString().length() - 1));
                         sendButton.performClick();
                     }
                 }
