@@ -13,14 +13,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.QuickContactBadge;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.widget.*;
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.utils.ContactUtil;
 import com.klinker.android.messaging_sliding.Conversation;
+import com.koushikdutta.ion.builder.Builders;
 
 import java.util.ArrayList;
 
@@ -56,6 +54,7 @@ public class BatchDeleteAllArrayAdapter extends ArrayAdapter<String> {
         public TextView text4;
         public QuickContactBadge image;
         public View background;
+        public ImageView imagePreview;
     }
 
 	  public BatchDeleteAllArrayAdapter(Activity context, ArrayList<Conversation> conversations) {
@@ -107,6 +106,7 @@ public class BatchDeleteAllArrayAdapter extends ArrayAdapter<String> {
             viewHolder.text4 = (TextView) contactView.findViewById(R.id.contactDate2);
             viewHolder.image = (QuickContactBadge) contactView.findViewById(R.id.quickContactBadge3);
             viewHolder.background = contactView.findViewById(R.id.background);
+            viewHolder.imagePreview = (ImageView) contactView.findViewById(R.id.conversationImage);
 
             if (customFont)
             {
@@ -223,6 +223,8 @@ public class BatchDeleteAllArrayAdapter extends ArrayAdapter<String> {
                 viewHolder.text.setLayoutParams(params1);
                 viewHolder.text2.setLayoutParams(params2);
             }
+
+            viewHolder.imagePreview.setVisibility(View.GONE);
 
             contactView.setTag(viewHolder);
         }

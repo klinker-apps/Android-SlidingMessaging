@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 public class BatchDeleteConversationActivity extends Activity implements android.app.LoaderManager.LoaderCallbacks<Cursor> {
 
-    public String threadId;
+    public long threadId;
 
     public BatchDeleteConversationArrayAdapter adapter;
 
@@ -49,7 +49,7 @@ public class BatchDeleteConversationActivity extends Activity implements android
 
         Intent intent = getIntent();
         Bundle b = intent.getExtras();
-        threadId = b.getString("threadId");
+        threadId = b.getLong("threadId");
 
         list = (ListView) findViewById(R.id.messageListView);
         list.setDivider(new ColorDrawable(sharedPrefs.getInt("ct_messageDividerColor", getResources().getColor(R.color.light_silver))));
@@ -156,7 +156,7 @@ public class BatchDeleteConversationActivity extends Activity implements android
             }
         });
 
-        getLoaderManager().restartLoader(Integer.parseInt(threadId), null, this);
+        getLoaderManager().restartLoader(1, null, this);
     }
 
     @Override
@@ -184,7 +184,7 @@ public class BatchDeleteConversationActivity extends Activity implements android
     @Override
     public void onLoadFinished(android.content.Loader<Cursor> loader, final Cursor query)
     {
-        adapter = new BatchDeleteConversationArrayAdapter((Activity) context, MainActivity.myContactId, ContactUtil.findContactNumber(threadId, context), threadId, query, 1);
+        adapter = new BatchDeleteConversationArrayAdapter((Activity) context, MainActivity.myContactId, ContactUtil.findContactNumber(threadId + "", context), threadId + "", query, 1);
 
         list.setAdapter(adapter);
         list.setStackFromBottom(true);

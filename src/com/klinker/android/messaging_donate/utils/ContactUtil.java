@@ -86,9 +86,6 @@ public class ContactUtil {
                         }
 
                         id.close();
-                    } else
-                    {
-
                     }
                 } catch (Exception e)
                 {

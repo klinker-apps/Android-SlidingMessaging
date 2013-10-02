@@ -61,10 +61,7 @@ import com.klinker.android.messaging_donate.utils.IOUtil;
 import com.klinker.android.messaging_donate.utils.SendUtil;
 import com.klinker.android.messaging_donate.wizardpager.ChangeLogMain;
 import com.klinker.android.messaging_donate.wizardpager.InitialSetupMain;
-import com.klinker.android.messaging_sliding.AttachMore;
-import com.klinker.android.messaging_sliding.ContactSearchArrayAdapter;
-import com.klinker.android.messaging_sliding.Conversation;
-import com.klinker.android.messaging_sliding.MenuArrayAdapter;
+import com.klinker.android.messaging_sliding.*;
 import com.klinker.android.messaging_sliding.batch_delete.BatchDeleteAllActivity;
 import com.klinker.android.messaging_sliding.batch_delete.BatchDeleteConversationActivity;
 import com.klinker.android.messaging_sliding.blacklist.BlacklistContact;
@@ -121,6 +118,7 @@ public class MainActivity extends FragmentActivity {
 
     public static ViewPager mViewPager;
     public static SectionsPagerAdapter mSectionsPagerAdapter;
+    public static Map<Integer, MessageCursorAdapter> cursorAdapters;
 
     public static String deviceType;
     public static boolean newMessage;
@@ -1866,7 +1864,15 @@ public class MainActivity extends FragmentActivity {
                                     MainActivity.threadedLoad = false;
                                     MainActivity.notChanged = false;
                                     refreshViewPager4(recipientId, StripAccents.stripAccents(message.getText()), Calendar.getInstance().getTimeInMillis() + "");
-                                    mViewPager.setCurrentItem(0);
+
+                                    // FIXME, this works as it is and without it, it will skip to the first conversation very quickly and show that conversation and then refresh the new one
+                                    //          but this way the title bar changes for a split second to the name of the new person, not the one you are sending to
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            mViewPager.setCurrentItem(0);
+                                        }
+                                    }, 200);
 
                                     if (isPopup && settings.fullAppPopupClose && !sendTransaction.checkMMS(message)) {
                                         if (!settings.voiceEnabled) {
@@ -4301,12 +4307,8 @@ public class MainActivity extends FragmentActivity {
         mSectionsPagerAdapter = new SectionsPagerAdapter(
                 getFragmentManager());
 
-        mSectionsPagerAdapter.notifyDataSetChanged();
-
         mViewPager = (ViewPager) findViewById(R.id.pager);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setBackgroundDrawable(null);
-
         if (settings.customBackground2)
         {
             try
@@ -4331,6 +4333,9 @@ public class MainActivity extends FragmentActivity {
                 }
             }
         }
+
+        mSectionsPagerAdapter.notifyDataSetChanged();
+        mViewPager.setAdapter(mSectionsPagerAdapter);
 
         if ((messageRecieved && jump) || sentMessage)
         {
@@ -4571,17 +4576,17 @@ public class MainActivity extends FragmentActivity {
         MainActivity.threadedLoad = false;
         int position = mViewPager.getCurrentItem();
 
-        mSectionsPagerAdapter = new SectionsPagerAdapter(
-                getFragmentManager());
+//        mSectionsPagerAdapter = new SectionsPagerAdapter(
+//                getFragmentManager());
 
         mSectionsPagerAdapter.notifyDataSetChanged();
 
-        try {
-            mViewPager.setAdapter(mSectionsPagerAdapter);
-            mViewPager.setCurrentItem(position);
-        } catch (Exception e) {
-            // probably the activity has already finished and trying to refresh at that exact moment
-        }
+//        try {
+//            mViewPager.setAdapter(mSectionsPagerAdapter);
+//            mViewPager.setCurrentItem(position);
+//        } catch (Exception e) {
+//            // probably the activity has already finished and trying to refresh at that exact moment
+//        }
 
         try
         {
@@ -4630,22 +4635,22 @@ public class MainActivity extends FragmentActivity {
 
             try {
                 mSectionsPagerAdapter.notifyDataSetChanged();
-                mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
-                mViewPager.setAdapter(mSectionsPagerAdapter);
+                //mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
+                //mViewPager.setAdapter(mSectionsPagerAdapter);
             } catch (Exception e) {
                 // fragment most likely outside of activity now or something
             }
 
-            for (int i = 0; i < conversations.size(); i++)
-            {
-                if (currentNumber.equals(conversations.get(i).getNumber()))
-                {
-                    position = i;
-                    break;
-                }
-            }
+//            for (int i = 0; i < conversations.size(); i++)
+//            {
+//                if (currentNumber.equals(conversations.get(i).getNumber()))
+//                {
+//                    position = i;
+//                    break;
+//                }
+//            }
 
-            mViewPager.setCurrentItem(position, false);
+            //mViewPager.setCurrentItem(position, false);
 
             final ImageView glow = (ImageView) findViewById(R.id.newMessageGlow);
             glow.setVisibility(View.VISIBLE);
@@ -4736,7 +4741,7 @@ public class MainActivity extends FragmentActivity {
     public class SectionsPagerAdapter extends android.support.v13.app.FragmentStatePagerAdapter {
 
         public ArrayList<String> contact = null;
-        private ArrayList<Fragment> mFragments = new ArrayList<Fragment>();
+        private Map<Integer, ConversationFragment> mFragments = new HashMap<Integer, ConversationFragment>();
 
         public SectionsPagerAdapter(android.app.FragmentManager fm) {
             super(fm);
@@ -4782,6 +4787,16 @@ public class MainActivity extends FragmentActivity {
 
             }).start();
 
+            for (Map.Entry<Integer, ConversationFragment> entry : mFragments.entrySet()) {
+                try {
+                    entry.getValue().refreshFragment();
+                } catch (Exception e) {
+                    // fragment is no longer available
+                }
+
+                mFragments.remove(entry);
+            }
+
             super.notifyDataSetChanged();
         }
 
@@ -4793,6 +4808,8 @@ public class MainActivity extends FragmentActivity {
             args.putInt("position", position);
             args.putString("myId", myContactId);
             fragment.setArguments(args);
+
+            mFragments.put(position, fragment);
             return fragment;
         }
 

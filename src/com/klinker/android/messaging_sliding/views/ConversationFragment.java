@@ -39,6 +39,7 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
     private Cursor messageQuery;
     private CustomListView listView;
     private Resources resources;
+    private MessageCursorAdapter adapter;
 
     public ProgressBar spinner;
     private PullToRefreshAttacher mPullToRefreshAttacher;
@@ -225,7 +226,7 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
                             @Override
                             public void run() {
 
-                                MessageCursorAdapter adapter = new MessageCursorAdapter((Activity) context, myId, ContactUtil.findContactNumber(MainActivity.conversations.get(position).getNumber(), context), MainActivity.conversations.get(position).getThreadId(), messageQuery, position);
+                                adapter = new MessageCursorAdapter((Activity) context, myId, ContactUtil.findContactNumber(MainActivity.conversations.get(position).getNumber(), context), MainActivity.conversations.get(position).getThreadId(), messageQuery, position);
 
                                 listView.setAdapter(adapter);
 
@@ -295,7 +296,7 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
                 messageQuery = CacheService.conversations.get(position);
             }
 
-            MessageCursorAdapter adapter = new MessageCursorAdapter((Activity) context, myId, ContactUtil.findContactNumber(MainActivity.conversations.get(position).getNumber(), context), MainActivity.conversations.get(position).getThreadId(), messageQuery, position);
+            adapter = new MessageCursorAdapter((Activity) context, myId, ContactUtil.findContactNumber(MainActivity.conversations.get(position).getNumber(), context), MainActivity.conversations.get(position).getThreadId(), messageQuery, position);
 
             listView.setAdapter(adapter);
             listView.setStackFromBottom(true);
@@ -379,7 +380,7 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, final Cursor query) {
-        MessageCursorAdapter adapter = new MessageCursorAdapter((Activity) context, myId, ContactUtil.findContactNumber(MainActivity.conversations.get(position).getNumber(), context), MainActivity.conversations.get(position).getThreadId(), query, position);
+        adapter = new MessageCursorAdapter((Activity) context, myId, ContactUtil.findContactNumber(MainActivity.conversations.get(position).getNumber(), context), MainActivity.conversations.get(position).getThreadId(), query, position);
 
         listView.setAdapter(adapter);
         listView.setStackFromBottom(true);
@@ -458,7 +459,7 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
             @Override
             protected void onPostExecute(Void result) {
                 super.onPostExecute(result);
-                MessageCursorAdapter adapter = new MessageCursorAdapter((Activity) context, myId, ContactUtil.findContactNumber(MainActivity.conversations.get(position).getNumber(), context), MainActivity.conversations.get(position).getThreadId(), query, position);
+                adapter = new MessageCursorAdapter((Activity) context, myId, ContactUtil.findContactNumber(MainActivity.conversations.get(position).getNumber(), context), MainActivity.conversations.get(position).getThreadId(), query, position);
 
                 listView.setAdapter(adapter);
                 listView.setStackFromBottom(true);
@@ -476,6 +477,11 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
                 mPullToRefreshAttacher.setRefreshComplete();
             }
         }.execute();
+    }
+
+    public void refreshFragment() {
+        this.position = getArguments().getInt("position");
+        getLoaderManager().restartLoader(position, null, this);
     }
 
     private int mLastSmoothScrollPosition;
