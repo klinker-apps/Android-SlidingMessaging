@@ -470,8 +470,10 @@ public class TextMessageReceiver extends BroadcastReceiver {
 					        			break;
 					        		}
 					        	}
-					        	
-					        	body = body2 + " | " + body;
+
+                                if (sharedPrefs.getBoolean("stack_notifications", true)) {
+					        	    body = body2 + " | " + body;
+                                }
 					        	
 					        	NotificationCompat.Builder mBuilder =
 						                new NotificationCompat.Builder(context)

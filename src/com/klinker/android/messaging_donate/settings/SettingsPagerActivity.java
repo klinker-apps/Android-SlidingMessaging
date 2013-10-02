@@ -612,6 +612,7 @@ public class SettingsPagerActivity extends FragmentActivity {
             if (!showAll) {
                 ((PreferenceGroup) findPreference("general_notification_category")).removePreference(findPreference("in_app_notifications"));
                 ((PreferenceGroup) findPreference("notification_look_category")).removePreference(findPreference("breath"));
+                ((PreferenceGroup) findPreference("notification_look_category")).removePreference(findPreference("stack_notifications"));
                 ((PreferenceGroup) findPreference("notification_vibrate_category")).removePreference(findPreference("custom_vibrate_pattern"));
                 ((PreferenceGroup) findPreference("notification_vibrate_category")).removePreference(findPreference("set_custom_vibrate_pattern"));
                 ((PreferenceGroup) findPreference("notification_led_category")).removePreference(findPreference("led_off_time"));

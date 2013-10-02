@@ -69,6 +69,14 @@
             android:dependency="notifications"
             />
 
+        <CheckBoxPreference
+            android:key="stack_notifications"
+            android:title="@string/stack_notifications"
+            android:summary="@string/stack_notifications_summary"
+            android:dependency="notifications"
+            android:defaultValue="true"
+            />
+
         <ListPreference
             android:key="repeating_notification"
             android:title="@string/repeating_notification"
