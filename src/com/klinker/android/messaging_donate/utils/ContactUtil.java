@@ -115,30 +115,32 @@ public class ContactUtil {
                 Uri phoneUri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(origin));
                 Cursor phonesCursor = context.getContentResolver().query(phoneUri, new String[] {ContactsContract.Contacts.DISPLAY_NAME_PRIMARY, ContactsContract.RawContacts._ID}, null, null, ContactsContract.Contacts.DISPLAY_NAME + " desc limit 1");
 
-                if(phonesCursor != null && phonesCursor.moveToFirst()) {
-                    name = phonesCursor.getString(0);
-                } else
-                {
-                    if (!number.equals(""))
-                    {
-                        try
-                        {
-                            Locale sCachedLocale = Locale.getDefault();
-                            int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
-                            Editable editable = new SpannableStringBuilder(number);
-                            PhoneNumberUtils.formatNumber(editable, sFormatType);
-                            name = editable.toString();
-                        } catch (Exception e)
-                        {
-                            name = number;
-                        }
+                try {
+                    if(phonesCursor != null && phonesCursor.moveToFirst()) {
+                        name = phonesCursor.getString(0);
                     } else
                     {
-                        name = "No Information";
+                        if (!number.equals(""))
+                        {
+                            try
+                            {
+                                Locale sCachedLocale = Locale.getDefault();
+                                int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
+                                Editable editable = new SpannableStringBuilder(number);
+                                PhoneNumberUtils.formatNumber(editable, sFormatType);
+                                name = editable.toString();
+                            } catch (Exception e)
+                            {
+                                name = number;
+                            }
+                        } else
+                        {
+                            name = "No Information";
+                        }
                     }
+                } finally {
+                    phonesCursor.close();
                 }
-
-                phonesCursor.close();
             } else
             {
                 if (!number.equals(""))
@@ -190,24 +192,24 @@ public class ContactUtil {
                 Uri phoneUri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(origin));
                 Cursor phonesCursor = context.getContentResolver().query(phoneUri, new String[] {ContactsContract.Contacts.DISPLAY_NAME_PRIMARY, ContactsContract.RawContacts._ID}, null, null, ContactsContract.Contacts.DISPLAY_NAME + " desc limit 1");
 
-                if(phonesCursor != null && phonesCursor.moveToFirst()) {
-                    names += ", " + phonesCursor.getString(0);
-                } else
-                {
-                    try
+                try {
+                    if(phonesCursor != null && phonesCursor.moveToFirst()) {
+                        names += ", " + phonesCursor.getString(0);
+                    } else
                     {
-                        Locale sCachedLocale = Locale.getDefault();
-                        int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
-                        Editable editable = new SpannableStringBuilder(number[i]);
-                        PhoneNumberUtils.formatNumber(editable, sFormatType);
-                        names += ", " + editable.toString();
-                    } catch (Exception e)
-                    {
-                        names += ", " + number;
+                        try
+                        {
+                            Locale sCachedLocale = Locale.getDefault();
+                            int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
+                            Editable editable = new SpannableStringBuilder(number[i]);
+                            PhoneNumberUtils.formatNumber(editable, sFormatType);
+                            names += ", " + editable.toString();
+                        } catch (Exception e)
+                        {
+                            names += ", " + number;
+                        }
                     }
-                }
-
-                if (phonesCursor != null) {
+                } finally {
                     phonesCursor.close();
                 }
             } catch (IllegalArgumentException e)
@@ -355,6 +357,8 @@ public class ContactUtil {
                 }
 
                 return defaultPhoto;
+            } finally {
+                contact.close();
             }
         } catch (Exception e)
         {
