@@ -4299,9 +4299,10 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
-    // TODO start here
     @SuppressWarnings("deprecation")
     public void refreshViewPager() {
+        Log.v("refreshViewPager", "full refresh");
+
         pullToRefreshPosition = -1;
         String threadTitle = "0";
 
@@ -4550,6 +4551,8 @@ public class MainActivity extends FragmentActivity {
     }
 
     public void refreshViewPager3() {
+        Log.v("refreshViewPager", "quick refresh");
+
         if (MainActivity.animationOn) {
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -4573,6 +4576,8 @@ public class MainActivity extends FragmentActivity {
     }
 
     public void refreshViewPager4(String number, String body, String date) {
+        Log.v("refreshViewPager", "partial refresh");
+
         pullToRefreshPosition = -1;
         MainActivity.notChanged = false;
         MainActivity.threadedLoad = false;
@@ -4603,7 +4608,6 @@ public class MainActivity extends FragmentActivity {
 
         if (flag) {
             Log.v("refreshViewPager", "setting up menu again");
-            // TODO notifyDataSetChanged() here?
             if (menu != null) {
                 //menuAdapter =  new MenuArrayAdapter(this, conversations, MainActivity.mViewPager);
                 //menuLayout.setAdapter(menuAdapter);
@@ -4953,14 +4957,22 @@ public class MainActivity extends FragmentActivity {
         @Override
         public void onReceive(Context arg0, Intent arg1) {
             refreshViewPager4(ContactUtil.findRecipientId(arg1.getStringExtra("address"), arg0), arg1.getStringExtra("body"), arg1.getStringExtra("date"));
-            NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            mNotificationManager.cancel(1);
-            mNotificationManager.cancel(2);
-            mNotificationManager.cancel(4);
 
-            // TODO redo this stuff for determining whether or not we are already on that page...
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                    mNotificationManager.cancel(1);
+                    mNotificationManager.cancel(2);
+                    mNotificationManager.cancel(4);
+                }
+            }, 2000);
+
             try {
-                if (arg1.getStringExtra("address").replace(" ", "").replace("(", "").replace(")", "").replace("-", "").endsWith(ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), arg0).replace(" ", "").replace("(", "").replace(")", "").replace("-", ""))) {
+                String addressArg = arg1.getStringExtra("address").replace(" ", "").replace("(", "").replace(")", "").replace("-", "");
+                String currentAddress = ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), arg0).replace(" ", "").replace("(", "").replace(")", "").replace("-", "");
+
+                if (addressArg.startsWith(currentAddress) || addressArg.endsWith(currentAddress) || addressArg.equals(currentAddress)) {
                     animationReceived = 1;
                     animationThread = mViewPager.getCurrentItem();
                 } else {
@@ -4973,9 +4985,11 @@ public class MainActivity extends FragmentActivity {
             if (animationReceived == 2) {
                 if (settings.inAppNotifications) {
                     boolean flag = false;
+                    String addressArg = arg1.getStringExtra("address").replace(" ", "").replace("(", "").replace(")", "").replace("-", "");
                     for (int i = 0; i < appMsgConversations; i++) {
                         try {
-                            if (arg1.getStringExtra("address").replace(" ", "").replace("(", "").replace(")", "").replace("-", "").endsWith(ContactUtil.findContactNumber(conversations.get(i).getNumber(), arg0).replace(" ", "").replace("(", "").replace(")", "").replace("-", ""))) {
+                            String currentAddress = ContactUtil.findContactNumber(conversations.get(i).getNumber(), arg0).replace(" ", "").replace("(", "").replace(")", "").replace("-", "");
+                            if (addressArg.startsWith(currentAddress) || addressArg.endsWith(currentAddress) || addressArg.equals(currentAddress)) {
                                 flag = true;
                                 break;
                             }
