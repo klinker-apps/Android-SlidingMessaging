@@ -88,6 +88,14 @@
             android:dependency="enable_quick_peek"
             />
 
+        <CheckBoxPreference
+            android:key="quick_peek_send_voice"
+            android:title="@string/quick_peek_send_voice"
+            android:summary="@string/quick_peek_send_voice_summary"
+            android:defaultValue="false"
+            android:dependency="enable_quick_peek"
+            />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:key="slideover_positioning_category"

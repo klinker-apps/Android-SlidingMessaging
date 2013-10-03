@@ -24,6 +24,7 @@ import com.klinker.android.messaging_donate.utils.IOUtil;
 import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead2;
 import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
 import com.klinker.android.send_message.Message;
+import com.klinker.android.send_message.Settings;
 import com.klinker.android.send_message.Transaction;
 
 import java.util.ArrayList;
@@ -539,6 +540,14 @@ public class SlideOverService extends Service {
 
         send = (ImageButton) sendView.findViewById(R.id.send);
         cancel = (ImageButton) sendView.findViewById(R.id.cancel);
+
+        Settings mSettings = new Settings(MainActivity.sendSettings);
+
+        if (sharedPrefs.getBoolean("quick_peek_send_voice", false)) {
+            mSettings.setPreferVoice(false);
+        } else {
+            mSettings.setPreferVoice(true);
+        }
 
         sendTransaction = new Transaction (mContext, MainActivity.sendSettings);
     }

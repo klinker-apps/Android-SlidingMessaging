@@ -800,5 +800,7 @@
     <string name="conversation_list_images">Display Picture Previews</string>
     <string name="stack_notifications">Stack Incoming Texts</string>
     <string name="stack_notifications_summary">If disabled, notification will only show the most recently received message, it will not show all of the messages from the previous notification along with it.</string>
+    <string name="quick_peek_send_voice">Quick Peek: Send through Voice</string>
+    <string name="quick_peek_send_voice_summary">Only will apply if you have selected a Google Voice account to send through.</string>
 
 </resources>
