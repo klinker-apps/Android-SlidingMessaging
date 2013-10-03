@@ -15,6 +15,7 @@ import android.telephony.PhoneNumberUtils;
 import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.SpannableStringBuilder;
+import android.util.Log;
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
 
@@ -67,33 +68,31 @@ public class ContactUtil {
 
             Cursor id = context.getContentResolver().query(Uri.parse("content://mms-sms/canonical-addresses"), new String[] {"_id", "address"}, null, null, null);
 
-            for (int i = 0; i < ids.length; i++)
-            {
-                try
-                {
-                    if (ids[i] != null && (!ids[i].equals("") || !ids[i].equals(" ")))
-                    {
-                        if (id.moveToFirst())
-                        {
+            for (int i = 0; i < ids.length; i++) {
+                try {
+                    if (ids[i] != null && (!ids[i].equals("") || !ids[i].equals(" "))) {
+                        if (id.moveToFirst()) {
                             do {
-                                if (id.getString(id.getColumnIndex("address")).endsWith(number.replace("+1", "").replace(" ", "").replace("-", "").replace(")", "").replace("(", ""))) {
-                                    numbers += id.getString(id.getColumnIndex("_id"));
+                                String numberToMatch = id.getString(id.getColumnIndex("address")).replace("+1", "").replace(" ", "").replace("-", "").replace(")", "").replace("(", "");
+                                String against = ids[i].replace("+1", "").replace(" ", "").replace("-", "").replace(")", "").replace("(", "");
+
+                                Log.v("numberToMatch", numberToMatch + " " + against);
+                                if (numberToMatch.startsWith(against) || numberToMatch.endsWith(against) || numberToMatch.equals(against)) {
+                                    numbers += id.getString(id.getColumnIndex("_id")) + " ";
                                 }
                             } while (id.moveToNext());
-                        } else
-                        {
+                        } else {
                             numbers += ids[i] + " ";
                         }
-
-                        id.close();
                     }
-                } catch (Exception e)
-                {
+                } catch (Exception e) {
                     numbers += "0 ";
                 }
             }
 
-            return numbers;
+            id.close();
+
+            return numbers.trim();
         } catch (Exception e) {
             e.printStackTrace();
             return number;

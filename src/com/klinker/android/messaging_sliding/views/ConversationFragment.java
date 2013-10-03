@@ -84,9 +84,11 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
             if (!MainActivity.settings.cacheConversations || !CacheService.cached || !MainActivity.notChanged || !(position < MainActivity.settings.numOfCachedConversations)) {
                 messageQuery.close();
             }
-        } catch (Exception e) {
+        } catch (Exception e) { }
 
-        }
+        try {
+            MainActivity.cursorAdapters.remove(position);
+        } catch (Exception e) { }
     }
 
     @Override

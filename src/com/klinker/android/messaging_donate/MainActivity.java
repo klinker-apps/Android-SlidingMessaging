@@ -4574,19 +4574,8 @@ public class MainActivity extends FragmentActivity {
         pullToRefreshPosition = -1;
         MainActivity.notChanged = false;
         MainActivity.threadedLoad = false;
-        int position = mViewPager.getCurrentItem();
-
-//        mSectionsPagerAdapter = new SectionsPagerAdapter(
-//                getFragmentManager());
 
         mSectionsPagerAdapter.notifyDataSetChanged();
-
-//        try {
-//            mViewPager.setAdapter(mSectionsPagerAdapter);
-//            mViewPager.setCurrentItem(position);
-//        } catch (Exception e) {
-//            // probably the activity has already finished and trying to refresh at that exact moment
-//        }
 
         try
         {
@@ -4594,28 +4583,27 @@ public class MainActivity extends FragmentActivity {
         } catch (Exception e) { }
     }
 
-    public void refreshViewPager4(String number, String body, String date)
-    {
+    public void refreshViewPager4(String number, String body, String date) {
         pullToRefreshPosition = -1;
         MainActivity.notChanged = false;
         MainActivity.threadedLoad = false;
-        int position = mViewPager.getCurrentItem();
-        String currentNumber;
+        long currentThread = conversations.get(mViewPager.getCurrentItem()).getThreadId();
 
-        try {
-            currentNumber = conversations.get(mViewPager.getCurrentItem()).getNumber();
-        } catch (IndexOutOfBoundsException e) {
-            // no messages
+        Log.v("refreshViewPager", "currentThread: " + currentThread);
+
+        if (conversations.size() == 0) {
             refreshViewPager();
             return;
         }
 
         boolean flag = false;
 
-        for (int i = 0; i < conversations.size(); i++)
-        {
-            if (number.equals(conversations.get(i).getNumber()))
-            {
+        Log.v("refreshViewPager", "searching number match: " + number);
+
+        for (int i = 0; i < conversations.size(); i++) {
+            String convNumber = conversations.get(i).getNumber();
+            if (number.equals(convNumber)) {
+                Log.v("refreshViewPager", "found number match: " + convNumber + " " + number);
                 conversations.add(0, new Conversation(conversations.get(i).getThreadId(), conversations.get(i).getCount() + 1, "0", body, Long.parseLong(date), conversations.get(i).getNumber()));
                 conversations.remove(i + 1);
 
@@ -4625,9 +4613,12 @@ public class MainActivity extends FragmentActivity {
         }
 
         if (flag) {
+            Log.v("refreshViewPager", "setting up menu again");
+            // TODO notifyDataSetChanged() here?
             if (menu != null) {
-                menuAdapter =  new MenuArrayAdapter(this, conversations, MainActivity.mViewPager);
-                menuLayout.setAdapter(menuAdapter);
+                //menuAdapter =  new MenuArrayAdapter(this, conversations, MainActivity.mViewPager);
+                //menuLayout.setAdapter(menuAdapter);
+                menuAdapter.notifyDataSetChanged();
             } else {
                 ListFragment newFragment = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.menuList);
                 newFragment.setListAdapter(new MenuArrayAdapter(this, conversations, MainActivity.mViewPager));
@@ -4635,22 +4626,19 @@ public class MainActivity extends FragmentActivity {
 
             try {
                 mSectionsPagerAdapter.notifyDataSetChanged();
-                //mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
-                //mViewPager.setAdapter(mSectionsPagerAdapter);
             } catch (Exception e) {
                 // fragment most likely outside of activity now or something
             }
 
-//            for (int i = 0; i < conversations.size(); i++)
-//            {
-//                if (currentNumber.equals(conversations.get(i).getNumber()))
-//                {
-//                    position = i;
-//                    break;
+            // TODO check what the thread id is before we switch pages around and then switch back to that page if we aren't already
+//            if (currentThread != conversations.get(mViewPager.getCurrentItem()).getThreadId()) {
+//                for (int i = 0; i < conversations.size(); i++) {
+//                    if (conversations.get(i).getThreadId() == currentThread) {
+//                        mViewPager.setCurrentItem(i);
+//                        break;
+//                    }
 //                }
 //            }
-
-            //mViewPager.setCurrentItem(position, false);
 
             final ImageView glow = (ImageView) findViewById(R.id.newMessageGlow);
             glow.setVisibility(View.VISIBLE);
