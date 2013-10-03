@@ -85,7 +85,11 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
                 messageQuery.close();
             }
         } catch (Exception e) {
+        }
 
+        try {
+            MainActivity.cursorAdapters.remove(position);
+        } catch (Exception e) {
         }
     }
 

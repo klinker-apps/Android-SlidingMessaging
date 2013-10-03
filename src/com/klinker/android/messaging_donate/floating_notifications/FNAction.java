@@ -17,12 +17,12 @@ import robj.floating.notifications.Extension;
 
 public class FNAction extends BroadcastReceiver {
 
-    public  SharedPreferences sharedPrefs;
+    public SharedPreferences sharedPrefs;
 
-	@Override 
-        public void onReceive(final Context context, Intent intent) {
-		final long id = intent.getLongExtra(Extension.ID, -1);
-		int action = intent.getIntExtra(Extension.ACTION, -1);
+    @Override
+    public void onReceive(final Context context, Intent intent) {
+        final long id = intent.getLongExtra(Extension.ID, -1);
+        int action = intent.getIntExtra(Extension.ACTION, -1);
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
         if (intent.getAction().equals(Extension.INTENT)) {
@@ -111,5 +111,5 @@ public class FNAction extends BroadcastReceiver {
 
             }
         }
-	}
+    }
 }

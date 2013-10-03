@@ -21,7 +21,7 @@ import java.util.ArrayList;
 /**
  * Created by luke on 7/24/13.
  */
-public class SearchConversation extends Activity implements PullToRefreshAttacher.OnRefreshListener{
+public class SearchConversation extends Activity implements PullToRefreshAttacher.OnRefreshListener {
 
     public SharedPreferences sharedPrefs;
     private ArrayList<String[]> messages;
@@ -39,8 +39,7 @@ public class SearchConversation extends Activity implements PullToRefreshAttache
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        if (sharedPrefs.getBoolean("ct_light_action_bar", false))
-        {
+        if (sharedPrefs.getBoolean("ct_light_action_bar", false)) {
             setTheme(R.style.HangoutsTheme);
         }
 
@@ -50,22 +49,17 @@ public class SearchConversation extends Activity implements PullToRefreshAttache
 
         final ActionBar actionBar = getActionBar();
 
-        if (!sharedPrefs.getBoolean("ct_light_action_bar", false))
-        {
+        if (!sharedPrefs.getBoolean("ct_light_action_bar", false)) {
             actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.black)));
 
-            if (sharedPrefs.getInt("ct_conversationListBackground", getResources().getColor(R.color.light_silver)) == getResources().getColor(R.color.pitch_black))
-            {
-                if (!sharedPrefs.getBoolean("hide_title_bar", true))
-                {
+            if (sharedPrefs.getInt("ct_conversationListBackground", getResources().getColor(R.color.light_silver)) == getResources().getColor(R.color.pitch_black)) {
+                if (!sharedPrefs.getBoolean("hide_title_bar", true)) {
                     actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.pitch_black_action_bar_blue));
-                } else
-                {
+                } else {
                     actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.pitch_black)));
                 }
             }
-        } else
-        {
+        } else {
             actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.ab_hangouts));
         }
 
@@ -74,7 +68,7 @@ public class SearchConversation extends Activity implements PullToRefreshAttache
 
         int i = 0;
 
-        while(messages.get(i)[3].equals("1"))
+        while (messages.get(i)[3].equals("1"))
             i++;
 
         String contactName = ContactUtil.loadGroupContacts(messages.get(i)[0].replaceAll(" ", ""), this);
@@ -89,11 +83,9 @@ public class SearchConversation extends Activity implements PullToRefreshAttache
 
         lv.setDivider(new ColorDrawable(sharedPrefs.getInt("ct_messageDividerColor", getResources().getColor(R.color.light_silver))));
 
-        if (sharedPrefs.getBoolean("ct_messageDividerVisibility", true) && sharedPrefs.getString("run_as", "sliding").equals("sliding"))
-        {
+        if (sharedPrefs.getBoolean("ct_messageDividerVisibility", true) && sharedPrefs.getString("run_as", "sliding").equals("sliding")) {
             lv.setDividerHeight(1);
-        } else
-        {
+        } else {
             lv.setDividerHeight(0);
         }
 
@@ -103,20 +95,20 @@ public class SearchConversation extends Activity implements PullToRefreshAttache
 
     @Override
     public void onRefreshStarted(View view) {
-         
+
         new AsyncTask<Void, Void, Void>() {
 
             @Override
             protected Void doInBackground(Void... params) {
                 Uri uri = Uri.parse("content://sms/conversations/" + threadId);
-                Cursor c = getContentResolver().query(uri, null, null ,null, "date DESC");
+                Cursor c = getContentResolver().query(uri, null, null, null, "date DESC");
 
                 int i;
 
                 messages.clear();
 
-                if(c.moveToLast()){
-                    for(i=0;i<c.getCount();i++){
+                if (c.moveToLast()) {
+                    for (i = 0; i < c.getCount(); i++) {
 
                         String[] data = new String[6];
                         data[0] = c.getString(c.getColumnIndexOrThrow("address"));
@@ -149,30 +141,27 @@ public class SearchConversation extends Activity implements PullToRefreshAttache
         }.execute();
     }
 
-    public Activity getActivity()
-    {
+    public Activity getActivity() {
         return this;
     }
 
-    public ArrayList<String[]> fillList(String id)
-    {
+    public ArrayList<String[]> fillList(String id) {
         ArrayList<String[]> messages = new ArrayList<String[]>();
 
-        Uri uri ;
+        Uri uri;
         Cursor c;
         uri = Uri.parse("content://sms");
-        c = getContentResolver().query(uri, null, null ,null, "date DESC");
+        c = getContentResolver().query(uri, null, null, null, "date DESC");
 
         String messageId = "";
         int i = 0;
 
-        if(c.moveToFirst()){
-            for(i=0;i<c.getCount();i++){
+        if (c.moveToFirst()) {
+            for (i = 0; i < c.getCount(); i++) {
 
                 messageId = c.getString(c.getColumnIndexOrThrow("_id"));
 
-                if (messageId.equals(id))
-                {
+                if (messageId.equals(id)) {
                     threadId = c.getString(c.getColumnIndexOrThrow("thread_id"));
                     break;
                 }
@@ -184,15 +173,14 @@ public class SearchConversation extends Activity implements PullToRefreshAttache
         c.close();
 
         uri = Uri.parse("content://sms/conversations/" + threadId);
-        c = getContentResolver().query(uri, null, null ,null, "date DESC");
+        c = getContentResolver().query(uri, null, null, null, "date DESC");
 
-        if(c.moveToFirst()){
-            for(i=0;i<c.getCount();i++){
+        if (c.moveToFirst()) {
+            for (i = 0; i < c.getCount(); i++) {
 
                 messageId = c.getString(c.getColumnIndexOrThrow("_id"));
 
-                if (messageId.equals(id))
-                {
+                if (messageId.equals(id)) {
                     break;
                 }
 
@@ -212,8 +200,7 @@ public class SearchConversation extends Activity implements PullToRefreshAttache
             if (i > maxLength - 10 && i < 10) // case 1
             {
                 c.moveToLast();
-                for(int x = maxLength; x > 0; x--)
-                {
+                for (int x = maxLength; x > 0; x--) {
                     String[] data = new String[6];
                     data[0] = c.getString(c.getColumnIndexOrThrow("address"));
                     data[1] = c.getString(c.getColumnIndexOrThrow("body"));
@@ -228,8 +215,7 @@ public class SearchConversation extends Activity implements PullToRefreshAttache
             } else if (i > maxLength - 10 && i > 10) // case 2
             {
                 c.moveToLast();
-                for (int x = maxLength; x > i - 10; x--)
-                {
+                for (int x = maxLength; x > i - 10; x--) {
                     String[] data = new String[6];
                     data[0] = c.getString(c.getColumnIndexOrThrow("address"));
                     data[1] = c.getString(c.getColumnIndexOrThrow("body"));
@@ -244,8 +230,7 @@ public class SearchConversation extends Activity implements PullToRefreshAttache
             } else if (i < maxLength - 10 && i < 10) // case 3
             {
                 c.move(i + 9);
-                for (int x = i + 10; x > 0; x--)
-                {
+                for (int x = i + 10; x > 0; x--) {
                     String[] data = new String[6];
                     data[0] = c.getString(c.getColumnIndexOrThrow("address"));
                     data[1] = c.getString(c.getColumnIndexOrThrow("body"));
@@ -262,8 +247,7 @@ public class SearchConversation extends Activity implements PullToRefreshAttache
                 for (int x = 0; x < 10; x++)
                     c.moveToNext();
 
-                for (int x = i + 10; x > i - 10; x--)
-                {
+                for (int x = i + 10; x > i - 10; x--) {
                     String[] data = new String[6];
                     data[0] = c.getString(c.getColumnIndexOrThrow("address"));
                     data[1] = c.getString(c.getColumnIndexOrThrow("body"));
@@ -281,7 +265,7 @@ public class SearchConversation extends Activity implements PullToRefreshAttache
 
         return messages;
     }
-    
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();

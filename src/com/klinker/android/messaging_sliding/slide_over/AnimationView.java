@@ -49,7 +49,7 @@ public class AnimationView extends ViewGroup {
 
         TEXT_SIZE = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 14, context.getResources().getDisplayMetrics());
 
-        Display d = ((WindowManager)mContext.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+        Display d = ((WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         height = d.getHeight();
         width = d.getWidth();
 
@@ -68,30 +68,30 @@ public class AnimationView extends ViewGroup {
 
         this.halo = halo;
 
-        circleRadius = (halo.getWidth()) + (TEXT_SIZE/2) - (float)(halo.getWidth()*.02);
-        circlePaint.setStrokeWidth(TEXT_SIZE + (float)((halo.getWidth()*.08)));
+        circleRadius = (halo.getWidth()) + (TEXT_SIZE / 2) - (float) (halo.getWidth() * .02);
+        circlePaint.setStrokeWidth(TEXT_SIZE + (float) ((halo.getWidth() * .08)));
 
         int radius = halo.getWidth();
-        int xOffset = (int)(-1 * (1 - SlideOverService.HALO_SLIVER_RATIO) * radius);
-        int yOffset = (int)(SlideOverService.PERCENT_DOWN_SCREEN);
+        int xOffset = (int) (-1 * (1 - SlideOverService.HALO_SLIVER_RATIO) * radius);
+        int yOffset = (int) (SlideOverService.PERCENT_DOWN_SCREEN);
 
         if (!sharedPrefs.getString("slideover_side", "left").equals("left")) {
             xOffset = (int) (width - (halo.getWidth() * (SlideOverService.HALO_SLIVER_RATIO)));
         }
 
         oval = new RectF(xOffset, yOffset, xOffset + radius, yOffset + radius);
-        oval2 = new RectF(xOffset + (float)(halo.getWidth()*.02) - (TEXT_SIZE/2), yOffset + (float)(halo.getWidth()*.02) - (TEXT_SIZE/2), xOffset + circleRadius, yOffset + circleRadius);
-        arcOffset = (float)(3.14 * radius * (SlideOverService.HALO_SLIVER_RATIO + .1));
+        oval2 = new RectF(xOffset + (float) (halo.getWidth() * .02) - (TEXT_SIZE / 2), yOffset + (float) (halo.getWidth() * .02) - (TEXT_SIZE / 2), xOffset + circleRadius, yOffset + circleRadius);
+        arcOffset = (float) (3.14 * radius * (SlideOverService.HALO_SLIVER_RATIO + .1));
         ORIG_ARC_OFFSET = arcOffset;
         textPath = new Path();
 
-        int arcLength = (int)(360 - ((1 - SlideOverService.HALO_SLIVER_RATIO - .1) * 360));
-        maxCircleLength =  -1 * arcLength;
+        int arcLength = (int) (360 - ((1 - SlideOverService.HALO_SLIVER_RATIO - .1) * 360));
+        maxCircleLength = -1 * arcLength;
         circleLength = 0;
         int arcStart;
 
         if (!sharedPrefs.getString("slideover_side", "left").equals("left")) {
-            arcStart = (int)(0 + ((1 - SlideOverService.HALO_SLIVER_RATIO - .1)*180));
+            arcStart = (int) (0 + ((1 - SlideOverService.HALO_SLIVER_RATIO - .1) * 180));
             circleStart = arcStart * -1;
 
             if (SlideOverService.HALO_SLIVER_RATIO >= .80) {
@@ -104,7 +104,7 @@ public class AnimationView extends ViewGroup {
                 maxCircleLength = -180;
             }
         } else {
-            arcStart = (int)(180 + ((1 - SlideOverService.HALO_SLIVER_RATIO - .1)*180));
+            arcStart = (int) (180 + ((1 - SlideOverService.HALO_SLIVER_RATIO - .1) * 180));
             circleStart = arcStart * -1;
 
             if (SlideOverService.HALO_SLIVER_RATIO >= .80) {

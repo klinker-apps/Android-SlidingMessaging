@@ -50,7 +50,7 @@ public class IOUtil {
     }
 
     public static String getPath(Uri uri, Context context) {
-        String[] projection = { MediaStore.Images.Media.DATA };
+        String[] projection = {MediaStore.Images.Media.DATA};
         Cursor cursor = context.getContentResolver().query(uri, projection, null, null, null);
         cursor.moveToFirst();
         return cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
@@ -61,8 +61,8 @@ public class IOUtil {
         File myDir = new File(root + "/Download");
         myDir.mkdirs();
         String fname = d + ".jpg";
-        File file = new File (myDir, fname);
-        if (file.exists ()) file.delete ();
+        File file = new File(myDir, fname);
+        if (file.exists()) file.delete();
         try {
             FileOutputStream out = new FileOutputStream(file);
             finalBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
@@ -78,128 +78,121 @@ public class IOUtil {
         Toast.makeText(context, context.getResources().getString(R.string.save_image), Toast.LENGTH_SHORT).show();
     }
 
-    public static Bitmap decodeFile(File f){
+    public static Bitmap decodeFile(File f) {
         try {
             //Decode image size
             BitmapFactory.Options o = new BitmapFactory.Options();
             o.inJustDecodeBounds = true;
-            BitmapFactory.decodeStream(new FileInputStream(f),null,o);
+            BitmapFactory.decodeStream(new FileInputStream(f), null, o);
 
             //The new size we want to scale to
-            final int REQUIRED_SIZE=200;
+            final int REQUIRED_SIZE = 200;
 
             //Find the correct scale value. It should be the power of 2.
-            int scale=1;
-            while(o.outWidth/scale/2>=REQUIRED_SIZE && o.outHeight/scale/2>=REQUIRED_SIZE)
-                scale*=2;
+            int scale = 1;
+            while (o.outWidth / scale / 2 >= REQUIRED_SIZE && o.outHeight / scale / 2 >= REQUIRED_SIZE)
+                scale *= 2;
 
             //Decode with inSampleSize
             BitmapFactory.Options o2 = new BitmapFactory.Options();
-            o2.inSampleSize=scale;
+            o2.inSampleSize = scale;
             return BitmapFactory.decodeStream(new FileInputStream(f), null, o2);
-        } catch (FileNotFoundException e) {}
+        } catch (FileNotFoundException e) {
+        }
         return null;
     }
 
-    public static Bitmap decodeFileWithExif(File f){
+    public static Bitmap decodeFileWithExif(File f) {
         try {
             //Decode image size
             BitmapFactory.Options o = new BitmapFactory.Options();
             o.inJustDecodeBounds = true;
-            BitmapFactory.decodeStream(new FileInputStream(f),null,o);
+            BitmapFactory.decodeStream(new FileInputStream(f), null, o);
 
             //The new size we want to scale to
-            final int REQUIRED_SIZE=150;
+            final int REQUIRED_SIZE = 150;
 
             //Find the correct scale value. It should be the power of 2.
-            int scale=1;
-            while(o.outWidth/scale/2>=REQUIRED_SIZE && o.outHeight/scale/2>=REQUIRED_SIZE)
-                scale*=2;
+            int scale = 1;
+            while (o.outWidth / scale / 2 >= REQUIRED_SIZE && o.outHeight / scale / 2 >= REQUIRED_SIZE)
+                scale *= 2;
 
             //Decode with inSampleSize
             BitmapFactory.Options o2 = new BitmapFactory.Options();
-            o2.inSampleSize=scale;
+            o2.inSampleSize = scale;
             Bitmap image = BitmapFactory.decodeStream(new FileInputStream(f), null, o2);
 
-            try
-            {
+            try {
                 ExifInterface exif = new ExifInterface(f.getAbsolutePath());
                 int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
 
-                if (orientation == 6)
-                {
+                if (orientation == 6) {
                     Matrix matrix = new Matrix();
                     matrix.postRotate(90);
                     image = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(), matrix, true);
-                } else if (orientation == 3)
-                {
+                } else if (orientation == 3) {
                     Matrix matrix = new Matrix();
                     matrix.postRotate(180);
                     image = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(), matrix, true);
-                } else if (orientation == 8)
-                {
+                } else if (orientation == 8) {
                     Matrix matrix = new Matrix();
                     matrix.postRotate(2700);
                     image = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(), matrix, true);
                 }
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
             return image;
-        } catch (FileNotFoundException e) {}
+        } catch (FileNotFoundException e) {
+        }
         return null;
     }
 
-    public static Bitmap decodeFileWithExif2(File f){
+    public static Bitmap decodeFileWithExif2(File f) {
         try {
             //Decode image size
             BitmapFactory.Options o = new BitmapFactory.Options();
             o.inJustDecodeBounds = true;
-            BitmapFactory.decodeStream(new FileInputStream(f),null,o);
+            BitmapFactory.decodeStream(new FileInputStream(f), null, o);
 
             //The new size we want to scale to
-            int REQUIRED_SIZE=300;
+            int REQUIRED_SIZE = 300;
 
             //Find the correct scale value. It should be the power of 2.
-            int scale=1;
-            while(o.outWidth/scale/2>=REQUIRED_SIZE && o.outHeight/scale/2>=REQUIRED_SIZE)
-                scale*=2;
+            int scale = 1;
+            while (o.outWidth / scale / 2 >= REQUIRED_SIZE && o.outHeight / scale / 2 >= REQUIRED_SIZE)
+                scale *= 2;
 
             //Decode with inSampleSize
             BitmapFactory.Options o2 = new BitmapFactory.Options();
-            o2.inSampleSize=scale;
+            o2.inSampleSize = scale;
             Bitmap image = BitmapFactory.decodeStream(new FileInputStream(f), null, o2);
 
-            try
-            {
+            try {
                 ExifInterface exif = new ExifInterface(f.getPath());
                 int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
 
-                if (orientation == 6)
-                {
+                if (orientation == 6) {
                     Matrix matrix = new Matrix();
                     matrix.postRotate(90);
                     image = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(), matrix, true);
-                } else if (orientation == 3)
-                {
+                } else if (orientation == 3) {
                     Matrix matrix = new Matrix();
                     matrix.postRotate(180);
                     image = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(), matrix, true);
-                } else if (orientation == 8)
-                {
+                } else if (orientation == 8) {
                     Matrix matrix = new Matrix();
                     matrix.postRotate(2700);
                     image = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(), matrix, true);
                 }
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
             return image;
-        } catch (FileNotFoundException e) {}
+        } catch (FileNotFoundException e) {
+        }
         return null;
     }
 
@@ -207,7 +200,7 @@ public class IOUtil {
         boolean unlocked = true;
 
         File sdCard = Environment.getExternalStorageDirectory();
-        File dir = new File (sdCard.getAbsolutePath() + "/Android/data/com.klinker.android/");
+        File dir = new File(sdCard.getAbsolutePath() + "/Android/data/com.klinker.android/");
         dir.mkdirs();
         File file = new File(dir, "messaging_expires.txt");
 
@@ -222,7 +215,8 @@ public class IOUtil {
                 } else {
                     return true;
                 }
-            } catch (Exception e) { }
+            } catch (Exception e) {
+            }
         } else {
             try {
                 FileOutputStream f = new FileOutputStream(file);
@@ -235,7 +229,8 @@ public class IOUtil {
                 f.close();
 
                 return true;
-            } catch (Exception e) { }
+            } catch (Exception e) {
+            }
         }
 
         return unlocked;
@@ -243,167 +238,151 @@ public class IOUtil {
 
     public static ArrayList<String> readNewMessages(Context context) {
 
-	      ArrayList<String> ret = new ArrayList<String>();
+        ArrayList<String> ret = new ArrayList<String>();
 
-	      try {
-	          InputStream inputStream = context.openFileInput("newMessages.txt");
+        try {
+            InputStream inputStream = context.openFileInput("newMessages.txt");
 
-	          if ( inputStream != null ) {
-	          	InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-	          	BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-	          	String receiveString = "";
+            if (inputStream != null) {
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                String receiveString = "";
 
-	          	while ( (receiveString = bufferedReader.readLine()) != null ) {
-	          		ret.add(receiveString);
-	          	}
+                while ((receiveString = bufferedReader.readLine()) != null) {
+                    ret.add(receiveString);
+                }
 
-	          	inputStream.close();
-	          }
-	      }
-	      catch (FileNotFoundException e) {
+                inputStream.close();
+            }
+        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
+        }
 
-			} catch (IOException e) {
-
-			}
-
-	      return ret;
-		}
+        return ret;
+    }
 
     public static void writeNewMessages(ArrayList<String> data, Context context) {
-	        try {
-	            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("newMessages.txt", Context.MODE_PRIVATE));
+        try {
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("newMessages.txt", Context.MODE_PRIVATE));
 
-	            for (int i = 0; i < data.size(); i++)
-	            {
-	            	outputStreamWriter.write(data.get(i) + "\n");
-	            }
+            for (int i = 0; i < data.size(); i++) {
+                outputStreamWriter.write(data.get(i) + "\n");
+            }
 
-	            outputStreamWriter.close();
-	        }
-	        catch (IOException e) {
-
-	        }
-
-		}
+            outputStreamWriter.close();
+        } catch (IOException e) {
+        }
+    }
 
     public static ArrayList<String> readNotifications(Context context) {
 
-		      ArrayList<String> ret = new ArrayList<String>();
+        ArrayList<String> ret = new ArrayList<String>();
 
-		      try {
-		          InputStream inputStream = context.openFileInput("notifications.txt");
+        try {
+            InputStream inputStream = context.openFileInput("notifications.txt");
 
-		          if ( inputStream != null ) {
-		          	InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-		          	BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-		          	String receiveString = "";
+            if (inputStream != null) {
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                String receiveString = "";
 
-		          	while ( (receiveString = bufferedReader.readLine()) != null ) {
-		          		ret.add(receiveString);
-		          	}
+                while ((receiveString = bufferedReader.readLine()) != null) {
+                    ret.add(receiveString);
+                }
 
-		          	inputStream.close();
-		          }
-		      }
-		      catch (FileNotFoundException e) {
+                inputStream.close();
+            }
+        } catch (FileNotFoundException e) {
 
-				} catch (IOException e) {
+        } catch (IOException e) {
 
-				}
+        }
 
-		      return ret;
-			}
+        return ret;
+    }
 
     public static void writeNotifications(ArrayList<String> data, Context context) {
-		        try {
-		            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("notifications.txt", Context.MODE_PRIVATE));
+        try {
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("notifications.txt", Context.MODE_PRIVATE));
 
-		            for (int i = 0; i < data.size(); i++)
-		            {
-		            	outputStreamWriter.write(data.get(i) + "\n");
-		            }
+            for (int i = 0; i < data.size(); i++) {
+                outputStreamWriter.write(data.get(i) + "\n");
+            }
 
-		            outputStreamWriter.close();
-		        }
-		        catch (IOException e) {
+            outputStreamWriter.close();
+        } catch (IOException e) {
 
-		        }
+        }
 
-			}
+    }
 
     @SuppressWarnings("resource")
-			public static ArrayList<IndividualSetting> readIndividualNotifications(Context context) {
+    public static ArrayList<IndividualSetting> readIndividualNotifications(Context context) {
 
-			      ArrayList<IndividualSetting> ret = new ArrayList<IndividualSetting>();
+        ArrayList<IndividualSetting> ret = new ArrayList<IndividualSetting>();
 
-			      try {
-			          InputStream inputStream;
+        try {
+            InputStream inputStream;
 
-			          if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("save_to_external", true))
-			          {
-			         	 inputStream = new FileInputStream(Environment.getExternalStorageDirectory() + "/SlidingMessaging/individualNotifications.txt");
-			          } else
-			          {
-			        	  inputStream = context.openFileInput("individualNotifications.txt");
-			          }
+            if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("save_to_external", true)) {
+                inputStream = new FileInputStream(Environment.getExternalStorageDirectory() + "/SlidingMessaging/individualNotifications.txt");
+            } else {
+                inputStream = context.openFileInput("individualNotifications.txt");
+            }
 
-			          if ( inputStream != null ) {
-			          	InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-			          	BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-			          	String receiveString = "";
+            if (inputStream != null) {
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                String receiveString = "";
 
-			          	while ( (receiveString = bufferedReader.readLine()) != null) {
-			          		ret.add(new IndividualSetting(receiveString, Integer.parseInt(bufferedReader.readLine()), bufferedReader.readLine(), bufferedReader.readLine()));
-			          	}
+                while ((receiveString = bufferedReader.readLine()) != null) {
+                    ret.add(new IndividualSetting(receiveString, Integer.parseInt(bufferedReader.readLine()), bufferedReader.readLine(), bufferedReader.readLine()));
+                }
 
-			          	inputStream.close();
-			          }
-			      }
-			      catch (FileNotFoundException e) {
+                inputStream.close();
+            }
+        } catch (FileNotFoundException e) {
 
-					} catch (IOException e) {
+        } catch (IOException e) {
 
-					}
+        }
 
-			      return ret;
-				}
+        return ret;
+    }
 
     @SuppressWarnings("resource")
-			public static ArrayList<BlacklistContact> readBlacklist(Context context) {
+    public static ArrayList<BlacklistContact> readBlacklist(Context context) {
 
-			      ArrayList<BlacklistContact> ret = new ArrayList<BlacklistContact>();
+        ArrayList<BlacklistContact> ret = new ArrayList<BlacklistContact>();
 
-			      try {
-			    	  InputStream inputStream;
+        try {
+            InputStream inputStream;
 
-			          if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("save_to_external", true))
-			          {
-			         	 inputStream = new FileInputStream(Environment.getExternalStorageDirectory() + "/SlidingMessaging/blacklist.txt");
-			          } else
-			          {
-			        	  inputStream = context.openFileInput("blacklist.txt");
-			          }
+            if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("save_to_external", true)) {
+                inputStream = new FileInputStream(Environment.getExternalStorageDirectory() + "/SlidingMessaging/blacklist.txt");
+            } else {
+                inputStream = context.openFileInput("blacklist.txt");
+            }
 
-			          if ( inputStream != null ) {
-			          	InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-			          	BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-			          	String receiveString = "";
+            if (inputStream != null) {
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                String receiveString = "";
 
-			          	while ( (receiveString = bufferedReader.readLine()) != null) {
-			          		ret.add(new BlacklistContact(receiveString, Integer.parseInt(bufferedReader.readLine())));
-			          	}
+                while ((receiveString = bufferedReader.readLine()) != null) {
+                    ret.add(new BlacklistContact(receiveString, Integer.parseInt(bufferedReader.readLine())));
+                }
 
-			          	inputStream.close();
-			          }
-			      }
-			      catch (FileNotFoundException e) {
+                inputStream.close();
+            }
+        } catch (FileNotFoundException e) {
 
-					} catch (IOException e) {
+        } catch (IOException e) {
 
-					}
+        }
 
-			      return ret;
-				}
+        return ret;
+    }
 
     @SuppressWarnings("resource")
     public static ArrayList<String> readTemplates(Context context) {
@@ -413,27 +392,24 @@ public class IOUtil {
         try {
             InputStream inputStream;
 
-            if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("save_to_external", true))
-            {
+            if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("save_to_external", true)) {
                 inputStream = new FileInputStream(Environment.getExternalStorageDirectory() + "/SlidingMessaging/templates.txt");
-            } else
-            {
+            } else {
                 inputStream = context.openFileInput("templates.txt");
             }
 
-            if ( inputStream != null ) {
+            if (inputStream != null) {
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
                 String receiveString = "";
 
-                while ( (receiveString = bufferedReader.readLine()) != null ) {
+                while ((receiveString = bufferedReader.readLine()) != null) {
                     ret.add(receiveString);
                 }
 
                 inputStream.close();
             }
-        }
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
 
         } catch (IOException e) {
 
@@ -443,58 +419,50 @@ public class IOUtil {
     }
 
     public static void writeBlacklist(ArrayList<BlacklistContact> data, Context context) {
-try {
-          OutputStreamWriter outputStreamWriter;
+        try {
+            OutputStreamWriter outputStreamWriter;
 
-if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("save_to_external", true))
-{
-              outputStreamWriter = new OutputStreamWriter(new FileOutputStream(Environment.getExternalStorageDirectory() + "/SlidingMessaging/blacklist.txt"));
-} else
-{
-              outputStreamWriter = new OutputStreamWriter(context.openFileOutput("blacklist.txt", Context.MODE_PRIVATE));
-}
+            if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("save_to_external", true)) {
+                outputStreamWriter = new OutputStreamWriter(new FileOutputStream(Environment.getExternalStorageDirectory() + "/SlidingMessaging/blacklist.txt"));
+            } else {
+                outputStreamWriter = new OutputStreamWriter(context.openFileOutput("blacklist.txt", Context.MODE_PRIVATE));
+            }
 
-for (int i = 0; i < data.size(); i++)
-{
-              BlacklistContact write = data.get(i);
+            for (int i = 0; i < data.size(); i++) {
+                BlacklistContact write = data.get(i);
 
-              outputStreamWriter.write(write.name + "\n" + write.type + "\n");
-}
+                outputStreamWriter.write(write.name + "\n" + write.type + "\n");
+            }
 
-outputStreamWriter.close();
-}
-catch (IOException e) {
+            outputStreamWriter.close();
+        } catch (IOException e) {
 
-}
+        }
 
-  }
+    }
 
     public static void writeIndividualNotifications(ArrayList<IndividualSetting> data, Context context) {
-try {
-OutputStreamWriter outputStreamWriter;
+        try {
+            OutputStreamWriter outputStreamWriter;
 
-if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("save_to_external", true))
-{
-              outputStreamWriter = new OutputStreamWriter(new FileOutputStream(Environment.getExternalStorageDirectory() + "/SlidingMessaging/individualNotifications.txt"));
-} else
-{
-              outputStreamWriter = new OutputStreamWriter(context.openFileOutput("individualNotifications.txt", Context.MODE_PRIVATE));
-}
+            if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("save_to_external", true)) {
+                outputStreamWriter = new OutputStreamWriter(new FileOutputStream(Environment.getExternalStorageDirectory() + "/SlidingMessaging/individualNotifications.txt"));
+            } else {
+                outputStreamWriter = new OutputStreamWriter(context.openFileOutput("individualNotifications.txt", Context.MODE_PRIVATE));
+            }
 
-for (int i = 0; i < data.size(); i++)
-{
-              IndividualSetting write = data.get(i);
+            for (int i = 0; i < data.size(); i++) {
+                IndividualSetting write = data.get(i);
 
-              outputStreamWriter.write(write.name + "\n" + write.color + "\n" + write.vibratePattern + "\n" + write.ringtone + "\n");
-}
+                outputStreamWriter.write(write.name + "\n" + write.color + "\n" + write.vibratePattern + "\n" + write.ringtone + "\n");
+            }
 
-outputStreamWriter.close();
-}
-catch (IOException e) {
+            outputStreamWriter.close();
+        } catch (IOException e) {
 
-}
+        }
 
-  }
+    }
 
     @SuppressWarnings("resource")
     public static ArrayList<String[]> readScheduledSMS(Context context) {
@@ -504,25 +472,23 @@ catch (IOException e) {
         try {
             InputStream inputStream;
 
-            if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("save_to_external", true))
-            {
+            if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("save_to_external", true)) {
                 inputStream = new FileInputStream(Environment.getExternalStorageDirectory() + "/SlidingMessaging/scheduledSMS.txt");
-            } else
-            {
+            } else {
                 inputStream = context.openFileInput("scheduledSMS.txt");
             }
 
-            if ( inputStream != null ) {
+            if (inputStream != null) {
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
                 String receiveString = "";
 
-                while ( (receiveString = bufferedReader.readLine()) != null ) {
+                while ((receiveString = bufferedReader.readLine()) != null) {
 
                     String[] details = new String[5];
                     details[0] = receiveString;
 
-                    for(int i = 1; i < 5; i++)
+                    for (int i = 1; i < 5; i++)
                         details[i] = bufferedReader.readLine();
 
                     ret.add(details);
@@ -530,8 +496,7 @@ catch (IOException e) {
 
                 inputStream.close();
             }
-        }
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
 
         } catch (IOException e) {
 
@@ -545,28 +510,23 @@ catch (IOException e) {
 
             OutputStreamWriter outputStreamWriter;
 
-            if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("save_to_external", true))
-            {
+            if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("save_to_external", true)) {
                 outputStreamWriter = new OutputStreamWriter(new FileOutputStream(Environment.getExternalStorageDirectory() + "/SlidingMessaging/scheduledSMS.txt"));
-            } else
-            {
+            } else {
                 outputStreamWriter = new OutputStreamWriter(context.openFileOutput("scheduledSMS.txt", Context.MODE_PRIVATE));
             }
 
-            for (int i = 0; i < data.size(); i++)
-            {
+            for (int i = 0; i < data.size(); i++) {
                 String[] details = data.get(i);
 
-                for (int j = 0; j < 5; j++)
-                {
+                for (int j = 0; j < 5; j++) {
                     outputStreamWriter.write(details[j] + "\n");
                 }
 
             }
 
             outputStreamWriter.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
 
         }
 
@@ -583,27 +543,24 @@ catch (IOException e) {
         try {
             InputStream inputStream;
 
-            if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("save_to_external", true))
-            {
+            if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("save_to_external", true)) {
                 inputStream = new FileInputStream(Environment.getExternalStorageDirectory() + "/SlidingMessaging/scheduledSMS.txt");
-            } else
-            {
+            } else {
                 inputStream = context.openFileInput("scheduledSMS.txt");
             }
 
 
-
-            if ( inputStream != null ) {
+            if (inputStream != null) {
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
                 String receiveString = "";
 
-                while ( (receiveString = bufferedReader.readLine()) != null ) {
+                while ((receiveString = bufferedReader.readLine()) != null) {
 
                     String[] details = new String[5];
                     details[0] = receiveString;
 
-                    for(int i = 1; i < 5; i++)
+                    for (int i = 1; i < 5; i++)
                         details[i] = bufferedReader.readLine();
 
                     ret.add(details);
@@ -611,8 +568,7 @@ catch (IOException e) {
 
                 inputStream.close();
             }
-        }
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
 
         } catch (IOException e) {
 
@@ -622,86 +578,76 @@ catch (IOException e) {
     }
 
     public static void writeTemplates(ArrayList<String> data, Context context) {
-try {
+        try {
 
-          OutputStreamWriter outputStreamWriter;
+            OutputStreamWriter outputStreamWriter;
 
-if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("save_to_external", true))
-{
-              outputStreamWriter = new OutputStreamWriter(new FileOutputStream(Environment.getExternalStorageDirectory() + "/SlidingMessaging/templates.txt"));
-} else
-{
-              outputStreamWriter = new OutputStreamWriter(context.openFileOutput("templates.txt", Context.MODE_PRIVATE));
-}
+            if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("save_to_external", true)) {
+                outputStreamWriter = new OutputStreamWriter(new FileOutputStream(Environment.getExternalStorageDirectory() + "/SlidingMessaging/templates.txt"));
+            } else {
+                outputStreamWriter = new OutputStreamWriter(context.openFileOutput("templates.txt", Context.MODE_PRIVATE));
+            }
 
-for (int i = 0; i < data.size(); i++)
-{
-              outputStreamWriter.write(data.get(i) + "\n");
-}
+            for (int i = 0; i < data.size(); i++) {
+                outputStreamWriter.write(data.get(i) + "\n");
+            }
 
-outputStreamWriter.close();
-}
-catch (IOException e) {
+            outputStreamWriter.close();
+        } catch (IOException e) {
 
-}
+        }
 
-  }
+    }
 
     public static void writeTheme(String data, String name) {
         String[] data2 = data.split("\n");
-try {
-File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/SlidingMessaging", name);
-FileOutputStream f = new FileOutputStream(file);
-PrintWriter pw = new PrintWriter(f);
+        try {
+            File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/SlidingMessaging", name);
+            FileOutputStream f = new FileOutputStream(file);
+            PrintWriter pw = new PrintWriter(f);
 
-for (int i = 0; i < data2.length; i++)
-{
+            for (int i = 0; i < data2.length; i++) {
                 pw.println(data2[i]);
-}
+            }
 
-pw.flush();
-pw.close();
-f.close();
-}
-catch (Exception e) {
+            pw.flush();
+            pw.close();
+            f.close();
+        } catch (Exception e) {
 
-}
+        }
 
     }
 
     public static String readTheme(String fileName) {
 
-          String ret = "";
+        String ret = "";
 
-          try {
-              File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/SlidingMessaging", fileName);
-              @SuppressWarnings("resource")
+        try {
+            File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/SlidingMessaging", fileName);
+            @SuppressWarnings("resource")
             BufferedReader reader = new BufferedReader(new FileReader(file));
 
-              String s = "";
+            String s = "";
 
-              while ((s = reader.readLine()) != null)
-              {
-                  ret += s + "\n";
-              }
-
-          }
-          catch (FileNotFoundException e) {
-
-            } catch (IOException e) {
-
+            while ((s = reader.readLine()) != null) {
+                ret += s + "\n";
             }
 
-          return ret;
-}
+        } catch (FileNotFoundException e) {
 
-    public static boolean loadSharedPreferencesFromFile(File src, Context context)
-    {
+        } catch (IOException e) {
+
+        }
+
+        return ret;
+    }
+
+    public static boolean loadSharedPreferencesFromFile(File src, Context context) {
         boolean res = false;
         ObjectInputStream input = null;
 
-        try
-        {
+        try {
             input = new ObjectInputStream(new FileInputStream(src));
             SharedPreferences.Editor prefEdit = PreferenceManager.getDefaultSharedPreferences(context).edit();
             prefEdit.clear();
@@ -709,25 +655,19 @@ catch (Exception e) {
             @SuppressWarnings("unchecked")
             Map<String, ?> entries = (Map<String, ?>) input.readObject();
 
-            for (Map.Entry<String, ?> entry : entries.entrySet())
-            {
+            for (Map.Entry<String, ?> entry : entries.entrySet()) {
                 Object v = entry.getValue();
                 String key = entry.getKey();
 
-                if (v instanceof Boolean)
-                {
+                if (v instanceof Boolean) {
                     prefEdit.putBoolean(key, ((Boolean) v).booleanValue());
-                } else if (v instanceof Float)
-                {
-                    prefEdit.putFloat(key,  ((Float) v).floatValue());
-                } else if (v instanceof Integer)
-                {
-                    prefEdit.putInt(key,  ((Integer) v).intValue());
-                } else if (v instanceof Long)
-                {
-                    prefEdit.putLong(key,  ((Long) v).longValue());
-                } else if (v instanceof String)
-                {
+                } else if (v instanceof Float) {
+                    prefEdit.putFloat(key, ((Float) v).floatValue());
+                } else if (v instanceof Integer) {
+                    prefEdit.putInt(key, ((Integer) v).intValue());
+                } else if (v instanceof Long) {
+                    prefEdit.putLong(key, ((Long) v).longValue());
+                } else if (v instanceof String) {
                     prefEdit.putString(key, ((String) v));
                 }
             }
@@ -735,19 +675,14 @@ catch (Exception e) {
             prefEdit.commit();
 
             res = true;
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
 
-        } finally
-        {
-            try
-            {
-                if (input != null)
-                {
+        } finally {
+            try {
+                if (input != null) {
                     input.close();
                 }
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
 
             }
         }
@@ -755,33 +690,26 @@ catch (Exception e) {
         return res;
     }
 
-    public static boolean saveSharedPreferencesToFile(File dst, Context context)
-    {
+    public static boolean saveSharedPreferencesToFile(File dst, Context context) {
         boolean res = false;
         ObjectOutputStream output = null;
 
-        try
-        {
+        try {
             output = new ObjectOutputStream(new FileOutputStream(dst));
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
 
             output.writeObject(pref.getAll());
 
             res = true;
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
 
-        } finally
-        {
-            try
-            {
-                if (output != null)
-                {
+        } finally {
+            try {
+                if (output != null) {
                     output.flush();
                     output.close();
                 }
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
 
             }
         }
@@ -791,49 +719,45 @@ catch (Exception e) {
 
     public static void writePopupTheme(String data, String name) {
         String[] data2 = data.split("\n");
-try {
-File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/SlidingMessaging", name);
-FileOutputStream f = new FileOutputStream(file);
-PrintWriter pw = new PrintWriter(f);
+        try {
+            File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/SlidingMessaging", name);
+            FileOutputStream f = new FileOutputStream(file);
+            PrintWriter pw = new PrintWriter(f);
 
-for (int i = 0; i < data2.length; i++)
-{
+            for (int i = 0; i < data2.length; i++) {
                 pw.println(data2[i]);
-}
+            }
 
-pw.flush();
-pw.close();
-f.close();
-}
-catch (Exception e) {
+            pw.flush();
+            pw.close();
+            f.close();
+        } catch (Exception e) {
 
-}
+        }
 
     }
 
     public static String readPopupTheme(String fileName) {
 
-          String ret = "";
+        String ret = "";
 
-          try {
-              File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/SlidingMessaging", fileName);
-              @SuppressWarnings("resource")
+        try {
+            File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/SlidingMessaging", fileName);
+            @SuppressWarnings("resource")
             BufferedReader reader = new BufferedReader(new FileReader(file));
 
-              String s = "";
+            String s = "";
 
-              while ((s = reader.readLine()) != null)
-              {
-                  ret += s + "\n";
-              }
-
-          }
-          catch (FileNotFoundException e) {
-
-            } catch (IOException e) {
-
+            while ((s = reader.readLine()) != null) {
+                ret += s + "\n";
             }
 
-          return ret;
+        } catch (FileNotFoundException e) {
+
+        } catch (IOException e) {
+
         }
+
+        return ret;
+    }
 }

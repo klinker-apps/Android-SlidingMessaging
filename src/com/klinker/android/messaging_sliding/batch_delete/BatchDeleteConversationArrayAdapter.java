@@ -110,7 +110,7 @@ public class BatchDeleteConversationArrayAdapter extends CursorAdapter {
         runAs = sharedPrefs.getString("run_as", "sliding");
         signature = sharedPrefs.getString("signature", "");
         ringTone = sharedPrefs.getString("ringtone", "null");
-        deliveryOptions= sharedPrefs.getString("delivery_options", "2");
+        deliveryOptions = sharedPrefs.getString("delivery_options", "2");
         sendingAnimation = sharedPrefs.getString("send_animation", "left");
         recieveAnimation = sharedPrefs.getString("receive_animation", "right");
         themeName = sharedPrefs.getString("ct_theme_name", "Light Theme");
@@ -126,24 +126,20 @@ public class BatchDeleteConversationArrayAdapter extends CursorAdapter {
         animationSpeed = sharedPrefs.getInt("animation_speed", 300);
         textOpacity = sharedPrefs.getInt("text_opacity", 100);
 
-        if(sharedPrefs.getBoolean("override_speed", false))
-        {
+        if (sharedPrefs.getBoolean("override_speed", false)) {
             contactPictures = false;
             customFont = false;
-        } else
-        {
+        } else {
             contactPictures = sharedPrefs.getBoolean("contact_pictures", true);
             customFont = sharedPrefs.getBoolean("custom_font", false);
         }
 
         Uri uri = Uri.parse("content://sms/conversations/" + threadIds);
-        Cursor c = context.getContentResolver().query(uri, null, null ,null, "date DESC");
+        Cursor c = context.getContentResolver().query(uri, null, null, null, "date DESC");
 
-        if(c.moveToFirst())
-        {
+        if (c.moveToFirst()) {
             do {
-                if(c.getString(c.getColumnIndex("type")).equals("1"))
-                {
+                if (c.getString(c.getColumnIndex("type")).equals("1")) {
                     inboxNumbers = c.getString(c.getColumnIndex("address"));
                     break;
                 }
@@ -152,21 +148,16 @@ public class BatchDeleteConversationArrayAdapter extends CursorAdapter {
 
         c.close();
 
-        try
-        {
+        try {
             input = getFacebookPhoto(inboxNumbers);
-        } catch (NumberFormatException e)
-        {
+        } catch (NumberFormatException e) {
             input = null;
         }
 
-        if (input == null)
-        {
-            if (darkContactImage)
-            {
+        if (input == null) {
+            if (darkContactImage) {
                 input = drawableToBitmap(context.getResources().getDrawable(R.drawable.default_avatar_dark));
-            } else
-            {
+            } else {
                 input = drawableToBitmap(context.getResources().getDrawable(R.drawable.default_avatar));
             }
         }
@@ -175,37 +166,28 @@ public class BatchDeleteConversationArrayAdapter extends CursorAdapter {
 
         InputStream input2;
 
-        try
-        {
+        try {
             input2 = openDisplayPhoto(Long.parseLong(this.myId));
-        } catch (NumberFormatException e)
-        {
+        } catch (NumberFormatException e) {
             input2 = null;
         }
 
-        if (input2 == null)
-        {
-            if (darkContactImage)
-            {
+        if (input2 == null) {
+            if (darkContactImage) {
                 input2 = context.getResources().openRawResource(R.drawable.default_avatar_dark);
-            } else
-            {
+            } else {
                 input2 = context.getResources().openRawResource(R.drawable.default_avatar);
             }
         }
 
         Bitmap im;
 
-        try
-        {
+        try {
             im = Bitmap.createScaledBitmap(BitmapFactory.decodeStream(input2), MainActivity.contactWidth, MainActivity.contactWidth, true);
-        } catch (Exception e)
-        {
-            if (darkContactImage)
-            {
+        } catch (Exception e) {
+            if (darkContactImage) {
                 im = Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(R.drawable.default_avatar_dark)), MainActivity.contactWidth, MainActivity.contactWidth, true);
-            } else
-            {
+            } else {
                 im = Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(R.drawable.default_avatar)), MainActivity.contactWidth, MainActivity.contactWidth, true);
             }
         }
@@ -218,47 +200,37 @@ public class BatchDeleteConversationArrayAdapter extends CursorAdapter {
         paint.setTextSize(scaledPx);
         font = null;
 
-        if (customFont)
-        {
+        if (customFont) {
             font = Typeface.createFromFile(sharedPrefs.getString("custom_font_path", ""));
             paint.setTypeface(font);
         }
     }
 
     private int getItemViewType(Cursor query) {
-        try
-        {
+        try {
             String s = query.getString(query.getColumnIndex("msg_box"));
 
             if (s != null) {
-                if (query.getInt(query.getColumnIndex("msg_box")) == 4)
-                {
+                if (query.getInt(query.getColumnIndex("msg_box")) == 4) {
                     return 1;
-                } else if (query.getInt(query.getColumnIndex("msg_box")) == 5)
-                {
+                } else if (query.getInt(query.getColumnIndex("msg_box")) == 5) {
                     return 1;
-                } else if (query.getInt(query.getColumnIndex("msg_box")) == 1)
-                {
+                } else if (query.getInt(query.getColumnIndex("msg_box")) == 1) {
                     return 0;
-                } else if (query.getInt(query.getColumnIndex("msg_box")) == 2)
-                {
+                } else if (query.getInt(query.getColumnIndex("msg_box")) == 2) {
                     return 1;
                 }
-            } else
-            {
+            } else {
                 String type = query.getString(query.getColumnIndex("type"));
 
-                if (type.equals("2") || type.equals("4") || type.equals("5") || type.equals("6"))
-                {
+                if (type.equals("2") || type.equals("4") || type.equals("5") || type.equals("6")) {
                     return 1;
-                } else
-                {
+                } else {
                     return 0;
                 }
 
             }
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             return 0;
         }
 
@@ -294,8 +266,7 @@ public class BatchDeleteConversationArrayAdapter extends CursorAdapter {
 
         String dateType = "date";
 
-        try
-        {
+        try {
             String s = cursor.getString(cursor.getColumnIndex("msg_box"));
 
             if (s != null) {
@@ -308,24 +279,19 @@ public class BatchDeleteConversationArrayAdapter extends CursorAdapter {
 
                 String[] numbers = number.split(" ");
 
-                if (cursor.getInt(cursor.getColumnIndex("msg_box")) == 4)
-                {
+                if (cursor.getInt(cursor.getColumnIndex("msg_box")) == 4) {
                     sending = true;
                     sent = true;
-                } else if (cursor.getInt(cursor.getColumnIndex("msg_box")) == 5)
-                {
+                } else if (cursor.getInt(cursor.getColumnIndex("msg_box")) == 5) {
                     error = true;
                     sent = true;
-                } else if (cursor.getInt(cursor.getColumnIndex("msg_box")) == 1)
-                {
+                } else if (cursor.getInt(cursor.getColumnIndex("msg_box")) == 1) {
                     sent = false;
-                } else if (cursor.getInt(cursor.getColumnIndex("msg_box")) == 2)
-                {
+                } else if (cursor.getInt(cursor.getColumnIndex("msg_box")) == 2) {
                     sent = true;
                 }
 
-                if (numbers.length > 2)
-                {
+                if (numbers.length > 2) {
                     group = true;
                     sender = numbers[0];
                 }
@@ -374,17 +340,14 @@ public class BatchDeleteConversationArrayAdapter extends CursorAdapter {
                                     if ("image/jpeg".equals(type) || "image/bmp".equals(type) ||
                                             "image/gif".equals(type) || "image/jpg".equals(type) ||
                                             "image/png".equals(type)) {
-                                        if (image == null)
-                                        {
+                                        if (image == null) {
                                             image = "content://mms/part/" + partId;
-                                        } else
-                                        {
+                                        } else {
                                             image += " content://mms/part/" + partId;
                                         }
                                     }
 
-                                    if ("video/mpeg".equals(type) || "video/3gpp".equals(type) || "video/mp4".equals(type))
-                                    {
+                                    if ("video/mpeg".equals(type) || "video/3gpp".equals(type) || "video/mp4".equals(type)) {
                                         video = "content://mms/part/" + partId;
                                     }
 
@@ -502,17 +465,14 @@ public class BatchDeleteConversationArrayAdapter extends CursorAdapter {
                             if ("image/jpeg".equals(type) || "image/bmp".equals(type) ||
                                     "image/gif".equals(type) || "image/jpg".equals(type) ||
                                     "image/png".equals(type)) {
-                                if (image == null)
-                                {
+                                if (image == null) {
                                     image = "content://mms/part/" + partId;
-                                } else
-                                {
+                                } else {
                                     image += " content://mms/part/" + partId;
                                 }
                             }
 
-                            if ("video/mpeg".equals(type) || "video/3gpp".equals(type) || "video/mp4".equals(type))
-                            {
+                            if ("video/mpeg".equals(type) || "video/3gpp".equals(type) || "video/mp4".equals(type)) {
                                 video = "content://mms/part/" + partId;
                             }
 
@@ -608,59 +568,49 @@ public class BatchDeleteConversationArrayAdapter extends CursorAdapter {
             } else {
                 String type = cursor.getString(cursor.getColumnIndex("type"));
 
-                if (type.equals("1"))
-                {
+                if (type.equals("1")) {
                     sent = false;
 
-                    try
-                    {
+                    try {
                         body = cursor.getString(cursor.getColumnIndex("body"));
-                    } catch (Exception e)
-                    {
+                    } catch (Exception e) {
                         body = "";
                     }
 
                     date = cursor.getString(cursor.getColumnIndex(dateType));
                     id = cursor.getString(cursor.getColumnIndex("_id"));
-                } else if (type.equals("2"))
-                {
+                } else if (type.equals("2")) {
                     sent = true;
                     body = cursor.getString(cursor.getColumnIndex("body"));
                     date = cursor.getString(cursor.getColumnIndex("date"));
                     id = cursor.getString(cursor.getColumnIndex("_id"));
-                } else if (type.equals("5"))
-                {
+                } else if (type.equals("5")) {
                     sent = true;
                     body = cursor.getString(cursor.getColumnIndex("body"));
                     date = cursor.getString(cursor.getColumnIndex("date"));
                     id = cursor.getString(cursor.getColumnIndex("_id"));
                     error = true;
-                } else if (type.equals("4") || type.equals("6"))
-                {
+                } else if (type.equals("4") || type.equals("6")) {
                     sent = true;
                     body = cursor.getString(cursor.getColumnIndex("body"));
                     date = cursor.getString(cursor.getColumnIndex("date"));
                     id = cursor.getString(cursor.getColumnIndex("_id"));
                     sending = true;
-                } else
-                {
+                } else {
                     sent = false;
                     body = cursor.getString(cursor.getColumnIndex("body"));
                     date = cursor.getString(cursor.getColumnIndex(dateType));
                     id = cursor.getString(cursor.getColumnIndex("_id"));
                 }
             }
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-        if (checkedAll)
-        {
+        if (checkedAll) {
             holder.background.setBackgroundColor(context.getResources().getColor(R.color.holo_blue));
             holder.bubble.setColorFilter(context.getResources().getColor(R.color.holo_blue));
-        } else
-        {
+        } else {
             if (sent) {
                 holder.background.setBackgroundColor(ctSentMessageBackground);
                 holder.bubble.setColorFilter(ctSentMessageBackground);
@@ -670,14 +620,12 @@ public class BatchDeleteConversationArrayAdapter extends CursorAdapter {
             }
         }
 
-        if (group && !sent)
-        {
+        if (group && !sent) {
             final String sentFrom = sender;
             new Thread(new Runnable() {
 
                 @Override
-                public void run()
-                {
+                public void run() {
                     final Bitmap picture = Bitmap.createScaledBitmap(getFacebookPhoto(sentFrom), MainActivity.contactWidth, MainActivity.contactWidth, true);
 
                     context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
@@ -695,61 +643,47 @@ public class BatchDeleteConversationArrayAdapter extends CursorAdapter {
 
         Date date2;
 
-        try
-        {
+        try {
             date2 = new Date(Long.parseLong(date));
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             date2 = new Date(0);
         }
 
         Calendar cal = Calendar.getInstance();
         Date currentDate = new Date(cal.getTimeInMillis());
 
-        if (getZeroTimeDate(date2).equals(getZeroTimeDate(currentDate)))
-        {
-            if (hourFormat)
-            {
+        if (getZeroTimeDate(date2).equals(getZeroTimeDate(currentDate))) {
+            if (hourFormat) {
                 holder.date.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(date2));
-            } else
-            {
+            } else {
                 holder.date.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(date2));
             }
-        } else
-        {
-            if (hourFormat)
-            {
+        } else {
+            if (hourFormat) {
                 holder.date.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2));
-            } else
-            {
+            } else {
                 holder.date.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2));
             }
         }
 
-        if (sending == true)
-        {
+        if (sending == true) {
             holder.date.setVisibility(View.GONE);
 
-            try
-            {
+            try {
                 holder.ellipsis.setVisibility(View.VISIBLE);
                 holder.ellipsis.setBackgroundResource(R.drawable.ellipsis);
                 holder.ellipsis.setColorFilter(ctRecievedTextColor);
                 AnimationDrawable ellipsis = (AnimationDrawable) holder.ellipsis.getBackground();
                 ellipsis.start();
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
 
             }
-        } else
-        {
+        } else {
             holder.date.setVisibility(View.VISIBLE);
 
-            try
-            {
+            try {
                 holder.ellipsis.setVisibility(View.GONE);
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
 
             }
 
@@ -759,24 +693,22 @@ public class BatchDeleteConversationArrayAdapter extends CursorAdapter {
             }
         }
 
-        if (group == true && sent == false)
-        {
+        if (group == true && sent == false) {
             final String senderF = sender;
 
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     Uri phoneUri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(senderF.replaceAll("-", "")));
-                    final Cursor phonesCursor = context.getContentResolver().query(phoneUri, new String[] {ContactsContract.Contacts.DISPLAY_NAME_PRIMARY, ContactsContract.RawContacts._ID}, null, null, ContactsContract.Contacts.DISPLAY_NAME + " desc limit 1");
+                    final Cursor phonesCursor = context.getContentResolver().query(phoneUri, new String[]{ContactsContract.Contacts.DISPLAY_NAME_PRIMARY, ContactsContract.RawContacts._ID}, null, null, ContactsContract.Contacts.DISPLAY_NAME + " desc limit 1");
 
                     context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 
                         @Override
                         public void run() {
-                            if(phonesCursor != null && phonesCursor.moveToFirst()) {
+                            if (phonesCursor != null && phonesCursor.moveToFirst()) {
                                 holder.date.setText(holder.date.getText() + " - " + phonesCursor.getString(0));
-                            } else
-                            {
+                            } else {
                                 holder.date.setText(holder.date.getText() + " - " + senderF);
                             }
 
@@ -790,8 +722,7 @@ public class BatchDeleteConversationArrayAdapter extends CursorAdapter {
 
         holder.text.setText(body);
 
-        if (cursor.getPosition() == 0)
-        {
+        if (cursor.getPosition() == 0) {
             if (runAs.equals("hangout")) {
                 int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 7, context.getResources().getDisplayMetrics());
                 int scale2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, context.getResources().getDisplayMetrics());
@@ -904,7 +835,10 @@ public class BatchDeleteConversationArrayAdapter extends CursorAdapter {
             holder.date = (TextView) v.findViewById(R.id.textDate);
             holder.media = (ImageView) v.findViewById(R.id.media);
             holder.image = (QuickContactBadge) v.findViewById(R.id.imageContactPicture);
-            try { holder.ellipsis = (ImageView) v.findViewById(R.id.ellipsis); } catch (Exception e) { }
+            try {
+                holder.ellipsis = (ImageView) v.findViewById(R.id.ellipsis);
+            } catch (Exception e) {
+            }
             holder.bubble = (ImageView) v.findViewById(R.id.msgBubble);
             holder.background = v.findViewById(R.id.messageBody);
 
@@ -944,37 +878,31 @@ public class BatchDeleteConversationArrayAdapter extends CursorAdapter {
             }
         }
 
-        if (customFont)
-        {
+        if (customFont) {
             holder.text.setTypeface(font);
             holder.date.setTypeface(font);
         }
 
-        if (contactPictures)
-        {
-            if (type == 0)
-            {
+        if (contactPictures) {
+            if (type == 0) {
                 holder.image.setImageBitmap(contactImage);
-            } else
-            {
+            } else {
                 holder.image.setImageBitmap(myImage);
             }
-        } else
-        {
+        } else {
             holder.image.setMaxWidth(0);
             holder.image.setMinimumWidth(0);
         }
 
         try {
-            holder.text.setTextSize(Integer.parseInt(textSize.substring(0,2)));
-            holder.date.setTextSize(Integer.parseInt(textSize.substring(0,2)) - 4);
+            holder.text.setTextSize(Integer.parseInt(textSize.substring(0, 2)));
+            holder.date.setTextSize(Integer.parseInt(textSize.substring(0, 2)) - 4);
         } catch (Exception e) {
-            holder.text.setTextSize(Integer.parseInt(textSize.substring(0,1)));
-            holder.date.setTextSize(Integer.parseInt(textSize.substring(0,1)) - 4);
+            holder.text.setTextSize(Integer.parseInt(textSize.substring(0, 1)));
+            holder.date.setTextSize(Integer.parseInt(textSize.substring(0, 1)) - 4);
         }
 
-        if (tinyDate)
-        {
+        if (tinyDate) {
             holder.date.setTextSize(10);
         }
 
@@ -992,38 +920,29 @@ public class BatchDeleteConversationArrayAdapter extends CursorAdapter {
             holder.media.setBackgroundColor(ctSentMessageBackground);
             holder.bubble.setColorFilter(ctSentMessageBackground);
 
-            if (!customTheme)
-            {
-                if (sentTextColor.equals("blue"))
-                {
+            if (!customTheme) {
+                if (sentTextColor.equals("blue")) {
                     holder.text.setTextColor(context.getResources().getColor(R.color.holo_blue));
                     holder.date.setTextColor(context.getResources().getColor(R.color.holo_blue));
-                } else if (sentTextColor.equals("white"))
-                {
+                } else if (sentTextColor.equals("white")) {
                     holder.text.setTextColor(context.getResources().getColor(R.color.white));
                     holder.date.setTextColor(context.getResources().getColor(R.color.white));
-                } else if (sentTextColor.equals("green"))
-                {
+                } else if (sentTextColor.equals("green")) {
                     holder.text.setTextColor(context.getResources().getColor(R.color.holo_green));
                     holder.date.setTextColor(context.getResources().getColor(R.color.holo_green));
-                } else if (sentTextColor.equals("orange"))
-                {
+                } else if (sentTextColor.equals("orange")) {
                     holder.text.setTextColor(context.getResources().getColor(R.color.holo_orange));
                     holder.date.setTextColor(context.getResources().getColor(R.color.holo_orange));
-                } else if (sentTextColor.equals("red"))
-                {
+                } else if (sentTextColor.equals("red")) {
                     holder.text.setTextColor(context.getResources().getColor(R.color.holo_red));
                     holder.date.setTextColor(context.getResources().getColor(R.color.holo_red));
-                } else if (sentTextColor.equals("purple"))
-                {
+                } else if (sentTextColor.equals("purple")) {
                     holder.text.setTextColor(context.getResources().getColor(R.color.holo_purple));
                     holder.date.setTextColor(context.getResources().getColor(R.color.holo_purple));
-                } else if (sentTextColor.equals("black"))
-                {
+                } else if (sentTextColor.equals("black")) {
                     holder.text.setTextColor(context.getResources().getColor(R.color.pitch_black));
                     holder.date.setTextColor(context.getResources().getColor(R.color.pitch_black));
-                } else if (sentTextColor.equals("grey"))
-                {
+                } else if (sentTextColor.equals("grey")) {
                     holder.text.setTextColor(context.getResources().getColor(R.color.grey));
                     holder.date.setTextColor(context.getResources().getColor(R.color.grey));
                 }
@@ -1037,38 +956,29 @@ public class BatchDeleteConversationArrayAdapter extends CursorAdapter {
             holder.media.setBackgroundColor(ctRecievedMessageBackground);
             holder.bubble.setColorFilter(ctRecievedMessageBackground);
 
-            if (!customTheme)
-            {
-                if (receivedTextColor.equals("blue"))
-                {
+            if (!customTheme) {
+                if (receivedTextColor.equals("blue")) {
                     holder.text.setTextColor(context.getResources().getColor(R.color.holo_blue));
                     holder.date.setTextColor(context.getResources().getColor(R.color.holo_blue));
-                } else if (receivedTextColor.equals("white"))
-                {
+                } else if (receivedTextColor.equals("white")) {
                     holder.text.setTextColor(context.getResources().getColor(R.color.white));
                     holder.date.setTextColor(context.getResources().getColor(R.color.white));
-                } else if (receivedTextColor.equals("green"))
-                {
+                } else if (receivedTextColor.equals("green")) {
                     holder.text.setTextColor(context.getResources().getColor(R.color.holo_green));
                     holder.date.setTextColor(context.getResources().getColor(R.color.holo_green));
-                } else if (receivedTextColor.equals("orange"))
-                {
+                } else if (receivedTextColor.equals("orange")) {
                     holder.text.setTextColor(context.getResources().getColor(R.color.holo_orange));
                     holder.date.setTextColor(context.getResources().getColor(R.color.holo_orange));
-                } else if (receivedTextColor.equals("red"))
-                {
+                } else if (receivedTextColor.equals("red")) {
                     holder.text.setTextColor(context.getResources().getColor(R.color.holo_red));
                     holder.date.setTextColor(context.getResources().getColor(R.color.holo_red));
-                } else if (receivedTextColor.equals("purple"))
-                {
+                } else if (receivedTextColor.equals("purple")) {
                     holder.text.setTextColor(context.getResources().getColor(R.color.holo_purple));
                     holder.date.setTextColor(context.getResources().getColor(R.color.holo_purple));
-                } else if (receivedTextColor.equals("black"))
-                {
+                } else if (receivedTextColor.equals("black")) {
                     holder.text.setTextColor(context.getResources().getColor(R.color.pitch_black));
                     holder.date.setTextColor(context.getResources().getColor(R.color.pitch_black));
-                } else if (receivedTextColor.equals("grey"))
-                {
+                } else if (receivedTextColor.equals("grey")) {
                     holder.text.setTextColor(context.getResources().getColor(R.color.grey));
                     holder.date.setTextColor(context.getResources().getColor(R.color.grey));
                 }
@@ -1077,14 +987,11 @@ public class BatchDeleteConversationArrayAdapter extends CursorAdapter {
             }
         }
 
-        if (!textAlignment.equals("split"))
-        {
-            if (textAlignment.equals("right"))
-            {
+        if (!textAlignment.equals("split")) {
+            if (textAlignment.equals("right")) {
                 holder.text.setGravity(Gravity.RIGHT);
                 holder.date.setGravity(Gravity.RIGHT);
-            } else
-            {
+            } else {
                 holder.text.setGravity(Gravity.LEFT);
                 holder.date.setGravity(Gravity.LEFT);
             }
@@ -1192,7 +1099,7 @@ public class BatchDeleteConversationArrayAdapter extends CursorAdapter {
         Uri contactUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, contactId);
         Uri photoUri = Uri.withAppendedPath(contactUri, ContactsContract.Contacts.Photo.CONTENT_DIRECTORY);
         Cursor cursor = context.getContentResolver().query(photoUri,
-                new String[] {ContactsContract.Contacts.Photo.PHOTO}, null, null, null);
+                new String[]{ContactsContract.Contacts.Photo.PHOTO}, null, null, null);
         if (cursor == null) {
             return null;
         }
@@ -1210,27 +1117,23 @@ public class BatchDeleteConversationArrayAdapter extends CursorAdapter {
     }
 
     public Bitmap getFacebookPhoto(String phoneNumber) {
-        try
-        {
+        try {
             Uri phoneUri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNumber));
             Uri photoUri = null;
             ContentResolver cr = context.getContentResolver();
             Cursor contact = cr.query(phoneUri,
-                    new String[] { ContactsContract.Contacts._ID }, null, null, null);
+                    new String[]{ContactsContract.Contacts._ID}, null, null, null);
 
-            try
-            {
+            try {
                 if (contact.moveToFirst()) {
                     long userId = contact.getLong(contact.getColumnIndex(ContactsContract.Contacts._ID));
                     photoUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, userId);
                     contact.close();
-                }
-                else {
+                } else {
 
                     Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
 
-                    if (darkContactImage)
-                    {
+                    if (darkContactImage) {
                         defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar_dark);
                     }
 
@@ -1247,8 +1150,7 @@ public class BatchDeleteConversationArrayAdapter extends CursorAdapter {
                 } else {
                     Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
 
-                    if (darkContactImage)
-                    {
+                    if (darkContactImage) {
                         defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar_dark);
                     }
 
@@ -1257,32 +1159,25 @@ public class BatchDeleteConversationArrayAdapter extends CursorAdapter {
                 }
                 Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
 
-                if (darkContactImage)
-                {
+                if (darkContactImage) {
                     defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar_dark);
                 }
 
                 contact.close();
                 return defaultPhoto;
-            } catch (Exception e)
-            {
-                if (darkContactImage)
-                {
+            } catch (Exception e) {
+                if (darkContactImage) {
                     contact.close();
                     return BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar_dark);
-                } else
-                {
+                } else {
                     contact.close();
                     return BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
                 }
             }
-        } catch (Exception e)
-        {
-            if (darkContactImage)
-            {
+        } catch (Exception e) {
+            if (darkContactImage) {
                 return BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar_dark);
-            } else
-            {
+            } else {
                 return BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
             }
         }
@@ -1290,7 +1185,7 @@ public class BatchDeleteConversationArrayAdapter extends CursorAdapter {
 
     @SuppressWarnings("deprecation")
     public String getPath(Uri uri) {
-        String[] projection = { MediaStore.Images.Media.DATA };
+        String[] projection = {MediaStore.Images.Media.DATA};
         Cursor cursor = context.managedQuery(uri, projection, null, null, null);
         context.startManagingCursor(cursor);
         int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
@@ -1298,13 +1193,12 @@ public class BatchDeleteConversationArrayAdapter extends CursorAdapter {
         return cursor.getString(column_index);
     }
 
-    public Bitmap drawableToBitmap (Drawable drawable) {
+    public Bitmap drawableToBitmap(Drawable drawable) {
         if (drawable instanceof BitmapDrawable) {
-            return ((BitmapDrawable)drawable).getBitmap();
+            return ((BitmapDrawable) drawable).getBitmap();
         }
 
-        try
-        {
+        try {
             int width = drawable.getIntrinsicWidth();
             width = width > 0 ? width : 1;
             int height = drawable.getIntrinsicHeight();
@@ -1315,13 +1209,10 @@ public class BatchDeleteConversationArrayAdapter extends CursorAdapter {
             drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
             drawable.draw(canvas);
             return bitmap;
-        } catch (Exception e)
-        {
-            if (darkContactImage)
-            {
+        } catch (Exception e) {
+            if (darkContactImage) {
                 return BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar_dark);
-            } else
-            {
+            } else {
                 return BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
             }
         }
@@ -1342,12 +1233,13 @@ public class BatchDeleteConversationArrayAdapter extends CursorAdapter {
                     temp = reader.readLine();
                 }
             }
-        } catch (IOException e) {}
-        finally {
+        } catch (IOException e) {
+        } finally {
             if (is != null) {
                 try {
                     is.close();
-                } catch (IOException e) {}
+                } catch (IOException e) {
+                }
             }
         }
         return sb.toString();
@@ -1360,8 +1252,7 @@ public class BatchDeleteConversationArrayAdapter extends CursorAdapter {
         Cursor cAdd = context.getContentResolver().query(uriAddress, null,
                 selectionAdd, null, null);
         String name = "";
-        if (cAdd != null)
-        {
+        if (cAdd != null) {
             if (cAdd.moveToFirst()) {
                 do {
                     String number = cAdd.getString(cAdd.getColumnIndex("address"));
@@ -1388,8 +1279,8 @@ public class BatchDeleteConversationArrayAdapter extends CursorAdapter {
         File myDir = new File(root + "/Download");
         myDir.mkdirs();
         String fname = d + ".jpg";
-        File file = new File (myDir, fname);
-        if (file.exists ()) file.delete ();
+        File file = new File(myDir, fname);
+        if (file.exists()) file.delete();
         try {
             FileOutputStream out = new FileOutputStream(file);
             finalBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
@@ -1405,31 +1296,32 @@ public class BatchDeleteConversationArrayAdapter extends CursorAdapter {
         Toast.makeText(context, context.getResources().getString(R.string.save_image), Toast.LENGTH_SHORT).show();
     }
 
-    private Bitmap decodeFile(File f){
+    private Bitmap decodeFile(File f) {
         try {
             //Decode image size
             BitmapFactory.Options o = new BitmapFactory.Options();
             o.inJustDecodeBounds = true;
-            BitmapFactory.decodeStream(new FileInputStream(f),null,o);
+            BitmapFactory.decodeStream(new FileInputStream(f), null, o);
 
             //The new size we want to scale to
-            final int REQUIRED_SIZE=200;
+            final int REQUIRED_SIZE = 200;
 
             //Find the correct scale value. It should be the power of 2.
-            int scale=1;
-            while(o.outWidth/scale/2>=REQUIRED_SIZE && o.outHeight/scale/2>=REQUIRED_SIZE)
-                scale*=2;
+            int scale = 1;
+            while (o.outWidth / scale / 2 >= REQUIRED_SIZE && o.outHeight / scale / 2 >= REQUIRED_SIZE)
+                scale *= 2;
 
             //Decode with inSampleSize
             BitmapFactory.Options o2 = new BitmapFactory.Options();
-            o2.inSampleSize=scale;
+            o2.inSampleSize = scale;
             return BitmapFactory.decodeStream(new FileInputStream(f), null, o2);
-        } catch (FileNotFoundException e) {}
+        } catch (FileNotFoundException e) {
+        }
         return null;
     }
 
     public String getRealPathFromURI(Uri contentUri) {
-        String[] proj = { MediaStore.Images.Media.DATA };
+        String[] proj = {MediaStore.Images.Media.DATA};
         Cursor cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
         int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
         cursor.moveToFirst();
@@ -1442,7 +1334,7 @@ public class BatchDeleteConversationArrayAdapter extends CursorAdapter {
         Date res;
         Calendar cal = Calendar.getInstance();
 
-        cal.setTime( fecha );
+        cal.setTime(fecha);
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
@@ -1508,8 +1400,7 @@ public class BatchDeleteConversationArrayAdapter extends CursorAdapter {
             red = Integer.parseInt(argb.substring(2, 4), 16);
             green = Integer.parseInt(argb.substring(4, 6), 16);
             blue = Integer.parseInt(argb.substring(6, 8), 16);
-        }
-        else if (argb.length() == 6) {
+        } else if (argb.length() == 6) {
             alpha = 255;
             red = Integer.parseInt(argb.substring(0, 2), 16);
             green = Integer.parseInt(argb.substring(2, 4), 16);

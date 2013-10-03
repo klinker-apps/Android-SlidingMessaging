@@ -8,24 +8,25 @@ import android.widget.TextView;
 
 public class HoloTextView extends TextView {
 
-    public HoloTextView (Context context) {
+    public HoloTextView(Context context) {
         super(context);
         setTypeface(context);
     }
 
-    public HoloTextView (Context context, AttributeSet attrs) {
+    public HoloTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setTypeface(context);
     }
 
-    public HoloTextView (Context context, AttributeSet attrs, int defStyle) {
+    public HoloTextView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         setTypeface(context);
     }
 
     public static Typeface typeface;
     private static boolean useDeviceFont;
-    private void setTypeface (Context context) {
+
+    private void setTypeface(Context context) {
         if (typeface == null) {
             useDeviceFont = PreferenceManager.getDefaultSharedPreferences(context).getBoolean("device_font", false);
             typeface = Typeface.createFromAsset(context.getAssets(), "Roboto-Light.ttf");

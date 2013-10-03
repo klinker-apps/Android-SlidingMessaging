@@ -36,7 +36,7 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class NewScheduledSms extends Activity implements AdapterView.OnItemSelectedListener{
+public class NewScheduledSms extends Activity implements AdapterView.OnItemSelectedListener {
 
     public final static String EXTRA_NUMBER = "com.klinker.android.messaging_sliding.NUMBER";
     public final static String EXTRA_MESSAGE = "com.klinker.android.messaging_sliding.MESSAGE";
@@ -95,7 +95,7 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
 
         Intent intent = getIntent();
 
-        sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
         context = this;
 
@@ -103,8 +103,7 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
 
         mEditText = (EditText) findViewById(R.id.messageEntry2);
 
-        if (!sharedPrefs.getBoolean("keyboard_type", true))
-        {
+        if (!sharedPrefs.getBoolean("keyboard_type", true)) {
             mEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
             mEditText.setImeOptions(EditorInfo.IME_ACTION_NONE);
         }
@@ -142,35 +141,28 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
         contactSearch = (EditText) findViewById(R.id.contactEntry);
         contactSearch.requestFocus();
 
-        if(!startDate.equals(""))
-        {
-            setDate = new Date (Long.parseLong(startDate));
+        if (!startDate.equals("")) {
+            setDate = new Date(Long.parseLong(startDate));
             timeDone = true;
             btTime.setEnabled(true);
-        } else
-        {
+        } else {
             btTime.setEnabled(false);
         }
 
         contactSearch.setText(startNumber);
         mEditText.setText(startMessage);
 
-        if (!startDate.equals(""))
-        {
+        if (!startDate.equals("")) {
             Date startDateObj = new Date(Long.parseLong(startDate));
-            if (sharedPrefs.getBoolean("hour_format", false))
-            {
+            if (sharedPrefs.getBoolean("hour_format", false)) {
                 timeDisplay.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(startDateObj));
-            } else
-            {
+            } else {
                 timeDisplay.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(startDateObj));
             }
 
-            if (sharedPrefs.getBoolean("hour_format", false))
-            {
+            if (sharedPrefs.getBoolean("hour_format", false)) {
                 dateDisplay.setText(DateFormat.getDateInstance(DateFormat.MEDIUM).format(startDateObj));
-            } else
-            {
+            } else {
                 dateDisplay.setText(DateFormat.getDateInstance(DateFormat.MEDIUM).format(startDateObj));
             }
         }
@@ -187,8 +179,7 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
                 String[] t1 = contactSearch.getText().toString().split("; ");
                 String string = "";
 
-                for (int i = 0; i < t1.length - 1; i++)
-                {
+                for (int i = 0; i < t1.length - 1; i++) {
                     string += t1[i] + "; ";
                 }
 
@@ -220,16 +211,14 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
         // brings up the pop up window for contact search
         contactSearch.addTextChangedListener(new TextWatcher() {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                if (firstContactSearch)
-                {
-                    try
-                    {
+                if (firstContactSearch) {
+                    try {
                         contactNames = new ArrayList<String>();
                         contactNumbers = new ArrayList<String>();
                         contactTypes = new ArrayList<String>();
 
                         Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
-                        String[] projection    = new String[] {ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+                        String[] projection = new String[]{ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
                                 ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.LABEL};
 
                         Cursor people = getContentResolver().query(uri, projection, null, null, null);
@@ -242,24 +231,20 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
                             int type = people.getInt(people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
                             String customLabel = people.getString(people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.LABEL));
 
-                            if (sharedPrefs.getBoolean("mobile_only", false))
-                            {
-                                if (type == 2)
-                                {
+                            if (sharedPrefs.getBoolean("mobile_only", false)) {
+                                if (type == 2) {
                                     contactNames.add(people.getString(indexName));
                                     contactNumbers.add(people.getString(indexNumber).replaceAll("[^0-9\\+]", ""));
                                     contactTypes.add(ContactsContract.CommonDataKinds.Phone.getTypeLabel(context.getResources(), type, customLabel).toString());
                                 }
-                            } else
-                            {
+                            } else {
                                 contactNames.add(people.getString(indexName));
                                 contactNumbers.add(people.getString(indexNumber).replaceAll("[^0-9\\+]", ""));
                                 contactTypes.add(ContactsContract.CommonDataKinds.Phone.getTypeLabel(context.getResources(), type, customLabel).toString());
                             }
                         } while (people.moveToNext());
                         people.close();
-                    } catch (IllegalArgumentException e)
-                    {
+                    } catch (IllegalArgumentException e) {
 
                     }
 
@@ -277,52 +262,41 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
 
                 String[] text2 = text.split("; ");
 
-                text = text2[text2.length-1];
+                text = text2[text2.length - 1];
 
-                if (text.startsWith("+"))
-                {
+                if (text.startsWith("+")) {
                     text = text.substring(1);
                 }
 
                 Pattern pattern;
 
-                try
-                {
+                try {
                     pattern = Pattern.compile(text.toLowerCase());
-                } catch (Exception e)
-                {
+                } catch (Exception e) {
                     pattern = Pattern.compile(text.toLowerCase().replace("(", "").replace(")", "").replace("?", "").replace("[", "").replace("{", "").replace("}", "").replace("\\", ""));
                 }
 
-                for (int i = 0; i < contactNames.size(); i++)
-                {
-                    try
-                    {
+                for (int i = 0; i < contactNames.size(); i++) {
+                    try {
                         Long.parseLong(text);
 
-                        if (text.length() <= contactNumbers.get(i).length())
-                        {
+                        if (text.length() <= contactNumbers.get(i).length()) {
                             Matcher matcher = pattern.matcher(contactNumbers.get(i));
-                            if(matcher.find())
-                            {
+                            if (matcher.find()) {
                                 searchedNames.add(contactNames.get(i));
                                 searchedNumbers.add(contactNumbers.get(i));
                                 searchedTypes.add(contactTypes.get(i));
                             }
                         }
-                    } catch (Exception e)
-                    {
-                        if (contactNames == null)
-                        {
+                    } catch (Exception e) {
+                        if (contactNames == null) {
                             contactNames = new ArrayList<String>();
                             contactNumbers = new ArrayList<String>();
                             contactTypes = new ArrayList<String>();
                         }
-                        if (text.length() <= contactNames.get(i).length())
-                        {
+                        if (text.length() <= contactNames.get(i).length()) {
                             Matcher matcher = pattern.matcher(contactNames.get(i).toLowerCase());
-                            if(matcher.find())
-                            {
+                            if (matcher.find()) {
                                 searchedNames.add(contactNames.get(i));
                                 searchedNumbers.add(contactNumbers.get(i));
                                 searchedTypes.add(contactTypes.get(i));
@@ -337,19 +311,17 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
                 int width = size.x;
                 int height = size.y;
 
-                lpw.setAdapter(new ContactSearchArrayAdapter((Activity)context, searchedNames, searchedNumbers, searchedTypes));
+                lpw.setAdapter(new ContactSearchArrayAdapter((Activity) context, searchedNames, searchedNumbers, searchedTypes));
                 lpw.setAnchorView(findViewById(R.id.contactEntry));
                 lpw.setWidth(width - 20); // TODO better sizing
-                lpw.setHeight(height/3);
+                lpw.setHeight(height / 3);
 
-                if (firstContactSearch)
-                {
+                if (firstContactSearch) {
                     lpw.show();
                     firstContactSearch = false;
                 }
 
-                if (text.length() == 0)
-                {
+                if (text.length() == 0) {
                     lpw.dismiss();
                     firstContactSearch = true;
                 }
@@ -364,14 +336,12 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
         // sets up the emoji button and implements the listener
         ImageButton emojiButton = (ImageButton) findViewById(R.id.display_emoji);
 
-        if (!sharedPrefs.getBoolean("emoji", false))
-        {
+        if (!sharedPrefs.getBoolean("emoji", false)) {
             emojiButton.setVisibility(View.GONE);
-            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)mEditText.getLayoutParams();
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mEditText.getLayoutParams();
             params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
             mEditText.setLayoutParams(params);
-        } else
-        {
+        } else {
             emojiButton.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -391,13 +361,11 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
                     final GridView emojiGrid = (GridView) frame.findViewById(R.id.emojiGrid);
                     Button okButton = (Button) frame.findViewById(R.id.emoji_ok);
 
-                    if (sharedPrefs.getBoolean("emoji_type", true))
-                    {
+                    if (sharedPrefs.getBoolean("emoji_type", true)) {
                         emojiGrid.setAdapter(new EmojiAdapter2(context));
                         emojiGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-                            public void onItemClick(AdapterView<?> parent, View v, int position, long id)
-                            {
+                            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                                 editText.setText(EmojiConverter2.getSmiledText(context, editText.getText().toString() + EmojiAdapter2.mEmojiTexts[position]));
                                 editText.setSelection(editText.getText().length());
                             }
@@ -437,13 +405,11 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
                                 emojiGrid.setSelection(153 + 162 + 178 + 122 + (7 * 7));
                             }
                         });
-                    } else
-                    {
+                    } else {
                         emojiGrid.setAdapter(new EmojiAdapter(context));
                         emojiGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-                            public void onItemClick(AdapterView<?> parent, View v, int position, long id)
-                            {
+                            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                                 editText.setText(EmojiConverter.getSmiledText(context, editText.getText().toString() + EmojiAdapter.mEmojiTexts[position]));
                                 editText.setSelection(editText.getText().length());
                             }
@@ -468,12 +434,10 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
 
                         @Override
                         public void onClick(View v) {
-                            if (sharedPrefs.getBoolean("emoji_type", true))
-                            {
+                            if (sharedPrefs.getBoolean("emoji_type", true)) {
                                 mEditText.setText(EmojiConverter2.getSmiledText(context, mEditText.getText().toString() + editText.getText().toString()));
                                 mEditText.setSelection(mEditText.getText().length());
-                            } else
-                            {
+                            } else {
                                 mEditText.setText(EmojiConverter.getSmiledText(context, mEditText.getText().toString() + editText.getText().toString()));
                                 mEditText.setSelection(mEditText.getText().length());
                             }
@@ -559,30 +523,24 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
             setMonth = month;
             setDay = day;
 
-            if (setHour != -1 && setMinute != -1)
-            {
+            if (setHour != -1 && setMinute != -1) {
                 setDate = new Date(setYear - 1900, setMonth, setDay, setHour, setMinute);
 
-                if (sharedPrefs.getBoolean("hour_format", false))
-                {
+                if (sharedPrefs.getBoolean("hour_format", false)) {
                     dateDisplay.setText(DateFormat.getDateInstance(DateFormat.MEDIUM).format(setDate));
-                } else
-                {
+                } else {
                     dateDisplay.setText(DateFormat.getDateInstance(DateFormat.MEDIUM).format(setDate));
                 }
-            } else
-            {
+            } else {
                 setDate = new Date(setYear - 1900, setMonth, setDay);
 
-                if (sharedPrefs.getBoolean("hour_format", false))
-                {
+                if (sharedPrefs.getBoolean("hour_format", false)) {
                     dateDisplay.setText(DateFormat.getDateInstance(DateFormat.MEDIUM).format(setDate));
-                } else
-                {
+                } else {
                     dateDisplay.setText(DateFormat.getDateInstance(DateFormat.MEDIUM).format(setDate));
                 }
             }
-                //dateDisplay.setText((month + 1) + "/" + day + "/" + year);
+            //dateDisplay.setText((month + 1) + "/" + day + "/" + year);
         }
 
     };
@@ -598,19 +556,15 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
 
             currentDate.setYear(currentYear - 1900);
 
-            if (!setDate.before(currentDate))
-            {
-                if (sharedPrefs.getBoolean("hour_format", false))
-                {
+            if (!setDate.before(currentDate)) {
+                if (sharedPrefs.getBoolean("hour_format", false)) {
                     timeDisplay.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(setDate));
-                } else
-                {
+                } else {
                     timeDisplay.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(setDate));
                 }
 
                 timeDone = true;
-            } else
-            {
+            } else {
                 Context context = getApplicationContext();
                 CharSequence text = "Date must be forward!";
                 int duration = Toast.LENGTH_SHORT;
@@ -642,18 +596,15 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
     }
 
     // finishes the activity when the discard button is clicked, without making any changes or saving anything
-    public boolean discardClick()
-    {
+    public boolean discardClick() {
         finish();
         return true;
     }
 
     // this is where we will set everything up when the user has entered all the information
     // including the alarm manager and writing the files to the database to save them
-    public boolean doneClick()
-    {
-        if (!contactSearch.getText().toString().equals("") && !mEditText.getText().toString().equals("") && timeDone)
-        {
+    public boolean doneClick() {
+        if (!contactSearch.getText().toString().equals("") && !mEditText.getText().toString().equals("") && timeDone) {
             String[] details = new String[5];
             details[0] = contactSearch.getText().toString();
             details[1] = "" + setDate.getTime();
@@ -683,19 +634,15 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
 
             details[4] = sharedPrefs.getString("scheduled_alarm_id", "0");
 
-            if (details[0].equals(startNumber) && details[1].equals(startDate) && details[2].equals(startRepeat) && details[3].equals(startMessage))
-            {
+            if (details[0].equals(startNumber) && details[1].equals(startDate) && details[2].equals(startRepeat) && details[3].equals(startMessage)) {
                 IOUtil.writeScheduledSMS(data, this);
                 createAlarm(alarmIdNum);
                 finish();
-            } else
-            {
-                for (int i = 0; i < data.size(); i++)
-                {
+            } else {
+                for (int i = 0; i < data.size(); i++) {
                     String[] detail = data.get(i);
 
-                    if (detail[0].equals(startNumber) && detail[1].equals(startDate) && detail[2].equals(startRepeat) && detail[3].equals(startMessage))
-                    {
+                    if (detail[0].equals(startNumber) && detail[1].equals(startDate) && detail[2].equals(startRepeat) && detail[3].equals(startMessage)) {
                         data.remove(i);
                         break;
                     }
@@ -707,8 +654,7 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
                 finish();
             }
 
-        }else
-        {
+        } else {
             Context context = getApplicationContext();
             CharSequence text = "Please complete the form!";
             int duration = Toast.LENGTH_SHORT;
@@ -719,8 +665,7 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
         return true;
     }
 
-    public void createAlarm(int alarmId)
-    {
+    public void createAlarm(int alarmId) {
         Intent serviceIntent = new Intent(getApplicationContext(), ScheduledService.class);
 
         serviceIntent.putExtra(EXTRA_MESSAGE, mEditText.getText().toString());
@@ -731,27 +676,22 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
         // Schedule the alarm!
         AlarmManager am = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
 
-        if (repetition.equals("None"))
-        {
+        if (repetition.equals("None")) {
             am.set(AlarmManager.RTC_WAKEUP,
                     setDate.getTime(),
                     pi);
-        } else
-        {
-            if (repetition.equals("Daily"))
-            {
+        } else {
+            if (repetition.equals("Daily")) {
                 am.setRepeating(AlarmManager.RTC_WAKEUP,
                         setDate.getTime(),
                         AlarmManager.INTERVAL_DAY,
                         pi);
-            } else if (repetition.equals("Weekly"))
-            {
+            } else if (repetition.equals("Weekly")) {
                 am.setRepeating(AlarmManager.RTC_WAKEUP,
                         setDate.getTime(),
                         AlarmManager.INTERVAL_DAY * 7,
                         pi);
-            } else if (repetition.equals("Yearly"))
-            {
+            } else if (repetition.equals("Yearly")) {
                 am.setRepeating(AlarmManager.RTC_WAKEUP,
                         setDate.getTime(),
                         AlarmManager.INTERVAL_DAY * 365,
@@ -761,8 +701,7 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
 
     }
 
-    protected PendingIntent getDistinctPendingIntent(Intent intent, int requestId)
-    {
+    protected PendingIntent getDistinctPendingIntent(Intent intent, int requestId) {
         PendingIntent pi =
                 PendingIntent.getService(
                         this,         //context

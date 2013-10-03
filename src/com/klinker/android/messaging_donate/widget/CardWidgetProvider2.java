@@ -27,18 +27,15 @@ public class CardWidgetProvider2 extends AppWidgetProvider {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (intent.getAction().equals("com.klinker.android.messaging.UPDATE_WIDGET"))
-        {
+        if (intent.getAction().equals("com.klinker.android.messaging.UPDATE_WIDGET")) {
             Intent updateWidget = new Intent(context, CardWidgetService3.class);
             context.startService(updateWidget);
-        } else
-        {
+        } else {
             super.onReceive(context, intent);
         }
     }
 
-    public static class CardWidgetService3 extends IntentService
-    {
+    public static class CardWidgetService3 extends IntentService {
         public CardWidgetService3() {
             super("card_widget_service");
         }
@@ -54,7 +51,7 @@ public class CardWidgetProvider2 extends AppWidgetProvider {
             ComponentName thisAppWidget = new ComponentName(this.getPackageName(), CardWidgetProvider2.class.getName());
             int[] appWidgetIds = mgr.getAppWidgetIds(thisAppWidget);
 
-            for (int i=0; i<appWidgetIds.length; i++) {
+            for (int i = 0; i < appWidgetIds.length; i++) {
                 int appWidgetId = appWidgetIds[i];
 
                 Intent quickText = new Intent(this, MainActivity.class);
@@ -69,11 +66,9 @@ public class CardWidgetProvider2 extends AppWidgetProvider {
                 views.setTextViewText(R.id.unread, newMessages.size() + "");
                 views.setTextColor(R.id.unread, getResources().getColor(R.color.white));
 
-                if (newMessages.size() == 0)
-                {
+                if (newMessages.size() == 0) {
                     views.setViewVisibility(R.id.unread, View.INVISIBLE);
-                } else
-                {
+                } else {
                     views.setViewVisibility(R.id.unread, View.VISIBLE);
                 }
 
@@ -98,19 +93,18 @@ public class CardWidgetProvider2 extends AppWidgetProvider {
             try {
                 InputStream inputStream = context.openFileInput("newMessages.txt");
 
-                if ( inputStream != null ) {
+                if (inputStream != null) {
                     InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
                     BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
                     String receiveString = "";
 
-                    while ( (receiveString = bufferedReader.readLine()) != null ) {
+                    while ((receiveString = bufferedReader.readLine()) != null) {
                         ret.add(receiveString);
                     }
 
                     inputStream.close();
                 }
-            }
-            catch (FileNotFoundException e) {
+            } catch (FileNotFoundException e) {
 
             } catch (IOException e) {
 

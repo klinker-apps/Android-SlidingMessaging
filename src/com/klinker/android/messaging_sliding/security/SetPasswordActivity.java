@@ -47,7 +47,7 @@ public class SetPasswordActivity extends FragmentActivity {
         setPassword.setText(getResources().getText(R.string.set_password));
         cancel.setText(getResources().getText(R.string.cancel));
 
-        final EditText passwordText = (EditText)findViewById(R.id.passwordText);
+        final EditText passwordText = (EditText) findViewById(R.id.passwordText);
 
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,25 +75,21 @@ public class SetPasswordActivity extends FragmentActivity {
 
                 numEntries++;
 
-                if (numEntries == 1)
-                {
+                if (numEntries == 1) {
                     SharedPreferences.Editor prefEdit = sharedPrefs.edit();
                     prefEdit.putString("password", password);
                     prefEdit.commit();
                 }
 
 
-                if (password.equals(sharedPrefs.getString("password", "0000")) && numEntries == 2)
-                {
+                if (password.equals(sharedPrefs.getString("password", "0000")) && numEntries == 2) {
                     SharedPreferences.Editor prefEdit = sharedPrefs.edit();
                     prefEdit.putLong("last_time", Calendar.getInstance().getTimeInMillis());
                     prefEdit.commit();
 
                     onBackPressed();
-                } else
-                {
-                    if(password.equals(""))
-                    {
+                } else {
+                    if (password.equals("")) {
                         CharSequence text = "Invalid password";
                         int duration = Toast.LENGTH_SHORT;
 
@@ -101,14 +97,12 @@ public class SetPasswordActivity extends FragmentActivity {
                         toast.show();
                         numEntries = 0;
 
-                    } else if(numEntries == 1)
-                    {
+                    } else if (numEntries == 1) {
                         passwordText.setText("");
 
                         TextView tv = (TextView) findViewById(R.id.title);
                         tv.setText("Re-Enter Password:");
-                    } else if (numEntries == 2)
-                    {
+                    } else if (numEntries == 2) {
                         numEntries = 0;
 
                         CharSequence text = "Incorrect password";

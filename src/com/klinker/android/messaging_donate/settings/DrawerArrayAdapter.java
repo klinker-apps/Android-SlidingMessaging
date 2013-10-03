@@ -13,7 +13,7 @@ import com.klinker.android.messaging_donate.R;
 
 import java.util.ArrayList;
 
-public class DrawerArrayAdapter  extends ArrayAdapter<String> {
+public class DrawerArrayAdapter extends ArrayAdapter<String> {
     private final Activity context;
     private final ArrayList<String> text;
     public SharedPreferences sharedPrefs;
@@ -32,8 +32,7 @@ public class DrawerArrayAdapter  extends ArrayAdapter<String> {
     }
 
     @Override
-    public int getCount()
-    {
+    public int getCount() {
         return text.size();
     }
 
@@ -59,33 +58,33 @@ public class DrawerArrayAdapter  extends ArrayAdapter<String> {
 
         holder.name.setText(settingName);
 
-        if(text.get(position).equals(context.getResources().getString(R.string.theme_settings)))
+        if (text.get(position).equals(context.getResources().getString(R.string.theme_settings)))
             holder.icon.setImageResource(R.drawable.drawer_theme);
-        else if(text.get(position).equals(context.getResources().getString(R.string.notification_settings)))
+        else if (text.get(position).equals(context.getResources().getString(R.string.notification_settings)))
             holder.icon.setImageResource(R.drawable.drawer_notifications);
-        else if(text.get(position).equals(context.getResources().getString(R.string.popup_settings)))
+        else if (text.get(position).equals(context.getResources().getString(R.string.popup_settings)))
             holder.icon.setImageResource(R.drawable.drawer_popup);
-        else if(text.get(position).equals(context.getResources().getString(R.string.slideover_settings)))
+        else if (text.get(position).equals(context.getResources().getString(R.string.slideover_settings)))
             holder.icon.setImageResource(R.drawable.drawer_slideover);
-        else if(text.get(position).equals(context.getResources().getString(R.string.text_settings)))
+        else if (text.get(position).equals(context.getResources().getString(R.string.text_settings)))
             holder.icon.setImageResource(R.drawable.drawer_message);
-        else if(text.get(position).equals(context.getResources().getString(R.string.conversation_settings)))
+        else if (text.get(position).equals(context.getResources().getString(R.string.conversation_settings)))
             holder.icon.setImageResource(R.drawable.drawer_conversation);
-        else if(text.get(position).equals(context.getResources().getString(R.string.mms_settings)))
+        else if (text.get(position).equals(context.getResources().getString(R.string.mms_settings)))
             holder.icon.setImageResource(R.drawable.drawer_mms);
-        else if(text.get(position).equals(context.getResources().getString(R.string.google_voice_settings)))
+        else if (text.get(position).equals(context.getResources().getString(R.string.google_voice_settings)))
             holder.icon.setImageResource(R.drawable.drawer_voice);
-        else if(text.get(position).equals(context.getResources().getString(R.string.security_settings)))
+        else if (text.get(position).equals(context.getResources().getString(R.string.security_settings)))
             holder.icon.setImageResource(R.drawable.drawer_security);
-        else if(text.get(position).equals(context.getResources().getString(R.string.advanced_settings)))
+        else if (text.get(position).equals(context.getResources().getString(R.string.advanced_settings)))
             holder.icon.setImageResource(R.drawable.drawer_advanced);
-        else if(text.get(position).equals(context.getResources().getString(R.string.quick_templates)))
+        else if (text.get(position).equals(context.getResources().getString(R.string.quick_templates)))
             holder.icon.setImageResource(R.drawable.drawer_templates);
-        else if(text.get(position).equals(context.getResources().getString(R.string.scheduled_sms)))
+        else if (text.get(position).equals(context.getResources().getString(R.string.scheduled_sms)))
             holder.icon.setImageResource(R.drawable.drawer_scheduled);
-        else if(text.get(position).equals(context.getResources().getString(R.string.get_help)))
+        else if (text.get(position).equals(context.getResources().getString(R.string.get_help)))
             holder.icon.setImageResource(R.drawable.drawer_help);
-        else if(text.get(position).equals(context.getResources().getString(R.string.other_apps)))
+        else if (text.get(position).equals(context.getResources().getString(R.string.other_apps)))
             holder.icon.setImageResource(R.drawable.drawer_apps);
         else
             holder.icon.setImageResource(R.drawable.drawer_rating);

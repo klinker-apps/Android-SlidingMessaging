@@ -49,11 +49,11 @@ public class MessagePage extends Page {
         return !TextUtils.isEmpty(mData.getString(NAME_DATA_KEY));
     }
 
-    public Page setMessage(String message)
-    {
+    public Page setMessage(String message) {
         mMessage = message;
         return this;
     }
+
     public String getMessage() {
         return mMessage;
     }

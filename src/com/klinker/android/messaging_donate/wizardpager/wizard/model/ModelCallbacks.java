@@ -22,5 +22,6 @@ package com.klinker.android.messaging_donate.wizardpager.wizard.model;
  */
 public interface ModelCallbacks {
     void onPageDataChanged(Page page);
+
     void onPageTreeChanged();
 }

@@ -55,7 +55,7 @@ public class ReviewFragment extends ListFragment implements ModelCallbacks {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_page, container, false);
 
         TextView titleView = (TextView) rootView.findViewById(android.R.id.title);
@@ -64,8 +64,8 @@ public class ReviewFragment extends ListFragment implements ModelCallbacks {
 
         TextView message = (TextView) rootView.findViewById(android.R.id.message);
         message.setText(getResources().getString(R.string.changelog_disclaimers)
-                       + "\n\n" +
-                       getResources().getString(R.string.twitter_link));
+                + "\n\n" +
+                getResources().getString(R.string.twitter_link));
         Linkify.addLinks(message, Linkify.ALL);
 
         return rootView;
@@ -125,6 +125,7 @@ public class ReviewFragment extends ListFragment implements ModelCallbacks {
 
     public interface Callbacks {
         AbstractWizardModel onGetModel();
+
         void onEditScreenAfterReview(String pageKey);
     }
 
@@ -167,7 +168,7 @@ public class ReviewFragment extends ListFragment implements ModelCallbacks {
             //ReviewItem reviewItem = mCurrentReviewItems.get(position);
             //String value = reviewItem.getDisplayValue();
             //if (TextUtils.isEmpty(value)) {
-                //value = "(None)";
+            //value = "(None)";
             //}
             //((TextView) rootView.findViewById(android.R.id.text1)).setText(reviewItem.getTitle());
             //((TextView) rootView.findViewById(android.R.id.text2)).setText(value);

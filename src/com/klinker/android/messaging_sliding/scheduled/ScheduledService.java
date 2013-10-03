@@ -21,9 +21,8 @@ public class ScheduledService extends IntentService {
     }
 
     @Override
-    public void onHandleIntent(Intent intent)
-    {
-        sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+    public void onHandleIntent(Intent intent) {
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
         ArrayList<String> numbers = new ArrayList<String>();
 
@@ -32,17 +31,14 @@ public class ScheduledService extends IntentService {
 
         number.replaceAll(" ", "");
 
-        while (number.contains(";"))
-        {
+        while (number.contains(";")) {
             numbers.add(number.substring(0, number.indexOf(';')));
             number = number.substring(number.indexOf(';') + 1, number.length());
         }
 
 
-        try
-        {
-            for (int i = 0; i < numbers.size(); i++)
-            {
+        try {
+            for (int i = 0; i < numbers.size(); i++) {
                 SendUtil.sendMessage(this, numbers.get(i), message);
 
                 NotificationCompat.Builder mBuilder =
@@ -71,8 +67,7 @@ public class ScheduledService extends IntentService {
                 mNotifyMgr.notify(mNotificationId, mBuilder.build());
             }
 
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
 
         }
     }

@@ -46,7 +46,7 @@ public class PasswordActivity extends FragmentActivity {
         unlock.setText(getResources().getText(R.string.unlock));
         cancel.setText(getResources().getText(R.string.cancel));
 
-        passwordText = (EditText)findViewById(R.id.passwordText);
+        passwordText = (EditText) findViewById(R.id.passwordText);
 
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,16 +109,14 @@ public class PasswordActivity extends FragmentActivity {
         });
     }
 
-    public void openActivity()
-    {
+    public void openActivity() {
         SharedPreferences.Editor prefEdit = sharedPrefs.edit();
         prefEdit.putLong("last_time", System.currentTimeMillis());
         prefEdit.commit();
 
         boolean flag = false;
 
-        if (fromIntent.getStringExtra("com.klinker.android.OPEN") != null)
-        {
+        if (fromIntent.getStringExtra("com.klinker.android.OPEN") != null) {
             flag = true;
         }
 
@@ -126,16 +124,13 @@ public class PasswordActivity extends FragmentActivity {
         intent.setAction(fromIntent.getAction());
         intent.setData(fromIntent.getData());
 
-        try
-        {
+        try {
             intent.putExtras(fromIntent.getExtras());
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
 
         }
 
-        if (flag)
-        {
+        if (flag) {
             intent.putExtra("com.klinker.android.OPEN", intent.getStringExtra("com.klinker.android.OPEN"));
         }
 
@@ -144,8 +139,7 @@ public class PasswordActivity extends FragmentActivity {
         finish();
     }
 
-    public void incorrectPassword()
-    {
+    public void incorrectPassword() {
         CharSequence text = "Incorrect password";
         int duration = Toast.LENGTH_SHORT;
 

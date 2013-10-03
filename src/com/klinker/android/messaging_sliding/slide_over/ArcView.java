@@ -50,7 +50,7 @@ public class ArcView extends ViewGroup {
         TEXT_SIZE = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 14, context.getResources().getDisplayMetrics());
         TEXT_GAP = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 2, context.getResources().getDisplayMetrics());
 
-        Display d = ((WindowManager)mContext.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+        Display d = ((WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         height = d.getHeight();
         width = d.getWidth();
 
@@ -65,7 +65,7 @@ public class ArcView extends ViewGroup {
 
         conversationsPaint = new Paint(newMessagePaint);
         conversationsPaint.setAlpha(SlideOverService.START_ALPHA);
-        conversationsPaint.setPathEffect(new DashPathEffect(new float[] {dashLength, dashLength*2}, 0));
+        conversationsPaint.setPathEffect(new DashPathEffect(new float[]{dashLength, dashLength * 2}, 0));
 
         closePaint = new Paint();
         closePaint.setAntiAlias(true);
@@ -81,13 +81,11 @@ public class ArcView extends ViewGroup {
 
         textPaint = new Paint[newConversations.size()];
 
-        for(int x = 0; x < newConversations.size(); x++)
-        {
+        for (int x = 0; x < newConversations.size(); x++) {
             textPaint[x] = new Paint(closePaint);
         }
 
-        for(int i = 0; i < newConversations.size(); i++)
-        {
+        for (int i = 0; i < newConversations.size(); i++) {
             textPaint[i].setAlpha(SlideOverService.START_ALPHA2);
         }
 
@@ -102,25 +100,22 @@ public class ArcView extends ViewGroup {
         super.onDraw(canvas);
 
         if (newConversations.size() > 0) {
-            if(SlideOverService.PERCENT_DOWN_SCREEN > height/2) {
-                canvas.drawText(getResources().getString(R.string.slideover_clear), (float)((width * .25) - (closePaint.measureText(getResources().getString(R.string.slideover_clear))/2)) , 60, clearPaint);
-                canvas.drawText(getResources().getString(R.string.slideover_close), (float)((width * .5) - (closePaint.measureText(getResources().getString(R.string.slideover_close))/2)), 60, closePaint);
-                canvas.drawText(getResources().getString(R.string.slideover_settings_overlay), (float)((width * .75) - (closePaint.measureText(getResources().getString(R.string.slideover_settings_overlay))/2)) , 60, movePaint);
-            } else
-            {
-                canvas.drawText(getResources().getString(R.string.slideover_clear), (float)((width * .25) - (closePaint.measureText(getResources().getString(R.string.slideover_clear))/2)) , height - 60, clearPaint);
-                canvas.drawText(getResources().getString(R.string.slideover_close), (float)((width * .5) - (closePaint.measureText(getResources().getString(R.string.slideover_close))/2)) , height - 60, closePaint);
-                canvas.drawText(getResources().getString(R.string.slideover_settings_overlay), (float)((width * .75) - (closePaint.measureText(getResources().getString(R.string.slideover_settings_overlay))/2)) , height - 60, movePaint);
+            if (SlideOverService.PERCENT_DOWN_SCREEN > height / 2) {
+                canvas.drawText(getResources().getString(R.string.slideover_clear), (float) ((width * .25) - (closePaint.measureText(getResources().getString(R.string.slideover_clear)) / 2)), 60, clearPaint);
+                canvas.drawText(getResources().getString(R.string.slideover_close), (float) ((width * .5) - (closePaint.measureText(getResources().getString(R.string.slideover_close)) / 2)), 60, closePaint);
+                canvas.drawText(getResources().getString(R.string.slideover_settings_overlay), (float) ((width * .75) - (closePaint.measureText(getResources().getString(R.string.slideover_settings_overlay)) / 2)), 60, movePaint);
+            } else {
+                canvas.drawText(getResources().getString(R.string.slideover_clear), (float) ((width * .25) - (closePaint.measureText(getResources().getString(R.string.slideover_clear)) / 2)), height - 60, clearPaint);
+                canvas.drawText(getResources().getString(R.string.slideover_close), (float) ((width * .5) - (closePaint.measureText(getResources().getString(R.string.slideover_close)) / 2)), height - 60, closePaint);
+                canvas.drawText(getResources().getString(R.string.slideover_settings_overlay), (float) ((width * .75) - (closePaint.measureText(getResources().getString(R.string.slideover_settings_overlay)) / 2)), height - 60, movePaint);
             }
-        } else
-        {
-            if(SlideOverService.PERCENT_DOWN_SCREEN > height/2) {
-                canvas.drawText(getResources().getString(R.string.slideover_close), (float)((width * .25) - (closePaint.measureText(getResources().getString(R.string.slideover_close))/2)) , 60, closePaint);
-                canvas.drawText(getResources().getString(R.string.slideover_settings_overlay), (float)((width * .75) - (closePaint.measureText(getResources().getString(R.string.slideover_settings_overlay))/2)) , 60, movePaint);
-            } else
-            {
-                canvas.drawText(getResources().getString(R.string.slideover_close), (float)((width * .25) - (closePaint.measureText(getResources().getString(R.string.slideover_close))/2)) , height - 70, closePaint);
-                canvas.drawText(getResources().getString(R.string.slideover_settings_overlay), (float)((width * .75) - (closePaint.measureText(getResources().getString(R.string.slideover_settings_overlay))/2)) , height - 70, movePaint);
+        } else {
+            if (SlideOverService.PERCENT_DOWN_SCREEN > height / 2) {
+                canvas.drawText(getResources().getString(R.string.slideover_close), (float) ((width * .25) - (closePaint.measureText(getResources().getString(R.string.slideover_close)) / 2)), 60, closePaint);
+                canvas.drawText(getResources().getString(R.string.slideover_settings_overlay), (float) ((width * .75) - (closePaint.measureText(getResources().getString(R.string.slideover_settings_overlay)) / 2)), 60, movePaint);
+            } else {
+                canvas.drawText(getResources().getString(R.string.slideover_close), (float) ((width * .25) - (closePaint.measureText(getResources().getString(R.string.slideover_close)) / 2)), height - 70, closePaint);
+                canvas.drawText(getResources().getString(R.string.slideover_settings_overlay), (float) ((width * .75) - (closePaint.measureText(getResources().getString(R.string.slideover_settings_overlay)) / 2)), height - 70, movePaint);
             }
         }
 
@@ -128,7 +123,7 @@ public class ArcView extends ViewGroup {
 
         // Draws the arcs that you can interact with
         if (sharedPrefs.getString("slideover_side", "left").equals("left")) {
-            RectF oval = new RectF(-1 * radius, point[1] + (halo.getHeight() / 2) -  radius, radius, point[1] + (halo.getHeight() / 2) + radius);
+            RectF oval = new RectF(-1 * radius, point[1] + (halo.getHeight() / 2) - radius, radius, point[1] + (halo.getHeight() / 2) + radius);
 
             Path newMessagePath = new Path();
             newMessagePath.addArc(oval, breakAngle, -180);
@@ -138,9 +133,8 @@ public class ArcView extends ViewGroup {
 
             canvas.drawPath(newMessagePath, newMessagePaint);
             canvas.drawPath(conversationsPath, conversationsPaint);
-        } else
-        {
-            RectF oval = new RectF(width - radius, point[1] + (halo.getHeight() / 2) -  radius, width + radius, point[1] + (halo.getHeight() / 2) + radius);
+        } else {
+            RectF oval = new RectF(width - radius, point[1] + (halo.getHeight() / 2) - radius, width + radius, point[1] + (halo.getHeight() / 2) + radius);
 
             Path newMessagePath = new Path();
             newMessagePath.addArc(oval, breakAngle - 45, -180);
@@ -156,18 +150,16 @@ public class ArcView extends ViewGroup {
 
         int x = 0;
         // Draws the new conversations from the arraylist newConversations
-        for (int i = newConversations.size() - 1; i >= 0; i--)
-        {
+        for (int i = newConversations.size() - 1; i >= 0; i--) {
             if (sharedPrefs.getString("slideover_side", "left").equals("left")) {
-                RectF oval = new RectF(-1 * conversationsRadius, point[1] + (halo.getHeight() / 2) -  conversationsRadius, conversationsRadius, point[1] + (halo.getHeight() / 2) + conversationsRadius);
+                RectF oval = new RectF(-1 * conversationsRadius, point[1] + (halo.getHeight() / 2) - conversationsRadius, conversationsRadius, point[1] + (halo.getHeight() / 2) + conversationsRadius);
 
                 Path textPath = new Path();
                 textPath.addArc(oval, -88, 90 + breakAngle);
 
                 canvas.drawTextOnPath(newConversations.get(i)[0] + " - " + newConversations.get(i)[1], textPath, 0f, 0f, textPaint[x]);
-            } else
-            {
-                RectF oval = new RectF(width - conversationsRadius, point[1] + (halo.getHeight() / 2) -  conversationsRadius, width + conversationsRadius, point[1] + (halo.getHeight() / 2) + conversationsRadius);
+            } else {
+                RectF oval = new RectF(width - conversationsRadius, point[1] + (halo.getHeight() / 2) - conversationsRadius, width + conversationsRadius, point[1] + (halo.getHeight() / 2) + conversationsRadius);
 
                 Path textPath = new Path();
                 textPath.addArc(oval, -180 - breakAngle + 5, breakAngle + 90);
@@ -191,17 +183,14 @@ public class ArcView extends ViewGroup {
         return false;
     }
 
-    public void updateTextPaint()
-    {
+    public void updateTextPaint() {
         textPaint = new Paint[newConversations.size()];
 
-        for(int x = 0; x < newConversations.size(); x++)
-        {
+        for (int x = 0; x < newConversations.size(); x++) {
             textPaint[x] = new Paint();
         }
 
-        for(int i = 0; i < newConversations.size(); i++)
-        {
+        for (int i = 0; i < newConversations.size(); i++) {
             textPaint[i].setAntiAlias(true);
             textPaint[i].setColor(Color.WHITE);
             textPaint[i].setAlpha(SlideOverService.START_ALPHA2);
@@ -210,23 +199,22 @@ public class ArcView extends ViewGroup {
         }
     }
 
-    public int[] getPosition()
-    {
+    public int[] getPosition() {
         int[] returnArray = {0, 0};
 
         if (sharedPrefs.getString("slideover_side", "left").equals("left")) {
-            returnArray[0] = (int)(-1 * halo.getWidth() * (1 - SlideOverService.HALO_SLIVER_RATIO));
+            returnArray[0] = (int) (-1 * halo.getWidth() * (1 - SlideOverService.HALO_SLIVER_RATIO));
         } else {
-            returnArray[0] = (int)(width - (halo.getWidth() * SlideOverService.HALO_SLIVER_RATIO));
+            returnArray[0] = (int) (width - (halo.getWidth() * SlideOverService.HALO_SLIVER_RATIO));
         }
 
-        returnArray[1] = (int)(SlideOverService.PERCENT_DOWN_SCREEN);
+        returnArray[1] = (int) (SlideOverService.PERCENT_DOWN_SCREEN);
 
         return returnArray;
     }
 
     public static void setDisplay() {
-        Display d = ((WindowManager)mContext.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+        Display d = ((WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         height = d.getHeight();
         width = d.getWidth();
     }

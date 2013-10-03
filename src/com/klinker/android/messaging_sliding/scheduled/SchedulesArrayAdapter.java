@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-public class SchedulesArrayAdapter  extends ArrayAdapter<String> {
+public class SchedulesArrayAdapter extends ArrayAdapter<String> {
     private final Activity context;
     private final ArrayList<String[]> text;
     public SharedPreferences sharedPrefs;
@@ -36,8 +36,7 @@ public class SchedulesArrayAdapter  extends ArrayAdapter<String> {
     }
 
     @Override
-    public int getCount()
-    {
+    public int getCount() {
         return text.size();
     }
 
@@ -59,7 +58,7 @@ public class SchedulesArrayAdapter  extends ArrayAdapter<String> {
             ViewHolder viewHolder = new ViewHolder();
 
             viewHolder.name = (TextView) rowView.findViewById(R.id.sms);
-            viewHolder.name.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,2)));
+            viewHolder.name.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0, 2)));
 
             viewHolder.date = (TextView) rowView.findViewById(R.id.date);
             viewHolder.date.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0, 2)));
@@ -81,19 +80,15 @@ public class SchedulesArrayAdapter  extends ArrayAdapter<String> {
         String contactName = ContactUtil.loadGroupContacts(text.get(position)[0].replaceAll(";", ""), context);
         String dateString;
 
-        if (sharedPrefs.getBoolean("hour_format", false))
-        {
+        if (sharedPrefs.getBoolean("hour_format", false)) {
             dateString = DateFormat.getDateInstance(DateFormat.SHORT, Locale.GERMAN).format(sendDate);
-        } else
-        {
+        } else {
             dateString = DateFormat.getDateInstance(DateFormat.SHORT, Locale.US).format(sendDate);
         }
 
-        if (sharedPrefs.getBoolean("hour_format", false))
-        {
+        if (sharedPrefs.getBoolean("hour_format", false)) {
             dateString += " " + DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(sendDate);
-        } else
-        {
+        } else {
             dateString += " " + DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(sendDate);
         }
 

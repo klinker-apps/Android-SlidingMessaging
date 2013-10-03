@@ -51,10 +51,10 @@ public class ChangeLogWizardModel extends AbstractWizardModel {
         }
 
         String changeLog = "Version " + version + ":\n\n";// +
-               // "- Rewrite of sliding menus\n" +
-                //"- Added a navigation drawer to compose new messages instead of sliding menu\n" +
-                //"- Tons of optimizations\n" +
-                //"- Bug fixes";
+        // "- Rewrite of sliding menus\n" +
+        //"- Added a navigation drawer to compose new messages instead of sliding menu\n" +
+        //"- Tons of optimizations\n" +
+        //"- Bug fixes";
 
         try {
             AssetManager assetManager = mContext.getAssets();
@@ -67,7 +67,7 @@ public class ChangeLogWizardModel extends AbstractWizardModel {
             changeLog += "Error reading change log. Find it on the Play Store or on our Google+ Beta Group (http://goo.gl/I7oxPg).";
         }
 
-                
+
         String themeEditor = "The theme editor now fully supports the Cards UI 2.0, making it a " +
                 "better time than ever to get on board and start making Sliding Messaging Pro look exactly how you want!\n\n" +
                 mContext.getString(R.string.theme_support);
@@ -76,42 +76,34 @@ public class ChangeLogWizardModel extends AbstractWizardModel {
 
         String goSMS = mContext.getString(R.string.go_sms_body);
 
-        try
-        {
+        try {
             PackageManager pm = mContext.getPackageManager();
             pm.getPackageInfo("com.klinker.android.messaging_theme", PackageManager.GET_ACTIVITIES);
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             needTheme = true;
             extraPageCount++;
         }
 
-        try
-        {
+        try {
             PackageManager pm = mContext.getPackageManager();
             pm.getPackageInfo("com.klinker.android.emoji_keyboard_trial", PackageManager.GET_ACTIVITIES);
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             needEmoji = true;
             extraPageCount++;
         }
 
-        try
-        {
+        try {
             PackageManager pm = mContext.getPackageManager();
-     		pm.getPackageInfo("com.jb.gosms", PackageManager.GET_ACTIVITIES);
-        } catch (Exception e)
-        {
+            pm.getPackageInfo("com.jb.gosms", PackageManager.GET_ACTIVITIES);
+        } catch (Exception e) {
             haveGoSMS = false;
             extraPageCount--;
         }
 
 
-        switch(extraPageCount)
-        {
+        switch (extraPageCount) {
             case 1:
-                if (needTheme)
-                {
+                if (needTheme) {
                     return new PageList(
                             new MessagePage(this, mContext.getString(R.string.changelog_title))
                                     .setMessage(changeLog)
@@ -121,8 +113,7 @@ public class ChangeLogWizardModel extends AbstractWizardModel {
                                     .setExtra(themeEditor, "market://details?id=com.klinker.android.messaging_theme")
                                     .setRequired(false));
 
-                } else if (haveGoSMS)
-                {
+                } else if (haveGoSMS) {
                     return new PageList(
                             new MessagePage(this, mContext.getString(R.string.changelog_title))
                                     .setMessage(changeLog)
@@ -133,8 +124,7 @@ public class ChangeLogWizardModel extends AbstractWizardModel {
                                     .setRequired(false));
 
 
-                } else if (needEmoji)
-                {
+                } else if (needEmoji) {
                     return new PageList(
                             new MessagePage(this, mContext.getString(R.string.changelog_title))
                                     .setMessage(changeLog)
@@ -147,8 +137,7 @@ public class ChangeLogWizardModel extends AbstractWizardModel {
 
             case 2:
 
-                if(needTheme && haveGoSMS)
-                {
+                if (needTheme && haveGoSMS) {
                     return new PageList(
                             new MessagePage(this, mContext.getString(R.string.changelog_title))
                                     .setMessage(changeLog)
@@ -161,8 +150,7 @@ public class ChangeLogWizardModel extends AbstractWizardModel {
                             new MessagePage(this, mContext.getString(R.string.go_sms_title))
                                     .setMessage(goSMS)
                                     .setRequired(false));
-                } else if (needTheme && needEmoji)
-                {
+                } else if (needTheme && needEmoji) {
                     return new PageList(
                             new MessagePage(this, mContext.getString(R.string.changelog_title))
                                     .setMessage(changeLog)
@@ -175,8 +163,7 @@ public class ChangeLogWizardModel extends AbstractWizardModel {
                             new LinkPage(this, mContext.getString(R.string.need_emoji_title))
                                     .setExtra(emojiKeyboard, "market://details?id=com.klinker.android.emoji_keyboard_trial")
                                     .setRequired(false));
-                } else if (needEmoji && haveGoSMS)
-                {
+                } else if (needEmoji && haveGoSMS) {
                     return new PageList(
                             new MessagePage(this, mContext.getString(R.string.changelog_title))
                                     .setMessage(changeLog)

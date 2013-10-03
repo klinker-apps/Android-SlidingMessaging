@@ -35,8 +35,7 @@ public class SearchActivity extends Activity {
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        if (sharedPrefs.getBoolean("ct_light_action_bar", false))
-        {
+        if (sharedPrefs.getBoolean("ct_light_action_bar", false)) {
             setTheme(R.style.HangoutsTheme);
         }
 
@@ -87,22 +86,17 @@ public class SearchActivity extends Activity {
 
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        if (!sharedPrefs.getBoolean("ct_light_action_bar", false))
-        {
+        if (!sharedPrefs.getBoolean("ct_light_action_bar", false)) {
             actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.black)));
 
-            if (sharedPrefs.getInt("ct_conversationListBackground", getResources().getColor(R.color.light_silver)) == getResources().getColor(R.color.pitch_black))
-            {
-                if (!sharedPrefs.getBoolean("hide_title_bar", true))
-                {
+            if (sharedPrefs.getInt("ct_conversationListBackground", getResources().getColor(R.color.light_silver)) == getResources().getColor(R.color.pitch_black)) {
+                if (!sharedPrefs.getBoolean("hide_title_bar", true)) {
                     actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.pitch_black_action_bar_blue));
-                } else
-                {
+                } else {
                     actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.pitch_black)));
                 }
             }
-        } else
-        {
+        } else {
             actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.ab_hangouts));
         }
 
@@ -128,11 +122,9 @@ public class SearchActivity extends Activity {
 
         lv.setDivider(new ColorDrawable(sharedPrefs.getInt("ct_messageDividerColor", getResources().getColor(R.color.light_silver))));
 
-        if (sharedPrefs.getBoolean("ct_messageDividerVisibility", true) && sharedPrefs.getString("run_as", "sliding").equals("sliding"))
-        {
+        if (sharedPrefs.getBoolean("ct_messageDividerVisibility", true) && sharedPrefs.getString("run_as", "sliding").equals("sliding")) {
             lv.setDividerHeight(1);
-        } else
-        {
+        } else {
             lv.setDividerHeight(0);
         }
 
@@ -150,40 +142,37 @@ public class SearchActivity extends Activity {
     }
 
 
-
-    public ArrayList<String[]> fillMessages(String text)
-    {
+    public ArrayList<String[]> fillMessages(String text) {
         ArrayList<String[]> messages = new ArrayList<String[]>();
 
-        Uri uri ;
+        Uri uri;
         Cursor c;
         uri = Uri.parse("content://sms");
-        c = getContentResolver().query(uri, null, null ,null, "date DESC");
+        c = getContentResolver().query(uri, null, null, null, "date DESC");
 
         String body;
 
-        if(c.moveToFirst()){
-            for(int i=0;i<c.getCount();i++){
+        if (c.moveToFirst()) {
+            for (int i = 0; i < c.getCount(); i++) {
 
                 //if (c.getString(c.getColumnIndexOrThrow("msg_box")) != null)
                 //{
 
                 //} else
                 //{
-                    body = c.getString(c.getColumnIndexOrThrow("body"));
+                body = c.getString(c.getColumnIndexOrThrow("body"));
 
-                    if (body.toUpperCase().contains(text.toUpperCase()))
-                    {
-                        String[] data = new String[6];
-                        data[0] = c.getString(c.getColumnIndexOrThrow("address"));
-                        data[1] = body;
-                        data[2] = c.getString(c.getColumnIndexOrThrow("date"));
-                        data[3] = c.getString(c.getColumnIndexOrThrow("type"));
-                        data[4] = "false";
-                        data[5] = c.getString(c.getColumnIndexOrThrow("_id"));
+                if (body.toUpperCase().contains(text.toUpperCase())) {
+                    String[] data = new String[6];
+                    data[0] = c.getString(c.getColumnIndexOrThrow("address"));
+                    data[1] = body;
+                    data[2] = c.getString(c.getColumnIndexOrThrow("date"));
+                    data[3] = c.getString(c.getColumnIndexOrThrow("type"));
+                    data[4] = "false";
+                    data[5] = c.getString(c.getColumnIndexOrThrow("_id"));
 
-                        messages.add(data);
-                    }
+                    messages.add(data);
+                }
                 //}
 
 

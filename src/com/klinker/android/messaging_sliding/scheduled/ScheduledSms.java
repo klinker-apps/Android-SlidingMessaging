@@ -53,8 +53,7 @@ public class ScheduledSms extends Activity {
     private Activity activity;
 
     @Override
-    protected void onResume()
-    {
+    protected void onResume() {
         super.onResume();
         text = IOUtil.readScheduledSMS2(this, false);
 
@@ -75,7 +74,7 @@ public class ScheduledSms extends Activity {
         sms = (ListView) findViewById(R.id.smsListView);
         addNew = (Button) findViewById(R.id.addNewButton);
 
-        sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         context = this;
 
         text = IOUtil.readScheduledSMS2(this, true);
@@ -84,16 +83,14 @@ public class ScheduledSms extends Activity {
         sms.setAdapter(adapter);
         sms.setStackFromBottom(false);
 
-        if (sharedPrefs.getBoolean("override_lang", false))
-        {
-            String languageToLoad  = "en";
+        if (sharedPrefs.getBoolean("override_lang", false)) {
+            String languageToLoad = "en";
             Locale locale = new Locale(languageToLoad);
             Locale.setDefault(locale);
             Configuration config = new Configuration();
             config.locale = locale;
             getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
-        } else
-        {
+        } else {
             String languageToLoad = Resources.getSystem().getConfiguration().locale.getLanguage();
             Locale locale = new Locale(languageToLoad);
             Locale.setDefault(locale);
@@ -134,7 +131,7 @@ public class ScheduledSms extends Activity {
         sms.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1,
-                                           final int pos, long arg3) {
+                                    final int pos, long arg3) {
                 try {
                     cancelAlarm(Integer.parseInt(text.get(pos)[4]), text.get(pos)[2], Long.parseLong(text.get(pos)[1]));
                 } catch (Exception e) {
@@ -168,7 +165,7 @@ public class ScheduledSms extends Activity {
             }
 
         });
-        linkItems = new String[] { getResources().getString(R.string.theme_settings),
+        linkItems = new String[]{getResources().getString(R.string.theme_settings),
                 getResources().getString(R.string.notification_settings),
                 getResources().getString(R.string.popup_settings),
                 getResources().getString(R.string.slideover_settings),
@@ -177,13 +174,13 @@ public class ScheduledSms extends Activity {
                 getResources().getString(R.string.mms_settings),
                 getResources().getString(R.string.google_voice_settings),
                 getResources().getString(R.string.security_settings),
-                getResources().getString(R.string.advanced_settings)   };
+                getResources().getString(R.string.advanced_settings)};
 
-        otherItems = new String[] {getResources().getString(R.string.quick_templates),
+        otherItems = new String[]{getResources().getString(R.string.quick_templates),
                 getResources().getString(R.string.scheduled_sms),
                 getResources().getString(R.string.get_help),
                 getResources().getString(R.string.other_apps),
-                getResources().getString(R.string.rate_it) };
+                getResources().getString(R.string.rate_it)};
 
         DrawerArrayAdapter.current = 1;
         SettingsPagerActivity.settingsLinksActive = false;
@@ -244,7 +241,7 @@ public class ScheduledSms extends Activity {
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-    private class SpinnerClickListener implements  Spinner.OnItemSelectedListener {
+    private class SpinnerClickListener implements Spinner.OnItemSelectedListener {
         @Override
         // sets the string repetition to whatever is choosen from the spinner
         public void onItemSelected(AdapterView<?> parent, View view,
@@ -295,7 +292,7 @@ public class ScheduledSms extends Activity {
                         mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         mIntent.putExtra("page_number", mPositition);
                         startActivity(mIntent);
-                        overridePendingTransition(0,0);
+                        overridePendingTransition(0, 0);
                     }
                 }, 200);
             } else {
@@ -309,7 +306,7 @@ public class ScheduledSms extends Activity {
                                 Intent mIntent = new Intent(context, TemplateActivity.class);
                                 mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(mIntent);
-                                overridePendingTransition(0,0);
+                                overridePendingTransition(0, 0);
                                 //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                             }
                         }, 200);
@@ -336,7 +333,7 @@ public class ScheduledSms extends Activity {
                                 Intent mIntent = new Intent(context, GetHelpSettingsActivity.class);
                                 mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                                 startActivity(mIntent);
-                                overridePendingTransition(0,0);
+                                overridePendingTransition(0, 0);
                                 //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                             }
                         }, 200);
@@ -350,7 +347,7 @@ public class ScheduledSms extends Activity {
                                 Intent mIntent = new Intent(context, OtherAppsSettingsActivity.class);
                                 mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                                 startActivity(mIntent);
-                                overridePendingTransition(0,0);
+                                overridePendingTransition(0, 0);
                                 //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                             }
                         }, 200);
@@ -410,12 +407,10 @@ public class ScheduledSms extends Activity {
         overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
     }
 
-    public static void removeOld()
-    {
+    public static void removeOld() {
         ArrayList<String[]> list = IOUtil.readScheduledSMS2(context, false);
 
-        for(int i = 0; i < list.size(); i++)
-        {
+        for (int i = 0; i < list.size(); i++) {
             try {
                 Date sendDate = new Date(Long.parseLong(list.get(i)[1]));
                 if (sendDate.before(new Date()) && list.get(i)[2].equals("None")) // date is earlier than current and no repetition
@@ -431,8 +426,7 @@ public class ScheduledSms extends Activity {
         IOUtil.writeScheduledSMS(list, context);
     }
 
-    public void cancelAlarm(int alarmId, String repetition, long date)
-    {
+    public void cancelAlarm(int alarmId, String repetition, long date) {
         Intent serviceIntent = new Intent(getApplicationContext(), ScheduledService.class);
 
         PendingIntent pi = getDistinctPendingIntent(serviceIntent, alarmId);
@@ -442,8 +436,7 @@ public class ScheduledSms extends Activity {
         am.cancel(pi);
     }
 
-    protected PendingIntent getDistinctPendingIntent(Intent intent, int requestId)
-    {
+    protected PendingIntent getDistinctPendingIntent(Intent intent, int requestId) {
         PendingIntent pi =
                 PendingIntent.getService(
                         this,         //context

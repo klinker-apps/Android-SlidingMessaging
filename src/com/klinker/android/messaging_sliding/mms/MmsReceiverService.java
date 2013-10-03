@@ -5,7 +5,6 @@ import android.content.*;
 import android.database.Cursor;
 import android.database.sqlite.SqliteWrapper;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -15,7 +14,6 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.preference.PreferenceManager;
-import android.provider.MediaStore;
 import android.provider.Telephony;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
@@ -31,8 +29,9 @@ import com.google.android.mms.pdu_alt.RetrieveConf;
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.utils.ContactUtil;
+import com.klinker.android.messaging_donate.utils.IOUtil;
 import com.klinker.android.messaging_donate.utils.SendUtil;
-import com.klinker.android.messaging_sliding.receivers.CacheService;
+import com.klinker.android.messaging_sliding.MessageCursorAdapter;
 import com.klinker.android.messaging_sliding.receivers.NotificationReceiver;
 import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
 import com.klinker.android.messaging_sliding.receivers.TextMessageReceiver;
@@ -41,7 +40,7 @@ import com.klinker.android.send_message.Settings;
 import com.klinker.android.send_message.Transaction;
 import com.klinker.android.send_message.Utils;
 
-import java.io.*;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -96,7 +95,7 @@ public class MmsReceiverService extends Service {
     }
 
     private void getLocation() throws Exception {
-        Cursor locationQuery = context.getContentResolver().query(Uri.parse("content://mms/"), new String[] {"ct_l", "thread_id", "_id"}, null, null, "date desc");
+        Cursor locationQuery = context.getContentResolver().query(Uri.parse("content://mms/"), new String[]{"ct_l", "thread_id", "_id"}, null, null, "date desc");
 
         if (locationQuery != null && locationQuery.moveToFirst()) {
             downloadLocation = locationQuery.getString(locationQuery.getColumnIndex("ct_l"));
@@ -110,6 +109,7 @@ public class MmsReceiverService extends Service {
     }
 
     private boolean alreadyReceiving = false;
+
     private void startDownload() {
         revokeWifi(true);
 
@@ -295,7 +295,7 @@ public class MmsReceiverService extends Service {
             SqliteWrapper.update(context, context.getContentResolver(),
                     msgUri, values, null, null);
             SqliteWrapper.delete(context, context.getContentResolver(),
-                    Uri.parse("content://mms/"), "thread_id=? and _id=?", new String[] {threadId, msgId});
+                    Uri.parse("content://mms/"), "thread_id=? and _id=?", new String[]{threadId, msgId});
 
             findImageAndNotify();
         } catch (Exception e) {
@@ -313,11 +313,9 @@ public class MmsReceiverService extends Service {
                 Log.v("attempting_mms_download", "failed");
 
                 if (phoneNumber != null) {
-                    if (sharedPrefs.getBoolean("secure_notification", false))
-                    {
+                    if (sharedPrefs.getBoolean("secure_notification", false)) {
                         makeNotification("New Picture Message", "", null, phoneNumber, "", Calendar.getInstance().getTimeInMillis() + "", context);
-                    } else
-                    {
+                    } else {
                         makeNotification("New Picture Message", phoneNumber, null, phoneNumber, "", Calendar.getInstance().getTimeInMillis() + "", context);
                     }
                 }
@@ -338,7 +336,7 @@ public class MmsReceiverService extends Service {
             e.printStackTrace();
         }
 
-        Cursor query = context.getContentResolver().query(Uri.parse("content://mms/"), new String[] {"_id"}, null, null, null);
+        Cursor query = context.getContentResolver().query(Uri.parse("content://mms/"), new String[]{"_id"}, null, null, null);
         query.moveToFirst();
 
         String selectionPart = "mid=" + query.getString(query.getColumnIndex("_id"));
@@ -356,7 +354,7 @@ public class MmsReceiverService extends Service {
                 if ("text/plain".equals(type)) {
                     String data = cursor.getString(cursor.getColumnIndex("_data"));
                     if (data != null) {
-                        body2 = getMmsText(partId, (Activity) context);
+                        body2 = MessageCursorAdapter.getMmsText(partId, (Activity) context);
                         body += body2;
                     } else {
                         body2 = cursor.getString(cursor.getColumnIndex("text"));
@@ -368,11 +366,9 @@ public class MmsReceiverService extends Service {
                 if ("image/jpeg".equals(type) || "image/bmp".equals(type) ||
                         "image/gif".equals(type) || "image/jpg".equals(type) ||
                         "image/png".equals(type)) {
-                    if (image == null)
-                    {
+                    if (image == null) {
                         image = "content://mms/part/" + partId;
-                    } else
-                    {
+                    } else {
                         image += " content://mms/part/" + partId;
                     }
                 }
@@ -382,17 +378,13 @@ public class MmsReceiverService extends Service {
         String images[] = image.trim().split(" ");
 
         if (phoneNumber != null) {
-            if (sharedPrefs.getBoolean("secure_notification", false))
-            {
+            if (sharedPrefs.getBoolean("secure_notification", false)) {
                 makeNotification("New MMS Message", "", null, phoneNumber, body, Calendar.getInstance().getTimeInMillis() + "", context);
-            } else
-            {
-                if (images[0].trim().equals(""))
-                {
+            } else {
+                if (images[0].trim().equals("")) {
                     makeNotification(name, body, null, phoneNumber, body, Calendar.getInstance().getTimeInMillis() + "", context);
-                } else
-                {
-                    Bitmap b = decodeFile(new File(getRealPathFromURI(Uri.parse(images[0].trim()))));
+                } else {
+                    Bitmap b = IOUtil.decodeFile(new File(IOUtil.getPath(Uri.parse(images[0].trim()), context)));
                     makeNotification(name, body, b, phoneNumber, body, Calendar.getInstance().getTimeInMillis() + "", context);
                 }
             }
@@ -401,26 +393,20 @@ public class MmsReceiverService extends Service {
         removeOldThread();
     }
 
-    public static void makeNotification(String title, String text, Bitmap image, String address, String body, String date, Context context)
-    {
+    public static void makeNotification(String title, String text, Bitmap image, String address, String body, String date, final Context context) {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
-        if (sharedPrefs.getBoolean("notifications", true))
-        {
+        if (sharedPrefs.getBoolean("notifications", true)) {
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(context)
                             .setSmallIcon(R.drawable.stat_notify_mms)
                             .setContentTitle(title)
                             .setContentText(text);
 
-            if (!sharedPrefs.getBoolean("secure_notification", false))
-            {
-                try
-                {
+            if (!sharedPrefs.getBoolean("secure_notification", false)) {
+                try {
                     mBuilder.setLargeIcon(ContactUtil.getFacebookPhoto(address, context));
-                } catch (Exception e)
-                {
-
+                } catch (Exception e) {
                 }
             }
 
@@ -441,92 +427,69 @@ public class MmsReceiverService extends Service {
 
             mBuilder.setAutoCancel(true);
 
-            if (sharedPrefs.getBoolean("vibrate", true))
-            {
-                if (!sharedPrefs.getBoolean("custom_vibrate_pattern", false))
-                {
+            if (sharedPrefs.getBoolean("vibrate", true)) {
+                if (!sharedPrefs.getBoolean("custom_vibrate_pattern", false)) {
                     String vibPat = sharedPrefs.getString("vibrate_pattern", "2short");
 
-                    if (vibPat.equals("short"))
-                    {
+                    if (vibPat.equals("short")) {
                         long[] pattern = {0L, 400L};
                         mBuilder.setVibrate(pattern);
-                    } else if (vibPat.equals("long"))
-                    {
+                    } else if (vibPat.equals("long")) {
                         long[] pattern = {0L, 800L};
                         mBuilder.setVibrate(pattern);
-                    } else if (vibPat.equals("2short"))
-                    {
+                    } else if (vibPat.equals("2short")) {
                         long[] pattern = {0L, 400L, 100L, 400L};
                         mBuilder.setVibrate(pattern);
-                    } else if (vibPat.equals("2long"))
-                    {
+                    } else if (vibPat.equals("2long")) {
                         long[] pattern = {0L, 800L, 200L, 800L};
                         mBuilder.setVibrate(pattern);
-                    } else if (vibPat.equals("3short"))
-                    {
+                    } else if (vibPat.equals("3short")) {
                         long[] pattern = {0L, 400L, 100L, 400L, 100L, 400L};
                         mBuilder.setVibrate(pattern);
-                    } else if (vibPat.equals("3long"))
-                    {
+                    } else if (vibPat.equals("3long")) {
                         long[] pattern = {0L, 800L, 200L, 800L, 200L, 800L};
                         mBuilder.setVibrate(pattern);
                     }
-                } else
-                {
-                    try
-                    {
+                } else {
+                    try {
                         String[] vibPat = sharedPrefs.getString("set_custom_vibrate_pattern", "0, 100, 100, 100").split(", ");
                         long[] pattern = new long[vibPat.length];
 
-                        for (int i = 0; i < vibPat.length; i++)
-                        {
+                        for (int i = 0; i < vibPat.length; i++) {
                             pattern[i] = Long.parseLong(vibPat[i]);
                         }
 
                         mBuilder.setVibrate(pattern);
-                    } catch (Exception e)
-                    {
-
+                    } catch (Exception e) {
                     }
                 }
             }
 
-            if (sharedPrefs.getBoolean("led", true))
-            {
+            if (sharedPrefs.getBoolean("led", true)) {
                 String ledColor = sharedPrefs.getString("led_color", "white");
                 int ledOn = sharedPrefs.getInt("led_on_time", 1000);
                 int ledOff = sharedPrefs.getInt("led_off_time", 2000);
 
-                if (ledColor.equalsIgnoreCase("white"))
-                {
+                if (ledColor.equalsIgnoreCase("white")) {
                     mBuilder.setLights(0xFFFFFFFF, ledOn, ledOff);
-                } else if (ledColor.equalsIgnoreCase("blue"))
-                {
+                } else if (ledColor.equalsIgnoreCase("blue")) {
                     mBuilder.setLights(0xFF33B5E5, ledOn, ledOff);
-                } else if (ledColor.equalsIgnoreCase("green"))
-                {
+                } else if (ledColor.equalsIgnoreCase("green")) {
                     mBuilder.setLights(0xFF00FF00, ledOn, ledOff);
-                } else if (ledColor.equalsIgnoreCase("orange"))
-                {
+                } else if (ledColor.equalsIgnoreCase("orange")) {
                     mBuilder.setLights(0xFFFF8800, ledOn, ledOff);
-                } else if (ledColor.equalsIgnoreCase("red"))
-                {
+                } else if (ledColor.equalsIgnoreCase("red")) {
                     mBuilder.setLights(0xFFCC0000, ledOn, ledOff);
-                } else if (ledColor.equalsIgnoreCase("purple"))
-                {
+                } else if (ledColor.equalsIgnoreCase("purple")) {
                     mBuilder.setLights(0xFFAA66CC, ledOn, ledOff);
-                } else
-                {
+                } else {
                     mBuilder.setLights(0xFFFFFFFF, ledOn, ledOff);
                 }
             }
 
-            try
-            {
+            try {
                 mBuilder.setSound(Uri.parse(sharedPrefs.getString("ringtone", "null")));
-            } catch(Exception e)
-            {
+            } catch (Exception e) {
                 mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
             }
 
@@ -541,7 +504,6 @@ public class MmsReceiverService extends Service {
                 try {
                     Looper.prepare();
                 } catch (Exception e) {
-
                 }
 
                 new Handler().postDelayed(new Runnable() {
@@ -554,21 +516,16 @@ public class MmsReceiverService extends Service {
 
             Notification notification;
 
-            if (image != null && !sharedPrefs.getBoolean("secure_notification", false))
-            {
+            if (image != null && !sharedPrefs.getBoolean("secure_notification", false)) {
                 NotificationCompat.BigPictureStyle picBuilder = new NotificationCompat.BigPictureStyle(mBuilder);
 
-                try
-                {
+                try {
                     picBuilder.bigPicture(image);
-                } catch (Exception e)
-                {
-
+                } catch (Exception e) {
                 }
 
                 notification = picBuilder.build();
-            } else
-            {
+            } else {
                 notification = mBuilder.build();
             }
 
@@ -579,14 +536,24 @@ public class MmsReceiverService extends Service {
             Intent updateWidget = new Intent("com.klinker.android.messaging.RECEIVED_MMS");
             context.sendBroadcast(updateWidget);
 
-            Intent newMms = new Intent("com.klinker.android.messaging.NEW_MMS");
+            final Intent newMms = new Intent("com.klinker.android.messaging.NEW_MMS");
             newMms.putExtra("address", address);
             newMms.putExtra("body", body);
             newMms.putExtra("date", date);
-            context.sendBroadcast(newMms);
 
-            if (!sharedPrefs.getString("repeating_notification", "none").equals("none"))
-            {
+            try {
+                Looper.prepare();
+            } catch (Exception e) {
+            }
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    context.sendBroadcast(newMms);
+                }
+            }, 1000);
+
+            if (!sharedPrefs.getString("repeating_notification", "none").equals("none")) {
                 Calendar cal = Calendar.getInstance();
 
                 Intent repeatingIntent = new Intent(context, NotificationRepeaterService.class);
@@ -594,17 +561,11 @@ public class MmsReceiverService extends Service {
                 AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
                 alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis() + Long.parseLong(sharedPrefs.getString("repeating_notification", "none")), Long.parseLong(sharedPrefs.getString("repeating_notification", "none")), pRepeatingIntent);
             }
-
-            if (sharedPrefs.getBoolean("cache_conversations", false)) {
-                Intent cacheService = new Intent(context, CacheService.class);
-                context.startService(cacheService);
-            }
         }
     }
 
     private void removeOldThread() {
-        try
-        {
+        try {
             String[] projection = new String[]{"_id", "message_count"};
             Uri uri = Uri.parse("content://mms-sms/conversations/?simple=true");
             Cursor query = getContentResolver().query(uri, projection, null, null, "date desc");
@@ -617,7 +578,7 @@ public class MmsReceiverService extends Service {
                     if (msgCount == 0) {
                         try {
                             context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/" + id + "/"), null, null);
-                            context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/"), "_id=?", new String[] {id});
+                            context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/"), "_id=?", new String[]{id});
                         } catch (Exception e) {
 
                         }
@@ -626,72 +587,10 @@ public class MmsReceiverService extends Service {
             }
 
             query.close();
-        } catch (Exception e)
-        {
-
+        } catch (Exception e) {
         }
     }
 
-    private String getMmsText(String id, Activity context) {
-        Uri partURI = Uri.parse("content://mms/part/" + id);
-        InputStream is = null;
-        StringBuilder sb = new StringBuilder();
-        try {
-            is = context.getContentResolver().openInputStream(partURI);
-            if (is != null) {
-                InputStreamReader isr = new InputStreamReader(is, "UTF-8");
-                BufferedReader reader = new BufferedReader(isr);
-                String temp = reader.readLine();
-                while (temp != null) {
-                    sb.append(temp);
-                    temp = reader.readLine();
-                }
-            }
-        } catch (IOException e) {}
-        finally {
-            if (is != null) {
-                try {
-                    is.close();
-                } catch (IOException e) {}
-            }
-        }
-        return sb.toString();
-    }
-
-    private Bitmap decodeFile(File f){
-        try {
-            //Decode image size
-            BitmapFactory.Options o = new BitmapFactory.Options();
-            o.inJustDecodeBounds = true;
-            BitmapFactory.decodeStream(new FileInputStream(f),null,o);
-
-            //The new size we want to scale to
-            final int REQUIRED_SIZE=200;
-
-            //Find the correct scale value. It should be the power of 2.
-            int scale=1;
-            while(o.outWidth/scale/2>=REQUIRED_SIZE && o.outHeight/scale/2>=REQUIRED_SIZE)
-                scale*=2;
-
-            //Decode with inSampleSize
-            BitmapFactory.Options o2 = new BitmapFactory.Options();
-            o2.inSampleSize=scale;
-            return BitmapFactory.decodeStream(new FileInputStream(f), null, o2);
-        } catch (FileNotFoundException e) {e.printStackTrace();}
-        return null;
-    }
-
-    public String getRealPathFromURI(Uri contentUri) {
-        String[] proj = { MediaStore.Images.Media.DATA };
-        Cursor cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        String path = cursor.getString(column_index);
-        cursor.close();
-        return path;
-    }
-
-    // FIXME again with the wifi problems... should not have to do this at all
     private void reinstateWifi() {
         try {
             context.unregisterReceiver(settings.discon);
@@ -706,7 +605,6 @@ public class MmsReceiverService extends Service {
         Utils.setMobileDataEnabled(context, settings.currentDataState);
     }
 
-    // FIXME it should not be required to disable wifi and enable mobile data manually, but I have found no way to use the two at the same time
     private void revokeWifi(boolean saveState) {
         WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
 

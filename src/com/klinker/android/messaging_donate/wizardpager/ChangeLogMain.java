@@ -135,8 +135,7 @@ public class ChangeLogMain extends FragmentActivity implements
 
                     boolean flag = false;
 
-                    if (fromIntent.getStringExtra("com.klinker.android.OPEN") != null)
-                    {
+                    if (fromIntent.getStringExtra("com.klinker.android.OPEN") != null) {
                         flag = true;
                     }
 
@@ -144,16 +143,13 @@ public class ChangeLogMain extends FragmentActivity implements
                     intent.setAction(fromIntent.getAction());
                     intent.setData(fromIntent.getData());
 
-                    try
-                    {
+                    try {
                         intent.putExtras(fromIntent.getExtras());
-                    } catch (Exception e)
-                    {
+                    } catch (Exception e) {
 
                     }
 
-                    if (flag)
-                    {
+                    if (flag) {
                         intent.putExtra("com.klinker.android.OPEN", intent.getStringExtra("com.klinker.android.OPEN"));
                     }
 
@@ -313,30 +309,24 @@ public class ChangeLogMain extends FragmentActivity implements
         public int getCount() {
             int extraPageCount = 1;
 
-            try
-            {
+            try {
                 PackageManager pm = getBaseContext().getPackageManager();
                 pm.getPackageInfo("com.klinker.android.messaging_theme", PackageManager.GET_ACTIVITIES);
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 extraPageCount++;
             }
 
-            try
-            {
+            try {
                 PackageManager pm = getBaseContext().getPackageManager();
                 pm.getPackageInfo("com.klinker.android.emoji_keyboard_trial", PackageManager.GET_ACTIVITIES);
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 extraPageCount++;
             }
 
-            try
-            {
+            try {
                 PackageManager pm = getBaseContext().getPackageManager();
                 pm.getPackageInfo("com.jb.gosms", PackageManager.GET_ACTIVITIES);
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 extraPageCount--;
             }
 

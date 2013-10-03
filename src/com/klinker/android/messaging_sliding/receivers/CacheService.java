@@ -49,8 +49,7 @@ public class CacheService extends IntentService {
                 String[] projection2;
                 String proj = "_id body date type read msg_box";
 
-                if (sharedPrefs.getBoolean("show_original_timestamp", false))
-                {
+                if (sharedPrefs.getBoolean("show_original_timestamp", false)) {
                     proj += " date_sent";
                 }
 
@@ -62,8 +61,7 @@ public class CacheService extends IntentService {
 
                 String sortOrder = "normalized_date desc";
 
-                if (sharedPrefs.getBoolean("limit_messages", true))
-                {
+                if (sharedPrefs.getBoolean("limit_messages", true)) {
                     sortOrder += " limit 20";
                 }
 

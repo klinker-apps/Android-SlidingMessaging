@@ -53,20 +53,20 @@ import java.util.regex.Pattern;
 
 public class CardQuickReply extends FragmentActivity {
 
-	public SectionsPagerAdapter mSectionsPagerAdapter;
-	public ViewPager mViewPager;
-	
-	public ArrayList<String> ids, inboxBody, inboxDate, inboxNumber;
-	public static SharedPreferences sharedPrefs;
-	
-	public static Typeface font;
-	
-	public BroadcastReceiver receiver;
+    public SectionsPagerAdapter mSectionsPagerAdapter;
+    public ViewPager mViewPager;
 
-	@SuppressWarnings("deprecation")
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    public ArrayList<String> ids, inboxBody, inboxDate, inboxNumber;
+    public static SharedPreferences sharedPrefs;
+
+    public static Typeface font;
+
+    public BroadcastReceiver receiver;
+
+    @SuppressWarnings("deprecation")
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -74,264 +74,223 @@ public class CardQuickReply extends FragmentActivity {
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         }
 
-        if (sharedPrefs.getBoolean("unlock_screen", false))
-        {
+        if (sharedPrefs.getBoolean("unlock_screen", false)) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
         }
 
-		setContentView(R.layout.card_popup);
-		
-		receiver = new BroadcastReceiver() {
-		    @Override
-		    public void onReceive(Context context, Intent intent) {
-			    	Bundle extras = intent.getExtras();
-			        
-			        String body = "";
-			        String address = "";
-			        String date = "";
-			         
-			        if ( extras != null )
-			        {
-			            Object[] smsExtra = (Object[]) extras.get( "pdus" );
-			            
-			            for ( int i = 0; i < smsExtra.length; ++i )
-			            {
-			                SmsMessage sms = SmsMessage.createFromPdu((byte[])smsExtra[i]);
-			                 
-			                body += sms.getMessageBody().toString();
-			                address = sms.getOriginatingAddress();
-			                date = sms.getTimestampMillis() + "";
-			            }
-			        }
-			        
-			        Calendar cal = Calendar.getInstance();
-			        ContentValues values = new ContentValues();
-			        values.put("address", address);
-			        values.put("body", body);
-			        values.put("date", cal.getTimeInMillis() + "");
-			        values.put("read", false);
-			        values.put("date_sent", date);
-			        getContentResolver().insert(Uri.parse("content://sms/inbox"), values);
-			        
-			        if (sharedPrefs.getBoolean("notifications", true))
-			        {
-				        AudioManager am = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
-	
-				        switch (am.getRingerMode()) {
-				            case AudioManager.RINGER_MODE_SILENT:
-				                break;
-				            case AudioManager.RINGER_MODE_VIBRATE:
-				            	if (sharedPrefs.getBoolean("vibrate", true))
-						        {
-						        	Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-						        	
-						        	if (!sharedPrefs.getBoolean("custom_vibrate_pattern", false))
-						        	{
-							        	String vibPat = sharedPrefs.getString("vibrate_pattern", "2short");
-							        	
-							        	if (vibPat.equals("short"))
-							        	{
-							        		long[] pattern = {0L, 400L};
-							        		vibrator.vibrate(pattern, -1);
-							        	} else if (vibPat.equals("long"))
-							        	{
-							        		long[] pattern = {0L, 800L};
-							        		vibrator.vibrate(pattern, -1);
-							        	} else if (vibPat.equals("2short"))
-							        	{
-							        		long[] pattern = {0L, 400L, 100L, 400L};
-							        		vibrator.vibrate(pattern, -1);
-							        	} else if (vibPat.equals("2long"))
-							        	{
-							        		long[] pattern = {0L, 800L, 200L, 800L};
-							        		vibrator.vibrate(pattern, -1);
-							        	} else if (vibPat.equals("3short"))
-							        	{
-							        		long[] pattern = {0L, 400L, 100L, 400L, 100L, 400L};
-							        		vibrator.vibrate(pattern, -1);
-							        	} else if (vibPat.equals("3long"))
-							        	{
-							        		long[] pattern = {0L, 800L, 200L, 800L, 200L, 800L};
-							        		vibrator.vibrate(pattern, -1);
-							        	}
-						        	} else
-						        	{
-						        		try
-						        		{
-							        		String[] vibPat = sharedPrefs.getString("set_custom_vibrate_pattern", "0, 100, 100, 100").split(", ");
-							        		long[] pattern = new long[vibPat.length];
-							        		
-							        		for (int i = 0; i < vibPat.length; i++)
-							        		{
-							        			pattern[i] = Long.parseLong(vibPat[i]);
-							        		}
-							        		
-							        		vibrator.vibrate(pattern, -1);
-						        		} catch (Exception e)
-						        		{
-						        			
-						        		}
-						        	}
-						        }
-				            	
-				                break;
-				            case AudioManager.RINGER_MODE_NORMAL:
-				            	try
-				            	{
-					            	Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-					            	
-					            	try
-							        {
-							        	notification = (Uri.parse(sharedPrefs.getString("ringtone", "null")));
-							        } catch(Exception e)
-							        {
-							        	notification = (RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-							        }
-					            	
-					            	Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
-					            	r.play();
-					            	
-					            	if (sharedPrefs.getBoolean("vibrate", true))
-							        {
-							        	Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-							        	
-							        	if (!sharedPrefs.getBoolean("custom_vibrate_pattern", false))
-							        	{
-								        	String vibPat = sharedPrefs.getString("vibrate_pattern", "2short");
-								        	
-								        	if (vibPat.equals("short"))
-								        	{
-								        		long[] pattern = {0L, 400L};
-								        		vibrator.vibrate(pattern, -1);
-								        	} else if (vibPat.equals("long"))
-								        	{
-								        		long[] pattern = {0L, 800L};
-								        		vibrator.vibrate(pattern, -1);
-								        	} else if (vibPat.equals("2short"))
-								        	{
-								        		long[] pattern = {0L, 400L, 100L, 400L};
-								        		vibrator.vibrate(pattern, -1);
-								        	} else if (vibPat.equals("2long"))
-								        	{
-								        		long[] pattern = {0L, 800L, 200L, 800L};
-								        		vibrator.vibrate(pattern, -1);
-								        	} else if (vibPat.equals("3short"))
-								        	{
-								        		long[] pattern = {0L, 400L, 100L, 400L, 100L, 400L};
-								        		vibrator.vibrate(pattern, -1);
-								        	} else if (vibPat.equals("3long"))
-								        	{
-								        		long[] pattern = {0L, 800L, 200L, 800L, 200L, 800L};
-								        		vibrator.vibrate(pattern, -1);
-								        	}
-							        	} else
-							        	{
-							        		try
-							        		{
-								        		String[] vibPat = sharedPrefs.getString("set_custom_vibrate_pattern", "0, 100, 100, 100").split(", ");
-								        		long[] pattern = new long[vibPat.length];
-								        		
-								        		for (int i = 0; i < vibPat.length; i++)
-								        		{
-								        			pattern[i] = Long.parseLong(vibPat[i]);
-								        		}
-								        		
-								        		vibrator.vibrate(pattern, -1);
-							        		} catch (Exception e)
-							        		{
-							        			
-							        		}
-							        	}
-							        }
-				            	} catch (Exception e)
-				            	{
-				            		
-				            	}
-				            	
-				                break;
-				        }
-			        }
-			        
-			        
-			        boolean flag = false;
-			        int pos = 0;
-			        int pos2 = mViewPager.getCurrentItem();
-			        
-			        for (int i = 0; i < inboxNumber.size(); i++)
-			        {
-			        	if (inboxNumber.get(i).equals(address))
-			        	{
-			        		flag = true;
-			        		pos = i;
-			        		break;
-			        	}
-			        }
-			        
-			        if (!flag)
-			        {
-			        	inboxNumber.add(0, address);
-			        	inboxDate.add(0, date);
-			        	inboxBody.add(0, body);
-			        	
-			        	Cursor query = context.getContentResolver().query(Uri.parse("content://sms/inbox/"), new String[] {"_id", "date"}, null, null, "date desc limit 1");
-			        	
-			        	if (query.moveToFirst())
-			        	{
-			        		String id = query.getString(query.getColumnIndex("_id"));
-			        		ids.add(0, id);
-			        	}
-			        } else
-			        {
-			        	inboxBody.set(pos, inboxBody.get(pos) + "\n\n" + body);
+        setContentView(R.layout.card_popup);
 
-                        Cursor query = context.getContentResolver().query(Uri.parse("content://sms/inbox/"), new String[] {"_id", "date"}, null, null, "date desc limit 1");
-                        query.moveToFirst();
+        receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Bundle extras = intent.getExtras();
+
+                String body = "";
+                String address = "";
+                String date = "";
+
+                if (extras != null) {
+                    Object[] smsExtra = (Object[]) extras.get("pdus");
+
+                    for (int i = 0; i < smsExtra.length; ++i) {
+                        SmsMessage sms = SmsMessage.createFromPdu((byte[]) smsExtra[i]);
+
+                        body += sms.getMessageBody().toString();
+                        address = sms.getOriginatingAddress();
+                        date = sms.getTimestampMillis() + "";
+                    }
+                }
+
+                Calendar cal = Calendar.getInstance();
+                ContentValues values = new ContentValues();
+                values.put("address", address);
+                values.put("body", body);
+                values.put("date", cal.getTimeInMillis() + "");
+                values.put("read", false);
+                values.put("date_sent", date);
+                getContentResolver().insert(Uri.parse("content://sms/inbox"), values);
+
+                if (sharedPrefs.getBoolean("notifications", true)) {
+                    AudioManager am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+
+                    switch (am.getRingerMode()) {
+                        case AudioManager.RINGER_MODE_SILENT:
+                            break;
+                        case AudioManager.RINGER_MODE_VIBRATE:
+                            if (sharedPrefs.getBoolean("vibrate", true)) {
+                                Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+
+                                if (!sharedPrefs.getBoolean("custom_vibrate_pattern", false)) {
+                                    String vibPat = sharedPrefs.getString("vibrate_pattern", "2short");
+
+                                    if (vibPat.equals("short")) {
+                                        long[] pattern = {0L, 400L};
+                                        vibrator.vibrate(pattern, -1);
+                                    } else if (vibPat.equals("long")) {
+                                        long[] pattern = {0L, 800L};
+                                        vibrator.vibrate(pattern, -1);
+                                    } else if (vibPat.equals("2short")) {
+                                        long[] pattern = {0L, 400L, 100L, 400L};
+                                        vibrator.vibrate(pattern, -1);
+                                    } else if (vibPat.equals("2long")) {
+                                        long[] pattern = {0L, 800L, 200L, 800L};
+                                        vibrator.vibrate(pattern, -1);
+                                    } else if (vibPat.equals("3short")) {
+                                        long[] pattern = {0L, 400L, 100L, 400L, 100L, 400L};
+                                        vibrator.vibrate(pattern, -1);
+                                    } else if (vibPat.equals("3long")) {
+                                        long[] pattern = {0L, 800L, 200L, 800L, 200L, 800L};
+                                        vibrator.vibrate(pattern, -1);
+                                    }
+                                } else {
+                                    try {
+                                        String[] vibPat = sharedPrefs.getString("set_custom_vibrate_pattern", "0, 100, 100, 100").split(", ");
+                                        long[] pattern = new long[vibPat.length];
+
+                                        for (int i = 0; i < vibPat.length; i++) {
+                                            pattern[i] = Long.parseLong(vibPat[i]);
+                                        }
+
+                                        vibrator.vibrate(pattern, -1);
+                                    } catch (Exception e) {
+
+                                    }
+                                }
+                            }
+
+                            break;
+                        case AudioManager.RINGER_MODE_NORMAL:
+                            try {
+                                Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
+                                try {
+                                    notification = (Uri.parse(sharedPrefs.getString("ringtone", "null")));
+                                } catch (Exception e) {
+                                    notification = (RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+                                }
+
+                                Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+                                r.play();
+
+                                if (sharedPrefs.getBoolean("vibrate", true)) {
+                                    Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+
+                                    if (!sharedPrefs.getBoolean("custom_vibrate_pattern", false)) {
+                                        String vibPat = sharedPrefs.getString("vibrate_pattern", "2short");
+
+                                        if (vibPat.equals("short")) {
+                                            long[] pattern = {0L, 400L};
+                                            vibrator.vibrate(pattern, -1);
+                                        } else if (vibPat.equals("long")) {
+                                            long[] pattern = {0L, 800L};
+                                            vibrator.vibrate(pattern, -1);
+                                        } else if (vibPat.equals("2short")) {
+                                            long[] pattern = {0L, 400L, 100L, 400L};
+                                            vibrator.vibrate(pattern, -1);
+                                        } else if (vibPat.equals("2long")) {
+                                            long[] pattern = {0L, 800L, 200L, 800L};
+                                            vibrator.vibrate(pattern, -1);
+                                        } else if (vibPat.equals("3short")) {
+                                            long[] pattern = {0L, 400L, 100L, 400L, 100L, 400L};
+                                            vibrator.vibrate(pattern, -1);
+                                        } else if (vibPat.equals("3long")) {
+                                            long[] pattern = {0L, 800L, 200L, 800L, 200L, 800L};
+                                            vibrator.vibrate(pattern, -1);
+                                        }
+                                    } else {
+                                        try {
+                                            String[] vibPat = sharedPrefs.getString("set_custom_vibrate_pattern", "0, 100, 100, 100").split(", ");
+                                            long[] pattern = new long[vibPat.length];
+
+                                            for (int i = 0; i < vibPat.length; i++) {
+                                                pattern[i] = Long.parseLong(vibPat[i]);
+                                            }
+
+                                            vibrator.vibrate(pattern, -1);
+                                        } catch (Exception e) {
+
+                                        }
+                                    }
+                                }
+                            } catch (Exception e) {
+
+                            }
+
+                            break;
+                    }
+                }
+
+
+                boolean flag = false;
+                int pos = 0;
+                int pos2 = mViewPager.getCurrentItem();
+
+                for (int i = 0; i < inboxNumber.size(); i++) {
+                    if (inboxNumber.get(i).equals(address)) {
+                        flag = true;
+                        pos = i;
+                        break;
+                    }
+                }
+
+                if (!flag) {
+                    inboxNumber.add(0, address);
+                    inboxDate.add(0, date);
+                    inboxBody.add(0, body);
+
+                    Cursor query = context.getContentResolver().query(Uri.parse("content://sms/inbox/"), new String[]{"_id", "date"}, null, null, "date desc limit 1");
+
+                    if (query.moveToFirst()) {
                         String id = query.getString(query.getColumnIndex("_id"));
+                        ids.add(0, id);
+                    }
+                } else {
+                    inboxBody.set(pos, inboxBody.get(pos) + "\n\n" + body);
 
-                        ids.set(pos, ids.get(pos) + ", " + id);
-			        }
+                    Cursor query = context.getContentResolver().query(Uri.parse("content://sms/inbox/"), new String[]{"_id", "date"}, null, null, "date desc limit 1");
+                    query.moveToFirst();
+                    String id = query.getString(query.getColumnIndex("_id"));
 
-                    mSectionsPagerAdapter.notifyDataSetChanged();
+                    ids.set(pos, ids.get(pos) + ", " + id);
+                }
 
-                    mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+                mSectionsPagerAdapter.notifyDataSetChanged();
 
-                    mViewPager = (ViewPager) findViewById(R.id.messagePager);
-                    mViewPager.setAdapter(mSectionsPagerAdapter);
-                    mViewPager.setPageMargin(getResources().getDisplayMetrics().widthPixels / -18);
-                    mViewPager.setOffscreenPageLimit(2);
-					
-					if (!flag)
-					{
-						mViewPager.setCurrentItem(pos2 + 1);
-					} else
-					{
-						mViewPager.setCurrentItem(pos2);
-					}
-		        	
-		        	Intent updateWidget = new Intent("com.klinker.android.messaging.UPDATE_WIDGET");
-					context.sendBroadcast(updateWidget);
-					
-					abortBroadcast();
-		        }
-		};
-		
-		ColorDrawable background = new ColorDrawable();
-		background.setColor(getResources().getColor(R.color.black));
-		background.setAlpha(150);
-		getWindow().setBackgroundDrawable(background);
-	}
-	
-	public void removePage(int page)
-	{
-		ids.remove(page);
-		inboxNumber.remove(page);
-		inboxBody.remove(page);
-		inboxDate.remove(page);
+                mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+
+                mViewPager = (ViewPager) findViewById(R.id.messagePager);
+                mViewPager.setAdapter(mSectionsPagerAdapter);
+                mViewPager.setPageMargin(getResources().getDisplayMetrics().widthPixels / -18);
+                mViewPager.setOffscreenPageLimit(2);
+
+                if (!flag) {
+                    mViewPager.setCurrentItem(pos2 + 1);
+                } else {
+                    mViewPager.setCurrentItem(pos2);
+                }
+
+                Intent updateWidget = new Intent("com.klinker.android.messaging.UPDATE_WIDGET");
+                context.sendBroadcast(updateWidget);
+
+                abortBroadcast();
+            }
+        };
+
+        ColorDrawable background = new ColorDrawable();
+        background.setColor(getResources().getColor(R.color.black));
+        background.setAlpha(150);
+        getWindow().setBackgroundDrawable(background);
+    }
+
+    public void removePage(int page) {
+        ids.remove(page);
+        inboxNumber.remove(page);
+        inboxBody.remove(page);
+        inboxDate.remove(page);
         mSectionsPagerAdapter.notifyDataSetChanged();
-		
-		if (ids.size() == 0)
-		{
+
+        if (ids.size() == 0) {
             if (sharedPrefs.getBoolean("voice_enabled", false)) {
                 registerReceiver(new BroadcastReceiver() {
                     @Override
@@ -343,27 +302,26 @@ public class CardQuickReply extends FragmentActivity {
             } else {
                 finish();
             }
-		} else
-		{
+        } else {
             mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
             mViewPager = (ViewPager) findViewById(R.id.messagePager);
             mViewPager.setAdapter(mSectionsPagerAdapter);
             mViewPager.setPageMargin(getResources().getDisplayMetrics().widthPixels / -18);
             mViewPager.setOffscreenPageLimit(2);
-		}
-		
-		NotificationManager mNotificationManager =
-	            (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-		mNotificationManager.cancel(1);
-		
-		Intent intent = new Intent("com.klinker.android.messaging.CLEARED_NOTIFICATION");
-	    sendBroadcast(intent);
-		
-		Intent stopRepeating = new Intent(this, NotificationRepeaterService.class);
-		PendingIntent pStopRepeating = PendingIntent.getService(this, 0, stopRepeating, 0);
-		AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-		alarm.cancel(pStopRepeating);
+        }
+
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.cancel(1);
+
+        Intent intent = new Intent("com.klinker.android.messaging.CLEARED_NOTIFICATION");
+        sendBroadcast(intent);
+
+        Intent stopRepeating = new Intent(this, NotificationRepeaterService.class);
+        PendingIntent pStopRepeating = PendingIntent.getService(this, 0, stopRepeating, 0);
+        AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarm.cancel(pStopRepeating);
 
         Intent floatingNotifications = new Intent();
         floatingNotifications.setAction("robj.floating.notifications.dismiss");
@@ -373,13 +331,12 @@ public class CardQuickReply extends FragmentActivity {
         Intent updateWidget = new Intent("com.klinker.android.messaging.UPDATE_WIDGET");
         sendBroadcast(updateWidget);
 
-		IOUtil.writeNotifications(new ArrayList<String>(), this);
-		IOUtil.writeNewMessages(new ArrayList<String>(), this);
-	}
+        IOUtil.writeNotifications(new ArrayList<String>(), this);
+        IOUtil.writeNewMessages(new ArrayList<String>(), this);
+    }
 
     @Override
-    public void onResume()
-    {
+    public void onResume() {
         super.onResume();
 
         ids = new ArrayList<String>();
@@ -387,25 +344,21 @@ public class CardQuickReply extends FragmentActivity {
         inboxDate = new ArrayList<String>();
         inboxNumber = new ArrayList<String>();
 
-        try
-        {
+        try {
             inboxBody.add(getIntent().getStringExtra("body"));
             inboxDate.add(getIntent().getStringExtra("date"));
             inboxNumber.add(getIntent().getStringExtra("address").replace("-", "").replace(")", "").replace("(", "").replace(" ", ""));
             ids.add("0");
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
 
         }
 
         String[] projection = new String[]{"_id", "date", "address", "body", "read"};
         Uri uri = Uri.parse("content://sms/inbox/");
-        Cursor query = getContentResolver().query(uri, projection, "read=?", new String[] {"0"}, "date desc");
+        Cursor query = getContentResolver().query(uri, projection, "read=?", new String[]{"0"}, "date desc");
 
-        if (query.moveToFirst())
-        {
-            do
-            {
+        if (query.moveToFirst()) {
+            do {
                 boolean alreadyExists = false;
                 int alreadyExistsPos = 0;
 
@@ -417,26 +370,21 @@ public class CardQuickReply extends FragmentActivity {
                     number = "";
                 }
 
-                for (int i = 0; i < inboxNumber.size(); i++)
-                {
-                    if (number.equals(inboxNumber.get(i)))
-                    {
+                for (int i = 0; i < inboxNumber.size(); i++) {
+                    if (number.equals(inboxNumber.get(i))) {
                         alreadyExists = true;
                         alreadyExistsPos = i;
                         break;
                     }
                 }
 
-                if (!alreadyExists)
-                {
+                if (!alreadyExists) {
                     inboxBody.add(query.getString(query.getColumnIndex("body")));
                     inboxDate.add(query.getString(query.getColumnIndex("date")));
                     inboxNumber.add(number);
                     ids.add(query.getString(query.getColumnIndex("_id")));
-                } else
-                {
-                    if (!query.getString(query.getColumnIndex("body")).equals(inboxBody.get(0)))
-                    {
+                } else {
+                    if (!query.getString(query.getColumnIndex("body")).equals(inboxBody.get(0))) {
                         inboxBody.set(alreadyExistsPos, query.getString(query.getColumnIndex("body")) + "\n\n" + inboxBody.get(alreadyExistsPos));
                         ids.set(alreadyExistsPos, ids.get(alreadyExistsPos) + ", " + query.getString(query.getColumnIndex("_id")));
                     }
@@ -446,8 +394,7 @@ public class CardQuickReply extends FragmentActivity {
 
         query.close();
 
-        if (sharedPrefs.getBoolean("custom_font", false))
-        {
+        if (sharedPrefs.getBoolean("custom_font", false)) {
             font = Typeface.createFromFile(sharedPrefs.getString("custom_font_path", ""));
         }
 
@@ -461,16 +408,13 @@ public class CardQuickReply extends FragmentActivity {
         final EditText messageEntry = (EditText) findViewById(R.id.messageEntry);
         final TextView charsRemaining = (TextView) findViewById(R.id.charsRemaining);
 
-        if (sharedPrefs.getString("cp_theme_name", "Light Theme").equals("Light Theme"))
-        {
+        if (sharedPrefs.getString("cp_theme_name", "Light Theme").equals("Light Theme")) {
             expandedOptions.setBackgroundResource(R.drawable.card_background);
             sendBar.setBackgroundResource(R.drawable.card_background);
-        } else if (sharedPrefs.getString("cp_theme_name", "Light Theme").equals("Dark Theme"))
-        {
+        } else if (sharedPrefs.getString("cp_theme_name", "Light Theme").equals("Dark Theme")) {
             expandedOptions.setBackgroundResource(R.drawable.card_background_dark);
             sendBar.setBackgroundResource(R.drawable.card_background_dark);
-        } else
-        {
+        } else {
             expandedOptions.setBackgroundColor(sharedPrefs.getInt("cp_sendBarBackground", getResources().getColor(R.color.white)));
             sendBar.setBackgroundColor(sharedPrefs.getInt("cp_sendBarBackground", getResources().getColor(R.color.white)));
         }
@@ -483,31 +427,26 @@ public class CardQuickReply extends FragmentActivity {
         emojiButton.setColorFilter(sharedPrefs.getInt("cp_emojiButtonColor", getResources().getColor(R.color.emoji_button)));
         messageEntry.setTextColor(sharedPrefs.getInt("cp_draftTextColor", getResources().getColor(R.color.card_message_text_body)));
 
-        if (sharedPrefs.getBoolean("custom_font", false))
-        {
+        if (sharedPrefs.getBoolean("custom_font", false)) {
             viewConversation.setTypeface(font);
             messageEntry.setTypeface(font);
             charsRemaining.setTypeface(font);
         }
 
-        if (!sharedPrefs.getBoolean("keyboard_type", true))
-        {
+        if (!sharedPrefs.getBoolean("keyboard_type", true)) {
             messageEntry.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
             messageEntry.setImeOptions(EditorInfo.IME_ACTION_NONE);
         }
 
-        if (!sharedPrefs.getBoolean("emoji", false))
-        {
+        if (!sharedPrefs.getBoolean("emoji", false)) {
             emojiButton.setVisibility(View.GONE);
-            LayoutParams params = (RelativeLayout.LayoutParams)messageEntry.getLayoutParams();
+            LayoutParams params = (RelativeLayout.LayoutParams) messageEntry.getLayoutParams();
             params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
             messageEntry.setLayoutParams(params);
-        } else
-        {
+        } else {
             final Context context = this;
 
-            if (sharedPrefs.getString("run_as", "sliding").equals("hangout"))
-            {
+            if (sharedPrefs.getString("run_as", "sliding").equals("hangout")) {
                 emojiButton.setImageResource(R.drawable.ic_emoji_dark);
             }
 
@@ -530,13 +469,11 @@ public class CardQuickReply extends FragmentActivity {
                     final GridView emojiGrid = (GridView) frame.findViewById(R.id.emojiGrid);
                     Button okButton = (Button) frame.findViewById(R.id.emoji_ok);
 
-                    if (sharedPrefs.getBoolean("emoji_type", true))
-                    {
+                    if (sharedPrefs.getBoolean("emoji_type", true)) {
                         emojiGrid.setAdapter(new EmojiAdapter2(context));
                         emojiGrid.setOnItemClickListener(new OnItemClickListener() {
 
-                            public void onItemClick(AdapterView<?> parent, View v, int position, long id)
-                            {
+                            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                                 editText.setText(EmojiConverter2.getSmiledText(context, editText.getText().toString() + EmojiAdapter2.mEmojiTexts[position]));
                                 editText.setSelection(editText.getText().length());
                             }
@@ -576,13 +513,11 @@ public class CardQuickReply extends FragmentActivity {
                                 emojiGrid.setSelection(153 + 162 + 178 + 122 + (7 * 7));
                             }
                         });
-                    } else
-                    {
+                    } else {
                         emojiGrid.setAdapter(new EmojiAdapter(context));
                         emojiGrid.setOnItemClickListener(new OnItemClickListener() {
 
-                            public void onItemClick(AdapterView<?> parent, View v, int position, long id)
-                            {
+                            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                                 editText.setText(EmojiConverter.getSmiledText(context, editText.getText().toString() + EmojiAdapter.mEmojiTexts[position]));
                                 editText.setSelection(editText.getText().length());
                             }
@@ -607,12 +542,10 @@ public class CardQuickReply extends FragmentActivity {
 
                         @Override
                         public void onClick(View v) {
-                            if (sharedPrefs.getBoolean("emoji_type", true))
-                            {
+                            if (sharedPrefs.getBoolean("emoji_type", true)) {
                                 messageEntry.setText(EmojiConverter2.getSmiledText(context, messageEntry.getText().toString() + editText.getText().toString()));
                                 messageEntry.setSelection(messageEntry.getText().length());
-                            } else
-                            {
+                            } else {
                                 messageEntry.setText(EmojiConverter.getSmiledText(context, messageEntry.getText().toString() + editText.getText().toString()));
                                 messageEntry.setSelection(messageEntry.getText().length());
                             }
@@ -626,11 +559,9 @@ public class CardQuickReply extends FragmentActivity {
             });
         }
 
-        if (!sharedPrefs.getBoolean("enable_view_conversation", false))
-        {
+        if (!sharedPrefs.getBoolean("enable_view_conversation", false)) {
             expandedOptions.setVisibility(View.GONE);
-        } else
-        {
+        } else {
             final Context context = this;
 
             viewConversation.setOnClickListener(new OnClickListener() {
@@ -661,13 +592,10 @@ public class CardQuickReply extends FragmentActivity {
                         public void run() {
                             String[] msgIds = id.split(", ");
 
-                            for (int i = 0; i < msgIds.length; i++)
-                            {
-                                try
-                                {
-                                    if (msgIds[i].equals("0"))
-                                    {
-                                        Cursor query = context.getContentResolver().query(Uri.parse("content://sms/inbox"), new String[] {"_id", "date"}, "date=?", new String[] {date}, null);
+                            for (int i = 0; i < msgIds.length; i++) {
+                                try {
+                                    if (msgIds[i].equals("0")) {
+                                        Cursor query = context.getContentResolver().query(Uri.parse("content://sms/inbox"), new String[]{"_id", "date"}, "date=?", new String[]{date}, null);
                                         query.moveToFirst();
                                         msgIds[i] = query.getString(query.getColumnIndex("_id"));
                                     }
@@ -675,8 +603,7 @@ public class CardQuickReply extends FragmentActivity {
                                     ContentValues values = new ContentValues();
                                     values.put("read", true);
                                     getContentResolver().update(Uri.parse("content://sms/" + msgIds[i].replace(",", "").replace(" ", "") + "/"), values, null, null);
-                                } catch (Exception e)
-                                {
+                                } catch (Exception e) {
 
                                 }
                             }
@@ -693,8 +620,7 @@ public class CardQuickReply extends FragmentActivity {
             deleteButton.setOnClickListener(new OnClickListener() {
 
                 @Override
-                public void onClick(View v)
-                {
+                public void onClick(View v) {
                     final String id = ids.get(mViewPager.getCurrentItem());
                     final String date = inboxDate.get(mViewPager.getCurrentItem());
 
@@ -704,13 +630,10 @@ public class CardQuickReply extends FragmentActivity {
                         public void run() {
                             String[] msgIds = id.split(", ");
 
-                            for (int i = 0; i < msgIds.length; i++)
-                            {
-                                try
-                                {
-                                    if (msgIds[i].equals("0"))
-                                    {
-                                        Cursor query = context.getContentResolver().query(Uri.parse("content://sms/inbox"), new String[] {"_id", "date"}, "date=?", new String[] {date}, null);
+                            for (int i = 0; i < msgIds.length; i++) {
+                                try {
+                                    if (msgIds[i].equals("0")) {
+                                        Cursor query = context.getContentResolver().query(Uri.parse("content://sms/inbox"), new String[]{"_id", "date"}, "date=?", new String[]{date}, null);
                                         query.moveToFirst();
                                         msgIds[i] = query.getString(query.getColumnIndex("_id"));
                                     }
@@ -719,8 +642,7 @@ public class CardQuickReply extends FragmentActivity {
                                     values.put("read", true);
                                     getContentResolver().update(Uri.parse("content://sms/" + msgIds[i].replace(",", "").replace(" ", "") + "/"), values, null, null);
                                     context.getContentResolver().delete(Uri.parse("content://sms/" + msgIds[i].replace(",", "").replace(" ", "") + "/"), null, null);
-                                } catch (Exception e)
-                                {
+                                } catch (Exception e) {
 
                                 }
                             }
@@ -734,8 +656,7 @@ public class CardQuickReply extends FragmentActivity {
             });
         }
 
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && sharedPrefs.getBoolean("show_keyboard_popup", true))
-        {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && sharedPrefs.getBoolean("show_keyboard_popup", true)) {
             messageEntry.postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -743,7 +664,7 @@ public class CardQuickReply extends FragmentActivity {
                             getSystemService(Context.INPUT_METHOD_SERVICE);
                     keyboard.showSoftInput(messageEntry, 0);
                 }
-            },500);
+            }, 500);
         }
 
         charsRemaining.setVisibility(View.GONE);
@@ -755,8 +676,7 @@ public class CardQuickReply extends FragmentActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 int length = Integer.parseInt(String.valueOf(s.length()));
 
-                if (!sharedPrefs.getString("signature", "").equals(""))
-                {
+                if (!sharedPrefs.getString("signature", "").equals("")) {
                     length += ("\n" + sharedPrefs.getString("signature", "")).length();
                 }
 
@@ -766,40 +686,33 @@ public class CardQuickReply extends FragmentActivity {
 
                 int size = 160;
 
-                if (matcher.find() && !sharedPrefs.getBoolean("strip_unicode", false))
-                {
+                if (matcher.find() && !sharedPrefs.getBoolean("strip_unicode", false)) {
                     size = 70;
                 }
 
                 int pages = 1;
 
-                while (length > size)
-                {
-                    length-=size;
+                while (length > size) {
+                    length -= size;
                     pages++;
                 }
 
                 charsRemaining.setText(pages + "/" + (size - length));
 
-                if ((pages == 1 && (size - length) <= 30) || pages != 1)
-                {
+                if ((pages == 1 && (size - length) <= 30) || pages != 1) {
                     charsRemaining.setVisibility(View.VISIBLE);
                 }
 
-                if ((pages + "/" + (size - length)).equals("1/31"))
-                {
+                if ((pages + "/" + (size - length)).equals("1/31")) {
                     charsRemaining.setVisibility(View.GONE);
                 }
 
-                if ((pages + "/" + (size - length)).equals("1/160"))
-                {
+                if ((pages + "/" + (size - length)).equals("1/160")) {
                     charsRemaining.setVisibility(View.GONE);
                 }
 
-                if (sharedPrefs.getBoolean("send_with_return", false))
-                {
-                    if (messageEntry.getText().toString().endsWith("\n"))
-                    {
+                if (sharedPrefs.getBoolean("send_with_return", false)) {
+                    if (messageEntry.getText().toString().endsWith("\n")) {
                         messageEntry.setText(messageEntry.getText().toString().substring(0, messageEntry.getText().toString().length() - 1));
                         sendButton.performClick();
                     }
@@ -819,8 +732,7 @@ public class CardQuickReply extends FragmentActivity {
                 final String number = inboxNumber.get(mViewPager.getCurrentItem());
                 final String body = messageEntry.getText().toString();
 
-                if (!body.equals(""))
-                {
+                if (!body.equals("")) {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -830,8 +742,7 @@ public class CardQuickReply extends FragmentActivity {
 
                     messageEntry.setText("");
                     removePage(mViewPager.getCurrentItem());
-                } else
-                {
+                } else {
                     Toast.makeText(context, "ERROR: No message to send.", Toast.LENGTH_SHORT);
                 }
 
@@ -846,25 +757,21 @@ public class CardQuickReply extends FragmentActivity {
         mViewPager.setPageMargin(getResources().getDisplayMetrics().widthPixels / -18);
         mViewPager.setOffscreenPageLimit(2);
     }
-	
-	@Override
-	public void onStart()
-	{
-		super.onStart();
-		IntentFilter filter = new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        IntentFilter filter = new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
         filter.addCategory(Intent.CATEGORY_DEFAULT);
         filter.setPriority(3);
         registerReceiver(receiver, filter);
-	}
+    }
 
     @Override
-    public void finish()
-    {
-        try
-        {
+    public void finish() {
+        try {
             unregisterReceiver(receiver);
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
 
         }
 
@@ -882,87 +789,82 @@ public class CardQuickReply extends FragmentActivity {
         finish();
     }
 
-	public class SectionsPagerAdapter extends FragmentPagerAdapter {
+    public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-		public SectionsPagerAdapter(FragmentManager fm) {
-			super(fm);
-			
-		}
+        public SectionsPagerAdapter(FragmentManager fm) {
+            super(fm);
 
-		@Override
-		public Fragment getItem(int position) {
-			Fragment fragment = new PagerFragment();
-			Bundle args = new Bundle();
-			args.putInt("position", position);
-			fragment.setArguments(args);
-			return fragment;
-		}
+        }
 
-		@Override
-		public int getCount() {
-			return inboxNumber.size();
-		}
+        @Override
+        public Fragment getItem(int position) {
+            Fragment fragment = new PagerFragment();
+            Bundle args = new Bundle();
+            args.putInt("position", position);
+            fragment.setArguments(args);
+            return fragment;
+        }
 
-		@Override
-		public CharSequence getPageTitle(int position) {
-			return "";
-		}
-	}
-	
-	public class PagerFragment extends Fragment {
+        @Override
+        public int getCount() {
+            return inboxNumber.size();
+        }
 
-		public int position;
-		public Context context;
-		
-		public PagerFragment() {
-			
-		}
-		
-		@Override
-		public void onAttach(Activity activity)
-		{
-			super.onAttach(activity);
-			context = activity;
-		}
-		
-		@Override
-		public void onCreate(Bundle savedInstanceState)
-		{
-			super.onCreate(savedInstanceState);
-			Bundle args = getArguments();
-			
-			position = args.getInt("position");
-		}
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return "";
+        }
+    }
 
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			View message = inflater.inflate(R.layout.card_popup_message,
-					container, false);
-			
-			View background = message.findViewById(R.id.view1);
-			View divider1 = message.findViewById(R.id.contactLine);
-			View divider2 = message.findViewById(R.id.messageDivider1);
-			View divider3 = message.findViewById(R.id.messageDivider2);
-			
-			TextView name = (TextView) message.findViewById(R.id.contactName);
-			TextView number = (TextView) message.findViewById(R.id.contactNumber);
-			TextView body = (TextView) message.findViewById(R.id.body);
-			TextView date = (TextView) message.findViewById(R.id.date);
-			QuickContactBadge photo = (QuickContactBadge) message.findViewById(R.id.contactPicture);
-			
-			ImageButton close = (ImageButton) message.findViewById(R.id.closeButton);
-			
-			body.setMovementMethod(new ScrollingMovementMethod());
+    public class PagerFragment extends Fragment {
 
-            if (sharedPrefs.getString("cp_theme_name", "Light Theme").equals("Light Theme"))
-            {
+        public int position;
+        public Context context;
+
+        public PagerFragment() {
+
+        }
+
+        @Override
+        public void onAttach(Activity activity) {
+            super.onAttach(activity);
+            context = activity;
+        }
+
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            Bundle args = getArguments();
+
+            position = args.getInt("position");
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View message = inflater.inflate(R.layout.card_popup_message,
+                    container, false);
+
+            View background = message.findViewById(R.id.view1);
+            View divider1 = message.findViewById(R.id.contactLine);
+            View divider2 = message.findViewById(R.id.messageDivider1);
+            View divider3 = message.findViewById(R.id.messageDivider2);
+
+            TextView name = (TextView) message.findViewById(R.id.contactName);
+            TextView number = (TextView) message.findViewById(R.id.contactNumber);
+            TextView body = (TextView) message.findViewById(R.id.body);
+            TextView date = (TextView) message.findViewById(R.id.date);
+            QuickContactBadge photo = (QuickContactBadge) message.findViewById(R.id.contactPicture);
+
+            ImageButton close = (ImageButton) message.findViewById(R.id.closeButton);
+
+            body.setMovementMethod(new ScrollingMovementMethod());
+
+            if (sharedPrefs.getString("cp_theme_name", "Light Theme").equals("Light Theme")) {
                 background.setBackgroundResource(R.drawable.card_background);
-            } else if (sharedPrefs.getString("cp_theme_name", "Light Theme").equals("Dark Theme"))
-            {
+            } else if (sharedPrefs.getString("cp_theme_name", "Light Theme").equals("Dark Theme")) {
                 background.setBackgroundResource(R.drawable.card_background_dark);
-            } else
-            {
+            } else {
                 background.setBackgroundColor(sharedPrefs.getInt("cp_messageBackground", getResources().getColor(R.color.white)));
             }
 
@@ -976,14 +878,13 @@ public class CardQuickReply extends FragmentActivity {
             number.setTextColor(sharedPrefs.getInt("cp_numberTextColor", context.getResources().getColor(R.color.card_conversation_summary)));
             date.setTextColor(sharedPrefs.getInt("cp_dateTextColor", context.getResources().getColor(R.color.card_message_text_date_2)));
             body.setTextColor(sharedPrefs.getInt("cp_messageTextColor", context.getResources().getColor(R.color.card_message_text_body)));
-			
-			if (sharedPrefs.getBoolean("custom_font", false))
-		    {
-				body.setTypeface(font);
-		    	date.setTypeface(font);
-		    	name.setTypeface(font);
-		    	number.setTypeface(font);
-		    }
+
+            if (sharedPrefs.getBoolean("custom_font", false)) {
+                body.setTypeface(font);
+                date.setTypeface(font);
+                name.setTypeface(font);
+                number.setTypeface(font);
+            }
 
             if (sharedPrefs.getString("text_alignment2", "center").equals("right")) {
                 body.setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
@@ -994,202 +895,172 @@ public class CardQuickReply extends FragmentActivity {
             }
 
             try {
-                body.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,2)));
-                date.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,2)) - 4);
+                body.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0, 2)));
+                date.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0, 2)) - 4);
             } catch (Exception e) {
-                body.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,1)));
-                date.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,1)) - 4);
+                body.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0, 1)));
+                date.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0, 1)) - 4);
             }
 
-			name.setTextSize((float)Integer.parseInt(sharedPrefs.getString("text_size2", 14 + "")));
-			number.setTextSize((float)Integer.parseInt(sharedPrefs.getString("text_size2", 14 + "")) - 2);
-			
-			String contactName = ContactUtil.findContactName(inboxNumber.get(position), context);
-			name.setText(contactName);
-			
-			Locale sCachedLocale = Locale.getDefault();
-			int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
-			Editable editable = new SpannableStringBuilder(inboxNumber.get(position));
-			PhoneNumberUtils.formatNumber(editable, sFormatType);
-			final String contactNumber = editable.toString();
-			
-			if (!contactNumber.equals(contactName))
-			{
-				number.setText(contactNumber);
-			} else
-			{
-				number.setText("");
-			}
-			
-			body.setText(inboxBody.get(position));
-			
-			if (sharedPrefs.getString("smilies", "with").equals("with"))
-			  {
-				  String patternStr = "[^\\x20-\\x7E]";
-				  Pattern pattern = Pattern.compile(patternStr);
-				  Matcher matcher = pattern.matcher(inboxBody.get(position));
-				  
-				  if (matcher.find())
-				  {
-                      if (sharedPrefs.getBoolean("emoji_type", true))
-                      {
-                          if (sharedPrefs.getBoolean("smiliesType", true)) {
-                              body.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter2New.getSmiledText(context, inboxBody.get(position))));
-                          } else {
-                              body.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter2.getSmiledText(context, inboxBody.get(position))));
-                          }
-                      } else
-                      {
-                          if (sharedPrefs.getBoolean("smiliesType", true)) {
-                              body.setText(EmojiConverter.getSmiledText(context, EmoticonConverter2New.getSmiledText(context, inboxBody.get(position))));
-                          } else {
-                              body.setText(EmojiConverter.getSmiledText(context, EmoticonConverter2.getSmiledText(context, inboxBody.get(position))));
-                          }
-                      }
-				  } else
-				  {
-                      if (sharedPrefs.getBoolean("smiliesType", true)) {
-                          body.setText(EmoticonConverter2New.getSmiledText(context, inboxBody.get(position)));
-                      } else {
-                          body.setText(EmoticonConverter2.getSmiledText(context, inboxBody.get(position)));
-                      }
-				  }
-			  } else if (sharedPrefs.getString("smilies", "with").equals("without"))
-			  {
-				  String patternStr = "[^\\x20-\\x7E]";
-				  Pattern pattern = Pattern.compile(patternStr);
-				  Matcher matcher = pattern.matcher(inboxBody.get(position));
-				  
-				  if (matcher.find())
-				  {
-                      if (sharedPrefs.getBoolean("emoji_type", true))
-                      {
-                          if (sharedPrefs.getBoolean("smiliesType", true)) {
-                              body.setText(EmojiConverter2.getSmiledText(context, EmoticonConverterNew.getSmiledText(context, inboxBody.get(position))));
-                          } else {
-                              body.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter.getSmiledText(context, inboxBody.get(position))));
-                          }
-                      } else
-                      {
-                          if (sharedPrefs.getBoolean("smiliesType", true)) {
-                              body.setText(EmojiConverter.getSmiledText(context, EmoticonConverterNew.getSmiledText(context, inboxBody.get(position))));
-                          } else {
-                              body.setText(EmojiConverter.getSmiledText(context, EmoticonConverter.getSmiledText(context, inboxBody.get(position))));
-                          }
-                      }
-				  } else
-				  {
-                      if (sharedPrefs.getBoolean("smiliesType", true)) {
-                          body.setText(EmoticonConverterNew.getSmiledText(context, inboxBody.get(position)));
-                      } else {
-                          body.setText(EmoticonConverter.getSmiledText(context, inboxBody.get(position)));
-                      }
-				  }
-			  } else if (sharedPrefs.getString("smilies", "with").equals("none"))
-			  {
-				  String patternStr = "[^\\x20-\\x7E]";
-				  Pattern pattern = Pattern.compile(patternStr);
-				  Matcher matcher = pattern.matcher(inboxBody.get(position));
-				  
-				  if (matcher.find())
-				  {
-					  if (sharedPrefs.getBoolean("emoji_type", true))
-					  {
-						  body.setText(EmojiConverter2.getSmiledText(context, inboxBody.get(position)));
-					  } else
-					  {
-						  body.setText(EmojiConverter.getSmiledText(context, inboxBody.get(position)));
-					  }
-				  } else
-				  {
-					  body.setText(inboxBody.get(position));
-				  }
-			  } else if (sharedPrefs.getString("smilies", "with").equals("both"))
-			  {
-				  String patternStr = "[^\\x20-\\x7E]";
-				  Pattern pattern = Pattern.compile(patternStr);
-				  Matcher matcher = pattern.matcher(inboxBody.get(position));
-				  
-				  if (matcher.find())
-				  {
-                      if (sharedPrefs.getBoolean("emoji_type", true))
-                      {
-                          if (sharedPrefs.getBoolean("smiliesType", true)) {
-                              body.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter3New.getSmiledText(context, inboxBody.get(position))));
-                          } else {
-                              body.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter3.getSmiledText(context, inboxBody.get(position))));
-                          }
-                      } else
-                      {
-                          if (sharedPrefs.getBoolean("smiliesType", true)) {
-                              body.setText(EmojiConverter.getSmiledText(context, EmoticonConverter3New.getSmiledText(context, inboxBody.get(position))));
-                          } else {
-                              body.setText(EmojiConverter.getSmiledText(context, EmoticonConverter3.getSmiledText(context, inboxBody.get(position))));
-                          }
-                      }
-			      } else
-				  {
-                      if (sharedPrefs.getBoolean("smiliesType", true)) {
-                          body.setText(EmoticonConverter3New.getSmiledText(context, inboxBody.get(position)));
-                      } else {
-                          body.setText(EmoticonConverter3.getSmiledText(context, inboxBody.get(position)));
-                      }
-				  }
-			  }
-			
-			Date date2;
-			  
-			  try
-			  {
-				  date2 = new Date(Long.parseLong(inboxDate.get(position)));
-			  } catch (Exception e)
-			  {
-				  date2 = new Date(0);
-			  }
-			  
-			  Calendar cal = Calendar.getInstance();
-			  Date currentDate = new Date(cal.getTimeInMillis());
-			  
-			  if (getZeroTimeDate(date2).equals(getZeroTimeDate(currentDate)))
-			  {
-				  if (sharedPrefs.getBoolean("hour_format", false))
-				  {
-					  date.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(date2));
-				  } else
-				  {
-					  date.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(date2));
-				  }
-			  } else
-			  {
-				  if (sharedPrefs.getBoolean("hour_format", false))
-				  {
-					  date.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2));
-				  } else
-				  {
-					  date.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2));
-				  }
-			  }
-			  
-			  photo.assignContactFromPhone(inboxNumber.get(position), true);
-			  photo.setImageBitmap(ContactUtil.getFacebookPhoto(inboxNumber.get(position), context));
+            name.setTextSize((float) Integer.parseInt(sharedPrefs.getString("text_size2", 14 + "")));
+            number.setTextSize((float) Integer.parseInt(sharedPrefs.getString("text_size2", 14 + "")) - 2);
 
-              final Context context = getActivity();
-			  
-			  close.setOnClickListener(new OnClickListener() {
+            String contactName = ContactUtil.findContactName(inboxNumber.get(position), context);
+            name.setText(contactName);
 
-				@Override
-				public void onClick(View arg0) {
-					NotificationManager mNotificationManager =
-				            (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-					mNotificationManager.cancel(1);
-					
-					Intent intent = new Intent("com.klinker.android.messaging.CLEARED_NOTIFICATION");
-				    context.sendBroadcast(intent);
-					
-					Intent stopRepeating = new Intent(context, NotificationRepeaterService.class);
-					PendingIntent pStopRepeating = PendingIntent.getService(context, 0, stopRepeating, 0);
-					AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-					alarm.cancel(pStopRepeating);
+            Locale sCachedLocale = Locale.getDefault();
+            int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
+            Editable editable = new SpannableStringBuilder(inboxNumber.get(position));
+            PhoneNumberUtils.formatNumber(editable, sFormatType);
+            final String contactNumber = editable.toString();
+
+            if (!contactNumber.equals(contactName)) {
+                number.setText(contactNumber);
+            } else {
+                number.setText("");
+            }
+
+            body.setText(inboxBody.get(position));
+
+            if (sharedPrefs.getString("smilies", "with").equals("with")) {
+                String patternStr = "[^\\x20-\\x7E]";
+                Pattern pattern = Pattern.compile(patternStr);
+                Matcher matcher = pattern.matcher(inboxBody.get(position));
+
+                if (matcher.find()) {
+                    if (sharedPrefs.getBoolean("emoji_type", true)) {
+                        if (sharedPrefs.getBoolean("smiliesType", true)) {
+                            body.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter2New.getSmiledText(context, inboxBody.get(position))));
+                        } else {
+                            body.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter2.getSmiledText(context, inboxBody.get(position))));
+                        }
+                    } else {
+                        if (sharedPrefs.getBoolean("smiliesType", true)) {
+                            body.setText(EmojiConverter.getSmiledText(context, EmoticonConverter2New.getSmiledText(context, inboxBody.get(position))));
+                        } else {
+                            body.setText(EmojiConverter.getSmiledText(context, EmoticonConverter2.getSmiledText(context, inboxBody.get(position))));
+                        }
+                    }
+                } else {
+                    if (sharedPrefs.getBoolean("smiliesType", true)) {
+                        body.setText(EmoticonConverter2New.getSmiledText(context, inboxBody.get(position)));
+                    } else {
+                        body.setText(EmoticonConverter2.getSmiledText(context, inboxBody.get(position)));
+                    }
+                }
+            } else if (sharedPrefs.getString("smilies", "with").equals("without")) {
+                String patternStr = "[^\\x20-\\x7E]";
+                Pattern pattern = Pattern.compile(patternStr);
+                Matcher matcher = pattern.matcher(inboxBody.get(position));
+
+                if (matcher.find()) {
+                    if (sharedPrefs.getBoolean("emoji_type", true)) {
+                        if (sharedPrefs.getBoolean("smiliesType", true)) {
+                            body.setText(EmojiConverter2.getSmiledText(context, EmoticonConverterNew.getSmiledText(context, inboxBody.get(position))));
+                        } else {
+                            body.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter.getSmiledText(context, inboxBody.get(position))));
+                        }
+                    } else {
+                        if (sharedPrefs.getBoolean("smiliesType", true)) {
+                            body.setText(EmojiConverter.getSmiledText(context, EmoticonConverterNew.getSmiledText(context, inboxBody.get(position))));
+                        } else {
+                            body.setText(EmojiConverter.getSmiledText(context, EmoticonConverter.getSmiledText(context, inboxBody.get(position))));
+                        }
+                    }
+                } else {
+                    if (sharedPrefs.getBoolean("smiliesType", true)) {
+                        body.setText(EmoticonConverterNew.getSmiledText(context, inboxBody.get(position)));
+                    } else {
+                        body.setText(EmoticonConverter.getSmiledText(context, inboxBody.get(position)));
+                    }
+                }
+            } else if (sharedPrefs.getString("smilies", "with").equals("none")) {
+                String patternStr = "[^\\x20-\\x7E]";
+                Pattern pattern = Pattern.compile(patternStr);
+                Matcher matcher = pattern.matcher(inboxBody.get(position));
+
+                if (matcher.find()) {
+                    if (sharedPrefs.getBoolean("emoji_type", true)) {
+                        body.setText(EmojiConverter2.getSmiledText(context, inboxBody.get(position)));
+                    } else {
+                        body.setText(EmojiConverter.getSmiledText(context, inboxBody.get(position)));
+                    }
+                } else {
+                    body.setText(inboxBody.get(position));
+                }
+            } else if (sharedPrefs.getString("smilies", "with").equals("both")) {
+                String patternStr = "[^\\x20-\\x7E]";
+                Pattern pattern = Pattern.compile(patternStr);
+                Matcher matcher = pattern.matcher(inboxBody.get(position));
+
+                if (matcher.find()) {
+                    if (sharedPrefs.getBoolean("emoji_type", true)) {
+                        if (sharedPrefs.getBoolean("smiliesType", true)) {
+                            body.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter3New.getSmiledText(context, inboxBody.get(position))));
+                        } else {
+                            body.setText(EmojiConverter2.getSmiledText(context, EmoticonConverter3.getSmiledText(context, inboxBody.get(position))));
+                        }
+                    } else {
+                        if (sharedPrefs.getBoolean("smiliesType", true)) {
+                            body.setText(EmojiConverter.getSmiledText(context, EmoticonConverter3New.getSmiledText(context, inboxBody.get(position))));
+                        } else {
+                            body.setText(EmojiConverter.getSmiledText(context, EmoticonConverter3.getSmiledText(context, inboxBody.get(position))));
+                        }
+                    }
+                } else {
+                    if (sharedPrefs.getBoolean("smiliesType", true)) {
+                        body.setText(EmoticonConverter3New.getSmiledText(context, inboxBody.get(position)));
+                    } else {
+                        body.setText(EmoticonConverter3.getSmiledText(context, inboxBody.get(position)));
+                    }
+                }
+            }
+
+            Date date2;
+
+            try {
+                date2 = new Date(Long.parseLong(inboxDate.get(position)));
+            } catch (Exception e) {
+                date2 = new Date(0);
+            }
+
+            Calendar cal = Calendar.getInstance();
+            Date currentDate = new Date(cal.getTimeInMillis());
+
+            if (getZeroTimeDate(date2).equals(getZeroTimeDate(currentDate))) {
+                if (sharedPrefs.getBoolean("hour_format", false)) {
+                    date.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(date2));
+                } else {
+                    date.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(date2));
+                }
+            } else {
+                if (sharedPrefs.getBoolean("hour_format", false)) {
+                    date.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2));
+                } else {
+                    date.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2));
+                }
+            }
+
+            photo.assignContactFromPhone(inboxNumber.get(position), true);
+            photo.setImageBitmap(ContactUtil.getFacebookPhoto(inboxNumber.get(position), context));
+
+            final Context context = getActivity();
+
+            close.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View arg0) {
+                    NotificationManager mNotificationManager =
+                            (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                    mNotificationManager.cancel(1);
+
+                    Intent intent = new Intent("com.klinker.android.messaging.CLEARED_NOTIFICATION");
+                    context.sendBroadcast(intent);
+
+                    Intent stopRepeating = new Intent(context, NotificationRepeaterService.class);
+                    PendingIntent pStopRepeating = PendingIntent.getService(context, 0, stopRepeating, 0);
+                    AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                    alarm.cancel(pStopRepeating);
 
                     Intent updateWidget = new Intent("com.klinker.android.messaging.UPDATE_WIDGET");
                     context.sendBroadcast(updateWidget);
@@ -1200,26 +1071,25 @@ public class CardQuickReply extends FragmentActivity {
                             readSMS(context);
                         }
                     }).start();
-					
-					getActivity().finish();
-					
-				}
-				  
-			  });
-			
-			return message;
-		}
+
+                    getActivity().finish();
+
+                }
+
+            });
+
+            return message;
+        }
 
         public void readSMS(Context context) {
             try {
                 Uri uriSms = Uri.parse("content://sms/inbox");
                 Cursor c = context.getContentResolver().query(uriSms,
-                        new String[] { "_id", "thread_id", "address",
-                                "person", "date", "body", "read" }, null, null, "date DESC LIMIT 10");
+                        new String[]{"_id", "thread_id", "address",
+                                "person", "date", "body", "read"}, null, null, "date DESC LIMIT 10");
 
                 if (c != null && c.moveToFirst()) {
-                    do
-                    {
+                    do {
                         String id = c.getString(0);
 
                         ContentValues values = new ContentValues();
@@ -1232,20 +1102,20 @@ public class CardQuickReply extends FragmentActivity {
 
             }
         }
-	}
-	
-	public static Date getZeroTimeDate(Date date) {
-	    Date res;
-	    Calendar cal = Calendar.getInstance();
+    }
 
-	    cal.setTime( date );
-	    cal.set(Calendar.HOUR_OF_DAY, 0);
-	    cal.set(Calendar.MINUTE, 0);
-	    cal.set(Calendar.SECOND, 0);
-	    cal.set(Calendar.MILLISECOND, 0);
+    public static Date getZeroTimeDate(Date date) {
+        Date res;
+        Calendar cal = Calendar.getInstance();
 
-	    res = cal.getTime();
+        cal.setTime(date);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
 
-	    return res;
-	}
+        res = cal.getTime();
+
+        return res;
+    }
 }
