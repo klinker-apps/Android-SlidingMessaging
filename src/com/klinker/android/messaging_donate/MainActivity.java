@@ -2,7 +2,6 @@ package com.klinker.android.messaging_donate;
 
 import android.annotation.SuppressLint;
 import android.app.*;
-import android.app.Fragment;
 import android.content.*;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager;
@@ -15,23 +14,19 @@ import android.graphics.PorterDuff.Mode;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.*;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
-import android.provider.ContactsContract.PhoneLookup;
 import android.provider.ContactsContract.Profile;
 import android.provider.MediaStore;
 import android.support.v4.app.*;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ListFragment;
-import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.telephony.PhoneNumberUtils;
-import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
 import android.text.Editable;
 import android.text.InputType;
@@ -64,7 +59,6 @@ import com.klinker.android.messaging_donate.wizardpager.InitialSetupMain;
 import com.klinker.android.messaging_sliding.*;
 import com.klinker.android.messaging_sliding.batch_delete.BatchDeleteAllActivity;
 import com.klinker.android.messaging_sliding.batch_delete.BatchDeleteConversationActivity;
-import com.klinker.android.messaging_sliding.blacklist.BlacklistContact;
 import com.klinker.android.messaging_sliding.emoji_pager.KeyboardFragment;
 import com.klinker.android.messaging_sliding.emoji_pager.sqlite.EmojiDataSource;
 import com.klinker.android.messaging_sliding.emoji_pager.sqlite.Recent;
@@ -92,7 +86,6 @@ import net.simonvt.messagebar.MessageBar;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 
 import java.io.File;
-import java.io.InputStream;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -3752,12 +3745,7 @@ public class MainActivity extends FragmentActivity {
         Intent clearMessages = new Intent("com.klinker.android.messaging.CLEAR_MESSAGES");
         getApplicationContext().sendBroadcast(clearMessages);
 
-        IntentFilter filter = new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
-        filter.addCategory(Intent.CATEGORY_DEFAULT);
-        filter.setPriority(3);
-        registerReceiver(receiver, filter);
-
-        filter = new IntentFilter(Transaction.REFRESH);
+        IntentFilter filter = new IntentFilter(Transaction.REFRESH);
         registerReceiver(refreshReceiver, filter);
 
         filter = new IntentFilter(Transaction.MMS_ERROR);
@@ -3772,7 +3760,7 @@ public class MainActivity extends FragmentActivity {
         filter = new IntentFilter("com.klinker.android.messaging.NEW_MMS");
         filter.addCategory(Intent.CATEGORY_DEFAULT);
         filter.setPriority(3);
-        registerReceiver(mmsReceiver, filter);
+        registerReceiver(messageReceiver, filter);
 
         filter = new IntentFilter("com.klinker.android.messaging_donate.KILL_FOR_HALO");
         filter.addCategory(Intent.CATEGORY_DEFAULT);
@@ -3958,12 +3946,11 @@ public class MainActivity extends FragmentActivity {
         super.onPause();
 
         try {
-            unregisterReceiver(receiver);
             unregisterReceiver(refreshReceiver);
             unregisterReceiver(mmsError);
             unregisterReceiver(voiceError);
             unregisterReceiver(mmsProgressReceiver);
-            unregisterReceiver(mmsReceiver);
+            unregisterReceiver(messageReceiver);
             unregisterReceiver(killReceiver);
         } catch (Exception e) { }
     }
@@ -4999,354 +4986,7 @@ public class MainActivity extends FragmentActivity {
         }
     };
 
-    private BroadcastReceiver receiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(final Context context, Intent intent) {
-            deleteDraft = false;
-            Bundle extras = intent.getExtras();
-
-            String body = "";
-            String address = "";
-            String date = "";
-
-            if ( extras != null )
-            {
-                Object[] smsExtra = (Object[]) extras.get( "pdus" );
-
-                for ( int i = 0; i < smsExtra.length; ++i )
-                {
-                    SmsMessage sms = SmsMessage.createFromPdu((byte[])smsExtra[i]);
-
-                    body += sms.getMessageBody().toString();
-                    address = sms.getOriginatingAddress();
-                    date = sms.getTimestampMillis() + "";
-                }
-            }
-
-            ArrayList<BlacklistContact> blacklist = IOUtil.readBlacklist(context);
-            int blacklistType = 0;
-
-            for (int i = 0; i < blacklist.size(); i++)
-            {
-                if (blacklist.get(i).name.equals(address.replace("-", "").replace("(", "").replace(")", "").replace(" ", "").replace("+1", "")))
-                {
-                    blacklistType = blacklist.get(i).type;
-                }
-            }
-
-            if (blacklistType == 2)
-            {
-                abortBroadcast();
-            } else {
-
-                Calendar cal = Calendar.getInstance();
-                ContentValues values = new ContentValues();
-                values.put("address", address);
-                values.put("body", body);
-                values.put("date", cal.getTimeInMillis() + "");
-                values.put("read", false);
-                values.put("date_sent", date);
-                getContentResolver().insert(Uri.parse("content://sms/inbox"), values);
-
-                String name = ContactUtil.findContactName(address, context);
-                String id = "0";
-
-                Bitmap contactImage = BitmapFactory.decodeResource(resources, R.drawable.default_avatar);
-
-                try {
-                    Uri phoneUri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(address.replaceAll("[^0-9\\+]", "")));
-                    Cursor phonesCursor = context.getContentResolver().query(phoneUri, new String[] {ContactsContract.Contacts._ID}, null, null, null);
-
-                    if(phonesCursor != null && phonesCursor.moveToFirst()) {
-                        id = phonesCursor.getString(0);
-                    }
-
-                    InputStream input = ContactUtil.openDisplayPhoto(Long.parseLong(id), context);
-
-                    if (input == null)
-                    {
-                        input = resources.openRawResource(R.drawable.default_avatar);
-                    }
-
-                    contactImage = Bitmap.createScaledBitmap(BitmapFactory.decodeStream(input), 120, 120, true);
-                } catch (Exception e) { }
-
-                if (settings.inAppNotifications)
-                {
-                    NotificationCompat.Builder mBuilder =
-                            new NotificationCompat.Builder(context)
-                                    .setSmallIcon(R.drawable.stat_notify_sms)
-                                    .setContentTitle(name)
-                                    .setContentText(body)
-                                    .setTicker(name + ": " + body);
-
-                    if (!id.equals("0"))
-                        mBuilder.setLargeIcon(contactImage);
-
-                    TextMessageReceiver.setIcon(mBuilder, context);
-
-                    if(!TextMessageReceiver.individualNotification(mBuilder, name, context, true))
-                    {
-                        if (settings.vibrate)
-                        {
-                            if (!settings.customVibratePattern)
-                            {
-                                String vibPat = sharedPrefs.getString("vibrate_pattern", "2short");
-
-                                if (vibPat.equals("short"))
-                                {
-                                    long[] pattern = {0L, 400L};
-                                    mBuilder.setVibrate(pattern);
-                                } else if (vibPat.equals("long"))
-                                {
-                                    long[] pattern = {0L, 800L};
-                                    mBuilder.setVibrate(pattern);
-                                } else if (vibPat.equals("2short"))
-                                {
-                                    long[] pattern = {0L, 400L, 100L, 400L};
-                                    mBuilder.setVibrate(pattern);
-                                } else if (vibPat.equals("2long"))
-                                {
-                                    long[] pattern = {0L, 800L, 200L, 800L};
-                                    mBuilder.setVibrate(pattern);
-                                } else if (vibPat.equals("3short"))
-                                {
-                                    long[] pattern = {0L, 400L, 100L, 400L, 100L, 400L};
-                                    mBuilder.setVibrate(pattern);
-                                } else if (vibPat.equals("3long"))
-                                {
-                                    long[] pattern = {0L, 800L, 200L, 800L, 200L, 800L};
-                                    mBuilder.setVibrate(pattern);
-                                }
-                            } else
-                            {
-                                try
-                                {
-                                    String[] vibPat = settings.vibratePattern.replace("L", "").split(", ");
-                                    long[] pattern = new long[vibPat.length];
-
-                                    for (int i = 0; i < vibPat.length; i++)
-                                    {
-                                        pattern[i] = Long.parseLong(vibPat[i]);
-                                    }
-
-                                    mBuilder.setVibrate(pattern);
-                                } catch (Exception e) { }
-                            }
-                        }
-
-                        if (settings.led)
-                        {
-                            String ledColor = sharedPrefs.getString("led_color", "white");
-                            int ledOn = sharedPrefs.getInt("led_on_time", 1000);
-                            int ledOff = sharedPrefs.getInt("led_off_time", 2000);
-
-                            if (ledColor.equalsIgnoreCase("white"))
-                            {
-                                mBuilder.setLights(0xFFFFFFFF, ledOn, ledOff);
-                            } else if (ledColor.equalsIgnoreCase("blue"))
-                            {
-                                mBuilder.setLights(0xFF0099CC, ledOn, ledOff);
-                            } else if (ledColor.equalsIgnoreCase("green"))
-                            {
-                                mBuilder.setLights(0xFF00FF00, ledOn, ledOff);
-                            } else if (ledColor.equalsIgnoreCase("orange"))
-                            {
-                                mBuilder.setLights(0xFFFF8800, ledOn, ledOff);
-                            } else if (ledColor.equalsIgnoreCase("red"))
-                            {
-                                mBuilder.setLights(0xFFCC0000, ledOn, ledOff);
-                            } else if (ledColor.equalsIgnoreCase("purple"))
-                            {
-                                mBuilder.setLights(0xFFAA66CC, ledOn, ledOff);
-                            } else
-                            {
-                                mBuilder.setLights(0xFFFFFFFF, ledOn, ledOff);
-                            }
-                        }
-
-                        try
-                        {
-                            mBuilder.setSound(Uri.parse(settings.ringTone));
-                        } catch(Exception e)
-                        {
-                            mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-                        }
-                    }
-
-                    Intent resultIntent = new Intent(context, MainActivity.class);
-                    resultIntent.setAction(Intent.ACTION_SENDTO);
-                    resultIntent.putExtra("com.klinker.android.OPEN", address);
-
-                    TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-                    stackBuilder.addParentStack(MainActivity.class);
-                    stackBuilder.addNextIntent(resultIntent);
-                    PendingIntent resultPendingIntent =
-                            stackBuilder.getPendingIntent(
-                                    0,
-                                    PendingIntent.FLAG_CANCEL_CURRENT
-                            );
-
-                    mBuilder.setContentIntent(resultPendingIntent);
-                    mBuilder.setAutoCancel(true);
-
-                    NotificationManager mNotificationManager =
-                            (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
-                    Notification notification = new NotificationCompat.BigTextStyle(mBuilder).bigText(body).build();
-                    Intent deleteIntent = new Intent(context, NotificationReceiver.class);
-                    notification.deleteIntent = PendingIntent.getBroadcast(context, 0, deleteIntent, 0);
-                    mNotificationManager.notify(1, notification);
-                    dismissNotification = false;
-
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            NotificationManager mNotificationManager =
-                                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-                            mNotificationManager.cancel(1);
-                            dismissNotification = true;
-                        }
-                    }, 1000);
-                }
-
-                messageRecieved = true;
-                notChanged = false;
-                jump = false;
-
-                try
-                {
-                    if (address.replace(" ", "").replace("(", "").replace(")", "").replace("-", "").endsWith(ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context).replace(" ", "").replace("(", "").replace(")", "").replace("-", "")))
-                    {
-                        animationReceived = 1;
-                        animationThread = mViewPager.getCurrentItem();
-                    } else
-                    {
-                        animationReceived = 2;
-                    }
-                } catch (Exception e)
-                {
-                    animationReceived = 2;
-                }
-
-                if (animationReceived == 2) {
-                    if (settings.inAppNotifications) {
-                        boolean flag = false;
-                        for (int i = 0; i < appMsgConversations; i++) {
-                            if (address.replace(" ", "").replace("(", "").replace(")", "").replace("-", "").endsWith(ContactUtil.findContactNumber(conversations.get(i).getNumber(), context).replace(" ", "").replace("(", "").replace(")", "").replace("-", ""))) {
-                                flag = true;
-                                break;
-                            }
-                        }
-
-                        if (!flag) {
-                            appMsgConversations++;
-                        }
-
-                        if (appMsgConversations == 1) {
-                            appMsg = AppMsg.makeText((Activity) context, appMsgConversations + getString(R.string.new_conversation), AppMsg.STYLE_ALERT);
-                        } else {
-                            appMsg = AppMsg.makeText((Activity) context, appMsgConversations + getString(R.string.new_conversations), AppMsg.STYLE_ALERT);
-                        }
-
-                        appMsg.show();
-                    }
-                }
-
-                dismissCrouton = false;
-
-                refreshViewPager4(ContactUtil.findRecipientId(address, context), body, date);
-
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        dismissCrouton = true;
-                    }
-                }, 500);
-
-                if (!settings.useTitleBar || settings.alwaysShowContactInfo)
-                {
-                    if (ab != null) {
-                        if (conversations.get(mViewPager.getCurrentItem()).getGroup())
-                        {
-                            ab.setTitle("Group MMS");
-                            ab.setSubtitle(null);
-                        } else
-                        {
-                            new Thread(new Runnable() {
-
-                                @Override
-                                public void run() {
-                                    final String title = ContactUtil.findContactName(ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context), context);
-
-                                    ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                                        @Override
-                                        public void run() {
-                                            ab.setTitle(title);
-                                        }
-
-                                    });
-
-                                }
-
-                            }).start();
-
-                            Locale sCachedLocale = Locale.getDefault();
-                            int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
-                            Editable editable = new SpannableStringBuilder(ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context));
-                            PhoneNumberUtils.formatNumber(editable, sFormatType);
-                            ab.setSubtitle(editable.toString());
-
-                            if (ab.getTitle().equals(ab.getSubtitle()))
-                            {
-                                ab.setSubtitle(null);
-                            }
-                        }
-                    }
-                }
-
-                if (settings.titleContactImages)
-                {
-                    if (ab != null) {
-                        new Thread(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                final Bitmap image = ContactUtil.getFacebookPhoto(ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context), context);
-                                final BitmapDrawable image2 = new BitmapDrawable(image);
-
-                                ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                                    @Override
-                                    public void run() {
-                                        ab.setIcon(image2);
-                                    }
-
-                                });
-
-                            }
-
-                        }).start();
-                    }
-                }
-
-                Intent updateWidget = new Intent("com.klinker.android.messaging.UPDATE_WIDGET");
-                context.sendBroadcast(updateWidget);
-
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        deleteDraft = true;
-                    }
-                }, 2000);
-
-                abortBroadcast();
-            }
-        }
-    };
-
-    private BroadcastReceiver mmsReceiver = new BroadcastReceiver() {
+    private BroadcastReceiver messageReceiver = new BroadcastReceiver() {
 
         @Override
         public void onReceive(Context arg0, Intent arg1) {
@@ -5356,9 +4996,9 @@ public class MainActivity extends FragmentActivity {
             mNotificationManager.cancel(2);
             mNotificationManager.cancel(4);
 
-            try
-            {
-                if (getIntent().getStringExtra("address").replace(" ", "").replace("(", "").replace(")", "").replace("-", "").endsWith(ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), arg0).replace(" ", "").replace("(", "").replace(")", "").replace("-", "")))
+            // TODO redo this stuff for determining whether or not we are already on that page...
+            try {
+                if (arg1.getStringExtra("address").replace(" ", "").replace("(", "").replace(")", "").replace("-", "").endsWith(ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), arg0).replace(" ", "").replace("(", "").replace(")", "").replace("-", "")))
                 {
                     animationReceived = 1;
                     animationThread = mViewPager.getCurrentItem();
@@ -5366,8 +5006,7 @@ public class MainActivity extends FragmentActivity {
                 {
                     animationReceived = 2;
                 }
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 animationReceived = 2;
             }
 
@@ -5376,7 +5015,7 @@ public class MainActivity extends FragmentActivity {
                     boolean flag = false;
                     for (int i = 0; i < appMsgConversations; i++) {
                         try {
-                            if (getIntent().getStringExtra("address").replace(" ", "").replace("(", "").replace(")", "").replace("-", "").endsWith(ContactUtil.findContactNumber(conversations.get(i).getNumber(), arg0).replace(" ", "").replace("(", "").replace(")", "").replace("-", ""))) {
+                            if (arg1.getStringExtra("address").replace(" ", "").replace("(", "").replace(")", "").replace("-", "").endsWith(ContactUtil.findContactNumber(conversations.get(i).getNumber(), arg0).replace(" ", "").replace("(", "").replace(")", "").replace("-", ""))) {
                                 flag = true;
                                 break;
                             }
@@ -5415,7 +5054,6 @@ public class MainActivity extends FragmentActivity {
             ((Activity) context).finish();
         }
     };
-
     private BroadcastReceiver mmsProgressReceiver;
 
 }

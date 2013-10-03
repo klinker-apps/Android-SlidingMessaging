@@ -15,7 +15,6 @@ import android.telephony.PhoneNumberUtils;
 import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.SpannableStringBuilder;
-import android.util.Log;
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
 
@@ -28,29 +27,20 @@ public class ContactUtil {
             String[] ids = id.split(" ");
             String numbers = "";
 
-            for (int i = 0; i < ids.length; i++)
-            {
-                try
-                {
-                    if (ids[i] != null && (!ids[i].equals("") || !ids[i].equals(" ")))
-                    {
+            for (int i = 0; i < ids.length; i++) {
+                try {
+                    if (ids[i] != null && (!ids[i].equals("") || !ids[i].equals(" "))) {
                         Cursor number = context.getContentResolver().query(Uri.parse("content://mms-sms/canonical-addresses"), null, "_id=" + ids[i], null, null);
 
-                        if (number.moveToFirst())
-                        {
+                        if (number.moveToFirst()) {
                             numbers += number.getString(number.getColumnIndex("address")).replace("-", "").replace(")", "").replace("(", "").replace(" ", "") + " ";
-                        } else
-                        {
+                        } else {
                             numbers += ids[i] + " ";
                         }
 
                         number.close();
-                    } else
-                    {
-
                     }
-                } catch (Exception e)
-                {
+                } catch (Exception e) {
                     numbers += "0 ";
                 }
             }
@@ -76,7 +66,6 @@ public class ContactUtil {
                                 String numberToMatch = id.getString(id.getColumnIndex("address")).replace("+1", "").replace(" ", "").replace("-", "").replace(")", "").replace("(", "");
                                 String against = ids[i].replace("+1", "").replace(" ", "").replace("-", "").replace(")", "").replace("(", "");
 
-                                Log.v("numberToMatch", numberToMatch + " " + against);
                                 if (numberToMatch.startsWith(against) || numberToMatch.endsWith(against) || numberToMatch.equals(against)) {
                                     numbers += id.getString(id.getColumnIndex("_id")) + " ";
                                 }
