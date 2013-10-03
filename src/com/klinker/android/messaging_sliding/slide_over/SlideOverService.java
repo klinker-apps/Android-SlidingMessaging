@@ -602,7 +602,7 @@ public class SlideOverService extends Service {
                     |WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
                 PixelFormat.TRANSLUCENT);
         sendParams.gravity = Gravity.TOP | Gravity.LEFT;
-        sendParams.windowAnimations = android.R.style.Animation_Toast;
+        sendParams.windowAnimations = android.R.style.Animation_InputMethod;
 
         sendParamsFocused = new WindowManager.LayoutParams(
                 width - 100,  // 50 pixels on each side
@@ -613,7 +613,7 @@ public class SlideOverService extends Service {
                 WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
                 PixelFormat.TRANSLUCENT);
         sendParamsFocused.gravity = Gravity.TOP | Gravity.LEFT;
-        sendParamsFocused.windowAnimations = android.R.style.Animation_Toast;
+        sendParamsFocused.windowAnimations = android.R.style.Animation_InputMethod;
 
         haloParams = new WindowManager.LayoutParams(
                 halo.getWidth(),
