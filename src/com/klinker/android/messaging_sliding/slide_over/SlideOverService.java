@@ -12,8 +12,10 @@ import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.*;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
@@ -149,179 +151,7 @@ public class SlideOverService extends Service {
 
         initialSetup(halo, height, width);
 
-        haloView.setOnTouchListener(new View.OnTouchListener() {
-
-            @Override
-            public boolean onTouch(View view, MotionEvent event) {
-
-                mGestureDetector.onTouchEvent(event);
-
-                if ((event.getX() > haloView.getX() && event.getX() < haloView.getX() + halo.getWidth() && event.getY() > haloView.getY() && event.getY() < haloView.getY() + halo.getHeight()) || needDetection) {
-                    final int type = event.getActionMasked();
-
-                    if (numberNewConv == 0) { // no messages to display
-                        switch (type) {
-                            case MotionEvent.ACTION_DOWN:
-
-                                onDown(event);
-                                return true;
-
-                            case MotionEvent.ACTION_MOVE:
-
-                                if (changingSliver) {
-                                    changeSliverWidth(halo, event, width);
-                                } else if (movingBubble) {
-                                    movingHalo(halo, event);
-                                } else {
-                                    noMessagesMove(event, height, width);
-                                }
-
-                                return true;
-
-                            case MotionEvent.ACTION_UP:
-
-                                if (changingSliver) {
-                                    setSliver(halo, event, height, width);
-                                    changingSliver = false;
-                                } else if (movingBubble) {
-                                    setHalo(halo, event, height, width);
-                                    movingBubble = false;
-                                } else {
-                                    noMessagesUp();
-                                }
-
-                                removeArcHandler.removeCallbacks(removeArcRunnable);
-
-                                return true;
-                        }
-                    } else // if they have a new message to display
-                    {
-                        zoneWidth = (width - SWIPE_MIN_DISTANCE) / (numberNewConv);
-
-                        switch (type) {
-                            case MotionEvent.ACTION_DOWN:
-
-                                onDown(event);
-                                return true;
-
-                            case MotionEvent.ACTION_MOVE:
-
-                                if (changingSliver) {
-                                    changeSliverWidth(halo, event, width);
-                                } else if (movingBubble) {
-                                    movingHalo(halo, event);
-                                } else {
-                                    messagesMove(event, height, width, zoneWidth);
-                                }
-
-                                return true;
-
-                            case MotionEvent.ACTION_UP:
-                                if (changingSliver) {
-                                    setSliver(halo, event, height, width);
-                                    changingSliver = false;
-                                } else if (movingBubble) {
-                                    setHalo(halo, event, height, width);
-                                    movingBubble = false;
-                                } else {
-                                    messagesUp();
-                                }
-
-                                removeArcHandler.removeCallbacks(removeArcRunnable);
-
-                                return true;
-                        }
-                    }
-
-                }
-
-                return false;
-            }
-        });
-
-        messageView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-
-                try { sendWindow.updateViewLayout(sendView, sendParams); } catch (Exception e) { }
-                sendBox.clearFocus();
-                //TODO shutdown keyboard
-                messageViewTouched(motionEvent, height, width);
-                /*sendWindow.updateViewLayout(sendView, sendParams);
-                EditText edit = (EditText) sendView.findViewById(R.id.message_entry_slideover);
-                edit.clearFocus();*/
-
-                return false;
-            }
-        });
-
-        sendBox.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-
-                sendWindow.updateViewLayout(sendView, sendParamsFocused);
-                sendBox.requestFocus();
-                //TODO shutdown keyboard
-                //messageViewTouched(motionEvent, height, width);
-                /*sendWindow.updateViewLayout(sendView, sendParams);
-                EditText edit = (EditText) sendView.findViewById(R.id.message_entry_slideover);
-                edit.clearFocus();*/
-
-                return false;
-            }
-        });
-
-        contactView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-
-                try { sendWindow.updateViewLayout(sendView, sendParams); } catch (Exception e) { }
-                sendBox.clearFocus();
-
-                contactViewTouched(event, height, width);
-                /*sendWindow.updateViewLayout(sendView, sendParamsFocused);
-                EditText edit = (EditText) sendView.findViewById(R.id.message_entry_slideover);
-                edit.requestFocus();*/
-
-                return false;
-            }
-        });
-
-        send.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!sendBox.getText().toString().equals("")) {
-                    Message mMessage = new Message(sendBox.getText().toString(), ContactView.numbers[ContactView.currentContact]);
-                    sendTransaction.sendNewMessage(mMessage, Long.parseLong(ContactView.threadIds[ContactView.currentContact]));
-
-                    sendBox.setText("");
-                    sendBox.clearFocus();
-                    try {
-                        sendWindow.updateViewLayout(sendView, sendParams);
-                    } catch (Exception e) {
-                    }
-
-                    ContactView.currentContact = 0;
-                    currContact = 0;
-                    ContactView.refreshArrays();
-                    contactView.invalidate();
-                    messageView.invalidate();
-                }
-            }
-        });
-
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                sendBox.setText("");
-                sendBox.clearFocus();
-                try {
-                    sendWindow.updateViewLayout(sendView, sendParams);
-                } catch (Exception e) {
-                }
-            }
-        });
+        setUpTouchListeners(height, width);
 
         haloWindow.addView(haloView, haloParams);
 
@@ -466,6 +296,174 @@ public class SlideOverService extends Service {
         }
     }
 
+    public void setUpTouchListeners(final int height, final int width) {
+        haloView.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+
+                mGestureDetector.onTouchEvent(event);
+
+                if ((event.getX() > haloView.getX() && event.getX() < haloView.getX() + halo.getWidth() && event.getY() > haloView.getY() && event.getY() < haloView.getY() + halo.getHeight()) || needDetection) {
+                    final int type = event.getActionMasked();
+
+                    if (numberNewConv == 0) { // no messages to display
+                        switch (type) {
+                            case MotionEvent.ACTION_DOWN:
+
+                                onDown(event);
+                                return true;
+
+                            case MotionEvent.ACTION_MOVE:
+
+                                if (changingSliver) {
+                                    changeSliverWidth(halo, event, width);
+                                } else if (movingBubble) {
+                                    movingHalo(halo, event);
+                                } else {
+                                    noMessagesMove(event, height, width);
+                                }
+
+                                return true;
+
+                            case MotionEvent.ACTION_UP:
+
+                                if (changingSliver) {
+                                    setSliver(halo, event, height, width);
+                                    changingSliver = false;
+                                } else if (movingBubble) {
+                                    setHalo(halo, event, height, width);
+                                    movingBubble = false;
+                                } else {
+                                    noMessagesUp();
+                                }
+
+                                removeArcHandler.removeCallbacks(removeArcRunnable);
+
+                                return true;
+                        }
+                    } else // if they have a new message to display
+                    {
+                        zoneWidth = (width - SWIPE_MIN_DISTANCE) / (numberNewConv);
+
+                        switch (type) {
+                            case MotionEvent.ACTION_DOWN:
+
+                                onDown(event);
+                                return true;
+
+                            case MotionEvent.ACTION_MOVE:
+
+                                if (changingSliver) {
+                                    changeSliverWidth(halo, event, width);
+                                } else if (movingBubble) {
+                                    movingHalo(halo, event);
+                                } else {
+                                    messagesMove(event, height, width, zoneWidth);
+                                }
+
+                                return true;
+
+                            case MotionEvent.ACTION_UP:
+                                if (changingSliver) {
+                                    setSliver(halo, event, height, width);
+                                    changingSliver = false;
+                                } else if (movingBubble) {
+                                    setHalo(halo, event, height, width);
+                                    movingBubble = false;
+                                } else {
+                                    messagesUp();
+                                }
+
+                                removeArcHandler.removeCallbacks(removeArcRunnable);
+
+                                return true;
+                        }
+                    }
+
+                }
+
+                return false;
+            }
+        });
+
+        messageView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+
+                try { sendWindow.updateViewLayout(sendView, sendParams); } catch (Exception e) { }
+                sendBox.clearFocus();
+
+                messageViewTouched(motionEvent, height, width);
+
+                return false;
+            }
+        });
+
+        sendBox.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+
+                sendWindow.updateViewLayout(sendView, sendParamsFocused);
+                sendBox.requestFocus();
+                sendBox.setCursorVisible(true);
+
+                return false;
+            }
+        });
+
+        contactView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                try { sendWindow.updateViewLayout(sendView, sendParams); } catch (Exception e) { }
+                sendBox.clearFocus();
+
+                contactViewTouched(event, height, width);
+
+                return false;
+            }
+        });
+
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!sendBox.getText().toString().equals("")) {
+                    Message mMessage = new Message(sendBox.getText().toString(), ContactView.numbers[ContactView.currentContact]);
+                    sendTransaction.sendNewMessage(mMessage, Long.parseLong(ContactView.threadIds[ContactView.currentContact]));
+
+                    sendBox.setText("");
+                    sendBox.setCursorVisible(false);
+                    sendBox.clearFocus();
+                    try {
+                        sendWindow.updateViewLayout(sendView, sendParams);
+                    } catch (Exception e) {
+                    }
+
+                    ContactView.currentContact = 0;
+                    currContact = 0;
+                    ContactView.refreshArrays();
+                    contactView.invalidate();
+                    messageView.invalidate();
+                }
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                sendBox.setText("");
+                sendBox.setCursorVisible(false);
+                sendBox.clearFocus();
+                try {
+                    sendWindow.updateViewLayout(sendView, sendParams);
+                } catch (Exception e) {
+                }
+            }
+        });
+    }
+
     public void initialSetup(Bitmap halo, int height, int width) {
         mContext = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
@@ -540,6 +538,7 @@ public class SlideOverService extends Service {
 
         sendBox = (EditText) sendView.findViewById(R.id.message_entry_slideover);
         sendBox.clearFocus();
+        sendBox.setCursorVisible(false);
 
         send = (ImageButton) sendView.findViewById(R.id.send);
         cancel = (ImageButton) sendView.findViewById(R.id.cancel);
@@ -681,6 +680,12 @@ public class SlideOverService extends Service {
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
                 if (currentY > windowOffsetY && currentY < windowOffsetY + toDP(60) && currentX > 50 && currentX < width - 50) {// if it is in the y zone and the x zone
+
+                    sendBox.setText("");
+                    sendBox.clearFocus();
+                    sendBox.setCursorVisible(false);
+                    try { sendWindow.updateViewLayout(sendView, sendParams); } catch (Exception e) { }
+
                     currentX -= 50; // to match the start of the window
 
                     if (currentX < toDP(60) && !ContactView.ignore[0]) { // contact 1 touched
