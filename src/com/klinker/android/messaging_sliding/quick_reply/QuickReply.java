@@ -382,7 +382,7 @@ public class QuickReply extends Activity {
             @Override
             public void onClick(View v) {
                 Intent mrIntent = new Intent();
-                mrIntent.setClass(context, QmMarkRead2.class);
+                mrIntent.setClass(context, QmMarkRead.class);
                 startService(mrIntent);
 
                 ((Activity) context).finish();

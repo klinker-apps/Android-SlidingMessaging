@@ -66,7 +66,7 @@ import com.klinker.android.messaging_sliding.emojis.EmojiAdapter;
 import com.klinker.android.messaging_sliding.emojis.EmojiAdapter2;
 import com.klinker.android.messaging_sliding.emojis.EmojiConverter;
 import com.klinker.android.messaging_sliding.emojis.EmojiConverter2;
-import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead2;
+import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead;
 import com.klinker.android.messaging_sliding.receivers.CacheService;
 import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
 import com.klinker.android.messaging_sliding.receivers.QuickTextService;
@@ -3057,7 +3057,7 @@ public class MainActivity extends FragmentActivity {
 
                 return true;
             case R.id.menu_mark_all_read:
-                startService(new Intent(getBaseContext(), QmMarkRead2.class));
+                startService(new Intent(getBaseContext(), QmMarkRead.class));
                 return true;
             case R.id.menu_refreshVoice:
                 startService(new Intent(this, VoiceReceiver.class));

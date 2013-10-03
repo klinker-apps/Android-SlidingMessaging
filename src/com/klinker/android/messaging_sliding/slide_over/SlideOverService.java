@@ -5,8 +5,6 @@ import android.content.*;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Vibrator;
@@ -14,14 +12,13 @@ import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.*;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.utils.IOUtil;
-import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead2;
+import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead;
 import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
 import com.klinker.android.send_message.Message;
 import com.klinker.android.send_message.Settings;
@@ -299,7 +296,10 @@ public class SlideOverService extends Service {
 
                     sendBox.setText("");
                     sendBox.clearFocus();
-                    try { sendWindow.updateViewLayout(sendView, sendParams); } catch (Exception e) { }
+                    try {
+                        sendWindow.updateViewLayout(sendView, sendParams);
+                    } catch (Exception e) {
+                    }
 
                     ContactView.currentContact = 0;
                     currContact = 0;
@@ -316,7 +316,10 @@ public class SlideOverService extends Service {
 
                 sendBox.setText("");
                 sendBox.clearFocus();
-                try { sendWindow.updateViewLayout(sendView, sendParams); } catch (Exception e) { }
+                try {
+                    sendWindow.updateViewLayout(sendView, sendParams);
+                } catch (Exception e) {
+                }
             }
         });
 
@@ -373,7 +376,7 @@ public class SlideOverService extends Service {
                     messageBoxHandler.removeCallbacks(messageBoxRunnable);
 
                     if (sharedPrefs.getBoolean("slideover_only_unread", false))
-                        startService(new Intent(getBaseContext(), QmMarkRead2.class));
+                        startService(new Intent(getBaseContext(), QmMarkRead.class));
 
                     ContactView.refreshArrays();
 
@@ -1306,7 +1309,7 @@ public class SlideOverService extends Service {
         closeNotifications();
 
         if (sharedPrefs.getString("slideover_secondary_action", "conversations").equals("markRead")) {
-            startService(new Intent(getBaseContext(), QmMarkRead2.class));
+            startService(new Intent(getBaseContext(), QmMarkRead.class));
         } else {
             if (isRunning(getApplication())) {
                 Intent intent = new Intent();

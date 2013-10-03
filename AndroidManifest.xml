@@ -399,7 +399,7 @@
         </service>
 
         <service 
-            android:name="com.klinker.android.messaging_sliding.quick_reply.QmMarkRead2" >
+            android:name="com.klinker.android.messaging_sliding.quick_reply.QmMarkRead" >
         </service>
         
         <service 

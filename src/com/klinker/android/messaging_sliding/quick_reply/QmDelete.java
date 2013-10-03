@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.util.Log;
 import com.klinker.android.messaging_donate.utils.IOUtil;
 import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
 
@@ -21,6 +22,7 @@ public class QmDelete extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        Log.v("mark_read", "deleting message...");
 
         deleteSMS(this);
 

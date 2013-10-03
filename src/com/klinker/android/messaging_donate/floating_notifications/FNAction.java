@@ -13,6 +13,7 @@ import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.utils.ContactUtil;
 import com.klinker.android.messaging_donate.utils.SendUtil;
+import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead;
 import robj.floating.notifications.Extension;
 
 public class FNAction extends BroadcastReceiver {
@@ -104,7 +105,7 @@ public class FNAction extends BroadcastReceiver {
 
                 case 3:
                     // start mark read service
-                    context.startService(new Intent(context, com.klinker.android.messaging_sliding.quick_reply.QmMarkRead2.class));
+                    context.startService(new Intent(context, QmMarkRead.class));
                     Extension.remove(id, context);
                     FNReceiver.messages.remove(id);
                     break;

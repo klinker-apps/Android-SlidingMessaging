@@ -10,7 +10,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.TypedValue;
 import com.klinker.android.messaging_donate.MainActivity;
-import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead2;
+import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead;
 import com.klinker.android.send_message.Message;
 import com.klinker.android.send_message.Settings;
 import com.klinker.android.send_message.Transaction;
@@ -29,7 +29,7 @@ public class SendUtil {
         sendTransaction.sendNewMessage(message, Transaction.NO_THREAD_ID);
 
         Intent mrIntent = new Intent();
-        mrIntent.setClass(context, QmMarkRead2.class);
+        mrIntent.setClass(context, QmMarkRead.class);
         mrIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_ANIMATION);
         mrIntent.putExtra("body", body);
         mrIntent.putExtra("date", Calendar.getInstance().getTimeInMillis() + "");
@@ -47,7 +47,7 @@ public class SendUtil {
         sendTransaction.sendNewMessage(message, Transaction.NO_THREAD_ID);
 
         Intent mrIntent = new Intent();
-        mrIntent.setClass(context, QmMarkRead2.class);
+        mrIntent.setClass(context, QmMarkRead.class);
         mrIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_ANIMATION);
         mrIntent.putExtra("body", body);
         mrIntent.putExtra("date", Calendar.getInstance().getTimeInMillis() + "");
@@ -66,7 +66,7 @@ public class SendUtil {
         sendTransaction.sendNewMessage(message, Transaction.NO_THREAD_ID);
 
         Intent mrIntent = new Intent();
-        mrIntent.setClass(context, QmMarkRead2.class);
+        mrIntent.setClass(context, QmMarkRead.class);
         mrIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_ANIMATION);
         mrIntent.putExtra("body", body);
         mrIntent.putExtra("date", Calendar.getInstance().getTimeInMillis() + "");

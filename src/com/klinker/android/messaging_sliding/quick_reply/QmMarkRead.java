@@ -9,19 +9,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.util.Log;
 import com.klinker.android.messaging_donate.utils.IOUtil;
 import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
 
 import java.util.ArrayList;
 
-public class QmMarkRead2 extends IntentService {
+public class QmMarkRead extends IntentService {
 
-    public QmMarkRead2() {
+    public QmMarkRead() {
         super("service");
     }
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        Log.v("mark_read", "marking all messages as read...");
 
         readSMS(this);
 

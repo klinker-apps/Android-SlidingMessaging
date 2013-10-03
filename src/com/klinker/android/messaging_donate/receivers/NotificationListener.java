@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
-import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead2;
+import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead;
 import com.klinker.android.messaging_sliding.receivers.VoiceReceiver;
 
 public class NotificationListener extends NotificationListenerService {
@@ -27,7 +27,7 @@ public class NotificationListener extends NotificationListenerService {
 
         if (sharedPrefs.getBoolean("swipe_read", true)) {
             if (sbn.getPackageName().equals(this.getPackageName()) && !(sharedPrefs.getBoolean("slideover_enabled", false) && sharedPrefs.getBoolean("slideover_hide_notifications", false))) {
-                startService(new Intent(this, QmMarkRead2.class));
+                startService(new Intent(this, QmMarkRead.class));
             }
         }
     }

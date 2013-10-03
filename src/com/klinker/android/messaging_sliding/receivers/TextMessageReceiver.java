@@ -36,7 +36,7 @@ import com.klinker.android.messaging_sliding.blacklist.BlacklistContact;
 import com.klinker.android.messaging_sliding.notifications.IndividualSetting;
 import com.klinker.android.messaging_sliding.quick_reply.CardQuickReply;
 import com.klinker.android.messaging_sliding.quick_reply.QmDelete;
-import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead2;
+import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead;
 import com.klinker.android.messaging_sliding.quick_reply.QuickReply;
 
 import java.io.InputStream;
@@ -248,9 +248,9 @@ public class TextMessageReceiver extends BroadcastReceiver {
 
                         // pending intent for marking all messages as read
                         Intent mrIntent = new Intent();
-                        mrIntent.setClass(context, QmMarkRead2.class);
+                        mrIntent.setClass(context, QmMarkRead.class);
                         PendingIntent mrPendingIntent = PendingIntent.getService(context, 0, mrIntent,
-                                PendingIntent.FLAG_UPDATE_CURRENT);
+                                PendingIntent.FLAG_CANCEL_CURRENT);
 
                         // pending intent for deleting the specified message
                         Intent deleterIntent = new Intent();
@@ -700,7 +700,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 
             Intent deleteIntent = new Intent(context, NotificationReceiver.class);
             notification.deleteIntent = PendingIntent.getBroadcast(context, 0, deleteIntent, 0);
-            mNotificationManager.notify(2, notification);
+            mNotificationManager.notify(1, notification);
 
             Intent updateWidget = new Intent("com.klinker.android.messaging.RECEIVED_MMS");
             context.sendBroadcast(updateWidget);
