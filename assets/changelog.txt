@@ -1,4 +1,4 @@
-Sliding Messaging is now smoother than ever!
+Sliding Messaging is now smoother and more feature packed than ever!
 
 - Conversation list UI changes and optimizations
 - Added the ability to send messages directly from Quick Peek
