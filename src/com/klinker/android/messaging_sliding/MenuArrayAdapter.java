@@ -202,10 +202,11 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
               viewHolder.text4.setTextColor(MainActivity.settings.ctSummaryTextColor);
           }
 
-          viewHolder.text.setTextSize((float)Integer.parseInt(MainActivity.settings.textSize2));
-          viewHolder.text2.setTextSize((float)Integer.parseInt(MainActivity.settings.textSize2));
-          viewHolder.text3.setTextSize((float)(Integer.parseInt(MainActivity.settings.textSize2) - 2));
-          viewHolder.text4.setTextSize((float)(Integer.parseInt(MainActivity.settings.textSize2) - 2));
+          float size = (float)Integer.parseInt(MainActivity.settings.textSize2);
+          viewHolder.text.setTextSize(size);
+          viewHolder.text2.setTextSize(size);
+          viewHolder.text3.setTextSize(size - 2);
+          viewHolder.text4.setTextSize(size - 2);
 
           if (!MainActivity.settings.contactPictures2)
           {
