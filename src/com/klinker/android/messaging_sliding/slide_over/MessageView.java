@@ -82,8 +82,8 @@ public class MessageView extends ViewGroup {
         width = d.getWidth();
 
         // draws the rectangle and the outline
-        canvas.drawRect(0, 0, width - 100, toDP(160), blackPaint);
-        canvas.drawRect(0, 0, width - 100, toDP(160), strokePaint);
+        canvas.drawRect(0, 0, width - 100, toDP(160) + toDP(56), blackPaint);
+        canvas.drawRect(0, 0, width - 100, toDP(160) + toDP(56), strokePaint);
 
         canvas.drawText(ContactView.contactNames[ContactView.currentContact], 10, 40, namePaint);
 

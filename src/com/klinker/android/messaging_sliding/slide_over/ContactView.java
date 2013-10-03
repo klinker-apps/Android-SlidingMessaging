@@ -47,6 +47,8 @@ public class  ContactView extends ViewGroup {
 
     public static Bitmap[] contactPics = new Bitmap[6];
     public static String[] contactNames = new String[6];
+    public static String[] threadIds = new String[6];
+    public static String[] numbers = new String[6];
     public static String[][] message = new String[6][3];
     public static int[][] type = new int[6][3];
     public static boolean[] ignore = new boolean[6];
@@ -149,6 +151,14 @@ public class  ContactView extends ViewGroup {
         }
 
         for (int i = 0; i < 6; i++) {
+            numbers[i] = "";
+        }
+
+        for (int i = 0; i < 6; i++) {
+            threadIds[i] = "";
+        }
+
+        for (int i = 0; i < 6; i++) {
             for (int j = 0; j< 3; j++) {
                 message[i][j] = "";
             }
@@ -188,6 +198,8 @@ public class  ContactView extends ViewGroup {
                         int count2 = 0;
 
                         contactNames[count] = name;
+                        threadIds[count] = id;
+                        numbers[count] = number;
                         contactPics[count] = ContactUtil.getFacebookPhoto(number, mContext);
                         do {
                             /*String s = cursor2.getString(cursor2.getColumnIndex("msg_box"));

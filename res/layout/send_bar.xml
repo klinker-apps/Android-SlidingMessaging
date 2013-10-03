@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingRight="5dp" android:paddingLeft="5dp">
+
+    <ImageButton
+        android:layout_width="60dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_cancel_white"
+        android:background="@android:color/transparent"
+        android:id="@+id/cancel"
+        />
+
+    <EditText
+        android:id="@+id/message_entry_slideover"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:hint="Type Message"
+        android:layout_weight="1"
+        />
+
+    <ImageButton
+        android:layout_width="60dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_action_send_white"
+        android:background="@android:color/transparent"
+        android:id="@+id/send"
+        />
+
+</LinearLayout>

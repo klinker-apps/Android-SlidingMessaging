@@ -9,6 +9,8 @@ import android.content.*;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Vibrator;
@@ -16,10 +18,17 @@ import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.*;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+
+import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.utils.IOUtil;
 import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead2;
 import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
+import com.klinker.android.send_message.Message;
+import com.klinker.android.send_message.Transaction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +44,7 @@ public class SlideOverService extends Service {
     public ContactView contactView;
     public ArcView arcView;
     public AnimationView animationView;
+    public View sendView;
 
     public WindowManager.LayoutParams haloParams;
     public WindowManager.LayoutParams haloHiddenParams;
@@ -43,8 +53,14 @@ public class SlideOverService extends Service {
     public WindowManager.LayoutParams arcParams;
     public WindowManager.LayoutParams arcParamsNoBack;
     public WindowManager.LayoutParams animationParams;
+    public WindowManager.LayoutParams sendParams;
+    public WindowManager.LayoutParams sendParamsFocused;
     
     private GestureDetector mGestureDetector;
+
+    private EditText sendBox;
+    private ImageButton send;
+    private ImageButton cancel;
 
     public Context mContext;
 
@@ -56,6 +72,7 @@ public class SlideOverService extends Service {
     public WindowManager messageWindow;
     public WindowManager arcWindow;
     public WindowManager animationWindow;
+    public WindowManager sendWindow;
 
     public SharedPreferences sharedPrefs;
 
@@ -119,6 +136,8 @@ public class SlideOverService extends Service {
     public Runnable messageBoxRunnable;
     public Runnable arcViewRunnable;
     public Runnable removeArcRunnable;
+
+    private Transaction sendTransaction;
 
     @Override
     public void onCreate() {
@@ -230,7 +249,29 @@ public class SlideOverService extends Service {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
 
+                try { sendWindow.updateViewLayout(sendView, sendParams); } catch (Exception e) { }
+                sendBox.clearFocus();
+                //TODO shutdown keyboard
                 messageViewTouched(motionEvent, height, width);
+                /*sendWindow.updateViewLayout(sendView, sendParams);
+                EditText edit = (EditText) sendView.findViewById(R.id.message_entry_slideover);
+                edit.clearFocus();*/
+
+                return false;
+            }
+        });
+
+        sendBox.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+
+                sendWindow.updateViewLayout(sendView, sendParamsFocused);
+                sendBox.requestFocus();
+                //TODO shutdown keyboard
+                //messageViewTouched(motionEvent, height, width);
+                /*sendWindow.updateViewLayout(sendView, sendParams);
+                EditText edit = (EditText) sendView.findViewById(R.id.message_entry_slideover);
+                edit.clearFocus();*/
 
                 return false;
             }
@@ -240,9 +281,45 @@ public class SlideOverService extends Service {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 
+                try { sendWindow.updateViewLayout(sendView, sendParams); } catch (Exception e) { }
+                sendBox.clearFocus();
+
                 contactViewTouched(event, height, width);
+                /*sendWindow.updateViewLayout(sendView, sendParamsFocused);
+                EditText edit = (EditText) sendView.findViewById(R.id.message_entry_slideover);
+                edit.requestFocus();*/
 
                 return false;
+            }
+        });
+
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!sendBox.getText().toString().equals("")) {
+                    Message mMessage = new Message(sendBox.getText().toString(), ContactView.numbers[ContactView.currentContact]);
+                    sendTransaction.sendNewMessage(mMessage, Long.parseLong(ContactView.threadIds[ContactView.currentContact]));
+
+                    sendBox.setText("");
+                    sendBox.clearFocus();
+                    try { sendWindow.updateViewLayout(sendView, sendParams); } catch (Exception e) { }
+
+                    ContactView.currentContact = 0;
+                    currContact = 0;
+                    ContactView.refreshArrays();
+                    contactView.invalidate();
+                    messageView.invalidate();
+                }
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                sendBox.setText("");
+                sendBox.clearFocus();
+                try { sendWindow.updateViewLayout(sendView, sendParams); } catch (Exception e) { }
             }
         });
 
@@ -268,7 +345,7 @@ public class SlideOverService extends Service {
         filter.addAction(BCAST_CONFIGCHANGED);
         this.registerReceiver(orientationChange, filter);
     }
-    
+
     class GestureListener extends GestureDetector.SimpleOnGestureListener {
 
         @Override
@@ -291,6 +368,7 @@ public class SlideOverService extends Service {
 
                     try {
                         messageWindow.removeView(messageView);
+                        sendWindow.removeView(sendView);
                     } catch (Exception x) {
                         // message view is gone already
                     }
@@ -313,6 +391,7 @@ public class SlideOverService extends Service {
 
                     messageWindow.addView(contactView, contactParams);
                     messageWindow.addView(messageView, messageWindowParams);
+                    sendWindow.addView(sendView, sendParams);
                 }
 
                 quickPeekHidden = false;
@@ -417,6 +496,7 @@ public class SlideOverService extends Service {
         animationView = new AnimationView(this, halo);
         messageView = new MessageView(this);
         contactView = new ContactView(this);
+        sendView = View.inflate(this, R.layout.send_bar, null);
 
         numberNewConv = arcView.newConversations.size();
         
@@ -428,6 +508,7 @@ public class SlideOverService extends Service {
                 try {
                     messageWindow.removeView(contactView);
                     messageWindow.removeView(messageView);
+                    sendWindow.removeView(sendView);
                 } catch (Exception e) {
 
                 }
@@ -457,13 +538,21 @@ public class SlideOverService extends Service {
         };
 
         windowOffsetY = 50;
+
+        sendBox = (EditText) sendView.findViewById(R.id.message_entry_slideover);
+        sendBox.clearFocus();
+
+        send = (ImageButton) sendView.findViewById(R.id.send);
+        cancel = (ImageButton) sendView.findViewById(R.id.cancel);
+
+        sendTransaction = new Transaction (mContext, MainActivity.sendSettings);
     }
 
     public void setParams(Bitmap halo, int height, int width)
     {
         messageWindowParams = new WindowManager.LayoutParams(
                 width - 100,  // 50 pixels on each side
-                toDP(160),        // 160 dp tall
+                toDP(160) + toDP(56),        // 160 dp tall + 53 for the reply box
                 50,         // 50 pixel width on the side
                 50 + toDP(63),         // 50 plus the height of the contactParams down the screen (plus 3 dp margin)
                 WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
@@ -488,6 +577,29 @@ public class SlideOverService extends Service {
                 PixelFormat.TRANSLUCENT);
         contactParams.gravity = Gravity.TOP | Gravity.LEFT;
         contactParams.windowAnimations = android.R.style.Animation_Toast;
+
+        sendParams = new WindowManager.LayoutParams(
+                width - 100,  // 50 pixels on each side
+                toDP(50),        // 160 dp tall
+                50,         // 50 pixel width on the side
+                50 + toDP(63) + toDP(163),         // 50 plus the height of the contactParams down the screen (plus 3 dp margin)
+                WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+                    |WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+                PixelFormat.TRANSLUCENT);
+        sendParams.gravity = Gravity.TOP | Gravity.LEFT;
+        sendParams.windowAnimations = android.R.style.Animation_Toast;
+
+        sendParamsFocused = new WindowManager.LayoutParams(
+                width - 100,  // 50 pixels on each side
+                toDP(50),        // 160 dp tall
+                50,         // 50 pixel width on the side
+                50 + toDP(63) + toDP(163),         // 50 plus the height of the contactParams down the screen (plus 3 dp margin)
+                WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
+                PixelFormat.TRANSLUCENT);
+        sendParamsFocused.gravity = Gravity.TOP | Gravity.LEFT;
+        sendParamsFocused.windowAnimations = android.R.style.Animation_Toast;
 
         haloParams = new WindowManager.LayoutParams(
                 halo.getWidth(),
@@ -544,6 +656,7 @@ public class SlideOverService extends Service {
         arcWindow = (WindowManager) getSystemService(WINDOW_SERVICE);
         animationWindow = (WindowManager) getSystemService(WINDOW_SERVICE);
         haloWindow = (WindowManager) getSystemService(WINDOW_SERVICE);
+        sendWindow = (WindowManager) getSystemService(WINDOW_SERVICE);
     }
 
     public void onDown(MotionEvent event)
@@ -578,6 +691,7 @@ public class SlideOverService extends Service {
                     } else if (currentX > width - 50 - toDP(60) && currentX < width - 50) {
 
                         try { messageWindow.removeView(messageView);
+                            sendWindow.removeView(sendView);
                             currContact = ContactView.currentContact;
                             ContactView.currentContact = 5; } catch (Exception e) { }
 
@@ -590,6 +704,9 @@ public class SlideOverService extends Service {
 
                     contactView.invalidate();
                     messageView.invalidate();
+                } else if (currentY > windowOffsetY + toDP(63) + toDP(163) && currentY < windowOffsetY + toDP(63) + toDP(163) + toDP(50) && currentX > 50 && currentX < width - 50) {// if it is in the y zone and the x zone
+                    sendWindow.updateViewLayout(sendView, sendParamsFocused);
+                    sendBox.requestFocus();
                 }
 
                 break;
@@ -627,7 +744,8 @@ public class SlideOverService extends Service {
             case MotionEvent.ACTION_UP:
 
                 if (contactPictureTouched) { // contact picture was touched
-                    try { messageWindow.addView(messageView, messageWindowParams); } catch (Exception e) { }
+                    try { messageWindow.addView(messageView, messageWindowParams);
+                        sendWindow.addView(sendView, sendParams); } catch (Exception e) { }
 
                 } else if (actionButtonTouched && draggingQuickPeek) { // finished actually dragging the window around
 
@@ -636,8 +754,12 @@ public class SlideOverService extends Service {
                     ContactView.currentContact = 5;
 
                     messageWindowParams.y = toDP(63) + windowOffsetY;
+                    sendParams.y = toDP(63) + toDP(163) + windowOffsetY;
+                    sendParamsFocused.y = toDP(63) + toDP(163) + windowOffsetY;
+
                     messageView.invalidate();
-                    try { messageWindow.updateViewLayout(messageView, messageWindowParams); } catch (Exception e) { }
+                    try { messageWindow.updateViewLayout(messageView, messageWindowParams);
+                            sendWindow.updateViewLayout(sendView, sendParams);} catch (Exception e) { }
 
                     actionButtonTouched = false;
                     draggingQuickPeek = false;
@@ -652,7 +774,11 @@ public class SlideOverService extends Service {
                     contactView.invalidate();
 
                     messageWindowParams.y = toDP(63) + windowOffsetY;
-                    try { messageWindow.removeView(messageView); } catch (Exception e) { }
+                    sendParams.y = toDP(63) + toDP(163) + windowOffsetY;
+                    sendParamsFocused.y = toDP(63) + toDP(163) + windowOffsetY;
+
+                    try { messageWindow.removeView(messageView);
+                        sendWindow.removeView(sendView); } catch (Exception e) { }
 
                 } else if (actionButtonTouched && !quickPeekHidden) { // hides quick peek when you touch the action button
                         ContactView.currentContact = 5;
@@ -660,7 +786,10 @@ public class SlideOverService extends Service {
                         messageView.invalidate();
 
                         messageWindowParams.y = toDP(63) + windowOffsetY;
+                        sendParams.y = toDP(63) + toDP(163) + windowOffsetY;
+                        sendParamsFocused.y = toDP(63) + toDP(163) + windowOffsetY;
                         messageWindow.removeView(messageView);
+                        sendWindow.removeView(sendView);
 
                         draggingQuickPeek = false;
                         quickPeekHidden = true;
@@ -701,6 +830,7 @@ public class SlideOverService extends Service {
 
                     messageWindow.removeView(contactView);
                     messageWindow.removeView(messageView);
+                    sendWindow.removeView(sendView);
                 } catch (Exception e) {
                     // already open and intent is null
                 }
@@ -1419,6 +1549,7 @@ public class SlideOverService extends Service {
             try { haloWindow.removeViewImmediate(haloView); } catch (Exception e) { }
             try { messageWindow.removeViewImmediate(messageView); } catch (Exception e) { }
             try { messageWindow.removeViewImmediate(contactView); } catch (Exception e) { }
+            try { sendWindow.removeViewImmediate(sendView); } catch (Exception e) { }
             stopSelf();
             unregisterReceiver(this);
         }
@@ -1571,6 +1702,7 @@ public class SlideOverService extends Service {
                     try {
                         messageWindow.removeView(messageView);
                         messageWindow.removeView(contactView);
+                        sendWindow.removeView(sendView);
                     } catch (Exception e) {
 
                     }
