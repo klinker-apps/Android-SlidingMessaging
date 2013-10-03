@@ -409,6 +409,7 @@ public class SlideOverService extends Service {
 
                 sendWindow.updateViewLayout(sendView, sendParamsFocused);
                 sendBox.requestFocus();
+                sendBox.setCursorVisible(true);
 
                 return false;
             }
@@ -435,6 +436,7 @@ public class SlideOverService extends Service {
                     sendTransaction.sendNewMessage(mMessage, Long.parseLong(ContactView.threadIds[ContactView.currentContact]));
 
                     sendBox.setText("");
+                    sendBox.setCursorVisible(false);
                     sendBox.clearFocus();
                     try { sendWindow.updateViewLayout(sendView, sendParams); } catch (Exception e) { }
 
@@ -452,6 +454,7 @@ public class SlideOverService extends Service {
             public void onClick(View v) {
 
                 sendBox.setText("");
+                sendBox.setCursorVisible(false);
                 sendBox.clearFocus();
                 try { sendWindow.updateViewLayout(sendView, sendParams); } catch (Exception e) { }
             }
@@ -544,6 +547,7 @@ public class SlideOverService extends Service {
 
         sendBox = (EditText) sendView.findViewById(R.id.message_entry_slideover);
         sendBox.clearFocus();
+        sendBox.setCursorVisible(false);
 
         send = (ImageButton) sendView.findViewById(R.id.send);
         cancel = (ImageButton) sendView.findViewById(R.id.cancel);
@@ -688,6 +692,7 @@ public class SlideOverService extends Service {
 
                     sendBox.setText("");
                     sendBox.clearFocus();
+                    sendBox.setCursorVisible(false);
                     try { sendWindow.updateViewLayout(sendView, sendParams); } catch (Exception e) { }
 
                     currentX -= 50; // to match the start of the window
