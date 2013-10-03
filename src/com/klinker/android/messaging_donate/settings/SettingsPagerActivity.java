@@ -88,7 +88,7 @@ public class SettingsPagerActivity extends FragmentActivity {
 
         DrawerArrayAdapter.current = 0;
 
-        linkItems = new String[] { getResources().getString(R.string.theme_settings),
+        linkItems = new String[]{getResources().getString(R.string.theme_settings),
                 getResources().getString(R.string.notification_settings),
                 getResources().getString(R.string.popup_settings),
                 getResources().getString(R.string.slideover_settings),
@@ -97,13 +97,13 @@ public class SettingsPagerActivity extends FragmentActivity {
                 getResources().getString(R.string.mms_settings),
                 getResources().getString(R.string.google_voice_settings),
                 getResources().getString(R.string.security_settings),
-                getResources().getString(R.string.advanced_settings)   };
+                getResources().getString(R.string.advanced_settings)};
 
-        otherItems = new String[] {getResources().getString(R.string.quick_templates),
+        otherItems = new String[]{getResources().getString(R.string.quick_templates),
                 getResources().getString(R.string.scheduled_sms),
                 getResources().getString(R.string.get_help),
                 getResources().getString(R.string.other_apps),
-                getResources().getString(R.string.rate_it) };
+                getResources().getString(R.string.rate_it)};
 
         activity = this;
 
@@ -167,8 +167,11 @@ public class SettingsPagerActivity extends FragmentActivity {
         userKnows = sharedPrefs.getBoolean("user_knows_navigation_drawer", false);
 
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            public void onPageScrollStateChanged(int state) {}
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+            public void onPageScrollStateChanged(int state) {
+            }
+
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
 
             public void onPageSelected(int position) {
                 DrawerArrayAdapter.current = position;
@@ -176,7 +179,7 @@ public class SettingsPagerActivity extends FragmentActivity {
             }
         });
 
-        if(!userKnows) {
+        if (!userKnows) {
             mDrawerLayout.openDrawer(mDrawer);
         }
     }
@@ -194,7 +197,7 @@ public class SettingsPagerActivity extends FragmentActivity {
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-    private class SpinnerClickListener implements  Spinner.OnItemSelectedListener {
+    private class SpinnerClickListener implements Spinner.OnItemSelectedListener {
         @Override
         // sets the string repetition to whatever is choosen from the spinner
         public void onItemSelected(AdapterView<?> parent, View view,
@@ -254,7 +257,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                                 mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(mIntent);
                                 //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
-                                overridePendingTransition(0,0);
+                                overridePendingTransition(0, 0);
                             }
                         }, 200);
                         break;
@@ -268,7 +271,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                                 mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(mIntent);
                                 //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
-                                overridePendingTransition(0,0);
+                                overridePendingTransition(0, 0);
                             }
                         }, 200);
                         break;
@@ -281,7 +284,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                                 mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(mIntent);
                                 //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
-                                overridePendingTransition(0,0);
+                                overridePendingTransition(0, 0);
                             }
                         }, 200);
 
@@ -295,7 +298,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                                 mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(mIntent);
                                 //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
-                                overridePendingTransition(0,0);
+                                overridePendingTransition(0, 0);
                             }
                         }, 200);
 
@@ -357,14 +360,12 @@ public class SettingsPagerActivity extends FragmentActivity {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState)
-    {
+    public void onSaveInstanceState(Bundle outState) {
 
     }
 
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
         finish();
@@ -404,7 +405,7 @@ public class SettingsPagerActivity extends FragmentActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 //case 0:
-                    //return getResources().getString(R.string.menu_settings);
+                //return getResources().getString(R.string.menu_settings);
                 case 0:
                     return getResources().getString(R.string.theme_settings);
                 case 1:
@@ -448,8 +449,7 @@ public class SettingsPagerActivity extends FragmentActivity {
             mDrawerList.setAdapter(new DrawerArrayAdapter(activity,
                     new ArrayList<String>(Arrays.asList(linkItems))));
 
-            switch(position)
-            {
+            switch (position) {
                 case 0:
                     addPreferencesFromResource(R.xml.sliding_theme_settings);
                     setUpThemeSettings();
@@ -489,10 +489,9 @@ public class SettingsPagerActivity extends FragmentActivity {
             }
         }
 
-        public void setUpThemeSettings()
-        {
+        public void setUpThemeSettings() {
             final Context context = getActivity();
-            final SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
             Preference titleSettings = findPreference("title_prefs");
             titleSettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -520,8 +519,7 @@ public class SettingsPagerActivity extends FragmentActivity {
 
                 @Override
                 public boolean onPreferenceClick(Preference arg0) {
-                    if (sharedPrefs.getBoolean("custom_background", false))
-                    {
+                    if (sharedPrefs.getBoolean("custom_background", false)) {
                         Intent intent = new Intent();
                         intent.setType("image/*");
                         intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -538,8 +536,7 @@ public class SettingsPagerActivity extends FragmentActivity {
 
                 @Override
                 public boolean onPreferenceClick(Preference arg0) {
-                    if (sharedPrefs.getBoolean("custom_background2", false))
-                    {
+                    if (sharedPrefs.getBoolean("custom_background2", false)) {
                         Intent intent = new Intent();
                         intent.setType("image/*");
                         intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -573,8 +570,7 @@ public class SettingsPagerActivity extends FragmentActivity {
             }
         }
 
-        public void setUpNotificationSettings()
-        {
+        public void setUpNotificationSettings() {
             final Context context = getActivity();
 
             Preference indiv = (Preference) findPreference("individual_notification_settings");
@@ -624,10 +620,9 @@ public class SettingsPagerActivity extends FragmentActivity {
             }
         }
 
-        public void setUpPopupSettings()
-        {
+        public void setUpPopupSettings() {
             final Context context = getActivity();
-            final SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
             Preference customPopup = (Preference) findPreference("popup_theme");
 
             if (sharedPrefs.getBoolean("full_app_popup", true)) {
@@ -649,8 +644,7 @@ public class SettingsPagerActivity extends FragmentActivity {
 
                 }
             } else {
-                if (!sharedPrefs.getBoolean("use_old_popup", false))
-                {
+                if (!sharedPrefs.getBoolean("use_old_popup", false)) {
                     customPopup.setEnabled(true);
                     customPopup.setSelectable(true);
                     customPopup.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -661,8 +655,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                             return true;
                         }
                     });
-                } else
-                {
+                } else {
                     customPopup.setEnabled(false);
                     customPopup.setSelectable(false);
                     customPopup.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -896,15 +889,12 @@ public class SettingsPagerActivity extends FragmentActivity {
             }
         }
 
-        public void setUpMessageSettings()
-        {
-            final SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        public void setUpMessageSettings() {
+            final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-            if (sharedPrefs.getString("run_as", "sliding").equals("sliding") || sharedPrefs.getString("run_as", "sliding").equals("hangout") || sharedPrefs.getString("run_as", "sliding").equals("card2") || sharedPrefs.getString("run_as", "sliding").equals("card+"))
-            {
+            if (sharedPrefs.getString("run_as", "sliding").equals("sliding") || sharedPrefs.getString("run_as", "sliding").equals("hangout") || sharedPrefs.getString("run_as", "sliding").equals("card2") || sharedPrefs.getString("run_as", "sliding").equals("card+")) {
 
-            } else
-            {
+            } else {
                 getPreferenceScreen().removePreference(findPreference("text_alignment"));
                 getPreferenceScreen().removePreference(findPreference("contact_pictures"));
                 getPreferenceScreen().removePreference(findPreference("auto_insert_draft"));
@@ -916,16 +906,13 @@ public class SettingsPagerActivity extends FragmentActivity {
             }
         }
 
-        public void setUpConversationSettings()
-        {
-            final SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        public void setUpConversationSettings() {
+            final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-            if (sharedPrefs.getString("run_as", "sliding").equals("sliding") || sharedPrefs.getString("run_as", "sliding").equals("hangout") || sharedPrefs.getString("run_as", "sliding").equals("card2") || sharedPrefs.getString("run_as", "sliding").equals("card+"))
-            {
+            if (sharedPrefs.getString("run_as", "sliding").equals("sliding") || sharedPrefs.getString("run_as", "sliding").equals("hangout") || sharedPrefs.getString("run_as", "sliding").equals("card2") || sharedPrefs.getString("run_as", "sliding").equals("card+")) {
                 ((PreferenceGroup) findPreference("conversation_theme_category")).removePreference(findPreference("hide_contact_number"));
                 ((PreferenceGroup) findPreference("conversation_theme_category")).removePreference(findPreference("open_to_first"));
-            } else
-            {
+            } else {
                 getPreferenceScreen().removePreference(findPreference("pin_conversation_list"));
                 getPreferenceScreen().removePreference(findPreference("contact_pictures2"));
                 getPreferenceScreen().removePreference(findPreference("open_contact_menu"));
@@ -939,13 +926,12 @@ public class SettingsPagerActivity extends FragmentActivity {
             }
         }
 
-        public void setUpMmsSettings()
-        {
+        public void setUpMmsSettings() {
             boolean isTablet;
 
             Preference mmsc, proxy, port;
             final Context context = getActivity();
-            final SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(context);
+            final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
             try {
                 if ((Utils.getMyPhoneNumber(context) == null || Utils.getMyPhoneNumber(context).equals("")) && tabletSize(context) > 6.5 && xLargeScreen(context)) {
@@ -978,8 +964,7 @@ public class SettingsPagerActivity extends FragmentActivity {
 
                 @Override
                 public boolean onPreferenceClick(Preference arg0) {
-                    if (sharedPrefs.getBoolean("send_as_mms", false))
-                    {
+                    if (sharedPrefs.getBoolean("send_as_mms", false)) {
                         NumberPickerDialog.OnNumberSetListener mSmsLimitListener =
                                 new NumberPickerDialog.OnNumberSetListener() {
                                     public void onNumberSet(int limit) {
@@ -1031,7 +1016,7 @@ public class SettingsPagerActivity extends FragmentActivity {
 
                                     sharedPrefs.edit().putString("mmsc_url", a.mmsc).putString("mms_proxy", a.proxy).putString("mms_port", a.port + "").commit();
                                 } catch (Exception e) {
-                                    ((Activity)context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+                                    ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
                                         @Override
                                         public void run() {
                                             Toast.makeText(context, "Error, couldn't get system APNs.", Toast.LENGTH_SHORT).show();
@@ -1039,7 +1024,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                                     });
                                 }
 
-                                ((Activity)context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+                                ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
                                     @Override
                                     public void run() {
                                         setUpMmsSettings();
@@ -1108,55 +1093,48 @@ public class SettingsPagerActivity extends FragmentActivity {
 
         }
 
-        public void setUpSecuritySettings()
-        {
+        public void setUpSecuritySettings() {
             final Context context = getActivity();
-            final SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(context);
+            final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
             // sets up the preferences dynamically depending on what security type you have
-            if (sharedPrefs.getString("security_option", "none").equals("none"))
-            {
+            if (sharedPrefs.getString("security_option", "none").equals("none")) {
                 getPreferenceScreen().findPreference("set_password").setEnabled(false);
                 getPreferenceScreen().findPreference("auto_unlock").setEnabled(false);
                 getPreferenceScreen().findPreference("timeout_settings").setEnabled(false);
-            } else if (sharedPrefs.getString("security_option", "none").equals("password"))
-            {
+            } else if (sharedPrefs.getString("security_option", "none").equals("password")) {
                 getPreferenceScreen().findPreference("set_password").setEnabled(true);
                 getPreferenceScreen().findPreference("auto_unlock").setEnabled(false);
                 getPreferenceScreen().findPreference("timeout_settings").setEnabled(true);
-            } else if (sharedPrefs.getString("security_option", "none").equals("pin"))
-            {
+            } else if (sharedPrefs.getString("security_option", "none").equals("pin")) {
                 getPreferenceScreen().findPreference("set_password").setEnabled(true);
                 getPreferenceScreen().findPreference("auto_unlock").setEnabled(true);
                 getPreferenceScreen().findPreference("timeout_settings").setEnabled(true);
-            } else if (sharedPrefs.getString("security_option", "none").equals("pattern"))
-            {
+            } else if (sharedPrefs.getString("security_option", "none").equals("pattern")) {
                 getPreferenceScreen().findPreference("set_password").setEnabled(true);
                 getPreferenceScreen().findPreference("auto_unlock").setEnabled(false);
                 getPreferenceScreen().findPreference("timeout_settings").setEnabled(true);
             }
 
             // listner for list preference change to call intents and change preferences
-            myPrefListner = new SharedPreferences.OnSharedPreferenceChangeListener(){
+            myPrefListner = new SharedPreferences.OnSharedPreferenceChangeListener() {
                 public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-                    if(key.equals("security_option")) {
+                    if (key.equals("security_option")) {
                         //Get the value from the list_preference with default: "Nothing"
                         String value = sharedPrefs.getString(key, "none");
 
-                        if(value.equals("none"))
-                        {
+                        if (value.equals("none")) {
                             getPreferenceScreen().findPreference("set_password").setEnabled(false);
                             getPreferenceScreen().findPreference("auto_unlock").setEnabled(false);
                             getPreferenceScreen().findPreference("timeout_settings").setEnabled(false);
-                        } else if(value.equals("pin")) {
+                        } else if (value.equals("pin")) {
                             getPreferenceScreen().findPreference("auto_unlock").setEnabled(true);
                             getPreferenceScreen().findPreference("set_password").setEnabled(true);
                             getPreferenceScreen().findPreference("timeout_settings").setEnabled(true);
 
                             Intent intent = new Intent(getActivity(), SetPinActivity.class);
                             startActivity(intent);
-                        } else if (value.equals("password"))
-                        {
+                        } else if (value.equals("password")) {
                             getPreferenceScreen().findPreference("auto_unlock").setEnabled(false);
                             getPreferenceScreen().findPreference("set_password").setEnabled(true);
                             getPreferenceScreen().findPreference("timeout_settings").setEnabled(true);
@@ -1184,16 +1162,13 @@ public class SettingsPagerActivity extends FragmentActivity {
 
                 @Override
                 public boolean onPreferenceClick(Preference arg0) {
-                    if (sharedPrefs.getString("security_option", "none").equals("pin"))
-                    {
+                    if (sharedPrefs.getString("security_option", "none").equals("pin")) {
                         Intent intent = new Intent(getActivity(), SetPinActivity.class);
                         startActivity(intent);
-                    } else if (sharedPrefs.getString("security_option", "none").equals("password"))
-                    {
+                    } else if (sharedPrefs.getString("security_option", "none").equals("password")) {
                         Intent intent = new Intent(getActivity(), SetPasswordActivity.class);
                         startActivity(intent);
-                    } else if (sharedPrefs.getString("security_option", "none").equals("pattern"))
-                    {
+                    } else if (sharedPrefs.getString("security_option", "none").equals("pattern")) {
                         SecurityPrefs.setAutoSavePattern(context, true);
                         Intent intent = new Intent(LockPatternActivity.ACTION_CREATE_PATTERN, null,
                                 getActivity(), LockPatternActivity.class);
@@ -1205,8 +1180,7 @@ public class SettingsPagerActivity extends FragmentActivity {
             });
         }
 
-        public void setUpSpeedSettings()
-        {
+        public void setUpSpeedSettings() {
             Preference scheduleBackup = (Preference) findPreference("schedule_backup");
             scheduleBackup.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 
@@ -1236,22 +1210,20 @@ public class SettingsPagerActivity extends FragmentActivity {
             });
         }
 
-        public void setUpAdvancedSettings()
-        {
+        public void setUpAdvancedSettings() {
             final Context context = getActivity();
-            final SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
             Preference deleteOld = (Preference) findPreference("delete_old");
             deleteOld.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 
                 @Override
                 public boolean onPreferenceClick(Preference arg0) {
-                    if (sharedPrefs.getBoolean("delete_old", false))
-                    {
+                    if (sharedPrefs.getBoolean("delete_old", false)) {
                         Intent deleteIntent = new Intent(context, DeleteOldService.class);
                         PendingIntent pintent = PendingIntent.getService(context, 0, deleteIntent, 0);
-                        AlarmManager alarm = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-                        alarm.setRepeating(AlarmManager.RTC_WAKEUP, Calendar.getInstance().getTimeInMillis(), 6*60*60*1000, pintent);
+                        AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                        alarm.setRepeating(AlarmManager.RTC_WAKEUP, Calendar.getInstance().getTimeInMillis(), 6 * 60 * 60 * 1000, pintent);
                     }
 
                     return false;
@@ -1312,8 +1284,7 @@ public class SettingsPagerActivity extends FragmentActivity {
 
                 @Override
                 public boolean onPreferenceClick(Preference arg0) {
-                    if (sharedPrefs.getBoolean("delete_old", false))
-                    {
+                    if (sharedPrefs.getBoolean("delete_old", false)) {
                         NumberPickerDialog.OnNumberSetListener mSmsLimitListener =
                                 new NumberPickerDialog.OnNumberSetListener() {
                                     public void onNumberSet(int limit) {
@@ -1348,7 +1319,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                             progDialog.setMessage(context.getResources().getString(R.string.deleting));
                             progDialog.show();
 
-                            new Thread(new Runnable(){
+                            new Thread(new Runnable() {
 
                                 @Override
                                 public void run() {
@@ -1429,8 +1400,7 @@ public class SettingsPagerActivity extends FragmentActivity {
             });
         }
 
-        public void giveTestNotification()
-        {
+        public void giveTestNotification() {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setTitle(R.string.test_notification);
             builder.setMessage(R.string.test_notification_summary);
@@ -1440,7 +1410,7 @@ public class SettingsPagerActivity extends FragmentActivity {
             BroadcastReceiver screenOff = new BroadcastReceiver() {
                 @Override
                 public void onReceive(final Context context, Intent intent) {
-                    final SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                    final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
                     NotificationCompat.Builder mBuilder =
                             new NotificationCompat.Builder(getActivity())
@@ -1451,92 +1421,70 @@ public class SettingsPagerActivity extends FragmentActivity {
 
                     setIcon(mBuilder);
 
-                    if (sharedPrefs.getBoolean("vibrate", true))
-                    {
-                        if (!sharedPrefs.getBoolean("custom_vibrate_pattern", false))
-                        {
+                    if (sharedPrefs.getBoolean("vibrate", true)) {
+                        if (!sharedPrefs.getBoolean("custom_vibrate_pattern", false)) {
                             String vibPat = sharedPrefs.getString("vibrate_pattern", "2short");
 
-                            if (vibPat.equals("short"))
-                            {
+                            if (vibPat.equals("short")) {
                                 long[] pattern = {0L, 400L};
                                 mBuilder.setVibrate(pattern);
-                            } else if (vibPat.equals("long"))
-                            {
+                            } else if (vibPat.equals("long")) {
                                 long[] pattern = {0L, 800L};
                                 mBuilder.setVibrate(pattern);
-                            } else if (vibPat.equals("2short"))
-                            {
+                            } else if (vibPat.equals("2short")) {
                                 long[] pattern = {0L, 400L, 100L, 400L};
                                 mBuilder.setVibrate(pattern);
-                            } else if (vibPat.equals("2long"))
-                            {
+                            } else if (vibPat.equals("2long")) {
                                 long[] pattern = {0L, 800L, 200L, 800L};
                                 mBuilder.setVibrate(pattern);
-                            } else if (vibPat.equals("3short"))
-                            {
+                            } else if (vibPat.equals("3short")) {
                                 long[] pattern = {0L, 400L, 100L, 400L, 100L, 400L};
                                 mBuilder.setVibrate(pattern);
-                            } else if (vibPat.equals("3long"))
-                            {
+                            } else if (vibPat.equals("3long")) {
                                 long[] pattern = {0L, 800L, 200L, 800L, 200L, 800L};
                                 mBuilder.setVibrate(pattern);
                             }
-                        } else
-                        {
-                            try
-                            {
+                        } else {
+                            try {
                                 String[] vibPat = sharedPrefs.getString("set_custom_vibrate_pattern", "0, 400, 100, 400").replace("L", "").split(", ");
                                 long[] pattern = new long[vibPat.length];
 
-                                for (int i = 0; i < vibPat.length; i++)
-                                {
+                                for (int i = 0; i < vibPat.length; i++) {
                                     pattern[i] = Long.parseLong(vibPat[i]);
                                 }
 
                                 mBuilder.setVibrate(pattern);
-                            } catch (Exception e)
-                            {
+                            } catch (Exception e) {
 
                             }
                         }
                     }
 
-                    if (sharedPrefs.getBoolean("led", true))
-                    {
+                    if (sharedPrefs.getBoolean("led", true)) {
                         String ledColor = sharedPrefs.getString("led_color", "white");
                         int ledOn = sharedPrefs.getInt("led_on_time", 1000);
                         int ledOff = sharedPrefs.getInt("led_off_time", 2000);
 
-                        if (ledColor.equalsIgnoreCase("white"))
-                        {
+                        if (ledColor.equalsIgnoreCase("white")) {
                             mBuilder.setLights(0xFFFFFFFF, ledOn, ledOff);
-                        } else if (ledColor.equalsIgnoreCase("blue"))
-                        {
+                        } else if (ledColor.equalsIgnoreCase("blue")) {
                             mBuilder.setLights(0xFF0099CC, ledOn, ledOff);
-                        } else if (ledColor.equalsIgnoreCase("green"))
-                        {
+                        } else if (ledColor.equalsIgnoreCase("green")) {
                             mBuilder.setLights(0xFF00FF00, ledOn, ledOff);
-                        } else if (ledColor.equalsIgnoreCase("orange"))
-                        {
+                        } else if (ledColor.equalsIgnoreCase("orange")) {
                             mBuilder.setLights(0xFFFF8800, ledOn, ledOff);
-                        } else if (ledColor.equalsIgnoreCase("red"))
-                        {
+                        } else if (ledColor.equalsIgnoreCase("red")) {
                             mBuilder.setLights(0xFFCC0000, ledOn, ledOff);
-                        } else if (ledColor.equalsIgnoreCase("purple"))
-                        {
+                        } else if (ledColor.equalsIgnoreCase("purple")) {
                             mBuilder.setLights(0xFFAA66CC, ledOn, ledOff);
-                        } else
-                        {
+                        } else {
                             mBuilder.setLights(0xFFFFFFFF, ledOn, ledOff);
                         }
                     }
 
-                    try
-                    {
+                    try {
                         mBuilder.setSound(Uri.parse(sharedPrefs.getString("ringtone", "null")));
-                    } catch(Exception e)
-                    {
+                    } catch (Exception e) {
                         mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
                     }
 
@@ -1558,144 +1506,105 @@ public class SettingsPagerActivity extends FragmentActivity {
             getActivity().registerReceiver(screenOff, filter);
         }
 
-        public void setIcon(NotificationCompat.Builder mBuilder)
-        {
-            final SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        public void setIcon(NotificationCompat.Builder mBuilder) {
+            final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-            if (!sharedPrefs.getBoolean("breath", false))
-            {
+            if (!sharedPrefs.getBoolean("breath", false)) {
                 String notIcon = sharedPrefs.getString("notification_icon", "white");
                 int notImage = Integer.parseInt(sharedPrefs.getString("notification_image", "1"));
 
-                switch (notImage)
-                {
+                switch (notImage) {
                     case 1:
-                        if (notIcon.equals("white"))
-                        {
+                        if (notIcon.equals("white")) {
                             mBuilder.setSmallIcon(R.drawable.stat_notify_sms);
-                        } else if (notIcon.equals("blue"))
-                        {
+                        } else if (notIcon.equals("blue")) {
                             mBuilder.setSmallIcon(R.drawable.stat_notify_sms_blue);
-                        } else if (notIcon.equals("green"))
-                        {
+                        } else if (notIcon.equals("green")) {
                             mBuilder.setSmallIcon(R.drawable.stat_notify_sms_green);
-                        } else if (notIcon.equals("orange"))
-                        {
+                        } else if (notIcon.equals("orange")) {
                             mBuilder.setSmallIcon(R.drawable.stat_notify_sms_orange);
-                        } else if (notIcon.equals("purple"))
-                        {
+                        } else if (notIcon.equals("purple")) {
                             mBuilder.setSmallIcon(R.drawable.stat_notify_sms_purple);
-                        } else if (notIcon.equals("red"))
-                        {
+                        } else if (notIcon.equals("red")) {
                             mBuilder.setSmallIcon(R.drawable.stat_notify_sms_red);
-                        } else if (notIcon.equals("icon"))
-                        {
+                        } else if (notIcon.equals("icon")) {
                             mBuilder.setSmallIcon(R.drawable.stat_notify_sms_icon);
                         }
 
                         break;
                     case 2:
-                        if (notIcon.equals("white"))
-                        {
+                        if (notIcon.equals("white")) {
                             mBuilder.setSmallIcon(R.drawable.stat_notify_bubble);
-                        } else if (notIcon.equals("blue"))
-                        {
+                        } else if (notIcon.equals("blue")) {
                             mBuilder.setSmallIcon(R.drawable.stat_notify_bubble_blue);
-                        } else if (notIcon.equals("green"))
-                        {
+                        } else if (notIcon.equals("green")) {
                             mBuilder.setSmallIcon(R.drawable.stat_notify_bubble_green);
-                        } else if (notIcon.equals("orange"))
-                        {
+                        } else if (notIcon.equals("orange")) {
                             mBuilder.setSmallIcon(R.drawable.stat_notify_bubble_orange);
-                        } else if (notIcon.equals("purple"))
-                        {
+                        } else if (notIcon.equals("purple")) {
                             mBuilder.setSmallIcon(R.drawable.stat_notify_bubble_purple);
-                        } else if (notIcon.equals("red"))
-                        {
+                        } else if (notIcon.equals("red")) {
                             mBuilder.setSmallIcon(R.drawable.stat_notify_bubble_red);
-                        } else if (notIcon.equals("icon"))
-                        {
+                        } else if (notIcon.equals("icon")) {
                             mBuilder.setSmallIcon(R.drawable.stat_notify_sms_icon);
                         }
 
                         break;
                     case 3:
-                        if (notIcon.equals("white"))
-                        {
+                        if (notIcon.equals("white")) {
                             mBuilder.setSmallIcon(R.drawable.stat_notify_point);
-                        } else if (notIcon.equals("blue"))
-                        {
+                        } else if (notIcon.equals("blue")) {
                             mBuilder.setSmallIcon(R.drawable.stat_notify_point_blue);
-                        } else if (notIcon.equals("green"))
-                        {
+                        } else if (notIcon.equals("green")) {
                             mBuilder.setSmallIcon(R.drawable.stat_notify_point_green);
-                        } else if (notIcon.equals("orange"))
-                        {
+                        } else if (notIcon.equals("orange")) {
                             mBuilder.setSmallIcon(R.drawable.stat_notify_point_orange);
-                        } else if (notIcon.equals("purple"))
-                        {
+                        } else if (notIcon.equals("purple")) {
                             mBuilder.setSmallIcon(R.drawable.stat_notify_point_purple);
-                        } else if (notIcon.equals("red"))
-                        {
+                        } else if (notIcon.equals("red")) {
                             mBuilder.setSmallIcon(R.drawable.stat_notify_point_red);
-                        } else if (notIcon.equals("icon"))
-                        {
+                        } else if (notIcon.equals("icon")) {
                             mBuilder.setSmallIcon(R.drawable.stat_notify_sms_icon);
                         }
 
                         break;
                     case 4:
-                        if (notIcon.equals("white"))
-                        {
+                        if (notIcon.equals("white")) {
                             mBuilder.setSmallIcon(R.drawable.stat_notify_airplane);
-                        } else if (notIcon.equals("blue"))
-                        {
+                        } else if (notIcon.equals("blue")) {
                             mBuilder.setSmallIcon(R.drawable.stat_notify_airplane_blue);
-                        } else if (notIcon.equals("green"))
-                        {
+                        } else if (notIcon.equals("green")) {
                             mBuilder.setSmallIcon(R.drawable.stat_notify_airplane_green);
-                        } else if (notIcon.equals("orange"))
-                        {
+                        } else if (notIcon.equals("orange")) {
                             mBuilder.setSmallIcon(R.drawable.stat_notify_airplane_orange);
-                        } else if (notIcon.equals("purple"))
-                        {
+                        } else if (notIcon.equals("purple")) {
                             mBuilder.setSmallIcon(R.drawable.stat_notify_airplane_purple);
-                        } else if (notIcon.equals("red"))
-                        {
+                        } else if (notIcon.equals("red")) {
                             mBuilder.setSmallIcon(R.drawable.stat_notify_airplane_red);
-                        } else if (notIcon.equals("icon"))
-                        {
+                        } else if (notIcon.equals("icon")) {
                             mBuilder.setSmallIcon(R.drawable.stat_notify_sms_icon);
                         }
 
                         break;
                     case 5:
-                        if (notIcon.equals("white"))
-                        {
+                        if (notIcon.equals("white")) {
                             mBuilder.setSmallIcon(R.drawable.stat_notify_cloud);
-                        } else if (notIcon.equals("blue"))
-                        {
+                        } else if (notIcon.equals("blue")) {
                             mBuilder.setSmallIcon(R.drawable.stat_notify_cloud_blue);
-                        } else if (notIcon.equals("green"))
-                        {
+                        } else if (notIcon.equals("green")) {
                             mBuilder.setSmallIcon(R.drawable.stat_notify_cloud_green);
-                        } else if (notIcon.equals("orange"))
-                        {
+                        } else if (notIcon.equals("orange")) {
                             mBuilder.setSmallIcon(R.drawable.stat_notify_cloud_orange);
-                        } else if (notIcon.equals("purple"))
-                        {
+                        } else if (notIcon.equals("purple")) {
                             mBuilder.setSmallIcon(R.drawable.stat_notify_cloud_purple);
-                        } else if (notIcon.equals("red"))
-                        {
+                        } else if (notIcon.equals("red")) {
                             mBuilder.setSmallIcon(R.drawable.stat_notify_cloud_red);
-                        } else if (notIcon.equals("icon"))
-                        {
+                        } else if (notIcon.equals("icon")) {
                             mBuilder.setSmallIcon(R.drawable.stat_notify_sms_icon);
                         }
                         break;
                 }
-            } else
-            {
+            } else {
                 mBuilder.setSmallIcon(R.drawable.stat_notify_sms_breath);
             }
         }
@@ -1706,17 +1615,14 @@ public class SettingsPagerActivity extends FragmentActivity {
             Uri uri = Uri.parse("content://mms-sms/conversations/?simple=true");
             Cursor query = context.getContentResolver().query(uri, projection, null, null, null);
 
-            if (query.moveToFirst())
-            {
-                do
-                {
+            if (query.moveToFirst()) {
+                do {
                     threadIds.add(query.getString(query.getColumnIndex("_id")));
                 } while (query.moveToNext());
             }
 
             try {
-                for (int i = 0; i < threadIds.size(); i++)
-                {
+                for (int i = 0; i < threadIds.size(); i++) {
                     deleteThread(context, threadIds.get(i));
                 }
             } catch (Exception e) {
@@ -1738,7 +1644,7 @@ public class SettingsPagerActivity extends FragmentActivity {
 
                 if (deleteLocked == null) {
                     showingDialog = true;
-                    ((Activity)context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+                    ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 
                         @Override
                         public void run() {
@@ -1816,9 +1722,8 @@ public class SettingsPagerActivity extends FragmentActivity {
         public void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
             super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
 
-            if (requestCode == 1)
-            {
-                if(resultCode == RESULT_OK){
+            if (requestCode == 1) {
+                if (resultCode == RESULT_OK) {
                     Uri selectedImage = imageReturnedIntent.getData();
                     String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
@@ -1829,16 +1734,15 @@ public class SettingsPagerActivity extends FragmentActivity {
                     String filePath = cursor.getString(columnIndex);
                     cursor.close();
 
-                    SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
                     SharedPreferences.Editor editor = sharedPrefs.edit();
 
                     editor.putString("custom_background_location", filePath);
                     editor.commit();
 
                 }
-            } else if (requestCode == 2)
-            {
-                if(resultCode == RESULT_OK){
+            } else if (requestCode == 2) {
+                if (resultCode == RESULT_OK) {
                     Uri selectedImage = imageReturnedIntent.getData();
                     String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
@@ -1849,19 +1753,18 @@ public class SettingsPagerActivity extends FragmentActivity {
                     String filePath = cursor.getString(columnIndex);
                     cursor.close();
 
-                    SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
                     SharedPreferences.Editor editor = sharedPrefs.edit();
 
                     editor.putString("custom_background2_location", filePath);
                     editor.commit();
 
                 }
-            } else if (requestCode == REQ_CREATE_PATTERN)
-            {
+            } else if (requestCode == REQ_CREATE_PATTERN) {
                 if (resultCode == RESULT_OK) {
 
                 } else {
-                    SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
                     SharedPreferences.Editor editor = sharedPrefs.edit();
                     editor.putString("security_option", "none");
                     editor.commit();
@@ -1876,12 +1779,12 @@ public class SettingsPagerActivity extends FragmentActivity {
 
         try {
             DisplayMetrics dm = new DisplayMetrics();
-            ((Activity)context).getWindowManager().getDefaultDisplay().getMetrics(dm);
-            double x = Math.pow(dm.widthPixels/dm.xdpi,2);
-            double y = Math.pow(dm.heightPixels/dm.ydpi,2);
-            double screenInches = Math.sqrt(x+y);
+            ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(dm);
+            double x = Math.pow(dm.widthPixels / dm.xdpi, 2);
+            double y = Math.pow(dm.heightPixels / dm.ydpi, 2);
+            double screenInches = Math.sqrt(x + y);
             return screenInches;
-        } catch(Throwable t) {
+        } catch (Throwable t) {
 
         }
 
@@ -1890,7 +1793,7 @@ public class SettingsPagerActivity extends FragmentActivity {
 
     public static boolean xLargeScreen(Context context) {
         Configuration config = context.getResources().getConfiguration();
-        if((config.screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE) {
+        if ((config.screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE) {
             return true;
         }
 

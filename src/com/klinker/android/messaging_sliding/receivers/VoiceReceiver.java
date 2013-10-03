@@ -83,6 +83,7 @@ public class VoiceReceiver extends Service {
 
     private static final int PROVIDER_INCOMING_SMS = 1;
     private static final int PROVIDER_OUTGOING_SMS = 2;
+
     // insert a message into the sms/mms provider.
     // we do this in the case of outgoing messages
     // that were not sent via this phone, and also on initial
@@ -118,8 +119,8 @@ public class VoiceReceiver extends Service {
                 .get();
 
         ArrayList<Message> all = new ArrayList<Message>();
-        for (Conversation conversation: payload.conversations) {
-            for (Message message: conversation.messages)
+        for (Conversation conversation : payload.conversations) {
+            for (Message message : conversation.messages)
                 all.add(message);
         }
 
@@ -140,7 +141,7 @@ public class VoiceReceiver extends Service {
         long timestamp = settings.getLong("voice_refresh_timestamp", 0);
         boolean first = timestamp == 0;
         long max = timestamp;
-        for (Message message: all) {
+        for (Message message : all) {
             max = Math.max(max, message.date);
             if (message.phoneNumber == null)
                 continue;
@@ -171,9 +172,9 @@ public class VoiceReceiver extends Service {
                 boolean exists = false;
 
                 Uri uri = Uri.parse("content://sms/sent");
-                String[] projection = new String[] {message.message};
+                String[] projection = new String[]{message.message};
 
-                Cursor cursor = getContentResolver().query(uri, new String[] {"_id", "body", "date"}, "body=?", projection, null);
+                Cursor cursor = getContentResolver().query(uri, new String[]{"_id", "body", "date"}, "body=?", projection, null);
 
                 if (cursor.moveToFirst()) {
                     do {
@@ -232,8 +233,7 @@ public class VoiceReceiver extends Service {
                     try {
                         needsRefresh = false;
                         refreshMessages();
-                    }
-                    catch (Exception e) {
+                    } catch (Exception e) {
                         Log.v("refresh_voice", "error refreshing");
                         e.printStackTrace();
                         needsRefresh = true;

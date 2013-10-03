@@ -6,31 +6,27 @@ import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.Spannable;
-import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import com.klinker.android.messaging_sliding.emojis.*;
-
-import java.util.regex.Pattern;
 
 public class HoloEditText extends EditText {
 
     private static SharedPreferences sharedPreferences;
 
-    public HoloEditText (Context context) {
+    public HoloEditText(Context context) {
         super(context);
         setUp(context);
     }
 
-    public HoloEditText (Context context, AttributeSet attrs) {
+    public HoloEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
         setUp(context);
     }
 
-    public HoloEditText (Context context, AttributeSet attrs, int defStyle) {
+    public HoloEditText(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         setUp(context);
     }
@@ -46,7 +42,8 @@ public class HoloEditText extends EditText {
 
     public static Typeface typeface;
     private static boolean useDeviceFont;
-    private void setTypeface (Context context) {
+
+    private void setTypeface(Context context) {
         if (typeface == null) {
             useDeviceFont = sharedPreferences.getBoolean("device_font", false);
             typeface = Typeface.createFromAsset(context.getAssets(), "Roboto-Light.ttf");
@@ -60,6 +57,7 @@ public class HoloEditText extends EditText {
     private static String smiliesFormat;
     private static boolean smiliesType;
     private static boolean emojiType;
+
     private void addTextWatcher(final Context context) {
         if (smiliesFormat == null) {
             smiliesFormat = sharedPreferences.getString("smilies", "with");
@@ -69,8 +67,10 @@ public class HoloEditText extends EditText {
 
         addTextChangedListener(new TextWatcher() {
             private int LENGTH = 5;
+
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) { }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+            }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
@@ -123,7 +123,8 @@ public class HoloEditText extends EditText {
             }
 
             @Override
-            public void afterTextChanged(Editable editable) { }
+            public void afterTextChanged(Editable editable) {
+            }
         });
     }
 }

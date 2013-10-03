@@ -25,7 +25,7 @@ public class FNReceiver extends BroadcastReceiver {
             address = "";
             body = "";
         }
-        
+
         address = address.replace("+", "").replace(" ", "").replace("(", "").replace(")", "");
         long id;
 
@@ -34,14 +34,14 @@ public class FNReceiver extends BroadcastReceiver {
         } catch (Exception e) {
             id = 0;
         }
-        
+
         if (messages.containsKey(id)) {
             String previous = messages.get(id)[1];
             previous += "\n\n" + body;
             messages.remove(id);
-            messages.put(id, new String[] {address, previous});
+            messages.put(id, new String[]{address, previous});
         } else {
-            messages.put(id, new String[] {address, body});
+            messages.put(id, new String[]{address, body});
         }
 
         Bitmap image = ContactUtil.getFacebookPhoto(address, context);

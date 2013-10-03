@@ -24,7 +24,7 @@ public class ThingsEmojiAdapter extends BaseEmojiAdapter {
         if (convertView == null) {
             imageView = new ImageView(context);
             int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, context.getResources().getDisplayMetrics());
-            imageView.setPadding(scale, (int)(scale*1.2), scale, (int)(scale * 1.2));
+            imageView.setPadding(scale, (int) (scale * 1.2), scale, (int) (scale * 1.2));
             imageView.setAdjustViewBounds(true);
         } else {
             imageView = (ImageView) convertView;

@@ -16,65 +16,64 @@ import java.util.ArrayList;
 
 public class QmMarkRead2 extends IntentService {
 
-	public QmMarkRead2() {
-		super("service");
-	}
+    public QmMarkRead2() {
+        super("service");
+    }
 
-	@Override
-	protected void onHandleIntent(Intent intent) {
-		
-        	readSMS(this);
-        	
-        	NotificationManager notificationManager =
-                    (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
-            notificationManager.cancel(1);
-            
-            IOUtil.writeNotifications(new ArrayList<String>(), this);
-            IOUtil.writeNewMessages(new ArrayList<String>(), this);
-            
-            Intent intent2 = new Intent("com.klinker.android.messaging.CLEARED_NOTIFICATION");
-    	    this.sendBroadcast(intent2);
-    	    
-    	    Intent stopRepeating = new Intent(this, NotificationRepeaterService.class);
- 		   	PendingIntent pStopRepeating = PendingIntent.getService(this, 0, stopRepeating, 0);
- 		   	AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
- 		   	alarm.cancel(pStopRepeating);
+    @Override
+    protected void onHandleIntent(Intent intent) {
 
-            Intent floatingNotifications = new Intent();
-            floatingNotifications.setAction("robj.floating.notifications.dismiss");
-            floatingNotifications.putExtra("package", getPackageName());
-            sendBroadcast(floatingNotifications);
+        readSMS(this);
 
-            Intent updateWidget = new Intent("com.klinker.android.messaging.UPDATE_WIDGET");
-            sendBroadcast(updateWidget);
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancel(1);
 
-            Intent clearMessages = new Intent("com.klinker.android.messaging.CLEAR_MESSAGES");
-            getApplicationContext().sendBroadcast(clearMessages);
-            
-        	stopSelf();
-		
-	}
+        IOUtil.writeNotifications(new ArrayList<String>(), this);
+        IOUtil.writeNewMessages(new ArrayList<String>(), this);
 
-	public void readSMS(Context context) {
-	    try {
-	        Uri uriSms = Uri.parse("content://sms/inbox");
-	        Cursor c = context.getContentResolver().query(uriSms,
-	            new String[] { "_id", "thread_id", "address",
-	                "person", "date", "body", "read" }, null, null, "date DESC LIMIT 10");
+        Intent intent2 = new Intent("com.klinker.android.messaging.CLEARED_NOTIFICATION");
+        this.sendBroadcast(intent2);
 
-	        if (c != null && c.moveToFirst()) {
-	        	do
-	        	{
-	                String id = c.getString(0);
-	
-	                ContentValues values = new ContentValues();
-	                values.put("read", true);
-	                getContentResolver().update(Uri.parse("content://sms/inbox"), values, "_id=" + id, null);
-	        	} while (c.moveToNext());
-	        }
-	        c.close();
-	    } catch (Exception e) {
-	    	
-	    }
+        Intent stopRepeating = new Intent(this, NotificationRepeaterService.class);
+        PendingIntent pStopRepeating = PendingIntent.getService(this, 0, stopRepeating, 0);
+        AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarm.cancel(pStopRepeating);
+
+        Intent floatingNotifications = new Intent();
+        floatingNotifications.setAction("robj.floating.notifications.dismiss");
+        floatingNotifications.putExtra("package", getPackageName());
+        sendBroadcast(floatingNotifications);
+
+        Intent updateWidget = new Intent("com.klinker.android.messaging.UPDATE_WIDGET");
+        sendBroadcast(updateWidget);
+
+        Intent clearMessages = new Intent("com.klinker.android.messaging.CLEAR_MESSAGES");
+        getApplicationContext().sendBroadcast(clearMessages);
+
+        stopSelf();
+
+    }
+
+    public void readSMS(Context context) {
+        try {
+            Uri uriSms = Uri.parse("content://sms/inbox");
+            Cursor c = context.getContentResolver().query(uriSms,
+                    new String[]{"_id", "thread_id", "address",
+                            "person", "date", "body", "read"}, null, null, "date DESC LIMIT 10");
+
+            if (c != null && c.moveToFirst()) {
+                do {
+                    String id = c.getString(0);
+
+                    ContentValues values = new ContentValues();
+                    values.put("read", true);
+                    getContentResolver().update(Uri.parse("content://sms/inbox"), values, "_id=" + id, null);
+                } while (c.moveToNext());
+            }
+            c.close();
+        } catch (Exception e) {
+
+        }
     }
 }

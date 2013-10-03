@@ -20,8 +20,7 @@ public class EmojiAdapter2 extends BaseAdapter implements StickyGridHeadersBaseA
 
     private Context context;
 
-    public EmojiAdapter2(Context context)
-    {
+    public EmojiAdapter2(Context context) {
         this.context = context;
     }
 
@@ -41,10 +40,8 @@ public class EmojiAdapter2 extends BaseAdapter implements StickyGridHeadersBaseA
     }
 
     @Override
-    public int getCountForHeader(int header)
-    {
-        switch (header)
-        {
+    public int getCountForHeader(int header) {
+        switch (header) {
             case 0:
                 return 153;
             case 1:
@@ -61,30 +58,25 @@ public class EmojiAdapter2 extends BaseAdapter implements StickyGridHeadersBaseA
     }
 
     @Override
-    public int getNumHeaders()
-    {
+    public int getNumHeaders() {
         return 5;
     }
 
     @Override
-    public View getHeaderView(int position, View convertView, ViewGroup parent)
-    {
+    public View getHeaderView(int position, View convertView, ViewGroup parent) {
         final View header;
 
-        if (convertView == null)
-        {
+        if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             header = inflater.inflate(R.layout.header, parent, false);
-        } else
-        {
+        } else {
             header = convertView;
         }
 
         TextView text = (TextView) header.findViewById(R.id.text1);
 
-        switch (position)
-        {
+        switch (position) {
             case 0:
                 text.setText(context.getResources().getString(R.string.people));
                 return header;
@@ -112,7 +104,7 @@ public class EmojiAdapter2 extends BaseAdapter implements StickyGridHeadersBaseA
         if (convertView == null) {
             textView = new ImageView(context);
             int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, context.getResources().getDisplayMetrics());
-            textView.setPadding(scale, (int)(scale*1.2), scale, (int)(scale * 1.2));
+            textView.setPadding(scale, (int) (scale * 1.2), scale, (int) (scale * 1.2));
             textView.setAdjustViewBounds(true);
         } else {
             textView = (ImageView) convertView;
@@ -310,7 +302,7 @@ public class EmojiAdapter2 extends BaseAdapter implements StickyGridHeadersBaseA
 
     public static final int[] sIconIds = {
             // people
-            R.drawable.emoji_u263a, R.drawable.emoji_u1f60a,  R.drawable.emoji_u1f600, R.drawable.emoji_u1f601, R.drawable.emoji_u1f602,
+            R.drawable.emoji_u263a, R.drawable.emoji_u1f60a, R.drawable.emoji_u1f600, R.drawable.emoji_u1f601, R.drawable.emoji_u1f602,
             R.drawable.emoji_u1f603, R.drawable.emoji_u1f604, R.drawable.emoji_u1f605, R.drawable.emoji_u1f606, R.drawable.emoji_u1f607,
             R.drawable.emoji_u1f608, R.drawable.emoji_u1f609, R.drawable.emoji_u1f62f, R.drawable.emoji_u1f610, R.drawable.emoji_u1f611,
             R.drawable.emoji_u1f615, R.drawable.emoji_u1f620, R.drawable.emoji_u1f62c, R.drawable.emoji_u1f621, R.drawable.emoji_u1f622,
@@ -493,13 +485,12 @@ public class EmojiAdapter2 extends BaseAdapter implements StickyGridHeadersBaseA
             R.drawable.emoji_u1f1fb, R.drawable.emoji_u1f1fc, R.drawable.emoji_u1f1fd, R.drawable.emoji_u1f1fe, R.drawable.emoji_u1f1ff,
     };
 
-    public Bitmap drawableToBitmap (Drawable drawable) {
+    public Bitmap drawableToBitmap(Drawable drawable) {
         if (drawable instanceof BitmapDrawable) {
-            return ((BitmapDrawable)drawable).getBitmap();
+            return ((BitmapDrawable) drawable).getBitmap();
         }
 
-        try
-        {
+        try {
             int width = drawable.getIntrinsicWidth();
             width = width > 0 ? width : 1;
             int height = drawable.getIntrinsicHeight();
@@ -510,8 +501,7 @@ public class EmojiAdapter2 extends BaseAdapter implements StickyGridHeadersBaseA
             drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
             drawable.draw(canvas);
             return bitmap;
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             return BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
         }
     }

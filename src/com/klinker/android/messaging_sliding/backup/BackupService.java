@@ -38,11 +38,9 @@ public class BackupService extends IntentService {
     }
 
     @Override
-    public void onHandleIntent(Intent intent)
-    {
-        sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+    public void onHandleIntent(Intent intent) {
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         context = getApplicationContext();
-
 
 
         if (sharedPrefs.getBoolean("sd_backup", true))
@@ -55,13 +53,11 @@ public class BackupService extends IntentService {
             deleteAll();
     }
 
-    public void backupToDrive()
-    {
+    public void backupToDrive() {
         Toast.makeText(getApplicationContext(), "Backing up to Drive", Toast.LENGTH_SHORT).show();
     }
 
-    public void backupToSD()
-    {
+    public void backupToSD() {
         Toast.makeText(getApplicationContext(), "Backing up to SD card", Toast.LENGTH_SHORT).show();
 
         try {
@@ -78,10 +74,8 @@ public class BackupService extends IntentService {
             Cursor query = context.getContentResolver().query(uri, projection, null, null, null);
 
             // gets the ids for each conversation
-            if (query.moveToFirst())
-            {
-                do
-                {
+            if (query.moveToFirst()) {
+                do {
                     threadIds.add(query.getString(query.getColumnIndex("_id")));
                 } while (query.moveToNext());
             }
@@ -97,14 +91,12 @@ public class BackupService extends IntentService {
                     .setOngoing(true);
 
 
-
             // 1. set up the output file with contact names
             // 2. check if it already exists or not
             // 3. start by writing header or appending to the end
             // 4. write the rest of the data to the file
 
-            for (int i = 0; i < threadIds.size(); i++)
-            {
+            for (int i = 0; i < threadIds.size(); i++) {
                 mNotifyManager.notify(0, mBuilder.build());
 
                 ContentResolver contentResolver = getContentResolver();
@@ -136,7 +128,7 @@ public class BackupService extends IntentService {
                             // formats the phone number
                             phone = phone.replace(" ", "");
 
-                            if(phone.substring(0,2).equals("+1"))
+                            if (phone.substring(0, 2).equals("+1"))
                                 phone = phone.substring(2, phone.length());
 
                             phone = phone.replace("+", "");
@@ -150,15 +142,14 @@ public class BackupService extends IntentService {
                             // formats the body to width of 30
                             ArrayList<String> myBody = new ArrayList<String>();
 
-                            while(body.length() > 30)
-                            {
+                            while (body.length() > 30) {
                                 int index = 30;
-                                while(body.charAt(index) != ' ' && index > 0)
+                                while (body.charAt(index) != ' ' && index > 0)
                                     index--;
                                 if (type == 1)
-                                    myBody.add(body.substring(0,index) + "\n");
+                                    myBody.add(body.substring(0, index) + "\n");
                                 else if (type == 2)
-                                    myBody.add(body.substring(0,index) + "\n\t\t\t\t");
+                                    myBody.add(body.substring(0, index) + "\n\t\t\t\t");
 
                                 body = body.substring(index + 1, body.length());
                             }
@@ -173,19 +164,15 @@ public class BackupService extends IntentService {
                             // format the date
                             Date myDate = new Date(Long.parseLong(date));
 
-                            if (sharedPrefs.getBoolean("hour_format", false))
-                            {
+                            if (sharedPrefs.getBoolean("hour_format", false)) {
                                 date = (DateFormat.getDateInstance(DateFormat.SHORT, Locale.GERMAN).format(myDate));
-                            } else
-                            {
+                            } else {
                                 date = (DateFormat.getDateInstance(DateFormat.SHORT, Locale.US).format(myDate));
                             }
 
-                            if (sharedPrefs.getBoolean("hour_format", false))
-                            {
+                            if (sharedPrefs.getBoolean("hour_format", false)) {
                                 date += " " + (DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(myDate));
-                            } else
-                            {
+                            } else {
                                 date += " " + (DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(myDate));
                             }
 
@@ -209,24 +196,22 @@ public class BackupService extends IntentService {
                 query.close();
 
                 mBuilder.setProgress(threadIds.size(), i, false)
-                        .setContentText("Backed up " + i + "/" +threadIds.size() + " conversations");
+                        .setContentText("Backed up " + i + "/" + threadIds.size() + " conversations");
 
 
             }
 
             mBuilder.setContentText("Backup complete")
-                    .setProgress(0,0,false)
+                    .setProgress(0, 0, false)
                     .setOngoing(false);
             mNotifyManager.notify(0, mBuilder.build());
 
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
 
         }
     }
 
-    public void deleteAll()
-    {
+    public void deleteAll() {
         NotificationManager mNotifyManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
@@ -241,19 +226,16 @@ public class BackupService extends IntentService {
         Uri uri = Uri.parse("content://mms-sms/conversations/?simple=true");
         Cursor query = context.getContentResolver().query(uri, projection, null, null, null);
 
-        if (query.moveToFirst())
-        {
-            do
-            {
+        if (query.moveToFirst()) {
+            do {
                 threadIds.add(query.getString(query.getColumnIndex("_id")));
             } while (query.moveToNext());
         }
 
         try {
-            for (int i = 0; i < threadIds.size(); i++)
-            {
+            for (int i = 0; i < threadIds.size(); i++) {
                 mBuilder.setProgress(threadIds.size(), i, false)
-                        .setContentText("Deleting " + i + "/" +threadIds.size() + " conversations");
+                        .setContentText("Deleting " + i + "/" + threadIds.size() + " conversations");
                 mNotifyManager.notify(0, mBuilder.build());
 
                 context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/" + threadIds.get(i) + "/"), null, null);
@@ -262,7 +244,7 @@ public class BackupService extends IntentService {
         }
 
         mBuilder.setContentText("Delete complete")
-                .setProgress(0,0,false)
+                .setProgress(0, 0, false)
                 .setOngoing(false);
         mNotifyManager.notify(0, mBuilder.build());
     }

@@ -11,7 +11,7 @@ public class MyCard extends Card {
 
     private String message;
 
-    public MyCard(String title, String message){
+    public MyCard(String title, String message) {
         super(title);
         this.message = message;
     }

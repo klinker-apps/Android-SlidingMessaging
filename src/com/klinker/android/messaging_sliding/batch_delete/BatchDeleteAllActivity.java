@@ -21,34 +21,32 @@ import com.klinker.android.messaging_sliding.Conversation;
 import java.util.ArrayList;
 
 public class BatchDeleteAllActivity extends Activity {
-	
-	//public ArrayList<String> threadIds, inboxNumber, inboxBody, inboxGroup;
+
+    //public ArrayList<String> threadIds, inboxNumber, inboxBody, inboxGroup;
     public ArrayList<Conversation> conversations;
     public BatchDeleteAllArrayAdapter mAdapter;
     public final Context context = this;
 
     public Boolean deleteLocked = null;
     public boolean showingDialog = false;
-	
-	@Override
-	public void onCreate(Bundle savedInstanceState)
-	{
-		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.batch_delete);
 
-		BatchDeleteAllArrayAdapter.itemsToDelete = new ArrayList<Integer>();
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.batch_delete);
 
-        if (sharedPrefs.getBoolean("ct_light_action_bar", false))
-        {
+        BatchDeleteAllArrayAdapter.itemsToDelete = new ArrayList<Integer>();
+
+        if (sharedPrefs.getBoolean("ct_light_action_bar", false)) {
             setTheme(R.style.HangoutsTheme);
         }
 
         getWindow().setBackgroundDrawable(new ColorDrawable(sharedPrefs.getInt("ct_conversationListBackground", getResources().getColor(R.color.light_silver))));
 
-		conversations = MainActivity.conversations;
-		
-		ListView contactList = (ListView) findViewById(R.id.messageListView);
+        conversations = MainActivity.conversations;
+
+        ListView contactList = (ListView) findViewById(R.id.messageListView);
         contactList.setDivider(new ColorDrawable(sharedPrefs.getInt("ct_conversationDividerColor", getResources().getColor(R.color.white))));
 
         if (sharedPrefs.getBoolean("ct_messageDividerVisibility", true)) {
@@ -64,52 +62,52 @@ public class BatchDeleteAllActivity extends Activity {
         swingBottomInAnimationAdapter.setListView(contactList);
         contactList.setAdapter(swingBottomInAnimationAdapter);
 
-		Button deleteButton = (Button) findViewById(R.id.doneButton);
-		
-		final Context context = this;
-		
-		deleteButton.setOnClickListener(new OnClickListener() {
+        Button deleteButton = (Button) findViewById(R.id.doneButton);
 
-			@Override
-			public void onClick(View v) {
-				
-				final ProgressDialog progDialog = new ProgressDialog(context);
-	               progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-	               progDialog.setMessage(context.getResources().getString(R.string.deleting));
-	               progDialog.show();
-	               
-	               new Thread(new Runnable(){
+        final Context context = this;
 
-						@Override
-						public void run() {
-							ArrayList<Integer> positions = BatchDeleteAllArrayAdapter.itemsToDelete;
-							
-							for (int i = 0; i < positions.size(); i++) {
-								deleteSMS(context, conversations.get(i).getThreadId());
-							}
+        deleteButton.setOnClickListener(new OnClickListener() {
 
-                            ((Activity)context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+            @Override
+            public void onClick(View v) {
 
-                                @Override
-                                public void run() {
-                                    progDialog.dismiss();
-                                    Intent intent = new Intent(context, MainActivity.class);
-                                    context.startActivity(intent);
-                                    finish();
-                                    overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
+                final ProgressDialog progDialog = new ProgressDialog(context);
+                progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                progDialog.setMessage(context.getResources().getString(R.string.deleting));
+                progDialog.show();
 
-                                    Intent updateWidget = new Intent("com.klinker.android.messaging.UPDATE_WIDGET");
-                                    context.sendBroadcast(updateWidget);
-                                }
+                new Thread(new Runnable() {
 
-                            });
-						}
-	            	   
-	               }).start();
-				
-			}
-			
-		});
+                    @Override
+                    public void run() {
+                        ArrayList<Integer> positions = BatchDeleteAllArrayAdapter.itemsToDelete;
+
+                        for (int i = 0; i < positions.size(); i++) {
+                            deleteSMS(context, conversations.get(i).getThreadId());
+                        }
+
+                        ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                progDialog.dismiss();
+                                Intent intent = new Intent(context, MainActivity.class);
+                                context.startActivity(intent);
+                                finish();
+                                overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
+
+                                Intent updateWidget = new Intent("com.klinker.android.messaging.UPDATE_WIDGET");
+                                context.sendBroadcast(updateWidget);
+                            }
+
+                        });
+                    }
+
+                }).start();
+
+            }
+
+        });
 
         final Button selectAll = (Button) findViewById(R.id.selectAllButton);
         selectAll.setOnClickListener(new View.OnClickListener() {
@@ -138,7 +136,7 @@ public class BatchDeleteAllActivity extends Activity {
 
             }
         });
-	}
+    }
 
     @Override
     public void onBackPressed() {
@@ -158,7 +156,7 @@ public class BatchDeleteAllActivity extends Activity {
 
             if (deleteLocked == null) {
                 showingDialog = true;
-                ((Activity)context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+                ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 
                     @Override
                     public void run() {
@@ -219,7 +217,7 @@ public class BatchDeleteAllActivity extends Activity {
     public void deleteLocked(Context context, long id) {
         try {
             context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/" + id + "/"), null, null);
-            context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/"), "_id=?", new String[] {id + ""});
+            context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/"), "_id=?", new String[]{id + ""});
         } catch (Exception e) {
 
         }

@@ -27,19 +27,18 @@ public class MMSMessageReceiver extends BroadcastReceiver {
     public static String lastReceivedNumber = "";
     public static long lastReceivedTime = Calendar.getInstance().getTimeInMillis();
 
-	public SharedPreferences sharedPrefs;
-	public Context context;
-	public String phoneNumber;
-	public String picNumber;
+    public SharedPreferences sharedPrefs;
+    public Context context;
+    public String phoneNumber;
+    public String picNumber;
     public String mmsFrom;
-	
-	public void onReceive(final Context context, Intent intent)
-	{
-		sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-		this.context = context;
-		String incomingNumber = null;
-		
-		if(intent.getAction().equals("android.provider.Telephony.WAP_PUSH_RECEIVED")) {
+
+    public void onReceive(final Context context, Intent intent) {
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        this.context = context;
+        String incomingNumber = null;
+
+        if (intent.getAction().equals("android.provider.Telephony.WAP_PUSH_RECEIVED")) {
             Bundle bundle = intent.getExtras();
             try {
                 if (bundle != null) {
@@ -58,52 +57,53 @@ public class MMSMessageReceiver extends BroadcastReceiver {
                         }
                     }
                 }
-             }catch(Exception e) { }
+            } catch (Exception e) {
+            }
         }
 
-		if (incomingNumber != null) {
-			MainActivity.messageRecieved = true;
-			
-			PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-			PowerManager.WakeLock wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "download MMS");
-			wakeLock.acquire(5000);
-			
-			boolean error = false;
-			
-			if (sharedPrefs.getBoolean("override_stock", false) && !sharedPrefs.getBoolean("receive_with_stock", false)) {
-				byte[] pushData = intent.getByteArrayExtra("data");
-	            PduParser parser = new PduParser(pushData);
-	            GenericPdu pdu = parser.parse();
+        if (incomingNumber != null) {
+            MainActivity.messageRecieved = true;
 
-	            if (null == pdu) {
-	            	return;
-	            }
+            PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+            PowerManager.WakeLock wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "download MMS");
+            wakeLock.acquire(5000);
 
-	            int type = pdu.getMessageType();
-	            PduPersister p = PduPersister.getPduPersister(context);
+            boolean error = false;
 
-	            try {
-	            	boolean groupMMS = false;
+            if (sharedPrefs.getBoolean("override_stock", false) && !sharedPrefs.getBoolean("receive_with_stock", false)) {
+                byte[] pushData = intent.getByteArrayExtra("data");
+                PduParser parser = new PduParser(pushData);
+                GenericPdu pdu = parser.parse();
 
-	            	if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1 && sharedPrefs.getBoolean("group_message", false)) {
-	            		groupMMS = true;
-	            	}
+                if (null == pdu) {
+                    return;
+                }
 
-	            	switch (type) {
-		            	case PduHeaders.MESSAGE_TYPE_DELIVERY_IND:
-		            	case PduHeaders.MESSAGE_TYPE_READ_ORIG_IND:
-		            	case PduHeaders.MESSAGE_TYPE_NOTIFICATION_IND: {
+                int type = pdu.getMessageType();
+                PduPersister p = PduPersister.getPduPersister(context);
+
+                try {
+                    boolean groupMMS = false;
+
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1 && sharedPrefs.getBoolean("group_message", false)) {
+                        groupMMS = true;
+                    }
+
+                    switch (type) {
+                        case PduHeaders.MESSAGE_TYPE_DELIVERY_IND:
+                        case PduHeaders.MESSAGE_TYPE_READ_ORIG_IND:
+                        case PduHeaders.MESSAGE_TYPE_NOTIFICATION_IND: {
                             p.persist(pdu, Inbox.CONTENT_URI, true, groupMMS, null);
-		            		break;
-		            	}
-		            	default:
-		            		Log.v("MMS Error", "Non recognized pdu_alt header - " + type);
-	            	}
-				} catch (MmsException e1) {
-					e1.printStackTrace();
-					error = true;
-				}
-			}
+                            break;
+                        }
+                        default:
+                            Log.v("MMS Error", "Non recognized pdu_alt header - " + type);
+                    }
+                } catch (MmsException e1) {
+                    e1.printStackTrace();
+                    error = true;
+                }
+            }
 
             if (lastReceivedNumber.equals(picNumber) && Calendar.getInstance().getTimeInMillis() < lastReceivedTime + (1000 * 10)) {
                 Log.v("downloading_mms", "Already saved this message, moving on...");
@@ -112,21 +112,21 @@ public class MMSMessageReceiver extends BroadcastReceiver {
 
             lastReceivedNumber = incomingNumber;
             lastReceivedTime = Calendar.getInstance().getTimeInMillis();
-			phoneNumber = incomingNumber.replace("+1", "").replace("+", "").replace("-", "").replace(" ", "").replace("(","").replace(")","");
+            phoneNumber = incomingNumber.replace("+1", "").replace("+", "").replace("-", "").replace(" ", "").replace("(", "").replace(")", "");
             mmsFrom = ContactUtil.findContactName(phoneNumber, context);
 
-			if (!sharedPrefs.getBoolean("auto_download_mms", false) || sharedPrefs.getBoolean("receive_with_stock", false)) {
-				if (sharedPrefs.getBoolean("secure_notification", false)) {
-					MmsReceiverService.makeNotification("New Picture Message", "", null, phoneNumber, "", Calendar.getInstance().getTimeInMillis() + "", context);
-				} else {
-					MmsReceiverService.makeNotification("New Picture Message", mmsFrom, null, phoneNumber, "", Calendar.getInstance().getTimeInMillis() + "", context);
-				}
-			} else {
+            if (!sharedPrefs.getBoolean("auto_download_mms", false) || sharedPrefs.getBoolean("receive_with_stock", false)) {
+                if (sharedPrefs.getBoolean("secure_notification", false)) {
+                    MmsReceiverService.makeNotification("New Picture Message", "", null, phoneNumber, "", Calendar.getInstance().getTimeInMillis() + "", context);
+                } else {
+                    MmsReceiverService.makeNotification("New Picture Message", mmsFrom, null, phoneNumber, "", Calendar.getInstance().getTimeInMillis() + "", context);
+                }
+            } else {
                 Intent downloadMessage = new Intent(context, MmsReceiverService.class);
-                downloadMessage.putExtra("address", incomingNumber.replace("+1", "").replace("+", "").replace("-", "").replace(" ", "").replace("(","").replace(")",""));
+                downloadMessage.putExtra("address", incomingNumber.replace("+1", "").replace("+", "").replace("-", "").replace(" ", "").replace("(", "").replace(")", ""));
                 downloadMessage.putExtra("name", mmsFrom);
                 context.startService(downloadMessage);
-			}
+            }
 
             if (!sharedPrefs.getBoolean("receive_with_stock", false)) {
                 error = true;
@@ -191,12 +191,12 @@ public class MMSMessageReceiver extends BroadcastReceiver {
 
                 }, 200);
             }
-			
-			if (sharedPrefs.getBoolean("override_stock", false) && !error) {
-				abortBroadcast();
-			} else {
-				clearAbortBroadcast();
-			}
-		}
-	}
+
+            if (sharedPrefs.getBoolean("override_stock", false) && !error) {
+                abortBroadcast();
+            } else {
+                clearAbortBroadcast();
+            }
+        }
+    }
 }

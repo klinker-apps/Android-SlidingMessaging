@@ -75,8 +75,7 @@ public class PinActivity extends FragmentActivity {
             @Override
             public void onClick(View view) {
 
-                if (password.equals(sharedPrefs.getString("password", "0000")))
-                {
+                if (password.equals(sharedPrefs.getString("password", "0000"))) {
                     String version = "";
 
                     try {
@@ -92,8 +91,7 @@ public class PinActivity extends FragmentActivity {
 
                     boolean flag = false;
 
-                    if (fromIntent.getStringExtra("com.klinker.android.OPEN") != null)
-                    {
+                    if (fromIntent.getStringExtra("com.klinker.android.OPEN") != null) {
                         flag = true;
                     }
 
@@ -101,16 +99,13 @@ public class PinActivity extends FragmentActivity {
                     intent.setAction(fromIntent.getAction());
                     intent.setData(fromIntent.getData());
 
-                    try
-                    {
+                    try {
                         intent.putExtras(fromIntent.getExtras());
-                    } catch (Exception e)
-                    {
+                    } catch (Exception e) {
 
                     }
 
-                    if (flag)
-                    {
+                    if (flag) {
                         intent.putExtra("com.klinker.android.OPEN", intent.getStringExtra("com.klinker.android.OPEN"));
                     }
 
@@ -119,8 +114,7 @@ public class PinActivity extends FragmentActivity {
                     finish();
 
                     openActivity();
-                } else
-                {
+                } else {
                     incorrectPassword();
                 }
             }
@@ -199,18 +193,16 @@ public class PinActivity extends FragmentActivity {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!passwordBox.getText().toString().equals(""))
-                {
-                    password = password.substring(0, password.length()-1);
+                if (!passwordBox.getText().toString().equals("")) {
+                    password = password.substring(0, password.length() - 1);
 
                     String currentText = passwordBox.getText().toString();
-                    text = currentText.substring(0, currentText.length()-1);
+                    text = currentText.substring(0, currentText.length() - 1);
 
                     passwordBox.setText(text);
 
                     numChar--;
-                } else
-                {
+                } else {
                     Context context = getApplicationContext();
                     CharSequence text = "Nothing to delete";
                     int duration = Toast.LENGTH_SHORT;
@@ -222,14 +214,12 @@ public class PinActivity extends FragmentActivity {
         });
     }
 
-    public void updatePassword(String newNumber)
-    {
+    public void updatePassword(String newNumber) {
         password = password + newNumber;
 
         text = "";
 
-        for(int i = 0; i < numChar; i++)
-        {
+        for (int i = 0; i < numChar; i++) {
             text = text + "*";
         }
 
@@ -239,27 +229,23 @@ public class PinActivity extends FragmentActivity {
 
         passwordBox.setText(text);
 
-        if(password.length() == sharedPrefs.getString("password", "0").length() && sharedPrefs.getBoolean("auto_unlock", true))
-        {
+        if (password.length() == sharedPrefs.getString("password", "0").length() && sharedPrefs.getBoolean("auto_unlock", true)) {
             if (password.equals(sharedPrefs.getString("password", "0")))
                 openActivity();
-            else
-            {
+            else {
                 incorrectPassword();
             }
         }
     }
 
-    public void openActivity()
-    {
+    public void openActivity() {
         SharedPreferences.Editor prefEdit = sharedPrefs.edit();
         prefEdit.putLong("last_time", System.currentTimeMillis());
         prefEdit.commit();
 
         boolean flag = false;
 
-        if (fromIntent.getStringExtra("com.klinker.android.OPEN") != null)
-        {
+        if (fromIntent.getStringExtra("com.klinker.android.OPEN") != null) {
             flag = true;
         }
 
@@ -267,16 +253,13 @@ public class PinActivity extends FragmentActivity {
         intent.setAction(fromIntent.getAction());
         intent.setData(fromIntent.getData());
 
-        try
-        {
+        try {
             intent.putExtras(fromIntent.getExtras());
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
 
         }
 
-        if (flag)
-        {
+        if (flag) {
             intent.putExtra("com.klinker.android.OPEN", intent.getStringExtra("com.klinker.android.OPEN"));
         }
 
@@ -285,8 +268,7 @@ public class PinActivity extends FragmentActivity {
         finish();
     }
 
-    public void incorrectPassword()
-    {
+    public void incorrectPassword() {
         CharSequence text = "Incorrect password";
         int duration = Toast.LENGTH_SHORT;
 

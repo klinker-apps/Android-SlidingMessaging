@@ -64,15 +64,15 @@ public class InitialSetupWizardModel extends AbstractWizardModel {
                         .setRequired(true),
 
                 !isTablet ?
-                new SingleFixedChoicePage(this, mContext.getString(R.string.need_mms_setup))
-                .setChoices("Auto Select","AT&T","AT&T #2","Bell Canada","Fido Canada",
-                        "Free Mobile France","Network Norway","Net10","O2",
-                        "Rogers","Sprint","Straight Talk AT&T","Tele2","Telus",
-                        "T-Mobile US","T-Mobile Polish","Virgin Mobile Canada",
-                        "Verizon Wireless","Verizon Wireless #2","Vodafone UK",
-                        "Vodafone AU","Not on list")
-                    .setRequired(true) :
-                new MessagePage(this, mContext.getString(R.string.need_mms_setup))
-                .setMessage("Since you are using a tablet, MMS is not available. You need to set up Google Voice in settings before sending any messages!"));
+                        new SingleFixedChoicePage(this, mContext.getString(R.string.need_mms_setup))
+                                .setChoices("Auto Select", "AT&T", "AT&T #2", "Bell Canada", "Fido Canada",
+                                        "Free Mobile France", "Network Norway", "Net10", "O2",
+                                        "Rogers", "Sprint", "Straight Talk AT&T", "Tele2", "Telus",
+                                        "T-Mobile US", "T-Mobile Polish", "Virgin Mobile Canada",
+                                        "Verizon Wireless", "Verizon Wireless #2", "Vodafone UK",
+                                        "Vodafone AU", "Not on list")
+                                .setRequired(true) :
+                        new MessagePage(this, mContext.getString(R.string.need_mms_setup))
+                                .setMessage("Since you are using a tablet, MMS is not available. You need to set up Google Voice in settings before sending any messages!"));
     }
 }

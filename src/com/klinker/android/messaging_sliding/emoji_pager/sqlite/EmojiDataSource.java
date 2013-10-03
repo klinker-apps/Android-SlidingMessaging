@@ -13,8 +13,8 @@ public class EmojiDataSource {
     // Database fields
     private SQLiteDatabase database;
     private EmojiSQLiteHelper dbHelper;
-    private String[] allColumns = { EmojiSQLiteHelper.COLUMN_ID,
-            EmojiSQLiteHelper.COLUMN_TEXT, EmojiSQLiteHelper.COLUMN_ICON, EmojiSQLiteHelper.COLUMN_COUNT };
+    private String[] allColumns = {EmojiSQLiteHelper.COLUMN_ID,
+            EmojiSQLiteHelper.COLUMN_TEXT, EmojiSQLiteHelper.COLUMN_ICON, EmojiSQLiteHelper.COLUMN_COUNT};
 
     public EmojiDataSource(Context context) {
         dbHelper = new EmojiSQLiteHelper(context);

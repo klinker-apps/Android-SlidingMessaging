@@ -26,7 +26,7 @@ public class AccessibilityListener extends AccessibilityService {
     }
 
     @Override
-    protected void onServiceConnected (){
+    protected void onServiceConnected() {
         super.onServiceConnected();
         settings = PreferenceManager.getDefaultSharedPreferences(this);
         connected = true;
@@ -35,7 +35,7 @@ public class AccessibilityListener extends AccessibilityService {
         info.eventTypes = AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED;
         info.feedbackType = AccessibilityServiceInfo.FEEDBACK_GENERIC;
         info.notificationTimeout = 100;
-        info.packageNames = new String[] {"com.google.android.apps.googlevoice"};
+        info.packageNames = new String[]{"com.google.android.apps.googlevoice"};
         setServiceInfo(info);
     }
 
@@ -71,18 +71,19 @@ public class AccessibilityListener extends AccessibilityService {
     Method cancelAllNotifications;
     Object internalNotificationService;
     int userId;
+
     private void clearGoogleVoiceNotifications() {
         try {
             if (cancelAllNotifications == null) {
                 // run this to get the internal service to populate
-                NotificationManager nm = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+                NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                 nm.cancelAll();
 
                 Field f = NotificationManager.class.getDeclaredField("sService");
                 f.setAccessible(true);
                 internalNotificationService = f.get(null);
                 cancelAllNotifications = internalNotificationService.getClass().getDeclaredMethod("cancelAllNotifications", String.class, int.class);
-                userId = (Integer)UserHandle.class.getDeclaredMethod("myUserId").invoke(null);
+                userId = (Integer) UserHandle.class.getDeclaredMethod("myUserId").invoke(null);
             }
             if (cancelAllNotifications != null) {
                 Log.v("accessibility_service", "cancelling notification");

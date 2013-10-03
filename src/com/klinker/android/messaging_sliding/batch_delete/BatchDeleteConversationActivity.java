@@ -32,16 +32,14 @@ public class BatchDeleteConversationActivity extends Activity implements android
     public final Context context = this;
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.batch_delete);
 
         BatchDeleteAllArrayAdapter.itemsToDelete = new ArrayList<Integer>();
 
-        if (sharedPrefs.getBoolean("ct_light_action_bar", false))
-        {
+        if (sharedPrefs.getBoolean("ct_light_action_bar", false)) {
             setTheme(R.style.HangoutsTheme);
         }
 
@@ -54,11 +52,9 @@ public class BatchDeleteConversationActivity extends Activity implements android
         list = (ListView) findViewById(R.id.messageListView);
         list.setDivider(new ColorDrawable(sharedPrefs.getInt("ct_messageDividerColor", getResources().getColor(R.color.light_silver))));
 
-        if (sharedPrefs.getBoolean("ct_messageDividerVisibility", true) && sharedPrefs.getString("run_as", "sliding").equals("sliding"))
-        {
+        if (sharedPrefs.getBoolean("ct_messageDividerVisibility", true) && sharedPrefs.getString("run_as", "sliding").equals("sliding")) {
             list.setDividerHeight(1);
-        } else
-        {
+        } else {
             list.setDividerHeight(0);
         }
 
@@ -76,14 +72,13 @@ public class BatchDeleteConversationActivity extends Activity implements android
                 progDialog.setMessage(context.getResources().getString(R.string.deleting));
                 progDialog.show();
 
-                new Thread(new Runnable(){
+                new Thread(new Runnable() {
 
                     @Override
                     public void run() {
                         ArrayList<String> ids = BatchDeleteConversationArrayAdapter.itemsToDelete;
 
-                        for (int i = 0; i < ids.size(); i++)
-                        {
+                        for (int i = 0; i < ids.size(); i++) {
                             deleteSMS(context, ids.get(i));
                         }
 
@@ -114,8 +109,7 @@ public class BatchDeleteConversationActivity extends Activity implements android
             @Override
             public void onClick(View v) {
 
-                if (!BatchDeleteConversationArrayAdapter.checkedAll)
-                {
+                if (!BatchDeleteConversationArrayAdapter.checkedAll) {
                     BatchDeleteConversationArrayAdapter.itemsToDelete.clear();
                     BatchDeleteConversationArrayAdapter.checkedAll = true;
 
@@ -134,17 +128,15 @@ public class BatchDeleteConversationActivity extends Activity implements android
 
                     selectAllQuery.moveToFirst();
 
-                    do
-                    {
+                    do {
                         BatchDeleteConversationArrayAdapter.itemsToDelete.add(selectAllQuery.getString(selectAllQuery.getColumnIndex("_id")));
-                    } while(selectAllQuery.moveToNext());
+                    } while (selectAllQuery.moveToNext());
 
                     selectAllQuery.close();
 
 
                     selectAll.setText(getResources().getString(R.string.select_none));
-                } else
-                {
+                } else {
                     BatchDeleteConversationArrayAdapter.itemsToDelete.clear();
                     BatchDeleteConversationArrayAdapter.checkedAll = false;
 
@@ -160,8 +152,7 @@ public class BatchDeleteConversationActivity extends Activity implements android
     }
 
     @Override
-    public android.content.Loader<Cursor> onCreateLoader(int loaderID, Bundle bundle)
-    {
+    public android.content.Loader<Cursor> onCreateLoader(int loaderID, Bundle bundle) {
         Uri uri3 = Uri.parse("content://mms-sms/conversations/" + threadId + "/");
         String[] projection2;
 
@@ -182,8 +173,7 @@ public class BatchDeleteConversationActivity extends Activity implements android
     }
 
     @Override
-    public void onLoadFinished(android.content.Loader<Cursor> loader, final Cursor query)
-    {
+    public void onLoadFinished(android.content.Loader<Cursor> loader, final Cursor query) {
         adapter = new BatchDeleteConversationArrayAdapter((Activity) context, MainActivity.myContactId, ContactUtil.findContactNumber(threadId + "", context), threadId + "", query, 1);
 
         list.setAdapter(adapter);
@@ -191,8 +181,7 @@ public class BatchDeleteConversationActivity extends Activity implements android
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> loader)
-    {
+    public void onLoaderReset(Loader<Cursor> loader) {
 
     }
 

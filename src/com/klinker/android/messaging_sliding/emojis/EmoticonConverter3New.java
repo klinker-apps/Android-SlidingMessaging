@@ -13,12 +13,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class EmoticonConverter3New {
-	private static final Factory spannableFactory = Spannable.Factory
-	        .getInstance();
+    private static final Factory spannableFactory = Spannable.Factory
+            .getInstance();
 
-	private static final Map<Pattern, Integer> emoticons = new HashMap<Pattern, Integer>();
+    private static final Map<Pattern, Integer> emoticons = new HashMap<Pattern, Integer>();
 
-	static {
+    static {
         addPattern(emoticons, ":)", R.drawable.ic_action_emo_basic);
         addPattern(emoticons, ":(", R.drawable.ic_action_emo_sad);
         addPattern(emoticons, ";)", R.drawable.ic_action_emo_wink);
@@ -51,43 +51,43 @@ public class EmoticonConverter3New {
         addPattern(emoticons, ":-D", R.drawable.ic_action_emo_laugh);
         addPattern(emoticons, "X-(", R.drawable.ic_action_emo_angry);
         addPattern(emoticons, ":-|", R.drawable.ic_action_emo_err);
-	}
+    }
 
-	private static void addPattern(Map<Pattern, Integer> map, String smile,
-	        int resource) {
-	    map.put(Pattern.compile(Pattern.quote(smile)), resource);
-	}
+    private static void addPattern(Map<Pattern, Integer> map, String smile,
+                                   int resource) {
+        map.put(Pattern.compile(Pattern.quote(smile)), resource);
+    }
 
-	public static boolean addSmiles(Context context, Spannable spannable) {
-	    boolean hasChanges = false;
-	    for (Entry<Pattern, Integer> entry : emoticons.entrySet()) {
-	        Matcher matcher = entry.getKey().matcher(spannable);
-	        while (matcher.find()) {
-	            boolean set = true;
-	            for (ImageSpan span : spannable.getSpans(matcher.start(),
-	                    matcher.end(), ImageSpan.class))
-	                if (spannable.getSpanStart(span) >= matcher.start()
-	                        && spannable.getSpanEnd(span) <= matcher.end())
-	                    spannable.removeSpan(span);
-	                else {
-	                    set = false;
-	                    break;
-	                }
-	            if (set) {
-	                hasChanges = true;
-	                spannable.setSpan(new ImageSpan(context, entry.getValue()),
-	                        matcher.start(), matcher.end(),
-	                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-	            }
-	        }
-	    }
-	    return hasChanges;
-	}
+    public static boolean addSmiles(Context context, Spannable spannable) {
+        boolean hasChanges = false;
+        for (Entry<Pattern, Integer> entry : emoticons.entrySet()) {
+            Matcher matcher = entry.getKey().matcher(spannable);
+            while (matcher.find()) {
+                boolean set = true;
+                for (ImageSpan span : spannable.getSpans(matcher.start(),
+                        matcher.end(), ImageSpan.class))
+                    if (spannable.getSpanStart(span) >= matcher.start()
+                            && spannable.getSpanEnd(span) <= matcher.end())
+                        spannable.removeSpan(span);
+                    else {
+                        set = false;
+                        break;
+                    }
+                if (set) {
+                    hasChanges = true;
+                    spannable.setSpan(new ImageSpan(context, entry.getValue()),
+                            matcher.start(), matcher.end(),
+                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                }
+            }
+        }
+        return hasChanges;
+    }
 
-	public static Spannable getSmiledText(Context context, CharSequence text) {
-	    Spannable spannable = spannableFactory.newSpannable(text);
-	    addSmiles(context, spannable);
-	    return spannable;
-	}
+    public static Spannable getSmiledText(Context context, CharSequence text) {
+        Spannable spannable = spannableFactory.newSpannable(text);
+        addSmiles(context, spannable);
+        return spannable;
+    }
 }
 

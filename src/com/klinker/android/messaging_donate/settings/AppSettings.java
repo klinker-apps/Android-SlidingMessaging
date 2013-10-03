@@ -114,7 +114,7 @@ public class AppSettings {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         AppSettings settings = new AppSettings();
 
-        if(sharedPrefs.getBoolean("override_speed", false)) {
+        if (sharedPrefs.getBoolean("override_speed", false)) {
             settings.limitConversationsAtStart = true;
             settings.customFont = false;
             settings.useTitleBar = true;
@@ -129,7 +129,7 @@ public class AppSettings {
             settings.customBackground = false;
             settings.messageDividerVisible = false;
             settings.autoInsertDrafts = false;
-            settings.cacheConversations= false;
+            settings.cacheConversations = false;
             settings.customBackground2 = false;
             settings.limitMessages = true;
             settings.customVibratePattern = false;
@@ -156,7 +156,7 @@ public class AppSettings {
             settings.customBackground = sharedPrefs.getBoolean("custom_background", false);
             settings.messageDividerVisible = sharedPrefs.getBoolean("ct_messageDividerVisibility", true);
             settings.autoInsertDrafts = sharedPrefs.getBoolean("auto_insert_draft", false);
-            settings.cacheConversations= sharedPrefs.getBoolean("cache_conversations", false);
+            settings.cacheConversations = sharedPrefs.getBoolean("cache_conversations", false);
             settings.customBackground2 = sharedPrefs.getBoolean("custom_background2", false);
             settings.limitMessages = sharedPrefs.getBoolean("limit_messages", true);
             settings.customVibratePattern = sharedPrefs.getBoolean("custom_vibrate_pattern", false);
@@ -199,7 +199,7 @@ public class AppSettings {
         settings.boldNames = sharedPrefs.getBoolean("bold_conversations", false);
         settings.signature = sharedPrefs.getString("signature", "");
         settings.ringTone = sharedPrefs.getString("ringtone", "null");
-        settings.deliveryOptions= sharedPrefs.getString("delivery_options", "2");
+        settings.deliveryOptions = sharedPrefs.getString("delivery_options", "2");
         settings.pinType = sharedPrefs.getString("pin_conversation_list", "1");
         settings.securityOption = sharedPrefs.getString("security_option", "none");
         settings.ctConversationListBackground = sharedPrefs.getInt("ct_conversationListBackground", context.getResources().getColor(R.color.light_silver));

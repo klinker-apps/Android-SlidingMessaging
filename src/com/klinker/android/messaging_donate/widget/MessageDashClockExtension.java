@@ -15,113 +15,104 @@ import java.util.ArrayList;
 
 public class MessageDashClockExtension extends DashClockExtension {
 
-	@Override
-	protected void onInitialize(boolean isReconnect)
-	{
-		super.onInitialize(isReconnect);
-		
-		String[] watcher = {"content://sms"};
-		this.addWatchContentUris(watcher);
-		this.setUpdateWhenScreenOn(true);
-	}
-	
-	@Override
-	protected void onUpdateData(int arg0) {
-		ArrayList<String> senderNames = readFromFile(this);
-		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-		
-		if (senderNames.size() > 0)
-		{
-			String expandedTitle = senderNames.size() + " New Message";
-			
-			if (senderNames.size() > 1)
-			{
-				expandedTitle += "s";
-			}
-			
-			String names = senderNames.get(0);
-			
-			for (int i = 1; i < senderNames.size(); i++)
-			{
-				names += ", " + senderNames.get(i);
-			}
-			
-			if (sharedPrefs.getBoolean("secure", false))
-			{
-				names = " ";
-			}
+    @Override
+    protected void onInitialize(boolean isReconnect) {
+        super.onInitialize(isReconnect);
 
-            Intent intent = null;
-            if(sharedPrefs.getBoolean("launch_slideover", false)) {
-                intent = new Intent(this, com.klinker.android.messaging_sliding.MainActivityPopup.class);
-            } else {
-			    intent = new Intent(this, MainActivity.class);
+        String[] watcher = {"content://sms"};
+        this.addWatchContentUris(watcher);
+        this.setUpdateWhenScreenOn(true);
+    }
+
+    @Override
+    protected void onUpdateData(int arg0) {
+        ArrayList<String> senderNames = readFromFile(this);
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        if (senderNames.size() > 0) {
+            String expandedTitle = senderNames.size() + " New Message";
+
+            if (senderNames.size() > 1) {
+                expandedTitle += "s";
             }
 
-			Bundle b = new Bundle();
-			b.putBoolean("dashclock", true);
-			intent.putExtras(b);
-			
-			publishUpdate(new ExtensionData()
-	        	.visible(true)
-	        	.icon(R.drawable.dashclock)
-	        	.status(senderNames.size() + "")
-	        	.expandedTitle(expandedTitle)
-	        	.expandedBody(names)
-	        	.clickIntent(intent));
-		} else
-		{
-			if (!sharedPrefs.getBoolean("persistent", false))
-			{
-				publishUpdate(new ExtensionData());
-			} else
-			{
+            String names = senderNames.get(0);
+
+            for (int i = 1; i < senderNames.size(); i++) {
+                names += ", " + senderNames.get(i);
+            }
+
+            if (sharedPrefs.getBoolean("secure", false)) {
+                names = " ";
+            }
+
+            Intent intent = null;
+            if (sharedPrefs.getBoolean("launch_slideover", false)) {
+                intent = new Intent(this, com.klinker.android.messaging_sliding.MainActivityPopup.class);
+            } else {
+                intent = new Intent(this, MainActivity.class);
+            }
+
+            Bundle b = new Bundle();
+            b.putBoolean("dashclock", true);
+            intent.putExtras(b);
+
+            publishUpdate(new ExtensionData()
+                    .visible(true)
+                    .icon(R.drawable.dashclock)
+                    .status(senderNames.size() + "")
+                    .expandedTitle(expandedTitle)
+                    .expandedBody(names)
+                    .clickIntent(intent));
+        } else {
+            if (!sharedPrefs.getBoolean("persistent", false)) {
+                publishUpdate(new ExtensionData());
+            } else {
                 Intent intent = null;
-                if(sharedPrefs.getBoolean("launch_slideover", false)) {
+                if (sharedPrefs.getBoolean("launch_slideover", false)) {
                     intent = new Intent(this, com.klinker.android.messaging_sliding.MainActivityPopup.class);
                 } else {
                     intent = new Intent(this, MainActivity.class);
                 }
 
-				Bundle b = new Bundle();
-				b.putBoolean("dashclock", true);
-				intent.putExtras(b);
-				
-				publishUpdate(new ExtensionData()
-		        	.visible(true)
-		        	.icon(R.drawable.dashclock)
-		        	.status("0")
-		        	.expandedTitle("0 New Messages")
-		        	.clickIntent(intent));
-			}
-		}
-	}
-	
-	private ArrayList<String> readFromFile(Context context) {
-		
-	      ArrayList<String> ret = new ArrayList<String>();
-	      
-	      try {
-	          InputStream inputStream = context.openFileInput("newMessages.txt");
-	          
-	          if ( inputStream != null ) {
-	          	InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-	          	BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-	          	String receiveString = "";
-	          	
-	          	while ( (receiveString = bufferedReader.readLine()) != null ) {
-	          		ret.add(receiveString);
-	          	}
-	          	
-	          	inputStream.close();
-	          }
-	      }
-	      catch (FileNotFoundException e) {
-	      	
-			} catch (IOException e) {
-				
-			}
+                Bundle b = new Bundle();
+                b.putBoolean("dashclock", true);
+                intent.putExtras(b);
 
-	      return ret;
-		}
+                publishUpdate(new ExtensionData()
+                        .visible(true)
+                        .icon(R.drawable.dashclock)
+                        .status("0")
+                        .expandedTitle("0 New Messages")
+                        .clickIntent(intent));
+            }
+        }
+    }
+
+    private ArrayList<String> readFromFile(Context context) {
+
+        ArrayList<String> ret = new ArrayList<String>();
+
+        try {
+            InputStream inputStream = context.openFileInput("newMessages.txt");
+
+            if (inputStream != null) {
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                String receiveString = "";
+
+                while ((receiveString = bufferedReader.readLine()) != null) {
+                    ret.add(receiveString);
+                }
+
+                inputStream.close();
+            }
+        } catch (FileNotFoundException e) {
+
+        } catch (IOException e) {
+
+        }
+
+        return ret;
+    }
 }

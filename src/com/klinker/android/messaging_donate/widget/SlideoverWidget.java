@@ -15,8 +15,7 @@ import com.klinker.android.messaging_donate.R;
 public class SlideoverWidget extends AppWidgetProvider {
 
     @Override
-    public void onUpdate( Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds )
-    {
+    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         RemoteViews remoteViews;
         ComponentName watchWidget;
 
@@ -24,8 +23,8 @@ public class SlideoverWidget extends AppWidgetProvider {
         PendingIntent slideoverPending = PendingIntent.getActivity(context, 0, slideOver, 0);
 
         remoteViews = new RemoteViews(context.getPackageName(), R.layout.halo_widget);
-        watchWidget = new ComponentName( context, SlideoverWidget.class );
+        watchWidget = new ComponentName(context, SlideoverWidget.class);
         remoteViews.setOnClickPendingIntent(R.id.button, slideoverPending);
-        appWidgetManager.updateAppWidget( watchWidget, remoteViews );
+        appWidgetManager.updateAppWidget(watchWidget, remoteViews);
     }
 }

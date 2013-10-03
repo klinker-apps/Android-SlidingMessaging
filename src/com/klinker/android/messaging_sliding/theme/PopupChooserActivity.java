@@ -24,286 +24,259 @@ import java.util.Locale;
 
 public class PopupChooserActivity extends Activity {
 
-	public SectionsPagerAdapter mSectionsPagerAdapter;
+    public SectionsPagerAdapter mSectionsPagerAdapter;
 
-	public ViewPager mViewPager;
-	public SharedPreferences sharedPrefs;
-	public static ArrayList<CustomPopup> themes;
-	public static int NUMBER_DEFAULT_THEMES = 2;
+    public ViewPager mViewPager;
+    public SharedPreferences sharedPrefs;
+    public static ArrayList<CustomPopup> themes;
+    public static int NUMBER_DEFAULT_THEMES = 2;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-		setContentView(R.layout.activity_theme);
+        setContentView(R.layout.activity_theme);
 
-		if (sharedPrefs.getBoolean("override_lang", false))
-		{
-			String languageToLoad  = "en";
-		    Locale locale = new Locale(languageToLoad);
-		    Locale.setDefault(locale);
-		    Configuration config = new Configuration();
-		    config.locale = locale;
-		    getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
-		}
-	}
+        if (sharedPrefs.getBoolean("override_lang", false)) {
+            String languageToLoad = "en";
+            Locale locale = new Locale(languageToLoad);
+            Locale.setDefault(locale);
+            Configuration config = new Configuration();
+            config.locale = locale;
+            getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+        }
+    }
 
-	public void refreshThemes()
-	{
-		themes = new ArrayList<CustomPopup>();
+    public void refreshThemes() {
+        themes = new ArrayList<CustomPopup>();
 
-		themes.add(new CustomPopup("White", this));
-		themes.add(new CustomPopup("Dark", this));
+        themes.add(new CustomPopup("White", this));
+        themes.add(new CustomPopup("Dark", this));
 
-		String root = Environment.getExternalStorageDirectory().getAbsolutePath();
+        String root = Environment.getExternalStorageDirectory().getAbsolutePath();
         File file = new File(root + "/SlidingMessaging");
         file.mkdir();
 
-		File list[] = file.listFiles();
-		ArrayList<File> files = new ArrayList<File>();
+        File list[] = file.listFiles();
+        ArrayList<File> files = new ArrayList<File>();
 
-		if (list != null)
-		{
-			for (int i = 0; i < list.length; i++)
-			{
-				if (list[i].toString().endsWith(".theme2"))
-				{
-					files.add(list[i]);
-				}
-			}
-		}
+        if (list != null) {
+            for (int i = 0; i < list.length; i++) {
+                if (list[i].toString().endsWith(".theme2")) {
+                    files.add(list[i]);
+                }
+            }
+        }
 
-		for (int i = 0; i < files.size(); i++)
-		{
-			String data = IOUtil.readPopupTheme(files.get(i).getName());
-			themes.add(CustomPopup.themeFromString(data));
-		}
+        for (int i = 0; i < files.size(); i++) {
+            String data = IOUtil.readPopupTheme(files.get(i).getName());
+            themes.add(CustomPopup.themeFromString(data));
+        }
 
-		mSectionsPagerAdapter = new SectionsPagerAdapter(
-				getFragmentManager());
-		mViewPager = (ViewPager) findViewById(R.id.pager);
-		mViewPager.setAdapter(mSectionsPagerAdapter);
+        mSectionsPagerAdapter = new SectionsPagerAdapter(
+                getFragmentManager());
+        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mViewPager.setAdapter(mSectionsPagerAdapter);
 
-		for (int i = 0; i < themes.size(); i++)
-		{
-			if (sharedPrefs.getString("cp_theme_name", "Light Theme").equals(themes.get(i).name))
-			{
-				mViewPager.setCurrentItem(i, true);
-				break;
-			}
-		}
+        for (int i = 0; i < themes.size(); i++) {
+            if (sharedPrefs.getString("cp_theme_name", "Light Theme").equals(themes.get(i).name)) {
+                mViewPager.setCurrentItem(i, true);
+                break;
+            }
+        }
 
-		Button select = (Button) findViewById(R.id.selectButton);
+        Button select = (Button) findViewById(R.id.selectButton);
 
-		final Context context = this;
+        final Context context = this;
 
-		select.setOnClickListener(new Button.OnClickListener() {
+        select.setOnClickListener(new Button.OnClickListener() {
 
-			@Override
-			public void onClick(View arg0) {
-				if(mViewPager.getCurrentItem() <= 1)
-				{
-					saveSettings(true);
-					finish();
-				} else if (mViewPager.getCurrentItem() >= 2)
-				{
-					try
-	            	 {
-	            		 PackageManager pm = context.getPackageManager();
-	            		 pm.getPackageInfo("com.klinker.android.messaging_donate", PackageManager.GET_ACTIVITIES);
-	            		 saveSettings(true);
-	            		 finish();
-	            	 } catch (PackageManager.NameNotFoundException e)
-	            	 {
-	            		 try
-		            	 {
-		            		 PackageManager pm = context.getPackageManager();
-		            		 pm.getPackageInfo("com.klinker.android.messaging_theme", PackageManager.GET_ACTIVITIES);
-		            		 saveSettings(true);
-		            		 finish();
-		            	 } catch (PackageManager.NameNotFoundException f)
-		            	 {
-		            		 Intent intent = new Intent(Intent.ACTION_VIEW);
-		            		 intent.setData(Uri.parse("market://details?id=com.klinker.android.messaging_theme"));
-			            	 startActivity(intent);
-		            	 }
-	            	 }
-				}
-			}
-		});
-	}
+            @Override
+            public void onClick(View arg0) {
+                if (mViewPager.getCurrentItem() <= 1) {
+                    saveSettings(true);
+                    finish();
+                } else if (mViewPager.getCurrentItem() >= 2) {
+                    try {
+                        PackageManager pm = context.getPackageManager();
+                        pm.getPackageInfo("com.klinker.android.messaging_donate", PackageManager.GET_ACTIVITIES);
+                        saveSettings(true);
+                        finish();
+                    } catch (PackageManager.NameNotFoundException e) {
+                        try {
+                            PackageManager pm = context.getPackageManager();
+                            pm.getPackageInfo("com.klinker.android.messaging_theme", PackageManager.GET_ACTIVITIES);
+                            saveSettings(true);
+                            finish();
+                        } catch (PackageManager.NameNotFoundException f) {
+                            Intent intent = new Intent(Intent.ACTION_VIEW);
+                            intent.setData(Uri.parse("market://details?id=com.klinker.android.messaging_theme"));
+                            startActivity(intent);
+                        }
+                    }
+                }
+            }
+        });
+    }
 
-	public void saveSettings(boolean toast)
-	{
-		SharedPreferences.Editor editor = sharedPrefs.edit();
-		editor.putString("cp_theme_name", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).name);
-		editor.putInt("cp_messageBackground", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).messageBackground);
-		editor.putInt("cp_sendBarBackground", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).sendbarBackground);
-		editor.putInt("cp_dividerColor", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).dividerColor);
-		editor.putInt("cp_nameTextColor", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).nameTextColor);
-		editor.putInt("cp_numberTextColor", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).numberTextColor);
-		editor.putInt("cp_dateTextColor", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).dateTextColor);
-		editor.putInt("cp_messageTextColor", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).messageTextColor);
-		editor.putInt("cp_draftTextColor", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).draftTextColor);
-		editor.putInt("cp_buttonColor", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).buttonColor);
-		editor.putInt("cp_emojiButtonColor", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).emojiButtonColor);
-		editor.commit();
+    public void saveSettings(boolean toast) {
+        SharedPreferences.Editor editor = sharedPrefs.edit();
+        editor.putString("cp_theme_name", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).name);
+        editor.putInt("cp_messageBackground", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).messageBackground);
+        editor.putInt("cp_sendBarBackground", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).sendbarBackground);
+        editor.putInt("cp_dividerColor", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).dividerColor);
+        editor.putInt("cp_nameTextColor", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).nameTextColor);
+        editor.putInt("cp_numberTextColor", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).numberTextColor);
+        editor.putInt("cp_dateTextColor", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).dateTextColor);
+        editor.putInt("cp_messageTextColor", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).messageTextColor);
+        editor.putInt("cp_draftTextColor", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).draftTextColor);
+        editor.putInt("cp_buttonColor", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).buttonColor);
+        editor.putInt("cp_emojiButtonColor", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).emojiButtonColor);
+        editor.commit();
 
-		if (toast)
-			Toast.makeText(getBaseContext(), getResources().getString(R.string.toast_theme_saved), Toast.LENGTH_LONG).show();
-	}
+        if (toast)
+            Toast.makeText(getBaseContext(), getResources().getString(R.string.toast_theme_saved), Toast.LENGTH_LONG).show();
+    }
 
-	@Override
-	public void onResume()
-	{
-		super.onResume();
-		refreshThemes();
-	}
+    @Override
+    public void onResume() {
+        super.onResume();
+        refreshThemes();
+    }
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_popup_theme, menu);
-		return true;
-	}
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_popup_theme, menu);
+        return true;
+    }
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-	    switch (item.getItemId()) {
-	    case R.id.menu_add_theme:
-	    	try
-	       	 {
-	       		 PackageManager pm = this.getPackageManager();
-	       		 pm.getPackageInfo("com.klinker.android.messaging_theme", PackageManager.GET_ACTIVITIES);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_add_theme:
+                try {
+                    PackageManager pm = this.getPackageManager();
+                    pm.getPackageInfo("com.klinker.android.messaging_theme", PackageManager.GET_ACTIVITIES);
 
-	       		SharedPreferences.Editor editor = sharedPrefs.edit();
-				editor.putString("cp_theme_name", "My Custom Popup Theme");
-				editor.commit();
+                    SharedPreferences.Editor editor = sharedPrefs.edit();
+                    editor.putString("cp_theme_name", "My Custom Popup Theme");
+                    editor.commit();
 
-		    	Intent intent = new Intent(this, CustomPopupActivity.class);
-		    	startActivity(intent);
-                 overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
-	       	 } catch (PackageManager.NameNotFoundException e)
-	       	 {
-	       		 Intent intent = new Intent(Intent.ACTION_VIEW);
-	       		 intent.setData(Uri.parse("market://details?id=com.klinker.android.messaging_theme"));
-	       		 startActivity(intent);
-	       	 }
+                    Intent intent = new Intent(this, CustomPopupActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                } catch (PackageManager.NameNotFoundException e) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse("market://details?id=com.klinker.android.messaging_theme"));
+                    startActivity(intent);
+                }
 
-	        return true;
-	    case R.id.menu_edit_theme:
+                return true;
+            case R.id.menu_edit_theme:
 
-		    	try
-		       	 {
-		       		 PackageManager pm = this.getPackageManager();
-		       		 pm.getPackageInfo("com.klinker.android.messaging_theme", PackageManager.GET_ACTIVITIES);
+                try {
+                    PackageManager pm = this.getPackageManager();
+                    pm.getPackageInfo("com.klinker.android.messaging_theme", PackageManager.GET_ACTIVITIES);
 
-		       		 saveSettings(false);
+                    saveSettings(false);
 
-		       		 if (mViewPager.getCurrentItem() < NUMBER_DEFAULT_THEMES)
-		       		 {
-			       		SharedPreferences.Editor editor = sharedPrefs.edit();
-			    		editor.putString("cp_theme_name", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).name + " 2");
-			    		editor.commit();
-		       		 }
+                    if (mViewPager.getCurrentItem() < NUMBER_DEFAULT_THEMES) {
+                        SharedPreferences.Editor editor = sharedPrefs.edit();
+                        editor.putString("cp_theme_name", PopupChooserActivity.themes.get(mViewPager.getCurrentItem()).name + " 2");
+                        editor.commit();
+                    }
 
-			    	 Intent intent2 = new Intent(this, CustomPopupActivity.class);
-			    	 startActivity(intent2);
-                     overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
-		       	 } catch (PackageManager.NameNotFoundException e)
-		       	 {
-		       		 Intent intent = new Intent(Intent.ACTION_VIEW);
-		       		 intent.setData(Uri.parse("market://details?id=com.klinker.android.messaging_theme"));
-		       		 startActivity(intent);
-		       	 }
+                    Intent intent2 = new Intent(this, CustomPopupActivity.class);
+                    startActivity(intent2);
+                    overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                } catch (PackageManager.NameNotFoundException e) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse("market://details?id=com.klinker.android.messaging_theme"));
+                    startActivity(intent);
+                }
 
-	    	return true;
-	    case R.id.menu_delete_theme:
-	    	if (mViewPager.getCurrentItem() < NUMBER_DEFAULT_THEMES)
-	    	{
-	    		Toast.makeText(this, getResources().getString(R.string.cannot_delete), Toast.LENGTH_SHORT).show();
-	    	} else
-	    	{
-	    		File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/SlidingMessaging/" + themes.get(mViewPager.getCurrentItem()).name.replace(" ", "") + ".theme2");
-	    		file.delete();
+                return true;
+            case R.id.menu_delete_theme:
+                if (mViewPager.getCurrentItem() < NUMBER_DEFAULT_THEMES) {
+                    Toast.makeText(this, getResources().getString(R.string.cannot_delete), Toast.LENGTH_SHORT).show();
+                } else {
+                    File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/SlidingMessaging/" + themes.get(mViewPager.getCurrentItem()).name.replace(" ", "") + ".theme2");
+                    file.delete();
 
-	    		int position = mViewPager.getCurrentItem();
-	    		refreshThemes();
+                    int position = mViewPager.getCurrentItem();
+                    refreshThemes();
 
-	    		try
-	    		{
-	    			mViewPager.setCurrentItem(position);
-	    		} catch (Exception e)
-	    		{
-	    			mViewPager.setCurrentItem(position - 1);
-	    		}
-	    	}
+                    try {
+                        mViewPager.setCurrentItem(position);
+                    } catch (Exception e) {
+                        mViewPager.setCurrentItem(position - 1);
+                    }
+                }
 
-			return true;
-	    default:
-	        return super.onOptionsItemSelected(item);
-	    }
-	}
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     public class SectionsPagerAdapter extends android.support.v13.app.FragmentStatePagerAdapter {
 
-		public SectionsPagerAdapter(android.app.FragmentManager fm) {
-			super(fm);
-		}
+        public SectionsPagerAdapter(android.app.FragmentManager fm) {
+            super(fm);
+        }
 
-		@Override
-		public DummySectionFragment getItem(int position) {
-			DummySectionFragment fragment = new DummySectionFragment();
-			Bundle args = new Bundle();
-			args.putInt("position", position);
-			fragment.setArguments(args);
-			return fragment;
-		}
+        @Override
+        public DummySectionFragment getItem(int position) {
+            DummySectionFragment fragment = new DummySectionFragment();
+            Bundle args = new Bundle();
+            args.putInt("position", position);
+            fragment.setArguments(args);
+            return fragment;
+        }
 
-		@Override
-		public int getCount() {
-			return PopupChooserActivity.themes.size();
-		}
+        @Override
+        public int getCount() {
+            return PopupChooserActivity.themes.size();
+        }
 
-		@Override
-		public CharSequence getPageTitle(int position) {
-			return PopupChooserActivity.themes.get(position).name;
-		}
-	}
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return PopupChooserActivity.themes.get(position).name;
+        }
+    }
 
-	public static class DummySectionFragment extends android.app.Fragment {
+    public static class DummySectionFragment extends android.app.Fragment {
 
-		public int position;
-		private View view;
-		public SharedPreferences sharedPrefs;
+        public int position;
+        private View view;
+        public SharedPreferences sharedPrefs;
 
-		public DummySectionFragment() {
+        public DummySectionFragment() {
 
-		}
+        }
 
-		@Override
-		public void onCreate(Bundle savedInstanceState)
-		{
-			super.onCreate(savedInstanceState);
-		}
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+        }
 
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
 
-			Bundle args = getArguments();
+            Bundle args = getArguments();
 
-			this.position = args.getInt("position");
+            this.position = args.getInt("position");
 
-			view = inflater.inflate(R.layout.popup_preview, container, false);
-			sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            view = inflater.inflate(R.layout.popup_preview, container, false);
+            sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-			return refreshTheme();
-		}
+            return refreshTheme();
+        }
 
-		public View refreshTheme()
-		{
-			View expandedOptions = view.findViewById(R.id.expandedOptions);
+        public View refreshTheme() {
+            View expandedOptions = view.findViewById(R.id.expandedOptions);
             ImageButton deleteButton = (ImageButton) view.findViewById(R.id.deleteButton);
             Button viewConversation = (Button) view.findViewById(R.id.viewConversationButton);
             ImageButton readButton = (ImageButton) view.findViewById(R.id.readButton);
@@ -354,10 +327,10 @@ public class PopupChooserActivity extends Activity {
             number.setText("+1-333-555-4444");
             body.setText(getActivity().getResources().getString(R.string.message_body));
             date.setText("8:00 AM");
-			
-			return view;
-		}
-	}
+
+            return view;
+        }
+    }
 
     @Override
     public void onBackPressed() {

@@ -70,8 +70,7 @@ public class MainActivity extends Activity {
             public void onClick(View view) {
                 try {
                     startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
-                } catch (Exception e)
-                {
+                } catch (Exception e) {
 
                 }
             }

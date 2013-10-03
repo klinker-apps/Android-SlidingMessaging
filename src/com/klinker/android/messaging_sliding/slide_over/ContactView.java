@@ -20,7 +20,7 @@ import com.klinker.android.messaging_donate.utils.ContactUtil;
 
 import java.util.Arrays;
 
-public class  ContactView extends ViewGroup {
+public class ContactView extends ViewGroup {
     public static Context mContext;
 
     public Paint strokePaint;
@@ -91,21 +91,21 @@ public class  ContactView extends ViewGroup {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        Display d = ((WindowManager)mContext.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+        Display d = ((WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         height = d.getHeight();
         width = d.getWidth();
 
         if (!ignore[0]) {
             canvas.drawRect(contOneRect, blackPaint);
             //if (currentContact != 0)
-                canvas.drawRect(contOneRect, strokePaint);
+            canvas.drawRect(contOneRect, strokePaint);
             canvas.drawBitmap(contactPics[0], null, contOneRect, currentContact == 0 ? contactCurrentPaint : contactClosedPaint);
         }
 
         if (!ignore[1]) {
             canvas.drawRect(contTwoRect, blackPaint);
             //if (currentContact != 1)
-                canvas.drawRect(contTwoRect, strokePaint);
+            canvas.drawRect(contTwoRect, strokePaint);
             canvas.drawBitmap(contactPics[1], null, contTwoRect, currentContact == 1 ? contactCurrentPaint : contactClosedPaint);
         }
 
@@ -119,14 +119,14 @@ public class  ContactView extends ViewGroup {
         if (!ignore[3]) {
             canvas.drawRect(contFourRect, blackPaint);
             //if (currentContact != 3)
-                canvas.drawRect(contFourRect, strokePaint);
+            canvas.drawRect(contFourRect, strokePaint);
             canvas.drawBitmap(contactPics[3], null, contFourRect, currentContact == 3 ? contactCurrentPaint : contactClosedPaint);
         }
 
         if (!ignore[4]) {
             canvas.drawRect(contFiveRect, blackPaint);
             //if (currentContact != 4)
-                canvas.drawRect(contFiveRect, strokePaint);
+            canvas.drawRect(contFiveRect, strokePaint);
             canvas.drawBitmap(contactPics[4], null, contFiveRect, currentContact == 4 ? contactCurrentPaint : contactClosedPaint);
         }
 
@@ -149,13 +149,13 @@ public class  ContactView extends ViewGroup {
         }
 
         for (int i = 0; i < 6; i++) {
-            for (int j = 0; j< 3; j++) {
+            for (int j = 0; j < 3; j++) {
                 message[i][j] = "";
             }
         }
 
         for (int i = 0; i < 6; i++) {
-            for (int j = 0; j< 3; j++) {
+            for (int j = 0; j < 3; j++) {
                 type[i][j] = 0;
             }
         }
@@ -166,9 +166,9 @@ public class  ContactView extends ViewGroup {
         Cursor cursor;
 
         if (sharedPrefs.getBoolean("slideover_only_unread", false)) {
-            cursor = mContext.getContentResolver().query( SMS_CONTENT_URI, new String[]{"_id", "recipient_ids"}, "read=?", new String[] {"0"}, "date desc");
+            cursor = mContext.getContentResolver().query(SMS_CONTENT_URI, new String[]{"_id", "recipient_ids"}, "read=?", new String[]{"0"}, "date desc");
         } else {
-            cursor = mContext.getContentResolver().query( SMS_CONTENT_URI, new String[]{"_id", "recipient_ids"}, null, null, "date desc");
+            cursor = mContext.getContentResolver().query(SMS_CONTENT_URI, new String[]{"_id", "recipient_ids"}, null, null, "date desc");
         }
 
         try {
@@ -181,7 +181,7 @@ public class  ContactView extends ViewGroup {
 
                     Cursor cursor2;
 
-                    cursor2 = mContext.getContentResolver().query( Uri.parse("content://sms/"), new String[]{"body", "type", "thread_id"}, "thread_id=?", new String[] {id}, "date desc");
+                    cursor2 = mContext.getContentResolver().query(Uri.parse("content://sms/"), new String[]{"body", "type", "thread_id"}, "thread_id=?", new String[]{id}, "date desc");
                     //Cursor cursor2 = mContext.getContentResolver().query( Uri.parse("content://mms-sms/conversations/"), new String[]{"body", "address", "thread_id", "msg_box"}, "thread_id=?", new String[] {id}, "date desc");
 
                     if (cursor2.moveToFirst()) {
@@ -203,11 +203,9 @@ public class  ContactView extends ViewGroup {
                             message[count][count2] = cursor2.getString(cursor2.getColumnIndex("body"));
                             String type2 = cursor2.getString(cursor2.getColumnIndex("type"));
 
-                            if (type2.equals("2") || type2.equals("4") || type2.equals("5") || type2.equals("6"))
-                            {
+                            if (type2.equals("2") || type2.equals("4") || type2.equals("5") || type2.equals("6")) {
                                 type[count][count2] = 1;
-                            } else
-                            {
+                            } else {
                                 type[count][count2] = 0;
                             }
 

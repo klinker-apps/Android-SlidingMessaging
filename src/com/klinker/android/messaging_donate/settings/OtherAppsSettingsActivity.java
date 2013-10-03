@@ -43,8 +43,7 @@ public class OtherAppsSettingsActivity extends PreferenceActivity {
 
     @SuppressWarnings("deprecation")
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.other_apps);
         setContentView(R.layout.preference_drawers_layout);
@@ -52,18 +51,16 @@ public class OtherAppsSettingsActivity extends PreferenceActivity {
 
         context = this;
 
-        SharedPreferences sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
-        if (sharedPrefs.getBoolean("override_lang", false))
-        {
-            String languageToLoad  = "en";
+        if (sharedPrefs.getBoolean("override_lang", false)) {
+            String languageToLoad = "en";
             Locale locale = new Locale(languageToLoad);
             Locale.setDefault(locale);
             Configuration config = new Configuration();
             config.locale = locale;
             getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
-        } else
-        {
+        } else {
             String languageToLoad = Resources.getSystem().getConfiguration().locale.getLanguage();
             Locale locale = new Locale(languageToLoad);
             Locale.setDefault(locale);
@@ -120,7 +117,7 @@ public class OtherAppsSettingsActivity extends PreferenceActivity {
 
         });
 
-        linkItems = new String[] { getResources().getString(R.string.theme_settings),
+        linkItems = new String[]{getResources().getString(R.string.theme_settings),
                 getResources().getString(R.string.notification_settings),
                 getResources().getString(R.string.popup_settings),
                 getResources().getString(R.string.slideover_settings),
@@ -129,13 +126,13 @@ public class OtherAppsSettingsActivity extends PreferenceActivity {
                 getResources().getString(R.string.mms_settings),
                 getResources().getString(R.string.google_voice_settings),
                 getResources().getString(R.string.security_settings),
-                getResources().getString(R.string.advanced_settings)   };
+                getResources().getString(R.string.advanced_settings)};
 
-        otherItems = new String[] {getResources().getString(R.string.quick_templates),
+        otherItems = new String[]{getResources().getString(R.string.quick_templates),
                 getResources().getString(R.string.scheduled_sms),
                 getResources().getString(R.string.get_help),
                 getResources().getString(R.string.other_apps),
-                getResources().getString(R.string.rate_it) };
+                getResources().getString(R.string.rate_it)};
 
         DrawerArrayAdapter.current = 3;
         SettingsPagerActivity.settingsLinksActive = false;
@@ -196,7 +193,7 @@ public class OtherAppsSettingsActivity extends PreferenceActivity {
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-    private class SpinnerClickListener implements  Spinner.OnItemSelectedListener {
+    private class SpinnerClickListener implements Spinner.OnItemSelectedListener {
         @Override
         // sets the string repetition to whatever is choosen from the spinner
         public void onItemSelected(AdapterView<?> parent, View view,
@@ -244,10 +241,10 @@ public class OtherAppsSettingsActivity extends PreferenceActivity {
                         //onBackPressed();
 
                         Intent mIntent = new Intent(context, SettingsPagerActivity.class);
-                        mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION |Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         mIntent.putExtra("page_number", mPos);
                         startActivity(mIntent);
-                        overridePendingTransition(0,0);
+                        overridePendingTransition(0, 0);
                     }
                 }, 200);
             } else {
@@ -263,7 +260,7 @@ public class OtherAppsSettingsActivity extends PreferenceActivity {
                                 Intent mIntent = new Intent(context, TemplateActivity.class);
                                 mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(mIntent);
-                                overridePendingTransition(0,0);
+                                overridePendingTransition(0, 0);
                                 //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                             }
                         }, 200);
@@ -277,7 +274,7 @@ public class OtherAppsSettingsActivity extends PreferenceActivity {
                                 Intent mIntent = new Intent(context, ScheduledSms.class);
                                 mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(mIntent);
-                                overridePendingTransition(0,0);
+                                overridePendingTransition(0, 0);
                                 //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                             }
                         }, 200);
@@ -290,7 +287,7 @@ public class OtherAppsSettingsActivity extends PreferenceActivity {
                                 Intent mIntent = new Intent(context, GetHelpSettingsActivity.class);
                                 mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(mIntent);
-                                overridePendingTransition(0,0);
+                                overridePendingTransition(0, 0);
                                 //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                             }
                         }, 200);
@@ -354,6 +351,7 @@ public class OtherAppsSettingsActivity extends PreferenceActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
     @Override
     public void onBackPressed() {
         Intent i = new Intent(this, MainActivity.class);

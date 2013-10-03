@@ -7,17 +7,17 @@ import android.widget.ListView;
 public class CustomListView extends ListView {
     private OnSizeChangedListener mOnSizeChangedListener;
 
-	public CustomListView (Context context) {
-	    super(context);
-	}
+    public CustomListView(Context context) {
+        super(context);
+    }
 
-	public CustomListView (Context context, AttributeSet attrs) {
-	    super(context, attrs);
-	}
+    public CustomListView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
 
-	public CustomListView (Context context, AttributeSet attrs, int defStyle) {
-	    super(context, attrs, defStyle);
-	}
+    public CustomListView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+    }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
@@ -39,6 +39,6 @@ public class CustomListView extends ListView {
     public interface OnSizeChangedListener {
         void onSizeChanged(int width, int height, int oldWidth, int oldHeight);
     }
-	
-	
+
+
 }

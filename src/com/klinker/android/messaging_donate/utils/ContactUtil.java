@@ -56,7 +56,7 @@ public class ContactUtil {
             String[] ids = number.split(" ");
             String numbers = "";
 
-            Cursor id = context.getContentResolver().query(Uri.parse("content://mms-sms/canonical-addresses"), new String[] {"_id", "address"}, null, null, null);
+            Cursor id = context.getContentResolver().query(Uri.parse("content://mms-sms/canonical-addresses"), new String[]{"_id", "address"}, null, null, null);
 
             for (int i = 0; i < ids.length; i++) {
                 try {
@@ -88,62 +88,50 @@ public class ContactUtil {
         }
     }
 
-    public static String findContactName(String number, Context context)
-    {
+    public static String findContactName(String number, Context context) {
         try {
             String name = "";
 
             String origin = number;
 
-            if (origin.length() != 0)
-            {
+            if (origin.length() != 0) {
                 Uri phoneUri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(origin));
-                Cursor phonesCursor = context.getContentResolver().query(phoneUri, new String[] {ContactsContract.Contacts.DISPLAY_NAME_PRIMARY, ContactsContract.RawContacts._ID}, null, null, ContactsContract.Contacts.DISPLAY_NAME + " desc limit 1");
+                Cursor phonesCursor = context.getContentResolver().query(phoneUri, new String[]{ContactsContract.Contacts.DISPLAY_NAME_PRIMARY, ContactsContract.RawContacts._ID}, null, null, ContactsContract.Contacts.DISPLAY_NAME + " desc limit 1");
 
                 try {
-                    if(phonesCursor != null && phonesCursor.moveToFirst()) {
+                    if (phonesCursor != null && phonesCursor.moveToFirst()) {
                         name = phonesCursor.getString(0);
-                    } else
-                    {
-                        if (!number.equals(""))
-                        {
-                            try
-                            {
+                    } else {
+                        if (!number.equals("")) {
+                            try {
                                 Locale sCachedLocale = Locale.getDefault();
                                 int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
                                 Editable editable = new SpannableStringBuilder(number);
                                 PhoneNumberUtils.formatNumber(editable, sFormatType);
                                 name = editable.toString();
-                            } catch (Exception e)
-                            {
+                            } catch (Exception e) {
                                 name = number;
                             }
-                        } else
-                        {
+                        } else {
                             name = "No Information";
                         }
                     }
                 } finally {
                     phonesCursor.close();
                 }
-            } else
-            {
-                if (!number.equals(""))
-                {
-                    try
-                    {
+            } else {
+                if (!number.equals("")) {
+                    try {
                         Long.parseLong(number.replaceAll("[^0-9]", ""));
                         Locale sCachedLocale = Locale.getDefault();
                         int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
                         Editable editable = new SpannableStringBuilder(number);
                         PhoneNumberUtils.formatNumber(editable, sFormatType);
                         name = editable.toString();
-                    } catch (Exception e)
-                    {
+                    } catch (Exception e) {
                         name = number;
                     }
-                } else
-                {
+                } else {
                     name = "No Information";
                 }
             }
@@ -155,80 +143,66 @@ public class ContactUtil {
         }
     }
 
-    public static String loadGroupContacts(String numbers, Context context)
-    {
+    public static String loadGroupContacts(String numbers, Context context) {
         String names = "";
         String[] number;
 
-        try
-        {
+        try {
             number = numbers.split(" ");
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             return "";
         }
 
-        for (int i = 0; i < number.length; i++)
-        {
-            try
-            {
+        for (int i = 0; i < number.length; i++) {
+            try {
                 String origin = number[i];
 
                 Uri phoneUri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(origin));
-                Cursor phonesCursor = context.getContentResolver().query(phoneUri, new String[] {ContactsContract.Contacts.DISPLAY_NAME_PRIMARY, ContactsContract.RawContacts._ID}, null, null, ContactsContract.Contacts.DISPLAY_NAME + " desc limit 1");
+                Cursor phonesCursor = context.getContentResolver().query(phoneUri, new String[]{ContactsContract.Contacts.DISPLAY_NAME_PRIMARY, ContactsContract.RawContacts._ID}, null, null, ContactsContract.Contacts.DISPLAY_NAME + " desc limit 1");
 
                 try {
-                    if(phonesCursor != null && phonesCursor.moveToFirst()) {
+                    if (phonesCursor != null && phonesCursor.moveToFirst()) {
                         names += ", " + phonesCursor.getString(0);
-                    } else
-                    {
-                        try
-                        {
+                    } else {
+                        try {
                             Locale sCachedLocale = Locale.getDefault();
                             int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
                             Editable editable = new SpannableStringBuilder(number[i]);
                             PhoneNumberUtils.formatNumber(editable, sFormatType);
                             names += ", " + editable.toString();
-                        } catch (Exception e)
-                        {
+                        } catch (Exception e) {
                             names += ", " + number;
                         }
                     }
                 } finally {
                     phonesCursor.close();
                 }
-            } catch (IllegalArgumentException e)
-            {
-                try
-                {
+            } catch (IllegalArgumentException e) {
+                try {
                     Locale sCachedLocale = Locale.getDefault();
                     int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
                     Editable editable = new SpannableStringBuilder(number[i]);
                     PhoneNumberUtils.formatNumber(editable, sFormatType);
                     names += ", " + editable.toString();
-                } catch (Exception f)
-                {
+                } catch (Exception f) {
                     names += ", " + number;
                 }
             }
         }
 
-        try
-        {
+        try {
             return names.substring(2);
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             return "";
         }
     }
 
-    public static Bitmap drawableToBitmap (Drawable drawable, Context context) {
+    public static Bitmap drawableToBitmap(Drawable drawable, Context context) {
         if (drawable instanceof BitmapDrawable) {
-            return ((BitmapDrawable)drawable).getBitmap();
+            return ((BitmapDrawable) drawable).getBitmap();
         }
 
-        try
-        {
+        try {
             int width = drawable.getIntrinsicWidth();
             width = width > 0 ? width : 1;
             int height = drawable.getIntrinsicHeight();
@@ -239,13 +213,10 @@ public class ContactUtil {
             drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
             drawable.draw(canvas);
             return bitmap;
-        } catch (Exception e)
-        {
-            if (MainActivity.settings.darkContactImage)
-            {
+        } catch (Exception e) {
+            if (MainActivity.settings.darkContactImage) {
                 return BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar_dark);
-            } else
-            {
+            } else {
                 return BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
             }
         }
@@ -274,22 +245,19 @@ public class ContactUtil {
             return defaultPhoto;
         }
 
-        try
-        {
+        try {
             Uri phoneUri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNumber));
             Uri photoUri;
             ContentResolver cr = context.getContentResolver();
             Cursor contact = cr.query(phoneUri,
-                    new String[] { ContactsContract.Contacts._ID }, null, null, null);
+                    new String[]{ContactsContract.Contacts._ID}, null, null, null);
 
-            try
-            {
+            try {
                 if (contact.moveToFirst()) {
                     long userId = contact.getLong(contact.getColumnIndex(ContactsContract.Contacts._ID));
                     photoUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, userId);
                     contact.close();
-                }
-                else {
+                } else {
                     Bitmap defaultPhoto;
 
                     if (!MainActivity.settings.ctDarkContactPics) {
@@ -301,6 +269,7 @@ public class ContactUtil {
                     contact.close();
                     return defaultPhoto;
                 }
+
                 if (photoUri != null) {
                     InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(
                             cr, photoUri);
@@ -320,6 +289,7 @@ public class ContactUtil {
                     contact.close();
                     return defaultPhoto;
                 }
+
                 Bitmap defaultPhoto;
 
                 if (!MainActivity.settings.ctDarkContactPics) {
@@ -330,8 +300,7 @@ public class ContactUtil {
 
                 contact.close();
                 return defaultPhoto;
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 contact.close();
                 Bitmap defaultPhoto;
 
@@ -345,8 +314,7 @@ public class ContactUtil {
             } finally {
                 contact.close();
             }
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             Bitmap defaultPhoto;
 
             if (!MainActivity.settings.ctDarkContactPics) {
@@ -359,7 +327,7 @@ public class ContactUtil {
         }
     }
 
-    public static String getMyPhoneNumber(Context context){
+    public static String getMyPhoneNumber(Context context) {
         TelephonyManager mTelephonyMgr;
         mTelephonyMgr = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         return mTelephonyMgr.getLine1Number();

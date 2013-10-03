@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * Represents a wizard model, including the pages/steps in the wizard, their dependencies, and their
  * currently populated choices/values/selections.
- *
+ * <p/>
  * To create an actual wizard model, extend this class and implement {@link #onNewRootPageList()}.
  */
 public abstract class AbstractWizardModel implements ModelCallbacks {

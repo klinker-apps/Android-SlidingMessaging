@@ -43,7 +43,7 @@ public class KeyboardFragment extends Fragment {
 
         if (position == 0)
             emojiGrid.setAdapter(new RecentEmojiAdapter(getActivity(), MainActivity.recents));
-        else if(position == 1)
+        else if (position == 1)
             emojiGrid.setAdapter(new PeopleEmojiAdapter(getActivity()));
         else if (position == 2)
             emojiGrid.setAdapter(new ThingsEmojiAdapter(getActivity()));
@@ -58,11 +58,10 @@ public class KeyboardFragment extends Fragment {
 
         emojiGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-            public void onItemClick(AdapterView<?> parent, View v, int position, long id)
-            {
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 if (tabNum == 0) {
 
-                } else if(tabNum == 1)
+                } else if (tabNum == 1)
                     MainActivity.insertEmoji(EmojiAdapter2.mEmojiTexts[position], EmojiAdapter2.sIconIds[position]);
                 else if (tabNum == 2)
                     MainActivity.insertEmoji(EmojiAdapter2.mEmojiTexts[position + 153], EmojiAdapter2.sIconIds[position + 153]);
@@ -71,7 +70,7 @@ public class KeyboardFragment extends Fragment {
                 else if (tabNum == 4)
                     MainActivity.insertEmoji(EmojiAdapter2.mEmojiTexts[position + 493], EmojiAdapter2.sIconIds[position + 493]);
                 else if (tabNum == 5)
-                    MainActivity.insertEmoji(EmojiAdapter2.mEmojiTexts[position+ 615], EmojiAdapter2.sIconIds[position + 615]);
+                    MainActivity.insertEmoji(EmojiAdapter2.mEmojiTexts[position + 615], EmojiAdapter2.sIconIds[position + 615]);
             }
         });
 

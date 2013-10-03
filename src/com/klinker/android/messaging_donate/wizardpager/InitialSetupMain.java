@@ -125,6 +125,7 @@ public class InitialSetupMain extends FragmentActivity implements
 
             private SharedPreferences sharedPrefs;
             private SharedPreferences.Editor editor;
+
             @Override
             public void onClick(View view) {
 
@@ -143,8 +144,7 @@ public class InitialSetupMain extends FragmentActivity implements
 
                     try {
                         carrier = mWizardModel.findByKey(context.getString(R.string.need_mms_setup)).getData().getString(Page.SIMPLE_DATA_KEY);
-                    } catch (Exception e)
-                    {
+                    } catch (Exception e) {
                         carrier = "";
                     }
 
@@ -157,8 +157,7 @@ public class InitialSetupMain extends FragmentActivity implements
 
                     try {
                         display = mWizardModel.findByKey(context.getString(R.string.run_as)).getData().getString(Page.SIMPLE_DATA_KEY);
-                    } catch (Exception e)
-                    {
+                    } catch (Exception e) {
                         display = "";
                     }
 
@@ -169,8 +168,7 @@ public class InitialSetupMain extends FragmentActivity implements
 
                     try {
                         emojis = mWizardModel.findByKey(context.getString(R.string.emojis)).getData().getString(Page.SIMPLE_DATA_KEY);
-                    } catch (Exception e)
-                    {
+                    } catch (Exception e) {
                         emojis = "";
                     }
 
@@ -181,8 +179,7 @@ public class InitialSetupMain extends FragmentActivity implements
 
                     try {
                         slideOver = mWizardModel.findByKey(context.getString(R.string.enable_slideover)).getData().getString(Page.SIMPLE_DATA_KEY);
-                    } catch (Exception e)
-                    {
+                    } catch (Exception e) {
                         slideOver = "";
                     }
 
@@ -191,8 +188,7 @@ public class InitialSetupMain extends FragmentActivity implements
                     // Launch the regular changelog intent
                     boolean flag = false;
 
-                    if (fromIntent.getStringExtra("com.klinker.android.OPEN") != null)
-                    {
+                    if (fromIntent.getStringExtra("com.klinker.android.OPEN") != null) {
                         flag = true;
                     }
 
@@ -201,16 +197,13 @@ public class InitialSetupMain extends FragmentActivity implements
                     intent.setData(fromIntent.getData());
                     intent.putExtra("initial_run", true);
 
-                    try
-                    {
+                    try {
                         intent.putExtras(fromIntent.getExtras());
-                    } catch (Exception e)
-                    {
+                    } catch (Exception e) {
 
                     }
 
-                    if (flag)
-                    {
+                    if (flag) {
                         intent.putExtra("com.klinker.android.OPEN", intent.getStringExtra("com.klinker.android.OPEN"));
                     }
 
@@ -227,8 +220,7 @@ public class InitialSetupMain extends FragmentActivity implements
                 }
             }
 
-            public void setDisplay(String display)
-            {
+            public void setDisplay(String display) {
                 if (display.equals("Hangouts UI"))
                     editor.putString("run_as", "hangout");
                 else if (display.equals("Classic UI"))
@@ -241,16 +233,13 @@ public class InitialSetupMain extends FragmentActivity implements
                 editor.commit();
             }
 
-            public void setEmojis(String emojis)
-            {
+            public void setEmojis(String emojis) {
                 if (emojis.equals("No Emojis"))
                     editor.putBoolean("emoji", false);
-                else if (emojis.equals("Android Style"))
-                {
+                else if (emojis.equals("Android Style")) {
                     editor.putBoolean("emoji", true);
                     editor.putBoolean("emoji_type", true);
-                } else
-                {
+                } else {
                     editor.putBoolean("emoji", true);
                     editor.putBoolean("emoji_type", false);
                 }
@@ -258,8 +247,7 @@ public class InitialSetupMain extends FragmentActivity implements
                 editor.commit();
             }
 
-            public void setSlideOver(String slideOver)
-            {
+            public void setSlideOver(String slideOver) {
                 if (slideOver.equals("Yes"))
                     editor.putBoolean("slideover_enabled", true);
                 else
@@ -282,18 +270,15 @@ public class InitialSetupMain extends FragmentActivity implements
                 }, 500);
             }
 
-            public void setAPN(String carrier)
-            {
-                if(carrier.equals("Not on list"))
-                {
+            public void setAPN(String carrier) {
+                if (carrier.equals("Not on list")) {
                     Context context = getApplicationContext();
                     CharSequence text = "Configure APN's manually at AppSettings->MMS AppSettings";
                     int duration = Toast.LENGTH_LONG;
 
                     Toast toast = Toast.makeText(context, text, duration);
                     toast.show();
-                } else if (!carrier.equals(""))
-                {
+                } else if (!carrier.equals("")) {
                     if (carrier.equals("Auto Select")) {
                         TelephonyManager manager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
                         final String networkOperator = manager.getNetworkOperator();
@@ -327,142 +312,119 @@ public class InitialSetupMain extends FragmentActivity implements
                         } else {
                             Toast.makeText(context, "Error auto selecting APNs.", Toast.LENGTH_SHORT).show();
                         }
-                    } else if (carrier.equals("AT&T"))
-                    {
-                        editor.putString("mmsc_url","http://mmsc.cingular.com");
-                        editor.putString("mms_proxy","wireless.cingular.com");
-                        editor.putString("mms_port","80");
+                    } else if (carrier.equals("AT&T")) {
+                        editor.putString("mmsc_url", "http://mmsc.cingular.com");
+                        editor.putString("mms_proxy", "wireless.cingular.com");
+                        editor.putString("mms_port", "80");
 
-                    } else if (carrier.equals("AT&T #2"))
-                    {
-                        editor.putString("mmsc_url","http://mmsc.mobile.att.net");
-                        editor.putString("mms_proxy","proxy.mobile.att.net");
-                        editor.putString("mms_port","80");
-                    } else if (carrier.equals("Bell Canada"))
-                    {
-                        editor.putString("mmsc_url","http://mms.bell.ca/mms/wapenc");
-                        editor.putString("mms_proxy","web.wireless.bell.ca");
-                        editor.putString("mms_port","80");
-                    } else if (carrier.equals("Free Mobile France"))
-                    {
-                        editor.putString("mmsc_url","http://212.27.40.225");
-                        editor.putString("mms_proxy","212.27.40.225");
-                        editor.putString("mms_port","80");
-                    } else if (carrier.equals("Network Norway"))
-                    {
-                        editor.putString("mmsc_url","http://mms.nwn.no");
-                        editor.putString("mms_proxy","188.149.250.10");
-                        editor.putString("mms_port","80");
-                    } else if (carrier.equals("Net10"))
-                    {
-                        editor.putString("mmsc_url","http://mms-tf.net");
-                        editor.putString("mms_proxy","mms3.tracfone.com");
-                        editor.putString("mms_port","80");
-                    } else if (carrier.equals("O2"))
-                    {
-                        editor.putString("mmsc_url","http://mmsc.mms.02.co.uk:8002");
-                        editor.putString("mms_proxy","193.113.200.195");
-                        editor.putString("mms_port","8080");
-                    } else if (carrier.equals("Rogers"))
-                    {
-                        editor.putString("mmsc_url","http://mms.gprs.rogers.com");
-                        editor.putString("mms_proxy","10.128.1.69");
-                        editor.putString("mms_port","8080");
-                    } else if (carrier.equals("Sprint"))
-                    {
-                        editor.putString("mmsc_url","http://mms.sprintpcs.com");
-                        editor.putString("mms_proxy","68.28.31.7");
-                        editor.putString("mms_port","80");
-                    } else if (carrier.equals("Straight Talk AT&T"))
-                    {
-                        editor.putString("mmsc_url","http://mmsc.cingular.com");
-                        editor.putString("mms_proxy","66.209.11.33");
-                        editor.putString("mms_port","80");
-                    } else if (carrier.equals("Tele2"))
-                    {
-                        editor.putString("mmsc_url","http://mmsc.tele2.se");
-                        editor.putString("mms_proxy","130.244.202.30");
-                        editor.putString("mms_port","8080");
-                    } else if (carrier.equals("Telus"))
-                    {
-                        editor.putString("mmsc_url","http://aliasredirect.net/proxy/mmsc");
-                        editor.putString("mms_proxy","74.49.0.18");
-                        editor.putString("mms_port","80");
-                    } else if (carrier.equals("T-Mobile US"))
-                    {
-                        editor.putString("mmsc_url","http://mms.msg.eng.t-mobile.com/mms/wapenc");
-                        editor.putString("mms_proxy","216.155.165.50");
-                        editor.putString("mms_port","8080");
-                    } else if (carrier.equals("T-Mobile Polish"))
-                    {
-                        editor.putString("mmsc_url","http://mms/servlets/mms");
-                        editor.putString("mms_proxy","213.158.194.226");
-                        editor.putString("mms_port","8080");
-                    } else if (carrier.equals("Virgin Mobile Canada"))
-                    {
-                        editor.putString("mmsc_url","http://mms.bell.ca/mms/wapenc");
-                        editor.putString("mms_proxy","web.wireless.bell.ca");
-                        editor.putString("mms_port","80");
-                    } else if (carrier.equals("Verizon Wireless"))
-                    {
+                    } else if (carrier.equals("AT&T #2")) {
+                        editor.putString("mmsc_url", "http://mmsc.mobile.att.net");
+                        editor.putString("mms_proxy", "proxy.mobile.att.net");
+                        editor.putString("mms_port", "80");
+                    } else if (carrier.equals("Bell Canada")) {
+                        editor.putString("mmsc_url", "http://mms.bell.ca/mms/wapenc");
+                        editor.putString("mms_proxy", "web.wireless.bell.ca");
+                        editor.putString("mms_port", "80");
+                    } else if (carrier.equals("Free Mobile France")) {
+                        editor.putString("mmsc_url", "http://212.27.40.225");
+                        editor.putString("mms_proxy", "212.27.40.225");
+                        editor.putString("mms_port", "80");
+                    } else if (carrier.equals("Network Norway")) {
+                        editor.putString("mmsc_url", "http://mms.nwn.no");
+                        editor.putString("mms_proxy", "188.149.250.10");
+                        editor.putString("mms_port", "80");
+                    } else if (carrier.equals("Net10")) {
+                        editor.putString("mmsc_url", "http://mms-tf.net");
+                        editor.putString("mms_proxy", "mms3.tracfone.com");
+                        editor.putString("mms_port", "80");
+                    } else if (carrier.equals("O2")) {
+                        editor.putString("mmsc_url", "http://mmsc.mms.02.co.uk:8002");
+                        editor.putString("mms_proxy", "193.113.200.195");
+                        editor.putString("mms_port", "8080");
+                    } else if (carrier.equals("Rogers")) {
+                        editor.putString("mmsc_url", "http://mms.gprs.rogers.com");
+                        editor.putString("mms_proxy", "10.128.1.69");
+                        editor.putString("mms_port", "8080");
+                    } else if (carrier.equals("Sprint")) {
+                        editor.putString("mmsc_url", "http://mms.sprintpcs.com");
+                        editor.putString("mms_proxy", "68.28.31.7");
+                        editor.putString("mms_port", "80");
+                    } else if (carrier.equals("Straight Talk AT&T")) {
+                        editor.putString("mmsc_url", "http://mmsc.cingular.com");
+                        editor.putString("mms_proxy", "66.209.11.33");
+                        editor.putString("mms_port", "80");
+                    } else if (carrier.equals("Tele2")) {
+                        editor.putString("mmsc_url", "http://mmsc.tele2.se");
+                        editor.putString("mms_proxy", "130.244.202.30");
+                        editor.putString("mms_port", "8080");
+                    } else if (carrier.equals("Telus")) {
+                        editor.putString("mmsc_url", "http://aliasredirect.net/proxy/mmsc");
+                        editor.putString("mms_proxy", "74.49.0.18");
+                        editor.putString("mms_port", "80");
+                    } else if (carrier.equals("T-Mobile US")) {
+                        editor.putString("mmsc_url", "http://mms.msg.eng.t-mobile.com/mms/wapenc");
+                        editor.putString("mms_proxy", "216.155.165.50");
+                        editor.putString("mms_port", "8080");
+                    } else if (carrier.equals("T-Mobile Polish")) {
+                        editor.putString("mmsc_url", "http://mms/servlets/mms");
+                        editor.putString("mms_proxy", "213.158.194.226");
+                        editor.putString("mms_port", "8080");
+                    } else if (carrier.equals("Virgin Mobile Canada")) {
+                        editor.putString("mmsc_url", "http://mms.bell.ca/mms/wapenc");
+                        editor.putString("mms_proxy", "web.wireless.bell.ca");
+                        editor.putString("mms_port", "80");
+                    } else if (carrier.equals("Verizon Wireless")) {
                         try {
-                            String phoneNumber = getMyPhoneNumber().replace("+", "").replace("-","").replace(")","").replace("(", "").replace(" ", "");
+                            String phoneNumber = getMyPhoneNumber().replace("+", "").replace("-", "").replace(")", "").replace("(", "").replace(" ", "");
 
-                            if (phoneNumber.startsWith("+1"))
-                            {
+                            if (phoneNumber.startsWith("+1")) {
                                 phoneNumber = phoneNumber.substring(2);
-                            } else if (phoneNumber.startsWith("1") && phoneNumber.length() == 11)
-                            {
+                            } else if (phoneNumber.startsWith("1") && phoneNumber.length() == 11) {
                                 phoneNumber = phoneNumber.substring(1);
                             }
 
-                            editor.putString("mmsc_url","http://mms.vtext.com/servlets/mms?X-VZW-MDN=" + phoneNumber);
-                            editor.putString("mms_proxy","null");
-                            editor.putString("mms_port","8080");
+                            editor.putString("mmsc_url", "http://mms.vtext.com/servlets/mms?X-VZW-MDN=" + phoneNumber);
+                            editor.putString("mms_proxy", "null");
+                            editor.putString("mms_port", "8080");
                         } catch (Exception e) {
                             // mostlikely a tablet user without a phone number...
                         }
-                    } else if (carrier.equals("Verizon Wireless #2"))
-                    {
+                    } else if (carrier.equals("Verizon Wireless #2")) {
                         try {
-                            String phoneNumber = getMyPhoneNumber().replace("+", "").replace("-","").replace(")","").replace("(", "").replace(" ", "");
+                            String phoneNumber = getMyPhoneNumber().replace("+", "").replace("-", "").replace(")", "").replace("(", "").replace(" ", "");
 
-                            if (phoneNumber.startsWith("+1"))
-                            {
+                            if (phoneNumber.startsWith("+1")) {
                                 phoneNumber = phoneNumber.substring(2);
-                            } else if (phoneNumber.startsWith("1") && phoneNumber.length() == 11)
-                            {
+                            } else if (phoneNumber.startsWith("1") && phoneNumber.length() == 11) {
                                 phoneNumber = phoneNumber.substring(1);
                             }
 
-                            editor.putString("mmsc_url","http://mms.vtext.com/servlets/mms?X-VZW-MDN=" + phoneNumber);
-                            editor.putString("mms_proxy","null");
-                            editor.putString("mms_port","80");
+                            editor.putString("mmsc_url", "http://mms.vtext.com/servlets/mms?X-VZW-MDN=" + phoneNumber);
+                            editor.putString("mms_proxy", "null");
+                            editor.putString("mms_port", "80");
                         } catch (Exception e) {
                             // mostlikely a tablet user without a phone number...
                         }
-                    } else if (carrier.equals("Vodafone AU"))
-                    {
-                        editor.putString("mmsc_url","http://pxt.vodafone.net.au/pxtsend");
-                        editor.putString("mms_proxy","10.202.2.60");
-                        editor.putString("mms_port","8080");
-                    } else if (carrier.equals("Vodafone UK"))
-                    {
-                        editor.putString("mmsc_url","http://mms.vodafone.co.uk/servlets/mms");
-                        editor.putString("mms_proxy","212.183.137.012");
-                        editor.putString("mms_port","8799");
+                    } else if (carrier.equals("Vodafone AU")) {
+                        editor.putString("mmsc_url", "http://pxt.vodafone.net.au/pxtsend");
+                        editor.putString("mms_proxy", "10.202.2.60");
+                        editor.putString("mms_port", "8080");
+                    } else if (carrier.equals("Vodafone UK")) {
+                        editor.putString("mmsc_url", "http://mms.vodafone.co.uk/servlets/mms");
+                        editor.putString("mms_proxy", "212.183.137.012");
+                        editor.putString("mms_port", "8799");
                     } else // fido canada... skipped it earlier haha
                     {
-                        editor.putString("mmsc_url","http://mms.fido.ca");
-                        editor.putString("mms_proxy","205.151.11.13");
-                        editor.putString("mms_port","80");
+                        editor.putString("mmsc_url", "http://mms.fido.ca");
+                        editor.putString("mms_proxy", "205.151.11.13");
+                        editor.putString("mms_port", "80");
                     }
 
                     editor.commit();
                 }
             }
 
-            private String getMyPhoneNumber(){
+            private String getMyPhoneNumber() {
                 TelephonyManager mTelephonyMgr;
                 mTelephonyMgr = (TelephonyManager)
                         context.getSystemService(Context.TELEPHONY_SERVICE);

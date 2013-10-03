@@ -66,8 +66,7 @@ public class SingleFixedChoicePage extends Page {
         return this;
     }
 
-    public Page setMessage(String message)
-    {
+    public Page setMessage(String message) {
         mMessage = message;
         return this;
     }

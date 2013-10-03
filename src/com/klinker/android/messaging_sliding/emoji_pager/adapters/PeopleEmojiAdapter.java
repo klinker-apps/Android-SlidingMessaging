@@ -24,7 +24,7 @@ public class PeopleEmojiAdapter extends BaseEmojiAdapter {
         if (convertView == null) {
             imageView = new ImageView(context);
             int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, context.getResources().getDisplayMetrics());
-            imageView.setPadding(scale, (int)(scale*1.2), scale, (int)(scale * 1.2));
+            imageView.setPadding(scale, (int) (scale * 1.2), scale, (int) (scale * 1.2));
             imageView.setAdjustViewBounds(true);
         } else {
             imageView = (ImageView) convertView;
@@ -72,7 +72,7 @@ public class PeopleEmojiAdapter extends BaseEmojiAdapter {
 
     private static final int[] sIconIds = {
             // people
-            R.drawable.emoji_u263a, R.drawable.emoji_u1f60a,  R.drawable.emoji_u1f600, R.drawable.emoji_u1f601, R.drawable.emoji_u1f602,
+            R.drawable.emoji_u263a, R.drawable.emoji_u1f60a, R.drawable.emoji_u1f600, R.drawable.emoji_u1f601, R.drawable.emoji_u1f602,
             R.drawable.emoji_u1f603, R.drawable.emoji_u1f604, R.drawable.emoji_u1f605, R.drawable.emoji_u1f606, R.drawable.emoji_u1f607,
             R.drawable.emoji_u1f608, R.drawable.emoji_u1f609, R.drawable.emoji_u1f62f, R.drawable.emoji_u1f610, R.drawable.emoji_u1f611,
             R.drawable.emoji_u1f615, R.drawable.emoji_u1f620, R.drawable.emoji_u1f62c, R.drawable.emoji_u1f621, R.drawable.emoji_u1f622,

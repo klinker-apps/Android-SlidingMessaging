@@ -18,12 +18,12 @@ import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.utils.ContactUtil;
 import com.klinker.android.messaging_sliding.Conversation;
-import com.koushikdutta.ion.builder.Builders;
 
 import java.util.ArrayList;
 
 public class BatchDeleteAllArrayAdapter extends ArrayAdapter<String> {
-    public static ArrayList<Integer> itemsToDelete = new ArrayList<Integer>();;
+    public static ArrayList<Integer> itemsToDelete = new ArrayList<Integer>();
+    ;
     public static boolean checkedAll = false;
 
     private final Activity context;
@@ -57,44 +57,43 @@ public class BatchDeleteAllArrayAdapter extends ArrayAdapter<String> {
         public ImageView imagePreview;
     }
 
-	  public BatchDeleteAllArrayAdapter(Activity context, ArrayList<Conversation> conversations) {
-          super(context, R.layout.contact_body);
+    public BatchDeleteAllArrayAdapter(Activity context, ArrayList<Conversation> conversations) {
+        super(context, R.layout.contact_body);
 
-          this.context = context;
-          this.conversations = conversations;
-          this.sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        this.context = context;
+        this.conversations = conversations;
+        this.sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
-          // shared prefs again!
-          customFont = sharedPrefs.getBoolean("custom_font", false);
-          customFontPath = sharedPrefs.getString("custom_font_path", null);
-          customTheme = sharedPrefs.getBoolean("custom_theme", false);
-          ctSummaryTextColor = sharedPrefs.getInt("ct_summaryTextColor", context.getResources().getColor(R.color.black));
-          textSize2 = sharedPrefs.getString("text_size2", 14 + "");
-          contactPictures2 = sharedPrefs.getBoolean("contact_pictures2", true);
-          ctDarkContactPics = sharedPrefs.getBoolean("ct_darkContactImage", false);
-          hideMessageCounter = sharedPrefs.getBoolean("hide_message_counter", false);
-          ctMessageCounterColor = sharedPrefs.getInt("ct_messageCounterColor", context.getResources().getColor(R.color.messageCounterLight));
-          smilies = sharedPrefs.getString("smilies", "with");
-          emojiType = sharedPrefs.getBoolean("emoji_type", true);
-          smiliesType = sharedPrefs.getBoolean("smiliesType", true);
-          hourFormat = sharedPrefs.getBoolean("hour_format", false);
-          customBackground =sharedPrefs.getBoolean("custom_background", false);
-          ctUnreadConversationColor = sharedPrefs.getInt("ct_unreadConversationColor", sharedPrefs.getInt("ct_receivedMessageBackground", context.getResources().getColor(R.color.white)));
-          ctConversationListBackground = sharedPrefs.getInt("ct_conversationListBackground", context.getResources().getColor(R.color.light_silver));
-      }
-	  
-	  @Override
-	  public int getCount() {
-		return conversations.size();
-	  }
+        // shared prefs again!
+        customFont = sharedPrefs.getBoolean("custom_font", false);
+        customFontPath = sharedPrefs.getString("custom_font_path", null);
+        customTheme = sharedPrefs.getBoolean("custom_theme", false);
+        ctSummaryTextColor = sharedPrefs.getInt("ct_summaryTextColor", context.getResources().getColor(R.color.black));
+        textSize2 = sharedPrefs.getString("text_size2", 14 + "");
+        contactPictures2 = sharedPrefs.getBoolean("contact_pictures2", true);
+        ctDarkContactPics = sharedPrefs.getBoolean("ct_darkContactImage", false);
+        hideMessageCounter = sharedPrefs.getBoolean("hide_message_counter", false);
+        ctMessageCounterColor = sharedPrefs.getInt("ct_messageCounterColor", context.getResources().getColor(R.color.messageCounterLight));
+        smilies = sharedPrefs.getString("smilies", "with");
+        emojiType = sharedPrefs.getBoolean("emoji_type", true);
+        smiliesType = sharedPrefs.getBoolean("smiliesType", true);
+        hourFormat = sharedPrefs.getBoolean("hour_format", false);
+        customBackground = sharedPrefs.getBoolean("custom_background", false);
+        ctUnreadConversationColor = sharedPrefs.getInt("ct_unreadConversationColor", sharedPrefs.getInt("ct_receivedMessageBackground", context.getResources().getColor(R.color.white)));
+        ctConversationListBackground = sharedPrefs.getInt("ct_conversationListBackground", context.getResources().getColor(R.color.light_silver));
+    }
+
+    @Override
+    public int getCount() {
+        return conversations.size();
+    }
 
     @SuppressLint("SimpleDateFormat")
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         View contactView = convertView;
 
-        if (contactView == null)
-        {
+        if (contactView == null) {
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -108,60 +107,49 @@ public class BatchDeleteAllArrayAdapter extends ArrayAdapter<String> {
             viewHolder.background = contactView.findViewById(R.id.background);
             viewHolder.imagePreview = (ImageView) contactView.findViewById(R.id.conversationImage);
 
-            if (customFont)
-            {
+            if (customFont) {
                 viewHolder.text.setTypeface(Typeface.createFromFile(customFontPath));
                 viewHolder.text2.setTypeface(Typeface.createFromFile(customFontPath));
                 viewHolder.text3.setTypeface(Typeface.createFromFile(customFontPath));
                 viewHolder.text4.setTypeface(Typeface.createFromFile(customFontPath));
             }
 
-            if (!customTheme)
-            {
+            if (!customTheme) {
                 String color = sharedPrefs.getString("menu_text_color", "default");
 
-                if (color.equals("blue"))
-                {
+                if (color.equals("blue")) {
                     viewHolder.text2.setTextColor(context.getResources().getColor(R.color.holo_blue));
                     viewHolder.text3.setTextColor(context.getResources().getColor(R.color.holo_blue));
                     viewHolder.text4.setTextColor(context.getResources().getColor(R.color.holo_blue));
-                } else if (color.equals("white"))
-                {
+                } else if (color.equals("white")) {
                     viewHolder.text2.setTextColor(context.getResources().getColor(R.color.white));
                     viewHolder.text3.setTextColor(context.getResources().getColor(R.color.white));
                     viewHolder.text4.setTextColor(context.getResources().getColor(R.color.white));
-                } else if (color.equals("green"))
-                {
+                } else if (color.equals("green")) {
                     viewHolder.text2.setTextColor(context.getResources().getColor(R.color.holo_green));
                     viewHolder.text3.setTextColor(context.getResources().getColor(R.color.holo_green));
                     viewHolder.text4.setTextColor(context.getResources().getColor(R.color.holo_green));
-                } else if (color.equals("orange"))
-                {
+                } else if (color.equals("orange")) {
                     viewHolder.text2.setTextColor(context.getResources().getColor(R.color.holo_orange));
                     viewHolder.text3.setTextColor(context.getResources().getColor(R.color.holo_orange));
                     viewHolder.text4.setTextColor(context.getResources().getColor(R.color.holo_orange));
-                } else if (color.equals("red"))
-                {
+                } else if (color.equals("red")) {
                     viewHolder.text2.setTextColor(context.getResources().getColor(R.color.holo_red));
                     viewHolder.text3.setTextColor(context.getResources().getColor(R.color.holo_red));
                     viewHolder.text4.setTextColor(context.getResources().getColor(R.color.holo_red));
-                } else if (color.equals("purple"))
-                {
+                } else if (color.equals("purple")) {
                     viewHolder.text2.setTextColor(context.getResources().getColor(R.color.holo_purple));
                     viewHolder.text3.setTextColor(context.getResources().getColor(R.color.holo_purple));
                     viewHolder.text4.setTextColor(context.getResources().getColor(R.color.holo_purple));
-                } else if (color.equals("black"))
-                {
+                } else if (color.equals("black")) {
                     viewHolder.text2.setTextColor(context.getResources().getColor(R.color.pitch_black));
                     viewHolder.text3.setTextColor(context.getResources().getColor(R.color.pitch_black));
                     viewHolder.text4.setTextColor(context.getResources().getColor(R.color.pitch_black));
-                } else if (color.equals("grey"))
-                {
+                } else if (color.equals("grey")) {
                     viewHolder.text2.setTextColor(context.getResources().getColor(R.color.grey));
                     viewHolder.text3.setTextColor(context.getResources().getColor(R.color.grey));
                     viewHolder.text4.setTextColor(context.getResources().getColor(R.color.grey));
-                }  else
-                {
+                } else {
                     viewHolder.text2.setTextColor(ctSummaryTextColor);
                     viewHolder.text3.setTextColor(ctSummaryTextColor);
                     viewHolder.text4.setTextColor(ctSummaryTextColor);
@@ -169,52 +157,41 @@ public class BatchDeleteAllArrayAdapter extends ArrayAdapter<String> {
 
                 color = sharedPrefs.getString("name_text_color", "default");
 
-                if (color.equals("blue"))
-                {
+                if (color.equals("blue")) {
                     viewHolder.text.setTextColor(context.getResources().getColor(R.color.holo_blue));
-                } else if (color.equals("white"))
-                {
+                } else if (color.equals("white")) {
                     viewHolder.text.setTextColor(context.getResources().getColor(R.color.white));
-                } else if (color.equals("green"))
-                {
+                } else if (color.equals("green")) {
                     viewHolder.text.setTextColor(context.getResources().getColor(R.color.holo_green));
-                } else if (color.equals("orange"))
-                {
+                } else if (color.equals("orange")) {
                     viewHolder.text.setTextColor(context.getResources().getColor(R.color.holo_orange));
-                } else if (color.equals("red"))
-                {
+                } else if (color.equals("red")) {
                     viewHolder.text.setTextColor(context.getResources().getColor(R.color.holo_red));
-                } else if (color.equals("purple"))
-                {
+                } else if (color.equals("purple")) {
                     viewHolder.text.setTextColor(context.getResources().getColor(R.color.holo_purple));
-                } else if (color.equals("black"))
-                {
+                } else if (color.equals("black")) {
                     viewHolder.text.setTextColor(context.getResources().getColor(R.color.pitch_black));
-                } else if (color.equals("grey"))
-                {
+                } else if (color.equals("grey")) {
                     viewHolder.text.setTextColor(context.getResources().getColor(R.color.grey));
-                }  else
-                {
+                } else {
                     viewHolder.text.setTextColor(sharedPrefs.getInt("ct_nameTextColor", context.getResources().getColor(R.color.black)));
                 }
-            } else
-            {
+            } else {
                 viewHolder.text.setTextColor(sharedPrefs.getInt("ct_nameTextColor", context.getResources().getColor(R.color.black)));
                 viewHolder.text2.setTextColor(ctSummaryTextColor);
                 viewHolder.text3.setTextColor(ctSummaryTextColor);
                 viewHolder.text4.setTextColor(ctSummaryTextColor);
             }
 
-            viewHolder.text.setTextSize((float)Integer.parseInt(textSize2));
-            viewHolder.text2.setTextSize((float)Integer.parseInt(textSize2));
-            viewHolder.text3.setTextSize((float)(Integer.parseInt(textSize2) - 2));
-            viewHolder.text4.setTextSize((float)(Integer.parseInt(textSize2) - 2));
+            viewHolder.text.setTextSize((float) Integer.parseInt(textSize2));
+            viewHolder.text2.setTextSize((float) Integer.parseInt(textSize2));
+            viewHolder.text3.setTextSize((float) (Integer.parseInt(textSize2) - 2));
+            viewHolder.text4.setTextSize((float) (Integer.parseInt(textSize2) - 2));
 
             viewHolder.text3.setText("");
             viewHolder.text4.setText("");
 
-            if (!contactPictures2)
-            {
+            if (!contactPictures2) {
                 viewHolder.image.setVisibility(View.GONE);
                 RelativeLayout.LayoutParams params1 = (RelativeLayout.LayoutParams) viewHolder.text.getLayoutParams();
                 RelativeLayout.LayoutParams params2 = (RelativeLayout.LayoutParams) viewHolder.text2.getLayoutParams();
@@ -231,8 +208,7 @@ public class BatchDeleteAllArrayAdapter extends ArrayAdapter<String> {
 
         final ViewHolder holder = (ViewHolder) contactView.getTag();
 
-        if (ctDarkContactPics)
-        {
+        if (ctDarkContactPics) {
             holder.image.setImageResource(R.drawable.default_avatar_dark);
         } else {
             holder.image.setImageResource(R.drawable.default_avatar);
@@ -248,24 +224,18 @@ public class BatchDeleteAllArrayAdapter extends ArrayAdapter<String> {
                 Spanned text;
                 String names = "";
 
-                if (!hideMessageCounter)
-                {
-                    if (conversations.get(position).getGroup())
-                    {
+                if (!hideMessageCounter) {
+                    if (conversations.get(position).getGroup()) {
                         text = Html.fromHtml("Group MMS");
                         names = ContactUtil.loadGroupContacts(number, context);
-                    } else
-                    {
+                    } else {
                         text = Html.fromHtml(ContactUtil.findContactName(number, context));
                     }
-                } else
-                {
-                    if (conversations.get(position).getGroup())
-                    {
+                } else {
+                    if (conversations.get(position).getGroup()) {
                         text = Html.fromHtml("Group MMS");
                         names = ContactUtil.loadGroupContacts(number, context);
-                    } else
-                    {
+                    } else {
                         text = Html.fromHtml(ContactUtil.findContactName(number, context));
                     }
                 }
@@ -279,42 +249,31 @@ public class BatchDeleteAllArrayAdapter extends ArrayAdapter<String> {
                     public void run() {
                         holder.image.assignContactFromPhone(number, true);
 
-                        if (contactPictures2)
-                        {
-                            if (!conversations.get(position).getGroup())
-                            {
-                                try
-                                {
+                        if (contactPictures2) {
+                            if (!conversations.get(position).getGroup()) {
+                                try {
                                     holder.image.setImageBitmap(Bitmap.createScaledBitmap(image, MainActivity.contactWidth, MainActivity.contactWidth, true));
-                                } catch (Exception e)
-                                {
-                                    if (ctDarkContactPics)
-                                    {
+                                } catch (Exception e) {
+                                    if (ctDarkContactPics) {
                                         holder.image.setImageBitmap(Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(context.getResources().getDrawable(R.drawable.default_avatar_dark), context), MainActivity.contactWidth, MainActivity.contactWidth, true));
-                                    } else
-                                    {
+                                    } else {
                                         holder.image.setImageBitmap(Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(context.getResources().getDrawable(R.drawable.default_avatar), context), MainActivity.contactWidth, MainActivity.contactWidth, true));
                                     }
                                 }
-                            } else
-                            {
-                                if (ctDarkContactPics)
-                                {
+                            } else {
+                                if (ctDarkContactPics) {
                                     holder.image.setImageBitmap(Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(context.getResources().getDrawable(R.drawable.default_avatar_dark), context), MainActivity.contactWidth, MainActivity.contactWidth, true));
-                                } else
-                                {
+                                } else {
                                     holder.image.setImageBitmap(Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(context.getResources().getDrawable(R.drawable.default_avatar), context), MainActivity.contactWidth, MainActivity.contactWidth, true));
                                 }
                             }
-                        } else
-                        {
+                        } else {
                             holder.text2.setPadding(10, 0, 0, 15);
                         }
 
                         holder.text.setText(textF);
 
-                        if (conversations.get(position).getGroup())
-                        {
+                        if (conversations.get(position).getGroup()) {
                             holder.text2.setText(namesF);
                         }
                     }

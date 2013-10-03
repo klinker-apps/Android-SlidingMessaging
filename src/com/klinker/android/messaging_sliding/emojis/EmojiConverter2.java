@@ -2,17 +2,12 @@ package com.klinker.android.messaging_sliding.emojis;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.text.Spannable;
 import android.text.Spannable.Factory;
 import android.text.style.ImageSpan;
 import android.util.TypedValue;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.utils.ContactUtil;
-import com.klinker.android.messaging_donate.utils.Util;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,12 +16,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class EmojiConverter2 {
-	private static final Factory spannableFactory = Spannable.Factory
-	        .getInstance();
+    private static final Factory spannableFactory = Spannable.Factory
+            .getInstance();
 
-	private static final Map<Pattern, Integer> emoticons = new HashMap<Pattern, Integer>();
+    private static final Map<Pattern, Integer> emoticons = new HashMap<Pattern, Integer>();
 
-	static {
+    static {
         addPattern(emoticons, "\u263A", R.drawable.emoji_u263a);
         addPattern(emoticons, "\uD83D\uDE0A", R.drawable.emoji_u1f60a);
         addPattern(emoticons, "\uD83D\uDE00", R.drawable.emoji_u1f600);
@@ -884,43 +879,43 @@ public class EmojiConverter2 {
         addPattern(emoticons, "\uD83C\uDDff", R.drawable.emoji_u1f1ff);
     }
 
-	private static void addPattern(Map<Pattern, Integer> map, String smile,
-	        int resource) {
-	    map.put(Pattern.compile(Pattern.quote(smile)), resource);
-	}
+    private static void addPattern(Map<Pattern, Integer> map, String smile,
+                                   int resource) {
+        map.put(Pattern.compile(Pattern.quote(smile)), resource);
+    }
 
-	public static boolean addSmiles(Context context, Spannable spannable) {
+    public static boolean addSmiles(Context context, Spannable spannable) {
 
-	    boolean hasChanges = false;
-	    for (Entry<Pattern, Integer> entry : emoticons.entrySet()) {
-	        Matcher matcher = entry.getKey().matcher(spannable);
-	        while (matcher.find()) {
-	            boolean set = true;
-	            for (ImageSpan span : spannable.getSpans(matcher.start(),
-	                    matcher.end(), ImageSpan.class))
-	                if (spannable.getSpanStart(span) >= matcher.start()
-	                        && spannable.getSpanEnd(span) <= matcher.end())
-	                    spannable.removeSpan(span);
-	                else {
-	                    set = false;
-	                    break;
-	                }
-	            if (set) {
-	                hasChanges = true;
-	                int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 18, context.getResources().getDisplayMetrics());
-	                Bitmap bitmap = Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(context.getResources().getDrawable(entry.getValue()), context), scale, scale, true);
-	                spannable.setSpan(new ImageSpan(context, bitmap, ImageSpan.ALIGN_BOTTOM),
-	                        matcher.start(), matcher.end(),
-	                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-	            }
-	        }
-	    }
-	    return hasChanges;
-	}
+        boolean hasChanges = false;
+        for (Entry<Pattern, Integer> entry : emoticons.entrySet()) {
+            Matcher matcher = entry.getKey().matcher(spannable);
+            while (matcher.find()) {
+                boolean set = true;
+                for (ImageSpan span : spannable.getSpans(matcher.start(),
+                        matcher.end(), ImageSpan.class))
+                    if (spannable.getSpanStart(span) >= matcher.start()
+                            && spannable.getSpanEnd(span) <= matcher.end())
+                        spannable.removeSpan(span);
+                    else {
+                        set = false;
+                        break;
+                    }
+                if (set) {
+                    hasChanges = true;
+                    int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 18, context.getResources().getDisplayMetrics());
+                    Bitmap bitmap = Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(context.getResources().getDrawable(entry.getValue()), context), scale, scale, true);
+                    spannable.setSpan(new ImageSpan(context, bitmap, ImageSpan.ALIGN_BOTTOM),
+                            matcher.start(), matcher.end(),
+                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                }
+            }
+        }
+        return hasChanges;
+    }
 
-	public static Spannable getSmiledText(Context context, CharSequence text) {
-	    Spannable spannable = spannableFactory.newSpannable(text);
-	    addSmiles(context, spannable);
-	    return spannable;
-	}
+    public static Spannable getSmiledText(Context context, CharSequence text) {
+        Spannable spannable = spannableFactory.newSpannable(text);
+        addSmiles(context, spannable);
+        return spannable;
+    }
 }

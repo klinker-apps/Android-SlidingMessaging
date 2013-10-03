@@ -5,7 +5,6 @@ import android.content.*;
 import android.database.Cursor;
 import android.database.sqlite.SqliteWrapper;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -15,7 +14,6 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.preference.PreferenceManager;
-import android.provider.MediaStore;
 import android.provider.Telephony;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
@@ -34,7 +32,6 @@ import com.klinker.android.messaging_donate.utils.ContactUtil;
 import com.klinker.android.messaging_donate.utils.IOUtil;
 import com.klinker.android.messaging_donate.utils.SendUtil;
 import com.klinker.android.messaging_sliding.MessageCursorAdapter;
-import com.klinker.android.messaging_sliding.receivers.CacheService;
 import com.klinker.android.messaging_sliding.receivers.NotificationReceiver;
 import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
 import com.klinker.android.messaging_sliding.receivers.TextMessageReceiver;
@@ -43,7 +40,7 @@ import com.klinker.android.send_message.Settings;
 import com.klinker.android.send_message.Transaction;
 import com.klinker.android.send_message.Utils;
 
-import java.io.*;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -98,7 +95,7 @@ public class MmsReceiverService extends Service {
     }
 
     private void getLocation() throws Exception {
-        Cursor locationQuery = context.getContentResolver().query(Uri.parse("content://mms/"), new String[] {"ct_l", "thread_id", "_id"}, null, null, "date desc");
+        Cursor locationQuery = context.getContentResolver().query(Uri.parse("content://mms/"), new String[]{"ct_l", "thread_id", "_id"}, null, null, "date desc");
 
         if (locationQuery != null && locationQuery.moveToFirst()) {
             downloadLocation = locationQuery.getString(locationQuery.getColumnIndex("ct_l"));
@@ -112,6 +109,7 @@ public class MmsReceiverService extends Service {
     }
 
     private boolean alreadyReceiving = false;
+
     private void startDownload() {
         revokeWifi(true);
 
@@ -297,7 +295,7 @@ public class MmsReceiverService extends Service {
             SqliteWrapper.update(context, context.getContentResolver(),
                     msgUri, values, null, null);
             SqliteWrapper.delete(context, context.getContentResolver(),
-                    Uri.parse("content://mms/"), "thread_id=? and _id=?", new String[] {threadId, msgId});
+                    Uri.parse("content://mms/"), "thread_id=? and _id=?", new String[]{threadId, msgId});
 
             findImageAndNotify();
         } catch (Exception e) {
@@ -315,11 +313,9 @@ public class MmsReceiverService extends Service {
                 Log.v("attempting_mms_download", "failed");
 
                 if (phoneNumber != null) {
-                    if (sharedPrefs.getBoolean("secure_notification", false))
-                    {
+                    if (sharedPrefs.getBoolean("secure_notification", false)) {
                         makeNotification("New Picture Message", "", null, phoneNumber, "", Calendar.getInstance().getTimeInMillis() + "", context);
-                    } else
-                    {
+                    } else {
                         makeNotification("New Picture Message", phoneNumber, null, phoneNumber, "", Calendar.getInstance().getTimeInMillis() + "", context);
                     }
                 }
@@ -340,7 +336,7 @@ public class MmsReceiverService extends Service {
             e.printStackTrace();
         }
 
-        Cursor query = context.getContentResolver().query(Uri.parse("content://mms/"), new String[] {"_id"}, null, null, null);
+        Cursor query = context.getContentResolver().query(Uri.parse("content://mms/"), new String[]{"_id"}, null, null, null);
         query.moveToFirst();
 
         String selectionPart = "mid=" + query.getString(query.getColumnIndex("_id"));
@@ -370,11 +366,9 @@ public class MmsReceiverService extends Service {
                 if ("image/jpeg".equals(type) || "image/bmp".equals(type) ||
                         "image/gif".equals(type) || "image/jpg".equals(type) ||
                         "image/png".equals(type)) {
-                    if (image == null)
-                    {
+                    if (image == null) {
                         image = "content://mms/part/" + partId;
-                    } else
-                    {
+                    } else {
                         image += " content://mms/part/" + partId;
                     }
                 }
@@ -384,16 +378,12 @@ public class MmsReceiverService extends Service {
         String images[] = image.trim().split(" ");
 
         if (phoneNumber != null) {
-            if (sharedPrefs.getBoolean("secure_notification", false))
-            {
+            if (sharedPrefs.getBoolean("secure_notification", false)) {
                 makeNotification("New MMS Message", "", null, phoneNumber, body, Calendar.getInstance().getTimeInMillis() + "", context);
-            } else
-            {
-                if (images[0].trim().equals(""))
-                {
+            } else {
+                if (images[0].trim().equals("")) {
                     makeNotification(name, body, null, phoneNumber, body, Calendar.getInstance().getTimeInMillis() + "", context);
-                } else
-                {
+                } else {
                     Bitmap b = IOUtil.decodeFile(new File(IOUtil.getPath(Uri.parse(images[0].trim()), context)));
                     makeNotification(name, body, b, phoneNumber, body, Calendar.getInstance().getTimeInMillis() + "", context);
                 }
@@ -416,7 +406,8 @@ public class MmsReceiverService extends Service {
             if (!sharedPrefs.getBoolean("secure_notification", false)) {
                 try {
                     mBuilder.setLargeIcon(ContactUtil.getFacebookPhoto(address, context));
-                } catch (Exception e) { }
+                } catch (Exception e) {
+                }
             }
 
             TextMessageReceiver.setIcon(mBuilder, context);
@@ -469,7 +460,8 @@ public class MmsReceiverService extends Service {
                         }
 
                         mBuilder.setVibrate(pattern);
-                    } catch (Exception e) { }
+                    } catch (Exception e) {
+                    }
                 }
             }
 
@@ -497,7 +489,7 @@ public class MmsReceiverService extends Service {
 
             try {
                 mBuilder.setSound(Uri.parse(sharedPrefs.getString("ringtone", "null")));
-            } catch(Exception e) {
+            } catch (Exception e) {
                 mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
             }
 
@@ -511,7 +503,8 @@ public class MmsReceiverService extends Service {
 
                 try {
                     Looper.prepare();
-                } catch (Exception e) { }
+                } catch (Exception e) {
+                }
 
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -528,7 +521,8 @@ public class MmsReceiverService extends Service {
 
                 try {
                     picBuilder.bigPicture(image);
-                } catch (Exception e) { }
+                } catch (Exception e) {
+                }
 
                 notification = picBuilder.build();
             } else {
@@ -549,7 +543,8 @@ public class MmsReceiverService extends Service {
 
             try {
                 Looper.prepare();
-            } catch (Exception e) { }
+            } catch (Exception e) {
+            }
 
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -583,7 +578,7 @@ public class MmsReceiverService extends Service {
                     if (msgCount == 0) {
                         try {
                             context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/" + id + "/"), null, null);
-                            context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/"), "_id=?", new String[] {id});
+                            context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/"), "_id=?", new String[]{id});
                         } catch (Exception e) {
 
                         }
@@ -592,7 +587,8 @@ public class MmsReceiverService extends Service {
             }
 
             query.close();
-        } catch (Exception e) { }
+        } catch (Exception e) {
+        }
     }
 
     private void reinstateWifi() {

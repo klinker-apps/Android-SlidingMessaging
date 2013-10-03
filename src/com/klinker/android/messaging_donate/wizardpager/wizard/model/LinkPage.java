@@ -49,12 +49,12 @@ public class LinkPage extends Page {
         return !TextUtils.isEmpty(mData.getString(NAME_DATA_KEY));
     }
 
-    public Page setExtra(String message, String link)
-    {
+    public Page setExtra(String message, String link) {
         mMessage = message;
         mLink = link;
         return this;
     }
+
     public String getMessage() {
         return mMessage;
     }

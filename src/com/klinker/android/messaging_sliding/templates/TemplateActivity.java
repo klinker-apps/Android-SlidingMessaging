@@ -31,13 +31,13 @@ import java.util.Arrays;
 import java.util.Locale;
 
 public class TemplateActivity extends Activity {
-	
-	public static Context context;
-	public DragSortListView templates;
-	public Button addNew;
+
+    public static Context context;
+    public DragSortListView templates;
+    public Button addNew;
     public ImageButton delete;
-	public SharedPreferences sharedPrefs;
-	public ArrayList<String> text;
+    public SharedPreferences sharedPrefs;
+    public ArrayList<String> text;
 
     private String[] linkItems;
     private String[] otherItems;
@@ -82,22 +82,22 @@ public class TemplateActivity extends Activity {
                     templates.setAdapter(adapter);
                 }
             };
-	
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.templates);
-		templates = (DragSortListView) findViewById(R.id.templateListView);
-        findViewById(R.id.templateListView2).setVisibility(View.GONE);
-		addNew = (Button) findViewById(R.id.addNewButton);
 
-		sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-		context = this;
-		
-		text = IOUtil.readTemplates(this);
-		
-		adapter = new TemplateArrayAdapter(this, text);
-		templates.setStackFromBottom(false);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.templates);
+        templates = (DragSortListView) findViewById(R.id.templateListView);
+        findViewById(R.id.templateListView2).setVisibility(View.GONE);
+        addNew = (Button) findViewById(R.id.addNewButton);
+
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        context = this;
+
+        text = IOUtil.readTemplates(this);
+
+        adapter = new TemplateArrayAdapter(this, text);
+        templates.setStackFromBottom(false);
         templates.setDropListener(onDrop);
         templates.setRemoveListener(onRemove);
         templates.setAdapter(adapter);
@@ -111,30 +111,28 @@ public class TemplateActivity extends Activity {
         templates.setOnTouchListener(controller);
         templates.setDragEnabled(true);
 
-		
-		if (sharedPrefs.getBoolean("override_lang", false))
-		{
-			String languageToLoad  = "en";
-		    Locale locale = new Locale(languageToLoad); 
-		    Locale.setDefault(locale);
-		    Configuration config = new Configuration();
-		    config.locale = locale;
-		    getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
-		} else
-		{
-			String languageToLoad = Resources.getSystem().getConfiguration().locale.getLanguage();
-		    Locale locale = new Locale(languageToLoad); 
-		    Locale.setDefault(locale);
-		    Configuration config = new Configuration();
-		    config.locale = locale;
-		    getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
-		}
 
-		templates.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        if (sharedPrefs.getBoolean("override_lang", false)) {
+            String languageToLoad = "en";
+            Locale locale = new Locale(languageToLoad);
+            Locale.setDefault(locale);
+            Configuration config = new Configuration();
+            config.locale = locale;
+            getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+        } else {
+            String languageToLoad = Resources.getSystem().getConfiguration().locale.getLanguage();
+            Locale locale = new Locale(languageToLoad);
+            Locale.setDefault(locale);
+            Configuration config = new Configuration();
+            config.locale = locale;
+            getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+        }
+
+        templates.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1,
-                                   final int arg2, long arg3) {
+                                    final int arg2, long arg3) {
                 final EditText input = new EditText(context);
                 input.setText(text.get(arg2));
 
@@ -158,36 +156,36 @@ public class TemplateActivity extends Activity {
 
         });
 
-            addNew.setOnClickListener(new OnClickListener() {
+        addNew.setOnClickListener(new OnClickListener() {
 
-                @Override
-                public void onClick (View arg0){
-                    final EditText input = new EditText(context);
+            @Override
+            public void onClick(View arg0) {
+                final EditText input = new EditText(context);
 
-                    new AlertDialog.Builder(context)
-                            .setTitle(context.getResources().getString(R.string.add_new))
-                            .setView(input)
-                            .setPositiveButton(context.getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    String inputText = input.getText().toString();
-                                    text.add(inputText);
+                new AlertDialog.Builder(context)
+                        .setTitle(context.getResources().getString(R.string.add_new))
+                        .setView(input)
+                        .setPositiveButton(context.getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                String inputText = input.getText().toString();
+                                text.add(inputText);
 
-                                    TemplateArrayAdapter adapter = new TemplateArrayAdapter((Activity) context, text);
-                                    templates.setAdapter(adapter);
-                                }
-                            }).setNegativeButton(context.getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
+                                TemplateArrayAdapter adapter = new TemplateArrayAdapter((Activity) context, text);
+                                templates.setAdapter(adapter);
+                            }
+                        }).setNegativeButton(context.getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
 
-                        }
-                    }).show();
-
-                }
+                    }
+                }).show();
 
             }
 
-            );
+        }
 
-        linkItems = new String[] { getResources().getString(R.string.theme_settings),
+        );
+
+        linkItems = new String[]{getResources().getString(R.string.theme_settings),
                 getResources().getString(R.string.notification_settings),
                 getResources().getString(R.string.popup_settings),
                 getResources().getString(R.string.slideover_settings),
@@ -196,13 +194,13 @@ public class TemplateActivity extends Activity {
                 getResources().getString(R.string.mms_settings),
                 getResources().getString(R.string.google_voice_settings),
                 getResources().getString(R.string.security_settings),
-                getResources().getString(R.string.advanced_settings)   };
+                getResources().getString(R.string.advanced_settings)};
 
-        otherItems = new String[] {getResources().getString(R.string.quick_templates),
+        otherItems = new String[]{getResources().getString(R.string.quick_templates),
                 getResources().getString(R.string.scheduled_sms),
                 getResources().getString(R.string.get_help),
                 getResources().getString(R.string.other_apps),
-                getResources().getString(R.string.rate_it) };
+                getResources().getString(R.string.rate_it)};
 
         DrawerArrayAdapter.current = 0;
         SettingsPagerActivity.settingsLinksActive = false;
@@ -263,7 +261,7 @@ public class TemplateActivity extends Activity {
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-    private class SpinnerClickListener implements  Spinner.OnItemSelectedListener {
+    private class SpinnerClickListener implements Spinner.OnItemSelectedListener {
         @Override
         // sets the string repetition to whatever is choosen from the spinner
         public void onItemSelected(AdapterView<?> parent, View view,
@@ -311,10 +309,10 @@ public class TemplateActivity extends Activity {
                         //onBackPressed();
 
                         Intent mIntent = new Intent(context, SettingsPagerActivity.class);
-                        mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION |Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         mIntent.putExtra("page_number", mPos);
                         startActivity(mIntent);
-                        overridePendingTransition(0,0);
+                        overridePendingTransition(0, 0);
                     }
                 }, 200);
             } else {
@@ -344,7 +342,7 @@ public class TemplateActivity extends Activity {
                                 Intent mIntent = new Intent(context, ScheduledSms.class);
                                 mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(mIntent);
-                                overridePendingTransition(0,0);
+                                overridePendingTransition(0, 0);
                                 //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                             }
                         }, 200);
@@ -357,7 +355,7 @@ public class TemplateActivity extends Activity {
                                 Intent mIntent = new Intent(context, GetHelpSettingsActivity.class);
                                 mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(mIntent);
-                                overridePendingTransition(0,0);
+                                overridePendingTransition(0, 0);
                                 //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                             }
                         }, 200);
@@ -371,7 +369,7 @@ public class TemplateActivity extends Activity {
                                 Intent mIntent = new Intent(context, OtherAppsSettingsActivity.class);
                                 mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(mIntent);
-                                overridePendingTransition(0,0);
+                                overridePendingTransition(0, 0);
                                 //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                             }
                         }, 200);
@@ -421,17 +419,17 @@ public class TemplateActivity extends Activity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
     @Override
-	public void onBackPressed() {
-		IOUtil.writeTemplates(text, this);
+    public void onBackPressed() {
+        IOUtil.writeTemplates(text, this);
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
         finish();
         overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
-	}
+    }
 
-    public Activity getActivity()
-    {
+    public Activity getActivity() {
         return this;
     }
 }

@@ -27,19 +27,19 @@ public class EmojiDialogActivity extends Activity {
     public EditText editText;
     public String message;
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-		final long id = getIntent().getLongExtra("id", -1);
-		final Context context = this;
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        final long id = getIntent().getLongExtra("id", -1);
+        final Context context = this;
 
         message = getIntent().getStringExtra("message");
 
-		setTitle("Insert Emojis");
+        setTitle("Insert Emojis");
         setContentView(R.layout.emoji_frame);
 
         editText = (EditText) findViewById(R.id.emoji_text);
@@ -52,13 +52,11 @@ public class EmojiDialogActivity extends Activity {
         final StickyGridHeadersGridView emojiGrid = (StickyGridHeadersGridView) findViewById(R.id.emojiGrid);
         Button okButton = (Button) findViewById(R.id.emoji_ok);
 
-        if (sharedPrefs.getBoolean("emoji_type", true))
-        {
+        if (sharedPrefs.getBoolean("emoji_type", true)) {
             emojiGrid.setAdapter(new EmojiAdapter2(context));
             emojiGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-                public void onItemClick(AdapterView<?> parent, View v, int position, long id)
-                {
+                public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                     editText.setText(EmojiConverter2.getSmiledText(context, editText.getText().toString() + EmojiAdapter2.mEmojiTexts[position]));
                     editText.setSelection(editText.getText().length());
                 }
@@ -67,87 +65,85 @@ public class EmojiDialogActivity extends Activity {
             peopleButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                        emojiGrid.setSelection(0);
-                    }
+                    emojiGrid.setSelection(0);
+                }
             });
 
             objectsButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                        emojiGrid.setSelection(153 + (2 * 7));
-                    }
+                    emojiGrid.setSelection(153 + (2 * 7));
+                }
             });
 
             natureButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                        emojiGrid.setSelection(153 + 162 + (3 * 7));
-                    }
+                    emojiGrid.setSelection(153 + 162 + (3 * 7));
+                }
             });
 
             placesButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                        emojiGrid.setSelection(153 + 162 + 178 + (5 * 7));
-                    }
+                    emojiGrid.setSelection(153 + 162 + 178 + (5 * 7));
+                }
             });
 
             symbolsButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                        emojiGrid.setSelection(153 + 162 + 178 + 122 + (7 * 7));
-                    }
+                    emojiGrid.setSelection(153 + 162 + 178 + 122 + (7 * 7));
+                }
             });
-		} else
-		{
-			emojiGrid.setAdapter(new EmojiAdapter(context));
-			emojiGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        } else {
+            emojiGrid.setAdapter(new EmojiAdapter(context));
+            emojiGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-				public void onItemClick(AdapterView<?> parent, View v, int position, long id)
-				{
-					editText.setText(EmojiConverter.getSmiledText(context, editText.getText().toString() + EmojiAdapter.mEmojiTexts[position]));
+                public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                    editText.setText(EmojiConverter.getSmiledText(context, editText.getText().toString() + EmojiAdapter.mEmojiTexts[position]));
                     editText.setSelection(editText.getText().length());
-				}
-			});
+                }
+            });
 
-			peopleButton.setMaxHeight(0);
-			objectsButton.setMaxHeight(0);
-			natureButton.setMaxHeight(0);
-			placesButton.setMaxHeight(0);
-			symbolsButton.setMaxHeight(0);
+            peopleButton.setMaxHeight(0);
+            objectsButton.setMaxHeight(0);
+            natureButton.setMaxHeight(0);
+            placesButton.setMaxHeight(0);
+            symbolsButton.setMaxHeight(0);
 
-			LinearLayout buttons = (LinearLayout) findViewById(R.id.linearLayout);
-			buttons.setMinimumHeight(0);
-			buttons.setVisibility(View.GONE);
-		}
+            LinearLayout buttons = (LinearLayout) findViewById(R.id.linearLayout);
+            buttons.setMinimumHeight(0);
+            buttons.setVisibility(View.GONE);
+        }
 
-		okButton.setOnClickListener(new View.OnClickListener() {
+        okButton.setOnClickListener(new View.OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
-				final String editTextHint = context.getResources().getString(R.string.reply_to) + " " + ContactUtil.findContactName(FNReceiver.messages.get(id)[0], context);
+            @Override
+            public void onClick(View v) {
+                final String editTextHint = context.getResources().getString(R.string.reply_to) + " " + ContactUtil.findContactName(FNReceiver.messages.get(id)[0], context);
                 final String previousText = FNReceiver.messages.get(id)[1];
                 final Bitmap image = ContactUtil.getFacebookPhoto(FNReceiver.messages.get(id)[0], context);
                 final Extension.onClickListener imageOnClick = new Extension.onClickListener() {
                     @Override
                     public void onClick() {
-                            Intent intent = new Intent(context, MainActivity.class);
-                            intent.putExtra("com.klinker.android.OPEN_THREAD", FNReceiver.messages.get(id)[0]);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            context.startActivity(intent);
-                            FNReceiver.messages.remove(id);
-                            Extension.remove(id, context);
-                            finish();
+                        Intent intent = new Intent(context, MainActivity.class);
+                        intent.putExtra("com.klinker.android.OPEN_THREAD", FNReceiver.messages.get(id)[0]);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
+                        FNReceiver.messages.remove(id);
+                        Extension.remove(id, context);
+                        finish();
                     }
                 };
 
                 final Extension.onClickListener sendOnClick = new Extension.onClickListener() {
                     @Override
                     public void onClick(String str) {
-                            SendUtil.sendMessage(context, FNReceiver.messages.get(id)[0], str);
-                            Extension.remove(id, context);
-                            FNReceiver.messages.remove(id);
-                            finish();
+                        SendUtil.sendMessage(context, FNReceiver.messages.get(id)[0], str);
+                        Extension.remove(id, context);
+                        FNReceiver.messages.remove(id);
+                        finish();
                     }
                 };
 
@@ -156,21 +152,21 @@ public class EmojiDialogActivity extends Activity {
                 Extension.onClickListener extraOnClick = new Extension.onClickListener() {
                     @Override
                     public void onClick(final String str) {
-                            Intent emojiDialog = new Intent(context, EmojiDialogActivity.class);
-                            emojiDialog.putExtra("id", id);
-                            emojiDialog.putExtra("message", str);
-                            message = str;
-                            emojiDialog.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            context.startActivity(emojiDialog);
+                        Intent emojiDialog = new Intent(context, EmojiDialogActivity.class);
+                        emojiDialog.putExtra("id", id);
+                        emojiDialog.putExtra("message", str);
+                        message = str;
+                        emojiDialog.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(emojiDialog);
                     }
                 };
 
                 Extension.replyOverlay(editTextHint, previousText, image, imageOnClick, sendOnClick, extraOnClick, true, extraButton, context, false, editText.getText().toString());
                 Extension.hideAll(id, context);
-			}
+            }
 
-		});
-	}
+        });
+    }
 
     @Override
     public void onResume() {

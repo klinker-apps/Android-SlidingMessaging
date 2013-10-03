@@ -10,8 +10,8 @@ public class Conversation {
     private String number;
     private boolean group;
 
-    public Conversation (long threadId, int count, String read, String body,
-                         long date, String number) {
+    public Conversation(long threadId, int count, String read, String body,
+                        long date, String number) {
         this.threadId = threadId;
         this.count = count;
         this.read = read.equals("1");

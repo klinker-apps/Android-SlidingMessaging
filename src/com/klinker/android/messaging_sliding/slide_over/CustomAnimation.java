@@ -15,9 +15,9 @@ public abstract class CustomAnimation extends Thread {
         running = run;
     }
 
-    private final static int 	MAX_FPS = 120;
-    private final static int	MAX_FRAME_SKIPS = 5;
-    private final static int	FRAME_PERIOD = 1000 / MAX_FPS;
+    private final static int MAX_FPS = 120;
+    private final static int MAX_FRAME_SKIPS = 5;
+    private final static int FRAME_PERIOD = 1000 / MAX_FPS;
 
     @Override
     public void run() {
@@ -35,12 +35,13 @@ public abstract class CustomAnimation extends Thread {
                 view.postInvalidate();
 
                 timeDiff = System.currentTimeMillis() - beginTime;
-                sleepTime = (int)(FRAME_PERIOD - timeDiff);
+                sleepTime = (int) (FRAME_PERIOD - timeDiff);
 
                 if (sleepTime > 0) {
                     try {
                         Thread.sleep(sleepTime);
-                    } catch (InterruptedException e) {}
+                    } catch (InterruptedException e) {
+                    }
                 }
 
                 while (sleepTime < 0 && framesSkipped < MAX_FRAME_SKIPS) {

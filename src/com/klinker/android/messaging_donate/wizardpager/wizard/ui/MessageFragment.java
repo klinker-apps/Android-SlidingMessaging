@@ -59,7 +59,7 @@ public class MessageFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_page_message, container, false);
 
         TextView titleView = (TextView) rootView.findViewById(android.R.id.title);
@@ -71,7 +71,7 @@ public class MessageFragment extends Fragment {
         Linkify.addLinks(messageView, Linkify.ALL);
 
         //if(mPage.getTitle().equals("Notes"))
-            //((TextView) rootView.findViewById(android.R.id.title)).setTextColor(getResources().getColor(R.color.review_green));
+        //((TextView) rootView.findViewById(android.R.id.title)).setTextColor(getResources().getColor(R.color.review_green));
 
         return rootView;
     }

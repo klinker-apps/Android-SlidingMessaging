@@ -22,10 +22,7 @@ import android.provider.ContactsContract;
 import android.provider.ContactsContract.PhoneLookup;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
-import android.telephony.PhoneNumberUtils;
 import android.telephony.SmsMessage;
-import android.text.Editable;
-import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.util.TypedValue;
 import com.klinker.android.messaging_donate.MainActivity;
@@ -47,21 +44,21 @@ import java.util.*;
 
 @SuppressWarnings("deprecation")
 public class TextMessageReceiver extends BroadcastReceiver {
-	public static final String SMS_EXTRA_NAME = "pdus";
-	public SharedPreferences sharedPrefs;
+    public static final String SMS_EXTRA_NAME = "pdus";
+    public SharedPreferences sharedPrefs;
 
     private boolean alert = true;
-	
-	@SuppressLint("Wakelock")
-	public void onReceive(final Context context, Intent intent) {
-		try {
-	        Bundle extras = intent.getExtras();
-	         
-	        String body = "";
-	        String address = "";
-	        String name = "";
-	        String id;
-	        String date = "";
+
+    @SuppressLint("Wakelock")
+    public void onReceive(final Context context, Intent intent) {
+        try {
+            Bundle extras = intent.getExtras();
+
+            String body = "";
+            String address = "";
+            String name = "";
+            String id;
+            String date = "";
             String dateReceived;
 
             boolean voiceMessage = intent.getBooleanExtra("voice_message", false);
@@ -70,17 +67,16 @@ public class TextMessageReceiver extends BroadcastReceiver {
 
             // gets the message details depending on voice or sms
             if (!voiceMessage) {
-                if ( extras != null ) {
-                        Object[] smsExtra = (Object[]) extras.get( SMS_EXTRA_NAME );
+                if (extras != null) {
+                    Object[] smsExtra = (Object[]) extras.get(SMS_EXTRA_NAME);
 
-                        for ( int i = 0; i < smsExtra.length; ++i )
-                        {
-                            SmsMessage sms = SmsMessage.createFromPdu((byte[])smsExtra[i]);
+                    for (int i = 0; i < smsExtra.length; ++i) {
+                        SmsMessage sms = SmsMessage.createFromPdu((byte[]) smsExtra[i]);
 
-                            body += sms.getMessageBody().toString();
-                            address = sms.getOriginatingAddress();
-                            date = sms.getTimestampMillis() + "";
-                        }
+                        body += sms.getMessageBody().toString();
+                        address = sms.getOriginatingAddress();
+                        date = sms.getTimestampMillis() + "";
+                    }
                 } else {
                     return;
                 }
@@ -103,89 +99,89 @@ public class TextMessageReceiver extends BroadcastReceiver {
             fnReceiver.putExtra("address", origAddress);
             fnReceiver.putExtra("body", origBody);
             context.sendBroadcast(fnReceiver);
-	        
-	        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+            sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
             // dont alert during a call if not desired
-            if(!sharedPrefs.getBoolean("alert_in_call", true) && isCallActive(context)) {
+            if (!sharedPrefs.getBoolean("alert_in_call", true) && isCallActive(context)) {
                 alert = false;
             }
 
             // checks against the saved blacklist list
-	        ArrayList<BlacklistContact> blacklist = IOUtil.readBlacklist(context);
-	        int blacklistType = 0;
-	        
-	        for (int i = 0; i < blacklist.size(); i++) {
-	        	if (blacklist.get(i).name.equals(address.replace("-", "").replace("(", "").replace(")", "").replace(" ", "").replace("+1", ""))) {
-	        		blacklistType = blacklist.get(i).type;
-	        	}
-	        }
+            ArrayList<BlacklistContact> blacklist = IOUtil.readBlacklist(context);
+            int blacklistType = 0;
+
+            for (int i = 0; i < blacklist.size(); i++) {
+                if (blacklist.get(i).name.equals(address.replace("-", "").replace("(", "").replace(")", "").replace(" ", "").replace("+1", ""))) {
+                    blacklistType = blacklist.get(i).type;
+                }
+            }
 
             final ArrayList<String> prevNotifications = IOUtil.readNotifications(context);
-	        
-	        if (blacklistType == 2) {
+
+            if (blacklistType == 2) {
                 // don't do anything with message if severely blacklisted
-	        	abortBroadcast();
-	        } else {
+                abortBroadcast();
+            } else {
                 // if overriding stock or its a voice message, save the messages
-		        if (sharedPrefs.getBoolean("override", false) || voiceMessage) {
-		        	ContentValues values = new ContentValues();
-			        values.put("address", address);
-			        values.put("body", body);
-			        values.put("date", dateReceived);
-			        values.put("read", "0");
-			        values.put("date_sent", date);
+                if (sharedPrefs.getBoolean("override", false) || voiceMessage) {
+                    ContentValues values = new ContentValues();
+                    values.put("address", address);
+                    values.put("body", body);
+                    values.put("date", dateReceived);
+                    values.put("read", "0");
+                    values.put("date_sent", date);
 
                     if (voiceMessage) {
                         values.put("status", 2);
                     }
 
-			        context.getContentResolver().insert(Uri.parse("content://sms/inbox"), values);
-		        }
+                    context.getContentResolver().insert(Uri.parse("content://sms/inbox"), values);
+                }
 
                 // if notification is to be given for the message because it is not blacklisted
-		        if (blacklistType != 1) {
-			        Bundle bundle = new Bundle();
-			        bundle.putString("body", body);
-			        bundle.putString("date", date);
-			        bundle.putString("address", address);
-			        
-			        String origin = address.replace("(", "").replace(")", "").replace("-", "").replace(" ", "");
+                if (blacklistType != 1) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("body", body);
+                    bundle.putString("date", date);
+                    bundle.putString("address", address);
+
+                    String origin = address.replace("(", "").replace(")", "").replace("-", "").replace(" ", "");
 
                     // find the name and id of the contact
-			        try {
-						name = ContactUtil.findContactName(origin, context);
+                    try {
+                        name = ContactUtil.findContactName(origin, context);
 
-						ArrayList<String> newMessages = IOUtil.readNewMessages(context);
-						boolean flag = false;
-						for (int i = 0; i < newMessages.size(); i++) {
-							if (name.equals(newMessages.get(i))) {
-								flag = true;
-							}
-						}
-						if (!flag) {
-							newMessages.add(name);
-						}
+                        ArrayList<String> newMessages = IOUtil.readNewMessages(context);
+                        boolean flag = false;
+                        for (int i = 0; i < newMessages.size(); i++) {
+                            if (name.equals(newMessages.get(i))) {
+                                flag = true;
+                            }
+                        }
+                        if (!flag) {
+                            newMessages.add(name);
+                        }
 
-						IOUtil.writeNewMessages(newMessages, context);
+                        IOUtil.writeNewMessages(newMessages, context);
 
                         Uri phoneUri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(origin));
-						Cursor phonesCursor = context.getContentResolver().query(phoneUri, new String[] {ContactsContract.Contacts._ID}, null, null, null);
-				
-						if(phonesCursor != null && phonesCursor.moveToFirst()) {
-							id = phonesCursor.getString(0);
-						} else {
-							id = "0";
+                        Cursor phonesCursor = context.getContentResolver().query(phoneUri, new String[]{ContactsContract.Contacts._ID}, null, null, null);
+
+                        if (phonesCursor != null && phonesCursor.moveToFirst()) {
+                            id = phonesCursor.getString(0);
+                        } else {
+                            id = "0";
                         }
-						
-						phonesCursor.close();
-			        } catch (IllegalArgumentException e) {
-			        	name = address;
-			        	id = "0";
-			        }
+
+                        phonesCursor.close();
+                    } catch (IllegalArgumentException e) {
+                        name = address;
+                        id = "0";
+                    }
 
                     // get the display picture for the contact and size it according to how high the notification is, 64dp
-				    InputStream input = ContactUtil.openDisplayPhoto(Long.parseLong(id), context);
+                    InputStream input = ContactUtil.openDisplayPhoto(Long.parseLong(id), context);
                     Bitmap contactImage;
                     try {
                         int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 64, context.getResources().getDisplayMetrics());
@@ -195,15 +191,15 @@ public class TextMessageReceiver extends BroadcastReceiver {
                     }
 
                     // begin setting up the reply button pending intent
-					Intent intent2 = new Intent(context, CardQuickReply.class);
+                    Intent intent2 = new Intent(context, CardQuickReply.class);
                     intent2.putExtra("address", origAddress);
                     intent2.putExtra("body", origBody);
                     intent2.putExtra("date", origDate);
                     int pIntentExtra = PendingIntent.FLAG_UPDATE_CURRENT;
 
                     // if you should use the oldest popup
-					if (sharedPrefs.getBoolean("use_old_popup", false)) {
-						intent2 = new Intent(context, QuickReply.class);
+                    if (sharedPrefs.getBoolean("use_old_popup", false)) {
+                        intent2 = new Intent(context, QuickReply.class);
                         pIntentExtra = 0;
                     }
 
@@ -232,35 +228,35 @@ public class TextMessageReceiver extends BroadcastReceiver {
 
                     // create the pending intent
                     intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-					intent2.putExtra("notification", "true");
-					PendingIntent pIntent = PendingIntent.getActivity(context, 0, intent2, pIntentExtra);
+                    intent2.putExtra("notification", "true");
+                    PendingIntent pIntent = PendingIntent.getActivity(context, 0, intent2, pIntentExtra);
 
                     // if notifiations for the app are enabled
-					if (sharedPrefs.getBoolean("notifications", true)) {
+                    if (sharedPrefs.getBoolean("notifications", true)) {
                         // if we want to wake the screen on a new message
-						if (sharedPrefs.getBoolean("wake_screen", false)) {
-							PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-				            final WakeLock wakeLock = pm.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "TAG");
-				            wakeLock.acquire(Long.parseLong(sharedPrefs.getString("screen_timeout", "5"))*1000);
-						}
+                        if (sharedPrefs.getBoolean("wake_screen", false)) {
+                            PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+                            final WakeLock wakeLock = pm.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "TAG");
+                            wakeLock.acquire(Long.parseLong(sharedPrefs.getString("screen_timeout", "5")) * 1000);
+                        }
 
                         // pending intent for calling the user
-				        Intent callIntent = new Intent(Intent.ACTION_CALL);
-				        callIntent.setData(Uri.parse("tel:"+address));
-				        callIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				        PendingIntent callPendingIntent = PendingIntent.getActivity(context, 0, callIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                        Intent callIntent = new Intent(Intent.ACTION_CALL);
+                        callIntent.setData(Uri.parse("tel:" + address));
+                        callIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        PendingIntent callPendingIntent = PendingIntent.getActivity(context, 0, callIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
                         // pending intent for marking all messages as read
-				        Intent mrIntent = new Intent();
+                        Intent mrIntent = new Intent();
                         mrIntent.setClass(context, QmMarkRead2.class);
-			            PendingIntent mrPendingIntent = PendingIntent.getService(context, 0, mrIntent,
-			                    PendingIntent.FLAG_UPDATE_CURRENT);
+                        PendingIntent mrPendingIntent = PendingIntent.getService(context, 0, mrIntent,
+                                PendingIntent.FLAG_UPDATE_CURRENT);
 
                         // pending intent for deleting the specified message
-			            Intent deleterIntent = new Intent();
-			            deleterIntent.setClass(context, QmDelete.class);
-			            PendingIntent deletePendingIntent = PendingIntent.getService(context, 0, deleterIntent,
-			                    PendingIntent.FLAG_UPDATE_CURRENT);
+                        Intent deleterIntent = new Intent();
+                        deleterIntent.setClass(context, QmDelete.class);
+                        PendingIntent deletePendingIntent = PendingIntent.getService(context, 0, deleterIntent,
+                                PendingIntent.FLAG_UPDATE_CURRENT);
 
                         // get the buttons that the user has enabled
                         HashSet<String> set = new HashSet<String>();
@@ -274,41 +270,41 @@ public class TextMessageReceiver extends BroadcastReceiver {
                             buttonArray[i] = Integer.parseInt((String) buttons.toArray()[i]);
                         }
                         Arrays.sort(buttonArray);
-				        
-			            if (!sharedPrefs.getBoolean("secure_notification", false)) {
-					        if (prevNotifications.size() == 0) {
+
+                        if (!sharedPrefs.getBoolean("secure_notification", false)) {
+                            if (prevNotifications.size() == 0) {
                                 // single new notification
                                 makeNotification(name, body, name + ": " + body, origAddress, body, dateReceived, contactImage, buttonArray, pIntent, mrPendingIntent, callPendingIntent, deletePendingIntent, 1, prevNotifications, alert, context);
-					        } else if (prevNotifications.size() == 1 && prevNotifications.get(0).startsWith(name)) {
+                            } else if (prevNotifications.size() == 1 && prevNotifications.get(0).startsWith(name)) {
                                 // add onto previous notification because it is the same person again and no others
-					        	String body2 = prevNotifications.get(0);
-					        	
-					        	for (int i = 0; i < body2.length() - 1; i++) {
-					        		if (body2.substring(i, i+1).equals(":")) {
-					        			body2 = body2.substring(i+1);
-					        			break;
-					        		}
-					        	}
+                                String body2 = prevNotifications.get(0);
+
+                                for (int i = 0; i < body2.length() - 1; i++) {
+                                    if (body2.substring(i, i + 1).equals(":")) {
+                                        body2 = body2.substring(i + 1);
+                                        break;
+                                    }
+                                }
 
                                 if (sharedPrefs.getBoolean("stack_notifications", true)) {
-					        	    body = body2 + " | " + body;
+                                    body = body2 + " | " + body;
                                 }
 
                                 makeNotification(name, body, name + ": " + body, origAddress, body, dateReceived, contactImage, buttonArray, pIntent, mrPendingIntent, callPendingIntent, deletePendingIntent, 2, prevNotifications, alert, context);
-					        } else {
+                            } else {
                                 makeNotification(prevNotifications.size() + 1 + " New Messages", body, prevNotifications.size() + 1 + " New Messages", origAddress, body, dateReceived, contactImage, buttonArray, pIntent, mrPendingIntent, callPendingIntent, deletePendingIntent, 3, prevNotifications, alert, context);
-					        }
-			            } else {
-			            	if (prevNotifications.size() == 0) {
+                            }
+                        } else {
+                            if (prevNotifications.size() == 0) {
                                 makeNotification("New Message", "", "New Message", origAddress, body, dateReceived, contactImage, buttonArray, pIntent, mrPendingIntent, callPendingIntent, deletePendingIntent, 1, prevNotifications, alert, context);
-					        } else {
+                            } else {
                                 makeNotification("New Messages", "", "New Messages", origAddress, body, dateReceived, contactImage, buttonArray, pIntent, mrPendingIntent, callPendingIntent, deletePendingIntent, 1, prevNotifications, alert, context);
-					        }
-			            }
-					}
-		        }
-		        
-		        MainActivity.messageRecieved = true;
+                            }
+                        }
+                    }
+                }
+
+                MainActivity.messageRecieved = true;
 
                 if (!Util.isRunning(context)) {
                     Intent updateHalo = new Intent("com.klinker.android.messaging.UPDATE_HALO");
@@ -316,46 +312,46 @@ public class TextMessageReceiver extends BroadcastReceiver {
                     updateHalo.putExtra("message", body);
                     context.sendBroadcast(updateHalo);
                 }
-		        
-		        if (!Util.isRunning(context) && blacklistType != 1) {
-		        	Handler handler = new Handler();
-		        	handler.postDelayed(new Runnable() {
-	
-						@Override
-						public void run() {
-							if (sharedPrefs.getBoolean("popup_reply", false) && !sharedPrefs.getBoolean("secure_notification", false)) {
-					        	Intent intent3 = new Intent(context, CardQuickReply.class);
+
+                if (!Util.isRunning(context) && blacklistType != 1) {
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            if (sharedPrefs.getBoolean("popup_reply", false) && !sharedPrefs.getBoolean("secure_notification", false)) {
+                                Intent intent3 = new Intent(context, CardQuickReply.class);
                                 intent3.putExtra("address", origAddress);
                                 intent3.putExtra("body", origBody);
                                 intent3.putExtra("date", origDate);
-					        	
-					        	if (sharedPrefs.getBoolean("use_old_popup", false)) {
-									intent3 = new Intent(context, QuickReply.class);
-								}
 
-								if (sharedPrefs.getBoolean("halo_popup", false) || sharedPrefs.getBoolean("full_app_popup", true)) {
-									boolean halo = sharedPrefs.getBoolean("halo_popup", false);
-									
-									if (halo) {
-										intent3 = new Intent(context, MainActivity.class);
-									} else {
-										intent3 = new Intent(context, com.klinker.android.messaging_sliding.MainActivityPopup.class);
+                                if (sharedPrefs.getBoolean("use_old_popup", false)) {
+                                    intent3 = new Intent(context, QuickReply.class);
+                                }
+
+                                if (sharedPrefs.getBoolean("halo_popup", false) || sharedPrefs.getBoolean("full_app_popup", true)) {
+                                    boolean halo = sharedPrefs.getBoolean("halo_popup", false);
+
+                                    if (halo) {
+                                        intent3 = new Intent(context, MainActivity.class);
+                                    } else {
+                                        intent3 = new Intent(context, com.klinker.android.messaging_sliding.MainActivityPopup.class);
 
                                         if (prevNotifications.size() > 0) {
                                             intent3.putExtra("multipleNew", true);
                                         }
-									}
+                                    }
 
-									try {
-										if (halo) {
-											intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | 0x00002000);
+                                    try {
+                                        if (halo) {
+                                            intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | 0x00002000);
                                             intent3.putExtra("halo_popup", true);
-										} else {
-											intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-										}
-									} catch (Exception e) {
-										intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-									}
+                                        } else {
+                                            intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        }
+                                    } catch (Exception e) {
+                                        intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    }
 
                                     PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
 
@@ -373,16 +369,16 @@ public class TextMessageReceiver extends BroadcastReceiver {
                                     } else {
                                         UnlockReceiver.openApp = true;
                                     }
-								} else {
-									intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                } else {
+                                    intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     context.startActivity(intent3);
-								}
-					        }
-							
-						}
-		        		
-		        	}, 200);
-		        }
+                                }
+                            }
+
+                        }
+
+                    }, 200);
+                }
 
                 if (voiceMessage) {
                     Intent voice = new Intent("com.klinker.android.messaging.NEW_MMS");
@@ -391,15 +387,17 @@ public class TextMessageReceiver extends BroadcastReceiver {
                     voice.putExtra("date", date);
                     context.sendBroadcast(voice);
                 }
-		        
-		        if (sharedPrefs.getBoolean("override", false)) {
+
+                if (sharedPrefs.getBoolean("override", false)) {
                     try {
-		        	    this.abortBroadcast();
-                    } catch (Exception e) { }
-		        }
-	        }
-		} catch (Exception e) { }
-	}
+                        this.abortBroadcast();
+                    } catch (Exception e) {
+                    }
+                }
+            }
+        } catch (Exception e) {
+        }
+    }
 
     public static void setIcon(NotificationCompat.Builder mBuilder, Context context) {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -503,37 +501,37 @@ public class TextMessageReceiver extends BroadcastReceiver {
             mBuilder.setSmallIcon(R.drawable.stat_notify_sms_breath);
         }
     }
-	
-	public static boolean individualNotification(NotificationCompat.Builder mBuilder, String name, Context context, boolean alert) {
-		ArrayList<IndividualSetting> individuals = IOUtil.readIndividualNotifications(context);
-		
-		for (int i = 0; i < individuals.size(); i++) {
-			if (individuals.get(i).name.equals(name)) {
-                if (alert)
-				    mBuilder.setSound(Uri.parse(individuals.get(i).ringtone));
-				
-				try {
-					String[] vibPat = individuals.get(i).vibratePattern.replace("L", "").split(", ");
-	        		long[] pattern = new long[vibPat.length];
-	        		
-	        		for (int j = 0; j < vibPat.length; j++) {
-	        			pattern[j] = Long.parseLong(vibPat[j]);
-	        		}
 
-	        		if (alert)
-	        		    mBuilder.setVibrate(pattern);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-        		
-        		mBuilder.setLights(individuals.get(i).color, PreferenceManager.getDefaultSharedPreferences(context).getInt("led_on_time", 1000), PreferenceManager.getDefaultSharedPreferences(context).getInt("led_off_time", 2000));
-        		
-        		return true;
-			}
-		}
-		
-		return false;
-	}
+    public static boolean individualNotification(NotificationCompat.Builder mBuilder, String name, Context context, boolean alert) {
+        ArrayList<IndividualSetting> individuals = IOUtil.readIndividualNotifications(context);
+
+        for (int i = 0; i < individuals.size(); i++) {
+            if (individuals.get(i).name.equals(name)) {
+                if (alert)
+                    mBuilder.setSound(Uri.parse(individuals.get(i).ringtone));
+
+                try {
+                    String[] vibPat = individuals.get(i).vibratePattern.replace("L", "").split(", ");
+                    long[] pattern = new long[vibPat.length];
+
+                    for (int j = 0; j < vibPat.length; j++) {
+                        pattern[j] = Long.parseLong(vibPat[j]);
+                    }
+
+                    if (alert)
+                        mBuilder.setVibrate(pattern);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                mBuilder.setLights(individuals.get(i).color, PreferenceManager.getDefaultSharedPreferences(context).getInt("led_on_time", 1000), PreferenceManager.getDefaultSharedPreferences(context).getInt("led_off_time", 2000));
+
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     private void makeNotification(String title, String text, String ticker, String address, String body, String date, Bitmap contactImage,
                                   int[] buttonArray, PendingIntent pIntent, PendingIntent mrPendingIntent, PendingIntent callPendingIntent,
@@ -553,7 +551,8 @@ public class TextMessageReceiver extends BroadcastReceiver {
             if (!sharedPrefs.getBoolean("secure_notification", false) && contactImage != null) {
                 try {
                     mBuilder.setLargeIcon(contactImage);
-                } catch (Exception e) { }
+                } catch (Exception e) {
+                }
             }
 
             TextMessageReceiver.setIcon(mBuilder, context);
@@ -624,7 +623,8 @@ public class TextMessageReceiver extends BroadcastReceiver {
                             }
 
                             mBuilder.setVibrate(pattern);
-                        } catch (Exception e) { }
+                        } catch (Exception e) {
+                        }
                     }
                 }
 
@@ -653,7 +653,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
                 if (alert) {
                     try {
                         mBuilder.setSound(Uri.parse(sharedPrefs.getString("ringtone", "null")));
-                    } catch(Exception e) {
+                    } catch (Exception e) {
                         mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
                     }
                 }
@@ -669,7 +669,8 @@ public class TextMessageReceiver extends BroadcastReceiver {
 
                 try {
                     Looper.prepare();
-                } catch (Exception e) { }
+                } catch (Exception e) {
+                }
 
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -689,8 +690,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
                 NotificationCompat.InboxStyle not = new NotificationCompat.InboxStyle(mBuilder);
                 prevNotifications.add(ContactUtil.findContactName(address, context) + ": " + body);
 
-                for (int i = 0; i < prevNotifications.size(); i++)
-                {
+                for (int i = 0; i < prevNotifications.size(); i++) {
                     not.addLine(prevNotifications.get(i));
                 }
 
@@ -712,14 +712,19 @@ public class TextMessageReceiver extends BroadcastReceiver {
 
             try {
                 Looper.prepare();
-            } catch (Exception e) { }
+            } catch (Exception e) {
+            }
 
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    context.sendBroadcast(newMms);
-                }
-            }, 1000);
+            if (sharedPrefs.getBoolean("override_stock", false)) {
+                context.sendBroadcast(newMms);
+            } else {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        context.sendBroadcast(newMms);
+                    }
+                }, 1000);
+            }
 
             if (!sharedPrefs.getString("repeating_notification", "none").equals("none")) {
                 Calendar cal = Calendar.getInstance();
@@ -734,12 +739,11 @@ public class TextMessageReceiver extends BroadcastReceiver {
         }
     }
 
-    public static boolean isCallActive(Context context){
-        AudioManager manager = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
-        if(manager.getMode()==AudioManager.MODE_IN_CALL){
+    public static boolean isCallActive(Context context) {
+        AudioManager manager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        if (manager.getMode() == AudioManager.MODE_IN_CALL) {
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }

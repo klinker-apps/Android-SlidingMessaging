@@ -1,10 +1,6 @@
 package com.klinker.android.messaging_sliding.slide_over;
 
-import android.app.ActivityManager;
-import android.app.AlarmManager;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.app.Service;
+import android.app.*;
 import android.content.*;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -43,7 +39,7 @@ public class SlideOverService extends Service {
     public WindowManager.LayoutParams arcParams;
     public WindowManager.LayoutParams arcParamsNoBack;
     public WindowManager.LayoutParams animationParams;
-    
+
     private GestureDetector mGestureDetector;
 
     public Context mContext;
@@ -67,7 +63,7 @@ public class SlideOverService extends Service {
     public static final int START_ALPHA = 60;
     public static final int START_ALPHA2 = 120;
     public static final int TOUCHED_ALPHA = 230;
-    
+
     public static boolean HAPTIC_FEEDBACK = true;
 
     public int numberNewConv;
@@ -125,7 +121,7 @@ public class SlideOverService extends Service {
         super.onCreate();
 
         // gets the display
-        Display d = ((WindowManager)getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+        Display d = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         final int height = d.getHeight();
         final int width = d.getWidth();
 
@@ -140,8 +136,8 @@ public class SlideOverService extends Service {
 
             @Override
             public boolean onTouch(View view, MotionEvent event) {
-            
-            mGestureDetector.onTouchEvent(event);
+
+                mGestureDetector.onTouchEvent(event);
 
                 if ((event.getX() > haloView.getX() && event.getX() < haloView.getX() + halo.getWidth() && event.getY() > haloView.getY() && event.getY() < haloView.getY() + halo.getHeight()) || needDetection) {
                     final int type = event.getActionMasked();
@@ -157,7 +153,7 @@ public class SlideOverService extends Service {
 
                                 if (changingSliver) {
                                     changeSliverWidth(halo, event, width);
-                                } else if(movingBubble) {
+                                } else if (movingBubble) {
                                     movingHalo(halo, event);
                                 } else {
                                     noMessagesMove(event, height, width);
@@ -195,7 +191,7 @@ public class SlideOverService extends Service {
 
                                 if (changingSliver) {
                                     changeSliverWidth(halo, event, width);
-                                } else if(movingBubble) {
+                                } else if (movingBubble) {
                                     movingHalo(halo, event);
                                 } else {
                                     messagesMove(event, height, width, zoneWidth);
@@ -255,7 +251,7 @@ public class SlideOverService extends Service {
         filter = new IntentFilter();
         filter.addAction("android.intent.action.CONFIGURATION_CHANGED");
         this.registerReceiver(mBroadcastReceiver, filter);
-        
+
         filter = new IntentFilter();
         filter.addAction("com.klinker.android.messaging.UPDATE_HALO");
         this.registerReceiver(newMessageReceived, filter);
@@ -268,7 +264,7 @@ public class SlideOverService extends Service {
         filter.addAction(BCAST_CONFIGCHANGED);
         this.registerReceiver(orientationChange, filter);
     }
-    
+
     class GestureListener extends GestureDetector.SimpleOnGestureListener {
 
         @Override
@@ -365,7 +361,7 @@ public class SlideOverService extends Service {
         }
 
         @Override
-        public void onLongPress(MotionEvent event){
+        public void onLongPress(MotionEvent event) {
             // Move slideover bubble
             if (!sharedPrefs.getBoolean("slideover_disable_drag", false)) {
                 try {
@@ -387,8 +383,7 @@ public class SlideOverService extends Service {
         }
     }
 
-    public void initialSetup(Bitmap halo, int height, int width)
-    {
+    public void initialSetup(Bitmap halo, int height, int width) {
         mContext = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
 
@@ -400,7 +395,7 @@ public class SlideOverService extends Service {
         float breakAng = 0;
         breakAng += breakAngle;
 
-        HALO_SLIVER_RATIO = sharedPrefs.getInt("slideover_sliver", 33)/100.0;
+        HALO_SLIVER_RATIO = sharedPrefs.getInt("slideover_sliver", 33) / 100.0;
         PERCENT_DOWN_SCREEN = sharedPrefs.getFloat("slideover_downscreen", 0);
         HAPTIC_FEEDBACK = sharedPrefs.getBoolean("slideover_haptic_feedback", true);
         ARC_BREAK_POINT = breakAng * .9f;
@@ -408,9 +403,9 @@ public class SlideOverService extends Service {
         setParams(halo, height, width);
 
         if (width > height)
-            SWIPE_MIN_DISTANCE = (int)(height * (sharedPrefs.getInt("slideover_activation", 33)/100.0));
+            SWIPE_MIN_DISTANCE = (int) (height * (sharedPrefs.getInt("slideover_activation", 33) / 100.0));
         else
-            SWIPE_MIN_DISTANCE = (int)(width * (sharedPrefs.getInt("slideover_activation", 33)/100.0));
+            SWIPE_MIN_DISTANCE = (int) (width * (sharedPrefs.getInt("slideover_activation", 33) / 100.0));
 
         haloView = new HaloView(this);
         arcView = new ArcView(this, halo, SWIPE_MIN_DISTANCE, ARC_BREAK_POINT, HALO_SLIVER_RATIO);
@@ -419,7 +414,7 @@ public class SlideOverService extends Service {
         contactView = new ContactView(this);
 
         numberNewConv = arcView.newConversations.size();
-        
+
         mGestureDetector = new GestureDetector(mContext, new GestureListener());
 
         messageBoxRunnable = new Runnable() {
@@ -459,8 +454,7 @@ public class SlideOverService extends Service {
         windowOffsetY = 50;
     }
 
-    public void setParams(Bitmap halo, int height, int width)
-    {
+    public void setParams(Bitmap halo, int height, int width) {
         messageWindowParams = new WindowManager.LayoutParams(
                 width - 100,  // 50 pixels on each side
                 toDP(160),        // 160 dp tall
@@ -468,9 +462,9 @@ public class SlideOverService extends Service {
                 50 + toDP(63),         // 50 plus the height of the contactParams down the screen (plus 3 dp margin)
                 WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                        |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
-                        |WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
-                        |WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                        | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+                        | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
+                        | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 PixelFormat.TRANSLUCENT);
         messageWindowParams.gravity = Gravity.TOP | Gravity.LEFT;
         messageWindowParams.windowAnimations = android.R.style.Animation_InputMethod;
@@ -482,9 +476,9 @@ public class SlideOverService extends Service {
                 50,         // 50 pixels down the screen
                 WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                        |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
-                        |WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
-                        |WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                        | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+                        | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
+                        | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 PixelFormat.TRANSLUCENT);
         contactParams.gravity = Gravity.TOP | Gravity.LEFT;
         contactParams.windowAnimations = android.R.style.Animation_Toast;
@@ -496,9 +490,9 @@ public class SlideOverService extends Service {
                 (int) sharedPrefs.getFloat("slideover_downscreen", 0),
                 WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                        |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
-                        |WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
-                        |WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                        | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+                        | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
+                        | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 PixelFormat.TRANSLUCENT);
         haloParams.gravity = Gravity.TOP | Gravity.LEFT;
         haloParams.windowAnimations = android.R.style.Animation_Toast;
@@ -519,25 +513,25 @@ public class SlideOverService extends Service {
         arcParams = new WindowManager.LayoutParams(
                 WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                        |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
-                        |WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
-                        |WindowManager.LayoutParams.FLAG_DIM_BEHIND,
+                        | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+                        | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
+                        | WindowManager.LayoutParams.FLAG_DIM_BEHIND,
                 PixelFormat.TRANSLUCENT);
-        arcParams.dimAmount=.7f;
-        
+        arcParams.dimAmount = .7f;
+
         arcParamsNoBack = new WindowManager.LayoutParams(
                 WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                        |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
-                        |WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
+                        | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+                        | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
                 PixelFormat.TRANSLUCENT);
 
         animationParams = new WindowManager.LayoutParams(
                 WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                        |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
-                        |WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
-                        |WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+                        | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
+                        | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                 PixelFormat.TRANSLUCENT);
 
         messageWindow = (WindowManager) getSystemService(WINDOW_SERVICE);
@@ -546,8 +540,7 @@ public class SlideOverService extends Service {
         haloWindow = (WindowManager) getSystemService(WINDOW_SERVICE);
     }
 
-    public void onDown(MotionEvent event)
-    {
+    public void onDown(MotionEvent event) {
         initX = event.getX();
         initY = event.getY();
 
@@ -577,9 +570,12 @@ public class SlideOverService extends Service {
                         contactZone(4);
                     } else if (currentX > width - 50 - toDP(60) && currentX < width - 50) {
 
-                        try { messageWindow.removeView(messageView);
+                        try {
+                            messageWindow.removeView(messageView);
                             currContact = ContactView.currentContact;
-                            ContactView.currentContact = 5; } catch (Exception e) { }
+                            ContactView.currentContact = 5;
+                        } catch (Exception e) {
+                        }
 
                         quickPeekHidden = true;
                         actionButtonTouched = true;
@@ -596,9 +592,9 @@ public class SlideOverService extends Service {
 
             case MotionEvent.ACTION_MOVE:
 
-                currentX -=50;
+                currentX -= 50;
 
-                if(actionButtonTouched) {
+                if (actionButtonTouched) {
                     if ((currentY > originalPos + toDP(7) || currentY < originalPos - toDP(7))) {
                         draggingQuickPeek = true;
 
@@ -627,7 +623,10 @@ public class SlideOverService extends Service {
             case MotionEvent.ACTION_UP:
 
                 if (contactPictureTouched) { // contact picture was touched
-                    try { messageWindow.addView(messageView, messageWindowParams); } catch (Exception e) { }
+                    try {
+                        messageWindow.addView(messageView, messageWindowParams);
+                    } catch (Exception e) {
+                    }
 
                 } else if (actionButtonTouched && draggingQuickPeek) { // finished actually dragging the window around
 
@@ -637,7 +636,10 @@ public class SlideOverService extends Service {
 
                     messageWindowParams.y = toDP(63) + windowOffsetY;
                     messageView.invalidate();
-                    try { messageWindow.updateViewLayout(messageView, messageWindowParams); } catch (Exception e) { }
+                    try {
+                        messageWindow.updateViewLayout(messageView, messageWindowParams);
+                    } catch (Exception e) {
+                    }
 
                     actionButtonTouched = false;
                     draggingQuickPeek = false;
@@ -652,19 +654,22 @@ public class SlideOverService extends Service {
                     contactView.invalidate();
 
                     messageWindowParams.y = toDP(63) + windowOffsetY;
-                    try { messageWindow.removeView(messageView); } catch (Exception e) { }
+                    try {
+                        messageWindow.removeView(messageView);
+                    } catch (Exception e) {
+                    }
 
                 } else if (actionButtonTouched && !quickPeekHidden) { // hides quick peek when you touch the action button
-                        ContactView.currentContact = 5;
-                        contactView.invalidate();
-                        messageView.invalidate();
+                    ContactView.currentContact = 5;
+                    contactView.invalidate();
+                    messageView.invalidate();
 
-                        messageWindowParams.y = toDP(63) + windowOffsetY;
-                        messageWindow.removeView(messageView);
+                    messageWindowParams.y = toDP(63) + windowOffsetY;
+                    messageWindow.removeView(messageView);
 
-                        draggingQuickPeek = false;
-                        quickPeekHidden = true;
-                        actionButtonTouched = false;
+                    draggingQuickPeek = false;
+                    quickPeekHidden = true;
+                    actionButtonTouched = false;
                 }
 
                 break;
@@ -676,8 +681,7 @@ public class SlideOverService extends Service {
         float currentY = motionEvent.getRawY();
 
         if (motionEvent.getActionMasked() == MotionEvent.ACTION_DOWN) {
-            if(currentX > 50 && currentX < width - 50 && currentY > windowOffsetY + toDP(63) && currentY < windowOffsetY + toDP(63) + toDP(160))
-            {
+            if (currentX > 50 && currentX < width - 50 && currentY > windowOffsetY + toDP(63) && currentY < windowOffsetY + toDP(63) + toDP(160)) {
                 messageView.playSoundEffect(SoundEffectConstants.CLICK);
 
                 if (HAPTIC_FEEDBACK) {
@@ -693,7 +697,7 @@ public class SlideOverService extends Service {
                         }
                     }, 200);
 
-                   closeNotifications();
+                    closeNotifications();
 
                     Intent intent = finishFlat();
                     intent.putExtra("openToPage", ContactView.currentContact);
@@ -708,21 +712,26 @@ public class SlideOverService extends Service {
         }
     }
 
-    public void messagesMove(MotionEvent event, int height, int width, int zoneWidth)
-    {
+    public void messagesMove(MotionEvent event, int height, int width, int zoneWidth) {
 
         initalMoveSetup(event);
 
         if (distance > toDP(10) && !animationView.isActivated()) {
-            try { arcWindow.addView(arcView, arcParams); } catch (Exception e) { }
+            try {
+                arcWindow.addView(arcView, arcParams);
+            } catch (Exception e) {
+            }
         } else {
-            try { arcWindow.removeView(arcView); } catch (Exception e) { }
+            try {
+                arcWindow.removeView(arcView);
+            } catch (Exception e) {
+            }
         }
 
         float rawY = event.getRawY();
         float rawX = event.getRawX();
 
-        if ((rawY < 120 && PERCENT_DOWN_SCREEN > height/2) || (rawY > height - 120 && PERCENT_DOWN_SCREEN < height/2)) // in Button Area
+        if ((rawY < 120 && PERCENT_DOWN_SCREEN > height / 2) || (rawY > height - 120 && PERCENT_DOWN_SCREEN < height / 2)) // in Button Area
         {
             inButtons = true;
 
@@ -732,11 +741,10 @@ public class SlideOverService extends Service {
                 topVibrate = false;
             }
 
-            if(rawX < width/3) // Clear Zone
+            if (rawX < width / 3) // Clear Zone
             {
                 inClear = true;
-                if(HAPTIC_FEEDBACK && (inMove || inClose))
-                {
+                if (HAPTIC_FEEDBACK && (inMove || inClose)) {
                     v.vibrate(25);
                     inMove = false;
                     inClose = false;
@@ -747,7 +755,7 @@ public class SlideOverService extends Service {
                 arcView.newMessagePaint.setAlpha(START_ALPHA2);
                 arcView.conversationsPaint.setAlpha(START_ALPHA);
 
-            }else if(rawX > width * .33 && rawX < width * .67) // Close Zone
+            } else if (rawX > width * .33 && rawX < width * .67) // Close Zone
             {
                 inClose();
 
@@ -792,7 +800,7 @@ public class SlideOverService extends Service {
 
             inFlat();
 
-            if(distance < SWIPE_MIN_DISTANCE)
+            if (distance < SWIPE_MIN_DISTANCE)
                 fromDash = true;
 
             if (zoneChange) {
@@ -819,20 +827,25 @@ public class SlideOverService extends Service {
         }
     }
 
-    public void noMessagesMove(MotionEvent event, int height, int width)
-    {
+    public void noMessagesMove(MotionEvent event, int height, int width) {
         initalMoveSetup(event);
 
         if (distance > toDP(10)) {
-            try { arcWindow.addView(arcView, arcParams); } catch (Exception e) { }
+            try {
+                arcWindow.addView(arcView, arcParams);
+            } catch (Exception e) {
+            }
         } else {
-            try { arcWindow.removeView(arcView); } catch (Exception e) { }
+            try {
+                arcWindow.removeView(arcView);
+            } catch (Exception e) {
+            }
         }
 
         float rawY = event.getRawY();
         float rawX = event.getRawX();
 
-        if ((rawY < 120 && PERCENT_DOWN_SCREEN > height/2) || (rawY > height - 120 && PERCENT_DOWN_SCREEN < height/2)) // in Button Area
+        if ((rawY < 120 && PERCENT_DOWN_SCREEN > height / 2) || (rawY > height - 120 && PERCENT_DOWN_SCREEN < height / 2)) // in Button Area
         {
             inButtons = true;
 
@@ -842,7 +855,7 @@ public class SlideOverService extends Service {
                 topVibrate = false;
             }
 
-            if(rawX < width/2) // Close Zone
+            if (rawX < width / 2) // Close Zone
             {
                 inClose();
 
@@ -867,8 +880,7 @@ public class SlideOverService extends Service {
         }
     }
 
-    public void messagesUp()
-    {
+    public void messagesUp() {
         if (distance > SWIPE_MIN_DISTANCE) {
             arcView.newConversations.clear();
 
@@ -888,7 +900,7 @@ public class SlideOverService extends Service {
         haloWindow.updateViewLayout(haloView, haloParams);
 
         // now will fire a different intent depending on what view you are in
-        if(inClear) // clear button clicked
+        if (inClear) // clear button clicked
         {
             arcView.newConversations.clear();
 
@@ -904,11 +916,9 @@ public class SlideOverService extends Service {
             mNotificationManager.cancel(1);
             mNotificationManager.cancel(2);
 
-        } else if(inButtons)
-        {
+        } else if (inButtons) {
             finishButtons();
-        }
-        else if (distance > SWIPE_MIN_DISTANCE && inFlat) {
+        } else if (distance > SWIPE_MIN_DISTANCE && inFlat) {
             try {
                 Intent intent = finishFlat();
 
@@ -942,8 +952,7 @@ public class SlideOverService extends Service {
         needDetection = true;
     }
 
-    public void noMessagesUp()
-    {
+    public void noMessagesUp() {
         if (distance > SWIPE_MIN_DISTANCE) {
             arcView.newConversations.clear();
 
@@ -959,11 +968,9 @@ public class SlideOverService extends Service {
         }
 
         // now will fire a different intent depending on what view you are in
-        if(inButtons)
-        {
+        if (inButtons) {
             finishButtons();
-        }
-        else if (distance > SWIPE_MIN_DISTANCE && inFlat) {
+        } else if (distance > SWIPE_MIN_DISTANCE && inFlat) {
             try {
                 Intent intent = finishFlat();
                 startActivity(intent);
@@ -990,8 +997,7 @@ public class SlideOverService extends Service {
         needDetection = true;
     }
 
-    public void initalMoveSetup(MotionEvent event)
-    {
+    public void initalMoveSetup(MotionEvent event) {
         xPortion = initX - event.getX();
         yPortion = initY - event.getY();
 
@@ -1002,12 +1008,10 @@ public class SlideOverService extends Service {
             angle *= -1;
     }
 
-    public void inClose()
-    {
+    public void inClose() {
         inClose = true;
 
-        if(HAPTIC_FEEDBACK && (inMove || inClear))
-        {
+        if (HAPTIC_FEEDBACK && (inMove || inClear)) {
             v.vibrate(25);
             inMove = false;
             inClear = false;
@@ -1020,12 +1024,10 @@ public class SlideOverService extends Service {
         arcView.conversationsPaint.setAlpha(START_ALPHA);
     }
 
-    public void inMove()
-    {
+    public void inMove() {
         inMove = true;
 
-        if(HAPTIC_FEEDBACK && (inClose || inClear))
-        {
+        if (HAPTIC_FEEDBACK && (inClose || inClear)) {
             v.vibrate(25);
             inClose = false;
             inClear = false;
@@ -1037,8 +1039,7 @@ public class SlideOverService extends Service {
         arcView.conversationsPaint.setAlpha(START_ALPHA);
     }
 
-    public void inDash()
-    {
+    public void inDash() {
         if (inFlat && distance > SWIPE_MIN_DISTANCE) {
             inFlat = false;
             inDash = true;
@@ -1085,8 +1086,7 @@ public class SlideOverService extends Service {
         }
     }
 
-    public void inFlat()
-    {
+    public void inFlat() {
         if (inDash && distance > SWIPE_MIN_DISTANCE) {
             inDash = false;
             inFlat = true;
@@ -1136,9 +1136,8 @@ public class SlideOverService extends Service {
         }
     }
 
-    public void finishButtons()
-    {
-        if(inMove) // move button was clicked
+    public void finishButtons() {
+        if (inMove) // move button was clicked
         {
             Intent intent = new Intent(getBaseContext(), com.klinker.android.messaging_sliding.slide_over.SlideOverSettings.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -1154,8 +1153,7 @@ public class SlideOverService extends Service {
         }
     }
 
-    public Intent finishFlat()
-    {
+    public Intent finishFlat() {
         closeNotifications();
 
         if (isRunning(getApplication())) {
@@ -1172,14 +1170,12 @@ public class SlideOverService extends Service {
 
     }
 
-    public void finishDash()
-    {
+    public void finishDash() {
         closeNotifications();
 
-        if (sharedPrefs.getString("slideover_secondary_action", "conversations").equals("markRead"))
-        {
+        if (sharedPrefs.getString("slideover_secondary_action", "conversations").equals("markRead")) {
             startService(new Intent(getBaseContext(), QmMarkRead2.class));
-        }else {
+        } else {
             if (isRunning(getApplication())) {
                 Intent intent = new Intent();
                 intent.setAction("com.klinker.android.messaging_donate.KILL_FOR_HALO");
@@ -1223,12 +1219,12 @@ public class SlideOverService extends Service {
         int sliver;
 
         if (sharedPrefs.getString("slideover_side", "left").equals("left")) {
-            sliver = (int)((event.getRawX() * 100)/width);
+            sliver = (int) ((event.getRawX() * 100) / width);
         } else {
-            sliver = (int)((1 - (event.getRawX()/width)) * 100);
+            sliver = (int) ((1 - (event.getRawX() / width)) * 100);
         }
 
-        HALO_SLIVER_RATIO = sliver/100.0;
+        HALO_SLIVER_RATIO = sliver / 100.0;
 
         haloParams.x = sharedPrefs.getString("slideover_side", "left").equals("left") ? (int) (-1 * (1 - HALO_SLIVER_RATIO) * halo.getWidth()) : (int) (width - (halo.getWidth() * (HALO_SLIVER_RATIO)));
 
@@ -1237,11 +1233,11 @@ public class SlideOverService extends Service {
 
     public void setSliver(Bitmap halo, MotionEvent event, int height, int width) {
         if (sharedPrefs.getString("slideover_side", "left").equals("left"))
-            sharedPrefs.edit().putInt("slideover_sliver", (int)((event.getRawX() * 100)/width)).commit();
+            sharedPrefs.edit().putInt("slideover_sliver", (int) ((event.getRawX() * 100) / width)).commit();
         else
-            sharedPrefs.edit().putInt("slideover_sliver", (int)((1 - (event.getRawX()/width)) * 100)).commit();
+            sharedPrefs.edit().putInt("slideover_sliver", (int) ((1 - (event.getRawX() / width)) * 100)).commit();
 
-        HALO_SLIVER_RATIO = sharedPrefs.getInt("slideover_sliver", 33)/100.0;
+        HALO_SLIVER_RATIO = sharedPrefs.getInt("slideover_sliver", 33) / 100.0;
 
         haloParams.x = sharedPrefs.getString("slideover_side", "left").equals("left") ? (int) (-1 * (1 - HALO_SLIVER_RATIO) * halo.getWidth()) : (int) (width - (halo.getWidth() * (HALO_SLIVER_RATIO)));
         haloParams.y = (int) sharedPrefs.getFloat("slideover_downscreen", 0);
@@ -1252,9 +1248,9 @@ public class SlideOverService extends Service {
     public void setHalo(Bitmap halo, MotionEvent event, int height, int width) {
 
         int currX = (int) event.getRawX();
-        float currY = event.getRawY() - halo.getWidth()/2;
+        float currY = event.getRawY() - halo.getWidth() / 2;
 
-        if (currX < width/2) {
+        if (currX < width / 2) {
             sharedPrefs.edit().putString("slideover_side", "left").commit();
         } else {
             sharedPrefs.edit().putString("slideover_side", "right").commit();
@@ -1274,8 +1270,8 @@ public class SlideOverService extends Service {
     }
 
     public void movingHalo(Bitmap halo, MotionEvent event) {
-        haloParams.x = (int) event.getRawX() - halo.getWidth()/2;
-        haloParams.y = (int) event.getRawY() - halo.getHeight()/2;
+        haloParams.x = (int) event.getRawX() - halo.getWidth() / 2;
+        haloParams.y = (int) event.getRawY() - halo.getHeight() / 2;
 
         haloWindow.updateViewLayout(haloView, haloParams);
     }
@@ -1304,10 +1300,8 @@ public class SlideOverService extends Service {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, displayMatrix);
     }
 
-    public void checkInButtons()
-    {
-        if(inButtons)
-        {
+    public void checkInButtons() {
+        if (inButtons) {
             arcView.closePaint.setAlpha(START_ALPHA);
             arcView.movePaint.setAlpha(START_ALPHA);
             arcView.clearPaint.setAlpha(START_ALPHA);
@@ -1322,13 +1316,11 @@ public class SlideOverService extends Service {
         }
     }
 
-    public int getCurrentZone(double distance, int zoneWidth, int arcLength, int maxZones)
-    {
+    public int getCurrentZone(double distance, int zoneWidth, int arcLength, int maxZones) {
         int extraDist = (int) distance - arcLength;
         int currZone = 0;
 
-        while(extraDist > 0 && currZone < maxZones)
-        {
+        while (extraDist > 0 && currZone < maxZones) {
             currZone++;
             extraDist -= zoneWidth;
         }
@@ -1336,11 +1328,9 @@ public class SlideOverService extends Service {
         return currZone;
     }
 
-    public void resetZoneAlphas()
-    {
+    public void resetZoneAlphas() {
         try {
-            for (int i = 0; i < numberNewConv; i++)
-            {
+            for (int i = 0; i < numberNewConv; i++) {
                 arcView.textPaint[i].setAlpha(START_ALPHA2);
             }
 
@@ -1406,7 +1396,10 @@ public class SlideOverService extends Service {
         public void onReceive(Context context, Intent myIntent) {
             stopService(new Intent(context, SlideOverService.class));
             haloView.invalidate();
-            try { haloWindow.removeViewImmediate(haloView); } catch (Exception e) { }
+            try {
+                haloWindow.removeViewImmediate(haloView);
+            } catch (Exception e) {
+            }
             unregisterReceiver(this);
             startService(new Intent(context, SlideOverService.class));
         }
@@ -1416,9 +1409,18 @@ public class SlideOverService extends Service {
         @Override
         public void onReceive(Context context, Intent intent) {
             haloView.invalidate();
-            try { haloWindow.removeViewImmediate(haloView); } catch (Exception e) { }
-            try { messageWindow.removeViewImmediate(messageView); } catch (Exception e) { }
-            try { messageWindow.removeViewImmediate(contactView); } catch (Exception e) { }
+            try {
+                haloWindow.removeViewImmediate(haloView);
+            } catch (Exception e) {
+            }
+            try {
+                messageWindow.removeViewImmediate(messageView);
+            } catch (Exception e) {
+            }
+            try {
+                messageWindow.removeViewImmediate(contactView);
+            } catch (Exception e) {
+            }
             stopSelf();
             unregisterReceiver(this);
         }
@@ -1433,9 +1435,9 @@ public class SlideOverService extends Service {
             //new Handler().postDelayed(new Runnable() {
             //@Override
             //public void run() {
-                ContactView.currentContact = 0;
-                contactView.invalidate();
-                messageView.invalidate();
+            ContactView.currentContact = 0;
+            contactView.invalidate();
+            messageView.invalidate();
             //    }
             //}, 200);
 
@@ -1451,25 +1453,19 @@ public class SlideOverService extends Service {
             // They will also eat the normal mms messages notifications
             // Don't see any way around this though, and i don't think many people will run into this problem, if they do, they won't be able to replicate  it hehe :)
 
-            for (index = 0; index < numberNewConv; index++)
-            {
-                if (message.equals(arcView.newConversations.get(index)[1]))
-                {
+            for (index = 0; index < numberNewConv; index++) {
+                if (message.equals(arcView.newConversations.get(index)[1])) {
                     same = true;
                     break;
                 }
             }
 
-            if(same)
-            {
-                arcView.newConversations.add(new String[] {name, message});
+            if (same) {
+                arcView.newConversations.add(new String[]{name, message});
                 arcView.newConversations.remove(index);
-            }else
-            {
-                for (index = 0; index < numberNewConv; index++)
-                {
-                    if (name.equals(arcView.newConversations.get(index)[0]))
-                    {
+            } else {
+                for (index = 0; index < numberNewConv; index++) {
+                    if (name.equals(arcView.newConversations.get(index)[0])) {
                         exists = true;
                         break;
                     }
@@ -1477,11 +1473,10 @@ public class SlideOverService extends Service {
             }
 
             if (!exists && !same)
-                arcView.newConversations.add(new String[] {name, message});
-            else if (!same)
-            {
+                arcView.newConversations.add(new String[]{name, message});
+            else if (!same) {
                 String oldMessage = arcView.newConversations.get(index)[1];
-                arcView.newConversations.add(new String[] {name, oldMessage + " | " + message});
+                arcView.newConversations.add(new String[]{name, oldMessage + " | " + message});
                 arcView.newConversations.remove(index);
             }
 
@@ -1509,12 +1504,12 @@ public class SlideOverService extends Service {
                     animationView.circleText = true;
                     animationView.firstText = true;
                     animationView.arcOffset = AnimationView.ORIG_ARC_OFFSET;
-                    animationView.name = new String[] {name, message.length() > 50 ? message.substring(0, 50) + "..." : message};
+                    animationView.name = new String[]{name, message.length() > 50 ? message.substring(0, 50) + "..." : message};
                     animationView.circleLength = 0;
                     animationView.circleStart = animationView.originalCircleStart;
                     animationWindow.addView(animationView, animationParams);
 
-                    NewMessageAnimation animation = new NewMessageAnimation(animationView, ((float)(3 * (sharedPrefs.getInt("slideover_animation_speed", 33)/100.0) + 1))/2, haloWindow);
+                    NewMessageAnimation animation = new NewMessageAnimation(animationView, ((float) (3 * (sharedPrefs.getInt("slideover_animation_speed", 33) / 100.0) + 1)) / 2, haloWindow);
                     animation.setRunning(true);
                     animation.start();
                 }

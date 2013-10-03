@@ -76,7 +76,8 @@ public class GoogleVoiceFragment extends Fragment {
                 new Thread() {
                     @Override
                     public void run() {
-                        super.run();invalidateToken(previousAccount);
+                        super.run();
+                        invalidateToken(previousAccount);
                     }
                 }.start();
 

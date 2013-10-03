@@ -21,8 +21,7 @@ import java.util.Calendar;
 
 public class SendUtil {
 
-    public static void sendMessage(Context context, String number, String body)
-    {
+    public static void sendMessage(Context context, String number, String body) {
         Transaction sendTransaction = new Transaction(context, getSendSettings(context));
 
         final Message message = new Message(body, number);
@@ -40,8 +39,7 @@ public class SendUtil {
         MainActivity.messageRecieved = true;
     }
 
-    public static void sendMessage(Context context, String[] number, String body)
-    {
+    public static void sendMessage(Context context, String[] number, String body) {
         Transaction sendTransaction = new Transaction(context, getSendSettings(context));
 
         final Message message = new Message(body, number);
@@ -59,8 +57,7 @@ public class SendUtil {
         MainActivity.messageRecieved = true;
     }
 
-    public static void sendMessage(Context context, String[] number, String body, Bitmap[] images)
-    {
+    public static void sendMessage(Context context, String[] number, String body, Bitmap[] images) {
         Transaction sendTransaction = new Transaction(context, getSendSettings(context));
 
         final Message message = new Message(body, number);
@@ -110,8 +107,8 @@ public class SendUtil {
 
         BitmapFactory.Options onlyBoundsOptions = new BitmapFactory.Options();
         onlyBoundsOptions.inJustDecodeBounds = true;
-        onlyBoundsOptions.inDither=true;//optional
-        onlyBoundsOptions.inPreferredConfig=Bitmap.Config.ARGB_8888;//optional
+        onlyBoundsOptions.inDither = true;//optional
+        onlyBoundsOptions.inPreferredConfig = Bitmap.Config.ARGB_8888;//optional
         BitmapFactory.decodeStream(input, null, onlyBoundsOptions);
         input.close();
         if ((onlyBoundsOptions.outWidth == -1) || (onlyBoundsOptions.outHeight == -1))
@@ -123,8 +120,8 @@ public class SendUtil {
 
         BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
         bitmapOptions.inSampleSize = getPowerOfTwoForSampleRatio(ratio);
-        bitmapOptions.inDither=true;//optional
-        bitmapOptions.inPreferredConfig=Bitmap.Config.ARGB_8888;//optional
+        bitmapOptions.inDither = true;//optional
+        bitmapOptions.inPreferredConfig = Bitmap.Config.ARGB_8888;//optional
         input = context.getContentResolver().openInputStream(uri);
         Bitmap bitmap = BitmapFactory.decodeStream(input, null, bitmapOptions);
         input.close();
@@ -139,8 +136,8 @@ public class SendUtil {
 
         BitmapFactory.Options onlyBoundsOptions = new BitmapFactory.Options();
         onlyBoundsOptions.inJustDecodeBounds = true;
-        onlyBoundsOptions.inDither=true;//optional
-        onlyBoundsOptions.inPreferredConfig=Bitmap.Config.ARGB_8888;//optional
+        onlyBoundsOptions.inDither = true;//optional
+        onlyBoundsOptions.inPreferredConfig = Bitmap.Config.ARGB_8888;//optional
         BitmapFactory.decodeStream(input, null, onlyBoundsOptions);
         input.close();
         if ((onlyBoundsOptions.outWidth == -1) || (onlyBoundsOptions.outHeight == -1))
@@ -152,8 +149,8 @@ public class SendUtil {
 
         BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
         bitmapOptions.inSampleSize = getPowerOfTwoForSampleRatio(ratio);
-        bitmapOptions.inDither=true;//optional
-        bitmapOptions.inPreferredConfig=Bitmap.Config.ARGB_8888;//optional
+        bitmapOptions.inDither = true;//optional
+        bitmapOptions.inPreferredConfig = Bitmap.Config.ARGB_8888;//optional
         input = context.getContentResolver().openInputStream(uri);
         Bitmap bitmap = BitmapFactory.decodeStream(input, null, bitmapOptions);
         input.close();
@@ -174,9 +171,9 @@ public class SendUtil {
         return bitmap;
     }
 
-    private static int getPowerOfTwoForSampleRatio(double ratio){
-        int k = Integer.highestOneBit((int)Math.floor(ratio));
-        if(k==0) return 1;
+    private static int getPowerOfTwoForSampleRatio(double ratio) {
+        int k = Integer.highestOneBit((int) Math.floor(ratio));
+        if (k == 0) return 1;
         else return k;
     }
 }

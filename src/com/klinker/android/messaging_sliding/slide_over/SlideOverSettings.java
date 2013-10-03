@@ -16,7 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.klinker.android.messaging_donate.R;
 
-public class SlideOverSettings  extends PreferenceActivity {
+public class SlideOverSettings extends PreferenceActivity {
 
     public static Context context;
     public SharedPreferences sharedPrefs;
@@ -37,8 +37,7 @@ public class SlideOverSettings  extends PreferenceActivity {
 
     @SuppressWarnings("deprecation")
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.slideover_settings);
         setTitle(R.string.slide_over);
@@ -226,14 +225,12 @@ public class SlideOverSettings  extends PreferenceActivity {
         }, 500);
     }
 
-    public boolean doneClick()
-    {
+    public boolean doneClick() {
         finish();
         return true;
     }
 
-    public boolean discardClick()
-    {
+    public boolean discardClick() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean("slideover_enabled", enabled);
@@ -255,8 +252,7 @@ public class SlideOverSettings  extends PreferenceActivity {
         return true;
     }
 
-    public void getOriginal()
-    {
+    public void getOriginal() {
         enabled = sharedPrefs.getBoolean("slideover_enabled", false);
         haptic = sharedPrefs.getBoolean("slideover_haptic_feedback", true);
         close = sharedPrefs.getBoolean("full_app_popup_close", true);

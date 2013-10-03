@@ -45,14 +45,12 @@ public class MainActivityPopup extends MainActivity {
         isPopup = true;
         attachOnSend = true;
 
-        if(sharedPrefs.getBoolean("disable_backgrounds", true))
-        {
+        if (sharedPrefs.getBoolean("disable_backgrounds", true)) {
             settings.customBackground = false;
             settings.customBackground2 = false;
         }
 
-        if (sharedPrefs.getBoolean("unlock_screen", false))
-        {
+        if (sharedPrefs.getBoolean("unlock_screen", false)) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
             unlockDevice = true;
@@ -61,8 +59,7 @@ public class MainActivityPopup extends MainActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
-        if (settings.lightActionBar)
-        {
+        if (settings.lightActionBar) {
             setTheme(R.style.HangoutsThemeDialog);
         }
 
@@ -100,9 +97,9 @@ public class MainActivityPopup extends MainActivity {
         originalHeight = getWindow().getAttributes().height;
 
         if (width > height) {
-            getWindow().getDecorView().setPadding(0,height/12,0,height/12);
+            getWindow().getDecorView().setPadding(0, height / 12, 0, height / 12);
         } else {
-            int dividend = (int)(16 * (sharedPrefs.getInt("slideover_padding", 50)/100.0));
+            int dividend = (int) (16 * (sharedPrefs.getInt("slideover_padding", 50) / 100.0));
 
             try {
                 getWindow().getDecorView().setPadding(width / 20, height / dividend, width / 20, height / dividend);
@@ -111,7 +108,7 @@ public class MainActivityPopup extends MainActivity {
             }
         }
     }
-    
+
     @Override
     public void setUpIntentStuff() {
         fromHalo = getIntent().getBooleanExtra("fromHalo", false);
@@ -120,66 +117,51 @@ public class MainActivityPopup extends MainActivity {
         openTo = getIntent().getIntExtra("openToPage", 0);
         multipleNew = getIntent().getBooleanExtra("multipleNew", false);
     }
-    
+
     @Override
     public void setUpTitleBar() {
-		title = (PagerTitleStrip) findViewById(R.id.pager_title_strip);
-		
-		if (sharedPrefs.getString("page_or_menu2", "2").equals("1"))
-		{
-			title.setTextSpacing(5000);
-		}
-		
-		if (!settings.customTheme)
-        {
-        	if (sharedPrefs.getBoolean("title_text_color", false))
-        	{
-        		title.setTextColor(resources.getColor(R.color.black));
-        	}
-        } else
-        {
-        	title.setTextColor(sharedPrefs.getInt("ct_titleBarTextColor", resources.getColor(R.color.white)));
+        title = (PagerTitleStrip) findViewById(R.id.pager_title_strip);
+
+        if (sharedPrefs.getString("page_or_menu2", "2").equals("1")) {
+            title.setTextSpacing(5000);
         }
-        
-        if (!sharedPrefs.getBoolean("title_caps", true))
-        {
-        	title.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
+
+        if (!settings.customTheme) {
+            if (sharedPrefs.getBoolean("title_text_color", false)) {
+                title.setTextColor(resources.getColor(R.color.black));
+            }
+        } else {
+            title.setTextColor(sharedPrefs.getInt("ct_titleBarTextColor", resources.getColor(R.color.white)));
         }
-		
-        if (!settings.customTheme)
-        {
+
+        if (!sharedPrefs.getBoolean("title_caps", true)) {
+            title.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
+        }
+
+        if (!settings.customTheme) {
             String titleColor = sharedPrefs.getString("title_color", "blue");
-            
-            if (titleColor.equals("blue"))
-            {
+
+            if (titleColor.equals("blue")) {
                 title.setBackgroundColor(resources.getColor(R.color.holo_blue));
-            } else if (titleColor.equals("orange"))
-            {
+            } else if (titleColor.equals("orange")) {
                 title.setBackgroundColor(resources.getColor(R.color.holo_orange));
-            } else if (titleColor.equals("red"))
-            {
+            } else if (titleColor.equals("red")) {
                 title.setBackgroundColor(resources.getColor(R.color.holo_red));
-            } else if (titleColor.equals("green"))
-            {
+            } else if (titleColor.equals("green")) {
                 title.setBackgroundColor(resources.getColor(R.color.holo_green));
-            } else if (titleColor.equals("purple"))
-            {
+            } else if (titleColor.equals("purple")) {
                 title.setBackgroundColor(resources.getColor(R.color.holo_purple));
-            } else if (titleColor.equals("grey"))
-            {
+            } else if (titleColor.equals("grey")) {
                 title.setBackgroundColor(resources.getColor(R.color.grey));
-            } else if (titleColor.equals("black"))
-            {
+            } else if (titleColor.equals("black")) {
                 title.setBackgroundColor(resources.getColor(R.color.pitch_black));
-            } else if (titleColor.equals("darkgrey"))
-            {
+            } else if (titleColor.equals("darkgrey")) {
                 title.setBackgroundColor(resources.getColor(R.color.darkgrey));
             }
-        } else
-        {
+        } else {
             title.setBackgroundColor(sharedPrefs.getInt("ct_titleBarColor", resources.getColor(R.color.holo_blue)));
         }
-	}
+    }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -192,27 +174,27 @@ public class MainActivityPopup extends MainActivity {
         int height = size.y;
 
         if (width > height) {
-            getWindow().getDecorView().setPadding(0,height/12,0,height/12);
+            getWindow().getDecorView().setPadding(0, height / 12, 0, height / 12);
         } else {
-            int dividend = (int)(16 * (sharedPrefs.getInt("slideover_padding", 50)/100.0));
+            int dividend = (int) (16 * (sharedPrefs.getInt("slideover_padding", 50) / 100.0));
             getWindow().getDecorView().setPadding(width / 20, height / dividend, width / 20, height / dividend);
         }
 
         Button fullApp = (Button) findViewById(R.id.launch_app);
 
         if (true) {//height < originalHeight) {
-                fullApp.setVisibility(View.GONE);
+            fullApp.setVisibility(View.GONE);
         } else {
             if (sharedPrefs.getBoolean("show_full_app_button", false)) {
                 fullApp.setVisibility(View.VISIBLE);
             }
         }
     }
-    
+
     @Override
     public void onResume() {
         super.onResume();
-        
+
         SlideOverService.restartHalo(this);
 
         if (!getIntent().getBooleanExtra("fromNotification", false)) {
@@ -231,8 +213,7 @@ public class MainActivityPopup extends MainActivity {
                                 }
                             }, 500);
                         }
-                    } else
-                    {
+                    } else {
                         openTo = getIntent().getIntExtra("openToPage", 0);
 
                         menu.showContent();
@@ -241,10 +222,10 @@ public class MainActivityPopup extends MainActivity {
                 }
             } else {
                 new Handler().postDelayed(new Runnable() {
-                   @Override
-                   public void run() {
-                       menu.showSecondaryMenu();
-                   }
+                    @Override
+                    public void run() {
+                        menu.showSecondaryMenu();
+                    }
                 }, 500);
             }
         } else {
@@ -255,9 +236,9 @@ public class MainActivityPopup extends MainActivity {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                        InputMethodManager keyboard = (InputMethodManager)
-                        getSystemService(Context.INPUT_METHOD_SERVICE);
-                        keyboard.showSoftInput(messageEntry, 0);
+                    InputMethodManager keyboard = (InputMethodManager)
+                            getSystemService(Context.INPUT_METHOD_SERVICE);
+                    keyboard.showSoftInput(messageEntry, 0);
                 }
             }, 500);
         }
@@ -266,7 +247,7 @@ public class MainActivityPopup extends MainActivity {
         filter.addAction("com.klinker.android.messaging.CLOSE_POPUP");
         registerReceiver(closeReceiver, filter);
     }
-    
+
     @Override
     public void onStop() {
         super.onStop();

@@ -90,7 +90,7 @@ public class ScheduleBackup extends Activity implements AdapterView.OnItemSelect
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
 
-        sharedPrefs  = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
         final Calendar c = Calendar.getInstance();
         currentYear = c.get(Calendar.YEAR);
@@ -108,24 +108,23 @@ public class ScheduleBackup extends Activity implements AdapterView.OnItemSelect
 
         btTime.setEnabled(false);
 
-        if(!sharedPrefs.getString("speed_improvement_backup_date", "0").equals("0"))
+        if (!sharedPrefs.getString("speed_improvement_backup_date", "0").equals("0"))
             dateDisplay.setText(sharedPrefs.getString("speed_improvement_backup_date", "0"));
 
-        if(!sharedPrefs.getString("speed_improvement_backup_time", "0").equals("0"))
-        {
+        if (!sharedPrefs.getString("speed_improvement_backup_time", "0").equals("0")) {
             timeDisplay.setText(sharedPrefs.getString("speed_improvement_backup_time", "0"));
             btTime.setEnabled(true);
         }
 
         int spinnerIndex = 0;
 
-        if(sharedPrefs.getLong("speed_improvement_backup_repetition", 0) ==  0)
+        if (sharedPrefs.getLong("speed_improvement_backup_repetition", 0) == 0)
             spinnerIndex = 0;
-        else if(sharedPrefs.getLong("speed_improvement_backup_repetition", 0) ==  AlarmManager.INTERVAL_DAY)
+        else if (sharedPrefs.getLong("speed_improvement_backup_repetition", 0) == AlarmManager.INTERVAL_DAY)
             spinnerIndex = 1;
-        else if(sharedPrefs.getLong("speed_improvement_backup_repetition", 0) ==  AlarmManager.INTERVAL_DAY * 3)
+        else if (sharedPrefs.getLong("speed_improvement_backup_repetition", 0) == AlarmManager.INTERVAL_DAY * 3)
             spinnerIndex = 2;
-        else if(sharedPrefs.getLong("speed_improvement_backup_repetition", 0) ==  AlarmManager.INTERVAL_DAY * 7)
+        else if (sharedPrefs.getLong("speed_improvement_backup_repetition", 0) == AlarmManager.INTERVAL_DAY * 7)
             spinnerIndex = 3;
 
         // Creates the spinner for repetition of scheduled sms
@@ -167,26 +166,20 @@ public class ScheduleBackup extends Activity implements AdapterView.OnItemSelect
             setMonth = month;
             setDay = day;
 
-            if (setHour != -1 && setMinute != -1)
-            {
+            if (setHour != -1 && setMinute != -1) {
                 setDate = new Date(setYear - 1900, setMonth, setDay, setHour, setMinute);
 
-                if (sharedPrefs.getBoolean("hour_format", false))
-                {
+                if (sharedPrefs.getBoolean("hour_format", false)) {
                     dateDisplay.setText(DateFormat.getDateInstance(DateFormat.SHORT, Locale.GERMAN).format(setDate));
-                } else
-                {
+                } else {
                     dateDisplay.setText(DateFormat.getDateInstance(DateFormat.SHORT, Locale.US).format(setDate));
                 }
-            } else
-            {
+            } else {
                 setDate = new Date(setYear - 1900, setMonth, setDay);
 
-                if (sharedPrefs.getBoolean("hour_format", false))
-                {
+                if (sharedPrefs.getBoolean("hour_format", false)) {
                     dateDisplay.setText(DateFormat.getDateInstance(DateFormat.SHORT, Locale.GERMAN).format(setDate));
-                } else
-                {
+                } else {
                     dateDisplay.setText(DateFormat.getDateInstance(DateFormat.SHORT, Locale.US).format(setDate));
                 }
             }
@@ -206,19 +199,15 @@ public class ScheduleBackup extends Activity implements AdapterView.OnItemSelect
 
             currentDate.setYear(currentYear - 1900);
 
-            if (!setDate.before(currentDate))
-            {
-                if (sharedPrefs.getBoolean("hour_format", false))
-                {
+            if (!setDate.before(currentDate)) {
+                if (sharedPrefs.getBoolean("hour_format", false)) {
                     timeDisplay.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(setDate));
-                } else
-                {
+                } else {
                     timeDisplay.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(setDate));
                 }
 
                 timeDone = true;
-            } else
-            {
+            } else {
                 Context context = getApplicationContext();
                 CharSequence text = "Date must be forward!";
                 int duration = Toast.LENGTH_SHORT;
@@ -273,18 +262,15 @@ public class ScheduleBackup extends Activity implements AdapterView.OnItemSelect
     }
 
     // finishes the activity when the discard button is clicked, without making any changes or saving anything
-    public boolean discardClick()
-    {
+    public boolean discardClick() {
         finish();
         return true;
     }
 
     // this is where we will set everything up when the user has entered all the information
     // including the alarm manager and writing the files to the database to save them
-    public boolean doneClick()
-    {
-        if (timeDone)
-        {
+    public boolean doneClick() {
+        if (timeDone) {
             SharedPreferences.Editor prefEdit = sharedPrefs.edit();
             prefEdit.putLong("speed_improvement_backup_repetition", repetition);
             prefEdit.putString("speed_improvement_backup_date", dateDisplay.getText().toString());
@@ -294,8 +280,7 @@ public class ScheduleBackup extends Activity implements AdapterView.OnItemSelect
             createAlarm();
 
             finish();
-        } else
-        {
+        } else {
             Context context = getApplicationContext();
             CharSequence text = "Please complete the form!";
             int duration = Toast.LENGTH_SHORT;
@@ -307,28 +292,25 @@ public class ScheduleBackup extends Activity implements AdapterView.OnItemSelect
         return true;
     }
 
-    public void createAlarm()
-    {
+    public void createAlarm() {
         Intent serviceIntent = new Intent(getApplicationContext(), BackupService.class);
 
         PendingIntent pi = PendingIntent.getService(
-                                this,               //context
-                                1,                  //request id
-                                serviceIntent,      //intent to be delivered
-                                0);
+                this,               //context
+                1,                  //request id
+                serviceIntent,      //intent to be delivered
+                0);
 
         // Schedule the alarm!
         AlarmManager am = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
 
         am.cancel(pi);
 
-        if (repetition == 0)
-        {
+        if (repetition == 0) {
             am.set(AlarmManager.RTC_WAKEUP,
                     setDate.getTime(),
                     pi);
-        } else
-        {
+        } else {
             am.setRepeating(AlarmManager.RTC_WAKEUP,
                     setDate.getTime(),
                     repetition,

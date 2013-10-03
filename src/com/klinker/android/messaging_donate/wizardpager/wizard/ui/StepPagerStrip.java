@@ -140,10 +140,10 @@ public class StepPagerStrip extends View {
             canvas.drawRect(mTempRectF, i < mCurrentPage
                     ? mPrevTabPaint
                     : (i > mCurrentPage
-                            ? mNextTabPaint
-                            : (i == mPageCount - 1
-                                    ? mSelectedLastTabPaint
-                                    : mSelectedTabPaint)));
+                    ? mNextTabPaint
+                    : (i == mPageCount - 1
+                    ? mSelectedLastTabPaint
+                    : mSelectedTabPaint)));
         }
     }
 

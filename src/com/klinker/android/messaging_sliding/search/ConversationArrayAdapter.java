@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-public class ConversationArrayAdapter  extends ArrayAdapter<String> {
+public class ConversationArrayAdapter extends ArrayAdapter<String> {
     private final Activity context;
     private final ArrayList<String[]> messages;
     public SharedPreferences sharedPrefs;
@@ -69,8 +69,7 @@ public class ConversationArrayAdapter  extends ArrayAdapter<String> {
 
         font = null;
 
-        if (sharedPrefs.getBoolean("custom_font", false))
-        {
+        if (sharedPrefs.getBoolean("custom_font", false)) {
             font = Typeface.createFromFile(sharedPrefs.getString("custom_font_path", ""));
         }
 
@@ -81,59 +80,46 @@ public class ConversationArrayAdapter  extends ArrayAdapter<String> {
 
         Cursor mProfileCursor = context.getContentResolver().query(
                 ContactsContract.Profile.CONTENT_URI,
-                mProjection ,
+                mProjection,
                 null,
                 null,
                 null);
 
-        try
-        {
-            if (mProfileCursor.moveToFirst())
-            {
+        try {
+            if (mProfileCursor.moveToFirst()) {
                 myContactId = mProfileCursor.getString(mProfileCursor.getColumnIndex(ContactsContract.Profile._ID));
             }
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             myContactId = myPhoneNumber;
-        } finally
-        {
+        } finally {
             mProfileCursor.close();
         }
 
         myId = myContactId;
 
         InputStream input2;
-        try
-        {
+        try {
             input2 = openDisplayPhoto(Long.parseLong(myId));
-        } catch (NumberFormatException e)
-        {
+        } catch (NumberFormatException e) {
             input2 = null;
         }
 
-        if (input2 == null)
-        {
-            if (sharedPrefs.getBoolean("ct_darkContactImage", false))
-            {
+        if (input2 == null) {
+            if (sharedPrefs.getBoolean("ct_darkContactImage", false)) {
                 input2 = context.getResources().openRawResource(R.drawable.default_avatar_dark);
-            } else
-            {
+            } else {
                 input2 = context.getResources().openRawResource(R.drawable.default_avatar);
             }
         }
 
         Bitmap im;
 
-        try
-        {
+        try {
             im = Bitmap.createScaledBitmap(BitmapFactory.decodeStream(input2), MainActivity.contactWidth, MainActivity.contactWidth, true);
-        } catch (Exception e)
-        {
-            if (sharedPrefs.getBoolean("ct_darkContactImage", false))
-            {
+        } catch (Exception e) {
+            if (sharedPrefs.getBoolean("ct_darkContactImage", false)) {
                 im = Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(R.drawable.default_avatar_dark)), MainActivity.contactWidth, MainActivity.contactWidth, true);
-            } else
-            {
+            } else {
                 im = Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(R.drawable.default_avatar)), MainActivity.contactWidth, MainActivity.contactWidth, true);
             }
         }
@@ -142,7 +128,7 @@ public class ConversationArrayAdapter  extends ArrayAdapter<String> {
 
         int i = 0;
 
-        while(messages.get(i)[3].equals("1"))
+        while (messages.get(i)[3].equals("1"))
             i++;
 
         contactImage = Bitmap.createScaledBitmap(getFacebookPhoto(messages.get(i)[0]), MainActivity.contactWidth, MainActivity.contactWidth, true);
@@ -150,15 +136,13 @@ public class ConversationArrayAdapter  extends ArrayAdapter<String> {
 
     @Override
     public int getItemViewType(int position) {
-        try
-        {
+        try {
             if (messages.get(position)[3].equals("2") || messages.get(position)[3].equals("3") || messages.get(position)[3].equals("4") || messages.get(position)[3].equals("5") || messages.get(position)[3].equals("6")) {
                 return 1;
             } else {
                 return 0;
             }
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
 
         }
 
@@ -171,8 +155,7 @@ public class ConversationArrayAdapter  extends ArrayAdapter<String> {
     }
 
     @Override
-    public int getCount()
-    {
+    public int getCount() {
         return messages.size();
     }
 
@@ -207,19 +190,15 @@ public class ConversationArrayAdapter  extends ArrayAdapter<String> {
 
         String dateString;
 
-        if (sharedPrefs.getBoolean("hour_format", false))
-        {
+        if (sharedPrefs.getBoolean("hour_format", false)) {
             dateString = DateFormat.getDateInstance(DateFormat.SHORT, Locale.GERMAN).format(sendDate);
-        } else
-        {
+        } else {
             dateString = DateFormat.getDateInstance(DateFormat.SHORT, Locale.US).format(sendDate);
         }
 
-        if (sharedPrefs.getBoolean("hour_format", false))
-        {
+        if (sharedPrefs.getBoolean("hour_format", false)) {
             dateString += " " + DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(sendDate);
-        } else
-        {
+        } else {
             dateString += " " + DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(sendDate);
         }
 
@@ -282,22 +261,20 @@ public class ConversationArrayAdapter  extends ArrayAdapter<String> {
                 rowView.findViewById(R.id.ellipsis).setVisibility(View.GONE);
             }
 
-            if (sharedPrefs.getBoolean("custom_font", false))
-            {
+            if (sharedPrefs.getBoolean("custom_font", false)) {
                 viewHolder.message.setTypeface(font);
                 viewHolder.date.setTypeface(font);
             }
 
             try {
-                viewHolder.message.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,2)));
-                viewHolder.date.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,2)) - 4);
+                viewHolder.message.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0, 2)));
+                viewHolder.date.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0, 2)) - 4);
             } catch (Exception e) {
-                viewHolder.message.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,1)));
-                viewHolder.date.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0,1)) - 4);
+                viewHolder.message.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0, 1)));
+                viewHolder.date.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0, 1)) - 4);
             }
 
-            if (sharedPrefs.getBoolean("tiny_date", false))
-            {
+            if (sharedPrefs.getBoolean("tiny_date", false)) {
                 viewHolder.date.setTextSize(10);
             }
 
@@ -313,40 +290,31 @@ public class ConversationArrayAdapter  extends ArrayAdapter<String> {
                 viewHolder.background.setBackgroundColor(sharedPrefs.getInt("ct_sentMessageBackground", context.getResources().getColor(R.color.white)));
                 viewHolder.bubble.setColorFilter(sharedPrefs.getInt("ct_sentMessageBackground", context.getResources().getColor(R.color.white)));
 
-                if (!sharedPrefs.getBoolean("custom_theme", false))
-                {
+                if (!sharedPrefs.getBoolean("custom_theme", false)) {
                     String color = sharedPrefs.getString("sent_text_color", "default");
 
-                    if (color.equals("blue"))
-                    {
+                    if (color.equals("blue")) {
                         viewHolder.message.setTextColor(context.getResources().getColor(R.color.holo_blue));
                         viewHolder.date.setTextColor(context.getResources().getColor(R.color.holo_blue));
-                    } else if (color.equals("white"))
-                    {
+                    } else if (color.equals("white")) {
                         viewHolder.message.setTextColor(context.getResources().getColor(R.color.white));
                         viewHolder.date.setTextColor(context.getResources().getColor(R.color.white));
-                    } else if (color.equals("green"))
-                    {
+                    } else if (color.equals("green")) {
                         viewHolder.message.setTextColor(context.getResources().getColor(R.color.holo_green));
                         viewHolder.date.setTextColor(context.getResources().getColor(R.color.holo_green));
-                    } else if (color.equals("orange"))
-                    {
+                    } else if (color.equals("orange")) {
                         viewHolder.message.setTextColor(context.getResources().getColor(R.color.holo_orange));
                         viewHolder.date.setTextColor(context.getResources().getColor(R.color.holo_orange));
-                    } else if (color.equals("red"))
-                    {
+                    } else if (color.equals("red")) {
                         viewHolder.message.setTextColor(context.getResources().getColor(R.color.holo_red));
                         viewHolder.date.setTextColor(context.getResources().getColor(R.color.holo_red));
-                    } else if (color.equals("purple"))
-                    {
+                    } else if (color.equals("purple")) {
                         viewHolder.message.setTextColor(context.getResources().getColor(R.color.holo_purple));
                         viewHolder.date.setTextColor(context.getResources().getColor(R.color.holo_purple));
-                    } else if (color.equals("black"))
-                    {
+                    } else if (color.equals("black")) {
                         viewHolder.message.setTextColor(context.getResources().getColor(R.color.pitch_black));
                         viewHolder.date.setTextColor(context.getResources().getColor(R.color.pitch_black));
-                    } else if (color.equals("grey"))
-                    {
+                    } else if (color.equals("grey")) {
                         viewHolder.message.setTextColor(context.getResources().getColor(R.color.grey));
                         viewHolder.date.setTextColor(context.getResources().getColor(R.color.grey));
                     }
@@ -357,54 +325,42 @@ public class ConversationArrayAdapter  extends ArrayAdapter<String> {
                 viewHolder.background.setBackgroundColor(sharedPrefs.getInt("ct_receivedMessageBackground", context.getResources().getColor(R.color.white)));
                 viewHolder.bubble.setColorFilter(sharedPrefs.getInt("ct_receivedMessageBackground", context.getResources().getColor(R.color.white)));
 
-                if (!sharedPrefs.getBoolean("custom_theme", false))
-                {
+                if (!sharedPrefs.getBoolean("custom_theme", false)) {
                     String color = sharedPrefs.getString("received_text_color", "default");
 
-                    if (color.equals("blue"))
-                    {
+                    if (color.equals("blue")) {
                         viewHolder.message.setTextColor(context.getResources().getColor(R.color.holo_blue));
                         viewHolder.date.setTextColor(context.getResources().getColor(R.color.holo_blue));
-                    } else if (color.equals("white"))
-                    {
+                    } else if (color.equals("white")) {
                         viewHolder.message.setTextColor(context.getResources().getColor(R.color.white));
                         viewHolder.date.setTextColor(context.getResources().getColor(R.color.white));
-                    } else if (color.equals("green"))
-                    {
+                    } else if (color.equals("green")) {
                         viewHolder.message.setTextColor(context.getResources().getColor(R.color.holo_green));
                         viewHolder.date.setTextColor(context.getResources().getColor(R.color.holo_green));
-                    } else if (color.equals("orange"))
-                    {
+                    } else if (color.equals("orange")) {
                         viewHolder.message.setTextColor(context.getResources().getColor(R.color.holo_orange));
                         viewHolder.date.setTextColor(context.getResources().getColor(R.color.holo_orange));
-                    } else if (color.equals("red"))
-                    {
+                    } else if (color.equals("red")) {
                         viewHolder.message.setTextColor(context.getResources().getColor(R.color.holo_red));
                         viewHolder.date.setTextColor(context.getResources().getColor(R.color.holo_red));
-                    } else if (color.equals("purple"))
-                    {
+                    } else if (color.equals("purple")) {
                         viewHolder.message.setTextColor(context.getResources().getColor(R.color.holo_purple));
                         viewHolder.date.setTextColor(context.getResources().getColor(R.color.holo_purple));
-                    } else if (color.equals("black"))
-                    {
+                    } else if (color.equals("black")) {
                         viewHolder.message.setTextColor(context.getResources().getColor(R.color.pitch_black));
                         viewHolder.date.setTextColor(context.getResources().getColor(R.color.pitch_black));
-                    } else if (color.equals("grey"))
-                    {
+                    } else if (color.equals("grey")) {
                         viewHolder.message.setTextColor(context.getResources().getColor(R.color.grey));
                         viewHolder.date.setTextColor(context.getResources().getColor(R.color.grey));
                     }
                 }
             }
 
-            if (!sharedPrefs.getString("text_alignment", "split").equals("split"))
-            {
-                if (sharedPrefs.getString("text_alignment", "split").equals("right"))
-                {
+            if (!sharedPrefs.getString("text_alignment", "split").equals("split")) {
+                if (sharedPrefs.getString("text_alignment", "split").equals("right")) {
                     viewHolder.message.setGravity(Gravity.RIGHT);
                     viewHolder.date.setGravity(Gravity.RIGHT);
-                } else
-                {
+                } else {
                     viewHolder.message.setGravity(Gravity.LEFT);
                     viewHolder.date.setGravity(Gravity.LEFT);
                 }
@@ -425,11 +381,9 @@ public class ConversationArrayAdapter  extends ArrayAdapter<String> {
         holder.number = number;
 
         if (!sent) {
-            if (sharedPrefs.getBoolean("ct_darkContactImage", false))
-            {
+            if (sharedPrefs.getBoolean("ct_darkContactImage", false)) {
                 holder.image.setImageResource(R.drawable.default_avatar_dark);
-            } else
-            {
+            } else {
                 holder.image.setImageResource(R.drawable.default_avatar);
             }
         }
@@ -473,8 +427,7 @@ public class ConversationArrayAdapter  extends ArrayAdapter<String> {
         return rowView;
     }
 
-    public String changeTextColor(String text, String originalSearch)
-    {
+    public String changeTextColor(String text, String originalSearch) {
         int index = text.toUpperCase().indexOf(originalSearch.toUpperCase());
 
         String first = text.substring(0, index);
@@ -492,13 +445,12 @@ public class ConversationArrayAdapter  extends ArrayAdapter<String> {
         return first + last;
     }
 
-    public Bitmap drawableToBitmap (Drawable drawable) {
+    public Bitmap drawableToBitmap(Drawable drawable) {
         if (drawable instanceof BitmapDrawable) {
-            return ((BitmapDrawable)drawable).getBitmap();
+            return ((BitmapDrawable) drawable).getBitmap();
         }
 
-        try
-        {
+        try {
             int width = drawable.getIntrinsicWidth();
             width = width > 0 ? width : 1;
             int height = drawable.getIntrinsicHeight();
@@ -509,13 +461,10 @@ public class ConversationArrayAdapter  extends ArrayAdapter<String> {
             drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
             drawable.draw(canvas);
             return bitmap;
-        } catch (Exception e)
-        {
-            if (sharedPrefs.getBoolean("ct_darkContactImage", false))
-            {
+        } catch (Exception e) {
+            if (sharedPrefs.getBoolean("ct_darkContactImage", false)) {
                 return BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar_dark);
-            } else
-            {
+            } else {
                 return BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
             }
         }
@@ -525,7 +474,7 @@ public class ConversationArrayAdapter  extends ArrayAdapter<String> {
         Uri contactUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, contactId);
         Uri photoUri = Uri.withAppendedPath(contactUri, ContactsContract.Contacts.Photo.CONTENT_DIRECTORY);
         Cursor cursor = context.getContentResolver().query(photoUri,
-                new String[] {ContactsContract.Contacts.Photo.PHOTO}, null, null, null);
+                new String[]{ContactsContract.Contacts.Photo.PHOTO}, null, null, null);
         if (cursor == null) {
             return null;
         }
@@ -542,7 +491,7 @@ public class ConversationArrayAdapter  extends ArrayAdapter<String> {
         return null;
     }
 
-    private String getMyPhoneNumber(){
+    private String getMyPhoneNumber() {
         TelephonyManager mTelephonyMgr;
         mTelephonyMgr = (TelephonyManager)
                 context.getSystemService(Context.TELEPHONY_SERVICE);
@@ -550,26 +499,22 @@ public class ConversationArrayAdapter  extends ArrayAdapter<String> {
     }
 
     public Bitmap getFacebookPhoto(String phoneNumber) {
-        try
-        {
+        try {
             Uri phoneUri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNumber));
             Uri photoUri = null;
             ContentResolver cr = context.getContentResolver();
             Cursor contact = cr.query(phoneUri,
-                    new String[] { ContactsContract.Contacts._ID }, null, null, null);
+                    new String[]{ContactsContract.Contacts._ID}, null, null, null);
 
-            try
-            {
+            try {
                 if (contact.moveToFirst()) {
                     long userId = contact.getLong(contact.getColumnIndex(ContactsContract.Contacts._ID));
                     photoUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, userId);
                     contact.close();
-                }
-                else {
+                } else {
                     Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
 
-                    if (sharedPrefs.getBoolean("ct_darkContactImage", false))
-                    {
+                    if (sharedPrefs.getBoolean("ct_darkContactImage", false)) {
                         defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar_dark);
                     }
 
@@ -586,8 +531,7 @@ public class ConversationArrayAdapter  extends ArrayAdapter<String> {
                 } else {
                     Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
 
-                    if (sharedPrefs.getBoolean("ct_darkContactImage", false))
-                    {
+                    if (sharedPrefs.getBoolean("ct_darkContactImage", false)) {
                         defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar_dark);
                     }
 
@@ -596,32 +540,25 @@ public class ConversationArrayAdapter  extends ArrayAdapter<String> {
                 }
                 Bitmap defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
 
-                if (sharedPrefs.getBoolean("ct_darkContactImage", false))
-                {
+                if (sharedPrefs.getBoolean("ct_darkContactImage", false)) {
                     defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar_dark);
                 }
 
                 contact.close();
                 return defaultPhoto;
-            } catch (Exception e)
-            {
-                if (sharedPrefs.getBoolean("ct_darkContactImage", false))
-                {
+            } catch (Exception e) {
+                if (sharedPrefs.getBoolean("ct_darkContactImage", false)) {
                     contact.close();
                     return BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar_dark);
-                } else
-                {
+                } else {
                     contact.close();
                     return BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
                 }
             }
-        } catch (Exception e)
-        {
-            if (sharedPrefs.getBoolean("ct_darkContactImage", false))
-            {
+        } catch (Exception e) {
+            if (sharedPrefs.getBoolean("ct_darkContactImage", false)) {
                 return BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar_dark);
-            } else
-            {
+            } else {
                 return BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
             }
         }
@@ -665,8 +602,7 @@ public class ConversationArrayAdapter  extends ArrayAdapter<String> {
             red = Integer.parseInt(argb.substring(2, 4), 16);
             green = Integer.parseInt(argb.substring(4, 6), 16);
             blue = Integer.parseInt(argb.substring(6, 8), 16);
-        }
-        else if (argb.length() == 6) {
+        } else if (argb.length() == 6) {
             alpha = 255;
             red = Integer.parseInt(argb.substring(0, 2), 16);
             green = Integer.parseInt(argb.substring(2, 4), 16);
