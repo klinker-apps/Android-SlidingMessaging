@@ -60,11 +60,13 @@ public class GoogleVoiceFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View layout = inflater.inflate(R.layout.voice_setup, null);
+        View layoutFooter = inflater.inflate(R.layout.voice_setup_footer, null);
 
         accountAdapter = new AccountAdapter();
         settings = PreferenceManager.getDefaultSharedPreferences(context);
 
         lv = (ListView) layout.findViewById(R.id.list);
+        lv.addFooterView(layoutFooter);
         lv.setAdapter(accountAdapter = new AccountAdapter());
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -94,7 +96,7 @@ public class GoogleVoiceFragment extends Fragment {
             }
         });
 
-        Button syncButton = (Button) layout.findViewById(R.id.syncButton);
+        Button syncButton = (Button) layoutFooter.findViewById(R.id.syncButton);
         syncButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -102,7 +104,7 @@ public class GoogleVoiceFragment extends Fragment {
             }
         });
 
-        final CheckBox alwaysVoice = (CheckBox) layout.findViewById(R.id.alwaysUseVoice);
+        final CheckBox alwaysVoice = (CheckBox) layoutFooter.findViewById(R.id.alwaysUseVoice);
         alwaysVoice.setChecked(settings.getBoolean("always_use_voice", false));
         alwaysVoice.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,7 +119,7 @@ public class GoogleVoiceFragment extends Fragment {
             }
         });
 
-        LinearLayout voiceReceivingOption1 = (LinearLayout) layout.findViewById(R.id.voiceReceivingOption1);
+        LinearLayout voiceReceivingOption1 = (LinearLayout) layoutFooter.findViewById(R.id.voiceReceivingOption1);
         voiceReceivingOption1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -129,7 +131,7 @@ public class GoogleVoiceFragment extends Fragment {
             }
         });
 
-        LinearLayout voiceReceivingOption2 = (LinearLayout) layout.findViewById(R.id.voiceReceivingOption2);
+        LinearLayout voiceReceivingOption2 = (LinearLayout) layoutFooter.findViewById(R.id.voiceReceivingOption2);
         voiceReceivingOption2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -172,7 +174,7 @@ public class GoogleVoiceFragment extends Fragment {
             }
         });
 
-        Button tipsButton = (Button) layout.findViewById(R.id.tipsButton);
+        Button tipsButton = (Button) layoutFooter.findViewById(R.id.tipsButton);
         tipsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

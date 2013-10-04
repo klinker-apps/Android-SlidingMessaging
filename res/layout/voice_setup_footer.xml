@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:paddingLeft="10dp"
+              android:paddingRight="10dp">
+
+    <LinearLayout android:layout_height="24dp"
+                  android:layout_width="match_parent"
+                  android:orientation="horizontal"
+                  android:layout_marginTop="24dp">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/always_use_voice"
+                style="@android:style/TextAppearance.Medium"/>
+
+        <View android:layout_height="wrap_content"
+              android:layout_width="0dp"
+              android:layout_weight="1"/>
+
+        <CheckBox android:id="@+id/alwaysUseVoice"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text=""
+                  android:checked="false"/>
+
+    </LinearLayout>
+
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/voice_receiving"
+            android:layout_marginTop="24dp"
+            style="@android:style/TextAppearance.Small"/>
+
+    <LinearLayout android:orientation="vertical"
+                  android:layout_height="match_parent"
+                  android:layout_width="match_parent">
+
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="vertical"
+                      android:background="@drawable/voice_layout_background"
+                      android:id="@+id/voiceReceivingOption1">
+
+            <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/voice_receiving_option_1"
+                    android:layout_marginTop="4dp"
+                    style="@android:style/TextAppearance.Medium"/>
+
+            <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/voice_receiving_option_1_summary"
+                    style="@android:style/TextAppearance.Small"/>
+
+        </LinearLayout>
+
+        <View android:layout_height="1dp"
+              android:layout_width="wrap_content"
+              android:background="@color/settings_divider"
+              android:layout_marginTop="6dp"/>
+
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="vertical"
+                      android:background="@drawable/voice_layout_background"
+                      android:id="@+id/voiceReceivingOption2">
+
+            <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/voice_receiving_option_2"
+                    android:layout_marginTop="4dp"
+                    style="@android:style/TextAppearance.Medium"/>
+
+            <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/voice_receiving_option_2_summary"
+                    style="@android:style/TextAppearance.Small"/>
+
+        </LinearLayout>
+
+        <View android:layout_height="1dp"
+              android:layout_width="wrap_content"
+              android:background="@color/settings_divider"
+              android:layout_marginTop="8dp"/>
+
+        <Button
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/sync_voice_messages"
+                android:id="@+id/syncButton"
+                android:layout_gravity="center"/>
+
+        <View android:layout_height="1dp"
+              android:layout_width="wrap_content"
+              android:background="@color/settings_divider"
+              android:layout_marginTop="6dp"/>
+
+        <Button
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/voice_receiving_tips"
+                android:id="@+id/tipsButton"
+                android:layout_gravity="center"/>
+
+    </LinearLayout>
+</LinearLayout>
