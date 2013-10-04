@@ -473,6 +473,7 @@ public class MainActivity extends FragmentActivity {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawer = (LinearLayout) findViewById(R.id.drawer);
 
+        //mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.RIGHT);
         setUpDrawer();
 
         final String newMessage = resources.getString(R.string.new_message);
