@@ -224,8 +224,13 @@ public class MainActivityPopup extends MainActivity {
                     } else {
                         openTo = getIntent().getIntExtra("openToPage", 0);
 
-                        menu.showContent();
-                        mViewPager.setCurrentItem(openTo);
+                        try {
+                            menu.showContent();
+                            mViewPager.setCurrentItem(openTo);
+                        } catch (Exception e) {
+                            // doesn't want to open to the correct page. null pointer on the menu object, don't know why i guess
+                        }
+
                     }
                 }
             } else {
