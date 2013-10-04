@@ -10,6 +10,7 @@ import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.TelephonyManager;
@@ -317,10 +318,19 @@ public class ContactUtil {
         } catch (Exception e) {
             Bitmap defaultPhoto;
 
-            if (!MainActivity.settings.ctDarkContactPics) {
-                defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
-            } else {
-                defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar_dark);
+            try {
+                if (!MainActivity.settings.ctDarkContactPics) {
+                    defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
+                } else {
+                    defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar_dark);
+                }
+            } catch (Exception f) {
+                // settings is null, so get it manually
+                if (!PreferenceManager.getDefaultSharedPreferences(context).getBoolean("ct_darkContactImage", false)) {
+                    defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
+                } else {
+                    defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar_dark);
+                }
             }
 
             return defaultPhoto;

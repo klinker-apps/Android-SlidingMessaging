@@ -126,10 +126,10 @@ public class ContactView extends ViewGroup {
         }
 
         if (!ignore[4]) {
-            canvas.drawRect(contFiveRect, blackPaint);
-            //if (currentContact != 4)
-            canvas.drawRect(contFiveRect, strokePaint);
-            canvas.drawBitmap(contactPics[4], null, contFiveRect, currentContact == 4 ? contactCurrentPaint : contactClosedPaint);
+                canvas.drawRect(contFiveRect, blackPaint);
+                //if (currentContact != 4)
+                canvas.drawRect(contFiveRect, strokePaint);
+                canvas.drawBitmap(contactPics[4], null, contFiveRect, currentContact == 4 ? contactCurrentPaint : contactClosedPaint);
         }
 
         canvas.drawCircle(width - 50 - toDP(60), toDP(30), toDP(10), blackPaint);
