@@ -254,7 +254,7 @@ public class ContactView extends ViewGroup {
 
                         count++;
                     }
-                } while (cursor.moveToNext() && count < numberOfContacts + 1);
+                } while (cursor.moveToNext() && count < numberOfContacts);
 
                 cursor.close();
             }

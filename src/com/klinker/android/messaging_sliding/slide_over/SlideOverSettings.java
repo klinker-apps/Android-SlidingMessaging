@@ -92,6 +92,15 @@ public class SlideOverSettings extends PreferenceActivity {
 
         });
 
+        Preference voiceSend = findPreference("quick_peek_voice_send");
+        voiceSend.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object o) {
+                restartHalo();
+                return true;
+            }
+        });
+
         Preference enableQuickPeek = findPreference("enable_quick_peek");
         enableQuickPeek.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
