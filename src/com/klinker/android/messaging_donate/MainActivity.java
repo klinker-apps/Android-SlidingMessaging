@@ -504,11 +504,18 @@ public class MainActivity extends FragmentActivity {
                 } catch (Exception e) {
                 }
                 invalidateOptionsMenu();
-                EditText contactEntry = (EditText) newMessageView.findViewById(R.id.contactEntry);
-                contactEntry.requestFocusFromTouch();
-                InputMethodManager keyboard = (InputMethodManager)
-                        getSystemService(Context.INPUT_METHOD_SERVICE);
-                keyboard.showSoftInput(contactEntry, 0);
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        EditText contactEntry = (EditText) newMessageView.findViewById(R.id.contactEntry);
+                        contactEntry.requestFocusFromTouch();
+                        InputMethodManager keyboard = (InputMethodManager)
+                                getSystemService(Context.INPUT_METHOD_SERVICE);
+                        keyboard.showSoftInput(contactEntry, 0);
+                    }
+                }, 350);
+
 
                 if (emojiOpen) {
                     messageScreen.removeView(tabs);
