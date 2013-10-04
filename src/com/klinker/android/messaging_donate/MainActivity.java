@@ -2477,6 +2477,8 @@ public class MainActivity extends FragmentActivity {
                                 } catch (Exception e) {
                                     ab.setTitle(R.string.app_name_in_app);
                                     ab.setIcon(R.drawable.ic_launcher);
+
+                                    ab.setDisplayHomeAsUpEnabled(false);
                                 }
                             }
 
