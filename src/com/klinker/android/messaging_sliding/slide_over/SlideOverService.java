@@ -465,6 +465,18 @@ public class SlideOverService extends Service {
                 }
             }
         });
+
+        sendBox.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handled = false;
+                if (actionId == EditorInfo.IME_ACTION_SEND) {
+                    send.performClick();
+                    handled = true;
+                }
+                return handled;
+            }
+        });
     }
 
     public void initialSetup(Bitmap halo, int height, int width) {
