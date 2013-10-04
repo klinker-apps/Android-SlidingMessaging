@@ -286,6 +286,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
                                     }
                                 }
 
+
                                 if (sharedPrefs.getBoolean("stack_notifications", true)) {
                                     body = body2 + " | " + body;
                                 }
@@ -533,6 +534,8 @@ public class TextMessageReceiver extends BroadcastReceiver {
         return false;
     }
 
+    // FIXME Doesn't take into acount the previous notification at all... always just shows the new one, I even took out the 2 lines i added for the stacking thing to see if that was it, but it wasn't. it was the exact
+    // same with that. so something is going wrong here or up above trying to get the older notifications
     private void makeNotification(String title, String text, String ticker, String address, String body, String date, Bitmap contactImage,
                                   int[] buttonArray, PendingIntent pIntent, PendingIntent mrPendingIntent, PendingIntent callPendingIntent,
                                   PendingIntent deletePendingIntent, int notificationType, ArrayList<String> prevNotifications, boolean alert, final Context context) {

@@ -107,7 +107,7 @@ public class MainActivity extends FragmentActivity {
     protected Resources resources;
 
     public static DrawerLayout mDrawerLayout;
-    private LinearLayout mDrawer;
+    public LinearLayout mDrawer;
     private ActionBarDrawerToggle mDrawerToggle;
 
     public static View newMessageView;
@@ -124,7 +124,7 @@ public class MainActivity extends FragmentActivity {
     public static Settings sendSettings;
     private Transaction sendTransaction;
 
-    public ArrayList<Long> threadsThroughVoice;
+    public static ArrayList<Long> threadsThroughVoice;
     public ArrayList<String> newMessages;
 
     public static boolean waitToLoad = false;
@@ -473,6 +473,7 @@ public class MainActivity extends FragmentActivity {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawer = (LinearLayout) findViewById(R.id.drawer);
 
+        //mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.RIGHT);
         setUpDrawer();
 
         final String newMessage = resources.getString(R.string.new_message);

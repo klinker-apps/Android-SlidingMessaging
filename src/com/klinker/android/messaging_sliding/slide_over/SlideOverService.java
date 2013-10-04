@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.utils.IOUtil;
+import com.klinker.android.messaging_donate.utils.SendUtil;
 import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead;
 import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
 import com.klinker.android.send_message.Message;
@@ -543,15 +544,15 @@ public class SlideOverService extends Service {
         send = (ImageButton) sendView.findViewById(R.id.send);
         cancel = (ImageButton) sendView.findViewById(R.id.cancel);
 
-        Settings mSettings = new Settings(MainActivity.sendSettings);
+        Settings sendSettings = SendUtil.getSendSettings(this);
 
         if (sharedPrefs.getBoolean("quick_peek_send_voice", false)) {
-            mSettings.setPreferVoice(false);
+            sendSettings.setPreferVoice(false);
         } else {
-            mSettings.setPreferVoice(true);
+            sendSettings.setPreferVoice(true);
         }
 
-        sendTransaction = new Transaction (mContext, MainActivity.sendSettings);
+        sendTransaction = new Transaction (mContext, sendSettings);
     }
 
     public void setParams(Bitmap halo, int height, int width) {

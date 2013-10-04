@@ -249,7 +249,12 @@ public class ChangeLogMain extends FragmentActivity implements
 
     @Override
     public Page onGetPage(String key) {
-        return mWizardModel.findByKey(key);
+        try {
+            return mWizardModel.findByKey(key);
+        } catch (Exception e) {
+            finish();
+            return null;
+        }
     }
 
     private boolean recalculateCutOffPage() {

@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
@@ -101,35 +102,55 @@ public class ContactView extends ViewGroup {
             canvas.drawRect(contOneRect, blackPaint);
             //if (currentContact != 0)
             canvas.drawRect(contOneRect, strokePaint);
-            canvas.drawBitmap(contactPics[0], null, contOneRect, currentContact == 0 ? contactCurrentPaint : contactClosedPaint);
+            try {
+                canvas.drawBitmap(contactPics[0], null, contOneRect, currentContact == 0 ? contactCurrentPaint : contactClosedPaint);
+            } catch (Exception e) {
+                canvas.drawBitmap(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.default_avatar), null, contFiveRect, currentContact == 4 ? contactCurrentPaint : contactClosedPaint);;
+            }
         }
 
         if (!ignore[1]) {
             canvas.drawRect(contTwoRect, blackPaint);
             //if (currentContact != 1)
             canvas.drawRect(contTwoRect, strokePaint);
-            canvas.drawBitmap(contactPics[1], null, contTwoRect, currentContact == 1 ? contactCurrentPaint : contactClosedPaint);
+            try {
+                canvas.drawBitmap(contactPics[1], null, contTwoRect, currentContact == 1 ? contactCurrentPaint : contactClosedPaint);
+            } catch (Exception e) {
+                canvas.drawBitmap(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.default_avatar), null, contFiveRect, currentContact == 4 ? contactCurrentPaint : contactClosedPaint);;
+            }
         }
 
         if (!ignore[2]) {
             canvas.drawRect(contThreeRect, blackPaint);
             if (currentContact != 2)
                 canvas.drawRect(contThreeRect, strokePaint);
-            canvas.drawBitmap(contactPics[2], null, contThreeRect, currentContact == 2 ? contactCurrentPaint : contactClosedPaint);
+            try {
+                canvas.drawBitmap(contactPics[2], null, contThreeRect, currentContact == 2 ? contactCurrentPaint : contactClosedPaint);
+            } catch (Exception e) {
+                canvas.drawBitmap(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.default_avatar), null, contFiveRect, currentContact == 4 ? contactCurrentPaint : contactClosedPaint);;
+            }
         }
 
         if (!ignore[3]) {
             canvas.drawRect(contFourRect, blackPaint);
             //if (currentContact != 3)
             canvas.drawRect(contFourRect, strokePaint);
-            canvas.drawBitmap(contactPics[3], null, contFourRect, currentContact == 3 ? contactCurrentPaint : contactClosedPaint);
+            try {
+                canvas.drawBitmap(contactPics[3], null, contFourRect, currentContact == 3 ? contactCurrentPaint : contactClosedPaint);
+            } catch (Exception e) {
+                canvas.drawBitmap(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.default_avatar), null, contFiveRect, currentContact == 4 ? contactCurrentPaint : contactClosedPaint);;
+            }
         }
 
         if (!ignore[4]) {
-                canvas.drawRect(contFiveRect, blackPaint);
-                //if (currentContact != 4)
-                canvas.drawRect(contFiveRect, strokePaint);
+            canvas.drawRect(contFiveRect, blackPaint);
+            //if (currentContact != 4)
+            canvas.drawRect(contFiveRect, strokePaint);
+            try {
                 canvas.drawBitmap(contactPics[4], null, contFiveRect, currentContact == 4 ? contactCurrentPaint : contactClosedPaint);
+            } catch (Exception e) {
+                canvas.drawBitmap(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.default_avatar), null, contFiveRect, currentContact == 4 ? contactCurrentPaint : contactClosedPaint);;
+            }
         }
 
         canvas.drawCircle(width - 50 - toDP(60), toDP(30), toDP(10), blackPaint);
@@ -201,6 +222,11 @@ public class ContactView extends ViewGroup {
                         threadIds[count] = id;
                         numbers[count] = number;
                         contactPics[count] = ContactUtil.getFacebookPhoto(number, mContext);
+
+                        if (contactPics[count] == null) {
+                            contactPics[count] = BitmapFactory.decodeResource(mContext.getResources(),
+                                    R.drawable.default_avatar);
+                        }
                         do {
                             /*String s = cursor2.getString(cursor2.getColumnIndex("msg_box"));
 
@@ -228,7 +254,7 @@ public class ContactView extends ViewGroup {
 
                         count++;
                     }
-                } while (cursor.moveToNext() && count < numberOfContacts);
+                } while (cursor.moveToNext() && count < numberOfContacts + 1);
 
                 cursor.close();
             }
