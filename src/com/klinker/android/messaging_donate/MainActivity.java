@@ -473,7 +473,7 @@ public class MainActivity extends FragmentActivity {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawer = (LinearLayout) findViewById(R.id.drawer);
 
-        //mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.RIGHT);
+        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.RIGHT);
         setUpDrawer();
 
         final String newMessage = resources.getString(R.string.new_message);
@@ -3755,6 +3755,15 @@ public class MainActivity extends FragmentActivity {
     @Override
     public void onResume() {
         super.onResume();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                DrawerLayout.LayoutParams params = (DrawerLayout.LayoutParams) mDrawer.getLayoutParams();
+                params.width = (int) (mViewPager.getWidth() * 3 / 4.0);
+                mDrawer.setLayoutParams(params);
+            }
+        }, 1000);
 
         SlideOverService.restartHalo(this);
 
