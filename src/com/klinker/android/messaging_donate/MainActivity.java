@@ -2484,6 +2484,8 @@ public class MainActivity extends FragmentActivity {
                                 ab.setIcon(R.drawable.ic_launcher);
                             }
                         }
+
+                        ab.setDisplayHomeAsUpEnabled(true);
                     } catch (Exception e) {
                         // no action bar, dialog theme
                     }
