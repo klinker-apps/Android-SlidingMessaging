@@ -446,6 +446,8 @@ public class SlideOverService extends Service {
                     ContactView.refreshArrays();
                     contactView.invalidate();
                     messageView.invalidate();
+
+                    closeNotifications();
                 }
             }
         });
