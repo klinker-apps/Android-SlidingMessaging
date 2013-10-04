@@ -92,7 +92,7 @@ public class SlideOverSettings extends PreferenceActivity {
 
         });
 
-        Preference voiceSend = findPreference("quick_peek_voice_send");
+        Preference voiceSend = findPreference("quick_peek_send_voice");
         voiceSend.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
