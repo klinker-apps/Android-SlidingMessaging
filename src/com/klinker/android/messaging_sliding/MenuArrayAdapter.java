@@ -499,6 +499,10 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
                             public void run() {
                                 Looper.prepare();
                                 deleteSMS(context, "" + conversations.get(position).getThreadId());
+
+                                //if (MainActivity.threadsThroughVoice.contains(MainActivity.conversations.get(position).getThreadId()))  {
+                                    //MainActivity.threadsThroughVoice.remove(position);
+                                //}
                             }
 
                         }).start();

@@ -16,6 +16,8 @@ import android.util.TypedValue;
 import android.view.*;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.LinearLayout;
+
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
@@ -29,6 +31,8 @@ public class MainActivityPopup extends MainActivity {
     public boolean multipleNew = false;
     public int openTo = 0;
     public int originalHeight = 0;
+
+    private LinearLayout.LayoutParams params;
 
     private BroadcastReceiver closeReceiver = new BroadcastReceiver() {
         @Override
@@ -107,6 +111,8 @@ public class MainActivityPopup extends MainActivity {
 
             }
         }
+
+        //params = new LinearLayout.LayoutParams(toDP(200), ViewGroup.LayoutParams.MATCH_PARENT);
     }
 
     @Override
@@ -197,6 +203,8 @@ public class MainActivityPopup extends MainActivity {
 
         SlideOverService.restartHalo(this);
 
+        //mDrawerLayout.setLayoutParams(params);
+
         if (!getIntent().getBooleanExtra("fromNotification", false)) {
             if (!fromWidget) {
                 if (!fromHalo) {
@@ -280,5 +288,9 @@ public class MainActivityPopup extends MainActivity {
                 alarm.cancel(pStopRepeating);
             }
         }, 500);
+    }
+
+    public int toDP(int px) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, SlideOverService.displayMatrix);
     }
 }

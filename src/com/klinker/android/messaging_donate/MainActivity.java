@@ -107,7 +107,7 @@ public class MainActivity extends FragmentActivity {
     protected Resources resources;
 
     public static DrawerLayout mDrawerLayout;
-    private LinearLayout mDrawer;
+    public LinearLayout mDrawer;
     private ActionBarDrawerToggle mDrawerToggle;
 
     public static View newMessageView;
@@ -124,7 +124,7 @@ public class MainActivity extends FragmentActivity {
     public static Settings sendSettings;
     private Transaction sendTransaction;
 
-    public ArrayList<Long> threadsThroughVoice;
+    public static ArrayList<Long> threadsThroughVoice;
     public ArrayList<String> newMessages;
 
     public static boolean waitToLoad = false;
