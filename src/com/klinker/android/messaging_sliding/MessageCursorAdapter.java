@@ -17,8 +17,10 @@ import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
+import android.provider.Telephony;
 import android.text.Html;
 import android.text.Spannable;
+import android.text.TextUtils;
 import android.text.util.Linkify;
 import android.util.Log;
 import android.util.TypedValue;
@@ -29,6 +31,10 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
+import com.google.android.mms.pdu_alt.EncodedStringValue;
+import com.google.android.mms.pdu_alt.PduHeaders;
+import com.google.android.mms.pdu_alt.PduPersister;
+import com.google.android.mms.util_alt.SqliteWrapper;
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.settings.AppSettings;
@@ -55,6 +61,7 @@ public class MessageCursorAdapter extends CursorAdapter {
     private final long threadIds;
     private final Bitmap contactImage;
     public static Bitmap myImage;
+    private boolean group;
     private SharedPreferences sharedPrefs;
     private ContentResolver contentResolver;
     private Cursor mCursor;
@@ -66,7 +73,7 @@ public class MessageCursorAdapter extends CursorAdapter {
     private boolean touchwiz = false;
     private final boolean lookForVoice;
 
-    public MessageCursorAdapter(Activity context, String myId, String inboxNumbers, long ids, Cursor query, int threadPosition) {
+    public MessageCursorAdapter(Activity context, String myId, String inboxNumbers, long ids, Cursor query, int threadPosition, boolean group) {
         super(context, query, 0);
         this.context = context;
         this.myId = myId;
@@ -77,6 +84,7 @@ public class MessageCursorAdapter extends CursorAdapter {
         this.contentResolver = context.getContentResolver();
         this.mInflater = LayoutInflater.from(context);
         this.mCursor = query;
+        this.group = group;
 
         this.resources = context.getResources();
 
@@ -216,7 +224,6 @@ public class MessageCursorAdapter extends CursorAdapter {
         String id = "";
         boolean sending = false;
         boolean error = false;
-        boolean group = false;
         String sender = "";
         String status = "-1";
         boolean locked = false;
@@ -240,10 +247,6 @@ public class MessageCursorAdapter extends CursorAdapter {
                 date = Long.parseLong(cursor.getString(cursor.getColumnIndex("date"))) * 1000 + "";
                 subject = cursor.getString(cursor.getColumnIndex("sub"));
 
-                String number = getAddressNumber(Integer.parseInt(cursor.getString(cursor.getColumnIndex("_id")))).trim();
-
-                String[] numbers = number.split(" ");
-
                 if (cursor.getInt(cursor.getColumnIndex("msg_box")) == 4) {
                     sending = true;
                     sent = true;
@@ -256,9 +259,8 @@ public class MessageCursorAdapter extends CursorAdapter {
                     sent = true;
                 }
 
-                if (numbers.length > 2) {
-                    group = true;
-                    sender = numbers[0];
+                if (group && !sent) {
+                    sender = getFrom(Uri.parse("content://mms/" + cursor.getString(cursor.getColumnIndex("_id")))).trim();
                 }
 
                 if (cursor.getInt(cursor.getColumnIndex("read")) == 0) {
@@ -1016,30 +1018,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                     Cursor query = context.getContentResolver().query(uri, projection, null, null, null);
 
                     if (query.moveToFirst()) {
-
-                        String address = getAddressNumber(Integer.parseInt(query.getString(query.getColumnIndex("_id"))));
-                        String[] addresses = address.split(" ");
-
-                        if (sentF) {
-                            addresses[0] = "";
-                        } else {
-                            for (int i = 0; i < addresses.length; i++) {
-                                if (addresses[i].equals(MainActivity.myPhoneNumber) || addresses[i].startsWith(MainActivity.myPhoneNumber) || addresses[i].endsWith(MainActivity.myPhoneNumber)) {
-                                    addresses[i] = "";
-                                }
-                            }
-                        }
-
-                        address = "";
-                        for (String a : addresses) {
-                            if (!a.equals("")) {
-                                address += a + ", ";
-                            }
-                        }
-
-                        if (address.length() > 0) {
-                            address = address.substring(0, address.length() - 2);
-                        }
+                        String address = getFrom(uri);
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(context);
                         builder.setTitle(context.getString(R.string.message_details));
@@ -2034,6 +2013,35 @@ public class MessageCursorAdapter extends CursorAdapter {
         }
 
         return name.trim();
+    }
+
+    private String getFrom(Uri uri) {
+        String msgId = uri.getLastPathSegment();
+        Uri.Builder builder = Telephony.Mms.CONTENT_URI.buildUpon();
+
+        builder.appendPath(msgId).appendPath("addr");
+
+        Cursor cursor = SqliteWrapper.query(context, context.getContentResolver(),
+                builder.build(), new String[]{Telephony.Mms.Addr.ADDRESS, Telephony.Mms.Addr.CHARSET},
+                Telephony.Mms.Addr.TYPE + "=" + PduHeaders.FROM, null, null);
+
+        if (cursor != null) {
+            try {
+                if (cursor.moveToFirst()) {
+                    String from = cursor.getString(0);
+
+                    if (!TextUtils.isEmpty(from)) {
+                        byte[] bytes = PduPersister.getBytes(from);
+                        int charset = cursor.getInt(1);
+                        return new EncodedStringValue(charset, bytes)
+                                .getString();
+                    }
+                }
+            } finally {
+                cursor.close();
+            }
+        }
+        return "";
     }
 
     public static Date getZeroTimeDate(Date date) {

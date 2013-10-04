@@ -230,7 +230,7 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
                             @Override
                             public void run() {
 
-                                adapter = new MessageCursorAdapter((Activity) context, myId, ContactUtil.findContactNumber(MainActivity.conversations.get(position).getNumber(), context), MainActivity.conversations.get(position).getThreadId(), messageQuery, position);
+                                adapter = new MessageCursorAdapter((Activity) context, myId, ContactUtil.findContactNumber(MainActivity.conversations.get(position).getNumber(), context), MainActivity.conversations.get(position).getThreadId(), messageQuery, position, MainActivity.conversations.get(position).getGroup());
 
                                 listView.setAdapter(adapter);
 
@@ -300,7 +300,7 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
                 messageQuery = CacheService.conversations.get(position);
             }
 
-            adapter = new MessageCursorAdapter((Activity) context, myId, ContactUtil.findContactNumber(MainActivity.conversations.get(position).getNumber(), context), MainActivity.conversations.get(position).getThreadId(), messageQuery, position);
+            adapter = new MessageCursorAdapter((Activity) context, myId, ContactUtil.findContactNumber(MainActivity.conversations.get(position).getNumber(), context), MainActivity.conversations.get(position).getThreadId(), messageQuery, position, MainActivity.conversations.get(position).getGroup());
 
             listView.setAdapter(adapter);
             listView.setStackFromBottom(true);
@@ -384,7 +384,7 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, final Cursor query) {
-        adapter = new MessageCursorAdapter((Activity) context, myId, ContactUtil.findContactNumber(MainActivity.conversations.get(position).getNumber(), context), MainActivity.conversations.get(position).getThreadId(), query, position);
+        adapter = new MessageCursorAdapter((Activity) context, myId, ContactUtil.findContactNumber(MainActivity.conversations.get(position).getNumber(), context), MainActivity.conversations.get(position).getThreadId(), query, position, MainActivity.conversations.get(position).getGroup());
 
         listView.setAdapter(adapter);
         listView.setStackFromBottom(true);
@@ -463,7 +463,7 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
             @Override
             protected void onPostExecute(Void result) {
                 super.onPostExecute(result);
-                adapter = new MessageCursorAdapter((Activity) context, myId, ContactUtil.findContactNumber(MainActivity.conversations.get(position).getNumber(), context), MainActivity.conversations.get(position).getThreadId(), query, position);
+                adapter = new MessageCursorAdapter((Activity) context, myId, ContactUtil.findContactNumber(MainActivity.conversations.get(position).getNumber(), context), MainActivity.conversations.get(position).getThreadId(), query, position, MainActivity.conversations.get(position).getGroup());
 
                 listView.setAdapter(adapter);
                 listView.setStackFromBottom(true);
