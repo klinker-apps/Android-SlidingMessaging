@@ -4625,82 +4625,87 @@ public class MainActivity extends FragmentActivity {
             }
         }
 
-        if (flag) {
-            Log.v("refreshViewPager", "setting up menu again");
+        if (!flag) {
+            refreshMessages();
+
             if (menu != null) {
-                //menuAdapter =  new MenuArrayAdapter(this, conversations, MainActivity.mViewPager);
-                //menuLayout.setAdapter(menuAdapter);
+                menuAdapter =  new MenuArrayAdapter(this, conversations, MainActivity.mViewPager);
+                menuLayout.setAdapter(menuAdapter);
+            } else {
+                ListFragment newFragment = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.menuList);
+                newFragment.setListAdapter(new MenuArrayAdapter(this, conversations, MainActivity.mViewPager));
+            }
+        } else {
+            if (menu != null) {
                 menuAdapter.notifyDataSetChanged();
             } else {
                 ListFragment newFragment = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.menuList);
                 newFragment.setListAdapter(new MenuArrayAdapter(this, conversations, MainActivity.mViewPager));
             }
+        }
 
-            try {
-                mSectionsPagerAdapter.notifyDataSetChanged();
-            } catch (Exception e) {
-                // fragment most likely outside of activity now or something
+        try {
+            mSectionsPagerAdapter.notifyDataSetChanged();
+        } catch (Exception e) {
+            // fragment most likely outside of activity now or something
+        }
+
+        // check here whether or not we are on the same page as we started on... should be, but sometimes not
+        if (currentThread != conversations.get(mViewPager.getCurrentItem()).getThreadId()) {
+            for (int i = 0; i < conversations.size(); i++) {
+                if (conversations.get(i).getThreadId() == currentThread) {
+                    mViewPager.setCurrentItem(i);
+                    break;
+                }
             }
+        }
 
-            // TODO check what the thread id is before we switch pages around and then switch back to that page if we aren't already
-//            if (currentThread != conversations.get(mViewPager.getCurrentItem()).getThreadId()) {
-//                for (int i = 0; i < conversations.size(); i++) {
-//                    if (conversations.get(i).getThreadId() == currentThread) {
-//                        mViewPager.setCurrentItem(i);
-//                        break;
-//                    }
-//                }
-//            }
+        final ImageView glow = (ImageView) findViewById(R.id.newMessageGlow);
+        glow.setVisibility(View.VISIBLE);
 
-            final ImageView glow = (ImageView) findViewById(R.id.newMessageGlow);
+        if (MainActivity.animationReceived == 2) {
+            glow.setAlpha((float) 1);
             glow.setVisibility(View.VISIBLE);
 
-            if (MainActivity.animationReceived == 2) {
-                glow.setAlpha((float) 1);
-                glow.setVisibility(View.VISIBLE);
+            Animation fadeIn = new AlphaAnimation(0, (float) .9);
+            fadeIn.setInterpolator(new DecelerateInterpolator());
+            fadeIn.setDuration(1000);
 
-                Animation fadeIn = new AlphaAnimation(0, (float) .9);
-                fadeIn.setInterpolator(new DecelerateInterpolator());
-                fadeIn.setDuration(1000);
+            Animation fadeOut = new AlphaAnimation((float) .9, 0);
+            fadeOut.setInterpolator(new AccelerateInterpolator());
+            fadeOut.setStartOffset(1000);
+            fadeOut.setDuration(1000);
 
-                Animation fadeOut = new AlphaAnimation((float) .9, 0);
-                fadeOut.setInterpolator(new AccelerateInterpolator());
-                fadeOut.setStartOffset(1000);
-                fadeOut.setDuration(1000);
+            AnimationSet animation = new AnimationSet(false);
+            animation.addAnimation(fadeIn);
+            animation.addAnimation(fadeOut);
 
-                AnimationSet animation = new AnimationSet(false);
-                animation.addAnimation(fadeIn);
-                animation.addAnimation(fadeOut);
+            animation.setAnimationListener(new AnimationListener() {
 
-                animation.setAnimationListener(new AnimationListener() {
+                @Override
+                public void onAnimationEnd(Animation arg0) {
+                    glow.setAlpha((float) 0);
 
-                    @Override
-                    public void onAnimationEnd(Animation arg0) {
-                        glow.setAlpha((float) 0);
+                }
 
-                    }
+                @Override
+                public void onAnimationRepeat(Animation animation) {
 
-                    @Override
-                    public void onAnimationRepeat(Animation animation) {
+                }
 
-                    }
+                @Override
+                public void onAnimationStart(Animation animation) {
 
-                    @Override
-                    public void onAnimationStart(Animation animation) {
+                }
 
-                    }
+            });
 
-                });
+            glow.startAnimation(animation);
 
-                glow.startAnimation(animation);
-
-                MainActivity.animationReceived = 0;
-            } else {
-                glow.setAlpha((float) 0);
-                glow.setVisibility(View.GONE);
-            }
+            MainActivity.animationReceived = 0;
         } else {
-            refreshViewPager();
+            glow.setAlpha((float) 0);
+            glow.setVisibility(View.GONE);
         }
 
         try {
