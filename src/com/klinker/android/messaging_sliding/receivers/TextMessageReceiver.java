@@ -292,7 +292,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 
                                 makeNotification(name, body, name + ": " + body, origAddress, body, dateReceived, contactImage, buttonArray, pIntent, mrPendingIntent, callPendingIntent, deletePendingIntent, 2, prevNotifications, alert, context);
                             } else {
-                                makeNotification(prevNotifications.size() + 1 + " New Messages", body, prevNotifications.size() + 1 + " New Messages", origAddress, body, dateReceived, contactImage, buttonArray, pIntent, mrPendingIntent, callPendingIntent, deletePendingIntent, 3, prevNotifications, alert, context);
+                                makeNotification(prevNotifications.size() + 1 + " New Messages", body, prevNotifications.size() + 1 + " New Messages", origAddress, body, dateReceived, null, buttonArray, pIntent, mrPendingIntent, callPendingIntent, deletePendingIntent, 3, prevNotifications, alert, context);
                             }
                         } else {
                             if (prevNotifications.size() == 0) {
@@ -682,13 +682,14 @@ public class TextMessageReceiver extends BroadcastReceiver {
 
             Notification notification;
 
+            prevNotifications.add(ContactUtil.findContactName(address, context) + ": " + body);
             if (notificationType == 1) {
                 notification = mBuilder.build();
             } else if (notificationType == 2) {
                 notification = new NotificationCompat.BigTextStyle(mBuilder).bigText(body).build();
+
             } else {
                 NotificationCompat.InboxStyle not = new NotificationCompat.InboxStyle(mBuilder);
-                prevNotifications.add(ContactUtil.findContactName(address, context) + ": " + body);
 
                 for (int i = 0; i < prevNotifications.size(); i++) {
                     not.addLine(prevNotifications.get(i));
