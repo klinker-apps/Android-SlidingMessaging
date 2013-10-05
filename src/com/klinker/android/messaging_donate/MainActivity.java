@@ -1389,7 +1389,12 @@ public class MainActivity extends FragmentActivity {
     public void setUpWindow() {
         if (settings.lightActionBar) {
             setTheme(R.style.HangoutsTheme);
+        }
+
+        try {
             ab = getActionBar();
+        } catch (Exception e) {
+            // just in case there is no action bar and slideover for some reason called this
         }
 
         if (!settings.pinType.equals("1")) {
