@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
     <string name="app_name">Sliding Messaging</string>
     <string name="app_name_in_app">Messaging</string>
@@ -781,14 +781,14 @@
     <string name="mms_max_size_warning">Be aware, some carriers only allow for message up to 1 MB, so setting the above values to high may result in delivery failure</string>
     <string name="use_device_font">Use Device Font</string>
     <string name="slideover_only_unread">Quick Peek: Unread Only</string>
-    <string name="slideover_only_unread_summary">Only show unread messages in the SlideOver Quick Peek.</string>
+    <string name="slideover_only_unread_summary">Only show unread messages in the SlideOver Quick Peek</string>
     <string name="slideover_disable_drag">Disable long press action</string>
-    <string name="slideover_disable_drag_summary">Warning: you will have no way to move the bubble around with this option enabled.</string>
+    <string name="slideover_disable_drag_summary">Warning: you will have no way to move the bubble around with this option enabled</string>
     <string name="slideover_disable_sliver">Disable the double-tap action</string>
     <string name="quick_peek_category">Quick Peek Settings</string>
     <string name="quick_peek_transparency">Message box opacity</string>
     <string name="quick_peek_contact_num">Number of Contacts</string>
-    <string name="quick_peek_contact_num_summary">You may have to adjust this if the contacts don\'t fit on the screen correctly.</string>
+    <string name="quick_peek_contact_num_summary">You may have to adjust this if the contacts don\'t fit on the screen correctly</string>
     <string name="slideover_tutorial">SlideOver Tutorial</string>
     <string name="slideover_tutorial_summary">Click here for a list of features and knowledge about using SlideOver and Quick Peek to their full potential</string>
     <string name="message_subject">Subject</string>
@@ -799,8 +799,31 @@
     <string name="enable_quick_peek_summary">A single tap on the SlideOver bubble will open the new Quick Peek window to view recent conversations</string>
     <string name="conversation_list_images">Display Picture Previews</string>
     <string name="stack_notifications">Stack Incoming Texts</string>
-    <string name="stack_notifications_summary">If disabled, notification will only show the most recently received message, it will not show all of the messages from the previous notification along with it.</string>
+    <string name="stack_notifications_summary">If disabled, notification will only show the most recently received message, it will not show all of the messages from the previous notification along with it</string>
     <string name="quick_peek_send_voice">Quick Peek: Prefer sending through Voice</string>
-    <string name="quick_peek_send_voice_summary">Sends the message though Google Voice if it is possible. You must have a Voice account selected for it to work.</string>
+    <string name="quick_peek_send_voice_summary">Sends the message though Google Voice if it is possible. You must have a Voice account selected for it to work</string>
+    <string name="cannot_get_details">Can\'t get details.</string>
+    <string name="message_type_label">Type:\u0020</string>
+    <string name="multimedia_notification">Multimedia message notification</string>
+    <string name="from_label">From:\u0020</string>
+    <string name="hidden_sender_address">Hidden sender address</string>
+    <string name="expire_on">"Expires: <xliff:g id="date">%s</xliff:g>"</string>
+    <string name="subject_label">Subject:\u0020</string>
+    <string name="message_class_label">Message class:\u0020</string>
+    <string name="message_size_label">Message size:\u0020</string>
+    <string name="kilobyte">KB</string>
+    <string name="multimedia_message">Multimedia message</string>
+    <string name="to_address_label">To:\u0020</string>
+    <string name="bcc_label">Bcc:\u0020</string>
+    <string name="sent_label">Sent:\u0020</string>
+    <string name="received_label">Received:\u0020</string>
+    <string name="saved_label">Saved:\u0020</string>
+    <string name="priority_label">Priority:\u0020</string>
+    <string name="text_message">Text message</string>
+    <string name="delivered_label">Delivered:\u0020</string>
+    <string name="error_code_label">Error code:\u0020</string>
+    <string name="priority_high">High</string>
+    <string name="priority_normal">Normal</string>
+    <string name="priority_low">Low</string>
 
 </resources>

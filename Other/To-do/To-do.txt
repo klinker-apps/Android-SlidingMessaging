@@ -8,7 +8,6 @@ Jake:
     - delayed sending for certain times
     - actionbar pull to refresh, get the newest changes
 Luke:
-    - Message details for MMS messages
     - Fix image inserting button on slideover
     - Fix leaky slideover broadcast receivers, there are tons of them
 

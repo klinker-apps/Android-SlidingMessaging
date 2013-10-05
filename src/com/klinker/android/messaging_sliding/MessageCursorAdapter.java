@@ -40,6 +40,7 @@ import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.settings.AppSettings;
 import com.klinker.android.messaging_donate.utils.ContactUtil;
 import com.klinker.android.messaging_donate.utils.IOUtil;
+import com.klinker.android.messaging_donate.utils.MessageUtil;
 import com.klinker.android.messaging_donate.utils.SendUtil;
 import com.klinker.android.messaging_sliding.emojis.*;
 import com.klinker.android.messaging_sliding.mms.MmsReceiverService;
@@ -900,154 +901,27 @@ public class MessageCursorAdapter extends CursorAdapter {
 
         final String idF = id;
         final boolean mmsF = mms;
-        final boolean sentF = sent;
         final boolean lockedF = locked;
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!mmsF) {
-                    Cursor query;
-                    String dialogText = "";
+                String[] projection;
 
-                    try {
-                        if (!sentF) {
-                            query = contentResolver.query(Uri.parse("content://sms/" + idF + "/"), new String[]{"date", "date_sent", "type", "address"}, null, null, "date desc limit 1");
-
-                            if (query.moveToFirst()) {
-                                String dateSent = query.getString(query.getColumnIndex("date_sent")), dateReceived = query.getString(query.getColumnIndex("date"));
-                                Date date1 = new Date(Long.parseLong(dateSent)), date2 = new Date(Long.parseLong(dateReceived));
-
-                                if (MainActivity.settings.hourFormat) {
-                                    dateSent = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(date1) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date1);
-                                    dateReceived = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2);
-                                } else {
-                                    dateSent = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(date1) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date1);
-                                    dateReceived = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2);
-                                }
-
-                                dialogText = resources.getString(R.string.type) + " Text Message\n" +
-                                        resources.getString(R.string.from) + " " + query.getString(query.getColumnIndex("address")) + "\n" +
-                                        resources.getString(R.string.sent) + " " + dateSent + "\n" +
-                                        resources.getString(R.string.received) + " " + dateReceived;
-                            }
-                        } else {
-                            query = contentResolver.query(Uri.parse("content://sms/" + idF + "/"), new String[]{"date", "status", "type", "address"}, null, null, "date desc limit 1");
-
-                            if (query.moveToFirst()) {
-                                String dateReceived = query.getString(query.getColumnIndex("date"));
-                                Date date2 = new Date(Long.parseLong(dateReceived));
-
-                                if (MainActivity.settings.hourFormat) {
-                                    dateReceived = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2);
-                                } else {
-                                    dateReceived = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2);
-                                }
-
-                                dialogText = resources.getString(R.string.type) + " Text Message\n" +
-                                        resources.getString(R.string.to) + " " + query.getString(query.getColumnIndex("address")) + "\n" +
-                                        resources.getString(R.string.sent) + " " + dateReceived;
-
-                                String status = query.getString(query.getColumnIndex("status"));
-
-                                if (!status.equals("-1")) {
-                                    if (status.equals("64") || status.equals("128")) {
-                                        dialogText += "\n" + resources.getString(R.string.status) + " Error";
-                                    } else if (status.equals("2")) {
-                                        dialogText += "\n" + resources.getString(R.string.status) + " Voice";
-                                    } else {
-                                        dialogText += "\n" + resources.getString(R.string.status) + " Delivered";
-                                    }
-                                }
-                            }
-                        }
-                    } catch (Exception e) {
-                        query = contentResolver.query(Uri.parse("content://sms/" + idF + "/"), new String[]{"date", "status", "type", "address"}, null, null, "date desc limit 1");
-
-                        if (query.moveToFirst()) {
-                            if (sentF) {
-                                String dateReceived = query.getString(query.getColumnIndex("date"));
-                                Date date2 = new Date(Long.parseLong(dateReceived));
-
-                                if (MainActivity.settings.hourFormat) {
-                                    dateReceived = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2);
-                                } else {
-                                    dateReceived = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2);
-                                }
-
-                                dialogText = resources.getString(R.string.type) + " Text Message\n" +
-                                        resources.getString(R.string.to) + " " + query.getString(query.getColumnIndex("address")) + "\n" +
-                                        resources.getString(R.string.sent) + " " + dateReceived;
-
-                                String status = query.getString(query.getColumnIndex("status"));
-
-                                if (!status.equals("-1")) {
-                                    if (status.equals("64") || status.equals("128")) {
-                                        dialogText += "\n" + resources.getString(R.string.status) + " Error";
-                                    } else if (status.equals("2")) {
-                                        dialogText += "\n" + resources.getString(R.string.status) + " Voice";
-                                    } else {
-                                        dialogText += "\n" + resources.getString(R.string.status) + " Delivered";
-                                    }
-                                }
-                            } else {
-                                String dateReceived = query.getString(query.getColumnIndex("date"));
-                                Date date2 = new Date(Long.parseLong(dateReceived));
-
-                                if (MainActivity.settings.hourFormat) {
-                                    dateReceived = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2);
-                                } else {
-                                    dateReceived = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2);
-                                }
-
-                                dialogText = resources.getString(R.string.type) + " Text Message\n" +
-                                        resources.getString(R.string.from) + " " + query.getString(query.getColumnIndex("address")) + "\n" +
-                                        resources.getString(R.string.received) + " " + dateReceived;
-                            }
-                        }
-                    }
-
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setTitle(resources.getString(R.string.message_details));
-                    builder.setMessage(dialogText);
-                    builder.create().show();
+                if (mmsF) {
+                    projection = new String[] {"_id", "m_type", "msg_box", "m_size"};
                 } else {
-                    Uri uri = Uri.parse("content://mms/" + idF);
-                    String[] projection = new String[]{"_id", "date"};
+                    projection = new String[] {"_id", "type", "address", "date_sent", "date", "error_code"};
+                }
 
-                    Cursor query = context.getContentResolver().query(uri, projection, null, null, null);
+                Cursor cursor = contentResolver.query(Uri.parse(mmsF ? "content://mms/" + idF : "content://sms/" + idF), projection, null, null, null);
 
-                    if (query.moveToFirst()) {
-                        String address = getFrom(uri);
-
-                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                        builder.setTitle(context.getString(R.string.message_details));
-
-                        String message;
-
-                        String dateReceived;
-                        Date date2 = new Date(Long.parseLong(dateT));
-
-                        if (MainActivity.settings.hourFormat) {
-                            dateReceived = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2);
-                        } else {
-                            dateReceived = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2);
-                        }
-
-                        // TODO add on more information to this
-                        if (sentF) {
-                            message = resources.getString(R.string.type) + " Multimedia Message\n" +
-                                    resources.getString(R.string.to) + " " + address + "\n" +
-                                    resources.getString(R.string.sent) + " " + dateReceived;
-                        } else {
-                            message = resources.getString(R.string.type) + " Multimedia Message\n" +
-                                    resources.getString(R.string.from) + " " + address + "\n" +
-                                    resources.getString(R.string.received) + " " + dateReceived;
-                        }
-
-                        builder.setMessage(message);
-                        builder.create().show();
-                    }
+                if (cursor.moveToFirst()) {
+                    new AlertDialog.Builder(context)
+                            .setTitle(resources.getString(R.string.message_details))
+                            .setMessage(MessageUtil.getMessageDetails(context, cursor, mmsF ? cursor.getInt(cursor.getColumnIndex("m_size")) : 0))
+                            .create()
+                            .show();
                 }
             }
         });
@@ -1985,34 +1859,6 @@ public class MessageCursorAdapter extends CursorAdapter {
             }
         }
         return sb.toString();
-    }
-
-    private String getAddressNumber(int id) {
-        String selectionAdd = new String("msg_id=" + id);
-        String uriStr = "content://mms/" + id + "/addr";
-        Uri uriAddress = Uri.parse(uriStr);
-        Cursor cAdd = context.getContentResolver().query(uriAddress, null,
-                selectionAdd, null, null);
-        String name = "";
-        if (cAdd != null) {
-            if (cAdd.moveToFirst()) {
-                do {
-                    String number = cAdd.getString(cAdd.getColumnIndex("address"));
-                    if (number != null) {
-                        try {
-                            Long.parseLong(number.replace("-", ""));
-                            name += " " + number;
-                        } catch (NumberFormatException nfe) {
-                            name += " " + number;
-                        }
-                    }
-                } while (cAdd.moveToNext());
-            }
-
-            cAdd.close();
-        }
-
-        return name.trim();
     }
 
     private String getFrom(Uri uri) {
