@@ -1,7 +1,6 @@
 Version 7.70
 
 Jake:
-    - look into downloading mms and data getting stuck
     - Attach audio and video to mms (look at stock app)
     - delayed sending for certain times
     - actionbar pull to refresh, get the newest changes
