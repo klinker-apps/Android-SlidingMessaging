@@ -107,7 +107,7 @@
         <activity
                 android:name="com.klinker.android.messaging_sliding.MainActivityPopup"
                 android:label="@string/slide_over"
-                android:theme="@style/AppBaseThemeDialog"
+                android:theme="@style/DialogTheme"
                 android:configChanges="orientation|screenSize"
                 android:hardwareAccelerated="true"
                 android:windowSoftInputMode="adjustPan"
