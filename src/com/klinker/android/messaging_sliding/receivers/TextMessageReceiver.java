@@ -583,7 +583,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
                         mBuilder.addAction(R.drawable.ic_menu_done_holo_dark, labels[1], mrPendingIntent);
                     } else if (option == 3 && notificationType != 3) {
                         mBuilder.addAction(R.drawable.ic_menu_call, labels[2], callPendingIntent);
-                    } else if (option == 4 && notificationType != 3) {
+                    } else if (option == 4 && notificationType == 1) {
                         mBuilder.addAction(R.drawable.ic_menu_delete, labels[3], deletePendingIntent);
                     }
                 }
@@ -683,11 +683,8 @@ public class TextMessageReceiver extends BroadcastReceiver {
             Notification notification;
 
             prevNotifications.add(ContactUtil.findContactName(address, context) + ": " + body);
-            if (notificationType == 1) {
-                notification = mBuilder.build();
-            } else if (notificationType == 2) {
+            if (notificationType == 1 || notificationType == 2) {
                 notification = new NotificationCompat.BigTextStyle(mBuilder).bigText(body).build();
-
             } else {
                 NotificationCompat.InboxStyle not = new NotificationCompat.InboxStyle(mBuilder);
 
