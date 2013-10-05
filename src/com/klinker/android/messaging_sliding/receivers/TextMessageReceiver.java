@@ -682,10 +682,13 @@ public class TextMessageReceiver extends BroadcastReceiver {
 
             Notification notification;
 
-            prevNotifications.add(ContactUtil.findContactName(address, context) + ": " + body);
             if (notificationType == 1 || notificationType == 2) {
+                prevNotifications = new ArrayList<String>();
+                prevNotifications.add(ContactUtil.findContactName(address, context) + ": " + body);
+
                 notification = new NotificationCompat.BigTextStyle(mBuilder).bigText(body).build();
             } else {
+                prevNotifications.add(ContactUtil.findContactName(address, context) + ": " + body);
                 NotificationCompat.InboxStyle not = new NotificationCompat.InboxStyle(mBuilder);
 
                 for (int i = 0; i < prevNotifications.size(); i++) {
