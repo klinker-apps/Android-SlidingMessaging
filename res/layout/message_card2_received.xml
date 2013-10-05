@@ -14,12 +14,12 @@
                     android:background="@color/white">
 
         <QuickContactBadge
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
                 android:id="@+id/imageContactPicture"
                 android:src="@drawable/default_avatar"
                 android:minHeight="55dp" android:minWidth="55dp"
-                android:scaleType="centerInside" android:adjustViewBounds="true"
+                android:scaleType="fitCenter" android:adjustViewBounds="true"
                 android:maxWidth="55dp" android:maxHeight="55dp"
                 android:contentDescription="@string/placeholder"
                 android:layout_margin="5dp"
