@@ -1,8 +1,6 @@
 Version 7.70
 
 Jake:
-    - trace through refresh view pager and sections pager adapter stuff and optimize/remove other stuff
-    - active notifications contact picture
     - look into downloading mms and data getting stuck
     - Attach audio and video to mms (look at stock app)
     - delayed sending for certain times
