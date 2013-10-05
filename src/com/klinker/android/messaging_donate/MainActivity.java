@@ -5140,9 +5140,9 @@ public class MainActivity extends FragmentActivity {
                     }
 
                     if (appMsgConversations == 1) {
-                        appMsg = AppMsg.makeText((Activity) arg0, appMsgConversations + getString(R.string.new_conversation), AppMsg.STYLE_ALERT);
+                        appMsg = AppMsg.makeText((Activity) arg0, appMsgConversations + " " + getString(R.string.new_conversation), AppMsg.STYLE_ALERT);
                     } else {
-                        appMsg = AppMsg.makeText((Activity) arg0, appMsgConversations + getString(R.string.new_conversations), AppMsg.STYLE_ALERT);
+                        appMsg = AppMsg.makeText((Activity) arg0, appMsgConversations + " " + getString(R.string.new_conversations), AppMsg.STYLE_ALERT);
                     }
 
                     appMsg.show();
