@@ -561,9 +561,9 @@ public class SlideOverService extends Service {
         Settings sendSettings = SendUtil.getSendSettings(this);
 
         if (sharedPrefs.getBoolean("quick_peek_send_voice", false)) {
-            sendSettings.setPreferVoice(false);
-        } else {
             sendSettings.setPreferVoice(true);
+        } else {
+            sendSettings.setPreferVoice(false);
         }
 
         sendTransaction = new Transaction (mContext, sendSettings);
