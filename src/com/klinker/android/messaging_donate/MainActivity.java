@@ -508,9 +508,72 @@ public class MainActivity extends FragmentActivity {
 
             public void onDrawerClosed(View view) {
                 try {
-                    ab.setTitle(messaging);
+                    if (!settings.useTitleBar || settings.alwaysShowContactInfo || settings.titleContactImages) {
+                        if (ab != null) {
+                            try {
+                                new Thread(new Runnable() {
+
+                                    @Override
+                                    public void run() {
+                                        if (conversations.size() != 0) {
+                                            final String title = ContactUtil.findContactName(ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context), context);
+                                            int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, resources.getDisplayMetrics());
+                                            Bitmap image = Bitmap.createScaledBitmap(ContactUtil.getFacebookPhoto(ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context), context), scale, scale, true);
+                                            final BitmapDrawable image2 = new BitmapDrawable(image);
+
+                                            ((MainActivity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                                                @Override
+                                                public void run() {
+                                                    if (!settings.useTitleBar || settings.alwaysShowContactInfo) {
+                                                        ab.setTitle(title);
+
+                                                        Locale sCachedLocale = Locale.getDefault();
+                                                        int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
+                                                        Editable editable = new SpannableStringBuilder(ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context));
+                                                        PhoneNumberUtils.formatNumber(editable, sFormatType);
+                                                        ab.setSubtitle(editable.toString());
+
+                                                        if (ab.getTitle().equals(ab.getSubtitle())) {
+                                                            ab.setSubtitle(null);
+                                                        }
+
+                                                        if (conversations.get(mViewPager.getCurrentItem()).getGroup()) {
+                                                            ab.setTitle("Group MMS");
+                                                            ab.setSubtitle(null);
+                                                        }
+                                                    } else {
+                                                        ab.setTitle(getString(R.string.app_name_in_app));
+                                                    }
+
+                                                    if (settings.titleContactImages) {
+                                                        ab.setIcon(image2);
+                                                    }
+                                                }
+
+                                            });
+                                        }
+                                    }
+
+                                }).start();
+                            } catch (Exception e) {
+                                ab.setTitle(R.string.app_name_in_app);
+                                ab.setIcon(R.drawable.ic_launcher);
+                            }
+                        }
+
+                        if (conversations.size() == 0 && ab != null) {
+                            ab.setIcon(R.drawable.ic_launcher);
+                        }
+                    } else {
+                        ab.setTitle(R.string.app_name_in_app);
+                    }
+
+                    ab.setDisplayHomeAsUpEnabled(true);
                 } catch (Exception e) {
+                    // no action bar, dialog theme
                 }
+
                 invalidateOptionsMenu();
                 messageEntry.requestFocusFromTouch();
 
@@ -529,8 +592,11 @@ public class MainActivity extends FragmentActivity {
             public void onDrawerOpened(View drawerView) {
                 try {
                     ab.setTitle(newMessage);
+                    ab.setSubtitle(null);
+                    ab.setIcon(R.drawable.ic_launcher);
                 } catch (Exception e) {
                 }
+
                 invalidateOptionsMenu();
 
                 new Handler().postDelayed(new Runnable() {
@@ -2477,31 +2543,36 @@ public class MainActivity extends FragmentActivity {
                                         public void run() {
                                             if (conversations.size() != 0) {
                                                 final String title = ContactUtil.findContactName(ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context), context);
-                                                Bitmap image = ContactUtil.getFacebookPhoto(ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context), context);
+                                                int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, resources.getDisplayMetrics());
+                                                Bitmap image = Bitmap.createScaledBitmap(ContactUtil.getFacebookPhoto(ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context), context), scale, scale, true);
                                                 final BitmapDrawable image2 = new BitmapDrawable(image);
 
                                                 ((MainActivity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 
                                                     @Override
                                                     public void run() {
-                                                        ab.setTitle(title);
+                                                        if (!settings.useTitleBar || settings.alwaysShowContactInfo) {
+                                                            ab.setTitle(title);
 
-                                                        Locale sCachedLocale = Locale.getDefault();
-                                                        int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
-                                                        Editable editable = new SpannableStringBuilder(ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context));
-                                                        PhoneNumberUtils.formatNumber(editable, sFormatType);
-                                                        ab.setSubtitle(editable.toString());
+                                                            Locale sCachedLocale = Locale.getDefault();
+                                                            int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
+                                                            Editable editable = new SpannableStringBuilder(ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context));
+                                                            PhoneNumberUtils.formatNumber(editable, sFormatType);
+                                                            ab.setSubtitle(editable.toString());
 
-                                                        if (ab.getTitle().equals(ab.getSubtitle())) {
-                                                            ab.setSubtitle(null);
+                                                            if (ab.getTitle().equals(ab.getSubtitle())) {
+                                                                ab.setSubtitle(null);
+                                                            }
+
+                                                            if (conversations.get(mViewPager.getCurrentItem()).getGroup()) {
+                                                                ab.setTitle("Group MMS");
+                                                                ab.setSubtitle(null);
+                                                            }
                                                         }
 
-                                                        if (conversations.get(mViewPager.getCurrentItem()).getGroup()) {
-                                                            ab.setTitle("Group MMS");
-                                                            ab.setSubtitle(null);
+                                                        if (settings.titleContactImages) {
+                                                            ab.setIcon(image2);
                                                         }
-
-                                                        ab.setIcon(image2);
                                                     }
 
                                                 });
@@ -2580,7 +2651,8 @@ public class MainActivity extends FragmentActivity {
                         BitmapDrawable image2 = null;
 
                         if (settings.titleContactImages) {
-                            Bitmap image = ContactUtil.getFacebookPhoto(ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context), context);
+                            int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, resources.getDisplayMetrics());
+                            Bitmap image = Bitmap.createScaledBitmap(ContactUtil.getFacebookPhoto(ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context), context), scale, scale, true);
                             image2 = new BitmapDrawable(image);
                         }
 
@@ -4555,7 +4627,9 @@ public class MainActivity extends FragmentActivity {
 
         if (settings.titleContactImages) {
             try {
-                ab.setIcon(new BitmapDrawable(ContactUtil.getFacebookPhoto(ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context), context)));
+                int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, resources.getDisplayMetrics());
+                Bitmap image = Bitmap.createScaledBitmap(ContactUtil.getFacebookPhoto(ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context), context), scale, scale, true);
+                ab.setIcon(new BitmapDrawable(image));
             } catch (Exception e) {
             }
         }
