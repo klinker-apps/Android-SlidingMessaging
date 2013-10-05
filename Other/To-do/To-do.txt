@@ -5,7 +5,6 @@ Jake:
     - delayed sending for certain times
     - actionbar pull to refresh, get the newest changes
 Luke:
-    - Fix image inserting button on slideover
 
 1) more individual notification options (slideover color, notification icon)
 2) option for adding certain text to every message at the beginning (delivery reports?)
