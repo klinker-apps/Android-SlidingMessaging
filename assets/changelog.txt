@@ -4,6 +4,7 @@ Sliding Messaging is now smoother and more feature packed than ever!
 - Added the ability to send messages directly from Quick Peek
 - Rewrite of sliding menus
 - Changed to Google's navigation drawer to compose new messages instead of right-side sliding menu
+- Changed the sizing of the SlideOver popup slightly
 - Tons of optimizations
 - More accurate representation of remaining characters per message
 - Option to not stack messages in the incoming notification
