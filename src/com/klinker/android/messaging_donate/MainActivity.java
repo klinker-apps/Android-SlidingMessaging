@@ -4621,7 +4621,7 @@ public class MainActivity extends FragmentActivity {
         for (int i = 0; i < conversations.size(); i++) {
             String convNumber = conversations.get(i).getNumber();
             if (number.equals(convNumber)) {
-                Log.v("refreshViewPager", "found number match: " + convNumber + " " + number);
+                //Log.v("refreshViewPager", "found number match: " + convNumber + " " + number);
                 conversations.add(0, new Conversation(conversations.get(i).getThreadId(), conversations.get(i).getCount() + 1, "0", body, Long.parseLong(date), conversations.get(i).getNumber()));
                 conversations.remove(i + 1);
 
