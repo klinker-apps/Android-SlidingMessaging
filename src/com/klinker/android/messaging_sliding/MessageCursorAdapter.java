@@ -13,6 +13,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
@@ -56,7 +57,6 @@ import java.util.regex.Matcher;
 public class MessageCursorAdapter extends CursorAdapter {
 
     private final Activity context;
-    private final String myId;
     private final String inboxNumbers;
     private final int threadPosition;
     private final long threadIds;
@@ -66,7 +66,6 @@ public class MessageCursorAdapter extends CursorAdapter {
     private SharedPreferences sharedPrefs;
     private ContentResolver contentResolver;
     private Cursor mCursor;
-    private Paint paint;
     private Typeface font;
     private final LayoutInflater mInflater;
     private Resources resources;
@@ -77,7 +76,6 @@ public class MessageCursorAdapter extends CursorAdapter {
     public MessageCursorAdapter(Activity context, String myId, String inboxNumbers, long ids, Cursor query, int threadPosition, boolean group) {
         super(context, query, 0);
         this.context = context;
-        this.myId = myId;
         this.inboxNumbers = inboxNumbers;
         this.threadPosition = threadPosition;
         this.threadIds = ids;
@@ -95,11 +93,7 @@ public class MessageCursorAdapter extends CursorAdapter {
 
         Bitmap input;
 
-        if (MainActivity.settings.voiceAccount != null) {
-            lookForVoice = true;
-        } else {
-            lookForVoice = false;
-        }
+        lookForVoice = MainActivity.settings.voiceAccount != null;
 
         try {
             input = ContactUtil.getFacebookPhoto(inboxNumbers, context);
@@ -121,7 +115,7 @@ public class MessageCursorAdapter extends CursorAdapter {
             InputStream input2;
 
             try {
-                input2 = ContactUtil.openDisplayPhoto(Long.parseLong(this.myId), context);
+                input2 = ContactUtil.openDisplayPhoto(Long.parseLong(myId), context);
             } catch (NumberFormatException e) {
                 input2 = null;
             }
@@ -149,7 +143,7 @@ public class MessageCursorAdapter extends CursorAdapter {
             myImage = im;
         }
 
-        paint = new Paint();
+        Paint paint = new Paint();
         float densityMultiplier = resources.getDisplayMetrics().density;
         float scaledPx = Integer.parseInt(MainActivity.settings.textSize) * densityMultiplier;
         paint.setTextSize(scaledPx);
@@ -480,7 +474,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                         do {
                             String partId = query.getString(query.getColumnIndex("_id"));
                             String type = query.getString(query.getColumnIndex("ct"));
-                            String body2 = "";
+                            String body2;
 
                             if ("text/plain".equals(type)) {
                                 String data = query.getString(query.getColumnIndex("_data"));
@@ -527,13 +521,12 @@ public class MessageCursorAdapter extends CursorAdapter {
                             images = null;
                         }
 
-                        final String text = body;
                         final String imageUri = images[0];
                         final String[] imagesF = images;
                         final String videoF = video;
                         final String audioF = audio;
 
-                        setMessageText(holder.text, text, context);
+                        setMessageText(holder.text, body, context);
 
                         if (imageUri == null && videoF == null && audioF == null) {
                             holder.media.setVisibility(View.GONE);
@@ -714,7 +707,7 @@ public class MessageCursorAdapter extends CursorAdapter {
 
                 @Override
                 public void run() {
-                    final Bitmap picture = Bitmap.createScaledBitmap(ContactUtil.getFacebookPhoto(sentFrom, context), MainActivity.contactWidth, MainActivity.contactWidth, true);
+                    final Bitmap picture = ContactUtil.getFacebookPhoto(sentFrom, context);
 
                     context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 
@@ -879,13 +872,11 @@ public class MessageCursorAdapter extends CursorAdapter {
         } catch (Exception e) {
         }
 
-        final View rowViewF = view;
-
         if (mms) {
             holder.media.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
-                public boolean onLongClick(View view) {
-                    rowViewF.performLongClick();
+                public boolean onLongClick(View v) {
+                    view.performLongClick();
                     return true;
                 }
             });
@@ -893,8 +884,8 @@ public class MessageCursorAdapter extends CursorAdapter {
 
         holder.text.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public boolean onLongClick(View view) {
-                rowViewF.performLongClick();
+            public boolean onLongClick(View v) {
+                view.performLongClick();
                 return true;
             }
         });
@@ -1126,7 +1117,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                         break;
                                     case 4:
                                         ContentValues values = new ContentValues();
-                                        values.put("locked", lockedF ? false : true);
+                                        values.put("locked", !lockedF);
                                         contentResolver.update(Uri.parse("content://" + (mmsF ? "mms" : "sms") + "/inbox"), values, "_id=" + idF, null);
                                         ((MainActivity) context).refreshViewPager();
                                         break;
@@ -1150,9 +1141,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                 case 0:
                                     MainActivity.animationOn = true;
 
-                                    String body2 = ((TextView) arg0.findViewById(R.id.textBody)).getText().toString();
-
-                                    final String body = body2;
+                                    final String body = ((TextView) arg0.findViewById(R.id.textBody)).getText().toString();
 
                                     new Thread(new Runnable() {
 
@@ -1173,7 +1162,6 @@ public class MessageCursorAdapter extends CursorAdapter {
                                                     try {
                                                         bitmaps[i] = MediaStore.Images.Media.getBitmap(context.getContentResolver(), Uri.parse(holder.imageUri.toString().trim().split(" ")[i]));
                                                     } catch (Exception e) {
-
                                                     }
                                                 }
 
@@ -1248,7 +1236,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                     break;
                                 case 4:
                                     ContentValues values = new ContentValues();
-                                    values.put("locked", lockedF ? false : true);
+                                    values.put("locked", !lockedF);
                                     contentResolver.update(Uri.parse("content://" + (mmsF ? "mms" : "sms") + "/inbox"), values, "_id=" + idF, null);
                                     ((MainActivity) context).refreshViewPager();
                                     break;
@@ -1269,7 +1257,7 @@ public class MessageCursorAdapter extends CursorAdapter {
 
         });
 
-        if (MainActivity.animationOn == true && cursor.getPosition() == 0 && threadPosition == 0) {
+        if (MainActivity.animationOn && cursor.getPosition() == 0 && threadPosition == 0) {
             if (MainActivity.settings.sendingAnimation.equals("left")) {
                 Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
                 anim.setDuration(MainActivity.settings.animationSpeed);
@@ -1314,8 +1302,8 @@ public class MessageCursorAdapter extends CursorAdapter {
         }
 
         if (cursor.getPosition() == 0 && voice) {
-            if (!((MainActivity) context).threadsThroughVoice.contains(threadIds)) {
-                ((MainActivity) context).threadsThroughVoice.add(threadIds);
+            if (!(MainActivity.threadsThroughVoice.contains(threadIds))) {
+                MainActivity.threadsThroughVoice.add(threadIds);
 
                 if (((MainActivity) context).firstRun) {
                     ((MainActivity) context).voiceButton.performClick();
