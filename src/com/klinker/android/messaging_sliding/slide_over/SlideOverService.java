@@ -1522,12 +1522,16 @@ public class SlideOverService extends Service {
     public void onDestroy() {
         super.onDestroy();
 
+        unregisterReceiver(newMessageReceived);
+        unregisterReceiver(clearMessages);
+        unregisterReceiver(orientationChange);
         try {
             unregisterReceiver(stopSlideover);
-            unregisterReceiver(newMessageReceived);
+        } catch (Exception e) {
+        }
+
+        try {
             unregisterReceiver(mBroadcastReceiver);
-            unregisterReceiver(clearMessages);
-            unregisterReceiver(orientationChange);
         } catch (Exception e) {
 
         }
