@@ -3797,8 +3797,15 @@ public class MainActivity extends FragmentActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                int drawerWidth = (int) (mViewPager.getWidth() * 3 / 4.0);
+
+                if (menu == null && getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
+                    ListFragment newFragment = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.menuList);
+                    drawerWidth += (int) (newFragment.getListView().getWidth() * 3 / 4.0);
+                }
+
                 DrawerLayout.LayoutParams params = (DrawerLayout.LayoutParams) mDrawer.getLayoutParams();
-                params.width = (int) (mViewPager.getWidth() * 3 / 4.0);
+                params.width = drawerWidth;
                 mDrawer.setLayoutParams(params);
             }
         }, 1000);
@@ -4624,14 +4631,10 @@ public class MainActivity extends FragmentActivity {
     }
 
     public void refreshViewPager4(String number, String body, String date) {
-        Log.v("refreshViewPager", "partial refresh");
-
         pullToRefreshPosition = -1;
         MainActivity.notChanged = false;
         MainActivity.threadedLoad = false;
         long currentThread = conversations.get(mViewPager.getCurrentItem()).getThreadId();
-
-        Log.v("refreshViewPager", "currentThread: " + currentThread);
 
         if (conversations.size() == 0) {
             refreshViewPager();
@@ -4640,12 +4643,9 @@ public class MainActivity extends FragmentActivity {
 
         boolean flag = false;
 
-        Log.v("refreshViewPager", "searching number match: " + number);
-
         for (int i = 0; i < conversations.size(); i++) {
             String convNumber = conversations.get(i).getNumber();
             if (number.equals(convNumber)) {
-                //Log.v("refreshViewPager", "found number match: " + convNumber + " " + number);
                 conversations.add(0, new Conversation(conversations.get(i).getThreadId(), conversations.get(i).getCount() + 1, "0", body, Long.parseLong(date), conversations.get(i).getNumber()));
                 conversations.remove(i + 1);
 
