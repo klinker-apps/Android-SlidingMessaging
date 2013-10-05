@@ -8,4 +8,5 @@ Sliding Messaging is now smoother and more feature packed than ever!
 - More accurate representation of remaining characters per message
 - Option to not stack messages in the incoming notification
 - More message details when around the date of a message
+- Updated Developer Tip for speed improvement and sluggishness
 - Bug fixes
