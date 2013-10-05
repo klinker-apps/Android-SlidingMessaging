@@ -26,6 +26,7 @@ import android.support.v4.app.ListFragment;
 import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.ViewDragHelper;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.SmsMessage;
 import android.text.Editable;
@@ -91,6 +92,7 @@ import net.simonvt.messagebar.MessageBar;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -475,6 +477,28 @@ public class MainActivity extends FragmentActivity {
 
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.RIGHT);
         setUpDrawer();
+
+        final String menuOption = sharedPrefs.getString("page_or_menu2", "2");
+
+        if (menuOption.equals("1")) {
+            try {
+                Field mDragger = mDrawerLayout.getClass().getDeclaredField("mRightDragger");//mRightDragger for right obviously
+                mDragger.setAccessible(true);
+                ViewDragHelper draggerObj = (ViewDragHelper) mDragger.get(mDrawerLayout);
+
+                Field mEdgeSize = draggerObj.getClass().getDeclaredField(
+                        "mEdgeSize");
+                mEdgeSize.setAccessible(true);
+                int edge = mEdgeSize.getInt(draggerObj);
+
+                Display display = getWindowManager().getDefaultDisplay();
+                int width = display.getWidth();  // deprecated
+
+                mEdgeSize.setInt(draggerObj, width - 50);
+            } catch (Exception e) {
+                // couldn't get the correct drawer i guess
+            }
+        }
 
         final String newMessage = resources.getString(R.string.new_message);
         final String messaging = resources.getString(R.string.app_name_in_app);
