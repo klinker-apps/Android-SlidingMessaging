@@ -494,7 +494,7 @@ public class MainActivity extends FragmentActivity {
                 Display display = getWindowManager().getDefaultDisplay();
                 int width = display.getWidth();  // deprecated
 
-                mEdgeSize.setInt(draggerObj, width - 50);
+                mEdgeSize.setInt(draggerObj, edge * 5);
             } catch (Exception e) {
                 // couldn't get the correct drawer i guess
             }
@@ -520,6 +520,10 @@ public class MainActivity extends FragmentActivity {
                 }
 
                 mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+
+                if (menuOption.equals("1")) {
+                    menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+                }
             }
 
             public void onDrawerOpened(View drawerView) {
@@ -547,6 +551,10 @@ public class MainActivity extends FragmentActivity {
                 }
 
                 mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+
+                if (menuOption.equals("1")) {
+                    menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
+                }
             }
         };
 
