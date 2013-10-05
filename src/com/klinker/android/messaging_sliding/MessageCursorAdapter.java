@@ -1406,8 +1406,9 @@ public class MessageCursorAdapter extends CursorAdapter {
                 holder.image.setImageBitmap(myImage);
             }
         } else {
-            holder.image.setMaxWidth(0);
-            holder.image.setMinimumWidth(0);
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) holder.image.getLayoutParams();
+            params.width = 0;
+            holder.image.setLayoutParams(params);
         }
 
         try {
