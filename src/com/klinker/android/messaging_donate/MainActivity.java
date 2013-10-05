@@ -2374,7 +2374,7 @@ public class MainActivity extends FragmentActivity {
                         menuLayout.setDividerHeight(0);
                     }
                 }
-            }, 100);
+            }, 50);
         }
 
         if (deviceType.equals("phone") || deviceType.equals("phablet2")) {
