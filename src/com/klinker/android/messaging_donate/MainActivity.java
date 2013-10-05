@@ -521,7 +521,7 @@ public class MainActivity extends FragmentActivity {
 
                 mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
 
-                if (menuOption.equals("1")) {
+                if (menuOption.equals("1") && menu != null) {
                     menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
                 }
             }
@@ -552,7 +552,7 @@ public class MainActivity extends FragmentActivity {
 
                 mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
 
-                if (menuOption.equals("1")) {
+                if (menuOption.equals("1") && menu != null) {
                     menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
                 }
             }
@@ -1915,8 +1915,6 @@ public class MainActivity extends FragmentActivity {
                                     MainActivity.notChanged = false;
                                     refreshViewPager4(recipientId, StripAccents.stripAccents(message.getText()), Calendar.getInstance().getTimeInMillis() + "");
 
-                                    // FIXME, this works as it is and without it, it will skip to the first conversation very quickly and show that conversation and then refresh the new one
-                                    //          but this way the title bar changes for a split second to the name of the new person, not the one you are sending to
                                     new Handler().postDelayed(new Runnable() {
                                         @Override
                                         public void run() {
