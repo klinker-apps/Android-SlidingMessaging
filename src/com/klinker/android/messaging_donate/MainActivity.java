@@ -3829,6 +3829,11 @@ public class MainActivity extends FragmentActivity {
         filter.addCategory(Intent.CATEGORY_DEFAULT);
         registerReceiver(killReceiver, filter);
 
+        if (isPopup && messageEntry.getText().toString().equals("")) {
+            sendButton.setImageResource(R.drawable.ic_attach);
+            attachOnSend = true;
+        }
+
         if (menu != null) {
             String menuOption = sharedPrefs.getString("page_or_menu2", "2");
 
