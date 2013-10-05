@@ -65,6 +65,8 @@ public class MainActivityPopup extends MainActivity {
 
         if (settings.lightActionBar) {
             setTheme(R.style.HangoutsThemeDialog);
+        } else {
+            setTheme(R.style.AppBaseThemeDialog);
         }
 
         setContentView(R.layout.activity_main);
@@ -93,26 +95,7 @@ public class MainActivityPopup extends MainActivity {
         background.setColor(resources.getColor(android.R.color.transparent));
         getWindow().setBackgroundDrawable(background);
 
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int width = size.x;
-        int height = size.y;
-        originalHeight = getWindow().getAttributes().height;
-
-        if (width > height) {
-            getWindow().getDecorView().setPadding(0, height / 12, 0, height / 12);
-        } else {
-            int dividend = (int) (16 * (sharedPrefs.getInt("slideover_padding", 50) / 100.0));
-
-            try {
-                getWindow().getDecorView().setPadding(width / 20, height / dividend, width / 20, height / dividend);
-            } catch (Exception e) {
-
-            }
-        }
-
-        //params = new LinearLayout.LayoutParams(toDP(200), ViewGroup.LayoutParams.MATCH_PARENT);
+        setUpBounds();
     }
 
     @Override
@@ -169,22 +152,33 @@ public class MainActivityPopup extends MainActivity {
         }
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-
+    public void setUpBounds() {
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         int width = size.x;
         int height = size.y;
+        originalHeight = getWindow().getAttributes().height;
 
         if (width > height) {
-            getWindow().getDecorView().setPadding(0, height / 12, 0, height / 12);
+            getWindow().getDecorView().setPadding(width/7, height / 12, width/7, height / 12);
         } else {
             int dividend = (int) (16 * (sharedPrefs.getInt("slideover_padding", 50) / 100.0));
-            getWindow().getDecorView().setPadding(width / 20, height / dividend, width / 20, height / dividend);
+
+            try {
+                getWindow().getDecorView().setPadding(width / 20, height / dividend, width / 20, height / dividend);
+            } catch (Exception e) {
+
+            }
         }
+
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        setUpBounds();
 
         Button fullApp = (Button) findViewById(R.id.launch_app);
 
