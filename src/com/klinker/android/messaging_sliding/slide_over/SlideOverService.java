@@ -35,6 +35,9 @@ public class SlideOverService extends Service {
     public static final String BCAST_CONFIGCHANGED = "android.intent.action.CONFIGURATION_CHANGED";
 
     public static DisplayMetrics displayMatrix;
+    public Display d;
+    public int height;
+    public int width;
 
     public HaloView haloView;
     public MessageView messageView;
@@ -141,9 +144,9 @@ public class SlideOverService extends Service {
         super.onCreate();
 
         // gets the display
-        Display d = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-        final int height = d.getHeight();
-        final int width = d.getWidth();
+        d = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+        height = d.getHeight();
+        width = d.getWidth();
 
         displayMatrix = getResources().getDisplayMetrics();
 
@@ -183,6 +186,10 @@ public class SlideOverService extends Service {
         public boolean onSingleTapConfirmed(MotionEvent event) {
 
             if (enableQuickPeek) {
+
+                height = d.getHeight();
+                width = d.getWidth();
+
                 haloView.playSoundEffect(SoundEffectConstants.CLICK);
 
                 currContact = 0;
