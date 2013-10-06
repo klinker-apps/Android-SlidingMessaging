@@ -831,7 +831,7 @@
     <string name="priority_high">High</string>
     <string name="priority_normal">Normal</string>
     <string name="priority_low">Low</string>
-    <string name="giffgaff_delivery">GiffGaff Delivery Reports</string>
+    <string name="giffgaff_delivery">giffgaff Delivery Reports</string>
     <string name="giffgaff_delivery_summary">Attaches the string \"*0#\" to the beginning of each sent message to ensure delivery reports work correctly</string>
 
 </resources>

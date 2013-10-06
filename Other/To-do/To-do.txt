@@ -5,6 +5,7 @@ Jake:
     - delayed sending for certain times
     - actionbar pull to refresh, get the newest changes
 Luke:
+    - determine if there are any other sms apps installed, and if not, enable override stock when finishing the changelog activity
 
 1) more individual notification options (slideover color, notification icon)
 2) option for adding certain text to every message at the beginning (delivery reports?)

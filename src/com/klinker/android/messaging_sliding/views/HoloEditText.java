@@ -6,11 +6,15 @@ import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.Spannable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import com.klinker.android.messaging_sliding.emojis.*;
+
+import java.util.regex.Matcher;
 
 public class HoloEditText extends EditText {
 
@@ -66,7 +70,7 @@ public class HoloEditText extends EditText {
         }
 
         addTextChangedListener(new TextWatcher() {
-            private int LENGTH = 5;
+            private int LENGTH = 5; // max emoji length is 4, plus the length of the space
 
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
@@ -78,9 +82,13 @@ public class HoloEditText extends EditText {
                     return;
                 }
 
+                if (i3 > i2) {
+                    charSequence = addSpaces(EmojiUtil.emojiPattern.matcher(charSequence), addSpaces(EmojiUtil.smileyPattern.matcher(charSequence), charSequence));
+                }
+
                 Spannable string = null;
 
-                if (EmojiUtil.smileyPattern.matcher(charSequence.length() > LENGTH ? charSequence.subSequence(charSequence.length() - 5, charSequence.length()) : charSequence).find()) {
+                if (EmojiUtil.smileyPattern.matcher(charSequence.length() > LENGTH ? charSequence.subSequence(charSequence.length() - LENGTH, charSequence.length()) : charSequence).find()) {
                     if (smiliesFormat.equals("with")) {
                         if (smiliesType) {
                             string = EmoticonConverter2New.getSmiledText(context, charSequence);
@@ -102,9 +110,9 @@ public class HoloEditText extends EditText {
                     }
                 }
 
-                if (EmojiUtil.emojiPattern.matcher(charSequence.length() > LENGTH ? charSequence.subSequence(charSequence.length() - 5, charSequence.length()) : charSequence).find()) {
+                if (EmojiUtil.emojiPattern.matcher(charSequence.length() > LENGTH ? charSequence.subSequence(charSequence.length() - LENGTH, charSequence.length()) : charSequence).find()) {
                     if (string == null) {
-                        string = Spannable.Factory.getInstance().newSpannable(charSequence);
+                        string = getText();
                     }
 
                     if (emojiType) {
@@ -124,6 +132,21 @@ public class HoloEditText extends EditText {
 
             @Override
             public void afterTextChanged(Editable editable) {
+            }
+
+            private CharSequence addSpaces(Matcher matcher, CharSequence charSequence) {
+                while (matcher.find()) {
+                    try {
+                        if (charSequence.toString().charAt(matcher.end()) != ' ') {
+                            charSequence = TextUtils.concat(charSequence.subSequence(0, matcher.end()) + " " + charSequence.subSequence(matcher.end(), charSequence.length()));
+                        }
+                    } catch (IndexOutOfBoundsException e) {
+                        // smiley is at the very end, so just add a space
+                        charSequence = charSequence + " ";
+                    }
+                }
+
+                return charSequence;
             }
         });
     }
