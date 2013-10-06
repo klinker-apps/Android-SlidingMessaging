@@ -228,6 +228,14 @@
             android:defaultValue="false"
             />
 
+        <CheckBoxPreference
+            android:key="giffgaff_delivery"
+            android:title="@string/giffgaff_delivery"
+            android:summary="@string/giffgaff_delivery_summary"
+            android:defaultValue="false"
+            android:dependency="delivery_reports"
+            />
+
         <ListPreference
             android:key="delivery_reports_type"
             android:title="@string/delivery_reports_type"

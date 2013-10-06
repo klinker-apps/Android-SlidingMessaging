@@ -605,6 +605,14 @@ public class SettingsPagerActivity extends FragmentActivity {
                 }
             });
 
+            TelephonyManager manager = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
+            String carrierName = manager.getNetworkOperatorName();
+
+            Toast.makeText(context, carrierName, Toast.LENGTH_LONG).show();
+            if (!carrierName.equalsIgnoreCase("giffgaff")) {
+                ((PreferenceGroup) findPreference("notification_other_category")).removePreference(findPreference("giffgaff_delivery"));
+            }
+
             if (!showAll) {
                 ((PreferenceGroup) findPreference("general_notification_category")).removePreference(findPreference("in_app_notifications"));
                 ((PreferenceGroup) findPreference("notification_look_category")).removePreference(findPreference("breath"));

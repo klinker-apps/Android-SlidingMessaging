@@ -91,6 +91,7 @@ public class SendUtil {
         sendSettings.setSplitCounter(sharedPrefs.getBoolean("split_counter", false));
         sendSettings.setStripUnicode(sharedPrefs.getBoolean("strip_unicode", false));
         sendSettings.setSignature(sharedPrefs.getString("signature", ""));
+        sendSettings.setPreText(sharedPrefs.getBoolean("giffgaff_delivery", false) ? "*0#" : "");
         sendSettings.setSendLongAsMms(sharedPrefs.getBoolean("send_as_mms", false));
         sendSettings.setSendLongAsMmsAfter(sharedPrefs.getInt("mms_after", 4));
         sendSettings.setAccount(sharedPrefs.getString("voice_account", null));
