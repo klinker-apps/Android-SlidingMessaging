@@ -2297,7 +2297,7 @@ public class MainActivity extends FragmentActivity {
         int beforeLength = input.getText().toString().length();
         CharSequence before = input.getText().subSequence(0, beforeSelectionStart);
         CharSequence after = input.getText().subSequence(input.getSelectionEnd(), beforeLength);
-        input.setText(android.text.TextUtils.concat(before, EmojiConverter2.getSmiledText(context, emoji), " " + after));
+        input.setText(android.text.TextUtils.concat(before, EmojiConverter2.getSmiledText(context, emoji), after));
         input.setEnabled(true);
         input.setSelection(beforeSelectionStart + (input.getText().toString().length() - beforeLength));
 
