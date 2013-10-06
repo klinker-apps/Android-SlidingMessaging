@@ -260,7 +260,7 @@ public class GetHelpSettingsActivity extends PreferenceActivity {
             // parent.getItemAtPosition(pos)
             String selected = parent.getItemAtPosition(pos).toString();
 
-            if (selected.equals("Settings Links")) {
+            if (selected.equals(getResources().getStringArray(R.array.drawer_spinner_array)[0])) {
                 mDrawerList.setAdapter(new DrawerArrayAdapter(activity,
                         new ArrayList<String>(Arrays.asList(linkItems))));
                 mDrawerList.invalidate();
