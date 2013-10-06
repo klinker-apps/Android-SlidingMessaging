@@ -210,7 +210,9 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
         holder.mmsTag = false;
         holder.previewImage.setVisibility(View.GONE);
         holder.text2.setVisibility(View.VISIBLE);
-        holder.text4.setVisibility(View.VISIBLE);
+        if (!MainActivity.settings.hideDate) {
+            holder.text4.setVisibility(View.VISIBLE);
+        }
 
         new Thread(new Runnable() {
 
