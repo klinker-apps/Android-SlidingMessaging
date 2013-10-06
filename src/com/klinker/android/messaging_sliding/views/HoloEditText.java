@@ -136,13 +136,11 @@ public class HoloEditText extends EditText {
 
             private CharSequence addSpaces(Matcher matcher, CharSequence charSequence) {
                 while (matcher.find()) {
-                    Log.v("emoji_matcher", "found match");
                     try {
                         if (charSequence.toString().charAt(matcher.end()) != ' ') {
                             charSequence = TextUtils.concat(charSequence.subSequence(0, matcher.end()) + " " + charSequence.subSequence(matcher.end(), charSequence.length()));
                         }
                     } catch (IndexOutOfBoundsException e) {
-                        Log.v("emoji_matcher", "space to end");
                         // smiley is at the very end, so just add a space
                         charSequence = charSequence + " ";
                     }
