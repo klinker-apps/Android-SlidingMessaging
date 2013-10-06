@@ -464,7 +464,7 @@
             </intent-filter>
         </service>
         
-        <service android:name="com.klinker.android.messaging_donate.widget.MessageDashClockExtension"
+        <service android:name=".widget.MessageDashClockExtension"
      		android:icon="@drawable/ic_launcher"
      		android:label="@string/extension_title"
      		android:permission="com.google.android.apps.dashclock.permission.READ_EXTENSION_DATA" >

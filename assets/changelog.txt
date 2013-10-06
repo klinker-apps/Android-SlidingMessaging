@@ -10,4 +10,6 @@ Sliding Messaging is now smoother and more feature packed than ever!
 - Option to not stack messages in the incoming notification
 - More message details when around the date of a message
 - Updated Developer Tip for speed improvement and sluggishness
+- Added an option to adjust the width of the SlideOver popup
+- Changes to the "Full Screen Sliding Mode" option to all for the use of the "New Message" drawer
 - Bug fixes
