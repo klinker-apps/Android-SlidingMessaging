@@ -558,6 +558,8 @@ public class TextMessageReceiver extends BroadcastReceiver {
             TextMessageReceiver.setIcon(mBuilder, context);
 
             Intent resultIntent = new Intent(context, MainActivity.class);
+            resultIntent.putExtra("com.klinker.android.OPEN", address);
+            resultIntent.setAction(Intent.ACTION_SENDTO);
 
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
             stackBuilder.addParentStack(MainActivity.class);
