@@ -164,9 +164,10 @@ public class MainActivityPopup extends MainActivity {
             getWindow().getDecorView().setPadding(width/7, height / 12, width/7, height / 12);
         } else {
             int dividend = (int) (16 * (sharedPrefs.getInt("slideover_padding", 50) / 100.0));
+            int sidePadding = (int) ((width * ((double)sharedPrefs.getInt("slideover_width_padding", 10) / 100)) / 2);
 
             try {
-                getWindow().getDecorView().setPadding(width / 20, height / dividend, width / 20, height / dividend);
+                getWindow().getDecorView().setPadding(sidePadding, height / dividend, sidePadding, height / dividend);
             } catch (Exception e) {
 
             }
