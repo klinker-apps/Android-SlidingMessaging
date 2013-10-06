@@ -5,6 +5,7 @@ import android.content.*;
 import android.database.Cursor;
 import android.database.sqlite.SqliteWrapper;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -19,6 +20,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.TypedValue;
 import com.android.mms.transaction.HttpUtils;
 import com.android.mms.util.SendingProgressTokenManager;
 import com.google.android.mms.APN;
@@ -41,6 +43,7 @@ import com.klinker.android.send_message.Transaction;
 import com.klinker.android.send_message.Utils;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -405,7 +408,8 @@ public class MmsReceiverService extends Service {
 
             if (!sharedPrefs.getBoolean("secure_notification", false)) {
                 try {
-                    mBuilder.setLargeIcon(ContactUtil.getFacebookPhoto(address, context));
+                    int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 64, context.getResources().getDisplayMetrics());
+                    mBuilder.setLargeIcon(Bitmap.createScaledBitmap(ContactUtil.getFacebookPhoto(address, context), scale, scale, true));
                 } catch (Exception e) {
                 }
             }
