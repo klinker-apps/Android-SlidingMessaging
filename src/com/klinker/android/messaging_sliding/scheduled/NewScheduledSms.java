@@ -527,7 +527,7 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
                 setDate = new Date(setYear - 1900, setMonth, setDay, setHour, setMinute);
 
                 if (sharedPrefs.getBoolean("hour_format", false)) {
-                    dateDisplay.setText(DateFormat.getDateInstance(DateFormat.MEDIUM).format(setDate));
+                    dateDisplay.setText(DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.GERMAN).format(setDate));
                 } else {
                     dateDisplay.setText(DateFormat.getDateInstance(DateFormat.MEDIUM).format(setDate));
                 }
@@ -535,7 +535,7 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
                 setDate = new Date(setYear - 1900, setMonth, setDay);
 
                 if (sharedPrefs.getBoolean("hour_format", false)) {
-                    dateDisplay.setText(DateFormat.getDateInstance(DateFormat.MEDIUM).format(setDate));
+                    dateDisplay.setText(DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.GERMAN).format(setDate));
                 } else {
                     dateDisplay.setText(DateFormat.getDateInstance(DateFormat.MEDIUM).format(setDate));
                 }
