@@ -366,11 +366,11 @@ public class SettingsPagerActivity extends FragmentActivity {
 
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(this, MainActivity.class);
-        startActivity(i);
+//        Intent i = new Intent(this, MainActivity.class);
+//        startActivity(i);
         finish();
+        setResult(Activity.RESULT_OK);
         overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
-        //overridePendingTransition(0,0);
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
@@ -607,8 +607,11 @@ public class SettingsPagerActivity extends FragmentActivity {
 
             TelephonyManager manager = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
             String carrierName = manager.getNetworkOperatorName();
+            String simName = manager.getSimOperatorName();
+            String carrierName2 = manager.getNetworkOperator();
+            String simName2 = manager.getSimOperator();
 
-            Toast.makeText(context, carrierName, Toast.LENGTH_LONG).show();
+            //Toast.makeText(context, carrierName + "\n" + carrierName2 + "\n" + simName + "\n" + simName2, Toast.LENGTH_LONG).show();
             if (!carrierName.equalsIgnoreCase("giffgaff")) {
                 ((PreferenceGroup) findPreference("notification_other_category")).removePreference(findPreference("giffgaff_delivery"));
             }

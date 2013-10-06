@@ -103,6 +103,7 @@ public class MainActivity extends FragmentActivity {
     public final static String EXTRA_DATE = "com.klinker.android.messaging_sliding.DATE";
     public final static String EXTRA_REPEAT = "com.klinker.android.messaging_sliding.REPEAT";
     public final static String EXTRA_MESSAGE = "com.klinker.android.messaging_sliding.MESSAGE";
+    private static final int SETTINGS_RESULT = 51324;
 
     protected static Context context;
     private ActionBar ab;
@@ -2987,8 +2988,8 @@ public class MainActivity extends FragmentActivity {
 
                 return true;
             case R.id.menu_settings:
-                startActivity(new Intent(this, SettingsPagerActivity.class));
-                finish();
+                startActivityForResult(new Intent(this, SettingsPagerActivity.class), SETTINGS_RESULT);
+                //finish();
                 overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                 return true;
             case R.id.menu_scheduled:
@@ -3807,6 +3808,8 @@ public class MainActivity extends FragmentActivity {
 
                     break;
             }
+        } else if (requestCode == SETTINGS_RESULT) {
+            recreate();
         }
 
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
