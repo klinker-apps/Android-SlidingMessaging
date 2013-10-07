@@ -48,6 +48,7 @@ public class SlideOverService extends Service {
 
     public WindowManager.LayoutParams haloParams;
     public WindowManager.LayoutParams haloNewParams;
+    public WindowManager.LayoutParams haloHiddenParams;
     public WindowManager.LayoutParams messageWindowParams;
     public WindowManager.LayoutParams contactParams;
     public WindowManager.LayoutParams arcParams;
@@ -666,6 +667,20 @@ public class SlideOverService extends Service {
         haloParams.gravity = Gravity.TOP | Gravity.LEFT;
         haloParams.windowAnimations = android.R.style.Animation_Toast;
 
+        haloHiddenParams = new WindowManager.LayoutParams(
+                halo.getWidth(),
+                halo.getHeight(),
+                0 - halo.getWidth() ,
+                (int) sharedPrefs.getFloat("slideover_downscreen", 0),
+                WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                        | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+                        | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
+                        | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                PixelFormat.TRANSLUCENT);
+        haloHiddenParams.gravity = Gravity.TOP | Gravity.LEFT;
+        haloHiddenParams.windowAnimations = android.R.style.Animation_Toast;
+
         haloNewParams = new WindowManager.LayoutParams(
                 halo.getWidth(),
                 halo.getHeight(),
@@ -908,6 +923,11 @@ public class SlideOverService extends Service {
                 arcWindow.addView(arcView, arcParams);
             } catch (Exception e) {
             }
+            try {
+                haloWindow.updateViewLayout(haloView, haloHiddenParams);
+            } catch (Exception e) {
+            }
+            try { animationWindow.removeViewImmediate(animationView); } catch (Exception e) { }
         } else {
             try {
                 arcWindow.removeView(arcView);
@@ -1022,6 +1042,11 @@ public class SlideOverService extends Service {
                 arcWindow.addView(arcView, arcParams);
             } catch (Exception e) {
             }
+            try {
+                haloWindow.updateViewLayout(haloView, haloHiddenParams);
+            } catch (Exception e) {
+            }
+            try { animationWindow.removeViewImmediate(animationView); } catch (Exception e) { }
         } else {
             try {
                 arcWindow.removeView(arcView);
@@ -1719,6 +1744,14 @@ public class SlideOverService extends Service {
                 }, 1250);
             }
 
+            animating = true;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    animating = false;
+                }
+            }, 7000);
+
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -1727,14 +1760,6 @@ public class SlideOverService extends Service {
                     if (!animationView.circleText) {
                         if (!sharedPrefs.getBoolean("popup_reply", false) || (sharedPrefs.getBoolean("popup_reply", true) && sharedPrefs.getBoolean("slideover_popup_lockscreen_only", false))) {
                             // start the animation
-                            animating = true;
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    animating = false;
-                                }
-                            }, 5000);
-
                             animationView.circleText = true;
                             animationView.firstText = true;
                             animationView.arcOffset = AnimationView.ORIG_ARC_OFFSET;
@@ -1814,6 +1839,13 @@ public class SlideOverService extends Service {
     public BroadcastReceiver screenOn = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent myIntent) {
+            animating = true;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    animating = false;
+                }
+            }, 7500);
             // remove the message view and contact view so they don't cause problems
             if (sharedPrefs.getBoolean("ping_on_unlock", true) && arcView.newConversations.size() > 0) {
                 new Handler().postDelayed(new Runnable() {
@@ -1840,13 +1872,6 @@ public class SlideOverService extends Service {
                                     if (!animating) {
                                         if (!sharedPrefs.getBoolean("popup_reply", false) || (sharedPrefs.getBoolean("popup_reply", true) && sharedPrefs.getBoolean("slideover_popup_lockscreen_only", false))) {
                                             // start the animation
-                                            animating = true;
-                                            new Handler().postDelayed(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    animating = false;
-                                                }
-                                            }, 5000);
                                             animationView.circleText = true;
                                             animationView.firstText = true;
                                             animationView.arcOffset = AnimationView.ORIG_ARC_OFFSET;
