@@ -39,7 +39,7 @@ public class ArcView extends ViewGroup {
 
     public double sliverPercent;
 
-    public ArrayList<String[]> newConversations;
+    public static ArrayList<String[]> newConversations;
 
     public ArcView(Context context, Bitmap halo, float radius, float breakAngle, double sliverPercent) {
         super(context);

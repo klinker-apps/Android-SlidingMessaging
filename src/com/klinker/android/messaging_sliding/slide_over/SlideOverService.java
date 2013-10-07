@@ -1601,8 +1601,9 @@ public class SlideOverService extends Service {
             //    }
             //}, 200);
 
-            String name = intent.getStringExtra("name");
-            String message = intent.getStringExtra("message");
+            final String name = intent.getStringExtra("name");
+            final String message = intent.getStringExtra("message");
+            final String number = intent.getStringExtra("number");
 
             int index;
             boolean exists = false;
@@ -1621,7 +1622,7 @@ public class SlideOverService extends Service {
             }
 
             if (same) {
-                arcView.newConversations.add(new String[]{name, message});
+                arcView.newConversations.add(new String[]{name, message, number});
                 arcView.newConversations.remove(index);
             } else {
                 for (index = 0; index < numberNewConv; index++) {
@@ -1633,10 +1634,10 @@ public class SlideOverService extends Service {
             }
 
             if (!exists && !same)
-                arcView.newConversations.add(new String[]{name, message});
+                arcView.newConversations.add(new String[]{name, message, number});
             else if (!same) {
                 String oldMessage = arcView.newConversations.get(index)[1];
-                arcView.newConversations.add(new String[]{name, oldMessage + " | " + message});
+                arcView.newConversations.add(new String[]{name, oldMessage + " | " + message, number});
                 arcView.newConversations.remove(index);
             }
 
@@ -1651,29 +1652,39 @@ public class SlideOverService extends Service {
                 haloView.haloAlpha = 255;
                 haloView.animating = true;
 
-                HaloFadeAnimation animation = new HaloFadeAnimation(haloView, true);
-                animation.setRunning(true);
-                animation.start();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        HaloFadeAnimation animation = new HaloFadeAnimation(haloView, true);
+                        animation.setRunning(true);
+                        animation.start();
+                    }
+                }, 1250);
             }
 
-            animationView = new AnimationView(getApplicationContext(), halo);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    animationView = new AnimationView(getApplicationContext(), halo);
 
-            if (!animationView.circleText) {
-                if (!sharedPrefs.getBoolean("popup_reply", false) || (sharedPrefs.getBoolean("popup_reply", true) && sharedPrefs.getBoolean("slideover_popup_lockscreen_only", false))) {
-                    // start the animation
-                    animationView.circleText = true;
-                    animationView.firstText = true;
-                    animationView.arcOffset = AnimationView.ORIG_ARC_OFFSET;
-                    animationView.name = new String[]{name, message.length() > 50 ? message.substring(0, 50) + "..." : message};
-                    animationView.circleLength = 0;
-                    animationView.circleStart = animationView.originalCircleStart;
-                    animationWindow.addView(animationView, animationParams);
+                    if (!animationView.circleText) {
+                        if (!sharedPrefs.getBoolean("popup_reply", false) || (sharedPrefs.getBoolean("popup_reply", true) && sharedPrefs.getBoolean("slideover_popup_lockscreen_only", false))) {
+                            // start the animation
+                            animationView.circleText = true;
+                            animationView.firstText = true;
+                            animationView.arcOffset = AnimationView.ORIG_ARC_OFFSET;
+                            animationView.name = new String[]{name, message.length() > 50 ? message.substring(0, 50) + "..." : message};
+                            animationView.circleLength = 0;
+                            animationView.circleStart = animationView.originalCircleStart;
+                            animationWindow.addView(animationView, animationParams);
 
-                    NewMessageAnimation animation = new NewMessageAnimation(animationView, ((float) (3 * (sharedPrefs.getInt("slideover_animation_speed", 33) / 100.0) + 1)) / 2, haloWindow);
-                    animation.setRunning(true);
-                    animation.start();
+                            NewMessageAnimation animation = new NewMessageAnimation(animationView, ((float) (3 * (sharedPrefs.getInt("slideover_animation_speed", 33) / 100.0) + 1)) / 2, haloWindow);
+                            animation.setRunning(true);
+                            animation.start();
+                        }
+                    }
                 }
-            }
+            }, 1750);
 
             if (!sharedPrefs.getBoolean("popup_reply", false)) {
                 new Handler().postDelayed(new Runnable() {

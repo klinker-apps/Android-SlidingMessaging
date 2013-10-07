@@ -2,6 +2,7 @@ Sliding Messaging is now smoother and more feature packed than ever!
 
 - Conversation list UI changes and optimizations
 - Added the ability to send messages directly from Quick Peek
+- Added an option to show contact pictures on the SlideOver bubble for new messages
 - Rewrite of sliding menus
 - Changed to Google's navigation drawer to compose new messages instead of right-side sliding menu
 - Changed the sizing of the SlideOver popup slightly
@@ -11,5 +12,6 @@ Sliding Messaging is now smoother and more feature packed than ever!
 - More message details when around the date of a message
 - Updated Developer Tip for speed improvement and sluggishness
 - Added an option to adjust the width of the SlideOver popup
+- Smoothed out SlideOver animations
 - Changes to the "Full Screen Sliding Mode" option for the use of the "New Message" drawer
 - Bug fixes

@@ -37,6 +37,13 @@
             />
 
         <CheckBoxPreference
+            android:key="contact_picture_slideover"
+            android:title="@string/contact_picture_slideover"
+            android:dependency="slideover_enabled"
+            android:defaultValue="true"
+            />
+
+        <CheckBoxPreference
             android:key="slideover_haptic_feedback"
             android:title="@string/slideover_haptic_feedback"
             android:defaultValue="true"

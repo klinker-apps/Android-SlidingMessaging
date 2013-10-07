@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_donate.utils.ContactUtil;
 
 public class HaloView extends ViewGroup {
     public Context mContext;
@@ -65,8 +66,39 @@ public class HaloView extends ViewGroup {
         if (haloNewAlpha != 0) {
             haloNewPaint.setAlpha(haloNewAlpha);
             haloNewPaint.setColorFilter(new PorterDuffColorFilter(haloUnreadColor, PorterDuff.Mode.MULTIPLY));
-            canvas.drawBitmap(halo, 0, 0, haloNewPaint);
+
+            if (sharedPrefs.getBoolean("contact_pics_slideover", true)) {
+                canvas.drawBitmap(halo, 0, 0, haloPaint);
+                Paint contactPaint = new Paint();
+                contactPaint.setAlpha(210);
+                canvas.drawBitmap(getClip(), 0, 0, contactPaint);
+            } else {
+                canvas.drawBitmap(halo, 0, 0, haloNewPaint);
+            }
         }
+    }
+
+    public Bitmap getClip()
+    {
+        String number = ArcView.newConversations.get(ArcView.newConversations.size() - 1)[2];
+        Bitmap bitmap = Bitmap.createScaledBitmap(ContactUtil.getFacebookPhoto(number, mContext), halo.getWidth(), halo.getHeight(), false);
+
+
+        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
+                bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+        final int color = 0xff424242;
+        final Paint paint = new Paint();
+        final Rect rect = new Rect(0, 0, bitmap.getWidth(),
+                bitmap.getHeight());
+
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        canvas.drawCircle(bitmap.getWidth() / 2,
+                bitmap.getHeight() / 2, (bitmap.getWidth() / 2) - (bitmap.getWidth()/25), paint);
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, rect, rect, paint);
+        return output;
     }
 
     @Override

@@ -310,6 +310,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
                     Intent updateHalo = new Intent("com.klinker.android.messaging.UPDATE_HALO");
                     updateHalo.putExtra("name", name);
                     updateHalo.putExtra("message", body);
+                    updateHalo.putExtra("number", address);
                     context.sendBroadcast(updateHalo);
                 }
 
