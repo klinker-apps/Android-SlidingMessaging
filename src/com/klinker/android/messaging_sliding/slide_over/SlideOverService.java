@@ -47,7 +47,6 @@ public class SlideOverService extends Service {
     public View sendView;
 
     public WindowManager.LayoutParams haloParams;
-    public WindowManager.LayoutParams haloHiddenParams;
     public WindowManager.LayoutParams messageWindowParams;
     public WindowManager.LayoutParams contactParams;
     public WindowManager.LayoutParams arcParams;
@@ -1589,6 +1588,8 @@ public class SlideOverService extends Service {
     public BroadcastReceiver newMessageReceived = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+
+            haloView.currentImage = null;
 
             ContactView.refreshArrays();
 
