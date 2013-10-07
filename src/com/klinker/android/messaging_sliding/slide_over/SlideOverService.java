@@ -47,7 +47,7 @@ public class SlideOverService extends Service {
     public View sendView;
 
     public WindowManager.LayoutParams haloParams;
-    public WindowManager.LayoutParams haloHiddenParams;
+    public WindowManager.LayoutParams haloNewParams;
     public WindowManager.LayoutParams messageWindowParams;
     public WindowManager.LayoutParams contactParams;
     public WindowManager.LayoutParams arcParams;
@@ -78,6 +78,7 @@ public class SlideOverService extends Service {
 
     public static int SWIPE_MIN_DISTANCE = 0;
     public static double HALO_SLIVER_RATIO = .33;
+    public static double HALO_NEW_SLIVER_RATIO = .75;
     public static double PERCENT_DOWN_SCREEN = 0;
     public static float ARC_BREAK_POINT = 0;
 
@@ -499,6 +500,7 @@ public class SlideOverService extends Service {
         breakAng += breakAngle;
 
         HALO_SLIVER_RATIO = sharedPrefs.getInt("slideover_sliver", 33) / 100.0;
+        HALO_NEW_SLIVER_RATIO = sharedPrefs.getInt("slideover_new_sliver", 75) / 100.0;
         PERCENT_DOWN_SCREEN = sharedPrefs.getFloat("slideover_downscreen", 0);
         HAPTIC_FEEDBACK = sharedPrefs.getBoolean("slideover_haptic_feedback", true);
         ARC_BREAK_POINT = breakAng * .9f;
@@ -642,18 +644,19 @@ public class SlideOverService extends Service {
         haloParams.gravity = Gravity.TOP | Gravity.LEFT;
         haloParams.windowAnimations = android.R.style.Animation_Toast;
 
-        /*haloHiddenParams = new WindowManager.LayoutParams(
+        haloNewParams = new WindowManager.LayoutParams(
                 halo.getWidth(),
                 halo.getHeight(),
-                sharedPrefs.getString("slideover_side", "left").equals("left") ? -1 * halo.getWidth() : width + halo.getWidth(),
+                sharedPrefs.getString("slideover_side", "left").equals("left") ? (int) (-1 * (1 - HALO_NEW_SLIVER_RATIO) * halo.getWidth()) : (int) (width - (halo.getWidth() * (HALO_NEW_SLIVER_RATIO))),
                 (int) sharedPrefs.getFloat("slideover_downscreen", 0),
                 WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                        |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
-                        |WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
-                        |WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                        | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+                        | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
+                        | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 PixelFormat.TRANSLUCENT);
-        haloHiddenParams.gravity = Gravity.TOP | Gravity.LEFT;*/
+        haloNewParams.gravity = Gravity.TOP | Gravity.LEFT;
+        haloNewParams.windowAnimations = android.R.style.Animation_Toast;
 
         arcParams = new WindowManager.LayoutParams(
                 WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
@@ -1059,7 +1062,9 @@ public class SlideOverService extends Service {
             numberNewConv = 0;
         }
 
-        haloWindow.updateViewLayout(haloView, haloParams);
+        //haloWindow.updateViewLayout(haloView, haloParams);
+        haloWindow.removeView(haloView);
+        haloWindow.addView(haloView, haloParams);
 
         // now will fire a different intent depending on what view you are in
         if (inClear) // clear button clicked
@@ -1069,7 +1074,9 @@ public class SlideOverService extends Service {
             haloView.haloNewAlpha = 0;
             haloView.haloAlpha = 255;
             haloView.invalidate();
-            haloWindow.updateViewLayout(haloView, haloParams);
+            //haloWindow.updateViewLayout(haloView, haloParams);
+            haloWindow.removeView(haloView);
+            haloWindow.addView(haloView, haloParams);
 
             numberNewConv = 0;
 
@@ -1126,7 +1133,9 @@ public class SlideOverService extends Service {
 
             numberNewConv = 0;
         } else {
-            haloWindow.updateViewLayout(haloView, haloParams);
+            //haloWindow.updateViewLayout(haloView, haloParams);
+            haloWindow.removeView(haloView);
+            haloWindow.addView(haloView, haloParams);
         }
 
         // now will fire a different intent depending on what view you are in
@@ -1592,14 +1601,9 @@ public class SlideOverService extends Service {
 
             ContactView.refreshArrays();
 
-            //new Handler().postDelayed(new Runnable() {
-            //@Override
-            //public void run() {
             ContactView.currentContact = 0;
             contactView.invalidate();
             messageView.invalidate();
-            //    }
-            //}, 200);
 
             final String name = intent.getStringExtra("name");
             final String message = intent.getStringExtra("message");
@@ -1655,6 +1659,10 @@ public class SlideOverService extends Service {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        //haloWindow.updateViewLayout(haloView, haloNewParams);
+                        haloWindow.removeView(haloView);
+                        haloWindow.addView(haloView, haloNewParams);
+
                         HaloFadeAnimation animation = new HaloFadeAnimation(haloView, true);
                         animation.setRunning(true);
                         animation.start();
@@ -1684,22 +1692,23 @@ public class SlideOverService extends Service {
                         }
                     }
                 }
-            }, 1750);
+            }, 2000);
 
-            if (!sharedPrefs.getBoolean("popup_reply", false)) {
+            /*if (!sharedPrefs.getBoolean("popup_reply", false)) {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         haloView.invalidate();
                         try {
-                            haloWindow.removeView(haloView);
-                            haloWindow.addView(haloView, haloParams);
+                            haloWindow.updateViewLayout(haloView, haloNewParams);
+                            //haloWindow.removeView(haloView);
+                            //haloWindow.addView(haloView, haloNewParams);
                         } catch (Exception e) {
 
                         }
                     }
                 }, 1500);
-            }
+            }*/
         }
     };
 
@@ -1707,9 +1716,6 @@ public class SlideOverService extends Service {
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            // FIXME sometimes this doesnt work... swiping away a notification or having popup automatically doesn't clear the color
-            // turning on popup after lockscreen only and testing with message, popup will show but then the halo will never go back to white
-            // until you manually bring up slideover from halo
             arcView.newConversations.clear();
 
             haloView.haloNewAlpha = 0;

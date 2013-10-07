@@ -834,5 +834,6 @@
     <string name="giffgaff_delivery">giffgaff Delivery Reports</string>
     <string name="giffgaff_delivery_summary">Attaches the string \"*0#\" to the beginning of each sent message to ensure delivery reports work correctly</string>
     <string name="contact_picture_slideover">Show contact pictures on incoming messages</string>
+    <string name="slideover_new_sliver">Sliver width on incoming messages</string>
 
 </resources>

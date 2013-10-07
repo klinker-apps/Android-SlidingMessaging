@@ -152,6 +152,14 @@
                 />
 
         <com.klinker.android.messaging_sliding.views.SeekBarPreference3
+            android:key="slideover_new_sliver"
+            android:title="@string/slideover_new_sliver"
+            android:defaultValue="75"
+            android:max="100"
+            android:dependency="slideover_enabled"
+            />
+
+        <com.klinker.android.messaging_sliding.views.SeekBarPreference3
                 android:key="slideover_activation"
                 android:title="@string/slideover_activation"
                 android:summary="@string/slideover_activation_summary"

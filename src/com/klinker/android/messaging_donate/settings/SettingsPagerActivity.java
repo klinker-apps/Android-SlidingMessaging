@@ -780,6 +780,15 @@ public class SettingsPagerActivity extends FragmentActivity {
                 }
             });
 
+            Preference sliverNew = findPreference("slideover_new_sliver");
+            sliverNew.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    SlideOverService.restartHalo(context);
+                    return true;
+                }
+            });
+
             Preference unreadOnly = findPreference("slideover_only_unread");
             unreadOnly.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
