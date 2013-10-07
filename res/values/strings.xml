@@ -837,5 +837,7 @@
     <string name="slideover_new_sliver">Sliver width on incoming messages</string>
     <string name="slideover_return_timeout">Reset bubble sliver after timeout</string>
     <string name="slideover_return_timeout_length">Timeout duration (in seconds):</string>
+    <string name="ping_on_unlock">Ping SlideOver bubble</string>
+    <string name="ping_on_unlock_summary">Sets the SlideOver bubble to the new sliver width if there is a new message when the screen is unlocked. Timeout settings will apply.</string>
 
 </resources>

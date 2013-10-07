@@ -181,6 +181,10 @@ public class SlideOverService extends Service {
         filter = new IntentFilter();
         filter.addAction(BCAST_CONFIGCHANGED);
         this.registerReceiver(orientationChange, filter);
+
+        filter = new IntentFilter();
+        filter.addAction(Intent.ACTION_SCREEN_ON);
+        this.registerReceiver(screenOn, filter);
     }
 
     class GestureListener extends GestureDetector.SimpleOnGestureListener {
@@ -1577,6 +1581,7 @@ public class SlideOverService extends Service {
         unregisterReceiver(newMessageReceived);
         unregisterReceiver(clearMessages);
         unregisterReceiver(orientationChange);
+        unregisterReceiver(screenOn);
         try {
             unregisterReceiver(stopSlideover);
         } catch (Exception e) {
@@ -1699,8 +1704,8 @@ public class SlideOverService extends Service {
                     @Override
                     public void run() {
                         //haloWindow.updateViewLayout(haloView, haloNewParams);
-                        haloWindow.removeView(haloView);
-                        haloWindow.addView(haloView, haloNewParams);
+                        //haloWindow.removeView(haloView);
+                        //haloWindow.addView(haloView, haloNewParams);
 
                         if(sharedPrefs.getBoolean("slideover_return_timeout", false)) {
                             returnTimeoutHandler.postDelayed(returnTimeoutRunnable,
@@ -1738,21 +1743,21 @@ public class SlideOverService extends Service {
                 }
             }, 2000);
 
-            /*if (!sharedPrefs.getBoolean("popup_reply", false)) {
+            if (!sharedPrefs.getBoolean("popup_reply", false)) {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         haloView.invalidate();
                         try {
-                            haloWindow.updateViewLayout(haloView, haloNewParams);
-                            //haloWindow.removeView(haloView);
-                            //haloWindow.addView(haloView, haloNewParams);
+                            //haloWindow.updateViewLayout(haloView, haloNewParams);
+                            haloWindow.removeView(haloView);
+                            haloWindow.addView(haloView, haloNewParams);
                         } catch (Exception e) {
 
                         }
                     }
                 }, 1500);
-            }*/
+            }
         }
     };
 
@@ -1795,6 +1800,55 @@ public class SlideOverService extends Service {
                     }
                 }
             }, 300);
+        }
+    };
+
+    public BroadcastReceiver screenOn = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent myIntent) {
+            // remove the message view and contact view so they don't cause problems
+            if (sharedPrefs.getBoolean("ping_on_unlock", true) && arcView.newConversations.size() > 0) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            haloWindow.removeViewImmediate(haloView);
+                            haloWindow.addView(haloView, haloNewParams);
+
+                            if(sharedPrefs.getBoolean("slideover_return_timeout", false)) {
+                                returnTimeoutHandler.postDelayed(returnTimeoutRunnable,
+                                        sharedPrefs.getInt("slideover_return_timeout_length", 20) * 1000);
+                            }
+                        } catch (Exception e) {
+
+                        }
+
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                animationView = new AnimationView(getApplicationContext(), halo);
+
+                                if (!animationView.circleText) {
+                                    if (!sharedPrefs.getBoolean("popup_reply", false) || (sharedPrefs.getBoolean("popup_reply", true) && sharedPrefs.getBoolean("slideover_popup_lockscreen_only", false))) {
+                                        // start the animation
+                                        animationView.circleText = true;
+                                        animationView.firstText = true;
+                                        animationView.arcOffset = AnimationView.ORIG_ARC_OFFSET;
+                                        animationView.name = new String[]{arcView.newConversations.get(arcView.newConversations.size() - 1)[0], arcView.newConversations.get(arcView.newConversations.size() - 1)[1].length() > 50 ? arcView.newConversations.get(arcView.newConversations.size() - 1)[1].substring(0, 50) + "..." : arcView.newConversations.get(arcView.newConversations.size() - 1)[1]};
+                                        animationView.circleLength = 0;
+                                        animationView.circleStart = animationView.originalCircleStart;
+                                        animationWindow.addView(animationView, animationParams);
+
+                                        NewMessageAnimation animation = new NewMessageAnimation(animationView, ((float) (3 * (sharedPrefs.getInt("slideover_animation_speed", 33) / 100.0) + 1)) / 2, haloWindow);
+                                        animation.setRunning(true);
+                                        animation.start();
+                                    }
+                                }
+                            }
+                        }, 500);
+                    }
+                }, 1500);
+            }
         }
     };
 

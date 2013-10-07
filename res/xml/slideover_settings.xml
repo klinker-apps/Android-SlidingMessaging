@@ -160,6 +160,14 @@
             />
 
         <CheckBoxPreference
+            android:key="ping_on_unlock"
+            android:title="@string/ping_on_unlock"
+            android:summary="@string/ping_on_unlock_summary"
+            android:defaultValue="true"
+            android:dependency="slideover_enabled"
+            />
+
+        <CheckBoxPreference
             android:key="slideover_return_timeout"
             android:title="@string/slideover_return_timeout"
             android:defaultValue="false"
