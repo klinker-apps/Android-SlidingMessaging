@@ -1741,7 +1741,7 @@ public class SlideOverService extends Service {
                         animation.setRunning(true);
                         animation.start();
                     }
-                }, 1250);
+                }, 1500);
             }
 
             animating = true;
