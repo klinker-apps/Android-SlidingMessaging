@@ -1438,6 +1438,9 @@ public class SlideOverService extends Service {
         haloParams.x = sharedPrefs.getString("slideover_side", "left").equals("left") ? (int) (-1 * (1 - HALO_SLIVER_RATIO) * halo.getWidth()) : (int) (width - (halo.getWidth() * (HALO_SLIVER_RATIO)));
         haloParams.y = (int) sharedPrefs.getFloat("slideover_downscreen", 0);
 
+        haloNewParams.x = haloParams.x;
+        haloNewParams.y = haloParams.y;
+
         haloWindow.updateViewLayout(haloView, haloParams);
         try { animationWindow.removeViewImmediate(animationView); } catch (Exception e) { }
         returnTimeoutHandler.removeCallbacks(returnTimeoutRunnable);
@@ -1462,6 +1465,9 @@ public class SlideOverService extends Service {
 
         haloParams.x = sharedPrefs.getString("slideover_side", "left").equals("left") ? (int) (-1 * (1 - HALO_SLIVER_RATIO) * halo.getWidth()) : (int) (width - (halo.getWidth() * (HALO_SLIVER_RATIO)));
         haloParams.y = (int) currY;
+
+        haloNewParams.x = haloParams.x;
+        haloNewParams.y = haloParams.y;
 
         haloWindow.removeView(haloView);
         haloWindow.addView(haloView, haloParams);
