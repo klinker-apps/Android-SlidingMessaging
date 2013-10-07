@@ -89,14 +89,14 @@ public class HaloView extends ViewGroup {
 
         Bitmap output = Bitmap.createBitmap(halo.getWidth(),
                 halo.getHeight(), Bitmap.Config.ARGB_8888);
-        
+
         Canvas canvas = new Canvas(output);
         Paint paint = new Paint();
         Rect rect = new Rect(0, 0, halo.getWidth(),
                 halo.getHeight());
 
-        //paint.setAntiAlias(true);
-        //canvas.drawARGB(0, 0, 0, 0);
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
         canvas.drawCircle(halo.getWidth() / 2,
                 halo.getHeight() / 2, (halo.getWidth() / 2) - (halo.getWidth()/25), paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
