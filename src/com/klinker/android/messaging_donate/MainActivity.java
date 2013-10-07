@@ -3809,6 +3809,7 @@ public class MainActivity extends FragmentActivity {
                     break;
             }
         } else if (requestCode == SETTINGS_RESULT) {
+            mSectionsPagerAdapter.notifyDataSetChanged();
             recreate();
         }
 
