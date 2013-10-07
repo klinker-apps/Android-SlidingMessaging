@@ -255,7 +255,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                 }
 
                 if (group && !sent) {
-                    sender = getFrom(Uri.parse("content://mms/" + cursor.getString(cursor.getColumnIndex("_id")))).trim();
+                    sender = MessageCursorAdapter.getFrom(Uri.parse("content://mms/" + cursor.getString(cursor.getColumnIndex("_id"))), context).trim();
                 }
 
                 if (cursor.getInt(cursor.getColumnIndex("read")) == 0) {
@@ -1850,7 +1850,7 @@ public class MessageCursorAdapter extends CursorAdapter {
         return sb.toString();
     }
 
-    private String getFrom(Uri uri) {
+    public static String getFrom(Uri uri, Context context) {
         String msgId = uri.getLastPathSegment();
         Uri.Builder builder = Telephony.Mms.CONTENT_URI.buildUpon();
 

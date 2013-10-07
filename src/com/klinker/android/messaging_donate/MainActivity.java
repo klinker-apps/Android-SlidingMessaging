@@ -3066,7 +3066,7 @@ public class MainActivity extends FragmentActivity {
                         try {
                             Intent intent = new Intent(this, BatchDeleteConversationActivity.class);
                             intent.putExtra("threadId", conversations.get(mViewPager.getCurrentItem()).getThreadId());
-                            startActivity(intent);
+                            startActivityForResult(intent, SETTINGS_RESULT);
                             overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                         } catch (Exception e) {
                             Toast.makeText(this, "No Messages", Toast.LENGTH_SHORT).show();
@@ -3074,7 +3074,7 @@ public class MainActivity extends FragmentActivity {
                     }
                 } else {
                     Intent intent = new Intent(this, BatchDeleteAllActivity.class);
-                    startActivity(intent);
+                    startActivityForResult(intent, SETTINGS_RESULT);
                     overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                 }
 

@@ -122,7 +122,7 @@ public class HoloEditText extends EditText {
                     }
                 }
 
-                if (string != null) {
+                if (string != null && i3 > i2) {
                     removeTextChangedListener(this);
                     setText(string);
                     setSelection(string.length());

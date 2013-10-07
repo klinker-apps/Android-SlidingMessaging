@@ -37,7 +37,7 @@ public class BatchDeleteConversationActivity extends Activity implements android
         super.onCreate(savedInstanceState);
         setContentView(R.layout.batch_delete);
 
-        BatchDeleteAllArrayAdapter.itemsToDelete = new ArrayList<Integer>();
+        BatchDeleteConversationArrayAdapter.itemsToDelete = new ArrayList<Long>();
 
         if (sharedPrefs.getBoolean("ct_light_action_bar", false)) {
             setTheme(R.style.HangoutsTheme);
@@ -76,7 +76,7 @@ public class BatchDeleteConversationActivity extends Activity implements android
 
                     @Override
                     public void run() {
-                        ArrayList<String> ids = BatchDeleteConversationArrayAdapter.itemsToDelete;
+                        ArrayList<Long> ids = BatchDeleteConversationArrayAdapter.itemsToDelete;
 
                         for (int i = 0; i < ids.size(); i++) {
                             deleteSMS(context, ids.get(i));
@@ -87,8 +87,6 @@ public class BatchDeleteConversationActivity extends Activity implements android
                             @Override
                             public void run() {
                                 progDialog.dismiss();
-                                Intent intent = new Intent(context, MainActivity.class);
-                                context.startActivity(intent);
                                 finish();
 
                                 Intent updateWidget = new Intent("com.klinker.android.messaging.UPDATE_WIDGET");
@@ -129,7 +127,7 @@ public class BatchDeleteConversationActivity extends Activity implements android
                     selectAllQuery.moveToFirst();
 
                     do {
-                        BatchDeleteConversationArrayAdapter.itemsToDelete.add(selectAllQuery.getString(selectAllQuery.getColumnIndex("_id")));
+                        BatchDeleteConversationArrayAdapter.itemsToDelete.add(selectAllQuery.getLong(selectAllQuery.getColumnIndex("_id")));
                     } while (selectAllQuery.moveToNext());
 
                     selectAllQuery.close();
@@ -174,7 +172,7 @@ public class BatchDeleteConversationActivity extends Activity implements android
 
     @Override
     public void onLoadFinished(android.content.Loader<Cursor> loader, final Cursor query) {
-        adapter = new BatchDeleteConversationArrayAdapter((Activity) context, MainActivity.myContactId, ContactUtil.findContactNumber(threadId + "", context), threadId + "", query, 1);
+        adapter = new BatchDeleteConversationArrayAdapter((Activity) context, MainActivity.myContactId, ContactUtil.findContactNumber(threadId + "", context), threadId + "", query);
 
         list.setAdapter(adapter);
         list.setStackFromBottom(true);
@@ -191,9 +189,9 @@ public class BatchDeleteConversationActivity extends Activity implements android
         overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
     }
 
-    public void deleteSMS(Context context, String id) {
+    public void deleteSMS(Context context, long id) {
         try {
-            context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/" + threadId + "/"), "_id=?", new String[]{id});
+            context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/" + threadId + "/"), "_id=?", new String[]{id + ""});
         } catch (Exception e) {
             Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
         }

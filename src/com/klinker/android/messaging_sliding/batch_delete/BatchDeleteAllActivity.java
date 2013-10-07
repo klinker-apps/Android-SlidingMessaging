@@ -22,7 +22,6 @@ import java.util.ArrayList;
 
 public class BatchDeleteAllActivity extends Activity {
 
-    //public ArrayList<String> threadIds, inboxNumber, inboxBody, inboxGroup;
     public ArrayList<Conversation> conversations;
     public BatchDeleteAllArrayAdapter mAdapter;
     public final Context context = this;
@@ -91,8 +90,6 @@ public class BatchDeleteAllActivity extends Activity {
                             @Override
                             public void run() {
                                 progDialog.dismiss();
-                                Intent intent = new Intent(context, MainActivity.class);
-                                context.startActivity(intent);
                                 finish();
                                 overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
 
