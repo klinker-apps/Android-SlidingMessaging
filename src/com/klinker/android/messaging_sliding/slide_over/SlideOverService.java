@@ -1737,15 +1737,6 @@ public class SlideOverService extends Service {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        //haloWindow.updateViewLayout(haloView, haloNewParams);
-                        //haloWindow.removeView(haloView);
-                        //haloWindow.addView(haloView, haloNewParams);
-
-                        if(sharedPrefs.getBoolean("slideover_return_timeout", false)) {
-                            returnTimeoutHandler.postDelayed(returnTimeoutRunnable,
-                                    sharedPrefs.getInt("slideover_return_timeout_length", 20) * 1000);
-                        }
-
                         HaloFadeAnimation animation = new HaloFadeAnimation(haloView, true);
                         animation.setRunning(true);
                         animation.start();
@@ -1765,6 +1756,11 @@ public class SlideOverService extends Service {
                 @Override
                 public void run() {
                     animationView = new AnimationView(getApplicationContext(), halo);
+
+                    if(sharedPrefs.getBoolean("slideover_return_timeout", false)) {
+                        returnTimeoutHandler.postDelayed(returnTimeoutRunnable,
+                                sharedPrefs.getInt("slideover_return_timeout_length", 20) * 1000);
+                    }
 
                     if (!animationView.circleText) {
                         if (!sharedPrefs.getBoolean("popup_reply", false) || (sharedPrefs.getBoolean("popup_reply", true) && sharedPrefs.getBoolean("slideover_popup_lockscreen_only", false))) {
@@ -1789,9 +1785,9 @@ public class SlideOverService extends Service {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        haloView.invalidate();
+
                         try {
-                            //haloWindow.updateViewLayout(haloView, haloNewParams);
+                            //haloView.invalidate();
                             haloWindow.removeView(haloView);
                             haloWindow.addView(haloView, haloNewParams);
                         } catch (Exception e) {
