@@ -1599,6 +1599,8 @@ public class SlideOverService extends Service {
         @Override
         public void onReceive(Context context, Intent intent) {
 
+            haloView.currentImage = null;
+
             ContactView.refreshArrays();
 
             ContactView.currentContact = 0;

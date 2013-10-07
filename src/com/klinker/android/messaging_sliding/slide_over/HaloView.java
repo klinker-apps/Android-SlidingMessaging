@@ -37,17 +37,19 @@ public class HaloView extends ViewGroup {
         mContext = context;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
 
+        haloColor = sharedPrefs.getInt("slideover_color", context.getResources().getColor(R.color.white));
+        haloUnreadColor = sharedPrefs.getInt("slideover_unread_color", context.getResources().getColor(R.color.holo_red));
+
         halo = BitmapFactory.decodeResource(getResources(),
                 R.drawable.halo_bg);
 
         haloPaint = new Paint();
         haloPaint.setAlpha(haloAlpha);
+        haloPaint.setColorFilter(new PorterDuffColorFilter(haloColor, PorterDuff.Mode.MULTIPLY));
 
         haloNewPaint = new Paint();
         haloNewPaint.setAlpha(haloNewAlpha);
-
-        haloColor = sharedPrefs.getInt("slideover_color", context.getResources().getColor(R.color.white));
-        haloUnreadColor = sharedPrefs.getInt("slideover_unread_color", context.getResources().getColor(R.color.holo_red));
+        haloNewPaint.setColorFilter(new PorterDuffColorFilter(haloUnreadColor, PorterDuff.Mode.MULTIPLY));
     }
 
     protected void onDraw(Canvas canvas) {
@@ -59,37 +61,33 @@ public class HaloView extends ViewGroup {
 
         if (haloAlpha != 0) {
             haloPaint.setAlpha(haloAlpha);
-            haloPaint.setColorFilter(new PorterDuffColorFilter(haloColor, PorterDuff.Mode.MULTIPLY));
             canvas.drawBitmap(halo, 0, 0, haloPaint);
         }
 
         if (haloNewAlpha != 0) {
             haloNewPaint.setAlpha(haloNewAlpha);
-            haloNewPaint.setColorFilter(new PorterDuffColorFilter(haloUnreadColor, PorterDuff.Mode.MULTIPLY));
 
             if (sharedPrefs.getBoolean("contact_pics_slideover", true)) {
                 canvas.drawBitmap(halo, 0, 0, haloPaint);
                 Paint contactPaint = new Paint();
                 contactPaint.setAlpha(210);
-                canvas.drawBitmap(getClip(), 0, 0, contactPaint);
+                canvas.drawBitmap(currentImage == null ? getClip() : currentImage, 0, 0, contactPaint);
             } else {
                 canvas.drawBitmap(halo, 0, 0, haloNewPaint);
             }
         }
     }
 
-    public Bitmap getClip()
-    {
+    public Bitmap currentImage = null;
+    private Bitmap getClip() {
         String number = ArcView.newConversations.get(ArcView.newConversations.size() - 1)[2];
         Bitmap bitmap = Bitmap.createScaledBitmap(ContactUtil.getFacebookPhoto(number, mContext), halo.getWidth(), halo.getHeight(), false);
-
 
         Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
                 bitmap.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(output);
-        final int color = 0xff424242;
-        final Paint paint = new Paint();
-        final Rect rect = new Rect(0, 0, bitmap.getWidth(),
+        Paint paint = new Paint();
+        Rect rect = new Rect(0, 0, bitmap.getWidth(),
                 bitmap.getHeight());
 
         paint.setAntiAlias(true);
@@ -98,6 +96,7 @@ public class HaloView extends ViewGroup {
                 bitmap.getHeight() / 2, (bitmap.getWidth() / 2) - (bitmap.getWidth()/25), paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         canvas.drawBitmap(bitmap, rect, rect, paint);
+        currentImage = output;
         return output;
     }
 

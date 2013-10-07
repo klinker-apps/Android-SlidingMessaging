@@ -10,6 +10,7 @@ public class NewMessageAnimation extends CustomAnimation {
     private WindowManager manager;
     private AnimationView view;
     private int step;
+    private boolean started;
 
     public NewMessageAnimation(AnimationView v, float speed, WindowManager manager) {
         super(v);
@@ -17,10 +18,19 @@ public class NewMessageAnimation extends CustomAnimation {
         this.speed = speed;
         this.manager = manager;
         this.step = 0;
+        this.started = false;
     }
 
     @Override
     public void updateView() {
+        if (!started) {
+            try {
+                Thread.sleep(500);
+            } catch (Exception e) {
+            }
+            started = true;
+        }
+
         if (step == 0) {
             view.circleLength -= (speed * 2);
 
