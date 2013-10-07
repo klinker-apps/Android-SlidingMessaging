@@ -159,6 +159,21 @@
             android:dependency="slideover_enabled"
             />
 
+        <CheckBoxPreference
+            android:key="slideover_return_timeout"
+            android:title="@string/slideover_return_timeout"
+            android:defaultValue="false"
+            android:dependency="slideover_enabled"
+            />
+
+        <com.klinker.android.messaging_sliding.views.SeekBarPreference3
+            android:key="slideover_return_timeout_length"
+            android:title="@string/slideover_return_timeout_length"
+            android:defaultValue="20"
+            android:max="60"
+            android:dependency="slideover_return_timeout"
+            />
+
         <com.klinker.android.messaging_sliding.views.SeekBarPreference3
                 android:key="slideover_activation"
                 android:title="@string/slideover_activation"

@@ -134,9 +134,11 @@ public class SlideOverService extends Service {
     public Handler messageBoxHandler = new Handler();
     public Handler arcViewHandler = new Handler();
     public Handler removeArcHandler = new Handler();
+    public Handler returnTimeoutHandler = new Handler();
     public Runnable messageBoxRunnable;
     public Runnable arcViewRunnable;
     public Runnable removeArcRunnable;
+    public Runnable returnTimeoutRunnable;
 
     private Transaction sendTransaction;
 
@@ -240,6 +242,8 @@ public class SlideOverService extends Service {
                 haloView.haloNewAlpha = 0;
                 haloView.haloAlpha = 255;
                 haloView.invalidate();
+
+                try { animationWindow.removeViewImmediate(animationView); } catch (Exception e) { }
 
                 try {
                     haloWindow.removeViewImmediate(haloView);
@@ -552,6 +556,18 @@ public class SlideOverService extends Service {
             public void run() {
                 try {
                     arcWindow.removeViewImmediate(arcView);
+                } catch (Exception e) {
+
+                }
+            }
+        };
+
+        returnTimeoutRunnable = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    haloWindow.removeView(haloView);
+                    haloWindow.addView(haloView, haloParams);
                 } catch (Exception e) {
 
                 }
@@ -1065,6 +1081,8 @@ public class SlideOverService extends Service {
         //haloWindow.updateViewLayout(haloView, haloParams);
         haloWindow.removeView(haloView);
         haloWindow.addView(haloView, haloParams);
+        try { animationWindow.removeViewImmediate(animationView); } catch (Exception e) { }
+        returnTimeoutHandler.removeCallbacks(returnTimeoutRunnable);
 
         // now will fire a different intent depending on what view you are in
         if (inClear) // clear button clicked
@@ -1077,6 +1095,8 @@ public class SlideOverService extends Service {
             //haloWindow.updateViewLayout(haloView, haloParams);
             haloWindow.removeView(haloView);
             haloWindow.addView(haloView, haloParams);
+            try { animationWindow.removeViewImmediate(animationView); } catch (Exception e) { }
+            returnTimeoutHandler.removeCallbacks(returnTimeoutRunnable);
 
             numberNewConv = 0;
 
@@ -1130,12 +1150,15 @@ public class SlideOverService extends Service {
             haloView.invalidate();
             haloWindow.removeView(haloView);
             haloWindow.addView(haloView, haloParams);
+            try { animationWindow.removeViewImmediate(animationView); } catch (Exception e) { }
 
             numberNewConv = 0;
         } else {
             //haloWindow.updateViewLayout(haloView, haloParams);
             haloWindow.removeView(haloView);
             haloWindow.addView(haloView, haloParams);
+            try { animationWindow.removeViewImmediate(animationView); } catch (Exception e) { }
+            returnTimeoutHandler.removeCallbacks(returnTimeoutRunnable);
         }
 
         // now will fire a different intent depending on what view you are in
@@ -1400,6 +1423,8 @@ public class SlideOverService extends Service {
         haloParams.x = sharedPrefs.getString("slideover_side", "left").equals("left") ? (int) (-1 * (1 - HALO_SLIVER_RATIO) * halo.getWidth()) : (int) (width - (halo.getWidth() * (HALO_SLIVER_RATIO)));
 
         haloWindow.updateViewLayout(haloView, haloParams);
+        try { animationWindow.removeViewImmediate(animationView); } catch (Exception e) { }
+        returnTimeoutHandler.removeCallbacks(returnTimeoutRunnable);
     }
 
     public void setSliver(Bitmap halo, MotionEvent event, int height, int width) {
@@ -1414,6 +1439,8 @@ public class SlideOverService extends Service {
         haloParams.y = (int) sharedPrefs.getFloat("slideover_downscreen", 0);
 
         haloWindow.updateViewLayout(haloView, haloParams);
+        try { animationWindow.removeViewImmediate(animationView); } catch (Exception e) { }
+        returnTimeoutHandler.removeCallbacks(returnTimeoutRunnable);
     }
 
     public void setHalo(Bitmap halo, MotionEvent event, int height, int width) {
@@ -1438,6 +1465,7 @@ public class SlideOverService extends Service {
 
         haloWindow.removeView(haloView);
         haloWindow.addView(haloView, haloParams);
+        try { animationWindow.removeViewImmediate(animationView); } catch (Exception e) { }
     }
 
     public void movingHalo(Bitmap halo, MotionEvent event) {
@@ -1445,6 +1473,8 @@ public class SlideOverService extends Service {
         haloParams.y = (int) event.getRawY() - halo.getHeight() / 2;
 
         haloWindow.updateViewLayout(haloView, haloParams);
+        try { animationWindow.removeViewImmediate(animationView); } catch (Exception e) { }
+        returnTimeoutHandler.removeCallbacks(returnTimeoutRunnable);
     }
 
     public void updateArcView() {
@@ -1589,6 +1619,7 @@ public class SlideOverService extends Service {
             try { messageWindow.removeViewImmediate(messageView); } catch (Exception e) { }
             try { messageWindow.removeViewImmediate(contactView); } catch (Exception e) { }
             try { sendWindow.removeViewImmediate(sendView); } catch (Exception e) { }
+            try { animationWindow.removeViewImmediate(animationView); } catch (Exception e) { }
 
             stopSelf();
             unregisterReceiver(this);
@@ -1665,6 +1696,11 @@ public class SlideOverService extends Service {
                         haloWindow.removeView(haloView);
                         haloWindow.addView(haloView, haloNewParams);
 
+                        if(sharedPrefs.getBoolean("slideover_return_timeout", false)) {
+                            returnTimeoutHandler.postDelayed(returnTimeoutRunnable,
+                                    sharedPrefs.getInt("slideover_return_timeout_length", 20) * 1000);
+                        }
+
                         HaloFadeAnimation animation = new HaloFadeAnimation(haloView, true);
                         animation.setRunning(true);
                         animation.start();
@@ -1723,6 +1759,8 @@ public class SlideOverService extends Service {
             haloView.haloNewAlpha = 0;
             haloView.haloAlpha = 255;
             haloView.invalidate();
+
+            try { animationWindow.removeViewImmediate(animationView); } catch (Exception e) { }
 
             try {
                 haloWindow.removeViewImmediate(haloView);
