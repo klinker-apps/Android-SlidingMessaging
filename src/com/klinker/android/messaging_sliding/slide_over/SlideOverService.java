@@ -1823,29 +1823,31 @@ public class SlideOverService extends Service {
 
                         }
 
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                animationView = new AnimationView(getApplicationContext(), halo);
+                        if (sharedPrefs.getBoolean("animate_text_on_ping", true)) {
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    animationView = new AnimationView(getApplicationContext(), halo);
 
-                                if (!animationView.circleText) {
-                                    if (!sharedPrefs.getBoolean("popup_reply", false) || (sharedPrefs.getBoolean("popup_reply", true) && sharedPrefs.getBoolean("slideover_popup_lockscreen_only", false))) {
-                                        // start the animation
-                                        animationView.circleText = true;
-                                        animationView.firstText = true;
-                                        animationView.arcOffset = AnimationView.ORIG_ARC_OFFSET;
-                                        animationView.name = new String[]{arcView.newConversations.get(arcView.newConversations.size() - 1)[0], arcView.newConversations.get(arcView.newConversations.size() - 1)[1].length() > 50 ? arcView.newConversations.get(arcView.newConversations.size() - 1)[1].substring(0, 50) + "..." : arcView.newConversations.get(arcView.newConversations.size() - 1)[1]};
-                                        animationView.circleLength = 0;
-                                        animationView.circleStart = animationView.originalCircleStart;
-                                        animationWindow.addView(animationView, animationParams);
+                                    if (!animationView.circleText) {
+                                        if (!sharedPrefs.getBoolean("popup_reply", false) || (sharedPrefs.getBoolean("popup_reply", true) && sharedPrefs.getBoolean("slideover_popup_lockscreen_only", false))) {
+                                            // start the animation
+                                            animationView.circleText = true;
+                                            animationView.firstText = true;
+                                            animationView.arcOffset = AnimationView.ORIG_ARC_OFFSET;
+                                            animationView.name = new String[]{arcView.newConversations.get(arcView.newConversations.size() - 1)[0], arcView.newConversations.get(arcView.newConversations.size() - 1)[1].length() > 50 ? arcView.newConversations.get(arcView.newConversations.size() - 1)[1].substring(0, 50) + "..." : arcView.newConversations.get(arcView.newConversations.size() - 1)[1]};
+                                            animationView.circleLength = 0;
+                                            animationView.circleStart = animationView.originalCircleStart;
+                                            animationWindow.addView(animationView, animationParams);
 
-                                        NewMessageAnimation animation = new NewMessageAnimation(animationView, ((float) (3 * (sharedPrefs.getInt("slideover_animation_speed", 33) / 100.0) + 1)) / 2, haloWindow);
-                                        animation.setRunning(true);
-                                        animation.start();
+                                            NewMessageAnimation animation = new NewMessageAnimation(animationView, ((float) (3 * (sharedPrefs.getInt("slideover_animation_speed", 33) / 100.0) + 1)) / 2, haloWindow);
+                                            animation.setRunning(true);
+                                            animation.start();
+                                        }
                                     }
                                 }
-                            }
-                        }, 500);
+                            }, 500);
+                        }
                     }
                 }, 1500);
             }

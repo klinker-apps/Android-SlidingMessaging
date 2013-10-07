@@ -168,6 +168,13 @@
             />
 
         <CheckBoxPreference
+            android:key="animate_text_on_ping"
+            android:title="@string/animate_text_on_ping"
+            android:defaultValue="true"
+            android:dependency="slideover_enabled"
+            />
+
+        <CheckBoxPreference
             android:key="slideover_return_timeout"
             android:title="@string/slideover_return_timeout"
             android:defaultValue="false"
