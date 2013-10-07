@@ -700,7 +700,7 @@
     <string name="disable">None, send all messages as SMS</string>
     <string name="account">Select Account to Use:</string>
     <string name="google_voice_settings">Google Voice Settings</string>
-    <string name="google_voice_failed">Do you have data or WiFi enabled and is your Google account set up for Google Voice? If not, you must set that up online first.</string>
+    <string name="google_voice_failed">Do you have data or WiFi enabled and is your Google account set up for Google Voice? If not, you must set that up online first. If so, try going into Google Voice settings and reselecting the account you want to use.</string>
     <string name="google_voice_failed_title">Error Sending Google Voice Message</string>
     <string name="google_voice_sign_up">Sign Me Up!</string>
     <string name="card_background">Also the message card for the Card+ UI.</string>
