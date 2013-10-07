@@ -191,77 +191,81 @@ public class SlideOverService extends Service {
         this.registerReceiver(screenOn, filter);
     }
 
+    public void singleTap() {
+        if (enableQuickPeek) {
+
+            height = d.getHeight();
+            width = d.getWidth();
+
+            haloView.playSoundEffect(SoundEffectConstants.CLICK);
+
+            currContact = 0;
+            ContactView.currentContact = 0;
+
+            if (HAPTIC_FEEDBACK) {
+                v.vibrate(10);
+            }
+
+            // will launch the floating message box feature
+            try {
+
+                messageWindow.removeView(contactView);
+
+                try {
+                    messageWindow.removeView(messageView);
+                    sendWindow.removeView(sendView);
+                } catch (Exception x) {
+                    // message view is gone already
+                }
+
+                messageBoxHandler.removeCallbacks(messageBoxRunnable);
+
+                if (sharedPrefs.getBoolean("slideover_only_unread", false))
+                    startService(new Intent(getBaseContext(), QmMarkRead.class));
+
+                ContactView.refreshArrays();
+
+                contactView.invalidate();
+                messageView.invalidate();
+            } catch (Exception e) {
+
+                ContactView.refreshArrays();
+
+                contactView.invalidate();
+                messageView.invalidate();
+
+                messageWindow.addView(contactView, contactParams);
+                messageWindow.addView(messageView, messageWindowParams);
+                sendWindow.addView(sendView, sendParams);
+            }
+
+            quickPeekHidden = false;
+
+            arcView.newConversations.clear();
+
+            haloView.haloNewAlpha = 0;
+            haloView.haloAlpha = 255;
+            haloView.invalidate();
+
+            try { animationWindow.removeViewImmediate(animationView); } catch (Exception e) { }
+
+            try {
+                haloWindow.removeViewImmediate(haloView);
+                haloWindow.addView(haloView, haloParams);
+            } catch (Exception e) {
+
+            }
+
+            numberNewConv = 0;
+        }
+    }
+
     class GestureListener extends GestureDetector.SimpleOnGestureListener {
 
         @Override
         public boolean onSingleTapConfirmed(MotionEvent event) {
 
-            if (enableQuickPeek) {
-
-                height = d.getHeight();
-                width = d.getWidth();
-
-                haloView.playSoundEffect(SoundEffectConstants.CLICK);
-
-                currContact = 0;
-                ContactView.currentContact = 0;
-
-                if (HAPTIC_FEEDBACK) {
-                    v.vibrate(10);
-                }
-
-                // will launch the floating message box feature
-                try {
-
-                    messageWindow.removeView(contactView);
-
-                    try {
-                        messageWindow.removeView(messageView);
-                        sendWindow.removeView(sendView);
-                    } catch (Exception x) {
-                        // message view is gone already
-                    }
-
-                    messageBoxHandler.removeCallbacks(messageBoxRunnable);
-
-                    if (sharedPrefs.getBoolean("slideover_only_unread", false))
-                        startService(new Intent(getBaseContext(), QmMarkRead.class));
-
-                    ContactView.refreshArrays();
-
-                    contactView.invalidate();
-                    messageView.invalidate();
-                } catch (Exception e) {
-
-                    ContactView.refreshArrays();
-
-                    contactView.invalidate();
-                    messageView.invalidate();
-
-                    messageWindow.addView(contactView, contactParams);
-                    messageWindow.addView(messageView, messageWindowParams);
-                    sendWindow.addView(sendView, sendParams);
-                }
-
-                quickPeekHidden = false;
-
-                arcView.newConversations.clear();
-
-                haloView.haloNewAlpha = 0;
-                haloView.haloAlpha = 255;
-                haloView.invalidate();
-
-                try { animationWindow.removeViewImmediate(animationView); } catch (Exception e) { }
-
-                try {
-                    haloWindow.removeViewImmediate(haloView);
-                    haloWindow.addView(haloView, haloParams);
-                } catch (Exception e) {
-
-                }
-
-                numberNewConv = 0;
-            }
+            singleTap();
 
             return true;
         }
@@ -472,6 +476,10 @@ public class SlideOverService extends Service {
                     InputMethodManager keyboard = (InputMethodManager)
                                             getSystemService(Context.INPUT_METHOD_SERVICE);
                                     keyboard.hideSoftInputFromWindow(sendBox.getWindowToken(), 0);
+
+                    if (sharedPrefs.getBoolean("close_quick_peek_on_send", false)) {
+                        singleTap();
+                    }
                 }
             }
         });

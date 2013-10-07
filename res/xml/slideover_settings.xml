@@ -79,6 +79,13 @@
             android:defaultValue="false"
             />
 
+        <CheckBoxPreference
+            android:key="close_quick_peek_on_send"
+            android:title="@string/close_quick_peek_on_send"
+            android:defaultValue="false"
+            android:dependency="enable_quick_peek"
+            />
+
         <com.klinker.android.messaging_sliding.views.SeekBarPreference3
             android:key="quick_peek_transparency"
             android:title="@string/quick_peek_transparency"
