@@ -4,12 +4,15 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.*;
 import android.preference.PreferenceManager;
+import android.util.TypedValue;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.utils.ContactUtil;
+
+import java.io.InputStream;
 
 public class HaloView extends ViewGroup {
     public Context mContext;
@@ -71,6 +74,7 @@ public class HaloView extends ViewGroup {
                 canvas.drawBitmap(halo, 0, 0, haloPaint);
                 Paint contactPaint = new Paint();
                 contactPaint.setAlpha(210);
+                //contactPaint.setAntiAlias(true);
                 canvas.drawBitmap(currentImage == null ? getClip() : currentImage, 0, 0, contactPaint);
             } else {
                 canvas.drawBitmap(halo, 0, 0, haloNewPaint);
@@ -81,21 +85,22 @@ public class HaloView extends ViewGroup {
     public Bitmap currentImage = null;
     private Bitmap getClip() {
         String number = ArcView.newConversations.get(ArcView.newConversations.size() - 1)[2];
-        Bitmap bitmap = Bitmap.createScaledBitmap(ContactUtil.getFacebookPhoto(number, mContext), halo.getWidth(), halo.getHeight(), false);
+        Bitmap bitmap = Bitmap.createScaledBitmap(ContactUtil.getFacebookPhoto(number, mContext), halo.getWidth(), halo.getHeight(), true);
 
-        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
-                bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        Bitmap output = Bitmap.createBitmap(halo.getWidth(),
+                halo.getHeight(), Bitmap.Config.ARGB_8888);
+        
         Canvas canvas = new Canvas(output);
         Paint paint = new Paint();
-        Rect rect = new Rect(0, 0, bitmap.getWidth(),
-                bitmap.getHeight());
+        Rect rect = new Rect(0, 0, halo.getWidth(),
+                halo.getHeight());
 
-        paint.setAntiAlias(true);
-        canvas.drawARGB(0, 0, 0, 0);
-        canvas.drawCircle(bitmap.getWidth() / 2,
-                bitmap.getHeight() / 2, (bitmap.getWidth() / 2) - (bitmap.getWidth()/25), paint);
+        //paint.setAntiAlias(true);
+        //canvas.drawARGB(0, 0, 0, 0);
+        canvas.drawCircle(halo.getWidth() / 2,
+                halo.getHeight() / 2, (halo.getWidth() / 2) - (halo.getWidth()/25), paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        canvas.drawBitmap(bitmap, rect, rect, paint);
+        canvas.drawBitmap(bitmap, null, rect, paint);
         currentImage = output;
         return output;
     }
