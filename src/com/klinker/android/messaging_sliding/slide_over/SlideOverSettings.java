@@ -175,6 +175,15 @@ public class SlideOverSettings extends PreferenceActivity {
             }
         });
 
+        Preference sliverNew = findPreference("slideover_new_sliver");
+        sliverNew.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object o) {
+                SlideOverService.restartHalo(context);
+                return true;
+            }
+        });
+
         /*Preference alignment = findPreference("slideover_vertical");
         alignment.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override

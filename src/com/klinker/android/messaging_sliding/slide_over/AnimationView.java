@@ -72,47 +72,47 @@ public class AnimationView extends ViewGroup {
         circlePaint.setStrokeWidth(TEXT_SIZE + (float) ((halo.getWidth() * .08)));
 
         int radius = halo.getWidth();
-        int xOffset = (int) (-1 * (1 - SlideOverService.HALO_SLIVER_RATIO) * radius);
+        int xOffset = (int) (-1 * (1 - SlideOverService.HALO_NEW_SLIVER_RATIO) * radius);
         int yOffset = (int) (SlideOverService.PERCENT_DOWN_SCREEN);
 
         if (!sharedPrefs.getString("slideover_side", "left").equals("left")) {
-            xOffset = (int) (width - (halo.getWidth() * (SlideOverService.HALO_SLIVER_RATIO)));
+            xOffset = (int) (width - (halo.getWidth() * (SlideOverService.HALO_NEW_SLIVER_RATIO)));
         }
 
         oval = new RectF(xOffset, yOffset, xOffset + radius, yOffset + radius);
         oval2 = new RectF(xOffset + (float) (halo.getWidth() * .02) - (TEXT_SIZE / 2), yOffset + (float) (halo.getWidth() * .02) - (TEXT_SIZE / 2), xOffset + circleRadius, yOffset + circleRadius);
-        arcOffset = (float) (3.14 * radius * (SlideOverService.HALO_SLIVER_RATIO + .1));
+        arcOffset = (float) (3.14 * radius * (SlideOverService.HALO_NEW_SLIVER_RATIO + .1));
         ORIG_ARC_OFFSET = arcOffset;
         textPath = new Path();
 
-        int arcLength = (int) (360 - ((1 - SlideOverService.HALO_SLIVER_RATIO - .1) * 360));
+        int arcLength = (int) (360 - ((1 - SlideOverService.HALO_NEW_SLIVER_RATIO - .1) * 360));
         maxCircleLength = -1 * arcLength;
         circleLength = 0;
         int arcStart;
 
         if (!sharedPrefs.getString("slideover_side", "left").equals("left")) {
-            arcStart = (int) (0 + ((1 - SlideOverService.HALO_SLIVER_RATIO - .1) * 180));
+            arcStart = (int) (0 + ((1 - SlideOverService.HALO_NEW_SLIVER_RATIO - .1) * 180));
             circleStart = arcStart * -1;
 
-            if (SlideOverService.HALO_SLIVER_RATIO >= .80) {
+            if (SlideOverService.HALO_NEW_SLIVER_RATIO >= .80) {
                 arcLength = 340;
                 arcStart = 0;
 
                 circleStart = 0;
-            } else if (SlideOverService.HALO_SLIVER_RATIO <= .25) {
+            } else if (SlideOverService.HALO_NEW_SLIVER_RATIO <= .25) {
                 circleStart = -90;
                 maxCircleLength = -180;
             }
         } else {
-            arcStart = (int) (180 + ((1 - SlideOverService.HALO_SLIVER_RATIO - .1) * 180));
+            arcStart = (int) (180 + ((1 - SlideOverService.HALO_NEW_SLIVER_RATIO - .1) * 180));
             circleStart = arcStart * -1;
 
-            if (SlideOverService.HALO_SLIVER_RATIO >= .80) {
+            if (SlideOverService.HALO_NEW_SLIVER_RATIO >= .80) {
                 arcLength = 340;
                 arcStart = 180;
 
                 circleStart = 180;
-            } else if (SlideOverService.HALO_SLIVER_RATIO <= .25) {
+            } else if (SlideOverService.HALO_NEW_SLIVER_RATIO <= .25) {
                 circleStart = 90;
                 maxCircleLength = -180;
             }
