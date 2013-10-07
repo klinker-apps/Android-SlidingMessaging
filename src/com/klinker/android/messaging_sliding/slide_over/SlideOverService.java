@@ -467,6 +467,10 @@ public class SlideOverService extends Service {
                     messageView.invalidate();
 
                     closeNotifications();
+                    
+                    InputMethodManager keyboard = (InputMethodManager)
+                                            getSystemService(Context.INPUT_METHOD_SERVICE);
+                                    keyboard.hideSoftInputFromWindow(sendBox.getWindowToken(), 0);
                 }
             }
         });
@@ -482,6 +486,10 @@ public class SlideOverService extends Service {
                     sendWindow.updateViewLayout(sendView, sendParams);
                 } catch (Exception e) {
                 }
+                
+                InputMethodManager keyboard = (InputMethodManager)
+                                            getSystemService(Context.INPUT_METHOD_SERVICE);
+                                    keyboard.hideSoftInputFromWindow(sendBox.getWindowToken(), 0);
             }
         });
 
