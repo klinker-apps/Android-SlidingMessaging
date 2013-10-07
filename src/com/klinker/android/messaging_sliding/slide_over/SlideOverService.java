@@ -1839,13 +1839,7 @@ public class SlideOverService extends Service {
     public BroadcastReceiver screenOn = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent myIntent) {
-            animating = true;
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    animating = false;
-                }
-            }, 7500);
+
             // remove the message view and contact view so they don't cause problems
             if (sharedPrefs.getBoolean("ping_on_unlock", true) && arcView.newConversations.size() > 0) {
                 new Handler().postDelayed(new Runnable() {
@@ -1872,6 +1866,13 @@ public class SlideOverService extends Service {
                                     if (!animating) {
                                         if (!sharedPrefs.getBoolean("popup_reply", false) || (sharedPrefs.getBoolean("popup_reply", true) && sharedPrefs.getBoolean("slideover_popup_lockscreen_only", false))) {
                                             // start the animation
+                                            animating = true;
+                                            new Handler().postDelayed(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    animating = false;
+                                                }
+                                            }, 5000);
                                             animationView.circleText = true;
                                             animationView.firstText = true;
                                             animationView.arcOffset = AnimationView.ORIG_ARC_OFFSET;
