@@ -113,6 +113,8 @@ public class SlideOverService extends Service {
 
     private boolean enableQuickPeek;
 
+    public boolean animating = false;
+
     public int currContact = 0;
     public int originalPos = 0;
 
@@ -1725,6 +1727,14 @@ public class SlideOverService extends Service {
                     if (!animationView.circleText) {
                         if (!sharedPrefs.getBoolean("popup_reply", false) || (sharedPrefs.getBoolean("popup_reply", true) && sharedPrefs.getBoolean("slideover_popup_lockscreen_only", false))) {
                             // start the animation
+                            animating = true;
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    animating = false;
+                                }
+                            }, 5000);
+
                             animationView.circleText = true;
                             animationView.firstText = true;
                             animationView.arcOffset = AnimationView.ORIG_ARC_OFFSET;
@@ -1827,9 +1837,16 @@ public class SlideOverService extends Service {
                                 public void run() {
                                     animationView = new AnimationView(getApplicationContext(), halo);
 
-                                    if (!animationView.circleText) {
+                                    if (!animating) {
                                         if (!sharedPrefs.getBoolean("popup_reply", false) || (sharedPrefs.getBoolean("popup_reply", true) && sharedPrefs.getBoolean("slideover_popup_lockscreen_only", false))) {
                                             // start the animation
+                                            animating = true;
+                                            new Handler().postDelayed(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    animating = false;
+                                                }
+                                            }, 5000);
                                             animationView.circleText = true;
                                             animationView.firstText = true;
                                             animationView.arcOffset = AnimationView.ORIG_ARC_OFFSET;
@@ -1844,7 +1861,7 @@ public class SlideOverService extends Service {
                                         }
                                     }
                                 }
-                            }, 500);
+                            }, 300);
                         }
                     }
                 }, 1500);
