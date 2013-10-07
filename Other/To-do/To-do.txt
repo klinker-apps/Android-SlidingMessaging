@@ -7,7 +7,7 @@ Jake:
 Luke:
     - determine if there are any other sms apps installed, and if not, enable override stock when finishing the changelog activity
 
-1) more individual notification options (slideover color, notification icon)
+1) more individual notification options (notification icon)
 2) option for adding certain text to every message at the beginning (delivery reports?)
 3) Tasker options
 4) Attach more options for MMS - create slideshow with videos and audio and pictures, attach plain text contact info
