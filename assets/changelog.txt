@@ -4,6 +4,7 @@ Sliding Messaging is now smoother and more feature packed than ever!
 - Added the ability to send messages directly from Quick Peek
 - Added an option to show contact pictures on the SlideOver bubble for new messages (on by default)
 - SlideOver bubble will now go to a new sliver width on unread messages, configurable from settings (Also a timeout value that can be set to put it back to normal)
+- Option to ping SlideOver bubble when the screen is turned on, if there are unread messages
 - Rewrite of sliding menus
 - Changed to Google's navigation drawer to compose new messages instead of right-side sliding menu
 - Changed the sizing of the SlideOver popup slightly
