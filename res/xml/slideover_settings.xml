@@ -216,7 +216,7 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory
+    <PreferenceCategory android:key="slideover_themeing"
         android:title="@string/slideover_theme_settings">
 
         <net.margaritov.preference.colorpicker.ColorPickerPreference
