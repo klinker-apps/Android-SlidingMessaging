@@ -757,8 +757,7 @@
     <string name="voice_receiving_notes">Dev Tip #6 (Google Voice Receiving): </string>
     <string name="voice_receiving_notes_summary">1) Android 4.3+ users can use the notification listener service, and users below that you need to use the accessibility service (both of which can be enabled by clicking the \"Option 1\" button).\n\n
                                                  2) The accessibility service cannot cancel Google Voice notifications (this is a limitation of the Android system), but if you turn them off through the Voice app then Sliding Messaging won\'t
-                                                 receive the messages at all. If you are using OPTION ONE, you must have notifications enabled for Google Voice, meaning Jellybean (4.1 and 4.2) and ICS (4.0) users will get double notifications\n\n
-                                                 3) The \"Refresh on Interval\" option is still in the works and will not do anything this beta.</string>
+                                                 receive the messages at all. If you are using OPTION ONE, you must have notifications enabled for Google Voice, meaning Jellybean (4.1 and 4.2) and ICS (4.0) users will get double notifications\n\n</string>
     <string name="drawer_open"> Settings Links</string>
     <string name="drawer_close"> Settings</string>
     <string name="swipe_read">Enable Swipe to Mark as Read</string>
