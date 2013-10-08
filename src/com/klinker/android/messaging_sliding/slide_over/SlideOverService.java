@@ -1782,7 +1782,7 @@ public class SlideOverService extends Service {
                         animation.setRunning(true);
                         animation.start();
                     }
-                }, 500);
+                }, 250);
             }
 
             animating = true;
@@ -1815,7 +1815,7 @@ public class SlideOverService extends Service {
                         }
                     }
                 }
-            }, 750);
+            }, 500);
 
 
             new Handler().postDelayed(new Runnable() {
@@ -1830,7 +1830,7 @@ public class SlideOverService extends Service {
 
                     }
                 }
-            }, 500);
+            }, 250);
 
         }
     };
