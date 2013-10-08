@@ -1860,7 +1860,17 @@ public class SlideOverService extends Service {
                 public void run() {
                     try {
                         messageWindow.removeView(messageView);
+                    } catch (Exception e) {
+
+                    }
+
+                    try {
                         messageWindow.removeView(contactView);
+                    } catch (Exception e) {
+
+                    }
+
+                    try {
                         sendWindow.removeView(sendView);
                     } catch (Exception e) {
 
