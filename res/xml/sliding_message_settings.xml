@@ -50,7 +50,8 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/message_animation_category" >
+    <PreferenceCategory android:key="messages_animation_category"
+        android:title="@string/message_animation_category" >
 
         <ListPreference
             android:key="send_animation"
@@ -79,7 +80,8 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/general_messages_category" >
+    <PreferenceCategory android:key="general_messages_category"
+        android:title="@string/general_messages_category" >
 
         <EditTextPreference
             android:key="signature"

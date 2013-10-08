@@ -7,7 +7,7 @@
         android:title="@string/slideover_tutorial"
         android:summary="@string/slideover_tutorial_summary"
         />
-    
+
     <PreferenceCategory android:key="slideover_general_category"
          android:title="@string/general_slideover_category" >
 

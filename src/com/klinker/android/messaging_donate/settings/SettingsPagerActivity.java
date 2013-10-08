@@ -948,7 +948,10 @@ public class SettingsPagerActivity extends FragmentActivity {
 
             if (!showAll) {
                 ((PreferenceGroup) findPreference("message_theme_category")).removePreference(findPreference("tiny_date"));
-                ((PreferenceGroup) findPreference("message_theme_category")).removePreference(findPreference("limit_messages"));
+                ((PreferenceGroup) findPreference("general_messages_category")).removePreference(findPreference("limit_messages"));
+                ((PreferenceGroup) findPreference("message_theme_category")).removePreference(findPreference("show_original_timestamp"));
+                ((PreferenceGroup) findPreference("message_theme_category")).removePreference(findPreference("text_alignment"));
+                ((PreferenceGroup) findPreference("messages_animation_category")).removePreference(findPreference("animation_speed"));
             }
         }
 
