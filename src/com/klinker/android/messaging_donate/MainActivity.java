@@ -3879,16 +3879,20 @@ public class MainActivity extends FragmentActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                int drawerWidth = (int) (mViewPager.getWidth() * 3 / 4.0);
+                try {
+                    int drawerWidth = (int) (mViewPager.getWidth() * 3 / 4.0);
 
-                if (menu == null && getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
-                    ListFragment newFragment = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.menuList);
-                    drawerWidth += (int) (newFragment.getListView().getWidth() * 3 / 4.0);
+                    if (menu == null && getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
+                        ListFragment newFragment = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.menuList);
+                        drawerWidth += (int) (newFragment.getListView().getWidth() * 3 / 4.0);
+                    }
+
+                    DrawerLayout.LayoutParams params = (DrawerLayout.LayoutParams) mDrawer.getLayoutParams();
+                    params.width = drawerWidth;
+                    mDrawer.setLayoutParams(params);
+                } catch (Exception e) {
+                    
                 }
-
-                DrawerLayout.LayoutParams params = (DrawerLayout.LayoutParams) mDrawer.getLayoutParams();
-                params.width = drawerWidth;
-                mDrawer.setLayoutParams(params);
             }
         }, 1000);
 
