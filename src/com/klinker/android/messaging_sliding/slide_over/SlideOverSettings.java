@@ -221,9 +221,22 @@ public class SlideOverSettings extends PreferenceActivity {
         });
 
         if (!showAll) {
-            getPreferenceScreen().removePreference(findPreference("slideover_break_point"));
-            getPreferenceScreen().removePreference(findPreference("slideover_secondary_action"));
-            getPreferenceScreen().removePreference(findPreference("slideover_haptic_feedback"));
+            ((PreferenceGroup) findPreference("slideover_positioning_category")).removePreference(findPreference("slideover_break_point"));
+            ((PreferenceGroup) findPreference("slideover_general_category")).removePreference(findPreference("slideover_secondary_action"));
+            ((PreferenceGroup) findPreference("slideover_general_category")).removePreference(findPreference("slideover_haptic_feedback"));
+            ((PreferenceGroup) findPreference("slideover_general_category")).removePreference(findPreference("slideover_hide_notifications"));
+            ((PreferenceGroup) findPreference("slideover_general_category")).removePreference(findPreference("contact_picture_slideover"));
+            ((PreferenceGroup) findPreference("slideover_quick_peek")).removePreference(findPreference("quick_peek_send_voice"));
+            ((PreferenceGroup) findPreference("slideover_quick_peek")).removePreference(findPreference("quick_peek_transparency"));
+            ((PreferenceGroup) findPreference("slideover_quick_peek")).removePreference(findPreference("close_quick_peek_on_send"));
+            ((PreferenceGroup) findPreference("slideover_positioning_category")).removePreference(findPreference("slideover_disable_drag"));
+            ((PreferenceGroup) findPreference("slideover_positioning_category")).removePreference(findPreference("slideover_disable_sliver_drag"));
+            ((PreferenceGroup) findPreference("slideover_positioning_category")).removePreference(findPreference("slideover_new_sliver"));
+            ((PreferenceGroup) findPreference("slideover_positioning_category")).removePreference(findPreference("ping_on_unlock"));
+            ((PreferenceGroup) findPreference("slideover_positioning_category")).removePreference(findPreference("animate_text_on_ping"));
+            ((PreferenceGroup) findPreference("slideover_positioning_category")).removePreference(findPreference("slideover_activation"));
+            ((PreferenceGroup) findPreference("slideover_settings_popup_category")).removePreference(findPreference("disable_backgrounds"));
+            ((PreferenceGroup) findPreference("slideover_themeing")).removePreference(findPreference("slideover_animation_speed"));
         }
     }
 
