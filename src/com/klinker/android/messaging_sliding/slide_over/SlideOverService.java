@@ -1788,7 +1788,7 @@ public class SlideOverService extends Service {
                         }
                     }
                 }
-            }, 500);
+            }, 450);
 
         }
     };
