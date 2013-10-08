@@ -195,67 +195,6 @@ public class SlideOverService extends Service {
         this.registerReceiver(unlock, filter);
     }
 
-    class GestureListener extends GestureDetector.SimpleOnGestureListener {
-
-        @Override
-        public boolean onSingleTapConfirmed(MotionEvent event) {
-
-            singleTap();
-
-            return true;
-        }
-
-        @Override
-        public boolean onDoubleTap(MotionEvent event) {
-
-            if (!sharedPrefs.getBoolean("slideover_disable_sliver_drag", false)) {
-                haloView.playSoundEffect(SoundEffectConstants.CLICK);
-
-                if (HAPTIC_FEEDBACK) {
-                    v.vibrate(10);
-                }
-
-                // change sliver width
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            arcWindow.removeViewImmediate(arcView);
-                        } catch (Exception e) {
-
-                        }
-                    }
-                }, 220);
-
-                changingSliver = true;
-            }
-
-            return true;
-        }
-
-        @Override
-        public void onLongPress(MotionEvent event) {
-            // Move slideover bubble
-            if (!sharedPrefs.getBoolean("slideover_disable_drag", false)) {
-                try {
-                    arcWindow.removeViewImmediate(arcView);
-                } catch (Exception e) {
-
-                }
-
-                if (!changingSliver) {
-
-                    haloView.playSoundEffect(SoundEffectConstants.CLICK);
-                    if (HAPTIC_FEEDBACK) {
-                        v.vibrate(10);
-                    }
-
-                    movingBubble = true;
-                }
-            }
-        }
-    }
-
     public void setUpTouchListeners(final int height, final int width) {
         haloView.setOnTouchListener(new View.OnTouchListener() {
 
@@ -1527,12 +1466,7 @@ public class SlideOverService extends Service {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                NotificationManager mNotificationManager =
-                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                mNotificationManager.cancel(1);
-                mNotificationManager.cancel(2);
-                mNotificationManager.cancel(4);
-                IOUtil.writeNotifications(new ArrayList<String>(), mContext);
+                startService(new Intent(getBaseContext(), QmMarkRead.class));
 
                 Intent intent = new Intent("com.klinker.android.messaging.CLEARED_NOTIFICATION");
                 mContext.sendBroadcast(intent);
@@ -1851,7 +1785,7 @@ public class SlideOverService extends Service {
             lockscreen = true;
 
             // remove the message view and contact view so they don't cause problems
-            if (sharedPrefs.getBoolean("ping_on_unlock", true) && arcView.newConversations.size() > 0) {
+            if (sharedPrefs.getBoolean("ping_on_unlock", true) && arcView.newConversations.size() > 0 && !haloView.animating) {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -1933,5 +1867,66 @@ public class SlideOverService extends Service {
                 }
             }
         }, 500);
+    }
+
+    class GestureListener extends GestureDetector.SimpleOnGestureListener {
+
+        @Override
+        public boolean onSingleTapConfirmed(MotionEvent event) {
+
+            singleTap();
+
+            return true;
+        }
+
+        @Override
+        public boolean onDoubleTap(MotionEvent event) {
+
+            if (!sharedPrefs.getBoolean("slideover_disable_sliver_drag", false)) {
+                haloView.playSoundEffect(SoundEffectConstants.CLICK);
+
+                if (HAPTIC_FEEDBACK) {
+                    v.vibrate(10);
+                }
+
+                // change sliver width
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            arcWindow.removeViewImmediate(arcView);
+                        } catch (Exception e) {
+
+                        }
+                    }
+                }, 220);
+
+                changingSliver = true;
+            }
+
+            return true;
+        }
+
+        @Override
+        public void onLongPress(MotionEvent event) {
+            // Move slideover bubble
+            if (!sharedPrefs.getBoolean("slideover_disable_drag", false)) {
+                try {
+                    arcWindow.removeViewImmediate(arcView);
+                } catch (Exception e) {
+
+                }
+
+                if (!changingSliver) {
+
+                    haloView.playSoundEffect(SoundEffectConstants.CLICK);
+                    if (HAPTIC_FEEDBACK) {
+                        v.vibrate(10);
+                    }
+
+                    movingBubble = true;
+                }
+            }
+        }
     }
 }
