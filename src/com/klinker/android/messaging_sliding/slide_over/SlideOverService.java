@@ -1787,7 +1787,16 @@ public class SlideOverService extends Service {
             lockscreen = true;
 
             // remove the message view and contact view so they don't cause problems
-            if (sharedPrefs.getBoolean("ping_on_unlock", true) && ArcView.newConversations.size() > 0 && !haloView.animating) {
+            boolean animationRunning;
+
+            try {
+                animationWindow.updateViewLayout(animationView, animationParams);
+                animationRunning = true;
+            } catch (Exception e) {
+                animationRunning = false;
+            }
+            
+            if (sharedPrefs.getBoolean("ping_on_unlock", true) && ArcView.newConversations.size() > 0 && !animationRunning) {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
