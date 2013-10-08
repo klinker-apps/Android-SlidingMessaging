@@ -754,6 +754,10 @@ public class SettingsPagerActivity extends FragmentActivity {
                     getPreferenceScreen().removePreference(findPreference("text_alignment2"));
                     ((PreferenceGroup) findPreference("old_popup_category")).removePreference(findPreference("use_old_popup"));
                     ((PreferenceGroup) findPreference("old_popup_category")).removePreference(findPreference("dark_theme_quick_reply"));
+                    getPreferenceScreen().removePreference(findPreference("enable_view_conversation"));
+                    ((PreferenceGroup) findPreference("experimental_popup_category")).removeAll();
+                    getPreferenceScreen().removePreference(findPreference("experimental_popup_category"));
+                    getPreferenceScreen().removePreference(findPreference("old_popup_category"));
                 } catch (Exception e) {
 
                 }

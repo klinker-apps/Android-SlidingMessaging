@@ -190,7 +190,7 @@
             android:dependency="slideover_enabled"
             />
 
-        <com.klinker.android.messaging_sliding.views.SeekBarPreference3
+        <com.klinker.android.messaging_sliding.views.SeekBarPreference2
             android:key="slideover_return_timeout_length"
             android:title="@string/slideover_return_timeout_length"
             android:defaultValue="20"

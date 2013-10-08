@@ -78,7 +78,7 @@
                   android:layout_marginRight="15dp"
                   android:id="@+id/divider"/>
 
-            <com.klinker.android.messaging_sliding.views.HoloTextView
+            <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/ellipsis"
@@ -86,9 +86,10 @@
                     android:src="@drawable/ellipsis"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:contentDescription="@string/placeholder"/>
+                    android:contentDescription="@string/placeholder"
+                    android:layout_marginTop="4dp"/>
 
-            <TextView
+            <com.klinker.android.messaging_sliding.views.HoloTextView
                     android:id="@+id/textDate"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
