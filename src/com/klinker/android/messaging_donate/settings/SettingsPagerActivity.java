@@ -970,8 +970,11 @@ public class SettingsPagerActivity extends FragmentActivity {
 
             if (!showAll) {
                 ((PreferenceGroup) findPreference("conversation_theme_category")).removePreference(findPreference("hide_message_counter"));
+                ((PreferenceGroup) findPreference("conversation_theme_category")).removePreference(findPreference("pin_conversation_list"));
                 ((PreferenceGroup) findPreference("conversation_theme_category")).removePreference(findPreference("conversation_list_images"));
+                ((PreferenceGroup) findPreference("conversation_theme_category")).removePreference(findPreference("hide_date_conversations"));
                 ((PreferenceGroup) findPreference("general_conversation_category")).removePreference(findPreference("limit_conversations_start"));
+                ((PreferenceGroup) findPreference("general_conversation_category")).removePreference(findPreference("slide_messages"));
             }
         }
 
