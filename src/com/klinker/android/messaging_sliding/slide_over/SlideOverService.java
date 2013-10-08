@@ -1681,7 +1681,7 @@ public class SlideOverService extends Service {
                 haloView.haloAlpha = 255;
                 haloView.animating = true;
 
-                new Handler().postDelayed(new Runnable() {
+                new Handler().post(new Runnable() {
                     @Override
                     public void run() {
                         HaloFadeAnimation animation = new HaloFadeAnimation(haloView, true);
@@ -1695,7 +1695,7 @@ public class SlideOverService extends Service {
 
                         }
                     }
-                }, 250);
+                });
             }
 
 
@@ -1726,7 +1726,7 @@ public class SlideOverService extends Service {
                         }
                     }
                 }
-            }, 450);
+            }, 150);
 
         }
     };

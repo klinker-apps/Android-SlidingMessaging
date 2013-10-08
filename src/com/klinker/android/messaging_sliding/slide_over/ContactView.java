@@ -224,8 +224,8 @@ public class ContactView extends ViewGroup {
                         contactPics[count] = ContactUtil.getFacebookPhoto(number, mContext);
 
                         if (contactPics[count] == null) {
-                            contactPics[count] = BitmapFactory.decodeResource(mContext.getResources(),
-                                    R.drawable.default_avatar);
+                            contactPics[count] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(mContext.getResources(),
+                                    R.drawable.default_avatar), toDP(60), toDP(60), true);
                         }
                         do {
                             /*String s = cursor2.getString(cursor2.getColumnIndex("msg_box"));
@@ -269,7 +269,7 @@ public class ContactView extends ViewGroup {
         }
     }
 
-    public int toDP(int px) {
+    public static int toDP(int px) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, SlideOverService.displayMatrix);
     }
 }
