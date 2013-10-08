@@ -136,15 +136,11 @@ public class SlideOverService extends Service {
     private int windowOffsetY;
 
     public Handler messageBoxHandler = new Handler();
-    public Handler arcViewHandler = new Handler();
     public Handler removeArcHandler = new Handler();
     public Handler returnTimeoutHandler = new Handler();
-    public Handler animationHandler = new Handler();
     public Runnable messageBoxRunnable;
-    public Runnable arcViewRunnable;
     public Runnable removeArcRunnable;
     public Runnable returnTimeoutRunnable;
-    public Runnable animationRunnable;
 
     public boolean lockscreen = false;
 
@@ -197,75 +193,6 @@ public class SlideOverService extends Service {
         filter = new IntentFilter();
         filter.addAction(Intent.ACTION_USER_PRESENT);
         this.registerReceiver(unlock, filter);
-    }
-
-    public void singleTap() {
-        if (enableQuickPeek) {
-
-            height = d.getHeight();
-            width = d.getWidth();
-
-            haloView.playSoundEffect(SoundEffectConstants.CLICK);
-
-            currContact = 0;
-            ContactView.currentContact = 0;
-
-            if (HAPTIC_FEEDBACK) {
-                v.vibrate(10);
-            }
-
-            // will launch the floating message box feature
-            try {
-
-                messageWindow.removeView(contactView);
-
-                try {
-                    messageWindow.removeView(messageView);
-                    sendWindow.removeView(sendView);
-                } catch (Exception x) {
-                    // message view is gone already
-                }
-
-                messageBoxHandler.removeCallbacks(messageBoxRunnable);
-
-                if (sharedPrefs.getBoolean("slideover_only_unread", false))
-                    startService(new Intent(getBaseContext(), QmMarkRead.class));
-
-                ContactView.refreshArrays();
-
-                contactView.invalidate();
-                messageView.invalidate();
-            } catch (Exception e) {
-
-                ContactView.refreshArrays();
-
-                contactView.invalidate();
-                messageView.invalidate();
-
-                messageWindow.addView(contactView, contactParams);
-                messageWindow.addView(messageView, messageWindowParams);
-                sendWindow.addView(sendView, sendParams);
-            }
-
-            quickPeekHidden = false;
-
-            arcView.newConversations.clear();
-
-            haloView.haloNewAlpha = 0;
-            haloView.haloAlpha = 255;
-            haloView.invalidate();
-
-            try { animationWindow.removeViewImmediate(animationView); } catch (Exception e) { }
-
-            try {
-                haloWindow.removeViewImmediate(haloView);
-                haloWindow.addView(haloView, haloParams);
-            } catch (Exception e) {
-
-            }
-
-            numberNewConv = 0;
-        }
     }
 
     class GestureListener extends GestureDetector.SimpleOnGestureListener {
@@ -572,17 +499,6 @@ public class SlideOverService extends Service {
             }
         };
 
-        arcViewRunnable = new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    arcWindow.addView(arcView, arcParamsNoBack);
-                } catch (Exception e) {
-
-                }
-            }
-        };
-
         removeArcRunnable = new Runnable() {
             @Override
             public void run() {
@@ -603,13 +519,11 @@ public class SlideOverService extends Service {
                 } catch (Exception e) {
 
                 }
-            }
-        };
+                try {
+                    animationWindow.removeView(animationView);
+                } catch (Exception e) {
 
-        animationRunnable = new Runnable() {
-            @Override
-            public void run() {
-                animating = false;
+                }
             }
         };
 
@@ -1146,8 +1060,6 @@ public class SlideOverService extends Service {
         haloWindow.addView(haloView, haloParams);
         try { animationWindow.removeViewImmediate(animationView); } catch (Exception e) { }
         returnTimeoutHandler.removeCallbacks(returnTimeoutRunnable);
-        animationHandler.removeCallbacks(animationRunnable);
-        animating = false;
 
         // now will fire a different intent depending on what view you are in
         if (inClear) // clear button clicked
@@ -1162,8 +1074,6 @@ public class SlideOverService extends Service {
             haloWindow.addView(haloView, haloParams);
             try { animationWindow.removeViewImmediate(animationView); } catch (Exception e) { }
             returnTimeoutHandler.removeCallbacks(returnTimeoutRunnable);
-            animationHandler.removeCallbacks(animationRunnable);
-            animating = false;
 
             numberNewConv = 0;
 
@@ -1226,8 +1136,6 @@ public class SlideOverService extends Service {
             haloWindow.addView(haloView, haloParams);
             try { animationWindow.removeViewImmediate(animationView); } catch (Exception e) { }
             returnTimeoutHandler.removeCallbacks(returnTimeoutRunnable);
-            animationHandler.removeCallbacks(animationRunnable);
-            animating = false;
         }
 
         // now will fire a different intent depending on what view you are in
@@ -1494,8 +1402,6 @@ public class SlideOverService extends Service {
         haloWindow.updateViewLayout(haloView, haloParams);
         try { animationWindow.removeViewImmediate(animationView); } catch (Exception e) { }
         returnTimeoutHandler.removeCallbacks(returnTimeoutRunnable);
-        animationHandler.removeCallbacks(animationRunnable);
-        animating = false;
     }
 
     public void setSliver(Bitmap halo, MotionEvent event, int height, int width) {
@@ -1514,8 +1420,6 @@ public class SlideOverService extends Service {
         haloWindow.updateViewLayout(haloView, haloParams);
         try { animationWindow.removeViewImmediate(animationView); } catch (Exception e) { }
         returnTimeoutHandler.removeCallbacks(returnTimeoutRunnable);
-        animationHandler.removeCallbacks(animationRunnable);
-        animating = false;
     }
 
     public void setHalo(Bitmap halo, MotionEvent event, int height, int width) {
@@ -1552,8 +1456,6 @@ public class SlideOverService extends Service {
         haloWindow.updateViewLayout(haloView, haloParams);
         try { animationWindow.removeViewImmediate(animationView); } catch (Exception e) { }
         returnTimeoutHandler.removeCallbacks(returnTimeoutRunnable);
-        animationHandler.removeCallbacks(animationRunnable);
-        animating = false;
     }
 
     public void updateArcView() {
@@ -1641,6 +1543,77 @@ public class SlideOverService extends Service {
                 alarm.cancel(pStopRepeating);
             }
         }, 500);
+    }
+
+    public void singleTap() {
+        if (enableQuickPeek) {
+
+            height = d.getHeight();
+            width = d.getWidth();
+
+            haloView.playSoundEffect(SoundEffectConstants.CLICK);
+
+            currContact = 0;
+            ContactView.currentContact = 0;
+
+            if (HAPTIC_FEEDBACK) {
+                v.vibrate(10);
+            }
+
+            // will launch the floating message box feature
+            try {
+
+                messageWindow.removeView(contactView);
+
+                try {
+                    messageWindow.removeView(messageView);
+                    sendWindow.removeView(sendView);
+                } catch (Exception x) {
+                    // message view is gone already
+                }
+
+                messageBoxHandler.removeCallbacks(messageBoxRunnable);
+
+                if (sharedPrefs.getBoolean("slideover_only_unread", false))
+                    startService(new Intent(getBaseContext(), QmMarkRead.class));
+
+                ContactView.refreshArrays();
+
+                contactView.invalidate();
+                messageView.invalidate();
+            } catch (Exception e) {
+
+                ContactView.refreshArrays();
+
+                contactView.invalidate();
+                messageView.invalidate();
+
+                messageWindow.addView(contactView, contactParams);
+                messageWindow.addView(messageView, messageWindowParams);
+                sendWindow.addView(sendView, sendParams);
+            }
+
+            quickPeekHidden = false;
+
+            arcView.newConversations.clear();
+
+            haloView.haloNewAlpha = 0;
+            haloView.haloAlpha = 255;
+            haloView.invalidate();
+
+            try { animationWindow.removeViewImmediate(animationView); } catch (Exception e) { }
+
+            try {
+                haloWindow.removeViewImmediate(haloView);
+                haloWindow.addView(haloView, haloParams);
+            } catch (Exception e) {
+
+            }
+
+            numberNewConv = 0;
+
+            closeNotifications();
+        }
     }
 
     @Override
@@ -1787,8 +1760,6 @@ public class SlideOverService extends Service {
                 }, 250);
             }
 
-            animating = true;
-            animationHandler.postDelayed(animationRunnable, 7000);
 
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -1797,7 +1768,7 @@ public class SlideOverService extends Service {
 
                     if(sharedPrefs.getBoolean("slideover_return_timeout", false)) {
                         returnTimeoutHandler.postDelayed(returnTimeoutRunnable,
-                                (sharedPrefs.getInt("slideover_return_timeout_length", 20) * 1000) + 6000); // timeout, plus 6 seconds for the animation to finish
+                                sharedPrefs.getInt("slideover_return_timeout_length", 20) * 1000); // timeout, plus 6 seconds for the animation to finish
                     }
 
                     if (!animationView.circleText) {
@@ -1903,31 +1874,24 @@ public class SlideOverService extends Service {
                                 public void run() {
                                     animationView = new AnimationView(getApplicationContext(), halo);
 
-                                    if (!animating) {
-                                        if (!sharedPrefs.getBoolean("popup_reply", false) || (sharedPrefs.getBoolean("popup_reply", true) && sharedPrefs.getBoolean("slideover_popup_lockscreen_only", false))) {
-                                            // start the animation
-                                            animating = true;
-                                            new Handler().postDelayed(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    animating = false;
-                                                }
-                                            }, 5000);
-                                            animationView.circleText = true;
-                                            animationView.firstText = true;
-                                            animationView.arcOffset = AnimationView.ORIG_ARC_OFFSET;
-                                            animationView.name = new String[]{arcView.newConversations.get(arcView.newConversations.size() - 1)[0], arcView.newConversations.get(arcView.newConversations.size() - 1)[1].length() > 50 ? arcView.newConversations.get(arcView.newConversations.size() - 1)[1].substring(0, 50) + "..." : arcView.newConversations.get(arcView.newConversations.size() - 1)[1]};
-                                            animationView.circleLength = 0;
-                                            animationView.circleStart = animationView.originalCircleStart;
-                                            animationWindow.addView(animationView, animationParams);
 
-                                            NewMessageAnimation animation = new NewMessageAnimation(animationView, ((float) (3 * (sharedPrefs.getInt("slideover_animation_speed", 33) / 100.0) + 1)) / 2, haloWindow);
-                                            animation.setRunning(true);
-                                            animation.start();
-                                        }
+                                    if (!sharedPrefs.getBoolean("popup_reply", false) || (sharedPrefs.getBoolean("popup_reply", true) && sharedPrefs.getBoolean("slideover_popup_lockscreen_only", false))) {
+                                        // start the animation
+
+                                        animationView.circleText = true;
+                                        animationView.firstText = true;
+                                        animationView.arcOffset = AnimationView.ORIG_ARC_OFFSET;
+                                        animationView.name = new String[]{arcView.newConversations.get(arcView.newConversations.size() - 1)[0], arcView.newConversations.get(arcView.newConversations.size() - 1)[1].length() > 50 ? arcView.newConversations.get(arcView.newConversations.size() - 1)[1].substring(0, 50) + "..." : arcView.newConversations.get(arcView.newConversations.size() - 1)[1]};
+                                        animationView.circleLength = 0;
+                                        animationView.circleStart = animationView.originalCircleStart;
+                                        animationWindow.addView(animationView, animationParams);
+
+                                        NewMessageAnimation animation = new NewMessageAnimation(animationView, ((float) (3 * (sharedPrefs.getInt("slideover_animation_speed", 33) / 100.0) + 1)) / 2, haloWindow);
+                                        animation.setRunning(true);
+                                        animation.start();
                                     }
                                 }
-                            }, 300);
+                            }, 100);
                         }
                     }
                 }, 300);
@@ -1939,6 +1903,7 @@ public class SlideOverService extends Service {
         @Override
         public void onReceive(Context context, Intent myIntent) {
             returnTimeoutHandler.removeCallbacks(returnTimeoutRunnable);
+            animating = false;
 
             try {
                 haloWindow.updateViewLayout(haloView, haloParams);
@@ -1947,7 +1912,6 @@ public class SlideOverService extends Service {
             }
 
             try {
-                animationHandler.removeCallbacks(animationRunnable);
                 animationWindow.removeViewImmediate(animationView);
             } catch (Exception e) {
 

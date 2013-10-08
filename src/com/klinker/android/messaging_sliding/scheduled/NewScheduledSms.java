@@ -125,7 +125,7 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
             else
                 spinnerIndex = 3;
         } catch (Exception e) {
-            
+            spinnerIndex = 3;
         }
 
         final Calendar c = Calendar.getInstance();
