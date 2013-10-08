@@ -190,10 +190,6 @@ public class SlideOverService extends Service {
         filter.addAction(BCAST_CONFIGCHANGED);
         this.registerReceiver(orientationChange, filter);
 
-        //filter = new IntentFilter();
-        //filter.addAction(Intent.ACTION_SCREEN_ON);
-        //this.registerReceiver(screenOn, filter);
-
         filter = new IntentFilter();
         filter.addAction(Intent.ACTION_SCREEN_OFF);
         this.registerReceiver(screenOff, filter);
@@ -1654,7 +1650,6 @@ public class SlideOverService extends Service {
         unregisterReceiver(newMessageReceived);
         unregisterReceiver(clearMessages);
         unregisterReceiver(orientationChange);
-        //unregisterReceiver(screenOn);
         unregisterReceiver(screenOff);
         unregisterReceiver(unlock);
         try {
@@ -1781,6 +1776,13 @@ public class SlideOverService extends Service {
                         HaloFadeAnimation animation = new HaloFadeAnimation(haloView, true);
                         animation.setRunning(true);
                         animation.start();
+
+                        try {
+                            haloWindow.removeView(haloView);
+                            haloWindow.addView(haloView, haloNewParams);
+                        } catch (Exception e) {
+
+                        }
                     }
                 }, 250);
             }
@@ -1816,21 +1818,6 @@ public class SlideOverService extends Service {
                     }
                 }
             }, 500);
-
-
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-
-                    try {
-                        //haloView.invalidate();
-                        haloWindow.removeView(haloView);
-                        haloWindow.addView(haloView, haloNewParams);
-                    } catch (Exception e) {
-
-                    }
-                }
-            }, 250);
 
         }
     };
@@ -1951,7 +1938,6 @@ public class SlideOverService extends Service {
     public BroadcastReceiver screenOff = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent myIntent) {
-            animating = false;
             returnTimeoutHandler.removeCallbacks(returnTimeoutRunnable);
 
             try {
@@ -1968,15 +1954,6 @@ public class SlideOverService extends Service {
             }
         }
     };
-
-    /*public BroadcastReceiver unlock = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent myIntent) {
-            // remove the message view and contact view so they don't cause problems
-           lockscreen = false;
-
-        }
-    };*/
 
     public static void restartHalo(final Context context) {
         Intent service = new Intent();
