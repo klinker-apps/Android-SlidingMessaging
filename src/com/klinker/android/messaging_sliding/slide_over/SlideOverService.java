@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.PowerManager;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
@@ -18,9 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
-import com.klinker.android.messaging_donate.utils.IOUtil;
 import com.klinker.android.messaging_donate.utils.SendUtil;
 import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead;
 import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
@@ -28,7 +27,6 @@ import com.klinker.android.send_message.Message;
 import com.klinker.android.send_message.Settings;
 import com.klinker.android.send_message.Transaction;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SlideOverService extends Service {
@@ -1709,7 +1707,7 @@ public class SlideOverService extends Service {
                                 sharedPrefs.getInt("slideover_return_timeout_length", 20) * 1000); // timeout, plus 6 seconds for the animation to finish
                     }
 
-                    if (!animationView.circleText) {
+                    if (!animationView.circleText && ((PowerManager) getSystemService(Context.POWER_SERVICE)).isScreenOn()) {
                         if (!sharedPrefs.getBoolean("popup_reply", false) || (sharedPrefs.getBoolean("popup_reply", true) && sharedPrefs.getBoolean("slideover_popup_lockscreen_only", false))) {
                             // start the animation
                             animationView.circleText = true;
@@ -1842,17 +1840,8 @@ public class SlideOverService extends Service {
             returnTimeoutHandler.removeCallbacks(returnTimeoutRunnable);
             animating = false;
 
-            try {
-                haloWindow.updateViewLayout(haloView, haloParams);
-            } catch (Exception e) {
-
-            }
-
-            try {
-                animationWindow.removeViewImmediate(animationView);
-            } catch (Exception e) {
-
-            }
+            try { haloWindow.updateViewLayout(haloView, haloParams); } catch (Exception e) { }
+            try { animationWindow.removeViewImmediate(animationView); } catch (Exception e) { }
         }
     };
 
