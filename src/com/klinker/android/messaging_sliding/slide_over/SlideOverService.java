@@ -191,6 +191,10 @@ public class SlideOverService extends Service {
         filter = new IntentFilter();
         filter.addAction(Intent.ACTION_SCREEN_ON);
         this.registerReceiver(screenOn, filter);
+
+        filter = new IntentFilter();
+        filter.addAction(Intent.ACTION_SCREEN_OFF);
+        this.registerReceiver(screenOff, filter);
     }
 
     public void singleTap() {
@@ -1141,6 +1145,7 @@ public class SlideOverService extends Service {
         try { animationWindow.removeViewImmediate(animationView); } catch (Exception e) { }
         returnTimeoutHandler.removeCallbacks(returnTimeoutRunnable);
         animationHandler.removeCallbacks(animationRunnable);
+        animating = false;
 
         // now will fire a different intent depending on what view you are in
         if (inClear) // clear button clicked
@@ -1156,6 +1161,7 @@ public class SlideOverService extends Service {
             try { animationWindow.removeViewImmediate(animationView); } catch (Exception e) { }
             returnTimeoutHandler.removeCallbacks(returnTimeoutRunnable);
             animationHandler.removeCallbacks(animationRunnable);
+            animating = false;
 
             numberNewConv = 0;
 
@@ -1219,6 +1225,7 @@ public class SlideOverService extends Service {
             try { animationWindow.removeViewImmediate(animationView); } catch (Exception e) { }
             returnTimeoutHandler.removeCallbacks(returnTimeoutRunnable);
             animationHandler.removeCallbacks(animationRunnable);
+            animating = false;
         }
 
         // now will fire a different intent depending on what view you are in
@@ -1486,6 +1493,7 @@ public class SlideOverService extends Service {
         try { animationWindow.removeViewImmediate(animationView); } catch (Exception e) { }
         returnTimeoutHandler.removeCallbacks(returnTimeoutRunnable);
         animationHandler.removeCallbacks(animationRunnable);
+        animating = false;
     }
 
     public void setSliver(Bitmap halo, MotionEvent event, int height, int width) {
@@ -1505,6 +1513,7 @@ public class SlideOverService extends Service {
         try { animationWindow.removeViewImmediate(animationView); } catch (Exception e) { }
         returnTimeoutHandler.removeCallbacks(returnTimeoutRunnable);
         animationHandler.removeCallbacks(animationRunnable);
+        animating = false;
     }
 
     public void setHalo(Bitmap halo, MotionEvent event, int height, int width) {
@@ -1542,6 +1551,7 @@ public class SlideOverService extends Service {
         try { animationWindow.removeViewImmediate(animationView); } catch (Exception e) { }
         returnTimeoutHandler.removeCallbacks(returnTimeoutRunnable);
         animationHandler.removeCallbacks(animationRunnable);
+        animating = false;
     }
 
     public void updateArcView() {
@@ -1639,6 +1649,7 @@ public class SlideOverService extends Service {
         unregisterReceiver(clearMessages);
         unregisterReceiver(orientationChange);
         unregisterReceiver(screenOn);
+        unregisterReceiver(screenOff);
         try {
             unregisterReceiver(stopSlideover);
         } catch (Exception e) {
@@ -1915,6 +1926,34 @@ public class SlideOverService extends Service {
                     }
                 }, 1500);
             }
+        }
+    };
+
+    public BroadcastReceiver screenOff = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent myIntent) {
+            // remove the message view and contact view so they don't cause problems
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                    animating = false;
+                    returnTimeoutHandler.removeCallbacks(returnTimeoutRunnable);
+
+                    try {
+                        haloWindow.updateViewLayout(haloView, haloParams);
+                    } catch (Exception e) {
+
+                    }
+
+                    try {
+                        animationHandler.removeCallbacks(animationRunnable);
+                        animationWindow.removeViewImmediate(animationView);
+                    } catch (Exception e) {
+
+                    }
+                }
+            }, 300);
         }
     };
 
