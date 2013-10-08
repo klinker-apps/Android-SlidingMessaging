@@ -629,7 +629,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                 ((PreferenceGroup) findPreference("notification_other_category")).removePreference(findPreference("secure_notification"));
                 ((PreferenceGroup) findPreference("notification_other_category")).removePreference(findPreference("blacklist_settings"));
                 ((PreferenceGroup) findPreference("notification_other_category")).removePreference(findPreference("delivery_reports"));
-                ((PreferenceGroup) findPreference("notification_other_category")).removePreference(findPreference("giffgaff_delivery"));
+                try { ((PreferenceGroup) findPreference("notification_other_category")).removePreference(findPreference("giffgaff_delivery")); } catch (Exception e) { }
                 ((PreferenceGroup) findPreference("notification_other_category")).removePreference(findPreference("delivery_reports_type"));
                 ((PreferenceGroup) findPreference("notification_other_category")).removePreference(findPreference("swipe_read"));
                 ((PreferenceGroup) findPreference("wake_notification_category")).removePreference(findPreference("screen_timeout"));
