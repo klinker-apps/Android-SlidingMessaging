@@ -3891,7 +3891,7 @@ public class MainActivity extends FragmentActivity {
                     params.width = drawerWidth;
                     mDrawer.setLayoutParams(params);
                 } catch (Exception e) {
-                    
+
                 }
             }
         }, 1000);

@@ -115,14 +115,18 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
 
         int spinnerIndex;
 
-        if (startRepeat.equals("None") || startRepeat.equals("0"))
-            spinnerIndex = 0;
-        else if (startRepeat.equals("Daily"))
-            spinnerIndex = 1;
-        else if (startRepeat.equals("Weekly"))
-            spinnerIndex = 2;
-        else
-            spinnerIndex = 3;
+        try {
+            if (startRepeat.equals("None") || startRepeat.equals("0"))
+                spinnerIndex = 0;
+            else if (startRepeat.equals("Daily"))
+                spinnerIndex = 1;
+            else if (startRepeat.equals("Weekly"))
+                spinnerIndex = 2;
+            else
+                spinnerIndex = 3;
+        } catch (Exception e) {
+            
+        }
 
         final Calendar c = Calendar.getInstance();
         currentYear = c.get(Calendar.YEAR);
