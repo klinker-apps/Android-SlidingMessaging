@@ -617,7 +617,9 @@ public class SettingsPagerActivity extends FragmentActivity {
 
             if (!showAll) {
                 ((PreferenceGroup) findPreference("general_notification_category")).removePreference(findPreference("in_app_notifications"));
+                ((PreferenceGroup) findPreference("general_notification_category")).removePreference(findPreference("quick_text"));
                 ((PreferenceGroup) findPreference("notification_look_category")).removePreference(findPreference("breath"));
+                ((PreferenceGroup) findPreference("notification_look_category")).removePreference(findPreference("repeating_notification"));
                 ((PreferenceGroup) findPreference("notification_look_category")).removePreference(findPreference("stack_notifications"));
                 ((PreferenceGroup) findPreference("notification_vibrate_category")).removePreference(findPreference("custom_vibrate_pattern"));
                 ((PreferenceGroup) findPreference("notification_vibrate_category")).removePreference(findPreference("set_custom_vibrate_pattern"));
@@ -625,6 +627,10 @@ public class SettingsPagerActivity extends FragmentActivity {
                 ((PreferenceGroup) findPreference("notification_led_category")).removePreference(findPreference("led_on_time"));
                 ((PreferenceGroup) findPreference("notification_look_category")).removePreference(findPreference("button_options"));
                 ((PreferenceGroup) findPreference("notification_other_category")).removePreference(findPreference("secure_notification"));
+                ((PreferenceGroup) findPreference("notification_other_category")).removePreference(findPreference("blacklist_settings"));
+                ((PreferenceGroup) findPreference("notification_other_category")).removePreference(findPreference("delivery_reports"));
+                ((PreferenceGroup) findPreference("notification_other_category")).removePreference(findPreference("giffgaff_delivery"));
+                ((PreferenceGroup) findPreference("notification_other_category")).removePreference(findPreference("delivery_reports_type"));
                 ((PreferenceGroup) findPreference("notification_other_category")).removePreference(findPreference("swipe_read"));
                 ((PreferenceGroup) findPreference("wake_notification_category")).removePreference(findPreference("screen_timeout"));
             }
