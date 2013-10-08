@@ -146,6 +146,8 @@ public class SlideOverService extends Service {
     public Runnable returnTimeoutRunnable;
     public Runnable animationRunnable;
 
+    public boolean lockscreen = false;
+
     private Transaction sendTransaction;
 
     @Override
@@ -188,13 +190,17 @@ public class SlideOverService extends Service {
         filter.addAction(BCAST_CONFIGCHANGED);
         this.registerReceiver(orientationChange, filter);
 
-        filter = new IntentFilter();
-        filter.addAction(Intent.ACTION_SCREEN_ON);
-        this.registerReceiver(screenOn, filter);
+        //filter = new IntentFilter();
+        //filter.addAction(Intent.ACTION_SCREEN_ON);
+        //this.registerReceiver(screenOn, filter);
 
         filter = new IntentFilter();
         filter.addAction(Intent.ACTION_SCREEN_OFF);
         this.registerReceiver(screenOff, filter);
+
+        filter = new IntentFilter();
+        filter.addAction(Intent.ACTION_USER_PRESENT);
+        this.registerReceiver(unlock, filter);
     }
 
     public void singleTap() {
@@ -1648,8 +1654,9 @@ public class SlideOverService extends Service {
         unregisterReceiver(newMessageReceived);
         unregisterReceiver(clearMessages);
         unregisterReceiver(orientationChange);
-        unregisterReceiver(screenOn);
+        //unregisterReceiver(screenOn);
         unregisterReceiver(screenOff);
+        unregisterReceiver(unlock);
         try {
             unregisterReceiver(stopSlideover);
         } catch (Exception e) {
@@ -1775,7 +1782,7 @@ public class SlideOverService extends Service {
                         animation.setRunning(true);
                         animation.start();
                     }
-                }, 1500);
+                }, 500);
             }
 
             animating = true;
@@ -1808,7 +1815,7 @@ public class SlideOverService extends Service {
                         }
                     }
                 }
-            }, 2000);
+            }, 750);
 
 
             new Handler().postDelayed(new Runnable() {
@@ -1823,7 +1830,7 @@ public class SlideOverService extends Service {
 
                     }
                 }
-            }, 1500);
+            }, 500);
 
         }
     };
@@ -1880,15 +1887,17 @@ public class SlideOverService extends Service {
         }
     };
 
-    public BroadcastReceiver screenOn = new BroadcastReceiver() {
+    public BroadcastReceiver unlock = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent myIntent) {
+            lockscreen = true;
 
             // remove the message view and contact view so they don't cause problems
             if (sharedPrefs.getBoolean("ping_on_unlock", true) && arcView.newConversations.size() > 0) {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+
                         try {
                             haloWindow.removeViewImmediate(haloView);
                             haloWindow.addView(haloView, haloNewParams);
@@ -1934,7 +1943,7 @@ public class SlideOverService extends Service {
                             }, 300);
                         }
                     }
-                }, 1500);
+                }, 300);
             }
         }
     };
@@ -1942,30 +1951,32 @@ public class SlideOverService extends Service {
     public BroadcastReceiver screenOff = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent myIntent) {
-            // remove the message view and contact view so they don't cause problems
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
+            animating = false;
+            returnTimeoutHandler.removeCallbacks(returnTimeoutRunnable);
 
-                    animating = false;
-                    returnTimeoutHandler.removeCallbacks(returnTimeoutRunnable);
+            try {
+                haloWindow.updateViewLayout(haloView, haloParams);
+            } catch (Exception e) {
 
-                    try {
-                        haloWindow.updateViewLayout(haloView, haloParams);
-                    } catch (Exception e) {
+            }
 
-                    }
+            try {
+                animationHandler.removeCallbacks(animationRunnable);
+                animationWindow.removeViewImmediate(animationView);
+            } catch (Exception e) {
 
-                    try {
-                        animationHandler.removeCallbacks(animationRunnable);
-                        animationWindow.removeViewImmediate(animationView);
-                    } catch (Exception e) {
-
-                    }
-                }
-            }, 300);
+            }
         }
     };
+
+    /*public BroadcastReceiver unlock = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent myIntent) {
+            // remove the message view and contact view so they don't cause problems
+           lockscreen = false;
+
+        }
+    };*/
 
     public static void restartHalo(final Context context) {
         Intent service = new Intent();
