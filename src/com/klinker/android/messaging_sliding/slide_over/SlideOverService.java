@@ -1812,27 +1812,20 @@ public class SlideOverService extends Service {
                                 public void run() {
                                     animationView = new AnimationView(getApplicationContext(), halo);
 
-
-                                    if (!sharedPrefs.getBoolean("popup_reply", false) || (sharedPrefs.getBoolean("popup_reply", true) && sharedPrefs.getBoolean("slideover_popup_lockscreen_only", false))) {
+                                    if (!sharedPrefs.getBoolean("popup_reply", false)/* || (sharedPrefs.getBoolean("popup_reply", true) && sharedPrefs.getBoolean("slideover_popup_lockscreen_only", false))*/) {
                                         // start the animation
 
-                                        try {
-                                            animationView.circleText = true;
-                                            animationView.firstText = true;
-                                            animationView.arcOffset = AnimationView.ORIG_ARC_OFFSET;
-                                            animationView.name = new String[]{arcView.newConversations.get(arcView.newConversations.size() - 1)[0], arcView.newConversations.get(arcView.newConversations.size() - 1)[1].length() > 50 ? arcView.newConversations.get(arcView.newConversations.size() - 1)[1].substring(0, 50) + "..." : arcView.newConversations.get(arcView.newConversations.size() - 1)[1]};
-                                            animationView.circleLength = 0;
-                                            animationView.circleStart = animationView.originalCircleStart;
-                                            animationWindow.addView(animationView, animationParams);
+                                        animationView.circleText = true;
+                                        animationView.firstText = true;
+                                        animationView.arcOffset = AnimationView.ORIG_ARC_OFFSET;
+                                        animationView.name = new String[]{arcView.newConversations.get(arcView.newConversations.size() - 1)[0], arcView.newConversations.get(arcView.newConversations.size() - 1)[1].length() > 50 ? arcView.newConversations.get(arcView.newConversations.size() - 1)[1].substring(0, 50) + "..." : arcView.newConversations.get(arcView.newConversations.size() - 1)[1]};
+                                        animationView.circleLength = 0;
+                                        animationView.circleStart = animationView.originalCircleStart;
+                                        animationWindow.addView(animationView, animationParams);
 
-                                            NewMessageAnimation animation = new NewMessageAnimation(animationView, ((float) (3 * (sharedPrefs.getInt("slideover_animation_speed", 33) / 100.0) + 1)) / 2, haloWindow);
-                                            animation.setRunning(true);
-                                            animation.start();
-                                        } catch (Exception e) {
-                                            // something went wrong with the animation
-                                            // this was happening when I had popup after lockscreen enabled, had the phone off, and turned the screen back on after a new message
-                                            // not sure what would need to be changed in the if statement above to stop it from happening
-                                        }
+                                        NewMessageAnimation animation = new NewMessageAnimation(animationView, ((float) (3 * (sharedPrefs.getInt("slideover_animation_speed", 33) / 100.0) + 1)) / 2, haloWindow);
+                                        animation.setRunning(true);
+                                        animation.start();
                                     }
                                 }
                             }, 100);
