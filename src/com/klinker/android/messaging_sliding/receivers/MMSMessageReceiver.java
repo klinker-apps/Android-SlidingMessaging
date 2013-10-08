@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.provider.Telephony.Mms.Inbox;
@@ -116,11 +117,21 @@ public class MMSMessageReceiver extends BroadcastReceiver {
             mmsFrom = ContactUtil.findContactName(phoneNumber, context);
 
             if (!sharedPrefs.getBoolean("auto_download_mms", false) || sharedPrefs.getBoolean("receive_with_stock", false)) {
-                if (sharedPrefs.getBoolean("secure_notification", false)) {
-                    MmsReceiverService.makeNotification("New Picture Message", "", null, phoneNumber, "", Calendar.getInstance().getTimeInMillis() + "", context);
-                } else {
-                    MmsReceiverService.makeNotification("New Picture Message", mmsFrom, null, phoneNumber, "", Calendar.getInstance().getTimeInMillis() + "", context);
+                try {
+                    Looper.prepare();
+                } catch (Throwable e) {
                 }
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (sharedPrefs.getBoolean("secure_notification", false)) {
+                            MmsReceiverService.makeNotification("New Picture Message", "", null, phoneNumber, "", Calendar.getInstance().getTimeInMillis() + "", context);
+                        } else {
+                            MmsReceiverService.makeNotification("New Picture Message", mmsFrom, null, phoneNumber, "", Calendar.getInstance().getTimeInMillis() + "", context);
+                        }
+                    }
+                }, 3000);
             } else {
                 Intent downloadMessage = new Intent(context, MmsReceiverService.class);
                 downloadMessage.putExtra("address", incomingNumber.replace("+1", "").replace("+", "").replace("-", "").replace(" ", "").replace("(", "").replace(")", ""));
@@ -189,7 +200,7 @@ public class MMSMessageReceiver extends BroadcastReceiver {
 
                     }
 
-                }, 200);
+                }, sharedPrefs.getBoolean("receive_with_stock", false) ? 1000 : 200);
             }
 
             if (sharedPrefs.getBoolean("override_stock", false) && !error) {
