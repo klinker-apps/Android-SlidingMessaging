@@ -555,7 +555,7 @@ public class SlideOverService extends Service {
         haloHiddenParams = new WindowManager.LayoutParams(
                 halo.getWidth(),
                 halo.getHeight(),
-                0 - halo.getWidth() ,
+                sharedPrefs.getString("slideover_side", "left").equals("left") ? 0 - halo.getWidth() : width,
                 (int) sharedPrefs.getFloat("slideover_downscreen", 0),
                 WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
@@ -1381,7 +1381,11 @@ public class SlideOverService extends Service {
         haloParams.x = sharedPrefs.getString("slideover_side", "left").equals("left") ? (int) (-1 * (1 - HALO_SLIVER_RATIO) * halo.getWidth()) : (int) (width - (halo.getWidth() * (HALO_SLIVER_RATIO)));
         haloParams.y = (int) currY;
 
+        haloNewParams.x = sharedPrefs.getString("slideover_side", "left").equals("left") ? (int) (-1 * (1 - HALO_NEW_SLIVER_RATIO) * halo.getWidth()) : (int) (width - (halo.getWidth() * (HALO_NEW_SLIVER_RATIO)));
         haloNewParams.y = haloParams.y;
+
+        haloHiddenParams.x = sharedPrefs.getString("slideover_side", "left").equals("left") ? 0 - halo.getWidth() : width;
+        haloHiddenParams.y = haloParams.y;
 
         haloWindow.removeView(haloView);
         haloWindow.addView(haloView, haloParams);
