@@ -128,7 +128,7 @@
             />
 
         <CheckBoxPreference
-            android:key="show_advanced_settings"
+            android:key="show_all_settings"
             android:title="@string/show_advanced_settings"
             android:summary="@string/show_advanced_settings_summary"
             android:defaultValue="false"

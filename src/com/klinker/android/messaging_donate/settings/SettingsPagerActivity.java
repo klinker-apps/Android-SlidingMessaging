@@ -163,7 +163,7 @@ public class SettingsPagerActivity extends FragmentActivity {
 
         }
 
-        showAll = sharedPrefs.getBoolean("show_advanced_settings", false);
+        showAll = sharedPrefs.getBoolean("show_all_settings", false);
         userKnows = sharedPrefs.getBoolean("user_knows_navigation_drawer", false);
 
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -179,8 +179,36 @@ public class SettingsPagerActivity extends FragmentActivity {
             }
         });
 
-        if (sharedPrefs.getBoolean("knows_show_all", false)) {
+        if (!sharedPrefs.getBoolean("knows_show_all", false)) {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                    this);
 
+            // set title
+            alertDialogBuilder.setTitle("\"Show All Settings\" Tip");
+
+            // set dialog message
+            alertDialogBuilder
+                    .setMessage(getResources().getString(R.string.show_all_disclaimer))
+                    .setCancelable(false)
+                    .setPositiveButton(getResources().getString(R.string.close),new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog,int id) {
+                            // don't write to the settings preference, they may want to see it again
+                            dialog.cancel();
+                        }
+                    })
+                    .setNegativeButton(getResources().getString(R.string.never_again),new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog,int id) {
+                            // Don't show this to the user again
+                            sharedPrefs.edit().putBoolean("knows_show_all", true).commit();
+                            dialog.cancel();
+                        }
+                    });
+
+            // create alert dialog
+            AlertDialog alertDialog = alertDialogBuilder.create();
+
+            // show it
+            alertDialog.show();
         }
 
         if (!userKnows) {
@@ -1451,7 +1479,7 @@ public class SettingsPagerActivity extends FragmentActivity {
 //                getPreferenceScreen().removePreference(findPreference("num_cache_conversations"));
             }
 
-            findPreference("show_advanced_settings").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            findPreference("show_all_settings").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     recreate();

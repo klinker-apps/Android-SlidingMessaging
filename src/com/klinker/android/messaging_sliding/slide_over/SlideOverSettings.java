@@ -46,7 +46,7 @@ public class SlideOverSettings extends PreferenceActivity {
 
         getOriginal();
 
-        showAll = sharedPrefs.getBoolean("show_advanced_settings", false);
+        showAll = sharedPrefs.getBoolean("show_all_settings", false);
 
         // Inflate a "Done/Discard" custom action bar view.
         LayoutInflater inflater = (LayoutInflater) getActionBar().getThemedContext()

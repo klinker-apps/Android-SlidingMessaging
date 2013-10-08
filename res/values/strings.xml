@@ -842,5 +842,11 @@
     <string name="ping_on_unlock_summary">Sets the SlideOver bubble to the new sliver width if there is a new message when the screen is unlocked. Timeout settings will apply</string>
     <string name="animate_text_on_ping">Animate text on ping</string>
     <string name="close_quick_peek_on_send">Close Quick Peek on send</string>
+    <string name="never_again">Don\'t Show Again</string>
+    <string name="show_all_disclaimer">Can\'t find what your looking for?\n\n
+
+       Sliding Messaging has a TON of options, and it probably seems overwhelming at first, so we have hidden the more advanced ones for your convenience.\n\n
+
+       If you feel like taking the customization to the next level, simply go to \"Advanced Settings\" and click the \"Show All Settings\" button!</string>
 
 </resources>
