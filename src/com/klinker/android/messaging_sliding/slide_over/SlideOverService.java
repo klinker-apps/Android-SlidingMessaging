@@ -139,10 +139,12 @@ public class SlideOverService extends Service {
     public Handler arcViewHandler = new Handler();
     public Handler removeArcHandler = new Handler();
     public Handler returnTimeoutHandler = new Handler();
+    public Handler animationHandler = new Handler();
     public Runnable messageBoxRunnable;
     public Runnable arcViewRunnable;
     public Runnable removeArcRunnable;
     public Runnable returnTimeoutRunnable;
+    public Runnable animationRunnable;
 
     private Transaction sendTransaction;
 
@@ -595,6 +597,13 @@ public class SlideOverService extends Service {
                 } catch (Exception e) {
 
                 }
+            }
+        };
+
+        animationRunnable = new Runnable() {
+            @Override
+            public void run() {
+                animating = false;
             }
         };
 
@@ -1131,6 +1140,7 @@ public class SlideOverService extends Service {
         haloWindow.addView(haloView, haloParams);
         try { animationWindow.removeViewImmediate(animationView); } catch (Exception e) { }
         returnTimeoutHandler.removeCallbacks(returnTimeoutRunnable);
+        animationHandler.removeCallbacks(animationRunnable);
 
         // now will fire a different intent depending on what view you are in
         if (inClear) // clear button clicked
@@ -1145,6 +1155,7 @@ public class SlideOverService extends Service {
             haloWindow.addView(haloView, haloParams);
             try { animationWindow.removeViewImmediate(animationView); } catch (Exception e) { }
             returnTimeoutHandler.removeCallbacks(returnTimeoutRunnable);
+            animationHandler.removeCallbacks(animationRunnable);
 
             numberNewConv = 0;
 
@@ -1207,6 +1218,7 @@ public class SlideOverService extends Service {
             haloWindow.addView(haloView, haloParams);
             try { animationWindow.removeViewImmediate(animationView); } catch (Exception e) { }
             returnTimeoutHandler.removeCallbacks(returnTimeoutRunnable);
+            animationHandler.removeCallbacks(animationRunnable);
         }
 
         // now will fire a different intent depending on what view you are in
@@ -1473,6 +1485,7 @@ public class SlideOverService extends Service {
         haloWindow.updateViewLayout(haloView, haloParams);
         try { animationWindow.removeViewImmediate(animationView); } catch (Exception e) { }
         returnTimeoutHandler.removeCallbacks(returnTimeoutRunnable);
+        animationHandler.removeCallbacks(animationRunnable);
     }
 
     public void setSliver(Bitmap halo, MotionEvent event, int height, int width) {
@@ -1491,6 +1504,7 @@ public class SlideOverService extends Service {
         haloWindow.updateViewLayout(haloView, haloParams);
         try { animationWindow.removeViewImmediate(animationView); } catch (Exception e) { }
         returnTimeoutHandler.removeCallbacks(returnTimeoutRunnable);
+        animationHandler.removeCallbacks(animationRunnable);
     }
 
     public void setHalo(Bitmap halo, MotionEvent event, int height, int width) {
@@ -1527,6 +1541,7 @@ public class SlideOverService extends Service {
         haloWindow.updateViewLayout(haloView, haloParams);
         try { animationWindow.removeViewImmediate(animationView); } catch (Exception e) { }
         returnTimeoutHandler.removeCallbacks(returnTimeoutRunnable);
+        animationHandler.removeCallbacks(animationRunnable);
     }
 
     public void updateArcView() {
@@ -1753,12 +1768,7 @@ public class SlideOverService extends Service {
             }
 
             animating = true;
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    animating = false;
-                }
-            }, 7000);
+            animationHandler.postDelayed(animationRunnable, 7000);
 
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -1767,7 +1777,7 @@ public class SlideOverService extends Service {
 
                     if(sharedPrefs.getBoolean("slideover_return_timeout", false)) {
                         returnTimeoutHandler.postDelayed(returnTimeoutRunnable,
-                                sharedPrefs.getInt("slideover_return_timeout_length", 20) * 1000);
+                                sharedPrefs.getInt("slideover_return_timeout_length", 20) * 1000 + 5000);
                     }
 
                     if (!animationView.circleText) {
