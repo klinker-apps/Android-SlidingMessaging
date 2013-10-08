@@ -184,6 +184,7 @@
         <CheckBoxPreference
             android:key="slideover_return_timeout"
             android:title="@string/slideover_return_timeout"
+            android:summary="@string/reset_sliver_timeout_summary"
             android:defaultValue="false"
             android:dependency="slideover_enabled"
             />
