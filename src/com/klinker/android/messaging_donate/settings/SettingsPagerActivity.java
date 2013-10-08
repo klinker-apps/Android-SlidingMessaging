@@ -1439,6 +1439,11 @@ public class SettingsPagerActivity extends FragmentActivity {
                 ((PreferenceGroup) findPreference("advanced_theme_category")).removePreference(findPreference("mobile_only"));
                 ((PreferenceGroup) findPreference("advanced_theme_category")).removePreference(findPreference("hide_keyboard"));
                 ((PreferenceGroup) findPreference("advanced_theme_category")).removePreference(findPreference("override_lang"));
+                ((PreferenceGroup) findPreference("advanced_theme_category")).removePreference(findPreference("keyboard_type"));
+                ((PreferenceGroup) findPreference("advanced_theme_category")).removePreference(findPreference("keyboard_type"));
+                ((PreferenceGroup) findPreference("advanced_theme_category")).removePreference(findPreference("send_with_return"));
+                ((PreferenceGroup) findPreference("advanced_other_category")).removePreference(findPreference("save_to_external"));
+
 //                getPreferenceScreen().removePreference(findPreference("cache_conversations"));
 //                getPreferenceScreen().removePreference(findPreference("num_cache_conversations"));
             }

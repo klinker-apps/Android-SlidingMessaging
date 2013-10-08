@@ -110,7 +110,8 @@
         <!--android:dependency="cache_conversations"-->
         <!--/>-->
 
-    <PreferenceCategory android:title="@string/advanced_other_category" >
+    <PreferenceCategory android:key="advanced_other_category"
+        android:title="@string/advanced_other_category" >
 
         <CheckBoxPreference
             android:key="override"
