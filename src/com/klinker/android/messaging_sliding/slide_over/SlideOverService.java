@@ -419,7 +419,7 @@ public class SlideOverService extends Service {
         contactView = new ContactView(this);
         sendView = View.inflate(this, R.layout.send_bar, null);
 
-        numberNewConv = arcView.newConversations.size();
+        numberNewConv = ArcView.newConversations.size();
 
         mGestureDetector = new GestureDetector(mContext, new GestureListener());
 
@@ -977,7 +977,7 @@ public class SlideOverService extends Service {
 
     public void messagesUp() {
         if (distance > SWIPE_MIN_DISTANCE) {
-            arcView.newConversations.clear();
+            ArcView.newConversations.clear();
 
             haloView.haloNewAlpha = 0;
             haloView.haloAlpha = 255;
@@ -1001,7 +1001,7 @@ public class SlideOverService extends Service {
         // now will fire a different intent depending on what view you are in
         if (inClear) // clear button clicked
         {
-            arcView.newConversations.clear();
+            ArcView.newConversations.clear();
 
             haloView.haloNewAlpha = 0;
             haloView.haloAlpha = 255;
@@ -1057,7 +1057,7 @@ public class SlideOverService extends Service {
 
     public void noMessagesUp() {
         if (distance > SWIPE_MIN_DISTANCE) {
-            arcView.newConversations.clear();
+            ArcView.newConversations.clear();
 
             haloView.haloNewAlpha = 0;
             haloView.haloAlpha = 255;
@@ -1531,7 +1531,7 @@ public class SlideOverService extends Service {
 
             quickPeekHidden = false;
 
-            arcView.newConversations.clear();
+            ArcView.newConversations.clear();
 
             haloView.haloNewAlpha = 0;
             haloView.haloAlpha = 255;
@@ -1642,18 +1642,18 @@ public class SlideOverService extends Service {
             // Don't see any way around this though, and i don't think many people will run into this problem, if they do, they won't be able to replicate  it hehe :)
 
             for (index = 0; index < numberNewConv; index++) {
-                if (message.equals(arcView.newConversations.get(index)[1])) {
+                if (message.equals(ArcView.newConversations.get(index)[1])) {
                     same = true;
                     break;
                 }
             }
 
             if (same) {
-                arcView.newConversations.add(new String[]{name, message, number});
-                arcView.newConversations.remove(index);
+                ArcView.newConversations.add(new String[]{name, message, number});
+                ArcView.newConversations.remove(index);
             } else {
                 for (index = 0; index < numberNewConv; index++) {
-                    if (name.equals(arcView.newConversations.get(index)[0])) {
+                    if (name.equals(ArcView.newConversations.get(index)[0])) {
                         exists = true;
                         break;
                     }
@@ -1661,14 +1661,14 @@ public class SlideOverService extends Service {
             }
 
             if (!exists && !same)
-                arcView.newConversations.add(new String[]{name, message, number});
+                ArcView.newConversations.add(new String[]{name, message, number});
             else if (!same) {
-                String oldMessage = arcView.newConversations.get(index)[1];
-                arcView.newConversations.add(new String[]{name, oldMessage + " | " + message, number});
-                arcView.newConversations.remove(index);
+                String oldMessage = ArcView.newConversations.get(index)[1];
+                ArcView.newConversations.add(new String[]{name, oldMessage + " | " + message, number});
+                ArcView.newConversations.remove(index);
             }
 
-            numberNewConv = arcView.newConversations.size();
+            numberNewConv = ArcView.newConversations.size();
 
             arcView.updateTextPaint();
             arcView.invalidate();
@@ -1733,7 +1733,7 @@ public class SlideOverService extends Service {
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            arcView.newConversations.clear();
+            ArcView.newConversations.clear();
 
             haloView.haloNewAlpha = 0;
             haloView.haloAlpha = 255;
@@ -1787,7 +1787,7 @@ public class SlideOverService extends Service {
             lockscreen = true;
 
             // remove the message view and contact view so they don't cause problems
-            if (sharedPrefs.getBoolean("ping_on_unlock", true) && arcView.newConversations.size() > 0 && !haloView.animating) {
+            if (sharedPrefs.getBoolean("ping_on_unlock", true) && ArcView.newConversations.size() > 0 && !haloView.animating) {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -1816,7 +1816,7 @@ public class SlideOverService extends Service {
                                         animationView.circleText = true;
                                         animationView.firstText = true;
                                         animationView.arcOffset = AnimationView.ORIG_ARC_OFFSET;
-                                        animationView.name = new String[]{arcView.newConversations.get(arcView.newConversations.size() - 1)[0], arcView.newConversations.get(arcView.newConversations.size() - 1)[1].length() > 50 ? arcView.newConversations.get(arcView.newConversations.size() - 1)[1].substring(0, 50) + "..." : arcView.newConversations.get(arcView.newConversations.size() - 1)[1]};
+                                        animationView.name = new String[]{ArcView.newConversations.get(ArcView.newConversations.size() - 1)[0], ArcView.newConversations.get(ArcView.newConversations.size() - 1)[1].length() > 50 ? ArcView.newConversations.get(ArcView.newConversations.size() - 1)[1].substring(0, 50) + "..." : ArcView.newConversations.get(ArcView.newConversations.size() - 1)[1]};
                                         animationView.circleLength = 0;
                                         animationView.circleStart = animationView.originalCircleStart;
                                         animationWindow.addView(animationView, animationParams);
