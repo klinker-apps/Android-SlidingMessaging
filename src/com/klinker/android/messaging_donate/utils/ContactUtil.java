@@ -234,16 +234,20 @@ public class ContactUtil {
     }
 
     public static Bitmap getFacebookPhoto(String phoneNumber, Context context) {
-        if (phoneNumber.split(" ").length > 1) {
-            Bitmap defaultPhoto;
+        try {
+            if (phoneNumber.split(" ").length > 1) {
+                Bitmap defaultPhoto;
 
-            if (!MainActivity.settings.ctDarkContactPics) {
-                defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.group_avatar);
-            } else {
-                defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.group_avatar_dark);
+                if (!MainActivity.settings.ctDarkContactPics) {
+                    defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.group_avatar);
+                } else {
+                    defaultPhoto = BitmapFactory.decodeResource(context.getResources(), R.drawable.group_avatar_dark);
+                }
+
+                return defaultPhoto;
             }
-
-            return defaultPhoto;
+        } catch (Exception e) {
+            // problem splitting the string that caused a force close
         }
 
         try {
