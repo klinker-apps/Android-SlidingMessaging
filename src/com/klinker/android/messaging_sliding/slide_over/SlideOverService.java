@@ -1788,7 +1788,7 @@ public class SlideOverService extends Service {
 
                     if(sharedPrefs.getBoolean("slideover_return_timeout", false)) {
                         returnTimeoutHandler.postDelayed(returnTimeoutRunnable,
-                                sharedPrefs.getInt("slideover_return_timeout_length", 20) * 1000 + 5000);
+                                (sharedPrefs.getInt("slideover_return_timeout_length", 20) * 1000) + 6000); // timeout, plus 6 seconds for the animation to finish
                     }
 
                     if (!animationView.circleText) {
@@ -1810,21 +1810,21 @@ public class SlideOverService extends Service {
                 }
             }, 2000);
 
-            if (!sharedPrefs.getBoolean("popup_reply", false)) {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
 
-                        try {
-                            //haloView.invalidate();
-                            haloWindow.removeView(haloView);
-                            haloWindow.addView(haloView, haloNewParams);
-                        } catch (Exception e) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
 
-                        }
+                    try {
+                        //haloView.invalidate();
+                        haloWindow.removeView(haloView);
+                        haloWindow.addView(haloView, haloNewParams);
+                    } catch (Exception e) {
+
                     }
-                }, 1500);
-            }
+                }
+            }, 1500);
+
         }
     };
 
