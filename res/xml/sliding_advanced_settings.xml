@@ -110,7 +110,8 @@
         <!--android:dependency="cache_conversations"-->
         <!--/>-->
 
-    <PreferenceCategory android:title="@string/advanced_other_category" >
+    <PreferenceCategory android:key="advanced_other_category"
+        android:title="@string/advanced_other_category" >
 
         <CheckBoxPreference
             android:key="override"
@@ -127,7 +128,7 @@
             />
 
         <CheckBoxPreference
-            android:key="show_advanced_settings"
+            android:key="show_all_settings"
             android:title="@string/show_advanced_settings"
             android:summary="@string/show_advanced_settings_summary"
             android:defaultValue="false"

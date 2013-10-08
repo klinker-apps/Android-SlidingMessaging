@@ -248,7 +248,7 @@ public class InitialSetupMain extends FragmentActivity implements
             }
 
             public void setSlideOver(String slideOver) {
-                if (slideOver.equals("Yes"))
+                if (slideOver.equals("Yes - The most used app, messaging, is always accessible."))
                     editor.putBoolean("slideover_enabled", true);
                 else
                     editor.putBoolean("slideover_enabled", false);

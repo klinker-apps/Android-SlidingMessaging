@@ -2,14 +2,15 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <Preference
+        android:key="slideover_help"
+        android:title="@string/slideover_tutorial"
+        android:summary="@string/slideover_tutorial_summary"
+        />
+
     <PreferenceCategory android:key="slideover_general_category"
          android:title="@string/general_slideover_category" >
 
-        <Preference
-            android:key="slideover_help"
-            android:title="@string/slideover_tutorial"
-            android:summary="@string/slideover_tutorial_summary"
-            />
 
         <CheckBoxPreference
             android:key="slideover_enabled"
@@ -184,6 +185,7 @@
         <CheckBoxPreference
             android:key="slideover_return_timeout"
             android:title="@string/slideover_return_timeout"
+            android:summary="@string/reset_sliver_timeout_summary"
             android:defaultValue="false"
             android:dependency="slideover_enabled"
             />
@@ -216,7 +218,7 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory
+    <PreferenceCategory android:key="slideover_themeing"
         android:title="@string/slideover_theme_settings">
 
         <net.margaritov.preference.colorpicker.ColorPickerPreference

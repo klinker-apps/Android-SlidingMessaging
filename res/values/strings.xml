@@ -835,11 +835,18 @@
     <string name="giffgaff_delivery_summary">Attaches the string \"*0#\" to the beginning of each sent message to ensure delivery reports work correctly</string>
     <string name="contact_picture_slideover">Show contact pictures on incoming messages</string>
     <string name="slideover_new_sliver">Sliver width on incoming messages</string>
-    <string name="slideover_return_timeout">Reset bubble sliver after timeout</string>
+    <string name="slideover_return_timeout">Auto-Reset Sliver</string>
+    <string name="reset_sliver_timeout_summary">Automatically reset the sliver to the normal position after the following amount of time. Applies after a new message has come in and the SlideOver bubble pings out.</string>
     <string name="slideover_return_timeout_length">Timeout duration (in seconds):</string>
     <string name="ping_on_unlock">Ping SlideOver bubble</string>
     <string name="ping_on_unlock_summary">Sets the SlideOver bubble to the new sliver width if there is a new message when the screen is unlocked. Timeout settings will apply</string>
     <string name="animate_text_on_ping">Animate text on ping</string>
     <string name="close_quick_peek_on_send">Close Quick Peek on send</string>
+    <string name="never_again">Don\'t Show Again</string>
+    <string name="show_all_disclaimer">Can\'t find what your looking for?\n\n
+
+       Sliding Messaging has a TON of options, and it probably seems overwhelming at first, so we have hidden the more advanced ones for your convenience.\n\n
+
+       If you feel like taking the customization to the next level, simply go to \"Advanced Settings\" and click the \"Show All Settings\" button!</string>
 
 </resources>
