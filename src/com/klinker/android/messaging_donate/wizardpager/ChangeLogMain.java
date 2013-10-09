@@ -20,6 +20,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -33,6 +35,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_donate.utils.Util;
 import com.klinker.android.messaging_donate.wizardpager.wizard.model.AbstractWizardModel;
 import com.klinker.android.messaging_donate.wizardpager.wizard.model.ModelCallbacks;
 import com.klinker.android.messaging_donate.wizardpager.wizard.model.Page;
@@ -176,6 +179,8 @@ public class ChangeLogMain extends FragmentActivity implements
 
         onPageTreeChanged();
         updateBottomBar();
+
+        Util.checkOverride(context);
     }
 
     @Override

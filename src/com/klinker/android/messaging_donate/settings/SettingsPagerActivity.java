@@ -3,6 +3,8 @@ package com.klinker.android.messaging_donate.settings;
 import android.annotation.SuppressLint;
 import android.app.*;
 import android.content.*;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.media.RingtoneManager;
@@ -32,6 +34,7 @@ import com.droidprism.Carrier;
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.utils.IOUtil;
+import com.klinker.android.messaging_donate.utils.Util;
 import com.klinker.android.messaging_sliding.DeleteOldService;
 import com.klinker.android.messaging_sliding.backup.BackupService;
 import com.klinker.android.messaging_sliding.blacklist.BlacklistActivity;
@@ -56,6 +59,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 
 public class SettingsPagerActivity extends FragmentActivity {
 
@@ -214,6 +218,8 @@ public class SettingsPagerActivity extends FragmentActivity {
         if (!userKnows) {
             mDrawerLayout.openDrawer(mDrawer);
         }
+
+        Util.checkOverride(this);
     }
 
     @Override

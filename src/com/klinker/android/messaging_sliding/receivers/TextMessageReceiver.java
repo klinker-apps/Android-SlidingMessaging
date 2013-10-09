@@ -6,6 +6,8 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.*;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -101,6 +103,10 @@ public class TextMessageReceiver extends BroadcastReceiver {
             context.sendBroadcast(fnReceiver);
 
             sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+            if (!sharedPrefs.getBoolean("override", false)) {
+                Util.checkOverride(context);
+            }
 
             // dont alert during a call if not desired
             if (!sharedPrefs.getBoolean("alert_in_call", true) && isCallActive(context)) {
