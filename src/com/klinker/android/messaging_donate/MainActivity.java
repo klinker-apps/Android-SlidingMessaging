@@ -5102,7 +5102,9 @@ public class MainActivity extends FragmentActivity {
 
         @Override
         public void onReceive(Context arg0, Intent arg1) {
+            deleteDraft = false;
             refreshViewPager4(ContactUtil.findRecipientId(arg1.getStringExtra("address"), arg0), arg1.getStringExtra("body"), arg1.getStringExtra("date"));
+            deleteDraft = true;
 
             new Handler().postDelayed(new Runnable() {
                 @Override
