@@ -24,6 +24,7 @@ import android.text.Spannable;
 import android.text.TextUtils;
 import android.text.util.Linkify;
 import android.util.Log;
+import android.util.Patterns;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -890,6 +891,13 @@ public class MessageCursorAdapter extends CursorAdapter {
             }
         });
 
+        holder.text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                view.performClick();
+            }
+        });
+
         final String idF = id;
         final boolean mmsF = mms;
         final boolean lockedF = locked;
@@ -1599,7 +1607,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                             @Override
                             public void run() {
                                 textView.setText(text);
-                                Linkify.addLinks(textView, Linkify.ALL);
+                                linkifyText(textView);
                             }
 
                         });
@@ -1613,7 +1621,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                     textView.setText(EmoticonConverter2.getSmiledText(context, body));
                 }
 
-                Linkify.addLinks(textView, Linkify.ALL);
+                linkifyText(textView);
             }
         } else if (MainActivity.settings.smilies.equals("without")) {
             Matcher matcher = EmojiUtil.emojiPattern.matcher(body);
@@ -1646,7 +1654,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                             @Override
                             public void run() {
                                 textView.setText(text);
-                                Linkify.addLinks(textView, Linkify.ALL);
+                                linkifyText(textView);
                             }
 
                         });
@@ -1660,7 +1668,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                     textView.setText(EmoticonConverter.getSmiledText(context, body));
                 }
 
-                Linkify.addLinks(textView, Linkify.ALL);
+                linkifyText(textView);
             }
         } else if (MainActivity.settings.smilies.equals("none")) {
             Matcher matcher = EmojiUtil.emojiPattern.matcher(body);
@@ -1685,7 +1693,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                             @Override
                             public void run() {
                                 textView.setText(text);
-                                Linkify.addLinks(textView, Linkify.ALL);
+                                linkifyText(textView);
                             }
 
                         });
@@ -1694,7 +1702,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                 }).start();
             } else {
                 textView.setText(body);
-                Linkify.addLinks(textView, Linkify.ALL);
+                linkifyText(textView);
             }
         } else if (MainActivity.settings.smilies.equals("both")) {
             Matcher matcher = EmojiUtil.emojiPattern.matcher(body);
@@ -1727,7 +1735,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                             @Override
                             public void run() {
                                 textView.setText(text);
-                                Linkify.addLinks(textView, Linkify.ALL);
+                                linkifyText(textView);
                             }
 
                         });
@@ -1741,8 +1749,17 @@ public class MessageCursorAdapter extends CursorAdapter {
                     textView.setText(EmoticonConverter3.getSmiledText(context, body));
                 }
 
-                Linkify.addLinks(textView, Linkify.ALL);
+                linkifyText(textView);
             }
+        }
+    }
+
+    private static void linkifyText(TextView textView) {
+        CharSequence text = textView.getText();
+        if (Patterns.PHONE.matcher(text).find() ||
+                Patterns.EMAIL_ADDRESS.matcher(text).find() ||
+                Patterns.WEB_URL.matcher(text).find()) {
+            Linkify.addLinks(textView, Linkify.ALL);
         }
     }
 
