@@ -44,7 +44,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.RelativeLayout.LayoutParams;
-import com.android.mms.ui.ImageAttachmentView;
+import com.klinker.android.messaging_sliding.views.ImageAttachmentView;
 import com.astuetz.viewpager.extensions.PagerSlidingTabStrip;
 import com.devspark.appmsg.AppMsg;
 import com.google.android.mms.MMSPart;

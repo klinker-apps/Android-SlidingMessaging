@@ -262,8 +262,6 @@ public class SettingsPagerActivity extends FragmentActivity {
         @Override
         public void onItemClick(AdapterView parent, View view, int position, long id) {
 
-            // TODO: Make this smoother
-            // TODO: Add the other settings options for not switching viewpager
             final Context context = getApplicationContext();
             Intent intent;
             final int mPos = position;
@@ -643,7 +641,7 @@ public class SettingsPagerActivity extends FragmentActivity {
             TelephonyManager manager = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
             String carrierName = manager.getNetworkOperatorName();
 
-            if (!carrierName.equalsIgnoreCase("giffgaff")) {
+            if (!carrierName.equalsIgnoreCase("giffgaff") && !sharedPrefs.getBoolean("giffgaff_delivery", false)) {
                 ((PreferenceGroup) findPreference("notification_other_category")).removePreference(findPreference("giffgaff_delivery"));
             }
 
@@ -660,7 +658,6 @@ public class SettingsPagerActivity extends FragmentActivity {
                 ((PreferenceGroup) findPreference("notification_look_category")).removePreference(findPreference("button_options"));
                 ((PreferenceGroup) findPreference("notification_other_category")).removePreference(findPreference("secure_notification"));
                 ((PreferenceGroup) findPreference("notification_other_category")).removePreference(findPreference("blacklist_settings"));
-                ((PreferenceGroup) findPreference("notification_other_category")).removePreference(findPreference("delivery_reports"));
                 try { ((PreferenceGroup) findPreference("notification_other_category")).removePreference(findPreference("giffgaff_delivery")); } catch (Exception e) { }
                 ((PreferenceGroup) findPreference("notification_other_category")).removePreference(findPreference("delivery_reports_type"));
                 ((PreferenceGroup) findPreference("notification_other_category")).removePreference(findPreference("swipe_read"));

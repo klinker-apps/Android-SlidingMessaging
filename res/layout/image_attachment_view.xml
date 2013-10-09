@@ -18,7 +18,7 @@
  */
 -->
 
-<com.android.mms.ui.ImageAttachmentView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.klinker.android.messaging_sliding.views.ImageAttachmentView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/image_attachment_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -66,4 +66,4 @@
             android:text="@string/remove" />
 
     </LinearLayout>
-</com.android.mms.ui.ImageAttachmentView>
+</com.klinker.android.messaging_sliding.views.ImageAttachmentView>

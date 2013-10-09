@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.android.mms.ui;
+package com.klinker.android.messaging_sliding.views;
 
 import android.graphics.Bitmap;
 import android.net.Uri;
