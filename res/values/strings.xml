@@ -839,7 +839,7 @@
     <string name="contact_picture_slideover">Show contact pictures on incoming messages</string>
     <string name="slideover_new_sliver">Sliver width on incoming messages</string>
     <string name="slideover_return_timeout">Auto-Reset Sliver</string>
-    <string name="reset_sliver_timeout_summary">Automatically reset the sliver to the normal position after the following amount of time. Applies after a new message has come in and the SlideOver bubble pings out.</string>
+    <string name="reset_sliver_timeout_summary">Automatically reset the sliver to the normal position after the following amount of time (configurable with \"Show All Settings\" enabled). Applies after a new message has come in and the SlideOver bubble pings out.</string>
     <string name="slideover_return_timeout_length">Timeout duration (in seconds):</string>
     <string name="ping_on_unlock">Ping SlideOver bubble</string>
     <string name="ping_on_unlock_summary">Sets the SlideOver bubble to the new sliver width if there is a new message when the screen is unlocked. Timeout settings will apply</string>
@@ -852,6 +852,6 @@
 
        If you feel like taking the customization to the next level, simply go to \"Advanced Settings\" and click the \"Show All Settings\" button!</string>
 
-    <string name="quick_peek_text_markers">Enabled separate text markers</string>
+    <string name="quick_peek_text_markers">Enabled text markers</string>
 
 </resources>
