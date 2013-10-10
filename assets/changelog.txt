@@ -3,7 +3,7 @@ Sliding Messaging is now smoother and more feature packed than ever!
 - Conversation list UI changes and optimizations
 - Added the ability to send messages directly from Quick Peek
 - Added an option to show contact pictures on the SlideOver bubble for new messages (on by default)
-- SlideOver bubble will now go to a new sliver width on unread messages, configurable from settings (Also a timeout value that can be set to put it back to normal)
+- SlideOver bubble will now go to a new sliver width to ping on unread messages, configurable from settings
 - Option to ping SlideOver bubble when the screen is turned on, if there are unread messages
 - Rewrite of sliding menus
 - Changed to Google's navigation drawer to compose new messages instead of right-side sliding menu
@@ -12,10 +12,10 @@ Sliding Messaging is now smoother and more feature packed than ever!
 - More accurate representation of remaining characters per message
 - Option to not stack messages in the incoming notification
 - More message details when around the date of a message
-- Updated Developer Tip for speed improvement and sluggishness
-- Added an option to adjust the width of the SlideOver popup
+- Option to adjust the width of the SlideOver popup
 - Smoothed out SlideOver animations
-- Changes to the "Full Screen Sliding Mode" option for the use of the "New Message" drawer
+- Changes to the "Full Screen Sliding Mode" option to accommodate for the use of the "New Message" drawer
 - Huge cleanup of a very busy settings menu
 - Added a disclaimer to the notification listener option for Google Voice
+- Updated Developer Tip for speed improvement and sluggishness
 - Bug fixes
