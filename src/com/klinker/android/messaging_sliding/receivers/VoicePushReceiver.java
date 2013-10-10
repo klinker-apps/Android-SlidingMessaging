@@ -10,6 +10,7 @@ public class VoicePushReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.v("voice_push", "voice message received, starting download");
+
         context.startService(new Intent(context, VoiceReceiver.class));
     }
 }
