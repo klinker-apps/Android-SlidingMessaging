@@ -85,7 +85,13 @@ public class HaloView extends ViewGroup {
     public Bitmap currentImage = null;
     private Bitmap getClip() {
         String number = ArcView.newConversations.get(ArcView.newConversations.size() - 1)[2];
-        Bitmap bitmap = Bitmap.createScaledBitmap(ContactUtil.getFacebookPhoto(number, mContext), halo.getWidth(), halo.getHeight(), true);
+        Bitmap bitmap;
+
+        try {
+            bitmap = Bitmap.createScaledBitmap(ContactUtil.getFacebookPhoto(number, mContext), halo.getWidth(), halo.getHeight(), true);
+        } catch (Exception e) {
+            bitmap = Bitmap.createScaledBitmap(ContactUtil.drawableToBitmap(mContext.getResources().getDrawable(R.drawable.default_avatar), mContext), halo.getWidth(), halo.getHeight(), true);
+        }
 
         Bitmap output = Bitmap.createBitmap(halo.getWidth(),
                 halo.getHeight(), Bitmap.Config.ARGB_8888);
