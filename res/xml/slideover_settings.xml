@@ -87,6 +87,13 @@
             android:dependency="enable_quick_peek"
             />
 
+        <CheckBoxPreference
+            android:key="quick_peek_text_markers"
+            android:title="@string/quick_peek_text_markers"
+            android:dependency="enable_quick_peek"
+            android:defaultValue="true"
+            />
+
         <com.klinker.android.messaging_sliding.views.SeekBarPreference3
             android:key="quick_peek_transparency"
             android:title="@string/quick_peek_transparency"

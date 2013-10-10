@@ -810,6 +810,15 @@ public class SettingsPagerActivity extends FragmentActivity {
                 }
             });
 
+            Preference textMarkers = findPreference("quick_peek_text_markers");
+            textMarkers.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    SlideOverService.restartHalo(context);
+                    return false;
+                }
+            });
+
             /*Preference side = findPreference("slideover_side");
             side.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override

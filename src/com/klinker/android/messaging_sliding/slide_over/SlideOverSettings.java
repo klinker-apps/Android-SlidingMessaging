@@ -155,6 +155,15 @@ public class SlideOverSettings extends PreferenceActivity {
             }
         });
 
+        Preference textMarkers = findPreference("quick_peek_text_markers");
+        textMarkers.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                SlideOverService.restartHalo(context);
+                return false;
+            }
+        });
+
         ((PreferenceGroup) findPreference("slideover_quick_peek")).removePreference(findPreference("quick_peek_contact_num"));
 
         /*Preference side = findPreference("slideover_side");

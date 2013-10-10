@@ -852,4 +852,6 @@
 
        If you feel like taking the customization to the next level, simply go to \"Advanced Settings\" and click the \"Show All Settings\" button!</string>
 
+    <string name="quick_peek_text_markers">Enabled separate text markers</string>
+
 </resources>
