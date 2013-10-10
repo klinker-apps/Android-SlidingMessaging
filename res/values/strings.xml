@@ -752,9 +752,9 @@
     <string name="voice_receiving_option_1">Option 1: Use a Notification Listener (Experimental)</string>
     <string name="voice_receiving_option_1_summary">Syncs messages instantly when you receive them through Google Voice by listening for a notification. You must have the Google Voice app installed and notifications enabled from that app for this option to work correctly.\n\n
 
-        NOTE: This is currently experimental as it seems enabling the notification listener (from the link obtained by tapping this setting) can cause the app to misread some incoming SMS and not throw the notification when they arrive if Sliding Messaging has been cleared from the recent apps menu.\n\n
+       NOTE: This is currently experimental as it seems enabling the notification listener (from the link obtained by tapping this setting) can cause the app to misread some incoming SMS and not throw the notification when they arrive if Sliding Messaging has been cleared from the recent apps menu.\n\n
 
-        We are aware of the problem and are looking into it. If you are missing notifications, disable the notification listener for now and use a different method to receive Google Voice messages.</string>
+       We are aware of the problem and are looking into it. If you are missing notifications, disable the notification listener for now and use a different method to receive Google Voice messages.</string>
     <string name="voice_receiving_option_2">Option 2: Refresh on Interval</string>
     <string name="voice_receiving_option_2_summary">Sets a refresh interval to intermediately go and check for new messages. Does not require the Google Voice app to be installed</string>
     <string name="voice_receiving_tips">If you have problems, please read the \"Developer Tip\" on receiving Voice messages</string>

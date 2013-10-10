@@ -17,4 +17,5 @@ Sliding Messaging is now smoother and more feature packed than ever!
 - Smoothed out SlideOver animations
 - Changes to the "Full Screen Sliding Mode" option for the use of the "New Message" drawer
 - Huge cleanup of a very busy settings menu
+- Added a disclaimer to the notification listener option for Google Voice
 - Bug fixes
