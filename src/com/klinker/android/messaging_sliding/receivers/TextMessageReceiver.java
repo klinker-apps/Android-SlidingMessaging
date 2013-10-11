@@ -302,9 +302,9 @@ public class TextMessageReceiver extends BroadcastReceiver {
                             }
                         } else {
                             if (prevNotifications.size() == 0) {
-                                makeNotification("New Message", "", "New Message", origAddress, body, dateReceived, contactImage, buttonArray, pIntent, mrPendingIntent, callPendingIntent, deletePendingIntent, 1, prevNotifications, alert, context);
+                                makeNotification("New Message", "", "New Message", origAddress, "New Message", dateReceived, contactImage, buttonArray, pIntent, mrPendingIntent, callPendingIntent, deletePendingIntent, 1, prevNotifications, alert, context);
                             } else {
-                                makeNotification("New Messages", "", "New Messages", origAddress, body, dateReceived, contactImage, buttonArray, pIntent, mrPendingIntent, callPendingIntent, deletePendingIntent, 1, prevNotifications, alert, context);
+                                makeNotification("New Messages", "", "New Messages", origAddress, "New Messages", dateReceived, contactImage, buttonArray, pIntent, mrPendingIntent, callPendingIntent, deletePendingIntent, 1, prevNotifications, alert, context);
                             }
                         }
                     }
@@ -544,6 +544,10 @@ public class TextMessageReceiver extends BroadcastReceiver {
                                   int[] buttonArray, PendingIntent pIntent, PendingIntent mrPendingIntent, PendingIntent callPendingIntent,
                                   PendingIntent deletePendingIntent, int notificationType, ArrayList<String> prevNotifications, boolean alert, final Context context) {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+        if (sharedPrefs.getBoolean("secure_notification", false)) {
+            text = "New Message";
+        }
 
         if (sharedPrefs.getBoolean("notifications", true)) {
             NotificationCompat.Builder mBuilder =

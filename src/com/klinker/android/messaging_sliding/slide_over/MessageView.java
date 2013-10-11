@@ -34,6 +34,8 @@ public class MessageView extends ViewGroup {
     public int height;
     public int width;
 
+    private int TEXTGAP = toDP(6);
+
     public MessageView(Context context) {
         super(context);
 
@@ -85,117 +87,61 @@ public class MessageView extends ViewGroup {
         canvas.drawRect(0, 0, width - 100, toDP(160) + toDP(56), blackPaint);
         canvas.drawRect(0, 0, width - 100, toDP(160) + toDP(56), strokePaint);
 
-        canvas.drawText(ContactView.contactNames[ContactView.currentContact], 20, 40, namePaint);
+        canvas.drawText(ContactView.contactNames[ContactView.currentContact], toDP(10), toDP(23), namePaint);
 
-        int amountDown = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 19, mContext.getResources().getDisplayMetrics());
+        int amountDown = toDP(30) + TEXTGAP;
 
-        String message3 = ContactView.message[ContactView.currentContact][2];
+        StaticLayout mTextLayout[] = new StaticLayout[3];
 
-        StaticLayout mTextLayout3 = new StaticLayout(message3,
-                ContactView.type[ContactView.currentContact][2] == 0 ? messageReceivedPaint : messageSentPaint,
-                canvas.getWidth() - 40,
-                ContactView.type[ContactView.currentContact][2] == 0 ? Layout.Alignment.ALIGN_NORMAL : Layout.Alignment.ALIGN_OPPOSITE,
-                1.0f,
-                0.0f,
-                false);
+        for (int i = 0; i < 3; i++){
 
-        if (mTextLayout3.getLineCount() > 0) {
-            int start = mTextLayout3.getLineStart(1);
+            String message = ContactView.message[ContactView.currentContact][2-i];
+            boolean received = ContactView.type[ContactView.currentContact][2-i] == 0;
 
-            if (mTextLayout3.getLineCount() > 1) {
-                message3 = message3.substring(0, start - 4) + "...";
-                //amountDown -= (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 18, mContext.getResources().getDisplayMetrics());
-            } else {
-                message3 = message3.substring(0, start);
-            }
-
-            mTextLayout3 = new StaticLayout(message3,
-                    ContactView.type[ContactView.currentContact][2] == 0 ? messageReceivedPaint : messageSentPaint,
-                    canvas.getWidth() - 40,
-                    ContactView.type[ContactView.currentContact][2] == 0 ? Layout.Alignment.ALIGN_NORMAL : Layout.Alignment.ALIGN_OPPOSITE,
+            mTextLayout[i] = new StaticLayout(message,
+                    received ? messageReceivedPaint : messageSentPaint,
+                    canvas.getWidth() - toDP(64),
+                    received ? Layout.Alignment.ALIGN_NORMAL : Layout.Alignment.ALIGN_OPPOSITE,
                     1.0f,
                     0.0f,
                     false);
-        }
 
-        amountDown += (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 18 * mTextLayout3.getLineCount() + 3, mContext.getResources().getDisplayMetrics());
+            if (mTextLayout[i].getLineCount() > 1) {
+                int start = mTextLayout[i].getLineStart(2);
 
-        canvas.save();
-        canvas.translate(20, amountDown);
-        mTextLayout3.draw(canvas);
-        canvas.restore();
+                if (mTextLayout[i].getLineCount() > 2) {
+                    message = message.substring(0, start - 4) + "...";
+                    //amountDown -= (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 18, mContext.getResources().getDisplayMetrics());
+                } else {
+                    message = message.substring(0, start);
+                }
 
-        String message2 = ContactView.message[ContactView.currentContact][1];
-
-        StaticLayout mTextLayout2 = new StaticLayout(message2,
-                ContactView.type[ContactView.currentContact][1] == 0 ? messageReceivedPaint : messageSentPaint,
-                canvas.getWidth() - 40,
-                ContactView.type[ContactView.currentContact][1] == 0 ? Layout.Alignment.ALIGN_NORMAL : Layout.Alignment.ALIGN_OPPOSITE,
-                1.0f,
-                0.0f,
-                false);
-
-        if (mTextLayout2.getLineCount() > 1) {
-            int start = mTextLayout2.getLineStart(2);
-
-            if (mTextLayout2.getLineCount() > 2) {
-                message2 = message2.substring(0, start - 4) + "...";
-            } else {
-                message2 = message2.substring(0, start);
+                mTextLayout[i] = new StaticLayout(message,
+                        received ? messageReceivedPaint : messageSentPaint,
+                        canvas.getWidth() - toDP(64),
+                        received ? Layout.Alignment.ALIGN_NORMAL : Layout.Alignment.ALIGN_OPPOSITE,
+                        1.0f,
+                        0.0f,
+                        false);
             }
 
-            mTextLayout2 = new StaticLayout(message2,
-                    ContactView.type[ContactView.currentContact][1] == 0 ? messageReceivedPaint : messageSentPaint,
-                    canvas.getWidth() - 40,
-                    ContactView.type[ContactView.currentContact][1] == 0 ? Layout.Alignment.ALIGN_NORMAL : Layout.Alignment.ALIGN_OPPOSITE,
-                    1.0f,
-                    0.0f,
-                    false);
-        }
-
-        amountDown += (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 18 * mTextLayout3.getLineCount() + 3, mContext.getResources().getDisplayMetrics());
-
-        canvas.save();
-        canvas.translate(20, amountDown);
-        mTextLayout2.draw(canvas);
-        canvas.restore();
-
-        String message1 = ContactView.message[ContactView.currentContact][0];
-
-        StaticLayout mTextLayout1 = new StaticLayout(
-                message1,
-                ContactView.type[ContactView.currentContact][0] == 0 ? messageReceivedPaint : messageSentPaint,
-                canvas.getWidth() - 40,
-                ContactView.type[ContactView.currentContact][0] == 0 ? Layout.Alignment.ALIGN_NORMAL : Layout.Alignment.ALIGN_OPPOSITE,
-                1.0f,
-                0.0f,
-                false);
-
-        if (mTextLayout1.getLineCount() > 1) {
-            int start = mTextLayout1.getLineStart(2);
-
-            if (mTextLayout1.getLineCount() > 2) {
-                message1 = message1.substring(0, start - 4) + "...";
-            } else {
-                message1 = message1.substring(0, start);
-            }
-
-            mTextLayout1 = new StaticLayout(message1,
-                    ContactView.type[ContactView.currentContact][0] == 0 ? messageReceivedPaint : messageSentPaint,
-                    canvas.getWidth() - 40,
-                    ContactView.type[ContactView.currentContact][0] == 0 ? Layout.Alignment.ALIGN_NORMAL : Layout.Alignment.ALIGN_OPPOSITE,
-                    1.0f,
-                    0.0f,
-                    false);
-        }
-
-        amountDown += (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 18 * mTextLayout2.getLineCount() + 3, mContext.getResources().getDisplayMetrics());
-
-        if (!(mTextLayout1.getHeight() + mTextLayout2.getHeight() + mTextLayout3.getHeight() > 230)) {
             canvas.save();
-            canvas.translate(20, amountDown);
-            mTextLayout1.draw(canvas);
+            canvas.translate(toDP(32), amountDown);
+            mTextLayout[i].draw(canvas);
             canvas.restore();
+
+            int originalDown = amountDown;
+            amountDown += toDP((18 * mTextLayout[i].getLineCount()) + TEXTGAP);
+
+            if (!message.equals("") && sharedPrefs.getBoolean("quick_peek_text_markers", true)) {
+                canvas.drawLine(received ? toDP(22) : canvas.getWidth() - toDP(22),
+                                    originalDown,
+                                    received ? toDP(22) : canvas.getWidth() - toDP(22),
+                                    amountDown - TEXTGAP - toDP(3),
+                                    received ? messageReceivedPaint : messageSentPaint);
+            }
+
+
         }
     }
 
