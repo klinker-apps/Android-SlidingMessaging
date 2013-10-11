@@ -41,7 +41,7 @@ public class HoloEditText extends EditText {
         }
 
         setTypeface(context);
-        addTextWatcher(context);
+        //addTextWatcher(context);
     }
 
     public static Typeface typeface;
