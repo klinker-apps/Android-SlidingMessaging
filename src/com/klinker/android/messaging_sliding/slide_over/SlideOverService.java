@@ -32,6 +32,7 @@ import java.util.List;
 public class SlideOverService extends Service {
 
     public static final String BCAST_CONFIGCHANGED = "android.intent.action.CONFIGURATION_CHANGED";
+    public final int FOREGROUND_SERVICE_ID = 123;
 
     public static DisplayMetrics displayMatrix;
     public Display d;
@@ -196,6 +197,16 @@ public class SlideOverService extends Service {
         filter = new IntentFilter();
         filter.addAction(Intent.ACTION_USER_PRESENT);
         this.registerReceiver(unlock, filter);
+
+        if (sharedPrefs.getBoolean("foreground_service", false)) {
+            Notification notification = new Notification(R.drawable.stat_notify_sms, "SlideOver Messaging",
+                    System.currentTimeMillis());
+            Intent notificationIntent = new Intent(this, SlideOverSettings.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+            notification.setLatestEventInfo(this, "SlideOver Messaging",
+                    "Click to open settings", pendingIntent);
+            startForeground(FOREGROUND_SERVICE_ID, notification);
+        }
     }
 
     public void setUpTouchListeners(final int height, final int width) {
@@ -1615,6 +1626,10 @@ public class SlideOverService extends Service {
             try { messageWindow.removeViewImmediate(contactView); } catch (Exception e) { }
             try { sendWindow.removeViewImmediate(sendView); } catch (Exception e) { }
             try { animationWindow.removeViewImmediate(animationView); } catch (Exception e) { }
+
+            if (sharedPrefs.getBoolean("foreground_service", false)) {
+                stopForeground(true);
+            }
 
             stopSelf();
             unregisterReceiver(this);

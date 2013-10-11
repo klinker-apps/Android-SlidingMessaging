@@ -236,6 +236,14 @@
             android:dependency="slideover_enabled"
             />
 
+        <CheckBoxPreference
+            android:key="foreground_service"
+            android:title="@string/foreground_service"
+            android:summary="@string/foreground_service_summary"
+            android:defaultValue="false"
+            android:dependency="slideover_enabled"
+            />
+
         <net.margaritov.preference.colorpicker.ColorPickerPreference
                 android:key="slideover_color"
                 android:title="@string/slideover_color"
