@@ -76,7 +76,6 @@ public class HaloView extends ViewGroup {
                 canvas.drawBitmap(halo, 0, 0, haloPaint);
                 Paint contactPaint = new Paint();
                 contactPaint.setAlpha(210);
-                //contactPaint.setAntiAlias(true);
                 canvas.drawBitmap(currentImage == null ? getClip() : currentImage, 0, 0, contactPaint);
             } else {
                 canvas.drawBitmap(halo, 0, 0, haloNewPaint);
@@ -86,7 +85,15 @@ public class HaloView extends ViewGroup {
 
     public Bitmap currentImage = null;
     private Bitmap getClip() {
-        String number = ArcView.newConversations.get(ArcView.newConversations.size() - 1)[2];
+        String number;
+        try {
+            number = ArcView.newConversations.get(ArcView.newConversations.size() - 1)[2];
+        } catch (Exception e) {
+            // Fix for active notifications not working correctly.
+            // they cleared the new conversations array, but it still tried to go through this code.
+            number = "";
+        }
+        
         Bitmap bitmap;
 
         try {
