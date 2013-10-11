@@ -148,6 +148,9 @@ public class SlideOverService extends Service {
     public void onCreate() {
         super.onCreate();
 
+        mContext = this;
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+
         // gets the display
         d = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         height = d.getHeight();
@@ -157,6 +160,8 @@ public class SlideOverService extends Service {
 
         halo = BitmapFactory.decodeResource(getResources(),
                 R.drawable.halo_bg);
+
+        halo = Bitmap.createScaledBitmap(halo, halo.getWidth() * sharedPrefs.getInt("scaled_size", 40)/50, halo.getHeight() * sharedPrefs.getInt("scaled_size", 40)/50, true);
 
         initialSetup(halo, height, width);
 

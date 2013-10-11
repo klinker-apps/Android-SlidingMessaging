@@ -46,6 +46,8 @@ public class HaloView extends ViewGroup {
         halo = BitmapFactory.decodeResource(getResources(),
                 R.drawable.halo_bg);
 
+        halo = Bitmap.createScaledBitmap(halo, halo.getWidth() * sharedPrefs.getInt("scaled_size", 40)/50, halo.getHeight() * sharedPrefs.getInt("scaled_size", 40)/50, true);
+
         haloPaint = new Paint();
         haloPaint.setAlpha(haloAlpha);
         haloPaint.setColorFilter(new PorterDuffColorFilter(haloColor, PorterDuff.Mode.MULTIPLY));
