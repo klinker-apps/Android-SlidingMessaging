@@ -228,7 +228,7 @@
     <PreferenceCategory android:key="slideover_themeing"
         android:title="@string/slideover_theme_settings">
 
-        <com.lklinker.android.slideovermessaging.SeekBarPreference3
+        <com.klinker.android.messaging_sliding.views.SeekBarPreference3
             android:key="scaled_size"
             android:title="Bubble Size"
             android:defaultValue="40"
