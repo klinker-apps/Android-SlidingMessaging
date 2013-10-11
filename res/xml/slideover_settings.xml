@@ -228,6 +228,14 @@
     <PreferenceCategory android:key="slideover_themeing"
         android:title="@string/slideover_theme_settings">
 
+        <com.lklinker.android.slideovermessaging.SeekBarPreference3
+            android:key="scaled_size"
+            android:title="Bubble Size"
+            android:defaultValue="40"
+            android:max="100"
+            android:dependency="slideover_enabled"
+            />
+
         <net.margaritov.preference.colorpicker.ColorPickerPreference
                 android:key="slideover_color"
                 android:title="@string/slideover_color"

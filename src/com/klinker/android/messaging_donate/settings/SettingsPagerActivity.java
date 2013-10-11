@@ -819,6 +819,17 @@ public class SettingsPagerActivity extends FragmentActivity {
                 }
             });
 
+            Preference size = findPreference("scaled_size");
+            size.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+
+                @Override
+                public boolean onPreferenceClick(Preference arg0) {
+                    SlideOverService.restartHalo(context);
+                    return false;
+                }
+
+            });
+
             /*Preference side = findPreference("slideover_side");
             side.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
