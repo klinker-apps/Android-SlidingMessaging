@@ -82,7 +82,7 @@ public class BatchDeleteAllActivity extends Activity {
                         ArrayList<Integer> positions = BatchDeleteAllArrayAdapter.itemsToDelete;
 
                         for (int i = 0; i < positions.size(); i++) {
-                            deleteSMS(context, conversations.get(i).getThreadId());
+                            deleteSMS(context, conversations.get(positions.get(i)).getThreadId());
                         }
 
                         ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
