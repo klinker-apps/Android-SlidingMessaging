@@ -130,6 +130,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
                 abortBroadcast();
             } else {
                 // if overriding stock or its a voice message, save the messages
+                // TODO, always attempt saving on android 4.4+
                 if (sharedPrefs.getBoolean("override", false) || voiceMessage) {
                     ContentValues values = new ContentValues();
                     values.put("address", address);

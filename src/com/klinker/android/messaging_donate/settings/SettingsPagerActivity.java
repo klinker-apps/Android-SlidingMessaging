@@ -1339,6 +1339,7 @@ public class SettingsPagerActivity extends FragmentActivity {
         }
 
         public void setUpAdvancedSettings() {
+            // TODO hide override stock in android 4.4+
             final Context context = getActivity();
             final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 

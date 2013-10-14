@@ -20,6 +20,7 @@ import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.Profile;
 import android.provider.MediaStore;
+import android.provider.Telephony;
 import android.support.v4.app.*;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ListFragment;
@@ -1818,6 +1819,13 @@ public class MainActivity extends FragmentActivity {
 
             @Override
             public void onClick(View v) {
+
+                // TODO if android 4.4, check whether or not it is the default sms app. if it is, go through. if not, display dialog asking if you want to make it default and launch
+//                Intent intent =
+//                        new Intent(Telephony.Sms.Intents.ACTION_CHANGE_DEFAULT);
+//                intent.putExtra(Telephony.Sms.Intents.EXTRA_PACKAGE_NAME,
+//                        myPackageName);
+                // FROM: http://android-developers.blogspot.com/2013/10/getting-your-sms-apps-ready-for-kitkat.html?m=1
 
                 final String recipientId = conversations.get(mViewPager.getCurrentItem()).getNumber();
                 final long threadId = conversations.get(mViewPager.getCurrentItem()).getThreadId();
