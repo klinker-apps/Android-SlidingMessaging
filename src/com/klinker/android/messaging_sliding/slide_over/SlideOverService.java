@@ -1778,28 +1778,7 @@ public class SlideOverService extends Service {
         @Override
         public void onReceive(Context context, Intent myIntent) {
             // remove the message view and contact view so they don't cause problems
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        messageWindow.removeView(messageView);
-                    } catch (Exception e) {
-
-                    }
-
-                    try {
-                        messageWindow.removeView(contactView);
-                    } catch (Exception e) {
-
-                    }
-
-                    try {
-                        sendWindow.removeView(sendView);
-                    } catch (Exception e) {
-
-                    }
-                }
-            }, 300);
+            restartHalo(context);
         }
     };
 
