@@ -86,7 +86,15 @@ public class HaloView extends ViewGroup {
 
     public Bitmap currentImage = null;
     private Bitmap getClip() {
-        String number = ArcView.newConversations.get(ArcView.newConversations.size() - 1)[2];
+
+        String number;
+
+        try {
+            number = ArcView.newConversations.get(ArcView.newConversations.size() - 1)[2];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            number = "1";
+        }
+
         Bitmap bitmap;
 
         try {

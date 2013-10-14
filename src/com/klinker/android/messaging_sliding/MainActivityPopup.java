@@ -237,7 +237,9 @@ public class MainActivityPopup extends MainActivity {
                 }, 500);
             }
         } else {
-            menu.showContent();
+            if (menu != null) {
+                menu.showContent();
+            }
         }
 
         if (sharedPrefs.getBoolean("show_keyboard_popup", true) && !fromHalo) {
