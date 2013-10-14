@@ -228,11 +228,19 @@
     <PreferenceCategory android:key="slideover_themeing"
         android:title="@string/slideover_theme_settings">
 
-        <com.lklinker.android.slideovermessaging.SeekBarPreference3
+        <com.klinker.android.messaging_sliding.views.SeekBarPreference3
             android:key="scaled_size"
             android:title="Bubble Size"
             android:defaultValue="40"
             android:max="100"
+            android:dependency="slideover_enabled"
+            />
+
+        <CheckBoxPreference
+            android:key="foreground_service"
+            android:title="@string/foreground_service"
+            android:summary="@string/foreground_service_summary"
+            android:defaultValue="false"
             android:dependency="slideover_enabled"
             />
 

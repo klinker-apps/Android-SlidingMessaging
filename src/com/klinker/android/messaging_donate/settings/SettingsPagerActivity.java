@@ -792,6 +792,17 @@ public class SettingsPagerActivity extends FragmentActivity {
                 }
             });
 
+            Preference foreground = findPreference("foreground_service");
+            foreground.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+
+                @Override
+                public boolean onPreferenceClick(Preference arg0) {
+                    SlideOverService.restartHalo(context);
+                    return false;
+                }
+
+            });
+
             Preference voiceSend = findPreference("quick_peek_send_voice");
             voiceSend.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override

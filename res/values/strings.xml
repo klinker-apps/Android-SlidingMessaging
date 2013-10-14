@@ -851,7 +851,8 @@
        Sliding Messaging has a TON of options, and it probably seems overwhelming at first, so we have hidden the more advanced ones for your convenience.\n\n
 
        If you feel like taking the customization to the next level, simply go to \"Advanced Settings\" and click the \"Show All Settings\" button!</string>
-
     <string name="quick_peek_text_markers">Enabled text markers</string>
+    <string name="foreground_service">Foreground Service</string>
+    <string name="foreground_service_summary">Use this option if the SlideOver Messaging bubble disappears after so long on your screen. It is because the system is killing the service used to create it. This option will get around that by putting a persistent notification on your notification tray.</string>
 
 </resources>
