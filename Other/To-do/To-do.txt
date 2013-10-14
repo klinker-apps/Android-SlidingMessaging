@@ -12,6 +12,7 @@ Android 4.4 Stuff:
 2) Always attempt to save message in mms message receiver if 4.4+
 3) Send button should show dialog box to activate as default sms app if it isn't already
 4) Override stock option should be hidden if 4.4+
+5) change all strings used when querying to constants in Telephony.Sms, Telephony.Mms, Telephony.SmsMms
 
 1) more individual notification options (notification icon)
 2) option for adding certain text to every message at the beginning (delivery reports?)
