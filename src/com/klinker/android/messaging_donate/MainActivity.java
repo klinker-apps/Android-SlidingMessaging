@@ -346,7 +346,7 @@ public class MainActivity extends FragmentActivity {
                     }
                 });
 
-            } catch (ClassCastException e) {
+            } catch (Exception e) {
 
             }
         }
@@ -4759,7 +4759,11 @@ public class MainActivity extends FragmentActivity {
             }
         } else {
             if (menu != null) {
-                menuAdapter.notifyDataSetChanged();
+                try {
+                    menuAdapter.notifyDataSetChanged();
+                } catch (Exception e) {
+
+                }
             } else {
                 ListFragment newFragment = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.menuList);
                 newFragment.setListAdapter(new MenuArrayAdapter(this, conversations, MainActivity.mViewPager));

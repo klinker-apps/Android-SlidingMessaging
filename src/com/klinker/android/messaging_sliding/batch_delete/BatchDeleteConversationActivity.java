@@ -124,11 +124,11 @@ public class BatchDeleteConversationActivity extends Activity implements android
 
                     Cursor selectAllQuery = getContentResolver().query(uri3, projection2, null, null, sortOrder);
 
-                    selectAllQuery.moveToFirst();
-
-                    do {
-                        BatchDeleteConversationArrayAdapter.itemsToDelete.add(selectAllQuery.getLong(selectAllQuery.getColumnIndex("_id")));
-                    } while (selectAllQuery.moveToNext());
+                    if (selectAllQuery.moveToFirst()) {
+                        do {
+                            BatchDeleteConversationArrayAdapter.itemsToDelete.add(selectAllQuery.getLong(selectAllQuery.getColumnIndex("_id")));
+                        } while (selectAllQuery.moveToNext());
+                    }
 
                     selectAllQuery.close();
 
