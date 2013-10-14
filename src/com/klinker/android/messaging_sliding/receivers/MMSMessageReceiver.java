@@ -71,7 +71,8 @@ public class MMSMessageReceiver extends BroadcastReceiver {
 
             boolean error = false;
 
-            if (sharedPrefs.getBoolean("override_stock", false) && !sharedPrefs.getBoolean("receive_with_stock", false)) {
+            // TODO always attempt to run this on android 4.4+
+            if (sharedPrefs.getBoolean("override", false) && !sharedPrefs.getBoolean("receive_with_stock", false)) {
                 byte[] pushData = intent.getByteArrayExtra("data");
                 PduParser parser = new PduParser(pushData);
                 GenericPdu pdu = parser.parse();
@@ -203,7 +204,7 @@ public class MMSMessageReceiver extends BroadcastReceiver {
                 }, sharedPrefs.getBoolean("receive_with_stock", false) ? 1000 : 200);
             }
 
-            if (sharedPrefs.getBoolean("override_stock", false) && !error) {
+            if (sharedPrefs.getBoolean("override", false) && !error) {
                 abortBroadcast();
             } else {
                 clearAbortBroadcast();

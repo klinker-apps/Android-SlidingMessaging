@@ -103,6 +103,16 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="image/*" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <action android:name="android.intent.action.SENDTO" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="sms" />
+                <data android:scheme="smsto" />
+                <data android:scheme="mms" />
+                <data android:scheme="mmsto" />
+            </intent-filter>
         </activity>
 
         <activity
@@ -486,7 +496,8 @@
             android:theme="@android:style/Theme.Holo.Light.DarkActionBar"
             android:exported="true" />
         
-        <receiver android:name="com.klinker.android.messaging_sliding.receivers.TextMessageReceiver" >
+        <receiver android:name="com.klinker.android.messaging_sliding.receivers.TextMessageReceiver"
+                  android:permission="android.permission.BROADCAST_SMS" >
             <intent-filter android:priority="2">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
                 <category android:name="android.intent.category.HOME" />
@@ -494,6 +505,10 @@
 
             <intent-filter android:priority="100">
                 <action android:name="com.klinker.android.messaging.VOICE_RECEIVED" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_DELIVER" />
             </intent-filter>
         </receiver>
         
@@ -503,7 +518,12 @@
                 <action android:name="android.provider.Telephony.WAP_PUSH_RECEIVED" />
                 <data android:mimeType="application/vnd.wap.mms-message" />
                 <category android:name="android.intent.category.HOME" />
-            </intent-filter> 
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.provider.Telephony.WAP_PUSH_DELIVER" />
+                <data android:mimeType="application/vnd.wap.mms-message" />
+            </intent-filter>
         </receiver>
         
         <receiver android:name="com.klinker.android.send_message.SentReceiver" >
