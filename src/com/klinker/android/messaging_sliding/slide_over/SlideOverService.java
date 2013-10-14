@@ -387,6 +387,8 @@ public class SlideOverService extends Service {
                 InputMethodManager keyboard = (InputMethodManager)
                                             getSystemService(Context.INPUT_METHOD_SERVICE);
                                     keyboard.hideSoftInputFromWindow(sendBox.getWindowToken(), 0);
+
+                singleTap();
             }
         });
 
