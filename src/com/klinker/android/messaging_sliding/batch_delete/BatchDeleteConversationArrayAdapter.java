@@ -764,6 +764,7 @@ public class BatchDeleteConversationArrayAdapter extends CursorAdapter {
 
             @Override
             public void onClick(View arg0) {
+
                 boolean flag = false;
                 int pos = 0;
 
