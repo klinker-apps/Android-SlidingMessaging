@@ -972,6 +972,26 @@ public class MainActivity extends FragmentActivity {
 
             @Override
             public void onClick(View v) {
+
+                // TODO Uncomment for kitkat release
+//                if (Build.VERSION.SDK_INT > 18 && !Telephony.Sms.getDefaultSmsPackage(this).equals(getPackageName())) {
+//                    new AlertDialog.Builder(mContext)
+//                            .setTitle(R.string.change_default)
+//                            .setMessage(R.string.change_default_summary)
+//                            .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialogInterface, int i) {
+//                                    Intent intent =
+//                                            new Intent(Telephony.Sms.Intents.ACTION_CHANGE_DEFAULT);
+//                                    intent.putExtra(Telephony.Sms.Intents.EXTRA_PACKAGE_NAME,
+//                                            myPackageName);
+//                                    startActivity(intent);
+//                                }
+//                            })
+//                            .setNegativeButton(R.string.no, null)
+//                            .show();
+//                }
+
                 MainActivity.sentMessage = true;
 
                 if (contact.getText().toString().equals("")) {
@@ -1820,12 +1840,24 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
 
-                // TODO if android 4.4, check whether or not it is the default sms app. if it is, go through. if not, display dialog asking if you want to make it default and launch
-//                Intent intent =
-//                        new Intent(Telephony.Sms.Intents.ACTION_CHANGE_DEFAULT);
-//                intent.putExtra(Telephony.Sms.Intents.EXTRA_PACKAGE_NAME,
-//                        myPackageName);
-                // FROM: http://android-developers.blogspot.com/2013/10/getting-your-sms-apps-ready-for-kitkat.html?m=1
+                // TODO Uncomment for kitkat release
+//                if (Build.VERSION.SDK_INT > 18 && !Telephony.Sms.getDefaultSmsPackage(this).equals(getPackageName())) {
+//                    new AlertDialog.Builder(mContext)
+//                            .setTitle(R.string.change_default)
+//                            .setMessage(R.string.change_default_summary)
+//                            .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialogInterface, int i) {
+//                                    Intent intent =
+//                                            new Intent(Telephony.Sms.Intents.ACTION_CHANGE_DEFAULT);
+//                                    intent.putExtra(Telephony.Sms.Intents.EXTRA_PACKAGE_NAME,
+//                                            myPackageName);
+//                                    startActivity(intent);
+//                                }
+//                            })
+//                            .setNegativeButton(R.string.no, null)
+//                            .show();
+//                }
 
                 final String recipientId = conversations.get(mViewPager.getCurrentItem()).getNumber();
                 final long threadId = conversations.get(mViewPager.getCurrentItem()).getThreadId();

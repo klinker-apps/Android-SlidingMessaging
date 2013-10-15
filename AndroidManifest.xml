@@ -489,6 +489,19 @@
      		<meta-data android:name="settingsActivity"
      		           android:value=".widget.DashClockSettings" />
 		</service>
+
+        <service android:name="com.klinker.android.messaging_sliding.quick_reply.QuickResponseService"
+                 android:permission="android.permission.SEND_RESPOND_VIA_MESSAGE"
+                 android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.RESPOND_VIA_MESSAGE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="sms" />
+                <data android:scheme="smsto" />
+                <data android:scheme="mms" />
+                <data android:scheme="mmsto" />
+            </intent-filter>
+        </service>
 		
         <activity
             android:name=".widget.DashClockSettings"

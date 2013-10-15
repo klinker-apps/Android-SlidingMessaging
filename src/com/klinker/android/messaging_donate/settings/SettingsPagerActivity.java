@@ -9,10 +9,7 @@ import android.content.res.Configuration;
 import android.database.Cursor;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
-import android.os.RemoteException;
+import android.os.*;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceGroup;
@@ -1339,7 +1336,6 @@ public class SettingsPagerActivity extends FragmentActivity {
         }
 
         public void setUpAdvancedSettings() {
-            // TODO hide override stock in android 4.4+
             final Context context = getActivity();
             final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
@@ -1510,6 +1506,10 @@ public class SettingsPagerActivity extends FragmentActivity {
 //                }
 //
 //            });
+
+            if (Build.VERSION.SDK_INT > 18) {
+                ((PreferenceGroup) findPreference("advanced_other_category")).removePreference(findPreference("override"));
+            }
 
             if (!showAll) {
                 ((PreferenceGroup) findPreference("advanced_theme_category")).removePreference(findPreference("strip_unicode"));

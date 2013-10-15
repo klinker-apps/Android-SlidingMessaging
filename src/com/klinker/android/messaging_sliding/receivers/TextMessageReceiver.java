@@ -14,10 +14,7 @@ import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.PowerManager;
+import android.os.*;
 import android.os.PowerManager.WakeLock;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
@@ -130,8 +127,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
                 abortBroadcast();
             } else {
                 // if overriding stock or its a voice message, save the messages
-                // TODO, always attempt saving on android 4.4+
-                if (sharedPrefs.getBoolean("override", false) || voiceMessage) {
+                if (sharedPrefs.getBoolean("override", false) || voiceMessage || Build.VERSION.SDK_INT > 18) {
                     ContentValues values = new ContentValues();
                     values.put("address", address);
                     values.put("body", body);
@@ -396,7 +392,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
                     context.sendBroadcast(voice);
                 }
 
-                if (sharedPrefs.getBoolean("override", false)) {
+                if (sharedPrefs.getBoolean("override", false) && Build.VERSION.SDK_INT <= 18) {
                     try {
                         this.abortBroadcast();
                     } catch (Exception e) {
