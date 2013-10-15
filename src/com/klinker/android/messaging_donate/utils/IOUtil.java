@@ -270,7 +270,7 @@ public class IOUtil {
             }
 
             outputStreamWriter.close();
-        } catch (IOException e) {
+        } catch (Exception e) {
         }
     }
 

@@ -330,8 +330,12 @@ public class MessageCursorAdapter extends CursorAdapter {
                                         video = "content://mms/part/" + partId;
                                     }
 
-                                    if (type.startsWith("audio/")) {
-                                        audio = "content://mms/part/" + partId;
+                                    try {
+                                        if (type.startsWith("audio/")) {
+                                            audio = "content://mms/part/" + partId;
+                                        }
+                                    } catch (Exception e) {
+                                        // type is null
                                     }
                                 } while (query.moveToNext());
                             }
@@ -1309,14 +1313,18 @@ public class MessageCursorAdapter extends CursorAdapter {
             MainActivity.animationReceived = 0;
         }
 
-        if (cursor.getPosition() == 0 && voice) {
-            if (!(MainActivity.threadsThroughVoice.contains(threadIds))) {
-                MainActivity.threadsThroughVoice.add(threadIds);
+        try {
+            if (cursor.getPosition() == 0 && voice) {
+                if (!(MainActivity.threadsThroughVoice.contains(threadIds))) {
+                    MainActivity.threadsThroughVoice.add(threadIds);
 
-                if (((MainActivity) context).firstRun) {
-                    ((MainActivity) context).voiceButton.performClick();
+                    if (((MainActivity) context).firstRun) {
+                        ((MainActivity) context).voiceButton.performClick();
+                    }
                 }
             }
+        } catch (Exception e) {
+
         }
     }
 

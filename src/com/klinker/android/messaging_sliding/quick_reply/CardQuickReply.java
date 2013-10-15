@@ -583,6 +583,11 @@ public class CardQuickReply extends FragmentActivity {
 
                 @Override
                 public void onClick(View arg0) {
+                    if (ids.size() == 0) {
+                        finish();
+                        return;
+                    }
+
                     final String id = ids.get(mViewPager.getCurrentItem());
                     final String date = inboxDate.get(mViewPager.getCurrentItem());
 
