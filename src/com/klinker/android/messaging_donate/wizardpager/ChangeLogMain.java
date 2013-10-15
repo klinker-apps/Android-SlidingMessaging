@@ -44,6 +44,7 @@ import com.klinker.android.messaging_donate.wizardpager.wizard.ui.ReviewFragment
 import com.klinker.android.messaging_donate.wizardpager.wizard.ui.StepPagerStrip;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class ChangeLogMain extends FragmentActivity implements
         PageFragmentCallbacks,
@@ -161,10 +162,14 @@ public class ChangeLogMain extends FragmentActivity implements
                     finish();
 
                 } else {
-                    if (mEditingAfterReview) {
-                        mPager.setCurrentItem(mPagerAdapter.getCount() - 1);
-                    } else {
-                        mPager.setCurrentItem(mPager.getCurrentItem() + 1);
+                    try {
+                        if (mEditingAfterReview) {
+                            mPager.setCurrentItem(mPagerAdapter.getCount() - 1);
+                        } else {
+                            mPager.setCurrentItem(mPager.getCurrentItem() + 1);
+                        }
+                    } catch (Exception e) {
+                        // seems to not like this every once and awhile on some phones, something about notifying data set changed, but we aren't changing anything?
                     }
                 }
             }
