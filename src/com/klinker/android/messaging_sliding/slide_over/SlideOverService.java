@@ -349,30 +349,34 @@ public class SlideOverService extends Service {
             public void onClick(View v) {
                 if (!sendBox.getText().toString().equals("")) {
                     Message mMessage = new Message(sendBox.getText().toString(), ContactView.numbers[ContactView.currentContact]);
-                    sendTransaction.sendNewMessage(mMessage, Long.parseLong(ContactView.threadIds[ContactView.currentContact]));
-
-                    sendBox.setText("");
-                    sendBox.setCursorVisible(false);
-                    sendBox.clearFocus();
                     try {
-                        sendWindow.updateViewLayout(sendView, sendParams);
+                        sendTransaction.sendNewMessage(mMessage, Long.parseLong(ContactView.threadIds[ContactView.currentContact]));
+
+                        sendBox.setText("");
+                        sendBox.setCursorVisible(false);
+                        sendBox.clearFocus();
+                        try {
+                            sendWindow.updateViewLayout(sendView, sendParams);
+                        } catch (Exception e) {
+                        }
+
+                        ContactView.currentContact = 0;
+                        currContact = 0;
+                        ContactView.refreshArrays();
+                        contactView.invalidate();
+                        messageView.invalidate();
+
+                        closeNotifications();
+
+                        InputMethodManager keyboard = (InputMethodManager)
+                                                getSystemService(Context.INPUT_METHOD_SERVICE);
+                                        keyboard.hideSoftInputFromWindow(sendBox.getWindowToken(), 0);
+
+                        if (sharedPrefs.getBoolean("close_quick_peek_on_send", false)) {
+                            singleTap();
+                        }
                     } catch (Exception e) {
-                    }
-
-                    ContactView.currentContact = 0;
-                    currContact = 0;
-                    ContactView.refreshArrays();
-                    contactView.invalidate();
-                    messageView.invalidate();
-
-                    closeNotifications();
-                    
-                    InputMethodManager keyboard = (InputMethodManager)
-                                            getSystemService(Context.INPUT_METHOD_SERVICE);
-                                    keyboard.hideSoftInputFromWindow(sendBox.getWindowToken(), 0);
-
-                    if (sharedPrefs.getBoolean("close_quick_peek_on_send", false)) {
-                        singleTap();
+                        // they tried sending a message when there was no recipient i guess...
                     }
                 }
             }
