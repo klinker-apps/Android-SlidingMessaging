@@ -3105,7 +3105,7 @@ public class MainActivity extends FragmentActivity {
                 if (menu != null) {
                     if (menu.isMenuShowing()) {
                         Intent intent = new Intent(this, BatchDeleteAllActivity.class);
-                        startActivity(intent);
+                        startActivityForResult(intent, SETTINGS_RESULT);
                         overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
                     } else {
                         try {
