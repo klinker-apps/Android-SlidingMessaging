@@ -1819,9 +1819,14 @@ public class MainActivity extends FragmentActivity {
                 }
 
                 if (settings.sendWithReturn) {
-                    if (messageEntry.getText().toString().endsWith("\n")) {
-                        messageEntry.setText(messageEntry.getText().toString().substring(0, messageEntry.getText().toString().length() - 1));
-                        sendButton.performClick();
+                    try {
+                        if (messageEntry.getText().toString().endsWith("\n")) {
+                            messageEntry.setText(messageEntry.getText().toString().substring(0, messageEntry.getText().toString().length() - 1));
+                            sendButton.performClick();
+                        }
+                    } catch (Exception e) {
+                        // seems like it throws a null pointer here for some reason, it was on like 1823, so it must have been with the message entry...
+                        // but i have no clue why it would do that
                     }
                 }
             }
