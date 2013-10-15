@@ -1823,17 +1823,21 @@ public class SlideOverService extends Service {
                                     if (!sharedPrefs.getBoolean("popup_reply", false)/* || (sharedPrefs.getBoolean("popup_reply", true) && sharedPrefs.getBoolean("slideover_popup_lockscreen_only", false))*/) {
                                         // start the animation
 
-                                        animationView.circleText = true;
-                                        animationView.firstText = true;
-                                        animationView.arcOffset = AnimationView.ORIG_ARC_OFFSET;
-                                        animationView.name = new String[]{ArcView.newConversations.get(ArcView.newConversations.size() - 1)[0], ArcView.newConversations.get(ArcView.newConversations.size() - 1)[1].length() > 50 ? ArcView.newConversations.get(ArcView.newConversations.size() - 1)[1].substring(0, 50) + "..." : ArcView.newConversations.get(ArcView.newConversations.size() - 1)[1]};
-                                        animationView.circleLength = 0;
-                                        animationView.circleStart = animationView.originalCircleStart;
-                                        animationWindow.addView(animationView, animationParams);
+                                        try {
+                                            animationView.circleText = true;
+                                            animationView.firstText = true;
+                                            animationView.arcOffset = AnimationView.ORIG_ARC_OFFSET;
+                                            animationView.name = new String[]{ArcView.newConversations.get(ArcView.newConversations.size() - 1)[0], ArcView.newConversations.get(ArcView.newConversations.size() - 1)[1].length() > 50 ? ArcView.newConversations.get(ArcView.newConversations.size() - 1)[1].substring(0, 50) + "..." : ArcView.newConversations.get(ArcView.newConversations.size() - 1)[1]};
+                                            animationView.circleLength = 0;
+                                            animationView.circleStart = animationView.originalCircleStart;
+                                            animationWindow.addView(animationView, animationParams);
 
-                                        NewMessageAnimation animation = new NewMessageAnimation(animationView, ((float) (3 * (sharedPrefs.getInt("slideover_animation_speed", 33) / 100.0) + 1)) / 2, haloWindow);
-                                        animation.setRunning(true);
-                                        animation.start();
+                                            NewMessageAnimation animation = new NewMessageAnimation(animationView, ((float) (3 * (sharedPrefs.getInt("slideover_animation_speed", 33) / 100.0) + 1)) / 2, haloWindow);
+                                            animation.setRunning(true);
+                                            animation.start();
+                                        } catch (Exception e) {
+                                            // couldn't get the name, so don't show animation
+                                        }
                                     }
                                 }
                             }, 100);

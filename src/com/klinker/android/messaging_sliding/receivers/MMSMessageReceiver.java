@@ -4,10 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.PowerManager;
+import android.os.*;
 import android.preference.PreferenceManager;
 import android.provider.Telephony.Mms.Inbox;
 import android.util.Log;
@@ -71,8 +68,7 @@ public class MMSMessageReceiver extends BroadcastReceiver {
 
             boolean error = false;
 
-            // TODO always attempt to run this on android 4.4+
-            if (sharedPrefs.getBoolean("override", false) && !sharedPrefs.getBoolean("receive_with_stock", false)) {
+            if ((sharedPrefs.getBoolean("override", false) && !sharedPrefs.getBoolean("receive_with_stock", false)) || Build.VERSION.SDK_INT > 18) {
                 byte[] pushData = intent.getByteArrayExtra("data");
                 PduParser parser = new PduParser(pushData);
                 GenericPdu pdu = parser.parse();
@@ -204,7 +200,7 @@ public class MMSMessageReceiver extends BroadcastReceiver {
                 }, sharedPrefs.getBoolean("receive_with_stock", false) ? 1000 : 200);
             }
 
-            if (sharedPrefs.getBoolean("override", false) && !error) {
+            if (sharedPrefs.getBoolean("override", false) && !error && Build.VERSION.SDK_INT <= 18) {
                 abortBroadcast();
             } else {
                 clearAbortBroadcast();
