@@ -1834,7 +1834,12 @@ public class MainActivity extends FragmentActivity {
             public void afterTextChanged(Editable s) {
                 if (settings.enableDrafts) {
                     if (newDraft == 0) {
-                        newDraft = conversations.get(mViewPager.getCurrentItem()).getThreadId();
+                        try {
+                            newDraft = conversations.get(mViewPager.getCurrentItem()).getThreadId();
+                        } catch (Exception e)
+                        {
+                            // couldn't find something i guess, NPE
+                        }
                     }
                 }
             }

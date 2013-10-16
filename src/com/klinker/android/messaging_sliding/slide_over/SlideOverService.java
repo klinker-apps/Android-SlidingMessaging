@@ -1097,7 +1097,7 @@ public class SlideOverService extends Service {
             numberNewConv = 0;
         } else {
             //haloWindow.updateViewLayout(haloView, haloParams);
-            haloWindow.removeView(haloView);
+            try { haloWindow.removeView(haloView); } catch (Exception e) { }
             haloWindow.addView(haloView, haloParams);
             try { animationWindow.removeViewImmediate(animationView); } catch (Exception e) { }
             returnTimeoutHandler.removeCallbacks(returnTimeoutRunnable);
