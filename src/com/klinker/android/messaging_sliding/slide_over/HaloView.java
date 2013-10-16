@@ -72,7 +72,7 @@ public class HaloView extends ViewGroup {
         if (haloNewAlpha != 0) {
             haloNewPaint.setAlpha(haloNewAlpha);
 
-            if (sharedPrefs.getBoolean("contact_pics_slideover", true)) {
+            if (sharedPrefs.getBoolean("contact_picture_slideover", true)) {
                 canvas.drawBitmap(halo, 0, 0, haloPaint);
                 Paint contactPaint = new Paint();
                 contactPaint.setAlpha(210);
