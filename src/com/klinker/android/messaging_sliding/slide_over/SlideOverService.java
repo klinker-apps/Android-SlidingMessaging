@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.os.PowerManager;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
@@ -515,7 +516,7 @@ public class SlideOverService extends Service {
     public void setParams(Bitmap halo, int height, int width) {
         messageWindowParams = new WindowManager.LayoutParams(
                 width - 100,  // 50 pixels on each side
-                toDP(160) + toDP(56),        // 160 dp tall + 53 for the reply box
+                toDP(175) + toDP(56),        // 160 dp tall + 53 for the reply box
                 50,         // 50 pixel width on the side
                 50 + toDP(63),         // 50 plus the height of the contactParams down the screen (plus 3 dp margin)
                 WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
@@ -545,7 +546,7 @@ public class SlideOverService extends Service {
                 width - 100,  // 50 pixels on each side
                 toDP(50),        // 160 dp tall
                 50,         // 50 pixel width on the side
-                50 + toDP(63) + toDP(163),         // 50 plus the height of the contactParams down the screen (plus 3 dp margin)
+                50 + toDP(63) + toDP(178),         // 50 plus the height of the contactParams down the screen (plus 3 dp margin)
                 WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                     |WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
@@ -557,7 +558,7 @@ public class SlideOverService extends Service {
                 width - 100,  // 50 pixels on each side
                 toDP(50),        // 160 dp tall
                 50,         // 50 pixel width on the side
-                50 + toDP(63) + toDP(163),         // 50 plus the height of the contactParams down the screen (plus 3 dp margin)
+                50 + toDP(63) + toDP(178),         // 50 plus the height of the contactParams down the screen (plus 3 dp margin)
                 WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
                 PixelFormat.TRANSLUCENT);
@@ -689,7 +690,7 @@ public class SlideOverService extends Service {
 
                     contactView.invalidate();
                     messageView.invalidate();
-                } else if (currentY > windowOffsetY + toDP(63) + toDP(163) && currentY < windowOffsetY + toDP(63) + toDP(163) + toDP(50) && currentX > 50 && currentX < width - 50) {// if it is in the y zone and the x zone
+                } else if (currentY > windowOffsetY + toDP(63) + toDP(178) && currentY < windowOffsetY + toDP(63) + toDP(178) + toDP(50) && currentX > 50 && currentX < width - 50) {// if it is in the y zone and the x zone
                     sendWindow.updateViewLayout(sendView, sendParamsFocused);
                     sendBox.requestFocus();
                 }
@@ -739,8 +740,8 @@ public class SlideOverService extends Service {
                     ContactView.currentContact = 5;
 
                     messageWindowParams.y = toDP(63) + windowOffsetY;
-                    sendParams.y = toDP(63) + toDP(163) + windowOffsetY;
-                    sendParamsFocused.y = toDP(63) + toDP(163) + windowOffsetY;
+                    sendParams.y = toDP(63) + toDP(178) + windowOffsetY;
+                    sendParamsFocused.y = toDP(63) + toDP(178) + windowOffsetY;
 
                     messageView.invalidate();
 
@@ -761,8 +762,8 @@ public class SlideOverService extends Service {
 
                     messageWindowParams.y = toDP(63) + windowOffsetY;
 
-                    sendParams.y = toDP(63) + toDP(163) + windowOffsetY;
-                    sendParamsFocused.y = toDP(63) + toDP(163) + windowOffsetY;
+                    sendParams.y = toDP(63) + toDP(178) + windowOffsetY;
+                    sendParamsFocused.y = toDP(63) + toDP(178) + windowOffsetY;
 
                     try { messageWindow.removeView(messageView);
                         sendWindow.removeView(sendView); } catch (Exception e) { }
@@ -774,8 +775,8 @@ public class SlideOverService extends Service {
                     messageView.invalidate();
 
                     messageWindowParams.y = toDP(63) + windowOffsetY;
-                    sendParams.y = toDP(63) + toDP(163) + windowOffsetY;
-                    sendParamsFocused.y = toDP(63) + toDP(163) + windowOffsetY;
+                    sendParams.y = toDP(63) + toDP(178) + windowOffsetY;
+                    sendParamsFocused.y = toDP(63) + toDP(178) + windowOffsetY;
                     messageWindow.removeView(messageView);
                     sendWindow.removeView(sendView);
 
@@ -793,7 +794,7 @@ public class SlideOverService extends Service {
         float currentY = motionEvent.getRawY();
 
         if (motionEvent.getActionMasked() == MotionEvent.ACTION_DOWN) {
-            if (currentX > 50 && currentX < width - 50 && currentY > windowOffsetY + toDP(63) && currentY < windowOffsetY + toDP(63) + toDP(160)) {
+            if (currentX > 50 && currentX < width - 50 && currentY > windowOffsetY + toDP(63) && currentY < windowOffsetY + toDP(63) + toDP(175)) {
                 messageView.playSoundEffect(SoundEffectConstants.CLICK);
 
                 if (HAPTIC_FEEDBACK) {
@@ -1651,6 +1652,19 @@ public class SlideOverService extends Service {
     public BroadcastReceiver newMessageReceived = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+
+            if (sharedPrefs.getBoolean("slideover_enabled", false) && sharedPrefs.getBoolean("slideover_hide_notifications", false)) {
+
+                final NotificationManager mNotificationManager =
+                        (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mNotificationManager.cancel(1);
+                    }
+                }, 1000);
+            }
 
             haloView.currentImage = null;
 

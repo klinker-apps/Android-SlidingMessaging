@@ -672,24 +672,6 @@ public class TextMessageReceiver extends BroadcastReceiver {
             final NotificationManager mNotificationManager =
                     (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-            if (sharedPrefs.getBoolean("slideover_enabled", false) && sharedPrefs.getBoolean("slideover_hide_notifications", false)) {
-                mBuilder.setTicker(null);
-                mBuilder.setSmallIcon(android.R.color.transparent);
-                mBuilder.setPriority(Notification.PRIORITY_LOW);
-
-                try {
-                    Looper.prepare();
-                } catch (Exception e) {
-                }
-
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mNotificationManager.cancel(2);
-                    }
-                }, 1000);
-            }
-
             Notification notification;
 
             if (notificationType == 1 || notificationType == 2) {
