@@ -254,6 +254,7 @@ public class SlideOverSettings extends PreferenceActivity {
         if (!showAll) {
             ((PreferenceGroup) findPreference("slideover_positioning_category")).removePreference(findPreference("slideover_break_point"));
             ((PreferenceGroup) findPreference("slideover_general_category")).removePreference(findPreference("slideover_secondary_action"));
+            ((PreferenceGroup) findPreference("slideover_general_category")).removePreference(findPreference("foreground_service"));
             ((PreferenceGroup) findPreference("slideover_general_category")).removePreference(findPreference("slideover_haptic_feedback"));
             ((PreferenceGroup) findPreference("slideover_general_category")).removePreference(findPreference("slideover_hide_notifications"));
             ((PreferenceGroup) findPreference("slideover_general_category")).removePreference(findPreference("contact_picture_slideover"));

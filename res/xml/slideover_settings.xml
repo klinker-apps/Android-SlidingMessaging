@@ -38,6 +38,14 @@
             />
 
         <CheckBoxPreference
+            android:key="foreground_service"
+            android:title="@string/foreground_service"
+            android:summary="@string/foreground_service_summary"
+            android:defaultValue="false"
+            android:dependency="slideover_enabled"
+            />
+
+        <CheckBoxPreference
             android:key="contact_picture_slideover"
             android:title="@string/contact_picture_slideover"
             android:dependency="slideover_enabled"
@@ -233,14 +241,6 @@
             android:title="Bubble Size"
             android:defaultValue="40"
             android:max="100"
-            android:dependency="slideover_enabled"
-            />
-
-        <CheckBoxPreference
-            android:key="foreground_service"
-            android:title="@string/foreground_service"
-            android:summary="@string/foreground_service_summary"
-            android:defaultValue="false"
             android:dependency="slideover_enabled"
             />
 
