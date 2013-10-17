@@ -70,6 +70,8 @@ public class MainActivityPopup extends MainActivity {
 
         setContentView(R.layout.activity_main);
 
+        setTitle(getResources().getString(R.string.app_name_in_app));
+
         ColorDrawable background = new ColorDrawable();
         background.setColor(resources.getColor(android.R.color.transparent));
         getWindow().setBackgroundDrawable(background);
