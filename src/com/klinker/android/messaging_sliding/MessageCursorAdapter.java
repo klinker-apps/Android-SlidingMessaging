@@ -1585,51 +1585,55 @@ public class MessageCursorAdapter extends CursorAdapter {
         }
 
         if (MainActivity.settings.smilies.equals("with")) {
-            Matcher matcher = EmojiUtil.emojiPattern.matcher(body);
+            try {
+                Matcher matcher = EmojiUtil.emojiPattern.matcher(body);
 
-            if (matcher.find()) {
-                textView.setText(body);
+                if (matcher.find()) {
+                    textView.setText(body);
 
-                new Thread(new Runnable() {
+                    new Thread(new Runnable() {
 
-                    @Override
-                    public void run() {
-                        final Spannable text;
+                        @Override
+                        public void run() {
+                            final Spannable text;
 
-                        if (MainActivity.settings.emojiType) {
-                            if (MainActivity.settings.smiliesType) {
-                                text = EmojiConverter2.getSmiledText(context, EmoticonConverter2New.getSmiledText(context, body));
+                            if (MainActivity.settings.emojiType) {
+                                if (MainActivity.settings.smiliesType) {
+                                    text = EmojiConverter2.getSmiledText(context, EmoticonConverter2New.getSmiledText(context, body));
+                                } else {
+                                    text = EmojiConverter2.getSmiledText(context, EmoticonConverter2.getSmiledText(context, body));
+                                }
                             } else {
-                                text = EmojiConverter2.getSmiledText(context, EmoticonConverter2.getSmiledText(context, body));
+                                if (MainActivity.settings.smiliesType) {
+                                    text = EmojiConverter.getSmiledText(context, EmoticonConverter2New.getSmiledText(context, body));
+                                } else {
+                                    text = EmojiConverter.getSmiledText(context, EmoticonConverter2.getSmiledText(context, body));
+                                }
                             }
-                        } else {
-                            if (MainActivity.settings.smiliesType) {
-                                text = EmojiConverter.getSmiledText(context, EmoticonConverter2New.getSmiledText(context, body));
-                            } else {
-                                text = EmojiConverter.getSmiledText(context, EmoticonConverter2.getSmiledText(context, body));
-                            }
+
+                            context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                                @Override
+                                public void run() {
+                                    textView.setText(text);
+                                    linkifyText(textView);
+                                }
+
+                            });
                         }
 
-                        context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                textView.setText(text);
-                                linkifyText(textView);
-                            }
-
-                        });
+                    }).start();
+                } else {
+                    if (MainActivity.settings.smiliesType) {
+                        textView.setText(EmoticonConverter2New.getSmiledText(context, body));
+                    } else {
+                        textView.setText(EmoticonConverter2.getSmiledText(context, body));
                     }
 
-                }).start();
-            } else {
-                if (MainActivity.settings.smiliesType) {
-                    textView.setText(EmoticonConverter2New.getSmiledText(context, body));
-                } else {
-                    textView.setText(EmoticonConverter2.getSmiledText(context, body));
+                    linkifyText(textView);
                 }
-
-                linkifyText(textView);
+            } catch (Exception e) {
+                // problem getting an emoji FIXME
             }
         } else if (MainActivity.settings.smilies.equals("without")) {
             Matcher matcher = EmojiUtil.emojiPattern.matcher(body);
