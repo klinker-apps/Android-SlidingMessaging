@@ -1884,19 +1884,23 @@ public class SlideOverService extends Service {
     };
 
     public static void restartHalo(final Context context) {
-        Intent service = new Intent();
-        service.setAction("com.klinker.android.messaging.STOP_HALO");
-        context.sendBroadcast(service);
+        try {
+            Intent service = new Intent();
+            service.setAction("com.klinker.android.messaging.STOP_HALO");
+            context.sendBroadcast(service);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("slideover_enabled", false)) {
-                    Intent service = new Intent(context, com.klinker.android.messaging_sliding.slide_over.SlideOverService.class);
-                    context.startService(service);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("slideover_enabled", false)) {
+                        Intent service = new Intent(context, com.klinker.android.messaging_sliding.slide_over.SlideOverService.class);
+                        context.startService(service);
+                    }
                 }
-            }
-        }, 500);
+            }, 500);
+        } catch (Exception e) {
+            // problem restarting service?
+        }
     }
 
     class GestureListener extends GestureDetector.SimpleOnGestureListener {
