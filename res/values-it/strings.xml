@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="app_name">Sliding Messaging</string>
+	
+	<string name="app_name">Sliding Messaging</string>
 	<string name="app_name_in_app">Messaging</string>
     <string name="menu_settings">Impostazioni</string>
     <string name="send_button">Invia</string>
@@ -78,8 +78,8 @@
 	<string name="menu_call">Chiama Contatto</string>
 	<string name="keyboard_type">Pulsante Smile</string>
 	<string name="keyboard_type_summary">Inserisci uno smile con il tasto a capo</string>
-	<string name="override_lang">Sovrascrivi il Linguaggio di Sistema</string>
-	<string name="override_lang_summary">Imposta la lingua Inglese</string>
+	<string name="override_lang">Linguaggio di Sistema</string>
+	<string name="override_lang_summary">Imposta la lingua inglese</string>
 	<string name="save_image">Immagine Salvata</string>
 	<string name="wake_screen">Accendi il Display</string>
 	<string name="wake_screen_summary">Accendi il display quando arriva una nuova notifica</string>
@@ -210,7 +210,7 @@
     <string name="toast_theme_set">Tema Applicato</string>
     <string name="toast_theme_saved">Tema Salvato</string>
     <string name="cannot_delete">Impossibile eliminare i temi predefiniti</string>
-    <string name="popup_help1">Ottieni l\'app necessaria qui:</string>
+	<string name="popup_help1">Ottieni l\'app necessaria qui:</string>
     <string name="popup_link"><a href="market://details?id=com.klinker.android.messaging_theme">Play Store</a></string>
     <string name="popup_help2">- Hai 2 opzioni:</string>
     <string name="popup_help3">1) Seleziona un tema predefinito (puoi modificarlo andando in Menù -> Modifica Tema)</string>
@@ -423,6 +423,30 @@
     <string name="notes">Note</string>
     <string name="unlock">Sblocca</string>
     <string name="close">Chiudi</string>
+	<string name="dialog_color_picker">Scelta Colore</string>
+    <string name="press_color_to_apply">Premi sul colore per applicare</string>
+    <string name="holo_preset">Predefiniti Holo:</string>
+    <string name="hex_value">Esadecimale: #</string>
+    <string name="pref_category">Categoria</string>
+    <string name="alp_cmd_confirm">Conferma</string>
+    <string name="alp_cmd_continue">Continua</string>
+    <string name="alp_cmd_retry">Riprova</string>
+	<string name="alp_lockscreen_access_pattern_cell_added">Cella aggiunta</string>
+    <string name="alp_lockscreen_access_pattern_cleared">Sequenza ripristinata</string>
+    <string name="alp_lockscreen_access_pattern_detected">Sequenza completata</string>
+    <string name="alp_lockscreen_access_pattern_start">Inizio sequenza</string>
+    <string name="alp_msg_connect_4dots">Collega almeno 4 punti. Riprova:</string>
+    <string name="alp_msg_draw_an_unlock_pattern">Inserisci una sequenza di sblocco:</string>
+    <string name="alp_msg_draw_pattern_to_unlock">Inserisci sequenza per sbloccare:</string>
+    <string name="alp_msg_pattern_recorded">Sequenza registrata.</string>
+    <string name="alp_msg_redraw_pattern_to_confirm">Inserisci di nuovo la sequenza per confermare:</string>
+    <string name="alp_msg_release_finger_when_done">Allontana il dito al termine</string>
+    <string name="alp_msg_try_again">Riprova:</string>
+    <string name="alp_msg_your_new_unlock_pattern">La tua nuova sequenza di sblocco:</string>
+    <string name="alp_pmsg_connect_x_dots">Collega almeno %1$d punti. Riprova:</string>
+	<string name="pull_to_refresh_pull_label">Scorri verso il basso per aggiornare</string>
+    <string name="pull_to_refresh_release_label">Rilascia per aggiornare</string>
+    <string name="pull_to_refresh_refreshing_label">Caricamento in corso…</string>
     <string name="passwordTitle">Inserisci Password:</string>
     <string name="popup_theme">Personalizza Tema Popup</string>
     <string name="popup_theme_summary">Applicabile solo al nuovo popup</string>
@@ -437,8 +461,8 @@
     <string name="cp_draftTextColor">Colore Testo Digitato</string>
     <string name="cp_buttonColor">Colore Pulsanti</string>
     <string name="cp_emojiButtonColor">Colore Pulsante Emoji</string>
-    <string name="security_settings">Impostazioni di Sicurezza</string>
-    <string name="security">Protezione con Password</string>
+    <string name="security_settings">Impostazioni Sicurezza</string>
+    <string name="security">Tipo di Protezione</string>
     <string name="security_summary">Seleziona per abilitare sicurezza all\'avvio.</string>
     <string name="timeout_settings">Tempo Concesso</string>
     <string name="timeout_settings_summary">Tempo concesso per inserire la password</string>
@@ -520,30 +544,30 @@
     <string name="reply_to">Rispondi a</string>
     <string name="slide_over">SlideOver</string>
     <string name="enable_slideover">Abilita SlideOver</string>
-    <string name="enable_slideover_summary">Crea una bolla in stile ChatHeads che ti permette di accedere rapidamente all\'app mentre esegui altre app</string>
+    <string name="enable_slideover_summary">Crea una bolla in stile ChatHeads che ti permette di accedere rapidamente a Sliding Messaging mentre esegui altre app</string>
     <string name="slideover_side">Posizionamento Orizzontale</string>
     <string name="slideover_side_summary">Muovi SlideOver a destra o sinistra</string>
     <string name="slideover_alignment">Posizionamento Verticale</string>
     <string name="slideover_alignment_summary">Muovi SlideOver sull\'asse verticale</string>
     <string name="slideover_sliver">Visibilità</string>
-    <string name="slideover_sliver_summary">Scegli quanto dev\'essere visibile SlideOver sullo schermo</string>
-    <string name="slideover_activation">Distanza d\'attivazione</string>
+    <string name="slideover_sliver_summary">Scegli la percentuale di SlideOver che deve spuntare dal lato dello schermo</string>
+    <string name="slideover_activation">Dimensione Arco</string>
     <string name="slideover_activation_summary">Distanza da percorrere con il dito prima di attivare SlideOver</string>
-    <string name="slideover_break_point">Dimensione Arco</string>
-    <string name="slideover_break_point_summary">Dimensione dell\'arco con linea continua (azione primaria)</string>
+    <string name="slideover_break_point">Dimensione Linea Continua</string>
+    <string name="slideover_break_point_summary">Dimensione della linea continua dell\'arco (azione primaria)</string>
 	<string name="under_development">Nota Bene:</string>
     <string name="under_development_summary">SlideOver è ancora in fase di sviluppo. Non inviare richieste o suggerimenti.</string>
     <string name="slideover_secondary_action">Azione Secondaria</string>
     <string name="slideover_secondary_action_summary">Scegli l\'azione da eseguire all\'attivazione della parte tratteggiata dell\'arco</string>
     <string name="slideover_haptic_feedback">Abilita Vibrazione</string>
-    <string name="full_app_popup_close">Chiudi Automaticamente SlideOver</string>
-    <string name="full_app_popup_close_summary">Chiudi dopo aver risposto ad un messaggio</string>
-	<string name="slideover_popup_settings">Impostazioni Popup SlideOver</string>
+    <string name="full_app_popup_close">Chiudi SlideOver Dopo Invio</string>
+    <string name="full_app_popup_close_summary">Chiudi la finestra di SlideOver dopo aver risposto ad un messaggio</string>
     <string name="slideover_padding">Dimensioni Popup SlideOver</string>
-    <string name="slideover_padding_summary">Dimensioni della finestra SlideOver (in percentuale). Utile quando la tastiera non è visualizzata propriamente, o se non vuoi che occupi troppo spazio sul tuo schermo</string>
+    <string name="slideover_padding_summary">Imposta altezza della finestra SlideOver. Utile quando la tastiera non è visualizzata propriamente, o se non vuoi che occupi troppo spazio sul tuo schermo.\n(valore predefinito 50%)</string>
+	<string name="slideover_width_padding_summary">Imposta larghezza della finestra SlideOver. Più grande è la percentuale, maggiore è lo spazio ai lati. (valore predefinito 10%)</string>
     <string name="slideover_popup_lockscreen_only">SlideOver dopo Sblocco</string>
     <string name="slideover_popup_lockscreen_only_summary">Mostra SlideOver solo dopo aver sbloccato il dispositivo</string>
-    <string name="slideover_animation_speed">Velocità d\'animazione</string>
+    <string name="slideover_animation_speed">Velocità Animazione</string>
     <string name="show_advanced_settings">Mostra Tutte le Impostazioni</string>
     <string name="show_advanced_settings_summary">Abilita tutte le impostazioni nascoste</string>
     <string name="slideover_close">CHIUDI</string>
@@ -575,6 +599,10 @@
         Bisogna rinunciare ad un po\' di personalizzazioni ma funzionerà tutto perfettamente. Ho solo eliminato alcuni extra, opzioni non necessarie.
         Questa opzione è compromettente, lo so, ma se non vuoi applicare la prima opzione dovresti provare.\n\n
 		
+		3) Disattiva le opzioni riguardanti la barra delle attività.\n\n
+
+		Lo so che sono utili e rapide ma in realtà creano più problemi di quanto sembri. Google dovrebbe modificare parecchie cose per fare in modo che le cose cambino perché l\'uso di così tante risorse insieme causa vari rallentamenti.
+		Queste opzioni si trovano in Impostazioni Tema ->  Impostazioni Barra del Titolo, le ultime due della categoria. Disattivale e assapora il potere.\n\n
 
         Onestamente non voglio più sentire parlare di rallentamenti, vi abbiamo dato gli strumenti per fare in modo che non avvengano.
 		Se hai scelto di non usarli, così sia, ma sono lì e servono a quello scopo :)
@@ -709,9 +737,9 @@
     <string name="close_halo_after_send_summary">Chiudi automaticamente Halo dopo l\'invio di un messaggio, non incide sul suo normale funzionamento</string>
     <string name="slideover_color">Colore Bolla Normale</string>
     <string name="slideover_unread_color">Colore Bolla con Notifica</string>
-    <string name="positioning">Posizionamento SlideOver</string>
-    <string name="slideover_theme_settings">Aspetto SlideOver</string>
-    <string name="slideover_popup_settings">Popup SlideOver</string>
+    <string name="positioning">Impostazioni Bolla SlideOver</string>
+    <string name="slideover_theme_settings">Aspetto Bolla SlideOver</string>
+    <string name="slideover_popup_settings">Impostazioni Popup SlideOver</string>
     <string name="look_style_category">Impostazioni Aspetto e Stile</string>
     <string name="smilies_category">Impostazioni Smile</string>
     <string name="emoji_category">Impostazioni Emojis</string>
@@ -751,8 +779,8 @@
 												 2) Il servizio di accessibilità non può cancellare le notifiche Google Voice (a causa di una limitazione di Android), ma se le elimini tramite l\'app Google Voice allora non verranno
 												 mostrate più neanche in Sliding Messaging. Se utilizzi questa opzione attiva le notifiche Google Voice ma se non possiedi Android 4.3 riceverai notifiche doppie\n\n
 												 3) L\'opzione \"Aggiorna ad Intervalli\" è ancora in fase di sviluppo e, se non funziona ancora, attendi i prossimi aggiornamenti.</string>
-    <string name="drawer_open"> Impostazioni Principali</string>
-    <string name="drawer_close"> Impostazioni</string>
+    <string name="drawer_open">Impostazioni Principali</string>
+    <string name="drawer_close">Impostazioni</string>
     <string name="swipe_read">Swipe per Segnare come Letti</string>
     <string name="swipe_read_summary">SOLO Android 4.3. Per favore leggi i \"Suggerimenti dello Sviluppatore\" su come utilizzare questa funzione.</string>
     <string name="refresh_voice_messages">Aggiorna Google Voice</string>
@@ -780,5 +808,67 @@
 	<string name="use_device_font">Utilizza Font di Sistema</string>
     <string name="slideover_only_unread">Finestra Rapida: Solo Non Letti</string>
     <string name="slideover_only_unread_summary">Mostra solo messaggi non letti nella finestra di SlideOver.</string>
+	    <string name="slideover_disable_drag">Disattiva Pressione a Lungo</string>
+    <string name="slideover_disable_drag_summary">Attenzione: Non potrai spostare la bolla sullo schermo</string>
+    <string name="slideover_disable_sliver">Disattiva Doppia Pressione</string>
+    <string name="quick_peek_category">Impostazioni Quick Peek</string>
+    <string name="quick_peek_transparency">Opacità Finestra Messaggi</string>
+    <string name="quick_peek_contact_num">Numero di Contatti</string>
+    <string name="quick_peek_contact_num_summary">Aggiusta questa opzione se il numero dei contatti nella finestra non si adatta allo schermo</string>
+    <string name="slideover_tutorial">Guida SlideOver</string>
+    <string name="slideover_tutorial_summary">Clicca qui per una lista completa delle funzionalità di SlideOver e Quick Peek</string>
+    <string name="message_subject">Oggetto</string>
+    <string name="insert_subject">Aggiungi Oggetto</string>
+    <string name="converting_mms">Convertendo in MMS…</string>
+    <string name="bold_conversations">Nomi in Grassetto</string>
+    <string name="enable_quick_peek">Abilita Quick Peek</string>
+    <string name="enable_quick_peek_summary">Un singolo tocco sulla bolla SlideOver attiverà la finestra Quick Peek con le conversazioni recenti</string>
+    <string name="conversation_list_images">Visualizza Anteprima Immagini MMS</string>
+    <string name="stack_notifications">Impila Messaggi</string>
+    <string name="stack_notifications_summary">Se disattivato mostrerà solo l\'ultimo messaggio ricevuto nelle notifiche, altrimenti tutti i messaggi non letti uno dopo l\'altro</string>
+    <string name="quick_peek_send_voice">Google Voice Predefinito</string>
+    <string name="quick_peek_send_voice_summary">Invia messaggi tramite Google Voice se possibile. Devi selezionare prima un account Google Voice</string>
+    <string name="cannot_get_details">Impossibile trovare dettagli</string>
+    <string name="message_type_label">"Tipo: "</string>
+    <string name="multimedia_notification">Notifica Messaggio Multimediale</string>
+    <string name="from_label">"Da: "</string>
+    <string name="hidden_sender_address">Mittente sconosciuto</string>
+    <string name="expire_on">Scadenza: %s</string>
+    <string name="subject_label">"Oggetto: "</string>
+    <string name="message_class_label">"Classe: "</string>
+    <string name="message_size_label">"Dimensione: "</string>
+    <string name="kilobyte">KB</string>
+    <string name="multimedia_message">Messaggio Multimediale</string>
+    <string name="to_address_label">"A: "</string>
+    <string name="sent_label">"Inviato: "</string>
+    <string name="received_label">"Ricevuto: "</string>
+    <string name="saved_label">"Salvato: "</string>
+    <string name="priority_label">"Priorità: "</string>
+    <string name="text_message">Messaggio di Testo</string>
+    <string name="delivered_label">"Spedito: "</string>
+    <string name="error_code_label">"Codice Errore: "</string>
+    <string name="priority_high">Alta</string>
+    <string name="priority_normal">Normale</string>
+    <string name="priority_low">Bassa</string>
+	<string name="giffgaff_delivery">Avvisi di Consegna giffgaff</string>
+    <string name="giffgaff_delivery_summary">Anteponi la stringa \"*0#\" all\'inizio di ogni messaggio inviato per assicurarti che gli avvisi di consegna funzionino correttamente</string>
+    <string name="contact_picture_slideover">Mostra Immagini Contatto per i Nuovi Messaggi</string>
+    <string name="slideover_new_sliver">Visibilità Nuovo Messaggio</string>
+    <string name="slideover_return_timeout">Auto-Ripristina Visibilità</string>
+    <string name="reset_sliver_timeout_summary">Ripristina la bolla alla sua visibilità originale dopo il seguente lasso di tempo e dopo che la bolla si è attivata all\'arrivo di un nuovo messaggio</string>
+    <string name="slideover_return_timeout_length">Durata (in secondi):</string>
+    <string name="ping_on_unlock">Attiva Bolla allo Sblocco</string>
+    <string name="ping_on_unlock_summary">Imposta la bolla SlideOver alla \"visibilità nuovo messaggio\" quando sblocchi il dispositivo se è arrivato un nuovo messaggio</string>
+    <string name="animate_text_on_ping">Anima Testo allo Sblocco</string>
+    <string name="close_quick_peek_on_send">Chiudi Quick Peek Dopo Invio</string>
+    <string name="never_again">Non Mostrare Più</string>
+    <string name="show_all_disclaimer">Non riesci a trovare ciò che cerchi?\n\n
 	
+	Sliding Messaging possiede un sacco di funzionalità e potrebbero sembrare ridondanti all\'inizio, quindi abbiamo nascosto le più avanzate per non creare confusione.\n\n
+	
+	Se vuoi attivarle tutte vai in \"Impostazioni Avanzate\" e attiva l\'opzione \"Mostra Tutte le Impostazioni\"!</string>
+    <string name="quick_peek_text_markers">Abilita Evidenziatori Testo</string>
+    <string name="foreground_service">Esegui in Primo Piano</string>
+    <string name="foreground_service_summary">Usa questa opzione se la bolla SlideOver scompare dallo schermo autonomamente, avviene perché il sistema disattiva il servizio che serve a farla funzionare. Questa opzione risolverà il problema creando una notifica persistente nella barra di stato.</string>
+
 </resources>
