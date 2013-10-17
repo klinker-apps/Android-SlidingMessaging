@@ -35,6 +35,7 @@
         <item name="android:windowActionModeOverlay">true</item>
         <item name="android:windowCloseOnTouchOutside">false</item>
         <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
 
         <item name="android:colorBackgroundCacheHint">@null</item>
     </style>
@@ -56,6 +57,7 @@
         <item name="android:backgroundDimEnabled">false</item>
 
         <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
     </style>
 
     <style name="DialogTheme" parent="@android:Theme.Holo.Light.DarkActionBar">

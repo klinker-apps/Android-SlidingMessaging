@@ -540,9 +540,9 @@
     <string name="full_app_popup_close_summary">Closes the popup after you have replied to a message</string>
     <string name="slideover_popup_settings">SlideOver Popup Settings</string>
     <string name="slideover_padding">SlideOver Size</string>
-    <string name="slideover_padding_summary">Adjusts the height of the SlideOver popup on screen. Useful if when keyboard is showing your messages get cut off due to lack of space, or if you don\'t want it to take up too much of your screen</string>
-    <string name="slideover_width_padding_summary">Adjust the padding of the width of the SlideOver popup on screen. Larger percents means more space on either side. (Default is 10%)</string>
-    <string name="slideover_popup_lockscreen_only">SlideOver Popup after Lockscreen Only</string>
+    <string name="slideover_padding_summary">Adjusts the height of the SlideOver popup on screen.</string>
+    <string name="slideover_width_padding_summary">Adjust the width of the SlideOver popup on screen.</string>
+    <string name="slideover_popup_lockscreen_only">SlideOver Popup after lockscreen Only</string>
     <string name="slideover_popup_lockscreen_only_summary">Only show the popup when you have unlocked the device and there is a new message, otherwise let the SlideOver bubble handle new messages</string>
     <string name="slideover_animation_speed">Animation Speed</string>
     <string name="show_advanced_settings">Show All Settings</string>

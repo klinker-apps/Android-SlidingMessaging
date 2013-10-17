@@ -107,7 +107,7 @@ public class MainActivity extends FragmentActivity {
     private static final int SETTINGS_RESULT = 51324;
 
     protected static Context context;
-    private ActionBar ab;
+    public ActionBar ab;
     protected Resources resources;
 
     public static DrawerLayout mDrawerLayout;
@@ -2966,6 +2966,10 @@ public class MainActivity extends FragmentActivity {
                     }
                 }
             }
+
+            if (isPopup) {
+                menu.getItem(MENU_ATTACH).setVisible(false);
+            }
         } catch (Exception e) {
         }
 
@@ -5007,7 +5011,7 @@ public class MainActivity extends FragmentActivity {
             try {
                 String text = "No Messages";
 
-                if (!settings.useTitleBar && !isPopup) {
+                if (!settings.useTitleBar) {
                     return "";
                 }
 

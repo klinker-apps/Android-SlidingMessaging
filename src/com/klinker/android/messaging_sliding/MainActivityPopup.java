@@ -60,8 +60,7 @@ public class MainActivityPopup extends MainActivity {
             unlockDevice = true;
         }
 
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        requestWindowFeature(Window.FEATURE_ACTION_BAR);
 
         if (settings.lightActionBar) {
             setTheme(R.style.HangoutsThemeDialog);
@@ -71,31 +70,16 @@ public class MainActivityPopup extends MainActivity {
 
         setContentView(R.layout.activity_main);
 
-        final Button fullApp = (Button) findViewById(R.id.launch_app);
-
-        if (sharedPrefs.getBoolean("show_full_app_button", false)) {
-
-            fullApp.setTextColor(settings.emojiButtonColor);
-            fullApp.setTextSize(Integer.parseInt(settings.textSize));
-            fullApp.setVisibility(View.VISIBLE);
-
-            fullApp.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent app = new Intent(getBaseContext(), MainActivity.class);
-                    startActivity(app);
-                    overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
-                }
-            });
-        }
-
-        setTitle(null);
-
         ColorDrawable background = new ColorDrawable();
         background.setColor(resources.getColor(android.R.color.transparent));
         getWindow().setBackgroundDrawable(background);
 
         setUpBounds();
+
+        ab = getActionBar();
+
+        ab.setDisplayUseLogoEnabled(false);
+        ab.setDisplayShowHomeEnabled(false);
     }
 
     @Override
@@ -111,49 +95,53 @@ public class MainActivityPopup extends MainActivity {
     public void setUpTitleBar() {
         title = (PagerTitleStrip) findViewById(R.id.pager_title_strip);
 
-        if (sharedPrefs.getString("page_or_menu2", "2").equals("1")) {
+        if (settings.pageorMenu2) {
             title.setTextSpacing(5000);
         }
 
         if (!settings.customTheme) {
-            if (sharedPrefs.getBoolean("title_text_color", false)) {
+            if (settings.titleTextColor) {
                 title.setTextColor(resources.getColor(R.color.black));
             }
         } else {
-            title.setTextColor(sharedPrefs.getInt("ct_titleBarTextColor", resources.getColor(R.color.white)));
+            title.setTextColor(settings.titleBarTextColor);
         }
 
-        if (!sharedPrefs.getBoolean("title_caps", true)) {
+        if (!settings.titleCaps) {
             title.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
         }
 
-        if (!settings.customTheme) {
-            String titleColor = sharedPrefs.getString("title_color", "blue");
+        if (settings.useTitleBar) {
+            if (!settings.customTheme) {
+                String titleColor = sharedPrefs.getString("title_color", "blue");
 
-            if (titleColor.equals("blue")) {
-                title.setBackgroundColor(resources.getColor(R.color.holo_blue));
-            } else if (titleColor.equals("orange")) {
-                title.setBackgroundColor(resources.getColor(R.color.holo_orange));
-            } else if (titleColor.equals("red")) {
-                title.setBackgroundColor(resources.getColor(R.color.holo_red));
-            } else if (titleColor.equals("green")) {
-                title.setBackgroundColor(resources.getColor(R.color.holo_green));
-            } else if (titleColor.equals("purple")) {
-                title.setBackgroundColor(resources.getColor(R.color.holo_purple));
-            } else if (titleColor.equals("grey")) {
-                title.setBackgroundColor(resources.getColor(R.color.grey));
-            } else if (titleColor.equals("black")) {
-                title.setBackgroundColor(resources.getColor(R.color.pitch_black));
-            } else if (titleColor.equals("darkgrey")) {
-                title.setBackgroundColor(resources.getColor(R.color.darkgrey));
+                if (titleColor.equals("blue")) {
+                    title.setBackgroundColor(resources.getColor(R.color.holo_blue));
+                } else if (titleColor.equals("orange")) {
+                    title.setBackgroundColor(resources.getColor(R.color.holo_orange));
+                } else if (titleColor.equals("red")) {
+                    title.setBackgroundColor(resources.getColor(R.color.holo_red));
+                } else if (titleColor.equals("green")) {
+                    title.setBackgroundColor(resources.getColor(R.color.holo_green));
+                } else if (titleColor.equals("purple")) {
+                    title.setBackgroundColor(resources.getColor(R.color.holo_purple));
+                } else if (titleColor.equals("grey")) {
+                    title.setBackgroundColor(resources.getColor(R.color.grey));
+                } else if (titleColor.equals("black")) {
+                    title.setBackgroundColor(resources.getColor(R.color.pitch_black));
+                } else if (titleColor.equals("darkgrey")) {
+                    title.setBackgroundColor(resources.getColor(R.color.darkgrey));
+                }
+            } else {
+                title.setBackgroundColor(settings.titleBarColor);
             }
         } else {
-            title.setBackgroundColor(sharedPrefs.getInt("ct_titleBarColor", resources.getColor(R.color.holo_blue)));
+            title.setVisibility(View.GONE);
         }
     }
 
     public void setUpBounds() {
-        Display display = getWindowManager().getDefaultDisplay();
+        /*Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         int width = size.x;
@@ -171,6 +159,18 @@ public class MainActivityPopup extends MainActivity {
             } catch (Exception e) {
 
             }
+        }*/
+
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        int height = size.y;
+
+        if (height > width) {
+            getWindow().setLayout((width * sharedPrefs.getInt("slideover_width", 90) / 100), (height * sharedPrefs.getInt("slideover_height", 80)/100));
+        } else {
+            getWindow().setLayout((int) (width * .7), (int) (height * .8));
         }
 
     }
@@ -181,15 +181,6 @@ public class MainActivityPopup extends MainActivity {
 
         setUpBounds();
 
-        Button fullApp = (Button) findViewById(R.id.launch_app);
-
-        if (true) {//height < originalHeight) {
-            fullApp.setVisibility(View.GONE);
-        } else {
-            if (sharedPrefs.getBoolean("show_full_app_button", false)) {
-                fullApp.setVisibility(View.VISIBLE);
-            }
-        }
     }
 
     @Override

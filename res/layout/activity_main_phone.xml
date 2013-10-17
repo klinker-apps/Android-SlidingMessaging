@@ -226,13 +226,7 @@
                         android:progressDrawable="@drawable/progress_horizontal_holo_light"
                         android:layout_marginTop="-3dp"/>
 
-                <Button android:id="@+id/launch_app"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:layout_below="@+id/messageEntry"
-                    android:background="@android:color/transparent"
-                    android:text="@string/launch_full_app"
-                    android:visibility="gone"/>
+
             </RelativeLayout>
         </LinearLayout>
     </RelativeLayout>

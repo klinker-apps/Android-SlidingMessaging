@@ -59,14 +59,6 @@
             android:dependency="slideover_enabled"
             />
 
-        <CheckBoxPreference
-            android:key="show_full_app_button"
-            android:title="@string/show_full_app_button"
-            android:summary="@string/show_full_app_button_summary"
-            android:defaultValue="false"
-            android:dependency="slideover_enabled"
-            />
-
     </PreferenceCategory>
 
     <PreferenceCategory android:key="slideover_quick_peek"
@@ -286,18 +278,18 @@
             />
 
         <com.klinker.android.messaging_sliding.views.SeekBarPreference3
-            android:key="slideover_padding"
+            android:key="slideover_height"
             android:title="@string/slideover_padding"
             android:summary="@string/slideover_padding_summary"
-            android:defaultValue="50"
+            android:defaultValue="80"
             android:max="100"
             />
 
         <com.klinker.android.messaging_sliding.views.SeekBarPreference3
-            android:key="slideover_width_padding"
+            android:key="slideover_width"
             android:title="@string/slideover_padding"
             android:summary="@string/slideover_width_padding_summary"
-            android:defaultValue="10"
+            android:defaultValue="90"
             android:max="100"
             />
 
