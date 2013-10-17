@@ -1,6 +1,8 @@
 package com.klinker.android.messaging_sliding.emoji_pager;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -37,6 +39,12 @@ public class KeyboardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         final GridView emojiGrid = new GridView(getActivity());
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+        if (sharedPrefs.getBoolean("dark_emoji_keyboard", false)) {
+            emojiGrid.setBackgroundColor(getResources().getColor(android.R.color.black));
+        }
 
         emojiGrid.setColumnWidth((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, getResources().getDisplayMetrics()));
         emojiGrid.setNumColumns(GridView.AUTO_FIT);

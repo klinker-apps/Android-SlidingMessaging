@@ -97,6 +97,13 @@
             android:defaultValue="true"
             android:dependency="emoji_type"
             />
+
+        <CheckBoxPreference
+            android:key="dark_emoji_keyboard"
+            android:title="@string/dark_emoji_keyboard"
+            android:defaultValue="false"
+            android:dependency="emoji_keyboard"
+            />
     </PreferenceCategory>
 
 </PreferenceScreen>
