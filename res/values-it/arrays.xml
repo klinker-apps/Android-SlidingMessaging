@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
     
     <string-array name="titleColors">
@@ -43,7 +43,7 @@
     </string-array>
     
     <string-array name="messageOptions3">
-        <item>Invia Di Nuovo</item>
+        <item>Reinvia</item>
         <item>Copia Testo</item>
         <item>Inoltra Messaggio</item>
         <item>Elimina Messaggio</item>
@@ -51,7 +51,7 @@
     </string-array>
 
     <string-array name="messageOptions3Unlock">
-        <item>Invia Di Nuovo</item>
+        <item>Reinvia</item>
         <item>Copia Testo</item>
         <item>Inoltra Messaggio</item>
         <item>Elimina Messaggio</item>
@@ -204,7 +204,7 @@
     </string-array>
 
     <string-array name="security_type">
-        <item>Nessuna Sicurezza</item>
+        <item>Nessuna Protezione</item>
         <item>PIN</item>
         <item>Pattern</item>
         <item>Password</item>
@@ -239,7 +239,7 @@
     <string-array name="slideover_secondary_action">
         <item>Apri Lista Conversazioni</item>
         <item>Componi Nuovo Messaggio</item>
-        <item>Segna Tutti i Messaggi come Letti</item>
+        <item>Segna i Messaggi come Letti</item>
     </string-array>
 
     <string-array name="drawer_spinner_array">
