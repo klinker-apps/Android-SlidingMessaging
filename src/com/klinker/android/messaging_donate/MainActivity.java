@@ -3859,8 +3859,12 @@ public class MainActivity extends FragmentActivity {
                     CharSequence text = "Incorrect Pattern!";
                     int duration = Toast.LENGTH_SHORT;
 
-                    Toast toast = Toast.makeText(context, text, duration);
-                    toast.show();
+                    try {
+                        Toast toast = Toast.makeText(context, text, duration);
+                        toast.show();
+                    } catch (Exception e) {
+                        // it doesn't seem to want to show the toast, must have something to do with the context. NPE
+                    }
 
                     finish();
 

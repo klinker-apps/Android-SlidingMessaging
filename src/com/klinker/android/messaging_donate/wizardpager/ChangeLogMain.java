@@ -175,10 +175,51 @@ public class ChangeLogMain extends FragmentActivity implements
             }
         });
 
+        mPrevButton.setText(getResources().getString(R.string.skip_log));
+        mPrevButton.setBackgroundColor(getResources().getColor(R.color.review_green));
+        mPrevButton.setTextColor(getResources().getColor(R.color.white));
+        
         mPrevButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mPager.setCurrentItem(mPager.getCurrentItem() - 1);
+                SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+                String version = "";
+
+                try {
+                    version = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
+                } catch (PackageManager.NameNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+                SharedPreferences.Editor prefEdit = sharedPrefs.edit();
+                prefEdit.putString("current_version", version);
+
+                prefEdit.commit();
+
+                boolean flag = false;
+
+                if (fromIntent.getStringExtra("com.klinker.android.OPEN") != null) {
+                    flag = true;
+                }
+
+                final Intent intent = new Intent(context, MainActivity.class);
+                intent.setAction(fromIntent.getAction());
+                intent.setData(fromIntent.getData());
+
+                try {
+                    intent.putExtras(fromIntent.getExtras());
+                } catch (Exception e) {
+
+                }
+
+                if (flag) {
+                    intent.putExtra("com.klinker.android.OPEN", intent.getStringExtra("com.klinker.android.OPEN"));
+                }
+
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent);
+                finish();
             }
         });
 
@@ -214,7 +255,7 @@ public class ChangeLogMain extends FragmentActivity implements
             mNextButton.setEnabled(position != mPagerAdapter.getCutOffPage());
         }
 
-        mPrevButton.setVisibility(position <= 0 ? View.INVISIBLE : View.VISIBLE);
+        //mPrevButton.setVisibility(position <= 0 ? View.INVISIBLE : View.VISIBLE);
     }
 
     @Override
