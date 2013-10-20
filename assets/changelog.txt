@@ -1,13 +1,8 @@
 Sliding Messaging is now smoother and more feature packed than ever!
 
-- Conversation list UI changes and optimizations
-- Added the ability to send messages directly from Quick Peek
-- Added an option to show contact pictures on the SlideOver bubble for new messages (on by default)
-- SlideOver bubble will now go to a new sliver width to ping on unread messages, configurable from settings
-- Option to ping SlideOver bubble when the screen is turned on, if there are unread messages
-- Changed to Google's navigation drawer to compose new messages instead of right-side sliding menu
-- Changed the sizing of the SlideOver popup slightly
-- Option to adjust the width of the SlideOver popup
-- Added a disclaimer to the notification listener option for Google Voice
-- Tons of optimizations
-- Bug fixes
+- Version 7.70 changes: http://goo.gl/D27PJY
+
+- Crash fixes
+- SlideOver popup is now even more fully featured!
+- Dark emoji keyboard option
+- MMS now send as JPG instead of PNG
