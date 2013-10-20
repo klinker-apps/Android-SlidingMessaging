@@ -4141,8 +4141,10 @@ public class MainActivity extends FragmentActivity {
                         }
                     });
 
-                    if (!menu.isMenuShowing()) {
-                        messageBar.show(getString(R.string.draft_found), getString(R.string.apply_draft));
+                    if (menu != null) {
+                        if (!menu.isMenuShowing()) {
+                            messageBar.show(getString(R.string.draft_found), getString(R.string.apply_draft));
+                        }
                     }
                 }
             }
