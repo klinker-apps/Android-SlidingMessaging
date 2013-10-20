@@ -136,7 +136,7 @@ public class MMSMessageReceiver extends BroadcastReceiver {
                 context.startService(downloadMessage);
             }
 
-            if (!sharedPrefs.getBoolean("receive_with_stock", false)) {
+            if (sharedPrefs.getBoolean("receive_with_stock", false)) {
                 error = true;
             }
 
