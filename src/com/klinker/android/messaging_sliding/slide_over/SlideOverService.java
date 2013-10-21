@@ -1555,14 +1555,7 @@ public class SlideOverService extends Service {
             haloView.invalidate();
 
             try { animationWindow.removeViewImmediate(animationView); } catch (Exception e) { }
-
-            try {
-                haloWindow.removeViewImmediate(haloView);
-                haloWindow.addView(haloView, haloParams);
-            } catch (Exception e) {
-
-            }
-
+            
             numberNewConv = 0;
 
             closeNotifications();
