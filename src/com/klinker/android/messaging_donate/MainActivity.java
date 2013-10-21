@@ -514,7 +514,17 @@ public class MainActivity extends FragmentActivity {
 
             public void onDrawerClosed(View view) {
                 try {
-                    if (!settings.useTitleBar || settings.alwaysShowContactInfo || settings.titleContactImages) {
+                    if (menu.isMenuShowing()) {
+                        try {
+                            ab.setTitle(R.string.app_name_in_app);
+                            ab.setSubtitle(null);
+                            ab.setIcon(R.drawable.ic_launcher);
+
+                            ab.setDisplayHomeAsUpEnabled(false);
+                        } catch (Exception e) {
+                            // no action bar, dialog theme
+                        }
+                    } else if (!settings.useTitleBar || settings.alwaysShowContactInfo || settings.titleContactImages) {
                         if (ab != null) {
                             try {
                                 new Thread(new Runnable() {
@@ -575,7 +585,8 @@ public class MainActivity extends FragmentActivity {
                         ab.setTitle(R.string.app_name_in_app);
                     }
 
-                    ab.setDisplayHomeAsUpEnabled(true);
+                    if (!menu.isMenuShowing())
+                        ab.setDisplayHomeAsUpEnabled(true);
                 } catch (Exception e) {
                     // no action bar, dialog theme
                 }
@@ -596,18 +607,19 @@ public class MainActivity extends FragmentActivity {
             }
 
             public void onDrawerOpened(View drawerView) {
-                try {
-                    ab.setTitle(newMessage);
-                    ab.setSubtitle(null);
-                    ab.setIcon(R.drawable.ic_launcher);
-                } catch (Exception e) {
-                }
-
                 invalidateOptionsMenu();
 
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+
+                        try {
+                            ab.setTitle(newMessage);
+                            ab.setSubtitle(null);
+                            ab.setIcon(R.drawable.ic_launcher);
+                        } catch (Exception e) {
+                        }
+
                         EditText contactEntry = (EditText) newMessageView.findViewById(R.id.contactEntry);
                         contactEntry.requestFocusFromTouch();
                         InputMethodManager keyboard = (InputMethodManager)
