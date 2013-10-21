@@ -1012,19 +1012,11 @@ public class SlideOverService extends Service {
             haloView.haloNewAlpha = 0;
             haloView.haloAlpha = 255;
             haloView.invalidate();
-            try {
-                haloWindow.removeView(haloView);
-                haloWindow.addView(haloView, haloParams);
-            } catch (Exception e) {
-
-            }
 
             numberNewConv = 0;
         }
 
-        //haloWindow.updateViewLayout(haloView, haloParams);
-        haloWindow.removeView(haloView);
-        haloWindow.addView(haloView, haloParams);
+        haloWindow.updateViewLayout(haloView, haloParams);
         try { animationWindow.removeViewImmediate(animationView); } catch (Exception e) { }
         returnTimeoutHandler.removeCallbacks(returnTimeoutRunnable);
 
@@ -1036,7 +1028,6 @@ public class SlideOverService extends Service {
             haloView.haloNewAlpha = 0;
             haloView.haloAlpha = 255;
             haloView.invalidate();
-            //haloWindow.updateViewLayout(haloView, haloParams);
             haloWindow.removeView(haloView);
             haloWindow.addView(haloView, haloParams);
             try { animationWindow.removeViewImmediate(animationView); } catch (Exception e) { }
@@ -1092,15 +1083,11 @@ public class SlideOverService extends Service {
             haloView.haloNewAlpha = 0;
             haloView.haloAlpha = 255;
             haloView.invalidate();
-            haloWindow.removeView(haloView);
-            haloWindow.addView(haloView, haloParams);
             try { animationWindow.removeViewImmediate(animationView); } catch (Exception e) { }
 
             numberNewConv = 0;
         } else {
-            //haloWindow.updateViewLayout(haloView, haloParams);
-            try { haloWindow.removeView(haloView); } catch (Exception e) { }
-            haloWindow.addView(haloView, haloParams);
+            haloWindow.updateViewLayout(haloView, haloParams);
             try { animationWindow.removeViewImmediate(animationView); } catch (Exception e) { }
             returnTimeoutHandler.removeCallbacks(returnTimeoutRunnable);
         }
@@ -1621,10 +1608,13 @@ public class SlideOverService extends Service {
         public void onReceive(Context context, Intent myIntent) {
             stopService(new Intent(context, SlideOverService.class));
             haloView.invalidate();
-            try {
-                haloWindow.removeViewImmediate(haloView);
-            } catch (Exception e) {
-            }
+
+            try { haloWindow.removeViewImmediate(haloView); } catch (Exception e) { }
+            try { messageWindow.removeViewImmediate(messageView); } catch (Exception e) { }
+            try { messageWindow.removeViewImmediate(contactView); } catch (Exception e) { }
+            try { sendWindow.removeViewImmediate(sendView); } catch (Exception e) { }
+            try { animationWindow.removeViewImmediate(animationView); } catch (Exception e) { }
+
             unregisterReceiver(this);
             startService(new Intent(context, SlideOverService.class));
         }
