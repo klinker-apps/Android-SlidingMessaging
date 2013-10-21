@@ -176,7 +176,11 @@ public class ContactUtil {
                         }
                     }
                 } finally {
-                    phonesCursor.close();
+                    try {
+                        phonesCursor.close();
+                    } catch (Exception e) {
+                        // null cursor causing force close
+                    }
                 }
             } catch (IllegalArgumentException e) {
                 try {

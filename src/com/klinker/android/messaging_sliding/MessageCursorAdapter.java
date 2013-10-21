@@ -538,7 +538,12 @@ public class MessageCursorAdapter extends CursorAdapter {
                             holder.media.setImageResource(android.R.color.transparent);
                         } else if (imageUri != null) {
                             holder.media.setVisibility(View.VISIBLE);
-                            holder.media.setImageURI(Uri.parse(imageUri));
+                            try {
+                                holder.media.setImageURI(Uri.parse(imageUri));
+                            } catch (Throwable e) {
+                                // out of memory error, so hide the image until i find a real fix...
+                                holder.media.setImageResource(android.R.color.transparent);
+                            }
                             holder.media.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {

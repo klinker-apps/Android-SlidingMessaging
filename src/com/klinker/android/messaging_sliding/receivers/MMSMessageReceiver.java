@@ -136,7 +136,7 @@ public class MMSMessageReceiver extends BroadcastReceiver {
                 context.startService(downloadMessage);
             }
 
-            if (!sharedPrefs.getBoolean("receive_with_stock", false)) {
+            if (sharedPrefs.getBoolean("receive_with_stock", false)) {
                 error = true;
             }
 
@@ -200,7 +200,8 @@ public class MMSMessageReceiver extends BroadcastReceiver {
                 }, sharedPrefs.getBoolean("receive_with_stock", false) ? 1000 : 200);
             }
 
-            if (sharedPrefs.getBoolean("override", false) && !error && Build.VERSION.SDK_INT <= 18) {
+            if (Build.VERSION.SDK_INT > 18 || (sharedPrefs.getBoolean("override", false) && !error && !sharedPrefs.getBoolean("receive_with_stock", false))) {
+                Log.v("aborting_broadcast", "aborting");
                 abortBroadcast();
             } else {
                 clearAbortBroadcast();
