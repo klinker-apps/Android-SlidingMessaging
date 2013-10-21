@@ -206,12 +206,13 @@ public class SlideOverService extends Service {
         this.registerReceiver(unlock, filter);
 
         if (sharedPrefs.getBoolean("foreground_service", false)) {
-            Notification notification = new Notification(R.drawable.stat_notify_sms, "SlideOver Messaging",
+            Notification notification = new Notification(R.drawable.stat_notify_sms, getResources().getString(R.string.slideover_settings),
                     System.currentTimeMillis());
             Intent notificationIntent = new Intent(this, SlideOverSettings.class);
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
-            notification.setLatestEventInfo(this, "SlideOver Messaging",
+            notification.setLatestEventInfo(this, getResources().getString(R.string.slideover_settings),
                     "Click to open settings", pendingIntent);
+            notification.priority = Notification.PRIORITY_MIN;
             startForeground(FOREGROUND_SERVICE_ID, notification);
         }
     }

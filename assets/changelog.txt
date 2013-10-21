@@ -1,8 +1,7 @@
-Sliding Messaging is now smoother and more feature packed than ever!
-
 - Version 7.70 changes: http://goo.gl/D27PJY
 
 - Crash fixes
-- SlideOver popup is now even more fully featured!
+- SlideOver popup is now the full app, not just a subset
 - Dark emoji keyboard option
 - MMS now send as JPG instead of PNG
+- Option to finish change log after the first page

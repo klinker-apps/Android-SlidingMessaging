@@ -63,6 +63,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
             boolean voiceMessage = intent.getBooleanExtra("voice_message", false);
 
             Log.v("refresh_voice", "sms receiver " + voiceMessage);
+            Log.v("sms_notification", "just started");
 
             // gets the message details depending on voice or sms
             if (!voiceMessage) {
@@ -85,6 +86,8 @@ public class TextMessageReceiver extends BroadcastReceiver {
                 date = intent.getLongExtra("voice_date", Calendar.getInstance().getTimeInMillis()) + "";
             }
 
+            Log.v("sms_notification", "got details");
+
             // gets actual date received
             Calendar cal = Calendar.getInstance();
             dateReceived = cal.getTimeInMillis() + "";
@@ -98,6 +101,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
             fnReceiver.putExtra("address", origAddress);
             fnReceiver.putExtra("body", origBody);
             context.sendBroadcast(fnReceiver);
+            Log.v("sms_notification", "after floating notification");
 
             sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
@@ -691,9 +695,13 @@ public class TextMessageReceiver extends BroadcastReceiver {
                 notification = not.build();
             }
 
+            Log.v("sms_notification", "posted notification");
+
             Intent deleteIntent = new Intent(context, NotificationReceiver.class);
             notification.deleteIntent = PendingIntent.getBroadcast(context, 0, deleteIntent, 0);
             mNotificationManager.notify(1, notification);
+
+            Log.v("sms_notification", "posted notification");
 
             Intent updateWidget = new Intent("com.klinker.android.messaging.RECEIVED_MMS");
             context.sendBroadcast(updateWidget);

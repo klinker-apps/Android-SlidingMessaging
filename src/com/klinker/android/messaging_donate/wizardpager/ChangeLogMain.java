@@ -178,7 +178,7 @@ public class ChangeLogMain extends FragmentActivity implements
         mPrevButton.setText(getResources().getString(R.string.skip_log));
         mPrevButton.setBackgroundColor(getResources().getColor(R.color.review_green));
         mPrevButton.setTextColor(getResources().getColor(R.color.white));
-        
+
         mPrevButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
