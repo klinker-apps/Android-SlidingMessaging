@@ -1,7 +1,7 @@
 - Version 7.70 changes: http://goo.gl/D27PJY
 
 - Crash fixes
-- SlideOver popup is now the full app, not just a subset
-- Dark emoji keyboard option
-- MMS now send as JPG instead of PNG
-- Option to finish change log after the first page
+- Lots of small bug fixes
+- Reduction of SlideOver redraws
+- Removed icon from status bar for foreground SlideOver
+- Recalculated new message drawer widths
