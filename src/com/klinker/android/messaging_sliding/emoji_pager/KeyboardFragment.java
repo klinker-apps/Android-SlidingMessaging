@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import com.klinker.android.messaging_donate.MainActivity;
+import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_sliding.emoji_pager.adapters.*;
 import com.klinker.android.messaging_sliding.emojis.EmojiAdapter2;
 
@@ -42,8 +43,10 @@ public class KeyboardFragment extends Fragment {
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-        if (sharedPrefs.getBoolean("dark_emoji_keyboard", false)) {
+        if (sharedPrefs.getString("emoji_keyboard_color", "1").equals("2")) {
             emojiGrid.setBackgroundColor(getResources().getColor(android.R.color.black));
+        } else if (sharedPrefs.getString("emoji_keyboard_color", "1").equals("3")) {
+            emojiGrid.setBackgroundColor(getResources().getColor(R.color.black));
         }
 
         emojiGrid.setColumnWidth((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, getResources().getDisplayMetrics()));

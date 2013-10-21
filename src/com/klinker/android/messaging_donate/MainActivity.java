@@ -298,8 +298,10 @@ public class MainActivity extends FragmentActivity {
             messageScreen = (LinearLayout) findViewById(R.id.messageScreen);
             messageScreen2 = (LinearLayout) findViewById(R.id.messageScreen2);
 
-            if (sharedPrefs.getBoolean("dark_emoji_keyboard", false)) {
+            if (sharedPrefs.getString("emoji_keyboard_color", "1").equals("2")) {
                 tabs.setBackgroundColor(getResources().getColor(android.R.color.black));
+            } else if (sharedPrefs.getString("emoji_keyboard_color", "1").equals("3")) {
+                tabs.setBackgroundColor(getResources().getColor(R.color.black));
             }
         }
 
