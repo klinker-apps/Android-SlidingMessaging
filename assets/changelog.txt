@@ -5,3 +5,5 @@
 - Reduction of SlideOver redraws
 - Removed icon from status bar for foreground SlideOver
 - Recalculated new message drawer widths
+- Added a gray emoji keyboard option
+- Added a dev tip about the SlideOver bubble disappearing

@@ -856,5 +856,15 @@
     <string name="foreground_service_summary">Use this option if the SlideOver Messaging bubble disappears after so long on your screen. It is because the system is killing the service used to create it. This option will get around that by putting a persistent notification on your notification tray.</string>
     <string name="emoji_keyboard_color">Emoji Keyboard Color</string>
     <string name="skip_log">Skip Changes</string>
+    <string name="slideover_disappearing_tip_title">Developer Tip #7 (SlideOver bubble disappearing):</string>
+    <string name="slideover_disappearing_tip">
+
+        So recently, some people have asked me why their SlideOver bubble disappears over time, the answer is simple: Android is trying to free up memory and resources for other apps to use since it is considered a background task. I have delayed this as long as possible, but when Android really wants to clear up that memory, I can\'t stop it from doing so.
+
+        That is why I put in the \"Foreground Service\" option in one of the later updates. What this does is create a persistent notification in your notification drawer that moves the SlideOver service, as the name suggests, to the foreground. This is like telling the android system, \"I don\'t want this task cleared for any reason.\" It tells it to try to keep SlideOver running as long as possible, until the system has to shut down almost. If you are interested, you can read about foreground services here: http://goo.gl/0fgz0D
+
+        I know that some people don\'t want the persistent notification and that it bugs them, well, to tell ya the truth, it bugs me too! If you really don\'t want to use this option and you have problems with it disappearing, I have one suggestion: restart your phone. This will clear up plenty of memory, probably at least for the next few days, so you should be safe for a while from SlideOver shutting itself down.
+
+        So I hope that you understand what this means and how it works. There aren\'t that many option to solve this problem, but both work well and both work every time.</string>
 
 </resources>

@@ -35,6 +35,7 @@ public class MainActivity extends Activity {
         MyCard tipFour = new MyCard(getResources().getString(R.string.tip_contacts_title), getResources().getString(R.string.tip_contacts));
         MyCard tipFive = new MyCard(getString(R.string.tip_notification_listener_title), getString(R.string.tip_notification_listener));
         MyCard tipSix = new MyCard(getString(R.string.voice_receiving_notes), getString(R.string.voice_receiving_notes_summary));
+        MyCard tipSeven = new MyCard(getString(R.string.slideover_disappearing_tip_title), getString(R.string.slideover_disappearing_tip));
 
         // Send them to the google+ post if it is clicked on
         tipOne.setOnClickListener(new OnClickListener() {
@@ -76,6 +77,13 @@ public class MainActivity extends Activity {
             }
         });
 
+        tipSeven.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://plus.google.com/117432358268488452276/posts/S9jWcMmHJVX")));
+            }
+        });
+
         // add 3 cards to stack
         mCardView.addCard(tipOne);
         mCardView.addCard(tipTwo);
@@ -83,6 +91,7 @@ public class MainActivity extends Activity {
         mCardView.addCard(tipFour);
         mCardView.addCard(tipFive);
         mCardView.addCard(tipSix);
+        mCardView.addCard(tipSeven);
 
         // draw cards
         mCardView.refresh();
