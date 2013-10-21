@@ -488,7 +488,7 @@ public class MainActivity extends FragmentActivity {
 
         if (menuOption.equals("1")) {
             try {
-                Field mDragger = mDrawerLayout.getClass().getDeclaredField("mRightDragger");//mRightDragger for right obviously
+                Field mDragger = mDrawerLayout.getClass().getDeclaredField("mRightDragger");
                 mDragger.setAccessible(true);
                 ViewDragHelper draggerObj = (ViewDragHelper) mDragger.get(mDrawerLayout);
 
@@ -3954,7 +3954,9 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void run() {
                 try {
-                    int drawerWidth = (int) (mViewPager.getWidth() * 3 / 4.0);
+                    Display display = getWindowManager().getDefaultDisplay();
+                    int width = display.getWidth();  // deprecated
+                    int drawerWidth = (int) (width * 3 / 4.0);
 
                     if (menu == null && getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
                         ListFragment newFragment = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.menuList);
