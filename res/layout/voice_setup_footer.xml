@@ -30,6 +30,13 @@
 
     </LinearLayout>
 
+    <TextView android:id="@+id/tutorial"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/voice_tutorial_google"
+        android:layout_marginTop="24dp"
+        style="@android:style/TextAppearance.Large" />
+
     <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

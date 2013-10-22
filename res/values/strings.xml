@@ -749,11 +749,11 @@
     <string name="finding_apns">Finding APNs…</string>
     <string name="sync_voice_messages">Manually Sync New Voice Messages</string>
     <string name="voice_receiving">Set Up Google Voice Message Receiving:</string>
-    <string name="voice_receiving_option_1">Option 1: Use a Notification Listener (Experimental)</string>
+    <string name="voice_receiving_option_1">Option 1: Use a Notification Listener</string>
     <string name="voice_receiving_option_1_summary">Syncs messages instantly when you receive them through Google Voice by listening for a notification. You must have the Google Voice app installed and notifications enabled from that app for this option to work correctly.</string>
     <string name="voice_receiving_option_2">Option 2: Refresh on Interval</string>
     <string name="voice_receiving_option_2_summary">Sets a refresh interval to intermediately go and check for new messages. Does not require the Google Voice app to be installed</string>
-    <string name="voice_receiving_tips">If you have problems, please read the \"Developer Tip\" on receiving Voice messages</string>
+    <string name="voice_receiving_tips">If you have problems, that weren\'t solved in the Google+ tutorial, please read the \"Developer Tip\" on receiving Voice messages</string>
     <string name="voice_receiving_notes">Dev Tip #6 (Google Voice Receiving): </string>
     <string name="voice_receiving_notes_summary">1) Android 4.3+ users can use the notification listener service, and users below that you need to use the accessibility service (both of which can be enabled by clicking the \"Option 1\" button).\n\n
                                                  2) The accessibility service cannot cancel Google Voice notifications (this is a limitation of the Android system), but if you turn them off through the Voice app then Sliding Messaging won\'t
@@ -860,5 +860,6 @@
        I know that some people don\'t want the persistent notification and that it bugs them, well, to tell ya the truth, it bugs me too! If you really don\'t want to use this option and you have problems with it disappearing, I have one suggestion: restart your phone. This will clear up plenty of memory, probably at least for the next few days, so you should be safe for a while from SlideOver shutting itself down.\n\n
 
        So I hope that you understand what this means and how it works. There aren\'t that many option to solve this problem, but both work well and both work every time.</string>
+    <string name="voice_tutorial_google">Receiving with Google Voice (Google+ Tutorial)</string>
 
 </resources>

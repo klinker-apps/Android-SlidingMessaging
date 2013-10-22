@@ -10,6 +10,7 @@ import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -93,6 +94,14 @@ public class GoogleVoiceFragment extends Fragment {
                 lv.clearChoices();
                 lv.requestLayout();
                 getToken(account, position);
+            }
+        });
+
+        TextView tutorial = (TextView) layoutFooter.findViewById(R.id.tutorial);
+        tutorial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://plus.google.com/117432358268488452276/posts/JAiCnYL7f9r")));
             }
         });
 
