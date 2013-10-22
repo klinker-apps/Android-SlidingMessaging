@@ -2832,8 +2832,12 @@ public class MainActivity extends FragmentActivity {
                                                     }
                                                 });
 
-                                                if (!menu.isMenuShowing()) {
-                                                    messageBar.show(getString(R.string.draft_found), getString(R.string.apply_draft));
+                                                try {
+                                                    if (!menu.isMenuShowing()) {
+                                                        messageBar.show(getString(R.string.draft_found), getString(R.string.apply_draft));
+                                                    }
+                                                } catch (Exception e) {
+                                                    
                                                 }
                                             }
                                         }
@@ -3888,7 +3892,7 @@ public class MainActivity extends FragmentActivity {
             try {
                 mSectionsPagerAdapter.notifyDataSetChanged();
             } catch (Exception e) {
-                
+
             }
             recreate();
         }
