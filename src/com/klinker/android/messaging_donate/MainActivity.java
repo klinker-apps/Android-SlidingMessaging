@@ -3885,7 +3885,11 @@ public class MainActivity extends FragmentActivity {
                     break;
             }
         } else if (requestCode == SETTINGS_RESULT) {
-            mSectionsPagerAdapter.notifyDataSetChanged();
+            try {
+                mSectionsPagerAdapter.notifyDataSetChanged();
+            } catch (Exception e) {
+                
+            }
             recreate();
         }
 
@@ -5261,6 +5265,6 @@ public class MainActivity extends FragmentActivity {
             ((Activity) context).finish();
         }
     };
-    private BroadcastReceiver mmsProgressReceiver;
 
+    private BroadcastReceiver mmsProgressReceiver;
 }
