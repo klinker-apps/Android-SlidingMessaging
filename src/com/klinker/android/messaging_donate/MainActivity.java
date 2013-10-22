@@ -2837,7 +2837,7 @@ public class MainActivity extends FragmentActivity {
                                                         messageBar.show(getString(R.string.draft_found), getString(R.string.apply_draft));
                                                     }
                                                 } catch (Exception e) {
-                                                    
+
                                                 }
                                             }
                                         }

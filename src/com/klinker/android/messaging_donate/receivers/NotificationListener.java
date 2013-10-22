@@ -2,6 +2,7 @@ package com.klinker.android.messaging_donate.receivers;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
@@ -32,5 +33,10 @@ public class NotificationListener extends NotificationListenerService {
                 startService(new Intent(this, QmMarkRead.class));
             }
         }
+    }
+
+    @Override
+    public IBinder onBind (Intent intent) {
+        return null;
     }
 }
