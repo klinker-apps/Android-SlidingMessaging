@@ -2,20 +2,28 @@ package com.klinker.android.messaging_sliding.receivers;
 
 import android.app.Service;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
+import android.telephony.PhoneNumberUtils;
 import android.util.Log;
+
+import com.android.internal.telephony.GsmAlphabet;
 import com.google.gson.annotations.SerializedName;
 import com.klinker.android.send_message.Utils;
 import com.koushikdutta.ion.Ion;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.GregorianCalendar;
 
 public class VoiceReceiver extends Service {
 
@@ -201,12 +209,13 @@ public class VoiceReceiver extends Service {
 
             try {
                 Log.v("refresh_voice", "sending sms broadcast");
-                Intent smsBroadcast = new Intent("com.klinker.android.messaging.VOICE_RECEIVED");
+                /*Intent smsBroadcast = new Intent("com.klinker.android.messaging.VOICE_RECEIVED");
                 smsBroadcast.putExtra("voice_message", true);
                 smsBroadcast.putExtra("voice_body", message.message);
                 smsBroadcast.putExtra("voice_address", message.phoneNumber);
                 smsBroadcast.putExtra("voice_date", message.date);
-                sendBroadcast(smsBroadcast);
+                sendBroadcast(smsBroadcast);*/
+                sendSms(getApplicationContext(), message.phoneNumber, message.message);
             } catch (Exception e) {
                 e.printStackTrace();
                 Log.v("refresh_voice", "failed to send sms broadcast");
@@ -249,4 +258,63 @@ public class VoiceReceiver extends Service {
 
     boolean needsRefresh;
     Thread refreshThread;
+
+    private void sendSms(Context context, String sender, String body) {
+        byte [] pdu = null ;
+        byte [] scBytes = PhoneNumberUtils
+                .networkPortionToCalledPartyBCD("0000000000");
+        byte [] senderBytes = PhoneNumberUtils
+                .networkPortionToCalledPartyBCD(sender);
+        int lsmcs = scBytes.length;
+        byte [] dateBytes = new byte [ 7 ];
+        Calendar calendar = new GregorianCalendar();
+        dateBytes[ 0 ] = reverseByte(( byte ) (calendar.get(Calendar.YEAR)));
+        dateBytes[ 1 ] = reverseByte(( byte ) (calendar.get(Calendar.MONTH) + 1 ));
+        dateBytes[ 2 ] = reverseByte(( byte ) (calendar.get(Calendar.DAY_OF_MONTH)));
+        dateBytes[ 3 ] = reverseByte(( byte ) (calendar.get(Calendar.HOUR_OF_DAY)));
+        dateBytes[ 4 ] = reverseByte(( byte ) (calendar.get(Calendar.MINUTE)));
+        dateBytes[ 5 ] = reverseByte(( byte ) (calendar.get(Calendar.SECOND)));
+        dateBytes[ 6 ] = reverseByte(( byte ) ((calendar.get(Calendar.ZONE_OFFSET) + calendar
+                .get(Calendar.DST_OFFSET)) / ( 60 * 1000 * 15 )));
+        Log.v("refresh_voice", "done with calender");
+        try {
+            ByteArrayOutputStream bo = new ByteArrayOutputStream();
+            bo.write(lsmcs);
+            bo.write(scBytes);
+            bo.write( 0x04 );
+            bo.write(( byte ) sender.length());
+            bo.write(senderBytes);
+            bo.write( 0x00 );
+            bo.write( 0x00 );  // encoding: 0 for default 7bit
+            bo.write(dateBytes);
+            Log.v("refresh_voice", "writing bits");
+            try {
+                byte[] bodybytes  = GsmAlphabet.stringToGsm7BitPacked(body);
+                bo.write(bodybytes);
+                Log.v("refresh_voice", "more bits");
+            } catch(Exception e) {}
+
+            pdu = bo.toByteArray();
+        } catch (IOException e) {
+        }
+
+        /*Log.v("refresh_voice", "broadcasting");
+        Intent intent = new Intent();
+        intent.setClassName( "com.android.mms" ,
+                "com.android.mms.transaction.SmsReceiverService" );
+        intent.setAction( "android.provider.Telephony.SMS_RECEIVED" );
+        intent.putExtra( "pdus" , new Object[] { pdu });
+        Log.v("refresh_voice", "last");
+        context.startService(intent);*/
+
+        Log.v("refresh_voice", "start broadcast");
+        Intent smsBroadcast = new Intent("android.provider.Telephony.SMS_RECEIVED");
+        smsBroadcast.putExtra( "pdus" , new Object[] { pdu });
+        smsBroadcast.putExtra( "voice_message", true);
+        sendBroadcast(smsBroadcast);
+    }
+
+    private static byte reverseByte( byte b) {
+        return ( byte ) ((b & 0xF0 ) >> 4 | (b & 0x0F ) << 4 );
+    }
 }
