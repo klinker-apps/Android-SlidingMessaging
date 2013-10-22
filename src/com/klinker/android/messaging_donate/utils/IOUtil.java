@@ -65,7 +65,7 @@ public class IOUtil {
         if (file.exists()) file.delete();
         try {
             FileOutputStream out = new FileOutputStream(file);
-            finalBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+            finalBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
             out.flush();
             out.close();
 
@@ -136,7 +136,7 @@ public class IOUtil {
                     image = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(), matrix, true);
                 } else if (orientation == 8) {
                     Matrix matrix = new Matrix();
-                    matrix.postRotate(2700);
+                    matrix.postRotate(270);
                     image = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(), matrix, true);
                 }
             } catch (Exception e) {
@@ -183,7 +183,7 @@ public class IOUtil {
                     image = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(), matrix, true);
                 } else if (orientation == 8) {
                     Matrix matrix = new Matrix();
-                    matrix.postRotate(2700);
+                    matrix.postRotate(270);
                     image = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(), matrix, true);
                 }
             } catch (Exception e) {

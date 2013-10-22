@@ -1034,7 +1034,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                         break;
                                     case 1:
                                         try {
-                                            IOUtil.saveImage(((BitmapDrawable) holder.media.getDrawable()).getBitmap(), dateT, context);
+                                            IOUtil.saveImage(SendUtil.getImage(context, holder.imageUri, 1000), dateT, context);
                                         } catch (Exception e) {
                                             Toast.makeText(context, "ERROR", Toast.LENGTH_SHORT).show();
                                         }
