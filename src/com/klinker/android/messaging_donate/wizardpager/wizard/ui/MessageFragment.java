@@ -71,7 +71,7 @@ public class MessageFragment extends Fragment {
 
             Linkify.addLinks(messageView, Linkify.ALL);
         } catch (Exception e) {
-            
+
         }
 
         //if(mPage.getTitle().equals("Notes"))
