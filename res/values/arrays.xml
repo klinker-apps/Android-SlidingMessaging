@@ -528,9 +528,9 @@
     </string-array>
 
     <string-array name="emojiKeyboardColor">
-        <item>White</item>
+        <item>Light Theme</item>
         <item>Black</item>
-        <item>Gray</item>
+        <item>Dark Theme</item>
     </string-array>
 
     <string-array name="emojiKeyboardColorSet">

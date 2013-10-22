@@ -596,7 +596,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                     ((PreferenceGroup) findPreference("smilies_category")).removePreference(findPreference("smiliesType"));
                     ((PreferenceGroup) findPreference("emoji_category")).removePreference(findPreference("emoji_keyboard"));
                     ((PreferenceGroup) findPreference("emoji_category")).removePreference(findPreference("emoji_type"));
-                    ((PreferenceGroup) findPreference("emoji_category")).removePreference(findPreference("dark_emoji_keyboard"));
+                    ((PreferenceGroup) findPreference("emoji_category")).removePreference(findPreference("emoji_keyboard_color"));
                     ((PreferenceGroup) findPreference("look_style_category")).removePreference(findPreference("device_font"));
                     ((PreferenceGroup) findPreference("look_style_category")).removePreference(findPreference("custom_background"));
                     ((PreferenceGroup) findPreference("look_style_category")).removePreference(findPreference("custom_background2"));

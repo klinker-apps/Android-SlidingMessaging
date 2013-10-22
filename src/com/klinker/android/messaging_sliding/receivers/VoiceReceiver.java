@@ -212,6 +212,7 @@ public class VoiceReceiver extends Service {
                 Log.v("refresh_voice", "failed to send sms broadcast");
             }
         }
+
         settings.edit()
                 .putLong("voice_refresh_timestamp", max)
                 .commit();

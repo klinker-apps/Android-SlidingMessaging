@@ -1,7 +1,6 @@
-- Version 7.70 changes: http://goo.gl/D27PJY
+- Version 7.7x changes: http://goo.gl/D27PJY
 
 - Crash fixes
-- Lots of small bug fixes
-- Reduction of SlideOver redraws
-- Removed icon from status bar for foreground SlideOver
-- Recalculated new message drawer widths
+- Various bug fixes
+- Fixes for the Notification Listener
+- Small changes for sending MMS
