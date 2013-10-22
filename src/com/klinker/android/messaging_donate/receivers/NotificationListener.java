@@ -34,9 +34,4 @@ public class NotificationListener extends NotificationListenerService {
             }
         }
     }
-
-    @Override
-    public IBinder onBind (Intent intent) {
-        return null;
-    }
 }

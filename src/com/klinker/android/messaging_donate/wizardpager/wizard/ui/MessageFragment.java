@@ -62,13 +62,17 @@ public class MessageFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_page_message, container, false);
 
-        TextView titleView = (TextView) rootView.findViewById(android.R.id.title);
-        titleView.setText(mPage.getTitle());
+        try {
+            TextView titleView = (TextView) rootView.findViewById(android.R.id.title);
+            titleView.setText(mPage.getTitle());
 
-        TextView messageView = (TextView) rootView.findViewById(android.R.id.message);
-        messageView.setText(mPage.getMessage());
+            TextView messageView = (TextView) rootView.findViewById(android.R.id.message);
+            messageView.setText(mPage.getMessage());
 
-        Linkify.addLinks(messageView, Linkify.ALL);
+            Linkify.addLinks(messageView, Linkify.ALL);
+        } catch (Exception e) {
+            
+        }
 
         //if(mPage.getTitle().equals("Notes"))
         //((TextView) rootView.findViewById(android.R.id.title)).setTextColor(getResources().getColor(R.color.review_green));
