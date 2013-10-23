@@ -4199,7 +4199,7 @@ public class MainActivity extends FragmentActivity {
                 menu.showContent();
             }
         } catch (Exception e) {
-            
+
         }
     }
 
