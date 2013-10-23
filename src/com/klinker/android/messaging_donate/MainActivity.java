@@ -4191,6 +4191,16 @@ public class MainActivity extends FragmentActivity {
         }
 
         messageEntry.requestFocus();
+
+        try {
+            if (settings.openContactMenu && (imageAttach.getVisibility() != View.VISIBLE && imageAttach2.getVisibility() != View.VISIBLE)) {
+                menu.showMenu();
+            } else if (imageAttach.getVisibility() == View.VISIBLE) {
+                menu.showContent();
+            }
+        } catch (Exception e) {
+            
+        }
     }
 
     @Override
