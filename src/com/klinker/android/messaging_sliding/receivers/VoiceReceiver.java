@@ -209,13 +209,16 @@ public class VoiceReceiver extends Service {
 
             try {
                 Log.v("refresh_voice", "sending sms broadcast");
-                /*Intent smsBroadcast = new Intent("com.klinker.android.messaging.VOICE_RECEIVED");
-                smsBroadcast.putExtra("voice_message", true);
-                smsBroadcast.putExtra("voice_body", message.message);
-                smsBroadcast.putExtra("voice_address", message.phoneNumber);
-                smsBroadcast.putExtra("voice_date", message.date);
-                sendBroadcast(smsBroadcast);*/
-                sendSms(getApplicationContext(), message.phoneNumber, message.message);
+                if(!settings.getBoolean("voice_lightflow_fix", false)) {
+                    Intent smsBroadcast = new Intent("com.klinker.android.messaging.VOICE_RECEIVED");
+                    smsBroadcast.putExtra("voice_message", true);
+                    smsBroadcast.putExtra("voice_body", message.message);
+                    smsBroadcast.putExtra("voice_address", message.phoneNumber);
+                    smsBroadcast.putExtra("voice_date", message.date);
+                    sendBroadcast(smsBroadcast);
+                } else {
+                    sendSms(getApplicationContext(), message.phoneNumber, message.message);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
                 Log.v("refresh_voice", "failed to send sms broadcast");
@@ -310,7 +313,8 @@ public class VoiceReceiver extends Service {
         Log.v("refresh_voice", "start broadcast");
         Intent smsBroadcast = new Intent("android.provider.Telephony.SMS_RECEIVED");
         smsBroadcast.putExtra( "pdus" , new Object[] { pdu });
-        smsBroadcast.putExtra( "voice_message", true);
+        smsBroadcast.putExtra( "voice_message", true );
+        smsBroadcast.putExtra( "sms_broadcast", true );
         sendBroadcast(smsBroadcast);
     }
 

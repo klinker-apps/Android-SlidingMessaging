@@ -107,11 +107,15 @@ public class BatchDeleteAllArrayAdapter extends ArrayAdapter<String> {
             viewHolder.background = contactView.findViewById(R.id.background);
             viewHolder.imagePreview = (ImageView) contactView.findViewById(R.id.conversationImage);
 
-            if (customFont) {
-                viewHolder.text.setTypeface(Typeface.createFromFile(customFontPath));
-                viewHolder.text2.setTypeface(Typeface.createFromFile(customFontPath));
-                viewHolder.text3.setTypeface(Typeface.createFromFile(customFontPath));
-                viewHolder.text4.setTypeface(Typeface.createFromFile(customFontPath));
+            try {
+                if (customFont) {
+                    viewHolder.text.setTypeface(Typeface.createFromFile(customFontPath));
+                    viewHolder.text2.setTypeface(Typeface.createFromFile(customFontPath));
+                    viewHolder.text3.setTypeface(Typeface.createFromFile(customFontPath));
+                    viewHolder.text4.setTypeface(Typeface.createFromFile(customFontPath));
+                }
+            } catch (Exception e) {
+
             }
 
             if (!customTheme) {

@@ -61,12 +61,13 @@ public class TextMessageReceiver extends BroadcastReceiver {
             String dateReceived;
 
             boolean voiceMessage = intent.getBooleanExtra("voice_message", false);
+            boolean fromSmsBroadcast = intent.getBooleanExtra("sms_broadcast", false);
 
             Log.v("refresh_voice", "sms receiver " + voiceMessage);
             Log.v("sms_notification", "just started");
 
             // gets the message details depending on voice or sms
-            //if (!voiceMessage) {
+            if (!voiceMessage || (voiceMessage && fromSmsBroadcast)) {
                 if (extras != null) {
                     Object[] smsExtra = (Object[]) extras.get(SMS_EXTRA_NAME);
 
@@ -80,11 +81,11 @@ public class TextMessageReceiver extends BroadcastReceiver {
                 } else {
                     return;
                 }
-            /*} else {
+            } else {
                 body = intent.getStringExtra("voice_body");
                 address = intent.getStringExtra("voice_address");
                 date = intent.getLongExtra("voice_date", Calendar.getInstance().getTimeInMillis()) + "";
-            }*/
+            }
 
             Log.v("sms_notification", "got details");
 

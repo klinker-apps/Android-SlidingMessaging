@@ -128,6 +128,21 @@ public class GoogleVoiceFragment extends Fragment {
             }
         });
 
+        final CheckBox lightFlowFix = (CheckBox) layoutFooter.findViewById(R.id.lightFlowFix);
+        lightFlowFix.setChecked(settings.getBoolean("voice_lightflow_fix", false));
+        lightFlowFix.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (settings.getBoolean("voice_lightflow_fix", false)) {
+                    lightFlowFix.setChecked(false);
+                    settings.edit().putBoolean("voice_lightflow_fix", false).commit();
+                } else {
+                    lightFlowFix.setChecked(true);
+                    settings.edit().putBoolean("voice_lightflow_fix", true).commit();
+                }
+            }
+        });
+
         LinearLayout voiceReceivingOption1 = (LinearLayout) layoutFooter.findViewById(R.id.voiceReceivingOption1);
         voiceReceivingOption1.setOnClickListener(new View.OnClickListener() {
             @Override
