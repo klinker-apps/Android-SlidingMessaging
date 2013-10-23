@@ -862,6 +862,6 @@
        So I hope that you understand what this means and how it works. There aren\'t that many option to solve this problem, but both work well and both work every time.</string>
     <string name="voice_tutorial_google">Receiving with Google Voice (Google+ Tutorial)</string>
     <string name="voice_lightflow_fix">LightFlow Fix</string>
-    <string name="lightflow_fix_disclaimer">This can be used if you are not recieving notifications through LightFlow for Google Voice messages.\n\nWARNING: This will cause excessive crashing on some devices! Disable if this occurs.</string>
+    <string name="lightflow_fix_disclaimer">This can be used if you are not recieving notifications through LightFlow for Google Voice messages.\n\nWARNING: This will cause excessive crashing on some devices! Disable if this occurs. The issue seems to occur most often with phones running Touchwiz.</string>
 
 </resources>
