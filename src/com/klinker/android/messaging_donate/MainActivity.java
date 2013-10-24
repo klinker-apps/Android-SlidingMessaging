@@ -4193,7 +4193,7 @@ public class MainActivity extends FragmentActivity {
         messageEntry.requestFocus();
 
         try {
-            if (settings.openContactMenu && (imageAttach.getVisibility() != View.VISIBLE && imageAttach2.getVisibility() != View.VISIBLE)) {
+            if (settings.openContactMenu && (imageAttach.getVisibility() != View.VISIBLE && imageAttach2.getVisibility() != View.VISIBLE) && !menu.isMenuShowing()) {
                 menu.showMenu();
             } else if (imageAttach.getVisibility() == View.VISIBLE) {
                 menu.showContent();
@@ -4525,12 +4525,6 @@ public class MainActivity extends FragmentActivity {
             if (menu != null) {
                 if (sendTo) {
                     menu.showContent();
-                } else {
-                    if (settings.openContactMenu && (imageAttach.getVisibility() != View.VISIBLE && imageAttach2.getVisibility() != View.VISIBLE)) {
-                        menu.showMenu();
-                    } else if (imageAttach.getVisibility() == View.VISIBLE) {
-                        menu.showContent();
-                    }
                 }
             }
         }
