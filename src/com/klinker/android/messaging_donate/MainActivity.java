@@ -2530,7 +2530,7 @@ public class MainActivity extends FragmentActivity {
                 menu.setBehindOffset(0);
             }
 
-            menu.setBehindScrollScale(0.16f);
+            menu.setBehindScrollScale(0.11f);
             menu.setFadeDegree(0.35f);
             menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
             menu.getContent().setBackgroundDrawable(new ColorDrawable(settings.ctMessageListBackground));
