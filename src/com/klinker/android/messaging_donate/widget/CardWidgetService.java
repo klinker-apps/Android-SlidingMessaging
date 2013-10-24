@@ -41,6 +41,7 @@ class CardViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         Uri uri = Uri.parse("content://mms-sms/conversations/?simple=true");
         Cursor query = mContext.getContentResolver().query(uri, projection, null, null, "date desc");
 
+        // TODO this is causing a crash for someone i guess
         if (query.moveToFirst()) {
             do {
                 mWidgetItems.add(new WidgetItem(query.getString(query.getColumnIndex("recipient_ids")),
@@ -125,6 +126,7 @@ class CardViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         Uri uri = Uri.parse("content://mms-sms/conversations/?simple=true");
         Cursor query = mContext.getContentResolver().query(uri, projection, null, null, "date desc");
 
+        // TODO this is causing the same crash i guess
         if (query.moveToFirst()) {
             do {
                 mWidgetItems.add(new WidgetItem(query.getString(query.getColumnIndex("recipient_ids")),
