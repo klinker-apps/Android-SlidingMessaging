@@ -51,10 +51,14 @@ public class ContactSearchArrayAdapter extends ArrayAdapter<String> {
             viewHolder.text2.setTextColor(sharedPrefs.getInt("ct_sentTextColor", context.getResources().getColor(R.color.black)));
             viewHolder.text3.setTextColor(sharedPrefs.getInt("ct_sentTextColor", context.getResources().getColor(R.color.black)));
 
-            if (sharedPrefs.getBoolean("custom_font", false)) {
-                viewHolder.text.setTypeface(Typeface.createFromFile(sharedPrefs.getString("custom_font_path", "")));
-                viewHolder.text2.setTypeface(Typeface.createFromFile(sharedPrefs.getString("custom_font_path", "")));
-                viewHolder.text3.setTypeface(Typeface.createFromFile(sharedPrefs.getString("custom_font_path", "")));
+            try {
+                if (sharedPrefs.getBoolean("custom_font", false)) {
+                    viewHolder.text.setTypeface(Typeface.createFromFile(sharedPrefs.getString("custom_font_path", "")));
+                    viewHolder.text2.setTypeface(Typeface.createFromFile(sharedPrefs.getString("custom_font_path", "")));
+                    viewHolder.text3.setTypeface(Typeface.createFromFile(sharedPrefs.getString("custom_font_path", "")));
+                }
+            } catch (Exception e) {
+                // someone with custom fonts seems to be having an issue in certain places... i don't know why
             }
 
             rowView.setTag(viewHolder);

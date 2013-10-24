@@ -59,7 +59,11 @@ public class CustomFontSettingsActivity extends Activity {
                     @Override
                     public void run() {
                         fonts.setAdapter(new CustomFontArrayAdapter((Activity) context, name, path));
-                        progDialog.dismiss();
+                        try {
+                            progDialog.dismiss();
+                        } catch (Exception e) {
+                            // probably just never actually showed or something because it went through to fast?
+                        }
                     }
 
                 });
