@@ -73,6 +73,14 @@
             />
 
         <CheckBoxPreference
+            android:key="only_quickpeek"
+            android:title="@string/only_quickpeek"
+            android:summary="@string/only_quickpeek_summary"
+            android:dependency="enable_quick_peek"
+            android:defaultValue="false"
+            />
+
+        <CheckBoxPreference
             android:key="slideover_only_unread"
             android:title="@string/slideover_only_unread"
             android:summary="@string/slideover_only_unread_summary"

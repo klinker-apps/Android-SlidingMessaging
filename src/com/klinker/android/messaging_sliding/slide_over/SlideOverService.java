@@ -113,6 +113,8 @@ public class SlideOverService extends Service {
     private boolean initialOnDown = false;
     private boolean contactPictureTouched = false;
 
+    private boolean onlyQuickPeek;
+
     private boolean enableQuickPeek;
 
     public boolean animating = false;
@@ -246,7 +248,9 @@ public class SlideOverService extends Service {
                                 } else if (movingBubble) {
                                     movingHalo(halo, event);
                                 } else {
-                                    noMessagesMove(event, height, width);
+                                    if (!onlyQuickPeek) {
+                                        noMessagesMove(event, height, width);
+                                    }
                                 }
 
                                 return true;
@@ -260,7 +264,9 @@ public class SlideOverService extends Service {
                                     setHalo(halo, event, height, width);
                                     movingBubble = false;
                                 } else {
-                                    noMessagesUp();
+                                    if (!onlyQuickPeek) {
+                                        noMessagesUp();
+                                    }
                                 }
 
                                 removeArcHandler.removeCallbacks(removeArcRunnable);
@@ -284,7 +290,9 @@ public class SlideOverService extends Service {
                                 } else if (movingBubble) {
                                     movingHalo(halo, event);
                                 } else {
-                                    messagesMove(event, height, width, zoneWidth);
+                                    if (!onlyQuickPeek) {
+                                        messagesMove(event, height, width, zoneWidth);
+                                    }
                                 }
 
                                 return true;
@@ -297,7 +305,9 @@ public class SlideOverService extends Service {
                                     setHalo(halo, event, height, width);
                                     movingBubble = false;
                                 } else {
-                                    messagesUp();
+                                    if (!onlyQuickPeek) {
+                                        messagesUp();
+                                    }
                                 }
 
                                 removeArcHandler.removeCallbacks(removeArcRunnable);
@@ -516,6 +526,8 @@ public class SlideOverService extends Service {
         }
 
         sendTransaction = new Transaction (mContext, sendSettings);
+
+        onlyQuickPeek = sharedPrefs.getBoolean("only_quickpeek", false);
     }
 
     public void setParams(Bitmap halo, int height, int width) {

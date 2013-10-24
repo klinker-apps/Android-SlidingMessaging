@@ -4,4 +4,5 @@ Google Voice users, please read here about your new options for receiving messag
 
 - New methods for Google Voice support
 - Fix for MMS sending as slideshow
+- Option to use only Quick Peek from the SlideOver bubble (You will have to show all settings to see this option)
 - Crash fixes

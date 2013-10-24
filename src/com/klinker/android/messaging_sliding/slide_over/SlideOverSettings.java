@@ -103,6 +103,15 @@ public class SlideOverSettings extends PreferenceActivity {
 
         });
 
+        Preference onlyQuickPeek = findPreference("only_quickpeek");
+        onlyQuickPeek.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object o) {
+                SlideOverService.restartHalo(context);
+                return true;
+            }
+        });
+
         Preference foreground = findPreference("foreground_service");
         foreground.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 
@@ -259,6 +268,7 @@ public class SlideOverSettings extends PreferenceActivity {
             ((PreferenceGroup) findPreference("slideover_general_category")).removePreference(findPreference("slideover_hide_notifications"));
             ((PreferenceGroup) findPreference("slideover_general_category")).removePreference(findPreference("contact_picture_slideover"));
             ((PreferenceGroup) findPreference("slideover_quick_peek")).removePreference(findPreference("quick_peek_send_voice"));
+            ((PreferenceGroup) findPreference("slideover_quick_peek")).removePreference(findPreference("only_quickpeek"));
             ((PreferenceGroup) findPreference("slideover_quick_peek")).removePreference(findPreference("quick_peek_text_markers"));
             ((PreferenceGroup) findPreference("slideover_quick_peek")).removePreference(findPreference("quick_peek_transparency"));
             ((PreferenceGroup) findPreference("slideover_quick_peek")).removePreference(findPreference("close_quick_peek_on_send"));
