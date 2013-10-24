@@ -4217,15 +4217,19 @@ public class MainActivity extends FragmentActivity {
             }
         }).start();*/
 
-        try {
-            menuLayout.setAdapter(menuAdapter);
-            if (settings.openContactMenu && (imageAttach.getVisibility() != View.VISIBLE && imageAttach2.getVisibility() != View.VISIBLE) && !menu.isMenuShowing()) {
-                menu.showMenu();
-            } else if (imageAttach.getVisibility() == View.VISIBLE) {
-                menu.showContent();
-            }
-        } catch (Exception e) {
+        if (!fromNotification) {
+            try {
+                menuLayout.setAdapter(menuAdapter);
+                if (settings.openContactMenu && (imageAttach.getVisibility() != View.VISIBLE && imageAttach2.getVisibility() != View.VISIBLE) && !menu.isMenuShowing()) {
+                    menu.showMenu();
+                } else if (imageAttach.getVisibility() == View.VISIBLE) {
+                    menu.showContent();
+                }
+            } catch (Exception e) {
 
+            }
+
+            fromNotification = false;
         }
 
     }
@@ -4560,7 +4564,6 @@ public class MainActivity extends FragmentActivity {
             if (menu != null) {
                 menu.showContent();
             }
-            fromNotification = false;
         }
     }
 
