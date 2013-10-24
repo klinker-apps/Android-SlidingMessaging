@@ -5,4 +5,5 @@ Google Voice users, please read here about your new options for receiving messag
 - Very slight adjustments to the style of the Sliding Menu
 - Fix for black contact list sometimes showing up
 - Option to change the size of Quick Peek by adjusting the number of messages it shows
+- Fixed double animations on SlideOver bubble for incoming messages
 - More crash fixes
