@@ -196,6 +196,7 @@ public class SlideOverSettings extends PreferenceActivity {
         });
 
         ((PreferenceGroup) findPreference("slideover_quick_peek")).removePreference(findPreference("quick_peek_contact_num"));
+        ((PreferenceGroup) findPreference("slideover_quick_peek")).removePreference(findPreference("quick_peek_messages"));
 
         /*Preference side = findPreference("slideover_side");
         side.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {

@@ -936,6 +936,30 @@ public class SettingsPagerActivity extends FragmentActivity {
 
             });
 
+            Preference quickPeekMessages = (Preference) findPreference("quick_peek_messages");
+            quickPeekMessages.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+
+                @Override
+                public boolean onPreferenceClick(Preference arg0) {
+
+                    NumberPickerDialog.OnNumberSetListener mSmsLimitListener =
+                            new NumberPickerDialog.OnNumberSetListener() {
+                                public void onNumberSet(int limit) {
+                                    SharedPreferences.Editor editor = sharedPrefs.edit();
+
+                                    editor.putInt("quick_peek_messages", limit);
+                                    editor.commit();
+                                }
+                            };
+
+                    new NumberPickerDialog(context, mSmsLimitListener, sharedPrefs.getInt("quick_peek_messages", 3), 1, 5, R.string.quick_peek_messages).show();
+
+                    SlideOverService.restartHalo(context);
+
+                    return false;
+                }
+
+            });
             /*Preference alignment = findPreference("slideover_vertical");
             alignment.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
@@ -1001,6 +1025,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                 ((PreferenceGroup) findPreference("slideover_general_category")).removePreference(findPreference("contact_picture_slideover"));
                 ((PreferenceGroup) findPreference("slideover_quick_peek")).removePreference(findPreference("quick_peek_send_voice"));
                 ((PreferenceGroup) findPreference("slideover_quick_peek")).removePreference(findPreference("only_quickpeek"));
+                ((PreferenceGroup) findPreference("slideover_quick_peek")).removePreference(findPreference("quick_peek_messages"));
                 ((PreferenceGroup) findPreference("slideover_quick_peek")).removePreference(findPreference("quick_peek_text_markers"));
                 ((PreferenceGroup) findPreference("slideover_quick_peek")).removePreference(findPreference("quick_peek_transparency"));
                 ((PreferenceGroup) findPreference("slideover_quick_peek")).removePreference(findPreference("close_quick_peek_on_send"));

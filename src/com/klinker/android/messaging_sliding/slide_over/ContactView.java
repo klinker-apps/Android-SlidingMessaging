@@ -11,6 +11,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.MotionEvent;
@@ -50,8 +51,8 @@ public class ContactView extends ViewGroup {
     public static String[] contactNames = new String[6];
     public static String[] threadIds = new String[6];
     public static String[] numbers = new String[6];
-    public static String[][] message = new String[6][3];
-    public static int[][] type = new int[6][3];
+    public static String[][] message = new String[6][5];
+    public static int[][] type = new int[6][5];
     public static boolean[] ignore = new boolean[6];
 
     public ContactView(Context context) {
@@ -180,13 +181,13 @@ public class ContactView extends ViewGroup {
         }
 
         for (int i = 0; i < 6; i++) {
-            for (int j = 0; j< 3; j++) {
+            for (int j = 0; j< 5; j++) {
                 message[i][j] = "";
             }
         }
 
         for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 3; j++) {
+            for (int j = 0; j < 5; j++) {
                 type[i][j] = 0;
             }
         }
@@ -231,12 +232,13 @@ public class ContactView extends ViewGroup {
                             /*String s = cursor2.getString(cursor2.getColumnIndex("msg_box"));
 
                             if (s != null) {
-                                //Log.v("reading_cursor_data", "found mms message");
+                                Log.v("reading_cursor_data", "found mms message");
                             } else {
                                 //Log.v("reading_cursor_data", cursor2.getString(cursor2.getColumnIndex("body")));
                                 message[count][count2] = cursor2.getString(cursor2.getColumnIndex("body"));
                                 String type2 = cursor2.getString(cursor2.getColumnIndex("type"));
                             }*/
+                            Log.v("reading_cursor_data", count2 + "");
 
                             message[count][count2] = cursor2.getString(cursor2.getColumnIndex("body"));
                             String type2 = cursor2.getString(cursor2.getColumnIndex("type"));
@@ -248,7 +250,7 @@ public class ContactView extends ViewGroup {
                             }
 
                             count2++;
-                        } while (cursor2.moveToNext() && count2 < 3);
+                        } while (cursor2.moveToNext() && count2 < SlideOverService.numberOfMessages);
 
                         cursor2.close();
 

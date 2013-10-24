@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.MotionEvent;
@@ -84,19 +85,19 @@ public class MessageView extends ViewGroup {
         width = d.getWidth();
 
         // draws the rectangle and the outline
-        canvas.drawRect(0, 0, width - 100, toDP(175) + toDP(56), blackPaint);
-        canvas.drawRect(0, 0, width - 100, toDP(175) + toDP(56), strokePaint);
+        canvas.drawRect(0, 0, width - 100, toDP(SlideOverService.boxHeight) + toDP(56), blackPaint);
+        canvas.drawRect(0, 0, width - 100, toDP(SlideOverService.boxHeight) + toDP(56), strokePaint);
 
         canvas.drawText(ContactView.contactNames[ContactView.currentContact], toDP(10), toDP(23), namePaint);
 
         int amountDown = toDP(30) + TEXTGAP;
 
-        StaticLayout mTextLayout[] = new StaticLayout[3];
+        StaticLayout mTextLayout[] = new StaticLayout[5];
 
-        for (int i = 0; i < 3; i++){
-
-            String message = ContactView.message[ContactView.currentContact][2-i];
-            boolean received = ContactView.type[ContactView.currentContact][2-i] == 0;
+        for (int i = 0; i < SlideOverService.numberOfMessages ; i++){
+            Log.v("quick_peek", i + "");
+            String message = ContactView.message[ContactView.currentContact][SlideOverService.numberOfMessages - 1 - i];
+            boolean received = ContactView.type[ContactView.currentContact][SlideOverService.numberOfMessages - 1 - i] == 0;
 
             mTextLayout[i] = new StaticLayout(message,
                     received ? messageReceivedPaint : messageSentPaint,

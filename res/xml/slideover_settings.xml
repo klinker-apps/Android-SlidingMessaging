@@ -118,6 +118,13 @@
             android:dependency="enable_quick_peek"
             />
 
+        <Preference
+            android:key="quick_peek_messages"
+            android:title="@string/quick_peek_messages"
+            android:defaultValue="3"
+            android:dependency="enable_quick_peek"
+            />
+
         <CheckBoxPreference
             android:key="quick_peek_send_voice"
             android:title="@string/quick_peek_send_voice"

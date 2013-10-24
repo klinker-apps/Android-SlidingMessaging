@@ -137,6 +137,9 @@ public class SlideOverService extends Service {
 
     private int windowOffsetY;
 
+    public static int boxHeight = 0;
+    public static int numberOfMessages = 0;
+
     public Handler messageBoxHandler = new Handler();
     public Handler removeArcHandler = new Handler();
     public Handler returnTimeoutHandler = new Handler();
@@ -432,6 +435,15 @@ public class SlideOverService extends Service {
     }
 
     public void initialSetup(Bitmap halo, int height, int width) {
+
+        numberOfMessages = sharedPrefs.getInt("quick_peek_messages", 3);
+
+        boxHeight = 30;
+
+        for (int i = 0; i < numberOfMessages; i++) {
+            boxHeight+= 48;
+        }
+
         mContext = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
 
@@ -533,7 +545,7 @@ public class SlideOverService extends Service {
     public void setParams(Bitmap halo, int height, int width) {
         messageWindowParams = new WindowManager.LayoutParams(
                 width - 100,  // 50 pixels on each side
-                toDP(175) + toDP(56),        // 160 dp tall + 53 for the reply box
+                toDP(boxHeight) + toDP(56),        // 160 dp tall + 53 for the reply box
                 50,         // 50 pixel width on the side
                 50 + toDP(63),         // 50 plus the height of the contactParams down the screen (plus 3 dp margin)
                 WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
@@ -563,7 +575,7 @@ public class SlideOverService extends Service {
                 width - 100,  // 50 pixels on each side
                 toDP(50),        // 160 dp tall
                 50,         // 50 pixel width on the side
-                50 + toDP(63) + toDP(178),         // 50 plus the height of the contactParams down the screen (plus 3 dp margin)
+                50 + toDP(63) + toDP(boxHeight + 3),         // 50 plus the height of the contactParams down the screen (plus 3 dp margin)
                 WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                     |WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
@@ -575,7 +587,7 @@ public class SlideOverService extends Service {
                 width - 100,  // 50 pixels on each side
                 toDP(50),        // 160 dp tall
                 50,         // 50 pixel width on the side
-                50 + toDP(63) + toDP(178),         // 50 plus the height of the contactParams down the screen (plus 3 dp margin)
+                50 + toDP(63) + toDP(boxHeight + 3),         // 50 plus the height of the contactParams down the screen (plus 3 dp margin)
                 WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
                 PixelFormat.TRANSLUCENT);
@@ -707,7 +719,7 @@ public class SlideOverService extends Service {
 
                     contactView.invalidate();
                     messageView.invalidate();
-                } else if (currentY > windowOffsetY + toDP(63) + toDP(178) && currentY < windowOffsetY + toDP(63) + toDP(178) + toDP(50) && currentX > 50 && currentX < width - 50) {// if it is in the y zone and the x zone
+                } else if (currentY > windowOffsetY + toDP(63) + toDP(boxHeight + 3) && currentY < windowOffsetY + toDP(63) + toDP(boxHeight + 3) + toDP(50) && currentX > 50 && currentX < width - 50) {// if it is in the y zone and the x zone
                     sendWindow.updateViewLayout(sendView, sendParamsFocused);
                     sendBox.requestFocus();
                 }
@@ -757,8 +769,8 @@ public class SlideOverService extends Service {
                     ContactView.currentContact = 5;
 
                     messageWindowParams.y = toDP(63) + windowOffsetY;
-                    sendParams.y = toDP(63) + toDP(178) + windowOffsetY;
-                    sendParamsFocused.y = toDP(63) + toDP(178) + windowOffsetY;
+                    sendParams.y = toDP(63) + toDP(boxHeight + 3) + windowOffsetY;
+                    sendParamsFocused.y = toDP(63) + toDP(boxHeight + 3) + windowOffsetY;
 
                     messageView.invalidate();
 
@@ -779,8 +791,8 @@ public class SlideOverService extends Service {
 
                     messageWindowParams.y = toDP(63) + windowOffsetY;
 
-                    sendParams.y = toDP(63) + toDP(178) + windowOffsetY;
-                    sendParamsFocused.y = toDP(63) + toDP(178) + windowOffsetY;
+                    sendParams.y = toDP(63) + toDP(boxHeight + 3) + windowOffsetY;
+                    sendParamsFocused.y = toDP(63) + toDP(boxHeight + 3) + windowOffsetY;
 
                     try { messageWindow.removeView(messageView);
                         sendWindow.removeView(sendView); } catch (Exception e) { }
@@ -792,8 +804,8 @@ public class SlideOverService extends Service {
                     messageView.invalidate();
 
                     messageWindowParams.y = toDP(63) + windowOffsetY;
-                    sendParams.y = toDP(63) + toDP(178) + windowOffsetY;
-                    sendParamsFocused.y = toDP(63) + toDP(178) + windowOffsetY;
+                    sendParams.y = toDP(63) + toDP(boxHeight + 3) + windowOffsetY;
+                    sendParamsFocused.y = toDP(63) + toDP(boxHeight + 3) + windowOffsetY;
                     messageWindow.removeView(messageView);
                     sendWindow.removeView(sendView);
 
@@ -811,7 +823,7 @@ public class SlideOverService extends Service {
         float currentY = motionEvent.getRawY();
 
         if (motionEvent.getActionMasked() == MotionEvent.ACTION_DOWN) {
-            if (currentX > 50 && currentX < width - 50 && currentY > windowOffsetY + toDP(63) && currentY < windowOffsetY + toDP(63) + toDP(175)) {
+            if (currentX > 50 && currentX < width - 50 && currentY > windowOffsetY + toDP(63) && currentY < windowOffsetY + toDP(63) + toDP(boxHeight)) {
                 messageView.playSoundEffect(SoundEffectConstants.CLICK);
 
                 if (HAPTIC_FEEDBACK) {
