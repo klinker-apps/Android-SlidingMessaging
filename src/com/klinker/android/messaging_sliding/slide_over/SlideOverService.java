@@ -1754,10 +1754,11 @@ public class SlideOverService extends Service {
                 });
             }
 
-
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    try { animationWindow.removeViewImmediate(animationView); } catch (Exception e) { }
+                    
                     animationView = new AnimationView(getApplicationContext(), halo);
 
                     if(sharedPrefs.getBoolean("slideover_return_timeout", false)) {
