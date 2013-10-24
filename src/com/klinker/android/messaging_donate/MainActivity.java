@@ -2530,6 +2530,7 @@ public class MainActivity extends FragmentActivity {
                 menu.setBehindOffset(0);
             }
 
+            menu.setBehindScrollScale(0.16f);
             menu.setFadeDegree(0.35f);
             menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
             menu.getContent().setBackgroundDrawable(new ColorDrawable(settings.ctMessageListBackground));
@@ -4192,7 +4193,32 @@ public class MainActivity extends FragmentActivity {
 
         messageEntry.requestFocus();
 
+        /*new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(200);
+
+                    if (menuLayout.getAdapter() == null) {
+                        Log.v("contact_startup", menuLayout.getAdapter().equals(null) + "");
+                        ListFragment newFragment = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.menuList);
+                        newFragment.setListAdapter(new MenuArrayAdapter(act, conversations, MainActivity.mViewPager));
+                    }
+
+                    if (settings.openContactMenu && (imageAttach.getVisibility() != View.VISIBLE && imageAttach2.getVisibility() != View.VISIBLE) && !menu.isMenuShowing()) {
+                        menu.showMenu();
+                    } else if (imageAttach.getVisibility() == View.VISIBLE) {
+                        menu.showContent();
+                    }
+                } catch (Exception e) {
+
+                }
+
+            }
+        }).start();*/
+
         try {
+            menuLayout.setAdapter(menuAdapter);
             if (settings.openContactMenu && (imageAttach.getVisibility() != View.VISIBLE && imageAttach2.getVisibility() != View.VISIBLE) && !menu.isMenuShowing()) {
                 menu.showMenu();
             } else if (imageAttach.getVisibility() == View.VISIBLE) {
@@ -4201,6 +4227,7 @@ public class MainActivity extends FragmentActivity {
         } catch (Exception e) {
 
         }
+
     }
 
     @Override
