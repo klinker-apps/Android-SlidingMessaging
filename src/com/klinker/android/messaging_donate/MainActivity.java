@@ -187,7 +187,7 @@ public class MainActivity extends FragmentActivity {
     private View v;
     protected PagerTitleStrip title;
     private View imageAttachBackground;
-    private ImageAttachmentView imageAttach;
+    public ImageAttachmentView imageAttach;
     public View imageAttachBackground2;
     public ImageAttachmentView imageAttach2;
     public Uri attachedImage;
@@ -1897,6 +1897,7 @@ public class MainActivity extends FragmentActivity {
 
                 if (isPopup && attachOnSend) {
                     popupAttaching = true;
+                    sharedPrefs.edit().putInt("slideover_attaching_to", mViewPager.getCurrentItem()).commit();
                     menuAttachImage();
                     return;
                 }

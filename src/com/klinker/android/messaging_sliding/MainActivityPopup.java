@@ -249,6 +249,19 @@ public class MainActivityPopup extends MainActivity {
         IntentFilter filter = new IntentFilter();
         filter.addAction("com.klinker.android.messaging.CLOSE_POPUP");
         registerReceiver(closeReceiver, filter);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (imageAttach.getVisibility() == View.VISIBLE) {
+                    int page = sharedPrefs.getInt("slideover_attaching_to", 0);
+                    menu.showContent();
+
+                    mViewPager.setCurrentItem(page);
+                }
+            }
+        }, 500);
+
     }
 
     @Override
