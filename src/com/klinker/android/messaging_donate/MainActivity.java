@@ -4230,7 +4230,7 @@ public class MainActivity extends FragmentActivity {
 
             }
         }
-        
+
         if (sendTo) {
             menu.showContent();
         }
