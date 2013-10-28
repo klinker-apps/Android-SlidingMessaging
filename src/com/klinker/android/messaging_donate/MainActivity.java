@@ -4218,7 +4218,7 @@ public class MainActivity extends FragmentActivity {
             }
         }).start();*/
 
-        if (!fromNotification) {
+        if (!fromNotification && !sendTo) {
             try {
                 menuLayout.setAdapter(menuAdapter);
                 if (settings.openContactMenu && (imageAttach.getVisibility() != View.VISIBLE && imageAttach2.getVisibility() != View.VISIBLE) && !menu.isMenuShowing()) {
@@ -4229,9 +4229,14 @@ public class MainActivity extends FragmentActivity {
             } catch (Exception e) {
 
             }
-
-            fromNotification = false;
         }
+        
+        if (sendTo) {
+            menu.showContent();
+        }
+
+        fromNotification = false;
+        sendTo = false;
 
     }
 
@@ -4503,7 +4508,6 @@ public class MainActivity extends FragmentActivity {
                             }
                         }
 
-                        sendTo = false;
                     } catch (Exception e) {
                     }
                 }
