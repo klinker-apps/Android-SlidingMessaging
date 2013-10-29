@@ -1,4 +1,4 @@
-Version 7.70
+Version 7.80
 
 Jake:
     - Attach audio and video to mms (look at stock app)
@@ -6,6 +6,11 @@ Jake:
     - actionbar pull to refresh, get the newest changes
 Luke:
     - Forward mms with multiple attachments
+    - KitKat support
+    - Send Audio
+    - Send Video
+    - Send V-card
+    - New icon
 
 
 Android 4.4 Stuff:
