@@ -275,6 +275,15 @@
             android:label="@string/attach_more">
         </activity>
 
+        <activity android:name="com.luminous.pick.CustomGalleryActivity" >
+            <intent-filter>
+                <action android:name="luminous.ACTION_PICK" />
+                <action android:name="luminous.ACTION_MULTIPLE_PICK" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name="com.klinker.android.messaging_donate.widget.WidgetProxyActivity" >
         </activity>

@@ -145,6 +145,10 @@ public class AttachMore extends Activity {
                                 //startActivityForResult(Intent.createChooser(getAudio, getResources().getString(R.string.select_audio)), 3); // TODO
                                 Toast.makeText(context, "Currently Unsupported", Toast.LENGTH_SHORT).show();
                                 break;
+                            case 3:
+                                Intent getMultiple = new Intent(com.luminous.pick.LumousAction.ACTION_MULTIPLE_PICK);
+                                startActivityForResult(getMultiple, 4);
+                                break;
                         }
 
                     }
@@ -214,8 +218,28 @@ public class AttachMore extends Activity {
             if (resultCode == Activity.RESULT_OK) {
 
             }
-        } else {
+        } else if (requestCode == 4) {
+            if (resultCode == Activity.RESULT_OK) {
+                String[] all_path = imageReturnedIntent.getStringArrayExtra("all_path");
 
+                for (String string : all_path) {
+                    Bitmap b = decodeFile2(new File(string));
+                    images.add(b);
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    b.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    byte[] byteArray = stream.toByteArray();
+
+                    MMSPart part = new MMSPart();
+                    part.Name = "Image";
+                    part.MimeType = "image/png";
+                    part.Data = byteArray;
+
+                    data.add(part);
+                }
+
+                AttachMoreArrayAdapter adapter = new AttachMoreArrayAdapter(this, data.toArray(new MMSPart[data.size()]));
+                list.setAdapter(adapter);
+            }
         }
     }
 
@@ -278,5 +302,11 @@ public class AttachMore extends Activity {
         } catch (FileNotFoundException e) {
         }
         return null;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        data.clear();
     }
 }
