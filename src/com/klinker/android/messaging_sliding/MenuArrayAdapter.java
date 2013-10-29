@@ -205,6 +205,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
 
         holder.text.setText("");
         holder.text2.setText("");
+        holder.text2.setLinksClickable(false);
         holder.text3.setText("");
         holder.text4.setText("");
         holder.mmsTag = false;
