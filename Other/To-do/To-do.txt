@@ -5,6 +5,9 @@ Jake:
     - delayed sending for certain times
     - actionbar pull to refresh, get the newest changes
 Luke:
+    - Forward mms with multiple attachments
+    - Attach multiple from the gallery
+    - Overflowing text on the quick peek sending
 
 
 Android 4.4 Stuff:
