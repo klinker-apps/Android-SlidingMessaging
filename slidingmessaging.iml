@@ -30,7 +30,7 @@
     <orderEntry type="module" module-name="android-smsmms" />
     <orderEntry type="library" name="libs3" level="project" />
     <orderEntry type="module" module-name="ion" />
-    <orderEntry type="module" module-name="MultipleImagePick" />
+    <orderEntry type="module" module-name="MultipleImagePick1" />
   </component>
 </module>
 

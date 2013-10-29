@@ -5,4 +5,5 @@ Google Voice users, please read here about your new options for receiving messag
 - New multiple image attacher in the "Attach more..." MMS option
 - Fixes for show contact list at startup
 - Fixes for attaching images from SlideOver popup
+- Fixes for overflow on Quick Peek
 - Some crash fixes
