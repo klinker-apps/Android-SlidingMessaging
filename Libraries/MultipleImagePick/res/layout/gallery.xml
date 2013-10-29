@@ -6,11 +6,6 @@
     android:background="@color/bg_light_blue"
     android:orientation="vertical" >
 
-    <include
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        layout="@layout/titlebar" />
-
     <FrameLayout
         android:layout_width="fill_parent"
         android:layout_height="0dp"
@@ -53,7 +48,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/btn_sel"
+            android:textColor="@android:color/black"
             android:text="@string/btn_ok" />
     </LinearLayout>
 

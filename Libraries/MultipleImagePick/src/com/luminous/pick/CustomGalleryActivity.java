@@ -1,5 +1,6 @@
 package com.luminous.pick;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
@@ -39,8 +40,10 @@ public class CustomGalleryActivity extends Activity {
     @Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.gallery);
+
+        ActionBar ab = getActionBar();
+        ab.setTitle(getResources().getString(R.string.select_photos));
 
 		action = getIntent().getAction();
 		if (action == null) {
@@ -70,13 +73,13 @@ public class CustomGalleryActivity extends Activity {
 		gridGallery.setFastScrollEnabled(true);
 		adapter = new GalleryAdapter(getApplicationContext(), imageLoader);
 
-		if (action.equalsIgnoreCase(Action.ACTION_MULTIPLE_PICK)) {
+		if (action.equalsIgnoreCase(LumousAction.ACTION_MULTIPLE_PICK)) {
 
 			findViewById(R.id.llBottomContainer).setVisibility(View.VISIBLE);
 			gridGallery.setOnItemClickListener(mItemMulClickListener);
 			adapter.setMultiplePick(true);
 
-		} else if (action.equalsIgnoreCase(Action.ACTION_PICK)) {
+		} else if (action.equalsIgnoreCase(LumousAction.ACTION_PICK)) {
 
 			findViewById(R.id.llBottomContainer).setVisibility(View.GONE);
 			gridGallery.setOnItemClickListener(mItemSingleClickListener);
