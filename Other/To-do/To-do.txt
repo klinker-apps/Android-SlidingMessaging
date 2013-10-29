@@ -6,9 +6,6 @@ Jake:
     - actionbar pull to refresh, get the newest changes
 Luke:
     - Forward mms with multiple attachments
-    - Attach multiple from the gallery
-    - Overflowing text on the quick peek sending
-    - Disable hyperlinks from conversation list
 
 
 Android 4.4 Stuff:
