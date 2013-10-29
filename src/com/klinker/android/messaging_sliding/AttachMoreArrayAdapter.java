@@ -51,21 +51,26 @@ public class AttachMoreArrayAdapter extends ArrayAdapter<String> {
 
         ViewHolder holder = (ViewHolder) rowView.getTag();
 
-        if (images[position].MimeType.startsWith("image/")) {
+        if (images[position].Name.startsWith("Image")) {
             Bitmap bmp;
             bmp = BitmapFactory.decodeByteArray(images[position].Data, 0, images[position].Data.length);
             Bitmap mutableBitmap = bmp.copy(Bitmap.Config.ARGB_8888, true);
 
             holder.image.setImageBitmap(mutableBitmap);
-        } else if (images[position].MimeType.startsWith("video/")) {
+        } else if (images[position].Name.startsWith("Video")) {
             String path = getPath(images[position].Path);
 
             Bitmap thumb = ThumbnailUtils.createVideoThumbnail(path,
                     MediaStore.Images.Thumbnails.MINI_KIND);
 
             holder.image.setImageBitmap(thumb);
-        } else if (images[position].MimeType.startsWith("audio/")) {
+        } else if (images[position].Name.startsWith("Audio")) {
+            String path = getPath(images[position].Path);
 
+            Bitmap thumb = BitmapFactory.decodeResource(context.getResources(),
+                    R.drawable.ic_video_play);
+
+            holder.image.setImageBitmap(thumb);
         }
 
         return rowView;

@@ -13,6 +13,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -135,15 +136,14 @@ public class AttachMore extends Activity {
                                 Intent getVideo = new Intent();
                                 getVideo.setType("video/*");
                                 getVideo.setAction(Intent.ACTION_GET_CONTENT);
-                                //startActivityForResult(Intent.createChooser(getVideo, getResources().getString(R.string.select_video)), 2); // TODO
-                                Toast.makeText(context, "Currently Unsupported", Toast.LENGTH_SHORT).show();
+                                startActivityForResult(Intent.createChooser(getVideo, getResources().getString(R.string.select_video)), 2); // TODO
+                                //Toast.makeText(context, "Currently Unsupported", Toast.LENGTH_SHORT).show();
                                 break;
                             case 2:
-                                Intent getAudio = new Intent();
-                                getAudio.setType("audio/*");
-                                getAudio.setAction(Intent.ACTION_GET_CONTENT);
-                                //startActivityForResult(Intent.createChooser(getAudio, getResources().getString(R.string.select_audio)), 3); // TODO
-                                Toast.makeText(context, "Currently Unsupported", Toast.LENGTH_SHORT).show();
+                                Intent audioIntent = new Intent();
+                                audioIntent.setType("audio/*");
+                                audioIntent.setAction(Intent.ACTION_GET_CONTENT);
+                                startActivityForResult(Intent.createChooser(audioIntent, context.getString(R.string.select_audio)), 3);
                                 break;
                             case 3:
                                 Intent getMultiple = new Intent(com.luminous.pick.LumousAction.ACTION_MULTIPLE_PICK);
@@ -214,9 +214,35 @@ public class AttachMore extends Activity {
                 AttachMoreArrayAdapter adapter = new AttachMoreArrayAdapter(this, data.toArray(new MMSPart[data.size()]));
                 list.setAdapter(adapter);
             }
-        } else if (requestCode == 3) {
+        } else if (requestCode == 3 || requestCode == 5) { //find or record audio
             if (resultCode == Activity.RESULT_OK) {
+                Uri audio;
 
+                try {
+                    audio = imageReturnedIntent.getData();
+                } catch (Exception e) {
+                    audio = ((Uri) imageReturnedIntent.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI));
+                }
+
+                String path = getPath(audio);
+                byte[] bytes = null;
+
+                try {
+                    bytes = IOUtil.readFile(path);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                MMSPart part = new MMSPart();
+                part.Name = "Audio";
+                part.MimeType = "video/3gpp";
+                part.Data = bytes;
+                part.Path = audio;
+
+                data.add(part);
+
+                AttachMoreArrayAdapter adapter = new AttachMoreArrayAdapter(this, data.toArray(new MMSPart[data.size()]));
+                list.setAdapter(adapter);
             }
         } else if (requestCode == 4) {
             if (resultCode == Activity.RESULT_OK) {

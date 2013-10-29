@@ -93,6 +93,7 @@ import net.simonvt.messagebar.MessageBar;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -3334,6 +3335,16 @@ public class MainActivity extends FragmentActivity {
                             File f = new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/", "photoToSend.png");
                             capturedPhotoUri = Uri.fromFile(f);
                             captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, capturedPhotoUri);
+
+                            if (!f.exists()) {
+                                try {
+                                    f.getParentFile().mkdirs();
+                                    f.createNewFile();
+                                } catch (IOException e) {
+
+                                }
+                            }
+
                             startActivityForResult(captureIntent, 4);
                             break;
                         case 2:
@@ -3756,10 +3767,16 @@ public class MainActivity extends FragmentActivity {
                     Bitmap mutableBitmap = bmp.copy(Bitmap.Config.ARGB_8888, true);
                     imageAttach.setImage("send_image", mutableBitmap);
                 } catch (Exception e) {
-                    e.printStackTrace();
-                    Toast.makeText(this, "Error loading MMS", Toast.LENGTH_SHORT).show();
-                    imageAttach.setVisibility(false);
-                    imageAttachBackground.setVisibility(View.GONE);
+                    try {
+                        Bitmap playButton = BitmapFactory.decodeResource(context.getResources(),
+                                R.drawable.ic_video_play);
+                        imageAttach.setImage("send_image", playButton);
+                    } catch (Exception x) {
+                        e.printStackTrace();
+                        Toast.makeText(this, "Error loading MMS", Toast.LENGTH_SHORT).show();
+                        imageAttach.setVisibility(false);
+                        imageAttachBackground.setVisibility(View.GONE);
+                    }
                 }
 
                 Button viewImage = (Button) findViewById(R.id.view_image_button);
@@ -3817,10 +3834,16 @@ public class MainActivity extends FragmentActivity {
                     Bitmap mutableBitmap = bmp.copy(Bitmap.Config.ARGB_8888, true);
                     imageAttach2.setImage("send_image", mutableBitmap);
                 } catch (Exception e) {
-                    e.printStackTrace();
-                    Toast.makeText(this, "Error loading MMS", Toast.LENGTH_SHORT).show();
-                    imageAttach2.setVisibility(false);
-                    imageAttachBackground2.setVisibility(View.GONE);
+                    try {
+                        Bitmap playButton = BitmapFactory.decodeResource(context.getResources(),
+                                R.drawable.ic_video_play);
+                        imageAttach2.setImage("send_image", playButton);
+                    } catch (Exception x) {
+                        e.printStackTrace();
+                        Toast.makeText(this, "Error loading MMS", Toast.LENGTH_SHORT).show();
+                        imageAttach2.setVisibility(false);
+                        imageAttachBackground2.setVisibility(View.GONE);
+                    }
                 }
 
                 Button viewImage = (Button) findViewById(R.id.view_image_button);
