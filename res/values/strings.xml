@@ -867,5 +867,6 @@
     <string name="only_quickpeek_summary">Disables access to the SlideOver popup from the SlideOver bubble so Quick Peek is the only thing accessible.</string>
     <string name="quick_peek_messages">Number of Messages Displayed</string>
     <string name="attach_contact">Attach Contact vCard</string>
+    <string name="search_contact">Search Contacts</string>
 
 </resources>

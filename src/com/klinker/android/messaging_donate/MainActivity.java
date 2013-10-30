@@ -3945,11 +3945,11 @@ public class MainActivity extends FragmentActivity {
                 try {
                     if (AttachMore.contactNumber != null) {
                         Bitmap contactPic = ContactUtil.getFacebookPhoto(AttachMore.contactNumber, this);
-                        imageAttach.setImage("send_image", contactPic);
+                        imageAttach2.setImage("send_image", contactPic);
                     } else {
                         Bitmap bmp = BitmapFactory.decodeByteArray(AttachMore.data.get(0).Data, 0, AttachMore.data.get(0).Data.length);
                         Bitmap mutableBitmap = bmp.copy(Bitmap.Config.ARGB_8888, true);
-                        imageAttach.setImage("send_image", mutableBitmap);
+                        imageAttach2.setImage("send_image", mutableBitmap);
                     }
                 } catch (Exception e) {
                     try {
