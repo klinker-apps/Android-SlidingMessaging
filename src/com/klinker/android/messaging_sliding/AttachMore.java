@@ -16,8 +16,10 @@ import android.media.ExifInterface;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,9 +27,13 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.google.android.mms.ContentType;
 import com.google.android.mms.MMSPart;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.utils.IOUtil;
+import com.klinker.android.messaging_donate.utils.Util;
+import com.klinker.android.send_message.Utils;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -138,8 +144,7 @@ public class AttachMore extends Activity {
                                 Intent getVideo = new Intent();
                                 getVideo.setType("video/*");
                                 getVideo.setAction(Intent.ACTION_GET_CONTENT);
-                                startActivityForResult(Intent.createChooser(getVideo, getResources().getString(R.string.select_video)), 2); // TODO
-                                //Toast.makeText(context, "Currently Unsupported", Toast.LENGTH_SHORT).show();
+                                startActivityForResult(Intent.createChooser(getVideo, getResources().getString(R.string.select_video)), 2);
                                 break;
                             case 2:
                                 Intent audioIntent = new Intent();
@@ -150,6 +155,56 @@ public class AttachMore extends Activity {
                             case 3:
                                 Intent getMultiple = new Intent(com.luminous.pick.LumousAction.ACTION_MULTIPLE_PICK);
                                 startActivityForResult(getMultiple, 4);
+                                break;
+                            case 4:
+                                Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                File f = new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/", "photoToSend.jpg");
+
+                                if (!f.exists()) {
+                                    try {
+                                        f.getParentFile().mkdirs();
+                                        f.createNewFile();
+                                    } catch (IOException e) {
+
+                                    }
+                                }
+
+                                Uri capturedPhotoUri = Uri.fromFile(f);
+                                captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, capturedPhotoUri);
+                                startActivityForResult(captureIntent, 5);
+                                break;
+                            case 5:
+                                int durationLimit = Util.getVideoCaptureDurationLimit(850000);
+                                File video = new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/", "vidToSend.3gpp");
+
+                                if (!video.exists()) {
+                                    try {
+                                        video.getParentFile().mkdirs();
+                                        video.createNewFile();
+                                    } catch (IOException e) {
+
+                                    }
+                                }
+
+                                Intent recordVideo = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+                                recordVideo.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0);
+                                recordVideo.putExtra("android.intent.extra.sizeLimit", 850000);
+                                recordVideo.putExtra("android.intent.extra.durationLimit", durationLimit);
+                                recordVideo.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(video));
+                                startActivityForResult(recordVideo, 6);
+                                break;
+                            case 6:
+                                try {
+                                    Intent recordAudio = new Intent(Intent.ACTION_GET_CONTENT);
+                                    recordAudio.setType(ContentType.AUDIO_AMR);
+                                    recordAudio.setClassName("com.android.soundrecorder",
+                                            "com.android.soundrecorder.SoundRecorder");
+                                    //                                    recordAudio.putExtra(android.provider.MediaStore.Audio.Media.EXTRA_MAX_BYTES, sizeLimit);
+                                    recordAudio.putExtra(android.provider.MediaStore.Audio.Media.EXTRA_MAX_BYTES, 1000000);
+                                    startActivityForResult(recordAudio, 7);
+                                } catch (Exception e) {
+                                    Toast.makeText(context, "Sound recorder not available.", Toast.LENGTH_SHORT).show();
+                                }
                                 break;
                         }
 
@@ -174,7 +229,7 @@ public class AttachMore extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
 
-        if (requestCode == 1) {
+        if (requestCode == 1) { // find picture
             if (resultCode == Activity.RESULT_OK) {
                 Uri image = imageReturnedIntent.getData();
                 Bitmap b = decodeFile2(new File(getPath(image)));
@@ -193,7 +248,7 @@ public class AttachMore extends Activity {
                 AttachMoreArrayAdapter adapter = new AttachMoreArrayAdapter(this, data.toArray(new MMSPart[data.size()]));
                 list.setAdapter(adapter);
             }
-        } else if (requestCode == 2) {
+        } else if (requestCode == 2) { // find video
             if (resultCode == Activity.RESULT_OK) {
                 Uri myVid = imageReturnedIntent.getData();
                 String path = getPath(myVid);
@@ -205,13 +260,6 @@ public class AttachMore extends Activity {
                     e.printStackTrace();
                 }
 
-                /*Byte[] upper = new Byte[bytes.length];
-
-                for (int i = 0; i <bytes.length; i++) {
-                    upper[i] = Byte.valueOf(bytes[i]);
-                }
-
-                video.add(upper);*/
                 video = bytes;
 
                 MMSPart part = new MMSPart();
@@ -225,7 +273,7 @@ public class AttachMore extends Activity {
                 AttachMoreArrayAdapter adapter = new AttachMoreArrayAdapter(this, data.toArray(new MMSPart[data.size()]));
                 list.setAdapter(adapter);
             }
-        } else if (requestCode == 3 || requestCode == 5) { //find or record audio
+        } else if (requestCode == 3) { //find audio
             if (resultCode == Activity.RESULT_OK) {
                 Uri myAudio;
 
@@ -244,13 +292,6 @@ public class AttachMore extends Activity {
                     e.printStackTrace();
                 }
 
-                /*Byte[] upper = new Byte[bytes.length];
-
-                for (int i = 0; i <bytes.length; i++) {
-                    upper[i] = Byte.valueOf(bytes[i]);
-                }
-
-                audio.add(upper);*/
                 audio = bytes;
 
                 MMSPart part = new MMSPart();
@@ -264,7 +305,7 @@ public class AttachMore extends Activity {
                 AttachMoreArrayAdapter adapter = new AttachMoreArrayAdapter(this, data.toArray(new MMSPart[data.size()]));
                 list.setAdapter(adapter);
             }
-        } else if (requestCode == 4) {
+        } else if (requestCode == 4) { // attach multiple
             if (resultCode == Activity.RESULT_OK) {
                 String[] all_path = imageReturnedIntent.getStringArrayExtra("all_path");
 
@@ -286,16 +327,70 @@ public class AttachMore extends Activity {
                 AttachMoreArrayAdapter adapter = new AttachMoreArrayAdapter(this, data.toArray(new MMSPart[data.size()]));
                 list.setAdapter(adapter);
             }
+        } else if (requestCode == 5) { // Capture image
+            if (resultCode == Activity.RESULT_OK) {
+                Uri image = Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/", "photoToSend.jpg"));
+                Bitmap b = decodeFile2(new File(getPath(image)));
+                images.add(b);
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                b.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                byte[] byteArray = stream.toByteArray();
+
+                MMSPart part = new MMSPart();
+                part.Name = "Image";
+                part.MimeType = "image/jpeg";
+                part.Data = byteArray;
+
+                data.add(part);
+
+                AttachMoreArrayAdapter adapter = new AttachMoreArrayAdapter(this, data.toArray(new MMSPart[data.size()]));
+                list.setAdapter(adapter);
+            }
+        } else if (requestCode == 6) { // Capture video
+            if (resultCode == Activity.RESULT_OK) {
+                Uri myVid = Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/", "vidToSend.3gpp"));
+                String path = getPath(myVid);
+
+                byte[] bytes = null;
+
+                try {
+                    bytes = IOUtil.readFile(path);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                video = bytes;
+
+                MMSPart part = new MMSPart();
+                part.Name = "Video";
+                part.MimeType = "video/3gpp";
+                part.Data = bytes;
+                part.Path = myVid;
+
+                data.add(part);
+
+                AttachMoreArrayAdapter adapter = new AttachMoreArrayAdapter(this, data.toArray(new MMSPart[data.size()]));
+                list.setAdapter(adapter);
+            }
+        } else if (requestCode == 7) { // Capture audio
+
         }
     }
 
     public String getPath(Uri uri) {
         String[] projection = {MediaStore.Images.Media.DATA};
         Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        String path = cursor.getString(column_index);
-        cursor.close();
+        String path;
+
+        try {
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            path = cursor.getString(column_index);
+            cursor.close();
+        } catch (Exception e) {
+            path = uri.getPath();
+        }
+
         return path;
     }
 
