@@ -92,7 +92,9 @@ import group.pals.android.lib.ui.lockpattern.prefs.SecurityPrefs;
 import net.simonvt.messagebar.MessageBar;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.*;
