@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.widget.Toast;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_sliding.blacklist.BlacklistContact;
@@ -51,9 +52,15 @@ public class IOUtil {
 
     public static String getPath(Uri uri, Context context) {
         String[] projection = {MediaStore.Images.Media.DATA};
-        Cursor cursor = context.getContentResolver().query(uri, projection, null, null, null);
-        cursor.moveToFirst();
-        return cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+        String path;
+        try {
+            Cursor cursor = context.getContentResolver().query(uri, projection, null, null, null);
+            cursor.moveToFirst();
+            path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+        } catch (Exception e) {
+            path = uri.getPath();
+        }
+        return path;
     }
 
     public static void saveImage(Bitmap finalBitmap, String d, Context context) {

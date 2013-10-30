@@ -2004,9 +2004,9 @@ public class MainActivity extends FragmentActivity {
                                     hasPic = true;
                                     if (!fromCamera) {
                                         try {
-                                            bitmaps.add(SendUtil.getImage(context, attachedImage2, 600));
+                                            bitmaps.add(SendUtil.getImage(context, attachedImage, 600));
                                         } catch (Exception e) {
-                                            bitmaps.add(IOUtil.decodeFileWithExif2(new File(IOUtil.getPath(attachedImage2, context))));
+                                            bitmaps.add(IOUtil.decodeFileWithExif2(new File(IOUtil.getPath(attachedImage, context))));
                                         }
                                     } else {
                                         try {
@@ -4113,7 +4113,7 @@ public class MainActivity extends FragmentActivity {
         filter.addCategory(Intent.CATEGORY_DEFAULT);
         registerReceiver(killReceiver, filter);
 
-        if (isPopup && messageEntry.getText().toString().equals("")) {
+        if (isPopup && messageEntry.getText().toString().equals("") && imageAttach.getVisibility() != View.VISIBLE) {
             sendButton.setImageResource(R.drawable.ic_attach);
             attachOnSend = true;
         }
