@@ -50,6 +50,7 @@ public class AttachMore extends Activity {
     public static byte[] audio;
     public static byte[] video;
     public static byte[] contact;
+    public static String contactNumber = null;
     public ListView list;
     public SharedPreferences sharedPrefs;
 
@@ -255,6 +256,7 @@ public class AttachMore extends Activity {
 
                 data.add(part);
 
+                contactNumber = null;
                 video = new byte[0];
                 audio = new byte[0];
                 contact = new byte[0];
@@ -276,6 +278,7 @@ public class AttachMore extends Activity {
 
                 video = bytes;
 
+                contactNumber = null;
                 images.clear();
                 audio = new byte[0];
                 contact = new byte[0];
@@ -317,6 +320,7 @@ public class AttachMore extends Activity {
 
                 audio = bytes;
 
+                contactNumber = null;
                 images.clear();
                 video = new byte[0];
                 contact = new byte[0];
@@ -353,6 +357,7 @@ public class AttachMore extends Activity {
                     part.MimeType = "image/png";
                     part.Data = byteArray;
 
+                    contactNumber = null;
                     data.add(part);
                     video = new byte[0];
                     audio = new byte[0];
@@ -376,6 +381,7 @@ public class AttachMore extends Activity {
                 part.MimeType = "image/jpeg";
                 part.Data = byteArray;
 
+                contactNumber = null;
                 data.add(part);
                 video = new byte[0];
                 audio = new byte[0];
@@ -399,6 +405,7 @@ public class AttachMore extends Activity {
 
                 video = bytes;
 
+                contactNumber = null;
                 images.clear();
                 contact = new byte[0];
                 audio = new byte[0];
@@ -448,6 +455,7 @@ public class AttachMore extends Activity {
                         e.printStackTrace();
                     }
 
+                    contactNumber = number;
                     contact = bytes;
 
                     images.clear();

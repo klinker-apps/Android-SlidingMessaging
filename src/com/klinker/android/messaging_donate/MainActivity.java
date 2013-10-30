@@ -3871,9 +3871,14 @@ public class MainActivity extends FragmentActivity {
                 imageAttach.setVisibility(true);
 
                 try {
-                    Bitmap bmp = BitmapFactory.decodeByteArray(AttachMore.data.get(0).Data, 0, AttachMore.data.get(0).Data.length);
-                    Bitmap mutableBitmap = bmp.copy(Bitmap.Config.ARGB_8888, true);
-                    imageAttach.setImage("send_image", mutableBitmap);
+                    if (AttachMore.contactNumber != null) {
+                        Bitmap contactPic = ContactUtil.getFacebookPhoto(AttachMore.contactNumber, this);
+                        imageAttach.setImage("send_image", contactPic);
+                    } else {
+                        Bitmap bmp = BitmapFactory.decodeByteArray(AttachMore.data.get(0).Data, 0, AttachMore.data.get(0).Data.length);
+                        Bitmap mutableBitmap = bmp.copy(Bitmap.Config.ARGB_8888, true);
+                        imageAttach.setImage("send_image", mutableBitmap);
+                    }
                 } catch (Exception e) {
                     try {
                         Bitmap playButton = BitmapFactory.decodeResource(context.getResources(),
@@ -3938,9 +3943,14 @@ public class MainActivity extends FragmentActivity {
                 imageAttach2.setVisibility(true);
 
                 try {
-                    Bitmap bmp = BitmapFactory.decodeByteArray(AttachMore.data.get(0).Data, 0, AttachMore.data.get(0).Data.length);
-                    Bitmap mutableBitmap = bmp.copy(Bitmap.Config.ARGB_8888, true);
-                    imageAttach2.setImage("send_image", mutableBitmap);
+                    if (AttachMore.contactNumber != null) {
+                        Bitmap contactPic = ContactUtil.getFacebookPhoto(AttachMore.contactNumber, this);
+                        imageAttach.setImage("send_image", contactPic);
+                    } else {
+                        Bitmap bmp = BitmapFactory.decodeByteArray(AttachMore.data.get(0).Data, 0, AttachMore.data.get(0).Data.length);
+                        Bitmap mutableBitmap = bmp.copy(Bitmap.Config.ARGB_8888, true);
+                        imageAttach.setImage("send_image", mutableBitmap);
+                    }
                 } catch (Exception e) {
                     try {
                         Bitmap playButton = BitmapFactory.decodeResource(context.getResources(),
