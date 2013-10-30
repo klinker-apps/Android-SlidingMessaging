@@ -92,7 +92,9 @@ import group.pals.android.lib.ui.lockpattern.prefs.SecurityPrefs;
 import net.simonvt.messagebar.MessageBar;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.*;
@@ -1065,8 +1067,15 @@ public class MainActivity extends FragmentActivity {
 
                             if (image) {
                                 ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
+                                byte[] audio = new byte[0];
+                                byte[] video = new byte[0];
+
+                                boolean hasPic = false;
+                                boolean hasAudio = false;
+                                boolean hasVideo = false;
 
                                 if (!multipleAttachments) {
+                                    hasPic = true;
                                     if (!fromCamera) {
                                         try {
                                             bitmaps.add(SendUtil.getImage(context, attachedImage2, 600));
@@ -1081,18 +1090,50 @@ public class MainActivity extends FragmentActivity {
                                         }
                                     }
                                 } else {
-                                    bitmaps = AttachMore.images;
-                                    AttachMore.images = new ArrayList<Bitmap>();
+
+                                    hasPic = AttachMore.images.size() != 0;
+                                    try { hasAudio = AttachMore.audio.length != 0; } catch (Exception e) { }
+                                    try { hasVideo = AttachMore.video.length != 0; } catch (Exception e) { }
+
+                                    if (hasPic) {
+                                        bitmaps = AttachMore.images;
+                                        AttachMore.images = new ArrayList<Bitmap>();
+                                    }
+
+                                    if (hasAudio) {
+                                        audio = AttachMore.audio;
+                                        AttachMore.audio = null;
+                                    }
+
+                                    if (hasVideo) {
+                                        video = AttachMore.video;
+                                        AttachMore.video = null;
+                                    }
+
                                     AttachMore.data = new ArrayList<MMSPart>();
                                 }
 
-                                Bitmap[] images = new Bitmap[bitmaps.size()];
+                                if (hasPic) {
+                                    Bitmap[] images = new Bitmap[bitmaps.size()];
 
-                                for (int i = 0; i < bitmaps.size(); i++) {
-                                    images[i] = bitmaps.get(i);
+                                    for (int i = 0; i < bitmaps.size(); i++) {
+                                        images[i] = bitmaps.get(i);
+                                    }
+
+                                    message.setImages(images);
                                 }
 
-                                message.setImages(images);
+                                if (hasAudio) {
+                                    byte[] media = audio;
+
+                                    message.setMedia(media, "video/3gpp");
+                                }
+
+                                if (hasVideo) {
+                                    byte[] media = video;
+
+                                    message.setMedia(media, "video/3gpp");
+                                }
                             }
 
                             if (subjectLine2.getVisibility() != View.GONE && !subjectEntry2.getText().toString().equals("")) {
@@ -1952,8 +1993,15 @@ public class MainActivity extends FragmentActivity {
 
                             if (image) {
                                 ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
+                                byte[] audio = new byte[0];
+                                byte[] video = new byte[0];
+
+                                boolean hasPic = false;
+                                boolean hasAudio = false;
+                                boolean hasVideo = false;
 
                                 if (!multipleAttachments) {
+                                    hasPic = true;
                                     if (!fromCamera) {
                                         try {
                                             bitmaps.add(SendUtil.getImage(context, attachedImage, 600));
@@ -1968,18 +2016,50 @@ public class MainActivity extends FragmentActivity {
                                         }
                                     }
                                 } else {
-                                    bitmaps = AttachMore.images;
-                                    AttachMore.images = new ArrayList<Bitmap>();
+
+                                    hasPic = AttachMore.images.size() != 0;
+                                    try { hasAudio = AttachMore.audio.length != 0; } catch (Exception e) { }
+                                    try { hasVideo = AttachMore.video.length != 0; } catch (Exception e) { }
+
+                                    if (hasPic) {
+                                        bitmaps = AttachMore.images;
+                                        AttachMore.images = new ArrayList<Bitmap>();
+                                    }
+
+                                    if (hasAudio) {
+                                        audio = AttachMore.audio;
+                                        AttachMore.audio = null;
+                                    }
+
+                                    if (hasVideo) {
+                                        video = AttachMore.video;
+                                        AttachMore.video = null;
+                                    }
+
                                     AttachMore.data = new ArrayList<MMSPart>();
                                 }
 
-                                Bitmap[] images = new Bitmap[bitmaps.size()];
+                                if (hasPic) {
+                                    Bitmap[] images = new Bitmap[bitmaps.size()];
 
-                                for (int i = 0; i < bitmaps.size(); i++) {
-                                    images[i] = bitmaps.get(i);
+                                    for (int i = 0; i < bitmaps.size(); i++) {
+                                        images[i] = bitmaps.get(i);
+                                    }
+
+                                    message.setImages(images);
                                 }
 
-                                message.setImages(images);
+                                if (hasAudio) {
+                                    byte[] media = audio;
+
+                                    message.setMedia(media, "video/3gpp");
+                                }
+
+                                if (hasVideo) {
+                                    byte[] media = video;
+
+                                    message.setMedia(media, "video/3gpp");
+                                }
                             }
 
                             if (subjectLine.getVisibility() != View.GONE && !subjectEntry.getText().toString().equals("")) {
@@ -4033,7 +4113,7 @@ public class MainActivity extends FragmentActivity {
         filter.addCategory(Intent.CATEGORY_DEFAULT);
         registerReceiver(killReceiver, filter);
 
-        if (isPopup && messageEntry.getText().toString().equals("")) {
+        if (isPopup && messageEntry.getText().toString().equals("") && imageAttach.getVisibility() != View.VISIBLE) {
             sendButton.setImageResource(R.drawable.ic_attach);
             attachOnSend = true;
         }

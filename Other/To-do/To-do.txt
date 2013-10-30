@@ -7,8 +7,6 @@ Jake:
 Luke:
     - Forward mms with multiple attachments
     - KitKat support
-    - Send Audio
-    - Send Video
     - Send V-card
     - New icon
 

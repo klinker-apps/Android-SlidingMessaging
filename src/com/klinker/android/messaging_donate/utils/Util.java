@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.media.CamcorderProfile;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 
@@ -31,5 +32,25 @@ public class Util {
         if (smsApps.size() == 1) {
             PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("override", true).commit();
         }
+    }
+
+    private static final int[] sVideoDuration =
+            new int[] {0, 5, 10, 15, 20, 30, 40, 50, 60, 90, 120};
+
+    public static int getVideoCaptureDurationLimit(long bytesAvailable) {
+        CamcorderProfile camcorder = CamcorderProfile.get(CamcorderProfile.QUALITY_LOW);
+        if (camcorder == null) {
+            return 0;
+        }
+        bytesAvailable *= 8;        // convert to bits
+        long seconds = bytesAvailable / (camcorder.audioBitRate + camcorder.videoBitRate);
+
+        // Find the best match for one of the fixed durations
+        for (int i = sVideoDuration.length - 1; i >= 0; i--) {
+            if (seconds >= sVideoDuration[i]) {
+                return sVideoDuration[i];
+            }
+        }
+        return 0;
     }
 }

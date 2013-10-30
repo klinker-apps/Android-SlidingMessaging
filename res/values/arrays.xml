@@ -377,6 +377,9 @@
         <item>Select Video</item>
         <item>Select Audio</item>
         <item>Select Multiple Images</item>
+        <item>Capture Image</item>
+        <item>Capture Video</item>
+        <item>Capture Audio</item>
     </string-array>
 
     <string-array name="notification_icon">
