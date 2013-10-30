@@ -455,6 +455,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                                     public void onClick(View view) {
                                                         Intent intent = new Intent();
                                                         intent.setAction(Intent.ACTION_VIEW);
+                                                        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                                                         intent.setDataAndType(Uri.parse(audioF), "audio/*");
                                                         context.startActivity(intent);
                                                     }
