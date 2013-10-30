@@ -262,7 +262,14 @@ public class AttachMore extends Activity {
 
                 video = bytes;
 
-                MMSPart part = new MMSPart();
+                images.clear();
+                data.clear();
+
+                Intent i = getIntent();
+                setResult(RESULT_OK, i);
+                finish();
+
+                /*MMSPart part = new MMSPart();
                 part.Name = "Video";
                 part.MimeType = "video/3gpp";
                 part.Data = bytes;
@@ -271,7 +278,7 @@ public class AttachMore extends Activity {
                 data.add(part);
 
                 AttachMoreArrayAdapter adapter = new AttachMoreArrayAdapter(this, data.toArray(new MMSPart[data.size()]));
-                list.setAdapter(adapter);
+                list.setAdapter(adapter);*/
             }
         } else if (requestCode == 3 || requestCode == 7) { //find audio
             if (resultCode == Activity.RESULT_OK) {
@@ -294,7 +301,14 @@ public class AttachMore extends Activity {
 
                 audio = bytes;
 
-                MMSPart part = new MMSPart();
+                images.clear();
+                data.clear();
+
+                Intent i = getIntent();
+                setResult(RESULT_OK, i);
+                finish();
+
+                /*MMSPart part = new MMSPart();
                 part.Name = "Audio";
                 part.MimeType = "video/3gpp";
                 part.Data = bytes;
@@ -303,7 +317,7 @@ public class AttachMore extends Activity {
                 data.add(part);
 
                 AttachMoreArrayAdapter adapter = new AttachMoreArrayAdapter(this, data.toArray(new MMSPart[data.size()]));
-                list.setAdapter(adapter);
+                list.setAdapter(adapter);*/
             }
         } else if (requestCode == 4) { // attach multiple
             if (resultCode == Activity.RESULT_OK) {
@@ -361,7 +375,14 @@ public class AttachMore extends Activity {
 
                 video = bytes;
 
-                MMSPart part = new MMSPart();
+                images.clear();
+                data.clear();
+
+                Intent i = getIntent();
+                setResult(RESULT_OK, i);
+                finish();
+
+                /*MMSPart part = new MMSPart();
                 part.Name = "Video";
                 part.MimeType = "video/3gpp";
                 part.Data = bytes;
@@ -370,7 +391,7 @@ public class AttachMore extends Activity {
                 data.add(part);
 
                 AttachMoreArrayAdapter adapter = new AttachMoreArrayAdapter(this, data.toArray(new MMSPart[data.size()]));
-                list.setAdapter(adapter);
+                list.setAdapter(adapter);*/
             }
         }
     }
