@@ -2009,18 +2009,20 @@ public class MainActivity extends FragmentActivity {
                                 ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
                                 byte[] audio = new byte[0];
                                 byte[] video = new byte[0];
+                                byte[] contact = new byte[0];
 
                                 boolean hasPic = false;
                                 boolean hasAudio = false;
                                 boolean hasVideo = false;
+                                boolean hasContact = false;
 
                                 if (!multipleAttachments) {
                                     hasPic = true;
                                     if (!fromCamera) {
                                         try {
-                                            bitmaps.add(SendUtil.getImage(context, attachedImage, 600));
+                                            bitmaps.add(SendUtil.getImage(context, attachedImage2, 600));
                                         } catch (Exception e) {
-                                            bitmaps.add(IOUtil.decodeFileWithExif2(new File(IOUtil.getPath(attachedImage, context))));
+                                            bitmaps.add(IOUtil.decodeFileWithExif2(new File(IOUtil.getPath(attachedImage2, context))));
                                         }
                                     } else {
                                         try {
@@ -2034,6 +2036,7 @@ public class MainActivity extends FragmentActivity {
                                     hasPic = AttachMore.images.size() != 0;
                                     try { hasAudio = AttachMore.audio.length != 0; } catch (Exception e) { }
                                     try { hasVideo = AttachMore.video.length != 0; } catch (Exception e) { }
+                                    try { hasContact = AttachMore.contact.length != 0; } catch (Exception e) { }
 
                                     if (hasPic) {
                                         bitmaps = AttachMore.images;
@@ -2048,6 +2051,11 @@ public class MainActivity extends FragmentActivity {
                                     if (hasVideo) {
                                         video = AttachMore.video;
                                         AttachMore.video = null;
+                                    }
+
+                                    if (hasContact) {
+                                        contact = AttachMore.contact;
+                                        AttachMore.contact = null;
                                     }
 
                                     AttachMore.data = new ArrayList<MMSPart>();
@@ -2073,6 +2081,12 @@ public class MainActivity extends FragmentActivity {
                                     byte[] media = video;
 
                                     message.setMedia(media, "video/3gpp");
+                                }
+
+                                if (hasContact) {
+                                    byte[] media = contact;
+
+                                    message.setMedia(media, "text/x-vcard");
                                 }
                             }
 
