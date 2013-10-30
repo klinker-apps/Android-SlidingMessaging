@@ -192,6 +192,11 @@
             android:label="@string/preset_apns"
             android:theme="@android:style/Theme.Holo.Light.DarkActionBar" >
         </activity>
+
+        <activity android:name="com.klinker.android.messaging_sliding.ContactPickerDialog"
+            android:label="@string/attach_contact"
+            android:theme="@android:style/Theme.Holo.Dialog"
+            />
         
         <activity
             android:name="com.klinker.android.messaging_sliding.theme.CustomThemeActivity"

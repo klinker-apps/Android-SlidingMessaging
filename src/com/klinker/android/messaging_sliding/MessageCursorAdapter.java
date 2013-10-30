@@ -295,6 +295,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                             String image = null;
                             String video = null;
                             String audio = null;
+                            String vcard = null;
 
                             Uri uri = Uri.parse("content://mms/part");
                             Cursor query = contentResolver.query(uri, null, selectionPart, null, null);
@@ -328,6 +329,10 @@ public class MessageCursorAdapter extends CursorAdapter {
 
                                     if ("video/mpeg".equals(type) || "video/3gpp".equals(type) || "video/mp4".equals(type)) {
                                         video = "content://mms/part/" + partId;
+                                    }
+
+                                    else if (type.equals("text/x-vcard")) {
+                                        vcard = "content://mms/part/" + partId;
                                     }
 
                                     try {
@@ -379,6 +384,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                 final Bitmap pictureF = picture;
                                 final String videoF = video;
                                 final String audioF = audio;
+                                final String vcardF = vcard;
 
                                 if (holder.text.getText().toString().equals("")) {
                                     // view is empty and has not been recycled, so show the images
@@ -388,7 +394,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                         public void run() {
                                             setMessageText(holder.text, text, context);
 
-                                            if (imageUri == null && videoF == null && audioF == null) {
+                                            if (imageUri == null && videoF == null && audioF == null && vcardF == null) {
                                                 holder.media.setVisibility(View.GONE);
                                                 holder.media.setImageResource(android.R.color.transparent);
                                             } else if (imageUri != null) {
@@ -458,6 +464,16 @@ public class MessageCursorAdapter extends CursorAdapter {
                                                         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                                                         intent.setDataAndType(Uri.parse(audioF), "audio/*");
                                                         context.startActivity(intent);
+                                                    }
+                                                });
+                                            } else if (vcardF != null) {
+                                                holder.media.setVisibility(View.VISIBLE);
+                                                holder.media.setImageResource(R.drawable.contact);
+                                                holder.media.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                                                holder.media.setOnClickListener(new View.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(View view) {
+
                                                     }
                                                 });
                                             }
