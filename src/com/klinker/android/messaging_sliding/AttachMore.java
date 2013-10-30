@@ -273,7 +273,7 @@ public class AttachMore extends Activity {
                 AttachMoreArrayAdapter adapter = new AttachMoreArrayAdapter(this, data.toArray(new MMSPart[data.size()]));
                 list.setAdapter(adapter);
             }
-        } else if (requestCode == 3) { //find audio
+        } else if (requestCode == 3 || requestCode == 7) { //find audio
             if (resultCode == Activity.RESULT_OK) {
                 Uri myAudio;
 
@@ -372,8 +372,6 @@ public class AttachMore extends Activity {
                 AttachMoreArrayAdapter adapter = new AttachMoreArrayAdapter(this, data.toArray(new MMSPart[data.size()]));
                 list.setAdapter(adapter);
             }
-        } else if (requestCode == 7) { // Capture audio
-
         }
     }
 
