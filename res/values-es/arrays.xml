@@ -223,6 +223,10 @@
         <item>Seleccionar imagen</item>
         <item>Seleccionar video</item>
         <item>Seleccionar audio</item>
+        <item>Select Multiple Images</item>
+        <item>Capture Image</item>
+        <item>Capture Video</item>
+        <item>Capture Audio</item>
     </string-array>
 
     <string-array name="notification_icon">
