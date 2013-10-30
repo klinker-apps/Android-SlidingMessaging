@@ -1991,13 +1991,20 @@ public class MainActivity extends FragmentActivity {
 
                             if (image) {
                                 ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
+                                byte[] audio = new byte[0];
+                                byte[] video = new byte[0];
+
+                                boolean hasPic = false;
+                                boolean hasAudio = false;
+                                boolean hasVideo = false;
 
                                 if (!multipleAttachments) {
+                                    hasPic = true;
                                     if (!fromCamera) {
                                         try {
-                                            bitmaps.add(SendUtil.getImage(context, attachedImage, 600));
+                                            bitmaps.add(SendUtil.getImage(context, attachedImage2, 600));
                                         } catch (Exception e) {
-                                            bitmaps.add(IOUtil.decodeFileWithExif2(new File(IOUtil.getPath(attachedImage, context))));
+                                            bitmaps.add(IOUtil.decodeFileWithExif2(new File(IOUtil.getPath(attachedImage2, context))));
                                         }
                                     } else {
                                         try {
@@ -2007,18 +2014,50 @@ public class MainActivity extends FragmentActivity {
                                         }
                                     }
                                 } else {
-                                    bitmaps = AttachMore.images;
-                                    AttachMore.images = new ArrayList<Bitmap>();
+
+                                    hasPic = AttachMore.images.size() != 0;
+                                    try { hasAudio = AttachMore.audio.length != 0; } catch (Exception e) { }
+                                    try { hasVideo = AttachMore.video.length != 0; } catch (Exception e) { }
+
+                                    if (hasPic) {
+                                        bitmaps = AttachMore.images;
+                                        AttachMore.images = new ArrayList<Bitmap>();
+                                    }
+
+                                    if (hasAudio) {
+                                        audio = AttachMore.audio;
+                                        AttachMore.audio = null;
+                                    }
+
+                                    if (hasVideo) {
+                                        video = AttachMore.video;
+                                        AttachMore.video = null;
+                                    }
+
                                     AttachMore.data = new ArrayList<MMSPart>();
                                 }
 
-                                Bitmap[] images = new Bitmap[bitmaps.size()];
+                                if (hasPic) {
+                                    Bitmap[] images = new Bitmap[bitmaps.size()];
 
-                                for (int i = 0; i < bitmaps.size(); i++) {
-                                    images[i] = bitmaps.get(i);
+                                    for (int i = 0; i < bitmaps.size(); i++) {
+                                        images[i] = bitmaps.get(i);
+                                    }
+
+                                    message.setImages(images);
                                 }
 
-                                message.setImages(images);
+                                if (hasAudio) {
+                                    byte[] media = audio;
+
+                                    message.setMedia(media, "video/3gpp");
+                                }
+
+                                if (hasVideo) {
+                                    byte[] media = video;
+
+                                    message.setMedia(media, "video/3gpp");
+                                }
                             }
 
                             if (subjectLine.getVisibility() != View.GONE && !subjectEntry.getText().toString().equals("")) {
