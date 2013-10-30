@@ -335,7 +335,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                         vcard = "content://mms/part/" + partId;
 
                                         String[] contactInfo = IOUtil.parseVCard(context, Uri.parse(vcard));
-                                        body2 = contactInfo[0] + ", " + contactInfo[1] + " ";
+                                        body2 = "(" + contactInfo[0] + ", " + contactInfo[1] + ")\n";
                                         body += body2;
                                     }
 
@@ -543,7 +543,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                 vcard = "content://mms/part/" + partId;
 
                                 String[] contactInfo = IOUtil.parseVCard(context, Uri.parse(vcard));
-                                body2 = contactInfo[0] + ", " + contactInfo[1] + " ";
+                                body2 = "(" + contactInfo[0] + ", " + contactInfo[1] + ")\n";
                                 body += body2;
                             }
                         } while (query.moveToNext());
