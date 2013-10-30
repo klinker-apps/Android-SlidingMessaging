@@ -550,6 +550,10 @@ public class AttachMore extends Activity {
     @Override
     public void onBackPressed() {
         data.clear();
+        images = null;
+        video = null;
+        contact = null;
+        audio = null;
 
         Intent i = getIntent();
         setResult(RESULT_CANCELED, i);

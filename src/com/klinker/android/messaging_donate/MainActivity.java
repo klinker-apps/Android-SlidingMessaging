@@ -3659,7 +3659,10 @@ public class MainActivity extends FragmentActivity {
                     public void onClick(View v) {
                         imageAttach.setVisibility(false);
                         imageAttachBackground.setVisibility(View.GONE);
-
+                        AttachMore.images = null;
+                        AttachMore.video = null;
+                        AttachMore.contact = null;
+                        AttachMore.audio = null;
                     }
 
                 });
@@ -3724,7 +3727,10 @@ public class MainActivity extends FragmentActivity {
                     public void onClick(View v) {
                         imageAttach2.setVisibility(false);
                         imageAttachBackground2.setVisibility(View.GONE);
-
+                        AttachMore.images = null;
+                        AttachMore.video = null;
+                        AttachMore.contact = null;
+                        AttachMore.audio = null;
                     }
 
                 });
@@ -3789,7 +3795,10 @@ public class MainActivity extends FragmentActivity {
                     public void onClick(View v) {
                         imageAttach.setVisibility(false);
                         imageAttachBackground.setVisibility(View.GONE);
-
+                        AttachMore.images = null;
+                        AttachMore.video = null;
+                        AttachMore.contact = null;
+                        AttachMore.audio = null;
                     }
 
                 });
@@ -3853,7 +3862,10 @@ public class MainActivity extends FragmentActivity {
                     public void onClick(View v) {
                         imageAttach2.setVisibility(false);
                         imageAttachBackground2.setVisibility(View.GONE);
-
+                        AttachMore.images = null;
+                        AttachMore.video = null;
+                        AttachMore.contact = null;
+                        AttachMore.audio = null;
                     }
 
                 });
@@ -3926,7 +3938,10 @@ public class MainActivity extends FragmentActivity {
                         imageAttachBackground.setVisibility(View.GONE);
                         multipleAttachments = false;
                         AttachMore.data = new ArrayList<MMSPart>();
-
+                        AttachMore.images = null;
+                        AttachMore.video = null;
+                        AttachMore.contact = null;
+                        AttachMore.audio = null;
                     }
 
                 });
@@ -3998,7 +4013,10 @@ public class MainActivity extends FragmentActivity {
                         imageAttachBackground2.setVisibility(View.GONE);
                         multipleAttachments = false;
                         AttachMore.data = new ArrayList<MMSPart>();
-
+                        AttachMore.images = null;
+                        AttachMore.video = null;
+                        AttachMore.contact = null;
+                        AttachMore.audio = null;
                     }
 
                 });
