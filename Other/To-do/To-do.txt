@@ -7,8 +7,6 @@ Jake:
 Luke:
     - Forward mms with multiple attachments
     - KitKat support
-    - Send V-card
-    - New icon
 
 
 Android 4.4 Stuff:
