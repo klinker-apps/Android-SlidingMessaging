@@ -36,6 +36,8 @@ public class AttachMore extends Activity {
 
     public static ArrayList<MMSPart> data = new ArrayList<MMSPart>();
     public static ArrayList<Bitmap> images = new ArrayList<Bitmap>();
+    public static byte[] audio;
+    public static byte[] video;
     public ListView list;
     public SharedPreferences sharedPrefs;
 
@@ -193,8 +195,8 @@ public class AttachMore extends Activity {
             }
         } else if (requestCode == 2) {
             if (resultCode == Activity.RESULT_OK) {
-                Uri video = imageReturnedIntent.getData();
-                String path = getPath(video);
+                Uri myVid = imageReturnedIntent.getData();
+                String path = getPath(myVid);
                 byte[] bytes = null;
 
                 try {
@@ -203,11 +205,20 @@ public class AttachMore extends Activity {
                     e.printStackTrace();
                 }
 
+                /*Byte[] upper = new Byte[bytes.length];
+
+                for (int i = 0; i <bytes.length; i++) {
+                    upper[i] = Byte.valueOf(bytes[i]);
+                }
+
+                video.add(upper);*/
+                video = bytes;
+
                 MMSPart part = new MMSPart();
                 part.Name = "Video";
-                part.MimeType = "video/3gp";
+                part.MimeType = "video/3gpp";
                 part.Data = bytes;
-                part.Path = video;
+                part.Path = myVid;
 
                 data.add(part);
 
@@ -216,15 +227,15 @@ public class AttachMore extends Activity {
             }
         } else if (requestCode == 3 || requestCode == 5) { //find or record audio
             if (resultCode == Activity.RESULT_OK) {
-                Uri audio;
+                Uri myAudio;
 
                 try {
-                    audio = imageReturnedIntent.getData();
+                    myAudio = imageReturnedIntent.getData();
                 } catch (Exception e) {
-                    audio = ((Uri) imageReturnedIntent.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI));
+                    myAudio = ((Uri) imageReturnedIntent.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI));
                 }
 
-                String path = getPath(audio);
+                String path = getPath(myAudio);
                 byte[] bytes = null;
 
                 try {
@@ -233,11 +244,20 @@ public class AttachMore extends Activity {
                     e.printStackTrace();
                 }
 
+                /*Byte[] upper = new Byte[bytes.length];
+
+                for (int i = 0; i <bytes.length; i++) {
+                    upper[i] = Byte.valueOf(bytes[i]);
+                }
+
+                audio.add(upper);*/
+                audio = bytes;
+
                 MMSPart part = new MMSPart();
                 part.Name = "Audio";
                 part.MimeType = "video/3gpp";
                 part.Data = bytes;
-                part.Path = audio;
+                part.Path = myAudio;
 
                 data.add(part);
 
@@ -332,7 +352,10 @@ public class AttachMore extends Activity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         data.clear();
+
+        Intent i = getIntent();
+        setResult(RESULT_CANCELED, i);
+        finish();
     }
 }
