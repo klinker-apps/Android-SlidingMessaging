@@ -4,6 +4,7 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.database.sqlite.SqliteWrapper;
 import android.net.Uri;
 import android.provider.Telephony;
 import android.text.TextUtils;
@@ -12,6 +13,10 @@ import android.text.format.Time;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu_alt.*;
 import com.klinker.android.messaging_donate.R;
+
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MessageUtil {
 
@@ -207,7 +212,10 @@ public class MessageUtil {
         // Address: ***
         details.append('\n');
         int smsType = cursor.getInt(cursor.getColumnIndex("type"));
-        if (Telephony.Sms.isOutgoingFolder(smsType)) {
+        if ((smsType == 5)
+                || (smsType == 4)
+                || (smsType == 2)
+                || (smsType == 6)) {
             details.append(res.getString(R.string.to_address_label));
         } else {
             details.append(res.getString(R.string.from_label));
@@ -315,5 +323,68 @@ public class MessageUtil {
             default:
                 return res.getString(R.string.priority_normal);
         }
+    }
+
+    private static long getOrCreateThreadId(
+            Context context, Set<String> recipients) {
+        Uri.Builder uriBuilder = Uri.parse("content://mms-sms/threadID").buildUpon();
+
+        for (String recipient : recipients) {
+            if (isEmailAddress(recipient)) {
+                recipient = extractAddrSpec(recipient);
+            }
+
+            uriBuilder.appendQueryParameter("recipient", recipient);
+        }
+
+        Uri uri = uriBuilder.build();
+        Cursor cursor = SqliteWrapper.query(context, context.getContentResolver(),
+                uri, new String[]{"_id"}, null, null, null);
+        if (cursor != null) {
+            try {
+                if (cursor.moveToFirst()) {
+                    return cursor.getLong(0);
+                } else {
+
+                }
+            } finally {
+                cursor.close();
+            }
+        }
+
+        throw new IllegalArgumentException("Unable to find or allocate a thread ID.");
+    }
+
+    private static boolean isEmailAddress(String address) {
+        if (TextUtils.isEmpty(address)) {
+            return false;
+        }
+
+        String s = extractAddrSpec(address);
+        Matcher match = EMAIL_ADDRESS_PATTERN.matcher(s);
+        return match.matches();
+    }
+
+    private static final Pattern EMAIL_ADDRESS_PATTERN
+        = Pattern.compile(
+        "[a-zA-Z0-9\\+\\.\\_\\%\\-]{1,256}" +
+                "\\@" +
+                "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
+                "(" +
+                "\\." +
+                "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
+                ")+"
+    );
+
+    private static final Pattern NAME_ADDR_EMAIL_PATTERN =
+        Pattern.compile("\\s*(\"[^\"]*\"|[^<>\"]+)\\s*<([^<>]+)>\\s*");
+
+    private static String extractAddrSpec(String address) {
+        Matcher match = NAME_ADDR_EMAIL_PATTERN.matcher(address);
+
+        if (match.matches()) {
+            return match.group(2);
+        }
+        return address;
     }
 }
