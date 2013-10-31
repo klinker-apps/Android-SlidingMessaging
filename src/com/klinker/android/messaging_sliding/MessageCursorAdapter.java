@@ -331,7 +331,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                         video = "content://mms/part/" + partId;
                                     }
 
-                                    else if (type.equals("text/x-vcard")) {
+                                    else if (type.equals("text/x-vCard")) {
                                         vcard = "content://mms/part/" + partId;
 
                                         String[] contactInfo = IOUtil.parseVCard(context, Uri.parse(vcard));
@@ -539,7 +539,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                 audio = "content://mms/part/" + partId;
                             }
 
-                            if (type.equals("text/x-vcard")) {
+                            if (type.equals("text/x-vCard")) {
                                 vcard = "content://mms/part/" + partId;
 
                                 String[] contactInfo = IOUtil.parseVCard(context, Uri.parse(vcard));
