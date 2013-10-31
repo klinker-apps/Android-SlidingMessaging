@@ -2020,9 +2020,9 @@ public class MainActivity extends FragmentActivity {
                                     hasPic = true;
                                     if (!fromCamera) {
                                         try {
-                                            bitmaps.add(SendUtil.getImage(context, attachedImage2, 600));
+                                            bitmaps.add(SendUtil.getImage(context, attachedImage, 600));
                                         } catch (Exception e) {
-                                            bitmaps.add(IOUtil.decodeFileWithExif2(new File(IOUtil.getPath(attachedImage2, context))));
+                                            bitmaps.add(IOUtil.decodeFileWithExif2(new File(IOUtil.getPath(attachedImage, context))));
                                         }
                                     } else {
                                         try {
