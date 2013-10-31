@@ -1146,7 +1146,7 @@ public class MainActivity extends FragmentActivity {
                                 if (hasContact) {
                                     byte[] media = contact;
 
-                                    message.setMedia(media, "text/x-vcard");
+                                    message.setMedia(media, "text/x-vCard");
                                 }
                             }
 
@@ -2086,7 +2086,7 @@ public class MainActivity extends FragmentActivity {
                                 if (hasContact) {
                                     byte[] media = contact;
 
-                                    message.setMedia(media, "text/x-vcard");
+                                    message.setMedia(media, "text/x-vCard");
                                 }
                             }
 

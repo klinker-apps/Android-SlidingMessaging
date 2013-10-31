@@ -440,7 +440,7 @@ public class AttachMore extends Activity {
                     ContactStruct contact1 = new ContactStruct();
                     contact1.name = name;
                     contact1.addPhone(ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE, number, null, true);
-                    String vcardString = composer.createVCard(contact1, VCardComposer.VERSION_VCARD30_INT);
+                    String vcardString = composer.createVCard(contact1, VCardComposer.VERSION_VCARD21_INT);
                     writer.write(vcardString);
                     writer.close();
 
