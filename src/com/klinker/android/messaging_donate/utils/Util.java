@@ -7,7 +7,9 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.media.CamcorderProfile;
 import android.net.Uri;
+import android.os.Build;
 import android.preference.PreferenceManager;
+import android.provider.Telephony;
 
 import java.util.List;
 
@@ -52,5 +54,25 @@ public class Util {
             }
         }
         return 0;
+    }
+
+    public static boolean isDefaultSmsApp(Context context) {
+        if (hasKitKat()) {
+            return context.getPackageName().equals(Telephony.Sms.getDefaultSmsPackage(context));
+        }
+
+        return true;
+    }
+
+    public static void setDefaultSmsApp(Context context) {
+        if (hasKitKat()) {
+            Intent intent = new Intent(Telephony.Sms.Intents.ACTION_CHANGE_DEFAULT);
+            intent.putExtra(Telephony.Sms.Intents.EXTRA_PACKAGE_NAME, context.getPackageName());
+            context.startActivity(intent);
+        }
+    }
+
+    public static boolean hasKitKat() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
     }
 }

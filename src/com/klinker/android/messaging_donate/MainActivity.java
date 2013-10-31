@@ -45,6 +45,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.RelativeLayout.LayoutParams;
+
+import com.klinker.android.messaging_donate.utils.Util;
 import com.klinker.android.messaging_sliding.views.ImageAttachmentView;
 import com.astuetz.viewpager.extensions.PagerSlidingTabStrip;
 import com.devspark.appmsg.AppMsg;
@@ -994,24 +996,19 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
 
-                // TODO Uncomment for kitkat release
-//                if (Build.VERSION.SDK_INT > 18 && !Telephony.Sms.getDefaultSmsPackage(this).equals(getPackageName())) {
-//                    new AlertDialog.Builder(mContext)
-//                            .setTitle(R.string.change_default)
-//                            .setMessage(R.string.change_default_summary)
-//                            .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialogInterface, int i) {
-//                                    Intent intent =
-//                                            new Intent(Telephony.Sms.Intents.ACTION_CHANGE_DEFAULT);
-//                                    intent.putExtra(Telephony.Sms.Intents.EXTRA_PACKAGE_NAME,
-//                                            myPackageName);
-//                                    startActivity(intent);
-//                                }
-//                            })
-//                            .setNegativeButton(R.string.no, null)
-//                            .show();
-//                }
+                if (!Util.isDefaultSmsApp(context)) {
+                    new AlertDialog.Builder(context)
+                            .setTitle(R.string.change_default)
+                            .setMessage(R.string.change_default_summary)
+                            .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    Util.setDefaultSmsApp(context);
+                                }
+                            })
+                            .setNegativeButton(R.string.no, null)
+                            .show();
+                }
 
                 MainActivity.sentMessage = true;
 
@@ -1924,24 +1921,19 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
 
-                // TODO Uncomment for kitkat release
-//                if (Build.VERSION.SDK_INT > 18 && !Telephony.Sms.getDefaultSmsPackage(this).equals(getPackageName())) {
-//                    new AlertDialog.Builder(mContext)
-//                            .setTitle(R.string.change_default)
-//                            .setMessage(R.string.change_default_summary)
-//                            .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialogInterface, int i) {
-//                                    Intent intent =
-//                                            new Intent(Telephony.Sms.Intents.ACTION_CHANGE_DEFAULT);
-//                                    intent.putExtra(Telephony.Sms.Intents.EXTRA_PACKAGE_NAME,
-//                                            myPackageName);
-//                                    startActivity(intent);
-//                                }
-//                            })
-//                            .setNegativeButton(R.string.no, null)
-//                            .show();
-//                }
+                if (!Util.isDefaultSmsApp(context)) {
+                    new AlertDialog.Builder(context)
+                            .setTitle(R.string.change_default)
+                            .setMessage(R.string.change_default_summary)
+                            .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    Util.setDefaultSmsApp(context);
+                                }
+                            })
+                            .setNegativeButton(R.string.no, null)
+                            .show();
+                }
 
                 final String recipientId = conversations.get(mViewPager.getCurrentItem()).getNumber();
                 final long threadId = conversations.get(mViewPager.getCurrentItem()).getThreadId();
