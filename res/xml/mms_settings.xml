@@ -53,7 +53,8 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/mms_through_stock_category" >
+    <PreferenceCategory android:title="@string/mms_through_stock_category"
+                        android:key="mmsThroughStock">
 
         <CheckBoxPreference
             android:key="send_with_stock"
