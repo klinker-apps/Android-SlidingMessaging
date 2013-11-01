@@ -1227,6 +1227,10 @@ public class SettingsPagerActivity extends FragmentActivity {
                 }
 
             });
+            
+            if (Build.VERSION.SDK_INT > 18) {
+                getPreferenceScreen().removePreference(findPreference("mmsThroughStock"));
+            }
 
             if (!showAll) {
                 try {
