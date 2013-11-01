@@ -5,7 +5,7 @@ Jake:
     - actionbar pull to refresh, get the newest changes
 Luke:
     - Forward mms with multiple attachments
-    - KitKat support
+    - Mark as read when multiple messages come in
     - Add location support
 
 

@@ -1,6 +1,7 @@
-- New Icon
+- Mmm, KitKat approved :)
+
+- New Icon!
 - New MMS options:
     - Attach video to MMS
     - Attach audio to MMS
     - Attach contact vCard's to MMS
-- KitKat approved

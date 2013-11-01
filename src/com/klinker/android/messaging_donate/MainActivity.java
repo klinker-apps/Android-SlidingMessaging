@@ -997,17 +997,8 @@ public class MainActivity extends FragmentActivity {
             public void onClick(View v) {
 
                 if (!Util.isDefaultSmsApp(context)) {
-                    new AlertDialog.Builder(context)
-                            .setTitle(R.string.change_default)
-                            .setMessage(R.string.change_default_summary)
-                            .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    Util.setDefaultSmsApp(context);
-                                }
-                            })
-                            .setNegativeButton(R.string.no, null)
-                            .show();
+                    Util.setDefaultSmsApp(context);
+                    return;
                 }
 
                 MainActivity.sentMessage = true;
@@ -1922,17 +1913,8 @@ public class MainActivity extends FragmentActivity {
             public void onClick(View v) {
 
                 if (!Util.isDefaultSmsApp(context)) {
-                    new AlertDialog.Builder(context)
-                            .setTitle(R.string.change_default)
-                            .setMessage(R.string.change_default_summary)
-                            .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    Util.setDefaultSmsApp(context);
-                                }
-                            })
-                            .setNegativeButton(R.string.no, null)
-                            .show();
+                    Util.setDefaultSmsApp(context);
+                    return;
                 }
 
                 final String recipientId = conversations.get(mViewPager.getCurrentItem()).getNumber();
