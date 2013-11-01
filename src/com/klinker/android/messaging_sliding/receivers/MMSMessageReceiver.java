@@ -21,6 +21,7 @@ import com.klinker.android.messaging_donate.utils.Util;
 import com.klinker.android.messaging_sliding.mms.MmsReceiverService;
 
 import java.util.Calendar;
+import java.util.concurrent.ExecutionException;
 
 public class MMSMessageReceiver extends BroadcastReceiver {
     public static String lastReceivedNumber = "";
@@ -37,7 +38,15 @@ public class MMSMessageReceiver extends BroadcastReceiver {
         this.context = context;
         String incomingNumber = null;
 
-        if (intent.getAction().equals("android.provider.Telephony.WAP_PUSH_DELIVER")) {
+        boolean needme;
+
+        try{
+            needme = intent.getAction().equals("android.provider.Telephony.WAP_PUSH_DELIVER");
+        } catch (Exception e) {
+            needme = intent.getAction().equals("android.provider.Telephony.WAP_PUSH_RECEIVED");
+        }
+
+        if (needme) {
             Bundle bundle = intent.getExtras();
             try {
                 if (bundle != null) {
