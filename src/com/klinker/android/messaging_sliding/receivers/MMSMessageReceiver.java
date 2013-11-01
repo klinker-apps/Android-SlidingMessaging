@@ -14,6 +14,7 @@ import com.google.android.mms.pdu_alt.PduHeaders;
 import com.google.android.mms.pdu_alt.PduParser;
 import com.google.android.mms.pdu_alt.PduPersister;
 import com.klinker.android.messaging_donate.MainActivity;
+import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.receivers.UnlockReceiver;
 import com.klinker.android.messaging_donate.utils.ContactUtil;
 import com.klinker.android.messaging_donate.utils.Util;
@@ -36,7 +37,7 @@ public class MMSMessageReceiver extends BroadcastReceiver {
         this.context = context;
         String incomingNumber = null;
 
-        if (intent.getAction().equals("android.provider.Telephony.WAP_PUSH_RECEIVED")) {
+        if (intent.getAction().equals("android.provider.Telephony.WAP_PUSH_DELIVER")) {
             Bundle bundle = intent.getExtras();
             try {
                 if (bundle != null) {
@@ -68,7 +69,7 @@ public class MMSMessageReceiver extends BroadcastReceiver {
 
             boolean error = false;
 
-            if ((sharedPrefs.getBoolean("override", false) && !sharedPrefs.getBoolean("receive_with_stock", false)) || Build.VERSION.SDK_INT > 18) {
+            if ((sharedPrefs.getBoolean("override", false) && !sharedPrefs.getBoolean("receive_with_stock", false)) || context.getResources().getBoolean(R.bool.hasKitKat)) {
                 byte[] pushData = intent.getByteArrayExtra("data");
                 PduParser parser = new PduParser(pushData);
                 GenericPdu pdu = parser.parse();
