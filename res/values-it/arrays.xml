@@ -183,10 +183,6 @@
         <item>Seleziona Immagine</item>
         <item>Seleziona Video</item>
         <item>Seleziona Audio</item>
-        <item>Select Multiple Images</item>
-        <item>Capture Image</item>
-        <item>Capture Video</item>
-        <item>Capture Audio</item>
     </string-array>
 
     <string-array name="notification_icon">
@@ -271,6 +267,12 @@
         <item>Segno di Spunta</item>
         <item>Segno di Spunta e Popup Breve (Non Intrusivo)</item>
         <item>Segno di Spunta e Notifica</item>
+    </string-array>
+	
+	<string-array name="emojiKeyboardColor">
+        <item>Chiaro</item>
+        <item>Nero Pece</item>
+        <item>Scuro</item>
     </string-array>
 
 </resources>

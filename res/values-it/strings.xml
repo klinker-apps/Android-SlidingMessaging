@@ -130,7 +130,7 @@
     <string name="extension_description">Visualizza nuovi messaggi nella schermata di sblocco</string>
     <string name="emoji_type">Emoji Stile Android</string>
     <string name="notification_settings">Impostazioni Notifiche</string>
-    <string name="about_expanded">Crediti a jfeinstein10 di GitHub per SlidingMenu library, attenzione di GitHub per ColorPickerPreference library, nhaarman di GitHub per ListViewAnimations library, Roman Nurik per il suo Wizard Pager, chrisbanes di GitHub per the ActionBar-PullToRefresh library, Hai Bison di Google Code per the Lock Pattern library, l\'intero team Paranoid Android per l\'inspirazione dietro SlideOver e tutto il fantastico lavoro che svolgono, koush per Cyanogenmod\'s Voice+ che permette il supporto Google Voice e a tutti i traduttori.</string>
+    <string name="about_expanded">Crediti a: jfeinstein10 di GitHub per SlidingMenu library, attenzione di GitHub per ColorPickerPreference library, nhaarman di GitHub per ListViewAnimations library, Roman Nurik per il suo Wizard Pager, chrisbanes di GitHub per the ActionBar-PullToRefresh library, Hai Bison di Google Code per the Lock Pattern library, l\'intero team Paranoid Android per l\'inspirazione dietro SlideOver e tutto il fantastico lavoro che svolgono, koush per Cyanogenmod\'s Voice+ che permette il supporto Google Voice, Roberto Darko per la traduzione italiana e agli altri traduttori.</string>
     <string name="download">Download</string>
     <string name="none"></string>
     <string name="message_delivered">Messaggio Inviato</string>
@@ -237,13 +237,14 @@
     <string name="remind_me_later">Ricordamelo la Prossima Volta</string>
     <string name="dont_bother">Non Annoiarmi di Nuovo</string>
     <string name="changelog_title">Change Log:</string>
-    <string name="changelog_disclaimers">Ti piace Sliding Messaging? Ci piacerebbe se ci dessi un voto! 5 stelle riscalderebbero i nostri cuori :)\n
-        http://goo.gl/zH4eBo \n\n
+    <string name="changelog_disclaimers">"Ti piace Sliding Messaging? Ci piacerebbe se ci dessi un voto! 5 stelle riscalderebbero i nostri cuori :)
+http://goo.gl/zH4eBo
 
-        Promemoria:\n\n
+Promemoria:
 
-        - Se riscontri problemi con messaggi non salvati o hai disabilitato tutte le altre applicazioni di gestione messaggi eccetto Sliding Messaging, assicurati d\'aver selezionato l\'opzione \"Sovrascrivi Applicazione di Sistema\" in Impostazioni Avanzate.\n\n
-        - Per favore prima di dare una recensione affrettata dai un\'occhiata alla nuova sezione \"Suggerimenti dello Sviluppatore\" per problemi relativi alla velocità e agli MMS o inviaci una email di protesta. Dovremmo essere capaci di risolvere i tuoi problemi.\n</string>
+- Se riscontri problemi con messaggi non salvati o hai disabilitato tutte le altre applicazioni di gestione messaggi eccetto Sliding Messaging, assicurati d\'aver selezionato l\'opzione \"Sovrascrivi Applicazione di Sistema\" in Impostazioni Avanzate.
+- Per favore prima di dare una recensione affrettata dai un\'occhiata alla nuova sezione \"Suggerimenti dello Sviluppatore\" per problemi relativi alla velocità e agli MMS o inviaci una email di protesta. Dovremmo essere capaci di risolvere i tuoi problemi."
+		</string>
     <string name="led">Luce LED per Notifiche</string>
     <string name="default_theme_prefs">Impostazioni Tema Predefinito</string>
     <string name="breath">Animazione Lampeggiante Notifiche</string>
@@ -444,7 +445,7 @@
     <string name="alp_msg_try_again">Riprova:</string>
     <string name="alp_msg_your_new_unlock_pattern">La tua nuova sequenza di sblocco:</string>
     <string name="alp_pmsg_connect_x_dots">Collega almeno %1$d punti. Riprova:</string>
-	<string name="pull_to_refresh_pull_label">Scorri verso il basso per aggiornare</string>
+	<string name="pull_to_refresh_pull_label">Scorri verso il basso per caricare</string>
     <string name="pull_to_refresh_release_label">Rilascia per aggiornare</string>
     <string name="pull_to_refresh_refreshing_label">Caricamento in corso…</string>
     <string name="passwordTitle">Inserisci Password:</string>
@@ -559,12 +560,14 @@
     <string name="under_development_summary">SlideOver è ancora in fase di sviluppo. Non inviare richieste o suggerimenti.</string>
     <string name="slideover_secondary_action">Azione Secondaria</string>
     <string name="slideover_secondary_action_summary">Scegli l\'azione da eseguire all\'attivazione della parte tratteggiata dell\'arco</string>
-    <string name="slideover_haptic_feedback">Abilita Vibrazione</string>
+    <string name="slideover_hide_notifications">Nascondi Notifiche Barra di Stato</string>
+    <string name="slideover_hide_notifications_summary">Usa SlideOver per gestire le notifiche, nascondendole dalla barra di stato. ATTENZIONE: Questo disabiliterà le funzionalità LED.</string>
+	<string name="slideover_haptic_feedback">Vibrazione al Tocco</string>
     <string name="full_app_popup_close">Chiudi SlideOver Dopo Invio</string>
     <string name="full_app_popup_close_summary">Chiudi la finestra di SlideOver dopo aver risposto ad un messaggio</string>
     <string name="slideover_padding">Dimensioni Popup SlideOver</string>
-    <string name="slideover_padding_summary">Imposta altezza della finestra SlideOver. Utile quando la tastiera non è visualizzata propriamente, o se non vuoi che occupi troppo spazio sul tuo schermo.\n(valore predefinito 50%)</string>
-	<string name="slideover_width_padding_summary">Imposta larghezza della finestra SlideOver. Più grande è la percentuale, maggiore è lo spazio ai lati. (valore predefinito 10%)</string>
+    <string name="slideover_padding_summary">Imposta altezza della finestra SlideOver.</string>
+	<string name="slideover_width_padding_summary">Imposta larghezza della finestra SlideOver.</string>
     <string name="slideover_popup_lockscreen_only">SlideOver dopo Sblocco</string>
     <string name="slideover_popup_lockscreen_only_summary">Mostra SlideOver solo dopo aver sbloccato il dispositivo</string>
     <string name="slideover_animation_speed">Velocità Animazione</string>
@@ -579,123 +582,112 @@
     <string name="other_category">Altri Strumenti</string>
     <string name="developer_tips">Suggerimenti dello Sviluppatore</string>
     <string name="tip_speed_title">Consiglio #1 (Velocità e Rallentamenti):</string>
-    <string name="tip_speed">
-        Con l\'ultimo aggiornamento, abbiamo fatto grandi progressi per creare un\'app priva di rallentamenti ma ovviamente questo è un compito arduo 
-		a causa del suo stile e di ciò che stiamo cercando di ottenere. Caricare tanti messaggi tutti in una volta richiede molta memoria e molte risorse,
-        molte più di ogni altra app di messaggistica. Ecco perché avere molti messaggi la rallenterebbe più di qualsiasi altra app.\n\n
+    <string name="tip_speed">"Con l\'ultimo aggiornamento, abbiamo fatto grandi progressi per creare un\'app priva di rallentamenti ma ovviamente questo è un compito arduo a causa del suo stile e di ciò che stiamo cercando di ottenere. Caricare tanti messaggi tutti in una volta richiede molta memoria e molte risorse, molte più di ogni altra app di messaggistica. Ecco perché avere molti messaggi la rallenterebbe più di qualsiasi altra app.
 
-        Secondo il mio parere hai, quindi, 2 opzioni per non creare rallentamenti, entrambe sono compromettenti ma dovresti essere disposto a farlo per un\'app come questa:\n\n
+Secondo il mio parere hai, quindi, 2 opzioni per non creare rallentamenti, entrambe sono compromettenti ma dovresti essere disposto a farlo per un\'app come questa:
 
-		1) CANCELLA I MESSAGGI! Questo è ciò che stiamo dicendo sin dall\'inizio. TI AIUTERÀ :) questo è il mio primo suggerimento.\n\n
+1) CANCELLA I MESSAGGI! Questo è ciò che stiamo dicendo sin dall\'inizio. TI AIUTERÀ :) questo è il mio primissimo suggerimento.
 
-        Capisco che molte persone potrebbero non volerlo fare perché amano tenere i propri messaggi personali ma ci sono app di backup proprio a questo scopo, utilizzale.
-        Eliminare i messaggi fa la differenza se ne conservi tantissimi. Comunque l\'app funziona perfettamente, zero rallentamenti sul mio Nexus 4 con circa 2000 messaggi in memoria.
-        Non posso testarne di più ovviamente ma se sei quel tipo di persona che ne conserva 10000 in memoria o un numero spropositato questo
-		potrebbe causare seri effetti negativi sull\'app. Come ho già detto, questo è il mio primo suggerimento per tutti.\n\n
+Capisco che molte persone potrebbero non volerlo fare perché amano tenere i propri messaggi personali ma ci sono app di backup proprio a questo scopo, utilizzale. Eliminare i messaggi fa la differenza se ne conservi tantissimi. Comunque l\'app funziona perfettamente, zero rallentamenti sul mio
+Nexus 4 con circa 2000 messaggi in memoria. Non posso testarne di più ovviamente ma se sei quel tipo di persona che ne conserva 10000 in memoria o un numero spropositato questo potrebbe causare seri effetti negativi sull\'app. Come ho già detto, questo è il mio primo suggerimento per tutti.
 
-        2) Utilizza l\'opzione \"Performance Massime\" in Impostazioni Avanzate e utilizza lo stile Card+.\n\n
+2) Utilizza l\'opzione \"Performance Massime\" in Impostazioni Avanzate.
 
-        Utilizzando questa opzione si ha più che un miglioramento, essa comprende un set di impostazioni che sono le più indicate per far funzionare bene il dispositivo.
-        Bisogna rinunciare ad un po\' di personalizzazioni ma funzionerà tutto perfettamente. Ho solo eliminato alcuni extra, opzioni non necessarie.
-        Questa opzione è compromettente, lo so, ma se non vuoi applicare la prima opzione dovresti provare.\n\n
+Utilizzando questa opzione si ha più che un miglioramento, essa comprende un set di impostazioni che sono le più indicate per far funzionare bene il dispositivo. Bisogna rinunciare ad un po\' di personalizzazioni ma funzionerà tutto perfettamente. Ho solo eliminato alcuni extra, opzioni non necessarie. Questa opzione è compromettente, lo so, ma se non vuoi applicare la prima opzione dovresti provare.
 		
-		3) Disattiva le opzioni riguardanti la barra delle attività.\n\n
+3) Disattiva le opzioni riguardanti la barra delle attività.
 
-		Lo so che sono utili e rapide ma in realtà creano più problemi di quanto sembri. Google dovrebbe modificare parecchie cose per fare in modo che le cose cambino perché l\'uso di così tante risorse insieme causa vari rallentamenti.
-		Queste opzioni si trovano in Impostazioni Tema ->  Impostazioni Barra del Titolo, le ultime due della categoria. Disattivale e assapora il potere.\n\n
+Lo so che sono utili e rapide ma in realtà creano più problemi di quanto sembri. Google dovrebbe modificare parecchie cose per fare in modo che le cose cambino perché l\'uso di così tante risorse insieme causa vari rallentamenti. Queste opzioni si trovano in Impostazioni Tema ->  Impostazioni Barra del Titolo, le ultime due della categoria. Disattivale e assapora il potere.
 
-        Onestamente non voglio più sentire parlare di rallentamenti, vi abbiamo dato gli strumenti per fare in modo che non avvengano.
-		Se hai scelto di non usarli, così sia, ma sono lì e servono a quello scopo :)
-    </string>
+Onestamente non voglio più sentire parlare di rallentamenti, vi abbiamo dato gli strumenti per fare in modo che non avvengano. Se hai scelto di non usarli, così sia, ma sono lì e servono a quello scopo :)"
+	</string>
     <string name="tip_incoming_mms_title">Consiglio #2 (Ricezione MMS):</string>
-    <string name="tip_incoming_mms">
-        Questo è più che un suggerimento, sono stanco delle persone che ci dicono di non riuscire a ricevere MMS.
-        L\'invio è tutt\'un altra storia ma il download funziona su tutti i telefoni, ogni volta, se sai come impostarlo.\n\n
+    <string name="tip_incoming_mms">"Questo è più che un suggerimento, sono stanco delle persone che ci dicono di non riuscire a ricevere MMS. L\'invio è tutt\'un altra storia ma il download funziona su tutti i telefoni, ogni volta, se sai come impostarlo.
 
-        L\'ho spiegato così tante volte via email che credo sia arrivato il momento di metterlo qui per tutti quanti.\n\n
+L\'ho spiegato così tante volte via email che credo sia arrivato il momento di metterlo qui per tutti quanti.
 
-        Quindi ecco come dovresti fare per ricevere MMS:\n\n
+Quindi ecco come dovresti fare per ricevere MMS:
 
-        1) Prova l\'opzione \"Ricevi Tramite App Predefinita\".\n\n
+1) Prova l\'opzione \"Ricevi Tramite App Predefinita\".
 
-        Questa opzione è fatta in modo che non importi quale altra hai impostato, gli MMS verranno scaricati tramite il servizio predefinito di sistema.
-        Non importa se hai attivato \"Sovrascrivi Applicazione di Sistema\". In modo tale che tutti i download vengano gestiti dall\'applicazione predefinita e che tu non debba preoccuparti degli APN,
-		o del fatto che non si possano mandare MMS in WiFi.\n\n
+Questa opzione è fatta in modo che non importi quale altra hai impostato, gli MMS verranno scaricati tramite il servizio predefinito di sistema. Non importa se hai attivato \"Sovrascrivi Applicazione di Sistema\". In modo tale che tutti i download vengano gestiti dall\'applicazione predefinita e che tu non debba preoccuparti degli APN, o del fatto che non si possano mandare MMS in WiFi.
 
-        2) Nell\'applicazione predefinita di sistema attiva il download automatico.\n\n
+2) Nell\'applicazione predefinita di sistema attiva il download automatico.
 
-        In questo modo l\'applicazione predefinita scaricherà automaticamente gli MMS non appena ricevuti dall\'operatore.
-		Così sarà più veloce che premere il pulsante di download e non ci sarà alcun lato negativo.\n\n
+In questo modo l\'applicazione predefinita scaricherà automaticamente gli MMS non appena ricevuti dall\'operatore. Così sarà più veloce che premere il pulsante di download e non ci sarà alcun lato negativo.
 
-        3) Disabilita l\'opzione di auto-download in Sliding Messaging\n\n
+3) Disabilita l\'opzione di auto-download in Sliding Messaging.
 
-        In modo da evitare doppie notifiche.\n\n
+In modo da evitare doppie notifiche.
 
-        Quindi questo è il miglior modo di gestire la ricezione degli MMS e funzionerà perfettamente ogni volta, proprio come farebbe con l\'app predefinita.
-        Inoltre elimina anche le notifiche di Sliding Messaging, quindi nessun problema.\n\n
+Quindi questo è il miglior modo di gestire la ricezione degli MMS e funzionerà perfettamente ogni volta, proprio come farebbe con l\'app predefinita. Inoltre elimina anche le notifiche di Sliding Messaging, quindi nessun problema.
 
-        FUNZIONERÀ SEMPRE COME DOVREBBE, SEMPRE\n\n
+FUNZIONERÀ SEMPRE COME DOVREBBE, SEMPRE
 
-        Niente più problemi con gli MMS dunque! :)
-    </string>
+Niente più problemi con gli MMS dunque! :)"
+	</string>
     <string name="tip_slideover_title">Consiglio #3 (Funzionalità SlideOver)</string>
-    <string name="tip_slideover">
-        Riassunto delle funzionalità (attenzione, alcune funzionalità sono accessibili soltanto attivando \"Mostra Tutte le Impostazioni\" in Impostazioni Avanzate):\n\n
+    <string name="tip_slideover">"Riassunto delle funzionalità (attenzione, alcune funzionalità sono accessibili soltanto attivando \"Mostra Tutte le Impostazioni\" in Impostazioni Avanzate):
 
-        1) Il posizionamento orizzontale determina se la bolla deve stare a destra o a sinistra dello schermo\n
-        2) Il posizionamento verticale, invece, quanto la bolla è distante dall\'alto di esso\n
-        3) La visibilità indica l\'ammontare di bolla visibile, più basso sarà, più piccola risulterà la bolla che noterai sul lato dello schermo\n
-        4) La distanza d\'attivazione è la percentuale di schermo che bisogna percorrere per attivare il popup\n
-        5) La dimensione dell\'arco influisce sulla grandezza della linea tratteggiata nella metà bassa dell\'arco di SlideOver\n
-        6) L\'azione secondaria ti permette di scegliere quale funzione attivare una volta oltrepassata la linea tratteggiata\n
-        7) Abilita Vibrazione, questo si descrive da solo, abilita o disabilita la vibrazione\n
-        8) La funzione di chiusura automatica permetterà a SlideOver di chiudersi autonomamente una volta risposto, è davvero utile per uscire rapidamente e tornare a ciò che si stava facendo\n
-        9) Modificando le dimensioni del popup SlideOver si modificano i margini della finestra di risposta, rimpicciolendola o ingrandendola. Attenzione, però, a non renderla troppo piccola\n\n\n
+1) Il posizionamento orizzontale determina se la bolla deve stare a destra o a sinistra dello schermo.
+2) Il posizionamento verticale, invece, quanto la bolla è distante dall\'alto di esso.
+3) La visibilità indica l\'ammontare di bolla visibile, più basso sarà, più piccola risulterà la bolla che noterai sul lato dello schermo.
+4) La distanza d\'attivazione è la percentuale di schermo che bisogna percorrere per attivare il popup.
+5) La dimensione dell\'arco influisce sulla grandezza della linea tratteggiata nella metà bassa dell\'arco di SlideOver.
+6) L\'azione secondaria ti permette di scegliere quale funzione attivare una volta oltrepassata la linea tratteggiata.
+7) Abilita Vibrazione, questo si descrive da solo, abilita o disabilita la vibrazione.
+8) La funzione di chiusura automatica permetterà a SlideOver di chiudersi autonomamente una volta risposto, è davvero utile per uscire rapidamente e tornare a ciò che si stava facendo.
+9) Modificando le dimensioni del popup SlideOver si modificano i margini della finestra di risposta, rimpicciolendola o ingrandendola. Attenzione, però, a non renderla troppo piccola.
 
+Ora, le funzionalità principali di SlideOver:
 
-        Ora, le funzionalità principali di SlideOver:\n\n
-
-        1) Esso è il nuovo popup di cui tutti possono trarre vantaggio. Potrete vedere le vostre conversazioni per intero quando arriverà un nuovo messaggio, con il supporto MMS ecc. Molto meglio dei vecchi popup\n
-        2) La bolla riprende lo stile di interfaccia \"ChatHeads\", in modo molto minimale e ti permette di accedervi in qualsiasi momento,
-		sia se hai bisogno di leggere un messaggio, che di comporlo.\n
-        3) Ogniqualvolta riceverai un nuovo messaggio puoi vederne velocemente l\'anteprima e, a seconda di quanto andrai lontano con il dito,
-		evidenzierà un diverso messaggio e ti permetterà, quindi, di accedere velocemente alla conversazione desiderata. In questo modo saprai sempre quanti messaggi hai ricevuto
-		e potrai scegliere l\'ordine con cui rispondere\n
-        4) Ci sono 3 pulsanti che si attivano con l\'arco che ti permetteranno di cancellare tutte le notifiche nella bolla,
-		chiudere SlideOver e rimuoverne la bolla o accederne alle impostazioni.
-    </string>
+1) Esso è il nuovo popup di cui tutti possono trarre vantaggio. Potrete vedere le vostre conversazioni per intero quando arriverà un nuovo messaggio, con il supporto MMS ecc. Molto meglio dei vecchi popup.
+2) La bolla riprende lo stile di interfaccia \"ChatHeads\", in modo molto minimale e ti permette di accedervi in qualsiasi momento, sia se hai bisogno di leggere un messaggio, che di comporlo.
+3) Ogniqualvolta riceverai un nuovo messaggio puoi vederne velocemente l\'anteprima e, a seconda di quanto andrai lontano con il dito, evidenzierà un diverso messaggio e ti permetterà, quindi, di accedere velocemente alla conversazione desiderata. In questo modo saprai sempre quanti messaggi hai ricevuto e potrai scegliere l\'ordine con cui rispondere.
+4) Ci sono 3 pulsanti che si attivano con l\'arco che ti permetteranno di cancellare tutte le notifiche nella bolla, chiudere SlideOver e rimuovere la bolla o accedere alle sue impostazioni."
+	</string>
     <string name="tip_contacts_title">Consiglio #4 (Sincronizzazione Contatti)</string>
-    <string name="tip_contacts">
-        Mi fanno molte domande del tipo \"Perché non riesco a vedere le mie immagini dei contatti?\" o \"Alcuni dei miei contatti non compaiono nell\' app!\"\n\n
+    <string name="tip_contacts">"Mi fanno molte domande del tipo \"Perché non riesco a vedere le mie immagini dei contatti?\" o \"Alcuni dei miei contatti non compaiono nell\'app!\"
 
-        C\'è una ragione molto semplice, le immagini e i contatti utilizzati sono quelli dell\'account Google. Per due motivi 1) è più semplice per noi
-		2) rende le operazioni più veloci riducendo i tempi di caricamento.\n\n
-		Come soluzione ci sono molte app che provvedono all\'aggiunta delle immagini nei contatti, io raccomando:\n\n
+C\'è una ragione molto semplice, le immagini e i contatti utilizzati sono quelli dell\'account Google per due motivi: è più semplice per noi; rende le operazioni più veloci riducendo i tempi di caricamento.
+		
+Come soluzione ci sono molte app che provvedono all\'aggiunta delle immagini nei contatti, io raccomando:
 
-        1) Haxsync\n\n
+1) Haxsync
 
-        2) Contact Picture Sync\n\n
+2) Contact Picture Sync
 
-        3) Ubersync\n\n
+3) Ubersync
 
-        Tutte e tre funzionano bene e servono allo scopo in modo veloce e semplice :)</string>
-    <string name="slideover_hide_notifications">Nascondi Notifiche Barra di Stato</string>
-    <string name="slideover_hide_notifications_summary">Usa SlideOver per gestire le notifiche, nascondendole dalla barra di stato. ATTENZIONE: Questo disabiliterà le funzionalità LED.</string>
+Tutte e tre funzionano bene e servono allo scopo in modo veloce e semplice :)"
+	</string>
     <string name="tip_notification_listener_title">Consiglio #5 (Listener di Notifica)</string>
-    <string name="tip_notification_listener">
-        Mi sono state fatte più richieste di avvantaggiarmi delle nuove API introdotte in Android 4.3 che permettono di controllare quando una notifica è arrivata o è stata cancellata e ho colto l\'occasione
-		per segnare i messaggi come letti.\n\n
+    <string name="tip_notification_listener">"Mi sono state fatte più richieste di avvantaggiarmi delle nuove API introdotte in Android 4.3 che permettono di controllare quando una notifica è arrivata o è stata cancellata e ho colto l\'occasione per segnare i messaggi come letti.
 
-        Tutti gli utenti che utilizzano Android 4.3 ora potranno usufruire del servizio andando in Impostazioni di Sistema -> Sicurezza e cliccando sull\'opzione \"Accesso alle Notifiche\" (o semplicemente cliccando su questo consiglio).\n\n
+Tutti gli utenti che utilizzano Android 4.3 ora potranno usufruire del servizio andando in Impostazioni di Sistema -> Sicurezza e cliccando sull\'opzione \"Accesso alle Notifiche\"
+(o semplicemente cliccando su questo consiglio).
 
-        Ora non vi resta che scegliere e abilitare Sliding Messaging dalla lista di app che possono accedere a questo servizio. D\'ora in poi, ogni volta che farai scorrere la notifica verso i bordi (swipe) il tuo messaggio verrà segnato come letto,
-		eliminando il bisogno del pulsante \"Letto\" nelle notifiche!
+Ora non vi resta che scegliere e abilitare Sliding Messaging dalla lista di app che possono accedere a questo servizio. D\'ora in poi, ogni volta che farai scorrere la notifica verso i bordi (swipe) il tuo messaggio verrà segnato come letto, eliminando il bisogno del pulsante \"Letto\" nelle notifiche!"
     </string>
+	<string name="voice_receiving_notes">Consiglio #6 (Ricezione Google Voice): </string>
+    <string name="voice_receiving_notes_summary">"1) Gli utenti Android 4.3+ possono utilizzare il servizio di listener di notifica, gli utenti con una versione più vecchia il servizio di accessibilità (entrambi possono essere attivati cliccando sul Consiglio #5 qui sopra).
+	
+2) Il servizio di accessibilità non può cancellare le notifiche Google Voice (a causa di una limitazione di Android), ma se le elimini tramite l\'app Google Voice allora non verranno mostrate più neanche in Sliding Messaging. Se utilizzi questa opzione attiva le notifiche Google Voice ma se non possiedi Android 4.3 riceverai notifiche doppie."
+	</string>
+	<string name="slideover_disappearing_tip_title">Consiglio #7 (Riavvii Bolla SlideOver):</string>
+    <string name="slideover_disappearing_tip">"Recentemente molte persone mi hanno chiesto perché la bolla SlideOver sparisse dopo un po\' di tempo, la risposta è semplice: Android cerca di risparmiare memoria e risorse delle app che sono considerate superflue. Ho cercato di rimandare questo processo il più a lungo possibile ma non posso impedirlo completamente.
+
+Ecco perché ho aggiunto l\'opzione \"Esegui in Primo Piano\" in uno degli ultimi aggiornamenti. Ciò che fa è creare una notifica persistente nella barra notifiche che mette il servizio SlideOver, come suggerisce il nome, in primo piano. Questo è come suggerire ad Android: \"Non voglio che il servizio venga stoppato in alcun modo.\" Fa in modo che il servizio resti attivo il più a lungo possibile, quasi finché il sistema non viene spento. Se sei interessato puoi leggere di più qui: http://goo.gl/0fgz0D
+
+So che a molte persone non piacciono le notifiche persistenti, a dire la verità, non piacciono neanche a me! Se proprio non vuoi usare questa opzione e non vuoi che la bolla sparisca, ho un suggerimento: riavvia il cellulare. In questo modo verrà ripulita un sacco di memoria e sarai apposto per giorni, quindi non dovresti avere problemi con la chiusura automatica della bolla SlideOver.
+
+Spero tu abbia capito cosa significhi e come funzioni. Non ci sono molte alternative per risolvere il problema, ma entrambe funzionano ed entrambe lo fanno ogni volta."
+	</string>
 
     <string name="initial_setup">Setup Iniziale:</string>
-    <string name="initial_setup_message">Grazie per aver acquistato Sliding Messaging Pro!\n\n
+    <string name="initial_setup_message">"Grazie per aver acquistato Sliding Messaging Pro!
 
-        Sembra che ci sia molto da fare adesso ma iniziamo, per prima cosa, con le opzioni principali. Dopo sarai in grado di configurare tutto ciò che vorrai dal menù impostazioni.</string>
+Sembra che ci sia molto da fare adesso ma iniziamo, per prima cosa, con le opzioni principali. Dopo sarai in grado di configurare tutto ciò che vorrai dal menù impostazioni."</string>
     <string name="emojis">Emoji:</string>
     <string name="unlock_message">Sblocca Messaggio</string>
     <string name="disable_backgrounds">Disabilita Sfondo Personalizzato</string>
@@ -735,7 +727,7 @@
     <string name="hyper_link_color">Colore Collegamenti</string>
     <string name="close_halo_after_send">Chiudi Popup Halo Dopo l\'invio</string>
     <string name="close_halo_after_send_summary">Chiudi automaticamente Halo dopo l\'invio di un messaggio, non incide sul suo normale funzionamento</string>
-    <string name="slideover_color">Colore Bolla Normale</string>
+	<string name="slideover_color">Colore Bolla Normale</string>
     <string name="slideover_unread_color">Colore Bolla con Notifica</string>
     <string name="positioning">Impostazioni Bolla SlideOver</string>
     <string name="slideover_theme_settings">Aspetto Bolla SlideOver</string>
@@ -774,11 +766,7 @@
 	<string name="voice_receiving_option_2">Opzione 2: Aggiorna ad Intervalli</string>
     <string name="voice_receiving_option_2_summary">Seleziona un intervallo di tempo per verificare se siano presenti nuovi messaggi. Richiede l\'app di Google Voice installata</string>
 	<string name="voice_receiving_tips">Se hai problemi, leggi i \"Suggerimenti dello Sviluppatore\" sulla ricezione di messaggi Google Voice</string>
-    <string name="voice_receiving_notes">Consiglio #6 (Ricezione Google Voice): </string>
-    <string name="voice_receiving_notes_summary">1) Gli utenti Android 4.3 posso utilizzare il servizio di listener di notifica, gli utenti con una versione più vecchia il servizio di accessibilità (entrambi possono essere attivati cliccando sul Consiglio #5 qui sopra).\n\n
-												 2) Il servizio di accessibilità non può cancellare le notifiche Google Voice (a causa di una limitazione di Android), ma se le elimini tramite l\'app Google Voice allora non verranno
-												 mostrate più neanche in Sliding Messaging. Se utilizzi questa opzione attiva le notifiche Google Voice ma se non possiedi Android 4.3 riceverai notifiche doppie\n\n
-												 3) L\'opzione \"Aggiorna ad Intervalli\" è ancora in fase di sviluppo e, se non funziona ancora, attendi i prossimi aggiornamenti.</string>
+
     <string name="drawer_open">Impostazioni Principali</string>
     <string name="drawer_close">Impostazioni</string>
     <string name="swipe_read">Swipe per Segnare come Letti</string>
@@ -862,13 +850,23 @@
     <string name="animate_text_on_ping">Anima Testo allo Sblocco</string>
     <string name="close_quick_peek_on_send">Chiudi Quick Peek Dopo Invio</string>
     <string name="never_again">Non Mostrare Più</string>
-    <string name="show_all_disclaimer">Non riesci a trovare ciò che cerchi?\n\n
+    <string name="show_all_disclaimer">"Non riesci a trovare ciò che cerchi?
 	
-	Sliding Messaging possiede un sacco di funzionalità e potrebbero sembrare ridondanti all\'inizio, quindi abbiamo nascosto le più avanzate per non creare confusione.\n\n
+Sliding Messaging possiede un sacco di funzionalità e potrebbero sembrare ridondanti all\'inizio, quindi abbiamo nascosto le più avanzate per non creare confusione.
 	
-	Se vuoi attivarle tutte vai in \"Impostazioni Avanzate\" e attiva l\'opzione \"Mostra Tutte le Impostazioni\"!</string>
+Se vuoi attivarle tutte vai in \"Impostazioni Avanzate\" e attiva l\'opzione \"Mostra Tutte le Impostazioni\"!"</string>
     <string name="quick_peek_text_markers">Abilita Evidenziatori Testo</string>
     <string name="foreground_service">Esegui in Primo Piano</string>
     <string name="foreground_service_summary">Usa questa opzione se la bolla SlideOver scompare dallo schermo autonomamente, avviene perché il sistema disattiva il servizio che serve a farla funzionare. Questa opzione risolverà il problema creando una notifica persistente nella barra di stato.</string>
+	<string name="emoji_keyboard_color">Colore Tastiera Emoji</string>
+    <string name="skip_log">Chiudi Schermata</string>
+	<string name="voice_tutorial_google">Ricezione Google Voice (Guida Google+)</string>
+    <string name="voice_lightflow_fix">Aggiusta LightFlow</string>
+    <string name="lightflow_fix_disclaimer">"Utilizza questa opzione se hai problemi a ricevere notifiche LightFlow per i messaggi Google Voice.
 
+	ATTENZIONE: Potrebbe causare problemi su alcuni dispositivi! Disabilita questa opzione se avvengono. Sembra che il problema avvenga principalmente su dispositivi con interfaccia TouchWiz."</string>
+    <string name="only_quickpeek">Usa Solo Quick Peek</string>
+    <string name="only_quickpeek_summary">Disabilita accesso allo SlideOver Popup dalla bolla, abilita solo accesso a Quick Peek.</string>
+	<string name="quick_peek_messages">Numero di Messaggi Visualizzati</string>
+	
 </resources>
