@@ -295,6 +295,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                             String image = null;
                             String video = null;
                             String audio = null;
+                            String vcard = null;
 
                             Uri uri = Uri.parse("content://mms/part");
                             Cursor query = contentResolver.query(uri, null, selectionPart, null, null);
@@ -330,6 +331,14 @@ public class MessageCursorAdapter extends CursorAdapter {
                                         video = "content://mms/part/" + partId;
                                     }
 
+                                    else if (type.equals("text/x-vCard")) {
+                                        vcard = "content://mms/part/" + partId;
+
+                                        String[] contactInfo = IOUtil.parseVCard(context, Uri.parse(vcard));
+                                        body2 = "(" + contactInfo[0] + ", " + contactInfo[1] + ")\n";
+                                        body += body2;
+                                    }
+
                                     try {
                                         if (type.startsWith("audio/")) {
                                             audio = "content://mms/part/" + partId;
@@ -342,7 +351,7 @@ public class MessageCursorAdapter extends CursorAdapter {
 
                             query.close();
 
-                            if (image == null && video == null && audio == null && body.equals("")) {
+                            if (image == null && video == null && audio == null && vcard == null && body.equals("")) {
                                 context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 
                                     @Override
@@ -379,6 +388,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                 final Bitmap pictureF = picture;
                                 final String videoF = video;
                                 final String audioF = audio;
+                                final String vcardF = vcard;
 
                                 if (holder.text.getText().toString().equals("")) {
                                     // view is empty and has not been recycled, so show the images
@@ -388,7 +398,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                         public void run() {
                                             setMessageText(holder.text, text, context);
 
-                                            if (imageUri == null && videoF == null && audioF == null) {
+                                            if (imageUri == null && videoF == null && audioF == null && vcardF == null) {
                                                 holder.media.setVisibility(View.GONE);
                                                 holder.media.setImageResource(android.R.color.transparent);
                                             } else if (imageUri != null) {
@@ -460,6 +470,23 @@ public class MessageCursorAdapter extends CursorAdapter {
                                                         context.startActivity(intent);
                                                     }
                                                 });
+                                            } else if (vcardF != null) {
+                                                final String[] contactInfo = IOUtil.parseVCard(context, Uri.parse(vcardF));
+                                                holder.media.setVisibility(View.VISIBLE);
+                                                holder.media.setImageBitmap(ContactUtil.getFacebookPhoto(contactInfo[1], context));
+                                                holder.media.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                                                holder.media.setOnClickListener(new View.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(View view) {
+                                                        Intent intent = new Intent(Intent.ACTION_INSERT);
+                                                        intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
+
+                                                        intent.putExtra(ContactsContract.Intents.Insert.NAME, contactInfo[0]);
+                                                        intent.putExtra(ContactsContract.Intents.Insert.PHONE, contactInfo[1]);
+
+                                                        context.startActivity(intent);
+                                                    }
+                                                });
                                             }
                                         }
                                     });
@@ -472,6 +499,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                     image = null;
                     String video = null;
                     String audio = null;
+                    String vcard = null;
 
                     Uri uri = Uri.parse("content://mms/part");
                     Cursor query = contentResolver.query(uri, null, selectionPart, null, null);
@@ -510,12 +538,20 @@ public class MessageCursorAdapter extends CursorAdapter {
                             if (type.startsWith("audio/")) {
                                 audio = "content://mms/part/" + partId;
                             }
+
+                            if (type.equals("text/x-vCard")) {
+                                vcard = "content://mms/part/" + partId;
+
+                                String[] contactInfo = IOUtil.parseVCard(context, Uri.parse(vcard));
+                                body2 = "(" + contactInfo[0] + ", " + contactInfo[1] + ")\n";
+                                body += body2;
+                            }
                         } while (query.moveToNext());
                     }
 
                     query.close();
 
-                    if (image == null && video == null && audio == null && body.equals("")) {
+                    if (image == null && video == null && audio == null && vcard == null &&  body.equals("")) {
                         downloadableMessage(holder, id);
                     } else {
                         String images[];
@@ -531,10 +567,11 @@ public class MessageCursorAdapter extends CursorAdapter {
                         final String[] imagesF = images;
                         final String videoF = video;
                         final String audioF = audio;
+                        final String vcardF = vcard;
 
                         setMessageText(holder.text, body, context);
 
-                        if (imageUri == null && videoF == null && audioF == null) {
+                        if (imageUri == null && videoF == null && audioF == null && vcardF == null) {
                             holder.media.setVisibility(View.GONE);
                             holder.media.setImageResource(android.R.color.transparent);
                         } else if (imageUri != null) {
@@ -594,6 +631,23 @@ public class MessageCursorAdapter extends CursorAdapter {
                                     intent.setAction(Intent.ACTION_VIEW);
                                     intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                                     intent.setDataAndType(Uri.parse(audioF), "audio/*");
+                                    context.startActivity(intent);
+                                }
+                            });
+                        } else if (vcardF != null) {
+                            final String[] contactInfo = IOUtil.parseVCard(context, Uri.parse(vcardF));
+                            holder.media.setVisibility(View.VISIBLE);
+                            holder.media.setImageBitmap(ContactUtil.getFacebookPhoto(contactInfo[1], context));
+                            holder.media.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                            holder.media.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent intent = new Intent(Intent.ACTION_INSERT);
+                                    intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
+
+                                    intent.putExtra(ContactsContract.Intents.Insert.NAME, contactInfo[0]);
+                                    intent.putExtra(ContactsContract.Intents.Insert.PHONE, contactInfo[1]);
+
                                     context.startActivity(intent);
                                 }
                             });

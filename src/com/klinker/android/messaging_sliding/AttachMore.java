@@ -18,6 +18,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
@@ -31,6 +32,7 @@ import android.widget.Toast;
 import com.google.android.mms.ContentType;
 import com.google.android.mms.MMSPart;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_donate.utils.ContactUtil;
 import com.klinker.android.messaging_donate.utils.IOUtil;
 import com.klinker.android.messaging_donate.utils.Util;
 import com.klinker.android.send_message.Utils;
@@ -38,12 +40,17 @@ import com.klinker.android.send_message.Utils;
 import java.io.*;
 import java.util.ArrayList;
 
+import a_vcard.android.syncml.pim.vcard.ContactStruct;
+import a_vcard.android.syncml.pim.vcard.VCardComposer;
+
 public class AttachMore extends Activity {
 
     public static ArrayList<MMSPart> data = new ArrayList<MMSPart>();
     public static ArrayList<Bitmap> images = new ArrayList<Bitmap>();
     public static byte[] audio;
     public static byte[] video;
+    public static byte[] contact;
+    public static String contactNumber = null;
     public ListView list;
     public SharedPreferences sharedPrefs;
 
@@ -206,6 +213,10 @@ public class AttachMore extends Activity {
                                     Toast.makeText(context, "Sound recorder not available.", Toast.LENGTH_SHORT).show();
                                 }
                                 break;
+                            case 7:
+                                Intent attachVCard = new Intent(context, ContactPickerDialog.class);
+                                startActivityForResult(attachVCard, 8);
+                                break;
                         }
 
                     }
@@ -245,6 +256,11 @@ public class AttachMore extends Activity {
 
                 data.add(part);
 
+                contactNumber = null;
+                video = new byte[0];
+                audio = new byte[0];
+                contact = new byte[0];
+
                 AttachMoreArrayAdapter adapter = new AttachMoreArrayAdapter(this, data.toArray(new MMSPart[data.size()]));
                 list.setAdapter(adapter);
             }
@@ -262,7 +278,10 @@ public class AttachMore extends Activity {
 
                 video = bytes;
 
+                contactNumber = null;
                 images.clear();
+                audio = new byte[0];
+                contact = new byte[0];
                 data.clear();
 
                 Intent i = getIntent();
@@ -301,7 +320,10 @@ public class AttachMore extends Activity {
 
                 audio = bytes;
 
+                contactNumber = null;
                 images.clear();
+                video = new byte[0];
+                contact = new byte[0];
                 data.clear();
 
                 Intent i = getIntent();
@@ -335,7 +357,11 @@ public class AttachMore extends Activity {
                     part.MimeType = "image/png";
                     part.Data = byteArray;
 
+                    contactNumber = null;
                     data.add(part);
+                    video = new byte[0];
+                    audio = new byte[0];
+                    contact = new byte[0];
                 }
 
                 AttachMoreArrayAdapter adapter = new AttachMoreArrayAdapter(this, data.toArray(new MMSPart[data.size()]));
@@ -355,7 +381,11 @@ public class AttachMore extends Activity {
                 part.MimeType = "image/jpeg";
                 part.Data = byteArray;
 
+                contactNumber = null;
                 data.add(part);
+                video = new byte[0];
+                audio = new byte[0];
+                contact = new byte[0];
 
                 AttachMoreArrayAdapter adapter = new AttachMoreArrayAdapter(this, data.toArray(new MMSPart[data.size()]));
                 list.setAdapter(adapter);
@@ -375,7 +405,10 @@ public class AttachMore extends Activity {
 
                 video = bytes;
 
+                contactNumber = null;
                 images.clear();
+                contact = new byte[0];
+                audio = new byte[0];
                 data.clear();
 
                 Intent i = getIntent();
@@ -392,6 +425,56 @@ public class AttachMore extends Activity {
 
                 AttachMoreArrayAdapter adapter = new AttachMoreArrayAdapter(this, data.toArray(new MMSPart[data.size()]));
                 list.setAdapter(adapter);*/
+            }
+        }else if (requestCode == 8) { // VCard
+            if (resultCode == Activity.RESULT_OK) {
+                String name = imageReturnedIntent.getStringExtra("name");
+                String number = imageReturnedIntent.getStringExtra("number");
+
+                try {
+                    File f = new File(Environment.getExternalStorageDirectory() + "/EvolveSMS/", "contactToSend.vcard");
+                    f.getParentFile().mkdirs();
+                    f.createNewFile();
+                    OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(f), "UTF-8");
+                    VCardComposer composer = new VCardComposer();
+                    ContactStruct contact1 = new ContactStruct();
+                    contact1.name = name;
+                    contact1.addPhone(ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE, number, null, true);
+                    String vcardString = composer.createVCard(contact1, VCardComposer.VERSION_VCARD21_INT);
+                    writer.write(vcardString);
+                    writer.close();
+
+                    Uri myContact = Uri.fromFile(f);
+                    String path = getPath(myContact);
+
+                    byte[] bytes = null;
+
+                    try {
+                        bytes = IOUtil.readFile(path);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    contactNumber = number;
+                    contact = bytes;
+
+                    images.clear();
+                    video = new byte[0];
+                    audio = new byte[0];
+                    data.clear();
+
+                    Intent i = getIntent();
+                    setResult(RESULT_OK, i);
+                    finish();
+
+                    /*attachedUri = Uri.fromFile(f).toString();
+                    attachedMime = "text/x-vcard";
+                    attachedContainer.setVisibility(View.VISIBLE);
+                    attachedMedia.setImageBitmap(ContactUtil.getFacebookPhoto(number, this));*/
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(this, "Error loading contact", Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }
@@ -467,6 +550,10 @@ public class AttachMore extends Activity {
     @Override
     public void onBackPressed() {
         data.clear();
+        images = null;
+        video = null;
+        contact = null;
+        audio = null;
 
         Intent i = getIntent();
         setResult(RESULT_CANCELED, i);

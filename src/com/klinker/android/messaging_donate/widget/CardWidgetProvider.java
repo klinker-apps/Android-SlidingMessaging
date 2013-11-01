@@ -13,6 +13,8 @@ import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.RemoteViews;
+
+import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_sliding.quick_reply.SendMessage;
 
@@ -129,9 +131,14 @@ public class CardWidgetProvider extends AppWidgetProvider {
                 intent2.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
                 intent2.setData(Uri.parse(intent2.toUri(Intent.URI_INTENT_SCHEME)));
 
+                Intent openApp = new Intent(this, MainActivity.class);
+                PendingIntent openAppPending = PendingIntent.getActivity(this, 0, openApp, 0);
+
 
                 views.setRemoteAdapter(R.id.widgetList, intent2);
                 views.setEmptyView(R.id.widgetList, R.drawable.widget_background);
+
+                views.setOnClickPendingIntent(R.id.textView1, openAppPending);
 
                 views.setOnClickPendingIntent(R.id.replyButton, quickPending);
                 views.setOnClickPendingIntent(R.id.settingsButton, settingsPending);

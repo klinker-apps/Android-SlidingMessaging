@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
     package="com.klinker.android.messaging_donate"
-    android:versionCode="239"
-    android:versionName="7.791" >
+    android:versionCode="241"
+    android:versionName="7.80" >
 
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
@@ -38,7 +38,7 @@
 
     <uses-sdk
         android:minSdkVersion="14"
-        android:targetSdkVersion="18" />
+        android:targetSdkVersion="19" />
 
     <application
         android:allowBackup="true"
@@ -192,6 +192,11 @@
             android:label="@string/preset_apns"
             android:theme="@android:style/Theme.Holo.Light.DarkActionBar" >
         </activity>
+
+        <activity android:name="com.klinker.android.messaging_sliding.ContactPickerDialog"
+            android:label="@string/attach_contact"
+            android:theme="@android:style/Theme.Holo.Dialog"
+            />
         
         <activity
             android:name="com.klinker.android.messaging_sliding.theme.CustomThemeActivity"
@@ -519,28 +524,40 @@
             android:exported="true" />
         
         <receiver android:name="com.klinker.android.messaging_sliding.receivers.TextMessageReceiver"
-                  android:permission="android.permission.BROADCAST_SMS" >
+            android:enabled="@bool/preKitKat">
             <intent-filter android:priority="999">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
+        </receiver>
 
-            <intent-filter android:priority="100">
-                <action android:name="com.klinker.android.messaging.VOICE_RECEIVED" />
-            </intent-filter>
-
+        <receiver android:name="com.klinker.android.messaging_sliding.receivers.TextMessageReceiver"
+            android:permission="android.permission.BROADCAST_SMS"
+            android:enabled="@bool/hasKitKat">
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_DELIVER" />
             </intent-filter>
         </receiver>
+
+        <receiver
+            android:name="com.klinker.android.messaging_sliding.receivers.TextMessageReceiver" >
+            <intent-filter android:priority="100">
+                <action android:name="com.klinker.android.messaging.VOICE_RECEIVED" />
+            </intent-filter>
+        </receiver>
         
         <receiver android:name="com.klinker.android.messaging_sliding.receivers.MMSMessageReceiver"
-            	  android:permission="android.permission.BROADCAST_WAP_PUSH" > 
+            android:enabled="@bool/preKitKat">
+
             <intent-filter android:priority="2"> 
                 <action android:name="android.provider.Telephony.WAP_PUSH_RECEIVED" />
                 <data android:mimeType="application/vnd.wap.mms-message" />
                 <category android:name="android.intent.category.HOME" />
             </intent-filter>
+        </receiver>
 
+        <receiver android:name="com.klinker.android.messaging_sliding.receivers.MMSMessageReceiver"
+            android:permission="android.permission.BROADCAST_WAP_PUSH"
+            android:enabled="@bool/hasKitKat">
             <intent-filter>
                 <action android:name="android.provider.Telephony.WAP_PUSH_DELIVER" />
                 <data android:mimeType="application/vnd.wap.mms-message" />

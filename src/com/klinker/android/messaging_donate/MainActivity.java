@@ -45,6 +45,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.RelativeLayout.LayoutParams;
+
+import com.klinker.android.messaging_donate.utils.Util;
 import com.klinker.android.messaging_sliding.views.ImageAttachmentView;
 import com.astuetz.viewpager.extensions.PagerSlidingTabStrip;
 import com.devspark.appmsg.AppMsg;
@@ -994,24 +996,10 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
 
-                // TODO Uncomment for kitkat release
-//                if (Build.VERSION.SDK_INT > 18 && !Telephony.Sms.getDefaultSmsPackage(this).equals(getPackageName())) {
-//                    new AlertDialog.Builder(mContext)
-//                            .setTitle(R.string.change_default)
-//                            .setMessage(R.string.change_default_summary)
-//                            .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialogInterface, int i) {
-//                                    Intent intent =
-//                                            new Intent(Telephony.Sms.Intents.ACTION_CHANGE_DEFAULT);
-//                                    intent.putExtra(Telephony.Sms.Intents.EXTRA_PACKAGE_NAME,
-//                                            myPackageName);
-//                                    startActivity(intent);
-//                                }
-//                            })
-//                            .setNegativeButton(R.string.no, null)
-//                            .show();
-//                }
+                if (!Util.isDefaultSmsApp(context)) {
+                    Util.setDefaultSmsApp(context);
+                    return;
+                }
 
                 MainActivity.sentMessage = true;
 
@@ -1069,10 +1057,12 @@ public class MainActivity extends FragmentActivity {
                                 ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
                                 byte[] audio = new byte[0];
                                 byte[] video = new byte[0];
+                                byte[] contact = new byte[0];
 
                                 boolean hasPic = false;
                                 boolean hasAudio = false;
                                 boolean hasVideo = false;
+                                boolean hasContact = false;
 
                                 if (!multipleAttachments) {
                                     hasPic = true;
@@ -1094,6 +1084,7 @@ public class MainActivity extends FragmentActivity {
                                     hasPic = AttachMore.images.size() != 0;
                                     try { hasAudio = AttachMore.audio.length != 0; } catch (Exception e) { }
                                     try { hasVideo = AttachMore.video.length != 0; } catch (Exception e) { }
+                                    try { hasContact = AttachMore.contact.length != 0; } catch (Exception e) { }
 
                                     if (hasPic) {
                                         bitmaps = AttachMore.images;
@@ -1108,6 +1099,11 @@ public class MainActivity extends FragmentActivity {
                                     if (hasVideo) {
                                         video = AttachMore.video;
                                         AttachMore.video = null;
+                                    }
+
+                                    if (hasContact) {
+                                        contact = AttachMore.contact;
+                                        AttachMore.contact = null;
                                     }
 
                                     AttachMore.data = new ArrayList<MMSPart>();
@@ -1133,6 +1129,12 @@ public class MainActivity extends FragmentActivity {
                                     byte[] media = video;
 
                                     message.setMedia(media, "video/3gpp");
+                                }
+
+                                if (hasContact) {
+                                    byte[] media = contact;
+
+                                    message.setMedia(media, "text/x-vCard");
                                 }
                             }
 
@@ -1910,24 +1912,10 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
 
-                // TODO Uncomment for kitkat release
-//                if (Build.VERSION.SDK_INT > 18 && !Telephony.Sms.getDefaultSmsPackage(this).equals(getPackageName())) {
-//                    new AlertDialog.Builder(mContext)
-//                            .setTitle(R.string.change_default)
-//                            .setMessage(R.string.change_default_summary)
-//                            .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialogInterface, int i) {
-//                                    Intent intent =
-//                                            new Intent(Telephony.Sms.Intents.ACTION_CHANGE_DEFAULT);
-//                                    intent.putExtra(Telephony.Sms.Intents.EXTRA_PACKAGE_NAME,
-//                                            myPackageName);
-//                                    startActivity(intent);
-//                                }
-//                            })
-//                            .setNegativeButton(R.string.no, null)
-//                            .show();
-//                }
+                if (!Util.isDefaultSmsApp(context)) {
+                    Util.setDefaultSmsApp(context);
+                    return;
+                }
 
                 final String recipientId = conversations.get(mViewPager.getCurrentItem()).getNumber();
                 final long threadId = conversations.get(mViewPager.getCurrentItem()).getThreadId();
@@ -1995,10 +1983,12 @@ public class MainActivity extends FragmentActivity {
                                 ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
                                 byte[] audio = new byte[0];
                                 byte[] video = new byte[0];
+                                byte[] contact = new byte[0];
 
                                 boolean hasPic = false;
                                 boolean hasAudio = false;
                                 boolean hasVideo = false;
+                                boolean hasContact = false;
 
                                 if (!multipleAttachments) {
                                     hasPic = true;
@@ -2020,6 +2010,7 @@ public class MainActivity extends FragmentActivity {
                                     hasPic = AttachMore.images.size() != 0;
                                     try { hasAudio = AttachMore.audio.length != 0; } catch (Exception e) { }
                                     try { hasVideo = AttachMore.video.length != 0; } catch (Exception e) { }
+                                    try { hasContact = AttachMore.contact.length != 0; } catch (Exception e) { }
 
                                     if (hasPic) {
                                         bitmaps = AttachMore.images;
@@ -2034,6 +2025,11 @@ public class MainActivity extends FragmentActivity {
                                     if (hasVideo) {
                                         video = AttachMore.video;
                                         AttachMore.video = null;
+                                    }
+
+                                    if (hasContact) {
+                                        contact = AttachMore.contact;
+                                        AttachMore.contact = null;
                                     }
 
                                     AttachMore.data = new ArrayList<MMSPart>();
@@ -2059,6 +2055,12 @@ public class MainActivity extends FragmentActivity {
                                     byte[] media = video;
 
                                     message.setMedia(media, "video/3gpp");
+                                }
+
+                                if (hasContact) {
+                                    byte[] media = contact;
+
+                                    message.setMedia(media, "text/x-vCard");
                                 }
                             }
 
@@ -3631,7 +3633,10 @@ public class MainActivity extends FragmentActivity {
                     public void onClick(View v) {
                         imageAttach.setVisibility(false);
                         imageAttachBackground.setVisibility(View.GONE);
-
+                        AttachMore.images = null;
+                        AttachMore.video = null;
+                        AttachMore.contact = null;
+                        AttachMore.audio = null;
                     }
 
                 });
@@ -3696,7 +3701,10 @@ public class MainActivity extends FragmentActivity {
                     public void onClick(View v) {
                         imageAttach2.setVisibility(false);
                         imageAttachBackground2.setVisibility(View.GONE);
-
+                        AttachMore.images = null;
+                        AttachMore.video = null;
+                        AttachMore.contact = null;
+                        AttachMore.audio = null;
                     }
 
                 });
@@ -3761,7 +3769,10 @@ public class MainActivity extends FragmentActivity {
                     public void onClick(View v) {
                         imageAttach.setVisibility(false);
                         imageAttachBackground.setVisibility(View.GONE);
-
+                        AttachMore.images = null;
+                        AttachMore.video = null;
+                        AttachMore.contact = null;
+                        AttachMore.audio = null;
                     }
 
                 });
@@ -3825,7 +3836,10 @@ public class MainActivity extends FragmentActivity {
                     public void onClick(View v) {
                         imageAttach2.setVisibility(false);
                         imageAttachBackground2.setVisibility(View.GONE);
-
+                        AttachMore.images = null;
+                        AttachMore.video = null;
+                        AttachMore.contact = null;
+                        AttachMore.audio = null;
                     }
 
                 });
@@ -3843,9 +3857,14 @@ public class MainActivity extends FragmentActivity {
                 imageAttach.setVisibility(true);
 
                 try {
-                    Bitmap bmp = BitmapFactory.decodeByteArray(AttachMore.data.get(0).Data, 0, AttachMore.data.get(0).Data.length);
-                    Bitmap mutableBitmap = bmp.copy(Bitmap.Config.ARGB_8888, true);
-                    imageAttach.setImage("send_image", mutableBitmap);
+                    if (AttachMore.contactNumber != null) {
+                        Bitmap contactPic = ContactUtil.getFacebookPhoto(AttachMore.contactNumber, this);
+                        imageAttach.setImage("send_image", contactPic);
+                    } else {
+                        Bitmap bmp = BitmapFactory.decodeByteArray(AttachMore.data.get(0).Data, 0, AttachMore.data.get(0).Data.length);
+                        Bitmap mutableBitmap = bmp.copy(Bitmap.Config.ARGB_8888, true);
+                        imageAttach.setImage("send_image", mutableBitmap);
+                    }
                 } catch (Exception e) {
                     try {
                         Bitmap playButton = BitmapFactory.decodeResource(context.getResources(),
@@ -3893,7 +3912,10 @@ public class MainActivity extends FragmentActivity {
                         imageAttachBackground.setVisibility(View.GONE);
                         multipleAttachments = false;
                         AttachMore.data = new ArrayList<MMSPart>();
-
+                        AttachMore.images = null;
+                        AttachMore.video = null;
+                        AttachMore.contact = null;
+                        AttachMore.audio = null;
                     }
 
                 });
@@ -3910,9 +3932,14 @@ public class MainActivity extends FragmentActivity {
                 imageAttach2.setVisibility(true);
 
                 try {
-                    Bitmap bmp = BitmapFactory.decodeByteArray(AttachMore.data.get(0).Data, 0, AttachMore.data.get(0).Data.length);
-                    Bitmap mutableBitmap = bmp.copy(Bitmap.Config.ARGB_8888, true);
-                    imageAttach2.setImage("send_image", mutableBitmap);
+                    if (AttachMore.contactNumber != null) {
+                        Bitmap contactPic = ContactUtil.getFacebookPhoto(AttachMore.contactNumber, this);
+                        imageAttach2.setImage("send_image", contactPic);
+                    } else {
+                        Bitmap bmp = BitmapFactory.decodeByteArray(AttachMore.data.get(0).Data, 0, AttachMore.data.get(0).Data.length);
+                        Bitmap mutableBitmap = bmp.copy(Bitmap.Config.ARGB_8888, true);
+                        imageAttach2.setImage("send_image", mutableBitmap);
+                    }
                 } catch (Exception e) {
                     try {
                         Bitmap playButton = BitmapFactory.decodeResource(context.getResources(),
@@ -3960,7 +3987,10 @@ public class MainActivity extends FragmentActivity {
                         imageAttachBackground2.setVisibility(View.GONE);
                         multipleAttachments = false;
                         AttachMore.data = new ArrayList<MMSPart>();
-
+                        AttachMore.images = null;
+                        AttachMore.video = null;
+                        AttachMore.contact = null;
+                        AttachMore.audio = null;
                     }
 
                 });

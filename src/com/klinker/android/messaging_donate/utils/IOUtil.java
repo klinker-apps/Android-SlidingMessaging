@@ -22,7 +22,13 @@ import com.klinker.android.messaging_sliding.scheduled.ScheduledSms;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Map;
+
+import a_vcard.android.syncml.pim.PropertyNode;
+import a_vcard.android.syncml.pim.VDataBuilder;
+import a_vcard.android.syncml.pim.VNode;
+import a_vcard.android.syncml.pim.vcard.VCardParser;
 
 public class IOUtil {
 
@@ -766,5 +772,57 @@ public class IOUtil {
         }
 
         return ret;
+    }
+
+    public static String getRealPathFromURI(Context context, Uri contentUri) {
+        try {
+            String[] proj = { MediaStore.Images.Media.DATA };
+            Cursor query = context.getContentResolver().query(contentUri, proj, null, null, null);
+            int column_index = query.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            query.moveToFirst();
+            return query.getString(column_index);
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    public static String[] parseVCard(Context context, Uri uri) {
+        try {
+            VCardParser parser = new VCardParser();
+            VDataBuilder builder = new VDataBuilder();
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(
+                    new FileInputStream(new File(IOUtil.getRealPathFromURI(context, uri)))));
+
+            String vcardString = "";
+            String line;
+            while ((line = reader.readLine()) != null) {
+                vcardString += line + "\n";
+            }
+            reader.close();
+
+            parser.parse(vcardString, "UTF-8", builder);
+            List<VNode> pimContacts = builder.vNodeList;
+
+            for (VNode contact : pimContacts) {
+                ArrayList<PropertyNode> props = contact.propList;
+
+                String name = null;
+                String number = null;
+                for (PropertyNode prop : props) {
+                    if ("FN".equals(prop.propName)) {
+                        name = prop.propValue;
+                    } else if ("TEL".equals(prop.propName)) {
+                        number = prop.propValue;
+                    }
+                }
+
+                return new String[] {name, number};
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new String[] {"", ""};
     }
 }

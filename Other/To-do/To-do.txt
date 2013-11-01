@@ -1,14 +1,12 @@
 Version 7.80
 
 Jake:
-    - Attach audio and video to mms (look at stock app)
     - delayed sending for certain times
     - actionbar pull to refresh, get the newest changes
 Luke:
     - Forward mms with multiple attachments
-    - KitKat support
-    - Send V-card
-    - New icon
+    - Mark as read when multiple messages come in
+    - Add location support
 
 
 Android 4.4 Stuff:
@@ -18,12 +16,11 @@ Android 4.4 Stuff:
 1) more individual notification options (notification icon)
 2) option for adding certain text to every message at the beginning (delivery reports?)
 3) Tasker options
-4) Attach more options for MMS - create slideshow with videos and audio and pictures, attach plain text contact info
-5) Pin contact to always be first conversation
-6) Auto call when phone is placed to the ear (proximity sensor)
-7) Add a crouton notification for drafts instead of current system, then use a pull to refresh on the bottom to fill the text box with the draft. again, don't know if this would work well or is possible to attach another one to the list view, but it might be cool
-8) Add scheduled sms to bottom of conversation in a footer maybe
-9) Add sent or received icon to conversations list
+4) Pin contact to always be first conversation
+5) Auto call when phone is placed to the ear (proximity sensor)
+6) Add a crouton notification for drafts instead of current system, then use a pull to refresh on the bottom to fill the text box with the draft. again, don't know if this would work well or is possible to attach another one to the list view, but it might be cool
+7) Add scheduled sms to bottom of conversation in a footer maybe
+8) Add sent or received icon to conversations list
 
 Translation stuff:
 - igamer777@gmail.com (Russian), nikorezzano@gmail.com (Spanish), supremazx@gmail.com (Turkish), giovanefuori@gmail.com (Italian)

@@ -1,3 +1,7 @@
-Google Voice users, please read here about your new options for receiving messages: http://goo.gl/vhe0Q8
+- Mmm, KitKat approved :)
 
-- Version 7.7x changes: http://goo.gl/D27PJY
+- New Icon!
+- New MMS options:
+    - Attach video to MMS
+    - Attach audio to MMS
+    - Attach contact vCard's to MMS
