@@ -170,6 +170,7 @@
         <item>Capture Image</item>
         <item>Capture Video</item>
         <item>Capture Audio</item>
+        <item>Create Contact vCard</item>
     </string-array>
 
     <string-array name="notification_icon">
