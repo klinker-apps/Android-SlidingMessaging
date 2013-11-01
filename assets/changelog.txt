@@ -6,3 +6,4 @@
     - Attach audio to MMS
     - Attach contact vCard's to MMS
 - Updated translations
+- Fixes for KitKat MMS
