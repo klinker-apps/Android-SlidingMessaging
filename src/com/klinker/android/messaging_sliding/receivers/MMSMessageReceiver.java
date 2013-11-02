@@ -40,9 +40,9 @@ public class MMSMessageReceiver extends BroadcastReceiver {
 
         boolean needme;
 
-        try{
+        if (context.getResources().getBoolean(R.bool.hasKitKat)) {
             needme = intent.getAction().equals("android.provider.Telephony.WAP_PUSH_DELIVER");
-        } catch (Exception e) {
+        } else {
             needme = intent.getAction().equals("android.provider.Telephony.WAP_PUSH_RECEIVED");
         }
 
