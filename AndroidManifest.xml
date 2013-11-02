@@ -564,14 +564,14 @@
             </intent-filter>
         </receiver>
         
-        <receiver android:name="com.klinker.android.send_message.SentReceiver" >
+        <receiver android:name="com.klinker.android.messaging_sliding.receivers.SentReceiver" >
             <intent-filter>
                 <action android:name="com.klinker.android.send_message.SMS_SENT" />
                 <category android:name="android.intent.category.HOME" />
             </intent-filter> 
         </receiver>
         
-        <receiver android:name="com.klinker.android.send_message.DeliveredReceiver" >
+        <receiver android:name="com.klinker.android.messaging_sliding.receivers.DeliveredReceiver" >
             <intent-filter>
                 <action android:name="com.klinker.android.send_message.SMS_DELIVERED" />
                 <category android:name="android.intent.category.HOME" />
