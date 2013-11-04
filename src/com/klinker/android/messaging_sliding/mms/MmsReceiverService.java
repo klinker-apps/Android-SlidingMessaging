@@ -118,7 +118,7 @@ public class MmsReceiverService extends Service {
 
         // enable mms connection to mobile data
         mConnMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        int result = mConnMgr.startUsingNetworkFeature(ConnectivityManager.TYPE_MOBILE, "enableMMS");
+        int result = beginMmsConnectivity();//mConnMgr.startUsingNetworkFeature(ConnectivityManager.TYPE_MOBILE, "enableMMS");
 
         if (result != 0) {
             // if mms feature is not already running (most likely isn't...) then register a receiver and wait for it to be active
@@ -157,6 +157,12 @@ public class MmsReceiverService extends Service {
 
             context.registerReceiver(receiver, filter);
 
+            try {
+                Looper.prepare();
+            } catch (Exception e) {
+                // Already on UI thread probably
+            }
+
             // try sending after 3 seconds anyways if for some reason the receiver doesn't work
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -171,7 +177,7 @@ public class MmsReceiverService extends Service {
                         receiveData();
                     }
                 }
-            }, 3500);
+            }, 7000);
         } else {
             // mms connection already active, so send the message
             receiveData();
@@ -179,7 +185,7 @@ public class MmsReceiverService extends Service {
     }
 
     private void startDownloadWifi() {
-        mConnMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        mConnMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo.State state = mConnMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE_MMS).getState();
 
         if ((0 == state.compareTo(NetworkInfo.State.CONNECTED) || 0 == state.compareTo(NetworkInfo.State.CONNECTING))) {
@@ -189,8 +195,13 @@ public class MmsReceiverService extends Service {
             int resultInt = mConnMgr.startUsingNetworkFeature(ConnectivityManager.TYPE_MOBILE, "enableMMS");
 
             if (resultInt == 0) {
-                Log.v("mms_download", "state already ready 2, receiving");
-                receiveData();
+                try {
+                    Utils.ensureRouteToHost(context, settings.getMmsc(), settings.getProxy());
+                    receiveData();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    receiveData();
+                }
             } else {
                 // if mms feature is not already running (most likely isn't...) then register a receiver and wait for it to be active
                 IntentFilter filter = new IntentFilter();
@@ -213,10 +224,15 @@ public class MmsReceiverService extends Service {
                         if (!mNetworkInfo.isConnected()) {
                             return;
                         } else {
-                            Log.v("mms_download", "downloading through receiver");
                             alreadyReceiving = true;
-                            Utils.forceMobileConnectionForAddress(mConnMgr, settings.getMmsc());
-                            receiveData();
+
+                            try {
+                                Utils.ensureRouteToHost(context, settings.getMmsc(), settings.getProxy());
+                                receiveData();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                receiveData();
+                            }
 
                             context.unregisterReceiver(this);
                         }
@@ -226,6 +242,12 @@ public class MmsReceiverService extends Service {
                 };
 
                 context.registerReceiver(receiver, filter);
+
+                try {
+                    Looper.prepare();
+                } catch (Exception e) {
+                    // Already on UI thread probably
+                }
 
                 // try sending after 3 seconds anyways if for some reason the receiver doesn't work
                 new Handler().postDelayed(new Runnable() {
@@ -238,8 +260,13 @@ public class MmsReceiverService extends Service {
 
                             }
 
-                            Log.v("mms_download", "receiving data through handler");
-                            receiveData();
+                            try {
+                                Utils.ensureRouteToHost(context, settings.getMmsc(), settings.getProxy());
+                                receiveData();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                receiveData();
+                            }
                         }
                     }
                 }, 7000);
@@ -255,16 +282,22 @@ public class MmsReceiverService extends Service {
             public void run() {
                 List<APN> apns = new ArrayList<APN>();
 
-                APN apn = new APN(settings.getMmsc(), settings.getPort(), settings.getProxy());
-                apns.add(apn);
+                try {
+                    APN apn = new APN(settings.getMmsc(), settings.getPort(), settings.getProxy());
+                    apns.add(apn);
 
-                String mmscUrl = apns.get(0).MMSCenterUrl != null ? apns.get(0).MMSCenterUrl.trim() : null;
-                apns.get(0).MMSCenterUrl = mmscUrl;
+                    String mmscUrl = apns.get(0).MMSCenterUrl != null ? apns.get(0).MMSCenterUrl.trim() : null;
+                    apns.get(0).MMSCenterUrl = mmscUrl;
 
-                if (apns.get(0).MMSCenterUrl.equals("")) {
-                    // attempt to get apns from internal databases, most likely will fail due to insignificant permissions
-                    APNHelper helper = new APNHelper(context);
-                    apns = helper.getMMSApns();
+                    if (apns.get(0).MMSCenterUrl.equals("")) {
+                        // attempt to get apns from internal databases, most likely will fail due to insignificant permissions
+                        APNHelper helper = new APNHelper(context);
+                        apns = helper.getMMSApns();
+                    }
+                } catch (Exception e) {
+                    // error in the apns, none are available most likely causing an index out of bounds
+                    // exception. cant send a message, so therefore mark as failed.
+                    return;
                 }
 
                 try {
@@ -629,5 +662,10 @@ public class MmsReceiverService extends Service {
             context.registerReceiver(settings.discon, new IntentFilter(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION));
             Utils.setMobileDataEnabled(context, true);
         }
+    }
+
+    private int beginMmsConnectivity() {
+        Log.v("sending_mms_library", "starting mms service");
+        return mConnMgr.startUsingNetworkFeature(ConnectivityManager.TYPE_MOBILE, "enableMMS");
     }
 }
