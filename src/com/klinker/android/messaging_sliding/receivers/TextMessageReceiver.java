@@ -430,7 +430,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
                     } else if (notIcon.equals("red")) {
                         mBuilder.setSmallIcon(R.drawable.stat_notify_sms_red);
                     } else if (notIcon.equals("icon")) {
-                        mBuilder.setSmallIcon(R.drawable.stat_notify_sms_icon);
+                        mBuilder.setSmallIcon(R.drawable.ic_launcher);//stat_notify_sms_icon);
                     }
 
                     break;
@@ -448,7 +448,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
                     } else if (notIcon.equals("red")) {
                         mBuilder.setSmallIcon(R.drawable.stat_notify_bubble_red);
                     } else if (notIcon.equals("icon")) {
-                        mBuilder.setSmallIcon(R.drawable.stat_notify_sms_icon);
+                        mBuilder.setSmallIcon(R.drawable.ic_launcher);//stat_notify_sms_icon);
                     }
 
                     break;
@@ -466,7 +466,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
                     } else if (notIcon.equals("red")) {
                         mBuilder.setSmallIcon(R.drawable.stat_notify_point_red);
                     } else if (notIcon.equals("icon")) {
-                        mBuilder.setSmallIcon(R.drawable.stat_notify_sms_icon);
+                        mBuilder.setSmallIcon(R.drawable.ic_launcher);//stat_notify_sms_icon);
                     }
 
                     break;
@@ -484,7 +484,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
                     } else if (notIcon.equals("red")) {
                         mBuilder.setSmallIcon(R.drawable.stat_notify_airplane_red);
                     } else if (notIcon.equals("icon")) {
-                        mBuilder.setSmallIcon(R.drawable.stat_notify_sms_icon);
+                        mBuilder.setSmallIcon(R.drawable.ic_launcher);//stat_notify_sms_icon);
                     }
 
                     break;
@@ -502,7 +502,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
                     } else if (notIcon.equals("red")) {
                         mBuilder.setSmallIcon(R.drawable.stat_notify_cloud_red);
                     } else if (notIcon.equals("icon")) {
-                        mBuilder.setSmallIcon(R.drawable.stat_notify_sms_icon);
+                        mBuilder.setSmallIcon(R.drawable.ic_launcher);//stat_notify_sms_icon);
                     }
                     break;
             }

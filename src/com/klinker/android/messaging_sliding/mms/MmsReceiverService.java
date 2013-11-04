@@ -455,6 +455,21 @@ public class MmsReceiverService extends Service {
                             .setContentTitle(title)
                             .setContentText(text);
 
+            String notIcon = sharedPrefs.getString("notification_icon", "white");
+            if (notIcon.equals("white")) {
+                mBuilder.setSmallIcon(R.drawable.stat_notify_mms);
+            } else if (notIcon.equals("blue")) {
+                mBuilder.setSmallIcon(R.drawable.stat_notify_mms_blue);
+            } else if (notIcon.equals("green")) {
+                mBuilder.setSmallIcon(R.drawable.stat_notify_mms_green);
+            } else if (notIcon.equals("orange")) {
+                mBuilder.setSmallIcon(R.drawable.stat_notify_mms_orange);
+            } else if (notIcon.equals("purple")) {
+                mBuilder.setSmallIcon(R.drawable.stat_notify_mms_purple);
+            } else if (notIcon.equals("red")) {
+                mBuilder.setSmallIcon(R.drawable.stat_notify_mms_red);
+            }
+
             if (!sharedPrefs.getBoolean("secure_notification", false)) {
                 try {
                     int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 64, context.getResources().getDisplayMetrics());
@@ -463,7 +478,7 @@ public class MmsReceiverService extends Service {
                 }
             }
 
-            TextMessageReceiver.setIcon(mBuilder, context);
+            //TextMessageReceiver.setIcon(mBuilder, context);
 
             Intent resultIntent = new Intent(context, MainActivity.class);
             resultIntent.putExtra("com.klinker.android.OPEN", address);
