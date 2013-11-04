@@ -310,9 +310,4 @@
 
     </PreferenceCategory>
 
-    <Preference
-        android:title="@string/under_development"
-        android:summary="@string/under_development_summary"
-    />
-
 </PreferenceScreen>
