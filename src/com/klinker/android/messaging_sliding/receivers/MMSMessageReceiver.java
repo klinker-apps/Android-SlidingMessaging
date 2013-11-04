@@ -24,9 +24,6 @@ import java.util.Calendar;
 import java.util.concurrent.ExecutionException;
 
 public class MMSMessageReceiver extends BroadcastReceiver {
-    public static String lastReceivedNumber = "";
-    public static long lastReceivedTime = Calendar.getInstance().getTimeInMillis();
-
     public SharedPreferences sharedPrefs;
     public Context context;
     public String phoneNumber;
@@ -113,13 +110,6 @@ public class MMSMessageReceiver extends BroadcastReceiver {
                 }
             }
 
-            if (lastReceivedNumber.equals(picNumber) && Calendar.getInstance().getTimeInMillis() < lastReceivedTime + (1000 * 10)) {
-                Log.v("downloading_mms", "Already saved this message, moving on...");
-                return;
-            }
-
-            lastReceivedNumber = incomingNumber;
-            lastReceivedTime = Calendar.getInstance().getTimeInMillis();
             phoneNumber = incomingNumber.replace("+1", "").replace("+", "").replace("-", "").replace(" ", "").replace("(", "").replace(")", "");
             mmsFrom = ContactUtil.findContactName(phoneNumber, context);
 

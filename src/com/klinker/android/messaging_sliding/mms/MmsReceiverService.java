@@ -21,10 +21,17 @@ import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
+
+import com.android.mms.MmsConfig;
 import com.android.mms.transaction.HttpUtils;
 import com.android.mms.util.SendingProgressTokenManager;
 import com.google.android.mms.APN;
 import com.google.android.mms.APNHelper;
+import com.google.android.mms.MmsException;
+import com.google.android.mms.pdu_alt.AcknowledgeInd;
+import com.google.android.mms.pdu_alt.EncodedStringValue;
+import com.google.android.mms.pdu_alt.PduComposer;
+import com.google.android.mms.pdu_alt.PduHeaders;
 import com.google.android.mms.pdu_alt.PduParser;
 import com.google.android.mms.pdu_alt.PduPersister;
 import com.google.android.mms.pdu_alt.RetrieveConf;
@@ -43,6 +50,7 @@ import com.klinker.android.send_message.Transaction;
 import com.klinker.android.send_message.Utils;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -323,17 +331,25 @@ public class MmsReceiverService extends Service {
                     Integer.parseInt(apns.MMSPort));
 
             RetrieveConf retrieveConf = (RetrieveConf) new PduParser(resp).parse();
-            PduPersister persister = PduPersister.getPduPersister(context);
-            Uri msgUri = persister.persist(retrieveConf, Telephony.Mms.Inbox.CONTENT_URI, true,
-                    true, null);
-            ContentValues values = new ContentValues(1);
-            values.put(Telephony.Mms.DATE, System.currentTimeMillis() / 1000L);
-            SqliteWrapper.update(context, context.getContentResolver(),
-                    msgUri, values, null, null);
-            SqliteWrapper.delete(context, context.getContentResolver(),
-                    Uri.parse("content://mms/"), "thread_id=? and _id=?", new String[]{threadId, msgId});
+            if (!isDuplicateMessage(this, retrieveConf)) {
+                PduPersister persister = PduPersister.getPduPersister(context);
+                Uri msgUri = persister.persist(retrieveConf, Telephony.Mms.Inbox.CONTENT_URI, true,
+                        true, null);
+                ContentValues values = new ContentValues(1);
+                values.put(Telephony.Mms.DATE, System.currentTimeMillis() / 1000L);
+                SqliteWrapper.update(context, context.getContentResolver(),
+                        msgUri, values, null, null);
+                SqliteWrapper.delete(context, context.getContentResolver(),
+                        Uri.parse("content://mms/"), "thread_id=? and _id=?", new String[]{threadId, msgId});
 
-            findImageAndNotify();
+                findImageAndNotify();
+
+                try {
+                    sendAcknowledgeInd(retrieveConf, apns);
+                } catch (Exception e) {
+                    // if this fails, then dont fail the whole message and retry
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
 
@@ -667,5 +683,108 @@ public class MmsReceiverService extends Service {
     private int beginMmsConnectivity() {
         Log.v("sending_mms_library", "starting mms service");
         return mConnMgr.startUsingNetworkFeature(ConnectivityManager.TYPE_MOBILE, "enableMMS");
+    }
+
+    private void sendAcknowledgeInd(RetrieveConf rc, APN apn) throws MmsException, IOException {
+        // Send M-Acknowledge.ind to MMSC if required.
+        // If the Transaction-ID isn't set in the M-Retrieve.conf, it means
+        // the MMS proxy-relay doesn't require an ACK.
+        byte[] tranId = rc.getTransactionId();
+        Log.v("receiving_mms", "checking if acknowledgment is needed");
+        if (tranId != null) {
+            Log.v("receiving_mms", "sending acknowledgment to mmsc that the message was downloaded");
+            // Create M-Acknowledge.ind
+            AcknowledgeInd acknowledgeInd = new AcknowledgeInd(
+                    PduHeaders.CURRENT_MMS_VERSION, tranId);
+
+            // insert the 'from' address per spec
+            String lineNumber = Utils.getMyPhoneNumber(this);
+            acknowledgeInd.setFrom(new EncodedStringValue(lineNumber));
+
+            // Pack M-Acknowledge.ind and send it
+            if(MmsConfig.getNotifyWapMMSC()) {
+                Utils.ensureRouteToHost(context, downloadLocation, apn.MMSProxy);
+                HttpUtils.httpConnection(
+                        this, 4444L,
+                        downloadLocation,
+                        new PduComposer(this, acknowledgeInd).make(), HttpUtils.HTTP_POST_METHOD,
+                        !TextUtils.isEmpty(apn.MMSProxy), apn.MMSProxy, Integer.parseInt(apn.MMSPort));
+            } else {
+                Utils.ensureRouteToHost(context, apn.MMSProxy, apn.MMSProxy);
+                HttpUtils.httpConnection(
+                        this, 4444L,
+                        apn.MMSCenterUrl,
+                        new PduComposer(this, acknowledgeInd).make(), HttpUtils.HTTP_POST_METHOD,
+                        !TextUtils.isEmpty(apn.MMSProxy), apn.MMSProxy, Integer.parseInt(apn.MMSPort));
+            }
+        }
+    }
+
+    private static boolean isDuplicateMessage(Context context, RetrieveConf rc) {
+        byte[] rawMessageId = rc.getMessageId();
+        if (rawMessageId != null) {
+            String messageId = new String(rawMessageId);
+            String selection = "(" + Telephony.Mms.MESSAGE_ID + " = ? AND "
+                    + Telephony.Mms.MESSAGE_TYPE + " = ?)";
+            String[] selectionArgs = new String[] { messageId,
+                    String.valueOf(PduHeaders.MESSAGE_TYPE_RETRIEVE_CONF) };
+
+            Cursor cursor = SqliteWrapper.query(
+                    context, context.getContentResolver(),
+                    Telephony.Mms.CONTENT_URI, new String[] { Telephony.Mms._ID, Telephony.Mms.SUBJECT, Telephony.Mms.SUBJECT_CHARSET },
+                    selection, selectionArgs, null);
+
+            if (cursor != null) {
+                try {
+                    if (cursor.getCount() > 0) {
+                        // A message with identical message ID and type found.
+                        // Do some additional checks to be sure it's a duplicate.
+                        return isDuplicateMessageExtra(cursor, rc);
+                    }
+                } finally {
+                    cursor.close();
+                }
+            }
+        }
+        return false;
+    }
+
+    private static boolean isDuplicateMessageExtra(Cursor cursor, RetrieveConf rc) {
+        EncodedStringValue encodedSubjectReceived = null;
+        EncodedStringValue encodedSubjectStored = null;
+        String subjectReceived = null;
+        String subjectStored = null;
+        String subject = null;
+
+        encodedSubjectReceived = rc.getSubject();
+        if (encodedSubjectReceived != null) {
+            subjectReceived = encodedSubjectReceived.getString();
+        }
+
+        for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+            int subjectIdx = cursor.getColumnIndex(Telephony.Mms.SUBJECT);
+            int charsetIdx = cursor.getColumnIndex(Telephony.Mms.SUBJECT_CHARSET);
+            subject = cursor.getString(subjectIdx);
+            int charset = cursor.getInt(charsetIdx);
+            if (subject != null) {
+                encodedSubjectStored = new EncodedStringValue(charset, PduPersister
+                        .getBytes(subject));
+            }
+            if (encodedSubjectStored == null && encodedSubjectReceived == null) {
+                // Both encoded subjects are null - return true
+                return true;
+            } else if (encodedSubjectStored != null && encodedSubjectReceived != null) {
+                subjectStored = encodedSubjectStored.getString();
+                if (!TextUtils.isEmpty(subjectStored) && !TextUtils.isEmpty(subjectReceived)) {
+                    // Both decoded subjects are non-empty - compare them
+                    return subjectStored.equals(subjectReceived);
+                } else if (TextUtils.isEmpty(subjectStored) && TextUtils.isEmpty(subjectReceived)) {
+                    // Both decoded subjects are "" - return true
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }
