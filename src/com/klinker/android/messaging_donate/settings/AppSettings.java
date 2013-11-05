@@ -63,6 +63,7 @@ public class AppSettings {
     public boolean alwaysUseVoice;
     public boolean boldNames;
     public boolean conversationListImages;
+    public boolean systemEmojis;
     public String smilies;
     public String textSize;
     public String textSize2;
@@ -247,6 +248,7 @@ public class AppSettings {
         settings.alwaysUseVoice = sharedPrefs.getBoolean("always_use_voice", false);
         settings.mmsMaxWidth = sharedPrefs.getInt("mms_max_width", 500);
         settings.mmsMaxHeight = sharedPrefs.getInt("mms_max_height", 500);
+        settings.systemEmojis = sharedPrefs.getBoolean("use_system_emojis", false);
 
         if (settings.runAs.equals("card+")) {
             settings.customTheme = true;

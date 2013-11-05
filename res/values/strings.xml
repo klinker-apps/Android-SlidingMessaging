@@ -868,8 +868,7 @@
     <string name="quick_peek_messages">Number of Messages Displayed</string>
     <string name="attach_contact">Attach Contact vCard</string>
     <string name="search_contact">Search Contacts</string>
-    <!-- KitKat Default Dialog -->
-    <string name="change_default">Change SMS app?</string>
-    <string name="change_default_summary">Use EvolveSMS as your default SMS app?</string>
+    <string name="system_emojis">Use System Style</string>
+    <string name="system_emojis_summary">This will stop Sliding Messaging from displaying any smileys or emojis and force you to view the system font\'s style instead.</string>
 
 </resources>

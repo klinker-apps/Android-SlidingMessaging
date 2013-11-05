@@ -1645,200 +1645,204 @@ public class MessageCursorAdapter extends CursorAdapter {
             return;
         }
 
-        if (MainActivity.settings.smilies.equals("with")) {
-            try {
-                Matcher matcher = EmojiUtil.emojiPattern.matcher(body);
+        if (!MainActivity.settings.systemEmojis) {
+            if (MainActivity.settings.smilies.equals("with")) {
+                try {
+                    Matcher matcher = EmojiUtil.emojiPattern.matcher(body);
 
-                if (matcher.find()) {
-                    textView.setText(body);
+                    if (matcher.find()) {
+                        textView.setText(body);
 
-                    new Thread(new Runnable() {
+                        new Thread(new Runnable() {
 
-                        @Override
-                        public void run() {
-                            final Spannable text;
+                            @Override
+                            public void run() {
+                                final Spannable text;
 
-                            if (MainActivity.settings.emojiType) {
-                                if (MainActivity.settings.smiliesType) {
-                                    text = EmojiConverter2.getSmiledText(context, EmoticonConverter2New.getSmiledText(context, body));
+                                if (MainActivity.settings.emojiType) {
+                                    if (MainActivity.settings.smiliesType) {
+                                        text = EmojiConverter2.getSmiledText(context, EmoticonConverter2New.getSmiledText(context, body));
+                                    } else {
+                                        text = EmojiConverter2.getSmiledText(context, EmoticonConverter2.getSmiledText(context, body));
+                                    }
                                 } else {
-                                    text = EmojiConverter2.getSmiledText(context, EmoticonConverter2.getSmiledText(context, body));
+                                    if (MainActivity.settings.smiliesType) {
+                                        text = EmojiConverter.getSmiledText(context, EmoticonConverter2New.getSmiledText(context, body));
+                                    } else {
+                                        text = EmojiConverter.getSmiledText(context, EmoticonConverter2.getSmiledText(context, body));
+                                    }
                                 }
-                            } else {
-                                if (MainActivity.settings.smiliesType) {
-                                    text = EmojiConverter.getSmiledText(context, EmoticonConverter2New.getSmiledText(context, body));
-                                } else {
-                                    text = EmojiConverter.getSmiledText(context, EmoticonConverter2.getSmiledText(context, body));
-                                }
+
+                                context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                                    @Override
+                                    public void run() {
+                                        textView.setText(text);
+                                        linkifyText(textView);
+                                    }
+
+                                });
                             }
 
-                            context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                                @Override
-                                public void run() {
-                                    textView.setText(text);
-                                    linkifyText(textView);
-                                }
-
-                            });
-                        }
-
-                    }).start();
-                } else {
-                    if (MainActivity.settings.smiliesType) {
-                        textView.setText(EmoticonConverter2New.getSmiledText(context, body));
+                        }).start();
                     } else {
-                        textView.setText(EmoticonConverter2.getSmiledText(context, body));
-                    }
-
-                    linkifyText(textView);
-                }
-            } catch (Exception e) {
-                // problem getting an emoji FIXME
-            }
-        } else if (MainActivity.settings.smilies.equals("without")) {
-            try {
-                Matcher matcher = EmojiUtil.emojiPattern.matcher(body);
-
-
-                if (matcher.find()) {
-                    textView.setText(body);
-
-                    new Thread(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            final Spannable text;
-
-                            if (MainActivity.settings.emojiType) {
-                                if (MainActivity.settings.smiliesType) {
-                                    text = EmojiConverter2.getSmiledText(context, EmoticonConverterNew.getSmiledText(context, body));
-                                } else {
-                                    text = EmojiConverter2.getSmiledText(context, EmoticonConverter.getSmiledText(context, body));
-                                }
-                            } else {
-                                if (MainActivity.settings.smiliesType) {
-                                    text = EmojiConverter.getSmiledText(context, EmoticonConverterNew.getSmiledText(context, body));
-                                } else {
-                                    text = EmojiConverter.getSmiledText(context, EmoticonConverter.getSmiledText(context, body));
-                                }
-                            }
-
-                            context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                                @Override
-                                public void run() {
-                                    textView.setText(text);
-                                    linkifyText(textView);
-                                }
-
-                            });
+                        if (MainActivity.settings.smiliesType) {
+                            textView.setText(EmoticonConverter2New.getSmiledText(context, body));
+                        } else {
+                            textView.setText(EmoticonConverter2.getSmiledText(context, body));
                         }
 
-                    }).start();
-                } else {
-                    if (MainActivity.settings.smiliesType) {
-                        textView.setText(EmoticonConverterNew.getSmiledText(context, body));
+                        linkifyText(textView);
+                    }
+                } catch (Exception e) {
+                    // problem getting an emoji FIXME
+                }
+            } else if (MainActivity.settings.smilies.equals("without")) {
+                try {
+                    Matcher matcher = EmojiUtil.emojiPattern.matcher(body);
+
+
+                    if (matcher.find()) {
+                        textView.setText(body);
+
+                        new Thread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                final Spannable text;
+
+                                if (MainActivity.settings.emojiType) {
+                                    if (MainActivity.settings.smiliesType) {
+                                        text = EmojiConverter2.getSmiledText(context, EmoticonConverterNew.getSmiledText(context, body));
+                                    } else {
+                                        text = EmojiConverter2.getSmiledText(context, EmoticonConverter.getSmiledText(context, body));
+                                    }
+                                } else {
+                                    if (MainActivity.settings.smiliesType) {
+                                        text = EmojiConverter.getSmiledText(context, EmoticonConverterNew.getSmiledText(context, body));
+                                    } else {
+                                        text = EmojiConverter.getSmiledText(context, EmoticonConverter.getSmiledText(context, body));
+                                    }
+                                }
+
+                                context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                                    @Override
+                                    public void run() {
+                                        textView.setText(text);
+                                        linkifyText(textView);
+                                    }
+
+                                });
+                            }
+
+                        }).start();
                     } else {
-                        textView.setText(EmoticonConverter.getSmiledText(context, body));
+                        if (MainActivity.settings.smiliesType) {
+                            textView.setText(EmoticonConverterNew.getSmiledText(context, body));
+                        } else {
+                            textView.setText(EmoticonConverter.getSmiledText(context, body));
+                        }
+
+                        linkifyText(textView);
                     }
-
-                    linkifyText(textView);
+                } catch ( Exception e) {
+                    //FIXME same thing
                 }
-            } catch ( Exception e) {
-                //FIXME same thing
-            }
-        } else if (MainActivity.settings.smilies.equals("none")) {
-            try {
-                Matcher matcher = EmojiUtil.emojiPattern.matcher(body);
+            } else if (MainActivity.settings.smilies.equals("none")) {
+                try {
+                    Matcher matcher = EmojiUtil.emojiPattern.matcher(body);
 
 
-                if (matcher.find()) {
-                    textView.setText(body);
+                    if (matcher.find()) {
+                        textView.setText(body);
 
-                    new Thread(new Runnable() {
+                        new Thread(new Runnable() {
 
-                        @Override
-                        public void run() {
-                            final Spannable text;
+                            @Override
+                            public void run() {
+                                final Spannable text;
 
-                            if (MainActivity.settings.emojiType) {
-                                text = EmojiConverter2.getSmiledText(context, body);
-                            } else {
-                                text = EmojiConverter.getSmiledText(context, body);
+                                if (MainActivity.settings.emojiType) {
+                                    text = EmojiConverter2.getSmiledText(context, body);
+                                } else {
+                                    text = EmojiConverter.getSmiledText(context, body);
+                                }
+
+                                context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                                    @Override
+                                    public void run() {
+                                        textView.setText(text);
+                                        linkifyText(textView);
+                                    }
+
+                                });
                             }
 
-                            context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                                @Override
-                                public void run() {
-                                    textView.setText(text);
-                                    linkifyText(textView);
-                                }
-
-                            });
-                        }
-
-                    }).start();
-                } else {
-                    textView.setText(body);
-                    linkifyText(textView);
-                }
-            } catch (Exception e) {
-                // FIXME same again
-            }
-        } else if (MainActivity.settings.smilies.equals("both")) {
-            try {
-                Matcher matcher = EmojiUtil.emojiPattern.matcher(body);
-
-
-                if (matcher.find()) {
-                    textView.setText(body);
-
-                    new Thread(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            final Spannable text;
-
-                            if (MainActivity.settings.emojiType) {
-                                if (MainActivity.settings.smiliesType) {
-                                    text = EmojiConverter2.getSmiledText(context, EmoticonConverter3New.getSmiledText(context, body));
-                                } else {
-                                    text = EmojiConverter2.getSmiledText(context, EmoticonConverter3.getSmiledText(context, body));
-                                }
-                            } else {
-                                if (MainActivity.settings.smiliesType) {
-                                    text = EmojiConverter.getSmiledText(context, EmoticonConverter3New.getSmiledText(context, body));
-                                } else {
-                                    text = EmojiConverter.getSmiledText(context, EmoticonConverter3.getSmiledText(context, body));
-                                }
-                            }
-
-                            context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                                @Override
-                                public void run() {
-                                    textView.setText(text);
-                                    linkifyText(textView);
-                                }
-
-                            });
-                        }
-
-                    }).start();
-                } else {
-                    if (MainActivity.settings.smiliesType) {
-                        textView.setText(EmoticonConverter3New.getSmiledText(context, body));
+                        }).start();
                     } else {
-                        textView.setText(EmoticonConverter3.getSmiledText(context, body));
+                        textView.setText(body);
+                        linkifyText(textView);
                     }
-
-                    linkifyText(textView);
+                } catch (Exception e) {
+                    // FIXME same again
                 }
-            } catch (Exception e) {
-                // FIXME one more
+            } else if (MainActivity.settings.smilies.equals("both")) {
+                try {
+                    Matcher matcher = EmojiUtil.emojiPattern.matcher(body);
+
+
+                    if (matcher.find()) {
+                        textView.setText(body);
+
+                        new Thread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                final Spannable text;
+
+                                if (MainActivity.settings.emojiType) {
+                                    if (MainActivity.settings.smiliesType) {
+                                        text = EmojiConverter2.getSmiledText(context, EmoticonConverter3New.getSmiledText(context, body));
+                                    } else {
+                                        text = EmojiConverter2.getSmiledText(context, EmoticonConverter3.getSmiledText(context, body));
+                                    }
+                                } else {
+                                    if (MainActivity.settings.smiliesType) {
+                                        text = EmojiConverter.getSmiledText(context, EmoticonConverter3New.getSmiledText(context, body));
+                                    } else {
+                                        text = EmojiConverter.getSmiledText(context, EmoticonConverter3.getSmiledText(context, body));
+                                    }
+                                }
+
+                                context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                                    @Override
+                                    public void run() {
+                                        textView.setText(text);
+                                        linkifyText(textView);
+                                    }
+
+                                });
+                            }
+
+                        }).start();
+                    } else {
+                        if (MainActivity.settings.smiliesType) {
+                            textView.setText(EmoticonConverter3New.getSmiledText(context, body));
+                        } else {
+                            textView.setText(EmoticonConverter3.getSmiledText(context, body));
+                        }
+
+                        linkifyText(textView);
+                    }
+                } catch (Exception e) {
+                    // FIXME one more
+                }
             }
+        } else {
+            textView.setText(body);
         }
     }
 
