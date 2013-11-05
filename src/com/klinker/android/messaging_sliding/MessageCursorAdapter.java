@@ -1843,6 +1843,8 @@ public class MessageCursorAdapter extends CursorAdapter {
             }
         } else {
             textView.setText(body);
+
+            linkifyText(textView);
         }
     }
 
