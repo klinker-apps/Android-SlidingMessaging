@@ -142,6 +142,7 @@ public class AppSettings {
             settings.textSize2 = "14";
             settings.contactPictures = false;
             settings.conversationListImages = false;
+            settings.systemEmojis = true;
         } else {
             settings.limitConversationsAtStart = sharedPrefs.getBoolean("limit_conversations_start", true);
             settings.customFont = sharedPrefs.getBoolean("custom_font", false);
@@ -169,6 +170,7 @@ public class AppSettings {
             settings.textSize2 = sharedPrefs.getString("text_size2", 14 + "");
             settings.contactPictures = sharedPrefs.getBoolean("contact_pictures", true);
             settings.conversationListImages = sharedPrefs.getBoolean("conversation_list_images", true);
+            settings.systemEmojis = sharedPrefs.getBoolean("use_system_emojis", context.getResources().getBoolean(R.bool.hasKitKat));
         }
 
         settings.lightActionBar = sharedPrefs.getBoolean("ct_light_action_bar", false);
@@ -248,7 +250,6 @@ public class AppSettings {
         settings.alwaysUseVoice = sharedPrefs.getBoolean("always_use_voice", false);
         settings.mmsMaxWidth = sharedPrefs.getInt("mms_max_width", 500);
         settings.mmsMaxHeight = sharedPrefs.getInt("mms_max_height", 500);
-        settings.systemEmojis = sharedPrefs.getBoolean("use_system_emojis", false);
 
         if (settings.runAs.equals("card+")) {
             settings.customTheme = true;

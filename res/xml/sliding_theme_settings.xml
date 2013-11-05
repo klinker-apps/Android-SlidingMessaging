@@ -61,7 +61,7 @@
             android:key="use_system_emojis"
             android:title="@string/system_emojis"
             android:summary="@string/system_emojis_summary"
-            android:defaultValue="false"
+            android:defaultValue="@bool/hasKitKat"
             />
 
         <ListPreference
