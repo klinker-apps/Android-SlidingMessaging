@@ -324,7 +324,7 @@ public class MmsReceiverService extends Service {
             Log.v("attempting_mms_download", "number: " + retryNumber);
             Utils.ensureRouteToHost(context, apns.MMSCenterUrl, apns.MMSProxy);
             byte[] resp = HttpUtils.httpConnection(
-                    context, SendingProgressTokenManager.NO_TOKEN,
+                    context, 4444L,
                     downloadLocation, null, HttpUtils.HTTP_GET_METHOD,
                     !TextUtils.isEmpty(apns.MMSProxy),
                     apns.MMSProxy,
