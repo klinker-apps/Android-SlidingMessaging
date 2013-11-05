@@ -507,7 +507,7 @@ public class MainActivity extends FragmentActivity {
                 Display display = getWindowManager().getDefaultDisplay();
                 int width = display.getWidth();  // deprecated
 
-                mEdgeSize.setInt(draggerObj, edge * 2);
+                mEdgeSize.setInt(draggerObj, edge);
             } catch (Exception e) {
                 // couldn't get the correct drawer i guess
             }
