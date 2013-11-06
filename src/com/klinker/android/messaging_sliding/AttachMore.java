@@ -227,9 +227,13 @@ public class AttachMore extends Activity {
 
                 return true;
             case R.id.menu_done:
-                Intent i = getIntent();
-                setResult(RESULT_OK, i);
-                finish();
+                if (images.isEmpty()){
+                    onBackPressed();
+                } else {
+                    Intent i = getIntent();
+                    setResult(RESULT_OK, i);
+                    finish();
+                }
 
                 return true;
             default:
@@ -243,7 +247,7 @@ public class AttachMore extends Activity {
         if (requestCode == 1) { // find picture
             if (resultCode == Activity.RESULT_OK) {
                 Uri image = imageReturnedIntent.getData();
-                Bitmap b = decodeFile2(new File(getPath(image)));
+                Bitmap b = decodeFile2(new File(IOUtil.getPath(image, this)));
                 images.add(b);
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 b.compress(Bitmap.CompressFormat.PNG, 100, stream);
@@ -490,8 +494,11 @@ public class AttachMore extends Activity {
             path = cursor.getString(column_index);
             cursor.close();
         } catch (Exception e) {
+            Log.v("activity_result", "catch");
             path = uri.getPath();
         }
+
+        Log.v("activity_result", path + "");
 
         return path;
     }

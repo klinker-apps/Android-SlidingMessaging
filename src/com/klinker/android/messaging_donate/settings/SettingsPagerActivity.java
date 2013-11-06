@@ -1177,7 +1177,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                                     APN a = c.getAPN();
 
                                     sharedPrefs.edit().putString("mmsc_url", a.mmsc).putString("mms_proxy", a.proxy).putString("mms_port", a.port + "").commit();
-                                } catch (Exception e) {
+                                } catch (Throwable e) {
                                     ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
                                         @Override
                                         public void run() {
@@ -1230,7 +1230,11 @@ public class SettingsPagerActivity extends FragmentActivity {
             });
             
             if (Build.VERSION.SDK_INT > 18) {
-                getPreferenceScreen().removePreference(findPreference("mmsThroughStock"));
+                try {
+                    getPreferenceScreen().removePreference(findPreference("mmsThroughStock"));
+                } catch (Exception e) {
+                    
+                }
             }
 
             if (!showAll) {
