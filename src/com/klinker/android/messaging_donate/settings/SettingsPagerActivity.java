@@ -646,7 +646,7 @@ public class SettingsPagerActivity extends FragmentActivity {
             TelephonyManager manager = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
             String carrierName = manager.getNetworkOperatorName();
 
-            if (!carrierName.equalsIgnoreCase("giffgaff") && !sharedPrefs.getBoolean("giffgaff_delivery", false)) {
+            if (!(carrierName.equalsIgnoreCase("giffgaff") || carrierName.replace(" ", "").equalsIgnoreCase("o2-uk")) && !sharedPrefs.getBoolean("giffgaff_delivery", false)) {
                 ((PreferenceGroup) findPreference("notification_other_category")).removePreference(findPreference("giffgaff_delivery"));
             }
 
