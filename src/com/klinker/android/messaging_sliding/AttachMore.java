@@ -247,7 +247,7 @@ public class AttachMore extends Activity {
         if (requestCode == 1) { // find picture
             if (resultCode == Activity.RESULT_OK) {
                 Uri image = imageReturnedIntent.getData();
-                Bitmap b = decodeFile2(new File(IOUtil.getPath(image, this)));
+                Bitmap b = decodeFile2(new File(getPath(image)));
                 images.add(b);
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 b.compress(Bitmap.CompressFormat.PNG, 100, stream);
