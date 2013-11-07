@@ -436,7 +436,13 @@ public class MmsReceiverService extends Service {
                 if (images[0].trim().equals("")) {
                     makeNotification(name, body, null, phoneNumber, body, Calendar.getInstance().getTimeInMillis() + "", context);
                 } else {
-                    Bitmap b = IOUtil.decodeFile(new File(IOUtil.getPath(Uri.parse(images[0].trim()), context)));
+                    Bitmap b;
+                    try {
+                        b = SendUtil.getImage(context, Uri.parse(images[0]), 400);
+                    } catch (Exception e) {
+                        b = null;
+                    }
+
                     makeNotification(name, body, b, phoneNumber, body, Calendar.getInstance().getTimeInMillis() + "", context);
                 }
             }
