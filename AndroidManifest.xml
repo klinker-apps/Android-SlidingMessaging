@@ -564,17 +564,15 @@
             </intent-filter>
         </receiver>
         
-        <receiver android:name="com.klinker.android.messaging_sliding.receivers.SentReceiver" >
+        <receiver android:name="com.klinker.android.send_message.SentReceiver" >
             <intent-filter>
-                <action android:name="com.klinker.android.send_message.SMS_SENT" />
-                <category android:name="android.intent.category.HOME" />
+                <action android:name="com.klinker.android.messaging_donate.SMS_SENT" />
             </intent-filter> 
         </receiver>
         
-        <receiver android:name="com.klinker.android.messaging_sliding.receivers.DeliveredReceiver" >
+        <receiver android:name="com.klinker.android.send_message.DeliveredReceiver" >
             <intent-filter>
-                <action android:name="com.klinker.android.send_message.SMS_DELIVERED" />
-                <category android:name="android.intent.category.HOME" />
+                <action android:name="com.klinker.android.messaging_donate.SMS_DELIVERED" />
             </intent-filter> 
         </receiver>
         

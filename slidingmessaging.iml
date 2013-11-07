@@ -27,8 +27,6 @@
     <orderEntry type="module" module-name="SlidingMenu" />
     <orderEntry type="module" module-name="PagerSlidingTabStrip" />
     <orderEntry type="module" module-name="FloatingNotificationsExtensionLibrary" />
-    <orderEntry type="module" module-name="android-smsmms" />
-    <orderEntry type="library" name="libs3" level="project" />
     <orderEntry type="module" module-name="ion" />
     <orderEntry type="module" module-name="MultipleImagePick1" />
     <orderEntry type="module-library">
@@ -40,6 +38,8 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module" module-name="android-smsmms" />
+    <orderEntry type="library" name="libs1" level="project" />
   </component>
 </module>
 
