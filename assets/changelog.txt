@@ -1,19 +1,2 @@
-PLEASE READ THE WHOLE THING! You are a beta tester and we need to get this one right! Thanks.
-
-We have completely rewritten the MMS receiver class, meaning it is a whole new method to receive and save your MMS messages. This is needed because, with the release of KitKat to the masses coming up, the receive through stock workaround WILL NEVER WORK. The ONLY choice is to receive through Sliding Messaging.
-
-Although receiving works for a very high majority, we need to make it even higher and even better.
-
-So, please test this for me:
-1.) Turn off the receive through stock option in MMS settings
-2.) Turn on the override stock option under Advanced settings
-3.) Send yourself a picture and attempt to download it using Sliding Messaging, NOT your stock app!
-4.) If it doesn't work the first time, reboot your phone and try again.
-5.) Report your results to this post (by putting a plus one on the option that describes you): http://goo.gl/ZxNwB6
-
-You can view this message again by going to Settings -> Get Help Settings -> Change Log.
-
-We have nearly 2500 beta testers and I would like to see as many vote as possible. Until I get a 1000 results, i won't be happy ;)
-
-Thanks,
-Luke
+- Revamp of MMS downloading
+- Rotate attached images before sending
