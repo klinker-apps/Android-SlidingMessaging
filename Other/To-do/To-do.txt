@@ -8,7 +8,7 @@ Luke:
     - Mark as read when multiple messages come in
     - Add location support
     - Collogue of people's icons on group thread
-    - Group MMS text in notification
+    - Light flow broadcast
 
 
 Android 4.4 Stuff:
