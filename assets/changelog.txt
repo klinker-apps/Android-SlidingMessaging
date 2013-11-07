@@ -1,2 +1,4 @@
 - Revamp of MMS downloading
 - Rotate attached images before sending
+
+Sound off here for feedback on this beta: http://goo.gl/Lkzo3T
