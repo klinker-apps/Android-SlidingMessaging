@@ -128,7 +128,7 @@ public class GoogleVoiceFragment extends Fragment {
             }
         });
 
-        final CheckBox lightFlowFix = (CheckBox) layoutFooter.findViewById(R.id.lightFlowFix);
+        /*final CheckBox lightFlowFix = (CheckBox) layoutFooter.findViewById(R.id.lightFlowFix);
         lightFlowFix.setChecked(settings.getBoolean("voice_lightflow_fix", false));
         lightFlowFix.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,7 +141,7 @@ public class GoogleVoiceFragment extends Fragment {
                     settings.edit().putBoolean("voice_lightflow_fix", true).commit();
                 }
             }
-        });
+        });*/
 
         LinearLayout voiceReceivingOption1 = (LinearLayout) layoutFooter.findViewById(R.id.voiceReceivingOption1);
         voiceReceivingOption1.setOnClickListener(new View.OnClickListener() {

@@ -61,13 +61,12 @@ public class TextMessageReceiver extends BroadcastReceiver {
             String dateReceived;
 
             boolean voiceMessage = intent.getBooleanExtra("voice_message", false);
-            boolean fromSmsBroadcast = intent.getBooleanExtra("sms_broadcast", false);
 
             Log.v("refresh_voice", "sms receiver " + voiceMessage);
             Log.v("sms_notification", "just started");
 
             // gets the message details depending on voice or sms
-            if (!voiceMessage || (voiceMessage && fromSmsBroadcast)) {
+            if (!voiceMessage) {
                 if (extras != null) {
                     Object[] smsExtra = (Object[]) extras.get(SMS_EXTRA_NAME);
 
@@ -82,6 +81,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
                     return;
                 }
             } else {
+                Log.v("refresh_voice", "sms receiver " + voiceMessage);
                 body = intent.getStringExtra("voice_body");
                 address = intent.getStringExtra("voice_address");
                 date = intent.getLongExtra("voice_date", Calendar.getInstance().getTimeInMillis()) + "";
@@ -133,6 +133,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
             } else {
                 // if overriding stock or its a voice message, save the messages
                 if (sharedPrefs.getBoolean("override", false) || voiceMessage || Build.VERSION.SDK_INT > 18) {
+
                     ContentValues values = new ContentValues();
                     values.put("address", address);
                     values.put("body", body);
@@ -145,6 +146,8 @@ public class TextMessageReceiver extends BroadcastReceiver {
                     }
 
                     context.getContentResolver().insert(Uri.parse("content://sms/inbox"), values);
+
+                    Log.v("refresh_voice", "saving message");
                 }
 
                 // if notification is to be given for the message because it is not blacklisted
@@ -390,6 +393,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
                 }
 
                 if (voiceMessage) {
+                    Log.v("refresh_voice", "new_mms");
                     Intent voice = new Intent("com.klinker.android.messaging.NEW_MMS");
                     voice.putExtra("address", address);
                     voice.putExtra("body", body);

@@ -208,6 +208,7 @@ public class VoiceReceiver extends Service {
                 continue;
 
             try {
+                Log.v("refresh_voice", "voice_received");
                 Intent smsBroadcast = new Intent("com.klinker.android.messaging.VOICE_RECEIVED");
                 smsBroadcast.putExtra("voice_message", true);
                 smsBroadcast.putExtra("voice_body", message.message);
