@@ -90,10 +90,23 @@
                             android:maxHeight="300dip"
                             android:contentDescription="@string/placeholder" />
 
-                    <ImageButton
-                        android:layout_height="wrap_content"
+                    <LinearLayout
                         android:layout_width="wrap_content"
-                        android:src="@drawable/rotate_clockwise"/>
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" >
+
+                        <ImageButton
+                            android:id="@+id/image_rotate_clockwise_button"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:src="@drawable/rotate_clockwise"/>
+
+                        <ImageButton
+                            android:id="@+id/image_rotate_counterclockwise_button"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:src="@drawable/rotate_counterclockwise"/>
+                    </LinearLayout>
 
                     <LinearLayout
                             android:layout_width="wrap_content"

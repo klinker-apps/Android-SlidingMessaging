@@ -242,6 +242,8 @@ public class MainActivity extends FragmentActivity {
 
     private boolean haloPopup = false;
 
+    public int rotationAngle = 0;
+
     public static AppSettings settings;
     protected SharedPreferences sharedPrefs;
 
@@ -1068,15 +1070,15 @@ public class MainActivity extends FragmentActivity {
                                     hasPic = true;
                                     if (!fromCamera) {
                                         try {
-                                            bitmaps.add(SendUtil.getImage(context, attachedImage2, 600));
+                                            bitmaps.add(SendUtil.RotateBitmap(SendUtil.getImage(context, attachedImage2, 600), rotationAngle));
                                         } catch (Exception e) {
-                                            bitmaps.add(IOUtil.decodeFileWithExif2(new File(IOUtil.getPath(attachedImage2, context))));
+                                            bitmaps.add(SendUtil.RotateBitmap(IOUtil.decodeFileWithExif2(new File(IOUtil.getPath(attachedImage2, context))), rotationAngle));
                                         }
                                     } else {
                                         try {
-                                            bitmaps.add(SendUtil.getImage(context, Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/", "photoToSend.png")), 600));
+                                            bitmaps.add(SendUtil.RotateBitmap(SendUtil.getImage(context, Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/", "photoToSend.png")), 600), rotationAngle));
                                         } catch (Exception e) {
-                                            bitmaps.add(IOUtil.decodeFileWithExif2(new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/", "photoToSend.png")));
+                                            bitmaps.add(SendUtil.RotateBitmap(IOUtil.decodeFileWithExif2(new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/", "photoToSend.png")), rotationAngle));
                                         }
                                     }
                                 } else {
@@ -1137,6 +1139,8 @@ public class MainActivity extends FragmentActivity {
                                     message.setMedia(media, "text/x-vCard");
                                 }
                             }
+
+                            rotationAngle = 0;
 
                             if (subjectLine2.getVisibility() != View.GONE && !subjectEntry2.getText().toString().equals("")) {
                                 message.setSubject(subjectEntry2.getText().toString());
@@ -1994,15 +1998,15 @@ public class MainActivity extends FragmentActivity {
                                     hasPic = true;
                                     if (!fromCamera) {
                                         try {
-                                            bitmaps.add(SendUtil.getImage(context, attachedImage, 600));
+                                            bitmaps.add(SendUtil.RotateBitmap(SendUtil.getImage(context, attachedImage, 600), rotationAngle));
                                         } catch (Exception e) {
-                                            bitmaps.add(IOUtil.decodeFileWithExif2(new File(IOUtil.getPath(attachedImage, context))));
+                                            bitmaps.add(SendUtil.RotateBitmap(IOUtil.decodeFileWithExif2(new File(IOUtil.getPath(attachedImage, context))),rotationAngle));
                                         }
                                     } else {
                                         try {
-                                            bitmaps.add(SendUtil.getImage(context, Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/", "photoToSend.png")), 600));
+                                            bitmaps.add(SendUtil.RotateBitmap(SendUtil.getImage(context, Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/", "photoToSend.png")), 600), rotationAngle));
                                         } catch (Exception e) {
-                                            bitmaps.add(IOUtil.decodeFileWithExif2(new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/", "photoToSend.png")));
+                                            bitmaps.add(SendUtil.RotateBitmap(IOUtil.decodeFileWithExif2(new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging/", "photoToSend.png")), rotationAngle));
                                         }
                                     }
                                 } else {
@@ -2063,6 +2067,8 @@ public class MainActivity extends FragmentActivity {
                                     message.setMedia(media, "text/x-vCard");
                                 }
                             }
+
+                            rotationAngle = 0;
 
                             if (subjectLine.getVisibility() != View.GONE && !subjectEntry.getText().toString().equals("")) {
                                 message.setSubject(subjectEntry.getText().toString());
@@ -3204,6 +3210,7 @@ public class MainActivity extends FragmentActivity {
 
                 return true;
             case R.id.menu_attach:
+                rotationAngle = 0;
                 menuAttachImage();
 
                 return true;
@@ -3603,6 +3610,32 @@ public class MainActivity extends FragmentActivity {
                 Button viewImage = (Button) findViewById(R.id.view_image_button);
                 Button replaceImage = (Button) findViewById(R.id.replace_image_button);
                 Button removeImage = (Button) findViewById(R.id.remove_image_button);
+                ImageButton rotateImageClock = (ImageButton) findViewById(R.id.image_rotate_clockwise_button);
+                ImageButton rotateImageCounter = (ImageButton) findViewById(R.id.image_rotate_counterclockwise_button);
+
+                rotateImageClock.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        rotationAngle += 90;
+                        try {
+                            imageAttach.setImage("send_image", SendUtil.getThumbnailRotated(context, selectedImage, rotationAngle));
+                        } catch (Exception e) {
+
+                        }
+                    }
+                });
+
+                rotateImageCounter.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        rotationAngle += -90;
+                        try {
+                            imageAttach.setImage("send_image", SendUtil.getThumbnailRotated(context, selectedImage, rotationAngle));
+                        } catch (Exception e) {
+
+                        }
+                    }
+                });
 
                 viewImage.setOnClickListener(new OnClickListener() {
 
@@ -3622,7 +3655,7 @@ public class MainActivity extends FragmentActivity {
                         intent.setType("image/*");
                         intent.setAction(Intent.ACTION_GET_CONTENT);
                         startActivityForResult(Intent.createChooser(intent, resources.getString(R.string.select_picture)), 1);
-
+                        rotationAngle = 0;
                     }
 
                 });
@@ -3637,6 +3670,7 @@ public class MainActivity extends FragmentActivity {
                         AttachMore.video = null;
                         AttachMore.contact = null;
                         AttachMore.audio = null;
+                        rotationAngle = 0;
                     }
 
                 });
@@ -3671,6 +3705,32 @@ public class MainActivity extends FragmentActivity {
                 Button viewImage = (Button) findViewById(R.id.view_image_button2);
                 Button replaceImage = (Button) findViewById(R.id.replace_image_button2);
                 Button removeImage = (Button) findViewById(R.id.remove_image_button2);
+                ImageButton rotateImageClock = (ImageButton) findViewById(R.id.image_rotate_clockwise_button2);
+                ImageButton rotateImageCounter = (ImageButton) findViewById(R.id.image_rotate_counterclockwise_button2);
+
+                rotateImageClock.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        rotationAngle += 90;
+                        try {
+                            imageAttach2.setImage("send_image", SendUtil.getThumbnailRotated(context, selectedImage, rotationAngle));
+                        } catch (Exception e) {
+
+                        }
+                    }
+                });
+
+                rotateImageCounter.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        rotationAngle += -90;
+                        try {
+                            imageAttach2.setImage("send_image", SendUtil.getThumbnailRotated(context, selectedImage, rotationAngle));
+                        } catch (Exception e) {
+
+                        }
+                    }
+                });
 
                 viewImage.setOnClickListener(new OnClickListener() {
 
@@ -3690,7 +3750,7 @@ public class MainActivity extends FragmentActivity {
                         intent.setType("image/*");
                         intent.setAction(Intent.ACTION_GET_CONTENT);
                         startActivityForResult(Intent.createChooser(intent, resources.getString(R.string.select_picture)), 2);
-
+                        rotationAngle = 0;
                     }
 
                 });
@@ -3705,6 +3765,7 @@ public class MainActivity extends FragmentActivity {
                         AttachMore.video = null;
                         AttachMore.contact = null;
                         AttachMore.audio = null;
+                        rotationAngle = 0;
                     }
 
                 });
@@ -3736,6 +3797,32 @@ public class MainActivity extends FragmentActivity {
                 Button viewImage = (Button) findViewById(R.id.view_image_button);
                 Button replaceImage = (Button) findViewById(R.id.replace_image_button);
                 Button removeImage = (Button) findViewById(R.id.remove_image_button);
+                ImageButton rotateImageClock = (ImageButton) findViewById(R.id.image_rotate_clockwise_button);
+                ImageButton rotateImageCounter = (ImageButton) findViewById(R.id.image_rotate_counterclockwise_button);
+
+                rotateImageClock.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        rotationAngle += 90;
+                        try {
+                            imageAttach.setImage("send_image", SendUtil.getThumbnailRotated(context, attachedImage, rotationAngle));
+                        } catch (Exception e) {
+
+                        }
+                    }
+                });
+
+                rotateImageCounter.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        rotationAngle += -90;
+                        try {
+                            imageAttach.setImage("send_image", SendUtil.getThumbnailRotated(context, attachedImage, rotationAngle));
+                        } catch (Exception e) {
+
+                        }
+                    }
+                });
 
                 viewImage.setOnClickListener(new OnClickListener() {
 
@@ -3758,7 +3845,7 @@ public class MainActivity extends FragmentActivity {
                         intent.setType("image/*");
                         intent.setAction(Intent.ACTION_GET_CONTENT);
                         startActivityForResult(Intent.createChooser(intent, resources.getString(R.string.select_picture)), 1);
-
+                        rotationAngle = 0;
                     }
 
                 });
@@ -3773,6 +3860,7 @@ public class MainActivity extends FragmentActivity {
                         AttachMore.video = null;
                         AttachMore.contact = null;
                         AttachMore.audio = null;
+                        rotationAngle = 0;
                     }
 
                 });
@@ -3803,6 +3891,32 @@ public class MainActivity extends FragmentActivity {
                 Button viewImage = (Button) findViewById(R.id.view_image_button2);
                 Button replaceImage = (Button) findViewById(R.id.replace_image_button2);
                 Button removeImage = (Button) findViewById(R.id.remove_image_button2);
+                ImageButton rotateImageClock = (ImageButton) findViewById(R.id.image_rotate_clockwise_button2);
+                ImageButton rotateImageCounter = (ImageButton) findViewById(R.id.image_rotate_counterclockwise_button2);
+
+                rotateImageClock.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        rotationAngle += 90;
+                        try {
+                            imageAttach2.setImage("send_image", SendUtil.getThumbnailRotated(context, attachedImage2, rotationAngle));
+                        } catch (Exception e) {
+
+                        }
+                    }
+                });
+
+                rotateImageCounter.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        rotationAngle += -90;
+                        try {
+                            imageAttach2.setImage("send_image", SendUtil.getThumbnailRotated(context, attachedImage2, rotationAngle));
+                        } catch (Exception e) {
+
+                        }
+                    }
+                });
 
                 viewImage.setOnClickListener(new OnClickListener() {
 
@@ -3825,7 +3939,7 @@ public class MainActivity extends FragmentActivity {
                         intent.setType("image/*");
                         intent.setAction(Intent.ACTION_GET_CONTENT);
                         startActivityForResult(Intent.createChooser(intent, resources.getString(R.string.select_picture)), 1);
-
+                        rotationAngle = 0;
                     }
 
                 });
@@ -3840,6 +3954,7 @@ public class MainActivity extends FragmentActivity {
                         AttachMore.video = null;
                         AttachMore.contact = null;
                         AttachMore.audio = null;
+                        rotationAngle = 0;
                     }
 
                 });
@@ -3881,6 +3996,13 @@ public class MainActivity extends FragmentActivity {
                 Button viewImage = (Button) findViewById(R.id.view_image_button);
                 Button replaceImage = (Button) findViewById(R.id.replace_image_button);
                 Button removeImage = (Button) findViewById(R.id.remove_image_button);
+                ImageButton rotateImageClock = (ImageButton) findViewById(R.id.image_rotate_clockwise_button);
+                ImageButton rotateImageCounter = (ImageButton) findViewById(R.id.image_rotate_counterclockwise_button);
+
+                rotateImageClock.setVisibility(View.GONE);
+                rotateImageCounter.setVisibility(View.GONE);
+
+                rotationAngle = 0;
 
                 viewImage.setOnClickListener(new OnClickListener() {
 
@@ -3956,6 +4078,13 @@ public class MainActivity extends FragmentActivity {
                 Button viewImage = (Button) findViewById(R.id.view_image_button);
                 Button replaceImage = (Button) findViewById(R.id.replace_image_button);
                 Button removeImage = (Button) findViewById(R.id.remove_image_button);
+                ImageButton rotateImageClock = (ImageButton) findViewById(R.id.image_rotate_clockwise_button);
+                ImageButton rotateImageCounter = (ImageButton) findViewById(R.id.image_rotate_counterclockwise_button);
+
+                rotateImageClock.setVisibility(View.GONE);
+                rotateImageCounter.setVisibility(View.GONE);
+
+                rotationAngle = 0;
 
                 viewImage.setOnClickListener(new OnClickListener() {
 
