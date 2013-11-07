@@ -861,8 +861,8 @@
 
        So I hope that you understand what this means and how it works. There aren\'t that many option to solve this problem, but both work well and both work every time.</string>
     <string name="voice_tutorial_google">Receiving with Google Voice (Google+ Tutorial)</string>
-    <string name="voice_lightflow_fix">LightFlow Fix</string>
-    <string name="lightflow_fix_disclaimer">This can be used if you are not receiving notifications through LightFlow for Google Voice messages.\n\nWARNING: This will cause excessive crashing on some devices! Disable if this occurs. The issue seems to occur most often with phones running Touchwiz.</string>
+    <string name="voice_lightflow_fix">Light Flow Fix</string>
+    <string name="lightflow_fix_disclaimer">This can be used if you are not receiving notifications through Light Flow for Google Voice messages.\n\nWARNING: This will cause excessive crashing on some devices! Disable if this occurs. The issue seems to occur most often with phones running Touchwiz. It will also not work on Android 4.4 due to new limitations of SMS applications.</string>
     <string name="only_quickpeek">Only use Quick Peek</string>
     <string name="only_quickpeek_summary">Disables access to the SlideOver popup from the SlideOver bubble so Quick Peek is the only thing accessible.</string>
     <string name="quick_peek_messages">Number of Messages Displayed</string>
