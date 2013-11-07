@@ -31,6 +31,10 @@ public class QmMarkRead extends IntentService {
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancel(1);
 
+        // clear custom light flow broadcast
+        Intent lightFlow = new Intent("com.klinker.android.messaging.CLEAR_NOTIFICATION");
+        this.sendBroadcast(lightFlow);
+
         IOUtil.writeNotifications(new ArrayList<String>(), this);
         IOUtil.writeNewMessages(new ArrayList<String>(), this);
 

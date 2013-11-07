@@ -609,6 +609,13 @@ public class MmsReceiverService extends Service {
             notification.deleteIntent = PendingIntent.getBroadcast(context, 0, deleteIntent, 0);
             mNotificationManager.notify(2, notification);
 
+            // Light Flow Broadcast
+            Intent data = new Intent("com.klinker.android.messaging.NEW_NOTIFICATION");
+            data.putExtra("message", body);
+            data.putExtra("contact_name", title);
+            data.putExtra("number", address);
+            context.sendBroadcast(data);
+
             Intent updateWidget = new Intent("com.klinker.android.messaging.RECEIVED_MMS");
             context.sendBroadcast(updateWidget);
 

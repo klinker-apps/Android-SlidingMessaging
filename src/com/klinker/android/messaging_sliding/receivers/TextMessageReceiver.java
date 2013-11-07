@@ -702,6 +702,13 @@ public class TextMessageReceiver extends BroadcastReceiver {
             notification.deleteIntent = PendingIntent.getBroadcast(context, 0, deleteIntent, 0);
             mNotificationManager.notify(1, notification);
 
+            // Light Flow Broadcast
+            Intent data = new Intent("com.klinker.android.messaging.NEW_NOTIFICATION");
+            data.putExtra("message", body);
+            data.putExtra("contact_name", title);
+            data.putExtra("number", address);
+            context.sendBroadcast(data);
+
             Log.v("sms_notification", "posted notification");
 
             Intent updateWidget = new Intent("com.klinker.android.messaging.RECEIVED_MMS");

@@ -4615,6 +4615,10 @@ public class MainActivity extends FragmentActivity {
                     mNotificationManager.cancel(4);
                     IOUtil.writeNotifications(new ArrayList<String>(), context);
 
+                    // clear custom light flow broadcast
+                    Intent lightFlow = new Intent("com.klinker.android.messaging.CLEAR_NOTIFICATION");
+                    context.sendBroadcast(lightFlow);
+
                     Intent intent = new Intent("com.klinker.android.messaging.CLEARED_NOTIFICATION");
                     context.sendBroadcast(intent);
 

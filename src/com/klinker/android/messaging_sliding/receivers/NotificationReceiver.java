@@ -13,6 +13,10 @@ public class NotificationReceiver extends BroadcastReceiver {
         Intent intent2 = new Intent("com.klinker.android.messaging.CLEARED_NOTIFICATION");
         context.sendBroadcast(intent2);
 
+        // clear custom light flow broadcast
+        Intent lightFlow = new Intent("com.klinker.android.messaging.CLEAR_NOTIFICATION");
+        context.sendBroadcast(lightFlow);
+
         Intent stopRepeating = new Intent(context, NotificationRepeaterService.class);
         PendingIntent pStopRepeating = PendingIntent.getService(context, 0, stopRepeating, 0);
         AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);

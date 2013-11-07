@@ -208,17 +208,12 @@ public class VoiceReceiver extends Service {
                 continue;
 
             try {
-                Log.v("refresh_voice", "sending sms broadcast");
-                if(!settings.getBoolean("voice_lightflow_fix", false)) {
-                    Intent smsBroadcast = new Intent("com.klinker.android.messaging.VOICE_RECEIVED");
-                    smsBroadcast.putExtra("voice_message", true);
-                    smsBroadcast.putExtra("voice_body", message.message);
-                    smsBroadcast.putExtra("voice_address", message.phoneNumber);
-                    smsBroadcast.putExtra("voice_date", message.date);
-                    sendBroadcast(smsBroadcast);
-                } else {
-                    sendSms(getApplicationContext(), message.phoneNumber, message.message);
-                }
+                Intent smsBroadcast = new Intent("com.klinker.android.messaging.VOICE_RECEIVED");
+                smsBroadcast.putExtra("voice_message", true);
+                smsBroadcast.putExtra("voice_body", message.message);
+                smsBroadcast.putExtra("voice_address", message.phoneNumber);
+                smsBroadcast.putExtra("voice_date", message.date);
+                sendBroadcast(smsBroadcast);
             } catch (Exception e) {
                 e.printStackTrace();
                 Log.v("refresh_voice", "failed to send sms broadcast");

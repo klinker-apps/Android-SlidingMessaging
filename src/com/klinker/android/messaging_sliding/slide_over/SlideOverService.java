@@ -1068,6 +1068,10 @@ public class SlideOverService extends Service {
             mNotificationManager.cancel(1);
             mNotificationManager.cancel(2);
 
+            // clear custom light flow broadcast
+            Intent lightFlow = new Intent("com.klinker.android.messaging.CLEAR_NOTIFICATION");
+            sendBroadcast(lightFlow);
+
         } else if (inButtons) {
             finishButtons();
         } else if (distance > SWIPE_MIN_DISTANCE && inFlat) {
