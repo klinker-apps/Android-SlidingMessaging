@@ -1,4 +1,4 @@
-Version 7.80
+Version 7.90
 
 Jake:
     - delayed sending for certain times
@@ -8,7 +8,8 @@ Luke:
     - Mark as read when multiple messages come in
     - Add location support
     - Collogue of people's icons on group thread
-    - Light flow broadcast
+    - Smoother animations
+    - New refresh system... maybe
 
 
 Android 4.4 Stuff:

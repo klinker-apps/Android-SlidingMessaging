@@ -1,6 +1,5 @@
+- Complete Light Flow support for SMS and Google Voice!
 - Revamp of MMS downloading
 - Rotate attached images before sending
 - Some fixes for sending MMS
 - O2 Network delivery confirmation option
-
-Sound off here for feedback on this beta: http://goo.gl/Lkzo3T
