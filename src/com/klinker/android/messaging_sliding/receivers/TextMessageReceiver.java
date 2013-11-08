@@ -132,7 +132,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
                 abortBroadcast();
             } else {
                 // if overriding stock or its a voice message, save the messages
-                if (sharedPrefs.getBoolean("override", false) || voiceMessage || Build.VERSION.SDK_INT > 18) {
+                if (sharedPrefs.getBoolean("override", false) || voiceMessage || context.getResources().getBoolean(R.bool.hasKitKat)) {
 
                     ContentValues values = new ContentValues();
                     values.put("address", address);
@@ -401,7 +401,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
                     context.sendBroadcast(voice);
                 }
 
-                if (sharedPrefs.getBoolean("override", false) && Build.VERSION.SDK_INT <= 18) {
+                if (sharedPrefs.getBoolean("override", false) && context.getResources().getBoolean(R.bool.preKitKat)) {
                     try {
                         this.abortBroadcast();
                     } catch (Exception e) {

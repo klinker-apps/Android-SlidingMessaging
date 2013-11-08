@@ -1229,7 +1229,7 @@ public class SettingsPagerActivity extends FragmentActivity {
 
             });
             
-            if (Build.VERSION.SDK_INT > 18) {
+            if (getResources().getBoolean(R.bool.hasKitKat)) {
                 try {
                     getPreferenceScreen().removePreference(findPreference("mmsThroughStock"));
                 } catch (Exception e) {
@@ -1552,7 +1552,7 @@ public class SettingsPagerActivity extends FragmentActivity {
 //
 //            });
 
-            if (Build.VERSION.SDK_INT > 18) {
+            if (getResources().getBoolean(R.bool.hasKitKat)) {
                 ((PreferenceGroup) findPreference("advanced_other_category")).removePreference(findPreference("override"));
             }
 

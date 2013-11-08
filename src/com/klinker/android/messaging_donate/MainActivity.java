@@ -4493,7 +4493,7 @@ public class MainActivity extends FragmentActivity {
             }
         }
 
-        if (sendTo) {
+        if (sendTo && menu != null) {
             menu.showContent();
         }
 
