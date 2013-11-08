@@ -26,7 +26,7 @@
         <item name="messageBarButtonStyle">@style/MessageBar.Button</item>
         <item name="android:windowDisablePreview">true</item>
 
-        <item name="android:windowFrame">@null</item>
+        <item name="android:windowFrame">@drawable/slideover_border</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowAnimationStyle">@style/PopupAnimation</item>
         <!--<item name="android:windowIsFloating">true</item>-->
@@ -46,7 +46,7 @@
         <item name="messageBarButtonStyle">@style/MessageBar.Button</item>
         <item name="android:windowDisablePreview">true</item>
 
-        <item name="android:windowFrame">@null</item>
+        <item name="android:windowFrame">@drawable/slideover_border</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowAnimationStyle">@style/PopupAnimation</item>
         <!--<item name="android:windowIsFloating">true</item>-->
@@ -66,7 +66,7 @@
         <item name="messageBarButtonStyle">@style/MessageBar.Button</item>
         <item name="android:windowDisablePreview">true</item>
 
-        <item name="android:windowFrame">@null</item>
+        <item name="android:windowFrame">@drawable/slideover_border</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowAnimationStyle">@style/PopupAnimation</item>
         <item name="android:windowIsFloating">true</item>
