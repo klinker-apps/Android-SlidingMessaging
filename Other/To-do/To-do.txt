@@ -11,11 +11,6 @@ Luke:
     - Smoother animations
     - New refresh system... maybe
 
-
-Android 4.4 Stuff:
-    - uncomment code for showing default dialog box with send button
-    - change all strings used when querying to constants in Telephony.Sms, Telephony.Mms, Telephony.SmsMms
-
 1) more individual notification options (notification icon)
 2) option for adding certain text to every message at the beginning (delivery reports?)
 3) Tasker options

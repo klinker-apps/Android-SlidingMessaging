@@ -1090,9 +1090,16 @@ public class MessageCursorAdapter extends CursorAdapter {
                                         break;
                                     case 1:
                                         try {
-                                            IOUtil.saveImage(SendUtil.getImage(context, holder.imageUri, 1000), dateT, context);
+                                            String[] split = holder.imageUri.toString().split(" ");
+
+                                            for (int i = 0; i < split.length; i++) {
+                                                Bitmap image = SendUtil.getImage(context, Uri.parse(split[i]), 1000);
+                                                IOUtil.saveImage(image, dateT, context);
+                                            }
+
                                         } catch (Exception e) {
-                                            Toast.makeText(context, "ERROR", Toast.LENGTH_SHORT).show();
+                                            e.printStackTrace();
+                                            Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
                                         }
                                         break;
                                     case 2:
