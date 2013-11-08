@@ -111,7 +111,11 @@ public class MessageView extends ViewGroup {
                 int start = mTextLayout[i].getLineStart(2);
 
                 if (mTextLayout[i].getLineCount() > 2) {
-                    message = message.substring(0, start - 4) + "...";
+                    try {
+                        message = message.substring(0, start - 4) + "...";
+                    } catch (Exception e) {
+                        message = message.substring(0, start);
+                    }
                     //amountDown -= (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 18, mContext.getResources().getDisplayMetrics());
                 } else {
                     message = message.substring(0, start);
