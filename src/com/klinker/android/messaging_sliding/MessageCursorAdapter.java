@@ -453,7 +453,11 @@ public class MessageCursorAdapter extends CursorAdapter {
                                                         intent.setAction(Intent.ACTION_VIEW);
                                                         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                                                         intent.setDataAndType(Uri.parse(videoF), "video/*");
-                                                        context.startActivity(intent);
+                                                        try {
+                                                            context.startActivity(intent);
+                                                        } catch (Exception e) {
+                                                            Toast.makeText(context, "Error Playing Video", Toast.LENGTH_SHORT).show();
+                                                        }
                                                     }
                                                 });
                                             } else if (audioF != null) {
@@ -467,7 +471,11 @@ public class MessageCursorAdapter extends CursorAdapter {
                                                         intent.setAction(Intent.ACTION_VIEW);
                                                         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                                                         intent.setDataAndType(Uri.parse(audioF), "audio/*");
-                                                        context.startActivity(intent);
+                                                        try {
+                                                            context.startActivity(intent);
+                                                        } catch (Exception e) {
+                                                            Toast.makeText(context, "Error Playing Audio", Toast.LENGTH_SHORT).show();
+                                                        }
                                                     }
                                                 });
                                             } else if (vcardF != null) {
