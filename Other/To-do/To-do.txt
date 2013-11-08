@@ -10,6 +10,7 @@ Luke:
     - Collogue of people's icons on group thread
     - Smoother animations
     - New refresh system... maybe
+    - Force close on attach more
 
 1) more individual notification options (notification icon)
 2) option for adding certain text to every message at the beginning (delivery reports?)

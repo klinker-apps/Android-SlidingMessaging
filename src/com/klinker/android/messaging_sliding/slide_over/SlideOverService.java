@@ -342,7 +342,11 @@ public class SlideOverService extends Service {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
 
-                sendWindow.updateViewLayout(sendView, sendParamsFocused);
+                try {
+                    sendWindow.updateViewLayout(sendView, sendParamsFocused);
+                } catch (Exception e) {
+
+                }
                 sendBox.requestFocus();
                 sendBox.setCursorVisible(true);
 
