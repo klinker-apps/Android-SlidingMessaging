@@ -4,3 +4,5 @@
 - Some fixes for sending MMS
 - O2 Network delivery confirmation option
 - Fixed MMS images not saving to the gallery on KitKat
+
+- Auto-clear Floating Notification Option

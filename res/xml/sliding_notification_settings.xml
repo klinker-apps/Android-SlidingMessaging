@@ -267,6 +267,15 @@
             android:title="@string/swipe_read"
             android:summary="@string/swipe_read_summary"
             android:defaultValue="true"
+            android:dependency="notifications"
+            />
+
+        <CheckBoxPreference
+            android:key="auto_clear_fn"
+            android:title="@string/auto_clear_fn"
+            android:summary="@string/auto_clear_fn_summary"
+            android:defaultValue="true"
+            android:dependency="notifications"
             />
     </PreferenceCategory>
 

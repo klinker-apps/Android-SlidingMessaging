@@ -35,6 +35,10 @@ public class PasswordActivity extends FragmentActivity {
         setContentView(R.layout.activity_password);
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
+        if (true) {//sharedPrefs.getBoolean("dark_password_activity", false)) {
+            setTheme(android.R.style.Theme_Holo);
+        }
+
         fromIntent = getIntent();
         context = this;
 

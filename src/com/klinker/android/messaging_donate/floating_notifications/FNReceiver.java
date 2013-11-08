@@ -16,6 +16,16 @@ public class FNReceiver extends BroadcastReceiver {
 
     public static Map<Long, String[]> messages = new HashMap<Long, String[]>();
 
+    public static String sBody;
+    public static long sId;
+    public static Bitmap sActionOne;
+    public static Bitmap sActionTwo;
+    public static Bitmap sActionThree;
+    public static Bitmap sImage;
+    public static Context sContext;
+
+    public static boolean updated = false;
+
     @Override
     public void onReceive(final Context context, Intent intent) {
         String body = intent.getStringExtra("body");
@@ -51,6 +61,21 @@ public class FNReceiver extends BroadcastReceiver {
         Bitmap actionTwo = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_menu_call);
         Bitmap actionThree = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_menu_done_holo_dark);
 
-        Extension.addOrUpdate(image, body, id, 0, actionOne, actionTwo, actionThree, false, true, false, context);
+        Extension.addOrUpdate(image, body, id, 0, actionOne, actionTwo, actionThree, false, !updated ? true : false, false, context);
+
+        updated = false;
+
+        sImage = image;
+        sBody = body;
+        sId = id;
+        sActionOne = actionOne;
+        sActionTwo = actionTwo;
+        sActionThree = actionThree;
+        sContext = context;
+    }
+
+    public static void updateExt() {
+        Extension.addOrUpdate(sImage, sBody, sId, 0, sActionOne, sActionTwo, sActionThree, false, false, false, sContext);
+        updated = true;
     }
 }

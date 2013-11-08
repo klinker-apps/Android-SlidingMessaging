@@ -34,8 +34,13 @@ public class FNAction extends BroadcastReceiver {
                     Intent popup = new Intent(context, com.klinker.android.messaging_sliding.MainActivityPopup.class);
                     popup.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(popup);
-                    Extension.remove(id, context);
-                    FNReceiver.messages.remove(id);
+                    if (sharedPrefs.getBoolean("auto_clear_fn", true)) {
+                        FNReceiver.messages.remove(id);
+                        Extension.remove(id, context);
+                    } else {
+                        FNReceiver.messages.clear();
+                        FNReceiver.updateExt();
+                    }
                     break;
 
                 case 1:
@@ -66,8 +71,13 @@ public class FNAction extends BroadcastReceiver {
                             @Override
                             public void onClick(String str) {
                                 SendUtil.sendMessage(context, FNReceiver.messages.get(id)[0], str);
-                                Extension.remove(id, context);
-                                FNReceiver.messages.remove(id);
+                                if (sharedPrefs.getBoolean("auto_clear_fn", true)) {
+                                    FNReceiver.messages.remove(id);
+                                    Extension.remove(id, context);
+                                } else {
+                                    FNReceiver.messages.clear();
+                                    FNReceiver.updateExt();
+                                }
                             }
                         };
 
