@@ -608,7 +608,7 @@
 
         <receiver android:name="com.klinker.android.messaging_sliding.receivers.SendErrorReceiver" >
             <intent-filter>
-                <action android:name="com.klinker.android.send_message.NOTIFY_SMS_FAILURE" />
+                <action android:name="com.klinker.android.messaging_donate.NOTIFY_SMS_FAILURE" />
             </intent-filter>
         </receiver>
 
