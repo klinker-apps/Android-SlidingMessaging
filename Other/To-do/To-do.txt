@@ -11,6 +11,7 @@ Luke:
     - Smoother animations
     - New refresh system... maybe
     - Force close on attach more
+    - Notification sounds with slideover and popup
 
 1) more individual notification options (notification icon)
 2) option for adding certain text to every message at the beginning (delivery reports?)
