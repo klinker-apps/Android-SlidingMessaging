@@ -872,5 +872,6 @@
     <string name="system_emojis_summary">This will stop Sliding Messaging from displaying any smileys or emojis and force you to view the system font\'s style instead.</string>
     <string name="auto_clear_fn">Auto-Close F.N.</string>
     <string name="auto_clear_fn_summary">For use with the Sliding Messaging Pro Floating Notification extension. If disabled, you will have to manually close any F.N. bubbles after sending a message.</string>
-
+    <string name="quick_text_slideover">SlideOver Quick Text</string>
+    <string name="quick_text_slideover_summary">Open the SlideOver popup from the quick text notification</string>
 </resources>
