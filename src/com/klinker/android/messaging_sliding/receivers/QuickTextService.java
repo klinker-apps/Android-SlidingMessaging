@@ -39,7 +39,17 @@ public class QuickTextService extends IntentService {
             mBuilder.setPriority(Notification.PRIORITY_MIN);
         }
 
-        Intent notifyIntent = new Intent(this, SendMessage.class);
+        boolean useSlideOver = sharedPrefs.getBoolean("quick_text_slideover", false);
+        
+        Intent notifyIntent;
+                
+        if (useSlideOver) {
+                notifyIntent = new Intent(this, MainActivityPopup.class);
+                notifyIntent.putExtra("secAction", true);
+                intent.putExtra("secondaryType", "newMessage");
+        } else {
+                notifyIntent = new Intent(this, SendMessage.class);
+        }
 
         notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent intent2 = PendingIntent.getActivity(this, 2,
