@@ -652,6 +652,7 @@ public class SettingsPagerActivity extends FragmentActivity {
 
             if (!showAll) {
                 ((PreferenceGroup) findPreference("general_notification_category")).removePreference(findPreference("in_app_notifications"));
+                ((PreferenceGroup) findPreference("general_notification_category")).removePreference(findPreference("quick_text_slideover"));
                 ((PreferenceGroup) findPreference("general_notification_category")).removePreference(findPreference("quick_text"));
                 ((PreferenceGroup) findPreference("notification_look_category")).removePreference(findPreference("breath"));
                 ((PreferenceGroup) findPreference("notification_look_category")).removePreference(findPreference("repeating_notification"));
