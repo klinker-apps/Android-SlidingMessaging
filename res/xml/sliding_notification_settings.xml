@@ -24,6 +24,13 @@
             android:summary="@string/quick_text_summary"
             android:defaultValue="false"
             />
+            
+        <CheckBoxPreference
+            android:key="quick_text_slideover"
+            android:title="@string/quick_text_slideover"
+            android:summary="@string/quick_text_slideover_summary"
+            android:defaultValue="false"
+            />
 
         <Preference
             android:key="individual_notification_settings"
