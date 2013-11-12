@@ -45,9 +45,11 @@ public class QuickTextService extends IntentService {
         Intent notifyIntent;
                 
         if (useSlideOver) {
-                notifyIntent = new Intent(this, MainActivityPopup.class);
-                notifyIntent.putExtra("secAction", true);
-                intent.putExtra("secondaryType", "newMessage");
+            notifyIntent = new Intent(getBaseContext(), com.klinker.android.messaging_sliding.MainActivityPopup.class);
+            notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            notifyIntent.putExtra("fromHalo", true);
+            notifyIntent.putExtra("secAction", true);
+            notifyIntent.putExtra("secondaryType", "newMessage");
         } else {
                 notifyIntent = new Intent(this, SendMessage.class);
         }

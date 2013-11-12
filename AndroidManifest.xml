@@ -120,6 +120,7 @@
                 android:label="@string/slide_over"
                 android:theme="@style/DialogTheme"
                 android:configChanges="orientation|screenSize"
+                android:launchMode="singleInstance"
                 android:hardwareAccelerated="true"
                 android:windowSoftInputMode="adjustPan"
                 android:clearTaskOnLaunch="true"
