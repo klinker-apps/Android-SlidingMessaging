@@ -11,6 +11,7 @@ import android.graphics.BitmapFactory;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_sliding.MainActivityPopup;
 import com.klinker.android.messaging_sliding.quick_reply.SendMessage;
 
 public class QuickTextService extends IntentService {
