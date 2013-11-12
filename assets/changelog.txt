@@ -1,2 +1,3 @@
 - Auto-close Floating Notification option
-- SlideOver popup style change
+- Various small style change
+- Option to open SlideOver from the Quick Text Notification
