@@ -58,7 +58,7 @@ public class BatchDeleteAllActivity extends Activity {
         mAdapter = new BatchDeleteAllArrayAdapter(this, conversations);
 
         SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(mAdapter);
-        swingBottomInAnimationAdapter.setListView(contactList);
+        swingBottomInAnimationAdapter.setAbsListView(contactList);
         contactList.setAdapter(swingBottomInAnimationAdapter);
 
         Button deleteButton = (Button) findViewById(R.id.doneButton);
