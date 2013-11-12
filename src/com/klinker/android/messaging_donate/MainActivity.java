@@ -4506,7 +4506,7 @@ public class MainActivity extends FragmentActivity {
             try {
                 menu.showContent();
             } catch (Exception e) {
-                
+
             }
         }
 

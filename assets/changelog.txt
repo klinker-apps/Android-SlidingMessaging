@@ -1,3 +1,4 @@
 - Auto-close Floating Notification option
 - Various small style change
 - Option to open SlideOver from the Quick Text Notification
+- Bug and Crash fixes
