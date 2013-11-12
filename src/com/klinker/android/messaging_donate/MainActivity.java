@@ -1752,7 +1752,11 @@ public class MainActivity extends FragmentActivity {
 
         if (settings.alwaysUseVoice) {
             for (Conversation i : conversations) {
-                threadsThroughVoice.add(i.getThreadId());
+                try {
+                    threadsThroughVoice.add(i.getThreadId());
+                } catch (Exception e) {
+                    break;
+                }
             }
         }
 
@@ -1921,7 +1925,12 @@ public class MainActivity extends FragmentActivity {
                     return;
                 }
 
-                final String recipientId = conversations.get(mViewPager.getCurrentItem()).getNumber();
+                final String recipientId;
+                try {
+                    recipientId = conversations.get(mViewPager.getCurrentItem()).getNumber();
+                } catch (Exception e) {
+                    return;
+                }
                 final long threadId = conversations.get(mViewPager.getCurrentItem()).getThreadId();
 
                 if (!unlocked) {
@@ -4494,7 +4503,11 @@ public class MainActivity extends FragmentActivity {
         }
 
         if (sendTo && menu != null) {
-            menu.showContent();
+            try {
+                menu.showContent();
+            } catch (Exception e) {
+                
+            }
         }
 
         fromNotification = false;
@@ -5120,7 +5133,12 @@ public class MainActivity extends FragmentActivity {
         pullToRefreshPosition = -1;
         MainActivity.notChanged = false;
         MainActivity.threadedLoad = false;
-        long currentThread = conversations.get(mViewPager.getCurrentItem()).getThreadId();
+        long currentThread;
+        try {
+            currentThread = conversations.get(mViewPager.getCurrentItem()).getThreadId();
+        } catch (Exception e) {
+            currentThread = 0;
+        }
 
         if (conversations.size() == 0) {
             refreshViewPager();

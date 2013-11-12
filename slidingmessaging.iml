@@ -22,7 +22,6 @@
     <orderEntry type="module" module-name="CardsUILib" />
     <orderEntry type="module" module-name="ColorPickerPreference" />
     <orderEntry type="module" module-name="drag-sort-listview" />
-    <orderEntry type="module" module-name="ListViewAnimations" />
     <orderEntry type="module" module-name="MessageBar" />
     <orderEntry type="module" module-name="SlidingMenu" />
     <orderEntry type="module" module-name="PagerSlidingTabStrip" />
@@ -40,6 +39,7 @@
     </orderEntry>
     <orderEntry type="module" module-name="android-smsmms" />
     <orderEntry type="library" name="libs1" level="project" />
+    <orderEntry type="module" module-name="listviewanimations" />
   </component>
 </module>
 

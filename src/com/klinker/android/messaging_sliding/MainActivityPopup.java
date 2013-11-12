@@ -200,7 +200,11 @@ public class MainActivityPopup extends MainActivity {
                 } else {
                     if (secondaryAction) {
                         if (getIntent().getStringExtra("secondaryType").equals("conversations")) {
-                            menu.showMenu();
+                            try {
+                                menu.showMenu();
+                            } catch (Exception e) {
+
+                            }
                         } else {
                             new Handler().postDelayed(new Runnable() {
                                 @Override
