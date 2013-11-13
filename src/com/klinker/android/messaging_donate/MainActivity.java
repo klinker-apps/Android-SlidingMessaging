@@ -998,7 +998,7 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
 
-                if (!Util.isDefaultSmsApp(context)) {
+                if (!Util.isDefaultSmsApp(context) && getResources().getBoolean(R.bool.hasKitKat)) {
                     Util.setDefaultSmsApp(context);
                     return;
                 }
@@ -1920,7 +1920,7 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
 
-                if (!Util.isDefaultSmsApp(context)) {
+                if (!Util.isDefaultSmsApp(context) && getResources().getBoolean(R.bool.hasKitKat)) {
                     Util.setDefaultSmsApp(context);
                     return;
                 }

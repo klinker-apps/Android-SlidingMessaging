@@ -51,10 +51,10 @@ public class QuickTextService extends IntentService {
             notifyIntent.putExtra("secAction", true);
             notifyIntent.putExtra("secondaryType", "newMessage");
         } else {
-                notifyIntent = new Intent(this, SendMessage.class);
+            notifyIntent = new Intent(this, SendMessage.class);
+            notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
 
-        notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent intent2 = PendingIntent.getActivity(this, 2,
                 notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         mBuilder.setContentIntent(intent2);
