@@ -2,31 +2,42 @@ package com.klinker.android.messaging_sliding.scheduled;
 
 import android.annotation.SuppressLint;
 import android.app.*;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.*;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Point;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.view.Display;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.util.TypedValue;
+import android.view.*;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_donate.settings.SettingsPagerActivity;
+import com.klinker.android.messaging_donate.utils.ContactUtil;
 import com.klinker.android.messaging_donate.utils.IOUtil;
+import com.klinker.android.messaging_donate.wizardpager.ChangeLogMain;
 import com.klinker.android.messaging_sliding.ContactSearchArrayAdapter;
+import com.klinker.android.messaging_sliding.batch_delete.BatchDeleteAllActivity;
+import com.klinker.android.messaging_sliding.batch_delete.BatchDeleteConversationActivity;
 import com.klinker.android.messaging_sliding.emojis.EmojiAdapter;
 import com.klinker.android.messaging_sliding.emojis.EmojiAdapter2;
 import com.klinker.android.messaging_sliding.emojis.EmojiConverter;
 import com.klinker.android.messaging_sliding.emojis.EmojiConverter2;
+import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead;
+import com.klinker.android.messaging_sliding.receivers.VoiceReceiver;
+import com.klinker.android.messaging_sliding.search.SearchActivity;
+import com.klinker.android.messaging_sliding.templates.TemplateActivity;
+import com.klinker.android.messaging_sliding.templates.TemplateArrayAdapter;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -720,6 +731,66 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_scheduled, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            case R.id.insert_template:
+                AlertDialog.Builder template = new AlertDialog.Builder(this);
+                template.setTitle(context.getResources().getString(R.string.insert_template));
+
+                ListView templates = new ListView(this);
+
+                TextView footer = new TextView(this);
+                footer.setText(context.getResources().getString(R.string.add_templates));
+                int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, context.getResources().getDisplayMetrics());
+                footer.setPadding(scale, scale, scale, scale);
+
+                templates.addFooterView(footer);
+
+                final ArrayList<String> text = IOUtil.readTemplates(this);
+                TemplateArrayAdapter adapter = new TemplateArrayAdapter(this, text);
+                templates.setAdapter(adapter);
+
+                template.setView(templates);
+                final AlertDialog templateDialog = template.create();
+                templateDialog.show();
+
+                footer.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        templateDialog.dismiss();
+                        Intent i = new Intent(view.getContext(), TemplateActivity.class);
+                        startActivity(i);
+                        overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                    }
+                });
+
+                templates.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                    @Override
+                    public void onItemClick(AdapterView<?> arg0, View arg1,
+                                            int arg2, long arg3) {
+                        mEditText.setText(text.get(arg2));
+                        mEditText.setSelection(text.get(arg2).length());
+                        templateDialog.cancel();
+                    }
+
+                });
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 }
