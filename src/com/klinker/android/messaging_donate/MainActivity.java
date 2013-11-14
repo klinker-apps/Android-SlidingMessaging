@@ -1929,6 +1929,8 @@ public class MainActivity extends FragmentActivity {
                 try {
                     recipientId = conversations.get(mViewPager.getCurrentItem()).getNumber();
                 } catch (Exception e) {
+                    Log.v("sliding_messaging_pro", "something went wrong getting the number of the contact...");
+                    e.printStackTrace();
                     return;
                 }
                 final long threadId = conversations.get(mViewPager.getCurrentItem()).getThreadId();
