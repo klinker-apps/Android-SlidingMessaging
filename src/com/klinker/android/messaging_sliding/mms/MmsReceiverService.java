@@ -109,11 +109,17 @@ public class MmsReceiverService extends Service {
         Cursor locationQuery = context.getContentResolver().query(Uri.parse("content://mms/"), new String[]{"ct_l", "thread_id", "_id"}, null, null, "date desc");
 
         if (locationQuery != null && locationQuery.moveToFirst()) {
-            downloadLocation = locationQuery.getString(locationQuery.getColumnIndex("ct_l"));
-            threadId = locationQuery.getString(locationQuery.getColumnIndex("thread_id"));
-            msgId = locationQuery.getString(locationQuery.getColumnIndex("_id"));
+            do {
+                downloadLocation = locationQuery.getString(locationQuery.getColumnIndex("ct_l"));
+                threadId = locationQuery.getString(locationQuery.getColumnIndex("thread_id"));
+                msgId = locationQuery.getString(locationQuery.getColumnIndex("_id"));
+            } while (downloadLocation == null);
         } else {
             throw new Exception("No MMS to download");
+        }
+
+        if (downloadLocation == null) {
+            throw new Exception("found mms message, but download location is null...");
         }
 
         locationQuery.close();
