@@ -113,6 +113,8 @@ public class MmsReceiverService extends Service {
                 downloadLocation = locationQuery.getString(locationQuery.getColumnIndex("ct_l"));
                 threadId = locationQuery.getString(locationQuery.getColumnIndex("thread_id"));
                 msgId = locationQuery.getString(locationQuery.getColumnIndex("_id"));
+                if(!locationQuery.moveToNext())
+                    break;
             } while (downloadLocation == null);
         } else {
             throw new Exception("No MMS to download");
