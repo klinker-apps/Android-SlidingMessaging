@@ -94,7 +94,7 @@ public class BlacklistActivity extends Activity {
 
                     }
                 }).show();
-                return false;
+                return true;
             }
 
         });

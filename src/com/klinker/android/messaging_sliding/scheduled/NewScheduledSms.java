@@ -21,6 +21,7 @@ import android.view.*;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
+import com.android.datetimepicker.time.RadialPickerLayout;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.settings.SettingsPagerActivity;
 import com.klinker.android.messaging_donate.utils.ContactUtil;
@@ -466,11 +467,11 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
             });
         }
 
-        // sets the date button listener to call the dialog
         btDate.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                showDialog(DATE_DIALOG_ID);
+                com.android.datetimepicker.date.DatePickerDialog.newInstance(reservationDate, currentYear, currentMonth, currentDay, false)
+                        .show(getFragmentManager(), "date_picker");
                 btTime.setEnabled(true);
             }
         });
@@ -479,7 +480,8 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
         btTime.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                showDialog(TIME_DIALOG_ID);
+                com.android.datetimepicker.time.TimePickerDialog.newInstance(timeDate, currentHour, currentMinute, android.provider.Settings.System.getString(context.getContentResolver(), android.provider.Settings.System.TIME_12_24).equals("24"))
+                    .show(getFragmentManager(), "time_picker");
             }
         });
 
@@ -516,24 +518,10 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
                 ViewGroup.LayoutParams.MATCH_PARENT));
     }
 
-    // sets up the correct dialog (date vs. time)
-    protected Dialog onCreateDialog(int id) {
-        switch (id) {
-            case DATE_DIALOG_ID:
-                DatePickerDialog dialog = new DatePickerDialog(this, reservationDate, currentYear,
-                        currentMonth, currentDay);
-                dialog.getDatePicker().setCalendarViewShown(false);
-                return dialog;
-            case TIME_DIALOG_ID:
-                return new TimePickerDialog(this, timeDate, currentHour, currentMinute, false);
-        }
-        return null;
-    }
-
     // To-do: make a date object to display in different time formats, check out the messageArrayAdapter class, it works with the dates
     // gets the date text from what is entered in the dialog and displays it
-    private DatePickerDialog.OnDateSetListener reservationDate = new DatePickerDialog.OnDateSetListener() {
-        public void onDateSet(DatePicker view, int year, int month, int day) {
+    private com.android.datetimepicker.date.DatePickerDialog.OnDateSetListener reservationDate = new com.android.datetimepicker.date.DatePickerDialog.OnDateSetListener() {
+        public void onDateSet(com.android.datetimepicker.date.DatePickerDialog view, int year, int month, int day) {
             setYear = year;
             setMonth = month;
             setDay = day;
@@ -561,8 +549,8 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
     };
 
     // gets the time text from what is entered in the dialog and displays it
-    private TimePickerDialog.OnTimeSetListener timeDate = new TimePickerDialog.OnTimeSetListener() {
-        public void onTimeSet(TimePicker view, int hours, int minutes) {
+    private com.android.datetimepicker.time.TimePickerDialog.OnTimeSetListener timeDate = new com.android.datetimepicker.time.TimePickerDialog.OnTimeSetListener() {
+        public void onTimeSet(RadialPickerLayout view, int hours, int minutes) {
             setHour = hours;
             setMinute = minutes;
 

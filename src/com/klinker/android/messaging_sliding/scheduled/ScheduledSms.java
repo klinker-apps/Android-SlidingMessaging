@@ -124,7 +124,7 @@ public class ScheduledSms extends Activity {
 
                     }
                 }).show();
-                return false;
+                return true;
             }
         });
 

@@ -94,7 +94,7 @@ public class NotificationsSettingsActivity extends Activity {
 
                     }
                 }).show();
-                return false;
+                return true;
             }
 
         });
