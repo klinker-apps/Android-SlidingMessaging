@@ -15,3 +15,4 @@ This is a private repo to work on Jacob and Luke's Sliding Messaging Pro android
 6) ListView Animations (https://github.com/nhaarman/ListViewAnimations)
 7) Pager Sliding Tab Strip (https://github.com/astuetz/PagerSlidingTabStrip)
 8) Sliding Menu (https://github.com/jfeinstein10/SlidingMenu)
+9) DateTimePicker (https://github.com/klinker41/datetimepicker)
