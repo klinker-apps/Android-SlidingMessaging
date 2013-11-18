@@ -1,1 +1,3 @@
 - Bug fixes
+- Some MMS fixes
+- Add templates to scheduled SMS
