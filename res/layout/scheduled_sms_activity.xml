@@ -6,7 +6,8 @@
     <View
             android:id="@+id/sentBackground"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"/>
 
     <EditText
             android:id="@+id/contactEntry"
@@ -16,7 +17,8 @@
             android:layout_alignParentTop="true"
             android:ems="10"
             android:hint="@string/contact_entry"
-            android:textCursorDrawable="@null">
+            android:textCursorDrawable="@null"
+            android:textColor="@android:color/black">
     </EditText>
 
     <ScrollView
@@ -138,7 +140,8 @@
             android:minLines="2"
             android:singleLine="true"
             android:textSize="@dimen/type_message"
-            android:textCursorDrawable="@null">
+            android:textCursorDrawable="@null"
+            android:textColor="@android:color/black">
 
     </EditText>
 

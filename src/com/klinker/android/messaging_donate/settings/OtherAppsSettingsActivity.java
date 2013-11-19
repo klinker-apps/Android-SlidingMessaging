@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.*;
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_sliding.mass_text.MassTextActivity;
 import com.klinker.android.messaging_sliding.scheduled.ScheduledSms;
 import com.klinker.android.messaging_sliding.templates.TemplateActivity;
 
@@ -130,11 +131,12 @@ public class OtherAppsSettingsActivity extends PreferenceActivity {
 
         otherItems = new String[]{getResources().getString(R.string.quick_templates),
                 getResources().getString(R.string.scheduled_sms),
+                getResources().getString(R.string.mass_sms),
                 getResources().getString(R.string.get_help),
                 getResources().getString(R.string.other_apps),
                 getResources().getString(R.string.rate_it)};
 
-        DrawerArrayAdapter.current = 3;
+        DrawerArrayAdapter.current = 4;
         SettingsPagerActivity.settingsLinksActive = false;
         SettingsPagerActivity.inOtherLinks = true;
 
@@ -284,6 +286,20 @@ public class OtherAppsSettingsActivity extends PreferenceActivity {
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
+                                Intent mIntent = new Intent(context, MassTextActivity.class);
+                                mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(mIntent);
+                                //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                                overridePendingTransition(0, 0);
+                            }
+                        }, 200);
+
+                        break;
+
+                    case 3:
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
                                 Intent mIntent = new Intent(context, GetHelpSettingsActivity.class);
                                 mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(mIntent);
@@ -294,7 +310,7 @@ public class OtherAppsSettingsActivity extends PreferenceActivity {
 
                         break;
 
-                    case 3:
+                    case 4:
                         /*new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
@@ -308,7 +324,7 @@ public class OtherAppsSettingsActivity extends PreferenceActivity {
 
                         break;
 
-                    case 4:
+                    case 5:
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {

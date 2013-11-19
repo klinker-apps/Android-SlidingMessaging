@@ -82,6 +82,8 @@ public class DrawerArrayAdapter extends ArrayAdapter<String> {
             holder.icon.setImageResource(R.drawable.drawer_templates);
         else if (text.get(position).equals(context.getResources().getString(R.string.scheduled_sms)))
             holder.icon.setImageResource(R.drawable.drawer_scheduled);
+        else if (text.get(position).equals(context.getResources().getString(R.string.mass_sms)))
+            holder.icon.setImageResource(R.drawable.card_group_dark);
         else if (text.get(position).equals(context.getResources().getString(R.string.get_help)))
             holder.icon.setImageResource(R.drawable.drawer_help);
         else if (text.get(position).equals(context.getResources().getString(R.string.other_apps)))

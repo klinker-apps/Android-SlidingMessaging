@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <View
+            android:id="@+id/sentBackground"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"/>
+
+        <EditText
+            android:id="@+id/contactEntry"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:ems="10"
+            android:hint="@string/contact_entry"
+            android:textCursorDrawable="@null"
+            android:textColor="@android:color/black">
+        </EditText>
+
+        <ScrollView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/contactEntry"
+            android:id="@+id/scrollView"
+            android:layout_above="@+id/view1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:textColor="@android:color/black"
+                android:text="@string/mass_sms_description"/>
+        </ScrollView>
+
+        <View
+            android:id="@+id/view1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignTop="@+id/messageEntry2"
+            android:background="@color/white" />
+
+        <EditText
+            android:id="@+id/messageEntry2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@+id/display_emoji"
+            android:paddingRight="10dp"
+            android:ems="10"
+            android:hint="@string/type_message"
+            android:inputType="textCapSentences|textMultiLine|textShortMessage"
+            android:maxLines="5"
+            android:minHeight="50dp"
+            android:minLines="2"
+            android:singleLine="true"
+            android:textSize="@dimen/type_message"
+            android:textCursorDrawable="@null"
+            android:textColor="@android:color/black" >
+
+        </EditText>
+
+        <ImageButton
+            android:id="@+id/display_emoji"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignTop="@+id/view1"
+            android:background="@color/white"
+            android:contentDescription="@string/emoji"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:src="@drawable/ic_emoji_dark" />
+
+
+    </RelativeLayout>
+
+    <!-- The navigation drawer -->
+    <!-- default of 240dp width -->
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/drawer"
+        android:orientation="vertical"
+        android:layout_width="315dp"
+        android:layout_height="fill_parent"
+        android:layout_gravity="start"
+        android:background="@color/light_silver" >
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:paddingLeft="20dp" android:paddingRight="20dp"
+            android:paddingTop="8dp" android:paddingBottom="5dp" >
+
+            <Spinner android:id="@+id/spinner"
+                android:layout_width="match_parent" android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <ListView android:id="@+id/links_list"
+            android:layout_height="wrap_content" android:layout_width="wrap_content"
+            android:layout_gravity="start"
+            android:choiceMode="singleChoice"
+            android:divider="#d2d2d2" android:dividerHeight="1dp"
+            android:paddingLeft="25dp" android:paddingRight="25dp"
+            android:footerDividersEnabled="false" android:headerDividersEnabled="false"/>
+
+    </LinearLayout>
+
+</android.support.v4.widget.DrawerLayout>

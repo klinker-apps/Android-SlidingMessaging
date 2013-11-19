@@ -35,6 +35,7 @@ import com.klinker.android.messaging_donate.utils.Util;
 import com.klinker.android.messaging_sliding.DeleteOldService;
 import com.klinker.android.messaging_sliding.backup.BackupService;
 import com.klinker.android.messaging_sliding.blacklist.BlacklistActivity;
+import com.klinker.android.messaging_sliding.mass_text.MassTextActivity;
 import com.klinker.android.messaging_sliding.notifications.NotificationsSettingsActivity;
 import com.klinker.android.messaging_sliding.receivers.NotificationReceiver;
 import com.klinker.android.messaging_sliding.scheduled.ScheduledSms;
@@ -102,6 +103,7 @@ public class SettingsPagerActivity extends FragmentActivity {
 
         otherItems = new String[]{getResources().getString(R.string.quick_templates),
                 getResources().getString(R.string.scheduled_sms),
+                getResources().getString(R.string.mass_sms),
                 getResources().getString(R.string.get_help),
                 getResources().getString(R.string.other_apps),
                 getResources().getString(R.string.rate_it)};
@@ -313,7 +315,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                Intent mIntent = new Intent(context, GetHelpSettingsActivity.class);
+                                Intent mIntent = new Intent(context, MassTextActivity.class);
                                 mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(mIntent);
                                 //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
@@ -327,7 +329,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                Intent mIntent = new Intent(context, OtherAppsSettingsActivity.class);
+                                Intent mIntent = new Intent(context, GetHelpSettingsActivity.class);
                                 mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(mIntent);
                                 //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
@@ -338,6 +340,20 @@ public class SettingsPagerActivity extends FragmentActivity {
                         break;
 
                     case 4:
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent mIntent = new Intent(context, OtherAppsSettingsActivity.class);
+                                mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(mIntent);
+                                //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                                overridePendingTransition(0, 0);
+                            }
+                        }, 200);
+
+                        break;
+
+                    case 5:
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {

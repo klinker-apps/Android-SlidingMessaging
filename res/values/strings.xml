@@ -874,4 +874,6 @@
     <string name="auto_clear_fn_summary">For use with the Sliding Messaging Pro Floating Notification extension. If disabled, you will have to manually close any F.N. bubbles after sending a message.</string>
     <string name="quick_text_slideover">SlideOver Quick Text</string>
     <string name="quick_text_slideover_summary">Open the SlideOver popup from the quick text notification</string>
+    <string name="mass_sms">Personalized Mass SMS</string>
+    <string name="mass_sms_description">Instructions:\n\n1.) Enter the recipients of the mass text.\n2.) Enter the message of the mass text\n3.) Decide whether you want the full name to be inserted or just the first name (default for checkbox is first name only)\n4.) Wherever you want the contacts name to be inserted, input \"[$NAME]\" (without the quotes).\n\nBe careful, no other string of letters will work.</string>
 </resources>
