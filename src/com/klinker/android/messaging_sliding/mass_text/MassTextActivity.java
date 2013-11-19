@@ -39,7 +39,7 @@ import android.widget.ListPopupWindow;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.settings.DrawerArrayAdapter;
@@ -50,6 +50,7 @@ import com.klinker.android.messaging_donate.utils.ContactUtil;
 import com.klinker.android.messaging_donate.utils.IOUtil;
 import com.klinker.android.messaging_donate.utils.SendUtil;
 import com.klinker.android.messaging_sliding.ContactSearchArrayAdapter;
+import com.klinker.android.messaging_sliding.developer_tips.MainActivity;
 import com.klinker.android.messaging_sliding.emojis.EmojiAdapter;
 import com.klinker.android.messaging_sliding.emojis.EmojiAdapter2;
 import com.klinker.android.messaging_sliding.emojis.EmojiConverter;
@@ -72,6 +73,8 @@ public class MassTextActivity extends Activity {
 
     private EditText contactSearch;
     private EditText mEditText;
+    private CheckBox firstAndLast;
+    private Button insertName;
 
     public SharedPreferences sharedPrefs;
 
@@ -100,6 +103,19 @@ public class MassTextActivity extends Activity {
 
         mEditText = (EditText) findViewById(R.id.messageEntry2);
         contactSearch = (EditText) findViewById(R.id.contactEntry);
+        firstAndLast = (CheckBox) findViewById(R.id.first_and_last);
+        insertName = (Button) findViewById(R.id.insert_name);
+
+        insertName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String currText = mEditText.getText().toString();
+
+                mEditText.setText(currText + " [$NAME] ");
+                mEditText.setSelection(mEditText.getText().toString().length());
+                mEditText.requestFocus();
+            }
+        });
 
         if (!sharedPrefs.getBoolean("keyboard_type", true)) {
             mEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
@@ -421,6 +437,22 @@ public class MassTextActivity extends Activity {
                     }
                 });
 
+        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.drawer_spinner_array, R.layout.drawer_spinner_item);
+
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // Apply the adapter to the spinner
+        spinner.setAdapter(adapter);
+
+        spinner.setSelection(1);
+
+        spinner.setOnItemSelectedListener(new SpinnerClickListener());
+
         // Set the adapter for the list view
         mDrawerList.setAdapter(new DrawerArrayAdapter(this,
                 new ArrayList<String>(Arrays.asList(otherItems))));
@@ -455,7 +487,10 @@ public class MassTextActivity extends Activity {
 
     // finishes the activity when the discard button is clicked, without making any changes or saving anything
     public boolean discardClick() {
+        Intent i = new Intent(this, com.klinker.android.messaging_donate.MainActivity.class);
+        startActivity(i);
         finish();
+        overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
         return true;
     }
 
@@ -480,7 +515,11 @@ public class MassTextActivity extends Activity {
                 messages[j] = "";
                 for (int x = 0; x < message.length; x++) {
                     if (message[x].equals("[$NAME]")) {
-                        messages[j] += ContactUtil.findContactName(names[j], context).split(" ")[0] + " ";
+                        if (firstAndLast.isChecked()) {
+                            messages[j] += ContactUtil.findContactName(names[j], context) + " ";
+                        } else {
+                            messages[j] += ContactUtil.findContactName(names[j], context).split(" ")[0] + " ";
+                        }
                     } else {
                         messages[j] += message[x] + " ";
                     }
@@ -500,7 +539,7 @@ public class MassTextActivity extends Activity {
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
 
-            finish();
+            discardClick();
 
         } else {
             Context context = getApplicationContext();
@@ -511,13 +550,6 @@ public class MassTextActivity extends Activity {
             toast.show();
         }
         return true;
-    }
-
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
     }
 
     @Override
@@ -704,6 +736,43 @@ public class MassTextActivity extends Activity {
                 }
             }
         }
+    }
+
+    private class SpinnerClickListener implements Spinner.OnItemSelectedListener {
+        @Override
+        // sets the string repetition to whatever is choosen from the spinner
+        public void onItemSelected(AdapterView<?> parent, View view,
+                                   int pos, long id) {
+            // An item was selected. You can retrieve the selected item using
+            // parent.getItemAtPosition(pos)
+            String selected = parent.getItemAtPosition(pos).toString();
+
+            if (selected.equals(getResources().getStringArray(R.array.drawer_spinner_array)[0])) {
+                mDrawerList.setAdapter(new DrawerArrayAdapter(activity,
+                        new ArrayList<String>(Arrays.asList(linkItems))));
+                mDrawerList.invalidate();
+                SettingsPagerActivity.settingsLinksActive = true;
+            } else {
+                mDrawerList.setAdapter(new DrawerArrayAdapter(activity,
+                        new ArrayList<String>(Arrays.asList(otherItems))));
+                mDrawerList.invalidate();
+                SettingsPagerActivity.settingsLinksActive = false;
+            }
+
+
+        }
+
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(this, com.klinker.android.messaging_donate.MainActivity.class);
+        startActivity(i);
+        finish();
+        overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
     }
 
 }

@@ -877,4 +877,6 @@
     <string name="mass_sms">Personalized Mass SMS</string>
     <string name="mass_sms_description">Instructions:\n\n1.) Enter the recipients of the mass text.\n2.) Enter the message of the mass text\n3.) Decide whether you want the full name to be inserted or just the first name (default for checkbox is first name only)\n4.) Wherever you want the contacts name to be inserted, input \"[$NAME]\" (without the quotes).\n\nBe careful, no other string of letters will work.</string>
     <string name="send_success">Sent Successfully</string>
+    <string name="mass_sms_checkbox">Replace \"[$NAME]\" with first and last name.</string>
+    <string name="insert_name">Insert: [$NAME]</string>
 </resources>
