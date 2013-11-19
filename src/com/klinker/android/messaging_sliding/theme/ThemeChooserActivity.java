@@ -563,13 +563,17 @@ public class ThemeChooserActivity extends Activity {
                 }
 
                 if (sharedPrefs.getBoolean("custom_font", false)) {
-                    Typeface font = Typeface.createFromFile(sharedPrefs.getString("custom_font_path", ""));
+                    try {
+                        Typeface font = Typeface.createFromFile(sharedPrefs.getString("custom_font_path", ""));
 
-                    sentMessageText.setTypeface(font);
-                    receivedMessageText.setTypeface(font);
-                    sentDate.setTypeface(font);
-                    receiveDate.setTypeface(font);
-                    messageEntry.setTypeface(font);
+                        sentMessageText.setTypeface(font);
+                        receivedMessageText.setTypeface(font);
+                        sentDate.setTypeface(font);
+                        receiveDate.setTypeface(font);
+                        messageEntry.setTypeface(font);
+                    } catch (Exception e) {
+
+                    }
                 }
             } else if (sharedPrefs.getString("run_as", "sliding").equals("sliding")) {
                 TextView receivedMessageText = (TextView) view.findViewById(R.id.receivedMessage);
