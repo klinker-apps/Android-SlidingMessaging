@@ -20,6 +20,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -45,7 +46,9 @@ import com.klinker.android.messaging_donate.settings.DrawerArrayAdapter;
 import com.klinker.android.messaging_donate.settings.GetHelpSettingsActivity;
 import com.klinker.android.messaging_donate.settings.OtherAppsSettingsActivity;
 import com.klinker.android.messaging_donate.settings.SettingsPagerActivity;
+import com.klinker.android.messaging_donate.utils.ContactUtil;
 import com.klinker.android.messaging_donate.utils.IOUtil;
+import com.klinker.android.messaging_donate.utils.SendUtil;
 import com.klinker.android.messaging_sliding.ContactSearchArrayAdapter;
 import com.klinker.android.messaging_sliding.emojis.EmojiAdapter;
 import com.klinker.android.messaging_sliding.emojis.EmojiAdapter2;
@@ -461,6 +464,43 @@ public class MassTextActivity extends Activity {
     public boolean doneClick() {
         if (!contactSearch.getText().toString().equals("") && !mEditText.getText().toString().equals("")) {
 
+            String[] names = contactSearch.getText().toString().split(" ");
+
+            for (int i = 0; i < names.length; i++) {
+                names[i] = names[i].replaceAll(";", "");
+                names[i] = names[i].replaceAll("-", "");
+                names[i] = names[i].replaceAll(" ", "");
+            }
+
+            String[] message = mEditText.getText().toString().split(" ");
+
+            String[] messages = new String[names.length];
+
+            for(int j = 0; j < names.length; j++) {
+                messages[j] = "";
+                for (int x = 0; x < message.length; x++) {
+                    if (message[x].equals("[$NAME]")) {
+                        messages[j] += ContactUtil.findContactName(names[j], context).split(" ")[0] + " ";
+                    } else {
+                        messages[j] += message[x] + " ";
+                    }
+                }
+
+                Log.v("personal_sms", messages[j]);
+            }
+
+            for (int m = 0; m < messages.length; m++) {
+                SendUtil.sendMessage(context, names[m], messages[m]);
+            }
+
+            Context context = getApplicationContext();
+            CharSequence text = getResources().getString(R.string.send_success);
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+
+            finish();
 
         } else {
             Context context = getApplicationContext();
