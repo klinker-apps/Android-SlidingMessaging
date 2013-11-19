@@ -247,7 +247,7 @@
     <string name="led">LED Light on Notification</string>
 	<string name="default_theme_prefs">Default Theme Settings</string>
 	<string name="breath">Notification Breath Animation</string>
-	<string name="breath_summary">Will cause the icon displayed on the status bar to flash on and off. Only applies to white stock icon</string>
+	<string name="breath_summary">Will cause the icon displayed on the status bar to flash on and off. Only applies to white stock icon. Will not work with Dynamic Notifications.</string>
 	<string name="go_sms_title">Go SMS Installed</string>
 	<string name="go_sms_body">Sliding Messaging has found that Go SMS is installed. Please note that Go SMS blocks notifications from other messaging apps by default, meaning that you will not receive any notifications from this app at all. You can disable this by going into Go SMS Settings -> Advanced Settings -> Receive Settings and uncheck the \"Disable other message notification\" setting.</string>
 	<string name="text_alignment">Text Alignment</string>
