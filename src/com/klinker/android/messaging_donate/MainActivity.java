@@ -2888,7 +2888,14 @@ public class MainActivity extends FragmentActivity {
                             }
                         }
 
-                        final boolean performClick = voicePerformClick;
+                        boolean sperformClick;
+                        try {
+                             sperformClick = voicePerformClick;
+                        } catch (Exception e) {
+                            sperformClick = false;
+                        }
+
+                        final boolean performClick = sperformClick;
 
                         ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 
