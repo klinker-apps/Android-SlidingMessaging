@@ -2,3 +2,4 @@
 - Some MMS fixes
 - Add templates to scheduled SMS
 - New pickers for selecting date in scheduled SMS messages
+- Changes for SlideOver foreground service

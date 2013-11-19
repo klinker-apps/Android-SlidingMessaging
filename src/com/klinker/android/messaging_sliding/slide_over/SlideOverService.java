@@ -224,7 +224,7 @@ public class SlideOverService extends Service {
                     notification.priority = Notification.PRIORITY_MIN;
                 }
             } catch (Exception e) {
-                
+
             }
 
             startForeground(FOREGROUND_SERVICE_ID, notification);
