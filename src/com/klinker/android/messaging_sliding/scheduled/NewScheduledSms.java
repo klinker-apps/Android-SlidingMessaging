@@ -480,8 +480,13 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
         btTime.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                com.android.datetimepicker.time.TimePickerDialog.newInstance(timeDate, currentHour, currentMinute, android.provider.Settings.System.getString(context.getContentResolver(), android.provider.Settings.System.TIME_12_24).equals("24"))
-                    .show(getFragmentManager(), "time_picker");
+                try {
+                    com.android.datetimepicker.time.TimePickerDialog.newInstance(timeDate, currentHour, currentMinute, android.provider.Settings.System.getString(context.getContentResolver(), android.provider.Settings.System.TIME_12_24).equals("24"))
+                            .show(getFragmentManager(), "time_picker");
+                } catch (Exception e) {
+                    com.android.datetimepicker.time.TimePickerDialog.newInstance(timeDate, currentHour, currentMinute, sharedPrefs.getBoolean("hour_format", false))
+                            .show(getFragmentManager(), "time_picker");
+                }
             }
         });
 
