@@ -219,10 +219,14 @@ public class SlideOverService extends Service {
             notification.setLatestEventInfo(this, getResources().getString(R.string.slideover_settings),
                     "Click to open settings", pendingIntent);
 
-            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-                notification.priority = Notification.PRIORITY_MIN;
+            try {
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+                    notification.priority = Notification.PRIORITY_MIN;
+                }
+            } catch (Exception e) {
+                
             }
-            
+
             startForeground(FOREGROUND_SERVICE_ID, notification);
         }
     }
