@@ -4522,6 +4522,45 @@ public class MainActivity extends FragmentActivity {
         fromNotification = false;
         sendTo = false;
 
+        if (settings.inAppNotifications) {
+            try {
+                Log.v("app_msg", "in try block");
+                int unreadCount = 0;
+                for (int i = 0; i < 10; i++) {
+                    if (!conversations.get(i).getRead()) {
+                        unreadCount++;
+                    }
+                }
+                Log.v("app_msg", unreadCount + " " + getString(R.string.new_conversations));
+
+                final AppMsg unread;
+
+                if (unreadCount == 1) {
+                    unread = AppMsg.makeText((Activity) context, unreadCount + " " + getString(R.string.new_conversation), AppMsg.STYLE_ALERT);
+                    unread.show();
+                } else if (unreadCount > 1) {
+                    unread = AppMsg.makeText((Activity) context, unreadCount + " " + getString(R.string.new_conversations), AppMsg.STYLE_ALERT);
+                    unread.show();
+                } else {
+                    unread = null;
+                }
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            unread.cancel();
+                        } catch (Exception e) {
+                            // there isn't one
+                        }
+                    }
+                }, 5000);
+            } catch (Exception e) {
+                Log.v("app_msg", "caught");
+                e.printStackTrace();
+            }
+        }
+
     }
 
     @Override
