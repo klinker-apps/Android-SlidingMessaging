@@ -5,6 +5,7 @@ import android.content.*;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
@@ -217,11 +218,11 @@ public class SlideOverService extends Service {
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
             notification.setLatestEventInfo(this, getResources().getString(R.string.slideover_settings),
                     "Click to open settings", pendingIntent);
-            try {
+
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
                 notification.priority = Notification.PRIORITY_MIN;
-            } catch (Exception e) {
-                // they are on Ice Cream Sandwhich
             }
+            
             startForeground(FOREGROUND_SERVICE_ID, notification);
         }
     }
