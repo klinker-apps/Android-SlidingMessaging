@@ -1,5 +1,6 @@
 - Bug fixes
+- Force close fixes
 - Some MMS fixes
 - Add templates to scheduled SMS
-- New pickers for selecting date in scheduled SMS messages
+- New pickers for selecting date and time in scheduled SMS messages
 - Changes for SlideOver foreground service
