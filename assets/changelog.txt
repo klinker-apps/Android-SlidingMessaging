@@ -1,4 +1,5 @@
 - Added a "Personalized Mass SMS" feature under "Other Links" in settings
+- Option for how many times to repeat a notification
 - Add templates to scheduled SMS
 - New pickers for selecting date and time in scheduled SMS messages
 - New in app notification for the number of unread messages when you pull open the app
