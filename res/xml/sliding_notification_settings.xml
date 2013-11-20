@@ -94,6 +94,14 @@
             android:dependency="notifications"
             />
 
+        <Preference
+                android:key="repeating_notification_number"
+                android:title="@string/repeating_notification_number"
+                android:summary="@string/repeating_notification_number_summary"
+                android:dependency="notifications"
+                android:defaultValue="0"
+                />
+
         <MultiSelectListPreference
             android:key="button_options"
             android:title="@string/button_options"

@@ -740,6 +740,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
             }
 
             if (!sharedPrefs.getString("repeating_notification", "none").equals("none")) {
+                PreferenceManager.getDefaultSharedPreferences(context).edit().putInt("repeated_times", 0).commit();
                 Calendar cal = Calendar.getInstance();
 
                 Intent repeatingIntent = new Intent(context, NotificationRepeaterService.class);

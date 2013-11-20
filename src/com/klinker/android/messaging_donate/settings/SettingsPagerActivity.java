@@ -659,6 +659,30 @@ public class SettingsPagerActivity extends FragmentActivity {
                 }
             });
 
+            Preference repeatingNumber = findPreference("repeating_notification_number");
+            repeatingNumber.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+
+                @Override
+                public boolean onPreferenceClick(Preference arg0) {
+                    if (sharedPrefs.getBoolean("notifications", false)) {
+                        NumberPickerDialog.OnNumberSetListener mSmsLimitListener =
+                                new NumberPickerDialog.OnNumberSetListener() {
+                                    public void onNumberSet(int limit) {
+                                        SharedPreferences.Editor editor = sharedPrefs.edit();
+
+                                        editor.putInt("repeating_notification_number", limit);
+                                        editor.commit();
+                                    }
+                                };
+
+                        new NumberPickerDialog(context, mSmsLimitListener, sharedPrefs.getInt("repeating_notification_number", 0), 0, 200, R.string.repeating_notification_number).show();
+                    }
+
+                    return false;
+                }
+
+            });
+
             TelephonyManager manager = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
             String carrierName = manager.getNetworkOperatorName();
 
@@ -672,6 +696,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                 ((PreferenceGroup) findPreference("general_notification_category")).removePreference(findPreference("quick_text"));
                 ((PreferenceGroup) findPreference("notification_look_category")).removePreference(findPreference("breath"));
                 ((PreferenceGroup) findPreference("notification_look_category")).removePreference(findPreference("repeating_notification"));
+                ((PreferenceGroup) findPreference("notification_look_category")).removePreference(findPreference("repeating_notification_number"));
                 ((PreferenceGroup) findPreference("notification_look_category")).removePreference(findPreference("stack_notifications"));
                 ((PreferenceGroup) findPreference("notification_vibrate_category")).removePreference(findPreference("custom_vibrate_pattern"));
                 ((PreferenceGroup) findPreference("notification_vibrate_category")).removePreference(findPreference("set_custom_vibrate_pattern"));

@@ -879,4 +879,6 @@
     <string name="send_success">Sent Successfully</string>
     <string name="mass_sms_checkbox">Replace \"[$NAME]\" with first and last name.</string>
     <string name="insert_name">Insert: [$NAME]</string>
+    <string name="repeating_notification_number">Number of Repeats</string>
+    <string name="repeating_notification_number_summary">Select 0 to repeat forever</string>
 </resources>
