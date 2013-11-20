@@ -849,7 +849,7 @@
        If you feel like taking the customization to the next level, simply go to \"Advanced Settings\" and click the \"Show All Settings\" button!</string>
     <string name="quick_peek_text_markers">Enabled text markers</string>
     <string name="foreground_service">Foreground Service</string>
-    <string name="foreground_service_summary">Use this option if the SlideOver Messaging bubble disappears after so long on your screen. It is because the system is killing the service used to create it. This option will get around that by putting a persistent notification on your notification tray.</string>
+    <string name="foreground_service_summary">Use this option if the SlideOver Messaging bubble disappears after so long on your screen. It is because the system is killing the service used to create it. This option will get around that by putting a persistent notification on your notification tray. It will not work on Android 4.0.</string>
     <string name="emoji_keyboard_color">Emoji Keyboard Color</string>
     <string name="skip_log">Skip Changes</string>
     <string name="slideover_disappearing_tip_title">Developer Tip #7 (SlideOver bubble disappearing):</string>
