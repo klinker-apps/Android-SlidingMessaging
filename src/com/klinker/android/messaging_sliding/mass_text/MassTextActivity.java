@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -130,6 +131,7 @@ public class MassTextActivity extends Activity {
             public void onItemClick(AdapterView<?> arg0, View arg1,
                                     int position, long arg3) {
                 TextView view2 = (TextView) arg1.findViewById(R.id.receivedMessage);
+                final TextView type = (TextView) arg1.findViewById(R.id.receivedDate);
 
                 String[] t1 = contactSearch.getText().toString().split("; ");
                 String string = "";
@@ -138,7 +140,73 @@ public class MassTextActivity extends Activity {
                     string += t1[i] + "; ";
                 }
 
-                contactSearch.setText(string + view2.getText() + "; ");
+                if (!type.getText().toString().startsWith(getString(R.string.group))) {
+                    contactSearch.setText(string + view2.getText() + "; ");
+                } else {
+                    final ProgressDialog dialog = new ProgressDialog(context);
+                    dialog.setMessage(getString(R.string.getting_contacts));
+                    dialog.show();
+
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            String contacts = "";
+                            Uri groupURI = ContactsContract.Data.CONTENT_URI;
+
+                            String[] projection = new String[]{
+                                    ContactsContract.CommonDataKinds.GroupMembership.GROUP_ROW_ID ,
+                                    ContactsContract.CommonDataKinds.GroupMembership.CONTACT_ID,
+                                    ContactsContract.Data.HAS_PHONE_NUMBER,
+                                    ContactsContract.Data._ID,
+                                    ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME};
+
+                            Cursor c = context.getContentResolver().query(groupURI,
+                                    projection,
+                                    ContactsContract.CommonDataKinds.GroupMembership.GROUP_ROW_ID + "=" + type.getText().toString().replaceAll("[^0-9\\+]", "")
+                                            + " and " + ContactsContract.Data.HAS_PHONE_NUMBER + "=1",
+                                    null, null);
+
+                            if (c.moveToFirst()) {
+                                do {
+                                    Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
+                                    String[] proj = new String[]{ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, ContactsContract.Data._ID, ContactsContract.CommonDataKinds.Phone.CONTACT_ID,
+                                            ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.LABEL};
+
+                                    Cursor people = getContentResolver().query(uri, proj, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=" + c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.GroupMembership.CONTACT_ID)), null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " asc");
+
+                                    if (people.moveToFirst()) {
+                                        do {
+                                            int type = people.getInt(people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
+                                            int indexNumber = people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+
+                                            if (sharedPrefs.getBoolean("mobile_only", false)) {
+                                                if (type == 2) {
+                                                    contacts += people.getString(indexNumber).replaceAll("[^0-9\\+]", "") + "; ";
+                                                }
+                                            } else {
+                                                contacts += people.getString(indexNumber).replaceAll("[^0-9\\+]", "") + "; ";
+                                            }
+                                        } while (people.moveToNext());
+                                    }
+
+                                    people.close();
+                                } while (c.moveToNext());
+                            }
+
+                            c.close();
+
+                            final String text = contacts;
+
+                            ((Activity)context).findViewById(android.R.id.content).post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    dialog.dismiss();
+                                    contactSearch.setText(text);
+                                }
+                            });
+                        }
+                    }).start();
+                }
                 contactSearch.setSelection(contactSearch.getText().length());
                 lpw.dismiss();
                 firstContactSearch = true;
@@ -181,6 +249,25 @@ public class MassTextActivity extends Activity {
                                 contactTypes.add(ContactsContract.CommonDataKinds.Phone.getTypeLabel(context.getResources(), type, customLabel).toString());
                             }
                         } while (people.moveToNext());
+                        people.close();
+
+                        String[] group_projection = new String[] {
+                                ContactsContract.Groups._ID, ContactsContract.Groups.TITLE,
+                                ContactsContract.Groups.SUMMARY_COUNT, ContactsContract.Groups.SUMMARY_WITH_PHONES };
+                        people = context.getContentResolver().query(
+                                ContactsContract.Groups.CONTENT_SUMMARY_URI,
+                                group_projection,
+                                ContactsContract.Groups.SUMMARY_WITH_PHONES + " > 0"
+                                , null, ContactsContract.Groups.TITLE + " ASC");
+
+                        if (people.moveToFirst()) {
+                            do {
+                                contactNames.add(people.getString(people.getColumnIndex(ContactsContract.Groups.TITLE)));
+                                contactNumbers.add(people.getString(people.getColumnIndex(ContactsContract.Groups.SUMMARY_WITH_PHONES)) + " " + getString(R.string.people));
+                                contactTypes.add(getString(R.string.group) + people.getLong(people.getColumnIndex(ContactsContract.Groups._ID)) + ")");
+                            } while (people.moveToNext());
+                        }
+
                         people.close();
                     } catch (IllegalArgumentException e) {
 
