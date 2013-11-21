@@ -3,8 +3,8 @@
 - Option for how many times to repeat a notification
 - Add templates to scheduled SMS
 - New pickers for selecting date and time in scheduled SMS messages
-- New in app notification for the number of unread messages when you pull open the app
+- New in app notification for the number of unread messages when you open the app
 - Fixes for SlideOver foreground service
 - Bug fixes
 - Force close fixes
-- Some MMS fixes
+- Some MMS changes
