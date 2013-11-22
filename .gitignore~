@@ -15,8 +15,6 @@ gen/
 # Local configuration file (sdk path, etc)
 local.properties
 
-assets/
-
 .settings
 eclipsebin
 
@@ -32,6 +30,7 @@ pom.xml.*
 release.properties
 project.properties
 
+.iml
 .idea
 *.iml
 classes
