@@ -29,6 +29,12 @@ target
 pom.xml.*
 release.properties
 project.properties
+.project
+.classpath
+build.gradle
+proguard-project.txt
+proguard.flags
+*.apk
 
 .iml
 .idea

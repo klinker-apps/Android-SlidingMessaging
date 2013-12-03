@@ -1,10 +1,1 @@
-- Added a "Personalized Mass SMS" feature under "Other Links" in settings
-- Ability to send new message to group contacts
-- Option for how many times to repeat a notification
-- Add templates to scheduled SMS
-- New pickers for selecting date and time in scheduled SMS messages
-- New in app notification for the number of unread messages when you open the app
-- Fixes for SlideOver foreground service
-- Bug fixes
-- Force close fixes
-- Some MMS changes
+- MMS Fixes
