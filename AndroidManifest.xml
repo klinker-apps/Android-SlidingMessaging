@@ -488,6 +488,8 @@
             android:name="com.klinker.android.messaging_sliding.mms.MmsReceiverService">
         </service>
 
+        <service android:name="com.android.mms.transaction.TransactionService"/>
+
         <service
             android:name="com.klinker.android.messaging_donate.receivers.AccessibilityListener"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
@@ -554,7 +556,7 @@
             </intent-filter>
         </receiver>
         
-        <receiver android:name="com.klinker.android.messaging_sliding.receivers.MMSMessageReceiver"
+        <receiver android:name="com.android.mms.transaction.PushReceiver"
             android:enabled="@bool/preKitKat">
 
             <intent-filter android:priority="2"> 
@@ -564,12 +566,18 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name="com.klinker.android.messaging_sliding.receivers.MMSMessageReceiver"
+        <receiver android:name="com.android.mms.transaction.PushReceiver"
             android:permission="android.permission.BROADCAST_WAP_PUSH"
             android:enabled="@bool/hasKitKat">
             <intent-filter>
                 <action android:name="android.provider.Telephony.WAP_PUSH_DELIVER" />
                 <data android:mimeType="application/vnd.wap.mms-message" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name="com.klinker.android.messaging_sliding.receivers.MMSMessageReceiver">
+            <intent-filter>
+                <action android:name="com.klinker.android.messaging.NEW_MMS_DOWNLOADED"/>
             </intent-filter>
         </receiver>
         

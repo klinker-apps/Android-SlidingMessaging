@@ -39,6 +39,7 @@ import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.utils.ContactUtil;
 import com.klinker.android.messaging_donate.utils.IOUtil;
+import com.klinker.android.messaging_donate.utils.MessageUtil;
 import com.klinker.android.messaging_donate.utils.SendUtil;
 import com.klinker.android.messaging_sliding.MessageCursorAdapter;
 import com.klinker.android.messaging_sliding.receivers.NotificationReceiver;
@@ -350,7 +351,7 @@ public class MmsReceiverService extends Service {
                 SqliteWrapper.delete(context, context.getContentResolver(),
                         Uri.parse("content://mms/"), "thread_id=? and _id=?", new String[]{threadId, msgId});
 
-                findImageAndNotify();
+                findImageAndNotify(context, phoneNumber);
 
                 try {
                     sendAcknowledgeInd(retrieveConf, apns);
@@ -389,7 +390,7 @@ public class MmsReceiverService extends Service {
         }
     }
 
-    private void findImageAndNotify() {
+    public static void findImageAndNotify(Context context, String phoneNumber) {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -402,6 +403,10 @@ public class MmsReceiverService extends Service {
         String selectionPart = "mid=" + query.getString(query.getColumnIndex("_id"));
         Uri uri = Uri.parse("content://mms/part");
         Cursor cursor = context.getContentResolver().query(uri, null, selectionPart, null, null);
+
+        if (phoneNumber == null) {
+            phoneNumber = MessageCursorAdapter.getFrom(Uri.parse("content://mms/" + query.getString(query.getColumnIndex("_id"))), context);
+        }
 
         String body = "";
         String image = "";
@@ -438,9 +443,10 @@ public class MmsReceiverService extends Service {
         String images[] = image.trim().split(" ");
 
         if (phoneNumber != null) {
-            if (sharedPrefs.getBoolean("secure_notification", false)) {
+            if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("secure_notification", false)) {
                 makeNotification("New MMS Message", "", null, phoneNumber, body, Calendar.getInstance().getTimeInMillis() + "", context);
             } else {
+                String name = ContactUtil.findContactName(phoneNumber, context);
                 if (images[0].trim().equals("")) {
                     makeNotification(name, body, null, phoneNumber, body, Calendar.getInstance().getTimeInMillis() + "", context);
                 } else {
@@ -456,7 +462,7 @@ public class MmsReceiverService extends Service {
             }
         }
 
-        removeOldThread();
+        removeOldThread(context);
     }
 
     public static void makeNotification(String title, String text, Bitmap image, String address, String body, String date, final Context context) {
@@ -656,11 +662,11 @@ public class MmsReceiverService extends Service {
         }
     }
 
-    private void removeOldThread() {
+    private static void removeOldThread(Context context) {
         try {
             String[] projection = new String[]{"_id", "message_count"};
             Uri uri = Uri.parse("content://mms-sms/conversations/?simple=true");
-            Cursor query = getContentResolver().query(uri, projection, null, null, "date desc");
+            Cursor query = context.getContentResolver().query(uri, projection, null, null, "date desc");
 
             if (query.moveToFirst()) {
                 do {

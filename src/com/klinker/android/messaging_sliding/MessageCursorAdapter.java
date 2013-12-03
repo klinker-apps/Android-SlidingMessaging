@@ -33,6 +33,9 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
+import com.android.mms.transaction.Transaction;
+import com.android.mms.transaction.TransactionBundle;
+import com.android.mms.transaction.TransactionService;
 import com.google.android.mms.pdu_alt.EncodedStringValue;
 import com.google.android.mms.pdu_alt.PduHeaders;
 import com.google.android.mms.pdu_alt.PduPersister;
@@ -815,21 +818,21 @@ public class MessageCursorAdapter extends CursorAdapter {
         if (getZeroTimeDate(date2).equals(getZeroTimeDate(currentDate))) {
             if (MainActivity.settings.hourFormat) {
                 holder.date.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(date2) + (
-                        subject != null ? " - " + subject : ""
+                        subject != null && !subject.equals("") ? " - " + subject : ""
                 ));
             } else {
                 holder.date.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(date2) + (
-                        subject != null ? " - " + subject : ""
+                        subject != null && !subject.equals("") ? " - " + subject : ""
                 ));
             }
         } else {
             if (MainActivity.settings.hourFormat) {
                 holder.date.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2) + (
-                        subject != null ? " - " + subject : ""
+                        subject != null && !subject.equals("") ? " - " + subject : ""
                 ));
             } else {
                 holder.date.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2) + (
-                        subject != null ? " - " + subject : ""
+                        subject != null && !subject.equals("") ? " - " + subject : ""
                 ));
             }
         }
@@ -1877,7 +1880,7 @@ public class MessageCursorAdapter extends CursorAdapter {
         }
     }
 
-    public void downloadableMessage(final ViewHolder holder, String id) {
+    public void downloadableMessage(final ViewHolder holder, final String id) {
         Cursor locationQuery = context.getContentResolver().query(Uri.parse("content://mms/"), new String[]{"m_size", "exp", "ct_l", "_id"}, "_id=?", new String[]{id}, null);
 
         if (locationQuery.moveToFirst()) {
@@ -1927,26 +1930,41 @@ public class MessageCursorAdapter extends CursorAdapter {
                     public void onClick(View v) {
                         holder.downloadButton.setVisibility(View.INVISIBLE);
 
-                        Intent downloadMessage = new Intent(context, MmsReceiverService.class);
-                        context.startService(downloadMessage);
+//                        Intent downloadMessage = new Intent(context, MmsReceiverService.class);
+//                        context.startService(downloadMessage);
+//
+//                        context.registerReceiver(new BroadcastReceiver() {
+//                            @Override
+//                            public void onReceive(Context context1, Intent intent) {
+//                                try {
+//                                    context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+//                                        @Override
+//                                        public void run() {
+//                                            holder.downloadButton.setVisibility(View.VISIBLE);
+//                                        }
+//                                    });
+//
+//                                    context.unregisterReceiver(this);
+//                                } catch (Exception e) {
+//
+//                                }
+//                            }
+//                        }, new IntentFilter("com.klinker.android.messaging.SHOW_DOWNLOAD_BUTTON"));
 
-                        context.registerReceiver(new BroadcastReceiver() {
-                            @Override
-                            public void onReceive(Context context1, Intent intent) {
-                                try {
-                                    context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            holder.downloadButton.setVisibility(View.VISIBLE);
-                                        }
-                                    });
-
-                                    context.unregisterReceiver(this);
-                                } catch (Exception e) {
-
+                        if (!PreferenceManager.getDefaultSharedPreferences(context).getBoolean("auto_download_mms", false)) {
+                            PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("auto_download_mms", true).commit();
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("auto_download_mms", false).commit();
                                 }
-                            }
-                        }, new IntentFilter("com.klinker.android.messaging.SHOW_DOWNLOAD_BUTTON"));
+                            }, 10000);
+                        }
+
+                        Intent download = new Intent(context, TransactionService.class);
+                        download.putExtra(TransactionBundle.URI, ("content://mms/" + id));
+                        download.putExtra(TransactionBundle.TRANSACTION_TYPE, Transaction.RETRIEVE_TRANSACTION);
+                        context.startService(download);
                     }
 
                 });
