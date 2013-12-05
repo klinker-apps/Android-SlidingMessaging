@@ -3,6 +3,8 @@ package com.klinker.android.messaging_donate.settings;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import com.android.mms.util.DownloadManager;
+import com.android.mms.util.RateController;
 import com.klinker.android.messaging_donate.R;
 
 public class AppSettings {
@@ -113,6 +115,8 @@ public class AppSettings {
 
     public static AppSettings init(Context context) {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        DownloadManager.init(context);
+        RateController.init(context);
         AppSettings settings = new AppSettings();
 
         if (sharedPrefs.getBoolean("override_speed", false)) {
