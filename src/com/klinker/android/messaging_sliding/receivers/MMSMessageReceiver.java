@@ -139,58 +139,7 @@ public class MMSMessageReceiver extends BroadcastReceiver {
                     context.sendBroadcast(updateHalo);
                 }
 
-                if (!Util.isRunning(context)) {
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            if (sharedPrefs.getBoolean("popup_reply", false) && !sharedPrefs.getBoolean("secure_notification", false)) {
-                                Intent intent3;
-
-                                if (sharedPrefs.getBoolean("halo_popup", false) || sharedPrefs.getBoolean("full_app_popup", true)) {
-                                    boolean halo = sharedPrefs.getBoolean("halo_popup", false);
-
-                                    if (halo) {
-                                        intent3 = new Intent(context, MainActivity.class);
-                                    } else {
-                                        intent3 = new Intent(context, com.klinker.android.messaging_sliding.MainActivityPopup.class);
-                                    }
-
-                                    try {
-                                        if (halo) {
-                                            intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | 0x00002000);
-                                            intent3.putExtra("halo_popup", true);
-                                        } else {
-                                            intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                        }
-                                    } catch (Exception e) {
-                                        intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    }
-
-                                    PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-
-                                    if (pm.isScreenOn() || sharedPrefs.getBoolean("unlock_screen", false)) {
-                                        if (!sharedPrefs.getBoolean("full_app_popup", true) || (sharedPrefs.getBoolean("full_app_popup", true) && !sharedPrefs.getBoolean("slideover_popup_lockscreen_only", false)) || sharedPrefs.getBoolean("unlock_screen", false)) {
-                                            final Intent popup = intent3;
-
-                                            new Handler().postDelayed(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    context.startActivity(popup);
-                                                }
-                                            }, 250);
-                                        }
-                                    } else {
-                                        UnlockReceiver.openApp = true;
-                                    }
-                                }
-                            }
-
-                        }
-
-                    }, sharedPrefs.getBoolean("receive_with_stock", false) ? 1000 : 200);
-                }
+                showPopup();
 
                 if (Build.VERSION.SDK_INT > 18 || (sharedPrefs.getBoolean("override", false) && !error && !sharedPrefs.getBoolean("receive_with_stock", false))) {
                     Log.v("aborting_broadcast", "aborting");
@@ -200,7 +149,68 @@ public class MMSMessageReceiver extends BroadcastReceiver {
                 }
             }
         } else {
-            MmsReceiverService.findImageAndNotify(context, null);
+            if (intent.getBooleanExtra("receive_through_stock", false)) {
+                MmsReceiverService.makeNotification("New MMS Received", "", null, "", "", "", context);
+            } else {
+                MmsReceiverService.findImageAndNotify(context, null);
+            }
+
+            showPopup();
+        }
+    }
+
+    private void showPopup() {
+        if (!Util.isRunning(context)) {
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    if (sharedPrefs.getBoolean("popup_reply", false) && !sharedPrefs.getBoolean("secure_notification", false)) {
+                        Intent intent3;
+
+                        if (sharedPrefs.getBoolean("halo_popup", false) || sharedPrefs.getBoolean("full_app_popup", true)) {
+                            boolean halo = sharedPrefs.getBoolean("halo_popup", false);
+
+                            if (halo) {
+                                intent3 = new Intent(context, MainActivity.class);
+                            } else {
+                                intent3 = new Intent(context, com.klinker.android.messaging_sliding.MainActivityPopup.class);
+                            }
+
+                            try {
+                                if (halo) {
+                                    intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | 0x00002000);
+                                    intent3.putExtra("halo_popup", true);
+                                } else {
+                                    intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                }
+                            } catch (Exception e) {
+                                intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            }
+
+                            PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+
+                            if (pm.isScreenOn() || sharedPrefs.getBoolean("unlock_screen", false)) {
+                                if (!sharedPrefs.getBoolean("full_app_popup", true) || (sharedPrefs.getBoolean("full_app_popup", true) && !sharedPrefs.getBoolean("slideover_popup_lockscreen_only", false)) || sharedPrefs.getBoolean("unlock_screen", false)) {
+                                    final Intent popup = intent3;
+
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            context.startActivity(popup);
+                                        }
+                                    }, 250);
+                                }
+                            } else {
+                                UnlockReceiver.openApp = true;
+                            }
+                        }
+                    }
+
+                }
+
+            }, sharedPrefs.getBoolean("receive_with_stock", false) ? 1000 : 200);
         }
     }
 }
