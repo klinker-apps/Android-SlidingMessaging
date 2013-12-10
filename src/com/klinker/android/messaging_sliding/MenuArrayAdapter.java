@@ -402,10 +402,8 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
             holder.text4.setText(DateFormat.getDateInstance(DateFormat.SHORT, Locale.GERMAN).format(date2));
         } else {
             holder.text3.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(date2));
-            holder.text4.setText(DateFormat.getDateInstance(DateFormat.SHORT).format(date2));
+            holder.text4.setText(DateFormat.getDateInstance(DateFormat.SHORT, Locale.US).format(date2));
         }
-
-
 
         if (MainActivity.deviceType.equals("phablet") || MainActivity.deviceType.equals("tablet")) {
             holder.text3.setText("");
