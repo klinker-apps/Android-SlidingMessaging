@@ -54,7 +54,7 @@
         <item>Odpowiedz</item>
         <item>Przeczytane</item>
         <item>Zadzwoń</item>
-        <item>Delete</item>
+        <item>Usuń</item>
     </string-array>
     
     <string-array name="slideToMenu">
@@ -71,5 +71,185 @@
         <item>Czerwony</item>
         <item>Fioletowy</item>
         <item>Ikona Aplikacji</item>
+    </string-array>
+
+    <string-array name="textColors">
+        <item>Domyślny</item>
+        <item>Biały</item>
+        <item>Niebieski</item>
+        <item>Zielony</item>
+        <item>Pomarańczowy</item>
+        <item>Czerwony</item>
+        <item>Fioletowy</item>
+        <item>Szary</item>
+        <item>Czarny</item>
+    </string-array>
+
+    <string-array name="deliveryOptions">
+        <item>Brak informacji o dostarczeniu</item>
+        <item>Okienko o dostarczeniu</item>
+        <item>Komunikat o dostarczeniu</item>
+    </string-array>
+
+    <string-array name="screenTimeout">
+        <item>1 sekunda</item>
+        <item>5 sekund</item>
+        <item>15 sekund</item>
+        <item>30 sekund</item>
+        <item>1 minuta</item>
+        <item>3 minuty</item>
+        <item>5 minut</item>
+    </string-array>
+
+    <string-array name="sendAnimation">
+        <item>Przesunięcie z lewej</item>
+        <item>Przesunięcie z prawej</item>
+        <item>Przesunięcie z dołu</item>
+        <item>Skalowanie z dołu</item>
+        <item>Brak animacji</item>
+    </string-array>
+
+    <string-array name="textAlignment">
+        <item>Podzielone wyrównanie</item>
+        <item>Wyrówananie do prawej</item>
+        <item>Wyrównanie do lewej</item>
+    </string-array>
+
+    <string-array name="textAlignment2">
+        <item>Wyrównanie do środka</item>
+        <item>Wyrówananie do prawej</item>
+        <item>Wyrównanie do lewej</item>
+    </string-array>
+
+    <string-array name="selectImage">
+        <item>Wybierz obraz</item>
+        <item>Uchwyć obraz</item>
+        <item>Dodaj więcej...</item>
+    </string-array>
+
+    <string-array name="runAs">
+        <item>UI Karty</item>
+        <item>UI Karty+</item>
+        <item>UI Hangouts</item>
+        <item>UI Klasyczne</item>
+    </string-array>
+
+    <string-array name="cardTheme">
+        <item>Jasny</item>
+        <item>Ciemny</item>
+        <item>Czarny</item>
+    </string-array>
+
+    <string-array name="repeatingNotification">
+        <item>Nigdy</item>
+        <item>15 sekund</item>
+        <item>30 sekund</item>
+        <item>1 minuta</item>
+        <item>2 minuty</item>
+        <item>5 minut</item>
+        <item>7 minut</item>
+        <item>10 minut</item>
+        <item>15 minut</item>
+    </string-array>
+
+    <string-array name="attach_more_options">
+        <item>Wybierz obraz</item>
+        <item>Wybierz wideo</item>
+        <item>Wybierz audio</item>
+        <item>Wybierz wiele obrazów</item>
+        <item>Uchywć obraz</item>
+        <item>Uchwyć wideo</item>
+        <item>Uchwyć dźwięk</item>
+        <item>Utwórz kontak vCard</item>
+    </string-array>
+
+    <string-array name="notification_icon">
+        <item>Standardowa ikona</item>
+        <item>Bąbelek wiadomości</item>
+        <item>Wykrzyknik</item>
+        <item>Papierowy samolocik</item>
+        <item>Chmura</item>
+    </string-array>
+
+    <string-array name="timeout">
+        <item>30 sekund</item>
+        <item>1 minuta</item>
+        <item>5 minut</item>
+        <item>10 minut</item>
+        <item>30 minut</item>
+        <item>1 godzina</item>
+        <item>5 godzin</item>
+    </string-array>
+
+    <string-array name="security_type">
+        <item>Brak zabezpieczeń</item>
+        <item>PIN</item>
+        <item>Wzór</item>
+        <item>Hasło</item>
+    </string-array>
+
+    <string-array name="repetition_array">
+        <item>Brak</item>
+        <item>Codziennie</item>
+        <item>Cotygodniowo</item>
+        <item>Corocznie</item>
+    </string-array>
+
+    <string-array name="backup_repetition_array">
+        <item>Brak</item>
+        <item>Codziennie</item>
+        <item>Co 3 dni</item>
+        <item>Cotygodniowo</item>
+    </string-array>
+
+    <string-array name="pin_conversation_list">
+        <item>Domyślnie, zależnie od rodzaju urządzenia</item>
+        <item>Nigdy nie przypinaj</item>
+        <item>Przypinaj w poziomie</item>
+        <item>Zawsze przypinaj</item>
+    </string-array>
+
+    <string-array name="slideover_side">
+        <item>Lewo</item>
+        <item>Prawo</item>
+    </string-array>
+
+    <string-array name="slideover_secondary_action">
+        <item>Otwórz listę konwersacji</item>
+        <item>Utwórz nową wiadomość</item>
+        <item>Oznacz wszystkie wiadomości jako przeczytane</item>
+    </string-array>
+
+    <string-array name="drawer_spinner_array">
+        <item>Powiązania ustawień</item>
+        <item>Inne powiązania</item>
+    </string-array>
+
+    <string-array name="repeatingVoiceRefresh">
+        <item>Nigdy</item>
+        <item>1 minuta</item>
+        <item>5 minut</item>
+        <item>10 minut</item>
+        <item>15 minut</item>
+        <item>20 minut</item>
+        <item>30 minut</item>
+        <item>45 minut</item>
+        <item>1 godzina</item>
+        <item>2 godziny</item>
+        <item>6 godzin</item>
+        <item>12 godzin</item>
+        <item>24 godziny</item>
+    </string-array>
+
+    <string-array name="deliveryReportType">
+        <item>Check Mark Only</item>
+        <item>Check Mark and Short Popup (Non-Intrusive)</item>
+        <item>Check Mark and Notification</item>
+    </string-array>
+
+    <string-array name="emojiKeyboardColor">
+        <item>Jasny temat</item>
+        <item>Czarny</item>
+        <item>Ciemny temat</item>
     </string-array>
 </resources>
