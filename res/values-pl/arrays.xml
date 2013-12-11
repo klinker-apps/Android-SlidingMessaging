@@ -58,9 +58,9 @@
     </string-array>
     
     <string-array name="slideToMenu">
-        <item>Pełnoekranowe Przesuwane Menu</item>
-        <item>Przesuwane Menu Tylko z Krawędzi Ekranu</item>
-        <item>Brak Przesuwanego Menu (Należy Nawigować przez Pasek Akcji)</item>
+        <item>Pełnoekranowe przesuwane menu</item>
+        <item>Przesuwane menu tylko na krawędzi ekranu</item>
+        <item>Brak przesuwanego menu (należy nawigować przez pasek akcji)</item>
     </string-array>
     
     <string-array name="notificationIcon">
