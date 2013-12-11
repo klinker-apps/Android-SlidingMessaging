@@ -1,2 +1,3 @@
 - More MMS Fixes
 - More Bug Fixes
+- Some updated translations thanks to Daniel Jąder
