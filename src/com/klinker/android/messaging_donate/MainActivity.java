@@ -1159,6 +1159,8 @@ public class MainActivity extends FragmentActivity {
                         @Override
                         public void run() {
                             final Message message = new Message(text, contact.getText().toString().replace(";", ""));
+                            message.setType(sharedPrefs.getBoolean("voice_enabled", false) ?
+                                    Message.TYPE_VOICE : Message.TYPE_SMSMMS);
 
                             if (image) {
                                 ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
@@ -1522,14 +1524,12 @@ public class MainActivity extends FragmentActivity {
                         sharedPrefs.edit().putBoolean("voice_enabled", false).commit();
                         voiceButton2.setImageResource(R.drawable.voice_disabled);
                         voiceButton.setImageResource(R.drawable.voice_disabled);
-                        sendSettings.setPreferVoice(false);
                         sendTransaction.settings = sendSettings;
                     } else {
                         settings.voiceEnabled = true;
                         sharedPrefs.edit().putBoolean("voice_enabled", true).commit();
                         voiceButton2.setImageResource(R.drawable.voice_enabled);
                         voiceButton.setImageResource(R.drawable.voice_enabled);
-                        sendSettings.setPreferVoice(true);
                         sendTransaction.settings = sendSettings;
                     }
                 }
@@ -2098,6 +2098,8 @@ public class MainActivity extends FragmentActivity {
                         @Override
                         public void run() {
                             final Message message = new Message(text, ContactUtil.findContactNumber(recipientId, context).replace(";", ""));
+                            message.setType(sharedPrefs.getBoolean("voice_enabled", false) ?
+                                    Message.TYPE_VOICE : Message.TYPE_SMSMMS);
 
                             if (image) {
                                 ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
@@ -2482,7 +2484,6 @@ public class MainActivity extends FragmentActivity {
                         sharedPrefs.edit().putBoolean("voice_enabled", false).commit();
                         voiceButton2.setImageResource(R.drawable.voice_disabled);
                         voiceButton.setImageResource(R.drawable.voice_disabled);
-                        sendSettings.setPreferVoice(false);
                         sendTransaction.settings = sendSettings;
 
                         if (threadsThroughVoice.contains(conversations.get(mViewPager.getCurrentItem()).getThreadId())) {
@@ -2494,7 +2495,6 @@ public class MainActivity extends FragmentActivity {
                         sharedPrefs.edit().putBoolean("voice_enabled", true).commit();
                         voiceButton2.setImageResource(R.drawable.voice_enabled);
                         voiceButton.setImageResource(R.drawable.voice_enabled);
-                        sendSettings.setPreferVoice(true);
                         sendTransaction.settings = sendSettings;
 
                         if (!threadsThroughVoice.contains(conversations.get(mViewPager.getCurrentItem()).getThreadId())) {

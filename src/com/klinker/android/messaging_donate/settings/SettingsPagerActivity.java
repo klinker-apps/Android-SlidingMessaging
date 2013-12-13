@@ -1151,7 +1151,7 @@ public class SettingsPagerActivity extends FragmentActivity {
             if (isTablet) {
                 findPreference("group_message").setEnabled(false);
                 findPreference("auto_download_mms").setEnabled(false);
-                findPreference("wifi_mms_fix").setEnabled(false);
+                //findPreference("wifi_mms_fix").setEnabled(false);
                 findPreference("send_as_mms").setEnabled(false);
                 findPreference("mms_after").setEnabled(false);
                 findPreference("send_with_stock").setEnabled(false);
@@ -1280,13 +1280,13 @@ public class SettingsPagerActivity extends FragmentActivity {
                 }
             }
 
-            if (!showAll) {
-                try {
-                    ((PreferenceGroup) findPreference("general_mms_category")).removePreference(findPreference("wifi_mms_fix"));
-                } catch (Exception e) {
-
-                }
-            }
+//            if (!showAll) {
+//                try {
+//                    ((PreferenceGroup) findPreference("general_mms_category")).removePreference(findPreference("wifi_mms_fix"));
+//                } catch (Exception e) {
+//
+//                }
+//            }
         }
 
         // used for the list preference to determine when it changes and when to call the intents

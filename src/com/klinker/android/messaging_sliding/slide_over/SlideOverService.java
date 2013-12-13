@@ -377,6 +377,8 @@ public class SlideOverService extends Service {
             public void onClick(View v) {
                 if (!sendBox.getText().toString().equals("")) {
                     Message mMessage = new Message(sendBox.getText().toString(), ContactView.numbers[ContactView.currentContact]);
+                    mMessage.setType(sharedPrefs.getBoolean("voice_enabled", false) ?
+                            Message.TYPE_VOICE : Message.TYPE_SMSMMS);
                     try {
                         sendTransaction.sendNewMessage(mMessage, Long.parseLong(ContactView.threadIds[ContactView.currentContact]));
 
@@ -541,9 +543,9 @@ public class SlideOverService extends Service {
         Settings sendSettings = SendUtil.getSendSettings(this);
 
         if (sharedPrefs.getBoolean("quick_peek_send_voice", false)) {
-            sendSettings.setPreferVoice(true);
+            sharedPrefs.edit().putBoolean("voice_enabled", true).commit();
         } else {
-            sendSettings.setPreferVoice(false);
+            sharedPrefs.edit().putBoolean("voice_enabled", false).commit();
         }
 
         sendTransaction = new Transaction (mContext, sendSettings);

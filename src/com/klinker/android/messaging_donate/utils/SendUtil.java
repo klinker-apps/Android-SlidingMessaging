@@ -26,6 +26,8 @@ public class SendUtil {
         Transaction sendTransaction = new Transaction(context, getSendSettings(context));
 
         final Message message = new Message(body, number);
+        message.setType(PreferenceManager.getDefaultSharedPreferences(context).getBoolean("voice_enabled", false) ?
+                Message.TYPE_VOICE : Message.TYPE_SMSMMS);
 
         sendTransaction.sendNewMessage(message, Transaction.NO_THREAD_ID);
 
@@ -44,6 +46,8 @@ public class SendUtil {
         Transaction sendTransaction = new Transaction(context, getSendSettings(context));
 
         final Message message = new Message(body, number);
+        message.setType(PreferenceManager.getDefaultSharedPreferences(context).getBoolean("voice_enabled", false) ?
+                Message.TYPE_VOICE : Message.TYPE_SMSMMS);
 
         sendTransaction.sendNewMessage(message, Transaction.NO_THREAD_ID);
 
@@ -63,6 +67,8 @@ public class SendUtil {
 
         final Message message = new Message(body, number);
         message.setImages(images);
+        message.setType(PreferenceManager.getDefaultSharedPreferences(context).getBoolean("voice_enabled", false) ?
+                Message.TYPE_VOICE : Message.TYPE_SMSMMS);
 
         sendTransaction.sendNewMessage(message, Transaction.NO_THREAD_ID);
 
@@ -86,7 +92,6 @@ public class SendUtil {
         sendSettings.setPort(sharedPrefs.getString("mms_port", ""));
         sendSettings.setGroup(sharedPrefs.getBoolean("group_message", false));
         sendSettings.setWifiMmsFix(sharedPrefs.getBoolean("wifi_mms_fix", false));
-        sendSettings.setPreferVoice(sharedPrefs.getBoolean("voice_enabled", false));
         sendSettings.setDeliveryReports(sharedPrefs.getBoolean("delivery_reports", false));
         sendSettings.setSplit(sharedPrefs.getBoolean("split_sms", false));
         sendSettings.setSplitCounter(sharedPrefs.getBoolean("split_counter", false));

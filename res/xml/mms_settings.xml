@@ -15,12 +15,12 @@
             android:defaultValue="false"
         />
 
-        <CheckBoxPreference
-            android:key="wifi_mms_fix"
-            android:title="@string/wifi_mms_fix"
-            android:summary="@string/wifi_mms_fix_summary"
-            android:defaultValue="false"
-        />
+        <!--<CheckBoxPreference-->
+            <!--android:key="wifi_mms_fix"-->
+            <!--android:title="@string/wifi_mms_fix"-->
+            <!--android:summary="@string/wifi_mms_fix_summary"-->
+            <!--android:defaultValue="false"-->
+        <!--/>-->
 
         <com.klinker.android.messaging_sliding.views.SeekBarPreference2
                 android:key="mms_max_width"
