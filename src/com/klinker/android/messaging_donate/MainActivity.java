@@ -48,7 +48,7 @@ import android.widget.RelativeLayout.LayoutParams;
 
 import com.klinker.android.messaging_donate.utils.Util;
 import com.klinker.android.messaging_sliding.views.ImageAttachmentView;
-import com.astuetz.viewpager.extensions.PagerSlidingTabStrip;
+import com.astuetz.PagerSlidingTabStrip;
 import com.devspark.appmsg.AppMsg;
 import com.google.android.mms.MMSPart;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
