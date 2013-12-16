@@ -38,6 +38,9 @@ import com.klinker.android.messaging_sliding.quick_reply.QmDelete;
 import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead;
 import com.klinker.android.messaging_sliding.quick_reply.QuickReply;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.InputStream;
 import java.util.*;
 
@@ -712,6 +715,21 @@ public class TextMessageReceiver extends BroadcastReceiver {
             data.putExtra("contact_name", title);
             data.putExtra("number", address);
             context.sendBroadcast(data);
+
+            // Pebble broadcast
+            final Intent pebble = new Intent("com.getpebble.action.SEND_NOTIFICATION");
+
+            final Map pebbleData = new HashMap();
+            pebbleData.put("title", title);
+            pebbleData.put("body", body);
+            final JSONObject jsonData = new JSONObject(pebbleData);
+            final String notificationData = new JSONArray().put(jsonData).toString();
+
+            pebble.putExtra("messageType", "PEBBLE_ALERT");
+            pebble.putExtra("sender", context.getResources().getString(R.string.app_name));
+            pebble.putExtra("notificationData", notificationData);
+
+            context.sendBroadcast(pebble);
 
             Log.v("sms_notification", "posted notification");
 

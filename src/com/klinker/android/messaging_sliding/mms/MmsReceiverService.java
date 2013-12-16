@@ -50,12 +50,17 @@ import com.klinker.android.send_message.Settings;
 import com.klinker.android.send_message.Transaction;
 import com.klinker.android.send_message.Utils;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MmsReceiverService extends Service {
 
@@ -632,6 +637,21 @@ public class MmsReceiverService extends Service {
 
             Intent updateWidget = new Intent("com.klinker.android.messaging.RECEIVED_MMS");
             context.sendBroadcast(updateWidget);
+
+            // Pebble broadcast
+            final Intent pebble = new Intent("com.getpebble.action.SEND_NOTIFICATION");
+            
+            final Map pebbleData = new HashMap();
+            pebbleData.put("title", title);
+            pebbleData.put("body", body);
+            final JSONObject jsonData = new JSONObject(pebbleData);
+            final String notificationData = new JSONArray().put(jsonData).toString();
+
+            pebble.putExtra("messageType", "PEBBLE_ALERT");
+            pebble.putExtra("sender", context.getResources().getString(R.string.app_name));
+            pebble.putExtra("notificationData", notificationData);
+
+            context.sendBroadcast(pebble);
 
             final Intent newMms = new Intent("com.klinker.android.messaging.NEW_MMS");
             newMms.putExtra("address", address);
