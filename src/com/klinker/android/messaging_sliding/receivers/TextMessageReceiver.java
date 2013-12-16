@@ -717,19 +717,21 @@ public class TextMessageReceiver extends BroadcastReceiver {
             context.sendBroadcast(data);
 
             // Pebble broadcast
-            final Intent pebble = new Intent("com.getpebble.action.SEND_NOTIFICATION");
+            if(sharedPrefs.getBoolean("pebble", false)) {
+                final Intent pebble = new Intent("com.getpebble.action.SEND_NOTIFICATION");
 
-            final Map pebbleData = new HashMap();
-            pebbleData.put("title", title);
-            pebbleData.put("body", body);
-            final JSONObject jsonData = new JSONObject(pebbleData);
-            final String notificationData = new JSONArray().put(jsonData).toString();
+                final Map pebbleData = new HashMap();
+                pebbleData.put("title", title);
+                pebbleData.put("body", body);
+                final JSONObject jsonData = new JSONObject(pebbleData);
+                final String notificationData = new JSONArray().put(jsonData).toString();
 
-            pebble.putExtra("messageType", "PEBBLE_ALERT");
-            pebble.putExtra("sender", context.getResources().getString(R.string.app_name));
-            pebble.putExtra("notificationData", notificationData);
+                pebble.putExtra("messageType", "PEBBLE_ALERT");
+                pebble.putExtra("sender", context.getResources().getString(R.string.app_name));
+                pebble.putExtra("notificationData", notificationData);
 
-            context.sendBroadcast(pebble);
+                context.sendBroadcast(pebble);
+            }
 
             Log.v("sms_notification", "posted notification");
 

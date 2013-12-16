@@ -884,4 +884,5 @@
     <string name="group">Group (ID: </string>
     <string name="getting_contacts">Getting Contacts…</string>
     <string name="people">People</string>
+    <string name="pebble_notification">Pebble Notifications</string>
 </resources>

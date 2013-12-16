@@ -292,6 +292,13 @@
             android:defaultValue="true"
             android:dependency="notifications"
             />
+
+        <CheckBoxPreference
+            android:key="pebble"
+            android:title="@string/pebble_notification"
+            android:defaultValue="false"
+            android:dependency="notifications"
+            />
     </PreferenceCategory>
 
 </PreferenceScreen>
