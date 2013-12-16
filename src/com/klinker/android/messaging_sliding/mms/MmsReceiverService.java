@@ -640,7 +640,7 @@ public class MmsReceiverService extends Service {
 
             // Pebble broadcast
             final Intent pebble = new Intent("com.getpebble.action.SEND_NOTIFICATION");
-            
+
             final Map pebbleData = new HashMap();
             pebbleData.put("title", title);
             pebbleData.put("body", body);
