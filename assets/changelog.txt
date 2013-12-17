@@ -1,3 +1,4 @@
-- MMS Fixes
-- Bug Fixes
-- Some updated translations thanks to Daniel Jąder
+- Richer group message contact pictures in your conversation list (based off of Gmail and Hangouts)
+- More MMS fixes
+- Support for Pebble Watch notifications
+- Bug fixes
