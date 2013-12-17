@@ -1159,7 +1159,7 @@ public class MainActivity extends FragmentActivity {
                         @Override
                         public void run() {
                             final Message message = new Message(text, contact.getText().toString().replace(";", ""));
-                            message.setType(sharedPrefs.getBoolean("voice_enabled", false) ?
+                            message.setType(settings.voiceEnabled ?
                                     Message.TYPE_VOICE : Message.TYPE_SMSMMS);
 
                             if (image) {
@@ -2098,7 +2098,7 @@ public class MainActivity extends FragmentActivity {
                         @Override
                         public void run() {
                             final Message message = new Message(text, ContactUtil.findContactNumber(recipientId, context).replace(";", ""));
-                            message.setType(sharedPrefs.getBoolean("voice_enabled", false) ?
+                            message.setType(settings.voiceEnabled ?
                                     Message.TYPE_VOICE : Message.TYPE_SMSMMS);
 
                             if (image) {
