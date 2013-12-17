@@ -882,23 +882,29 @@ public class MessageCursorAdapter extends CursorAdapter {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    Uri phoneUri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(senderF.replaceAll("-", "")));
-                    final Cursor phonesCursor = context.getContentResolver().query(phoneUri, new String[]{ContactsContract.Contacts.DISPLAY_NAME_PRIMARY, ContactsContract.RawContacts._ID}, null, null, ContactsContract.Contacts.DISPLAY_NAME + " desc limit 1");
+                    try {
+                        Uri phoneUri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(senderF.replaceAll("-", "")));
+                        final Cursor phonesCursor = context.getContentResolver().query(phoneUri, new String[]{ContactsContract.Contacts.DISPLAY_NAME_PRIMARY, ContactsContract.RawContacts._ID}, null, null, ContactsContract.Contacts.DISPLAY_NAME + " desc limit 1");
 
-                    context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+                        context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 
-                        @Override
-                        public void run() {
-                            if (phonesCursor != null && phonesCursor.moveToFirst()) {
-                                holder.date.setText(holder.date.getText() + " - " + phonesCursor.getString(0));
-                            } else {
-                                holder.date.setText(holder.date.getText() + " - " + senderF);
+                            @Override
+                            public void run() {
+                                if (phonesCursor != null && phonesCursor.moveToFirst()) {
+                                    holder.date.setText(holder.date.getText() + " - " + phonesCursor.getString(0));
+                                } else {
+                                    holder.date.setText(holder.date.getText() + " - " + senderF);
+                                }
+
+                                phonesCursor.close();
                             }
 
-                            phonesCursor.close();
-                        }
-
-                    });
+                        });
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        // something went wrong getting the name for that person, leave it alone.
+                        // better this than crashing i suppose.
+                    }
                 }
             }).start();
         }

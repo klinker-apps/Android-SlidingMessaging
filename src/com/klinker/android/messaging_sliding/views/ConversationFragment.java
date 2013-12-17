@@ -206,7 +206,7 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
                         if (MainActivity.conversations.size() <= 0) {
                             return;
                         }
-                        
+
                         Uri uri3 = Uri.parse("content://mms-sms/conversations/" + MainActivity.conversations.get(position).getThreadId() + "/");
                         String[] projection2;
                         String proj = "_id body date type read msg_box locked sub";
