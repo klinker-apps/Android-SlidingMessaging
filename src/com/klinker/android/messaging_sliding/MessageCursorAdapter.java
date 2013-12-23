@@ -1084,6 +1084,61 @@ public class MessageCursorAdapter extends CursorAdapter {
                                         contentResolver.update(Uri.parse("content://sms/inbox"), values, "_id=" + idF, null);
                                         ((MainActivity) context).refreshViewPager();
                                         break;
+                                    case 4:
+                                        MainActivity.animationOn = true;
+
+                                        final String body = ((TextView) arg0.findViewById(R.id.textBody)).getText().toString();
+
+                                        new Thread(new Runnable() {
+
+                                            @Override
+                                            public void run() {
+                                                boolean currentVoiceState = sharedPrefs.getBoolean("voice_enabled", false);
+                                                Log.v("voice_state", currentVoiceState + " " + voiceF);
+
+                                                if (voiceF != currentVoiceState) {
+                                                    sharedPrefs.edit().putBoolean("voice_enabled", voiceF).commit();
+                                                }
+
+                                                if (mmsF && holder.imageUri != null) {
+                                                    int size = holder.imageUri.toString().trim().split(" ").length;
+                                                    Bitmap[] bitmaps = new Bitmap[size];
+
+                                                    for (int i = 0; i < size; i++) {
+                                                        try {
+                                                            bitmaps[i] = MediaStore.Images.Media.getBitmap(context.getContentResolver(), Uri.parse(holder.imageUri.toString().trim().split(" ")[i]));
+                                                        } catch (Exception e) {
+                                                        }
+                                                    }
+
+                                                    SendUtil.sendMessage(context, inboxNumbers.trim().split(" "), body, bitmaps);
+                                                } else {
+                                                    SendUtil.sendMessage(context, inboxNumbers, body);
+                                                }
+
+                                                sharedPrefs.edit().putBoolean("voice_enabled", currentVoiceState).commit();
+
+                                                Cursor deleter = context.getContentResolver().query(Uri.parse("content://sms/failed"), new String[]{"_id"}, null, null, null);
+
+                                                if (deleter.moveToFirst()) {
+                                                    String id = deleter.getString(deleter.getColumnIndex("_id"));
+                                                    context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/" + threadIds + "/"), "_id=" + id, null);
+                                                }
+
+                                                context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                                                    @Override
+                                                    public void run() {
+                                                        MainActivity.sentMessage = true;
+                                                        ((MainActivity) context).refreshViewPager4(inboxNumbers, StripAccents.stripAccents(body), Calendar.getInstance().getTimeInMillis() + "");
+                                                    }
+
+                                                });
+                                            }
+
+                                        }).start();
+
+                                        break;
                                     default:
                                         break;
                                 }
@@ -1222,6 +1277,61 @@ public class MessageCursorAdapter extends CursorAdapter {
                                         values.put("locked", !lockedF);
                                         contentResolver.update(Uri.parse("content://" + (mmsF ? "mms" : "sms") + "/inbox"), values, "_id=" + idF, null);
                                         ((MainActivity) context).refreshViewPager();
+                                        break;
+                                    case 5:
+                                        MainActivity.animationOn = true;
+
+                                        final String body = ((TextView) arg0.findViewById(R.id.textBody)).getText().toString();
+
+                                        new Thread(new Runnable() {
+
+                                            @Override
+                                            public void run() {
+                                                boolean currentVoiceState = sharedPrefs.getBoolean("voice_enabled", false);
+                                                Log.v("voice_state", currentVoiceState + " " + voiceF);
+
+                                                if (voiceF != currentVoiceState) {
+                                                    sharedPrefs.edit().putBoolean("voice_enabled", voiceF).commit();
+                                                }
+
+                                                if (mmsF && holder.imageUri != null) {
+                                                    int size = holder.imageUri.toString().trim().split(" ").length;
+                                                    Bitmap[] bitmaps = new Bitmap[size];
+
+                                                    for (int i = 0; i < size; i++) {
+                                                        try {
+                                                            bitmaps[i] = MediaStore.Images.Media.getBitmap(context.getContentResolver(), Uri.parse(holder.imageUri.toString().trim().split(" ")[i]));
+                                                        } catch (Exception e) {
+                                                        }
+                                                    }
+
+                                                    SendUtil.sendMessage(context, inboxNumbers.trim().split(" "), body, bitmaps);
+                                                } else {
+                                                    SendUtil.sendMessage(context, inboxNumbers, body);
+                                                }
+
+                                                sharedPrefs.edit().putBoolean("voice_enabled", currentVoiceState).commit();
+
+                                                Cursor deleter = context.getContentResolver().query(Uri.parse("content://sms/failed"), new String[]{"_id"}, null, null, null);
+
+                                                if (deleter.moveToFirst()) {
+                                                    String id = deleter.getString(deleter.getColumnIndex("_id"));
+                                                    context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/" + threadIds + "/"), "_id=" + id, null);
+                                                }
+
+                                                context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                                                    @Override
+                                                    public void run() {
+                                                        MainActivity.sentMessage = true;
+                                                        ((MainActivity) context).refreshViewPager4(inboxNumbers, StripAccents.stripAccents(body), Calendar.getInstance().getTimeInMillis() + "");
+                                                    }
+
+                                                });
+                                            }
+
+                                        }).start();
+
                                         break;
                                     default:
                                         break;

@@ -66,6 +66,7 @@
         <item>Forward Message</item>
         <item>Delete Message</item>
         <item>Lock Message</item>
+        <item>Resend</item>
     </string-array>
 
     <string-array name="messageOptions2Unlock">
@@ -74,6 +75,7 @@
         <item>Forward Message</item>
         <item>Delete Message</item>
         <item>Unlock Message</item>
+        <item>Resend</item>
     </string-array>
     
     <string-array name="messageOptions3">
