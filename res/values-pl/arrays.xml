@@ -16,6 +16,7 @@
         <item>Prześlij dalej</item>
         <item>Skasuj Wiadomość</item>
         <item>Lock Message</item>
+        <item>Resend</item>
     </string-array>
     
     <string-array name="messageOptions2">
@@ -24,6 +25,7 @@
         <item>Prześlij Dalej</item>
         <item>Skasuj Wiadomość</item>
         <item>Lock Message</item>
+        <item>Resend</item>
     </string-array>
     
     <string-array name="ledColors">

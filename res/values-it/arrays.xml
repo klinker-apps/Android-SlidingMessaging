@@ -17,6 +17,7 @@
         <item>Inoltra Messaggio</item>
         <item>Elimina Messaggio</item>
         <item>Blocca Messaggio</item>
+        <item>Reinvia</item>
     </string-array>
 
     <string-array name="messageOptionsUnlock">
@@ -24,6 +25,7 @@
         <item>Inoltra Messaggio</item>
         <item>Elimina Messaggio</item>
         <item>Sblocca Messaggio</item>
+        <item>Reinvia</item>
     </string-array>
     
     <string-array name="messageOptions2">
@@ -32,6 +34,7 @@
         <item>Inoltra Messaggio</item>
         <item>Elimina Messaggio</item>
         <item>Blocca Messaggio</item>
+        <item>Reinvia</item>
     </string-array>
 
     <string-array name="messageOptions2Unlock">
@@ -40,6 +43,7 @@
         <item>Inoltra Messaggio</item>
         <item>Elimina Messaggio</item>
         <item>Sblocca Messaggio</item>
+        <item>Reinvia</item>
     </string-array>
     
     <string-array name="messageOptions3">

@@ -15,6 +15,7 @@
     <item>Переслать сообщение</item>
     <item>Удалить сообщение</item>
     <item>Lock Message</item>
+      <item>Resend</item>
   </string-array>
   <string-array name="messageOptions2">
     <item>Копировать текст</item>
@@ -22,6 +23,7 @@
     <item>Переслать сообщение</item>
     <item>Удалить сообщение</item>
     <item>Lock Message</item>
+      <item>Resend</item>
   </string-array>
   <string-array name="ledColors">
     <item>Белый</item>

@@ -15,6 +15,7 @@
     <item>העבר הודעה</item>
     <item>מחק הודעה</item>
     <item>Lock Message</item>
+      <item>Resend</item>
   </string-array>
   <string-array name="messageOptions2">
     <item>העתק טקסט</item>
@@ -22,6 +23,7 @@
     <item>העבר הודעה</item>
     <item>מחק הודעה</item>
     <item>Lock Message</item>
+      <item>Resend</item>
   </string-array>
   <string-array name="ledColors">
     <item>לבן</item>

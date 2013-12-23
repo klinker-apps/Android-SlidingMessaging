@@ -16,6 +16,7 @@
         <item>Reenviar mensaje</item>
         <item>Borrar mensaje</item>
         <item>Bloquear mensaje</item>
+        <item>Resend</item>
     </string-array>
     
     <string-array name="messageOptions2">
@@ -24,6 +25,7 @@
         <item>Reenviar mensaje</item>
         <item>Borrar mensaje</item>
         <item>Bloquear mensaje</item>
+        <item>Resend</item>
     </string-array>
     
     <string-array name="ledColors">
