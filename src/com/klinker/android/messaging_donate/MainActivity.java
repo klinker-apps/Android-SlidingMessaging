@@ -4681,14 +4681,6 @@ public class MainActivity extends FragmentActivity {
             unregisterReceiver(killReceiver);
         } catch (Exception e) {
         }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        Intent updateWidget = new Intent("com.klinker.android.messaging.UPDATE_WIDGET");
-        sendBroadcast(updateWidget);
 
         if (settings.enableDrafts) {
             if (messageEntry.getText().toString().length() != 0) {
@@ -4764,6 +4756,89 @@ public class MainActivity extends FragmentActivity {
                 }
             }).start();
         }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        Intent updateWidget = new Intent("com.klinker.android.messaging.UPDATE_WIDGET");
+        sendBroadcast(updateWidget);
+
+        /*if (settings.enableDrafts) {
+            if (messageEntry.getText().toString().length() != 0) {
+                draftChanged.add(true);
+                draftNames.add(conversations.get(mViewPager.getCurrentItem()).getThreadId());
+                drafts.add(messageEntry.getText().toString());
+                messageEntry.setText("");
+            }
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+
+                    try {
+                        for (int i = 0; i < draftChanged.size(); i++) {
+                            if (!draftChanged.get(i)) {
+                                draftChanged.remove(i);
+                                draftNames.remove(i);
+                                drafts.remove(i);
+                                i--;
+                            }
+                        }
+
+                        ArrayList<Long> ids = new ArrayList<Long>();
+
+                        Cursor query = context.getContentResolver().query(Uri.parse("content://sms/draft/"), new String[]{"_id", "thread_id"}, null, null, null);
+
+                        if (query != null) {
+                            if (query.moveToFirst()) {
+                                do {
+                                    for (Long draft : draftsToDelete) {
+                                        if (query.getLong(query.getColumnIndex("thread_id")) == draft) {
+                                            ids.add(query.getLong(query.getColumnIndex("_id")));
+                                            break;
+                                        }
+                                    }
+
+                                    for (Long name : draftNames) {
+                                        if (name == query.getLong(query.getColumnIndex("thread_id"))) {
+                                            context.getContentResolver().delete(Uri.parse("content://sms/" + query.getString(query.getColumnIndex("_id"))), null, null);
+                                            break;
+                                        }
+                                    }
+                                } while (query.moveToNext());
+
+                                for (Long id : ids) {
+                                    context.getContentResolver().delete(Uri.parse("content://sms/" + id), null, null);
+                                }
+                            }
+
+                            query.close();
+                        }
+
+                        for (int i = 0; i < draftNames.size(); i++) {
+                            String address = "";
+
+                            for (Conversation conversation : conversations) {
+                                if (conversation.getThreadId() == draftNames.get(i)) {
+                                    address = ContactUtil.findContactNumber(conversation.getNumber(), context);
+                                    break;
+                                }
+                            }
+
+                            ContentValues values = new ContentValues();
+                            values.put("address", address);
+                            values.put("thread_id", draftNames.get(i));
+                            values.put("body", drafts.get(i));
+                            values.put("type", "3");
+                            context.getContentResolver().insert(Uri.parse("content://sms/"), values);
+                        }
+                    } catch (Exception e) {
+                    }
+                }
+            }).start();
+        }*/
 
         if (settings.cacheConversations) {
             Intent cacheService = new Intent(context, CacheService.class);
