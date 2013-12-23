@@ -61,6 +61,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class MmsReceiverService extends Service {
 
@@ -458,6 +459,11 @@ public class MmsReceiverService extends Service {
                     Bitmap b;
                     try {
                         b = SendUtil.getImage(context, Uri.parse(images[0]), 400);
+                        
+                        if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("auto_save_mms", false)) {
+                            String imageName = UUID.randomUUID().toString();
+                            IOUtil.saveImage(b, imageName, context);
+                        }
                     } catch (Exception e) {
                         b = null;
                     }

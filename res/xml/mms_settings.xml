@@ -15,6 +15,13 @@
             android:defaultValue="false"
         />
 
+        <CheckBoxPreference
+            android:key="auto_save_mms"
+            android:title="@string/auto_save_mms"
+            android:summary="@string/auto_save_mms_summary"
+            android:defaultValue="false"
+            />
+
         <!--<CheckBoxPreference-->
             <!--android:key="wifi_mms_fix"-->
             <!--android:title="@string/wifi_mms_fix"-->

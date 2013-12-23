@@ -1,3 +1,5 @@
+- Auto-save images received through MMS
+
 - Richer group message contact pictures in your conversation list (based off of Gmail and Hangouts)
 - More MMS fixes
 - Google Voice fixes

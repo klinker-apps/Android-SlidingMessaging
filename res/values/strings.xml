@@ -885,4 +885,6 @@
     <string name="getting_contacts">Getting Contacts…</string>
     <string name="people">People</string>
     <string name="pebble_notification">Pebble Notifications</string>
+    <string name="auto_save_mms">Auto-save MMS</string>
+    <string name="auto_save_mms_summary">Will save every image received to the \"Downloads\" folder on the SD card.</string>
 </resources>
