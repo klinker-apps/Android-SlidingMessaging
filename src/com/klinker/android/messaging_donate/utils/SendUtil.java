@@ -188,7 +188,12 @@ public class SendUtil {
         bitmapOptions.inDither = true;//optional
         bitmapOptions.inPreferredConfig = Bitmap.Config.ARGB_8888;//optional
         input = context.getContentResolver().openInputStream(uri);
-        Bitmap bitmap = BitmapFactory.decodeStream(input, null, bitmapOptions);
+        Bitmap bitmap;
+        try {
+            bitmap = BitmapFactory.decodeStream(input, null, bitmapOptions);
+        } catch (Exception e) {
+            return null;
+        }
         input.close();
 
         Log.v("bitmap_size", bitmap.getByteCount() + " " + bitmap.getHeight() + " " + bitmap.getWidth());

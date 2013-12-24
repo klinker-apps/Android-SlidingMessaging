@@ -432,7 +432,11 @@ public class ThemeChooserActivity extends Activity {
                     receivedMessageText.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0, 1)));
                 }
 
-                sentMessageText.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0, 2)));
+                try {
+                    sentMessageText.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0, 2)));
+                } catch (Exception e) {
+                    receivedMessageText.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0, 1)));
+                }
 
                 if (!sharedPrefs.getBoolean("emoji", false)) {
                     emojiButton.setVisibility(View.GONE);

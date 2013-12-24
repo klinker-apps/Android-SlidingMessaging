@@ -2830,11 +2830,15 @@ public class MainActivity extends FragmentActivity {
                                                         if (!settings.useTitleBar || settings.alwaysShowContactInfo) {
                                                             ab.setTitle(title);
 
-                                                            Locale sCachedLocale = Locale.getDefault();
-                                                            int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
-                                                            Editable editable = new SpannableStringBuilder(ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context));
-                                                            PhoneNumberUtils.formatNumber(editable, sFormatType);
-                                                            ab.setSubtitle(editable.toString());
+                                                            try {
+                                                                Locale sCachedLocale = Locale.getDefault();
+                                                                int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
+                                                                Editable editable = new SpannableStringBuilder(ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context));
+                                                                PhoneNumberUtils.formatNumber(editable, sFormatType);
+                                                                ab.setSubtitle(editable.toString());
+                                                            } catch (Exception e) {
+                                                                ab.setSubtitle("");
+                                                            }
 
                                                             if (ab.getTitle().equals(ab.getSubtitle())) {
                                                                 ab.setSubtitle(null);
