@@ -1,9 +1,1 @@
-- Auto-save images received through MMS
-- Draft fixes
-- Always show the resend button on messages
-
-- Richer group message contact pictures in your conversation list (based off of Gmail and Hangouts)
-- More MMS fixes
-- Google Voice fixes
-- Support for Pebble Watch notifications
-- Bug fixes
+- Bug fixes and stability
