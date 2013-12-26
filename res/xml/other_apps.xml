@@ -4,12 +4,12 @@
 
     <Preference
             android:key="talon_for_twitter"
-            android:title="Talon"
+            android:title="Talon for Twitter"
             />
 
     <Preference
             android:key="evolve_sms"
-            android:title="Evolve"
+            android:title="EvolveSMS"
             />
 
     <Preference
