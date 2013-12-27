@@ -890,7 +890,7 @@ public class SlideOverService extends Service {
         float rawY = event.getRawY();
         float rawX = event.getRawX();
 
-        if ((rawY < 120 && PERCENT_DOWN_SCREEN > height / 2) || (rawY > height - 120 && PERCENT_DOWN_SCREEN < height / 2)) // in Button Area
+        if ((rawY < 150 && PERCENT_DOWN_SCREEN > height / 2) || (rawY > height - 150 && PERCENT_DOWN_SCREEN < height / 2)) // in Button Area
         {
             inButtons = true;
 
@@ -1009,7 +1009,7 @@ public class SlideOverService extends Service {
         float rawY = event.getRawY();
         float rawX = event.getRawX();
 
-        if ((rawY < 120 && PERCENT_DOWN_SCREEN > height / 2) || (rawY > height - 120 && PERCENT_DOWN_SCREEN < height / 2)) // in Button Area
+        if ((rawY < 150 && PERCENT_DOWN_SCREEN > height / 2) || (rawY > height - 150 && PERCENT_DOWN_SCREEN < height / 2)) // in Button Area
         {
             inButtons = true;
 
