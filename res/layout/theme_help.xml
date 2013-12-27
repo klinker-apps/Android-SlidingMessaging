@@ -16,8 +16,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/popup_help1"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/white" />
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
             
             <TextView
                 android:id="@+id/textView8"
@@ -33,8 +32,7 @@
 		        android:layout_height="wrap_content"
 		        android:paddingTop="10dp"
 		        android:text="@string/popup_help2"
-		        android:textAppearance="?android:attr/textAppearanceMedium"
-		        android:textColor="@color/white" />
+		        android:textAppearance="?android:attr/textAppearanceMedium"/>
 		
 		    <TextView
 		        android:id="@+id/textView3"
@@ -43,8 +41,7 @@
 		        android:paddingLeft="20dp"
 		        android:paddingTop="5dp"
 		        android:text="@string/popup_help3"
-		        android:textAppearance="?android:attr/textAppearanceMedium"
-		        android:textColor="@color/white" />
+		        android:textAppearance="?android:attr/textAppearanceMedium"/>
 		
 		    <TextView
 		        android:id="@+id/textView4"
@@ -53,8 +50,7 @@
 		        android:paddingLeft="20dp"
 		        android:paddingTop="5dp"
 		        android:text="@string/popup_help4"
-		        android:textAppearance="?android:attr/textAppearanceMedium"
-		        android:textColor="@color/white" />
+		        android:textAppearance="?android:attr/textAppearanceMedium"/>
 		
 		    <TextView
 		        android:id="@+id/textView5"
@@ -62,8 +58,7 @@
 		        android:layout_height="wrap_content"
 		        android:paddingTop="10dp"
 		        android:text="@string/popup_help5"
-		        android:textAppearance="?android:attr/textAppearanceMedium"
-		        android:textColor="@color/white" />
+		        android:textAppearance="?android:attr/textAppearanceMedium"/>
 		
 		    <TextView
 		        android:id="@+id/textView6"
@@ -71,8 +66,7 @@
 		        android:layout_height="wrap_content"
 		        android:paddingTop="10dp"
 		        android:text="@string/popup_help6"
-		        android:textAppearance="?android:attr/textAppearanceMedium"
-		        android:textColor="@color/white" />
+		        android:textAppearance="?android:attr/textAppearanceMedium"/>
 		
 		    <TextView
 		        android:id="@+id/textView7"
@@ -80,8 +74,7 @@
 		        android:layout_height="wrap_content"
 		        android:paddingTop="10dp"
 		        android:text="@string/popup_help7"
-		        android:textAppearance="?android:attr/textAppearanceMedium"
-		        android:textColor="@color/white" />
+		        android:textAppearance="?android:attr/textAppearanceMedium"/>
 
 		    <TextView
 		        android:id="@+id/textView9"
@@ -89,8 +82,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="20dp"
                 android:text="@string/popup_help8"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/white" />
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
 		    
 		    <TextView
 		        android:id="@+id/textView10"
@@ -98,8 +90,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="10dp"
                 android:text="@string/popup_help9"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/white" />
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
     
         </LinearLayout>
     </ScrollView>

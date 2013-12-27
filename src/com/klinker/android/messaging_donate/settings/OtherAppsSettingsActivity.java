@@ -118,6 +118,36 @@ public class OtherAppsSettingsActivity extends PreferenceActivity {
 
         });
 
+        Preference talon = findPreference("talon_for_twitter");
+        talon.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.klinker.android.twitter")));
+                overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                return false;
+            }
+        });
+
+        Preference evolve = findPreference("evolve_sms");
+        evolve.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.klinker.android.evolve_sms")));
+                overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                return false;
+            }
+        });
+
+        Preference iosKeyboard = findPreference("emoji_keyboard_ios");
+        iosKeyboard.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.klinker.android.emoji_keyboard_trial_ios")));
+                overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                return false;
+            }
+        });
+
         linkItems = new String[]{getResources().getString(R.string.theme_settings),
                 getResources().getString(R.string.notification_settings),
                 getResources().getString(R.string.popup_settings),

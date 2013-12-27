@@ -3,8 +3,23 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <Preference
+            android:key="talon_for_twitter"
+            android:title="Talon for Twitter"
+            />
+
+    <Preference
+            android:key="evolve_sms"
+            android:title="EvolveSMS"
+            />
+
+    <Preference
             android:key="emoji_keyboard"
             android:title="Sliding Emoji Keyboard"
+            />
+
+    <Preference
+            android:key="emoji_keyboard_ios"
+            android:title="Sliding Emoji Keyboard - iOS"
             />
 
     <Preference
