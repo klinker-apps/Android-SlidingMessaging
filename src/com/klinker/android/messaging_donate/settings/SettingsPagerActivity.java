@@ -1949,17 +1949,21 @@ public class SettingsPagerActivity extends FragmentActivity {
                     String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
                     Cursor cursor = getActivity().getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-                    cursor.moveToFirst();
+                    try {
+                        cursor.moveToFirst();
 
-                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                    String filePath = cursor.getString(columnIndex);
-                    cursor.close();
+                        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                        String filePath = cursor.getString(columnIndex);
+                        cursor.close();
 
-                    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                    SharedPreferences.Editor editor = sharedPrefs.edit();
+                        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                        SharedPreferences.Editor editor = sharedPrefs.edit();
 
-                    editor.putString("custom_background_location", filePath);
-                    editor.commit();
+                        editor.putString("custom_background_location", filePath);
+                        editor.commit();
+                    } catch (Exception e) {
+                        Toast.makeText(getApplicationContext(), "Error getting the background image", Toast.LENGTH_SHORT).show();
+                    }
 
                 }
             } else if (requestCode == 2) {
@@ -1968,17 +1972,21 @@ public class SettingsPagerActivity extends FragmentActivity {
                     String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
                     Cursor cursor = getActivity().getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-                    cursor.moveToFirst();
+                    try {
+                        cursor.moveToFirst();
 
-                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                    String filePath = cursor.getString(columnIndex);
-                    cursor.close();
+                        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                        String filePath = cursor.getString(columnIndex);
+                        cursor.close();
 
-                    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                    SharedPreferences.Editor editor = sharedPrefs.edit();
+                        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                        SharedPreferences.Editor editor = sharedPrefs.edit();
 
-                    editor.putString("custom_background2_location", filePath);
-                    editor.commit();
+                        editor.putString("custom_background2_location", filePath);
+                        editor.commit();
+                    } catch (Exception e) {
+                        Toast.makeText(getApplicationContext(), "Error getting the background image", Toast.LENGTH_SHORT).show();
+                    }
 
                 }
             } else if (requestCode == REQ_CREATE_PATTERN) {

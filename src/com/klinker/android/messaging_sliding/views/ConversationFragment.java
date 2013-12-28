@@ -234,6 +234,10 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
                             @Override
                             public void run() {
 
+                                if (messageQuery.isClosed()) {
+                                    ((Activity) context).recreate();
+                                }
+
                                 adapter = new MessageCursorAdapter((Activity) context, myId, ContactUtil.findContactNumber(MainActivity.conversations.get(position).getNumber(), context), MainActivity.conversations.get(position).getThreadId(), messageQuery, position, MainActivity.conversations.get(position).getGroup());
 
                                 listView.setAdapter(adapter);
