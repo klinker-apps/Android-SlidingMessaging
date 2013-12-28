@@ -1,5 +1,5 @@
 - Bug fixes and stability
 - Slight SlideOver style changes
-- Resend is always shown when lock pressing a message
-- Auto-Download MMS option
+- Resend is always shown when long pressing a message
+- Automatically save MMS option
 - Draft fixes
