@@ -1,3 +1,4 @@
+- Backup SMS to Dropbox service in advanced settings
 - Bug fixes and stability
 - Slight SlideOver style changes
 - Resend is always shown when long pressing a message
