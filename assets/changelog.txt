@@ -3,3 +3,4 @@
 - Resend is always shown when long pressing a message
 - Automatically save MMS option
 - Draft fixes
+- MMS fixes
