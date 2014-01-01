@@ -527,7 +527,7 @@ public class MainActivity extends FragmentActivity {
                         try {
                             ab.setTitle(R.string.app_name_in_app);
                             ab.setSubtitle(null);
-                            ab.setIcon(R.drawable.ic_launcher);
+                            ab.setIcon(R.mipmap.ic_launcher);
 
                             ab.setDisplayHomeAsUpEnabled(false);
                         } catch (Exception e) {
@@ -583,12 +583,12 @@ public class MainActivity extends FragmentActivity {
                                 }).start();
                             } catch (Exception e) {
                                 ab.setTitle(R.string.app_name_in_app);
-                                ab.setIcon(R.drawable.ic_launcher);
+                                ab.setIcon(R.mipmap.ic_launcher);
                             }
                         }
 
                         if (conversations.size() == 0 && ab != null) {
-                            ab.setIcon(R.drawable.ic_launcher);
+                            ab.setIcon(R.mipmap.ic_launcher);
                         }
                     } else {
                         ab.setTitle(R.string.app_name_in_app);
@@ -625,7 +625,7 @@ public class MainActivity extends FragmentActivity {
                         try {
                             ab.setTitle(newMessage);
                             ab.setSubtitle(null);
-                            ab.setIcon(R.drawable.ic_launcher);
+                            ab.setIcon(R.mipmap.ic_launcher);
                         } catch (Exception e) {
                         }
 
@@ -2770,7 +2770,7 @@ public class MainActivity extends FragmentActivity {
                     try {
                         ab.setTitle(R.string.app_name_in_app);
                         ab.setSubtitle(null);
-                        ab.setIcon(R.drawable.ic_launcher);
+                        ab.setIcon(R.mipmap.ic_launcher);
 
                         ab.setDisplayHomeAsUpEnabled(false);
                     } catch (Exception e) {
@@ -2862,12 +2862,12 @@ public class MainActivity extends FragmentActivity {
                                     }).start();
                                 } catch (Exception e) {
                                     ab.setTitle(R.string.app_name_in_app);
-                                    ab.setIcon(R.drawable.ic_launcher);
+                                    ab.setIcon(R.mipmap.ic_launcher);
                                 }
                             }
 
                             if (conversations.size() == 0 && ab != null) {
-                                ab.setIcon(R.drawable.ic_launcher);
+                                ab.setIcon(R.mipmap.ic_launcher);
                             }
                         }
 
@@ -5265,7 +5265,7 @@ public class MainActivity extends FragmentActivity {
                     } catch (Exception e) {
                         ab.setTitle(R.string.app_name_in_app);
                         ab.setSubtitle(null);
-                        ab.setIcon(R.drawable.ic_launcher);
+                        ab.setIcon(R.mipmap.ic_launcher);
                     }
                 }
             }

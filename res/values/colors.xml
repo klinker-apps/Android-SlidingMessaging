@@ -24,6 +24,7 @@
     <color name="shadow">#55c6c6c6</color>
     <color name="divider">#99c6c6c6</color>
     <color name="settings_divider">#22c6c6c6</color>
+    <color name="dropbox_blue">#007ee6</color>
 
     <color name="card_message_list_back">#e5e5e5</color>
     <color name="card_message_text_body">#6a6a6a</color>

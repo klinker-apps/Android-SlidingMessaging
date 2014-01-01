@@ -148,6 +148,11 @@
             android:key="restore"
             android:title="@string/restore"
             />
+
+        <Preference
+                android:key="dropbox_sync"
+                android:title="@string/dropbox_sync"
+                android:summary="@string/dropbox_sync_summary"/>
     </PreferenceCategory>
 
 </PreferenceScreen>

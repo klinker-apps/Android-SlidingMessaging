@@ -887,4 +887,24 @@
     <string name="pebble_notification">Pebble Notifications</string>
     <string name="auto_save_mms">Auto-save MMS</string>
     <string name="auto_save_mms_summary">Will save every image received to the \"Downloads\" folder on the SD card.</string>
+    <string name="dropbox_sync">Dropbox Sync</string>
+    <string name="dropbox_sync_summary">Sync all of your messages with Dropbox</string>
+    <string name="dropbox_summary">Never lose your messages again by backing them up to Dropbox!</string>
+    <string name="dropbox_backup">Backup to Dropbox</string>
+    <string name="dropbox_restore">Restore from Dropbox</string>
+    <string name="dropbox_finding_messages">Finding messages that need synced…</string>
+    <string name="dropbox_backing_up">Backing up messages…</string>
+    <string name="dropbox_finding_duplicates">Finding duplicates and backing up…</string>
+    <string name="dropbox_writing">Uploading messages to Dropbox…</string>
+    <string name="dropbox_finished">You\'re good to go, thanks for using Droxbox with Sliding Messaging Pro!\n\nPress
+        the back button and get back to your friends now :)
+    </string>
+    <string name="dropbox_downloading_previous_backup">Looking for previous backup…</string>
+    <string name="dropbox_no_backup_found">No backup found.</string>
+    <string name="dropbox_processing_backup">Processing and restoring backup…</string>
+    <string name="dropbox_overwrite_backup">Do you want to erase any previous backups (if they exist) and save only
+        the messages currently on your device?
+    </string>
+    <string name="setup_finished">All Done.</string>
+    <string name="finished_setup">Finished!</string>
 </resources>

@@ -34,6 +34,7 @@ import com.klinker.android.messaging_donate.utils.IOUtil;
 import com.klinker.android.messaging_donate.utils.Util;
 import com.klinker.android.messaging_sliding.DeleteOldService;
 import com.klinker.android.messaging_sliding.backup.BackupService;
+import com.klinker.android.messaging_sliding.backup.DropboxActivity;
 import com.klinker.android.messaging_sliding.blacklist.BlacklistActivity;
 import com.klinker.android.messaging_sliding.mass_text.MassTextActivity;
 import com.klinker.android.messaging_sliding.notifications.NotificationsSettingsActivity;
@@ -1490,6 +1491,14 @@ public class SettingsPagerActivity extends FragmentActivity {
                     return false;
                 }
 
+            });
+
+            findPreference("dropbox_sync").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    startActivity(new Intent(context, DropboxActivity.class));
+                    return true;
+                }
             });
 
             Preference smsToStore = (Preference) findPreference("sms_limit");
