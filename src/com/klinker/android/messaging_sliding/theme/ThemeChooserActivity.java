@@ -603,10 +603,12 @@ public class ThemeChooserActivity extends Activity {
                 sentMessageText.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0, 2)));
 
                 if (!sharedPrefs.getBoolean("emoji", false)) {
-                    emojiButton.setVisibility(View.GONE);
-                    LayoutParams params = (RelativeLayout.LayoutParams) messageEntry.getLayoutParams();
-                    params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-                    messageEntry.setLayoutParams(params);
+                    try {
+                        emojiButton.setVisibility(View.GONE);
+                        LayoutParams params = (RelativeLayout.LayoutParams) messageEntry.getLayoutParams();
+                        params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+                        messageEntry.setLayoutParams(params);
+                    } catch (Exception e) { }
                 }
 
                 titleBar.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
