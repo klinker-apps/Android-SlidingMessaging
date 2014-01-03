@@ -209,10 +209,6 @@ public class DropboxActivity extends Activity {
         });
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
-
-        if (!Util.isDefaultSmsApp(mContext)) {
-            Util.setDefaultSmsApp(mContext);
-        }
     }
 
     @Override
@@ -241,6 +237,10 @@ public class DropboxActivity extends Activity {
             } catch (IllegalStateException e) {
                 Log.i("DbAuthLog", "Error authenticating", e);
             }
+        }
+
+        if (!Util.isDefaultSmsApp(mContext)) {
+            Util.setDefaultSmsApp(mContext);
         }
     }
 
