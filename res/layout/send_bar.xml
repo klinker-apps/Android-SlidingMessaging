@@ -20,7 +20,6 @@
         android:hint="Type Message"
         android:layout_weight="1"
         android:inputType="textCapSentences|textAutoCorrect"
-        android:imeOptions="actionSend"
         />
 
     <ImageButton
