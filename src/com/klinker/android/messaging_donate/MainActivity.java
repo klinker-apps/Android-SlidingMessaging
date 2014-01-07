@@ -3234,7 +3234,9 @@ public class MainActivity extends FragmentActivity {
 
             Drawable searchButton = resources.getDrawable(R.drawable.ic_search);
             searchButton.setColorFilter(resources.getColor(R.color.hangouts_ab_icon), Mode.MULTIPLY);
-            menu.getItem(MENU_SEARCH).setIcon(searchButton);
+            int searchImgId = getResources().getIdentifier("android:id/search_button", null, null);
+            ImageView view = (ImageView) searchView.findViewById(searchImgId);
+            view.setImageDrawable(searchButton);
 
             Drawable replyButton = resources.getDrawable(R.drawable.ic_reply);
             replyButton.setColorFilter(resources.getColor(R.color.hangouts_ab_icon), Mode.MULTIPLY);
@@ -3254,7 +3256,9 @@ public class MainActivity extends FragmentActivity {
 
             Drawable searchButton = resources.getDrawable(R.drawable.ic_search);
             searchButton.setColorFilter(resources.getColor(R.color.white), Mode.MULTIPLY);
-            menu.getItem(MENU_SEARCH).setIcon(searchButton);
+            int searchImgId = getResources().getIdentifier("android:id/search_button", null, null);
+            ImageView view = (ImageView) searchView.findViewById(searchImgId);
+            view.setImageDrawable(searchButton);
 
             Drawable replyButton = resources.getDrawable(R.drawable.ic_reply);
             replyButton.setColorFilter(resources.getColor(R.color.white), Mode.MULTIPLY);
