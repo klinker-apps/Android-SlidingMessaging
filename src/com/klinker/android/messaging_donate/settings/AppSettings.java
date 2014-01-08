@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 import com.android.mms.util.DownloadManager;
 import com.android.mms.util.RateController;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_sliding.MenuArrayAdapter;
 import com.klinker.android.messaging_sliding.MessageCursorAdapter;
 
 public class AppSettings {
@@ -119,6 +120,7 @@ public class AppSettings {
         DownloadManager.init(context);
         RateController.init(context);
         MessageCursorAdapter.dateFormatter = null;
+        MenuArrayAdapter.dateFormatter = null;
         AppSettings settings = new AppSettings();
 
         if (sharedPrefs.getBoolean("override_speed", false)) {

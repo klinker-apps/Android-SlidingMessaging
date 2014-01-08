@@ -33,6 +33,7 @@ import com.klinker.android.messaging_sliding.theme.CustomTheme;
 
 import java.sql.Date;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -75,6 +76,9 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
             return conversations.size();
         }
     }
+
+    public static java.text.DateFormat dateFormatter;
+    private static java.text.DateFormat timeFormatter;
 
     @SuppressLint("SimpleDateFormat")
     @Override
@@ -397,13 +401,16 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
         } catch (Exception e) {
         }
 
-        if (MainActivity.settings.hourFormat) {
-            holder.text3.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(date2));
-            holder.text4.setText(DateFormat.getDateInstance(DateFormat.SHORT, Locale.GERMAN).format(date2));
-        } else {
-            holder.text3.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(date2));
-            holder.text4.setText(DateFormat.getDateInstance(DateFormat.SHORT, Locale.US).format(date2));
+        if (dateFormatter == null) {
+            dateFormatter = android.text.format.DateFormat.getDateFormat(context);
+            timeFormatter = android.text.format.DateFormat.getTimeFormat(context);
+            if (MainActivity.settings.hourFormat) {
+                timeFormatter = new SimpleDateFormat("kk:mm");
+            }
         }
+
+        holder.text3.setText(timeFormatter.format(date2));
+        holder.text4.setText(dateFormatter.format(date2));
 
         if (MainActivity.deviceType.equals("phablet") || MainActivity.deviceType.equals("tablet")) {
             holder.text3.setText("");
