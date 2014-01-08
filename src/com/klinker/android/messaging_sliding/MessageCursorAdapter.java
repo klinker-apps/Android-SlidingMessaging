@@ -53,6 +53,7 @@ import com.klinker.android.send_message.StripAccents;
 
 import java.io.*;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -209,6 +210,9 @@ public class MessageCursorAdapter extends CursorAdapter {
     public int getViewTypeCount() {
         return 2;
     }
+
+    public static java.text.DateFormat dateFormatter;
+    private static java.text.DateFormat timeFormatter;
 
     @Override
     public void bindView(final View view, Context mContext, final Cursor cursor) {
@@ -815,26 +819,22 @@ public class MessageCursorAdapter extends CursorAdapter {
         Calendar cal = Calendar.getInstance();
         Date currentDate = new Date(cal.getTimeInMillis());
 
+        if (dateFormatter == null) {
+            dateFormatter = android.text.format.DateFormat.getMediumDateFormat(context);
+            timeFormatter = android.text.format.DateFormat.getTimeFormat(context);
+            if (MainActivity.settings.hourFormat) {
+                timeFormatter = new SimpleDateFormat("kk:mm");
+            }
+        }
+
         if (getZeroTimeDate(date2).equals(getZeroTimeDate(currentDate))) {
-            if (MainActivity.settings.hourFormat) {
-                holder.date.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(date2) + (
-                        subject != null && !subject.equals("") ? " - " + subject : ""
-                ));
-            } else {
-                holder.date.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(date2) + (
-                        subject != null && !subject.equals("") ? " - " + subject : ""
-                ));
-            }
+            holder.date.setText(timeFormatter.format(date2) + (
+                    subject != null && !subject.equals("") ? " - " + subject : ""
+            ));
         } else {
-            if (MainActivity.settings.hourFormat) {
-                holder.date.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2) + (
-                        subject != null && !subject.equals("") ? " - " + subject : ""
-                ));
-            } else {
-                holder.date.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2) + (
-                        subject != null && !subject.equals("") ? " - " + subject : ""
-                ));
-            }
+            holder.date.setText(timeFormatter.format(date2) + ", " + dateFormatter.format(date2) + (
+                    subject != null && !subject.equals("") ? " - " + subject : ""
+            ));
         }
 
         if (sending) {
