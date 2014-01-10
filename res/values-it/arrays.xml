@@ -91,9 +91,9 @@
     </string-array>
 
     <string-array name="slideToMenu">
-        <item>Menù a Scorrimento a Tutto Schermo</item>
-        <item>Menù a Scorrimento Solo sui Margini</item>
-        <item>Nessun Menù a Scorrimento (Naviga con la Barra delle Attività)</item>
+        <item>Scorrimento a Tutto Schermo</item>
+        <item>Scorrimento Solo sui Margini</item>
+        <item>Nessuno Scorrimento (Utilizza la Barra Attività)</item>
     </string-array>
 
     <string-array name="notificationIcon">

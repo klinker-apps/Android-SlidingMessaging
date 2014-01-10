@@ -132,21 +132,21 @@
 	<string name="menu_call">Chiama Contatto</string>
 	<string name="keyboard_type">Pulsante Smile</string>
 	<string name="keyboard_type_summary">Inserisci uno smile con il tasto a capo</string>
-	<string name="override_lang">Linguaggio di Sistema</string>
+	<string name="override_lang">Linguaggio Originale</string>
 	<string name="override_lang_summary">Imposta la lingua inglese</string>
 	<string name="save_image">Immagine Salvata</string>
 	<string name="wake_screen">Accendi il Display</string>
 	<string name="wake_screen_summary">Accendi il display quando arriva una nuova notifica</string>
 	<string name="unlock_screen">Sblocca il Dispositivo</string>
 	<string name="unlock_screen_summary">Sblocca il dispositivo quando arriva una nuova notifica</string>
-	<string name="signature">Seleziona Firma</string>
+	<string name="signature">Abilita Firma</string>
 	<string name="smilies">Tipo di Smile</string>
 	<string name="smilies_summary">Seleziona come devono essere gli smile</string>
 	<string name="send_to">Invia A</string>
 	<string name="button_options">Pulsanti Notifiche</string>
-	<string name="button_options_summary">Seleziona i pulsanti che devono essere visualizzati nelle notifiche (Massimo 3 sulla maggior parte dei telefoni)</string>
+	<string name="button_options_summary">Seleziona i pulsanti che devono essere visualizzati nelle notifiche (massimo 3 sulla maggior parte dei telefoni)</string>
 	<string name="slide_messages">Nascondi Scheda Messaggi</string>
-	<string name="slide_messages_summary">Spunta per nascondere completamente la scheda dei messaggi quando scorri a destra o sinistra</string>
+	<string name="slide_messages_summary">Spunta per nascondere completamente la scheda dei messaggi quando tra i vari menù</string>
 	<string name="disable_sliding">Disabilita Menù a Scorrimento</string>
 	<string name="disable_sliding_summary">Disabilita i menù a scorrimento a destra e sinistra, possono essere aperti usando i pulsanti in alto</string>
 	<string name="show_keyboard">Nascondi Tastiera</string>
@@ -357,7 +357,7 @@ A causa di limitazioni introdotte da Google in Android 4.0 (Ice Cream Sandwich),
     <string name="secure_dashclock_summary">Nascondi il nome mittente nelle notifiche Dashclock</string>
     <string name="custom_vibrate_pattern">Sequenza di Vibrazione Personalizzata</string>
     <string name="custom_vibrate_pattern_summary">Utilizza la sequenza personalizzata</string>
-    <string name="set_custom_vibrate_pattern">Imposta Sequenza</string>
+    <string name="set_custom_vibrate_pattern">Imposta Sequenza Personalizzata</string>
     <string name="set_custom_vibrate_pattern_summary">Ogni numero deve essere seguito da una virgola e uno spazio. Esempio: \"0, 400, 100, 400\". La sequenza si alterna tra vibrazioni OFF e vibrazioni ON per il tempo specificato in millisecondi</string>
     <string name="pro_dialog">Versione Completa</string>
     <string name="go_pro1">"Sliding Messaging è anche in versione completa (Pro) con tantissime altre funzionalità! Tra cui:
@@ -374,7 +374,7 @@ A causa di limitazioni introdotte da Google in Android 4.0 (Ice Cream Sandwich),
 "</string>
     <string name="go_pro4">Gli utenti \"Pro\" avranno anche aggiornamenti più frequenti e accesso a tutte le ultime funzionalità.</string>
     <string name="mms_disclaimer">Nota bene:</string>
-    <string name="mms_disclaimer_summary">Se riscontri problemi nell\'invio di MMS, probabilmente è perché l\'APN che hai inserito non è corretto o non ancora compatibile o stai utilizzando il WiFi che potrebbe causare problemi di connessione.</string>
+    <string name="mms_disclaimer_summary">Se riscontri problemi nell\'invio di MMS, probabilmente è perché gli APN che hai inserito non sono corretti o non compatibili o stai utilizzando il WiFi che potrebbe causare problemi di invio, riprova ad attivando la rete dati.</string>
     <string name="mms_report">Segnala APN</string>
     <string name="mms_report_summary">Per favore inviami una email a: jklinker1@gmail.com con i tuoi APN funzionanti e il nome del tuo operatore in modo che possa aggiungerli all\'app</string>
     <string name="apn_username_password">Nome Utente e Password Personalizzati</string>
@@ -398,8 +398,8 @@ A causa di limitazioni introdotte da Google in Android 4.0 (Ice Cream Sandwich),
     <string name="conversations">Conversazioni</string>
     <string name="delete">Elimina</string>
     <string name="all">Tutto</string>
-    <string name="new_conversation"> Nuovo Messaggio</string>
-    <string name="new_conversations"> Nuovi Messaggi</string>
+    <string name="new_conversation"> Nuova Conversazione</string>
+    <string name="new_conversations"> Nuove Conversazioni</string>
     <string name="display_contact_cards">Visualizza Barra delle Attività</string>
     <string name="display_contact_cards_summary">Abilita o disabilita informazioni sopra ogni conversazione</string>
     <string name="display_call_button">Visualizza Pulsante Chiamata</string>
@@ -426,7 +426,7 @@ A causa di limitazioni introdotte da Google in Android 4.0 (Ice Cream Sandwich),
     <string name="led_on_time">Tempo di Accensione LED</string>
     <string name="led_off_time">Tempo di Spegnimento LED</string>
     <string name="repeating_notification">Tempo di Ripetizione Notifica</string>
-    <string name="repeating_notification_summary">Seleziona quanto spesso desideri che ti sia ricordato un nuovo messaggio</string>
+    <string name="repeating_notification_summary">Seleziona quanto spesso desideri che ti sia ricordato d\'aver ricevuto un nuovo messaggio</string>
     <string name="wifi_mms_fix">MMS con WiFi</string>
     <string name="wifi_mms_fix_summary">Soluzione: Disabiliterà temporaneamente il WiFi durante l\'invio di un MMS e,una volta completato, cercherà di riattivarlo.</string>
     <string name="hide_contact_number">Nascondi il Numero di Telefono</string>
@@ -446,7 +446,7 @@ A causa di limitazioni introdotte da Google in Android 4.0 (Ice Cream Sandwich),
     <string name="quick_templates"> Gestisci Modelli Rapidi</string>
     <string name="delete_template">Vuoi eliminare il modello rapido?</string>
     <string name="insert_template">Inserisci Modello</string>
-    <string name="add_templates">Aggiungi nuovi modelli rapidi in Impostazioni -> Gestisci Modelli Rapidi</string>
+    <string name="add_templates">Aggiungi nuovi modelli rapidi in\nImpostazioni -> Altri Strumenti -> Gestisci Modelli Rapidi</string>
     <string name="send_with_return">Invio con Tasto A Capo</string>
     <string name="send_with_return_summary">Con il tasto a capo, anziché di un ritorno a capo, si avrà l\'invio di un messaggio</string>
     <string name="halo_popup">Popup Multitasking</string>
@@ -468,8 +468,8 @@ A causa di limitazioni introdotte da Google in Android 4.0 (Ice Cream Sandwich),
     <string name="blacklist_settings">Impostazioni Blacklist</string>
     <string name="save_to_external">Salva nella Scheda SD</string>
     <string name="save_to_external_summary">Salva alcuni dati come impostazioni notifiche individuali e impostazioni blacklist nella Scheda SD anziché nella memoria interna</string>
-    <string name="split_sms">Dividi Messaggi SMS</string>
-    <string name="split_sms_summary">Dividi gli SMS troppo lunghi in più messaggi. Utilizzalo se hai problemi con il tuo operatore</string>
+    <string name="split_sms">Separa Messaggi SMS</string>
+    <string name="split_sms_summary">Separa gli SMS troppo lunghi in più messaggi. Utilizzalo se hai problemi d\'invio con il tuo operatore</string>
     <string name="top_actionbar">Barra Attività in Alto</string>
     <string name="top_actionbar_summary">Muovi la barra delle attività in alto nello stile Card</string>
     <string name="attach_more">Allega Altro</string>
@@ -494,7 +494,7 @@ A causa di limitazioni introdotte da Google in Android 4.0 (Ice Cream Sandwich),
     <string name="theme_settings">Impostazioni Tema</string>
     <string name="notification_image">Icona di Notifica</string>
     <string name="test_notification">Testa Notifica</string>
-    <string name="test_notification_summary">Spegni lo schermo per avviare il test di notifica.</string>
+    <string name="test_notification_summary">Ora spegni lo schermo e riceverai una notifica di test.</string>
 	<string name="next">Successivo</string>
     <string name="prev">Precedente</string>
     <string name="finish">Finito</string>
@@ -504,7 +504,7 @@ A causa di limitazioni introdotte da Google in Android 4.0 (Ice Cream Sandwich),
     <string name="close">Chiudi</string>
     <string name="passwordTitle">Inserisci Password:</string>
     <string name="popup_theme">Personalizza Tema Popup</string>
-    <string name="popup_theme_summary">Applicabile solo al nuovo popup</string>
+    <string name="popup_theme_summary">Non applicabile a SlideOver né al popup vecchio stile</string>
     <string name="cp_theme_name">Nome Tema Popup</string>
     <string name="cp_messageBackground">Colore Sfondo Messaggio</string>
     <string name="cp_sendBarBackground">Sfondo Barra d\'Inserimento</string>
@@ -518,12 +518,12 @@ A causa di limitazioni introdotte da Google in Android 4.0 (Ice Cream Sandwich),
     <string name="cp_emojiButtonColor">Colore Pulsante Emoji</string>
     <string name="security_settings">Impostazioni Sicurezza</string>
     <string name="security">Tipo di Protezione</string>
-    <string name="security_summary">Seleziona per abilitare sicurezza all\'avvio.</string>
+    <string name="security_summary">Seleziona il tipo di sicurezza da abilitare all\'avvio dell\'app</string>
     <string name="timeout_settings">Tempo Concesso</string>
     <string name="timeout_settings_summary">Tempo concesso per inserire la password</string>
     <string name="set_password">Imposta Password</string>
     <string name="auto_unlock">Sblocco Automatico</string>
-    <string name="auto_unlock_summary">Prova a sbloccare automaticamente l\'app dopo che è stata inserita la password, senza conferma</string>
+    <string name="auto_unlock_summary">Prova a sbloccare automaticamente l\'app dopo che è stata inserita la password corretta, senza conferma</string>
     <string name="loading_conversations">Caricamento Conversazioni…</string>
     <string name="dark_background">Utilizza Sfondo Nero</string>
     <string name="widget_done">Fatto</string>
@@ -578,7 +578,7 @@ http://www.twitter.com/SlidingSMS"</string>
 ATTENZIONE: Elimina anche gli MMS, di cui non è possibile fare un backup."</string>
     <string name="enable_drafts">Abilita Bozze</string>
     <string name="in_app_notifications">Notifiche In-App</string>
-    <string name="in_app_notifications_summary">Mostra una piccola barra di notifica in alto, all\' interno dell\'app quando arriva un nuovo messaggio</string>
+    <string name="in_app_notifications_summary">Mostra una piccola barra di notifica in alto, all\'interno dell\'app quando arriva un nuovo messaggio</string>
     <string name="mark_all_read">Segna Tutti Come Letti</string>
     <string name="show_number_widget">Mostra Numero di Telefono</string>
     <string name="need_mms_setup">Setup Iniziale MMS:</string>
@@ -589,11 +589,11 @@ ATTENZIONE: Elimina anche gli MMS, di cui non è possibile fare un backup."</str
     <string name="limit_conversations_start_summary">Carica solamente 10 conversazioni all\'avvio per motivi di velocità</string>
     <string name="search">Cerca</string>
     <string name="message_body">Corpo del Messaggio</string>
-    <string name="pin_conversation_list">Mantieni Lista Conversazioni</string>
+    <string name="pin_conversation_list">Visibilità Lista Conversazioni</string>
     <string name="pin_conversation_list_summary">Scegli quando deve essere mostrata la lista conversazioni sulla schermata dei messaggi</string>
     <string name="load_all_messages">Carica Tutti i Messaggi</string>
-    <string name="split_counter">Mostra Conto dei Messaggi</string>
-    <string name="split_counter_summary">Aggiungi un contatore agli SMS divisi per ordinarli correttamente. Esempio: (1/3)</string>
+    <string name="split_counter">Mostra Contatore Messaggi</string>
+    <string name="split_counter_summary">Aggiungi un contatore agli SMS separati per ordinarli correttamente. Esempio: (1/3)</string>
     <string name="full_app_popup">Usa SlideOver come Popup</string>
     <string name="full_app_popup_summary">Sostituisci il normale popup con una versione completa di quest\'app mostrata sotto forma di finestra ridotta ma eseguibile in multitasking</string>
     <string name="slideover_settings">Impostazioni SlideOver</string>
@@ -742,7 +742,7 @@ Spero tu abbia capito cosa significhi e come funzioni. Non ci sono molte alterna
 	</string>
 
     <string name="initial_setup">Setup Iniziale:</string>
-    <string name="initial_setup_message">"Grazie per aver acquistato Sliding Messaging Pro!
+    <string name="initial_setup_message">"La ringraziamo per aver acquistato Sliding Messaging Pro!
 
 Sembra che ci sia molto da fare adesso ma iniziamo, per prima cosa, con le opzioni principali. Dopo sarai in grado di configurare tutto ciò che vorrai dal menù impostazioni."</string>
     <string name="emojis">Emoji:</string>
@@ -866,7 +866,7 @@ Il tipo di conversazione verrà ricordato automaticamente, così non dovrai, ogn
     <string name="slideover_tutorial_summary">Clicca qui per una lista completa delle funzionalità di SlideOver e Quick Peek</string>
     <string name="message_subject">Oggetto</string>
     <string name="insert_subject">Aggiungi Oggetto</string>
-    <string name="converting_mms">Convertendo in MMS…</string>
+    <string name="converting_mms">Conversione in MMS…</string>
     <string name="bold_conversations">Nomi in Grassetto</string>
     <string name="enable_quick_peek">Abilita Quick Peek</string>
     <string name="enable_quick_peek_summary">Un singolo tocco sulla bolla SlideOver attiverà la finestra Quick Peek con le conversazioni recenti</string>
@@ -938,10 +938,10 @@ Se vuoi attivarle tutte vai in \"Impostazioni Avanzate\" e attiva l'opzione \"Mo
     <string name="mass_sms">Gestisci SMS di Massa</string>
     <string name="mass_sms_description">"Istruzioni:
 
-1) Inserisci i destinatari dell'SMS di massa.
+1) Inserisci i destinatari dell'SMS di massa
 2) Inserisci il testo dell'SMS
 3) Decidi se vuoi che sia inserito il nome completo (nome e cognome) o solo il nome (la scelta predefinita è solo il nome)
-4) Ogni volta vuoi che sia inserito il nome, aggiungi \"[$NAME]\" al messaggio (senza apostrofi). Oppure utilizza il pulsante apposito.
+4) Ogni volta vuoi che sia inserito il nome del contatto, aggiungi \"[$NAME]\" al messaggio (senza apostrofi). Oppure utilizza il pulsante apposito
 
 "</string>
     <string name="send_success">Inviato Correttamente</string>
@@ -950,28 +950,28 @@ Se vuoi attivarle tutte vai in \"Impostazioni Avanzate\" e attiva l'opzione \"Mo
     <string name="repeating_notification_number">Numero di Ripetizioni</string>
     <string name="repeating_notification_number_summary">Seleziona 0 per ripetere all\'infinito</string>
     <string name="group">Gruppo (ID:</string>
-    <string name="getting_contacts">Importo Contatti…</string>
+    <string name="getting_contacts">Importazione Contatti…</string>
     <string name="pebble_notification">Notifiche Pebble</string>
-    <string name="auto_save_mms">Auto-save MMS</string>
-    <string name="auto_save_mms_summary">Will save every image received to the \"Downloads\" folder on the SD card.</string>
-    <string name="dropbox_sync">Dropbox Sync</string>
-    <string name="dropbox_sync_summary">Sync all of your messages with Dropbox</string>
-    <string name="dropbox_summary">Never lose your messages again by backing them up to Dropbox!</string>
-    <string name="dropbox_backup">Backup to Dropbox</string>
-    <string name="dropbox_restore">Restore from Dropbox</string>
-    <string name="dropbox_finding_messages">Finding messages that need synced…</string>
-    <string name="dropbox_backing_up">Backing up messages…</string>
-    <string name="dropbox_finding_duplicates">Finding duplicates and backing up…</string>
-    <string name="dropbox_writing">Uploading messages to Dropbox…</string>
-    <string name="dropbox_finished">You\'re good to go, thanks for using Droxbox with Sliding Messaging Pro!\n\nPress
-        the back button and get back to your friends now :)
+    <string name="auto_save_mms">Salvataggio Automatico MMS</string>
+    <string name="auto_save_mms_summary">Salverà ogni immagine ricevuta nella cartella \"Downloads\" sulla scheda SD.</string>
+    <string name="dropbox_sync">Sincronizzazione Dropbox</string>
+    <string name="dropbox_sync_summary">Sincronizza tutti i tuoi messaggi con Dropbox</string>
+    <string name="dropbox_summary">Non perderai mai più i tuoi messaggi salvandoli su Dropbox!</string>
+    <string name="dropbox_backup">Backup su Dropbox</string>
+    <string name="dropbox_restore">Ripristino da Dropbox</string>
+    <string name="dropbox_finding_messages">Ricerca messaggi da sincronizzare in corso…</string>
+    <string name="dropbox_backing_up">Backup in corso…</string>
+    <string name="dropbox_finding_duplicates">Ricerca duplicati e backup in corso…</string>
+    <string name="dropbox_writing">Invio messaggi a Dropbox in corso…</string>
+    <string name="dropbox_finished">Setup completato, la ringraziamo d\'utilizzare Dropbox con Sliding Messaging Pro!\n\nPremi
+        il pulsante indietro e torna ai tuoi amici ora :)
     </string>
-    <string name="dropbox_downloading_previous_backup">Looking for previous backup…</string>
-    <string name="dropbox_no_backup_found">No backup found.</string>
-    <string name="dropbox_processing_backup">Processing and restoring backup…</string>
-    <string name="dropbox_overwrite_backup">Do you want to erase any previous backups (if they exist) and save only
-        the messages currently on your device?
+    <string name="dropbox_downloading_previous_backup">Ricerca backup precedenti in corso…</string>
+    <string name="dropbox_no_backup_found">Nessun backup trovato.</string>
+    <string name="dropbox_processing_backup">Elaborazione e ripristino backup…</string>
+    <string name="dropbox_overwrite_backup">Vuoi cancellare tutti i backup precedenti (se esistono) e salvare solo
+        i messaggi attualmente esistenti sul dispositivo?
     </string>
-    <string name="setup_finished">All Done.</string>
-    <string name="finished_setup">Finished!</string>
+    <string name="setup_finished">Setup Completato.</string>
+    <string name="finished_setup">Finito!</string>
 </resources>
