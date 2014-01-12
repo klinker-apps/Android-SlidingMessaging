@@ -70,7 +70,8 @@ public class DropboxActivity extends Activity {
             "status",
             "error_code",
             "address",
-            "body"
+            "body",
+            "locked"
     };
 
     private DropboxAPI<AndroidAuthSession> mDBApi;
