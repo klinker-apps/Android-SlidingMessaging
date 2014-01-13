@@ -19,8 +19,7 @@
         android:layout_height="50dp"
         android:hint="Type Message"
         android:layout_weight="1"
-        android:inputType="textCapSentences|textAutoCorrect"
-        android:imeOptions="actionSend"
+        android:inputType="textCapSentences|textAutoCorrect|textShortMessage"
         />
 
     <ImageButton
