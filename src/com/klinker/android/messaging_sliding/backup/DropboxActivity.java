@@ -45,6 +45,7 @@ import com.dropbox.client2.session.AppKeyPair;
 import com.dropbox.client2.session.Session;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.utils.IOUtil;
+import com.klinker.android.messaging_donate.utils.Util;
 import com.klinker.android.messaging_sliding.views.HoloTextView;
 
 import java.io.File;
@@ -69,7 +70,8 @@ public class DropboxActivity extends Activity {
             "status",
             "error_code",
             "address",
-            "body"
+            "body",
+            "locked"
     };
 
     private DropboxAPI<AndroidAuthSession> mDBApi;
@@ -236,6 +238,10 @@ public class DropboxActivity extends Activity {
             } catch (IllegalStateException e) {
                 Log.i("DbAuthLog", "Error authenticating", e);
             }
+        }
+
+        if (!Util.isDefaultSmsApp(mContext)) {
+            Util.setDefaultSmsApp(mContext);
         }
     }
 

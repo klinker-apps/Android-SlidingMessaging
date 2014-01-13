@@ -17,7 +17,6 @@
         <item>Inoltra Messaggio</item>
         <item>Elimina Messaggio</item>
         <item>Blocca Messaggio</item>
-        <item>Reinvia</item>
     </string-array>
 
     <string-array name="messageOptionsUnlock">
@@ -25,7 +24,6 @@
         <item>Inoltra Messaggio</item>
         <item>Elimina Messaggio</item>
         <item>Sblocca Messaggio</item>
-        <item>Reinvia</item>
     </string-array>
     
     <string-array name="messageOptions2">
@@ -34,7 +32,6 @@
         <item>Inoltra Messaggio</item>
         <item>Elimina Messaggio</item>
         <item>Blocca Messaggio</item>
-        <item>Reinvia</item>
     </string-array>
 
     <string-array name="messageOptions2Unlock">
@@ -43,7 +40,6 @@
         <item>Inoltra Messaggio</item>
         <item>Elimina Messaggio</item>
         <item>Sblocca Messaggio</item>
-        <item>Reinvia</item>
     </string-array>
     
     <string-array name="messageOptions3">
@@ -95,9 +91,9 @@
     </string-array>
 
     <string-array name="slideToMenu">
-        <item>Menù a Scorrimento a Tutto Schermo</item>
-        <item>Menù a Scorrimento Solo sui Margini</item>
-        <item>Nessun Menù a Scorrimento (Naviga con la Barra delle Attività)</item>
+        <item>Scorrimento a Tutto Schermo</item>
+        <item>Scorrimento Solo sui Margini</item>
+        <item>Nessuno Scorrimento (Utilizza la Barra Attività)</item>
     </string-array>
 
     <string-array name="notificationIcon">
@@ -187,11 +183,11 @@
         <item>Seleziona Immagine</item>
         <item>Seleziona Video</item>
         <item>Seleziona Audio</item>
-        <item>Select Multiple Images</item>
-        <item>Capture Image</item>
-        <item>Capture Video</item>
-        <item>Capture Audio</item>
-        <item>Create Contact vCard</item>
+		<item>Seleziona Immagini Multiple</item>
+        <item>Scatta Foto</item>
+        <item>Registra Video</item>
+        <item>Registra Audio</item>
+        <item>Crea Scheda Contatto</item>
     </string-array>
 
     <string-array name="notification_icon">
