@@ -58,6 +58,12 @@
             android:defaultValue="4"
             android:dependency="send_as_mms" />
 
+        <CheckBoxPreference
+            android:key="mms_size_limit"
+            android:title="@string/mms_size_limit"
+            android:summary="@string/mms_size_limit_summary"
+            android:defaultValue="true"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/mms_through_stock_category"

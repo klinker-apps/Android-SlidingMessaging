@@ -1228,13 +1228,13 @@ public class MainActivity extends FragmentActivity {
                                     message.setImages(images);
                                 }
 
-                                if (hasAudio) {
+                                if (hasAudio && (audio.length < 1000000 || !sharedPrefs.getBoolean("mms_size_limit", true))) {
                                     byte[] media = audio;
 
                                     message.setMedia(media, "video/3gpp");
                                 }
 
-                                if (hasVideo) {
+                                if (hasVideo && (video.length < 1000000 || !sharedPrefs.getBoolean("mms_size_limit", true))) {
                                     byte[] media = video;
 
                                     message.setMedia(media, "video/3gpp");
