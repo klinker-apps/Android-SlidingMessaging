@@ -1162,6 +1162,8 @@ public class MainActivity extends FragmentActivity {
                             message.setType(settings.voiceEnabled ?
                                     Message.TYPE_VOICE : Message.TYPE_SMSMMS);
 
+                            boolean tooLarge = false;
+
                             if (image) {
                                 ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
                                 byte[] audio = new byte[0];
@@ -1228,16 +1230,23 @@ public class MainActivity extends FragmentActivity {
                                     message.setImages(images);
                                 }
 
-                                if (hasAudio && (audio.length < 1000000 || !sharedPrefs.getBoolean("mms_size_limit", true))) {
-                                    byte[] media = audio;
-
-                                    message.setMedia(media, "video/3gpp");
+                                if (hasAudio) {
+                                    if (audio.length < 1000000 || !sharedPrefs.getBoolean("mms_size_limit", true)) {
+                                        byte[] media = audio;
+                                        message.setMedia(media, "video/3gpp");
+                                    } else {
+                                        tooLarge = true;
+                                    }
                                 }
 
-                                if (hasVideo && (video.length < 1000000 || !sharedPrefs.getBoolean("mms_size_limit", true))) {
-                                    byte[] media = video;
-
-                                    message.setMedia(media, "video/3gpp");
+                                if (hasVideo) {
+                                    Log.v("sliding_messaging_mms", video.length + " " + sharedPrefs.getBoolean("mms_size_limit", true));
+                                    if (video.length < 1000000 || !sharedPrefs.getBoolean("mms_size_limit", true)) {
+                                        byte[] media = video;
+                                        message.setMedia(media, "video/3gpp");
+                                    } else {
+                                        tooLarge = true;
+                                    }
                                 }
 
                                 if (hasContact) {
@@ -1245,6 +1254,16 @@ public class MainActivity extends FragmentActivity {
 
                                     message.setMedia(media, "text/x-vCard");
                                 }
+                            }
+
+                            if (tooLarge) {
+                                ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(context, "Message too large", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                                return;
                             }
 
                             rotationAngle = 0;
@@ -2101,6 +2120,7 @@ public class MainActivity extends FragmentActivity {
                             message.setType(settings.voiceEnabled ?
                                     Message.TYPE_VOICE : Message.TYPE_SMSMMS);
 
+                            boolean tooLarge = false;
                             if (image) {
                                 ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
                                 byte[] audio = new byte[0];
@@ -2168,15 +2188,22 @@ public class MainActivity extends FragmentActivity {
                                 }
 
                                 if (hasAudio) {
-                                    byte[] media = audio;
-
-                                    message.setMedia(media, "video/3gpp");
+                                    if (audio.length < 1000000 || !sharedPrefs.getBoolean("mms_size_limit", true)) {
+                                        byte[] media = audio;
+                                        message.setMedia(media, "video/3gpp");
+                                    } else {
+                                        tooLarge = true;
+                                    }
                                 }
 
                                 if (hasVideo) {
-                                    byte[] media = video;
-
-                                    message.setMedia(media, "video/3gpp");
+                                    Log.v("sliding_messaging_mms", video.length + " " + sharedPrefs.getBoolean("mms_size_limit", true));
+                                    if (video.length < 1000000 || !sharedPrefs.getBoolean("mms_size_limit", true)) {
+                                        byte[] media = video;
+                                        message.setMedia(media, "video/3gpp");
+                                    } else {
+                                        tooLarge = true;
+                                    }
                                 }
 
                                 if (hasContact) {
@@ -2184,6 +2211,16 @@ public class MainActivity extends FragmentActivity {
 
                                     message.setMedia(media, "text/x-vCard");
                                 }
+                            }
+
+                            if (tooLarge) {
+                                ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(context, "Message too large", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                                return;
                             }
 
                             rotationAngle = 0;
