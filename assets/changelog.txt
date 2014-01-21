@@ -1,2 +1,3 @@
 - Delivery time in message details when delivery reports are enabled
 - Limit MMS size to 1MB option
+- Link to website in Get Help section of settings
