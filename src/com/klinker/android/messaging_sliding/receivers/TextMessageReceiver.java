@@ -121,9 +121,10 @@ public class TextMessageReceiver extends BroadcastReceiver {
             // checks against the saved blacklist list
             ArrayList<BlacklistContact> blacklist = IOUtil.readBlacklist(context);
             int blacklistType = 0;
+            String blacklistAddress = address.replace("-", "").replace("(", "").replace(")", "").replace(" ", "").replace("+1", "");
 
             for (int i = 0; i < blacklist.size(); i++) {
-                if (blacklist.get(i).name.equals(address.replace("-", "").replace("(", "").replace(")", "").replace(" ", "").replace("+1", ""))) {
+                if (blacklist.get(i).name.equals(blacklistAddress) || blacklist.get(i).name.startsWith(blacklistAddress) || blacklist.get(i).name.endsWith(blacklistAddress)) {
                     blacklistType = blacklist.get(i).type;
                 }
             }
@@ -522,7 +523,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
         ArrayList<IndividualSetting> individuals = IOUtil.readIndividualNotifications(context);
 
         for (int i = 0; i < individuals.size(); i++) {
-            if (individuals.get(i).name.equals(name)) {
+            if (individuals.get(i).name.trim().equals(name.trim())) {
                 if (alert)
                     mBuilder.setSound(Uri.parse(individuals.get(i).ringtone));
 
