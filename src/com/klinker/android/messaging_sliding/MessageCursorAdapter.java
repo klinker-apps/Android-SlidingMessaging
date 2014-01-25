@@ -272,13 +272,15 @@ public class MessageCursorAdapter extends CursorAdapter {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            ContentValues values = new ContentValues();
-                            values.put("read", true);
-
                             try {
+                                ContentValues values = new ContentValues();
+                                values.put("read", true);
+                                values.put("seen", true);
                                 contentResolver.update(Uri.parse("content://mms/inbox"), values, "_id=" + SmsMessageId, null);
                             } catch (Exception e) {
-
+                                ContentValues values = new ContentValues();
+                                values.put("read", true);
+                                contentResolver.update(Uri.parse("content://mms/inbox"), values, "_id=" + SmsMessageId, null);
                             }
                         }
                     }).start();

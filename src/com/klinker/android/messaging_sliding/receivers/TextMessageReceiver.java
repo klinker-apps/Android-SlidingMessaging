@@ -19,6 +19,7 @@ import android.os.PowerManager.WakeLock;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.PhoneLookup;
+import android.provider.Telephony;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.telephony.SmsMessage;
@@ -62,6 +63,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
             String id;
             String date = "";
             String dateReceived;
+            String protocolId = "";
 
             boolean voiceMessage = intent.getBooleanExtra("voice_message", false);
 
@@ -79,6 +81,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
                         body += sms.getMessageBody().toString();
                         address = sms.getOriginatingAddress();
                         date = sms.getTimestampMillis() + "";
+                        protocolId = sms.getProtocolIdentifier() + "";
                     }
                 } else {
                     return;
@@ -137,21 +140,32 @@ public class TextMessageReceiver extends BroadcastReceiver {
             } else {
                 // if overriding stock or its a voice message, save the messages
                 if (sharedPrefs.getBoolean("override", false) || voiceMessage || context.getResources().getBoolean(R.bool.hasKitKat)) {
+                    Cursor checkOld = context.getContentResolver().query(
+                            Uri.parse("content://sms/inbox/"),
+                            new String[] {Telephony.Sms.ADDRESS, Telephony.Sms.PROTOCOL},
+                            Telephony.Sms.ADDRESS + "=? AND " + Telephony.Sms.PROTOCOL + "=?",
+                            new String[] {address, protocolId},
+                            null
+                    );
 
-                    ContentValues values = new ContentValues();
-                    values.put("address", address);
-                    values.put("body", body);
-                    values.put("date", dateReceived);
-                    values.put("read", "0");
-                    values.put("date_sent", date);
+                    if (checkOld != null && checkOld.moveToFirst()) {
+                        // message already exists, so don't insert it into the database!
+                    } else {
+                        ContentValues values = new ContentValues();
+                        values.put("address", address);
+                        values.put("body", body);
+                        values.put("date", dateReceived);
+                        values.put("read", "0");
+                        values.put("date_sent", date);
 
-                    if (voiceMessage) {
-                        values.put("status", 2);
+                        if (voiceMessage) {
+                            values.put("status", 2);
+                        }
+
+                        context.getContentResolver().insert(Uri.parse("content://sms/inbox"), values);
+
+                        Log.v("refresh_voice", "saving message");
                     }
-
-                    context.getContentResolver().insert(Uri.parse("content://sms/inbox"), values);
-
-                    Log.v("refresh_voice", "saving message");
                 }
 
                 // if notification is to be given for the message because it is not blacklisted
