@@ -18,11 +18,9 @@
             android:defaultValue="true"
             />
 
-        <CheckBoxPreference
+        <Preference
             android:key="quick_text"
             android:title="@string/quick_text"
-            android:summary="@string/quick_text_summary"
-            android:defaultValue="false"
             />
             
         <CheckBoxPreference

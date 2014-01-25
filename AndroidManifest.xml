@@ -274,6 +274,10 @@
             android:name="com.klinker.android.messaging_sliding.blacklist.NewBlacklistActivity"
             android:theme="@android:style/Theme.Holo.Light.DarkActionBar" >
         </activity>
+
+        <activity android:name="com.klinker.android.messaging_donate.settings.QuickTextSetupActivity"
+                  android:label="@string/quick_text_notification"
+                  android:theme="@android:style/Theme.Holo.Light.DarkActionBar"/>
         
         <activity 
             android:name="com.klinker.android.messaging_sliding.AttachMore"

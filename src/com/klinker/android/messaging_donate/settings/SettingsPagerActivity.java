@@ -684,6 +684,14 @@ public class SettingsPagerActivity extends FragmentActivity {
 
             });
 
+            findPreference("quick_text").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    startActivity(new Intent(context, QuickTextSetupActivity.class));
+                    return true;
+                }
+            });
+
             TelephonyManager manager = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
             String carrierName = manager.getNetworkOperatorName();
 
@@ -694,7 +702,6 @@ public class SettingsPagerActivity extends FragmentActivity {
             if (!showAll) {
                 ((PreferenceGroup) findPreference("general_notification_category")).removePreference(findPreference("in_app_notifications"));
                 ((PreferenceGroup) findPreference("general_notification_category")).removePreference(findPreference("quick_text_slideover"));
-                ((PreferenceGroup) findPreference("general_notification_category")).removePreference(findPreference("quick_text"));
                 ((PreferenceGroup) findPreference("notification_look_category")).removePreference(findPreference("breath"));
                 ((PreferenceGroup) findPreference("notification_look_category")).removePreference(findPreference("repeating_notification"));
                 ((PreferenceGroup) findPreference("notification_look_category")).removePreference(findPreference("repeating_notification_number"));
