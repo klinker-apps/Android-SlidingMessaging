@@ -64,6 +64,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
             String date = "";
             String dateReceived;
             String protocolId = "";
+            boolean isReplace = false;
 
             boolean voiceMessage = intent.getBooleanExtra("voice_message", false);
 
@@ -82,6 +83,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
                         address = sms.getOriginatingAddress();
                         date = sms.getTimestampMillis() + "";
                         protocolId = sms.getProtocolIdentifier() + "";
+                        isReplace = sms.isReplace();
                     }
                 } else {
                     return;
@@ -142,14 +144,31 @@ public class TextMessageReceiver extends BroadcastReceiver {
                 if (sharedPrefs.getBoolean("override", false) || voiceMessage || context.getResources().getBoolean(R.bool.hasKitKat)) {
                     Cursor checkOld = context.getContentResolver().query(
                             Uri.parse("content://sms/inbox/"),
-                            new String[] {Telephony.Sms.ADDRESS, Telephony.Sms.PROTOCOL},
+                            new String[] {Telephony.Sms.ADDRESS, Telephony.Sms.PROTOCOL, Telephony.Sms.BODY},
                             Telephony.Sms.ADDRESS + "=? AND " + Telephony.Sms.PROTOCOL + "=?",
                             new String[] {address, protocolId},
                             null
                     );
 
-                    if (checkOld != null && checkOld.moveToFirst()) {
-                        // message already exists, so don't insert it into the database!
+                    Log.v("sms_receiver", "protocolIdentifier: " + protocolId);
+
+                    if (isReplace && checkOld != null && checkOld.moveToFirst()) {
+                        if (!checkOld.getString(checkOld.getColumnIndex(Telephony.Sms.BODY)).equals(body)) {
+                            ContentValues values = new ContentValues();
+                            values.put("address", address);
+                            values.put("body", body);
+                            values.put("date", dateReceived);
+                            values.put("read", "0");
+                            values.put("date_sent", date);
+
+                            if (voiceMessage) {
+                                values.put("status", 2);
+                            }
+
+                            context.getContentResolver().insert(Uri.parse("content://sms/inbox"), values);
+
+                            Log.v("refresh_voice", "saving message");
+                        }
                     } else {
                         ContentValues values = new ContentValues();
                         values.put("address", address);
