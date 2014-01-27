@@ -58,16 +58,19 @@ public class ConnectivityChangeService extends IntentService {
     }
 
     private void resendMessage(Cursor message) {
-        SendUtil.sendMessage(
-                this,
-                message.getString(message.getColumnIndex("address")),
-                message.getString(message.getColumnIndex("body"))
-        );
+        // Send failed messages from the past 8 hours
+        if (message.getLong(message.getColumnIndex("date")) > System.currentTimeMillis() - (1000 * 60 * 60 * 8)) {
+            SendUtil.sendMessage(
+                    this,
+                    message.getString(message.getColumnIndex("address")),
+                    message.getString(message.getColumnIndex("body"))
+            );
 
-        getContentResolver().delete(
-                Uri.parse("content://sms/"),
-                "_id=?",
-                new String[] {message.getString(message.getColumnIndex("_id"))}
-        );
+            getContentResolver().delete(
+                    Uri.parse("content://sms/"),
+                    "_id=?",
+                    new String[] {message.getString(message.getColumnIndex("_id"))}
+            );
+        }
     }
 }
