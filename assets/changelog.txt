@@ -2,6 +2,7 @@
 - Delivery time in message details when delivery reports are enabled
 - Limit MMS size to 1MB option
 - Attempt to resend failed messages when service state changes
+- Contact name added to delivery reports
 - Fixes to receiving duplicate messages in some cases
 - Better handling of sent and delivered messages
 - Link to website in Get Help section of settings
