@@ -510,6 +510,7 @@
         </service>
 
         <service android:name="com.android.mms.transaction.TransactionService"/>
+        <service android:name=".receivers.ConnectivityChangeService"/>
 
         <service
             android:name="com.klinker.android.messaging_donate.receivers.AccessibilityListener"
@@ -574,6 +575,12 @@
             android:name="com.klinker.android.messaging_sliding.receivers.TextMessageReceiver" >
             <intent-filter android:priority="100">
                 <action android:name="com.klinker.android.messaging.VOICE_RECEIVED" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name=".receivers.ConnectivityChangeReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
         
