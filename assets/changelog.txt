@@ -1,1 +1,2 @@
 - MMS fixes for some devices
+- Delivery report changes

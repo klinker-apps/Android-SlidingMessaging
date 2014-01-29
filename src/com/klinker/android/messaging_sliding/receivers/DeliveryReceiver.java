@@ -24,20 +24,28 @@ public class DeliveryReceiver extends BroadcastReceiver {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         boolean result = intent.getBooleanExtra("result", true);
         int reportType = Integer.parseInt(sharedPrefs.getString("delivery_reports_type", "2"));
-        Uri uri = Uri.parse(intent.getStringExtra("message_uri"));
+        Uri uri;
+
+        try {
+            uri = Uri.parse(intent.getStringExtra("message_uri"));
+        } catch (Exception e) {
+            uri = null;
+        }
 
         String deliveredTo = "";
 
-        Cursor query = context.getContentResolver().query(
-                uri,
-                new String[] {"_id", "address"},
-                null,
-                null,
-                null
-        );
+        if (uri != null) {
+            Cursor query = context.getContentResolver().query(
+                    uri,
+                    new String[] {"_id", "address"},
+                    null,
+                    null,
+                    null
+            );
 
-        if (query != null && query.moveToFirst()) {
-            deliveredTo = " - " + ContactUtil.findContactName(query.getString(query.getColumnIndex("address")), context);
+            if (query != null && query.moveToFirst()) {
+                deliveredTo = " - " + ContactUtil.findContactName(query.getString(query.getColumnIndex("address")), context);
+            }
         }
 
         switch (reportType) {
