@@ -28,6 +28,11 @@
             />
 
     <Preference
+            android:key="inspire"
+            android:title="Inspire"
+            />
+
+    <Preference
             android:key="halo_pop"
             android:title="HaloPop"
             />
