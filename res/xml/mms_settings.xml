@@ -122,6 +122,27 @@
             android:defaultValue=""
         />
 
+        <EditTextPreference
+                android:key="mms_agent"
+                android:title="@string/user_agent"
+                android:dialogTitle="@string/user_agent"
+                android:defaultValue=""
+                />
+
+        <EditTextPreference
+                android:key="mms_user_agent_profile_url"
+                android:title="@string/ua_prof_url"
+                android:dialogTitle="@string/ua_prof_url"
+                android:defaultValue=""
+                />
+
+        <EditTextPreference
+                android:key="mms_user_agent_tag_name"
+                android:title="@string/ua_prof_tag_name"
+                android:dialogTitle="@string/ua_prof_tag_name"
+                android:defaultValue=""
+                />
+
 <!-- 	        <CheckBoxPreference  -->
 <!-- 	            android:key="apn_username_password" -->
 <!-- 	            android:title="@string/apn_username_password" -->

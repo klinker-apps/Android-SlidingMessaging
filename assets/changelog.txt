@@ -1,3 +1,4 @@
+- Option to set user agent for MMS
 - MMS fixes for some devices
 - Delivery report changes
 - Other various bug fixes
