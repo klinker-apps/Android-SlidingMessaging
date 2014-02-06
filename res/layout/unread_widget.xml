@@ -6,15 +6,17 @@
               android:layout_height="match_parent">
 
     <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:id="@+id/launcher"
         android:layout_gravity="left|center_vertical"
-        android:src="@drawable/ic_launcher"
-        android:layout_marginTop="5dp"
+        android:src="@mipmap/ic_launcher"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginLeft="5dp"
         android:background="@drawable/launcher_glow"
-        android:contentDescription="@string/placeholder"/>
+        android:contentDescription="@string/placeholder"
+        android:scaleType="fitXY"/>
 
     <TextView
         android:layout_width="wrap_content"
