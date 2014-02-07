@@ -1,2 +1,3 @@
+- Fixes to messages and conversations being marked as read and seen
 - Fix unread widget icon
 - Fix duplicate signatures

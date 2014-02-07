@@ -1929,6 +1929,8 @@ public class MainActivity extends FragmentActivity {
 
             refreshMyContact = false;
         }
+
+        Conversation.markAllConversationsAsSeen(this);
     }
 
     @SuppressWarnings("deprecation")
