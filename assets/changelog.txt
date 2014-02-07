@@ -1,1 +1,2 @@
 - Fix unread widget icon
+- Fix duplicate signatures
