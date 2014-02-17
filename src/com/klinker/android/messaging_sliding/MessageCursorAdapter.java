@@ -36,6 +36,7 @@ import android.widget.*;
 import com.android.mms.transaction.Transaction;
 import com.android.mms.transaction.TransactionBundle;
 import com.android.mms.transaction.TransactionService;
+import com.android.mms.util.DownloadManager;
 import com.google.android.mms.pdu_alt.EncodedStringValue;
 import com.google.android.mms.pdu_alt.PduHeaders;
 import com.google.android.mms.pdu_alt.PduPersister;
@@ -2083,6 +2084,8 @@ public class MessageCursorAdapter extends CursorAdapter {
                         download.putExtra(TransactionBundle.URI, ("content://mms/" + id));
                         download.putExtra(TransactionBundle.TRANSACTION_TYPE, Transaction.RETRIEVE_TRANSACTION);
                         context.startService(download);
+
+                        DownloadManager.getInstance().markState(Uri.parse("content://mms/" + id), DownloadManager.STATE_PRE_DOWNLOADING);
                     }
 
                 });

@@ -47,6 +47,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.RelativeLayout.LayoutParams;
 
 import com.klinker.android.messaging_donate.utils.Util;
+import com.klinker.android.messaging_sliding.receivers.*;
 import com.klinker.android.messaging_sliding.views.ImageAttachmentView;
 import com.astuetz.PagerSlidingTabStrip;
 import com.devspark.appmsg.AppMsg;
@@ -71,10 +72,6 @@ import com.klinker.android.messaging_sliding.emojis.EmojiAdapter2;
 import com.klinker.android.messaging_sliding.emojis.EmojiConverter;
 import com.klinker.android.messaging_sliding.emojis.EmojiConverter2;
 import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead;
-import com.klinker.android.messaging_sliding.receivers.CacheService;
-import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
-import com.klinker.android.messaging_sliding.receivers.QuickTextService;
-import com.klinker.android.messaging_sliding.receivers.VoiceReceiver;
 import com.klinker.android.messaging_sliding.scheduled.NewScheduledSms;
 import com.klinker.android.messaging_sliding.search.SearchActivity;
 import com.klinker.android.messaging_sliding.security.PasswordActivity;

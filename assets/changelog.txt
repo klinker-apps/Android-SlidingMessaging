@@ -1,3 +1,2 @@
-- Fixes to messages and conversations being marked as read and seen
-- Fix unread widget icon
-- Fix duplicate signatures
+- Fixes to MMS notifications when auto download is disabled
+- General bug fixes
