@@ -907,4 +907,17 @@
     </string>
     <string name="setup_finished">All Done.</string>
     <string name="finished_setup">Finished!</string>
+    <string name="mms_size_limit">Enable 1MB Limit</string>
+    <string name="mms_size_limit_summary">Does not allow for sending media over 1 megabyte since this is the default limit for most carriers</string>
+    <string name="website">Website</string>
+    <string name="quick_text_limit">You can only set 3 favorites, remove or edit one from above!</string>
+    <string name="delete_favorite">Do you want to delete this favorite?</string>
+    <string name="add_favorite">Add New Favorite</string>
+    <string name="quick_text_needs_enabled">You first need to enable the quick text notification, push the menu button to do so now</string>
+    <string name="enable_quick_text">Enable Quick Text</string>
+    <string name="need_jellybean">You need at least Android 4.1 (Jellybean) on your device to be able to use notification buttons for favorite users, sorry!</string>
+    <string name="user_agent">User Agent</string>
+    <string name="ua_prof_url">User Agent Profile Url</string>
+    <string name="ua_prof_tag_name">User Agent Profile Tag Name</string>
+
 </resources>

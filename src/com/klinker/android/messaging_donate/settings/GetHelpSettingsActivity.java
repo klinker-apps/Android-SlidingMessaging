@@ -157,6 +157,18 @@ public class GetHelpSettingsActivity extends PreferenceActivity {
 
         });
 
+        Preference website = findPreference("website");
+        website.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+
+            @Override
+            public boolean onPreferenceClick(Preference arg0) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.klinkerapps.com/")));
+                overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                return false;
+            }
+
+        });
+
         Preference email = findPreference("contact_us");
         email.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 
@@ -164,7 +176,7 @@ public class GetHelpSettingsActivity extends PreferenceActivity {
             public boolean onPreferenceClick(Preference arg0) {
                 Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
 
-                emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"slidingmessaging@gmail.com"});
+                emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"support@klinkerapps.com"});
                 emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Sliding Messaging Pro");
                 emailIntent.setType("plain/text");
 

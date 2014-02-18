@@ -19,6 +19,7 @@ import android.os.PowerManager.WakeLock;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.PhoneLookup;
+import android.provider.Telephony;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.telephony.SmsMessage;
@@ -62,6 +63,8 @@ public class TextMessageReceiver extends BroadcastReceiver {
             String id;
             String date = "";
             String dateReceived;
+            String protocolId = "";
+            boolean isReplace = false;
 
             boolean voiceMessage = intent.getBooleanExtra("voice_message", false);
 
@@ -79,6 +82,8 @@ public class TextMessageReceiver extends BroadcastReceiver {
                         body += sms.getMessageBody().toString();
                         address = sms.getOriginatingAddress();
                         date = sms.getTimestampMillis() + "";
+                        protocolId = sms.getProtocolIdentifier() + "";
+                        isReplace = sms.isReplace();
                     }
                 } else {
                     return;
@@ -121,9 +126,10 @@ public class TextMessageReceiver extends BroadcastReceiver {
             // checks against the saved blacklist list
             ArrayList<BlacklistContact> blacklist = IOUtil.readBlacklist(context);
             int blacklistType = 0;
+            String blacklistAddress = address.replace("-", "").replace("(", "").replace(")", "").replace(" ", "").replace("+1", "");
 
             for (int i = 0; i < blacklist.size(); i++) {
-                if (blacklist.get(i).name.equals(address.replace("-", "").replace("(", "").replace(")", "").replace(" ", "").replace("+1", ""))) {
+                if (blacklist.get(i).name.equals(blacklistAddress) || blacklist.get(i).name.startsWith(blacklistAddress) || blacklist.get(i).name.endsWith(blacklistAddress)) {
                     blacklistType = blacklist.get(i).type;
                 }
             }
@@ -136,21 +142,49 @@ public class TextMessageReceiver extends BroadcastReceiver {
             } else {
                 // if overriding stock or its a voice message, save the messages
                 if (sharedPrefs.getBoolean("override", false) || voiceMessage || context.getResources().getBoolean(R.bool.hasKitKat)) {
+                    Cursor checkOld = context.getContentResolver().query(
+                            Uri.parse("content://sms/inbox/"),
+                            new String[] {Telephony.Sms.ADDRESS, Telephony.Sms.PROTOCOL, Telephony.Sms.BODY},
+                            Telephony.Sms.ADDRESS + "=? AND " + Telephony.Sms.PROTOCOL + "=?",
+                            new String[] {address, protocolId},
+                            null
+                    );
 
-                    ContentValues values = new ContentValues();
-                    values.put("address", address);
-                    values.put("body", body);
-                    values.put("date", dateReceived);
-                    values.put("read", "0");
-                    values.put("date_sent", date);
+                    Log.v("sms_receiver", "protocolIdentifier: " + protocolId);
 
-                    if (voiceMessage) {
-                        values.put("status", 2);
+                    if (isReplace && checkOld != null && checkOld.moveToFirst()) {
+                        if (!checkOld.getString(checkOld.getColumnIndex(Telephony.Sms.BODY)).equals(body)) {
+                            ContentValues values = new ContentValues();
+                            values.put("address", address);
+                            values.put("body", body);
+                            values.put("date", dateReceived);
+                            values.put("read", "0");
+                            values.put("date_sent", date);
+
+                            if (voiceMessage) {
+                                values.put("status", 2);
+                            }
+
+                            context.getContentResolver().insert(Uri.parse("content://sms/inbox"), values);
+
+                            Log.v("refresh_voice", "saving message");
+                        }
+                    } else {
+                        ContentValues values = new ContentValues();
+                        values.put("address", address);
+                        values.put("body", body);
+                        values.put("date", dateReceived);
+                        values.put("read", "0");
+                        values.put("date_sent", date);
+
+                        if (voiceMessage) {
+                            values.put("status", 2);
+                        }
+
+                        context.getContentResolver().insert(Uri.parse("content://sms/inbox"), values);
+
+                        Log.v("refresh_voice", "saving message");
                     }
-
-                    context.getContentResolver().insert(Uri.parse("content://sms/inbox"), values);
-
-                    Log.v("refresh_voice", "saving message");
                 }
 
                 // if notification is to be given for the message because it is not blacklisted
@@ -522,7 +556,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
         ArrayList<IndividualSetting> individuals = IOUtil.readIndividualNotifications(context);
 
         for (int i = 0; i < individuals.size(); i++) {
-            if (individuals.get(i).name.equals(name)) {
+            if (individuals.get(i).name.trim().equals(name.trim())) {
                 if (alert)
                     mBuilder.setSound(Uri.parse(individuals.get(i).ringtone));
 

@@ -1,7 +1,2 @@
-- Backup SMS to Dropbox service in advanced settings
-- Slight SlideOver style changes
-- Resend is always shown when long pressing a message
-- Bug fixes and stability
-- Automatically save MMS images option
-- Draft fixes
-- MMS fixes
+- Fixes to MMS notifications when auto download is disabled
+- General bug fixes

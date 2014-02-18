@@ -90,6 +90,9 @@ public class SendUtil {
         sendSettings.setMmsc(sharedPrefs.getString("mmsc_url", ""));
         sendSettings.setProxy(sharedPrefs.getString("mms_proxy", ""));
         sendSettings.setPort(sharedPrefs.getString("mms_port", ""));
+        sendSettings.setAgent(sharedPrefs.getString("mms_agent", ""));
+        sendSettings.setUserProfileUrl(sharedPrefs.getString("mms_user_agent_profile_url", ""));
+        sendSettings.setUaProfTagName(sharedPrefs.getString("mms_user_agent_tag_name", ""));
         sendSettings.setGroup(sharedPrefs.getBoolean("group_message", false));
         sendSettings.setWifiMmsFix(sharedPrefs.getBoolean("wifi_mms_fix", false));
         sendSettings.setDeliveryReports(sharedPrefs.getBoolean("delivery_reports", false));

@@ -26,6 +26,7 @@ import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
+import com.android.mms.MmsConfig;
 import com.droidprism.APN;
 import com.droidprism.Carrier;
 import com.klinker.android.messaging_donate.MainActivity;
@@ -684,6 +685,14 @@ public class SettingsPagerActivity extends FragmentActivity {
 
             });
 
+            findPreference("quick_text").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    startActivity(new Intent(context, QuickTextSetupActivity.class));
+                    return true;
+                }
+            });
+
             TelephonyManager manager = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
             String carrierName = manager.getNetworkOperatorName();
 
@@ -694,7 +703,6 @@ public class SettingsPagerActivity extends FragmentActivity {
             if (!showAll) {
                 ((PreferenceGroup) findPreference("general_notification_category")).removePreference(findPreference("in_app_notifications"));
                 ((PreferenceGroup) findPreference("general_notification_category")).removePreference(findPreference("quick_text_slideover"));
-                ((PreferenceGroup) findPreference("general_notification_category")).removePreference(findPreference("quick_text"));
                 ((PreferenceGroup) findPreference("notification_look_category")).removePreference(findPreference("breath"));
                 ((PreferenceGroup) findPreference("notification_look_category")).removePreference(findPreference("repeating_notification"));
                 ((PreferenceGroup) findPreference("notification_look_category")).removePreference(findPreference("repeating_notification_number"));
@@ -1135,7 +1143,7 @@ public class SettingsPagerActivity extends FragmentActivity {
         public void setUpMmsSettings() {
             boolean isTablet;
 
-            Preference mmsc, proxy, port;
+            final Preference mmsc, proxy, port;
             final Context context = getActivity();
             final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
@@ -1162,6 +1170,9 @@ public class SettingsPagerActivity extends FragmentActivity {
                 findPreference("mmsc_url").setEnabled(false);
                 findPreference("mms_proxy").setEnabled(false);
                 findPreference("mms_port").setEnabled(false);
+                findPreference("mms_agent").setEnabled(false);
+                findPreference("mms_user_agent_profile_url").setEnabled(false);
+                findPreference("mms_user_agent_tag_name").setEnabled(false);
                 findPreference("mms_disclaimer").setEnabled(false);
                 findPreference("get_apn_help").setEnabled(false);
             }
@@ -1189,14 +1200,127 @@ public class SettingsPagerActivity extends FragmentActivity {
 
             });
 
-            mmsc = (Preference) findPreference("mmsc_url");
+            mmsc = findPreference("mmsc_url");
             mmsc.setSummary(sharedPrefs.getString("mmsc_url", ""));
+            mmsc.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mmsc.setSummary(sharedPrefs.getString("mmsc_url", ""));
+                        }
+                    }, 250);
+                    return true;
+                }
+            });
 
-            proxy = (Preference) findPreference("mms_proxy");
+            proxy = findPreference("mms_proxy");
             proxy.setSummary(sharedPrefs.getString("mms_proxy", ""));
+            proxy.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            proxy.setSummary(sharedPrefs.getString("mms_proxy", ""));
+                        }
+                    }, 250);
+                    return true;
+                }
+            });
 
-            port = (Preference) findPreference("mms_port");
-            port.setSummary(sharedPrefs.getString("mms_port", ""));
+            port = findPreference("mms_port");
+            long portNum = 0;
+            try {
+                portNum = Long.parseLong(sharedPrefs.getString("mms_port", ""));
+            } catch (Exception e) { }
+            port.setSummary(portNum == 0 ? "" : portNum + "");
+            port.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            long portNum = 0;
+                            try {
+                                portNum = Long.parseLong(sharedPrefs.getString("mms_port", ""));
+                            } catch (Exception e) { }
+                            port.setSummary(portNum == 0 ? "" : portNum + "");
+                        }
+                    }, 250);
+                    return true;
+                }
+            });
+
+            final Preference agent = findPreference("mms_agent");
+            if (sharedPrefs.getString("mms_agent", "").equals("")) {
+                agent.setSummary(MmsConfig.DEFAULT_USER_AGENT);
+            } else {
+                agent.setSummary(sharedPrefs.getString("mms_agent", ""));
+            }
+            agent.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (sharedPrefs.getString("mms_agent", "").equals("")) {
+                                agent.setSummary(MmsConfig.DEFAULT_USER_AGENT);
+                            } else {
+                                agent.setSummary(sharedPrefs.getString("mms_agent", ""));
+                            }
+                        }
+                    }, 250);
+                    return true;
+                }
+            });
+
+            final Preference profUrl = findPreference("mms_user_agent_profile_url");
+            if (sharedPrefs.getString("mms_user_agent_profile_url", "").equals("")) {
+                profUrl.setSummary(null);
+            } else {
+                profUrl.setSummary(sharedPrefs.getString("mms_user_agent_profile_url", ""));
+            }
+            profUrl.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (sharedPrefs.getString("mms_user_agent_profile_url", "").equals("")) {
+                                profUrl.setSummary(null);
+                            } else {
+                                profUrl.setSummary(sharedPrefs.getString("mms_user_agent_profile_url", ""));
+                            }
+                        }
+                    }, 250);
+                    return true;
+                }
+            });
+
+            final Preference profTag = findPreference("mms_user_agent_tag_name");
+            if (sharedPrefs.getString("mms_user_agent_tag_name", "").equals("")) {
+                profTag.setSummary(MmsConfig.DEFAULT_HTTP_KEY_X_WAP_PROFILE);
+            } else {
+                profTag.setSummary(sharedPrefs.getString("mms_user_agent_tag_name", ""));
+            }
+            profTag.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (sharedPrefs.getString("mms_user_agent_tag_name", "").equals("")) {
+                                profTag.setSummary(MmsConfig.DEFAULT_HTTP_KEY_X_WAP_PROFILE);
+                            } else {
+                                profTag.setSummary(sharedPrefs.getString("mms_user_agent_tag_name", ""));
+                            }
+                        }
+                    }, 250);
+                    return true;
+                }
+            });
 
             Preference autoSelect = findPreference("auto_select_apn");
             autoSelect.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {

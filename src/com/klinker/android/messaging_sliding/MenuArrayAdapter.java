@@ -461,10 +461,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
                     @Override
                     public void run() {
                         try {
-                            ContentValues values = new ContentValues();
-                            values.put("read", true);
-                            context.getContentResolver().update(Uri.parse("content://sms/conversations/"), values, "thread_id=?", new String[]{"" + conversations.get(position).getThreadId()});
-                            context.getContentResolver().update(Uri.parse("content://mms/conversations/"), values, "thread_id=?", new String[]{"" + conversations.get(position).getThreadId()});
+                            conversations.get(position).setRead(true, context);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
     package="com.klinker.android.messaging_donate"
-    android:versionCode="263"
-    android:versionName="8.10" >
+    android:versionCode="268"
+    android:versionName="8.18" >
 
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
@@ -274,6 +274,10 @@
             android:name="com.klinker.android.messaging_sliding.blacklist.NewBlacklistActivity"
             android:theme="@android:style/Theme.Holo.Light.DarkActionBar" >
         </activity>
+
+        <activity android:name="com.klinker.android.messaging_donate.settings.QuickTextSetupActivity"
+                  android:label="@string/quick_text_notification"
+                  android:theme="@android:style/Theme.Holo.Light.DarkActionBar"/>
         
         <activity 
             android:name="com.klinker.android.messaging_sliding.AttachMore"
@@ -506,6 +510,7 @@
         </service>
 
         <service android:name="com.android.mms.transaction.TransactionService"/>
+        <service android:name=".receivers.ConnectivityChangeService"/>
 
         <service
             android:name="com.klinker.android.messaging_donate.receivers.AccessibilityListener"
@@ -570,6 +575,12 @@
             android:name="com.klinker.android.messaging_sliding.receivers.TextMessageReceiver" >
             <intent-filter android:priority="100">
                 <action android:name="com.klinker.android.messaging.VOICE_RECEIVED" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name=".receivers.ConnectivityChangeReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
         

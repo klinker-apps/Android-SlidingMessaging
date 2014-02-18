@@ -7,12 +7,15 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.widget.Toast;
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_donate.utils.ContactUtil;
 
 public class DeliveryReceiver extends BroadcastReceiver {
 
@@ -21,6 +24,29 @@ public class DeliveryReceiver extends BroadcastReceiver {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         boolean result = intent.getBooleanExtra("result", true);
         int reportType = Integer.parseInt(sharedPrefs.getString("delivery_reports_type", "2"));
+        Uri uri;
+
+        try {
+            uri = Uri.parse(intent.getStringExtra("message_uri"));
+        } catch (Exception e) {
+            uri = null;
+        }
+
+        String deliveredTo = "";
+
+        if (uri != null) {
+            Cursor query = context.getContentResolver().query(
+                    uri,
+                    new String[] {"_id", "address"},
+                    null,
+                    null,
+                    null
+            );
+
+            if (query != null && query.moveToFirst()) {
+                deliveredTo = " - " + ContactUtil.findContactName(query.getString(query.getColumnIndex("address")), context);
+            }
+        }
 
         switch (reportType) {
             case 1:
@@ -28,21 +54,37 @@ public class DeliveryReceiver extends BroadcastReceiver {
                 break;
             case 2:
                 // give a toast
-                Toast.makeText(context, result ? context.getString(R.string.message_delivered) : context.getString(R.string.message_not_delivered), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, (result ? context.getString(R.string.message_delivered) : context.getString(R.string.message_not_delivered)) + deliveredTo, Toast.LENGTH_SHORT).show();
                 break;
             case 3:
                 // ugh. give a notification
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
 
+                if (deliveredTo.startsWith(" - ")) {
+                    deliveredTo = deliveredTo.substring(3);
+                } else {
+                    deliveredTo = null;
+                }
+
                 if (result) {
                     TextMessageReceiver.setIcon(builder, context);
                     builder.setPriority(Notification.PRIORITY_LOW);
                     builder.setContentTitle(context.getString(R.string.message_delivered));
+
+                    if (deliveredTo != null) {
+                        builder.setContentText(deliveredTo);
+                    }
+
                     builder.setTicker(context.getString(R.string.message_delivered));
                 } else {
                     builder.setSmallIcon(R.drawable.ic_alert);
                     builder.setPriority(Notification.PRIORITY_HIGH);
                     builder.setContentTitle(context.getString(R.string.message_not_delivered));
+
+                    if (deliveredTo != null) {
+                        builder.setContentText(deliveredTo);
+                    }
+
                     builder.setTicker(context.getString(R.string.message_not_delivered));
                 }
 
