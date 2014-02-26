@@ -5022,6 +5022,32 @@ public class MainActivity extends FragmentActivity {
                                 Button viewImage = (Button) findViewById(R.id.view_image_button2);
                                 Button replaceImage = (Button) findViewById(R.id.replace_image_button2);
                                 Button removeImage = (Button) findViewById(R.id.remove_image_button2);
+                                ImageButton rotateImageClock = (ImageButton) findViewById(R.id.image_rotate_clockwise_button2);
+                                ImageButton rotateImageCounter = (ImageButton) findViewById(R.id.image_rotate_counterclockwise_button2);
+
+                                rotateImageClock.setOnClickListener(new OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        rotationAngle += 90;
+                                        try {
+                                            imageAttach2.setImage("send_image", SendUtil.getThumbnailRotated(context, attachedImage2, rotationAngle));
+                                        } catch (Exception e) {
+
+                                        }
+                                    }
+                                });
+
+                                rotateImageCounter.setOnClickListener(new OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        rotationAngle += -90;
+                                        try {
+                                            imageAttach2.setImage("send_image", SendUtil.getThumbnailRotated(context, attachedImage2, rotationAngle));
+                                        } catch (Exception e) {
+
+                                        }
+                                    }
+                                });
 
                                 viewImage.setOnClickListener(new OnClickListener() {
 
