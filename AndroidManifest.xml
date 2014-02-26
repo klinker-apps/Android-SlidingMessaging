@@ -47,9 +47,6 @@
         android:theme="@style/AppTheme"
         tools:ignore="ExportedActivity"
         android:hardwareAccelerated="true">
-        
-        <uses-library android:required="false" android:name="com.sec.android.app.multiwindow" />
-		<meta-data android:name="com.sec.android.support.multiwindow" android:value="true" />
 		
         <activity
             android:name="com.klinker.android.messaging_donate.MainActivity"
