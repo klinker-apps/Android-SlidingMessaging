@@ -1,2 +1,3 @@
 - Fixes to MMS notifications when auto download is disabled
+- Removed Samsung multiwindow support because it breaks the popup on Touchwiz devices
 - General bug fixes
