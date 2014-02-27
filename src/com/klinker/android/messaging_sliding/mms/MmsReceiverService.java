@@ -564,6 +564,8 @@ public class MmsReceiverService extends Service {
                     } catch (Exception e) {
                     }
                 }
+            } else {
+                mBuilder.setVibrate(new long[] {0});
             }
 
             if (sharedPrefs.getBoolean("led", true)) {
