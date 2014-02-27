@@ -459,7 +459,7 @@ public class MmsReceiverService extends Service {
                     Bitmap b = null;
                     try {
                         for (int i = 0; i < images.length; i++) {
-                            b = SendUtil.getImage(context, Uri.parse(images[0]), 400);
+                            b = SendUtil.getImage(context, Uri.parse(images[i]), 400);
 
                             if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("auto_save_mms", false)) {
                                 String imageName = UUID.randomUUID().toString();
