@@ -1,4 +1,1 @@
-- Fixes to MMS notifications when auto download is disabled
-- Removed Samsung multiwindow support because it breaks the popup on Touchwiz devices
-- Ensure that vibrating doesn't occur for notifications when disabled
-- General bug fixes
+- Small adjustments to strip unicode, nothing will be stripped if message length is low enough to send as a single SMS anyways
