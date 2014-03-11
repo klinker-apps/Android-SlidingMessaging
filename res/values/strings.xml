@@ -919,5 +919,9 @@
     <string name="user_agent">User Agent</string>
     <string name="ua_prof_url">User Agent Profile Url</string>
     <string name="ua_prof_tag_name">User Agent Profile Tag Name</string>
+    <string name="block_all_unknown_numbers">Block All Unknown Numbers</string>
+    <string name="block_all_summary">This option will cause any message sent to you from a contact that is not saved on
+        your device to not be saved. You will also not be notified of these messages. This is mostly for the purpose of spam
+        messages, but please use cation if you decide to enable it.</string>
 
 </resources>

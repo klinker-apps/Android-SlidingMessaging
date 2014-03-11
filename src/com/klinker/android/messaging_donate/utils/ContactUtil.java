@@ -428,4 +428,35 @@ public class ContactUtil {
         mTelephonyMgr = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         return mTelephonyMgr.getLine1Number();
     }
+
+    public static boolean doesContactExist(String number, Context context) {
+        try {
+            String origin = number;
+
+            Uri phoneUri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(origin));
+
+            Cursor phonesCursor;
+
+            try {
+                phonesCursor = context.getContentResolver().query(phoneUri, new String[]{ContactsContract.Contacts.DISPLAY_NAME_PRIMARY, ContactsContract.RawContacts._ID}, null, null, ContactsContract.Contacts.DISPLAY_NAME + " desc limit 1");
+            } catch (Exception e) {
+                return false;
+            }
+
+            try {
+                if (phonesCursor != null && phonesCursor.moveToFirst()) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } finally {
+                if (phonesCursor != null) {
+                    phonesCursor.close();
+                }
+            }
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+    }
+
 }

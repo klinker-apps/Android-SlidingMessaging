@@ -134,6 +134,14 @@ public class TextMessageReceiver extends BroadcastReceiver {
                 }
             }
 
+            if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("block_all", false)
+                    && !ContactUtil.doesContactExist(address, context)) {
+                // user has enabled the block all setting and this address is unknown, so abort and don't do anything
+                // with the message
+                abortBroadcast();
+                return;
+            }
+
             final ArrayList<String> prevNotifications = IOUtil.readNotifications(context);
 
             if (blacklistType == 2) {
