@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
     package="com.klinker.android.messaging_donate"
-    android:versionCode="268"
-    android:versionName="8.18" >
+    android:versionCode="269"
+    android:versionName="8.182" >
 
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
@@ -47,9 +47,6 @@
         android:theme="@style/AppTheme"
         tools:ignore="ExportedActivity"
         android:hardwareAccelerated="true">
-        
-        <uses-library android:required="false" android:name="com.sec.android.app.multiwindow" />
-		<meta-data android:name="com.sec.android.support.multiwindow" android:value="true" />
 		
         <activity
             android:name="com.klinker.android.messaging_donate.MainActivity"

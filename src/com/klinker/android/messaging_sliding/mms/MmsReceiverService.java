@@ -456,13 +456,15 @@ public class MmsReceiverService extends Service {
                 if (images[0].trim().equals("")) {
                     makeNotification(name, body, null, phoneNumber, body, Calendar.getInstance().getTimeInMillis() + "", context);
                 } else {
-                    Bitmap b;
+                    Bitmap b = null;
                     try {
-                        b = SendUtil.getImage(context, Uri.parse(images[0]), 400);
-                        
-                        if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("auto_save_mms", false)) {
-                            String imageName = UUID.randomUUID().toString();
-                            IOUtil.saveImage(b, imageName, context);
+                        for (int i = 0; i < images.length; i++) {
+                            b = SendUtil.getImage(context, Uri.parse(images[i]), 400);
+
+                            if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("auto_save_mms", false)) {
+                                String imageName = UUID.randomUUID().toString();
+                                IOUtil.saveImage(b, imageName, context);
+                            }
                         }
                     } catch (Exception e) {
                         b = null;
@@ -564,6 +566,8 @@ public class MmsReceiverService extends Service {
                     } catch (Exception e) {
                     }
                 }
+            } else {
+                mBuilder.setVibrate(new long[] {0});
             }
 
             if (sharedPrefs.getBoolean("led", true)) {

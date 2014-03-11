@@ -1,2 +1,1 @@
-- Fixes to MMS notifications when auto download is disabled
-- General bug fixes
+- Small adjustments to strip unicode, nothing will be stripped if message length is low enough to send as a single SMS anyways

@@ -690,6 +690,8 @@ public class TextMessageReceiver extends BroadcastReceiver {
                         } catch (Exception e) {
                         }
                     }
+                } else if (!sharedPrefs.getBoolean("vibrate", true)) {
+                    mBuilder.setVibrate(new long[] {0});
                 }
 
                 if (sharedPrefs.getBoolean("led", true)) {
