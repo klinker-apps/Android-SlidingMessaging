@@ -10,6 +10,8 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -152,5 +154,46 @@ public class BlacklistActivity extends Activity {
         super.onBackPressed();
         finish();
         overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+            case R.id.menu_block_all:
+                if (item.isChecked()) {
+                    item.setChecked(false);
+                    PreferenceManager.getDefaultSharedPreferences(BlacklistActivity.this).edit().putBoolean("block_all", false).commit();
+                } else {
+                    new AlertDialog.Builder(this)
+                            .setMessage(R.string.block_all_summary)
+                            .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    item.setChecked(true);
+                                    PreferenceManager.getDefaultSharedPreferences(BlacklistActivity.this).edit().putBoolean("block_all", true).commit();
+                                }
+                            })
+                            .setNegativeButton(R.string.cancel, null)
+                            .show();
+                }
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_blacklist, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        menu.findItem(R.id.menu_block_all).setChecked(PreferenceManager.getDefaultSharedPreferences(this).getBoolean("block_all", false));
+        return super.onPrepareOptionsMenu(menu);
     }
 }
