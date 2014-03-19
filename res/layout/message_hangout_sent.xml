@@ -35,7 +35,6 @@
                 android:paddingRight="10dp"
                 android:paddingTop="10dp"
                 android:text="@string/placeholder"
-                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/card_conversation_summary"/>
 
         <ImageView
@@ -67,7 +66,6 @@
                 android:paddingRight="10dp"
                 android:paddingTop="4dp"
                 android:text="@string/placeholder"
-                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/card_message_text_date_2"/>
     </LinearLayout>
 

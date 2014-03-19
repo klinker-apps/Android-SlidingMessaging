@@ -1,3 +1,0 @@
-- Option to block all unknown numbers in blacklist settings
-- Small adjustments to strip unicode, nothing will be stripped if message length is low enough to send as a single SMS anyways
-- Fixes for select cases where MMS would be sent twice
