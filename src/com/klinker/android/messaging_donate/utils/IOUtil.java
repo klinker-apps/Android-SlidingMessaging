@@ -97,6 +97,33 @@ public class IOUtil {
         Toast.makeText(context, context.getResources().getString(R.string.save_image), Toast.LENGTH_SHORT).show();
     }
 
+    public static void saveFile(Uri uri, String name, String extension, Context context) {
+        String sourceFilename = getPath(uri, context);
+        String destinationFilename = android.os.Environment.getExternalStorageDirectory().getPath() + "/Download/" + name + extension;
+
+        BufferedInputStream bis = null;
+        BufferedOutputStream bos = null;
+
+        try {
+            bis = new BufferedInputStream(new FileInputStream(sourceFilename));
+            bos = new BufferedOutputStream(new FileOutputStream(destinationFilename, false));
+            byte[] buf = new byte[1024];
+            bis.read(buf);
+            do {
+                bos.write(buf);
+            } while (bis.read(buf) != -1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (bis != null) bis.close();
+                if (bos != null) bos.close();
+            } catch (IOException e) {
+
+            }
+        }
+    }
+
     public static Bitmap decodeFile(File f) {
         try {
             //Decode image size

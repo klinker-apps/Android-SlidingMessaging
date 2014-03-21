@@ -927,5 +927,6 @@
     <string name="call_contact">Call Contact</string>
     <string name="copy_contact_number">Copy Contact Phone Number</string>
     <string name="copy_contact_email">Copy Email Address</string>
+    <string name="save">Save</string>
 
 </resources>

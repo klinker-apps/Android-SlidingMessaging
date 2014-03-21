@@ -433,12 +433,12 @@ public class MessageCursorAdapter extends CursorAdapter {
                                                     @Override
                                                     public void onClick(View view) {
                                                         if (imagesF.length == 1) {
-                                                            Intent intent = new Intent();
-                                                            intent.setAction(Intent.ACTION_VIEW);
-                                                            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                                                            intent.putExtra("SingleItemOnly", true);
-                                                            intent.setDataAndType(Uri.parse(imageUri), "image/*");
+                                                            Intent intent = new Intent(context, PhotoViewerDialog.class);
+                                                            intent.putExtra("uri",imageUri);
+                                                            java.text.DateFormat formatter = new SimpleDateFormat("yyyyMMdd_HHmmss");
+                                                            intent.putExtra("name", formatter.format(Calendar.getInstance().getTimeInMillis()));
                                                             context.startActivity(intent);
+                                                            context.overridePendingTransition(android.R.anim.fade_in, 0);
                                                         } else {
                                                             Intent intent = new Intent();
                                                             intent.setClass(context, ImageViewer.class);
@@ -609,12 +609,12 @@ public class MessageCursorAdapter extends CursorAdapter {
                                 @Override
                                 public void onClick(View view) {
                                     if (imagesF.length == 1) {
-                                        Intent intent = new Intent();
-                                        intent.setAction(Intent.ACTION_VIEW);
-                                        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                                        intent.putExtra("SingleItemOnly", true);
-                                        intent.setDataAndType(Uri.parse(imageUri), "image/*");
+                                        Intent intent = new Intent(context, PhotoViewerDialog.class);
+                                        intent.putExtra("uri", imageUri);
+                                        java.text.DateFormat formatter = new SimpleDateFormat("yyyyMMdd_HHmmss");
+                                        intent.putExtra("name", formatter.format(Calendar.getInstance().getTimeInMillis()));
                                         context.startActivity(intent);
+                                        context.overridePendingTransition(android.R.anim.fade_in, 0);
                                     } else {
                                         Intent intent = new Intent();
                                         intent.setClass(context, ImageViewer.class);
