@@ -923,5 +923,9 @@
     <string name="block_all_summary">This option will cause any message sent to you from a contact that is not saved on
         your device to not be saved. You will also not be notified of these messages. This is mostly for the purpose of spam
         messages, but please use cation if you decide to enable it.</string>
+    <string name="add_contact">Save Contact</string>
+    <string name="call_contact">Call Contact</string>
+    <string name="copy_contact_number">Copy Contact Phone Number</string>
+    <string name="copy_contact_email">Copy Email Address</string>
 
 </resources>

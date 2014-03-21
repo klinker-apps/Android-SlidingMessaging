@@ -52,6 +52,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
         public QuickContactBadge image;
         public boolean mmsTag;
         public ImageView previewImage;
+        public View background;
     }
 
     public MenuArrayAdapter(Activity context, ArrayList<Conversation> conversations, ViewPager pager) {
@@ -97,6 +98,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
             viewHolder.text4 = (TextView) contactView.findViewById(R.id.contactDate2);
             viewHolder.image = (QuickContactBadge) contactView.findViewById(R.id.quickContactBadge3);
             viewHolder.previewImage = (ImageView) contactView.findViewById(R.id.conversationImage);
+            viewHolder.background = contactView.findViewById(R.id.background);
 
 
             if (MainActivity.settings.hideDate) {
@@ -391,7 +393,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
                 }
             }).start();
         } else {
-            MessageCursorAdapter.setMessageText(holder.text2, mBody, context);
+            MessageCursorAdapter.setMessageText(holder.text2, holder.background, mBody, context, false);
         }
 
         Date date2 = new Date(0);

@@ -411,7 +411,7 @@ public class MessageCursorAdapter extends CursorAdapter {
 
                                         @Override
                                         public void run() {
-                                            setMessageText(holder.text, text, context);
+                                            setMessageText(holder.text, holder.background, text, context, true);
 
                                             if (imageUri == null && videoF == null && audioF == null && vcardF == null) {
                                                 holder.media.setVisibility(View.GONE);
@@ -592,7 +592,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                         final String audioF = audio;
                         final String vcardF = vcard;
 
-                        setMessageText(holder.text, body, context);
+                        setMessageText(holder.text, holder.background, body, context, true);
 
                         if (imageUri == null && videoF == null && audioF == null && vcardF == null) {
                             holder.media.setVisibility(View.GONE);
@@ -912,7 +912,7 @@ public class MessageCursorAdapter extends CursorAdapter {
             }).start();
         }
 
-        setMessageText(holder.text, body, context);
+        setMessageText(holder.text, holder.background, body, context, true);
 
         if (cursor.getPosition() == 0) {
             if (MainActivity.settings.runAs.equals("hangout")) {
@@ -1782,7 +1782,7 @@ public class MessageCursorAdapter extends CursorAdapter {
         public Uri imageUri;
     }
 
-    public static void setMessageText(final TextView textView, final String body, final Activity context) {
+    public static void setMessageText(final TextView textView, final View holder, final String body, final Activity context, final boolean link) {
         if (textView.getVisibility() == View.GONE) {
             return;
         }
@@ -1820,7 +1820,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                     @Override
                                     public void run() {
                                         textView.setText(text);
-                                        linkifyText(textView);
+                                        linkifyText(textView, holder, context, link);
                                     }
 
                                 });
@@ -1834,7 +1834,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                             textView.setText(EmoticonConverter2.getSmiledText(context, body));
                         }
 
-                        linkifyText(textView);
+                        linkifyText(textView, holder, context, link);
                     }
                 } catch (Exception e) {
                     // problem getting an emoji FIXME
@@ -1872,7 +1872,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                     @Override
                                     public void run() {
                                         textView.setText(text);
-                                        linkifyText(textView);
+                                        linkifyText(textView, holder, context, link);
                                     }
 
                                 });
@@ -1886,7 +1886,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                             textView.setText(EmoticonConverter.getSmiledText(context, body));
                         }
 
-                        linkifyText(textView);
+                        linkifyText(textView, holder, context, link);
                     }
                 } catch ( Exception e) {
                     //FIXME same thing
@@ -1916,7 +1916,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                     @Override
                                     public void run() {
                                         textView.setText(text);
-                                        linkifyText(textView);
+                                        linkifyText(textView, holder, context, link);
                                     }
 
                                 });
@@ -1925,7 +1925,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                         }).start();
                     } else {
                         textView.setText(body);
-                        linkifyText(textView);
+                        linkifyText(textView, holder, context, link);
                     }
                 } catch (Exception e) {
                     // FIXME same again
@@ -1963,7 +1963,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                     @Override
                                     public void run() {
                                         textView.setText(text);
-                                        linkifyText(textView);
+                                        linkifyText(textView, holder, context, link);
                                     }
 
                                 });
@@ -1977,7 +1977,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                             textView.setText(EmoticonConverter3.getSmiledText(context, body));
                         }
 
-                        linkifyText(textView);
+                        linkifyText(textView, holder, context, link);
                     }
                 } catch (Exception e) {
                     // FIXME one more
@@ -1986,17 +1986,12 @@ public class MessageCursorAdapter extends CursorAdapter {
         } else {
             textView.setText(body);
 
-            linkifyText(textView);
+            linkifyText(textView, holder, context, link);
         }
     }
 
-    private static void linkifyText(TextView textView) {
-        CharSequence text = textView.getText();
-        if (Patterns.PHONE.matcher(text).find() ||
-                Patterns.EMAIL_ADDRESS.matcher(text).find() ||
-                Patterns.WEB_URL.matcher(text).find()) {
-            Linkify.addLinks(textView, Linkify.ALL);
-        }
+    private static void linkifyText(TextView textView, View holder, Context context, boolean link) {
+        com.klinker.android.messaging_donate.utils.text.TextUtils.linkifyText(context, textView, holder, link);
     }
 
     public void downloadableMessage(final ViewHolder holder, final String id) {
