@@ -277,7 +277,7 @@ public class ContactUtil {
 
                 if (photoUri != null) {
                     InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(
-                            cr, photoUri);
+                            cr, photoUri, true);
                     if (input != null) {
                         contact.close();
                         return BitmapFactory.decodeStream(input);
