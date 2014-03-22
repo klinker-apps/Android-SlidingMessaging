@@ -236,7 +236,8 @@ public class ContactUtil {
 
         InputStream avatarDataStream = ContactsContract.Contacts.openContactPhotoInputStream(
                 context.getContentResolver(),
-                contactUri);
+                contactUri,
+                true);
 
         return avatarDataStream;
     }
@@ -341,6 +342,7 @@ public class ContactUtil {
         }
     }
 
+    private static final int GROUP_RES = 500;
     private static Bitmap getGroupPhoto(String[] numbers, Context context) {
         try {
             switch (numbers.length) {
@@ -348,66 +350,66 @@ public class ContactUtil {
                     Bitmap[] bitmaps = new Bitmap[numbers.length];
                     for (int i = 0; i < bitmaps.length; i++) {
                         bitmaps[i] = getFacebookPhoto(numbers[i], context);
-                        bitmaps[i] = Bitmap.createBitmap(Bitmap.createScaledBitmap(bitmaps[i], 180, 180, false), 45, 0, 90, 180);
+                        bitmaps[i] = Bitmap.createBitmap(Bitmap.createScaledBitmap(bitmaps[i], GROUP_RES, GROUP_RES, false), GROUP_RES/4, 0, GROUP_RES/2, GROUP_RES);
                     }
 
-                    Bitmap image = Bitmap.createBitmap(180, 180, Bitmap.Config.ARGB_8888);
+                    Bitmap image = Bitmap.createBitmap(GROUP_RES, GROUP_RES, Bitmap.Config.ARGB_8888);
                     Canvas canvas = new Canvas(image);
                     canvas.drawBitmap(bitmaps[0], 0, 0, null);
-                    canvas.drawBitmap(bitmaps[1], 90, 0, null);
+                    canvas.drawBitmap(bitmaps[1], GROUP_RES/2, 0, null);
 
                     Paint linePaint = new Paint();
                     linePaint.setStrokeWidth(1f);
                     linePaint.setColor(context.getResources().getColor(R.color.shadow));
 
-                    canvas.drawLine(90, 0, 90, 180, linePaint);
+                    canvas.drawLine(GROUP_RES/2, 0, GROUP_RES/2, GROUP_RES, linePaint);
                     return image;
                 case 3:
                     bitmaps = new Bitmap[numbers.length];
                     bitmaps[0] = getFacebookPhoto(numbers[0], context);
-                    bitmaps[0] = Bitmap.createBitmap(Bitmap.createScaledBitmap(bitmaps[0], 180, 180, false), 45, 0, 90, 180);
+                    bitmaps[0] = Bitmap.createBitmap(Bitmap.createScaledBitmap(bitmaps[0], GROUP_RES, GROUP_RES, false), GROUP_RES/4, 0, GROUP_RES/2, GROUP_RES);
                     bitmaps[1] = getFacebookPhoto(numbers[1], context);
-                    bitmaps[1] = Bitmap.createBitmap(Bitmap.createScaledBitmap(bitmaps[1], 180, 180, false), 45, 45, 90, 90);
+                    bitmaps[1] = Bitmap.createBitmap(Bitmap.createScaledBitmap(bitmaps[1], GROUP_RES, GROUP_RES, false), GROUP_RES/4, GROUP_RES/4, GROUP_RES/2, GROUP_RES/2);
                     bitmaps[2] = getFacebookPhoto(numbers[2], context);
-                    bitmaps[2] = Bitmap.createBitmap(Bitmap.createScaledBitmap(bitmaps[2], 180, 180, false), 45, 45, 90, 90);
+                    bitmaps[2] = Bitmap.createBitmap(Bitmap.createScaledBitmap(bitmaps[2], GROUP_RES, GROUP_RES, false), GROUP_RES/4, GROUP_RES/4, GROUP_RES/2, GROUP_RES/2);
 
-                    image = Bitmap.createBitmap(180, 180, Bitmap.Config.ARGB_8888);
+                    image = Bitmap.createBitmap(GROUP_RES, GROUP_RES, Bitmap.Config.ARGB_8888);
                     canvas = new Canvas(image);
                     canvas.drawBitmap(bitmaps[0], 0, 0, null);
-                    canvas.drawBitmap(bitmaps[1], 90, 0, null);
-                    canvas.drawBitmap(bitmaps[2], 90, 90, null);
+                    canvas.drawBitmap(bitmaps[1], GROUP_RES/2, 0, null);
+                    canvas.drawBitmap(bitmaps[2], GROUP_RES/2, GROUP_RES/2, null);
 
                     linePaint = new Paint();
                     linePaint.setStrokeWidth(1f);
                     linePaint.setColor(context.getResources().getColor(R.color.shadow));
 
-                    canvas.drawLine(90, 0, 90, 180, linePaint);
-                    canvas.drawLine(90, 90, 180, 90, linePaint);
+                    canvas.drawLine(GROUP_RES/2, 0, GROUP_RES/2, GROUP_RES, linePaint);
+                    canvas.drawLine(GROUP_RES/2, GROUP_RES/2, GROUP_RES, GROUP_RES/2, linePaint);
                     return image;
                 case 4:
                     bitmaps = new Bitmap[numbers.length];
                     bitmaps[0] = getFacebookPhoto(numbers[0], context);
-                    bitmaps[0] = Bitmap.createBitmap(Bitmap.createScaledBitmap(bitmaps[0], 180, 180, false), 45, 45, 90, 90);
+                    bitmaps[0] = Bitmap.createBitmap(Bitmap.createScaledBitmap(bitmaps[0], GROUP_RES, GROUP_RES, false), GROUP_RES/4, GROUP_RES/4, GROUP_RES/2, GROUP_RES/2);
                     bitmaps[1] = getFacebookPhoto(numbers[1], context);
-                    bitmaps[1] = Bitmap.createBitmap(Bitmap.createScaledBitmap(bitmaps[1], 180, 180, false), 45, 45, 90, 90);
+                    bitmaps[1] = Bitmap.createBitmap(Bitmap.createScaledBitmap(bitmaps[1], GROUP_RES, GROUP_RES, false), GROUP_RES/4, GROUP_RES/4, GROUP_RES/2, GROUP_RES/2);
                     bitmaps[2] = getFacebookPhoto(numbers[2], context);
-                    bitmaps[2] = Bitmap.createBitmap(Bitmap.createScaledBitmap(bitmaps[2], 180, 180, false), 45, 45, 90, 90);
+                    bitmaps[2] = Bitmap.createBitmap(Bitmap.createScaledBitmap(bitmaps[2], GROUP_RES, GROUP_RES, false), GROUP_RES/4, GROUP_RES/4, GROUP_RES/2, GROUP_RES/2);
                     bitmaps[3] = getFacebookPhoto(numbers[3], context);
-                    bitmaps[3] = Bitmap.createBitmap(Bitmap.createScaledBitmap(bitmaps[3], 180, 180, false), 45, 45, 90, 90);
+                    bitmaps[3] = Bitmap.createBitmap(Bitmap.createScaledBitmap(bitmaps[3], GROUP_RES, GROUP_RES, false), GROUP_RES/4, GROUP_RES/4, GROUP_RES/2, GROUP_RES/2);
 
-                    image = Bitmap.createBitmap(180, 180, Bitmap.Config.ARGB_8888);
+                    image = Bitmap.createBitmap(GROUP_RES, GROUP_RES, Bitmap.Config.ARGB_8888);
                     canvas = new Canvas(image);
                     canvas.drawBitmap(bitmaps[0], 0, 0, null);
-                    canvas.drawBitmap(bitmaps[1], 90, 0, null);
-                    canvas.drawBitmap(bitmaps[2], 90, 90, null);
-                    canvas.drawBitmap(bitmaps[3], 0, 90, null);
+                    canvas.drawBitmap(bitmaps[1], GROUP_RES/2, 0, null);
+                    canvas.drawBitmap(bitmaps[2], GROUP_RES/2, GROUP_RES/2, null);
+                    canvas.drawBitmap(bitmaps[3], 0, GROUP_RES/2, null);
 
                     linePaint = new Paint();
                     linePaint.setStrokeWidth(1f);
                     linePaint.setColor(context.getResources().getColor(R.color.shadow));
 
-                    canvas.drawLine(90, 0, 90, 180, linePaint);
-                    canvas.drawLine(0, 90, 180, 90, linePaint);
+                    canvas.drawLine(GROUP_RES/2, 0, GROUP_RES/2, GROUP_RES, linePaint);
+                    canvas.drawLine(0, GROUP_RES/2, GROUP_RES, GROUP_RES/2, linePaint);
                     return image;
             }
         } catch (Exception e) {

@@ -1,3 +1,4 @@
 - In-app image viewing
+- Much higher contact picture resolution
 - Better handling of links in messages
 - Bug fixes for font sizes
