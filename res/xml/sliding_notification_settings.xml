@@ -115,12 +115,14 @@
     <PreferenceCategory android:key="notification_vibrate_category"
         android:title="@string/notification_vibrate_category" >
 
-        <CheckBoxPreference
-            android:key="vibrate"
-            android:title="@string/vibrate"
-            android:defaultValue="true"
-            android:dependency="notifications"
-            />
+        <ListPreference
+                android:key="vibrate_mode"
+                android:title="@string/vibrate_mode"
+                android:defaultValue="0"
+                android:entries="@array/vibrate_mode"
+                android:entryValues="@array/vibrate_mode_inserted"
+                android:dependency="notifications"
+                />
 
         <ListPreference
             android:key="vibrate_pattern"
@@ -129,7 +131,6 @@
             android:defaultValue="2short"
             android:entries="@array/vibratePattern"
             android:entryValues="@array/vibratePatternSet"
-            android:dependency="vibrate"
             />
 
         <CheckBoxPreference
@@ -137,7 +138,6 @@
             android:title="@string/custom_vibrate_pattern"
             android:summary="@string/custom_vibrate_pattern_summary"
             android:defaultValue="false"
-            android:dependency="vibrate"
             />
 
         <EditTextPreference

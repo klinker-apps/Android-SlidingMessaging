@@ -37,6 +37,7 @@ import com.google.android.mms.pdu_alt.PduPersister;
 import com.google.android.mms.pdu_alt.RetrieveConf;
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_donate.settings.AppSettings;
 import com.klinker.android.messaging_donate.utils.ContactUtil;
 import com.klinker.android.messaging_donate.utils.IOUtil;
 import com.klinker.android.messaging_donate.utils.MessageUtil;
@@ -530,7 +531,8 @@ public class MmsReceiverService extends Service {
 
             mBuilder.setAutoCancel(true);
 
-            if (sharedPrefs.getBoolean("vibrate", true)) {
+            AppSettings settings = AppSettings.init(context);
+            if (settings.vibrate == AppSettings.VIBRATE_ALWAYS) {
                 if (!sharedPrefs.getBoolean("custom_vibrate_pattern", false)) {
                     String vibPat = sharedPrefs.getString("vibrate_pattern", "2short");
 
@@ -566,7 +568,7 @@ public class MmsReceiverService extends Service {
                     } catch (Exception e) {
                     }
                 }
-            } else {
+            } else if (settings.vibrate == AppSettings.VIBRATE_NEVER) {
                 mBuilder.setVibrate(new long[] {0});
             }
 
