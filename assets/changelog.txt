@@ -1,5 +1,1 @@
-- In-app image viewing
-- Much higher contact picture resolution
-- Better handling of links in messages
-- Changes to the vibration options in settings to allow more fine tuning
-- Bug fixes for font sizes
+- Fix for Android/Samsung MMS security bug when sending and downloading images for select devices (Note 3/S4)
