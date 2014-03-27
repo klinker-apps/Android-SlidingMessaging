@@ -13,6 +13,11 @@ Luke:
     - Force close on attach more
     - Notification sounds with slideover and popup
 
+
+Bugs:
+    - jumps to the middle of a conversation sometimes after sending a reply
+    - Text in the action bar isn't always right when you open from a notification
+
 1) more individual notification options (notification icon)
 2) option for adding certain text to every message at the beginning (delivery reports?)
 3) Tasker options
