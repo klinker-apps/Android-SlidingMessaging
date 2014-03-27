@@ -15,6 +15,7 @@ import android.os.PowerManager.WakeLock;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import com.klinker.android.messaging_donate.settings.AppSettings;
 
 public class NotificationRepeaterService extends IntentService {
 
@@ -53,12 +54,13 @@ public class NotificationRepeaterService extends IntentService {
         }
 
         AudioManager am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        AppSettings settings = AppSettings.init(this);
 
         switch (am.getRingerMode()) {
             case AudioManager.RINGER_MODE_SILENT:
                 break;
             case AudioManager.RINGER_MODE_VIBRATE:
-                if (sharedPrefs.getBoolean("vibrate", true)) {
+                if (settings.vibrate == AppSettings.VIBRATE_ALWAYS || settings.vibrate == AppSettings.VIBRATE_ONLY_MODE) {
                     Vibrator vibrator = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
 
                     if (!sharedPrefs.getBoolean("custom_vibrate_pattern", false)) {
@@ -113,7 +115,7 @@ public class NotificationRepeaterService extends IntentService {
                     Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
                     r.play();
 
-                    if (sharedPrefs.getBoolean("vibrate", true)) {
+                    if (settings.vibrate == AppSettings.VIBRATE_ALWAYS) {
                         Vibrator vibrator = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
 
                         if (!sharedPrefs.getBoolean("custom_vibrate_pattern", false)) {

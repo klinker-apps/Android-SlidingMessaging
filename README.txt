@@ -17,3 +17,4 @@ This is a private repo to work on Jacob and Luke's Sliding Messaging Pro android
 8) Sliding Menu (https://github.com/jfeinstein10/SlidingMenu)
 9) DateTimePicker (https://github.com/klinker41/datetimepicker)
 10) SmoothProgressBar (https://github.com/castorflex/SmoothProgressBar)
+11) PhotoViewer (https://github.com/chrisbanes/PhotoView)

@@ -1,2 +1,1 @@
-- Small adjustments to strip unicode, nothing will be stripped if message length is low enough to send as a single SMS anyways
-- Option to block all unknown numbers in blacklist settings
+- Fix for Android/Samsung MMS security bug when sending and downloading images for select devices (Note 3/S4)

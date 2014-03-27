@@ -1,8 +1,7 @@
 package com.klinker.android.messaging_donate.utils;
 
-import android.content.ContentResolver;
-import android.content.ContentUris;
-import android.content.Context;
+import android.app.AlertDialog;
+import android.content.*;
 import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -18,6 +17,9 @@ import android.telephony.PhoneNumberUtils;
 import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.SpannableStringBuilder;
+import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
 
@@ -234,7 +236,8 @@ public class ContactUtil {
 
         InputStream avatarDataStream = ContactsContract.Contacts.openContactPhotoInputStream(
                 context.getContentResolver(),
-                contactUri);
+                contactUri,
+                true);
 
         return avatarDataStream;
     }
@@ -275,7 +278,7 @@ public class ContactUtil {
 
                 if (photoUri != null) {
                     InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(
-                            cr, photoUri);
+                            cr, photoUri, true);
                     if (input != null) {
                         contact.close();
                         return BitmapFactory.decodeStream(input);
@@ -339,6 +342,7 @@ public class ContactUtil {
         }
     }
 
+    private static final int GROUP_RES = 500;
     private static Bitmap getGroupPhoto(String[] numbers, Context context) {
         try {
             switch (numbers.length) {
@@ -346,66 +350,66 @@ public class ContactUtil {
                     Bitmap[] bitmaps = new Bitmap[numbers.length];
                     for (int i = 0; i < bitmaps.length; i++) {
                         bitmaps[i] = getFacebookPhoto(numbers[i], context);
-                        bitmaps[i] = Bitmap.createBitmap(Bitmap.createScaledBitmap(bitmaps[i], 180, 180, false), 45, 0, 90, 180);
+                        bitmaps[i] = Bitmap.createBitmap(Bitmap.createScaledBitmap(bitmaps[i], GROUP_RES, GROUP_RES, false), GROUP_RES/4, 0, GROUP_RES/2, GROUP_RES);
                     }
 
-                    Bitmap image = Bitmap.createBitmap(180, 180, Bitmap.Config.ARGB_8888);
+                    Bitmap image = Bitmap.createBitmap(GROUP_RES, GROUP_RES, Bitmap.Config.ARGB_8888);
                     Canvas canvas = new Canvas(image);
                     canvas.drawBitmap(bitmaps[0], 0, 0, null);
-                    canvas.drawBitmap(bitmaps[1], 90, 0, null);
+                    canvas.drawBitmap(bitmaps[1], GROUP_RES/2, 0, null);
 
                     Paint linePaint = new Paint();
                     linePaint.setStrokeWidth(1f);
                     linePaint.setColor(context.getResources().getColor(R.color.shadow));
 
-                    canvas.drawLine(90, 0, 90, 180, linePaint);
+                    canvas.drawLine(GROUP_RES/2, 0, GROUP_RES/2, GROUP_RES, linePaint);
                     return image;
                 case 3:
                     bitmaps = new Bitmap[numbers.length];
                     bitmaps[0] = getFacebookPhoto(numbers[0], context);
-                    bitmaps[0] = Bitmap.createBitmap(Bitmap.createScaledBitmap(bitmaps[0], 180, 180, false), 45, 0, 90, 180);
+                    bitmaps[0] = Bitmap.createBitmap(Bitmap.createScaledBitmap(bitmaps[0], GROUP_RES, GROUP_RES, false), GROUP_RES/4, 0, GROUP_RES/2, GROUP_RES);
                     bitmaps[1] = getFacebookPhoto(numbers[1], context);
-                    bitmaps[1] = Bitmap.createBitmap(Bitmap.createScaledBitmap(bitmaps[1], 180, 180, false), 45, 45, 90, 90);
+                    bitmaps[1] = Bitmap.createBitmap(Bitmap.createScaledBitmap(bitmaps[1], GROUP_RES, GROUP_RES, false), GROUP_RES/4, GROUP_RES/4, GROUP_RES/2, GROUP_RES/2);
                     bitmaps[2] = getFacebookPhoto(numbers[2], context);
-                    bitmaps[2] = Bitmap.createBitmap(Bitmap.createScaledBitmap(bitmaps[2], 180, 180, false), 45, 45, 90, 90);
+                    bitmaps[2] = Bitmap.createBitmap(Bitmap.createScaledBitmap(bitmaps[2], GROUP_RES, GROUP_RES, false), GROUP_RES/4, GROUP_RES/4, GROUP_RES/2, GROUP_RES/2);
 
-                    image = Bitmap.createBitmap(180, 180, Bitmap.Config.ARGB_8888);
+                    image = Bitmap.createBitmap(GROUP_RES, GROUP_RES, Bitmap.Config.ARGB_8888);
                     canvas = new Canvas(image);
                     canvas.drawBitmap(bitmaps[0], 0, 0, null);
-                    canvas.drawBitmap(bitmaps[1], 90, 0, null);
-                    canvas.drawBitmap(bitmaps[2], 90, 90, null);
+                    canvas.drawBitmap(bitmaps[1], GROUP_RES/2, 0, null);
+                    canvas.drawBitmap(bitmaps[2], GROUP_RES/2, GROUP_RES/2, null);
 
                     linePaint = new Paint();
                     linePaint.setStrokeWidth(1f);
                     linePaint.setColor(context.getResources().getColor(R.color.shadow));
 
-                    canvas.drawLine(90, 0, 90, 180, linePaint);
-                    canvas.drawLine(90, 90, 180, 90, linePaint);
+                    canvas.drawLine(GROUP_RES/2, 0, GROUP_RES/2, GROUP_RES, linePaint);
+                    canvas.drawLine(GROUP_RES/2, GROUP_RES/2, GROUP_RES, GROUP_RES/2, linePaint);
                     return image;
                 case 4:
                     bitmaps = new Bitmap[numbers.length];
                     bitmaps[0] = getFacebookPhoto(numbers[0], context);
-                    bitmaps[0] = Bitmap.createBitmap(Bitmap.createScaledBitmap(bitmaps[0], 180, 180, false), 45, 45, 90, 90);
+                    bitmaps[0] = Bitmap.createBitmap(Bitmap.createScaledBitmap(bitmaps[0], GROUP_RES, GROUP_RES, false), GROUP_RES/4, GROUP_RES/4, GROUP_RES/2, GROUP_RES/2);
                     bitmaps[1] = getFacebookPhoto(numbers[1], context);
-                    bitmaps[1] = Bitmap.createBitmap(Bitmap.createScaledBitmap(bitmaps[1], 180, 180, false), 45, 45, 90, 90);
+                    bitmaps[1] = Bitmap.createBitmap(Bitmap.createScaledBitmap(bitmaps[1], GROUP_RES, GROUP_RES, false), GROUP_RES/4, GROUP_RES/4, GROUP_RES/2, GROUP_RES/2);
                     bitmaps[2] = getFacebookPhoto(numbers[2], context);
-                    bitmaps[2] = Bitmap.createBitmap(Bitmap.createScaledBitmap(bitmaps[2], 180, 180, false), 45, 45, 90, 90);
+                    bitmaps[2] = Bitmap.createBitmap(Bitmap.createScaledBitmap(bitmaps[2], GROUP_RES, GROUP_RES, false), GROUP_RES/4, GROUP_RES/4, GROUP_RES/2, GROUP_RES/2);
                     bitmaps[3] = getFacebookPhoto(numbers[3], context);
-                    bitmaps[3] = Bitmap.createBitmap(Bitmap.createScaledBitmap(bitmaps[3], 180, 180, false), 45, 45, 90, 90);
+                    bitmaps[3] = Bitmap.createBitmap(Bitmap.createScaledBitmap(bitmaps[3], GROUP_RES, GROUP_RES, false), GROUP_RES/4, GROUP_RES/4, GROUP_RES/2, GROUP_RES/2);
 
-                    image = Bitmap.createBitmap(180, 180, Bitmap.Config.ARGB_8888);
+                    image = Bitmap.createBitmap(GROUP_RES, GROUP_RES, Bitmap.Config.ARGB_8888);
                     canvas = new Canvas(image);
                     canvas.drawBitmap(bitmaps[0], 0, 0, null);
-                    canvas.drawBitmap(bitmaps[1], 90, 0, null);
-                    canvas.drawBitmap(bitmaps[2], 90, 90, null);
-                    canvas.drawBitmap(bitmaps[3], 0, 90, null);
+                    canvas.drawBitmap(bitmaps[1], GROUP_RES/2, 0, null);
+                    canvas.drawBitmap(bitmaps[2], GROUP_RES/2, GROUP_RES/2, null);
+                    canvas.drawBitmap(bitmaps[3], 0, GROUP_RES/2, null);
 
                     linePaint = new Paint();
                     linePaint.setStrokeWidth(1f);
                     linePaint.setColor(context.getResources().getColor(R.color.shadow));
 
-                    canvas.drawLine(90, 0, 90, 180, linePaint);
-                    canvas.drawLine(0, 90, 180, 90, linePaint);
+                    canvas.drawLine(GROUP_RES/2, 0, GROUP_RES/2, GROUP_RES, linePaint);
+                    canvas.drawLine(0, GROUP_RES/2, GROUP_RES, GROUP_RES/2, linePaint);
                     return image;
             }
         } catch (Exception e) {
@@ -456,6 +460,134 @@ public class ContactUtil {
             }
         } catch (IllegalArgumentException e) {
             return false;
+        }
+    }
+
+    private static Uri getContactId(Context context, String number) throws Exception {
+        ContentResolver contentResolver = context.getContentResolver();
+
+        if (!number.contains("@")) {
+            String id;
+            Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
+
+            Cursor cursor =
+                    contentResolver.query(
+                            uri,
+                            new String[]{ContactsContract.PhoneLookup.DISPLAY_NAME, ContactsContract.PhoneLookup._ID},
+                            null,
+                            null,
+                            null);
+
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    id = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.PhoneLookup._ID));
+                } while (cursor.moveToNext());
+                cursor.close();
+            } else {
+                throw new Exception("no phone number");
+            }
+
+            return Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, String.valueOf(id));
+        } else {
+            ContentResolver cr = context.getContentResolver();
+            String[] PROJECTION = new String[] { ContactsContract.RawContacts._ID,
+                    ContactsContract.Contacts.DISPLAY_NAME,
+                    ContactsContract.Contacts._ID,
+                    ContactsContract.Contacts.PHOTO_ID,
+                    ContactsContract.CommonDataKinds.Email.DATA,
+                    ContactsContract.CommonDataKinds.Photo.CONTACT_ID,
+                    ContactsContract.Contacts.LOOKUP_KEY};
+            String order = "CASE WHEN "
+                    + ContactsContract.Contacts.DISPLAY_NAME
+                    + " NOT LIKE '%@%' THEN 1 ELSE 2 END, "
+                    + ContactsContract.Contacts.DISPLAY_NAME
+                    + ", "
+                    + ContactsContract.CommonDataKinds.Email.DATA
+                    + " COLLATE NOCASE";
+            String filter = ContactsContract.CommonDataKinds.Email.DATA + " NOT LIKE ''";
+            Cursor cur = cr.query(ContactsContract.CommonDataKinds.Email.CONTENT_URI, PROJECTION, filter, null, order);
+
+            if (cur.moveToFirst()) {
+                Log.v("email_search", "moved to first");
+                Log.v("email_search", "length of cursor: " + cur.getCount());
+
+                do {
+                    String email = cur.getString(cur.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
+                    Log.v("email_search", "found address: " + email);
+                    if (email.equals(number)) {
+                        Log.v("email_search", "found contact with name " + cur.getString(cur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)));
+                        String lookupKey = cur.getString(cur.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY));
+                        Log.v("email_search", "lookup key: " + lookupKey);
+                        Uri lookupUri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_LOOKUP_URI, lookupKey);
+                        Uri uri = ContactsContract.Contacts.lookupContact(cr, lookupUri);
+                        Log.v("email_search", "uri: " + uri.toString());
+                        cur.close();
+                        return uri;
+                    }
+                } while (cur.moveToNext());
+            }
+
+            throw new Exception("not found");
+        }
+    }
+
+    public static void showContactDialog(final Context context, final String number, View base) {
+        try {
+            Uri uri = getContactId(context, number);
+            ContactsContract.QuickContact.showQuickContact(context, base, uri, ContactsContract.QuickContact.MODE_LARGE, null);
+        } catch (Exception e) {
+            if (!number.contains("@")) {
+                new AlertDialog.Builder(context)
+                        .setItems(MessageUtil.parseNumber(number).equals(MessageUtil.parseNumber(number)) ? R.array.contactOptionsSave : R.array.contactOptions, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                switch (i) {
+                                    case 0:
+                                        Intent callIntent = new Intent(Intent.ACTION_CALL);
+                                        callIntent.setData(Uri.parse("tel:" + number));
+                                        callIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        context.startActivity(callIntent);
+                                        break;
+                                    case 1:
+                                        ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+                                        ClipData clip = ClipData.newPlainText("Copied Address", number);
+                                        clipboard.setPrimaryClip(clip);
+
+                                        Toast.makeText(context, R.string.text_saved, Toast.LENGTH_SHORT).show();
+                                        break;
+                                    case 2:
+                                        Intent intent = new Intent(Intent.ACTION_INSERT);
+                                        intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
+                                        intent.putExtra(ContactsContract.Intents.Insert.PHONE, number);
+                                        context.startActivity(intent);
+                                }
+                            }
+                        })
+                        .show();
+            } else {
+                new AlertDialog.Builder(context)
+                        .setItems(R.array.contactOptionsSaveEmail, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                switch (i) {
+                                    case 0:
+                                        ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+                                        ClipData clip = ClipData.newPlainText("Copied Address", number);
+                                        clipboard.setPrimaryClip(clip);
+
+                                        Toast.makeText(context, R.string.text_saved, Toast.LENGTH_SHORT).show();
+                                        break;
+                                    case 1:
+                                        Intent intent = new Intent(Intent.ACTION_INSERT);
+                                        intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
+                                        intent.putExtra(ContactsContract.Intents.Insert.EMAIL, number);
+                                        context.startActivity(intent);
+                                        break;
+                                }
+                            }
+                        })
+                        .show();
+            }
         }
     }
 

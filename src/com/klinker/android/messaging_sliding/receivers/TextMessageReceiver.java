@@ -28,6 +28,7 @@ import android.util.TypedValue;
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.receivers.UnlockReceiver;
+import com.klinker.android.messaging_donate.settings.AppSettings;
 import com.klinker.android.messaging_donate.utils.ContactUtil;
 import com.klinker.android.messaging_donate.utils.IOUtil;
 import com.klinker.android.messaging_donate.utils.Util;
@@ -654,7 +655,8 @@ public class TextMessageReceiver extends BroadcastReceiver {
             }
 
             if (!individualNotification(mBuilder, ContactUtil.findContactName(address, context), context, alert) || sharedPrefs.getBoolean("secure_notification", false)) {
-                if (sharedPrefs.getBoolean("vibrate", true) && alert) {
+                AppSettings settings = AppSettings.init(context);
+                if (settings.vibrate == AppSettings.VIBRATE_ALWAYS && alert) {
                     if (!sharedPrefs.getBoolean("custom_vibrate_pattern", false)) {
                         String vibPat = sharedPrefs.getString("vibrate_pattern", "2short");
 
@@ -690,7 +692,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
                         } catch (Exception e) {
                         }
                     }
-                } else if (!sharedPrefs.getBoolean("vibrate", true)) {
+                } else if (settings.vibrate == AppSettings.VIBRATE_NEVER) {
                     mBuilder.setVibrate(new long[] {0});
                 }
 

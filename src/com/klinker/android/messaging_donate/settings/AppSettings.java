@@ -10,6 +10,10 @@ import com.klinker.android.messaging_sliding.MenuArrayAdapter;
 import com.klinker.android.messaging_sliding.MessageCursorAdapter;
 
 public class AppSettings {
+    public static final int VIBRATE_ALWAYS = 0;
+    public static final int VIBRATE_ONLY_MODE = 1;
+    public static final int VIBRATE_NEVER = 2;
+
     public boolean lightActionBar;
     public boolean limitConversationsAtStart;
     public boolean customFont;
@@ -37,7 +41,6 @@ public class AppSettings {
     public boolean cacheConversations;
     public boolean customBackground2;
     public boolean limitMessages;
-    public boolean vibrate;
     public boolean customVibratePattern;
     public boolean led;
     public boolean pageorMenu2;
@@ -114,6 +117,7 @@ public class AppSettings {
     public int linkColor;
     public int mmsMaxWidth;
     public int mmsMaxHeight;
+    public int vibrate;
 
     public static AppSettings init(Context context) {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -192,7 +196,7 @@ public class AppSettings {
         settings.slideMessages = sharedPrefs.getBoolean("slide_messages", false);
         settings.limitAttachmentSize = sharedPrefs.getBoolean("limit_attachment_size", true);
         settings.openContactMenu = sharedPrefs.getBoolean("open_contact_menu", false);
-        settings.vibrate = sharedPrefs.getBoolean("vibrate", true);
+        settings.vibrate = Integer.parseInt(sharedPrefs.getString("vibrate_mode", "0"));
         settings.led = sharedPrefs.getBoolean("led", true);
         settings.keyboardType = sharedPrefs.getBoolean("keyboard_type", true);
         settings.pageorMenu2 = sharedPrefs.getString("page_or_menu2", "2").equals("1");

@@ -661,6 +661,42 @@ public class SettingsPagerActivity extends FragmentActivity {
                 }
             });
 
+            final Preference vibration = findPreference("vibrate_mode");
+            String summary;
+
+            if (sharedPrefs.getString("vibrate_mode", "0").equals("0")) {
+                summary = getString(R.string.always);
+            } else if (sharedPrefs.getString("vibrate_mode", "0").equals("1")) {
+                summary = getString(R.string.only_vibrate);
+            } else {
+                summary = getString(R.string.never);
+            }
+
+            vibration.setSummary(summary);
+            vibration.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            String summary;
+
+                            if (sharedPrefs.getString("vibrate_mode", "0").equals("0")) {
+                                summary = getString(R.string.always);
+                            } else if (sharedPrefs.getString("vibrate_mode", "0").equals("1")) {
+                                summary = getString(R.string.only_vibrate);
+                            } else {
+                                summary = getString(R.string.never);
+                            }
+
+                            vibration.setSummary(summary);
+                        }
+                    }, 250);
+
+                    return true;
+                }
+            });
+
             Preference repeatingNumber = findPreference("repeating_notification_number");
             repeatingNumber.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 
