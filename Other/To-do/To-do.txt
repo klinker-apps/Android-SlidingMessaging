@@ -1,8 +1,7 @@
-Version 7.90
+- Android wear stuff from evolve
 
 Jake:
     - delayed sending for certain times
-    - actionbar pull to refresh, get the newest changes
 Luke:
     - Forward mms with multiple attachments
     - Mark as read when multiple messages come in
@@ -25,20 +24,5 @@ Luke:
 Translation stuff:
 - igamer777@gmail.com (Russian), nikorezzano@gmail.com (Spanish), supremazx@gmail.com (Turkish), giovanefuori@gmail.com (Italian)
 - https://drive.google.com/folderview?id=0B3Z7vr7d5bgAUUQ3ZmxMbjFiWm8&usp=sharing&tid=0B3Z7vr7d5bgAdlY4aGRpdVNEYlE (French)
-
-- sms backup
-	- different icon in notification
-	- apply for mms
-	- redo cursors for more efficiency
-	- make sure menu page works as expected (closes alarm manager on uncheck, makes SD or Drive is checked when you run it)
-	- implement store to drive (comment out the choices until that is done
-	- add notifications to drive backup
-	- cancel scheduled button
-	- Dated folders for backups
-	- check to make sure backup exists before deleting
-
-Luke's ideas for speed/fluidity improvement:
-3.) Don't refresh the view pager when a new message is received that isn't from the conversation you are currently viewing. Make a refresh attached in the conversations list to refresh the view pager instead, so it doesnt jump around and the users can continue texting without being interrupted. It will look better and work more fluidly.
-        - not sure how this would affect scrolling through the view pager though. may work, but may never move the threads to the correct position
 
 Make an NFC bikelock hehe
