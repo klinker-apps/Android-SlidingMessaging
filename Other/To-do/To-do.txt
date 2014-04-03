@@ -1,4 +1,5 @@
 - Android wear stuff from evolve
+- Slow to delete a conversation (batch delete is fine)
 
 Jake:
     - delayed sending for certain times
