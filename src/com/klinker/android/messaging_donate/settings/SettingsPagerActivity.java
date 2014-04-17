@@ -3,8 +3,6 @@ package com.klinker.android.messaging_donate.settings;
 import android.annotation.SuppressLint;
 import android.app.*;
 import android.content.*;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.media.RingtoneManager;
@@ -27,9 +25,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 import com.android.mms.MmsConfig;
-import com.droidprism.APN;
-import com.droidprism.Carrier;
-import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.utils.IOUtil;
 import com.klinker.android.messaging_donate.utils.Util;
@@ -50,6 +45,7 @@ import com.klinker.android.messaging_sliding.theme.ThemeChooserActivity;
 import com.klinker.android.messaging_sliding.views.HoloEditText;
 import com.klinker.android.messaging_sliding.views.HoloTextView;
 import com.klinker.android.messaging_sliding.views.NumberPickerDialog;
+import com.klinker.android.send_message.ApnUtils;
 import com.klinker.android.send_message.Utils;
 import group.pals.android.lib.ui.lockpattern.LockPatternActivity;
 import group.pals.android.lib.ui.lockpattern.prefs.SecurityPrefs;
@@ -1362,47 +1358,12 @@ public class SettingsPagerActivity extends FragmentActivity {
             autoSelect.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    TelephonyManager manager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-                    final String networkOperator = manager.getNetworkOperator();
-
-                    if (networkOperator != null) {
-                        final ProgressDialog dialog = new ProgressDialog(context);
-                        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                        dialog.setMessage(context.getString(R.string.finding_apns));
-                        dialog.show();
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    int mcc = Integer.parseInt(networkOperator.substring(0, 3));
-                                    String s = networkOperator.substring(3);
-                                    int mnc = Integer.parseInt(s.replaceFirst("^0{1,2}", ""));
-                                    Carrier c = Carrier.getCarrier(mcc, mnc);
-                                    APN a = c.getAPN();
-
-                                    sharedPrefs.edit().putString("mmsc_url", a.mmsc).putString("mms_proxy", a.proxy).putString("mms_port", a.port + "").commit();
-                                } catch (Throwable e) {
-                                    ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            Toast.makeText(context, "Error, couldn't get system APNs.", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                                }
-
-                                ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        setUpMmsSettings();
-                                        dialog.dismiss();
-                                    }
-                                });
-                            }
-                        }).start();
-                    } else {
-                        Toast.makeText(context, "Error, no network operator.", Toast.LENGTH_SHORT).show();
-                    }
-
+                    ApnUtils.initDefaultApns(context, new ApnUtils.OnApnFinishedListener() {
+                        @Override
+                        public void onFinished() {
+                            setUpMmsSettings();
+                        }
+                    });
                     return false;
                 }
             });
