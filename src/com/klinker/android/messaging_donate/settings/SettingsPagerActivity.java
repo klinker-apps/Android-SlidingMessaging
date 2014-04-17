@@ -1362,6 +1362,11 @@ public class SettingsPagerActivity extends FragmentActivity {
                         @Override
                         public void onFinished() {
                             setUpMmsSettings();
+                            PreferenceManager.getDefaultSharedPreferences(context)
+                                    .edit()
+                                    .putInt("mms_max_width", 800)
+                                    .putInt("mms_max_height", 800)
+                                    .commit();
                         }
                     });
                     return false;
