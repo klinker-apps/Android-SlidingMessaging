@@ -1207,6 +1207,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                 findPreference("mms_user_agent_tag_name").setEnabled(false);
                 findPreference("mms_disclaimer").setEnabled(false);
                 findPreference("get_apn_help").setEnabled(false);
+                findPreference("preset_user_agents").setEnabled(false);
             }
             Preference smsToStore = (Preference) findPreference("mms_after");
             smsToStore.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -1384,6 +1385,23 @@ public class SettingsPagerActivity extends FragmentActivity {
                     return false;
                 }
 
+            });
+
+            Preference presetUserAgents = findPreference("preset_user_agents");
+            presetUserAgents.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            sharedPrefs.edit()
+                                    .putString("mms_agent", sharedPrefs.getString("preset_user_agents", "Android-Mms/2.0"))
+                                    .commit();
+                            setUpMmsSettings();
+                        }
+                    }, 250);
+                    return true;
+                }
             });
 
             Preference getHelp = (Preference) findPreference("get_apn_help");

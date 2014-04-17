@@ -1,1 +1,2 @@
 - Faster and more accurate way to automatically find device APNs, it is highly suggested that you got MMS settings and run this option!
+- Added preset user agent options, use these if you are receiving pictures at a smaller resolution then they should be

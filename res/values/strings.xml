@@ -932,5 +932,14 @@
     <string name="only_vibrate">Only in Vibrate Mode</string>
     <string name="vibrate_mode">Vibrate Mode</string>
     <string name="never">Never</string>
+    <string name="preset_user_agent">Preset User Agents</string>
+    <string name="pref_mms_ua_default_android">Default Android</string>
+    <string name="pref_mms_ua_nokia_n95">Nokia N95</string>
+    <string name="pref_mms_ua_iphone_3_0">iPhone (3.0)</string>
+    <string name="pref_mms_ua_blackberry_8800">BlackBerry 8800</string>
+    <string name="pref_mms_ua_sonyericsson_w800i">Sony Ericsson W800i</string>
+    <string name="pref_mms_ua_softbank_x01t">SoftBank X01T</string>
+    <string name="pref_mms_ua_softbank_myrmms">SoftBank MyrMMS</string>
+    <string name="pref_mms_ua_nexus5">Nexus 5</string>
 
 </resources>

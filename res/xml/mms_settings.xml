@@ -122,6 +122,14 @@
             android:defaultValue=""
         />
 
+        <ListPreference
+                android:key="preset_user_agents"
+                android:title="@string/preset_user_agent"
+                android:entries="@array/pref_mms_user_agent_entries"
+                android:entryValues="@array/pref_mms_user_agent_values"
+                android:defaultValue="Android-Mms/2.0"
+                />
+
         <EditTextPreference
                 android:key="mms_agent"
                 android:title="@string/user_agent"
