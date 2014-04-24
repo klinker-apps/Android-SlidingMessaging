@@ -22,14 +22,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_donate.settings.AppSettings;
 import com.klinker.android.messaging_donate.utils.ContactUtil;
 import com.klinker.android.messaging_sliding.MessageCursorAdapter;
 import com.klinker.android.messaging_sliding.receivers.CacheService;
-import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 
 import java.util.Calendar;
 
-public class ConversationFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, PullToRefreshAttacher.OnRefreshListener {
+public class ConversationFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, SwipeRefreshLayout.OnRefreshListener {
 
     private int position;
     private String myId;
@@ -40,9 +40,9 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
     private CustomListView listView;
     private Resources resources;
     private MessageCursorAdapter adapter;
+    private SwipeRefreshLayout swipeRefresh;
 
     public ProgressBar spinner;
-    private PullToRefreshAttacher mPullToRefreshAttacher;
 
     public ConversationFragment() {
     }
@@ -114,8 +114,6 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
             view.findViewById(R.id.messageBackground).setPadding(margin, marginTop, margin, marginTop);
         }
 
-        mPullToRefreshAttacher = ((MainActivity) getActivity()).getPullToRefreshAttacher();
-
         return refreshMessages();
     }
 
@@ -174,6 +172,11 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
         }
 
         listView = (CustomListView) view.findViewById(R.id.fontListView);
+        swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
+        swipeRefresh.setColorScheme(MainActivity.settings.emojiButtonColor,
+                MainActivity.settings.titleBarColor,
+                MainActivity.settings.ctSendButtonColor,
+                MainActivity.settings.titleBarColor);
 
         spinner = (ProgressBar) view.findViewById(R.id.emptyView);
 
@@ -339,13 +342,10 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
             listView.setDividerHeight(0);
         }
 
-        final PullToRefreshAttacher.OnRefreshListener refreshListener = this;
-
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView absListView, int i) {
                 if (position != MainActivity.pullToRefreshPosition) {
-                    mPullToRefreshAttacher.setRefreshableView(listView, refreshListener);
                     MainActivity.pullToRefreshPosition = position;
                 }
             }
@@ -355,6 +355,8 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
 
             }
         });
+
+        swipeRefresh.setOnRefreshListener(this);
 
         return view;
     }
@@ -423,7 +425,7 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
     }
 
     @Override
-    public void onRefreshStarted(View view) {
+    public void onRefresh() {
 
         MainActivity.numToLoad += 20;
 
@@ -485,9 +487,7 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
                 });
 
                 listView.setSelection(adapter.getCount() - MainActivity.numToLoad + 20);
-
-                // Notify PullToRefreshAttacher that the refresh has finished
-                mPullToRefreshAttacher.setRefreshComplete();
+                swipeRefresh.setRefreshing(false);
             }
         }.execute();
     }

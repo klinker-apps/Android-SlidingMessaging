@@ -89,7 +89,6 @@ import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
 import group.pals.android.lib.ui.lockpattern.LockPatternActivity;
 import group.pals.android.lib.ui.lockpattern.prefs.SecurityPrefs;
 import net.simonvt.messagebar.MessageBar;
-import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -209,7 +208,6 @@ public class MainActivity extends FragmentActivity {
 
     private Typeface font;
 
-    private PullToRefreshAttacher mPullToRefreshAttacher;
     public static int pullToRefreshPosition = -1;
 
     private AppMsg appMsg = null;
@@ -362,7 +360,6 @@ public class MainActivity extends FragmentActivity {
             }
         }
 
-        mPullToRefreshAttacher = new PullToRefreshAttacher(this, settings.lightActionBar, true);
         appMsg = AppMsg.makeText(this, "", AppMsg.STYLE_ALERT);
 
         if (settings.limitConversationsAtStart) {
@@ -5569,10 +5566,6 @@ public class MainActivity extends FragmentActivity {
                 }
             }, 500);
         }
-    }
-
-    public PullToRefreshAttacher getPullToRefreshAttacher() {
-        return mPullToRefreshAttacher;
     }
 
     public class SectionsPagerAdapter extends android.support.v13.app.FragmentStatePagerAdapter {
