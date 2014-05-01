@@ -1,3 +1,1 @@
-- Updated UI for pull to load more messages
-- Faster and more accurate way to automatically find device APNs
-- Added preset user agent options, use these if you are receiving pictures at a smaller resolution then they should be
+- SMS delayed sending option in advanced settings

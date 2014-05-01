@@ -113,6 +113,14 @@
     <PreferenceCategory android:key="advanced_other_category"
         android:title="@string/advanced_other_category" >
 
+        <ListPreference
+                android:key="sms_send_delay"
+                android:title="@string/sending_delay"
+                android:summary="@string/sending_delay_summary"
+                android:entries="@array/send_delay"
+                android:entryValues="@array/send_delay_inserted"
+                android:defaultValue="500"/>
+
         <CheckBoxPreference
             android:key="override"
             android:title="@string/override"

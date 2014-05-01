@@ -941,5 +941,15 @@
     <string name="pref_mms_ua_softbank_x01t">SoftBank X01T</string>
     <string name="pref_mms_ua_softbank_myrmms">SoftBank MyrMMS</string>
     <string name="pref_mms_ua_nexus5">Nexus 5</string>
+    <string name="sending_delay">SMS Sending Delay</string>
+    <string name="sending_delay_summary">Message will be sent after specified amount of time. If message is deleted
+        in this time, nothing will send</string>
+    <string name="send_delay_immediate">None</string>
+    <string name="send_delay_3seconds">3 Seconds</string>
+    <string name="send_delay_5seconds">5 Seconds</string>
+    <string name="send_delay_10seconds">10 Seconds</string>
+    <string name="send_delay_20seconds">20 Seconds</string>
+    <string name="send_delay_30seconds">30 Seconds</string>
+    <string name="send_delay_60seconds">1 Minute</string>
 
 </resources>

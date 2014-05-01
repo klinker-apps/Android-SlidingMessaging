@@ -118,6 +118,7 @@ public class AppSettings {
     public int mmsMaxWidth;
     public int mmsMaxHeight;
     public int vibrate;
+    public int sendDelay;
 
     public static AppSettings init(Context context) {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -262,6 +263,7 @@ public class AppSettings {
         settings.alwaysUseVoice = sharedPrefs.getBoolean("always_use_voice", false);
         settings.mmsMaxWidth = sharedPrefs.getInt("mms_max_width", 500);
         settings.mmsMaxHeight = sharedPrefs.getInt("mms_max_height", 500);
+        settings.sendDelay = Integer.parseInt(sharedPrefs.getString("sms_send_delay", "500"));
 
         if (settings.runAs.equals("card+")) {
             settings.customTheme = true;

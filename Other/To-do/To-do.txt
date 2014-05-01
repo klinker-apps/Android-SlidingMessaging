@@ -2,8 +2,6 @@
 - Slow to delete a conversation (batch delete is fine)
 - SwipeRefreshLayout for the Actionbar-PullToRefresh
 
-Jake:
-    - delayed sending for certain times
 Luke:
     - Forward mms with multiple attachments
     - Mark as read when multiple messages come in

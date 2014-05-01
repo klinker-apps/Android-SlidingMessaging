@@ -598,4 +598,25 @@
         <item>Nexus5</item>
     </string-array>
 
+    <string-array name="send_delay_inserted">
+        <item>500</item>
+        <item>3000</item>
+        <item>5000</item>
+        <item>10000</item>
+        <item>20000</item>
+        <item>30000</item>
+        <item>60000</item>
+    </string-array>
+
+    <string-array name="send_delay">
+        <item>@string/send_delay_immediate</item>
+        <item>@string/send_delay_3seconds</item>
+        <item>@string/send_delay_5seconds</item>
+        <item>@string/send_delay_10seconds</item>
+        <item>@string/send_delay_20seconds</item>
+        <item>@string/send_delay_30seconds</item>
+        <item>@string/send_delay_60seconds</item>
+    </string-array>
+
+
 </resources>

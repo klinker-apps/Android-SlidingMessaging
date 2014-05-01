@@ -1155,6 +1155,7 @@ public class MainActivity extends FragmentActivity {
                             final Message message = new Message(text, contact.getText().toString().replace(";", ""));
                             message.setType(settings.voiceEnabled ?
                                     Message.TYPE_VOICE : Message.TYPE_SMSMMS);
+                            message.setDelay(settings.sendDelay);
 
                             boolean tooLarge = false;
 
@@ -2115,6 +2116,7 @@ public class MainActivity extends FragmentActivity {
                             final Message message = new Message(text, ContactUtil.findContactNumber(recipientId, context).replace(";", ""));
                             message.setType(settings.voiceEnabled ?
                                     Message.TYPE_VOICE : Message.TYPE_SMSMMS);
+                            message.setDelay(settings.sendDelay);
 
                             boolean tooLarge = false;
                             if (image) {

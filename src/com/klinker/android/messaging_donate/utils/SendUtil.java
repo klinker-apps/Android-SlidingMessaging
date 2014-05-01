@@ -11,6 +11,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.TypedValue;
 import com.klinker.android.messaging_donate.MainActivity;
+import com.klinker.android.messaging_donate.settings.AppSettings;
 import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead;
 import com.klinker.android.send_message.Message;
 import com.klinker.android.send_message.Settings;
@@ -28,6 +29,7 @@ public class SendUtil {
         final Message message = new Message(body, number);
         message.setType(PreferenceManager.getDefaultSharedPreferences(context).getBoolean("voice_enabled", false) ?
                 Message.TYPE_VOICE : Message.TYPE_SMSMMS);
+        message.setDelay(AppSettings.init(context).sendDelay);
 
         sendTransaction.sendNewMessage(message, Transaction.NO_THREAD_ID);
 
@@ -48,6 +50,7 @@ public class SendUtil {
         final Message message = new Message(body, number);
         message.setType(PreferenceManager.getDefaultSharedPreferences(context).getBoolean("voice_enabled", false) ?
                 Message.TYPE_VOICE : Message.TYPE_SMSMMS);
+        message.setDelay(AppSettings.init(context).sendDelay);
 
         sendTransaction.sendNewMessage(message, Transaction.NO_THREAD_ID);
 
