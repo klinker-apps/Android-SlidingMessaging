@@ -322,12 +322,7 @@ public class QuickReply extends Activity {
                 if (messageEntry.getText().toString().equals("")) {
                     Toast.makeText(context, "ERROR: Nothing to send", Toast.LENGTH_SHORT).show();
                 } else {
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            SendUtil.sendMessage(context, sendTo, messageEntry.getText().toString());
-                        }
-                    }).start();
+                    SendUtil.sendMessage(context, sendTo, messageEntry.getText().toString());
 
                     if (sharedPrefs.getBoolean("cache_conversations", false)) {
                         Intent cacheService = new Intent(context, CacheService.class);
