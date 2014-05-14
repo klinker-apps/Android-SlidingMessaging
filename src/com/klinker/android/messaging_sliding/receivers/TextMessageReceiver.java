@@ -32,6 +32,7 @@ import com.klinker.android.messaging_donate.settings.AppSettings;
 import com.klinker.android.messaging_donate.utils.ContactUtil;
 import com.klinker.android.messaging_donate.utils.IOUtil;
 import com.klinker.android.messaging_donate.utils.Util;
+import com.klinker.android.messaging_sliding.ClassZeroActivity;
 import com.klinker.android.messaging_sliding.MainActivityPopup;
 import com.klinker.android.messaging_sliding.blacklist.BlacklistContact;
 import com.klinker.android.messaging_sliding.notifications.IndividualSetting;
@@ -85,6 +86,16 @@ public class TextMessageReceiver extends BroadcastReceiver {
                         date = sms.getTimestampMillis() + "";
                         protocolId = sms.getProtocolIdentifier() + "";
                         isReplace = sms.isReplace();
+
+                        if (sms.getMessageClass() == SmsMessage.MessageClass.CLASS_0) {
+                            Intent smsDialogIntent = new Intent(context, ClassZeroActivity.class)
+                                    .putExtra("pdu", sms.getPdu())
+                                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                                            | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+
+                            context.startActivity(smsDialogIntent);
+                            return;
+                        }
                     }
                 } else {
                     return;
