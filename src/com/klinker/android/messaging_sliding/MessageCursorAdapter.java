@@ -992,28 +992,43 @@ public class MessageCursorAdapter extends CursorAdapter {
         final boolean mmsF = mms;
         final boolean lockedF = locked;
 
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String[] projection;
+        if (sending && MainActivity.settings.sendDelay != AppSettings.DEFAULT_SEND_DELAY) {
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String text = holder.text.getText().toString();
+                    deleteSMS(context, threadIds, idF);
 
-                if (mmsF) {
-                    projection = new String[] {"_id", "m_type", "msg_box", "m_size"};
-                } else {
-                    projection = new String[] {"_id", "type", "address", "date_sent", "date", "error_code"};
+                    if (context instanceof MainActivity) {
+                        MainActivity.messageEntry.setText(text);
+                        MainActivity.messageEntry.setSelection(text.length());
+                    }
                 }
+            });
+        } else {
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String[] projection;
 
-                Cursor cursor = contentResolver.query(Uri.parse(mmsF ? "content://mms/" + idF : "content://sms/" + idF), projection, null, null, null);
+                    if (mmsF) {
+                        projection = new String[] {"_id", "m_type", "msg_box", "m_size"};
+                    } else {
+                        projection = new String[] {"_id", "type", "address", "date_sent", "date", "error_code"};
+                    }
 
-                if (cursor.moveToFirst()) {
-                    new AlertDialog.Builder(context)
-                            .setTitle(resources.getString(R.string.message_details))
-                            .setMessage(MessageUtil.getMessageDetails(context, cursor, mmsF ? cursor.getInt(cursor.getColumnIndex("m_size")) : 0))
-                            .create()
-                            .show();
+                    Cursor cursor = contentResolver.query(Uri.parse(mmsF ? "content://mms/" + idF : "content://sms/" + idF), projection, null, null, null);
+
+                    if (cursor.moveToFirst()) {
+                        new AlertDialog.Builder(context)
+                                .setTitle(resources.getString(R.string.message_details))
+                                .setMessage(MessageUtil.getMessageDetails(context, cursor, mmsF ? cursor.getInt(cursor.getColumnIndex("m_size")) : 0))
+                                .create()
+                                .show();
+                    }
                 }
-            }
-        });
+            });
+        }
 
         final int sizeT = size2;
         final boolean errorT = error;
@@ -1062,13 +1077,6 @@ public class MessageCursorAdapter extends CursorAdapter {
                                                     ((MainActivity) context).refreshViewPager();
                                                 } catch (Exception e) {
 
-                                                }
-                                            }
-
-                                            public void deleteSMS(Context context, long threadId, String messageId) {
-                                                try {
-                                                    context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/" + threadId + "/"), "_id=" + messageId, null);
-                                                } catch (Exception e) {
                                                 }
                                             }
                                         });
@@ -1987,6 +1995,13 @@ public class MessageCursorAdapter extends CursorAdapter {
             textView.setText(body);
 
             linkifyText(textView, holder, context, link);
+        }
+    }
+
+    private void deleteSMS(Context context, long threadId, String messageId) {
+        try {
+            context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/" + threadId + "/"), "_id=" + messageId, null);
+        } catch (Exception e) {
         }
     }
 

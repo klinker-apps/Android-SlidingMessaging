@@ -14,6 +14,8 @@ public class AppSettings {
     public static final int VIBRATE_ONLY_MODE = 1;
     public static final int VIBRATE_NEVER = 2;
 
+    public static final int DEFAULT_SEND_DELAY = 500;
+
     public boolean lightActionBar;
     public boolean limitConversationsAtStart;
     public boolean customFont;
@@ -263,7 +265,7 @@ public class AppSettings {
         settings.alwaysUseVoice = sharedPrefs.getBoolean("always_use_voice", false);
         settings.mmsMaxWidth = sharedPrefs.getInt("mms_max_width", 500);
         settings.mmsMaxHeight = sharedPrefs.getInt("mms_max_height", 500);
-        settings.sendDelay = Integer.parseInt(sharedPrefs.getString("sms_send_delay", "500"));
+        settings.sendDelay = Integer.parseInt(sharedPrefs.getString("sms_send_delay", DEFAULT_SEND_DELAY + ""));
 
         if (settings.runAs.equals("card+")) {
             settings.customTheme = true;
