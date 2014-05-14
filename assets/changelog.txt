@@ -1,2 +1,3 @@
 - SMS delayed sending option in advanced settings
 - Support for Class 0 SMS message, for example weather alerts
+- Some bug fixes
