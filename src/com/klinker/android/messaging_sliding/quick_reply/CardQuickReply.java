@@ -738,12 +738,7 @@ public class CardQuickReply extends FragmentActivity {
                 final String body = messageEntry.getText().toString();
 
                 if (!body.equals("")) {
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            SendUtil.sendMessage(context, number, body);
-                        }
-                    }).start();
+                    SendUtil.sendMessage(context, number, body);
 
                     messageEntry.setText("");
                     removePage(mViewPager.getCurrentItem());
