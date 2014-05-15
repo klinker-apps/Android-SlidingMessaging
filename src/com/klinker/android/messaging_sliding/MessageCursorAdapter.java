@@ -14,6 +14,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
@@ -1104,6 +1105,7 @@ public class MessageCursorAdapter extends CursorAdapter {
 
                                             @Override
                                             public void run() {
+                                                Looper.prepare();
                                                 boolean currentVoiceState = sharedPrefs.getBoolean("voice_enabled", false);
                                                 Log.v("voice_state", currentVoiceState + " " + voiceF);
 
