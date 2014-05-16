@@ -14,21 +14,18 @@ import android.view.WindowManager;
 import android.widget.ListView;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.utils.ContactUtil;
-import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 
 import java.util.ArrayList;
 
 /**
  * Created by luke on 7/24/13.
  */
-public class SearchConversation extends Activity implements PullToRefreshAttacher.OnRefreshListener {
+public class SearchConversation extends Activity {
 
     public SharedPreferences sharedPrefs;
     private ArrayList<String[]> messages;
     public String searchQuery;
     public String threadId = "";
-
-    public PullToRefreshAttacher mPullToRefreshAttacher;
 
     public ListView lv;
     public ConversationArrayAdapter adapter;
@@ -88,57 +85,6 @@ public class SearchConversation extends Activity implements PullToRefreshAttache
         } else {
             lv.setDividerHeight(0);
         }
-
-        mPullToRefreshAttacher = new PullToRefreshAttacher(this, sharedPrefs.getBoolean("ct_light_action_bar", false), true);
-        mPullToRefreshAttacher.setRefreshableView(lv, this);
-    }
-
-    @Override
-    public void onRefreshStarted(View view) {
-
-        new AsyncTask<Void, Void, Void>() {
-
-            @Override
-            protected Void doInBackground(Void... params) {
-                Uri uri = Uri.parse("content://sms/conversations/" + threadId);
-                Cursor c = getContentResolver().query(uri, null, null, null, "date DESC");
-
-                int i;
-
-                messages.clear();
-
-                if (c.moveToLast()) {
-                    for (i = 0; i < c.getCount(); i++) {
-
-                        String[] data = new String[6];
-                        data[0] = c.getString(c.getColumnIndexOrThrow("address"));
-                        data[1] = c.getString(c.getColumnIndexOrThrow("body"));
-                        data[2] = c.getString(c.getColumnIndexOrThrow("date"));
-                        data[3] = c.getString(c.getColumnIndexOrThrow("type"));
-                        data[4] = "false";
-
-                        messages.add(data);
-
-                        c.moveToPrevious();
-                    }
-                }
-                c.close();
-
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void result) {
-                super.onPostExecute(result);
-
-                ConversationArrayAdapter adapter = new ConversationArrayAdapter(getActivity(), messages, searchQuery);
-                lv.setAdapter(adapter);
-                lv.setStackFromBottom(true);
-
-                // Notify PullToRefreshAttacher that the refresh has finished
-                mPullToRefreshAttacher.setRefreshComplete();
-            }
-        }.execute();
     }
 
     public Activity getActivity() {

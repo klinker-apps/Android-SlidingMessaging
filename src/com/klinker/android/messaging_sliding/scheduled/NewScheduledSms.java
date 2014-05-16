@@ -470,9 +470,14 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
         btDate.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                com.android.datetimepicker.date.DatePickerDialog.newInstance(reservationDate, currentYear, currentMonth, currentDay, false)
-                        .show(getFragmentManager(), "date_picker");
-                btTime.setEnabled(true);
+                try {
+                    com.android.datetimepicker.date.DatePickerDialog.newInstance(reservationDate, currentYear, currentMonth, currentDay, false)
+                            .show(getFragmentManager(), "date_picker");
+                    btTime.setEnabled(true);
+                } catch (Exception e) {
+                    showDialog(DATE_DIALOG_ID);
+                }
+
             }
         });
 
@@ -480,8 +485,17 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
         btTime.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                com.android.datetimepicker.time.TimePickerDialog.newInstance(timeDate, currentHour, currentMinute, android.provider.Settings.System.getString(context.getContentResolver(), android.provider.Settings.System.TIME_12_24).equals("24"))
-                    .show(getFragmentManager(), "time_picker");
+                try {
+                    com.android.datetimepicker.time.TimePickerDialog.newInstance(timeDate, currentHour, currentMinute, android.provider.Settings.System.getString(context.getContentResolver(), android.provider.Settings.System.TIME_12_24).equals("24"))
+                            .show(getFragmentManager(), "time_picker");
+                } catch (Exception e) {
+                    try {
+                        com.android.datetimepicker.time.TimePickerDialog.newInstance(timeDate, currentHour, currentMinute, sharedPrefs.getBoolean("hour_format", false))
+                                .show(getFragmentManager(), "time_picker");
+                    } catch (Exception x) {
+                        showDialog(TIME_DIALOG_ID);
+                    }
+                }
             }
         });
 
@@ -518,6 +532,20 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
                 ViewGroup.LayoutParams.MATCH_PARENT));
     }
 
+    // sets up the correct dialog (date vs. time)
+    protected Dialog onCreateDialog(int id) {
+        switch (id) {
+            case DATE_DIALOG_ID:
+                DatePickerDialog dialog = new DatePickerDialog(this, reservationDate2, currentYear,
+                        currentMonth, currentDay);
+                dialog.getDatePicker().setCalendarViewShown(false);
+                return dialog;
+            case TIME_DIALOG_ID:
+                return new TimePickerDialog(this, timeDate2, currentHour, currentMinute, false);
+            }
+        return null;
+        }
+
     // To-do: make a date object to display in different time formats, check out the messageArrayAdapter class, it works with the dates
     // gets the date text from what is entered in the dialog and displays it
     private com.android.datetimepicker.date.DatePickerDialog.OnDateSetListener reservationDate = new com.android.datetimepicker.date.DatePickerDialog.OnDateSetListener() {
@@ -548,9 +576,74 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
 
     };
 
+    private DatePickerDialog.OnDateSetListener reservationDate2 = new DatePickerDialog.OnDateSetListener() {
+        public void onDateSet(DatePicker view, int year, int month, int day) {
+            setYear = year;
+            setMonth = month;
+            setDay = day;
+
+            if (setHour != -1 && setMinute != -1) {
+                setDate = new Date(setYear - 1900, setMonth, setDay, setHour, setMinute);
+
+                if (sharedPrefs.getBoolean("hour_format", false)) {
+                    dateDisplay.setText(DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.GERMAN).format(setDate));
+                } else {
+                    dateDisplay.setText(DateFormat.getDateInstance(DateFormat.MEDIUM).format(setDate));
+                }
+            } else {
+                setDate = new Date(setYear - 1900, setMonth, setDay);
+
+                if (sharedPrefs.getBoolean("hour_format", false)) {
+                    dateDisplay.setText(DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.GERMAN).format(setDate));
+                } else {
+                    dateDisplay.setText(DateFormat.getDateInstance(DateFormat.MEDIUM).format(setDate));
+                }
+            }
+            //dateDisplay.setText((month + 1) + "/" + day + "/" + year);
+        }
+
+    };
+
     // gets the time text from what is entered in the dialog and displays it
     private com.android.datetimepicker.time.TimePickerDialog.OnTimeSetListener timeDate = new com.android.datetimepicker.time.TimePickerDialog.OnTimeSetListener() {
         public void onTimeSet(RadialPickerLayout view, int hours, int minutes) {
+            setHour = hours;
+            setMinute = minutes;
+
+            setDate.setHours(setHour);
+            setDate.setMinutes(setMinute);
+
+            currentDate.setYear(currentYear - 1900);
+
+            if (!setDate.before(currentDate)) {
+                if (sharedPrefs.getBoolean("hour_format", false)) {
+                    timeDisplay.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(setDate));
+                } else {
+                    timeDisplay.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(setDate));
+                }
+
+                timeDone = true;
+            } else {
+                Context context = getApplicationContext();
+                CharSequence text = "Date must be forward!";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+
+                btTime.setEnabled(false);
+
+                timeDisplay.setText("");
+                dateDisplay.setText("");
+
+                timeDone = false;
+            }
+
+        }
+    };
+
+    private TimePickerDialog.OnTimeSetListener timeDate2 = new TimePickerDialog.OnTimeSetListener() {
+        public void onTimeSet(TimePicker view, int hours, int minutes) {
             setHour = hours;
             setMinute = minutes;
 

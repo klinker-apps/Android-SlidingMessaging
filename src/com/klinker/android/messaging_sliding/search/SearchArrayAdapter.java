@@ -120,7 +120,12 @@ public class SearchArrayAdapter extends ArrayAdapter<String> {
             if (sharedPrefs.getBoolean("ct_darkContactImage", false)) {
                 im = Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(R.drawable.default_avatar_dark)), MainActivity.contactWidth, MainActivity.contactWidth, true);
             } else {
-                im = Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(R.drawable.default_avatar)), MainActivity.contactWidth, MainActivity.contactWidth, true);
+                try {
+                    im = Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(R.drawable.default_avatar)), MainActivity.contactWidth, MainActivity.contactWidth, true);
+                } catch (Exception x) {
+                    im = Bitmap.createScaledBitmap(drawableToBitmap(context.getResources().getDrawable(R.drawable.default_avatar)), 48, 48, true);
+
+                }
             }
         }
 

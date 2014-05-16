@@ -432,7 +432,11 @@ public class ThemeChooserActivity extends Activity {
                     receivedMessageText.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0, 1)));
                 }
 
-                sentMessageText.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0, 2)));
+                try {
+                    sentMessageText.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0, 2)));
+                } catch (Exception e) {
+                    receivedMessageText.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0, 1)));
+                }
 
                 if (!sharedPrefs.getBoolean("emoji", false)) {
                     emojiButton.setVisibility(View.GONE);
@@ -563,13 +567,17 @@ public class ThemeChooserActivity extends Activity {
                 }
 
                 if (sharedPrefs.getBoolean("custom_font", false)) {
-                    Typeface font = Typeface.createFromFile(sharedPrefs.getString("custom_font_path", ""));
+                    try {
+                        Typeface font = Typeface.createFromFile(sharedPrefs.getString("custom_font_path", ""));
 
-                    sentMessageText.setTypeface(font);
-                    receivedMessageText.setTypeface(font);
-                    sentDate.setTypeface(font);
-                    receiveDate.setTypeface(font);
-                    messageEntry.setTypeface(font);
+                        sentMessageText.setTypeface(font);
+                        receivedMessageText.setTypeface(font);
+                        sentDate.setTypeface(font);
+                        receiveDate.setTypeface(font);
+                        messageEntry.setTypeface(font);
+                    } catch (Exception e) {
+
+                    }
                 }
             } else if (sharedPrefs.getString("run_as", "sliding").equals("sliding")) {
                 TextView receivedMessageText = (TextView) view.findViewById(R.id.receivedMessage);
@@ -595,10 +603,12 @@ public class ThemeChooserActivity extends Activity {
                 sentMessageText.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0, 2)));
 
                 if (!sharedPrefs.getBoolean("emoji", false)) {
-                    emojiButton.setVisibility(View.GONE);
-                    LayoutParams params = (RelativeLayout.LayoutParams) messageEntry.getLayoutParams();
-                    params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-                    messageEntry.setLayoutParams(params);
+                    try {
+                        emojiButton.setVisibility(View.GONE);
+                        LayoutParams params = (RelativeLayout.LayoutParams) messageEntry.getLayoutParams();
+                        params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+                        messageEntry.setLayoutParams(params);
+                    } catch (Exception e) { }
                 }
 
                 titleBar.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);

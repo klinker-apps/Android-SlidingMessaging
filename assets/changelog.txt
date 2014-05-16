@@ -1,2 +1,1 @@
-- New pickers for selecting date in scheduled SMS messages
-- Bug fixes
+- General bug fixes

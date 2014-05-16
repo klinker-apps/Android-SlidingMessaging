@@ -11,6 +11,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.TypedValue;
 import com.klinker.android.messaging_donate.MainActivity;
+import com.klinker.android.messaging_donate.settings.AppSettings;
 import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead;
 import com.klinker.android.send_message.Message;
 import com.klinker.android.send_message.Settings;
@@ -26,6 +27,9 @@ public class SendUtil {
         Transaction sendTransaction = new Transaction(context, getSendSettings(context));
 
         final Message message = new Message(body, number);
+        message.setType(PreferenceManager.getDefaultSharedPreferences(context).getBoolean("voice_enabled", false) ?
+                Message.TYPE_VOICE : Message.TYPE_SMSMMS);
+        message.setDelay(AppSettings.init(context).sendDelay);
 
         sendTransaction.sendNewMessage(message, Transaction.NO_THREAD_ID);
 
@@ -44,6 +48,9 @@ public class SendUtil {
         Transaction sendTransaction = new Transaction(context, getSendSettings(context));
 
         final Message message = new Message(body, number);
+        message.setType(PreferenceManager.getDefaultSharedPreferences(context).getBoolean("voice_enabled", false) ?
+                Message.TYPE_VOICE : Message.TYPE_SMSMMS);
+        message.setDelay(AppSettings.init(context).sendDelay);
 
         sendTransaction.sendNewMessage(message, Transaction.NO_THREAD_ID);
 
@@ -63,6 +70,8 @@ public class SendUtil {
 
         final Message message = new Message(body, number);
         message.setImages(images);
+        message.setType(PreferenceManager.getDefaultSharedPreferences(context).getBoolean("voice_enabled", false) ?
+                Message.TYPE_VOICE : Message.TYPE_SMSMMS);
 
         sendTransaction.sendNewMessage(message, Transaction.NO_THREAD_ID);
 
@@ -84,9 +93,11 @@ public class SendUtil {
         sendSettings.setMmsc(sharedPrefs.getString("mmsc_url", ""));
         sendSettings.setProxy(sharedPrefs.getString("mms_proxy", ""));
         sendSettings.setPort(sharedPrefs.getString("mms_port", ""));
+        sendSettings.setAgent(sharedPrefs.getString("mms_agent", ""));
+        sendSettings.setUserProfileUrl(sharedPrefs.getString("mms_user_agent_profile_url", ""));
+        sendSettings.setUaProfTagName(sharedPrefs.getString("mms_user_agent_tag_name", ""));
         sendSettings.setGroup(sharedPrefs.getBoolean("group_message", false));
         sendSettings.setWifiMmsFix(sharedPrefs.getBoolean("wifi_mms_fix", false));
-        sendSettings.setPreferVoice(sharedPrefs.getBoolean("voice_enabled", false));
         sendSettings.setDeliveryReports(sharedPrefs.getBoolean("delivery_reports", false));
         sendSettings.setSplit(sharedPrefs.getBoolean("split_sms", false));
         sendSettings.setSplitCounter(sharedPrefs.getBoolean("split_counter", false));
@@ -183,7 +194,12 @@ public class SendUtil {
         bitmapOptions.inDither = true;//optional
         bitmapOptions.inPreferredConfig = Bitmap.Config.ARGB_8888;//optional
         input = context.getContentResolver().openInputStream(uri);
-        Bitmap bitmap = BitmapFactory.decodeStream(input, null, bitmapOptions);
+        Bitmap bitmap;
+        try {
+            bitmap = BitmapFactory.decodeStream(input, null, bitmapOptions);
+        } catch (Throwable e) {
+            return null;
+        }
         input.close();
 
         Log.v("bitmap_size", bitmap.getByteCount() + " " + bitmap.getHeight() + " " + bitmap.getWidth());
@@ -202,8 +218,7 @@ public class SendUtil {
         return bitmap;
     }
 
-    public static Bitmap RotateBitmap(Bitmap source, float angle)
-    {
+    public static Bitmap RotateBitmap(Bitmap source, float angle) {
         Matrix matrix = new Matrix();
         matrix.postRotate(angle);
         return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);

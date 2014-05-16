@@ -42,9 +42,9 @@ public class ContactSearchArrayAdapter extends ArrayAdapter<String> {
             viewHolder.text2 = (TextView) rowView.findViewById(R.id.receivedMessage);
             viewHolder.text3 = (TextView) rowView.findViewById(R.id.receivedDate);
 
-            viewHolder.text.setTextColor(context.getResources().getColor(R.color.white));
-            viewHolder.text2.setTextColor(context.getResources().getColor(R.color.white));
-            viewHolder.text3.setTextColor(context.getResources().getColor(R.color.white));
+            viewHolder.text.setTextColor(context.getResources().getColor(R.color.black));
+            viewHolder.text2.setTextColor(context.getResources().getColor(R.color.black));
+            viewHolder.text3.setTextColor(context.getResources().getColor(R.color.black));
 
             rowView.setTag(viewHolder);
         }

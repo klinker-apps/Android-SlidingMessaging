@@ -271,11 +271,11 @@ public class AttachMore extends Activity {
         } else if (requestCode == 2) { // find video
             if (resultCode == Activity.RESULT_OK) {
                 Uri myVid = imageReturnedIntent.getData();
-                String path = getPath(myVid);
+                String path = myVid.toString();
                 byte[] bytes = null;
 
                 try {
-                    bytes = IOUtil.readFile(path);
+                    bytes = IOUtil.readFile(IOUtil.getRealPathFromURI(this, Uri.parse(path)));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

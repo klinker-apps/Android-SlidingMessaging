@@ -1,6 +1,8 @@
 package com.klinker.android.messaging_sliding.receivers;
 
+import android.app.AlarmManager;
 import android.app.IntentService;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,6 +14,8 @@ import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.util.Log;
+import com.klinker.android.messaging_donate.settings.AppSettings;
 
 public class NotificationRepeaterService extends IntentService {
 
@@ -24,6 +28,24 @@ public class NotificationRepeaterService extends IntentService {
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
+        int cancelAfter = sharedPrefs.getInt("repeating_notification_number", 0);
+        int currentCount = sharedPrefs.getInt("repeated_times", 0);
+
+        Log.v("cancel_repeating", cancelAfter + " " + currentCount);
+
+        if (cancelAfter != 0) {
+            if (currentCount >= cancelAfter) {
+                Log.v("cancel_repeating", "cancelling alarm");
+                Intent stopRepeating = new Intent(this, NotificationRepeaterService.class);
+                PendingIntent pStopRepeating = PendingIntent.getService(this, 0, stopRepeating, 0);
+                AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+                alarm.cancel(pStopRepeating);
+                return;
+            } else {
+                sharedPrefs.edit().putInt("repeated_times", currentCount + 1).commit();
+            }
+        }
+
         if (sharedPrefs.getBoolean("wake_screen", false)) {
             PowerManager pm = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
             @SuppressWarnings("deprecation")
@@ -32,12 +54,13 @@ public class NotificationRepeaterService extends IntentService {
         }
 
         AudioManager am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        AppSettings settings = AppSettings.init(this);
 
         switch (am.getRingerMode()) {
             case AudioManager.RINGER_MODE_SILENT:
                 break;
             case AudioManager.RINGER_MODE_VIBRATE:
-                if (sharedPrefs.getBoolean("vibrate", true)) {
+                if (settings.vibrate == AppSettings.VIBRATE_ALWAYS || settings.vibrate == AppSettings.VIBRATE_ONLY_MODE) {
                     Vibrator vibrator = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
 
                     if (!sharedPrefs.getBoolean("custom_vibrate_pattern", false)) {
@@ -92,7 +115,7 @@ public class NotificationRepeaterService extends IntentService {
                     Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
                     r.play();
 
-                    if (sharedPrefs.getBoolean("vibrate", true)) {
+                    if (settings.vibrate == AppSettings.VIBRATE_ALWAYS) {
                         Vibrator vibrator = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
 
                         if (!sharedPrefs.getBoolean("custom_vibrate_pattern", false)) {

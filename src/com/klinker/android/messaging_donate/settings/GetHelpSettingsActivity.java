@@ -22,6 +22,7 @@ import android.widget.*;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.wizardpager.ChangeLogMain;
 import com.klinker.android.messaging_sliding.developer_tips.MainActivity;
+import com.klinker.android.messaging_sliding.mass_text.MassTextActivity;
 import com.klinker.android.messaging_sliding.scheduled.ScheduledSms;
 import com.klinker.android.messaging_sliding.templates.TemplateActivity;
 
@@ -156,6 +157,18 @@ public class GetHelpSettingsActivity extends PreferenceActivity {
 
         });
 
+        Preference website = findPreference("website");
+        website.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+
+            @Override
+            public boolean onPreferenceClick(Preference arg0) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.klinkerapps.com/")));
+                overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                return false;
+            }
+
+        });
+
         Preference email = findPreference("contact_us");
         email.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 
@@ -163,7 +176,7 @@ public class GetHelpSettingsActivity extends PreferenceActivity {
             public boolean onPreferenceClick(Preference arg0) {
                 Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
 
-                emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"slidingmessaging@gmail.com"});
+                emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"support@klinkerapps.com"});
                 emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Sliding Messaging Pro");
                 emailIntent.setType("plain/text");
 
@@ -188,11 +201,12 @@ public class GetHelpSettingsActivity extends PreferenceActivity {
 
         otherItems = new String[]{getResources().getString(R.string.quick_templates),
                 getResources().getString(R.string.scheduled_sms),
+                getResources().getString(R.string.mass_sms),
                 getResources().getString(R.string.get_help),
                 getResources().getString(R.string.other_apps),
                 getResources().getString(R.string.rate_it)};
 
-        DrawerArrayAdapter.current = 2;
+        DrawerArrayAdapter.current = 3;
         SettingsPagerActivity.settingsLinksActive = false;
         SettingsPagerActivity.inOtherLinks = true;
 
@@ -339,6 +353,20 @@ public class GetHelpSettingsActivity extends PreferenceActivity {
                         break;
 
                     case 2:
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent mIntent = new Intent(context, MassTextActivity.class);
+                                mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(mIntent);
+                                //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                                overridePendingTransition(0, 0);
+                            }
+                        }, 200);
+
+                        break;
+
+                    case 3:
                         /*new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
@@ -352,7 +380,7 @@ public class GetHelpSettingsActivity extends PreferenceActivity {
 
                         break;
 
-                    case 3:
+                    case 4:
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
@@ -366,7 +394,7 @@ public class GetHelpSettingsActivity extends PreferenceActivity {
 
                         break;
 
-                    case 4:
+                    case 5:
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {

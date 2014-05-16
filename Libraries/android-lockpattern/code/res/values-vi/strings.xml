@@ -19,6 +19,7 @@
 
     <string name="alp_cmd_confirm">Xác nhận</string>
     <string name="alp_cmd_continue">Tiếp tục</string>
+    <string name="alp_cmd_forgot_pattern">Quên rồi?</string>
     <string name="alp_cmd_retry">Thử lại</string>
     <string name="alp_lockscreen_access_pattern_cell_added">Cell added</string>
     <string name="alp_lockscreen_access_pattern_cleared">Pattern cleared</string>
@@ -32,6 +33,9 @@
     <string name="alp_msg_release_finger_when_done">Thả ngón tay khi xong</string>
     <string name="alp_msg_try_again">Xin lỗi, hãy thử lại</string>
     <string name="alp_msg_your_new_unlock_pattern">Mẫu khóa mới của bạn:</string>
-    <string name="alp_pmsg_connect_x_dots">Kết nối ít nhất %1$d điểm.\nHãy thử lại…</string>
+
+    <plurals name="alp_pmsg_connect_x_dots">
+        <item quantity="other">Kết nối ít nhất %1$d điểm.\nHãy thử lại…</item>
+    </plurals>
 
 </resources>

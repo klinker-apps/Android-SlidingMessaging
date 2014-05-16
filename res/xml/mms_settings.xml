@@ -16,11 +16,18 @@
         />
 
         <CheckBoxPreference
-            android:key="wifi_mms_fix"
-            android:title="@string/wifi_mms_fix"
-            android:summary="@string/wifi_mms_fix_summary"
+            android:key="auto_save_mms"
+            android:title="@string/auto_save_mms"
+            android:summary="@string/auto_save_mms_summary"
             android:defaultValue="false"
-        />
+            />
+
+        <!--<CheckBoxPreference-->
+            <!--android:key="wifi_mms_fix"-->
+            <!--android:title="@string/wifi_mms_fix"-->
+            <!--android:summary="@string/wifi_mms_fix_summary"-->
+            <!--android:defaultValue="false"-->
+        <!--/>-->
 
         <com.klinker.android.messaging_sliding.views.SeekBarPreference2
                 android:key="mms_max_width"
@@ -50,6 +57,12 @@
             android:summary="@string/mms_after_summary"
             android:defaultValue="4"
             android:dependency="send_as_mms" />
+
+        <CheckBoxPreference
+            android:key="mms_size_limit"
+            android:title="@string/mms_size_limit"
+            android:summary="@string/mms_size_limit_summary"
+            android:defaultValue="true"/>
 
     </PreferenceCategory>
 
@@ -108,6 +121,35 @@
             android:dialogTitle="@string/mms_port"
             android:defaultValue=""
         />
+
+        <ListPreference
+                android:key="preset_user_agents"
+                android:title="@string/preset_user_agent"
+                android:entries="@array/pref_mms_user_agent_entries"
+                android:entryValues="@array/pref_mms_user_agent_values"
+                android:defaultValue="Android-Mms/2.0"
+                />
+
+        <EditTextPreference
+                android:key="mms_agent"
+                android:title="@string/user_agent"
+                android:dialogTitle="@string/user_agent"
+                android:defaultValue=""
+                />
+
+        <EditTextPreference
+                android:key="mms_user_agent_profile_url"
+                android:title="@string/ua_prof_url"
+                android:dialogTitle="@string/ua_prof_url"
+                android:defaultValue=""
+                />
+
+        <EditTextPreference
+                android:key="mms_user_agent_tag_name"
+                android:title="@string/ua_prof_tag_name"
+                android:dialogTitle="@string/ua_prof_tag_name"
+                android:defaultValue=""
+                />
 
 <!-- 	        <CheckBoxPreference  -->
 <!-- 	            android:key="apn_username_password" -->

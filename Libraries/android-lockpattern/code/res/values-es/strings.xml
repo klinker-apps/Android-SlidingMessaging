@@ -15,6 +15,7 @@
    limitations under the License.
 -->
 
+
 <!--
    We sincerely thank C. - a kind friend who helped us translate this file into
    his mother language.
@@ -24,6 +25,7 @@
 
     <string name="alp_cmd_confirm">Confirmar</string>
     <string name="alp_cmd_continue">Continuar</string>
+    <string name="alp_cmd_forgot_pattern">¿Has olvidado el patrón?</string>
     <string name="alp_cmd_retry">Reintentar</string>
     <string name="alp_lockscreen_access_pattern_cell_added">Celda añadida</string>
     <string name="alp_lockscreen_access_pattern_cleared">Patrón limpiado</string>
@@ -37,6 +39,10 @@
     <string name="alp_msg_release_finger_when_done">Levanta el dedo cuando termines</string>
     <string name="alp_msg_try_again">Lo siento, intentalo de nuevo</string>
     <string name="alp_msg_your_new_unlock_pattern">Nuevo patrón de desbloqueo:</string>
-    <string name="alp_pmsg_connect_x_dots">Conecta al menos %1$d puntos.\nIntentalo de nuevo…</string>
+
+    <plurals name="alp_pmsg_connect_x_dots">
+        <item quantity="one">Conecta al menos %1$d punto.\nIntentalo de nuevo…</item>
+        <item quantity="other">Conecta al menos %1$d puntos.\nIntentalo de nuevo…</item>
+    </plurals>
 
 </resources>

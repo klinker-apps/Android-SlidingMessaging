@@ -33,6 +33,7 @@ import com.klinker.android.messaging_sliding.theme.CustomTheme;
 
 import java.sql.Date;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -51,6 +52,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
         public QuickContactBadge image;
         public boolean mmsTag;
         public ImageView previewImage;
+        public View background;
     }
 
     public MenuArrayAdapter(Activity context, ArrayList<Conversation> conversations, ViewPager pager) {
@@ -76,6 +78,9 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
         }
     }
 
+    public static java.text.DateFormat dateFormatter;
+    private static java.text.DateFormat timeFormatter;
+
     @SuppressLint("SimpleDateFormat")
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
@@ -93,6 +98,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
             viewHolder.text4 = (TextView) contactView.findViewById(R.id.contactDate2);
             viewHolder.image = (QuickContactBadge) contactView.findViewById(R.id.quickContactBadge3);
             viewHolder.previewImage = (ImageView) contactView.findViewById(R.id.conversationImage);
+            viewHolder.background = contactView.findViewById(R.id.background);
 
 
             if (MainActivity.settings.hideDate) {
@@ -387,7 +393,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
                 }
             }).start();
         } else {
-            MessageCursorAdapter.setMessageText(holder.text2, mBody, context);
+            MessageCursorAdapter.setMessageText(holder.text2, holder.background, mBody, context, false);
         }
 
         Date date2 = new Date(0);
@@ -397,15 +403,16 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
         } catch (Exception e) {
         }
 
-        if (MainActivity.settings.hourFormat) {
-            holder.text3.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(date2));
-            holder.text4.setText(DateFormat.getDateInstance(DateFormat.SHORT, Locale.GERMAN).format(date2));
-        } else {
-            holder.text3.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(date2));
-            holder.text4.setText(DateFormat.getDateInstance(DateFormat.SHORT).format(date2));
+        if (dateFormatter == null) {
+            dateFormatter = android.text.format.DateFormat.getDateFormat(context);
+            timeFormatter = android.text.format.DateFormat.getTimeFormat(context);
+            if (MainActivity.settings.hourFormat) {
+                timeFormatter = new SimpleDateFormat("kk:mm");
+            }
         }
 
-
+        holder.text3.setText(timeFormatter.format(date2));
+        holder.text4.setText(dateFormatter.format(date2));
 
         if (MainActivity.deviceType.equals("phablet") || MainActivity.deviceType.equals("tablet")) {
             holder.text3.setText("");
@@ -456,10 +463,7 @@ public class MenuArrayAdapter extends ArrayAdapter<String> {
                     @Override
                     public void run() {
                         try {
-                            ContentValues values = new ContentValues();
-                            values.put("read", true);
-                            context.getContentResolver().update(Uri.parse("content://sms/conversations/"), values, "thread_id=?", new String[]{"" + conversations.get(position).getThreadId()});
-                            context.getContentResolver().update(Uri.parse("content://mms/conversations/"), values, "thread_id=?", new String[]{"" + conversations.get(position).getThreadId()});
+                            conversations.get(position).setRead(true, context);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

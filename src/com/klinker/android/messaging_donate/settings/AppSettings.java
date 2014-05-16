@@ -3,9 +3,19 @@ package com.klinker.android.messaging_donate.settings;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import com.android.mms.util.DownloadManager;
+import com.android.mms.util.RateController;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_sliding.MenuArrayAdapter;
+import com.klinker.android.messaging_sliding.MessageCursorAdapter;
 
 public class AppSettings {
+    public static final int VIBRATE_ALWAYS = 0;
+    public static final int VIBRATE_ONLY_MODE = 1;
+    public static final int VIBRATE_NEVER = 2;
+
+    public static final int DEFAULT_SEND_DELAY = 500;
+
     public boolean lightActionBar;
     public boolean limitConversationsAtStart;
     public boolean customFont;
@@ -33,7 +43,6 @@ public class AppSettings {
     public boolean cacheConversations;
     public boolean customBackground2;
     public boolean limitMessages;
-    public boolean vibrate;
     public boolean customVibratePattern;
     public boolean led;
     public boolean pageorMenu2;
@@ -110,9 +119,15 @@ public class AppSettings {
     public int linkColor;
     public int mmsMaxWidth;
     public int mmsMaxHeight;
+    public int vibrate;
+    public int sendDelay;
 
     public static AppSettings init(Context context) {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        DownloadManager.init(context);
+        RateController.init(context);
+        MessageCursorAdapter.dateFormatter = null;
+        MenuArrayAdapter.dateFormatter = null;
         AppSettings settings = new AppSettings();
 
         if (sharedPrefs.getBoolean("override_speed", false)) {
@@ -184,7 +199,7 @@ public class AppSettings {
         settings.slideMessages = sharedPrefs.getBoolean("slide_messages", false);
         settings.limitAttachmentSize = sharedPrefs.getBoolean("limit_attachment_size", true);
         settings.openContactMenu = sharedPrefs.getBoolean("open_contact_menu", false);
-        settings.vibrate = sharedPrefs.getBoolean("vibrate", true);
+        settings.vibrate = Integer.parseInt(sharedPrefs.getString("vibrate_mode", "0"));
         settings.led = sharedPrefs.getBoolean("led", true);
         settings.keyboardType = sharedPrefs.getBoolean("keyboard_type", true);
         settings.pageorMenu2 = sharedPrefs.getString("page_or_menu2", "2").equals("1");
@@ -250,6 +265,7 @@ public class AppSettings {
         settings.alwaysUseVoice = sharedPrefs.getBoolean("always_use_voice", false);
         settings.mmsMaxWidth = sharedPrefs.getInt("mms_max_width", 500);
         settings.mmsMaxHeight = sharedPrefs.getInt("mms_max_height", 500);
+        settings.sendDelay = Integer.parseInt(sharedPrefs.getString("sms_send_delay", DEFAULT_SEND_DELAY + ""));
 
         if (settings.runAs.equals("card+")) {
             settings.customTheme = true;

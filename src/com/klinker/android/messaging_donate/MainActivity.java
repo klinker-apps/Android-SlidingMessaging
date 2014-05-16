@@ -47,8 +47,9 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.RelativeLayout.LayoutParams;
 
 import com.klinker.android.messaging_donate.utils.Util;
+import com.klinker.android.messaging_sliding.receivers.*;
 import com.klinker.android.messaging_sliding.views.ImageAttachmentView;
-import com.astuetz.viewpager.extensions.PagerSlidingTabStrip;
+import com.astuetz.PagerSlidingTabStrip;
 import com.devspark.appmsg.AppMsg;
 import com.google.android.mms.MMSPart;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
@@ -71,10 +72,6 @@ import com.klinker.android.messaging_sliding.emojis.EmojiAdapter2;
 import com.klinker.android.messaging_sliding.emojis.EmojiConverter;
 import com.klinker.android.messaging_sliding.emojis.EmojiConverter2;
 import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead;
-import com.klinker.android.messaging_sliding.receivers.CacheService;
-import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
-import com.klinker.android.messaging_sliding.receivers.QuickTextService;
-import com.klinker.android.messaging_sliding.receivers.VoiceReceiver;
 import com.klinker.android.messaging_sliding.scheduled.NewScheduledSms;
 import com.klinker.android.messaging_sliding.search.SearchActivity;
 import com.klinker.android.messaging_sliding.security.PasswordActivity;
@@ -92,7 +89,6 @@ import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
 import group.pals.android.lib.ui.lockpattern.LockPatternActivity;
 import group.pals.android.lib.ui.lockpattern.prefs.SecurityPrefs;
 import net.simonvt.messagebar.MessageBar;
-import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -212,7 +208,6 @@ public class MainActivity extends FragmentActivity {
 
     private Typeface font;
 
-    private PullToRefreshAttacher mPullToRefreshAttacher;
     public static int pullToRefreshPosition = -1;
 
     private AppMsg appMsg = null;
@@ -365,7 +360,6 @@ public class MainActivity extends FragmentActivity {
             }
         }
 
-        mPullToRefreshAttacher = new PullToRefreshAttacher(this, settings.lightActionBar, true);
         appMsg = AppMsg.makeText(this, "", AppMsg.STYLE_ALERT);
 
         if (settings.limitConversationsAtStart) {
@@ -527,7 +521,7 @@ public class MainActivity extends FragmentActivity {
                         try {
                             ab.setTitle(R.string.app_name_in_app);
                             ab.setSubtitle(null);
-                            ab.setIcon(R.drawable.ic_launcher);
+                            ab.setIcon(R.mipmap.ic_launcher);
 
                             ab.setDisplayHomeAsUpEnabled(false);
                         } catch (Exception e) {
@@ -583,12 +577,12 @@ public class MainActivity extends FragmentActivity {
                                 }).start();
                             } catch (Exception e) {
                                 ab.setTitle(R.string.app_name_in_app);
-                                ab.setIcon(R.drawable.ic_launcher);
+                                ab.setIcon(R.mipmap.ic_launcher);
                             }
                         }
 
                         if (conversations.size() == 0 && ab != null) {
-                            ab.setIcon(R.drawable.ic_launcher);
+                            ab.setIcon(R.mipmap.ic_launcher);
                         }
                     } else {
                         ab.setTitle(R.string.app_name_in_app);
@@ -625,7 +619,7 @@ public class MainActivity extends FragmentActivity {
                         try {
                             ab.setTitle(newMessage);
                             ab.setSubtitle(null);
-                            ab.setIcon(R.drawable.ic_launcher);
+                            ab.setIcon(R.mipmap.ic_launcher);
                         } catch (Exception e) {
                         }
 
@@ -759,6 +753,7 @@ public class MainActivity extends FragmentActivity {
                                     int position, long arg3) {
 
                 TextView view2 = (TextView) arg1.findViewById(R.id.receivedMessage);
+                final TextView type = (TextView) arg1.findViewById(R.id.receivedDate);
 
                 String[] t1 = contact.getText().toString().split("; ");
                 String string = "";
@@ -767,7 +762,73 @@ public class MainActivity extends FragmentActivity {
                     string += t1[i] + "; ";
                 }
 
-                contact.setText(string + view2.getText() + "; ");
+                if (!type.getText().toString().startsWith(getString(R.string.group))) {
+                    contact.setText(string + view2.getText() + "; ");
+                } else {
+                    final ProgressDialog dialog = new ProgressDialog(context);
+                    dialog.setMessage(getString(R.string.getting_contacts));
+                    dialog.show();
+
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            String contacts = "";
+                            Uri groupURI = ContactsContract.Data.CONTENT_URI;
+
+                            String[] projection = new String[]{
+                                    ContactsContract.CommonDataKinds.GroupMembership.GROUP_ROW_ID ,
+                                    ContactsContract.CommonDataKinds.GroupMembership.CONTACT_ID,
+                                    ContactsContract.Data.HAS_PHONE_NUMBER,
+                                    ContactsContract.Data._ID,
+                                    ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME};
+
+                            Cursor c = context.getContentResolver().query(groupURI,
+                                    projection,
+                                    ContactsContract.CommonDataKinds.GroupMembership.GROUP_ROW_ID + "=" + type.getText().toString().replaceAll("[^0-9\\+]", "")
+                                            + " and " + ContactsContract.Data.HAS_PHONE_NUMBER + "=1",
+                                    null, null);
+
+                            if (c.moveToFirst()) {
+                                do {
+                                    Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
+                                    String[] proj = new String[]{ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, ContactsContract.Data._ID, ContactsContract.CommonDataKinds.Phone.CONTACT_ID,
+                                            ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.LABEL};
+
+                                    Cursor people = getContentResolver().query(uri, proj, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=" + c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.GroupMembership.CONTACT_ID)), null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " asc");
+
+                                    if (people.moveToFirst()) {
+                                        do {
+                                            int type = people.getInt(people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
+                                            int indexNumber = people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+
+                                            if (sharedPrefs.getBoolean("mobile_only", false)) {
+                                                if (type == 2) {
+                                                    contacts += people.getString(indexNumber).replaceAll("[^0-9\\+]", "") + "; ";
+                                                }
+                                            } else {
+                                                contacts += people.getString(indexNumber).replaceAll("[^0-9\\+]", "") + "; ";
+                                            }
+                                        } while (people.moveToNext());
+                                    }
+
+                                    people.close();
+                                } while (c.moveToNext());
+                            }
+
+                            c.close();
+
+                            final String text = contacts;
+
+                            ((Activity)context).findViewById(android.R.id.content).post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    dialog.dismiss();
+                                    contact.setText(text);
+                                }
+                            });
+                        }
+                    }).start();
+                }
                 contact.setSelection(contact.getText().length());
                 lpw.dismiss();
                 firstContactSearch = true;
@@ -810,6 +871,25 @@ public class MainActivity extends FragmentActivity {
                             contactNumbers.add(people.getString(indexNumber).replaceAll("[^0-9\\+]", ""));
                             contactTypes.add(ContactsContract.CommonDataKinds.Phone.getTypeLabel(resources, type, customLabel).toString());
                         }
+                    } while (people.moveToNext());
+                }
+
+                people.close();
+
+                String[] group_projection = new String[] {
+                        ContactsContract.Groups._ID, ContactsContract.Groups.TITLE,
+                        ContactsContract.Groups.SUMMARY_COUNT, ContactsContract.Groups.SUMMARY_WITH_PHONES };
+                people = context.getContentResolver().query(
+                        ContactsContract.Groups.CONTENT_SUMMARY_URI,
+                        group_projection,
+                        ContactsContract.Groups.SUMMARY_WITH_PHONES + " > 0"
+                        , null, ContactsContract.Groups.TITLE + " ASC");
+
+                if (people.moveToFirst()) {
+                    do {
+                        contactNames.add(people.getString(people.getColumnIndex(ContactsContract.Groups.TITLE)));
+                        contactNumbers.add(people.getString(people.getColumnIndex(ContactsContract.Groups.SUMMARY_WITH_PHONES)) + " " + getString(R.string.people));
+                        contactTypes.add(getString(R.string.group) + people.getLong(people.getColumnIndex(ContactsContract.Groups._ID)) + ")");
                     } while (people.moveToNext());
                 }
 
@@ -878,6 +958,25 @@ public class MainActivity extends FragmentActivity {
                                 }
                             } while (people.moveToNext());
                         }
+                        people.close();
+
+                        String[] group_projection = new String[] {
+                                ContactsContract.Groups._ID, ContactsContract.Groups.TITLE,
+                                ContactsContract.Groups.SUMMARY_COUNT, ContactsContract.Groups.SUMMARY_WITH_PHONES };
+                        people = context.getContentResolver().query(
+                                ContactsContract.Groups.CONTENT_SUMMARY_URI,
+                                group_projection,
+                                ContactsContract.Groups.SUMMARY_WITH_PHONES + " > 0"
+                                , null, ContactsContract.Groups.TITLE + " ASC");
+
+                        if (people.moveToFirst()) {
+                            do {
+                                contactNames.add(people.getString(people.getColumnIndex(ContactsContract.Groups.TITLE)));
+                                contactNumbers.add(people.getString(people.getColumnIndex(ContactsContract.Groups.SUMMARY_WITH_PHONES)) + " " + getString(R.string.people));
+                                contactTypes.add(getString(R.string.group) + people.getLong(people.getColumnIndex(ContactsContract.Groups._ID)) + ")");
+                            } while (people.moveToNext());
+                        }
+
                         people.close();
                     } catch (IllegalArgumentException e) {
 
@@ -1054,6 +1153,11 @@ public class MainActivity extends FragmentActivity {
                         @Override
                         public void run() {
                             final Message message = new Message(text, contact.getText().toString().replace(";", ""));
+                            message.setType(settings.voiceEnabled ?
+                                    Message.TYPE_VOICE : Message.TYPE_SMSMMS);
+                            message.setDelay(settings.sendDelay);
+
+                            boolean tooLarge = false;
 
                             if (image) {
                                 ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
@@ -1122,15 +1226,22 @@ public class MainActivity extends FragmentActivity {
                                 }
 
                                 if (hasAudio) {
-                                    byte[] media = audio;
-
-                                    message.setMedia(media, "video/3gpp");
+                                    if (audio.length < 1000000 || !sharedPrefs.getBoolean("mms_size_limit", true)) {
+                                        byte[] media = audio;
+                                        message.setMedia(media, "video/3gpp");
+                                    } else {
+                                        tooLarge = true;
+                                    }
                                 }
 
                                 if (hasVideo) {
-                                    byte[] media = video;
-
-                                    message.setMedia(media, "video/3gpp");
+                                    Log.v("sliding_messaging_mms", video.length + " " + sharedPrefs.getBoolean("mms_size_limit", true));
+                                    if (video.length < 1000000 || !sharedPrefs.getBoolean("mms_size_limit", true)) {
+                                        byte[] media = video;
+                                        message.setMedia(media, "video/3gpp");
+                                    } else {
+                                        tooLarge = true;
+                                    }
                                 }
 
                                 if (hasContact) {
@@ -1138,6 +1249,16 @@ public class MainActivity extends FragmentActivity {
 
                                     message.setMedia(media, "text/x-vCard");
                                 }
+                            }
+
+                            if (tooLarge) {
+                                ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(context, "Message too large", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                                return;
                             }
 
                             rotationAngle = 0;
@@ -1417,14 +1538,12 @@ public class MainActivity extends FragmentActivity {
                         sharedPrefs.edit().putBoolean("voice_enabled", false).commit();
                         voiceButton2.setImageResource(R.drawable.voice_disabled);
                         voiceButton.setImageResource(R.drawable.voice_disabled);
-                        sendSettings.setPreferVoice(false);
                         sendTransaction.settings = sendSettings;
                     } else {
                         settings.voiceEnabled = true;
                         sharedPrefs.edit().putBoolean("voice_enabled", true).commit();
                         voiceButton2.setImageResource(R.drawable.voice_enabled);
                         voiceButton.setImageResource(R.drawable.voice_enabled);
-                        sendSettings.setPreferVoice(true);
                         sendTransaction.settings = sendSettings;
                     }
                 }
@@ -1805,6 +1924,8 @@ public class MainActivity extends FragmentActivity {
 
             refreshMyContact = false;
         }
+
+        Conversation.markAllConversationsAsSeen(this);
     }
 
     @SuppressWarnings("deprecation")
@@ -1993,7 +2114,11 @@ public class MainActivity extends FragmentActivity {
                         @Override
                         public void run() {
                             final Message message = new Message(text, ContactUtil.findContactNumber(recipientId, context).replace(";", ""));
+                            message.setType(settings.voiceEnabled ?
+                                    Message.TYPE_VOICE : Message.TYPE_SMSMMS);
+                            message.setDelay(settings.sendDelay);
 
+                            boolean tooLarge = false;
                             if (image) {
                                 ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
                                 byte[] audio = new byte[0];
@@ -2061,15 +2186,22 @@ public class MainActivity extends FragmentActivity {
                                 }
 
                                 if (hasAudio) {
-                                    byte[] media = audio;
-
-                                    message.setMedia(media, "video/3gpp");
+                                    if (audio.length < 1000000 || !sharedPrefs.getBoolean("mms_size_limit", true)) {
+                                        byte[] media = audio;
+                                        message.setMedia(media, "video/3gpp");
+                                    } else {
+                                        tooLarge = true;
+                                    }
                                 }
 
                                 if (hasVideo) {
-                                    byte[] media = video;
-
-                                    message.setMedia(media, "video/3gpp");
+                                    Log.v("sliding_messaging_mms", video.length + " " + sharedPrefs.getBoolean("mms_size_limit", true));
+                                    if (video.length < 1000000 || !sharedPrefs.getBoolean("mms_size_limit", true)) {
+                                        byte[] media = video;
+                                        message.setMedia(media, "video/3gpp");
+                                    } else {
+                                        tooLarge = true;
+                                    }
                                 }
 
                                 if (hasContact) {
@@ -2077,6 +2209,16 @@ public class MainActivity extends FragmentActivity {
 
                                     message.setMedia(media, "text/x-vCard");
                                 }
+                            }
+
+                            if (tooLarge) {
+                                ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(context, "Message too large", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                                return;
                             }
 
                             rotationAngle = 0;
@@ -2377,7 +2519,6 @@ public class MainActivity extends FragmentActivity {
                         sharedPrefs.edit().putBoolean("voice_enabled", false).commit();
                         voiceButton2.setImageResource(R.drawable.voice_disabled);
                         voiceButton.setImageResource(R.drawable.voice_disabled);
-                        sendSettings.setPreferVoice(false);
                         sendTransaction.settings = sendSettings;
 
                         if (threadsThroughVoice.contains(conversations.get(mViewPager.getCurrentItem()).getThreadId())) {
@@ -2389,7 +2530,6 @@ public class MainActivity extends FragmentActivity {
                         sharedPrefs.edit().putBoolean("voice_enabled", true).commit();
                         voiceButton2.setImageResource(R.drawable.voice_enabled);
                         voiceButton.setImageResource(R.drawable.voice_enabled);
-                        sendSettings.setPreferVoice(true);
                         sendTransaction.settings = sendSettings;
 
                         if (!threadsThroughVoice.contains(conversations.get(mViewPager.getCurrentItem()).getThreadId())) {
@@ -2665,7 +2805,7 @@ public class MainActivity extends FragmentActivity {
                     try {
                         ab.setTitle(R.string.app_name_in_app);
                         ab.setSubtitle(null);
-                        ab.setIcon(R.drawable.ic_launcher);
+                        ab.setIcon(R.mipmap.ic_launcher);
 
                         ab.setDisplayHomeAsUpEnabled(false);
                     } catch (Exception e) {
@@ -2725,11 +2865,15 @@ public class MainActivity extends FragmentActivity {
                                                         if (!settings.useTitleBar || settings.alwaysShowContactInfo) {
                                                             ab.setTitle(title);
 
-                                                            Locale sCachedLocale = Locale.getDefault();
-                                                            int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
-                                                            Editable editable = new SpannableStringBuilder(ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context));
-                                                            PhoneNumberUtils.formatNumber(editable, sFormatType);
-                                                            ab.setSubtitle(editable.toString());
+                                                            try {
+                                                                Locale sCachedLocale = Locale.getDefault();
+                                                                int sFormatType = PhoneNumberUtils.getFormatTypeForLocale(sCachedLocale);
+                                                                Editable editable = new SpannableStringBuilder(ContactUtil.findContactNumber(conversations.get(mViewPager.getCurrentItem()).getNumber(), context));
+                                                                PhoneNumberUtils.formatNumber(editable, sFormatType);
+                                                                ab.setSubtitle(editable.toString());
+                                                            } catch (Exception e) {
+                                                                ab.setSubtitle("");
+                                                            }
 
                                                             if (ab.getTitle().equals(ab.getSubtitle())) {
                                                                 ab.setSubtitle(null);
@@ -2753,12 +2897,12 @@ public class MainActivity extends FragmentActivity {
                                     }).start();
                                 } catch (Exception e) {
                                     ab.setTitle(R.string.app_name_in_app);
-                                    ab.setIcon(R.drawable.ic_launcher);
+                                    ab.setIcon(R.mipmap.ic_launcher);
                                 }
                             }
 
                             if (conversations.size() == 0 && ab != null) {
-                                ab.setIcon(R.drawable.ic_launcher);
+                                ab.setIcon(R.mipmap.ic_launcher);
                             }
                         }
 
@@ -2888,7 +3032,14 @@ public class MainActivity extends FragmentActivity {
                             }
                         }
 
-                        final boolean performClick = voicePerformClick;
+                        boolean sperformClick;
+                        try {
+                             sperformClick = voicePerformClick;
+                        } catch (Exception e) {
+                            sperformClick = false;
+                        }
+
+                        final boolean performClick = sperformClick;
 
                         ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 
@@ -3118,7 +3269,9 @@ public class MainActivity extends FragmentActivity {
 
             Drawable searchButton = resources.getDrawable(R.drawable.ic_search);
             searchButton.setColorFilter(resources.getColor(R.color.hangouts_ab_icon), Mode.MULTIPLY);
-            menu.getItem(MENU_SEARCH).setIcon(searchButton);
+            int searchImgId = getResources().getIdentifier("android:id/search_button", null, null);
+            ImageView view = (ImageView) searchView.findViewById(searchImgId);
+            view.setImageDrawable(searchButton);
 
             Drawable replyButton = resources.getDrawable(R.drawable.ic_reply);
             replyButton.setColorFilter(resources.getColor(R.color.hangouts_ab_icon), Mode.MULTIPLY);
@@ -3138,7 +3291,9 @@ public class MainActivity extends FragmentActivity {
 
             Drawable searchButton = resources.getDrawable(R.drawable.ic_search);
             searchButton.setColorFilter(resources.getColor(R.color.white), Mode.MULTIPLY);
-            menu.getItem(MENU_SEARCH).setIcon(searchButton);
+            int searchImgId = getResources().getIdentifier("android:id/search_button", null, null);
+            ImageView view = (ImageView) searchView.findViewById(searchImgId);
+            view.setImageDrawable(searchButton);
 
             Drawable replyButton = resources.getDrawable(R.drawable.ic_reply);
             replyButton.setColorFilter(resources.getColor(R.color.white), Mode.MULTIPLY);
@@ -4515,6 +4670,45 @@ public class MainActivity extends FragmentActivity {
         fromNotification = false;
         sendTo = false;
 
+        if (settings.inAppNotifications) {
+            try {
+                Log.v("app_msg", "in try block");
+                int unreadCount = 0;
+                for (int i = 0; i < 10; i++) {
+                    if (!conversations.get(i).getRead()) {
+                        unreadCount++;
+                    }
+                }
+                Log.v("app_msg", unreadCount + " " + getString(R.string.new_conversations));
+
+                final AppMsg unread;
+
+                if (unreadCount == 1) {
+                    unread = AppMsg.makeText((Activity) context, unreadCount + " " + getString(R.string.new_conversation), AppMsg.STYLE_ALERT);
+                    unread.show();
+                } else if (unreadCount > 1) {
+                    unread = AppMsg.makeText((Activity) context, unreadCount + " " + getString(R.string.new_conversations), AppMsg.STYLE_ALERT);
+                    unread.show();
+                } else {
+                    unread = null;
+                }
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            unread.cancel();
+                        } catch (Exception e) {
+                            // there isn't one
+                        }
+                    }
+                }, 5000);
+            } catch (Exception e) {
+                Log.v("app_msg", "caught");
+                e.printStackTrace();
+            }
+        }
+
     }
 
     @Override
@@ -4530,14 +4724,6 @@ public class MainActivity extends FragmentActivity {
             unregisterReceiver(killReceiver);
         } catch (Exception e) {
         }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        Intent updateWidget = new Intent("com.klinker.android.messaging.UPDATE_WIDGET");
-        sendBroadcast(updateWidget);
 
         if (settings.enableDrafts) {
             if (messageEntry.getText().toString().length() != 0) {
@@ -4613,6 +4799,89 @@ public class MainActivity extends FragmentActivity {
                 }
             }).start();
         }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        Intent updateWidget = new Intent("com.klinker.android.messaging.UPDATE_WIDGET");
+        sendBroadcast(updateWidget);
+
+        /*if (settings.enableDrafts) {
+            if (messageEntry.getText().toString().length() != 0) {
+                draftChanged.add(true);
+                draftNames.add(conversations.get(mViewPager.getCurrentItem()).getThreadId());
+                drafts.add(messageEntry.getText().toString());
+                messageEntry.setText("");
+            }
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+
+                    try {
+                        for (int i = 0; i < draftChanged.size(); i++) {
+                            if (!draftChanged.get(i)) {
+                                draftChanged.remove(i);
+                                draftNames.remove(i);
+                                drafts.remove(i);
+                                i--;
+                            }
+                        }
+
+                        ArrayList<Long> ids = new ArrayList<Long>();
+
+                        Cursor query = context.getContentResolver().query(Uri.parse("content://sms/draft/"), new String[]{"_id", "thread_id"}, null, null, null);
+
+                        if (query != null) {
+                            if (query.moveToFirst()) {
+                                do {
+                                    for (Long draft : draftsToDelete) {
+                                        if (query.getLong(query.getColumnIndex("thread_id")) == draft) {
+                                            ids.add(query.getLong(query.getColumnIndex("_id")));
+                                            break;
+                                        }
+                                    }
+
+                                    for (Long name : draftNames) {
+                                        if (name == query.getLong(query.getColumnIndex("thread_id"))) {
+                                            context.getContentResolver().delete(Uri.parse("content://sms/" + query.getString(query.getColumnIndex("_id"))), null, null);
+                                            break;
+                                        }
+                                    }
+                                } while (query.moveToNext());
+
+                                for (Long id : ids) {
+                                    context.getContentResolver().delete(Uri.parse("content://sms/" + id), null, null);
+                                }
+                            }
+
+                            query.close();
+                        }
+
+                        for (int i = 0; i < draftNames.size(); i++) {
+                            String address = "";
+
+                            for (Conversation conversation : conversations) {
+                                if (conversation.getThreadId() == draftNames.get(i)) {
+                                    address = ContactUtil.findContactNumber(conversation.getNumber(), context);
+                                    break;
+                                }
+                            }
+
+                            ContentValues values = new ContentValues();
+                            values.put("address", address);
+                            values.put("thread_id", draftNames.get(i));
+                            values.put("body", drafts.get(i));
+                            values.put("type", "3");
+                            context.getContentResolver().insert(Uri.parse("content://sms/"), values);
+                        }
+                    } catch (Exception e) {
+                    }
+                }
+            }).start();
+        }*/
 
         if (settings.cacheConversations) {
             Intent cacheService = new Intent(context, CacheService.class);
@@ -4752,6 +5021,32 @@ public class MainActivity extends FragmentActivity {
                                 Button viewImage = (Button) findViewById(R.id.view_image_button2);
                                 Button replaceImage = (Button) findViewById(R.id.replace_image_button2);
                                 Button removeImage = (Button) findViewById(R.id.remove_image_button2);
+                                ImageButton rotateImageClock = (ImageButton) findViewById(R.id.image_rotate_clockwise_button2);
+                                ImageButton rotateImageCounter = (ImageButton) findViewById(R.id.image_rotate_counterclockwise_button2);
+
+                                rotateImageClock.setOnClickListener(new OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        rotationAngle += 90;
+                                        try {
+                                            imageAttach2.setImage("send_image", SendUtil.getThumbnailRotated(context, attachedImage2, rotationAngle));
+                                        } catch (Exception e) {
+
+                                        }
+                                    }
+                                });
+
+                                rotateImageCounter.setOnClickListener(new OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        rotationAngle += -90;
+                                        try {
+                                            imageAttach2.setImage("send_image", SendUtil.getThumbnailRotated(context, attachedImage2, rotationAngle));
+                                        } catch (Exception e) {
+
+                                        }
+                                    }
+                                });
 
                                 viewImage.setOnClickListener(new OnClickListener() {
 
@@ -5035,7 +5330,7 @@ public class MainActivity extends FragmentActivity {
                     } catch (Exception e) {
                         ab.setTitle(R.string.app_name_in_app);
                         ab.setSubtitle(null);
-                        ab.setIcon(R.drawable.ic_launcher);
+                        ab.setIcon(R.mipmap.ic_launcher);
                     }
                 }
             }
@@ -5273,10 +5568,6 @@ public class MainActivity extends FragmentActivity {
                 }
             }, 500);
         }
-    }
-
-    public PullToRefreshAttacher getPullToRefreshAttacher() {
-        return mPullToRefreshAttacher;
     }
 
     public class SectionsPagerAdapter extends android.support.v13.app.FragmentStatePagerAdapter {

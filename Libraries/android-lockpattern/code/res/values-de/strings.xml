@@ -17,26 +17,30 @@
 
 <!--
    We sincerely thank Thomas Breitbach - a kind friend who helped us translate
-   this file into his mother language.
--->
+   this file into his mother language.-->
 
 <resources>
 
-   <string name="alp_cmd_confirm">Bestätigen</string>
-   <string name="alp_cmd_continue">Weiter</string>
-   <string name="alp_cmd_retry">Wiederholen</string>
-   <string name="alp_lockscreen_access_pattern_cell_added">Zelle hinzugefügt</string>
-   <string name="alp_lockscreen_access_pattern_cleared">Muster gelöscht</string>
-   <string name="alp_lockscreen_access_pattern_detected">Muster abgeschlossen</string>
-   <string name="alp_lockscreen_access_pattern_start">Entsperrungsmuster gestartet</string>
-   <string name="alp_msg_connect_4dots">Verbinde mind. 4 Punkte.\nVersuche es bitte erneut…</string>
-   <string name="alp_msg_draw_an_unlock_pattern">Zeichne Entsperrungsmuster:</string>
-   <string name="alp_msg_draw_pattern_to_unlock">Zum Entsperren Muster zeichnen:</string>
-   <string name="alp_msg_pattern_recorded">Muster aufgezeichnet!</string>
-   <string name="alp_msg_redraw_pattern_to_confirm">Muster wiederholen:</string>
-   <string name="alp_msg_release_finger_when_done">Loslassen wenn fertig</string>
-   <string name="alp_msg_try_again">Entschuldigung, bitte erneut versuchen.</string>
-   <string name="alp_msg_your_new_unlock_pattern">Dein neues Entsperrungsmuster:</string>
-   <string name="alp_pmsg_connect_x_dots">Verbinde mind. %1$d Punkte.\nVersuche es bitte erneut…</string> 
+    <string name="alp_cmd_confirm">Bestätigen</string>
+    <string name="alp_cmd_continue">Weiter</string>
+    <string name="alp_cmd_forgot_pattern">Muster vergessen?</string>
+    <string name="alp_cmd_retry">Wiederholen</string>
+    <string name="alp_lockscreen_access_pattern_cell_added">Zelle hinzugefügt</string>
+    <string name="alp_lockscreen_access_pattern_cleared">Muster gelöscht</string>
+    <string name="alp_lockscreen_access_pattern_detected">Muster abgeschlossen</string>
+    <string name="alp_lockscreen_access_pattern_start">Entsperrungsmuster gestartet</string>
+    <string name="alp_msg_connect_4dots">Verbinde mind. 4 Punkte.\nVersuche es bitte erneut…</string>
+    <string name="alp_msg_draw_an_unlock_pattern">Zeichne Entsperrungsmuster:</string>
+    <string name="alp_msg_draw_pattern_to_unlock">Zum Entsperren Muster zeichnen:</string>
+    <string name="alp_msg_pattern_recorded">Muster aufgezeichnet!</string>
+    <string name="alp_msg_redraw_pattern_to_confirm">Muster wiederholen:</string>
+    <string name="alp_msg_release_finger_when_done">Loslassen wenn fertig</string>
+    <string name="alp_msg_try_again">Entschuldigung, bitte erneut versuchen.</string>
+    <string name="alp_msg_your_new_unlock_pattern">Dein neues Entsperrungsmuster:</string>
+
+    <plurals name="alp_pmsg_connect_x_dots">
+        <item quantity="one">Verbinde mind. %1$d Punkt.\nVersuche es bitte erneut…</item>
+        <item quantity="other">Verbinde mind. %1$d Punkte.\nVersuche es bitte erneut…</item>
+    </plurals>
 
 </resources>

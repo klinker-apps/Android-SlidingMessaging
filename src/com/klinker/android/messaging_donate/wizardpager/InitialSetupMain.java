@@ -34,8 +34,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
-import com.droidprism.APN;
-import com.droidprism.Carrier;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.wizardpager.wizard.model.AbstractWizardModel;
 import com.klinker.android.messaging_donate.wizardpager.wizard.model.ModelCallbacks;
@@ -43,6 +41,7 @@ import com.klinker.android.messaging_donate.wizardpager.wizard.model.Page;
 import com.klinker.android.messaging_donate.wizardpager.wizard.ui.PageFragmentCallbacks;
 import com.klinker.android.messaging_donate.wizardpager.wizard.ui.ReviewFragment;
 import com.klinker.android.messaging_donate.wizardpager.wizard.ui.StepPagerStrip;
+import com.klinker.android.send_message.ApnUtils;
 
 import java.util.List;
 
@@ -280,43 +279,11 @@ public class InitialSetupMain extends FragmentActivity implements
                     toast.show();
                 } else if (!carrier.equals("")) {
                     if (carrier.equals("Auto Select")) {
-                        TelephonyManager manager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-                        final String networkOperator = manager.getNetworkOperator();
-
-                        if (networkOperator != null) {
-                            new Thread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    try {
-                                        int mcc = Integer.parseInt(networkOperator.substring(0, 3));
-                                        String s = networkOperator.substring(3);
-                                        int mnc = Integer.parseInt(s.replaceFirst("^0{1,2}", ""));
-                                        Carrier c = Carrier.getCarrier(mcc, mnc);
-                                        APN a = c.getAPN();
-
-                                        sharedPrefs.edit().putString("mmsc_url", a.mmsc).putString("mms_proxy", a.proxy).putString("mms_port", a.port + "").commit();
-                                    } catch (Exception e) {
-                                        mContext.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                try {
-                                                    Toast.makeText(context, "Error auto selecting APNs", Toast.LENGTH_LONG).show();
-                                                } catch (Exception e) {
-                                                    // context no longer active probably...
-                                                }
-                                            }
-                                        });
-                                    }
-                                }
-                            }).start();
-                        } else {
-                            Toast.makeText(context, "Error auto selecting APNs.", Toast.LENGTH_SHORT).show();
-                        }
+                        ApnUtils.initDefaultApns(context, null);
                     } else if (carrier.equals("AT&T")) {
                         editor.putString("mmsc_url", "http://mmsc.cingular.com");
                         editor.putString("mms_proxy", "wireless.cingular.com");
                         editor.putString("mms_port", "80");
-
                     } else if (carrier.equals("AT&T #2")) {
                         editor.putString("mmsc_url", "http://mmsc.mobile.att.net");
                         editor.putString("mms_proxy", "proxy.mobile.att.net");

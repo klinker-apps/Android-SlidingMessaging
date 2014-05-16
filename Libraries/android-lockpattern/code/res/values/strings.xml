@@ -19,6 +19,7 @@
 
     <string name="alp_cmd_confirm">Confirm</string>
     <string name="alp_cmd_continue">Continue</string>
+    <string name="alp_cmd_forgot_pattern">Forgot pattern?</string>
     <string name="alp_cmd_retry">Retry</string>
     <string name="alp_lockscreen_access_pattern_cell_added">Cell added</string>
     <string name="alp_lockscreen_access_pattern_cleared">Pattern cleared</string>
@@ -32,6 +33,10 @@
     <string name="alp_msg_release_finger_when_done">Release finger when done</string>
     <string name="alp_msg_try_again">Sorry, try again</string>
     <string name="alp_msg_your_new_unlock_pattern">Your new unlock pattern:</string>
-    <string name="alp_pmsg_connect_x_dots">Connect at least %1$d dots.\nTry again…</string>
+
+    <plurals name="alp_pmsg_connect_x_dots">
+        <item quantity="one">Connect at least %1$d dot.\nTry again…</item>
+        <item quantity="other">Connect at least %1$d dots.\nTry again…</item>
+    </plurals>
 
 </resources>

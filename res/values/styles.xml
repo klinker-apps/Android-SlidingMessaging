@@ -127,4 +127,8 @@
         <item name="android:textColor">#000000</item>
     </style>
 
+    <style name="ProgressBarDropbox" parent="android:Widget.Holo.Light.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/dropbox_progress_horizontal_holo_light</item>
+    </style>
+
 </resources>

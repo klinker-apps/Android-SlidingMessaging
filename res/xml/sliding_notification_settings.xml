@@ -18,11 +18,9 @@
             android:defaultValue="true"
             />
 
-        <CheckBoxPreference
+        <Preference
             android:key="quick_text"
             android:title="@string/quick_text"
-            android:summary="@string/quick_text_summary"
-            android:defaultValue="false"
             />
             
         <CheckBoxPreference
@@ -94,6 +92,14 @@
             android:dependency="notifications"
             />
 
+        <Preference
+                android:key="repeating_notification_number"
+                android:title="@string/repeating_notification_number"
+                android:summary="@string/repeating_notification_number_summary"
+                android:dependency="notifications"
+                android:defaultValue="0"
+                />
+
         <MultiSelectListPreference
             android:key="button_options"
             android:title="@string/button_options"
@@ -109,12 +115,14 @@
     <PreferenceCategory android:key="notification_vibrate_category"
         android:title="@string/notification_vibrate_category" >
 
-        <CheckBoxPreference
-            android:key="vibrate"
-            android:title="@string/vibrate"
-            android:defaultValue="true"
-            android:dependency="notifications"
-            />
+        <ListPreference
+                android:key="vibrate_mode"
+                android:title="@string/vibrate_mode"
+                android:defaultValue="0"
+                android:entries="@array/vibrate_mode"
+                android:entryValues="@array/vibrate_mode_inserted"
+                android:dependency="notifications"
+                />
 
         <ListPreference
             android:key="vibrate_pattern"
@@ -123,7 +131,6 @@
             android:defaultValue="2short"
             android:entries="@array/vibratePattern"
             android:entryValues="@array/vibratePatternSet"
-            android:dependency="vibrate"
             />
 
         <CheckBoxPreference
@@ -131,7 +138,6 @@
             android:title="@string/custom_vibrate_pattern"
             android:summary="@string/custom_vibrate_pattern_summary"
             android:defaultValue="false"
-            android:dependency="vibrate"
             />
 
         <EditTextPreference
@@ -282,6 +288,13 @@
             android:title="@string/auto_clear_fn"
             android:summary="@string/auto_clear_fn_summary"
             android:defaultValue="true"
+            android:dependency="notifications"
+            />
+
+        <CheckBoxPreference
+            android:key="pebble"
+            android:title="@string/pebble_notification"
+            android:defaultValue="false"
             android:dependency="notifications"
             />
     </PreferenceCategory>

@@ -14,6 +14,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
@@ -33,6 +34,10 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
+import com.android.mms.transaction.Transaction;
+import com.android.mms.transaction.TransactionBundle;
+import com.android.mms.transaction.TransactionService;
+import com.android.mms.util.DownloadManager;
 import com.google.android.mms.pdu_alt.EncodedStringValue;
 import com.google.android.mms.pdu_alt.PduHeaders;
 import com.google.android.mms.pdu_alt.PduPersister;
@@ -50,6 +55,7 @@ import com.klinker.android.send_message.StripAccents;
 
 import java.io.*;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -207,6 +213,9 @@ public class MessageCursorAdapter extends CursorAdapter {
         return 2;
     }
 
+    public static java.text.DateFormat dateFormatter;
+    private static java.text.DateFormat timeFormatter;
+
     @Override
     public void bindView(final View view, Context mContext, final Cursor cursor) {
         final ViewHolder holder = (ViewHolder) view.getTag();
@@ -265,13 +274,15 @@ public class MessageCursorAdapter extends CursorAdapter {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            ContentValues values = new ContentValues();
-                            values.put("read", true);
-
                             try {
+                                ContentValues values = new ContentValues();
+                                values.put("read", true);
+                                values.put("seen", true);
                                 contentResolver.update(Uri.parse("content://mms/inbox"), values, "_id=" + SmsMessageId, null);
                             } catch (Exception e) {
-
+                                ContentValues values = new ContentValues();
+                                values.put("read", true);
+                                contentResolver.update(Uri.parse("content://mms/inbox"), values, "_id=" + SmsMessageId, null);
                             }
                         }
                     }).start();
@@ -401,7 +412,7 @@ public class MessageCursorAdapter extends CursorAdapter {
 
                                         @Override
                                         public void run() {
-                                            setMessageText(holder.text, text, context);
+                                            setMessageText(holder.text, holder.background, text, context, true);
 
                                             if (imageUri == null && videoF == null && audioF == null && vcardF == null) {
                                                 holder.media.setVisibility(View.GONE);
@@ -423,12 +434,12 @@ public class MessageCursorAdapter extends CursorAdapter {
                                                     @Override
                                                     public void onClick(View view) {
                                                         if (imagesF.length == 1) {
-                                                            Intent intent = new Intent();
-                                                            intent.setAction(Intent.ACTION_VIEW);
-                                                            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                                                            intent.putExtra("SingleItemOnly", true);
-                                                            intent.setDataAndType(Uri.parse(imageUri), "image/*");
+                                                            Intent intent = new Intent(context, PhotoViewerDialog.class);
+                                                            intent.putExtra("uri",imageUri);
+                                                            java.text.DateFormat formatter = new SimpleDateFormat("yyyyMMdd_HHmmss");
+                                                            intent.putExtra("name", formatter.format(Calendar.getInstance().getTimeInMillis()));
                                                             context.startActivity(intent);
+                                                            context.overridePendingTransition(android.R.anim.fade_in, 0);
                                                         } else {
                                                             Intent intent = new Intent();
                                                             intent.setClass(context, ImageViewer.class);
@@ -582,7 +593,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                         final String audioF = audio;
                         final String vcardF = vcard;
 
-                        setMessageText(holder.text, body, context);
+                        setMessageText(holder.text, holder.background, body, context, true);
 
                         if (imageUri == null && videoF == null && audioF == null && vcardF == null) {
                             holder.media.setVisibility(View.GONE);
@@ -599,12 +610,12 @@ public class MessageCursorAdapter extends CursorAdapter {
                                 @Override
                                 public void onClick(View view) {
                                     if (imagesF.length == 1) {
-                                        Intent intent = new Intent();
-                                        intent.setAction(Intent.ACTION_VIEW);
-                                        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                                        intent.putExtra("SingleItemOnly", true);
-                                        intent.setDataAndType(Uri.parse(imageUri), "image/*");
+                                        Intent intent = new Intent(context, PhotoViewerDialog.class);
+                                        intent.putExtra("uri", imageUri);
+                                        java.text.DateFormat formatter = new SimpleDateFormat("yyyyMMdd_HHmmss");
+                                        intent.putExtra("name", formatter.format(Calendar.getInstance().getTimeInMillis()));
                                         context.startActivity(intent);
+                                        context.overridePendingTransition(android.R.anim.fade_in, 0);
                                     } else {
                                         Intent intent = new Intent();
                                         intent.setClass(context, ImageViewer.class);
@@ -812,26 +823,22 @@ public class MessageCursorAdapter extends CursorAdapter {
         Calendar cal = Calendar.getInstance();
         Date currentDate = new Date(cal.getTimeInMillis());
 
+        if (dateFormatter == null) {
+            dateFormatter = android.text.format.DateFormat.getMediumDateFormat(context);
+            timeFormatter = android.text.format.DateFormat.getTimeFormat(context);
+            if (MainActivity.settings.hourFormat) {
+                timeFormatter = new SimpleDateFormat("kk:mm");
+            }
+        }
+
         if (getZeroTimeDate(date2).equals(getZeroTimeDate(currentDate))) {
-            if (MainActivity.settings.hourFormat) {
-                holder.date.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(date2) + (
-                        subject != null ? " - " + subject : ""
-                ));
-            } else {
-                holder.date.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(date2) + (
-                        subject != null ? " - " + subject : ""
-                ));
-            }
+            holder.date.setText(timeFormatter.format(date2) + (
+                    subject != null && !subject.equals("") ? " - " + subject : ""
+            ));
         } else {
-            if (MainActivity.settings.hourFormat) {
-                holder.date.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2) + (
-                        subject != null ? " - " + subject : ""
-                ));
-            } else {
-                holder.date.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(date2) + ", " + DateFormat.getDateInstance(DateFormat.MEDIUM).format(date2) + (
-                        subject != null ? " - " + subject : ""
-                ));
-            }
+            holder.date.setText(timeFormatter.format(date2) + ", " + dateFormatter.format(date2) + (
+                    subject != null && !subject.equals("") ? " - " + subject : ""
+            ));
         }
 
         if (sending) {
@@ -879,28 +886,34 @@ public class MessageCursorAdapter extends CursorAdapter {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    Uri phoneUri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(senderF.replaceAll("-", "")));
-                    final Cursor phonesCursor = context.getContentResolver().query(phoneUri, new String[]{ContactsContract.Contacts.DISPLAY_NAME_PRIMARY, ContactsContract.RawContacts._ID}, null, null, ContactsContract.Contacts.DISPLAY_NAME + " desc limit 1");
+                    try {
+                        Uri phoneUri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(senderF.replaceAll("-", "")));
+                        final Cursor phonesCursor = context.getContentResolver().query(phoneUri, new String[]{ContactsContract.Contacts.DISPLAY_NAME_PRIMARY, ContactsContract.RawContacts._ID}, null, null, ContactsContract.Contacts.DISPLAY_NAME + " desc limit 1");
 
-                    context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+                        context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 
-                        @Override
-                        public void run() {
-                            if (phonesCursor != null && phonesCursor.moveToFirst()) {
-                                holder.date.setText(holder.date.getText() + " - " + phonesCursor.getString(0));
-                            } else {
-                                holder.date.setText(holder.date.getText() + " - " + senderF);
+                            @Override
+                            public void run() {
+                                if (phonesCursor != null && phonesCursor.moveToFirst()) {
+                                    holder.date.setText(holder.date.getText() + " - " + phonesCursor.getString(0));
+                                } else {
+                                    holder.date.setText(holder.date.getText() + " - " + senderF);
+                                }
+
+                                phonesCursor.close();
                             }
 
-                            phonesCursor.close();
-                        }
-
-                    });
+                        });
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        // something went wrong getting the name for that person, leave it alone.
+                        // better this than crashing i suppose.
+                    }
                 }
             }).start();
         }
 
-        setMessageText(holder.text, body, context);
+        setMessageText(holder.text, holder.background, body, context, true);
 
         if (cursor.getPosition() == 0) {
             if (MainActivity.settings.runAs.equals("hangout")) {
@@ -980,28 +993,43 @@ public class MessageCursorAdapter extends CursorAdapter {
         final boolean mmsF = mms;
         final boolean lockedF = locked;
 
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String[] projection;
+        if (sending && MainActivity.settings.sendDelay != AppSettings.DEFAULT_SEND_DELAY) {
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String text = holder.text.getText().toString();
+                    deleteSMS(context, threadIds, idF);
 
-                if (mmsF) {
-                    projection = new String[] {"_id", "m_type", "msg_box", "m_size"};
-                } else {
-                    projection = new String[] {"_id", "type", "address", "date_sent", "date", "error_code"};
+                    if (context instanceof MainActivity) {
+                        MainActivity.messageEntry.setText(text);
+                        MainActivity.messageEntry.setSelection(text.length());
+                    }
                 }
+            });
+        } else {
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String[] projection;
 
-                Cursor cursor = contentResolver.query(Uri.parse(mmsF ? "content://mms/" + idF : "content://sms/" + idF), projection, null, null, null);
+                    if (mmsF) {
+                        projection = new String[] {"_id", "m_type", "msg_box", "m_size"};
+                    } else {
+                        projection = new String[] {"_id", "type", "address", "date_sent", "date", "error_code"};
+                    }
 
-                if (cursor.moveToFirst()) {
-                    new AlertDialog.Builder(context)
-                            .setTitle(resources.getString(R.string.message_details))
-                            .setMessage(MessageUtil.getMessageDetails(context, cursor, mmsF ? cursor.getInt(cursor.getColumnIndex("m_size")) : 0))
-                            .create()
-                            .show();
+                    Cursor cursor = contentResolver.query(Uri.parse(mmsF ? "content://mms/" + idF : "content://sms/" + idF), projection, null, null, null);
+
+                    if (cursor.moveToFirst()) {
+                        new AlertDialog.Builder(context)
+                                .setTitle(resources.getString(R.string.message_details))
+                                .setMessage(MessageUtil.getMessageDetails(context, cursor, mmsF ? cursor.getInt(cursor.getColumnIndex("m_size")) : 0))
+                                .create()
+                                .show();
+                    }
                 }
-            }
-        });
+            });
+        }
 
         final int sizeT = size2;
         final boolean errorT = error;
@@ -1052,13 +1080,6 @@ public class MessageCursorAdapter extends CursorAdapter {
 
                                                 }
                                             }
-
-                                            public void deleteSMS(Context context, long threadId, String messageId) {
-                                                try {
-                                                    context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/" + threadId + "/"), "_id=" + messageId, null);
-                                                } catch (Exception e) {
-                                                }
-                                            }
                                         });
                                         builder.setNegativeButton(resources.getString(R.string.no), new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int id) {
@@ -1074,6 +1095,62 @@ public class MessageCursorAdapter extends CursorAdapter {
                                         values.put("locked", !lockedF);
                                         contentResolver.update(Uri.parse("content://sms/inbox"), values, "_id=" + idF, null);
                                         ((MainActivity) context).refreshViewPager();
+                                        break;
+                                    case 4:
+                                        MainActivity.animationOn = true;
+
+                                        final String body = ((TextView) arg0.findViewById(R.id.textBody)).getText().toString();
+
+                                        new Thread(new Runnable() {
+
+                                            @Override
+                                            public void run() {
+                                                Looper.prepare();
+                                                boolean currentVoiceState = sharedPrefs.getBoolean("voice_enabled", false);
+                                                Log.v("voice_state", currentVoiceState + " " + voiceF);
+
+                                                if (voiceF != currentVoiceState) {
+                                                    sharedPrefs.edit().putBoolean("voice_enabled", voiceF).commit();
+                                                }
+
+                                                if (mmsF && holder.imageUri != null) {
+                                                    int size = holder.imageUri.toString().trim().split(" ").length;
+                                                    Bitmap[] bitmaps = new Bitmap[size];
+
+                                                    for (int i = 0; i < size; i++) {
+                                                        try {
+                                                            bitmaps[i] = MediaStore.Images.Media.getBitmap(context.getContentResolver(), Uri.parse(holder.imageUri.toString().trim().split(" ")[i]));
+                                                        } catch (Exception e) {
+                                                        }
+                                                    }
+
+                                                    SendUtil.sendMessage(context, inboxNumbers.trim().split(" "), body, bitmaps);
+                                                } else {
+                                                    SendUtil.sendMessage(context, inboxNumbers, body);
+                                                }
+
+                                                sharedPrefs.edit().putBoolean("voice_enabled", currentVoiceState).commit();
+
+                                                Cursor deleter = context.getContentResolver().query(Uri.parse("content://sms/failed"), new String[]{"_id"}, null, null, null);
+
+                                                if (deleter.moveToFirst()) {
+                                                    String id = deleter.getString(deleter.getColumnIndex("_id"));
+                                                    context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/" + threadIds + "/"), "_id=" + id, null);
+                                                }
+
+                                                context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                                                    @Override
+                                                    public void run() {
+                                                        MainActivity.sentMessage = true;
+                                                        ((MainActivity) context).refreshViewPager4(inboxNumbers, StripAccents.stripAccents(body), Calendar.getInstance().getTimeInMillis() + "");
+                                                    }
+
+                                                });
+                                            }
+
+                                        }).start();
+
                                         break;
                                     default:
                                         break;
@@ -1213,6 +1290,61 @@ public class MessageCursorAdapter extends CursorAdapter {
                                         values.put("locked", !lockedF);
                                         contentResolver.update(Uri.parse("content://" + (mmsF ? "mms" : "sms") + "/inbox"), values, "_id=" + idF, null);
                                         ((MainActivity) context).refreshViewPager();
+                                        break;
+                                    case 5:
+                                        MainActivity.animationOn = true;
+
+                                        final String body = ((TextView) arg0.findViewById(R.id.textBody)).getText().toString();
+
+                                        new Thread(new Runnable() {
+
+                                            @Override
+                                            public void run() {
+                                                boolean currentVoiceState = sharedPrefs.getBoolean("voice_enabled", false);
+                                                Log.v("voice_state", currentVoiceState + " " + voiceF);
+
+                                                if (voiceF != currentVoiceState) {
+                                                    sharedPrefs.edit().putBoolean("voice_enabled", voiceF).commit();
+                                                }
+
+                                                if (mmsF && holder.imageUri != null) {
+                                                    int size = holder.imageUri.toString().trim().split(" ").length;
+                                                    Bitmap[] bitmaps = new Bitmap[size];
+
+                                                    for (int i = 0; i < size; i++) {
+                                                        try {
+                                                            bitmaps[i] = MediaStore.Images.Media.getBitmap(context.getContentResolver(), Uri.parse(holder.imageUri.toString().trim().split(" ")[i]));
+                                                        } catch (Exception e) {
+                                                        }
+                                                    }
+
+                                                    SendUtil.sendMessage(context, inboxNumbers.trim().split(" "), body, bitmaps);
+                                                } else {
+                                                    SendUtil.sendMessage(context, inboxNumbers, body);
+                                                }
+
+                                                sharedPrefs.edit().putBoolean("voice_enabled", currentVoiceState).commit();
+
+                                                Cursor deleter = context.getContentResolver().query(Uri.parse("content://sms/failed"), new String[]{"_id"}, null, null, null);
+
+                                                if (deleter.moveToFirst()) {
+                                                    String id = deleter.getString(deleter.getColumnIndex("_id"));
+                                                    context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/" + threadIds + "/"), "_id=" + id, null);
+                                                }
+
+                                                context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+
+                                                    @Override
+                                                    public void run() {
+                                                        MainActivity.sentMessage = true;
+                                                        ((MainActivity) context).refreshViewPager4(inboxNumbers, StripAccents.stripAccents(body), Calendar.getInstance().getTimeInMillis() + "");
+                                                    }
+
+                                                });
+                                            }
+
+                                        }).start();
+
                                         break;
                                     default:
                                         break;
@@ -1660,7 +1792,7 @@ public class MessageCursorAdapter extends CursorAdapter {
         public Uri imageUri;
     }
 
-    public static void setMessageText(final TextView textView, final String body, final Activity context) {
+    public static void setMessageText(final TextView textView, final View holder, final String body, final Activity context, final boolean link) {
         if (textView.getVisibility() == View.GONE) {
             return;
         }
@@ -1698,7 +1830,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                     @Override
                                     public void run() {
                                         textView.setText(text);
-                                        linkifyText(textView);
+                                        linkifyText(textView, holder, context, link);
                                     }
 
                                 });
@@ -1712,7 +1844,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                             textView.setText(EmoticonConverter2.getSmiledText(context, body));
                         }
 
-                        linkifyText(textView);
+                        linkifyText(textView, holder, context, link);
                     }
                 } catch (Exception e) {
                     // problem getting an emoji FIXME
@@ -1750,7 +1882,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                     @Override
                                     public void run() {
                                         textView.setText(text);
-                                        linkifyText(textView);
+                                        linkifyText(textView, holder, context, link);
                                     }
 
                                 });
@@ -1764,7 +1896,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                             textView.setText(EmoticonConverter.getSmiledText(context, body));
                         }
 
-                        linkifyText(textView);
+                        linkifyText(textView, holder, context, link);
                     }
                 } catch ( Exception e) {
                     //FIXME same thing
@@ -1794,7 +1926,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                     @Override
                                     public void run() {
                                         textView.setText(text);
-                                        linkifyText(textView);
+                                        linkifyText(textView, holder, context, link);
                                     }
 
                                 });
@@ -1803,7 +1935,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                         }).start();
                     } else {
                         textView.setText(body);
-                        linkifyText(textView);
+                        linkifyText(textView, holder, context, link);
                     }
                 } catch (Exception e) {
                     // FIXME same again
@@ -1841,7 +1973,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                                     @Override
                                     public void run() {
                                         textView.setText(text);
-                                        linkifyText(textView);
+                                        linkifyText(textView, holder, context, link);
                                     }
 
                                 });
@@ -1855,7 +1987,7 @@ public class MessageCursorAdapter extends CursorAdapter {
                             textView.setText(EmoticonConverter3.getSmiledText(context, body));
                         }
 
-                        linkifyText(textView);
+                        linkifyText(textView, holder, context, link);
                     }
                 } catch (Exception e) {
                     // FIXME one more
@@ -1864,20 +1996,22 @@ public class MessageCursorAdapter extends CursorAdapter {
         } else {
             textView.setText(body);
 
-            linkifyText(textView);
+            linkifyText(textView, holder, context, link);
         }
     }
 
-    private static void linkifyText(TextView textView) {
-        CharSequence text = textView.getText();
-        if (Patterns.PHONE.matcher(text).find() ||
-                Patterns.EMAIL_ADDRESS.matcher(text).find() ||
-                Patterns.WEB_URL.matcher(text).find()) {
-            Linkify.addLinks(textView, Linkify.ALL);
+    private void deleteSMS(Context context, long threadId, String messageId) {
+        try {
+            context.getContentResolver().delete(Uri.parse("content://mms-sms/conversations/" + threadId + "/"), "_id=" + messageId, null);
+        } catch (Exception e) {
         }
     }
 
-    public void downloadableMessage(final ViewHolder holder, String id) {
+    private static void linkifyText(TextView textView, View holder, Context context, boolean link) {
+        com.klinker.android.messaging_donate.utils.text.TextUtils.linkifyText(context, textView, holder, link);
+    }
+
+    public void downloadableMessage(final ViewHolder holder, final String id) {
         Cursor locationQuery = context.getContentResolver().query(Uri.parse("content://mms/"), new String[]{"m_size", "exp", "ct_l", "_id"}, "_id=?", new String[]{id}, null);
 
         if (locationQuery.moveToFirst()) {
@@ -1927,26 +2061,43 @@ public class MessageCursorAdapter extends CursorAdapter {
                     public void onClick(View v) {
                         holder.downloadButton.setVisibility(View.INVISIBLE);
 
-                        Intent downloadMessage = new Intent(context, MmsReceiverService.class);
-                        context.startService(downloadMessage);
+//                        Intent downloadMessage = new Intent(context, MmsReceiverService.class);
+//                        context.startService(downloadMessage);
+//
+//                        context.registerReceiver(new BroadcastReceiver() {
+//                            @Override
+//                            public void onReceive(Context context1, Intent intent) {
+//                                try {
+//                                    context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
+//                                        @Override
+//                                        public void run() {
+//                                            holder.downloadButton.setVisibility(View.VISIBLE);
+//                                        }
+//                                    });
+//
+//                                    context.unregisterReceiver(this);
+//                                } catch (Exception e) {
+//
+//                                }
+//                            }
+//                        }, new IntentFilter("com.klinker.android.messaging.SHOW_DOWNLOAD_BUTTON"));
 
-                        context.registerReceiver(new BroadcastReceiver() {
-                            @Override
-                            public void onReceive(Context context1, Intent intent) {
-                                try {
-                                    context.getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            holder.downloadButton.setVisibility(View.VISIBLE);
-                                        }
-                                    });
-
-                                    context.unregisterReceiver(this);
-                                } catch (Exception e) {
-
+                        if (!PreferenceManager.getDefaultSharedPreferences(context).getBoolean("auto_download_mms", false)) {
+                            PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("auto_download_mms", true).commit();
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("auto_download_mms", false).commit();
                                 }
-                            }
-                        }, new IntentFilter("com.klinker.android.messaging.SHOW_DOWNLOAD_BUTTON"));
+                            }, 10000);
+                        }
+
+                        Intent download = new Intent(context, TransactionService.class);
+                        download.putExtra(TransactionBundle.URI, ("content://mms/" + id));
+                        download.putExtra(TransactionBundle.TRANSACTION_TYPE, Transaction.RETRIEVE_TRANSACTION);
+                        context.startService(download);
+
+                        DownloadManager.getInstance().markState(Uri.parse("content://mms/" + id), DownloadManager.STATE_PRE_DOWNLOADING);
                     }
 
                 });

@@ -49,6 +49,7 @@
         <item>Forward Message</item>
         <item>Delete Message</item>
         <item>Lock Message</item>
+        <item>Resend</item>
     </string-array>
 
     <string-array name="messageOptionsUnlock">
@@ -56,6 +57,7 @@
         <item>Forward Message</item>
         <item>Delete Message</item>
         <item>Unlock Message</item>
+        <item>Resend</item>
     </string-array>
     
     <string-array name="messageOptions2">
@@ -64,6 +66,7 @@
         <item>Forward Message</item>
         <item>Delete Message</item>
         <item>Lock Message</item>
+        <item>Resend</item>
     </string-array>
 
     <string-array name="messageOptions2Unlock">
@@ -72,6 +75,7 @@
         <item>Forward Message</item>
         <item>Delete Message</item>
         <item>Unlock Message</item>
+        <item>Resend</item>
     </string-array>
     
     <string-array name="messageOptions3">
@@ -543,5 +547,76 @@
         <item>2</item>
         <item>3</item>
     </string-array>
+
+    <string-array name="contactOptions">
+        <item>@string/call_contact</item>
+        <item>@string/copy_contact_number</item>
+    </string-array>
+
+    <string-array name="contactOptionsSave">
+        <item>@string/call_contact</item>
+        <item>@string/copy_contact_number</item>
+        <item>@string/add_contact</item>
+    </string-array>
+
+    <string-array name="contactOptionsSaveEmail">
+        <item>@string/copy_contact_email</item>
+        <item>@string/add_contact</item>
+    </string-array>
+
+    <string-array name="vibrate_mode">
+        <item>@string/always</item>
+        <item>@string/only_vibrate</item>
+        <item>@string/never</item>
+    </string-array>
+
+    <string-array name="vibrate_mode_inserted">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="pref_mms_user_agent_entries">
+        <item>@string/pref_mms_ua_default_android</item>
+        <item>@string/pref_mms_ua_nokia_n95</item>
+        <item>@string/pref_mms_ua_iphone_3_0</item>
+        <item>@string/pref_mms_ua_blackberry_8800</item>
+        <item>@string/pref_mms_ua_sonyericsson_w800i</item>
+        <item>@string/pref_mms_ua_softbank_x01t</item>
+        <item>@string/pref_mms_ua_softbank_myrmms</item>
+        <item>@string/pref_mms_ua_nexus5</item>
+    </string-array>
+
+    <string-array name="pref_mms_user_agent_values">
+        <item>Android-Mms/2.0</item>
+        <item>NokiaN95/11.0.026; Series60/3.1 Profile/MIDP-2.0 Configuration/CLDC-1.1</item>
+        <item>iPhoneOS/3.0 (7A341)</item>
+        <item>BlackBerry8800/4.2.1 Profile/MIDP-2.0 Configuration/CLDC-1.1 VendorID/100</item>
+        <item>SonyEricssonW800i/R1L</item>
+        <item>SoftBank/1.0/X01T/TJ001</item>
+        <item>SoftBank/1.0/Smart/MyrMMS</item>
+        <item>Nexus5</item>
+    </string-array>
+
+    <string-array name="send_delay_inserted">
+        <item>500</item>
+        <item>3000</item>
+        <item>5000</item>
+        <item>10000</item>
+        <item>20000</item>
+        <item>30000</item>
+        <item>60000</item>
+    </string-array>
+
+    <string-array name="send_delay">
+        <item>@string/send_delay_immediate</item>
+        <item>@string/send_delay_3seconds</item>
+        <item>@string/send_delay_5seconds</item>
+        <item>@string/send_delay_10seconds</item>
+        <item>@string/send_delay_20seconds</item>
+        <item>@string/send_delay_30seconds</item>
+        <item>@string/send_delay_60seconds</item>
+    </string-array>
+
 
 </resources>

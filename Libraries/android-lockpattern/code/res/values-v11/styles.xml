@@ -31,6 +31,13 @@
         <item name="alp_button_bar_button_style">?android:attr/buttonBarButtonStyle</item>
     </style>
 
+    <style name="Alp.BaseTheme.Light.DarkActionBar" parent="@android:style/Theme.Holo.Light" />
+
+    <style name="Alp.BaseThemeHelper.Light.DarkActionBar" parent="@style/Alp.BaseTheme.Light.DarkActionBar">
+        <item name="alp_button_bar_style">?android:attr/buttonBarStyle</item>
+        <item name="alp_button_bar_button_style">?android:attr/buttonBarButtonStyle</item>
+    </style>
+
     <style name="Alp.BaseTheme.Dialog.Dark" parent="@android:style/Theme.Holo.Dialog" />
 
     <style name="Alp.BaseThemeHelper.Dialog.Dark" parent="@style/Alp.BaseTheme.Dialog.Dark">

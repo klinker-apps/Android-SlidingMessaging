@@ -16,6 +16,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Toast;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_sliding.backup.DropboxActivity;
 import com.klinker.android.messaging_sliding.blacklist.BlacklistContact;
 import com.klinker.android.messaging_sliding.notifications.IndividualSetting;
 import com.klinker.android.messaging_sliding.scheduled.ScheduledSms;
@@ -94,6 +95,33 @@ public class IOUtil {
         values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
         context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
         Toast.makeText(context, context.getResources().getString(R.string.save_image), Toast.LENGTH_SHORT).show();
+    }
+
+    public static void saveFile(Uri uri, String name, String extension, Context context) {
+        String sourceFilename = getPath(uri, context);
+        String destinationFilename = android.os.Environment.getExternalStorageDirectory().getPath() + "/Download/" + name + extension;
+
+        BufferedInputStream bis = null;
+        BufferedOutputStream bos = null;
+
+        try {
+            bis = new BufferedInputStream(new FileInputStream(sourceFilename));
+            bos = new BufferedOutputStream(new FileOutputStream(destinationFilename, false));
+            byte[] buf = new byte[1024];
+            bis.read(buf);
+            do {
+                bos.write(buf);
+            } while (bis.read(buf) != -1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (bis != null) bis.close();
+                if (bos != null) bos.close();
+            } catch (IOException e) {
+
+            }
+        }
     }
 
     public static Bitmap decodeFile(File f) {
@@ -788,6 +816,149 @@ public class IOUtil {
             return query.getString(column_index);
         } catch (Exception e) {
             return "";
+        }
+    }
+
+    private static final String SMS_SEPARATOR = "\n";
+
+    public static boolean writeSmsCursor(File dst, Cursor cursor, DropboxActivity.WriteAsyncTask task, boolean overwrite) {
+        boolean res = false;
+        OutputStreamWriter output = null;
+
+        try {
+            if (!dst.getParentFile().exists()) {
+                dst.getParentFile().mkdirs();
+                dst.createNewFile();
+            }
+
+            output = new OutputStreamWriter(new FileOutputStream(dst, !overwrite));
+
+            if (cursor.moveToLast()) {
+                do {
+                    String line = "";
+                    StringBuilder builder = new StringBuilder(line);
+
+                    for (int i = 0; i < cursor.getColumnCount(); i++) {
+                        builder.append(cursor.getString(i).replace(" ", "_") + " ");
+                    }
+
+                    line = builder.toString().trim();
+                    if (!overwrite) {
+                        if (!checkIfSmsExists(line.split(" ")[0], dst)) {
+                            output.append(line.replace("\n", "___") + SMS_SEPARATOR);
+                        }
+                    } else {
+                        output.write(line.replace("\n", "___") + SMS_SEPARATOR);
+                    }
+
+                    task.onProgressUpdate((int) ((double) (cursor.getCount() - cursor.getPosition()) / cursor.getCount() * 100));
+
+                    // make it a smooth animation if otherwise the process would be too quick
+                    if (cursor.getCount() <= 5000) {
+                        try {
+                            Thread.sleep(10);
+                        } catch (Exception e) {
+                        }
+                    }
+                } while (cursor.moveToPrevious());
+            }
+
+            res = true;
+        } catch (Exception e) {
+        } finally {
+            try {
+                if (output != null) {
+                    output.flush();
+                    output.close();
+                }
+            } catch (Exception e) {
+            }
+        }
+
+        return res;
+    }
+
+    private static boolean checkIfSmsExists(String date, File file) {
+        try {
+            InputStream inputStream = new FileInputStream(file);
+
+            if (inputStream != null) {
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                String receiveString;
+
+                while ((receiveString = bufferedReader.readLine()) != null) {
+                    if (receiveString.startsWith(date)) {
+                        return true;
+                    }
+                }
+
+                inputStream.close();
+            }
+        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
+        }
+
+        return false;
+    }
+
+    public static void readSmsFile(File file, DropboxActivity.ReadAsyncTask task, Context context) {
+
+        int lines = 0;
+        LineNumberReader reader = null;
+        try {
+            reader = new LineNumberReader(new FileReader(file));
+            while ((reader.readLine()) != null) ;
+            lines = reader.getLineNumber();
+        } catch (Exception e) {
+        } finally {
+            try {
+                if (reader != null)
+                    reader.close();
+            } catch (IOException e) {
+            }
+        }
+
+        try {
+            InputStream inputStream = new FileInputStream(file);
+
+            if (inputStream != null) {
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                String receiveString = "";
+
+                int currentLine = 0;
+                while ((receiveString = bufferedReader.readLine()) != null) {
+                    String[] message = receiveString.split(" ");
+                    Cursor query = context.getContentResolver().query(Uri.parse("content://sms/"), new String[]{"date"}, "date=?", new String[]{message[0]}, "date desc limit 1");
+                    if (!query.moveToFirst()) {
+                        // message is not a duplicate, so insert it into the database
+                        ContentValues values = new ContentValues();
+                        for (int i = 0; i < DropboxActivity.BACKUP_PROJECTION.length; i++) {
+                            values.put(DropboxActivity.BACKUP_PROJECTION[i], message[i].replace("___", "\n").replace("_", " "));
+                        }
+                        context.getContentResolver().insert(Uri.parse("content://sms/"), values);
+                    } else {
+                        if (lines <= 500) {
+                            try {
+                                Thread.sleep(10);
+                            } catch (Exception e) {
+                            }
+                        }
+                    }
+
+                    try {
+                        query.close();
+                    } catch (Exception e) {
+                    }
+
+                    task.onProgressUpdate((int) ((double) ++currentLine / lines * 100));
+                }
+
+                inputStream.close();
+            }
+        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
         }
     }
 

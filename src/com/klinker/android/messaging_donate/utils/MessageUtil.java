@@ -325,6 +325,10 @@ public class MessageUtil {
         }
     }
 
+    public static String parseNumber(String number) {
+        return number.replace("(", "").replace(")", "").replace("-", "").replace(" ", "").replace("+1", "").replace("+", "");
+    }
+
     private static long getOrCreateThreadId(
             Context context, Set<String> recipients) {
         Uri.Builder uriBuilder = Uri.parse("content://mms-sms/threadID").buildUpon();

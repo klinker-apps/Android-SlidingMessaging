@@ -3,8 +3,6 @@ package com.klinker.android.messaging_donate.settings;
 import android.annotation.SuppressLint;
 import android.app.*;
 import android.content.*;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.media.RingtoneManager;
@@ -26,15 +24,15 @@ import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
-import com.droidprism.APN;
-import com.droidprism.Carrier;
-import com.klinker.android.messaging_donate.MainActivity;
+import com.android.mms.MmsConfig;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.utils.IOUtil;
 import com.klinker.android.messaging_donate.utils.Util;
 import com.klinker.android.messaging_sliding.DeleteOldService;
 import com.klinker.android.messaging_sliding.backup.BackupService;
+import com.klinker.android.messaging_sliding.backup.DropboxActivity;
 import com.klinker.android.messaging_sliding.blacklist.BlacklistActivity;
+import com.klinker.android.messaging_sliding.mass_text.MassTextActivity;
 import com.klinker.android.messaging_sliding.notifications.NotificationsSettingsActivity;
 import com.klinker.android.messaging_sliding.receivers.NotificationReceiver;
 import com.klinker.android.messaging_sliding.scheduled.ScheduledSms;
@@ -47,6 +45,7 @@ import com.klinker.android.messaging_sliding.theme.ThemeChooserActivity;
 import com.klinker.android.messaging_sliding.views.HoloEditText;
 import com.klinker.android.messaging_sliding.views.HoloTextView;
 import com.klinker.android.messaging_sliding.views.NumberPickerDialog;
+import com.klinker.android.send_message.ApnUtils;
 import com.klinker.android.send_message.Utils;
 import group.pals.android.lib.ui.lockpattern.LockPatternActivity;
 import group.pals.android.lib.ui.lockpattern.prefs.SecurityPrefs;
@@ -102,6 +101,7 @@ public class SettingsPagerActivity extends FragmentActivity {
 
         otherItems = new String[]{getResources().getString(R.string.quick_templates),
                 getResources().getString(R.string.scheduled_sms),
+                getResources().getString(R.string.mass_sms),
                 getResources().getString(R.string.get_help),
                 getResources().getString(R.string.other_apps),
                 getResources().getString(R.string.rate_it)};
@@ -313,7 +313,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                Intent mIntent = new Intent(context, GetHelpSettingsActivity.class);
+                                Intent mIntent = new Intent(context, MassTextActivity.class);
                                 mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(mIntent);
                                 //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
@@ -327,7 +327,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                Intent mIntent = new Intent(context, OtherAppsSettingsActivity.class);
+                                Intent mIntent = new Intent(context, GetHelpSettingsActivity.class);
                                 mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(mIntent);
                                 //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
@@ -338,6 +338,20 @@ public class SettingsPagerActivity extends FragmentActivity {
                         break;
 
                     case 4:
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent mIntent = new Intent(context, OtherAppsSettingsActivity.class);
+                                mIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(mIntent);
+                                //overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                                overridePendingTransition(0, 0);
+                            }
+                        }, 200);
+
+                        break;
+
+                    case 5:
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
@@ -643,6 +657,74 @@ public class SettingsPagerActivity extends FragmentActivity {
                 }
             });
 
+            final Preference vibration = findPreference("vibrate_mode");
+            String summary;
+
+            if (sharedPrefs.getString("vibrate_mode", "0").equals("0")) {
+                summary = getString(R.string.always);
+            } else if (sharedPrefs.getString("vibrate_mode", "0").equals("1")) {
+                summary = getString(R.string.only_vibrate);
+            } else {
+                summary = getString(R.string.never);
+            }
+
+            vibration.setSummary(summary);
+            vibration.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            String summary;
+
+                            if (sharedPrefs.getString("vibrate_mode", "0").equals("0")) {
+                                summary = getString(R.string.always);
+                            } else if (sharedPrefs.getString("vibrate_mode", "0").equals("1")) {
+                                summary = getString(R.string.only_vibrate);
+                            } else {
+                                summary = getString(R.string.never);
+                            }
+
+                            vibration.setSummary(summary);
+                        }
+                    }, 250);
+
+                    return true;
+                }
+            });
+
+            Preference repeatingNumber = findPreference("repeating_notification_number");
+            repeatingNumber.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+
+                @Override
+                public boolean onPreferenceClick(Preference arg0) {
+                    if (sharedPrefs.getBoolean("notifications", false)) {
+                        NumberPickerDialog.OnNumberSetListener mSmsLimitListener =
+                                new NumberPickerDialog.OnNumberSetListener() {
+                                    public void onNumberSet(int limit) {
+                                        SharedPreferences.Editor editor = sharedPrefs.edit();
+
+                                        editor.putInt("repeating_notification_number", limit);
+                                        editor.commit();
+                                    }
+                                };
+
+                        new NumberPickerDialog(context, mSmsLimitListener, sharedPrefs.getInt("repeating_notification_number", 0), 0, 200, R.string.repeating_notification_number).show();
+                    }
+
+                    return false;
+                }
+
+            });
+
+            findPreference("quick_text").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    startActivity(new Intent(context, QuickTextSetupActivity.class));
+                    return true;
+                }
+            });
+
             TelephonyManager manager = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
             String carrierName = manager.getNetworkOperatorName();
 
@@ -653,9 +735,9 @@ public class SettingsPagerActivity extends FragmentActivity {
             if (!showAll) {
                 ((PreferenceGroup) findPreference("general_notification_category")).removePreference(findPreference("in_app_notifications"));
                 ((PreferenceGroup) findPreference("general_notification_category")).removePreference(findPreference("quick_text_slideover"));
-                ((PreferenceGroup) findPreference("general_notification_category")).removePreference(findPreference("quick_text"));
                 ((PreferenceGroup) findPreference("notification_look_category")).removePreference(findPreference("breath"));
                 ((PreferenceGroup) findPreference("notification_look_category")).removePreference(findPreference("repeating_notification"));
+                ((PreferenceGroup) findPreference("notification_look_category")).removePreference(findPreference("repeating_notification_number"));
                 ((PreferenceGroup) findPreference("notification_look_category")).removePreference(findPreference("stack_notifications"));
                 ((PreferenceGroup) findPreference("notification_vibrate_category")).removePreference(findPreference("custom_vibrate_pattern"));
                 ((PreferenceGroup) findPreference("notification_vibrate_category")).removePreference(findPreference("set_custom_vibrate_pattern"));
@@ -1093,7 +1175,7 @@ public class SettingsPagerActivity extends FragmentActivity {
         public void setUpMmsSettings() {
             boolean isTablet;
 
-            Preference mmsc, proxy, port;
+            final Preference mmsc, proxy, port;
             final Context context = getActivity();
             final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
@@ -1110,7 +1192,7 @@ public class SettingsPagerActivity extends FragmentActivity {
             if (isTablet) {
                 findPreference("group_message").setEnabled(false);
                 findPreference("auto_download_mms").setEnabled(false);
-                findPreference("wifi_mms_fix").setEnabled(false);
+                //findPreference("wifi_mms_fix").setEnabled(false);
                 findPreference("send_as_mms").setEnabled(false);
                 findPreference("mms_after").setEnabled(false);
                 findPreference("send_with_stock").setEnabled(false);
@@ -1120,8 +1202,12 @@ public class SettingsPagerActivity extends FragmentActivity {
                 findPreference("mmsc_url").setEnabled(false);
                 findPreference("mms_proxy").setEnabled(false);
                 findPreference("mms_port").setEnabled(false);
+                findPreference("mms_agent").setEnabled(false);
+                findPreference("mms_user_agent_profile_url").setEnabled(false);
+                findPreference("mms_user_agent_tag_name").setEnabled(false);
                 findPreference("mms_disclaimer").setEnabled(false);
                 findPreference("get_apn_help").setEnabled(false);
+                findPreference("preset_user_agents").setEnabled(false);
             }
             Preference smsToStore = (Preference) findPreference("mms_after");
             smsToStore.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -1147,60 +1233,143 @@ public class SettingsPagerActivity extends FragmentActivity {
 
             });
 
-            mmsc = (Preference) findPreference("mmsc_url");
+            mmsc = findPreference("mmsc_url");
             mmsc.setSummary(sharedPrefs.getString("mmsc_url", ""));
+            mmsc.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mmsc.setSummary(sharedPrefs.getString("mmsc_url", ""));
+                        }
+                    }, 250);
+                    return true;
+                }
+            });
 
-            proxy = (Preference) findPreference("mms_proxy");
+            proxy = findPreference("mms_proxy");
             proxy.setSummary(sharedPrefs.getString("mms_proxy", ""));
+            proxy.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            proxy.setSummary(sharedPrefs.getString("mms_proxy", ""));
+                        }
+                    }, 250);
+                    return true;
+                }
+            });
 
-            port = (Preference) findPreference("mms_port");
-            port.setSummary(sharedPrefs.getString("mms_port", ""));
+            port = findPreference("mms_port");
+            long portNum = 0;
+            try {
+                portNum = Long.parseLong(sharedPrefs.getString("mms_port", ""));
+            } catch (Exception e) { }
+            port.setSummary(portNum == 0 ? "" : portNum + "");
+            port.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            long portNum = 0;
+                            try {
+                                portNum = Long.parseLong(sharedPrefs.getString("mms_port", ""));
+                            } catch (Exception e) { }
+                            port.setSummary(portNum == 0 ? "" : portNum + "");
+                        }
+                    }, 250);
+                    return true;
+                }
+            });
+
+            final Preference agent = findPreference("mms_agent");
+            if (sharedPrefs.getString("mms_agent", "").equals("")) {
+                agent.setSummary(MmsConfig.DEFAULT_USER_AGENT);
+            } else {
+                agent.setSummary(sharedPrefs.getString("mms_agent", ""));
+            }
+            agent.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (sharedPrefs.getString("mms_agent", "").equals("")) {
+                                agent.setSummary(MmsConfig.DEFAULT_USER_AGENT);
+                            } else {
+                                agent.setSummary(sharedPrefs.getString("mms_agent", ""));
+                            }
+                        }
+                    }, 250);
+                    return true;
+                }
+            });
+
+            final Preference profUrl = findPreference("mms_user_agent_profile_url");
+            if (sharedPrefs.getString("mms_user_agent_profile_url", "").equals("")) {
+                profUrl.setSummary(null);
+            } else {
+                profUrl.setSummary(sharedPrefs.getString("mms_user_agent_profile_url", ""));
+            }
+            profUrl.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (sharedPrefs.getString("mms_user_agent_profile_url", "").equals("")) {
+                                profUrl.setSummary(null);
+                            } else {
+                                profUrl.setSummary(sharedPrefs.getString("mms_user_agent_profile_url", ""));
+                            }
+                        }
+                    }, 250);
+                    return true;
+                }
+            });
+
+            final Preference profTag = findPreference("mms_user_agent_tag_name");
+            if (sharedPrefs.getString("mms_user_agent_tag_name", "").equals("")) {
+                profTag.setSummary(MmsConfig.DEFAULT_HTTP_KEY_X_WAP_PROFILE);
+            } else {
+                profTag.setSummary(sharedPrefs.getString("mms_user_agent_tag_name", ""));
+            }
+            profTag.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (sharedPrefs.getString("mms_user_agent_tag_name", "").equals("")) {
+                                profTag.setSummary(MmsConfig.DEFAULT_HTTP_KEY_X_WAP_PROFILE);
+                            } else {
+                                profTag.setSummary(sharedPrefs.getString("mms_user_agent_tag_name", ""));
+                            }
+                        }
+                    }, 250);
+                    return true;
+                }
+            });
 
             Preference autoSelect = findPreference("auto_select_apn");
             autoSelect.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    TelephonyManager manager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-                    final String networkOperator = manager.getNetworkOperator();
-
-                    if (networkOperator != null) {
-                        final ProgressDialog dialog = new ProgressDialog(context);
-                        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                        dialog.setMessage(context.getString(R.string.finding_apns));
-                        dialog.show();
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    int mcc = Integer.parseInt(networkOperator.substring(0, 3));
-                                    String s = networkOperator.substring(3);
-                                    int mnc = Integer.parseInt(s.replaceFirst("^0{1,2}", ""));
-                                    Carrier c = Carrier.getCarrier(mcc, mnc);
-                                    APN a = c.getAPN();
-
-                                    sharedPrefs.edit().putString("mmsc_url", a.mmsc).putString("mms_proxy", a.proxy).putString("mms_port", a.port + "").commit();
-                                } catch (Throwable e) {
-                                    ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            Toast.makeText(context, "Error, couldn't get system APNs.", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                                }
-
-                                ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        setUpMmsSettings();
-                                        dialog.dismiss();
-                                    }
-                                });
-                            }
-                        }).start();
-                    } else {
-                        Toast.makeText(context, "Error, no network operator.", Toast.LENGTH_SHORT).show();
-                    }
-
+                    ApnUtils.initDefaultApns(context, new ApnUtils.OnApnFinishedListener() {
+                        @Override
+                        public void onFinished() {
+                            setUpMmsSettings();
+                            PreferenceManager.getDefaultSharedPreferences(context)
+                                    .edit()
+                                    .putInt("mms_max_width", 800)
+                                    .putInt("mms_max_height", 800)
+                                    .commit();
+                        }
+                    });
                     return false;
                 }
             });
@@ -1216,6 +1385,23 @@ public class SettingsPagerActivity extends FragmentActivity {
                     return false;
                 }
 
+            });
+
+            Preference presetUserAgents = findPreference("preset_user_agents");
+            presetUserAgents.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            sharedPrefs.edit()
+                                    .putString("mms_agent", sharedPrefs.getString("preset_user_agents", "Android-Mms/2.0"))
+                                    .commit();
+                            setUpMmsSettings();
+                        }
+                    }, 250);
+                    return true;
+                }
             });
 
             Preference getHelp = (Preference) findPreference("get_apn_help");
@@ -1239,13 +1425,13 @@ public class SettingsPagerActivity extends FragmentActivity {
                 }
             }
 
-            if (!showAll) {
-                try {
-                    ((PreferenceGroup) findPreference("general_mms_category")).removePreference(findPreference("wifi_mms_fix"));
-                } catch (Exception e) {
-
-                }
-            }
+//            if (!showAll) {
+//                try {
+//                    ((PreferenceGroup) findPreference("general_mms_category")).removePreference(findPreference("wifi_mms_fix"));
+//                } catch (Exception e) {
+//
+//                }
+//            }
         }
 
         // used for the list preference to determine when it changes and when to call the intents
@@ -1449,6 +1635,14 @@ public class SettingsPagerActivity extends FragmentActivity {
                     return false;
                 }
 
+            });
+
+            findPreference("dropbox_sync").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    startActivity(new Intent(context, DropboxActivity.class));
+                    return true;
+                }
             });
 
             Preference smsToStore = (Preference) findPreference("sms_limit");
@@ -1908,17 +2102,21 @@ public class SettingsPagerActivity extends FragmentActivity {
                     String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
                     Cursor cursor = getActivity().getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-                    cursor.moveToFirst();
+                    try {
+                        cursor.moveToFirst();
 
-                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                    String filePath = cursor.getString(columnIndex);
-                    cursor.close();
+                        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                        String filePath = cursor.getString(columnIndex);
+                        cursor.close();
 
-                    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                    SharedPreferences.Editor editor = sharedPrefs.edit();
+                        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                        SharedPreferences.Editor editor = sharedPrefs.edit();
 
-                    editor.putString("custom_background_location", filePath);
-                    editor.commit();
+                        editor.putString("custom_background_location", filePath);
+                        editor.commit();
+                    } catch (Exception e) {
+                        Toast.makeText(getApplicationContext(), "Error getting the background image", Toast.LENGTH_SHORT).show();
+                    }
 
                 }
             } else if (requestCode == 2) {
@@ -1927,17 +2125,21 @@ public class SettingsPagerActivity extends FragmentActivity {
                     String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
                     Cursor cursor = getActivity().getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-                    cursor.moveToFirst();
+                    try {
+                        cursor.moveToFirst();
 
-                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                    String filePath = cursor.getString(columnIndex);
-                    cursor.close();
+                        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                        String filePath = cursor.getString(columnIndex);
+                        cursor.close();
 
-                    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                    SharedPreferences.Editor editor = sharedPrefs.edit();
+                        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                        SharedPreferences.Editor editor = sharedPrefs.edit();
 
-                    editor.putString("custom_background2_location", filePath);
-                    editor.commit();
+                        editor.putString("custom_background2_location", filePath);
+                        editor.commit();
+                    } catch (Exception e) {
+                        Toast.makeText(getApplicationContext(), "Error getting the background image", Toast.LENGTH_SHORT).show();
+                    }
 
                 }
             } else if (requestCode == REQ_CREATE_PATTERN) {

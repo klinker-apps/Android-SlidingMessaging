@@ -23,6 +23,8 @@
 
     <style name="Alp.BaseTheme.Light" parent="@android:style/Theme.DeviceDefault.Light" />
 
+    <style name="Alp.BaseTheme.Light.DarkActionBar" parent="@android:style/Theme.DeviceDefault.Light.DarkActionBar" />
+
     <style name="Alp.BaseTheme.Dialog.Light" parent="@android:style/Theme.DeviceDefault.Light.Dialog" />
 
 </resources>

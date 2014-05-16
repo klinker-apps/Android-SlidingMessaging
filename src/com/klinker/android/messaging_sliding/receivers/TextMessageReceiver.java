@@ -6,8 +6,6 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.*;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -19,6 +17,7 @@ import android.os.PowerManager.WakeLock;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.PhoneLookup;
+import android.provider.Telephony;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.telephony.SmsMessage;
@@ -27,9 +26,11 @@ import android.util.TypedValue;
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.receivers.UnlockReceiver;
+import com.klinker.android.messaging_donate.settings.AppSettings;
 import com.klinker.android.messaging_donate.utils.ContactUtil;
 import com.klinker.android.messaging_donate.utils.IOUtil;
 import com.klinker.android.messaging_donate.utils.Util;
+import com.klinker.android.messaging_sliding.ClassZeroActivity;
 import com.klinker.android.messaging_sliding.MainActivityPopup;
 import com.klinker.android.messaging_sliding.blacklist.BlacklistContact;
 import com.klinker.android.messaging_sliding.notifications.IndividualSetting;
@@ -37,6 +38,9 @@ import com.klinker.android.messaging_sliding.quick_reply.CardQuickReply;
 import com.klinker.android.messaging_sliding.quick_reply.QmDelete;
 import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead;
 import com.klinker.android.messaging_sliding.quick_reply.QuickReply;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.util.*;
@@ -59,6 +63,8 @@ public class TextMessageReceiver extends BroadcastReceiver {
             String id;
             String date = "";
             String dateReceived;
+            String protocolId = "";
+            boolean isReplace = false;
 
             boolean voiceMessage = intent.getBooleanExtra("voice_message", false);
 
@@ -76,6 +82,18 @@ public class TextMessageReceiver extends BroadcastReceiver {
                         body += sms.getMessageBody().toString();
                         address = sms.getOriginatingAddress();
                         date = sms.getTimestampMillis() + "";
+                        protocolId = sms.getProtocolIdentifier() + "";
+                        isReplace = sms.isReplace();
+
+                        if (sms.getMessageClass() == SmsMessage.MessageClass.CLASS_0) {
+                            Intent smsDialogIntent = new Intent(context, ClassZeroActivity.class)
+                                    .putExtra("pdu", sms.getPdu())
+                                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                                            | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+
+                            context.startActivity(smsDialogIntent);
+                            return;
+                        }
                     }
                 } else {
                     return;
@@ -118,11 +136,20 @@ public class TextMessageReceiver extends BroadcastReceiver {
             // checks against the saved blacklist list
             ArrayList<BlacklistContact> blacklist = IOUtil.readBlacklist(context);
             int blacklistType = 0;
+            String blacklistAddress = address.replace("-", "").replace("(", "").replace(")", "").replace(" ", "").replace("+1", "");
 
             for (int i = 0; i < blacklist.size(); i++) {
-                if (blacklist.get(i).name.equals(address.replace("-", "").replace("(", "").replace(")", "").replace(" ", "").replace("+1", ""))) {
+                if (blacklist.get(i).name.equals(blacklistAddress) || blacklist.get(i).name.startsWith(blacklistAddress) || blacklist.get(i).name.endsWith(blacklistAddress)) {
                     blacklistType = blacklist.get(i).type;
                 }
+            }
+
+            if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("block_all", false)
+                    && !ContactUtil.doesContactExist(address, context)) {
+                // user has enabled the block all setting and this address is unknown, so abort and don't do anything
+                // with the message
+                abortBroadcast();
+                return;
             }
 
             final ArrayList<String> prevNotifications = IOUtil.readNotifications(context);
@@ -133,21 +160,49 @@ public class TextMessageReceiver extends BroadcastReceiver {
             } else {
                 // if overriding stock or its a voice message, save the messages
                 if (sharedPrefs.getBoolean("override", false) || voiceMessage || context.getResources().getBoolean(R.bool.hasKitKat)) {
+                    Cursor checkOld = context.getContentResolver().query(
+                            Uri.parse("content://sms/inbox/"),
+                            new String[] {Telephony.Sms.ADDRESS, Telephony.Sms.PROTOCOL, Telephony.Sms.BODY},
+                            Telephony.Sms.ADDRESS + "=? AND " + Telephony.Sms.PROTOCOL + "=?",
+                            new String[] {address, protocolId},
+                            null
+                    );
 
-                    ContentValues values = new ContentValues();
-                    values.put("address", address);
-                    values.put("body", body);
-                    values.put("date", dateReceived);
-                    values.put("read", "0");
-                    values.put("date_sent", date);
+                    Log.v("sms_receiver", "protocolIdentifier: " + protocolId);
 
-                    if (voiceMessage) {
-                        values.put("status", 2);
+                    if (isReplace && checkOld != null && checkOld.moveToFirst()) {
+                        if (!checkOld.getString(checkOld.getColumnIndex(Telephony.Sms.BODY)).equals(body)) {
+                            ContentValues values = new ContentValues();
+                            values.put("address", address);
+                            values.put("body", body);
+                            values.put("date", dateReceived);
+                            values.put("read", "0");
+                            values.put("date_sent", date);
+
+                            if (voiceMessage) {
+                                values.put("status", 2);
+                            }
+
+                            context.getContentResolver().insert(Uri.parse("content://sms/inbox"), values);
+
+                            Log.v("refresh_voice", "saving message");
+                        }
+                    } else {
+                        ContentValues values = new ContentValues();
+                        values.put("address", address);
+                        values.put("body", body);
+                        values.put("date", dateReceived);
+                        values.put("read", "0");
+                        values.put("date_sent", date);
+
+                        if (voiceMessage) {
+                            values.put("status", 2);
+                        }
+
+                        context.getContentResolver().insert(Uri.parse("content://sms/inbox"), values);
+
+                        Log.v("refresh_voice", "saving message");
                     }
-
-                    context.getContentResolver().insert(Uri.parse("content://sms/inbox"), values);
-
-                    Log.v("refresh_voice", "saving message");
                 }
 
                 // if notification is to be given for the message because it is not blacklisted
@@ -434,7 +489,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
                     } else if (notIcon.equals("red")) {
                         mBuilder.setSmallIcon(R.drawable.stat_notify_sms_red);
                     } else if (notIcon.equals("icon")) {
-                        mBuilder.setSmallIcon(R.drawable.ic_launcher);//stat_notify_sms_icon);
+                        mBuilder.setSmallIcon(R.mipmap.ic_launcher);//stat_notify_sms_icon);
                     }
 
                     break;
@@ -452,7 +507,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
                     } else if (notIcon.equals("red")) {
                         mBuilder.setSmallIcon(R.drawable.stat_notify_bubble_red);
                     } else if (notIcon.equals("icon")) {
-                        mBuilder.setSmallIcon(R.drawable.ic_launcher);//stat_notify_sms_icon);
+                        mBuilder.setSmallIcon(R.mipmap.ic_launcher);//stat_notify_sms_icon);
                     }
 
                     break;
@@ -470,7 +525,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
                     } else if (notIcon.equals("red")) {
                         mBuilder.setSmallIcon(R.drawable.stat_notify_point_red);
                     } else if (notIcon.equals("icon")) {
-                        mBuilder.setSmallIcon(R.drawable.ic_launcher);//stat_notify_sms_icon);
+                        mBuilder.setSmallIcon(R.mipmap.ic_launcher);//stat_notify_sms_icon);
                     }
 
                     break;
@@ -488,7 +543,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
                     } else if (notIcon.equals("red")) {
                         mBuilder.setSmallIcon(R.drawable.stat_notify_airplane_red);
                     } else if (notIcon.equals("icon")) {
-                        mBuilder.setSmallIcon(R.drawable.ic_launcher);//stat_notify_sms_icon);
+                        mBuilder.setSmallIcon(R.mipmap.ic_launcher);//stat_notify_sms_icon);
                     }
 
                     break;
@@ -506,7 +561,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
                     } else if (notIcon.equals("red")) {
                         mBuilder.setSmallIcon(R.drawable.stat_notify_cloud_red);
                     } else if (notIcon.equals("icon")) {
-                        mBuilder.setSmallIcon(R.drawable.ic_launcher);//stat_notify_sms_icon);
+                        mBuilder.setSmallIcon(R.mipmap.ic_launcher);//stat_notify_sms_icon);
                     }
                     break;
             }
@@ -519,7 +574,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
         ArrayList<IndividualSetting> individuals = IOUtil.readIndividualNotifications(context);
 
         for (int i = 0; i < individuals.size(); i++) {
-            if (individuals.get(i).name.equals(name)) {
+            if (individuals.get(i).name.trim().equals(name.trim())) {
                 if (alert)
                     mBuilder.setSound(Uri.parse(individuals.get(i).ringtone));
 
@@ -609,7 +664,8 @@ public class TextMessageReceiver extends BroadcastReceiver {
             }
 
             if (!individualNotification(mBuilder, ContactUtil.findContactName(address, context), context, alert) || sharedPrefs.getBoolean("secure_notification", false)) {
-                if (sharedPrefs.getBoolean("vibrate", true) && alert) {
+                AppSettings settings = AppSettings.init(context);
+                if (settings.vibrate == AppSettings.VIBRATE_ALWAYS && alert) {
                     if (!sharedPrefs.getBoolean("custom_vibrate_pattern", false)) {
                         String vibPat = sharedPrefs.getString("vibrate_pattern", "2short");
 
@@ -645,6 +701,8 @@ public class TextMessageReceiver extends BroadcastReceiver {
                         } catch (Exception e) {
                         }
                     }
+                } else if (settings.vibrate == AppSettings.VIBRATE_NEVER) {
+                    mBuilder.setVibrate(new long[] {0});
                 }
 
                 if (sharedPrefs.getBoolean("led", true)) {
@@ -713,6 +771,23 @@ public class TextMessageReceiver extends BroadcastReceiver {
             data.putExtra("number", address);
             context.sendBroadcast(data);
 
+            // Pebble broadcast
+            if(sharedPrefs.getBoolean("pebble", false)) {
+                final Intent pebble = new Intent("com.getpebble.action.SEND_NOTIFICATION");
+
+                final Map pebbleData = new HashMap();
+                pebbleData.put("title", title);
+                pebbleData.put("body", body);
+                final JSONObject jsonData = new JSONObject(pebbleData);
+                final String notificationData = new JSONArray().put(jsonData).toString();
+
+                pebble.putExtra("messageType", "PEBBLE_ALERT");
+                pebble.putExtra("sender", context.getResources().getString(R.string.app_name));
+                pebble.putExtra("notificationData", notificationData);
+
+                context.sendBroadcast(pebble);
+            }
+
             Log.v("sms_notification", "posted notification");
 
             Intent updateWidget = new Intent("com.klinker.android.messaging.RECEIVED_MMS");
@@ -740,6 +815,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
             }
 
             if (!sharedPrefs.getString("repeating_notification", "none").equals("none")) {
+                PreferenceManager.getDefaultSharedPreferences(context).edit().putInt("repeated_times", 0).commit();
                 Calendar cal = Calendar.getInstance();
 
                 Intent repeatingIntent = new Intent(context, NotificationRepeaterService.class);

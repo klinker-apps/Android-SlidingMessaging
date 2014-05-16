@@ -5,6 +5,7 @@ import android.content.*;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
@@ -217,11 +218,15 @@ public class SlideOverService extends Service {
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
             notification.setLatestEventInfo(this, getResources().getString(R.string.slideover_settings),
                     "Click to open settings", pendingIntent);
+
             try {
-                notification.priority = Notification.PRIORITY_MIN;
-            } catch (Exception e) {
-                // they are on Ice Cream Sandwhich
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+                    notification.priority = Notification.PRIORITY_MIN;
+                }
+            } catch (Throwable e) {
+
             }
+
             startForeground(FOREGROUND_SERVICE_ID, notification);
         }
     }
@@ -372,6 +377,8 @@ public class SlideOverService extends Service {
             public void onClick(View v) {
                 if (!sendBox.getText().toString().equals("")) {
                     Message mMessage = new Message(sendBox.getText().toString(), ContactView.numbers[ContactView.currentContact]);
+                    mMessage.setType(sharedPrefs.getBoolean("voice_enabled", false) ?
+                            Message.TYPE_VOICE : Message.TYPE_SMSMMS);
                     try {
                         sendTransaction.sendNewMessage(mMessage, Long.parseLong(ContactView.threadIds[ContactView.currentContact]));
 
@@ -536,9 +543,9 @@ public class SlideOverService extends Service {
         Settings sendSettings = SendUtil.getSendSettings(this);
 
         if (sharedPrefs.getBoolean("quick_peek_send_voice", false)) {
-            sendSettings.setPreferVoice(true);
+            sharedPrefs.edit().putBoolean("voice_enabled", true).commit();
         } else {
-            sendSettings.setPreferVoice(false);
+            sharedPrefs.edit().putBoolean("voice_enabled", false).commit();
         }
 
         sendTransaction = new Transaction (mContext, sendSettings);
@@ -883,7 +890,7 @@ public class SlideOverService extends Service {
         float rawY = event.getRawY();
         float rawX = event.getRawX();
 
-        if ((rawY < 120 && PERCENT_DOWN_SCREEN > height / 2) || (rawY > height - 120 && PERCENT_DOWN_SCREEN < height / 2)) // in Button Area
+        if ((rawY < 150 && PERCENT_DOWN_SCREEN > height / 2) || (rawY > height - 150 && PERCENT_DOWN_SCREEN < height / 2)) // in Button Area
         {
             inButtons = true;
 
@@ -1002,7 +1009,7 @@ public class SlideOverService extends Service {
         float rawY = event.getRawY();
         float rawX = event.getRawX();
 
-        if ((rawY < 120 && PERCENT_DOWN_SCREEN > height / 2) || (rawY > height - 120 && PERCENT_DOWN_SCREEN < height / 2)) // in Button Area
+        if ((rawY < 150 && PERCENT_DOWN_SCREEN > height / 2) || (rawY > height - 150 && PERCENT_DOWN_SCREEN < height / 2)) // in Button Area
         {
             inButtons = true;
 

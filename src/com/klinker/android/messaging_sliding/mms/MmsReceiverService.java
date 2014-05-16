@@ -37,8 +37,10 @@ import com.google.android.mms.pdu_alt.PduPersister;
 import com.google.android.mms.pdu_alt.RetrieveConf;
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_donate.settings.AppSettings;
 import com.klinker.android.messaging_donate.utils.ContactUtil;
 import com.klinker.android.messaging_donate.utils.IOUtil;
+import com.klinker.android.messaging_donate.utils.MessageUtil;
 import com.klinker.android.messaging_donate.utils.SendUtil;
 import com.klinker.android.messaging_sliding.MessageCursorAdapter;
 import com.klinker.android.messaging_sliding.receivers.NotificationReceiver;
@@ -49,12 +51,18 @@ import com.klinker.android.send_message.Settings;
 import com.klinker.android.send_message.Transaction;
 import com.klinker.android.send_message.Utils;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class MmsReceiverService extends Service {
 
@@ -350,7 +358,7 @@ public class MmsReceiverService extends Service {
                 SqliteWrapper.delete(context, context.getContentResolver(),
                         Uri.parse("content://mms/"), "thread_id=? and _id=?", new String[]{threadId, msgId});
 
-                findImageAndNotify();
+                findImageAndNotify(context, phoneNumber);
 
                 try {
                     sendAcknowledgeInd(retrieveConf, apns);
@@ -389,7 +397,7 @@ public class MmsReceiverService extends Service {
         }
     }
 
-    private void findImageAndNotify() {
+    public static void findImageAndNotify(Context context, String phoneNumber) {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -402,6 +410,10 @@ public class MmsReceiverService extends Service {
         String selectionPart = "mid=" + query.getString(query.getColumnIndex("_id"));
         Uri uri = Uri.parse("content://mms/part");
         Cursor cursor = context.getContentResolver().query(uri, null, selectionPart, null, null);
+
+        if (phoneNumber == null) {
+            phoneNumber = MessageCursorAdapter.getFrom(Uri.parse("content://mms/" + query.getString(query.getColumnIndex("_id"))), context);
+        }
 
         String body = "";
         String image = "";
@@ -438,15 +450,23 @@ public class MmsReceiverService extends Service {
         String images[] = image.trim().split(" ");
 
         if (phoneNumber != null) {
-            if (sharedPrefs.getBoolean("secure_notification", false)) {
+            if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("secure_notification", false)) {
                 makeNotification("New MMS Message", "", null, phoneNumber, body, Calendar.getInstance().getTimeInMillis() + "", context);
             } else {
+                String name = ContactUtil.findContactName(phoneNumber, context);
                 if (images[0].trim().equals("")) {
                     makeNotification(name, body, null, phoneNumber, body, Calendar.getInstance().getTimeInMillis() + "", context);
                 } else {
-                    Bitmap b;
+                    Bitmap b = null;
                     try {
-                        b = SendUtil.getImage(context, Uri.parse(images[0]), 400);
+                        for (int i = 0; i < images.length; i++) {
+                            b = SendUtil.getImage(context, Uri.parse(images[i]), 400);
+
+                            if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("auto_save_mms", false)) {
+                                String imageName = UUID.randomUUID().toString();
+                                IOUtil.saveImage(b, imageName, context);
+                            }
+                        }
                     } catch (Exception e) {
                         b = null;
                     }
@@ -456,7 +476,7 @@ public class MmsReceiverService extends Service {
             }
         }
 
-        removeOldThread();
+        removeOldThread(context);
     }
 
     public static void makeNotification(String title, String text, Bitmap image, String address, String body, String date, final Context context) {
@@ -511,7 +531,8 @@ public class MmsReceiverService extends Service {
 
             mBuilder.setAutoCancel(true);
 
-            if (sharedPrefs.getBoolean("vibrate", true)) {
+            AppSettings settings = AppSettings.init(context);
+            if (settings.vibrate == AppSettings.VIBRATE_ALWAYS) {
                 if (!sharedPrefs.getBoolean("custom_vibrate_pattern", false)) {
                     String vibPat = sharedPrefs.getString("vibrate_pattern", "2short");
 
@@ -547,6 +568,8 @@ public class MmsReceiverService extends Service {
                     } catch (Exception e) {
                     }
                 }
+            } else if (settings.vibrate == AppSettings.VIBRATE_NEVER) {
+                mBuilder.setVibrate(new long[] {0});
             }
 
             if (sharedPrefs.getBoolean("led", true)) {
@@ -627,6 +650,23 @@ public class MmsReceiverService extends Service {
             Intent updateWidget = new Intent("com.klinker.android.messaging.RECEIVED_MMS");
             context.sendBroadcast(updateWidget);
 
+            // Pebble broadcast
+            if(sharedPrefs.getBoolean("pebble", false)) {
+                final Intent pebble = new Intent("com.getpebble.action.SEND_NOTIFICATION");
+
+                final Map pebbleData = new HashMap();
+                pebbleData.put("title", title);
+                pebbleData.put("body", body);
+                final JSONObject jsonData = new JSONObject(pebbleData);
+                final String notificationData = new JSONArray().put(jsonData).toString();
+
+                pebble.putExtra("messageType", "PEBBLE_ALERT");
+                pebble.putExtra("sender", context.getResources().getString(R.string.app_name));
+                pebble.putExtra("notificationData", notificationData);
+
+                context.sendBroadcast(pebble);
+            }
+
             final Intent newMms = new Intent("com.klinker.android.messaging.NEW_MMS");
             newMms.putExtra("address", address);
             newMms.putExtra("body", body);
@@ -645,6 +685,7 @@ public class MmsReceiverService extends Service {
             }, 1000);
 
             if (!sharedPrefs.getString("repeating_notification", "none").equals("none")) {
+                PreferenceManager.getDefaultSharedPreferences(context).edit().putInt("repeated_times", 0).commit();
                 Calendar cal = Calendar.getInstance();
 
                 Intent repeatingIntent = new Intent(context, NotificationRepeaterService.class);
@@ -655,11 +696,11 @@ public class MmsReceiverService extends Service {
         }
     }
 
-    private void removeOldThread() {
+    private static void removeOldThread(Context context) {
         try {
             String[] projection = new String[]{"_id", "message_count"};
             Uri uri = Uri.parse("content://mms-sms/conversations/?simple=true");
-            Cursor query = getContentResolver().query(uri, projection, null, null, "date desc");
+            Cursor query = context.getContentResolver().query(uri, projection, null, null, "date desc");
 
             if (query.moveToFirst()) {
                 do {

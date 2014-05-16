@@ -27,17 +27,17 @@
         android:layout_weight=".3" >
 
         <TextView
-            android:id="@+id/alp_info"
+            android:id="@+id/alp_textview_info"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/alp_footer"
+            android:layout_above="@+id/alp_viewgroup_footer"
             android:gravity="center_horizontal|top"
             android:padding="5dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textIsSelectable="true" />
 
         <LinearLayout
-            android:id="@+id/alp_footer"
+            android:id="@+id/alp_viewgroup_footer"
             style="?attr/alp_button_bar_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -52,7 +52,7 @@
                 android:layout_height="@dimen/alp_separator_size" />
 
             <Button
-                android:id="@+id/alp_confirm"
+                android:id="@+id/alp_button_confirm"
                 style="?attr/alp_button_bar_button_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -60,11 +60,12 @@
                 android:text="@string/alp_cmd_continue" />
 
             <Button
-                android:id="@+id/alp_cancel"
+                android:id="@+id/alp_button_cancel"
                 style="?attr/alp_button_bar_button_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@android:string/cancel" />
+                android:text="@android:string/cancel"
+                android:visibility="gone" />
         </LinearLayout>
     </RelativeLayout>
 
@@ -74,7 +75,7 @@
         android:layout_weight=".7" >
 
         <include
-            android:id="@+id/alp_lock_pattern"
+            android:id="@+id/alp_view_lock_pattern"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
     package="com.klinker.android.messaging_donate"
-    android:versionCode="250"
-    android:versionName="7.8301" >
+    android:versionCode="279"
+    android:versionName="8.37" >
 
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
@@ -42,14 +42,11 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
         tools:ignore="ExportedActivity"
         android:hardwareAccelerated="true">
-        
-        <uses-library android:required="false" android:name="com.sec.android.app.multiwindow" />
-		<meta-data android:name="com.sec.android.support.multiwindow" android:value="true" />
 		
         <activity
             android:name="com.klinker.android.messaging_donate.MainActivity"
@@ -274,6 +271,10 @@
             android:name="com.klinker.android.messaging_sliding.blacklist.NewBlacklistActivity"
             android:theme="@android:style/Theme.Holo.Light.DarkActionBar" >
         </activity>
+
+        <activity android:name="com.klinker.android.messaging_donate.settings.QuickTextSetupActivity"
+                  android:label="@string/quick_text_notification"
+                  android:theme="@android:style/Theme.Holo.Light.DarkActionBar"/>
         
         <activity 
             android:name="com.klinker.android.messaging_sliding.AttachMore"
@@ -363,6 +364,15 @@
         </activity>
 
         <activity
+            android:name="com.klinker.android.messaging_sliding.mass_text.MassTextActivity"
+            android:label="@string/app_name"
+            android:excludeFromRecents="true"
+            android:theme="@android:style/Theme.Holo.Light.DarkActionBar"
+            android:windowSoftInputMode="adjustResize"
+            android:configChanges="orientation|screenSize">
+        </activity>
+
+        <activity
                 android:name="com.klinker.android.messaging_sliding.backup.ScheduleBackup"
                 android:label="@string/app_name"
                 android:excludeFromRecents="true"
@@ -414,6 +424,34 @@
                 android:theme="@android:style/Theme.Holo.Light.DarkActionBar"
                 android:windowSoftInputMode="adjustResize"
                 android:configChanges="orientation|screenSize">
+        </activity>
+
+        <activity android:name="com.klinker.android.messaging_sliding.backup.DropboxActivity"
+                  android:theme="@android:style/Theme.Holo.Light.DarkActionBar"
+                  android:icon="@mipmap/ic_dropbox"
+                  android:label="@string/dropbox_sync"/>
+
+        <activity
+                android:name="com.dropbox.client2.android.AuthActivity"
+                android:launchMode="singleTask"
+                android:configChanges="orientation|keyboard">
+            <intent-filter>
+                <data android:scheme="db-1za95hzw3jszlxa"/>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
+        <activity android:name="com.klinker.android.messaging_sliding.PhotoViewerDialog"
+                  android:configChanges="orientation|screenSize"
+                  android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+
+        <activity android:name="com.klinker.android.messaging_sliding.ClassZeroActivity"
+                  android:label="@string/class_0_message_activity"
+                  android:theme="@android:style/Theme.Translucent"
+                  android:launchMode="singleTop"
+                  android:excludeFromRecents="true">
         </activity>
 
         <service android:name="com.klinker.android.messaging_donate.receivers.NotificationListener"
@@ -479,6 +517,9 @@
             android:name="com.klinker.android.messaging_sliding.mms.MmsReceiverService">
         </service>
 
+        <service android:name="com.android.mms.transaction.TransactionService"/>
+        <service android:name=".receivers.ConnectivityChangeService"/>
+
         <service
             android:name="com.klinker.android.messaging_donate.receivers.AccessibilityListener"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
@@ -490,7 +531,7 @@
         </service>
         
         <service android:name=".widget.MessageDashClockExtension"
-     		android:icon="@drawable/ic_launcher"
+     		android:icon="@drawable/ic_sms_launcher"
      		android:label="@string/extension_title"
      		android:permission="com.google.android.apps.dashclock.permission.READ_EXTENSION_DATA" >
      		<intent-filter>
@@ -544,8 +585,14 @@
                 <action android:name="com.klinker.android.messaging.VOICE_RECEIVED" />
             </intent-filter>
         </receiver>
+
+        <receiver android:name=".receivers.ConnectivityChangeReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
         
-        <receiver android:name="com.klinker.android.messaging_sliding.receivers.MMSMessageReceiver"
+        <receiver android:name="com.android.mms.transaction.PushReceiver"
             android:enabled="@bool/preKitKat">
 
             <intent-filter android:priority="2"> 
@@ -555,12 +602,18 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name="com.klinker.android.messaging_sliding.receivers.MMSMessageReceiver"
+        <receiver android:name="com.android.mms.transaction.PushReceiver"
             android:permission="android.permission.BROADCAST_WAP_PUSH"
             android:enabled="@bool/hasKitKat">
             <intent-filter>
                 <action android:name="android.provider.Telephony.WAP_PUSH_DELIVER" />
                 <data android:mimeType="application/vnd.wap.mms-message" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name="com.klinker.android.messaging_sliding.receivers.MMSMessageReceiver">
+            <intent-filter>
+                <action android:name="com.klinker.android.messaging.NEW_MMS_DOWNLOADED"/>
             </intent-filter>
         </receiver>
         
@@ -638,6 +691,18 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="com.google.android.apps.googlevoice.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name="com.android.mms.transaction.MmsSystemEventReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.CONTENT_CHANGED" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
         

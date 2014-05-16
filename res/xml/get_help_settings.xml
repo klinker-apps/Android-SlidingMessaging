@@ -34,6 +34,10 @@
         />
 
     <Preference
+        android:key="website"
+        android:title="@string/website"/>
+
+    <Preference
         android:key="contact_us"
         android:title="@string/contact_us"
         android:summary="@string/contact_us_summary"

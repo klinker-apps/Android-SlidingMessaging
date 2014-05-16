@@ -16,12 +16,8 @@
 -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="group.pals.android.lib.ui.lockpattern"
-    android:versionCode="@integer/alp_lib_version_code"
-    android:versionName="@string/alp_lib_version_name" >
+    package="group.pals.android.lib.ui.lockpattern" >
 
-    <uses-sdk
-        android:minSdkVersion="4"
-        android:targetSdkVersion="17" />
+    <uses-sdk android:minSdkVersion="4" />
 
 </manifest>

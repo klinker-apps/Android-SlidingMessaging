@@ -17,6 +17,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                android:maxLines="5"
                 android:hint="@string/contact_entry"
                 android:textCursorDrawable="@null">
         </com.klinker.android.messaging_sliding.views.HoloEditText>
