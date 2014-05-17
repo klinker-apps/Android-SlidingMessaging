@@ -1,1 +1,1 @@
-- General bug fixes
+- Fixed the popup and share dialog crashing on send
