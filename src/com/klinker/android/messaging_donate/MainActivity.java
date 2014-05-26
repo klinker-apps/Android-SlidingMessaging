@@ -1057,12 +1057,20 @@ public class MainActivity extends FragmentActivity {
 
 
                             if (firstContactSearch) {
-                                lpw.show();
+                                try {
+                                    lpw.show();
+                                } catch (Exception e) {
+                                    // activity not running
+                                }
                                 firstContactSearch = false;
                             }
 
                             if (textF.length() == 0) {
-                                lpw.dismiss();
+                                try {
+                                    lpw.dismiss();
+                                } catch (Exception e) {
+                                    // activity not running
+                                }
                                 firstContactSearch = true;
                             }
                         }

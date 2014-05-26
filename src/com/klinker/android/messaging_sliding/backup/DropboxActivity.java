@@ -54,6 +54,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.Calendar;
 
+import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
+
 public class DropboxActivity extends Activity {
 
     private static final String APP_KEY = "1za95hzw3jszlxa";
@@ -80,7 +82,7 @@ public class DropboxActivity extends Activity {
     private TextSwitcher title;
     private TextSwitcher summary;
     private TextSwitcher progressText;
-    private ProgressBar progressBar;
+    private SmoothProgressBar progressBar;
     private Button backupButton;
     private Button restoreButton;
 
@@ -95,9 +97,11 @@ public class DropboxActivity extends Activity {
         title = (TextSwitcher) findViewById(R.id.title);
         summary = (TextSwitcher) findViewById(R.id.info);
         progressText = (TextSwitcher) findViewById(R.id.progress_text);
-        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+        progressBar = (SmoothProgressBar) findViewById(R.id.progress_bar);
         backupButton = (Button) findViewById(R.id.backup_button);
         restoreButton = (Button) findViewById(R.id.restore_button);
+
+        progressBar.setSmoothProgressDrawableColor(getResources().getColor(R.color.dropbox_blue));
 
         Animation in = AnimationUtils.loadAnimation(this, android.R.anim.slide_in_left);
         Animation out = AnimationUtils.loadAnimation(this, android.R.anim.slide_out_right);

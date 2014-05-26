@@ -1,1 +1,1 @@
-- Fixed the popup and share dialog crashing on send
+- Fixed a force close when trying to resend a message
