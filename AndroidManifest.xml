@@ -531,7 +531,7 @@
         </service>
         
         <service android:name=".widget.MessageDashClockExtension"
-     		android:icon="@drawable/ic_launcher"
+     		android:icon="@drawable/dashclock"
      		android:label="@string/extension_title"
      		android:permission="com.google.android.apps.dashclock.permission.READ_EXTENSION_DATA" >
      		<intent-filter>
