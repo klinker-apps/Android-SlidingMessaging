@@ -1,0 +1,92 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.10.+'
+    }
+}
+
+apply plugin: 'android'
+
+dependencies {
+    repositories {
+        mavenCentral()
+        flatDir {
+            dirs 'libs'
+        }
+    }
+
+    compile 'com.android.support:support-v13:+'
+    compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
+    compile 'com.github.castorflex.smoothprogressbar:library:0.5.1'
+    compile 'asia.ivity.android:drag-sort-listview:1.0'
+
+    compile files('libs/android-vcard.jar')
+    compile files('libs/dashclock-api-r2.0.jar')
+    compile files('libs/dropbox-android-sdk-1.5.4.jar')
+    compile files('libs/httpmime-4.0.3.jar')
+    compile files('libs/json_simple-1.1.jar')
+    compile files('libs/jsoup-1.7.2.jar')
+    compile files('libs/nineoldandroids-2.4.0')
+    compile files('libs/stickygridheaders.jar')
+    compile files('libs/pushbullet.jar')
+    
+    compile(name:'android-smsmms', ext:'aar')
+    compile(name:'datetimepicker', ext:'aar')
+    compile(name:'android-photoview', ext:'aar')
+    compile(name:'CardsUILib', ext:'aar')
+    compile(name:'fn-extension', ext:'aar')
+    compile(name:'slidingmenu', ext:'aar')
+    compile(name:'AppMsg', ext:'aar')
+    compile(name:'ColorPickerPreference', ext:'aar')
+    compile(name:'MessageBar', ext:'aar')
+    compile(name:'MultipleImagePick', ext:'aar')
+    compile(name:'android-lockpattern', ext:'aar')
+    compile(name:'ion', ext:'aar')
+    compile(name:'listviewanimations-2.6.0', ext:'aar')
+}
+
+android {
+    compileSdkVersion 19
+    buildToolsVersion "19.1.0"
+
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs = ['src']
+            resources.srcDirs = ['src']
+            aidl.srcDirs = ['src']
+            renderscript.srcDirs = ['src']
+            res.srcDirs = ['res']
+            assets.srcDirs = ['assets']
+        }
+    }
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 19
+        versionCode 281
+        versionName "8.39"
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("keystore")
+            storePassword "***REMOVED***"
+            keyAlias "messaging"
+            keyPassword "***REMOVED***"
+        }
+    }
+
+    buildTypes {
+        release {
+            runProguard false
+            signingConfig signingConfigs.release
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+}
