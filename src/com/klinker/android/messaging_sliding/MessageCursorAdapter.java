@@ -1377,32 +1377,33 @@ public class MessageCursorAdapter extends CursorAdapter {
 
                                     final String body = ((TextView) arg0.findViewById(R.id.textBody)).getText().toString();
 
+                                    final boolean currentVoiceState = sharedPrefs.getBoolean("voice_enabled", false);
+                                    Log.v("voice_state", currentVoiceState + " " + voiceF);
+
+                                    if (voiceF != currentVoiceState) {
+                                        sharedPrefs.edit().putBoolean("voice_enabled", voiceF).commit();
+                                    }
+
+                                    if (mmsF && holder.imageUri != null) {
+                                        int size = holder.imageUri.toString().trim().split(" ").length;
+                                        Bitmap[] bitmaps = new Bitmap[size];
+
+                                        for (int i = 0; i < size; i++) {
+                                            try {
+                                                bitmaps[i] = MediaStore.Images.Media.getBitmap(context.getContentResolver(), Uri.parse(holder.imageUri.toString().trim().split(" ")[i]));
+                                            } catch (Exception e) {
+                                            }
+                                        }
+
+                                        SendUtil.sendMessage(context, inboxNumbers.trim().split(" "), body, bitmaps);
+                                    } else {
+                                        SendUtil.sendMessage(context, inboxNumbers, body);
+                                    }
+
                                     new Thread(new Runnable() {
 
                                         @Override
                                         public void run() {
-                                            boolean currentVoiceState = sharedPrefs.getBoolean("voice_enabled", false);
-                                            Log.v("voice_state", currentVoiceState + " " + voiceF);
-
-                                            if (voiceF != currentVoiceState) {
-                                                sharedPrefs.edit().putBoolean("voice_enabled", voiceF).commit();
-                                            }
-
-                                            if (mmsF && holder.imageUri != null) {
-                                                int size = holder.imageUri.toString().trim().split(" ").length;
-                                                Bitmap[] bitmaps = new Bitmap[size];
-
-                                                for (int i = 0; i < size; i++) {
-                                                    try {
-                                                        bitmaps[i] = MediaStore.Images.Media.getBitmap(context.getContentResolver(), Uri.parse(holder.imageUri.toString().trim().split(" ")[i]));
-                                                    } catch (Exception e) {
-                                                    }
-                                                }
-
-                                                SendUtil.sendMessage(context, inboxNumbers.trim().split(" "), body, bitmaps);
-                                            } else {
-                                                SendUtil.sendMessage(context, inboxNumbers, body);
-                                            }
 
                                             sharedPrefs.edit().putBoolean("voice_enabled", currentVoiceState).commit();
 
