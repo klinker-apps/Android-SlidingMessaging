@@ -80,3 +80,11 @@ example/proguard-project.txt
 *.project
 *proguard-project.txt
 library/build.gradle
+/.gradle
+/build
+.gitignore~
+Android.mk
+README.txt~
+index.html
+lint.xml
+project.properties

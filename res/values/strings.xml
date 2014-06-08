@@ -719,7 +719,6 @@
     <string name="slideover_unread_color">Unread Bubble Color</string>
     <string name="positioning">SlideOver Positioning</string>
     <string name="slideover_theme_settings">SlideOver Theming</string>
-    <string name="slideover_popup_settings">SlideOver Popup</string>
     <string name="look_style_category">Look and Style Settings</string>
     <string name="smilies_category">Smilies Settings</string>
     <string name="emoji_category">Emoji Settings</string>
@@ -883,7 +882,6 @@
     <string name="repeating_notification_number_summary">Select 0 to repeat forever</string>
     <string name="group">Group (ID: </string>
     <string name="getting_contacts">Getting Contacts…</string>
-    <string name="people">People</string>
     <string name="pebble_notification">Pebble Notifications</string>
     <string name="auto_save_mms">Auto-save MMS</string>
     <string name="auto_save_mms_summary">Will save every image received to the \"Downloads\" folder on the SD card.</string>
