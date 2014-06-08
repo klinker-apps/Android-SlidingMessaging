@@ -268,7 +268,7 @@ public class SlideOverService extends Service {
                                 if (changingSliver) {
                                     setSliver(halo, event, height, width);
                                     changingSliver = false;
-                                } else if (movinOnTouchgBubble) {
+                                } else if (movingBubble) {
                                     setHalo(halo, event, height, width);
                                     movingBubble = false;
                                 } else {
