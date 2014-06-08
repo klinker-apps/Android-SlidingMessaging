@@ -289,12 +289,7 @@ public class SendMessage extends Activity {
                 } else {
                     final String[] contacts = contact.getText().toString().split("; ");
 
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            SendUtil.sendMessage(context, contacts, mEditText.getText().toString());
-                        }
-                    }).start();
+                    SendUtil.sendMessage(context, contacts, mEditText.getText().toString());
 
                     if (sharedPrefs.getBoolean("cache_conversations", false)) {
                         Intent cacheService = new Intent(context, CacheService.class);

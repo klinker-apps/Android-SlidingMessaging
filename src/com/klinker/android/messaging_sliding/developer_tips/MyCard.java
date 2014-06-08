@@ -26,4 +26,9 @@ public class MyCard extends Card {
         return view;
     }
 
+    @Override
+    public boolean convert(View convertCardView) {
+        return false;
+    }
+
 }

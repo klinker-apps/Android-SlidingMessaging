@@ -714,7 +714,6 @@
     <string name="slideover_unread_color">Kolor bąbelka nieodebranych</string>
     <string name="positioning">Pozycja SlideOver</string>
     <string name="slideover_theme_settings">Skórka SlideOver</string>
-    <string name="slideover_popup_settings">Okienko SlideOver</string>
     <string name="look_style_category">Ustawienia Wyglądu i Stylu</string>
     <string name="smilies_category">Ustawienia Uśmieszków</string>
     <string name="emoji_category">Ustawienia Emoji</string>
@@ -878,6 +877,5 @@
     <string name="repeating_notification_number_summary">Wybierz 0 by włączyć nieskończoną pętlę</string>
     <string name="group">Group (ID: </string>
     <string name="getting_contacts">Getting Contacts…</string>
-    <string name="people">Ludzie</string>
 
 </resources>

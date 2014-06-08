@@ -31,7 +31,6 @@ release.properties
 project.properties
 .project
 .classpath
-build.gradle
 proguard-project.txt
 proguard.flags
 *.apk
@@ -80,3 +79,15 @@ example/proguard-project.txt
 *.project
 *proguard-project.txt
 library/build.gradle
+.gradle/
+AppMsg/.gradle/
+ColorPickerPreference/.gradle/
+MessageBar/.gradle/
+MultipleImagePick/.gradle/
+/build
+.gitignore~
+Android.mk
+README.txt~
+index.html
+lint.xml
+project.properties

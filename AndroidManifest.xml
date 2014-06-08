@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
     package="com.klinker.android.messaging_donate"
-    android:versionCode="279"
-    android:versionName="8.37" >
+    android:versionCode="281"
+    android:versionName="8.39" >
 
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
@@ -531,7 +531,7 @@
         </service>
         
         <service android:name=".widget.MessageDashClockExtension"
-     		android:icon="@drawable/ic_sms_launcher"
+     		android:icon="@drawable/dashclock"
      		android:label="@string/extension_title"
      		android:permission="com.google.android.apps.dashclock.permission.READ_EXTENSION_DATA" >
      		<intent-filter>

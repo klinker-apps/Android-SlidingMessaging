@@ -311,7 +311,6 @@
 	<string name="message">Mesaj</string>
 	<string name="conversation_list">Konuşma Listesi</string>
 	<string name="conversations">Konuşma</string>
-	<string name="conversation">Konuşma</string>
 	<string name="delete">Sil</string>
 	<string name="all">Hepsi</string>
 	<string name="new_conversation">Yeni Konuşma</string>
@@ -393,10 +392,8 @@
     <string name="top_actionbar">Menü Çubuğu Üstte</string>
     <string name="top_actionbar_summary">Kart Görünümünde menü çubuğunu en üste taşır.</string>
     <string name="attach_more">Daha Fazla Ekle</string>
-    <string name="other">Diğer</string>
     <string name="remove_attachment">İçerik mesajdan kaldırılsın mı ?</string>
     <string name="show_original_timestamp">Orjinal SMS Zamanını Görüntüle</string>
-    <string name="people">Kişiler</string>
     <string name="things">Nesneler</string>
     <string name="nature">Doğa</string>
     <string name="places">Yerler</string>
@@ -470,8 +467,6 @@
     <string name="backup_settings_summary">Bu işlem önceki yedekleri silecek.</string>
     <string name="receive_through_stock">Stok mesajlaşma ile al</string>
     <string name="receive_through_stock_summary">\"Stok Mesaj Devre Dışı\" seçeneğini etkinleştirseniz bile Sliding Messaging ile MMS\'lerinizi saklayamazsınız.</string>
-    <string name="draft_found">Taslak bulundu</string>
-    <string name="draft_found">Taslak bulundu</string>
     <string name="apply_draft">Uygula?</string>
     <string name="auto_insert_draft">Taslakları otomatik ekle </string>
     <string name="auto_insert_draft_summary">Giriş satırı açıksa taslağı otmatik olarak ekler.Eğer bu özellik kapalıysa açılır pencereden taslağı seçebilirsiniz.</string>

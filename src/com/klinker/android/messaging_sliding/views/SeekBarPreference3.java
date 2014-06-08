@@ -28,7 +28,7 @@ public class SeekBarPreference3 extends Preference implements OnSeekBarChangeLis
     private int mInterval = 1;
     private int mCurrentValue;
     private String mUnitsLeft = "";
-    private String mUnitsRight = "%";
+    private String mUnitsRight = "";
     private SeekBar mSeekBar;
 
     private TextView mStatusText;

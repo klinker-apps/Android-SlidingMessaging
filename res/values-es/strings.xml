@@ -729,7 +729,6 @@ Debido a limitaciones implementadas por google en Android 4.0 (Ice Cream Sandwic
     <string name="slideover_unread_color">Color de burbuja de no leído</string>
     <string name="positioning">Posicionamiento de SlideOver</string>
     <string name="slideover_theme_settings">Diseño de SlideOver</string>
-    <string name="slideover_popup_settings">Respuesta rápida de SlideOver</string>
     <string name="look_style_category">Ajustes de diseño y estilo</string>
     <string name="smilies_category">Ajustes de smilies</string>
     <string name="emoji_category">Ajustes de emojis</string>

@@ -227,7 +227,7 @@ public class AttachMore extends Activity {
 
                 return true;
             case R.id.menu_done:
-                if (images.isEmpty()){
+                if (images != null && images.isEmpty()){
                     onBackPressed();
                 } else {
                     Intent i = getIntent();

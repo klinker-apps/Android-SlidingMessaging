@@ -217,7 +217,7 @@ public class MessageCursorAdapter extends CursorAdapter {
     private static java.text.DateFormat timeFormatter;
 
     @Override
-    public void bindView(final View view, Context mContext, final Cursor cursor) {
+    public void bindView(final View view, final Context mContext, final Cursor cursor) {
         final ViewHolder holder = (ViewHolder) view.getTag();
         holder.media.setVisibility(View.GONE);
 
@@ -1309,7 +1309,7 @@ public class MessageCursorAdapter extends CursorAdapter {
 
                                                 if (mmsF && holder.imageUri != null) {
                                                     int size = holder.imageUri.toString().trim().split(" ").length;
-                                                    Bitmap[] bitmaps = new Bitmap[size];
+                                                    final Bitmap[] bitmaps = new Bitmap[size];
 
                                                     for (int i = 0; i < size; i++) {
                                                         try {
@@ -1318,9 +1318,18 @@ public class MessageCursorAdapter extends CursorAdapter {
                                                         }
                                                     }
 
-                                                    SendUtil.sendMessage(context, inboxNumbers.trim().split(" "), body, bitmaps);
-                                                } else {
-                                                    SendUtil.sendMessage(context, inboxNumbers, body);
+                                                    ((Activity)mContext).runOnUiThread(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            SendUtil.sendMessage(context, inboxNumbers.trim().split(" "), body, bitmaps);
+                                                        }
+                                                    });
+                                                } else {((Activity)mContext).runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        SendUtil.sendMessage(context, inboxNumbers, body);
+                                                    }
+                                                });
                                                 }
 
                                                 sharedPrefs.edit().putBoolean("voice_enabled", currentVoiceState).commit();
