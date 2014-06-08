@@ -80,7 +80,11 @@ example/proguard-project.txt
 *.project
 *proguard-project.txt
 library/build.gradle
-/.gradle
+.gradle/
+AppMsg/.gradle/
+ColorPickerPreference/.gradle/
+MessageBar/.gradle/
+MultipleImagePick/.gradle/
 /build
 .gitignore~
 Android.mk
