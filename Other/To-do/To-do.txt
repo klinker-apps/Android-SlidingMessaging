@@ -1,20 +1,16 @@
 - Android wear stuff from evolve
 - Slow to delete a conversation (batch delete is fine)
-- SwipeRefreshLayout for the Actionbar-PullToRefresh
 
 Luke:
     - Forward mms with multiple attachments
     - Mark as read when multiple messages come in
     - Add location support
-    - Collogue of people's icons on group thread
     - Smoother animations
-    - New refresh system... maybe
     - Force close on attach more
     - Notification sounds with slideover and popup
 
 
 Bugs:
-    - jumps to the middle of a conversation sometimes after sending a reply
     - Text in the action bar isn't always right when you open from a notification
 
 1) more individual notification options (notification icon)
@@ -25,9 +21,3 @@ Bugs:
 6) Add a crouton notification for drafts instead of current system, then use a pull to refresh on the bottom to fill the text box with the draft. again, don't know if this would work well or is possible to attach another one to the list view, but it might be cool
 7) Add scheduled sms to bottom of conversation in a footer maybe
 8) Add sent or received icon to conversations list
-
-Translation stuff:
-- igamer777@gmail.com (Russian), nikorezzano@gmail.com (Spanish), supremazx@gmail.com (Turkish), giovanefuori@gmail.com (Italian)
-- https://drive.google.com/folderview?id=0B3Z7vr7d5bgAUUQ3ZmxMbjFiWm8&usp=sharing&tid=0B3Z7vr7d5bgAdlY4aGRpdVNEYlE (French)
-
-Make an NFC bikelock hehe
