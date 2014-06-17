@@ -31,6 +31,7 @@ dependencies {
     compile files('libs/nineoldandroids-2.4.0')
     compile files('libs/stickygridheaders.jar')
     compile files('libs/pushbullet.jar')
+    compile files('libs/wearable-preview-support.jar')
     
     compile(name:'android-smsmms', ext:'aar')
     compile(name:'datetimepicker', ext:'aar')

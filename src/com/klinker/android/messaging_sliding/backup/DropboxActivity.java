@@ -330,7 +330,7 @@ public class DropboxActivity extends Activity {
                 try {
                     // try to load in the file we want to use for the initial backup, if it doesn't exist then
                     // no big deal
-                    file = new File(Environment.getExternalStorageDirectory() + "/EvolveSMS" + FILE_NAME);
+                    file = new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging" + FILE_NAME);
                     FileOutputStream outputStream = new FileOutputStream(file);
                     DropboxAPI.DropboxFileInfo info = mDBApi.getFile(FILE_NAME, null, outputStream, null);
                     Log.i("dropbox_evolve", "The file's rev is: " + info.getMetadata().rev);
@@ -376,7 +376,7 @@ public class DropboxActivity extends Activity {
             File file = null;
 
             try {
-                file = new File(Environment.getExternalStorageDirectory() + "/EvolveSMS" + FILE_NAME);
+                file = new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging" + FILE_NAME);
                 FileOutputStream outputStream = new FileOutputStream(file);
                 DropboxAPI.DropboxFileInfo info = mDBApi.getFile(FILE_NAME, null, outputStream, null);
                 Log.i("dropbox_evolve", "The file's rev is: " + info.getMetadata().rev);
