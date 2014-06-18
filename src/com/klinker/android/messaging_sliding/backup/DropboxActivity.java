@@ -33,7 +33,6 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextSwitcher;
 import android.widget.ViewSwitcher;
 import com.dropbox.client2.DropboxAPI;
@@ -47,14 +46,10 @@ import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.utils.IOUtil;
 import com.klinker.android.messaging_donate.utils.Util;
 import com.klinker.android.messaging_sliding.views.HoloTextView;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.util.Calendar;
-
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
+
+import java.io.*;
+import java.util.Calendar;
 
 public class DropboxActivity extends Activity {
 
@@ -331,6 +326,8 @@ public class DropboxActivity extends Activity {
                     // try to load in the file we want to use for the initial backup, if it doesn't exist then
                     // no big deal
                     file = new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging" + FILE_NAME);
+                    file.getParentFile().mkdirs();
+                    file.createNewFile();
                     FileOutputStream outputStream = new FileOutputStream(file);
                     DropboxAPI.DropboxFileInfo info = mDBApi.getFile(FILE_NAME, null, outputStream, null);
                     Log.i("dropbox_evolve", "The file's rev is: " + info.getMetadata().rev);
@@ -339,6 +336,8 @@ public class DropboxActivity extends Activity {
                 } catch (DropboxException e) {
                     e.printStackTrace();
                 } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -377,6 +376,8 @@ public class DropboxActivity extends Activity {
 
             try {
                 file = new File(Environment.getExternalStorageDirectory() + "/SlidingMessaging" + FILE_NAME);
+                file.getParentFile().mkdirs();
+                file.createNewFile();
                 FileOutputStream outputStream = new FileOutputStream(file);
                 DropboxAPI.DropboxFileInfo info = mDBApi.getFile(FILE_NAME, null, outputStream, null);
                 Log.i("dropbox_evolve", "The file's rev is: " + info.getMetadata().rev);
@@ -386,6 +387,8 @@ public class DropboxActivity extends Activity {
             } catch (DropboxException e) {
                 e.printStackTrace();
             } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
                 e.printStackTrace();
             }
 
