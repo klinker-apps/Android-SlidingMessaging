@@ -8,10 +8,10 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.Telephony;
+import android.util.Log;
 import com.android.mms.transaction.MmsMessageSender;
 import com.google.android.mms.pdu_alt.PduHeaders;
 import com.google.android.mms.util_alt.SqliteWrapper;
-import com.klinker.android.messaging_donate.utils.MessageUtil;
 
 public class Conversation {
 
@@ -81,45 +81,59 @@ public class Conversation {
 
     public void setRead(boolean read, final Context context) {
         this.read = read;
-        final Uri threadUri = getUri(getThreadId());
+        markConversationAsRead(context, threadId);
+    }
 
+    public static void markConversationAsRead(final Context context, final long threadId) {
+        final Uri threadUri = getUri(threadId);
         new AsyncTask<Void, Void, Void>() {
             protected Void doInBackground(Void... none) {
-                // If we have no Uri to mark (as in the case of a conversation that
-                // has not yet made its way to disk), there's nothing to do.
-                if (threadUri != null) {
-                    // Check the read flag first. It's much faster to do a query than
-                    // to do an update. Timing this function show it's about 10x faster to
-                    // do the query compared to the update, even when there's nothing to
-                    // update.
-                    boolean needUpdate = true;
-
-                    Cursor c = context.getContentResolver().query(threadUri,
-                            UNREAD_PROJECTION, UNREAD_SELECTION, null, null);
-                    if (c != null) {
-                        try {
-                            needUpdate = c.getCount() > 0;
-                        } finally {
-                            c.close();
-                        }
-                    }
-
-                    if (needUpdate) {
-                        if (sReadContentValues == null) {
-                            sReadContentValues = new ContentValues(2);
-                            sReadContentValues.put("read", 1);
-                            sReadContentValues.put("seen", 1);
-                        }
-
-                        sendReadReport(context, getThreadId(), PduHeaders.READ_STATUS_READ);
-                        context.getContentResolver().update(threadUri, sReadContentValues,
-                                UNREAD_SELECTION, null);
-                    }
-                }
-
+                try {
+                    markConversationAsReadNoAsync(context, threadUri, threadId);
+                } catch (Exception e) { }
                 return null;
             }
         }.execute();
+    }
+
+    public static void markConversationAsReadNoAsync(final Context context, final long threadId) {
+        markConversationAsReadNoAsync(context, getUri(threadId), threadId);
+    }
+
+    private static void markConversationAsReadNoAsync(final Context context, final Uri threadUri, long threadId) {
+        Log.v("Conversation", "starting mark as read on threadid " + threadUri);
+        // If we have no Uri to mark (as in the case of a conversation that
+        // has not yet made its way to disk), there's nothing to do.
+        if (threadUri != null) {
+            // Check the read flag first. It's much faster to do a query than
+            // to do an update. Timing this function show it's about 10x faster to
+            // do the query compared to the update, even when there's nothing to
+            // update.
+            boolean needUpdate = true;
+
+            Cursor c = context.getContentResolver().query(threadUri,
+                    UNREAD_PROJECTION, UNREAD_SELECTION, null, null);
+            if (c != null) {
+                try {
+                    needUpdate = c.getCount() > 0;
+                } finally {
+                    c.close();
+                }
+            }
+
+            if (needUpdate) {
+                if (sReadContentValues == null) {
+                    sReadContentValues = new ContentValues(2);
+                    sReadContentValues.put("read", 1);
+                    sReadContentValues.put("seen", 1);
+                }
+
+                sendReadReport(context, threadId, PduHeaders.READ_STATUS_READ);
+                Log.v("Conversation", "marking as read and seen");
+                context.getContentResolver().update(threadUri, sReadContentValues,
+                        UNREAD_SELECTION, null);
+            }
+        }
     }
 
     private static Uri getUri(long threadId) {
@@ -205,7 +219,7 @@ public class Conversation {
 
     }
 
-    private void sendReadReport(final Context context,
+    private static void sendReadReport(final Context context,
                                 final long threadId,
                                 final int status) {
         String selection = Telephony.Mms.MESSAGE_TYPE + " = " + PduHeaders.MESSAGE_TYPE_RETRIEVE_CONF

@@ -32,6 +32,7 @@ import com.klinker.android.messaging_donate.utils.ContactUtil;
 import com.klinker.android.messaging_donate.utils.IOUtil;
 import com.klinker.android.messaging_donate.utils.SendUtil;
 import com.klinker.android.messaging_sliding.emojis.*;
+import com.klinker.android.messaging_sliding.notifications.NotificationMessage;
 import com.klinker.android.messaging_sliding.receivers.CacheService;
 import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
 import com.klinker.android.send_message.Transaction;
@@ -345,7 +346,7 @@ public class QuickReply extends Activity {
                             (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                     mNotificationManager.cancel(1);
 
-                    IOUtil.writeNotifications(new ArrayList<String>(), context);
+                    IOUtil.writeNotifications(new ArrayList<NotificationMessage>(), context);
 
                     Intent intent = new Intent("com.klinker.android.messaging.CLEARED_NOTIFICATION");
                     context.sendBroadcast(intent);
@@ -386,7 +387,7 @@ public class QuickReply extends Activity {
                         (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                 mNotificationManager.cancel(1);
 
-                IOUtil.writeNotifications(new ArrayList<String>(), context);
+                IOUtil.writeNotifications(new ArrayList<NotificationMessage>(), context);
 
                 Intent intent = new Intent("com.klinker.android.messaging.CLEARED_NOTIFICATION");
                 context.sendBroadcast(intent);
@@ -424,7 +425,7 @@ public class QuickReply extends Activity {
                         (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                 mNotificationManager.cancel(1);
 
-                IOUtil.writeNotifications(new ArrayList<String>(), context);
+                IOUtil.writeNotifications(new ArrayList<NotificationMessage>(), context);
 
                 Intent intent = new Intent("com.klinker.android.messaging.CLEARED_NOTIFICATION");
                 context.sendBroadcast(intent);

@@ -38,6 +38,7 @@ import com.klinker.android.messaging_donate.utils.ContactUtil;
 import com.klinker.android.messaging_donate.utils.IOUtil;
 import com.klinker.android.messaging_donate.utils.SendUtil;
 import com.klinker.android.messaging_sliding.emojis.*;
+import com.klinker.android.messaging_sliding.notifications.NotificationMessage;
 import com.klinker.android.messaging_sliding.receivers.CacheService;
 import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
 import com.klinker.android.send_message.Transaction;
@@ -331,7 +332,7 @@ public class CardQuickReply extends FragmentActivity {
         Intent updateWidget = new Intent("com.klinker.android.messaging.UPDATE_WIDGET");
         sendBroadcast(updateWidget);
 
-        IOUtil.writeNotifications(new ArrayList<String>(), this);
+        IOUtil.writeNotifications(new ArrayList<NotificationMessage>(), this);
         IOUtil.writeNewMessages(new ArrayList<String>(), this);
     }
 

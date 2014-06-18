@@ -67,6 +67,7 @@ import com.klinker.android.messaging_sliding.emojis.EmojiAdapter;
 import com.klinker.android.messaging_sliding.emojis.EmojiAdapter2;
 import com.klinker.android.messaging_sliding.emojis.EmojiConverter;
 import com.klinker.android.messaging_sliding.emojis.EmojiConverter2;
+import com.klinker.android.messaging_sliding.notifications.NotificationMessage;
 import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead;
 import com.klinker.android.messaging_sliding.quick_reply.QuickResponseService;
 import com.klinker.android.messaging_sliding.receivers.*;
@@ -4914,7 +4915,7 @@ public class MainActivity extends FragmentActivity {
                     mNotificationManager.cancel(1);
                     mNotificationManager.cancel(2);
                     mNotificationManager.cancel(4);
-                    IOUtil.writeNotifications(new ArrayList<String>(), context);
+                    IOUtil.writeNotifications(new ArrayList<NotificationMessage>(), context);
 
                     // clear custom light flow broadcast
                     Intent lightFlow = new Intent("com.klinker.android.messaging.CLEAR_NOTIFICATION");
@@ -5228,7 +5229,7 @@ public class MainActivity extends FragmentActivity {
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                IOUtil.writeNotifications(new ArrayList<String>(), context);
+                                IOUtil.writeNotifications(new ArrayList<NotificationMessage>(), context);
 
                                 Intent intent = new Intent("com.klinker.android.messaging.CLEARED_NOTIFICATION");
                                 context.sendBroadcast(intent);
@@ -5573,7 +5574,7 @@ public class MainActivity extends FragmentActivity {
                     mNotificationManager.cancel(1);
                     mNotificationManager.cancel(2);
                     mNotificationManager.cancel(4);
-                    IOUtil.writeNotifications(new ArrayList<String>(), context);
+                    IOUtil.writeNotifications(new ArrayList<NotificationMessage>(), context);
 
                     Intent intent = new Intent("com.klinker.android.messaging.CLEARED_NOTIFICATION");
                     context.sendBroadcast(intent);

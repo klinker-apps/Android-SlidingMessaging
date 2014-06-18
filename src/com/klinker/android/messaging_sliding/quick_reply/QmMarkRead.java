@@ -11,11 +11,14 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
 import com.klinker.android.messaging_donate.utils.IOUtil;
+import com.klinker.android.messaging_sliding.notifications.NotificationMessage;
 import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
 
 import java.util.ArrayList;
 
 public class QmMarkRead extends IntentService {
+
+    public static boolean enabled = true;
 
     public QmMarkRead() {
         super("service");
@@ -23,6 +26,10 @@ public class QmMarkRead extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        if (!enabled) {
+            return;
+        }
+
         Log.v("mark_read", "marking all messages as read...");
 
         readSMS(this);
@@ -35,7 +42,7 @@ public class QmMarkRead extends IntentService {
         Intent lightFlow = new Intent("com.klinker.android.messaging.CLEAR_NOTIFICATION");
         this.sendBroadcast(lightFlow);
 
-        IOUtil.writeNotifications(new ArrayList<String>(), this);
+        IOUtil.writeNotifications(new ArrayList<NotificationMessage>(), this);
         IOUtil.writeNewMessages(new ArrayList<String>(), this);
 
         Intent intent2 = new Intent("com.klinker.android.messaging.CLEARED_NOTIFICATION");
@@ -58,7 +65,6 @@ public class QmMarkRead extends IntentService {
         getApplicationContext().sendBroadcast(clearMessages);
 
         stopSelf();
-
     }
 
     public void readSMS(Context context) {

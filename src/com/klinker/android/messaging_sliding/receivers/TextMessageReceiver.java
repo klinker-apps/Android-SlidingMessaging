@@ -39,6 +39,8 @@ import com.klinker.android.messaging_sliding.ClassZeroActivity;
 import com.klinker.android.messaging_sliding.MainActivityPopup;
 import com.klinker.android.messaging_sliding.blacklist.BlacklistContact;
 import com.klinker.android.messaging_sliding.notifications.IndividualSetting;
+import com.klinker.android.messaging_sliding.notifications.NotificationMessage;
+import com.klinker.android.messaging_sliding.notifications.PushbulletService;
 import com.klinker.android.messaging_sliding.quick_reply.CardQuickReply;
 import com.klinker.android.messaging_sliding.quick_reply.QmDelete;
 import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead;
@@ -69,14 +71,20 @@ public class TextMessageReceiver extends BroadcastReceiver {
             String dateReceived;
             String protocolId = "";
             boolean isReplace = false;
+            boolean isUpdate = false;
 
             boolean voiceMessage = intent.getBooleanExtra("voice_message", false);
 
             Log.v("refresh_voice", "sms receiver " + voiceMessage);
             Log.v("sms_notification", "just started");
 
+            if (intent.getAction().equals(PushbulletService.UPDATE_NOTIFICATION)) {
+                isUpdate = true;
+                Log.v("sms_receiver", "updating notification");
+            }
+
             // gets the message details depending on voice or sms
-            if (!voiceMessage) {
+            if (!voiceMessage && !isUpdate) {
                 if (extras != null) {
                     Object[] smsExtra = (Object[]) extras.get(SMS_EXTRA_NAME);
 
@@ -103,10 +111,12 @@ public class TextMessageReceiver extends BroadcastReceiver {
                     return;
                 }
             } else {
-                Log.v("refresh_voice", "sms receiver " + voiceMessage);
-                body = intent.getStringExtra("voice_body");
-                address = intent.getStringExtra("voice_address");
-                date = intent.getLongExtra("voice_date", Calendar.getInstance().getTimeInMillis()) + "";
+                if (!isUpdate) {
+                    Log.v("refresh_voice", "sms receiver " + voiceMessage);
+                    body = intent.getStringExtra("voice_body");
+                    address = intent.getStringExtra("voice_address");
+                    date = intent.getLongExtra("voice_date", Calendar.getInstance().getTimeInMillis()) + "";
+                }
             }
 
             Log.v("sms_notification", "got details");
@@ -142,9 +152,11 @@ public class TextMessageReceiver extends BroadcastReceiver {
             int blacklistType = 0;
             String blacklistAddress = address.replace("-", "").replace("(", "").replace(")", "").replace(" ", "").replace("+1", "");
 
-            for (int i = 0; i < blacklist.size(); i++) {
-                if (blacklist.get(i).name.equals(blacklistAddress) || blacklist.get(i).name.startsWith(blacklistAddress) || blacklist.get(i).name.endsWith(blacklistAddress)) {
-                    blacklistType = blacklist.get(i).type;
+            if (!isUpdate) {
+                for (int i = 0; i < blacklist.size(); i++) {
+                    if (blacklist.get(i).name.equals(blacklistAddress) || blacklist.get(i).name.startsWith(blacklistAddress) || blacklist.get(i).name.endsWith(blacklistAddress)) {
+                        blacklistType = blacklist.get(i).type;
+                    }
                 }
             }
 
@@ -156,26 +168,76 @@ public class TextMessageReceiver extends BroadcastReceiver {
                 return;
             }
 
-            final ArrayList<String> prevNotifications = IOUtil.readNotifications(context);
+            final ArrayList<NotificationMessage> prevNotifications = new ArrayList<NotificationMessage>();
+
+            Cursor query = context.getContentResolver().query(
+                    Uri.parse("content://sms/"),
+                    new String[]{"address", "body"},
+                    "read=?",
+                    new String[]{"0"},
+                    "date asc"
+            );
+
+            if (query != null && query.moveToFirst()) {
+                do {
+                    prevNotifications.add(new NotificationMessage(
+                            query.getString(0),
+                            query.getString(1)
+                    ));
+                } while (query.moveToNext());
+
+                query.close();
+            }
+
+            Log.v("sms_receiver", "checking is update: " + isUpdate + " " + prevNotifications.size());
+            if (isUpdate && prevNotifications.size() == 0) {
+                Log.v("sms_receiver", "updating is true and size is 0, so dismiss and quit");
+                final NotificationManager manager = (NotificationManager) context
+                        .getSystemService(Context.NOTIFICATION_SERVICE);
+                manager.cancel(1);
+                return;
+            } else if (isUpdate) {
+                Log.v("sms_receiver", "is update true");
+                body = prevNotifications.get(0).text;
+                address = prevNotifications.get(0).number;
+                prevNotifications.remove(0);
+            }
 
             if (blacklistType == 2) {
                 // don't do anything with message if severely blacklisted
                 abortBroadcast();
             } else {
-                // if overriding stock or its a voice message, save the messages
-                if (sharedPrefs.getBoolean("override", false) || voiceMessage || context.getResources().getBoolean(R.bool.hasKitKat)) {
-                    Cursor checkOld = context.getContentResolver().query(
-                            Uri.parse("content://sms/inbox/"),
-                            new String[] {Telephony.Sms.ADDRESS, Telephony.Sms.PROTOCOL, Telephony.Sms.BODY},
-                            Telephony.Sms.ADDRESS + "=? AND " + Telephony.Sms.PROTOCOL + "=?",
-                            new String[] {address, protocolId},
-                            null
-                    );
+                if (!isUpdate) {
+                    // if overriding stock or its a voice message, save the messages
+                    if (sharedPrefs.getBoolean("override", false) || voiceMessage || context.getResources().getBoolean(R.bool.hasKitKat)) {
+                        Cursor checkOld = context.getContentResolver().query(
+                                Uri.parse("content://sms/inbox/"),
+                                new String[]{Telephony.Sms.ADDRESS, Telephony.Sms.PROTOCOL, Telephony.Sms.BODY},
+                                Telephony.Sms.ADDRESS + "=? AND " + Telephony.Sms.PROTOCOL + "=?",
+                                new String[]{address, protocolId},
+                                null
+                        );
 
-                    Log.v("sms_receiver", "protocolIdentifier: " + protocolId);
+                        Log.v("sms_receiver", "protocolIdentifier: " + protocolId);
 
-                    if (isReplace && checkOld != null && checkOld.moveToFirst()) {
-                        if (!checkOld.getString(checkOld.getColumnIndex(Telephony.Sms.BODY)).equals(body)) {
+                        if (isReplace && checkOld != null && checkOld.moveToFirst()) {
+                            if (!checkOld.getString(checkOld.getColumnIndex(Telephony.Sms.BODY)).equals(body)) {
+                                ContentValues values = new ContentValues();
+                                values.put("address", address);
+                                values.put("body", body);
+                                values.put("date", dateReceived);
+                                values.put("read", "0");
+                                values.put("date_sent", date);
+
+                                if (voiceMessage) {
+                                    values.put("status", 2);
+                                }
+
+                                context.getContentResolver().insert(Uri.parse("content://sms/inbox"), values);
+
+                                Log.v("refresh_voice", "saving message");
+                            }
+                        } else {
                             ContentValues values = new ContentValues();
                             values.put("address", address);
                             values.put("body", body);
@@ -191,21 +253,6 @@ public class TextMessageReceiver extends BroadcastReceiver {
 
                             Log.v("refresh_voice", "saving message");
                         }
-                    } else {
-                        ContentValues values = new ContentValues();
-                        values.put("address", address);
-                        values.put("body", body);
-                        values.put("date", dateReceived);
-                        values.put("read", "0");
-                        values.put("date_sent", date);
-
-                        if (voiceMessage) {
-                            values.put("status", 2);
-                        }
-
-                        context.getContentResolver().insert(Uri.parse("content://sms/inbox"), values);
-
-                        Log.v("refresh_voice", "saving message");
                     }
                 }
 
@@ -259,6 +306,8 @@ public class TextMessageReceiver extends BroadcastReceiver {
                     } catch (Exception e) {
                         contactImage = null;
                     }
+
+                    Log.v("sms_receiver", "setting up intents");
 
                     // begin setting up the reply button pending intent
                     Intent intent2 = new Intent(context, CardQuickReply.class);
@@ -341,34 +390,28 @@ public class TextMessageReceiver extends BroadcastReceiver {
                         }
                         Arrays.sort(buttonArray);
 
+                        Log.v("sms_receiver", "make notification");
                         if (!sharedPrefs.getBoolean("secure_notification", false)) {
                             if (prevNotifications.size() == 0) {
                                 // single new notification
-                                makeNotification(name, body, name + ": " + body, origAddress, body, dateReceived, contactImage, buttonArray, pIntent, mrPendingIntent, callPendingIntent, deletePendingIntent, 1, prevNotifications, alert, context);
-                            } else if (prevNotifications.size() == 1 && prevNotifications.get(0).startsWith(name)) {
+                                makeNotification(name, body, name + ": " + body, origAddress, body, dateReceived, contactImage, buttonArray, pIntent, mrPendingIntent, callPendingIntent, deletePendingIntent, 1, prevNotifications, alert, context, isUpdate);
+                            } else if (prevNotifications.size() == 1 && prevNotifications.get(0).number.equals(NotificationMessage.parseNumber(address))) {
                                 // add onto previous notification because it is the same person again and no others
-                                String body2 = prevNotifications.get(0);
-
-                                for (int i = 0; i < body2.length() - 1; i++) {
-                                    if (body2.substring(i, i + 1).equals(":")) {
-                                        body2 = body2.substring(i + 1);
-                                        break;
-                                    }
-                                }
+                                String body2 = prevNotifications.get(0).text;
 
                                 if (sharedPrefs.getBoolean("stack_notifications", true)) {
                                     body = body2 + " | " + body;
                                 }
 
-                                makeNotification(name, body, name + ": " + body, origAddress, body, dateReceived, contactImage, buttonArray, pIntent, mrPendingIntent, callPendingIntent, deletePendingIntent, 2, prevNotifications, alert, context);
+                                makeNotification(name, body, name + ": " + body, origAddress, body, dateReceived, contactImage, buttonArray, pIntent, mrPendingIntent, callPendingIntent, deletePendingIntent, 2, prevNotifications, alert, context, isUpdate);
                             } else {
-                                makeNotification(prevNotifications.size() + 1 + " New Messages", body, prevNotifications.size() + 1 + " New Messages", origAddress, body, dateReceived, null, buttonArray, pIntent, mrPendingIntent, callPendingIntent, deletePendingIntent, 3, prevNotifications, alert, context);
+                                makeNotification(prevNotifications.size() + 1 + " New Messages", body, prevNotifications.size() + 1 + " New Messages", origAddress, body, dateReceived, null, buttonArray, pIntent, mrPendingIntent, callPendingIntent, deletePendingIntent, 3, prevNotifications, alert, context, isUpdate);
                             }
                         } else {
                             if (prevNotifications.size() == 0) {
-                                makeNotification("New Message", "", "New Message", origAddress, "New Message", dateReceived, contactImage, buttonArray, pIntent, mrPendingIntent, callPendingIntent, deletePendingIntent, 1, prevNotifications, alert, context);
+                                makeNotification("New Message", "", "New Message", origAddress, "New Message", dateReceived, contactImage, buttonArray, pIntent, mrPendingIntent, callPendingIntent, deletePendingIntent, 1, prevNotifications, alert, context, isUpdate);
                             } else {
-                                makeNotification("New Messages", "", "New Messages", origAddress, "New Messages", dateReceived, contactImage, buttonArray, pIntent, mrPendingIntent, callPendingIntent, deletePendingIntent, 1, prevNotifications, alert, context);
+                                makeNotification("New Messages", "", "New Messages", origAddress, "New Messages", dateReceived, contactImage, buttonArray, pIntent, mrPendingIntent, callPendingIntent, deletePendingIntent, 1, prevNotifications, alert, context, isUpdate);
                             }
                         }
                     }
@@ -607,7 +650,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 
     private void makeNotification(String title, String text, String ticker, String address, String body, String date, Bitmap contactImage,
                                   int[] buttonArray, PendingIntent pIntent, PendingIntent mrPendingIntent, PendingIntent callPendingIntent,
-                                  PendingIntent deletePendingIntent, int notificationType, ArrayList<String> prevNotifications, boolean alert, final Context context) {
+                                  PendingIntent deletePendingIntent, int notificationType, ArrayList<NotificationMessage> prevNotifications, boolean alert, final Context context, boolean isUpdate) {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
         if (sharedPrefs.getBoolean("secure_notification", false)) {
@@ -649,75 +692,77 @@ public class TextMessageReceiver extends BroadcastReceiver {
             mBuilder.setContentIntent(resultPendingIntent);
             mBuilder.setAutoCancel(true);
 
-            if (!individualNotification(mBuilder, ContactUtil.findContactName(address, context), context, alert) || sharedPrefs.getBoolean("secure_notification", false)) {
-                AppSettings settings = AppSettings.init(context);
-                if (settings.vibrate == AppSettings.VIBRATE_ALWAYS && alert) {
-                    if (!sharedPrefs.getBoolean("custom_vibrate_pattern", false)) {
-                        String vibPat = sharedPrefs.getString("vibrate_pattern", "2short");
+            if (!isUpdate) {
+                if (!individualNotification(mBuilder, ContactUtil.findContactName(address, context), context, alert) || sharedPrefs.getBoolean("secure_notification", false)) {
+                    AppSettings settings = AppSettings.init(context);
+                    if (settings.vibrate == AppSettings.VIBRATE_ALWAYS && alert) {
+                        if (!sharedPrefs.getBoolean("custom_vibrate_pattern", false)) {
+                            String vibPat = sharedPrefs.getString("vibrate_pattern", "2short");
 
-                        if (vibPat.equals("short")) {
-                            long[] pattern = {0L, 400L};
-                            mBuilder.setVibrate(pattern);
-                        } else if (vibPat.equals("long")) {
-                            long[] pattern = {0L, 800L};
-                            mBuilder.setVibrate(pattern);
-                        } else if (vibPat.equals("2short")) {
-                            long[] pattern = {0L, 400L, 100L, 400L};
-                            mBuilder.setVibrate(pattern);
-                        } else if (vibPat.equals("2long")) {
-                            long[] pattern = {0L, 800L, 200L, 800L};
-                            mBuilder.setVibrate(pattern);
-                        } else if (vibPat.equals("3short")) {
-                            long[] pattern = {0L, 400L, 100L, 400L, 100L, 400L};
-                            mBuilder.setVibrate(pattern);
-                        } else if (vibPat.equals("3long")) {
-                            long[] pattern = {0L, 800L, 200L, 800L, 200L, 800L};
-                            mBuilder.setVibrate(pattern);
-                        }
-                    } else {
-                        try {
-                            String[] vibPat = sharedPrefs.getString("set_custom_vibrate_pattern", "0, 100, 100, 100").split(", ");
-                            long[] pattern = new long[vibPat.length];
-
-                            for (int i = 0; i < vibPat.length; i++) {
-                                pattern[i] = Long.parseLong(vibPat[i]);
+                            if (vibPat.equals("short")) {
+                                long[] pattern = {0L, 400L};
+                                mBuilder.setVibrate(pattern);
+                            } else if (vibPat.equals("long")) {
+                                long[] pattern = {0L, 800L};
+                                mBuilder.setVibrate(pattern);
+                            } else if (vibPat.equals("2short")) {
+                                long[] pattern = {0L, 400L, 100L, 400L};
+                                mBuilder.setVibrate(pattern);
+                            } else if (vibPat.equals("2long")) {
+                                long[] pattern = {0L, 800L, 200L, 800L};
+                                mBuilder.setVibrate(pattern);
+                            } else if (vibPat.equals("3short")) {
+                                long[] pattern = {0L, 400L, 100L, 400L, 100L, 400L};
+                                mBuilder.setVibrate(pattern);
+                            } else if (vibPat.equals("3long")) {
+                                long[] pattern = {0L, 800L, 200L, 800L, 200L, 800L};
+                                mBuilder.setVibrate(pattern);
                             }
+                        } else {
+                            try {
+                                String[] vibPat = sharedPrefs.getString("set_custom_vibrate_pattern", "0, 100, 100, 100").split(", ");
+                                long[] pattern = new long[vibPat.length];
 
-                            mBuilder.setVibrate(pattern);
-                        } catch (Exception e) {
+                                for (int i = 0; i < vibPat.length; i++) {
+                                    pattern[i] = Long.parseLong(vibPat[i]);
+                                }
+
+                                mBuilder.setVibrate(pattern);
+                            } catch (Exception e) {
+                            }
+                        }
+                    } else if (settings.vibrate == AppSettings.VIBRATE_NEVER) {
+                        mBuilder.setVibrate(new long[]{0});
+                    }
+
+                    if (sharedPrefs.getBoolean("led", true)) {
+                        String ledColor = sharedPrefs.getString("led_color", "white");
+                        int ledOn = sharedPrefs.getInt("led_on_time", 1000);
+                        int ledOff = sharedPrefs.getInt("led_off_time", 2000);
+
+                        if (ledColor.equalsIgnoreCase("white")) {
+                            mBuilder.setLights(0xFFFFFFFF, ledOn, ledOff);
+                        } else if (ledColor.equalsIgnoreCase("blue")) {
+                            mBuilder.setLights(0xFF33B5E5, ledOn, ledOff);
+                        } else if (ledColor.equalsIgnoreCase("green")) {
+                            mBuilder.setLights(0xFF00FF00, ledOn, ledOff);
+                        } else if (ledColor.equalsIgnoreCase("orange")) {
+                            mBuilder.setLights(0xFFFF8800, ledOn, ledOff);
+                        } else if (ledColor.equalsIgnoreCase("red")) {
+                            mBuilder.setLights(0xFFCC0000, ledOn, ledOff);
+                        } else if (ledColor.equalsIgnoreCase("purple")) {
+                            mBuilder.setLights(0xFFAA66CC, ledOn, ledOff);
+                        } else {
+                            mBuilder.setLights(0xFFFFFFFF, ledOn, ledOff);
                         }
                     }
-                } else if (settings.vibrate == AppSettings.VIBRATE_NEVER) {
-                    mBuilder.setVibrate(new long[] {0});
-                }
 
-                if (sharedPrefs.getBoolean("led", true)) {
-                    String ledColor = sharedPrefs.getString("led_color", "white");
-                    int ledOn = sharedPrefs.getInt("led_on_time", 1000);
-                    int ledOff = sharedPrefs.getInt("led_off_time", 2000);
-
-                    if (ledColor.equalsIgnoreCase("white")) {
-                        mBuilder.setLights(0xFFFFFFFF, ledOn, ledOff);
-                    } else if (ledColor.equalsIgnoreCase("blue")) {
-                        mBuilder.setLights(0xFF33B5E5, ledOn, ledOff);
-                    } else if (ledColor.equalsIgnoreCase("green")) {
-                        mBuilder.setLights(0xFF00FF00, ledOn, ledOff);
-                    } else if (ledColor.equalsIgnoreCase("orange")) {
-                        mBuilder.setLights(0xFFFF8800, ledOn, ledOff);
-                    } else if (ledColor.equalsIgnoreCase("red")) {
-                        mBuilder.setLights(0xFFCC0000, ledOn, ledOff);
-                    } else if (ledColor.equalsIgnoreCase("purple")) {
-                        mBuilder.setLights(0xFFAA66CC, ledOn, ledOff);
-                    } else {
-                        mBuilder.setLights(0xFFFFFFFF, ledOn, ledOff);
-                    }
-                }
-
-                if (alert) {
-                    try {
-                        mBuilder.setSound(Uri.parse(sharedPrefs.getString("ringtone", "null")));
-                    } catch (Exception e) {
-                        mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+                    if (alert) {
+                        try {
+                            mBuilder.setSound(Uri.parse(sharedPrefs.getString("ringtone", "null")));
+                        } catch (Exception e) {
+                            mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+                        }
                     }
                 }
             }
@@ -730,19 +775,19 @@ public class TextMessageReceiver extends BroadcastReceiver {
             Notification notification;
 
             if (notificationType == 1 || notificationType == 2) {
-                prevNotifications = new ArrayList<String>();
-                prevNotifications.add(ContactUtil.findContactName(address, context) + ": " + body);
+                prevNotifications = new ArrayList<NotificationMessage>();
+                prevNotifications.add(new NotificationMessage(ContactUtil.findContactName(address, context), body));
 
                 NotificationCompat.BigTextStyle bigText = new NotificationCompat.BigTextStyle();
                 bigText.bigText(body);
                 mBuilder.setStyle(bigText);
                 notification = attachActions(mBuilder, pIntent, mrPendingIntent, callPendingIntent, deletePendingIntent, notificationType, buttonArray, sharedPrefs, context);
             } else {
-                prevNotifications.add(ContactUtil.findContactName(address, context) + ": " + body);
+                prevNotifications.add(new NotificationMessage(ContactUtil.findContactName(address, context), body));
                 NotificationCompat.InboxStyle not = new NotificationCompat.InboxStyle(mBuilder);
 
                 for (int i = 0; i < prevNotifications.size(); i++) {
-                    not.addLine(prevNotifications.get(i));
+                    not.addLine(ContactUtil.findContactName(prevNotifications.get(i).number, context) + ": " + prevNotifications.get(0).text);
                 }
 
                 not.setSummaryText(prevNotifications.size() + " New Messages");
@@ -754,6 +799,27 @@ public class TextMessageReceiver extends BroadcastReceiver {
             Intent deleteIntent = new Intent(context, NotificationReceiver.class);
             notification.deleteIntent = PendingIntent.getBroadcast(context, 0, deleteIntent, 0);
             mNotificationManager.notify(1, notification);
+
+            // pushbullet notifications
+            if (!isUpdate) {
+                // pushbullet notifications
+                Cursor query = context.getContentResolver().query(
+                        Uri.parse("content://sms/inbox"),
+                        new String[]{"address", "body", "thread_id"},
+                        "read=?",
+                        new String[]{"0"},
+                        "date desc limit 1"
+                );
+
+                if (query.moveToFirst()) {
+                    String add = query.getString(0);
+                    String message = query.getString(1);
+                    long threadId = query.getLong(2);
+                    Bitmap image = ContactUtil.getFacebookPhoto(add, context);
+                    PushbulletService.mirrorMessage(context, threadId + "", ContactUtil.findContactName(add, context), message, image, null, 1);
+                    query.close();
+                }
+            }
 
             // Light Flow Broadcast
             Intent data = new Intent("com.klinker.android.messaging.NEW_NOTIFICATION");
@@ -814,8 +880,6 @@ public class TextMessageReceiver extends BroadcastReceiver {
                 AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
                 alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis() + Long.parseLong(sharedPrefs.getString("repeating_notification", "none")), Long.parseLong(sharedPrefs.getString("repeating_notification", "none")), pRepeatingIntent);
             }
-
-            IOUtil.writeNotifications(prevNotifications, context);
         }
     }
 

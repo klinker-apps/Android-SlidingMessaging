@@ -1,8 +1,11 @@
 package com.klinker.android.messaging_donate.utils;
 
+import a_vcard.android.syncml.pim.PropertyNode;
+import a_vcard.android.syncml.pim.VDataBuilder;
+import a_vcard.android.syncml.pim.VNode;
+import a_vcard.android.syncml.pim.vcard.VCardParser;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -13,12 +16,12 @@ import android.net.Uri;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.widget.Toast;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_sliding.backup.DropboxActivity;
 import com.klinker.android.messaging_sliding.blacklist.BlacklistContact;
 import com.klinker.android.messaging_sliding.notifications.IndividualSetting;
+import com.klinker.android.messaging_sliding.notifications.NotificationMessage;
 import com.klinker.android.messaging_sliding.scheduled.ScheduledSms;
 
 import java.io.*;
@@ -26,11 +29,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
-
-import a_vcard.android.syncml.pim.PropertyNode;
-import a_vcard.android.syncml.pim.VDataBuilder;
-import a_vcard.android.syncml.pim.VNode;
-import a_vcard.android.syncml.pim.vcard.VCardParser;
 
 public class IOUtil {
 
@@ -347,7 +345,7 @@ public class IOUtil {
         return ret;
     }
 
-    public static void writeNotifications(ArrayList<String> data, Context context) {
+    public static void writeNotifications(ArrayList<NotificationMessage> data, Context context) {
         try {
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("notifications.txt", Context.MODE_PRIVATE));
 

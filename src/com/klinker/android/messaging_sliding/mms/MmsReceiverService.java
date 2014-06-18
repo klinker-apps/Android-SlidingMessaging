@@ -5,7 +5,6 @@ import android.content.*;
 import android.database.Cursor;
 import android.database.sqlite.SqliteWrapper;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -21,48 +20,31 @@ import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
-
 import com.android.mms.MmsConfig;
 import com.android.mms.transaction.HttpUtils;
-import com.android.mms.util.SendingProgressTokenManager;
 import com.google.android.mms.APN;
 import com.google.android.mms.APNHelper;
 import com.google.android.mms.MmsException;
-import com.google.android.mms.pdu_alt.AcknowledgeInd;
-import com.google.android.mms.pdu_alt.EncodedStringValue;
-import com.google.android.mms.pdu_alt.PduComposer;
-import com.google.android.mms.pdu_alt.PduHeaders;
-import com.google.android.mms.pdu_alt.PduParser;
-import com.google.android.mms.pdu_alt.PduPersister;
-import com.google.android.mms.pdu_alt.RetrieveConf;
+import com.google.android.mms.pdu_alt.*;
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.settings.AppSettings;
 import com.klinker.android.messaging_donate.utils.ContactUtil;
 import com.klinker.android.messaging_donate.utils.IOUtil;
-import com.klinker.android.messaging_donate.utils.MessageUtil;
 import com.klinker.android.messaging_donate.utils.SendUtil;
 import com.klinker.android.messaging_sliding.MessageCursorAdapter;
+import com.klinker.android.messaging_sliding.notifications.PushbulletService;
 import com.klinker.android.messaging_sliding.receivers.NotificationReceiver;
 import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
-import com.klinker.android.messaging_sliding.receivers.TextMessageReceiver;
 import com.klinker.android.send_message.DisconnectWifi;
 import com.klinker.android.send_message.Settings;
 import com.klinker.android.send_message.Transaction;
 import com.klinker.android.send_message.Utils;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class MmsReceiverService extends Service {
 
@@ -639,6 +621,10 @@ public class MmsReceiverService extends Service {
             Intent deleteIntent = new Intent(context, NotificationReceiver.class);
             notification.deleteIntent = PendingIntent.getBroadcast(context, 0, deleteIntent, 0);
             mNotificationManager.notify(2, notification);
+
+            // pushbullet notifications
+            Bitmap contactPicture = ContactUtil.getFacebookPhoto(address, context);
+            PushbulletService.mirrorMessage(context, address, ContactUtil.findContactName(address, context), body, contactPicture, null, 1);
 
             // Light Flow Broadcast
             Intent data = new Intent("com.klinker.android.messaging.NEW_NOTIFICATION");

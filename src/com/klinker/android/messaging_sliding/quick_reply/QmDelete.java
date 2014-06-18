@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
 import com.klinker.android.messaging_donate.utils.IOUtil;
+import com.klinker.android.messaging_sliding.notifications.NotificationMessage;
 import com.klinker.android.messaging_sliding.receivers.NotificationRepeaterService;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class QmDelete extends IntentService {
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancel(1);
 
-        IOUtil.writeNotifications(new ArrayList<String>(), this);
+        IOUtil.writeNotifications(new ArrayList<NotificationMessage>(), this);
         IOUtil.writeNewMessages(new ArrayList<String>(), this);
 
         Intent intent2 = new Intent("com.klinker.android.messaging.CLEARED_NOTIFICATION");
