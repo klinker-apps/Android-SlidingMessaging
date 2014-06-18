@@ -40,7 +40,7 @@ dependencies {
     compile(name:'fn-extension', ext:'aar')
     compile(name:'slidingmenu', ext:'aar')
     compile(name:'AppMsg', ext:'aar')
-    compile(name:'ColorPickerPreference', ext:'aar')
+    compile(name:'android-ColorPickerPreference', ext:'aar')
     compile(name:'MessageBar', ext:'aar')
     compile(name:'MultipleImagePick', ext:'aar')
     compile(name:'android-lockpattern', ext:'aar')
