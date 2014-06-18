@@ -1938,7 +1938,7 @@ public class MainActivity extends FragmentActivity {
         String voiceReply = getIntent().getStringExtra(TextMessageReceiver.EXTRA_VOICE_REPLY);
         if (voiceReply != null) {
             Intent send = new Intent(this, QuickResponseService.class);
-            send.setData(Uri.parse(conversations.get(0).getNumber()));
+            send.setData(Uri.parse(ContactUtil.findContactNumber(conversations.get(0).getNumber(), context)));
             send.putExtra(Intent.EXTRA_TEXT, voiceReply);
             startService(send);
             finish();

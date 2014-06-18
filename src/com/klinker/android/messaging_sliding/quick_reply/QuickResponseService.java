@@ -30,14 +30,22 @@ public class QuickResponseService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        String address = intent.getData().toString();
+        String address = "";
 
-        if (address.charAt(3) == ':') {
-            address = parseNumber(Uri.decode(intent.getDataString()).substring("sms:".length()));
-        } else if (address.charAt(5) == ':') {
-            address = parseNumber(Uri.decode(intent.getDataString()).substring("smsto:".length()));
+        if (intent.getData() != null) {
+            address = intent.getData().toString();
+            try {
+                if (address.charAt(3) == ':') {
+                    address = Uri.decode(intent.getDataString()).substring("sms:".length()).replace("(", "").replace(")", "").replace("-", "").replace(" ", "");
+                } else if (address.charAt(5) == ':') {
+                    address = Uri.decode(intent.getDataString()).substring("smsto:".length()).replace("(", "").replace(")", "").replace("-", "").replace(" ", "");
+                } else {
+                    address = Uri.decode(intent.getDataString()).replace("(", "").replace(")", "").replace("-", "").replace(" ", "");
+                }
+            } catch (Exception e) {
+            }
         } else {
-            address = parseNumber(Uri.decode(intent.getDataString()));
+            address = intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER);
         }
 
         String body = intent.getStringExtra(Intent.EXTRA_TEXT);
