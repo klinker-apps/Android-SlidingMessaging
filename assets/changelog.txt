@@ -1,1 +1,1 @@
-- Fixed a force close when trying to resend a message
+- Android Wear notification support

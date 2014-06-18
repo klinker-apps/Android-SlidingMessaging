@@ -20,7 +20,6 @@ import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.Profile;
 import android.provider.MediaStore;
-import android.provider.Telephony;
 import android.support.v4.app.*;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ListFragment;
@@ -45,10 +44,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.RelativeLayout.LayoutParams;
-
-import com.klinker.android.messaging_donate.utils.Util;
-import com.klinker.android.messaging_sliding.receivers.*;
-import com.klinker.android.messaging_sliding.views.ImageAttachmentView;
 import com.astuetz.PagerSlidingTabStrip;
 import com.devspark.appmsg.AppMsg;
 import com.google.android.mms.MMSPart;
@@ -59,6 +54,7 @@ import com.klinker.android.messaging_donate.settings.SettingsPagerActivity;
 import com.klinker.android.messaging_donate.utils.ContactUtil;
 import com.klinker.android.messaging_donate.utils.IOUtil;
 import com.klinker.android.messaging_donate.utils.SendUtil;
+import com.klinker.android.messaging_donate.utils.Util;
 import com.klinker.android.messaging_donate.wizardpager.ChangeLogMain;
 import com.klinker.android.messaging_donate.wizardpager.InitialSetupMain;
 import com.klinker.android.messaging_sliding.*;
@@ -72,6 +68,8 @@ import com.klinker.android.messaging_sliding.emojis.EmojiAdapter2;
 import com.klinker.android.messaging_sliding.emojis.EmojiConverter;
 import com.klinker.android.messaging_sliding.emojis.EmojiConverter2;
 import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead;
+import com.klinker.android.messaging_sliding.quick_reply.QuickResponseService;
+import com.klinker.android.messaging_sliding.receivers.*;
 import com.klinker.android.messaging_sliding.scheduled.NewScheduledSms;
 import com.klinker.android.messaging_sliding.search.SearchActivity;
 import com.klinker.android.messaging_sliding.security.PasswordActivity;
@@ -80,6 +78,7 @@ import com.klinker.android.messaging_sliding.slide_over.SlideOverService;
 import com.klinker.android.messaging_sliding.templates.TemplateActivity;
 import com.klinker.android.messaging_sliding.templates.TemplateArrayAdapter;
 import com.klinker.android.messaging_sliding.views.ConversationFragment;
+import com.klinker.android.messaging_sliding.views.ImageAttachmentView;
 import com.klinker.android.messaging_sliding.views.ProgressAnimator;
 import com.klinker.android.send_message.Message;
 import com.klinker.android.send_message.Settings;
@@ -90,9 +89,7 @@ import group.pals.android.lib.ui.lockpattern.LockPatternActivity;
 import group.pals.android.lib.ui.lockpattern.prefs.SecurityPrefs;
 import net.simonvt.messagebar.MessageBar;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.*;
@@ -1934,6 +1931,18 @@ public class MainActivity extends FragmentActivity {
         }
 
         Conversation.markAllConversationsAsSeen(this);
+        checkFromWearable();
+    }
+
+    private void checkFromWearable() {
+        String voiceReply = getIntent().getStringExtra(TextMessageReceiver.EXTRA_VOICE_REPLY);
+        if (voiceReply != null) {
+            Intent send = new Intent(this, QuickResponseService.class);
+            send.setData(Uri.parse(conversations.get(0).getNumber()));
+            send.putExtra(Intent.EXTRA_TEXT, voiceReply);
+            startService(send);
+            finish();
+        }
     }
 
     @SuppressWarnings("deprecation")

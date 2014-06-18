@@ -950,5 +950,6 @@
     <string name="send_delay_30seconds">30 Seconds</string>
     <string name="send_delay_60seconds">1 Minute</string>
     <string name="class_0_message_activity">Class 0 Message</string>
+    <string name="speak_now">Speak Now</string>
 
 </resources>

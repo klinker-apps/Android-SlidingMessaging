@@ -12,9 +12,14 @@ import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.*;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.preference.PreferenceManager;
+import android.preview.support.wearable.notifications.RemoteInput;
+import android.preview.support.wearable.notifications.WearableNotifications;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.PhoneLookup;
 import android.provider.Telephony;
@@ -38,7 +43,6 @@ import com.klinker.android.messaging_sliding.quick_reply.CardQuickReply;
 import com.klinker.android.messaging_sliding.quick_reply.QmDelete;
 import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead;
 import com.klinker.android.messaging_sliding.quick_reply.QuickReply;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -645,24 +649,6 @@ public class TextMessageReceiver extends BroadcastReceiver {
             mBuilder.setContentIntent(resultPendingIntent);
             mBuilder.setAutoCancel(true);
 
-            if (!sharedPrefs.getBoolean("secure_notification", false)) {
-                for (int i = 0; i < buttonArray.length; i++) {
-                    String[] labels = context.getResources().getStringArray(R.array.quickReplyOptions);
-
-                    int option = buttonArray[i];
-
-                    if (option == 1) {
-                        mBuilder.addAction(R.drawable.ic_menu_msg_compose_holo_dark, labels[0], pIntent);
-                    } else if (option == 2) {
-                        mBuilder.addAction(R.drawable.ic_menu_done_holo_dark, labels[1], mrPendingIntent);
-                    } else if (option == 3 && notificationType != 3) {
-                        mBuilder.addAction(R.drawable.ic_menu_call, labels[2], callPendingIntent);
-                    } else if (option == 4 && notificationType == 1) {
-                        mBuilder.addAction(R.drawable.ic_menu_delete, labels[3], deletePendingIntent);
-                    }
-                }
-            }
-
             if (!individualNotification(mBuilder, ContactUtil.findContactName(address, context), context, alert) || sharedPrefs.getBoolean("secure_notification", false)) {
                 AppSettings settings = AppSettings.init(context);
                 if (settings.vibrate == AppSettings.VIBRATE_ALWAYS && alert) {
@@ -736,6 +722,8 @@ public class TextMessageReceiver extends BroadcastReceiver {
                 }
             }
 
+            mBuilder.setPriority(NotificationCompat.PRIORITY_HIGH);
+
             final NotificationManager mNotificationManager =
                     (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -745,7 +733,10 @@ public class TextMessageReceiver extends BroadcastReceiver {
                 prevNotifications = new ArrayList<String>();
                 prevNotifications.add(ContactUtil.findContactName(address, context) + ": " + body);
 
-                notification = new NotificationCompat.BigTextStyle(mBuilder).bigText(body).build();
+                NotificationCompat.BigTextStyle bigText = new NotificationCompat.BigTextStyle();
+                bigText.bigText(body);
+                mBuilder.setStyle(bigText);
+                notification = attachActions(mBuilder, pIntent, mrPendingIntent, callPendingIntent, deletePendingIntent, notificationType, buttonArray, sharedPrefs, context);
             } else {
                 prevNotifications.add(ContactUtil.findContactName(address, context) + ": " + body);
                 NotificationCompat.InboxStyle not = new NotificationCompat.InboxStyle(mBuilder);
@@ -825,6 +816,66 @@ public class TextMessageReceiver extends BroadcastReceiver {
             }
 
             IOUtil.writeNotifications(prevNotifications, context);
+        }
+    }
+
+    public static final String EXTRA_VOICE_REPLY = "extra_voice_reply";
+    private static Notification attachActions(NotificationCompat.Builder builder, PendingIntent replyIntent,
+                                              PendingIntent mrPendingIntent, PendingIntent callPendingIntent,
+                                              PendingIntent deletePendingIntent,
+                                              int notificationType, int[] buttonArray,
+                                              SharedPreferences sharedPrefs, Context context) {
+
+        RemoteInput remoteInput = new RemoteInput.Builder(EXTRA_VOICE_REPLY)
+                .setLabel(context.getResources().getString(R.string.speak_now))
+                .build();
+
+        WearableNotifications.Builder mBuilder = new WearableNotifications.Builder(builder);
+
+        if (!sharedPrefs.getBoolean("secure_notification", false)) {
+            for (int i = 0; i < buttonArray.length; i++) {
+                if (i >= 3) {
+                    break;
+                }
+
+                String[] labels = context.getResources().getStringArray(R.array.quickReplyOptions);
+
+                int option = buttonArray[i];
+
+                if (option == 1) {
+                    WearableNotifications.Action action = new WearableNotifications.Action.Builder(
+                            R.drawable.ic_menu_msg_compose_holo_dark,
+                            labels[0], replyIntent)
+                            .addRemoteInput(remoteInput)
+                            .build();
+
+                    mBuilder.addAction(action);
+                } else if (option == 2) {
+                    WearableNotifications.Action action = new WearableNotifications.Action.Builder(
+                            R.drawable.ic_menu_done_holo_dark, labels[1], mrPendingIntent)
+                            .build();
+
+                    mBuilder.addAction(action);
+                } else if (option == 3 && notificationType != 3) {
+                    WearableNotifications.Action action = new WearableNotifications.Action.Builder(
+                            R.drawable.ic_menu_call, labels[2], callPendingIntent)
+                            .build();
+
+                    mBuilder.addAction(action);
+                } else if (option == 4 && notificationType == 1) {
+                    WearableNotifications.Action action = new WearableNotifications.Action.Builder(
+                            R.drawable.ic_menu_delete, labels[3], deletePendingIntent)
+                            .build();
+
+                    mBuilder.addAction(action);
+                }
+            }
+        }
+
+        try {
+            return mBuilder.build();
+        } catch (Exception e) {
+            return mBuilder.getCompatBuilder().build();
         }
     }
 
