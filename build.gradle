@@ -73,7 +73,7 @@ android {
 
     signingConfigs {
         release {
-            storeFile file("keystore")
+            storeFile file("Keystore")
             storePassword "***REMOVED***"
             keyAlias "messaging"
             keyPassword "***REMOVED***"
