@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.net.Uri;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.TypedValue;
@@ -24,6 +25,7 @@ import java.util.Calendar;
 public class SendUtil {
 
     public static void sendMessage(Context context, String number, String body) {
+        try { Looper.prepare(); } catch (Exception e) {}
         Transaction sendTransaction = new Transaction(context, getSendSettings(context));
 
         final Message message = new Message(body, number);
@@ -45,6 +47,7 @@ public class SendUtil {
     }
 
     public static void sendMessage(Context context, String[] number, String body) {
+        try { Looper.prepare(); } catch (Exception e) {}
         Transaction sendTransaction = new Transaction(context, getSendSettings(context));
 
         final Message message = new Message(body, number);
@@ -66,6 +69,7 @@ public class SendUtil {
     }
 
     public static void sendMessage(Context context, String[] number, String body, Bitmap[] images) {
+        try { Looper.prepare(); } catch (Exception e) {}
         Transaction sendTransaction = new Transaction(context, getSendSettings(context));
 
         final Message message = new Message(body, number);
