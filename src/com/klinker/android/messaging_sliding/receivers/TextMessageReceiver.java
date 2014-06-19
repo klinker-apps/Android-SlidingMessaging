@@ -180,10 +180,12 @@ public class TextMessageReceiver extends BroadcastReceiver {
 
             if (query != null && query.moveToFirst()) {
                 do {
-                    prevNotifications.add(new NotificationMessage(
-                            query.getString(0),
-                            query.getString(1)
-                    ));
+                    if (!query.getString(0).equals("")) {
+                        prevNotifications.add(new NotificationMessage(
+                                query.getString(0),
+                                query.getString(1)
+                        ));
+                    }
                 } while (query.moveToNext());
 
                 query.close();
