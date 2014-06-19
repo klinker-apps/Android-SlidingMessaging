@@ -3494,38 +3494,38 @@ public class MainActivity extends FragmentActivity {
                 Toast.makeText(this, R.string.text_saved, Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.delete_conversation:
-                AlertDialog.Builder deleteDialog = new AlertDialog.Builder(this);
-                deleteDialog.setTitle(resources.getString(R.string.delete_conversation));
-                deleteDialog.setMessage(resources.getString(R.string.delete_conversation_message));
-                deleteDialog.setPositiveButton(resources.getString(R.string.yes), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        final ProgressDialog progDialog = new ProgressDialog(context);
-                        progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                        progDialog.setMessage(resources.getString(R.string.deleting));
-                        progDialog.show();
+                if (conversations.size() > 0) {
+                    AlertDialog.Builder deleteDialog = new AlertDialog.Builder(this);
+                    deleteDialog.setTitle(resources.getString(R.string.delete_conversation));
+                    deleteDialog.setMessage(resources.getString(R.string.delete_conversation_message));
+                    deleteDialog.setPositiveButton(resources.getString(R.string.yes), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            final ProgressDialog progDialog = new ProgressDialog(context);
+                            progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                            progDialog.setMessage(resources.getString(R.string.deleting));
+                            progDialog.show();
 
-                        new Thread(new Runnable() {
+                            new Thread(new Runnable() {
 
-                            @Override
-                            public void run() {
-                                Looper.prepare();
-                                if (conversations.size() > 0) {
+                                @Override
+                                public void run() {
+                                    Looper.prepare();
                                     deleteSMS(context, conversations.get(mViewPager.getCurrentItem()).getThreadId(), progDialog);
                                 }
-                            }
 
-                        }).start();
-                    }
-                });
-                deleteDialog.setNegativeButton(resources.getString(R.string.no), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                            }).start();
+                        }
+                    });
+                    deleteDialog.setNegativeButton(resources.getString(R.string.no), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
 
-                    }
-                });
+                        }
+                    });
 
-                deleteDialog.create().show();
+                    deleteDialog.create().show();
+                }
 
                 return true;
             case R.id.menu_mark_all_read:
