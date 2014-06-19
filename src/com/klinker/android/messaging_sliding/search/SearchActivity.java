@@ -152,14 +152,9 @@ public class SearchActivity extends Activity {
 
         String body;
 
-        if (c.moveToFirst()) {
+        if (c != null && c.moveToFirst()) {
             for (int i = 0; i < c.getCount(); i++) {
 
-                //if (c.getString(c.getColumnIndexOrThrow("msg_box")) != null)
-                //{
-
-                //} else
-                //{
                 body = c.getString(c.getColumnIndexOrThrow("body"));
 
                 if (body.toUpperCase().contains(text.toUpperCase())) {

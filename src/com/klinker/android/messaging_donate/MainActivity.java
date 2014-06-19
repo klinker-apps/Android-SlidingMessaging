@@ -3510,7 +3510,9 @@ public class MainActivity extends FragmentActivity {
                             @Override
                             public void run() {
                                 Looper.prepare();
-                                deleteSMS(context, conversations.get(mViewPager.getCurrentItem()).getThreadId(), progDialog);
+                                if (conversations.size() > 0) {
+                                    deleteSMS(context, conversations.get(mViewPager.getCurrentItem()).getThreadId(), progDialog);
+                                }
                             }
 
                         }).start();
