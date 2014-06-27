@@ -17,7 +17,7 @@ dependencies {
         }
     }
 
-    compile 'com.android.support:support-v13:+'
+    compile 'com.android.support:support-v13:20.0.0'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile 'com.github.castorflex.smoothprogressbar:library:0.5.1'
     compile 'asia.ivity.android:drag-sort-listview:1.0'
