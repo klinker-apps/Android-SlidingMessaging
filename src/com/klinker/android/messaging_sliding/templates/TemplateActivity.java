@@ -24,6 +24,8 @@ import com.klinker.android.messaging_donate.settings.SettingsPagerActivity;
 import com.klinker.android.messaging_donate.utils.IOUtil;
 import com.klinker.android.messaging_sliding.mass_text.MassTextActivity;
 import com.klinker.android.messaging_sliding.scheduled.ScheduledSms;
+import com.mobeta.android.dslv.DragSortController;
+import com.mobeta.android.dslv.DragSortListView;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -18,12 +18,11 @@ import android.os.Looper;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.preference.PreferenceManager;
-import android.preview.support.wearable.notifications.RemoteInput;
-import android.preview.support.wearable.notifications.WearableNotifications;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.PhoneLookup;
 import android.provider.Telephony;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.RemoteInput;
 import android.support.v4.app.TaskStackBuilder;
 import android.telephony.SmsMessage;
 import android.util.Log;
@@ -894,7 +893,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
                 .setLabel(context.getResources().getString(R.string.speak_now))
                 .build();
 
-        WearableNotifications.Builder mBuilder = new WearableNotifications.Builder(builder);
+        NotificationCompat.WearableExtender extender = new NotificationCompat.WearableExtender();
 
         if (!sharedPrefs.getBoolean("secure_notification", false)) {
             for (int i = 0; i < buttonArray.length; i++) {
@@ -907,40 +906,36 @@ public class TextMessageReceiver extends BroadcastReceiver {
                 int option = buttonArray[i];
 
                 if (option == 1) {
-                    WearableNotifications.Action action = new WearableNotifications.Action.Builder(
+                    NotificationCompat.Action action = new NotificationCompat.Action.Builder(
                             R.drawable.ic_menu_msg_compose_holo_dark,
                             labels[0], replyIntent)
                             .addRemoteInput(remoteInput)
                             .build();
 
-                    mBuilder.addAction(action);
+                    extender.addAction(action);
                 } else if (option == 2) {
-                    WearableNotifications.Action action = new WearableNotifications.Action.Builder(
+                    NotificationCompat.Action action = new NotificationCompat.Action.Builder(
                             R.drawable.ic_menu_done_holo_dark, labels[1], mrPendingIntent)
                             .build();
 
-                    mBuilder.addAction(action);
+                    extender.addAction(action);
                 } else if (option == 3 && notificationType != 3) {
-                    WearableNotifications.Action action = new WearableNotifications.Action.Builder(
+                    NotificationCompat.Action action = new NotificationCompat.Action.Builder(
                             R.drawable.ic_menu_call, labels[2], callPendingIntent)
                             .build();
 
-                    mBuilder.addAction(action);
+                    extender.addAction(action);
                 } else if (option == 4 && notificationType == 1) {
-                    WearableNotifications.Action action = new WearableNotifications.Action.Builder(
+                    NotificationCompat.Action action = new NotificationCompat.Action.Builder(
                             R.drawable.ic_menu_delete, labels[3], deletePendingIntent)
                             .build();
 
-                    mBuilder.addAction(action);
+                    extender.addAction(action);
                 }
             }
         }
 
-        try {
-            return mBuilder.build();
-        } catch (Exception e) {
-            return mBuilder.getCompatBuilder().build();
-        }
+        return builder.extend(extender).build();
     }
 
     public static boolean isCallActive(Context context) {
