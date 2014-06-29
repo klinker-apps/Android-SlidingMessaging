@@ -575,7 +575,7 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name="com.klinker.android.messaging_sliding.receivers.TextMessageReceiver"
+        <receiver android:name="com.klinker.android.messaging_sliding.receivers.KitKatTextMessageReceiver"
             android:permission="android.permission.BROADCAST_SMS"
             android:enabled="@bool/hasKitKat">
             <intent-filter>
@@ -584,13 +584,13 @@
         </receiver>
 
         <receiver
-            android:name="com.klinker.android.messaging_sliding.receivers.TextMessageReceiver" >
+            android:name="com.klinker.android.messaging_sliding.receivers.VoiceMessageReceiver" >
             <intent-filter android:priority="100">
                 <action android:name="com.klinker.android.messaging.VOICE_RECEIVED" />
             </intent-filter>
         </receiver>
 
-        <receiver android:name="com.klinker.android.messaging_sliding.receivers.TextMessageReceiver">
+        <receiver android:name="com.klinker.android.messaging_sliding.receivers.UpdateNotificationReceiver">
             <intent-filter>
                 <action android:name="com.klinker.android.messaging.UPDATE_NOTIFICATION"/>
             </intent-filter>
@@ -612,7 +612,7 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name="com.android.mms.transaction.PushReceiver"
+        <receiver android:name="com.klinker.android.messaging_sliding.receivers.KitKatPushReceiver"
             android:permission="android.permission.BROADCAST_WAP_PUSH"
             android:enabled="@bool/hasKitKat">
             <intent-filter>

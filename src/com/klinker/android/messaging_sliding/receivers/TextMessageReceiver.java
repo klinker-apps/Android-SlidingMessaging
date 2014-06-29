@@ -22,6 +22,7 @@ import android.provider.ContactsContract;
 import android.provider.ContactsContract.PhoneLookup;
 import android.provider.Telephony;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.app.RemoteInput;
 import android.support.v4.app.TaskStackBuilder;
 import android.telephony.SmsMessage;
@@ -768,8 +769,7 @@ public class TextMessageReceiver extends BroadcastReceiver {
 
             mBuilder.setPriority(NotificationCompat.PRIORITY_HIGH);
 
-            final NotificationManager mNotificationManager =
-                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            final NotificationManagerCompat mNotificationManager = NotificationManagerCompat.from(context);
 
             Notification notification;
 
