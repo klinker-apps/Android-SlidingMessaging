@@ -893,8 +893,6 @@ public class TextMessageReceiver extends BroadcastReceiver {
                 .setLabel(context.getResources().getString(R.string.speak_now))
                 .build();
 
-        NotificationCompat.WearableExtender extender = new NotificationCompat.WearableExtender();
-
         if (!sharedPrefs.getBoolean("secure_notification", false)) {
             for (int i = 0; i < buttonArray.length; i++) {
                 if (i >= 3) {
@@ -912,30 +910,30 @@ public class TextMessageReceiver extends BroadcastReceiver {
                             .addRemoteInput(remoteInput)
                             .build();
 
-                    extender.addAction(action);
+                    builder.addAction(action);
                 } else if (option == 2) {
                     NotificationCompat.Action action = new NotificationCompat.Action.Builder(
                             R.drawable.ic_menu_done_holo_dark, labels[1], mrPendingIntent)
                             .build();
 
-                    extender.addAction(action);
+                    builder.addAction(action);
                 } else if (option == 3 && notificationType != 3) {
                     NotificationCompat.Action action = new NotificationCompat.Action.Builder(
                             R.drawable.ic_menu_call, labels[2], callPendingIntent)
                             .build();
 
-                    extender.addAction(action);
+                    builder.addAction(action);
                 } else if (option == 4 && notificationType == 1) {
                     NotificationCompat.Action action = new NotificationCompat.Action.Builder(
                             R.drawable.ic_menu_delete, labels[3], deletePendingIntent)
                             .build();
 
-                    extender.addAction(action);
+                    builder.addAction(action);
                 }
             }
         }
 
-        return builder.extend(extender).build();
+        return builder.build();
     }
 
     public static boolean isCallActive(Context context) {

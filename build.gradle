@@ -1,25 +1,24 @@
 buildscript {
     repositories {
         mavenCentral()
-        flatDir {
-            dirs 'libs'
-        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:0.11.+'
     }
 }
 
-apply plugin: 'android'
-
-dependencies {
-
+allprojects {
     repositories {
         mavenCentral()
         flatDir {
             dirs 'libs'
         }
     }
+}
+
+apply plugin: 'android'
+
+dependencies {
 
     compile 'com.android.support:support-v13:20.0.0'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
