@@ -51,7 +51,7 @@ dependencies {
 
 android {
     compileSdkVersion 20
-    buildToolsVersion "20.0.0"
+    buildToolsVersion '20.0.0'
 
     sourceSets {
         main {
@@ -68,8 +68,8 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 20
-        versionCode 286
-        versionName "8.52"
+        versionCode 287
+        versionName "8.53"
     }
 
     signingConfigs {
