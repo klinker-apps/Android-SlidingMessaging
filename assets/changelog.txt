@@ -1,2 +1,1 @@
-- View and reply to messages from your computer with Pushbullet
-- Android Wear notification support
+- Android Wear fixes

@@ -23,6 +23,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.*;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ListFragment;
+import android.support.v4.app.RemoteInput;
 import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -1936,13 +1937,16 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void checkFromWearable() {
-        String voiceReply = getIntent().getStringExtra(TextMessageReceiver.EXTRA_VOICE_REPLY);
-        if (voiceReply != null) {
-            Intent send = new Intent(this, QuickResponseService.class);
-            send.setData(Uri.parse(ContactUtil.findContactNumber(conversations.get(0).getNumber(), context)));
-            send.putExtra(Intent.EXTRA_TEXT, voiceReply);
-            startService(send);
-            finish();
+        Bundle remoteInput = RemoteInput.getResultsFromIntent(getIntent());
+        if (remoteInput != null) {
+            CharSequence voiceReply = remoteInput.getCharSequence(TextMessageReceiver.EXTRA_VOICE_REPLY);
+            if (voiceReply != null) {
+                Intent send = new Intent(this, QuickResponseService.class);
+                send.setData(Uri.parse(ContactUtil.findContactNumber(conversations.get(0).getNumber(), context)));
+                send.putExtra(Intent.EXTRA_TEXT, voiceReply);
+                startService(send);
+                finish();
+            }
         }
     }
 

@@ -391,4 +391,25 @@ public class MessageUtil {
         }
         return address;
     }
+
+    public static boolean checkExisting(Context context, String body, String address, long currentDate, long dateRangeMillis) {
+        try {
+            Cursor query = context.getContentResolver().query(Telephony.Sms.Outbox.CONTENT_URI,
+                    new String[]{Telephony.Sms.ADDRESS, Telephony.Sms.BODY, Telephony.Sms.DATE},
+                    Telephony.Sms.ADDRESS + "=? AND " + Telephony.Sms.BODY + "=?",
+                    new String[]{address, body},
+                    Telephony.Sms.DATE + " DESC");
+
+            if (query != null && query.moveToFirst()) {
+                long d = query.getLong(query.getColumnIndex(Telephony.Sms.DATE));
+
+                // if a message with the same body to the same sender was sent in the last 2 hours
+                // then don't send this scheduled one
+                if (currentDate - dateRangeMillis < d) return true;
+            }
+        } catch (Exception e) {
+        }
+
+        return false;
+    }
 }

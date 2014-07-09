@@ -20,6 +20,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.IBinder;
+import com.klinker.android.messaging_donate.utils.MessageUtil;
 import com.klinker.android.messaging_donate.utils.SendUtil;
 
 public class QuickResponseService extends Service {
@@ -48,7 +49,12 @@ public class QuickResponseService extends Service {
             address = intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER);
         }
 
-        String body = intent.getStringExtra(Intent.EXTRA_TEXT);
+        String body = intent.getCharSequenceExtra(Intent.EXTRA_TEXT).toString();
+
+        if (MessageUtil.checkExisting(this, address, body, System.currentTimeMillis(), 1000 * 60)) {
+            return START_NOT_STICKY;
+        }
+
         SendUtil.sendMessage(this, address, body);
 
         return START_NOT_STICKY;
