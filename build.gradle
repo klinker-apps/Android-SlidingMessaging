@@ -31,7 +31,6 @@ dependencies {
     compile files('libs/httpmime-4.0.3.jar')
     compile files('libs/json_simple-1.1.jar')
     compile files('libs/jsoup-1.7.2.jar')
-    compile files('libs/nineoldandroids-2.4.0')
     compile files('libs/stickygridheaders.jar')
     
     compile(name:'android-smsmms', ext:'aar')
