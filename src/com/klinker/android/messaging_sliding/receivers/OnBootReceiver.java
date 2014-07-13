@@ -52,96 +52,11 @@ public class OnBootReceiver extends BroadcastReceiver {
             context.startService(service);
         }
 
-        resetAlarms(sharedPrefs, context);
-
         if (sharedPrefs.getString("repeatingVoiceInterval", null) != null) {
             startVoiceReceiverManager(context, Calendar.getInstance().getTimeInMillis(), Long.parseLong(sharedPrefs.getString("repeatingVoiceInterval", null)));
         }
-    }
 
-    public void resetAlarms(SharedPreferences sharedPrefs, Context context) {
-        ArrayList<String[]> list = readFromFile(true);
-
-        for (int i = 0; i < list.size(); i++) {
-            createAlarm(list.get(i));
-        }
-    }
-
-    public void createAlarm(String[] details) {
-        Intent serviceIntent = new Intent(context, ScheduledService.class);
-
-        serviceIntent.putExtra(EXTRA_MESSAGE, details[3]);
-        serviceIntent.putExtra(EXTRA_NUMBER, details[0]);
-
-        PendingIntent pi;
-
-        try {
-            pi = getDistinctPendingIntent(serviceIntent, Integer.parseInt(details[4]));
-        } catch (Exception e) {
-            return;
-        }
-
-        // Schedule the alarm!
-        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
-        if (details[2].equals("None")) {
-            am.set(AlarmManager.RTC_WAKEUP,
-                    Long.parseLong(details[1]),
-                    pi);
-        } else {
-            long alarmFireTime = getNextTime(details[2], Long.parseLong(details[1])); // finds the next time the alarm will go off by sending the repetition and the time it is suppose to go off
-
-            if (details[2].equals("Daily")) {
-                am.setRepeating(AlarmManager.RTC_WAKEUP,
-                        alarmFireTime,
-                        AlarmManager.INTERVAL_DAY,
-                        pi);
-            } else if (details[2].equals("Weekly")) {
-                am.setRepeating(AlarmManager.RTC_WAKEUP,
-                        alarmFireTime,
-                        AlarmManager.INTERVAL_DAY * 7,
-                        pi);
-            } else if (details[2].equals("Yearly")) {
-                am.setRepeating(AlarmManager.RTC_WAKEUP,
-                        alarmFireTime,
-                        AlarmManager.INTERVAL_DAY * 365,
-                        pi);
-            }
-        }
-
-    }
-
-    public long getNextTime(String repetition, long firstFire) {
-        long nextFireLong = 0;
-
-        Calendar nextFire = Calendar.getInstance();
-        nextFire.setTimeInMillis(firstFire);
-
-        Calendar currentTime = Calendar.getInstance();
-
-        while (nextFire.before(currentTime)) {
-            if (repetition.equals("Daily"))
-                nextFire.add(Calendar.DATE, 1);
-            else if (repetition.equals("Weekly"))
-                nextFire.add(Calendar.DATE, 7);
-            else
-                nextFire.add(Calendar.DATE, 365);
-        }
-
-        nextFireLong = nextFire.getTimeInMillis();
-
-        return nextFireLong;
-    }
-
-    protected PendingIntent getDistinctPendingIntent(Intent intent, int requestId) {
-        PendingIntent pi =
-                PendingIntent.getService(
-                        context,         //context
-                        requestId,    //request id
-                        intent,       //intent to be delivered
-                        0);
-
-        return pi;
+        ScheduledService.scheduleNextAlarm(context);
     }
 
     public static void startVoiceReceiverManager(Context context, long startTime, long interval) {

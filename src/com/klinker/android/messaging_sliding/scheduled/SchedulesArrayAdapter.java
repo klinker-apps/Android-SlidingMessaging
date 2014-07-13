@@ -9,7 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import com.klinker.android.messaging_donate.R;
+import com.klinker.android.messaging_donate.settings.AppSettings;
 import com.klinker.android.messaging_donate.utils.ContactUtil;
+import com.klinker.android.messaging_sliding.scheduled.scheduled.ScheduledMessage;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -18,8 +20,8 @@ import java.util.Locale;
 
 public class SchedulesArrayAdapter extends ArrayAdapter<String> {
     private final Activity context;
-    private final ArrayList<String[]> text;
-    public SharedPreferences sharedPrefs;
+    private final ArrayList<ScheduledMessage> text;
+    private AppSettings settings;
 
     static class ViewHolder {
         public TextView name;
@@ -28,11 +30,11 @@ public class SchedulesArrayAdapter extends ArrayAdapter<String> {
         public TextView repetition;
     }
 
-    public SchedulesArrayAdapter(Activity context, ArrayList<String[]> text) {
+    public SchedulesArrayAdapter(Activity context, ArrayList<ScheduledMessage> text) {
         super(context, R.layout.custom_scheduled);
         this.context = context;
         this.text = text;
-        this.sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        this.settings = AppSettings.init(context);
     }
 
     @Override
@@ -46,7 +48,7 @@ public class SchedulesArrayAdapter extends ArrayAdapter<String> {
         Date sendDate;
 
         try {
-            sendDate = new Date(Long.parseLong(text.get(position)[1]));
+            sendDate = new Date(text.get(position).date);
         } catch (Exception e) {
             sendDate = new Date(0);
         }
@@ -58,35 +60,25 @@ public class SchedulesArrayAdapter extends ArrayAdapter<String> {
             ViewHolder viewHolder = new ViewHolder();
 
             viewHolder.name = (TextView) rowView.findViewById(R.id.sms);
-            viewHolder.name.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0, 2)));
-
             viewHolder.date = (TextView) rowView.findViewById(R.id.date);
-            viewHolder.date.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0, 2)));
-            //viewHolder.date.setTextColor(context.getResources().getColor(R.color.messageCounterLight));
-
             viewHolder.repetition = (TextView) rowView.findViewById(R.id.repetition);
-            viewHolder.repetition.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0, 2)));
-            //viewHolder.repetition.setTextColor(context.getResources().getColor(R.color.messageCounterLight));
-
             viewHolder.message = (TextView) rowView.findViewById(R.id.message);
-            viewHolder.message.setTextSize(Integer.parseInt(sharedPrefs.getString("text_size", "14").substring(0, 2)));
-            //viewHolder.message.setTextColor(context.getResources().getColor(R.color.white));
 
             rowView.setTag(viewHolder);
         }
 
         ViewHolder holder = (ViewHolder) rowView.getTag();
 
-        String contactName = ContactUtil.loadGroupContacts(text.get(position)[0].replaceAll(";", ""), context);
+        String contactName = ContactUtil.loadGroupContacts(text.get(position).address.replaceAll(";", ""), context);
         String dateString;
 
-        if (sharedPrefs.getBoolean("hour_format", false)) {
+        if (settings.hourFormat) {
             dateString = DateFormat.getDateInstance(DateFormat.SHORT, Locale.GERMAN).format(sendDate);
         } else {
             dateString = DateFormat.getDateInstance(DateFormat.SHORT, Locale.US).format(sendDate);
         }
 
-        if (sharedPrefs.getBoolean("hour_format", false)) {
+        if (settings.hourFormat) {
             dateString += " " + DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(sendDate);
         } else {
             dateString += " " + DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(sendDate);
@@ -94,8 +86,22 @@ public class SchedulesArrayAdapter extends ArrayAdapter<String> {
 
         holder.name.setText(contactName);
         holder.date.setText(dateString);
-        holder.message.setText(text.get(position)[3]);
-        holder.repetition.setText(text.get(position)[2]);
+        holder.message.setText(text.get(position).body);
+
+        if (text.get(position).attachment != null && !text.get(position).attachment.equals("")) {
+            holder.message.setText(holder.message.getText() + " (with attachment)");
+        }
+
+        if (text.get(position).repetition == ScheduledMessage.REPEAT_NEVER)
+            holder.repetition.setText(R.string.never);
+        else if (text.get(position).repetition == ScheduledMessage.REPEAT_DAILY)
+            holder.repetition.setText(R.string.daily);
+        else if (text.get(position).repetition == ScheduledMessage.REPEAT_WEEKLY)
+            holder.repetition.setText(R.string.weekly);
+        else if (text.get(position).repetition == ScheduledMessage.REPEAT_MONTHLY)
+            holder.repetition.setText(R.string.monthly);
+        else if (text.get(position).repetition == ScheduledMessage.REPEAT_YEARLY)
+            holder.repetition.setText(R.string.yearly);
 
         return rowView;
     }

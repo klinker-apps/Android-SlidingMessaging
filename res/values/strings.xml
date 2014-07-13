@@ -951,5 +951,9 @@
     <string name="send_delay_60seconds">1 Minute</string>
     <string name="class_0_message_activity">Class 0 Message</string>
     <string name="speak_now">Speak Now</string>
-
+    <string name="scheduled_success">Scheduled SMS Successful</string>
+    <string name="daily">Daily</string>
+    <string name="weekly">Weekly</string>
+    <string name="monthly">Monthly</string>
+    <string name="yearly">Yearly</string>
 </resources>

@@ -36,6 +36,8 @@ import com.klinker.android.messaging_sliding.emojis.EmojiConverter;
 import com.klinker.android.messaging_sliding.emojis.EmojiConverter2;
 import com.klinker.android.messaging_sliding.quick_reply.QmMarkRead;
 import com.klinker.android.messaging_sliding.receivers.VoiceReceiver;
+import com.klinker.android.messaging_sliding.scheduled.scheduled.ScheduledDataSource;
+import com.klinker.android.messaging_sliding.scheduled.scheduled.ScheduledMessage;
 import com.klinker.android.messaging_sliding.search.SearchActivity;
 import com.klinker.android.messaging_sliding.templates.TemplateActivity;
 import com.klinker.android.messaging_sliding.templates.TemplateArrayAdapter;
@@ -93,12 +95,12 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
     public Date currentDate;
 
     public ArrayList<String> contactNames, contactNumbers, contactTypes;
-    public ArrayList<String[]> data;
+    public ArrayList<ScheduledMessage> data;
 
-    String startNumber;
-    String startDate;
-    String startRepeat;
-    String startMessage;
+    private String startNumber;
+    private long startDate;
+    private long startRepeat;
+    private String startMessage;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -111,7 +113,7 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
 
         context = this;
 
-        data = IOUtil.readScheduledSMS(context);
+        data = IOUtil.readScheduled(context);
 
         mEditText = (EditText) findViewById(R.id.messageEntry2);
 
@@ -121,23 +123,25 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
         }
 
         startNumber = intent.getStringExtra(ScheduledSms.EXTRA_NUMBER);
-        startDate = intent.getStringExtra(ScheduledSms.EXTRA_DATE);
-        startRepeat = intent.getStringExtra(ScheduledSms.EXTRA_REPEAT);
+        startDate = intent.getLongExtra(ScheduledSms.EXTRA_DATE, 0);
+        startRepeat = intent.getLongExtra(ScheduledSms.EXTRA_REPEAT, -1);
         startMessage = intent.getStringExtra(ScheduledSms.EXTRA_MESSAGE);
 
         int spinnerIndex;
 
         try {
-            if (startRepeat.equals("None") || startRepeat.equals("0"))
+            if (startRepeat == ScheduledMessage.REPEAT_NEVER)
                 spinnerIndex = 0;
-            else if (startRepeat.equals("Daily"))
+            else if (startRepeat == ScheduledMessage.REPEAT_DAILY)
                 spinnerIndex = 1;
-            else if (startRepeat.equals("Weekly"))
+            else if (startRepeat == ScheduledMessage.REPEAT_WEEKLY)
                 spinnerIndex = 2;
-            else
+            else if (startRepeat == ScheduledMessage.REPEAT_MONTHLY)
                 spinnerIndex = 3;
+            else
+                spinnerIndex = 4;
         } catch (Exception e) {
-            spinnerIndex = 3;
+            spinnerIndex = 0;
         }
 
         final Calendar c = Calendar.getInstance();
@@ -157,8 +161,8 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
         contactSearch = (EditText) findViewById(R.id.contactEntry);
         contactSearch.requestFocus();
 
-        if (!startDate.equals("")) {
-            setDate = new Date(Long.parseLong(startDate));
+        if (startDate != 0) {
+            setDate = new Date(startDate);
             timeDone = true;
             btTime.setEnabled(true);
         } else {
@@ -168,8 +172,8 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
         contactSearch.setText(startNumber);
         mEditText.setText(startMessage);
 
-        if (!startDate.equals("")) {
-            Date startDateObj = new Date(Long.parseLong(startDate));
+        if (startDate != 0) {
+            Date startDateObj = new Date(startDate);
             if (sharedPrefs.getBoolean("hour_format", false)) {
                 timeDisplay.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(startDateObj));
             } else {
@@ -682,8 +686,6 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
     // sets the string repetition to whatever is choosen from the spinner
     public void onItemSelected(AdapterView<?> parent, View view,
                                int pos, long id) {
-        // An item was selected. You can retrieve the selected item using
-        // parent.getItemAtPosition(pos)
         repetition = parent.getItemAtPosition(pos).toString();
     }
 
@@ -701,54 +703,27 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
     // including the alarm manager and writing the files to the database to save them
     public boolean doneClick() {
         if (!contactSearch.getText().toString().equals("") && !mEditText.getText().toString().equals("") && timeDone) {
-            String[] details = new String[5];
+            String[] details = new String[4];
             details[0] = contactSearch.getText().toString();
             details[1] = "" + setDate.getTime();
-
             details[2] = repetition;
-            /*
-            if (repetition.equals("None"))
-                details[2] = "0";
-            else if (repetition.equals("Daily"))
-                details[2] = "86400000";
-            else if (repetition.equals("Weekly"))
-                details[2] = "604800000";
-            else if (repetition.equals("Yearly"))
-                details[2] = "220752000000";
-            */
-
             details[3] = mEditText.getText().toString();
 
-            int alarmIdNum = Integer.parseInt(sharedPrefs.getString("scheduled_alarm_id", "0"));
-            alarmIdNum++;
-
-            String alarmId = "" + alarmIdNum;
-
-            SharedPreferences.Editor prefEdit = sharedPrefs.edit();
-            prefEdit.putString("scheduled_alarm_id", alarmId);
-            prefEdit.commit();
-
-            details[4] = sharedPrefs.getString("scheduled_alarm_id", "0");
-
-            if (details[0].equals(startNumber) && details[1].equals(startDate) && details[2].equals(startRepeat) && details[3].equals(startMessage)) {
-                IOUtil.writeScheduledSMS(data, this);
-                createAlarm(alarmIdNum);
-                finish();
-            } else {
-                for (int i = 0; i < data.size(); i++) {
-                    String[] detail = data.get(i);
-
-                    if (detail[0].equals(startNumber) && detail[1].equals(startDate) && detail[2].equals(startRepeat) && detail[3].equals(startMessage)) {
-                        data.remove(i);
+            ScheduledDataSource dataSource = new ScheduledDataSource(context);
+            dataSource.open();
+            ScheduledMessage message = ScheduledMessage.fromOldStringArray(details);
+            if (!(details[0].equals(startNumber) && details[1].equals(startDate) && details[2].equals(startRepeat) && details[3].equals(startMessage))) {
+                for (ScheduledMessage detail : data) {
+                    if (detail.address.equals(startNumber) && detail.date == startDate && detail.repetition == startRepeat && detail.body.equals(startMessage)) {
+                        dataSource.deleteMessage(detail);
                         break;
                     }
                 }
-                data.add(details);
 
-                IOUtil.writeScheduledSMS(data, this);
-                createAlarm(alarmIdNum);
-                finish();
             }
+            dataSource.addMessage(message);
+            dataSource.close();
+            finish();
 
         } else {
             Context context = getApplicationContext();
@@ -761,51 +736,10 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
         return true;
     }
 
-    public void createAlarm(int alarmId) {
-        Intent serviceIntent = new Intent(getApplicationContext(), ScheduledService.class);
-
-        serviceIntent.putExtra(EXTRA_MESSAGE, mEditText.getText().toString());
-        serviceIntent.putExtra(EXTRA_NUMBER, contactSearch.getText().toString());
-
-        PendingIntent pi = getDistinctPendingIntent(serviceIntent, alarmId);
-
-        // Schedule the alarm!
-        AlarmManager am = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-
-        if (repetition.equals("None")) {
-            am.set(AlarmManager.RTC_WAKEUP,
-                    setDate.getTime(),
-                    pi);
-        } else {
-            if (repetition.equals("Daily")) {
-                am.setRepeating(AlarmManager.RTC_WAKEUP,
-                        setDate.getTime(),
-                        AlarmManager.INTERVAL_DAY,
-                        pi);
-            } else if (repetition.equals("Weekly")) {
-                am.setRepeating(AlarmManager.RTC_WAKEUP,
-                        setDate.getTime(),
-                        AlarmManager.INTERVAL_DAY * 7,
-                        pi);
-            } else if (repetition.equals("Yearly")) {
-                am.setRepeating(AlarmManager.RTC_WAKEUP,
-                        setDate.getTime(),
-                        AlarmManager.INTERVAL_DAY * 365,
-                        pi);
-            }
-        }
-
-    }
-
-    protected PendingIntent getDistinctPendingIntent(Intent intent, int requestId) {
-        PendingIntent pi =
-                PendingIntent.getService(
-                        this,         //context
-                        requestId,    //request id
-                        intent,       //intent to be delivered
-                        0);
-
-        return pi;
+    @Override
+    public void onStop() {
+        super.onStop();
+        ScheduledService.scheduleNextAlarm(this);
     }
 
     @Override

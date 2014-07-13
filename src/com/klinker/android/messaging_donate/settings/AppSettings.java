@@ -3,11 +3,17 @@ package com.klinker.android.messaging_donate.settings;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import com.android.mms.util.DownloadManager;
 import com.android.mms.util.RateController;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_sliding.MenuArrayAdapter;
 import com.klinker.android.messaging_sliding.MessageCursorAdapter;
+import com.klinker.android.messaging_sliding.scheduled.scheduled.ScheduledDataSource;
+import com.klinker.android.messaging_sliding.scheduled.scheduled.ScheduledMessage;
+
+import java.io.*;
+import java.util.ArrayList;
 
 public class AppSettings {
     public static final int VIBRATE_ALWAYS = 0;
@@ -122,7 +128,7 @@ public class AppSettings {
     public int vibrate;
     public int sendDelay;
 
-    public static AppSettings init(Context context) {
+    public static AppSettings init(final Context context) {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         DownloadManager.init(context);
         RateController.init(context);
@@ -272,6 +278,53 @@ public class AppSettings {
             settings.ctRecievedMessageBackground = context.getResources().getColor(android.R.color.transparent);
         }
 
+        if (sharedPrefs.getBoolean("redo_schedules", true)) {
+            sharedPrefs.edit().putBoolean("redo_schedules", false).commit();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    updateScheduledDatabase(context);
+                }
+            }).start();
+        }
+
         return settings;
+    }
+    private static void updateScheduledDatabase(Context context) {
+        ArrayList<String[]> messages = new ArrayList<String[]>();
+        try {
+            InputStream inputStream = context.openFileInput("scheduledSMS.txt");
+
+            if (inputStream != null) {
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                String receiveString = "";
+
+                while ((receiveString = bufferedReader.readLine()) != null) {
+
+                    String[] details = new String[5];
+                    details[0] = receiveString;
+
+                    for (int i = 1; i < 5; i++)
+                        details[i] = bufferedReader.readLine();
+
+                    messages.add(details);
+                }
+
+                inputStream.close();
+            }
+        } catch (FileNotFoundException e) {
+        } catch (IOException e) { }
+
+        ScheduledDataSource dataSource = new ScheduledDataSource(context);
+        dataSource.open();
+
+        for (String[] m : messages) {
+            ScheduledMessage message = ScheduledMessage.fromOldStringArray(m);
+            message = dataSource.addMessage(message);
+            Log.v("SettingsUpdate", "added message to id " + message.id);
+        }
+
+        dataSource.close();
     }
 }

@@ -1,2 +1,3 @@
+- Rewrote background for scheduled SMS
 - Android Wear fixes
 - Developer Tips fixes in the Get Help section of settings

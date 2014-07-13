@@ -438,10 +438,11 @@
     </string-array>
 
     <string-array name="repetition_array">
-        <item>None</item>
-        <item>Daily</item>
-        <item>Weekly</item>
-        <item>Yearly</item>
+        <item>@string/never</item>
+        <item>@string/daily</item>
+        <item>@string/weekly</item>
+        <item>@string/monthly</item>
+        <item>@string/yearly</item>
     </string-array>
 
     <string-array name="backup_repetition_array">

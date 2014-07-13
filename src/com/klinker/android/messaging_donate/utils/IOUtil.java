@@ -23,6 +23,8 @@ import com.klinker.android.messaging_sliding.blacklist.BlacklistContact;
 import com.klinker.android.messaging_sliding.notifications.IndividualSetting;
 import com.klinker.android.messaging_sliding.notifications.NotificationMessage;
 import com.klinker.android.messaging_sliding.scheduled.ScheduledSms;
+import com.klinker.android.messaging_sliding.scheduled.scheduled.ScheduledDataSource;
+import com.klinker.android.messaging_sliding.scheduled.scheduled.ScheduledMessage;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -509,116 +511,31 @@ public class IOUtil {
     }
 
     @SuppressWarnings("resource")
-    public static ArrayList<String[]> readScheduledSMS(Context context) {
-
-        ArrayList<String[]> ret = new ArrayList<String[]>();
-
-        try {
-            InputStream inputStream;
-
-            if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("save_to_external", true)) {
-                inputStream = new FileInputStream(Environment.getExternalStorageDirectory() + "/SlidingMessaging/scheduledSMS.txt");
-            } else {
-                inputStream = context.openFileInput("scheduledSMS.txt");
-            }
-
-            if (inputStream != null) {
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                String receiveString = "";
-
-                while ((receiveString = bufferedReader.readLine()) != null) {
-
-                    String[] details = new String[5];
-                    details[0] = receiveString;
-
-                    for (int i = 1; i < 5; i++)
-                        details[i] = bufferedReader.readLine();
-
-                    ret.add(details);
-                }
-
-                inputStream.close();
-            }
-        } catch (FileNotFoundException e) {
-
-        } catch (IOException e) {
-
-        }
-
-        return ret;
+    public static ArrayList<ScheduledMessage> readScheduled(Context context) {
+        removeOldScheduled(context);
+        ScheduledDataSource dataSource = new ScheduledDataSource(context);
+        dataSource.open();
+        ArrayList<ScheduledMessage> messages = dataSource.getMessages();
+        dataSource.close();
+        return messages;
     }
 
-    public static void writeScheduledSMS(ArrayList<String[]> data, Context context) {
-        try {
+    public static void removeOldScheduled(Context context) {
+        ScheduledDataSource dataSource = new ScheduledDataSource(context);
+        dataSource.open();
+        ArrayList<ScheduledMessage> list = dataSource.getMessages();
 
-            OutputStreamWriter outputStreamWriter;
-
-            if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("save_to_external", true)) {
-                outputStreamWriter = new OutputStreamWriter(new FileOutputStream(Environment.getExternalStorageDirectory() + "/SlidingMessaging/scheduledSMS.txt"));
-            } else {
-                outputStreamWriter = new OutputStreamWriter(context.openFileOutput("scheduledSMS.txt", Context.MODE_PRIVATE));
-            }
-
-            for (int i = 0; i < data.size(); i++) {
-                String[] details = data.get(i);
-
-                for (int j = 0; j < 5; j++) {
-                    outputStreamWriter.write(details[j] + "\n");
+        for (int i = 0; i < list.size(); i++) {
+            try {
+                // date is earlier than current and no repetition
+                if (list.get(i).date < System.currentTimeMillis()
+                        && list.get(i).repetition == ScheduledMessage.REPEAT_NEVER) {
+                    dataSource.deleteMessage(list.get(i));
                 }
-
-            }
-
-            outputStreamWriter.close();
-        } catch (IOException e) {
-
+            } catch (Exception e) { }
         }
 
-    }
-
-    @SuppressWarnings("resource")
-    public static ArrayList<String[]> readScheduledSMS2(Context context, boolean tryRemove) {
-
-        ArrayList<String[]> ret = new ArrayList<String[]>();
-
-        if (tryRemove)
-            ScheduledSms.removeOld();
-
-        try {
-            InputStream inputStream;
-
-            if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("save_to_external", true)) {
-                inputStream = new FileInputStream(Environment.getExternalStorageDirectory() + "/SlidingMessaging/scheduledSMS.txt");
-            } else {
-                inputStream = context.openFileInput("scheduledSMS.txt");
-            }
-
-
-            if (inputStream != null) {
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                String receiveString = "";
-
-                while ((receiveString = bufferedReader.readLine()) != null) {
-
-                    String[] details = new String[5];
-                    details[0] = receiveString;
-
-                    for (int i = 1; i < 5; i++)
-                        details[i] = bufferedReader.readLine();
-
-                    ret.add(details);
-                }
-
-                inputStream.close();
-            }
-        } catch (FileNotFoundException e) {
-
-        } catch (IOException e) {
-
-        }
-
-        return ret;
+        dataSource.close();
     }
 
     public static void writeTemplates(ArrayList<String> data, Context context) {

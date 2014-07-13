@@ -1,12 +1,11 @@
 - Slow to delete a conversation (batch delete is fine)
 
-Luke:
-    - Forward mms with multiple attachments
-    - Mark as read when multiple messages come in
-    - Add location support
-    - Smoother animations
-    - Force close on attach more
-    - Notification sounds with slideover and popup
+- Forward mms with multiple attachments
+- Mark as read when multiple messages come in
+- Add location support
+- Smoother animations
+- Force close on attach more
+- Notification sounds with slideover and popup
 
 
 Bugs:

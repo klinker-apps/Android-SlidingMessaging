@@ -23,6 +23,8 @@ import com.klinker.android.messaging_donate.settings.OtherAppsSettingsActivity;
 import com.klinker.android.messaging_donate.settings.SettingsPagerActivity;
 import com.klinker.android.messaging_donate.utils.IOUtil;
 import com.klinker.android.messaging_sliding.mass_text.MassTextActivity;
+import com.klinker.android.messaging_sliding.scheduled.scheduled.ScheduledDataSource;
+import com.klinker.android.messaging_sliding.scheduled.scheduled.ScheduledMessage;
 import com.klinker.android.messaging_sliding.templates.TemplateActivity;
 
 import java.util.ArrayList;
@@ -41,7 +43,7 @@ public class ScheduledSms extends Activity {
     public ListView sms;
     public Button addNew;
     public SharedPreferences sharedPrefs;
-    public ArrayList<String[]> text;
+    public ArrayList<ScheduledMessage> text;
 
     private String[] linkItems;
     private String[] otherItems;
@@ -56,11 +58,17 @@ public class ScheduledSms extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        text = IOUtil.readScheduledSMS2(this, false);
+        text = IOUtil.readScheduled(this);
 
         SchedulesArrayAdapter adapter = new SchedulesArrayAdapter(this, text);
         sms.setAdapter(adapter);
         sms.setStackFromBottom(false);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        ScheduledService.scheduleNextAlarm(this);
     }
 
     @Override
@@ -78,7 +86,7 @@ public class ScheduledSms extends Activity {
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         context = this;
 
-        text = IOUtil.readScheduledSMS2(this, true);
+        text = IOUtil.readScheduled(this);
 
         SchedulesArrayAdapter adapter = new SchedulesArrayAdapter(this, text);
         sms.setAdapter(adapter);
@@ -108,23 +116,14 @@ public class ScheduledSms extends Activity {
                         .setMessage(context.getResources().getString(R.string.delete_scheduled_sms))
                         .setPositiveButton(context.getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
-                                try {
-                                    cancelAlarm(Integer.parseInt(text.get(arg2)[4]), text.get(arg2)[2], Long.parseLong(text.get(arg2)[1]));
-                                } catch (Exception e) {
-
-                                }
-
-                                text.remove(arg2);
-
-                                IOUtil.writeScheduledSMS(text, context);
+                                ScheduledDataSource dataSource = new ScheduledDataSource(context);
+                                dataSource.open();
+                                dataSource.deleteMessage(text.get(arg2));
+                                dataSource.close();
 
                                 onResume();
                             }
-                        }).setNegativeButton(context.getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-
-                    }
-                }).show();
+                        }).setNegativeButton(context.getResources().getString(R.string.cancel), null).show();
                 return true;
             }
         });
@@ -133,17 +132,11 @@ public class ScheduledSms extends Activity {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1,
                                     final int pos, long arg3) {
-                try {
-                    cancelAlarm(Integer.parseInt(text.get(pos)[4]), text.get(pos)[2], Long.parseLong(text.get(pos)[1]));
-                } catch (Exception e) {
-
-                }
-
                 Intent intent = new Intent(context, NewScheduledSms.class);
-                intent.putExtra(EXTRA_NUMBER, text.get(pos)[0]);
-                intent.putExtra(EXTRA_DATE, text.get(pos)[1]);
-                intent.putExtra(EXTRA_REPEAT, text.get(pos)[2]);
-                intent.putExtra(EXTRA_MESSAGE, text.get(pos)[3]);
+                intent.putExtra(EXTRA_NUMBER, text.get(pos).address);
+                intent.putExtra(EXTRA_DATE, text.get(pos).date);
+                intent.putExtra(EXTRA_REPEAT, text.get(pos).repetition);
+                intent.putExtra(EXTRA_MESSAGE, text.get(pos).body);
 
                 startActivity(intent);
                 overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
@@ -416,50 +409,9 @@ public class ScheduledSms extends Activity {
 
     @Override
     public void onBackPressed() {
-        IOUtil.writeScheduledSMS(text, this);
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
         finish();
         overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
-    }
-
-    public static void removeOld() {
-        ArrayList<String[]> list = IOUtil.readScheduledSMS2(context, false);
-
-        for (int i = 0; i < list.size(); i++) {
-            try {
-                Date sendDate = new Date(Long.parseLong(list.get(i)[1]));
-                if (sendDate.before(new Date()) && list.get(i)[2].equals("None")) // date is earlier than current and no repetition
-                {
-                    list.remove(i);
-                    i--;
-                }
-            } catch (Exception e) {
-
-            }
-        }
-
-        IOUtil.writeScheduledSMS(list, context);
-    }
-
-    public void cancelAlarm(int alarmId, String repetition, long date) {
-        Intent serviceIntent = new Intent(getApplicationContext(), ScheduledService.class);
-
-        PendingIntent pi = getDistinctPendingIntent(serviceIntent, alarmId);
-
-        AlarmManager am = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-
-        am.cancel(pi);
-    }
-
-    protected PendingIntent getDistinctPendingIntent(Intent intent, int requestId) {
-        PendingIntent pi =
-                PendingIntent.getService(
-                        this,         //context
-                        requestId,    //request id
-                        intent,       //intent to be delivered
-                        0);
-
-        return pi;
     }
 }
