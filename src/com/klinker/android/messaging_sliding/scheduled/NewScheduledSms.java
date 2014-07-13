@@ -85,7 +85,7 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
     private EditText contactSearch;
     private EditText mEditText;
 
-    private String repetition = "None";
+    private String repetition;
 
     public SharedPreferences sharedPrefs;
 
@@ -106,6 +106,8 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.scheduled_sms_activity);
+
+        repetition = getString(R.string.never);
 
         Intent intent = getIntent();
 
@@ -711,7 +713,7 @@ public class NewScheduledSms extends Activity implements AdapterView.OnItemSelec
 
             ScheduledDataSource dataSource = new ScheduledDataSource(context);
             dataSource.open();
-            ScheduledMessage message = ScheduledMessage.fromOldStringArray(details);
+            ScheduledMessage message = ScheduledMessage.fromOldStringArray(context, details);
             if (!(details[0].equals(startNumber) && details[1].equals(startDate) && details[2].equals(startRepeat) && details[3].equals(startMessage))) {
                 for (ScheduledMessage detail : data) {
                     if (detail.address.equals(startNumber) && detail.date == startDate && detail.repetition == startRepeat && detail.body.equals(startMessage)) {

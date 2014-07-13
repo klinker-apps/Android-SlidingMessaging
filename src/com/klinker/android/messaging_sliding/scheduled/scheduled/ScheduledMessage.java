@@ -16,6 +16,9 @@
 
 package com.klinker.android.messaging_sliding.scheduled.scheduled;
 
+import android.content.Context;
+import com.klinker.android.messaging_donate.R;
+
 public class ScheduledMessage {
 
     public static final long REPEAT_NEVER = -1;
@@ -31,20 +34,20 @@ public class ScheduledMessage {
     public String body;
     public String attachment;
 
-    public static ScheduledMessage fromOldStringArray(String[] m) {
+    public static ScheduledMessage fromOldStringArray(Context context, String[] m) {
         ScheduledMessage message = new ScheduledMessage();
         message.address = m[0];
         message.date = Long.parseLong(m[1]);
 
-        if (m[2].equals("None"))
+        if (m[2].equals(context.getString(R.string.never)))
             message.repetition = ScheduledMessage.REPEAT_NEVER;
-        else if (m[2].equals("Daily"))
+        else if (m[2].equals(context.getString(R.string.daily)))
             message.repetition = ScheduledMessage.REPEAT_DAILY;
-        else if (m[2].equals("Weekly"))
+        else if (m[2].equals(context.getString(R.string.weekly)))
             message.repetition = ScheduledMessage.REPEAT_WEEKLY;
-        else if (m[2].equals("Monthly"))
+        else if (m[2].equals(context.getString(R.string.monthly)))
             message.repetition = ScheduledMessage.REPEAT_MONTHLY;
-        else if (m[2].equals("Yearly"))
+        else if (m[2].equals(context.getString(R.string.yearly)))
             message.repetition = ScheduledMessage.REPEAT_YEARLY;
 
         message.body = m[3];

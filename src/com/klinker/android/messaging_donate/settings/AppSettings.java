@@ -320,7 +320,7 @@ public class AppSettings {
         dataSource.open();
 
         for (String[] m : messages) {
-            ScheduledMessage message = ScheduledMessage.fromOldStringArray(m);
+            ScheduledMessage message = ScheduledMessage.fromOldStringArray(context, m);
             message = dataSource.addMessage(message);
             Log.v("SettingsUpdate", "added message to id " + message.id);
         }
