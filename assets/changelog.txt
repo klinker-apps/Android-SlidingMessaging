@@ -1,3 +1,2 @@
 - Rewrote background for scheduled SMS
-- Android Wear fixes
-- Developer Tips fixes in the Get Help section of settings
+- Force enable mobile data when sending MMS messages
