@@ -13,6 +13,16 @@
             />
 
     <Preference
+            android:key="blur"
+            android:title="Blur - A Launcher Replacement"
+            />
+
+    <Preference
+            android:key="theme_spotlight"
+            android:title="Theme Spotlight"
+            />
+
+    <Preference
             android:key="emoji_keyboard"
             android:title="Sliding Emoji Keyboard"
             />
