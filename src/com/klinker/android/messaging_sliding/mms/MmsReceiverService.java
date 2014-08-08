@@ -32,6 +32,7 @@ import com.klinker.android.messaging_donate.settings.AppSettings;
 import com.klinker.android.messaging_donate.utils.ContactUtil;
 import com.klinker.android.messaging_donate.utils.IOUtil;
 import com.klinker.android.messaging_donate.utils.SendUtil;
+import com.klinker.android.messaging_donate.utils.Util;
 import com.klinker.android.messaging_sliding.MessageCursorAdapter;
 import com.klinker.android.messaging_sliding.notifications.PushbulletService;
 import com.klinker.android.messaging_sliding.receivers.NotificationReceiver;
@@ -462,6 +463,11 @@ public class MmsReceiverService extends Service {
     }
 
     public static void makeNotification(String title, String text, Bitmap image, String address, String body, String date, final Context context) {
+        if (!Util.isDefaultSmsApp(context)) {
+            // dont give notification here
+            return;
+        }
+        
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
         if (sharedPrefs.getBoolean("notifications", true)) {
