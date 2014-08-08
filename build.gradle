@@ -23,8 +23,9 @@ dependencies {
     compile 'com.android.support:support-v13:20.0.0'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile 'com.github.castorflex.smoothprogressbar:library:0.5.1'
-    compile 'com.pushbullet:android-extensions:+@aar'
-    compile 'com.klinkerapps:android-smsmms:+@aar'
+    compile 'com.pushbullet:android-extensions:+'
+    compile 'com.klinkerapps:android-smsmms:+'
+    compile 'com.klinkerapps:logger:+'
 
     compile files('libs/android-vcard.jar')
     compile files('libs/dashclock-api-r2.0.jar')
