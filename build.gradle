@@ -45,7 +45,6 @@ dependencies {
     compile(name:'MessageBar', ext:'aar')
     compile(name:'MultipleImagePick', ext:'aar')
     compile(name:'android-lockpattern', ext:'aar')
-    compile(name:'ion', ext:'aar')
     compile(name:'listviewanimations-2.6.0', ext:'aar')
     compile(name:'dragsortlistview', ext:'aar')
 }
