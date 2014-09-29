@@ -18,6 +18,11 @@
             />
 
     <Preference
+            android:key="source"
+            android:title="Source"
+            />
+
+    <Preference
             android:key="theme_spotlight"
             android:title="Theme Spotlight"
             />

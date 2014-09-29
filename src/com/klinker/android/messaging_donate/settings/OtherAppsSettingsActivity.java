@@ -138,6 +138,16 @@ public class OtherAppsSettingsActivity extends PreferenceActivity {
             }
         });
 
+        Preference source = findPreference("source");
+        source.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.klinker.android.reader")));
+                overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+                return false;
+            }
+        });
+
         Preference iosKeyboard = findPreference("emoji_keyboard_ios");
         iosKeyboard.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
