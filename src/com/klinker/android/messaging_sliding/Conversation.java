@@ -10,8 +10,8 @@ import android.os.AsyncTask;
 import android.provider.Telephony;
 import android.util.Log;
 import com.android.mms.transaction.MmsMessageSender;
-import com.google.android.mms.pdu_alt.PduHeaders;
-import com.google.android.mms.util_alt.SqliteWrapper;
+import com.google.android.mms.pdu.PduHeaders;
+import com.google.android.mms.util.SqliteWrapper;
 
 public class Conversation {
 

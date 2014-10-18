@@ -25,7 +25,7 @@ import com.android.mms.transaction.HttpUtils;
 import com.google.android.mms.APN;
 import com.google.android.mms.APNHelper;
 import com.google.android.mms.MmsException;
-import com.google.android.mms.pdu_alt.*;
+import com.google.android.mms.pdu.*;
 import com.klinker.android.messaging_donate.MainActivity;
 import com.klinker.android.messaging_donate.R;
 import com.klinker.android.messaging_donate.settings.AppSettings;

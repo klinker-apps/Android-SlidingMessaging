@@ -29,6 +29,8 @@ dependencies {
     compile 'com.pushbullet:android-extensions:1.0.4@aar'
     compile 'com.klinkerapps:android-smsmms:1.0.4-SNAPSHOT@aar'
     compile 'com.klinkerapps:logger:1.0.2'
+    compile 'com.google.code.gson:gson:2.2.4'
+    compile 'com.koushikdutta.ion:ion:1.1.7'
 
     compile files('libs/android-vcard.jar')
     compile files('libs/dashclock-api-r2.0.jar')
