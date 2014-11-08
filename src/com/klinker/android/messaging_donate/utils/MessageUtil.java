@@ -11,7 +11,7 @@ import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.text.format.Time;
 import com.google.android.mms.MmsException;
-import com.google.android.mms.pdu.*;
+import com.google.android.mms.pdu_alt.*;
 import com.klinker.android.messaging_donate.R;
 
 import java.util.Set;
