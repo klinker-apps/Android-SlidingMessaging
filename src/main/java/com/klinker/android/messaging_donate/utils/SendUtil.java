@@ -70,14 +70,19 @@ public class SendUtil {
 
     public static void sendMessage(Context context, String[] number, String body, Bitmap[] images) {
         try { Looper.prepare(); } catch (Exception e) {}
-        Transaction sendTransaction = new Transaction(context, getSendSettings(context));
+        final Transaction sendTransaction = new Transaction(context, getSendSettings(context));
 
         final Message message = new Message(body, number);
         message.setImages(images);
         message.setType(PreferenceManager.getDefaultSharedPreferences(context).getBoolean("voice_enabled", false) ?
                 Message.TYPE_VOICE : Message.TYPE_SMSMMS);
 
-        sendTransaction.sendNewMessage(message, Transaction.NO_THREAD_ID);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                sendTransaction.sendNewMessage(message, Transaction.NO_THREAD_ID);
+            }
+        }).start();
 
         Intent mrIntent = new Intent();
         mrIntent.setClass(context, QmMarkRead.class);

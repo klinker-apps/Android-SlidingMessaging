@@ -1276,13 +1276,7 @@ public class MainActivity extends FragmentActivity {
 
                             if (!settings.sendWithStock) {
                                 if (sendTransaction.checkMMS(message)) {
-                                    ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            Log.v("sending_mms_library", "sending new mms, posted to UI thread");
-                                            sendTransaction.sendNewMessage(message, Transaction.NO_THREAD_ID);
-                                        }
-                                    });
+                                    sendTransaction.sendNewMessage(message, Transaction.NO_THREAD_ID);
                                 } else {
                                     sendTransaction.sendNewMessage(message, Transaction.NO_THREAD_ID);
                                 }
@@ -2251,13 +2245,7 @@ public class MainActivity extends FragmentActivity {
 
                             if (!settings.sendWithStock) {
                                 if (sendTransaction.checkMMS(message)) {
-                                    ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            Log.v("sending_mms_library", "sending new mms, posted to UI thread");
-                                            sendTransaction.sendNewMessage(message, threadId);
-                                        }
-                                    });
+                                    sendTransaction.sendNewMessage(message, threadId);
                                 } else {
                                     sendTransaction.sendNewMessage(message, threadId);
                                 }

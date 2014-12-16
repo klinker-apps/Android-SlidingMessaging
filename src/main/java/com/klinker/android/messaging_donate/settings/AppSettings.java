@@ -288,6 +288,9 @@ public class AppSettings {
             }).start();
         }
 
+        com.klinker.android.logger.Log.setDebug(true);
+        com.klinker.android.logger.Log.setPath(context.getExternalCacheDir() + "/log.txt");
+
         return settings;
     }
     private static void updateScheduledDatabase(Context context) {
