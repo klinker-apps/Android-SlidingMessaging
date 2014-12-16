@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.12.1'
+        classpath 'com.android.tools.build:gradle:1.0.0'
     }
 }
 
@@ -23,12 +23,12 @@ apply plugin: 'com.android.application'
 
 dependencies {
 
-    compile 'com.android.support:support-v13:20.0.0'
+    compile 'com.android.support:support-v13:21.0.2'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile 'com.github.castorflex.smoothprogressbar:library:0.5.1'
     compile 'com.pushbullet:android-extensions:1.0.4@aar'
-    compile 'com.klinkerapps:android-smsmms:1.0.4-SNAPSHOT@aar'
-    compile 'com.klinkerapps:logger:1.0.2'
+    compile 'com.klinkerapps:android-smsmms:0.1.2-SNAPSHOT@aar'
+    compile 'com.klinkerapps:logger:1.0.3-SNAPSHOT'
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'com.koushikdutta.ion:ion:1.1.7'
 
@@ -56,19 +56,7 @@ dependencies {
 
 android {
     compileSdkVersion 21
-    buildToolsVersion '21.1.0'
-
-    sourceSets {
-        main {
-            manifest.srcFile 'AndroidManifest.xml'
-            java.srcDirs = ['src']
-            resources.srcDirs = ['src']
-            aidl.srcDirs = ['src']
-            renderscript.srcDirs = ['src']
-            res.srcDirs = ['res']
-            assets.srcDirs = ['assets']
-        }
-    }
+    buildToolsVersion '21.1.1'
 
     defaultConfig {
         minSdkVersion 14
@@ -88,7 +76,7 @@ android {
 
     buildTypes {
         release {
-            runProguard false
+            minifyEnabled false
             signingConfig signingConfigs.release
         }
     }
