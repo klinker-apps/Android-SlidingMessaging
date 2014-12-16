@@ -1,2 +1,1 @@
-- Rewrote background for scheduled SMS
-- Force enable mobile data when sending MMS messages
+- Fixes for MMS on Lollipop devices
