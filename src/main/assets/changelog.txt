@@ -1,1 +1,3 @@
 - Fixes for MMS on Lollipop devices
+- Reworked scheduled messaging background
+- Force enable mobile data when sending MMS messages
