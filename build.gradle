@@ -61,7 +61,7 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 21
-        versionCode 288
+        versionCode 289
         versionName "8.60"
     }
 
