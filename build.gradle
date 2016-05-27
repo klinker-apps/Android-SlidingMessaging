@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.0.0'
+        classpath 'com.android.tools.build:gradle:2.1.0'
     }
 }
 
@@ -23,7 +23,7 @@ apply plugin: 'com.android.application'
 
 dependencies {
 
-    compile 'com.android.support:support-v13:21.0.2'
+    compile 'com.android.support:support-v13:23.3.0'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile 'com.github.castorflex.smoothprogressbar:library:0.5.1'
     compile 'com.pushbullet:android-extensions:1.0.4@aar'
@@ -55,8 +55,8 @@ dependencies {
 }
 
 android {
-    compileSdkVersion 20
-    buildToolsVersion '23.0.1'
+    compileSdkVersion 23
+    buildToolsVersion '23.0.3'
 
     sourceSets {
         main {
@@ -72,9 +72,9 @@ android {
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 21
-        versionCode 289
-        versionName "8.60"
+        targetSdkVersion 23
+        versionCode 288
+        versionName "8.6.0"
     }
 
     signingConfigs {

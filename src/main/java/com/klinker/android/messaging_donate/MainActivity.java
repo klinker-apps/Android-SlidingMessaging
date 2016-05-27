@@ -1,5 +1,6 @@
 package com.klinker.android.messaging_donate;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.*;
 import android.content.*;
@@ -254,6 +255,19 @@ public class MainActivity extends FragmentActivity {
         } else {
             unlocked = IOUtil.checkUnlocked();
         }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+            if (sp.getBoolean("marshmallow_permissions", true)) {
+                sp.edit().putBoolean("marshmallow_permissions", false).commit();
+
+                startActivity(new Intent(this, PermissionActivity.class));
+
+                finish();
+                return;
+            }
+        }
+
 
         settings = AppSettings.init(this);
         initialSetup();
