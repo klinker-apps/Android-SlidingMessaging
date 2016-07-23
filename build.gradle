@@ -69,7 +69,7 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 24
-        versionCode 290
+        versionCode System.getenv("BUILD_NUMBER") as Integer ?: 291
         versionName "8.7.0"
     }
 
