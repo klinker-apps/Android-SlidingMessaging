@@ -1,0 +1,1 @@
+v8.8.0 changes Sliding Messaging to build against Android Nougat!

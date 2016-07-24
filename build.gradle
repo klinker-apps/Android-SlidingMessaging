@@ -70,7 +70,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 24
         versionCode System.getenv("BUILD_NUMBER") as Integer ?: 291
-        versionName "8.7.0"
+        versionName "8.8.0"
     }
 
     File keystore = new File(props['keystorefile'])
