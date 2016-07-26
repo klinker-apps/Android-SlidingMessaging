@@ -43,4 +43,12 @@
         android:summary="@string/contact_us_summary"
         />
 
+
+    <Preference
+        android:key="privacy_policy"
+        android:title="@string/privacy_policy" >
+        <intent android:action="android.intent.action.VIEW"
+            android:data="http://privacy.klinkerapps.com" />
+    </Preference>
+
 </PreferenceScreen>

@@ -1,1 +1,1 @@
-v8.8.0 changes Sliding Messaging to build against Android Nougat!
+v8.8.1 changes Sliding Messaging to build against Android Nougat and adds our privacy policy to settings (http://privacy.klinkerapps.com)

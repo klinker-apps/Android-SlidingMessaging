@@ -1,1 +1,2 @@
 - Build against Android Nougat
+- Add our privacy policy to settings
