@@ -2,7 +2,7 @@
 
 ![screenshot](Other/Promo/htc_m7_2013-9-10-15-40-6.png)
 
-This was the very first app that @klinker41 and I released together. We were freshmen in college, and it shows in the code... But we made something unique and fun. It was successful and brought us to where we are today :)
+This was the very first app that [Jake](https://github.com/klinker41) and I released together. We were freshmen in college, and it shows in the code... But we made something unique and fun. It was successful and brought us to where we are today :)
 
 There isn't really any work being put into this app any longer. It has been unpublished from the Play Store, but it still works, and works pretty well!
 
