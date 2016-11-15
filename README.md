@@ -2,15 +2,17 @@
 
 ![screenshot](preview.png)
 
-This was the very first app that [Jake](https://github.com/klinker41) and I released together. We were freshmen in college, and it shows in the code... But we made something unique and fun. It was successful and brought us to where we are today :)
+This was the very first app that [Jake](https://github.com/klinker41) and I released together. We were freshmen in college, and didn't have too much experience with coding, but we made something very neat and successful. We wouldn't be where we are today without Sliding Messaging.
 
-There isn't really any work being put into this app any longer. It has been unpublished from the Play Store, but it still works, and works pretty well!
-
-This app was originally released at the end of 2012. It has aged, and is stuck in the holo days, but it would only take the right touch to bring it up to date with material design.
+This app was originally released at the end of 2012. It has aged, and is stuck in the holo days, but it would only take the right touch to bring it up to date with material design. There isn't really any work being put into this app any longer. It has been unpublished from the Play Store, but it still works, and works pretty well!
 
 ### Building the app
 
-Just use gradle. The project can be opened in Android Studio and it will build as is.
+Use gradle. The project can be opened in Android Studio and it will build as is.
+
+```
+$ ./gradlew build
+```
 
 All the dependencies are up to date, at the time of open-sourcing this project. I will periodically go through and continue to keep them up to date.
 
@@ -29,9 +31,9 @@ If you want to bring it up to the material design era and want to release a mate
 
 ## Future of the App
 
-I probably won't do any work on this app again. Obviously pull requests are welcome, but as for issues, I doubt that I will have time to fix them.
-
 I am putting this out here just to show how far we have come. It isn't all good, but it is a very neat project. Remember the good-old days of Android development when I wasn't bogged down with replying to emails and could actually work :)
+
+Pull requests and issues are welcome, I will do the best I can to support them if anyone chooses to contribute.
 
 Anyways, enjoy the app, if you ever do anything with it, let me know, would love to see if anything comes from this project!
 
